@@ -1,0 +1,22 @@
+# heavy local artifacts
+experiments/bin/
+experiments/models/
+experiments/.cache/
+*.gguf
+
+# session notes & research logs (kept locally, not for the repo)
+docs/research/
+
+# data artifacts (datasets live on HF / NAS, not in git)
+*.jsonl
+experiments/stage0-latency/*.csv
+experiments/stage0-latency/*.err
+experiments/stage1-data/worksheet.txt
+experiments/stage1-data/verdicts.tsv
+experiments/stage0b-niche/reference/
+
+# python
+__pycache__/
+.venv/
+experiments/synthetic/results/
+experiments/synthetic/finish_block_stats.json
