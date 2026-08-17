@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Programmatic edit-scenario training examples with exact ground truth.
 
-Three scenario families built from the normalized CRAN corpus
-(/mnt/h/sepalith/normalized/<pkg>/<ver>/<pkg>/R/*.R) via tree-sitter-r:
+Five scenario families. The first three are built from the normalized CRAN
+corpus (/mnt/h/sepalith/normalized/<pkg>/<ver>/<pkg>/R/*.R) via tree-sitter-r:
 
   rename_propagation  an identifier (function argument / local variable /
                        column-name string literal) occurring >= 3 times in one
@@ -16,8 +16,31 @@ Three scenario families built from the normalized CRAN corpus
                        mean(/sd(/var( calls lacking na.rm; the event adds
                        `na.rm = TRUE` to one, the target adds it to the next.
 
-Example JSON shape (all regions are single lines, so edits are exactly
-verifiable; cursor_idx is a character offset into "\n".join(region_old)):
+Two later families (see the "new families" section below):
+
+  format_propagation  diff RAW package tarball members
+                      (/mnt/h/sepalith/tarballs/<pkg>_<ver>.tar.gz, python
+                      tarfile, only the needed members) against the
+                      AIR/JARL-normalized trees: the raw->normalized diff is
+                      exactly what `air format` changes. For files with >= 2
+                      clean difflib hunks, the event shows ONE hunk
+                      reformatted (raw -> formatted) and the target edit
+                      reformats the NEXT hunk (region_old = raw hunk lines,
+                      region_new = the corresponding formatted lines taken
+                      from the normalized file; splice-verified).
+  doc_sync            tree-sitter-r over normalized files: for functions
+                      with rich roxygen (>= 1 @param), the event appends one
+                      benign argument to the signature (', verbose = FALSE'
+                      style, chosen deterministically from verbose / call /
+                      env, skipped if already present); the target edit
+                      documents it by inserting the matching
+                      "#' @param <arg> <desc>" line before the @return/@export
+                      tag in the roxygen block.
+
+Example JSON shape (the first three families use single-line regions, so
+edits are exactly verifiable; the new families may carry multi-line
+regions/events with the same keys; cursor_idx is a character offset into
+"\n".join(region_old)):
 
   {"family": ..., "package": ..., "path": ..., "prefix": [lines],
    "region_old": [lines], "region_new": [lines], "cursor_idx": int,
@@ -32,6 +55,8 @@ reward ~0).
 Usage:
   uv run python experiments/synthetic/scenarios.py --calibrate
   uv run python experiments/synthetic/scenarios.py --packages 200
+  uv run python experiments/synthetic/scenarios.py --calibrate-new
+  uv run python experiments/synthetic/scenarios.py --new-only --new-packages 150
 """
 from __future__ import annotations
 
@@ -40,6 +65,7 @@ import difflib
 import json
 import random
 import re
+import tarfile
 import time
 from bisect import bisect_right
 from pathlib import Path
@@ -48,9 +74,12 @@ import tree_sitter_r
 from tree_sitter import Language, Parser
 
 ROOT = Path("/mnt/h/sepalith/normalized")
+TAR_DIR = Path("/mnt/h/sepalith/tarballs")
 OUT_DIR = Path("/mnt/h/sepalith/datasets/scenarios_v1")
 STATS_PATH = OUT_DIR / "stats.json"
 FAMILIES = ("rename_propagation", "pipe_rewrite", "na_rm_propagation")
+NEW_FAMILIES = ("format_propagation", "doc_sync")
+ALL_FAMILIES = FAMILIES + NEW_FAMILIES
 MAX_PER_FAMILY = 5000
 MAX_FILE_BYTES = 300_000
 MAX_FILES_PER_PKG = 40
@@ -628,7 +657,7 @@ def validate_example(ex: dict) -> None:
     for k in ("family", "package", "path", "prefix", "region_old",
               "region_new", "cursor_idx", "event_diff", "note"):
         assert k in ex and ex[k] is not None, f"missing field {k}"
-    assert ex["family"] in FAMILIES
+    assert ex["family"] in ALL_FAMILIES
     for f in ("prefix", "region_old", "region_new"):
         assert isinstance(ex[f], list) and ex[f], f"{f} must be non-empty list"
         assert all(isinstance(l, str) and "\n" not in l for l in ex[f]), \
@@ -636,6 +665,9 @@ def validate_example(ex: dict) -> None:
     assert ex["region_old"] != ex["region_new"], "GT must change the region"
     joined = "\n".join(ex["region_old"])
     assert isinstance(ex["cursor_idx"], int) and 0 <= ex["cursor_idx"] <= len(joined)
+    if ex["family"] in NEW_FAMILIES:
+        _validate_new_family(ex)
+        return
     m = EVENT_DIFF_RE.match(ex["event_diff"])
     assert m, "event_diff malformed"
     assert m.group("old") != m.group("new"), "event must be a real edit"
@@ -745,6 +777,478 @@ def calibrate(n_per_family: int = 30, n_pkgs: int = 40, seed=7) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# NEW family 4: format_propagation (raw tarball vs air-normalized trees)
+# ---------------------------------------------------------------------------
+
+TAR_MAX_BYTES = 50_000_000     # skip monster tarballs (headers-only pkgs etc.)
+FORMAT_HUNK_MAX_RAW = 12       # region size caps, in the spirit of the
+FORMAT_HUNK_MAX_NEW = 16       # single-line/small-region convention above
+FORMAT_LINE_MAX = 300
+FORMAT_EX_PER_FILE = 3
+
+
+def _group_format_hunks(raw_lines, norm_lines) -> list[tuple[int, int, int, int]]:
+    """difflib opcodes grouped into logical hunks: contiguous non-equal
+    opcodes merge; hunks are separated by >= 1 equal line by construction."""
+    sm = difflib.SequenceMatcher(a=raw_lines, b=norm_lines, autojunk=False)
+    groups, cur = [], None
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag == "equal":
+            cur = None
+            continue
+        if cur is None:
+            cur = [i1, i2, j1, j2]
+            groups.append(cur)
+        else:
+            cur[1], cur[3] = i2, j2
+    return [tuple(g) for g in groups]
+
+
+def _fmt_canonical(lines) -> str:
+    """Whitespace-free, brace-free canonical form: reformatting only ever
+    changes whitespace/line-wrapping (air format also adds {} around bare
+    function bodies), so canonical forms must be equal for a genuine hunk
+    pair. Catches difflib alignments that pair unrelated code."""
+    return re.sub(r"\s+", "", "\n".join(lines)).replace("{", "").replace("}", "")
+
+
+def _fmt_only_edit(old_lines, new_lines) -> bool:
+    if not old_lines or not new_lines or old_lines == new_lines:
+        return False
+    return _fmt_canonical(old_lines) == _fmt_canonical(new_lines)
+
+
+def format_pairs_from_lines(package: str, rel: str, raw_lines, norm_lines,
+                            cap: int = FORMAT_EX_PER_FILE) -> list[dict]:
+    """Build format_propagation examples from one raw/normalized line pair.
+
+    Acceptance per hunk: replace-style (both sides non-empty), within size
+    caps, shares NO line (rstripped) between raw and formatted sides (keeps
+    the no-op baseline exactly 0), and is a whitespace/brace-only reformat
+    (_fmt_only_edit). The event shows hunk k reformatted; the region is
+    hunk k+1 raw -> formatted. Splice invariant: applying every grouped hunk
+    to raw must rebuild the normalized file exactly."""
+    hunks = _group_format_hunks(raw_lines, norm_lines)
+    if len(hunks) < 2:
+        return []
+    rebuilt, pos = [], 0
+    for i1, i2, j1, j2 in hunks:
+        rebuilt.extend(raw_lines[pos:i1])
+        rebuilt.extend(norm_lines[j1:j2])
+        pos = i2
+    rebuilt.extend(raw_lines[pos:])
+    if rebuilt != norm_lines:
+        return []  # alignment failed the splice check -> ambiguous, skip file
+    ok = []
+    for i1, i2, j1, j2 in hunks:
+        if i1 >= i2 or j1 >= j2:
+            continue  # insert/delete-only: no raw lines to show in region_old
+        old, new = raw_lines[i1:i2], norm_lines[j1:j2]
+        if len(old) > FORMAT_HUNK_MAX_RAW or len(new) > FORMAT_HUNK_MAX_NEW:
+            continue
+        if any(len(l) > FORMAT_LINE_MAX for l in old + new):
+            continue
+        if set(l.rstrip() for l in old) & set(l.rstrip() for l in new):
+            continue  # a shared line would let the no-op policy score > 0
+        if not _fmt_only_edit(old, new):
+            continue  # not a pure reformat -> suspicious alignment, skip
+        ok.append((i1, i2, j1, j2))
+    out = []
+    for (ei1, ei2, ej1, ej2), (ti1, ti2, tj1, tj2) in zip(ok, ok[1:]):
+        first = raw_lines[ti1]
+        cursor = len(first) - len(first.lstrip())  # first changed line, at
+        # its first non-blank column (every line of the hunk changed)
+        prefix = raw_lines[max(0, ti1 - 10):ti1]
+        note = ("propagate air format to the next changed hunk "
+                f"(raw hunk at line {ti1 + 1} -> formatted)")
+        out.append(make_multiline_example(
+            "format_propagation", package, rel, prefix,
+            raw_lines[ti1:ti2], norm_lines[tj1:tj2], cursor,
+            raw_lines[ei1:ei2], norm_lines[ej1:ej2], ei1 + 1, note))
+        if len(out) >= cap:
+            break
+    return out
+
+
+def build_format_examples(package_names, seed=13,
+                          per_family_cap=MAX_PER_FAMILY,
+                          max_files=MAX_FILES_PER_PKG,
+                          time_budget_s=780, verbose=False):
+    """Read only the needed members from each package tarball (never
+    extracting whole tarballs), diff against the normalized tree."""
+    rng = random.Random(seed)
+    out: list[dict] = []
+    t0 = time.time()
+    files_diffed = tarballs_read = files_with_pairs = 0
+    seen_pkgs = set()
+    for pkg in package_names:
+        if len(out) >= per_family_cap or time.time() - t0 > time_budget_s:
+            break
+        try:
+            ver_dir = next((ROOT / pkg).iterdir())
+            rdir = ver_dir / pkg / "R"
+        except (StopIteration, FileNotFoundError, NotADirectoryError,
+                OSError):
+            continue
+        if not rdir.is_dir():
+            continue
+        tar_path = TAR_DIR / f"{pkg}_{ver_dir.name}.tar.gz"
+        if not tar_path.exists() or tar_path.stat().st_size > TAR_MAX_BYTES:
+            continue
+        try:
+            files = sorted(list(rdir.glob("*.R")) + list(rdir.glob("*.r")))
+        except OSError:
+            continue
+        if not files:
+            continue
+        if len(files) > max_files:
+            files = rng.sample(files, max_files)
+        wanted = {}
+        for f in files:
+            try:
+                if f.stat().st_size <= MAX_FILE_BYTES:
+                    wanted[f.name] = f
+            except OSError:
+                continue
+        if not wanted:
+            continue
+        try:
+            tf = tarfile.open(tar_path, "r:gz")
+        except (tarfile.TarError, OSError):
+            continue
+        raws = {}
+        with tf:
+            tarballs_read += 1
+            seen_pkgs.add(pkg)
+            for m in tf.getmembers():  # stream order: cheap sequential reads
+                parts = m.name.split("/")
+                if (len(parts) == 3 and parts[1] == "R" and m.isfile()
+                        and parts[2] in wanted and m.size <= MAX_FILE_BYTES
+                        and parts[2] not in raws):
+                    try:
+                        fh = tf.extractfile(m)
+                        if fh is not None:
+                            raws[parts[2]] = fh.read()
+                    except (tarfile.TarError, OSError):
+                        continue
+        for name, norm_path in wanted.items():
+            if name not in raws or len(out) >= per_family_cap:
+                continue
+            try:
+                norm = norm_path.read_bytes()
+            except OSError:
+                continue
+            files_diffed += 1
+            raw_lines = raws[name].decode("utf-8", "replace").splitlines()
+            norm_lines = norm.decode("utf-8", "replace").splitlines()
+            exs = format_pairs_from_lines(pkg, f"R/{name}",
+                                          raw_lines, norm_lines)
+            if exs:
+                files_with_pairs += 1
+            for ex in exs:
+                validate_example(ex)
+                out.append(ex)
+                if len(out) >= per_family_cap:
+                    break
+        if verbose and tarballs_read % 25 == 0:
+            print(f"  format_propagation: tarballs={tarballs_read} "
+                  f"files_diffed={files_diffed} examples={len(out)} "
+                  f"elapsed={time.time() - t0:.0f}s")
+    stats = dict(tarballs_read=tarballs_read, files_diffed=files_diffed,
+                 files_with_pairs=files_with_pairs,
+                 packages_processed=len(seen_pkgs),
+                 elapsed_s=round(time.time() - t0, 1), count=len(out))
+    return out, stats
+
+
+# ---------------------------------------------------------------------------
+# NEW family 5: doc_sync (roxygen @param sync for a new signature argument)
+# ---------------------------------------------------------------------------
+
+DOC_ARG_SPECS = (
+    ("verbose", "FALSE", "Show progress messages while the function runs."),
+    ("call", "caller_env()", "Calling environment captured by rlang."),
+    ("env", "parent.frame()", "Environment in which to evaluate expressions."),
+)
+DOC_DEFAULTS = {a: d for a, d, _ in DOC_ARG_SPECS}
+DOC_DESCS = {a: t for a, _, t in DOC_ARG_SPECS}
+DOC_REGION_MAX_LINES = 14
+
+ROXY_LINE_RE = re.compile(r"^\s*#'(?:\s|$)")
+ROXY_ANCHOR_RE = re.compile(r"^\s*#'\s*@(return|export)\b")
+ROXY_PARAM_TAG_RE = re.compile(r"^\s*#'\s*@param\b")
+DOC_PARAM_LINE_RE = re.compile(r"^(\s*#') @param (verbose|call|env) (.+)$")
+
+
+def _signature_param_names(src: bytes, params) -> set[str]:
+    names = set()
+    for c in params.children:
+        if c.type == "identifier":
+            names.add(node_text(src, c).decode("utf-8", "replace"))
+        elif c.type == "parameter":
+            for k in c.children:
+                if k.type == "identifier":
+                    names.add(node_text(src, k).decode("utf-8", "replace"))
+                    break
+    return names
+
+
+def extract_doc_sync(b: Bundle, rng: random.Random, cap: int = 2) -> list[dict]:
+    """For each named function whose roxygen block has >= 1 @param and an
+    @return/@export anchor: event = signature gains ', <arg> = <default>'
+    right before the parameters' closing paren; region = roxygen @param
+    block area; region_new = same block plus the matching deterministic
+    "#' @param <arg> <desc>" line inserted before the anchor tag."""
+    src = b.src
+    out = []
+    for fn in traverse(b.tree.root_node):
+        if len(out) >= cap:
+            break
+        if fn.type != "function_definition":
+            continue
+        params = next((c for c in fn.children if c.type == "parameters"), None)
+        if params is None:
+            continue
+        parent = fn.parent
+        if (parent is None or parent.type != "binary_operator"
+                or not parent.children
+                or parent.children[0].type != "identifier"):
+            continue  # roxygen attaches to named top-level definitions
+        argish = [c for c in params.children
+                  if c.type in ("identifier", "parameter", "dots")]
+        if not argish:
+            continue  # zero-arg function: ', arg' insert would be invalid R
+        fn_name = node_text(src, parent.children[0]).decode("utf-8", "replace")
+        top_row = min(fn.start_point[0], parent.children[0].start_point[0])
+        if top_row <= 0:
+            continue
+        r, block = top_row - 1, []
+        while r >= 0 and ROXY_LINE_RE.match(b.line_str(r)):
+            block.append(r)
+            r -= 1
+        if not block:
+            continue
+        block.reverse()
+        pnames = _signature_param_names(src, params)
+        arg = next((a for a, _, _ in DOC_ARG_SPECS if a not in pnames), None)
+        if arg is None:
+            continue
+        if any(re.match(rf"^\s*#'\s*@param\s+{re.escape(arg)}\b",
+                        b.line_str(rr)) for rr in block):
+            continue  # already documented
+        prow = [rr for rr in block if ROXY_PARAM_TAG_RE.match(b.line_str(rr))]
+        if not prow:
+            continue
+        arow = next((rr for rr in block
+                     if ROXY_ANCHOR_RE.match(b.line_str(rr))), None)
+        if arow is None or arow < prow[0]:
+            continue  # need @return/@export AFTER the @param lines
+        win = list(range(prow[0], arow + 1))
+        if len(win) > DOC_REGION_MAX_LINES:
+            continue
+        region_old = [b.line_str(rr) for rr in win]
+        if any(len(l) > FORMAT_LINE_MAX for l in region_old):
+            continue
+        pm = re.match(r"\s*#'", region_old[-1])
+        ins_line = f"{pm.group(0)} @param {arg} {DOC_DESCS[arg]}"
+        pos = win.index(arow)
+        region_new = region_old[:pos] + [ins_line] + region_old[pos:]
+        cursor = sum(len(l) + 1 for l in region_old[:pos])  # anchor line start
+        # event: append ', arg = default' immediately before the closing paren
+        end = params.end_byte
+        if src[end - 1:end] != b")":
+            continue
+        ev_row, ev_col = b.rowcol(end - 1)
+        lb = b.line_bytes(ev_row)
+        ev_old = b.line_str(ev_row)
+        cc = len(lb[:ev_col].decode("utf-8", "replace"))
+        ev_new = ev_old[:cc] + f", {arg} = {DOC_DEFAULTS[arg]}" + ev_old[cc:]
+        if ev_new == ev_old:
+            continue
+        prefix = [b.line_str(rr) for rr in range(max(0, win[0] - 10), win[0])]
+        note = (f"document new argument {arg} in the roxygen block of "
+                f"{fn_name} (event added it to the signature)")
+        out.append(make_multiline_example(
+            "doc_sync", b.package, b.rel, prefix, region_old, region_new,
+            cursor, [ev_old], [ev_new], ev_row + 1, note))
+    return out
+
+
+def build_doc_sync_examples(package_names, seed=13,
+                            per_family_cap=MAX_PER_FAMILY,
+                            time_budget_s=600, verbose=False):
+    rng = random.Random(seed)
+    out: list[dict] = []
+    t0 = time.time()
+    files = files_with_ex = 0
+    seen_pkgs = set()
+    for b in iter_bundles(package_names, rng):
+        files += 1
+        seen_pkgs.add(b.package)
+        if len(out) < per_family_cap:
+            exs = extract_doc_sync(b, rng)
+            if exs:
+                files_with_ex += 1
+            for ex in exs:
+                validate_example(ex)
+                out.append(ex)
+                if len(out) >= per_family_cap:
+                    break
+        if verbose and files % 200 == 0:
+            print(f"  doc_sync: files={files} examples={len(out)} "
+                  f"elapsed={time.time() - t0:.0f}s")
+        if time.time() - t0 > time_budget_s:
+            break
+        if len(out) >= per_family_cap:
+            break
+    stats = dict(files=files, files_with_examples=files_with_ex,
+                 packages_processed=len(seen_pkgs),
+                 elapsed_s=round(time.time() - t0, 1), count=len(out))
+    return out, stats
+
+
+# ---------------------------------------------------------------------------
+# new-family example builder + event diff (multi-line capable) + validators
+# ---------------------------------------------------------------------------
+
+EVENT_DIFF_MULTI_RE = re.compile(
+    r'^User edited "(?P<path>.+)":\n\n```diff\n@@ (?P<hunk>[^@\n]*)@@\n'
+    r"(?P<old>(?:-.*\n)+)(?P<new>(?:\+.*\n)+)```$")
+
+
+def parse_event_diff_lines(s: str) -> tuple[str, list[str], list[str]]:
+    """Parse an event diff whose body may span multiple -/+ lines (the
+    single-line format used by event_diff_for is a special case)."""
+    m = EVENT_DIFF_MULTI_RE.match(s)
+    assert m, "event_diff malformed (multi-line)"
+    old = m.group("old").split("\n")[:-1]
+    new = m.group("new").split("\n")[:-1]
+    return m.group("path"), [l[1:] for l in old], [l[1:] for l in new]
+
+
+def make_multiline_example(family: str, package: str, path: str,
+                           prefix_lines, region_old, region_new, cursor_idx,
+                           event_old_lines, event_new_lines, event_lineno,
+                           note: str) -> dict:
+    """Example builder for families whose region and/or event span multiple
+    lines (same JSON keys as make_example)."""
+    if len(event_old_lines) == 1 and len(event_new_lines) == 1:
+        hdr = f"@@ -{event_lineno} +{event_lineno} @@"
+    else:
+        hdr = (f"@@ -{event_lineno},{len(event_old_lines)} "
+               f"+{event_lineno},{len(event_new_lines)} @@")
+    body = "".join(f"-{l}\n" for l in event_old_lines) \
+        + "".join(f"+{l}\n" for l in event_new_lines)
+    return {
+        "family": family,
+        "package": package,
+        "path": path,
+        "prefix": list(prefix_lines),
+        "region_old": list(region_old),
+        "region_new": list(region_new),
+        "cursor_idx": cursor_idx,
+        "event_diff": f'User edited "{path}":\n\n```diff\n{hdr}\n{body}```',
+        "note": note,
+    }
+
+
+def _assert_doc_region(old_lines, new_lines) -> str:
+    """new must be old with exactly ONE inserted line that is the exact
+    deterministic @param line, placed immediately before an @return/@export
+    anchor. Returns the documented arg name."""
+    for i in range(len(new_lines)):
+        if new_lines[:i] + new_lines[i + 1:] != old_lines:
+            continue
+        m = DOC_PARAM_LINE_RE.match(new_lines[i])
+        nxt = new_lines[i + 1] if i + 1 < len(new_lines) else ""
+        if (m and m.group(3) == DOC_DESCS[m.group(2)]
+                and ROXY_ANCHOR_RE.match(nxt)):
+            return m.group(2)
+    raise AssertionError("doc_sync region is not old + one valid @param line "
+                         f"before @return/@export: {old_lines} -> {new_lines}")
+
+
+def _validate_new_family(ex: dict) -> None:
+    epath, ev_old, ev_new = parse_event_diff_lines(ex["event_diff"])
+    assert epath == ex["path"], "event path mismatch"
+    assert ev_old and ev_new and ev_old != ev_new, "event must be a real edit"
+    if ex["family"] == "format_propagation":
+        assert _fmt_only_edit(ex["region_old"], ex["region_new"]), \
+            (ex["region_old"], ex["region_new"])
+        assert _fmt_only_edit(ev_old, ev_new), (ev_old, ev_new)
+        shared = (set(l.rstrip() for l in ex["region_old"])
+                  & set(l.rstrip() for l in ex["region_new"]))
+        assert not shared, f"format region shares lines: {shared}"
+    else:  # doc_sync
+        arg = _assert_doc_region(ex["region_old"], ex["region_new"])
+        assert len(ev_old) == 1 and len(ev_new) == 1, \
+            "doc_sync event must be single-line"
+        assert _single_insert_before_close(
+            ev_old[0], ev_new[0], f", {arg} = {DOC_DEFAULTS[arg]}"), \
+            (ev_old[0], ev_new[0])
+
+
+def noop_exact_score(ex: dict) -> float:
+    """1.0 iff the no-op prediction equals the gold exactly. Always 0.0 for
+    valid examples; used as the doc_sync calibration gate because a pure
+    line-insertion GT scores high under exact_reward's line-F1 (every old
+    line matches) - an unavoidable metric artifact for insertions."""
+    p = [l.rstrip() for l in ex["region_old"]]
+    g = [l.rstrip() for l in ex["region_new"]]
+    while p and p[-1] == "":
+        p.pop()
+    while g and g[-1] == "":
+        g.pop()
+    return 1.0 if p == g else 0.0
+
+
+def calibrate_new(n_per_family: int = 30, n_pkgs: int = 40, seed=7) -> dict:
+    """Small-scale run for the two new families: construct, validate every
+    example (assert), and score no-op baselines. format_propagation's
+    line-F1 no-op must be exactly 0.0 (no shared lines). doc_sync is a pure
+    insertion so its line-F1 no-op is ~2n/(2n+1) by construction; per the
+    agreed convention the gate is the exact-match no-op (0.0) and the
+    line-F1 value is reported as a metric artifact."""
+    pool = list_packages()
+    rng = random.Random(seed)
+    sample = rng.sample(pool, min(n_pkgs, len(pool)))
+    fmt, fmt_stats = build_format_examples(sample, seed=seed,
+                                           per_family_cap=n_per_family,
+                                           time_budget_s=300)
+    doc, doc_stats = build_doc_sync_examples(sample, seed=seed,
+                                             per_family_cap=n_per_family,
+                                             time_budget_s=240)
+    report = {"packages_sampled": len(sample), "seed": seed,
+              "format_stats": fmt_stats, "doc_stats": doc_stats,
+              "families": {}}
+    for fam, exs in (("format_propagation", fmt), ("doc_sync", doc)):
+        assert len(exs) >= 5, f"{fam}: only {len(exs)} examples constructed"
+        line_scores, exact_scores = [], []
+        for ex in exs:
+            validate_example(ex)  # every example must pass exactness checks
+            line_scores.append(noop_baseline_score(ex))
+            exact_scores.append(noop_exact_score(ex))
+            assert exact_reward(ex["region_new"], ex["region_new"]) == 1.0
+        rep = {"n_constructed": len(exs),
+               "noop_exact_mean": round(sum(exact_scores) / len(exact_scores), 4),
+               "all_valid": True}
+        if fam == "format_propagation":
+            assert max(line_scores) == 0.0, \
+                f"{fam}: line-F1 no-op baseline scored {max(line_scores)}"
+            rep["noop_baseline_mean"] = round(sum(line_scores) / len(line_scores), 4)
+            rep["noop_baseline_max"] = round(max(line_scores), 4)
+        else:
+            assert max(exact_scores) == 0.0, \
+                f"{fam}: exact no-op baseline scored {max(exact_scores)}"
+            rep["noop_line_f1_mean"] = round(sum(line_scores) / len(line_scores), 4)
+            rep["noop_line_f1_max"] = round(max(line_scores), 4)
+            rep["note"] = ("pure-insertion GT: line-F1 no-op is high by "
+                           "construction; gate is the exact-match no-op")
+        report["families"][fam] = rep
+    return report
+
+
+# ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
 
@@ -753,6 +1257,12 @@ def main():
     ap.add_argument("--packages", type=int, default=200)
     ap.add_argument("--seed", type=int, default=13)
     ap.add_argument("--calibrate", action="store_true")
+    ap.add_argument("--calibrate-new", action="store_true",
+                    help="calibrate the format_propagation/doc_sync families")
+    ap.add_argument("--new-only", action="store_true",
+                    help="build only the new families and merge stats.json")
+    ap.add_argument("--new-packages", type=int, default=150,
+                    help="package sample size for --new-only")
     ap.add_argument("--n-per-family", type=int, default=30)
     ap.add_argument("--time-budget", type=int, default=780)
     ap.add_argument("--out", type=Path, default=OUT_DIR)
@@ -761,6 +1271,56 @@ def main():
     if args.calibrate:
         rep = calibrate(n_per_family=args.n_per_family)
         print(json.dumps(rep, indent=1))
+        return
+
+    if args.calibrate_new:
+        rep = calibrate_new(n_per_family=args.n_per_family)
+        print(json.dumps(rep, indent=1))
+        return
+
+    if args.new_only:
+        all_pkgs = list_packages()
+        rng = random.Random(args.seed)
+        n_new = min(args.new_packages, len(all_pkgs))
+        sample = rng.sample(all_pkgs, n_new)
+        print(f"building new families from {n_new} random packages "
+              f"(seed {args.seed}) ...")
+        fmt, fmt_stats = build_format_examples(
+            sample, seed=args.seed, time_budget_s=args.time_budget,
+            verbose=True)
+        doc, doc_stats = build_doc_sync_examples(
+            sample, seed=args.seed, time_budget_s=args.time_budget,
+            verbose=True)
+        args.out.mkdir(parents=True, exist_ok=True)
+        built = (("format_propagation", fmt), ("doc_sync", doc))
+        for fam, exs in built:
+            with (args.out / f"{fam}.jsonl").open("w") as fh:
+                for ex in exs:
+                    fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+        # final validation pass + baselines; merge into the existing stats
+        rng2 = random.Random(1)
+        try:
+            stats = json.loads((args.out / "stats.json").read_text())
+        except (OSError, ValueError):
+            stats = {}
+        counts = stats.setdefault("counts", {})
+        stats["new_families_build"] = {
+            "packages_sampled": n_new, "seed": args.seed,
+            "format_propagation": fmt_stats, "doc_sync": doc_stats}
+        for fam, exs in built:
+            for ex in exs:
+                validate_example(ex)
+            samp = rng2.sample(exs, min(200, len(exs))) if exs else []
+            exact = round(sum(noop_exact_score(e) for e in samp) / len(samp), 4) \
+                if samp else None
+            linef1 = round(sum(noop_baseline_score(e) for e in samp) / len(samp), 4) \
+                if samp else None
+            counts[fam] = len(exs)
+            stats[f"{fam}_noop_exact_mean(sampled)"] = exact
+            stats[f"{fam}_noop_line_f1_mean(sampled)"] = linef1
+            stats[f"{fam}_written"] = len(exs)
+        (args.out / "stats.json").write_text(json.dumps(stats, indent=1))
+        print(json.dumps(stats, indent=1))
         return
 
     all_pkgs = list_packages()
