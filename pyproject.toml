@@ -1,0 +1,17 @@
+[project]
+name = "sepalith"
+version = "0.1.0"
+description = "Open, R-specialized next-edit-suggestion model: data pipeline, training, evaluation"
+requires-python = ">=3.10"
+dependencies = [
+    "unsloth",
+    "datatrove",
+    "gguf",
+    "jsonschema",
+    "huggingface_hub",
+    "tree-sitter",
+    "tree-sitter-r @ git+https://github.com/r-lib/tree-sitter-r",
+]
+
+[tool.uv]
+package = false

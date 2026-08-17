@@ -34,6 +34,11 @@ including per-package provenance, license texts, and derived finish-block pairs.
 No credentials are stored in this repository; tools read `HF_TOKEN` /
 `ZAI_API_KEY` from the environment.
 
+## Python environment
+
+Managed with [uv](https://docs.astral.sh/uv/): `uv sync` creates `.venv` from
+`pyproject.toml` + `uv.lock`. Run tools via `uv run python <script>`.
+
 ## Resource policy
 
 This machine is shared with other workloads: GPU inference only when explicitly
