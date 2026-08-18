@@ -20,3 +20,4 @@ __pycache__/
 .venv/
 experiments/synthetic/results/
 experiments/synthetic/finish_block_stats.json
+DESIGN.md
