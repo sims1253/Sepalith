@@ -21,7 +21,7 @@ REPO = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("-") else
 
 api = HfApi(token=os.environ["HF_TOKEN"])
 if REPO is None:
-    REPO = api.whoami()["name"] + "/sepalith-cran"
+    REPO = api.whoami()["name"] + "/sepalith"
 api.create_repo(REPO, repo_type="dataset", private=True, exist_ok=True)
 
 card = """---
