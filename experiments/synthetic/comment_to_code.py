@@ -569,6 +569,7 @@ def normalize_block(block: list[str]) -> str:
 
 OPENCODE_URL = "https://opencode.ai/zen/v1/chat/completions"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+ZAI_URL = "https://api.z.ai/api/coding/paas/v4/chat/completions"
 OPENCODE_MODEL = "deepseek-v4-flash-free"
 OPENROUTER_MODEL = "dots-studio/dots-3-note-preview:free"
 PROMPT = ('Write ONE concise R comment (max 80 chars, no code, describes what '
@@ -578,6 +579,8 @@ OPENCODE_COOLDOWN_S = 300.0  # free-tier quota resets slowly; re-probe later
 API_STATS = {
     "opencode": dict(attempts=0, ok=0, err_429=0, err_provider=0, err_other=0,
                      err_timeout=0, err_json=0, lat_s=0.0),
+    "zai": dict(attempts=0, ok=0, err_429=0, err_provider=0, err_other=0,
+                lat_s=0.0),
     "openrouter": dict(attempts=0, ok=0, err_429=0, err_provider=0, err_other=0,
                        err_timeout=0, err_json=0, lat_s=0.0),
 }
@@ -585,8 +588,8 @@ _tls = threading.local()
 _opencode_until = 0.0
 _stats_lock = threading.Lock()
 _pace_lock = threading.Lock()
-_pace_next = {"opencode": 0.0, "openrouter": 0.0}
-_PACE_GAP_S = {"opencode": 0.0, "openrouter": 6.5}
+_pace_next = {"opencode": 0.0, "openrouter": 0.0, "zai": 0.0}
+_PACE_GAP_S = {"opencode": 0.0, "openrouter": 6.5, "zai": 0.3}
 # opencode: quota-based 429s, fast responses -> no artificial gap needed;
 # openrouter dots-3:free: shared 1000/day free-model cap + provider
 # congestion -> patient pacing converts retries into steady completions.
@@ -747,13 +750,47 @@ def _backoff(kind: str, i: int) -> float:
     return (i + 1) * 5.0 if kind == "rate" else 1.0
 
 
+def call_zai(code, api_key: str) -> str | None:
+    payload = {
+        "model": "glm-5.3",
+        "thinking": {"type": "enabled"},
+        "reasoning_effort": "low",
+        "messages": [{"role": "user", "content": PROMPT.format(code=_plain_code(code))}],
+        "response_format": {"type": "json_object"},
+        "max_tokens": 1500, "temperature": 0.7,
+    }
+    txt = _post(ZAI_URL, api_key, payload, timeout=60, source="zai")  # returns content
+    if not txt.strip():
+        raise _Retryable("zai empty content", kind="json")
+    import json as _json
+    try:
+        obj = _json.loads(txt)
+        c = obj.get("comment") if isinstance(obj, dict) else None
+        if c and str(c).strip():
+            return str(c)
+    except Exception:
+        pass
+    return _extract_comment(txt)
+
+
 def generate_comment(code, opencode_key: str,
-                     openrouter_key: str) -> tuple[str | None, str]:
+                     openrouter_key: str, zai_key: str = "") -> tuple[str | None, str]:
     """One comment attempt: opencode (2 tries, backoff) then openrouter
     (3 tries, backoff on 429 / intermittent 'Provider returned error').
     `code` is the candidate block (list of lines) or plain text; either way
     the prompt embeds it newline-joined via _plain_code — never a list repr.
     Returns (comment, model_tag); comment is None if every try failed."""
+    if zai_key:
+        for i in range(2):
+            try:
+                c = call_zai(code, zai_key)
+            except _Retryable as e:
+                c = None
+                if e.kind == "json" and i >= 1:
+                    break
+                time.sleep(_backoff(e.kind, i))
+            if c is not None:
+                return normalize_comment(c), "zai/glm-5.3"
     if _opencode_available():
         for i in range(2):
             try:
@@ -885,6 +922,7 @@ def density_summary(density: dict) -> dict:
 
 def build_synthetic(cands: list[dict], target: int, opencode_key: str,
                     openrouter_key: str, verbose: bool = True,
+                    zai_key: str = "",
                     partial_path: Path | None = None,
                     resume: list[dict] | None = None,
                     deadline_s: float = 46800.0) -> tuple[list[dict], dict]:
@@ -920,13 +958,13 @@ def build_synthetic(cands: list[dict], target: int, opencode_key: str,
                 dropped["precheck"] += 1
             return
         comment, gen = generate_comment(cand["block"], opencode_key,
-                                        openrouter_key)
+                                        openrouter_key, zai_key)
         regenerated = False
         if comment is not None and not _gate_ok(comment):
             gate_first_reject["n"] += 1
             regenerated = True
             comment2, gen2 = generate_comment(cand["block"], opencode_key,
-                                              openrouter_key)
+                                              openrouter_key, zai_key)
             if comment2 is not None and _gate_ok(comment2):
                 comment, gen = comment2, gen2  # regenerate once, as specified
             else:
@@ -1029,9 +1067,11 @@ def calibrate(n_real: int = 30, n_synth: int = 5, n_pkgs: int = 25,
         validate_example(ex)
         assert noop_baseline_score(ex) == 0.0
         assert exact_reward(ex["region_new"], ex["region_new"]) == 1.0
-    synth, api = build_synthetic(cands, n_synth, os.environ.get("OPENCODE_API_KEY", ""),
+    synth, api = build_synthetic(cands, n_synth,
+                                 os.environ.get("OPENCODE_API_KEY", ""),
                                  os.environ.get("OPENROUTER_API_KEY", ""),
-                                 verbose=False, deadline_s=600)
+                                 verbose=False, deadline_s=600,
+                                 zai_key=os.environ.get("ZAI_API_KEY", ""))
     assert len(synth) >= 3, f"only {len(synth)} synthetic examples built"
     for ex in synth:
         validate_example(ex)
@@ -1150,7 +1190,8 @@ def main():
                                  os.environ.get("OPENCODE_API_KEY", ""),
                                  os.environ.get("OPENROUTER_API_KEY", ""),
                                  partial_path=partial, resume=resume,
-                                 deadline_s=args.api_deadline_s)
+                                 deadline_s=args.api_deadline_s,
+                                 zai_key=os.environ.get("ZAI_API_KEY", ""))
     with (args.out / "comment_to_code_synthetic.jsonl").open("w") as fh:
         for ex in synth:
             fh.write(json.dumps(ex, ensure_ascii=False) + "\n")

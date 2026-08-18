@@ -241,7 +241,7 @@ def test_build_synthetic_with_mock_llm():
     orig = C.generate_comment
     calls = {"n": 0}
 
-    def fake(code, k1, k2):
+    def fake(code, k1, k2, zai_key=""):
         calls["n"] += 1
         if calls["n"] == 1:
             return "bad ; comment", "mock/model"      # gate-rejected once
