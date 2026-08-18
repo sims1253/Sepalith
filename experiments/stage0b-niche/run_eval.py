@@ -139,6 +139,42 @@ def parse_pred(model, text):
     return norm(text.splitlines())
 
 
+def make_midtyping(ex, seed=1):
+    """Eval-v1: cursor mid-line on a partial prefix of the first changed line.
+
+    Returns a modified example whose region_old ends with the typed partial
+    (cursor after it) and whose region_new is the COMPLETION SUFFIX (rest of
+    that line + lines through the last changed line) — the copy-from-context
+    baseline scores ~0 on this construction by design.
+    """
+    import random
+    rng = random.Random(seed * 1000 + ex["sha"].__hash__() % 1000)
+    ro, rn = ex["region_old"], ex["region_new"]
+    i = 0
+    while i < min(len(ro), len(rn)) and ro[i] == rn[i]:
+        i += 1
+    if i >= len(rn):
+        i = max(0, len(rn) - 1)
+    first = rn[i] if i < len(rn) else ""
+    j = i
+    last_changed = i
+    while j < len(rn):
+        if rn[j] not in ro:
+            last_changed = j
+        j += 1
+    frac = rng.uniform(0.3, 0.6)
+    cut = max(1, int(len(first) * frac)) if first else 0
+    partial = first[:cut]
+    new = dict(ex)
+    new["region_old"] = ro[:i] + ([partial] if True else [])
+    new["cursor_idx"] = len(new["region_old"]) - 1
+    new["region_new"] = ([first[cut:]] if cut < len(first) or True else []) + rn[i + 1: last_changed + 1]
+    # first completion line is the rest of the partial line (may be empty)
+    if not new["region_new"]:
+        new["region_new"] = [first[cut:]]
+    return new
+
+
 def score(pred, gt):
     if pred is None:
         return dict(exact=0, first_line=0, line_f1=0.0, empty=0)
@@ -193,6 +229,10 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--max-tokens", type=int, default=400)
     ap.add_argument("--resume", default=None, help="prior results file: skip examples already scored")
+    ap.add_argument("--variant", default="commit", choices=["commit", "midtyping"])
+    ap.add_argument("--align", default="raw", choices=["raw", "suffix"],
+                    help="suffix: realign whole-region outputs to the completion "
+                         "after the typed partial (fair to zeta-style models)")
     args = ap.parse_args()
 
     if args.official:
@@ -205,6 +245,8 @@ def main():
         return
 
     exs = [json.loads(l) for l in open(args.examples)]
+    if args.variant == "midtyping":
+        exs = [make_midtyping(e, seed=i + 1) for i, e in enumerate(exs)]
     if args.limit:
         exs = exs[: args.limit]
     if args.resume:
@@ -223,14 +265,28 @@ def main():
     results = []
     for i, ex in enumerate(exs):
         prompt = RENDER[args.model](ex)
+        pred = None
         try:
             out, dt = complete(args.port, prompt, args.max_tokens, stops)
-            sc = score(parse_pred(args.model, out), ex["region_new"])
+            pred = parse_pred(args.model, out)
+            if args.align == "suffix" and pred is not None:
+                partial = (ex.get("region_old") or [""])[-1].strip()
+                if partial:
+                    for k in range(len(pred) - 1, -1, -1):
+                        line = pred[k].strip()
+                        if line == partial or (partial in line and len(partial) > 2):
+                            tail = ([line[len(partial):]] if line.startswith(partial) and len(line) > len(partial) else []) + pred[k + 1:]
+                            while tail and not tail[0].strip():
+                                tail.pop(0)
+                            pred = tail
+                            break
+            sc = score(pred, ex["region_new"])
         except Exception as e:
             out, dt, sc = "", 0.0, dict(exact=0, first_line=0, line_f1=0.0, empty=1)
             sc["error"] = str(e)[:100]
         rec = dict(i=i, lang=ex["lang"], repo=ex["repo"], path=ex["path"],
-                   sha=ex["sha"], is_test=ex["is_test"], latency_s=round(dt, 2), **sc)
+                   sha=ex["sha"], is_test=ex["is_test"], latency_s=round(dt, 2),
+                   pred=("\n".join(pred)[:600] if pred is not None else None), **sc)
         results.append(rec)
         print(json.dumps(rec), flush=True)
 
@@ -246,7 +302,7 @@ def main():
             format_fail=sum(1 for r in rs if r.get("error") or r.get("empty")) / n,
             p50_latency_s=sorted(r["latency_s"] for r in rs)[n // 2],
         )
-    print(json.dumps({"model": args.model, "agg": agg}, indent=1))
+    print(json.dumps({"model": args.model, "variant": args.variant, "agg": agg}, indent=1))
 
 
 if __name__ == "__main__":

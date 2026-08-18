@@ -1,0 +1,3 @@
+/home/m0hawk/Documents/Sepalith/.venv/lib/python3.14/site-packages/huggingface_hub/constants.py:310: FutureWarning: The `HF_HUB_ENABLE_HF_TRANSFER` environment variable is deprecated as 'hf_transfer' is not used anymore. Please use `HF_XET_HIGH_PERFORMANCE` instead to enable high performance transfer with Xet. Visit https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hfxethighperformance for more details.
+  warnings.warn(
+DONE Modotte/CodeX-7M-Non-Thinking -> /home/m0hawk/.cache/huggingface/hub/datasets--Modotte--CodeX-7M-Non-Thinking/snapshots/7ebf047f899ff75f8a28fff77ca7f65938bb043a in 446s

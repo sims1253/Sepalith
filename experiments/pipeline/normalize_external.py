@@ -18,23 +18,38 @@ Code extraction policy
   - untagged fences are normalized best-effort: if the block does not parse
     it is kept verbatim (likely console output / prose, not code);
   - fences tagged with another language (yaml, python, ...) are untouched;
+  - a fenceless OUTPUT field (assistant answer) is normalized only when it
+    parses as R (bare-code answers); prose / unparseable text passes through
+    verbatim and is never dropped;
   - a field with no fences (pure-code fields: analyst `code`, paper
     `implementation`) is normalized as a single block; unparseable -> row
-    dropped;
+    dropped in legacy mode, retained with dropped_reason in dual mode;
   - rows with no R content at all pass through unchanged.
 
 Incremental + atomic: progress (processed row index + kept-line count) is
-checkpointed to <stem>.normalize_state.json every CHECKPOINT_EVERY rows;
-interrupted runs resume from the checkpoint. The fully processed output is
-written to <stem>.normalized_tmp.jsonl, then os.replace()d over the original.
+checkpointed to <stem>.normalize_state.json every batch; interrupted runs
+resume from the checkpoint. The fully processed output is written to
+<stem>.normalized_tmp.jsonl, then os.replace()d over the original.
 Before replacing, the original's (size, mtime_ns) is re-checked against the
 value seen at read time: if a live appender touched it in between (the
 detached generate_analyst.py runner), the replace is ABORTED and the result
 kept as <name>.normalized.jsonl instead (enrich_provenance.py convention).
 
+Dual mode (default; --no-dual for the legacy replace-only behavior) keeps
+BOTH versions instead of rewriting in place, for maximum retention:
+  code_original : verbatim pre-normalization value of the code field
+                  (null when the original is not recoverable)
+  normalized    : true iff R content in the record was processed by
+                  air/jarl (formatted or verified already-clean); false for
+                  pass-through prose answers and never-processed rows
+  dropped_reason: present only on rows whose declared-R code failed to
+                  parse after normalization ("unparseable_r_block(N)") --
+                  legacy mode deleted these rows; dual mode RETAINS them
+                  verbatim (normalized=false) instead of dropping.
+
 Usage
   nice -n 19 uv run python experiments/pipeline/normalize_external.py \
-      [--workers 6] [--only ling,codex,analyst,paper]
+      [--workers 6] [--only ling,codex,analyst,paper] [--no-dual]
 """
 from __future__ import annotations
 
@@ -166,7 +181,7 @@ def process_field(text: str, mode: str) -> tuple[str, bool, dict, str, str]:
     c = dict(blocks=0, blocks_normalized=0, blocks_already_clean=0,
              blocks_unparseable_r=0, blocks_unparseable_untagged_kept=0,
              blocks_air_unformattable_kept=0, blocks_other_lang_skipped=0,
-             pure_field=0, output_no_fences_passthrough=0)
+             pure_field=0, output_no_fences=0)
     sample = ["", ""]
 
     def do_block(body: str, kind: str) -> tuple[str, bool]:
@@ -207,11 +222,21 @@ def process_field(text: str, mode: str) -> tuple[str, bool, dict, str, str]:
         out.append(text[pos:])
         return "".join(out), drop, c, sample[0], sample[1]
 
-    # pure-code field: the whole value is one R block
+    # fenceless field: pure-code modes normalize the whole value; output-like
+    # modes hold answers that MAY be bare code or prose -- try to normalize,
+    # and pass through verbatim when it does not parse (prose is never
+    # rewriteable, and unparseable fenceless text is never dropped)
     if mode in OUTPUT_MODES:
-        # fenceless assistant answer = prose (maybe inline code), not a
-        # parseable program: never drop, never rewrite
-        c["output_no_fences_passthrough"] += 1
+        c["output_no_fences"] += 1
+        if text.strip():
+            status, out = normalize_code(text)
+            if status == "ok":
+                c["blocks"] += 1
+                c["blocks_normalized"] += 1
+                return out, False, c, text, out
+            if status == "same":
+                c["blocks"] += 1
+                c["blocks_already_clean"] += 1
         return text, False, c, "", ""
     c["pure_field"] += 1
     body, drop = do_block(text, "r")
@@ -245,11 +270,12 @@ def stat_sig(p: Path) -> tuple[int, int]:
 BLOCK_COUNTERS = ("blocks", "blocks_normalized", "blocks_already_clean",
                   "blocks_unparseable_r", "blocks_unparseable_untagged_kept",
                   "blocks_air_unformattable_kept", "blocks_other_lang_skipped",
-                  "pure_field", "output_no_fences_passthrough")
+                  "pure_field", "output_no_fences")
 BATCH = 256
 
 
-def normalize_file(path: Path, mode: str, workers: int) -> dict:
+def normalize_file(path: Path, mode: str, workers: int,
+                   dual: bool = True) -> dict:
     stem = path.with_suffix("")            # <dir>/<name> w/o .jsonl
     state_p = Path(str(stem) + ".normalize_state.json")
     tmp_p = Path(str(stem) + ".normalized_tmp.jsonl")
@@ -292,6 +318,19 @@ def normalize_file(path: Path, mode: str, workers: int) -> dict:
         rec = json.loads(lines[i])
         old = field_get(rec, mode)
         new, drop, c, sob, snb = process_field(old, mode)
+        if dual:
+            rec["code_original"] = old
+            # the flag describes the STORED content: retained-unparseable
+            # rows keep the verbatim original -> normalized=false
+            rec["normalized"] = (not drop) and (
+                c["blocks_normalized"] + c["blocks_already_clean"]) > 0
+            if drop:      # dual mode RETAINS unparseable rows verbatim
+                rec["dropped_reason"] = \
+                    f"unparseable_r_block({c['blocks_unparseable_r']})"
+            else:
+                field_set(rec, mode, new)
+            return (i, drop, (not drop and new != old), c, sob, snb,
+                    json.dumps(rec, ensure_ascii=False))
         if not drop and new != old:
             field_set(rec, mode, new)
         return (i, drop, new != old, c, sob, snb,
@@ -307,7 +346,8 @@ def normalize_file(path: Path, mode: str, workers: int) -> dict:
                     st[k] += c[k]
                 if drop:
                     st["rows_dropped_unparseable"] += 1
-                    continue
+                    if not dual:      # legacy mode deletes the row
+                        continue
                 if changed:
                     st["rows_normalized"] += 1
                     if len(st["diffs"]) < DIFF_SAMPLES:
@@ -345,6 +385,12 @@ def main() -> None:
                     help="parallel air/jarl subprocess calls (CPU-polite)")
     ap.add_argument("--only", default="",
                     help="comma substrings: ling,codex,analyst,paper")
+    ap.add_argument("--no-dual", dest="dual", action="store_false",
+                    default=True,
+                    help="legacy behavior: rewrite the code field only and "
+                         "DELETE rows with unparseable R code (default: dual "
+                         "mode keeps code_original + normalized flag and "
+                         "retains unparseable rows with dropped_reason)")
     args = ap.parse_args()
     sel = [s for s in args.only.split(",") if s]
 
@@ -352,8 +398,9 @@ def main() -> None:
     for path, mode in TARGETS:
         if sel and not any(s in path.name or s in str(path.parent) for s in sel):
             continue
-        print(f"normalizing {path} [{mode}] ...", flush=True)
-        st = normalize_file(path, mode, args.workers)
+        print(f"normalizing {path} [{mode}] "
+              f"{'dual' if args.dual else 'legacy'} ...", flush=True)
+        st = normalize_file(path, mode, args.workers, dual=args.dual)
         report[str(path)] = st
         print(json.dumps({k: v for k, v in st.items() if k != "diffs"},
                          indent=1))
