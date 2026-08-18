@@ -10,7 +10,7 @@ import grid
 from validate import validate, ANALYST_SCHEMA
 
 ENDPOINT = "https://api.z.ai/api/coding/paas/v4/chat/completions"
-OUT = Path("/mnt/h/sepalith/datasets/synthetic_analyst_v1/analyst_direct.jsonl")
+OUT = Path(os.environ.get("ANALYST_OUT", "/mnt/h/sepalith/datasets/synthetic_analyst_v1/analyst_direct.jsonl"))
 LOG = Path("/mnt/h/sepalith/datasets/synthetic_analyst_v1/analyst_direct.log")
 DEADLINE = time.time() + float(sys.argv[1] if len(sys.argv) > 1 else 7200)
 
