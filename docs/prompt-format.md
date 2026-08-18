@@ -7,6 +7,8 @@ to build an editor extension.
 ## The prompt
 
 ```
+<|context|>R/foo.R
+... file content before the cursor ...
 <|history|>
 --- a/R/foo.R
 +++ b/R/foo.R
@@ -14,8 +16,6 @@ to build an editor extension.
 -  mean(x)
 +  mean(x, na.rm = TRUE)
 
-<|context|>R/foo.R
-... stable file content before the cursor ...
 <|cursor|>partial line<|suffix|>
 ... file content after the cursor ...
 <|end|>
@@ -24,22 +24,39 @@ to build an editor extension.
 The model fills in text between `<|cursor|>` and `<|suffix|>`. It stops at
 `<|end|>` or when it emits `<|end|>`.
 
-Token budget: history <= 400 tokens, file context <= 1,500 tokens.
+Token budgets are targets, not enforced limits. They guide three things:
+training data construction (what distribution the model sees), extension
+context assembly (what to truncate when the file is too long), and the
+latency analysis above. The model itself does not check or enforce them.
+Target: history <= 400 tokens, file context <= 1,500 tokens.
 
 ## Why this order
 
-Parts of the prompt change at different rates. The slowest parts go first:
+llama.cpp caches the longest shared prefix between consecutive requests.
+The prompt order determines how much of that prefix survives each kind of
+change. Put the section with the longest shared prefix first.
 
-| Zone | Changes when | Token cost to re-prefill |
+Consider two requests in one editing session. The user types at line 150.
+Then a debounce fires and pushes a new diff into the history.
+
+**File prefix first (this format):** the cache hits for every line before
+the edit that triggered the debounce. If that edit was at line 80, lines
+1-79 are still identical. Only the history section and everything after
+it re-prefills. In the common case the user edits near the same spot, so
+the head of the file is long and stable — the cache hits most of the prompt.
+
+**History first:** any new edit event changes the history at position 0.
+The cache hits nothing. Every request after an edit re-prefills the entire
+prompt, including the file prefix that barely changed.
+
+**Keystroke within one position (both orders):** the file prefix and the
+history are unchanged. Only the cursor zone re-prefills. This case does
+not distinguish the two orders.
+
+| Change type | File-prefix-first cost | History-first cost |
 |---|---|---|
-| Edit history | Once per debounced edit (~300ms pause) | ~400 |
-| File prefix | When the user moves the cursor far | ~1,000 |
-| Cursor + suffix | Every keystroke | ~100 |
-
-llama.cpp caches the longest shared prefix between requests. With this
-order, a keystroke re-prefills only the cursor zone (~100 tokens, ~5ms).
-The stable file prefix and the edit history stay cached. A new edit event
-re-prefills the history zone (~400 tokens, ~20ms) plus everything after it.
+| Keystroke | ~100 tokens (cursor zone) | ~100 tokens (same) |
+| Edit event at line L of N | N-L lines + history + cursor | Full prompt |
 
 For comparison: Zeta-2's format puts the suffix first. Every keystroke
 invalidates the entire prompt. On a GPU server that re-prefills in 50ms,
