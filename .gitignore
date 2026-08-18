@@ -2,24 +2,25 @@
 experiments/bin/
 experiments/models/
 experiments/.cache/
+experiments/training/unsloth_compiled_cache/
+unsloth_compiled_cache/
 *.gguf
 
 # session notes & research logs (kept locally, not for the repo)
 docs/research/
+DESIGN.md
 
 # data artifacts (datasets live on HF / NAS, not in git)
 *.jsonl
-experiments/stage0-latency/*.csv
-experiments/stage0-latency/*.err
-experiments/stage1-data/worksheet.txt
-experiments/stage1-data/verdicts.tsv
-experiments/stage0b-niche/reference/
+experiments/eval/llama-bench.csv
+experiments/eval/llama-bench.err
+experiments/eval/worksheet.txt
+experiments/eval/verdicts.tsv
+experiments/eval/reference/
+experiments/synthetic-data/results/
+experiments/synthetic-data/finish_block_stats.json
+runs/
 
 # python
 __pycache__/
 .venv/
-experiments/synthetic/results/
-experiments/synthetic/finish_block_stats.json
-DESIGN.md
-unsloth_compiled_cache/
-runs/

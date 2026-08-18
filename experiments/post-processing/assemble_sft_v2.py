@@ -21,7 +21,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.path.insert(0, "/home/m0hawk/Documents/Sepalith/experiments/stage0b-niche")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "eval"))
 from run_eval import render_zeta2  # noqa: E402  (exact v1 renderer conventions)
 
 NAS = Path("/mnt/h/sepalith/datasets")

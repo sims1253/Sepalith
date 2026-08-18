@@ -13,8 +13,8 @@ verdict: OK | DROP with reason codes:
 """
 import json, sys, re
 
-EX = sys.argv[1] if len(sys.argv) > 1 else "stage0b-niche/examples.jsonl"
-OUT = sys.argv[2] if len(sys.argv) > 2 else "stage1-data/worksheet.txt"
+EX = sys.argv[1] if len(sys.argv) > 1 else "examples.jsonl"
+OUT = sys.argv[2] if len(sys.argv) > 2 else "worksheet.txt"
 
 def old_ratio(e):
     o = [l for l in e["region_old"] if l.strip()]

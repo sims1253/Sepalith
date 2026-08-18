@@ -8,7 +8,7 @@ Collects R code and real edit history. Everything writes to the NAS store at
 | `ingest_cran.py` | Ranks CRAN packages by mirror-log downloads, fetches tarballs, runs `air format` + `jarl check --fix`, writes one shard per package with license provenance. | `uv run python ingest_cran.py 500` |
 | `select_repos.py` | Picks active GitHub R repos: cran-to-git mapping crossed with download rank, GraphQL activity check, per-owner cap. | reads `/mnt/h/sepalith/ranked/` |
 | `clone_repos.sh` | Shallow-clones the selection since 2026-05-01, six at a time. | `bash clone_repos.sh <selection.json>` |
-| `mine_edit_pairs.py` | Builds next-edit examples from commit diffs: parent state becomes prefix/region/suffix, a sibling hunk becomes the event. Same format `eval/run_eval.py` scores. | `--repos-dir --out --per-repo` |
+| `mine_edit_pairs.py` | Builds next-edit examples from commit diffs: parent state becomes prefix/region/suffix, a sibling hunk becomes the event. Same format `eval/run_eval.py` scores. | `--repos-dir --spool --per-repo` |
 | `mine_waves.sh` | Mines newly cloned repos in waves until the spool drains. Safe to restart. | run after cloning |
 | `finalize_edit_pairs.py` | Merges the per-repo spool into train/eval files with a repo-level split. | `--spool --out` |
 | `mine_pr_review_pairs.py` | Pairs reviewer comments with the fixes they caused. Uses the authenticated `gh` CLI. Flags Copilot-authored instructions. | `--max-prs-per-repo --probe-cap` |

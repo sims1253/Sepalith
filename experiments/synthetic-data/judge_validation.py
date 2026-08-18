@@ -67,8 +67,8 @@ def judge(path, prefix, partial, gt, pred, retries=3):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=60)
-    ap.add_argument("--results", default=str(HERE.parent / "stage0b-niche/results_zeta2.jsonl"))
-    ap.add_argument("--examples", default=str(HERE.parent / "stage0b-niche/examples.jsonl"))
+    ap.add_argument("--results", default=str(HERE.parent / "eval/results_zeta2.jsonl"))
+    ap.add_argument("--examples", default=str(HERE.parent / "eval/examples.jsonl"))
     args = ap.parse_args()
 
     exs = {(e["repo"], e["path"], e["sha"]): e

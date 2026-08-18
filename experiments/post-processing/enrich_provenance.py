@@ -10,7 +10,7 @@ records additionally get full_prompt (exactly what was sent), prompt_reconstruct
 model, generator, generated_at.
 
 Datasets handled here:
-  1. experiments/synthetic/finish_block_sample.jsonl   CRAN join
+  1. experiments/synthetic-data/finish_block_sample.jsonl   CRAN join
   2. datasets/scenarios_v1/*.jsonl (7 canonical files; the leftover
      comment_to_code_synthetic.partial.jsonl byte-duplicate is skipped)
   3. datasets/synthetic_analyst_v1/*.jsonl             SNAPSHOT ONLY (a detached
