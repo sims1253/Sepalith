@@ -24,3 +24,7 @@ runs/
 # python
 __pycache__/
 .venv/
+
+# local caches/logs
+*.cache.json
+.c2c_run.log

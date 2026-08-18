@@ -1,8 +1,10 @@
 # Synthetic data
 
-Generates training examples. Every record passes a 3-layer gate:
-jsonschema, R parse, jarl lint. Records carry the full prompt, the model,
-and timestamps.
+Generates training examples. Every record passes a 3-layer gate at generation time: jsonschema, R parse,
+jarl lint (hard-fail at 5+ warnings). After generation, post-processing runs
+`air format` + `jarl check --fix` on every code block and keeps both versions
+(`code_original`, normalized field) — see `../post-processing/normalize_external.py`.
+Records carry the full prompt, the model, and timestamps.
 
 | Script | What it does |
 |---|---|
