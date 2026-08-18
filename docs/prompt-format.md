@@ -24,11 +24,30 @@ to build an editor extension.
 The model fills in text between `<|cursor|>` and `<|suffix|>`. It stops at
 `<|end|>` or when it emits `<|end|>`.
 
-Token budgets are targets, not enforced limits. They guide three things:
-training data construction (what distribution the model sees), extension
-context assembly (what to truncate when the file is too long), and the
-latency analysis above. The model itself does not check or enforce them.
-Target: history <= 400 tokens, file context <= 1,500 tokens.
+## Context window and truncation
+
+Capture the entire file before the cursor by default. A longer prefix means
+more cache to hit on every subsequent request. The cold-start cost (first
+prefill of a large file) is paid once per editing session. Every request
+after that reuses the cached prefix.
+
+When the total prompt would exceed the model's context window minus a
+generation reserve (512 tokens), truncate from the **start** of the file —
+the part furthest from the cursor. This preserves the lines nearest the
+cursor, which matter most for prediction. The cache prefix starts wherever
+truncation ends; it still works, just shorter.
+
+This is an argument for a model with a long context window and efficient KV
+growth. The GDN hybrid architecture (Qwen3.5) grows its KV cache
+near-linearly, so a 16-32K context costs a fraction of what a standard
+transformer would use. That lets the extension keep more of the file in
+the prompt without hitting memory limits on a laptop.
+
+Token budgets are targets, not enforced limits. They guide training data
+construction (what distribution the model sees) and extension context
+assembly (what to truncate). The model itself does not check or enforce
+them. Default targets: history <= 400 tokens, file context: as much as
+fits.
 
 ## Why this order
 
