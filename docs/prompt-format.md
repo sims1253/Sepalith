@@ -33,9 +33,35 @@ after that reuses the cached prefix.
 
 When the total prompt would exceed the model's context window minus a
 generation reserve (512 tokens), truncate from the **start** of the file —
-the part furthest from the cursor. This preserves the lines nearest the
-cursor, which matter most for prediction. The cache prefix starts wherever
-truncation ends; it still works, just shorter.
+the part furthest from the cursor.
+
+### Truncation anchor with hysteresis
+
+A fixed token budget shifts the truncation point on every cursor move.
+Any shift at the start of the prompt kills the entire cache. Fix: keep
+the truncation point (the *anchor*) stable until it is forced to move.
+
+Rules for the extension:
+
+1. The anchor starts at the beginning of the file (line 0).
+2. On each request, check whether content from the anchor to the cursor
+   fits the budget. If yes, keep the anchor. Do not move it closer to
+   the cursor.
+3. If the content exceeds the budget, advance the anchor in **large
+   steps** (e.g., 512 tokens) — not by the minimum amount. Large steps
+   mean the next several cursor moves stay within the same anchor.
+4. Never move the anchor backward within one editing session, even if
+   the cursor moves back. The prompt starting mid-file is fine; the model
+   has seen mid-file starts in training.
+5. Reset the anchor when the user switches files or the session ends.
+
+Cost: with 512-token steps, the anchor moves once per ~500 tokens of
+cursor travel. Each move re-prefills the prompt. Between moves, every
+keystroke and cursor jump hits the full cached prefix.
+
+This is an extension-side concern. The model sees whatever prefix it
+gets. Training data includes prompts that start mid-file at arbitrary
+points, so the model does not expect a file to start at line 1.
 
 This is an argument for a model with a long context window and efficient KV
 growth. The GDN hybrid architecture (Qwen3.5) grows its KV cache
