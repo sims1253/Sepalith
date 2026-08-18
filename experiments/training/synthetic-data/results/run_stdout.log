@@ -1,0 +1,129 @@
+300 calls (100 tasks x 3 arms)
+  25/300 (65s)
+  50/300 (111s)
+  75/300 (159s)
+  100/300 (184s)
+  125/300 (414s)
+  150/300 (640s)
+  175/300 (816s)
+  200/300 (1069s)
+  225/300 (1253s)
+  250/300 (1506s)
+  275/300 (1794s)
+  300/300 (2009s)
+{
+ "low/analyst_script": {
+  "n": 50,
+  "valid_rate": 0.9,
+  "fail_layers": {
+   "json": 1,
+   "parse": 1,
+   "jarl": 0,
+   "transport": 3
+  },
+  "mean_jarl_warnings": 0,
+  "mean_reasoning_tokens": 3,
+  "mean_total_tokens": 625,
+  "mean_latency_s": 8.2,
+  "diversity": {
+   "distinct_3grams": 3672,
+   "unique_defined_fns": 8,
+   "mean_lines": 16.9
+  }
+ },
+ "low/finish_block": {
+  "n": 50,
+  "valid_rate": 0.92,
+  "fail_layers": {
+   "json": 1,
+   "parse": 1,
+   "jarl": 0,
+   "transport": 2
+  },
+  "mean_jarl_warnings": 0,
+  "mean_reasoning_tokens": 8,
+  "mean_total_tokens": 524,
+  "mean_latency_s": 5.4,
+  "diversity": {
+   "distinct_3grams": 1603,
+   "unique_defined_fns": 2,
+   "mean_lines": 8.6
+  }
+ },
+ "high/analyst_script": {
+  "n": 50,
+  "valid_rate": 0.68,
+  "fail_layers": {
+   "json": 5,
+   "parse": 0,
+   "jarl": 0,
+   "transport": 11
+  },
+  "mean_jarl_warnings": 0,
+  "mean_reasoning_tokens": 1716,
+  "mean_total_tokens": 2289,
+  "mean_latency_s": 32.7,
+  "diversity": {
+   "distinct_3grams": 3464,
+   "unique_defined_fns": 6,
+   "mean_lines": 20.3
+  }
+ },
+ "high/finish_block": {
+  "n": 50,
+  "valid_rate": 0.66,
+  "fail_layers": {
+   "json": 0,
+   "parse": 1,
+   "jarl": 0,
+   "transport": 16
+  },
+  "mean_jarl_warnings": 0,
+  "mean_reasoning_tokens": 974,
+  "mean_total_tokens": 1336,
+  "mean_latency_s": 17.8,
+  "diversity": {
+   "distinct_3grams": 1123,
+   "unique_defined_fns": 0,
+   "mean_lines": 8.0
+  }
+ },
+ "max/analyst_script": {
+  "n": 50,
+  "valid_rate": 0.9,
+  "fail_layers": {
+   "json": 0,
+   "parse": 0,
+   "jarl": 0,
+   "transport": 5
+  },
+  "mean_jarl_warnings": 0,
+  "mean_reasoning_tokens": 2232,
+  "mean_total_tokens": 2922,
+  "mean_latency_s": 42.9,
+  "diversity": {
+   "distinct_3grams": 4885,
+   "unique_defined_fns": 9,
+   "mean_lines": 21.3
+  }
+ },
+ "max/finish_block": {
+  "n": 50,
+  "valid_rate": 0.74,
+  "fail_layers": {
+   "json": 1,
+   "parse": 0,
+   "jarl": 0,
+   "transport": 12
+  },
+  "mean_jarl_warnings": 0,
+  "mean_reasoning_tokens": 1780,
+  "mean_total_tokens": 2197,
+  "mean_latency_s": 29.6,
+  "diversity": {
+   "distinct_3grams": 1307,
+   "unique_defined_fns": 1,
+   "mean_lines": 9.1
+  }
+ }
+}
