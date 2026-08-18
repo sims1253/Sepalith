@@ -28,3 +28,6 @@ __pycache__/
 # local caches/logs
 *.cache.json
 .c2c_run.log
+*.log
+finish_block_stats.json
+results/
