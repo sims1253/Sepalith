@@ -21,5 +21,5 @@ __pycache__/
 experiments/synthetic/results/
 experiments/synthetic/finish_block_stats.json
 DESIGN.md
-experiments/sft/unsloth_compiled_cache/
+experiments/training/unsloth_compiled_cache/
 runs/
