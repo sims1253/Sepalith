@@ -1,32 +1,130 @@
 # Hidden-R harvest
 
-Recovers R instruction rows hiding inside general code-instruction datasets.
-Ling-Coder-SFT ships a `languages` field, so its R rows are a plain filter
-(64,249 kept, per `ling_stats_tmp.json`). CodeX-7M-Non-Thinking has no
+This stage recovers R instruction rows that hide inside general
+code-instruction datasets.
+
+Ling-Coder-SFT ships a `languages` field, so one plain filter keeps its R
+rows: 64,249 kept (per `ling_stats_tmp.json`). CodeX-7M-Non-Thinking has no
 language field, so a two-stage detector was tuned by hand and run over all
-227 parquet shards (13,380 detected, per `codex_stats.json` / the committed
-`codex_filter.log`). Everything is CPU-only and writes incrementally to the
-NAS under `/mnt/h/sepalith/datasets/hidden_r_instruction_v1/`, one record
-per row with a provenance block (`source_url`, `license`, `derived_from`,
-`harvester`/`detection`). `post-processing/normalize_external.py` later
-normalizes the harvested `ling_coder_r.jsonl` / `codex_r_strict.jsonl`.
+227 parquet shards: 13,380 detected (per `codex_stats.json` and the committed
+`codex_filter.log`).
 
-| Script | What it does | Usage | Inputs -> Outputs |
+Products, on the NAS store under
+`/mnt/h/sepalith/datasets/hidden_r_instruction_v1/`: `ling_coder_r.jsonl`,
+`codex_r.jsonl`, and stats files. One record per row, each with a provenance
+block (`source_url`, `license`, `derived_from`, `harvester`/`detection`).
+Everything is CPU-only and writes incrementally.
+`../../post-processing/normalize_external.py` normalizes both files later.
+
+## Before you start
+
+- Run `uv sync` from the repo root. `pyarrow` comes with the lock.
+- Environment variables: none. Both datasets are public on HF.
+- Disk and time: the full CodeX scan is CPU-only and took about 88 minutes
+  (5,270 s) on the dev machine. The downloads took 446 s (CodeX) and 100 s
+  (Ling).
+- The two filters write to
+  `/mnt/h/sepalith/datasets/hidden_r_instruction_v1/`. That path is
+  hardcoded. Without a writable `/mnt/h/sepalith`, the filters cannot run.
+  Make it a symlink to your storage if you need to move it.
+- `probe_codex.py` and `tune_codex.py` go further: they hardcode the dev
+  machine's cache path
+  `/home/m0hawk/.cache/huggingface/hub/datasets--Modotte--CodeX-7M-Non-Thinking/...`.
+  On any other machine, adjust the glob or link that path to your HF cache.
+
+## Run it
+
+1. Download the CodeX shards.
+
+   ```bash
+   uv run python experiments/data-mining/hidden_r_harvest/download.py Modotte/CodeX-7M-Non-Thinking
+   ```
+
+   Consumes: the HF hub. Produces: the parquet shards under
+   `~/.cache/huggingface/hub/datasets--Modotte--CodeX-7M-Non-Thinking/`.
+
+2. Download the Ling shards.
+
+   ```bash
+   uv run python experiments/data-mining/hidden_r_harvest/download.py inclusionAI/Ling-Coder-SFT
+   ```
+
+   Produces: the shards under
+   `~/.cache/huggingface/hub/datasets--inclusionAI--Ling-Coder-SFT/`.
+
+3. Probe the CodeX shards (optional). Recon before you commit to a full
+   scan: fence info-string histogram and prefilter hit rate.
+
+   ```bash
+   uv run python experiments/data-mining/hidden_r_harvest/probe_codex.py 3
+   ```
+
+   Consumes: three shards spread across the dataset. Produces: stats on
+   stdout.
+
+4. Tune the detector on a sample (optional).
+
+   ```bash
+   uv run python experiments/data-mining/hidden_r_harvest/tune_codex.py 3
+   ```
+
+   Consumes: sample shards. Produces: `_tune_accepted.jsonl` and
+   `_tune_rejected.jsonl` in the NAS output directory, plus printed samples
+   for manual inspection.
+
+5. Filter Ling. The argument is the shard index to start from; the default
+   is 0.
+
+   ```bash
+   uv run python experiments/data-mining/hidden_r_harvest/filter_ling.py
+   ```
+
+   Consumes: the Ling shards in the HF cache. Produces: appends to
+   `ling_coder_r.jsonl` (flush and `fsync` every 1000 rows) and rewrites
+   `ling_stats_tmp.json`.
+
+6. Filter CodeX.
+
+   ```bash
+   uv run python experiments/data-mining/hidden_r_harvest/filter_codex.py
+   ```
+
+   Consumes: all CodeX shards. Produces: `codex_r.jsonl` (rewritten from
+   scratch each run) and `codex_stats.json` (checkpointed every 10 shards).
+
+7. Normalize the harvest.
+
+   ```bash
+   nice -n 19 uv run python experiments/post-processing/normalize_external.py --only ling,codex
+   ```
+
+   Consumes: the two JSONL files above. Produces: normalized copies with
+   `code_original` kept. See that stage's README for details.
+
+## How it works
+
+| Script | What it does | Usage | Inputs to outputs |
 |---|---|---|---|
-| `download.py` | `snapshot_download` of a dataset's `data/*.parquet` shards into the local HF cache. | `uv run python download.py <repo_id>` | HF hub -> `~/.cache/huggingface/hub/datasets--<owner>--<name>/` |
-| `r_detect.py` | The two-stage detector (module): stage 1 = cheap regex prefilter (R fence tag, strong R token, or any `<-`); stage 2 = fenced-block confirmation comparing R mass vs other-language mass plus a weighted R token score. | imported by `filter_codex.py` / `tune_codex.py` | - |
-| `probe_codex.py` | Recon over shards spread across the dataset: fence info-string histogram + R-prefilter hit rate. | `uv run python probe_codex.py [n_shards=3]` | CodeX parquet -> stdout stats |
-| `tune_codex.py` | Runs the detector over sample shards and dumps accepted and stage-2-rejected rows for manual inspection. | `uv run python tune_codex.py [n_shards=3]` | CodeX parquet -> NAS `_tune_accepted.jsonl`, `_tune_rejected.jsonl` |
-| `filter_codex.py` | Full CodeX scan with the detector; incremental writes, stats checkpointed every 10 shards. | `uv run python filter_codex.py` | CodeX parquet -> NAS `codex_r.jsonl` + `codex_stats.json` |
-| `filter_ling.py` | Scans Ling-Coder-SFT for rows whose `languages` list contains `"R"`; appends, flush + `fsync` every 1000 rows. | `uv run python filter_ling.py [start_shard=0]` | Ling parquet -> NAS `ling_coder_r.jsonl` + `ling_stats_tmp.json` |
+| `download.py` | `snapshot_download` of a dataset's `data/*.parquet` shards into the local HF cache. | `uv run python download.py <repo_id>` | HF hub to `~/.cache/huggingface/hub/datasets--<owner>--<name>/` |
+| `r_detect.py` | The two-stage detector (module). Stage 1 is a cheap regex prefilter: an R fence tag, a strong R token, or any `<-`. Stage 2 confirms inside fenced blocks: R mass against other-language mass, plus a weighted R token score. | imported by `filter_codex.py` / `tune_codex.py` | - |
+| `probe_codex.py` | Recon over shards spread across the dataset: fence info-string histogram plus R-prefilter hit rate. | `uv run python probe_codex.py [n_shards=3]` | CodeX parquet to stdout stats |
+| `tune_codex.py` | Runs the detector over sample shards and dumps accepted and stage-2-rejected rows for manual inspection. | `uv run python tune_codex.py [n_shards=3]` | CodeX parquet to NAS `_tune_accepted.jsonl`, `_tune_rejected.jsonl` |
+| `filter_codex.py` | Full CodeX scan with the detector; incremental writes, stats checkpointed every 10 shards. | `uv run python filter_codex.py` | CodeX parquet to NAS `codex_r.jsonl` + `codex_stats.json` |
+| `filter_ling.py` | Scans Ling-Coder-SFT for rows whose `languages` list contains `"R"`; appends, flush and `fsync` every 1000 rows. | `uv run python filter_ling.py [start_shard=0]` | Ling parquet to NAS `ling_coder_r.jsonl` + `ling_stats_tmp.json` |
 
-Notes:
+## Notes
 
-- `filter_ling.py` resumes by shard index; the prior-run counts (52,860
-  detected through shard 20) are carried as constants, verified from the log.
-- `filter_codex.py` rewrites its output from scratch each run; only the
-  stats file is checkpointed mid-run.
-- Stage 2 exists because `<-` alone is not R-specific (other languages use
-  it too); the fence-aware confirmation is what keeps precision up.
-- `codex_download.log` / `ling_download.log` are the committed run logs
-  (download timings plus the final shard/detected counts).
+- Stage 2 exists because `<-` alone is not R-specific; Bluespec and Verilog
+  use it too. The fence-aware confirmation is what keeps precision up.
+- `filter_ling.py` resumes by shard index. The prior-run counts (52,860
+  detected through shard 20) are carried as constants in the script and were
+  verified from the log. Pass the shard index you stopped at.
+- `filter_codex.py` rewrites its output from scratch each run. Only the
+  stats file is checkpointed mid-run. Expect the counts to replay exactly:
+  the detector is deterministic and the shard order is sorted.
+- Name gap: `normalize_external.py` expects `codex_r_strict.jsonl`, but
+  `filter_codex.py` writes `codex_r.jsonl`. The strict file is a later cut
+  of the same rows; the step that produces it is not in this repo.
+- `codex_download.log`, `ling_download.log`, and `codex_filter.log` are the
+  committed run logs: download timings and the final shard and detection
+  counts.
