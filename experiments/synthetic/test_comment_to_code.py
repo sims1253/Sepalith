@@ -268,6 +268,39 @@ def test_build_synthetic_with_mock_llm():
     assert api["dropped"]["gate"] == 0
 
 
+def test_prompt_embeds_code_as_plain_text():
+    # regression guard: the comment-generation prompt must embed the code
+    # block as PLAIN newline-joined text; the Python list repr of the block
+    # lines (as passed by build_synthetic -> generate_comment(cand["block"]))
+    # must never leak into a prompt.
+    block = ["res <- df %>% dplyr::filter(!is.na(g))",
+             "out <- sum(res$g, na.rm = TRUE)"]
+    sent = []
+    orig_post = C._post
+
+    def capture(url, api_key, payload, timeout, source):
+        sent.append(payload["messages"][0]["content"])
+        return '{"comment": "Filter missing groups and total them"}'
+
+    C._post = capture
+    try:
+        C.call_opencode(block, "k")           # list input at the API boundary
+        C.call_openrouter(block, "k")
+        cmt, gen = C.generate_comment(block, "k1", "k2")  # full pipeline path
+    finally:
+        C._post = orig_post
+    assert C._plain_code(block) == "\n".join(block)
+    assert C._plain_code("\n".join(block)) == "\n".join(block)
+    assert len(sent) == 3
+    for prompt in sent:
+        assert "\n".join(block) in prompt, "code must be embedded newline-joined"
+        assert "['" not in prompt and "', '" not in prompt, \
+            f"Python list-repr leaked into prompt: {prompt!r}"
+        assert "dplyr::filter(!is.na(g))\nout <- sum(res$g" in prompt
+    assert cmt == "Filter missing groups and total them"
+    assert gen.startswith("opencode/")
+
+
 def test_prefix_bindings_and_dedup():
     bound = C.prefix_bindings(["prep <- function(x, y = 1, ...) {",
                                "  keep <- 1", "  # now"])

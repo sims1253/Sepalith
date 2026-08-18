@@ -703,10 +703,20 @@ def _set_opencode_cooldown(seconds: float = OPENCODE_COOLDOWN_S) -> None:
     _opencode_until = time.time() + seconds
 
 
+def _plain_code(code) -> str:
+    """Code embedded in the comment-generation PROMPT is ALWAYS plain text:
+    a list of block lines is newline-joined. A Python list repr (`['a', 'b']`)
+    must never leak into a prompt (contaminated the first 82 synthetic rows)."""
+    if isinstance(code, (list, tuple)):
+        return "\n".join(str(l) for l in code)
+    return code
+
+
 def call_opencode(code: str, api_key: str) -> str | None:
     payload = {"model": OPENCODE_MODEL, "max_tokens": 300,
                "response_format": {"type": "json_object"},
-               "messages": [{"role": "user", "content": PROMPT.format(code=code)}]}
+               "messages": [{"role": "user",
+                             "content": PROMPT.format(code=_plain_code(code))}]}
     content = _post(OPENCODE_URL, api_key, payload, timeout=60, source="opencode")
     return _extract_comment(content, "opencode")
 
@@ -714,7 +724,8 @@ def call_opencode(code: str, api_key: str) -> str | None:
 def call_openrouter(code: str, api_key: str) -> str | None:
     payload = {"model": OPENROUTER_MODEL, "max_tokens": 3000,
                "reasoning": {"effort": "low"},
-               "messages": [{"role": "user", "content": PROMPT.format(code=code)}]}
+               "messages": [{"role": "user",
+                             "content": PROMPT.format(code=_plain_code(code))}]}
     content = _post(OPENROUTER_URL, api_key, payload, timeout=75,
                     source="openrouter")
     # dots-3 prefixes reasoning whitespace; strip before json.loads
@@ -736,10 +747,12 @@ def _backoff(kind: str, i: int) -> float:
     return (i + 1) * 5.0 if kind == "rate" else 1.0
 
 
-def generate_comment(code: str, opencode_key: str,
+def generate_comment(code, opencode_key: str,
                      openrouter_key: str) -> tuple[str | None, str]:
     """One comment attempt: opencode (2 tries, backoff) then openrouter
     (3 tries, backoff on 429 / intermittent 'Provider returned error').
+    `code` is the candidate block (list of lines) or plain text; either way
+    the prompt embeds it newline-joined via _plain_code — never a list repr.
     Returns (comment, model_tag); comment is None if every try failed."""
     if _opencode_available():
         for i in range(2):
