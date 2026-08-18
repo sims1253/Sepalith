@@ -1,17 +1,45 @@
-# Eval
+# Sepalith
 
-Measures edit quality and latency. The core lesson from Stage 0b: score the
-completion, not the whole region, and always report the copy-from-context
-baseline — a model that predicts "no change" otherwise looks good.
+An open, R-specialized next-edit-suggestion model. It runs on your machine,
+serves through llama.cpp, and never sends your code anywhere.
 
-| Script | What it does |
-|---|---|
-| `build_examples.py` | Builds held-out next-edit examples from commit diffs of cloned repos. Commit dates after 2026-04-15 keep them out of every public model's training data. |
-| `run_eval.py` | Renders prompts in the official Zeta-1/2/2.1 formats and scores predictions. `--variant midtyping` puts the cursor mid-line on a partial prefix of the first changed line, where the copy baseline scores 0. `--align suffix` realigns whole-region outputs for fair scoring. Stores raw predictions so rescoring needs no re-inference. |
-| `analyze.py` | Aggregates results with copy-baseline and bootstrap CIs. |
-| `audit.py` | Auto-flags mined examples for human review. |
-| `keystroke_sim.py` | Measures keystroke-to-suggestion latency against a llama-server: cold start vs warm prefix cache, real R context. |
-| `run_sims.sh` | Runs the simulator across context sizes with a fresh server per size, so cold numbers stay honest. |
+R users in pharma and biostatistics cannot use cloud autocomplete: their
+compliance rules block it. Sepalith targets that gap. A small model makes
+local inference fast enough to feel instant.
 
-Latency numbers from this machine are pessimistic: it shares duty with other
-work. Re-bench on a quiet box before citing.
+## Status
+
+Research phase. The data pipeline, evaluation harness, and first fine-tunes
+run end to end. The design doc and research notes stay private; the tools
+are here.
+
+## Repository
+
+```
+experiments/
+  data-mining/       collect R code and real edit history
+  synthetic-data/    generate training examples, verified at birth
+  post-processing/   normalize, license-tag, assemble datasets
+  eval/              measure edit quality and latency
+  training/          LoRA SFT, GGUF export, RL scaffold
+```
+
+See `experiments/README.md` for how the parts fit together.
+
+## Dataset
+
+The training data lives at
+[huggingface.co/datasets/scholzmx/sepalith](https://huggingface.co/datasets/scholzmx/sepalith).
+Every record carries its source URL and license. One package, one file:
+a takedown is a file deletion.
+
+## Run it
+
+```bash
+uv sync
+uv run python experiments/data-mining/ingest_cran.py 100
+```
+
+## License
+
+Apache 2.0. See `LICENSE`.
