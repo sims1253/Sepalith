@@ -32,6 +32,11 @@
     "keybindings": [
       {
         "command": "sepalith.suggest",
+        "key": "ctrl+shift+enter",
+        "when": "editorTextFocus && editorLangId == 'r'"
+      },
+      {
+        "command": "sepalith.suggest",
         "key": "alt+\\",
         "when": "editorTextFocus && editorLangId == 'r'"
       }
