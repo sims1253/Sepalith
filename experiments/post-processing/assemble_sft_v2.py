@@ -37,6 +37,7 @@ SCENARIO_FILES = [
     "doc_sync.jsonl",
     "comment_to_code_real.jsonl",
     "comment_to_code_synthetic.jsonl",
+    "comment_drafting.jsonl",
 ]
 
 stats = Counter()
