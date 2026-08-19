@@ -920,6 +920,28 @@ def density_summary(density: dict) -> dict:
 # variant B runner (LLM comments, concurrency <= 3)
 # ---------------------------------------------------------------------------
 
+def _nas_write_lines(path, lines, tries: int = 20, wait_s: float = 30.0):
+    """Write JSONL to the NAS store, riding out drvfs ENOMEM flaps.
+
+    The WSL mount intermittently refuses new opens under heavy churn
+    (OSError errno 12). Skipping a PARTIAL checkpoint only loses progress
+    since the last good write; raising would kill a multi-hour API run.
+    """
+    for attempt in range(tries):
+        try:
+            with open(path, "w") as fh:
+                for ex in lines:
+                    fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+            return
+        except OSError as e:
+            if attempt == tries - 1:
+                print(f"  [nas-write] giving up on {path}: {e}", flush=True)
+                return
+            print(f"  [nas-write] {e}; retry {attempt + 1}/{tries - 1} in {wait_s:.0f}s",
+                  flush=True)
+            time.sleep(wait_s)
+
+
 def build_synthetic(cands: list[dict], target: int, opencode_key: str,
                     openrouter_key: str, verbose: bool = True,
                     zai_key: str = "",
@@ -1003,9 +1025,7 @@ def build_synthetic(cands: list[dict], target: int, opencode_key: str,
                   f"no_ok_for={outage:.0f}s elapsed={time.time()-t0:.0f}s",
                   flush=True)
             if partial_path is not None:
-                with partial_path.open("w") as fh:
-                    for ex in out:
-                        fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+                _nas_write_lines(partial_path, out)
 
     hb = threading.Thread(target=heartbeat, daemon=True)
     hb.start()
@@ -1029,9 +1049,7 @@ def build_synthetic(cands: list[dict], target: int, opencode_key: str,
                       f"no_ok_for={outage:.0f}s "
                       f"elapsed={time.time()-t0:.0f}s", flush=True)
             if partial_path is not None:  # crash-safe partial progress
-                with partial_path.open("w") as fh:
-                    for ex in out:
-                        fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+                _nas_write_lines(partial_path, out)
     stop_heartbeat.set()
     api = {
         src: {k: (round(v, 1) if k == "lat_s" else v) for k, v in d.items()}
@@ -1169,9 +1187,7 @@ def main():
     dens = density_summary(scan["density"])
 
     args.out.mkdir(parents=True, exist_ok=True)
-    with (args.out / "comment_to_code_real.jsonl").open("w") as fh:
-        for ex in real:
-            fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+    _nas_write_lines(args.out / "comment_to_code_real.jsonl", real)
 
     print(f"generating synthetic comments for up to {args.target_b} blocks "
           f"(concurrency 3) ...")
@@ -1192,9 +1208,7 @@ def main():
                                  partial_path=partial, resume=resume,
                                  deadline_s=args.api_deadline_s,
                                  zai_key=os.environ.get("ZAI_API_KEY", ""))
-    with (args.out / "comment_to_code_synthetic.jsonl").open("w") as fh:
-        for ex in synth:
-            fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+    _nas_write_lines(args.out / "comment_to_code_synthetic.jsonl", synth)
     (args.out / "comment_to_code_synthetic.partial.jsonl").unlink(missing_ok=True)
 
     # merge with existing stats.json (scenarios.py families stay untouched)
