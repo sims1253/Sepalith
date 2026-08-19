@@ -572,8 +572,32 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 ZAI_URL = "https://api.z.ai/api/coding/paas/v4/chat/completions"
 OPENCODE_MODEL = "deepseek-v4-flash-free"
 OPENROUTER_MODEL = "dots-studio/dots-3-note-preview:free"
-PROMPT = ('Write ONE concise R comment (max 80 chars, no code, describes what '
-          'this block does). Code:\n\n{code}\n\nJSON only: {{"comment": string}}')
+# Style pool: varied comment styles diversify both the comment_to_code
+# family and its reversed comment_drafting sibling (same rows flipped).
+# One style is drawn per candidate; the JSON+validation gates are unchanged.
+PROMPTS = [
+    'Write ONE concise R comment (max 80 chars, no code, describes what '
+    'this block does). Code:\n\n{code}\n\nJSON only: {{"comment": string}}',
+    'Write ONE short R comment (max 80 chars) explaining WHY this block '
+    'does what it does (the purpose, not the mechanics). Code:\n\n{code}'
+    '\n\nJSON only: {{"comment": string}}',
+    'Write ONE terse R comment (max 60 chars, telegraphic, like a senior '
+    'analyst would jot). Code:\n\n{code}\n\nJSON only: {{"comment": string}}',
+    'Write ONE explanatory R comment (max 80 chars) naming the inputs, '
+    'transform, and result of this block. Code:\n\n{code}\n\nJSON only: '
+    '{{"comment": string}}',
+    'Write ONE R comment (max 80 chars) flagging the edge case or gotcha '
+    'this block handles (NULLs, ties, empty input, precision, ...). If '
+    'there is genuinely none, describe what the block does. Code:\n\n{code}'
+    '\n\nJSON only: {{"comment": string}}',
+]
+
+
+def _prompt_for(code):
+    import random
+    return random.choice(PROMPTS).format(code=_plain_code(code))
+
+
 OPENCODE_COOLDOWN_S = 300.0  # free-tier quota resets slowly; re-probe later
 
 API_STATS = {
@@ -720,7 +744,7 @@ def call_opencode(code: str, api_key: str) -> str | None:
     payload = {"model": OPENCODE_MODEL, "max_tokens": 300,
                "response_format": {"type": "json_object"},
                "messages": [{"role": "user",
-                             "content": PROMPT.format(code=_plain_code(code))}]}
+                             "content": _prompt_for(code)}]}
     content = _post(OPENCODE_URL, api_key, payload, timeout=60, source="opencode")
     return _extract_comment(content, "opencode")
 
@@ -729,7 +753,7 @@ def call_openrouter(code: str, api_key: str) -> str | None:
     payload = {"model": OPENROUTER_MODEL, "max_tokens": 3000,
                "reasoning": {"effort": "low"},
                "messages": [{"role": "user",
-                             "content": PROMPT.format(code=_plain_code(code))}]}
+                             "content": _prompt_for(code)}]}
     content = _post(OPENROUTER_URL, api_key, payload, timeout=75,
                     source="openrouter")
     # dots-3 prefixes reasoning whitespace; strip before json.loads
@@ -756,9 +780,9 @@ def call_zai(code, api_key: str) -> str | None:
         "model": "glm-5.3",
         "thinking": {"type": "enabled"},
         "reasoning_effort": "low",
-        "messages": [{"role": "user", "content": PROMPT.format(code=_plain_code(code))}],
+        "messages": [{"role": "user", "content": _prompt_for(code)}],
         "response_format": {"type": "json_object"},
-        "max_tokens": 1500, "temperature": 0.7,
+        "max_tokens": 1500, "temperature": 0.95,
     }
     txt = _post(ZAI_URL, api_key, payload, timeout=60, source="zai")  # returns content
     if not txt.strip():
