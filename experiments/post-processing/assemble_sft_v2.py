@@ -4,8 +4,9 @@
 Sources (all on the NAS under /mnt/h/sepalith/datasets):
   1. finish_block        sft_v1 train (ALL) / eval (unchanged, same held-out pkgs)
   2. edit_pairs          edit_pairs_v1 examples->train, eval->v2 eval (zeta2)
-  3. scenarios           scenarios_v1 7 canonical files (zeta2), per-family 3% package holdout
-     (covers comment_to_code_real + comment_to_code_synthetic families)
+  3. scenarios           scenarios_v1 canonical files (zeta2), per-family 3% package holdout
+     (covers comment_to_code_real + comment_to_code_synthetic,
+      comment_drafting and roxygen_drafting families)
   4. pr_instructed       reviewer instruction as a "# reviewer:" comment line
   5. synthetic_analyst   comment->code style, analyst.R
   7. hidden_r_instruction 40k stratified sample (seed 5), plain alpaca-ish text
@@ -38,6 +39,7 @@ SCENARIO_FILES = [
     "comment_to_code_real.jsonl",
     "comment_to_code_synthetic.jsonl",
     "comment_drafting.jsonl",
+    "roxygen_drafting.jsonl",
 ]
 
 stats = Counter()
