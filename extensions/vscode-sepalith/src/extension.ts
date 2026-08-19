@@ -89,6 +89,14 @@ function parsePrediction(text: string): string[] {
   // strip leading blank lines (and trailing, matching run_eval.py norm())
   while (lines.length && lines[0].trim() === "") lines.shift();
   while (lines.length && lines[lines.length - 1].trim() === "") lines.pop();
+  // degenerate repetition (temp-0 small models: "  return(x^2)" x N) —
+  // cut at the third identical consecutive line, keeping the first two
+  for (let i = 2; i < lines.length; i++) {
+    if (lines[i] === lines[i - 1] && lines[i] === lines[i - 2]) {
+      lines.length = i;
+      break;
+    }
+  }
   return lines;
 }
 
@@ -301,61 +309,211 @@ class Sidecar {
 }
 
 // ---------------------------------------------------------------------------
+// Request log + debug tree view (sidebar: Explorer > Sepalith Requests)
+// ---------------------------------------------------------------------------
+
+interface ReqEntry {
+  id: number;
+  time: string;
+  promptChars: number;
+  latencyMs: number | null; // null = in flight / failed
+  completionTokens: number | null;
+  outcome: "ok" | "in-flight" | "aborted" | "error" | "skipped" | "cached";
+  note: string; // skip reason / error text / "cache hit"
+  prompt: string;
+  raw: string;
+  parsed: string[];
+}
+
+class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntry; kind: string }> {
+  private readonly entries: ReqEntry[] = [];
+  private nextId = 1;
+  private readonly emitter = new vscode.EventEmitter<void>();
+  readonly onDidChangeTreeData = this.event();
+
+  event() {
+    return this.emitter.event;
+  }
+
+  begin(prompt: string, promptChars: number, outcome: ReqEntry["outcome"], note = ""): ReqEntry {
+    const e: ReqEntry = {
+      id: this.nextId++,
+      time: new Date().toLocaleTimeString(),
+      promptChars,
+      latencyMs: null,
+      completionTokens: null,
+      outcome,
+      note,
+      prompt,
+      raw: "",
+      parsed: [],
+    };
+    this.entries.unshift(e);
+    if (this.entries.length > 100) this.entries.length = 100;
+    this.emitter.fire();
+    return e;
+  }
+
+  finish(e: ReqEntry, latencyMs: number, completionTokens: number, raw: string, parsed: string[]): void {
+    e.latencyMs = latencyMs;
+    e.completionTokens = completionTokens;
+    e.outcome = "ok";
+    e.raw = raw;
+    e.parsed = parsed;
+    this.emitter.fire();
+  }
+
+  fail(e: ReqEntry, outcome: ReqEntry["outcome"], note: string): void {
+    e.outcome = outcome;
+    e.note = note;
+    this.emitter.fire();
+  }
+
+  clear(): void {
+    this.entries.length = 0;
+    this.emitter.fire();
+  }
+
+  getTreeItem(node: ReqEntry | { parent: ReqEntry; kind: string }): vscode.TreeItem {
+    if ("parent" in node) {
+      const p = node.parent;
+      const item = new vscode.TreeItem(node.kind);
+      item.collapsibleState = vscode.TreeItemCollapsibleState.None;
+      if (node.kind === "prompt") {
+        item.description = `${p.promptChars} chars — click to copy`;
+        item.tooltip = p.prompt.slice(0, 3000);
+        item.command = {
+          title: "Copy prompt", command: "sepalith.copyText",
+          arguments: [p.prompt],
+        };
+      } else if (node.kind === "raw completion") {
+        item.description = `${(p.raw || "(none)").split("\n").length} lines`;
+        item.tooltip = p.raw.slice(0, 3000) || "(none)";
+        item.command = { title: "Copy", command: "sepalith.copyText", arguments: [p.raw] };
+      } else if (node.kind === "parsed prediction") {
+        item.description = `${p.parsed.length} lines`;
+        item.tooltip = p.parsed.join("\n").slice(0, 3000) || "(empty)";
+        item.command = { title: "Copy", command: "sepalith.copyText", arguments: [p.parsed.join("\n")] };
+      }
+      return item;
+    }
+    const e = node;
+    const stat = e.latencyMs !== null ? `${e.latencyMs} ms` : e.outcome;
+    const item = new vscode.TreeItem(
+      `#${e.id} ${e.time} · ${e.outcome} · ${stat}${e.completionTokens !== null ? ` · ${e.completionTokens} tok` : ""}`,
+    );
+    item.description = `${e.promptChars} prompt chars`;
+    item.tooltip = e.note || e.outcome;
+    item.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+    item.contextValue = "request";
+    return item;
+  }
+
+  getChildren(node?: ReqEntry | { parent: ReqEntry; kind: string }) {
+    if (!node) return this.entries;
+    if ("parent" in node) return [];
+    return (["prompt", "raw completion", "parsed prediction"] as const).map((kind) => ({ parent: node, kind }));
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Inline completion provider
 // ---------------------------------------------------------------------------
 
 class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private controller: AbortController | null = null;
+  // identical prompts: reuse the in-flight promise or the cached result —
+  // VS Code re-invokes the provider on every cursor move, which previously
+  // aborted and re-sent the SAME request dozens of times per keystroke
+  private lastPrompt = "";
+  private lastItems: vscode.InlineCompletionItem[] | null = null;
+  private inFlight: { prompt: string; promise: Promise<vscode.InlineCompletionItem[]> } | null = null;
+  private lastSkipLog = 0;
+
+  private skipLogRateLimited(msg: string): void {
+    const now = Date.now();
+    if (now - this.lastSkipLog > 30_000) {
+      this.lastSkipLog = now;
+      channel.appendLine(msg);
+    }
+  }
 
   async provideInlineCompletionItems(document: vscode.TextDocument, position: vscode.Position): Promise<vscode.InlineCompletionItem[]> {
     if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") {
-      channel.appendLine(`request skipped: sidecar is ${sidecar.currentState}`);
+      this.skipLogRateLimited(`request skipped: sidecar is ${sidecar.currentState}`);
       return [];
     }
     // an empty (or near-empty) document gives the model nothing to work
     // with and reliably produces roxygen hallucinations — propose nothing
     if (document.getText().trim().length < 30) {
-      channel.appendLine("request skipped: document is empty");
+      this.skipLogRateLimited("request skipped: document is empty");
       return [];
     }
-    // one request in flight: abort the previous (simplest correct option)
+    const { prompt, truncatedLines } = buildPrompt(document, position);
+    if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
+
+    lastPrompt = prompt;
+    if (this.lastItems && prompt === this.lastPrompt) {
+      requestLog.begin(prompt, prompt.length, "cached", "identical prompt — reused cached result");
+      this.skipLogRateLimited("request: identical prompt — cached result");
+      return this.lastItems;
+    }
+    if (this.inFlight && prompt === this.inFlight.prompt) {
+      this.skipLogRateLimited("request: identical prompt already in flight — joining it");
+      return this.inFlight.promise;
+    }
+
+    const entry = requestLog.begin(prompt, prompt.length, "in-flight");
+    channel.appendLine(`request: ${prompt.length} prompt chars`);
     this.controller?.abort();
     const controller = new AbortController();
     this.controller = controller;
-    const { prompt, truncatedLines } = buildPrompt(document, position);
-    if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
-    channel.appendLine(`request: ${prompt.length} prompt chars`);
-    lastPrompt = prompt;
-    try {
-      const t0 = Date.now();
-      const r = await postCompletion(cfg().port, prompt, 640, [">>>>>>> UPDATED"], controller.signal);
-      lastRaw = r.text;
-      lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
-      channel.appendLine(`response: ${lastStats}`);
-      if (cfg().debugMode) {
-        channel.appendLine(`--- prompt (${prompt.length} chars) ---\n${prompt}\n--- raw completion ---\n${r.text}`);
+    const c = cfg();
+    let promise: Promise<vscode.InlineCompletionItem[]>;
+    promise = (async () => {
+      try {
+        const t0 = Date.now();
+        const r = await postCompletion(c.port, prompt, 640, [">>>>>>> UPDATED"], controller.signal);
+        lastRaw = r.text;
+        lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
+        channel.appendLine(`response: ${lastStats}`);
+        if (c.debugMode) {
+          channel.appendLine(`--- prompt (${prompt.length} chars) ---\n${prompt}\n--- raw completion ---\n${r.text}`);
+        }
+        renderStatusBar();
+        const lines = parsePrediction(r.text);
+        requestLog.finish(entry, Date.now() - t0, r.completionTokens, r.text, lines);
+        if (lines.length === 0) {
+          this.lastPrompt = prompt;
+          this.lastItems = [];
+          return [];
+        }
+        // cursor on a non-empty comment line + code-looking first prediction:
+        // start the prediction on the NEXT line instead of gluing code into
+        // the comment (seen live: roxygen title + "  if (is.list(x)) {")
+        const currentLine = document.lineAt(position.line).text.trim();
+        const codeFirst = /^[A-Za-z.][\w.$]*\s*(<-|=|\()/.test(lines[0].trim());
+        if (currentLine.startsWith("#") && currentLine !== "#" && codeFirst) {
+          lines.unshift("");
+        }
+        const eol = document.lineAt(position.line).range.end;
+        const item = new vscode.InlineCompletionItem(lines.join("\n"), new vscode.Range(position, eol));
+        this.lastPrompt = prompt;
+        this.lastItems = [item];
+        return [item];
+      } catch (e) {
+        if (controller.signal.aborted) {
+          requestLog.fail(entry, "aborted", "superseded by a new request");
+          return [];
+        }
+        requestLog.fail(entry, "error", errText(e));
+        void sidecar.noteRequestError(errText(e));
+        return [];
       }
-      renderStatusBar();
-      const lines = parsePrediction(r.text);
-      if (lines.length === 0) return [];
-      // cursor on a non-empty comment line + code-looking first prediction:
-      // start the prediction on the NEXT line instead of gluing code into
-      // the comment (seen live: roxygen title + "  if (is.list(x)) {")
-      const currentLine = document.lineAt(position.line).text.trim();
-      const codeFirst = /^[A-Za-z.][\w.$]*\s*(<-|=|\()/.test(lines[0].trim());
-      if (currentLine.startsWith("#") && currentLine !== "#" && codeFirst) {
-        lines.unshift("");
-      }
-      // single ghost-text item: replace from the cursor to end-of-line, so the
-      // first predicted line replaces/completes the cursor's line and the
-      // remaining lines insert after it
-      const eol = document.lineAt(position.line).range.end;
-      const item = new vscode.InlineCompletionItem(lines.join("\n"), new vscode.Range(position, eol));
-      return [item];
-    } catch (e) {
-      if (!controller.signal.aborted) void sidecar.noteRequestError(errText(e)); // aborted = superseded, not an error
-      return [];
-    }
+    })();
+    this.inFlight = { prompt, promise };
+    this.lastItems = null; // a different prompt invalidates the cache
+    return promise;
   }
 }
 
@@ -365,6 +523,7 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
 
 let channel: vscode.OutputChannel;
 let statusBarItem: vscode.StatusBarItem;
+let requestLog: RequestLog;
 let lastStats = "no requests yet";
 let lastPrompt = "(no request yet)";
 let lastRaw = "(no response yet)";
@@ -391,7 +550,12 @@ export function activate(context: vscode.ExtensionContext): void {
   channel = vscode.window.createOutputChannel("Sepalith");
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   statusBarItem.show();
-  context.subscriptions.push(channel, statusBarItem);
+  requestLog = new RequestLog();
+  context.subscriptions.push(
+    channel,
+    statusBarItem,
+    vscode.window.createTreeView("sepalith.requests", { treeDataProvider: requestLog }),
+  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("sepalith.startServer", () => void sidecar.start()),
@@ -404,11 +568,15 @@ export function activate(context: vscode.ExtensionContext): void {
       }
       triggerInlineSuggestion();
     }),
+    vscode.commands.registerCommand("sepalith.copyText", (text: string) => {
+      void vscode.env.clipboard.writeText(text);
+    }),
     vscode.commands.registerCommand("sepalith.copyPrompt", () => {
       void vscode.env.clipboard.writeText(lastPrompt).then(() =>
         vscode.window.showInformationMessage("Sepalith: last prompt copied to clipboard"));
     }),
     vscode.commands.registerCommand("sepalith.showLogs", () => channel.show()),
+    vscode.commands.registerCommand("sepalith.clearRequests", () => requestLog.clear()),
     vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, new SepalithProvider()),
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (e.document.languageId !== "r") return;

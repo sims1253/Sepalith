@@ -2,7 +2,7 @@
   "name": "vscode-sepalith",
   "displayName": "Sepalith",
   "publisher": "sepalith-dev",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running a Sepalith GGUF.",
   "engines": {
     "vscode": "^1.85.0"
@@ -35,8 +35,29 @@
       {
         "command": "sepalith.showLogs",
         "title": "Sepalith: Show logs"
+      },
+      {
+        "command": "sepalith.clearRequests",
+        "title": "Sepalith: Clear request log"
       }
     ],
+    "views": {
+      "explorer": [
+        {
+          "id": "sepalith.requests",
+          "name": "Sepalith Requests"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "sepalith.clearRequests",
+          "when": "view == sepalith.requests",
+          "group": "navigation"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "sepalith.suggest",
