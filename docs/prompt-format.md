@@ -129,6 +129,83 @@ holds one unified diff of one hunk. The renderer places them in the
 `<|history|>` section, oldest first. Examples with no events train the model
 to work without history — not every editing session has prior context.
 
+## Scope-aware context
+
+Two additions to the raw file context: the enclosing function and a file
+outline. Both serve cache stability first, model quality second.
+
+### The enclosing function is always complete
+
+When the cursor is inside a function definition, the ENTIRE function is in
+the prompt. The part above the cursor is ordinary file prefix. The rest of
+the function is forced to the head of the suffix section, before the older
+file-below content:
+
+```
+<|context|>R/foo.R
+... file above the cursor (includes the function's opening lines) ...
+<|history|>
+...
+<|cursor|>partial line<|suffix|>
+... the REST of the enclosing function (pinned, never truncated) ...
+... older file content below the function (truncated from its end) ...
+<|end|>
+```
+
+Rules:
+
+1. Truncation never eats the pinned function remainder. Prefix truncation
+   proceeds from the file start (the anchor rules above); suffix truncation
+   cuts the deepest lines below the function, not the function itself.
+2. At top level (cursor outside any function), nothing is pinned.
+3. The scope comes from tree-sitter (syntax only, always available). LSP or
+   `ry` can refine it later, but scope resolution must never require them.
+
+Cache cost: while the cursor stays inside one function, the pinned block is
+byte-identical across requests — it lives in the stable suffix head, and
+only the cursor zone re-prefills, exactly as before. Crossing into another
+function changes the pinned block once; that re-prefill amortizes over all
+the keystrokes spent in the new function, like an anchor step.
+
+Why: mid-function suggestions otherwise work blind to the function's end.
+Comment and roxygen drafting REQUIRE the full function — you cannot write
+the docs for code you cannot see. Training data renders mid-function
+examples under the same rule (the function remainder appears below the
+cursor), so what the model sees at inference matches what it learned on.
+
+### File outline as the no-LSP conditioning slot
+
+A one-line-per-top-level-signature outline of the current file:
+
+```
+<|outline|>
+fit_model(data, weights, method = "glm")
+predict.fit_model(object, newdata)
+drop_unused_levels(x)
+```
+
+Placement: between the file prefix and the history, ordered by churn —
+prefix (rarely changes) < outline (changes on structural edits) < history
+(changes on every debounced edit) < cursor zone. An outline change
+re-prefills history plus cursor zone, not the file prefix.
+
+Rules:
+
+1. Deduplicate against the pinned scope: the enclosing function's signature
+   is dropped from the outline when the function is already fully present.
+2. Signatures only — no types, no bodies, no nested definitions. This is an
+   index of the file's vocabulary, not a dump of its AST.
+3. The outline occupies the SAME conditioning slot as type information:
+   plain prompt (neither), outline (tree-sitter, always available),
+   outline plus types (`ry`/LSP). Training uses the conditioning dropout:
+   each example carries one of the three levels, seed-fixed per row.
+
+The conditioning ablation (2026-08-19) found no benefit from type
+conditioning at the current scale — so the outline is a hypothesis to test
+on scenario-level evals, not a settled win. The enclosing-function pin is
+different: it changes what of the target is visible, and the drafting
+families depend on it structurally.
+
 ## The Zed problem
 
 Zed has no extension API for custom edit-prediction prompts. Their
