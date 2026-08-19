@@ -120,6 +120,7 @@ latency numbers from the keystroke simulator.
 | `build_examples.py` | Builds next-edit examples from commit diffs in local clones: parent state becomes prefix/region/suffix, a sibling hunk becomes the event. |
 | `run_eval.py` | Renders prompts in Zeta-1/2/2.1 format, sends temperature-0 completions, scores regions (exact, first line, line F1). `--official` reproduces the published sample pair. |
 | `eval_ablation.py` | Scores whole-region predictions on the conditioning-ablation prompt/target rows; reports the aggregate split by `has_types` (the dropout arm's both-ways eval) and by record kind. |
+| `eval_scenarios.py` | Serves a GGUF itself (CPU `-t 8 --parallel 1 -c 8192`; readiness = a real completion POST returning 200; teardown signals only the tracked child PID), renders the held-out rows of the five programmatic scenario families with the training-time zeta2 render (`assemble_sft_v2.edit_row`), and scores them with the exact `synthetic-data/scenarios.py` validators. Writes `results_scenarios_<model>.jsonl`; the per-family aggregate is printed last. |
 | `keystroke_sim.py` | Cold versus warm request latency at a given context size, with keystroke-sized deltas on a shared prefix. |
 | `run_sims.sh` | Starts a fresh CPU `llama-server` per context size and runs the keystroke sim against it. |
 | `analyze.py` | Aggregates result rows per language, computes the copy-from-context baseline, and bootstraps the language gap. |
