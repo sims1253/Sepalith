@@ -158,8 +158,16 @@ Rules:
    proceeds from the file start (the anchor rules above); suffix truncation
    cuts the deepest lines below the function, not the function itself.
 2. At top level (cursor outside any function), nothing is pinned.
-3. The scope comes from tree-sitter (syntax only, always available). LSP or
-   `ry` can refine it later, but scope resolution must never require them.
+3. CONTEXT SOURCE, inference vs training: the extension prefers the R
+   language server's document symbols (`vscode.executeDocumentSymbolProvider`)
+   — every serious R setup runs the R extension with `languageserver`, so
+   this ships nothing and installs nothing. Enclosing function = the
+   smallest symbol range containing the cursor; outline = the top-level
+   function symbols. Tree-sitter (context_builder.py) is the TRAINING-DATA
+   implementation; its spans and LSP symbol ranges differ by boundary
+   trivia (blank lines, attached comments), which the training
+   distribution tolerates. When no symbol provider answers (no R LSP),
+   degrade to the plain prompt: no pin, no outline.
 
 Cache cost: while the cursor stays inside one function, the pinned block is
 byte-identical across requests — it lives in the stable suffix head, and
