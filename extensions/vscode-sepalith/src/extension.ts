@@ -118,6 +118,10 @@ interface CompletionResult {
   completionTokens: number;
 }
 
+// generation stops: the UPDATED terminator plus every prompt marker the
+// model has been seen echoing (marker echo = wasted seconds of generation)
+const STOPS = [">>>>>>> UPDATED", "<<<<<<< CURRENT", "=======", "<[fim-middle]>", "<[fim-suffix]>", "<[fim-prefix]>"];
+
 async function postCompletion(port: number, prompt: string, maxTokens: number, stop: string[] | null, signal?: AbortSignal): Promise<CompletionResult> {
   const body = JSON.stringify({ prompt, max_tokens: maxTokens, temperature: 0, stop, stream: false });
   const res = await fetch(`http://127.0.0.1:${port}/v1/completions`, {
@@ -482,7 +486,7 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     promise = (async () => {
       try {
         const t0 = Date.now();
-        const r = await postCompletion(c.port, prompt, 640, [">>>>>>> UPDATED"], controller.signal);
+        const r = await postCompletion(c.port, prompt, 320, STOPS, controller.signal);
         lastRaw = r.text;
         lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
         channel.appendLine(`response: ${lastStats}`);
@@ -505,8 +509,18 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
         if (currentLine.startsWith("#") && currentLine !== "#" && codeFirst) {
           lines.unshift("");
         }
+        // the dominant finish-block training convention re-emits the WHOLE
+        // region (typed partial included) as the target. If the prediction
+        // starts with the typed partial, it is a full-region output: make
+        // Tab replace the entire cursor line instead of appending after the
+        // partial (which produced "sum(x) / length(x)  sum(x) / length(x)").
+        const typedPartial = document.lineAt(position.line).text.slice(0, position.character).trim();
+        let rangeStart = position;
+        if (typedPartial.length >= 4 && lines[0].trim().startsWith(typedPartial)) {
+          rangeStart = position.with({ character: 0 });
+        }
         const eol = document.lineAt(position.line).range.end;
-        const item = new vscode.InlineCompletionItem(lines.join("\n"), new vscode.Range(position, eol));
+        const item = new vscode.InlineCompletionItem(lines.join("\n"), new vscode.Range(rangeStart, eol));
         this.lastPrompt = prompt;
         this.lastItems = [item];
         return [item];
