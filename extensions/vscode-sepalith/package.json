@@ -1,0 +1,94 @@
+{
+  "name": "vscode-sepalith",
+  "displayName": "Sepalith",
+  "publisher": "sepalith-dev",
+  "version": "0.0.1",
+  "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running a Sepalith GGUF.",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sepalith.startServer",
+        "title": "Sepalith: Start server"
+      },
+      {
+        "command": "sepalith.stopServer",
+        "title": "Sepalith: Stop server"
+      },
+      {
+        "command": "sepalith.suggest",
+        "title": "Sepalith: Suggest now"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "sepalith.suggest",
+        "key": "alt+\\",
+        "when": "editorTextFocus && editorLangId == 'r'"
+      }
+    ],
+    "configuration": {
+      "title": "Sepalith",
+      "properties": {
+        "sepalith.modelPath": {
+          "type": "string",
+          "default": "/home/m0hawk/Documents/Sepalith/experiments/models/abl_dropout-Q8_0.gguf",
+          "description": "Absolute path to a GGUF model."
+        },
+        "sepalith.serverPath": {
+          "type": "string",
+          "default": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-server",
+          "description": "Absolute path to the llama-server binary."
+        },
+        "sepalith.port": {
+          "type": "number",
+          "default": 18099,
+          "description": "Port for the sidecar."
+        },
+        "sepalith.threads": {
+          "type": "number",
+          "default": 8,
+          "maximum": 8,
+          "description": "CPU threads for the sidecar (max 8 — more is slower on this machine)."
+        },
+        "sepalith.contextSize": {
+          "type": "number",
+          "default": 8192,
+          "description": "Context window; some prompts need ~5.6k tokens."
+        },
+        "sepalith.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Start the sidecar on activation."
+        },
+        "sepalith.debounceMs": {
+          "type": "number",
+          "default": 1500,
+          "description": "Idle ms before an automatic suggestion attempt; 0 disables auto-trigger (manual only)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "bundle": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --platform=node --format=cjs --external:vscode",
+    "build": "npm run compile && npm run bundle",
+    "smoke": "npx --yes tsx scripts/smoke.ts",
+    "vsix": "npm run bundle && npx --yes @vscode/vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.5.0"
+  }
+}

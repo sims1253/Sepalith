@@ -1,0 +1,8 @@
+# keep the vsix minimal: sources and tooling are not needed at runtime
+.gitignore
+src/**
+scripts/**
+node_modules/**
+dist/**/*.map
+tsconfig.json
+SPEC.md
