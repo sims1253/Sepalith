@@ -12,6 +12,10 @@ from pathlib import Path
 MODEL = sys.argv[1] if len(sys.argv) > 1 else "openbmb/MiniCPM5-1B"
 STEPS = int(sys.argv[2]) if len(sys.argv) > 2 else 3000
 DATA = Path(sys.argv[3]) if len(sys.argv) > 3 else Path("/mnt/h/sepalith/datasets/sft_v1")
+# one output dir per (model, dataset): a shared dir lets the next chain
+# overwrite the previous run's checkpoints (lost sft_v2_minicpm5 that way)
+OUT = (Path(sys.argv[4]) if len(sys.argv) > 4 else
+       Path(f"/mnt/h/sepalith/runs/sft_{DATA.name}_{MODEL.split('/')[-1]}"))
 
 # shared-machine guard
 gpu = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used",
@@ -49,7 +53,7 @@ trainer = SFTTrainer(
         learning_rate=2e-4, warmup_ratio=0.03, lr_scheduler_type="cosine",
         logging_steps=20, eval_strategy="steps", eval_steps=500,
         save_strategy="steps", save_steps=1000, save_total_limit=2,
-        output_dir=f"/mnt/h/sepalith/runs/sft_v1_{MODEL.split('/')[-1]}",
+        output_dir=str(OUT),
         bf16=True, seed=3407, report_to="none", dataset_text_field="text",
         max_seq_length=2048),
 )
@@ -62,5 +66,5 @@ gen = tokenizer(sample["prompt"], return_tensors="pt").to(model.device)
 out = model.generate(**gen, max_new_tokens=200, do_sample=False)
 print("=== SMOKE: prompt tail ===\n", sample["prompt"][-150:])
 print("=== SMOKE: generation ===\n", tokenizer.decode(out[0][gen.input_ids.shape[1]:], skip_special_tokens=True)[:400])
-model.save_pretrained(f"/mnt/h/sepalith/runs/sft_v1_{MODEL.split('/')[-1]}/final_lora")
+model.save_pretrained(str(OUT / "final_lora"))
 print("DONE")
