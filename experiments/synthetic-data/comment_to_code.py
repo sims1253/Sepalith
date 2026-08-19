@@ -580,7 +580,7 @@ API_STATS = {
     "opencode": dict(attempts=0, ok=0, err_429=0, err_provider=0, err_other=0,
                      err_timeout=0, err_json=0, lat_s=0.0),
     "zai": dict(attempts=0, ok=0, err_429=0, err_provider=0, err_other=0,
-                lat_s=0.0),
+                err_timeout=0, err_json=0, lat_s=0.0),
     "openrouter": dict(attempts=0, ok=0, err_429=0, err_provider=0, err_other=0,
                        err_timeout=0, err_json=0, lat_s=0.0),
 }
@@ -626,9 +626,10 @@ def _session() -> requests.Session:
 
 def _bump(source: str, key: str, dt: float = 0.0):
     with _stats_lock:
-        API_STATS[source]["attempts"] += 1
-        API_STATS[source][key] += 1
-        API_STATS[source]["lat_s"] += dt
+        d = API_STATS[source]
+        d["attempts"] = d.get("attempts", 0) + 1
+        d[key] = d.get(key, 0) + 1
+        d["lat_s"] = d.get("lat_s", 0.0) + dt
         if key == "ok":
             global _last_ok_ts
             _last_ok_ts = time.time()
