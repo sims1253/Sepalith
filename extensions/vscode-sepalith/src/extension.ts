@@ -41,14 +41,14 @@ function cfg(): Config {
 
 const MAX_PREFIX_SUFFIX_CHARS = 6000;
 
-function renderPrompt(prefixLines: string[], suffixLines: string[], relPath: string): string {
+function renderPrompt(prefixLines: string[], regionOld: string[], suffixLines: string[], relPath: string): string {
   return [
     "<[fim-suffix]>",
     ...suffixLines,
     `<[fim-prefix]><filename>${relPath}`,
     ...prefixLines,
     "<<<<<<< CURRENT",
-    "<|user_cursor|>",
+    ...regionOld,
     "=======",
     "<[fim-middle]>",
   ].join("\n");
@@ -56,7 +56,16 @@ function renderPrompt(prefixLines: string[], suffixLines: string[], relPath: str
 
 function buildPrompt(document: vscode.TextDocument, position: vscode.Position): { prompt: string; truncatedLines: number } {
   const lines = document.getText().split("\n");
-  const suffix = lines.slice(position.line + 1); // everything below the cursor's line
+  // the CURSOR LINE belongs to the prompt: text before the cursor is the
+  // typed partial (training's midtyping convention: partial + cursor marker
+  // in the region), text after the cursor leads the suffix. v0 dropped the
+  // line entirely, so the model re-predicted it from scratch and accepting
+  // glued the duplicate into the document.
+  const line = lines[position.line] ?? "";
+  const before = line.slice(0, position.character);
+  const after = line.slice(position.character);
+  const regionOld = [before === "" ? "<|user_cursor|>" : before + "<|user_cursor|>"];
+  const suffix = [after, ...lines.slice(position.line + 1)];
   const suffixChars = suffix.reduce((n, l) => n + l.length + 1, 0);
   const budget = Math.max(0, MAX_PREFIX_SUFFIX_CHARS - suffixChars);
   const prefix = lines.slice(0, position.line); // everything above the cursor's line
@@ -70,7 +79,7 @@ function buildPrompt(document: vscode.TextDocument, position: vscode.Position): 
   }
   const truncatedLines = prefix.length - keep;
   const relPath = vscode.workspace.asRelativePath(document.uri);
-  return { prompt: renderPrompt(prefix.slice(truncatedLines), suffix, relPath), truncatedLines };
+  return { prompt: renderPrompt(prefix.slice(truncatedLines), regionOld, suffix, relPath), truncatedLines };
 }
 
 // marker lines the model sometimes echoes from the prompt back into its
