@@ -48,10 +48,10 @@ trainer = SFTTrainer(
     train_dataset=ds["train"].shuffle(seed=42).select(range(min(48000, len(ds["train"])))),
     eval_dataset=ds["eval"].select(range(500)),
     args=SFTConfig(
-        # bs 2 x ga 8 = effective 16, same recipe as v3/v4; the smaller
-        # per-device batch keeps the 5090's 32GB from spilling into shared
+        # bs 4 x ga 4 = effective 16, same recipe as v3/v4; the smaller
+        # per-device batch keeps spill was fragmentation-driven; expandable_segments into shared
         # memory (v5 at bs 4 filled the card and ran 3x slower)
-        per_device_train_batch_size=2, gradient_accumulation_steps=8,
+        per_device_train_batch_size=4, gradient_accumulation_steps=4,
         num_train_epochs=1, max_steps=STEPS,
         learning_rate=2e-4, warmup_ratio=0.03, lr_scheduler_type="cosine",
         logging_steps=20, eval_strategy="steps", eval_steps=500,
