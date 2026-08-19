@@ -119,6 +119,7 @@ latency numbers from the keystroke simulator.
 |---|---|
 | `build_examples.py` | Builds next-edit examples from commit diffs in local clones: parent state becomes prefix/region/suffix, a sibling hunk becomes the event. |
 | `run_eval.py` | Renders prompts in Zeta-1/2/2.1 format, sends temperature-0 completions, scores regions (exact, first line, line F1). `--official` reproduces the published sample pair. |
+| `eval_ablation.py` | Scores whole-region predictions on the conditioning-ablation prompt/target rows; reports the aggregate split by `has_types` (the dropout arm's both-ways eval) and by record kind. |
 | `keystroke_sim.py` | Cold versus warm request latency at a given context size, with keystroke-sized deltas on a shared prefix. |
 | `run_sims.sh` | Starts a fresh CPU `llama-server` per context size and runs the keystroke sim against it. |
 | `analyze.py` | Aggregates result rows per language, computes the copy-from-context baseline, and bootstraps the language gap. |

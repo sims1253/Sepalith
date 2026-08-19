@@ -770,7 +770,7 @@ def call_zai(code, api_key: str) -> str | None:
             return str(c)
     except Exception:
         pass
-    return _extract_comment(txt)
+    return _extract_comment(txt, "zai")
 
 
 def generate_comment(code, opencode_key: str,

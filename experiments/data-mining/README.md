@@ -23,12 +23,13 @@ Products, in the order this stage builds them:
   `ingest_cran.py` reads it. Every other script hardcodes `/mnt/h/sepalith`.
 - If your storage lives elsewhere, make `/mnt/h/sepalith` a symlink to it.
   That is the only way to move the data root without editing scripts.
-- `select_repos.py` reads two inputs that no script in this repo builds:
+- `select_repos.py` reads two inputs:
   - the r-universe cran-to-git mapping, JSON files under
     `/mnt/h/sepalith/meta/cran-to-git/`;
-  - a mirror-log ranking at `/mnt/h/sepalith/ranked/2026-08-15.counts.txt`,
-    one `count package` pair per line.
-  You must place both yourself.
+  - a mirror-log ranking at `/mnt/h/sepalith/ranked/<date>.counts.txt`,
+    one `count package` pair per line — build it with
+    `uv run python experiments/data-mining/download_ranking.py <YYYY-MM-DD>`
+    (mirror logs publish with a 1-2 day lag).
 
 ## Run it
 
@@ -117,6 +118,7 @@ hardcode `/mnt/h/sepalith`.
 | Script | What it does | Usage |
 |---|---|---|
 | `ingest_cran.py` | Ranks CRAN packages by downloads, fetches tarballs, runs `air format` + `jarl check --fix`, writes one shard per package with license provenance. | `uv run python ingest_cran.py 500` |
+| `download_ranking.py` | Builds the exact per-package download ranking from a Posit mirror daily log (`ranked/<date>.counts.txt`). | `uv run python download_ranking.py 2026-08-15` |
 | `select_repos.py` | Picks active GitHub R repos: cran-to-git mapping crossed with download rank, GraphQL activity check, per-owner cap. | reads `/mnt/h/sepalith/ranked/` |
 | `clone_repos.sh` | Shallow-clones the selection since 2026-05-01, six at a time. | `bash clone_repos.sh <selection.json>` |
 | `mine_edit_pairs.py` | Builds next-edit examples from commit diffs: the parent state becomes prefix/region/suffix, a sibling hunk becomes the event. | `--repos-dir --spool --per-repo` |
@@ -128,10 +130,9 @@ hardcode `/mnt/h/sepalith`.
 
 ## Notes
 
-- `run_mining.sh` and `mine_waves.sh` do not run as committed. They point at
-  `experiments/pipeline/`, the old name of this directory, and they hardcode
-  `/home/m0hawk/Documents/Sepalith/.venv/bin/python`. Run
-  `mine_edit_pairs.py` directly (step 4), or fix those paths yourself.
+- `run_mining.sh` and `mine_waves.sh` hardcode
+  `/home/m0hawk/Documents/Sepalith/.venv/bin/python` and the NAS paths. They
+  run as committed on the dev machine; elsewhere, adjust those paths first.
 - `clone_repos.sh` also hardcodes `/mnt/h/sepalith/git` and the `.venv`
   Python path. It needs the repo cloned at exactly that path.
 - Skip-list: `BH` (C++ headers only, no R).

@@ -25,9 +25,9 @@ Originals are never edited in place; on any verification failure the enriched
 copy is kept and the original left untouched.
 
 Usage:
-  uv run python experiments/pipeline/enrich_provenance.py            # all datasets
-  uv run python experiments/pipeline/enrich_provenance.py --only scenarios,sft
-  uv run python experiments/pipeline/enrich_provenance.py --dry-run
+  uv run python experiments/post-processing/enrich_provenance.py            # all datasets
+  uv run python experiments/post-processing/enrich_provenance.py --only scenarios,sft
+  uv run python experiments/post-processing/enrich_provenance.py --dry-run
 """
 from __future__ import annotations
 

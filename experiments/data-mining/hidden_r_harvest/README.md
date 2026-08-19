@@ -110,6 +110,7 @@ Everything is CPU-only and writes incrementally.
 | `probe_codex.py` | Recon over shards spread across the dataset: fence info-string histogram plus R-prefilter hit rate. | `uv run python probe_codex.py [n_shards=3]` | CodeX parquet to stdout stats |
 | `tune_codex.py` | Runs the detector over sample shards and dumps accepted and stage-2-rejected rows for manual inspection. | `uv run python tune_codex.py [n_shards=3]` | CodeX parquet to NAS `_tune_accepted.jsonl`, `_tune_rejected.jsonl` |
 | `filter_codex.py` | Full CodeX scan with the detector; incremental writes, stats checkpointed every 10 shards. | `uv run python filter_codex.py` | CodeX parquet to NAS `codex_r.jsonl` + `codex_stats.json` |
+| `strict_filter.py` | Reconstructed strict cut of `codex_r.jsonl` (R fence or strong tokens); writes `codex_r_strict.rebuilt.jsonl`, never the authoritative file. | `uv run python strict_filter.py` | `codex_r.jsonl` to NAS `codex_r_strict.rebuilt.jsonl` |
 | `filter_ling.py` | Scans Ling-Coder-SFT for rows whose `languages` list contains `"R"`; appends, flush and `fsync` every 1000 rows. | `uv run python filter_ling.py [start_shard=0]` | Ling parquet to NAS `ling_coder_r.jsonl` + `ling_stats_tmp.json` |
 
 ## Notes
@@ -122,9 +123,13 @@ Everything is CPU-only and writes incrementally.
 - `filter_codex.py` rewrites its output from scratch each run. Only the
   stats file is checkpointed mid-run. Expect the counts to replay exactly:
   the detector is deterministic and the shard order is sorted.
-- Name gap: `normalize_external.py` expects `codex_r_strict.jsonl`, but
-  `filter_codex.py` writes `codex_r.jsonl`. The strict file is a later cut
-  of the same rows; the step that produces it is not in this repo.
+- `codex_r_strict.jsonl` (the cut `normalize_external.py` consumes) is built
+  by `strict_filter.py` — a reconstruction of the rule documented in the
+  research notes ("R fence OR >=2 strong tokens"). The original 2026-08-18
+  cut (9,661 of 13,380 rows) was made by a script that was never committed;
+  the reconstruction keeps 11,246 rows and writes
+  `codex_r_strict.rebuilt.jsonl` by default so it cannot silently replace
+  the authoritative file. Review the delta before using a rebuilt cut.
 - `codex_download.log`, `ling_download.log`, and `codex_filter.log` are the
   committed run logs: download timings and the final shard and detection
   counts.

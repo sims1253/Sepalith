@@ -14,7 +14,7 @@ from huggingface_hub import HfApi
 
 ROOT = Path("/mnt/h/sepalith")
 FINISH_BLOCK_LOCAL = Path("/home/m0hawk/Documents/Sepalith/experiments"
-                          "/synthetic/finish_block_sample.jsonl")
+                          "/synthetic-data/finish_block_sample.jsonl")
 FINISH_BLOCK_REPO = "finish-block/sample_top2000.jsonl"
 TARGETED = "--finish-block" in sys.argv
 REPO = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("-") else None

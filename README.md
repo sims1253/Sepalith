@@ -11,21 +11,24 @@ and kill-test plan.
 
 ## Components
 
-- `experiments/pipeline/` — CRAN ingestion: download-rank via mirror logs, tarball
-  fetch, `air format` + `jarl check --fix` normalization, provenance/license
-  extraction, one-shard-per-package dataset layout (takedown = delete shard),
-  HF dataset push, token-budget estimation.
-- `experiments/synthetic/` — synthetic-data generation: coverage grid
-  (analyst-style R), z.ai glm-5.3 client with JSON structured output, 3-layer
-  validation gate (jsonschema -> R parse -> jarl), thinking-level experiment
-  harness, and the tree-sitter-r finish-block extractor (roxygen+signature ->
-  function body).
-- `experiments/stage0-latency/` — CPU latency benchmarks: llama-bench matrix and
-  a keystroke-to-suggestion simulator (cold vs warm prefix-cache).
-- `experiments/stage0b-niche/` — held-out edit-replay evaluation: example
-  construction from real git commits, official Zeta-1/2/2.1 prompt formats,
-  scoring with copy-from-context baseline and bootstrap CIs.
-- `experiments/stage1-data/` — mined-example audit tooling.
+All work lives under `experiments/`, one directory per pipeline stage. Each
+stage has a README that lists its inputs and how to run it.
+
+- `experiments/data-mining/` — corpus building: CRAN ingestion with download
+  ranking, repo selection and cloning, git edit-pair mining, and the
+  hidden-R harvest from general code datasets.
+- `experiments/synthetic-data/` — synthetic generation: the tree-sitter-r
+  finish-block extractor, programmatic scenario families (rename, pipe,
+  format, doc-sync), LLM comment-to-code and analyst-script generators, and
+  the judge-validation harness.
+- `experiments/post-processing/` — dataset finishing: `air format` + `jarl`
+  normalization, provenance and license enrichment, dedup, SFT mixture
+  assembly, and the HF dataset push.
+- `experiments/eval/` — the edit-prediction harness: Zeta-1/2/2.1 prompt
+  rendering, midtyping construction, keystroke latency simulation, and the
+  conditioning-ablation scorer.
+- `experiments/training/` — LoRA SFT with unsloth, GGUF export, and the RL
+  environment stubs.
 
 ## Data
 

@@ -15,7 +15,7 @@ exec 9>/mnt/h/sepalith/logs/mining.lock
 flock -n 9 || { echo "another mining run is active; exiting"; exit 0; }
 pids=()
 for i in $(seq 0 $((SHARDS-1))); do
-  nice -n 15 "$PY" /home/m0hawk/Documents/Sepalith/experiments/pipeline/mine_edit_pairs.py \
+  nice -n 15 "$PY" /home/m0hawk/Documents/Sepalith/experiments/data-mining/mine_edit_pairs.py \
     --repos-dir "$REPOS_DIR" --spool "$SPOOL" \
     --per-repo "$PER_REPO" --since "$SINCE" --max-commits "$MAXC" \
     --shard "$i" --shards "$SHARDS" \

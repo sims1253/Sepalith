@@ -48,7 +48,7 @@ BOTH versions instead of rewriting in place, for maximum retention:
                   verbatim (normalized=false) instead of dropping.
 
 Usage
-  nice -n 19 uv run python experiments/pipeline/normalize_external.py \
+  nice -n 19 uv run python experiments/post-processing/normalize_external.py \
       [--workers 6] [--only ling,codex,analyst,paper] [--no-dual]
 """
 from __future__ import annotations

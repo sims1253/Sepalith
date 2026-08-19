@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from format_sft_v1 import render
 
 RY = "/home/m0hawk/Documents/ry-worktrees/dump-types/target/release/ry"
-SRC = Path("/home/m0hawk/Documents/Sepalith/experiments/synthetic/finish_block_sample.jsonl")
+SRC = Path("/home/m0hawk/Documents/Sepalith/experiments/synthetic-data/finish_block_sample.jsonl")
 OUT = Path("/mnt/h/sepalith/datasets/sft_ablation")
 N_PKGS = int(sys.argv[1]) if len(sys.argv) > 1 else 300
 MAX_BINDINGS = 16

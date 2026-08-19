@@ -9,7 +9,7 @@ Hold out 5% of PACKAGES (not rows) for eval. Output train/eval JSONL on the NAS.
 import json, random, re, sys
 from pathlib import Path
 
-SRC = Path("/home/m0hawk/Documents/Sepalith/experiments/synthetic/finish_block_sample.jsonl")
+SRC = Path("/home/m0hawk/Documents/Sepalith/experiments/synthetic-data/finish_block_sample.jsonl")
 OUT = Path("/mnt/h/sepalith/datasets/sft_v1")
 MAX_CHARS = 6000        # prompt+target char budget (~1.4k tokens)
 MIN_TARGET_CHARS = 30

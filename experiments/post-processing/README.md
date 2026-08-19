@@ -17,12 +17,7 @@ license texts under `provenance/`, the HF dataset repo, and
   Without `/mnt/h/sepalith`, no script in this stage can run. To run the
   stage, first run data mining and synthetic generation against that store.
   No script here honors `SEPALITH_ROOT`.
-- Stale paths: `format_sft_v1.py`, `format_sft_types.py`, and
-  `push_hf.py --finish-block` read
-  `experiments/synthetic/finish_block_sample.jsonl`. That directory is now
-  `experiments/synthetic-data`. Copy or link the file to the old path, or
-  these three entry points fail.
-- `format_sft_types.py` also needs the `ry` binary at
+- `format_sft_types.py` needs the `ry` binary at
   `/home/m0hawk/Documents/ry-worktrees/dump-types/target/release/ry`. That
   path is outside this repo.
 - `estimate_tokens.py` needs `llama-tokenize` at

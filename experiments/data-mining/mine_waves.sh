@@ -17,7 +17,7 @@ while :; do
     break
   fi
   if [ "$done_n" -lt "$dirs_n" ]; then
-    bash /home/m0hawk/Documents/Sepalith/experiments/pipeline/run_mining.sh 8 30 2026-05-01 250 \
+    bash /home/m0hawk/Documents/Sepalith/experiments/data-mining/run_mining.sh 8 30 2026-05-01 250 \
       >> /mnt/h/sepalith/logs/mine_waves_run.log 2>&1
   else
     sleep 90
