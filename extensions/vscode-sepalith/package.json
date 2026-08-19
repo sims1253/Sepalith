@@ -2,7 +2,7 @@
   "name": "vscode-sepalith",
   "displayName": "Sepalith",
   "publisher": "sepalith-dev",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running a Sepalith GGUF.",
   "engines": {
     "vscode": "^1.85.0"
@@ -27,12 +27,20 @@
       {
         "command": "sepalith.suggest",
         "title": "Sepalith: Suggest now"
+      },
+      {
+        "command": "sepalith.copyPrompt",
+        "title": "Sepalith: Copy last prompt (debug)"
+      },
+      {
+        "command": "sepalith.showLogs",
+        "title": "Sepalith: Show logs"
       }
     ],
     "keybindings": [
       {
         "command": "sepalith.suggest",
-        "key": "ctrl+shift+enter",
+        "key": "alt+.",
         "when": "editorTextFocus && editorLangId == 'r'"
       },
       {
@@ -79,6 +87,11 @@
           "type": "number",
           "default": 1500,
           "description": "Idle ms before an automatic suggestion attempt; 0 disables auto-trigger (manual only)."
+        },
+        "sepalith.debugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Log the full rendered prompt and raw completion for every request."
         }
       }
     }

@@ -17,6 +17,7 @@ interface Config {
   contextSize: number;
   autoStart: boolean;
   debounceMs: number;
+  debugMode: boolean;
 }
 
 function cfg(): Config {
@@ -29,6 +30,7 @@ function cfg(): Config {
     contextSize: c.get("contextSize", 8192),
     autoStart: c.get("autoStart", true),
     debounceMs: c.get("debounceMs", 1500),
+    debugMode: c.get("debugMode", false),
   };
 }
 
@@ -71,11 +73,19 @@ function buildPrompt(document: vscode.TextDocument, position: vscode.Position): 
   return { prompt: renderPrompt(prefix.slice(truncatedLines), suffix, relPath), truncatedLines };
 }
 
+// marker lines the model sometimes echoes from the prompt back into its
+// completion (seen live: an empty-file proposal consisting mostly of
+// "<<<<<<< CURRENT / ======= / <[fim-middle]" lines)
+const MARKER_LINE = /^\s*(<<<<<<<\s*CURRENT|=======|>>>>>>>\s*UPDATED|<\[fim-(middle|prefix|suffix)\]>|<\|user_cursor\|>)\s*$/;
+
 function parsePrediction(text: string): string[] {
   // everything before the first ">>>>>>>" is the predicted region
   if (text.includes(">>>>>>>")) text = text.split(">>>>>>>")[0];
   text = text.split("<|user_cursor|>").join("");
-  const lines = text.split("\n").map((l) => l.replace(/\r$/, ""));
+  const lines = text
+    .split("\n")
+    .map((l) => l.replace(/\r$/, ""))
+    .filter((l) => !MARKER_LINE.test(l));
   // strip leading blank lines (and trailing, matching run_eval.py norm())
   while (lines.length && lines[0].trim() === "") lines.shift();
   while (lines.length && lines[lines.length - 1].trim() === "") lines.pop();
@@ -302,6 +312,12 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
       channel.appendLine(`request skipped: sidecar is ${sidecar.currentState}`);
       return [];
     }
+    // an empty (or near-empty) document gives the model nothing to work
+    // with and reliably produces roxygen hallucinations — propose nothing
+    if (document.getText().trim().length < 30) {
+      channel.appendLine("request skipped: document is empty");
+      return [];
+    }
     // one request in flight: abort the previous (simplest correct option)
     this.controller?.abort();
     const controller = new AbortController();
@@ -309,14 +325,27 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     const { prompt, truncatedLines } = buildPrompt(document, position);
     if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
     channel.appendLine(`request: ${prompt.length} prompt chars`);
+    lastPrompt = prompt;
     try {
       const t0 = Date.now();
       const r = await postCompletion(cfg().port, prompt, 640, [">>>>>>> UPDATED"], controller.signal);
+      lastRaw = r.text;
       lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
       channel.appendLine(`response: ${lastStats}`);
+      if (cfg().debugMode) {
+        channel.appendLine(`--- prompt (${prompt.length} chars) ---\n${prompt}\n--- raw completion ---\n${r.text}`);
+      }
       renderStatusBar();
       const lines = parsePrediction(r.text);
       if (lines.length === 0) return [];
+      // cursor on a non-empty comment line + code-looking first prediction:
+      // start the prediction on the NEXT line instead of gluing code into
+      // the comment (seen live: roxygen title + "  if (is.list(x)) {")
+      const currentLine = document.lineAt(position.line).text.trim();
+      const codeFirst = /^[A-Za-z.][\w.$]*\s*(<-|=|\()/.test(lines[0].trim());
+      if (currentLine.startsWith("#") && currentLine !== "#" && codeFirst) {
+        lines.unshift("");
+      }
       // single ghost-text item: replace from the cursor to end-of-line, so the
       // first predicted line replaces/completes the cursor's line and the
       // remaining lines insert after it
@@ -337,6 +366,8 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
 let channel: vscode.OutputChannel;
 let statusBarItem: vscode.StatusBarItem;
 let lastStats = "no requests yet";
+let lastPrompt = "(no request yet)";
+let lastRaw = "(no response yet)";
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 const sidecar = new Sidecar();
 
@@ -373,6 +404,11 @@ export function activate(context: vscode.ExtensionContext): void {
       }
       triggerInlineSuggestion();
     }),
+    vscode.commands.registerCommand("sepalith.copyPrompt", () => {
+      void vscode.env.clipboard.writeText(lastPrompt).then(() =>
+        vscode.window.showInformationMessage("Sepalith: last prompt copied to clipboard"));
+    }),
+    vscode.commands.registerCommand("sepalith.showLogs", () => channel.show()),
     vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, new SepalithProvider()),
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (e.document.languageId !== "r") return;
