@@ -20,6 +20,10 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 model.save_pretrained_merged(str(MERGED), tokenizer, save_method="merged_16bit")
 
 py = sys.executable
+if not Path(CONVERT).exists():  # /tmp gets wiped between sessions
+    subprocess.run(["git", "clone", "-q", "--depth", "1",
+                    "https://github.com/ggml-org/llama.cpp",
+                    str(Path(CONVERT).parent)], check=True)
 subprocess.run([py, CONVERT, str(MERGED), "--outfile", str(MODELS / f"{STEM}-f16.gguf"),
                 "--outtype", "f16"], check=True)
 subprocess.run([str(QUANT), str(MODELS / f"{STEM}-f16.gguf"),
