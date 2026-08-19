@@ -126,6 +126,7 @@ finish-block sample in this directory, and two self-contained test suites.
 | `comment_drafting.py` | Reverses comment-to-code records into code->comment drafting examples (code visible below the cursor, the comment is the target); writes `comment_drafting.jsonl`. |
 | `roxygen_drafting.py` | tree-sitter mining of the corpus: one record per rich roxygen block (>= 1 `@param`/`@return`) and its function — docs are the target at a cursor above the full signature+body suffix; writes `roxygen_drafting.jsonl`. |
 | `finish_block.py` | tree-sitter extraction of roxygen + signature to function-body pairs from the corpus. |
+| `context_builder.py` | The shared scope-aware context module (spec: docs/prompt-format.md): enclosing-function span, top-level signature outline, and the scope-pin split — one implementation so dataset renderers and the extension cannot drift. Tree-sitter-r only; `context_builder.py <file.R> <cursor_line>` prints the JSON. |
 | `scenarios.py` | Programmatic edit families with exact ground truth: rename propagation, pipe rewrite, format propagation, doc-sync, na.rm. Each passes a splice validator and scores 0 on a no-op baseline. |
 | `paper_to_r.py` | Statistical method to R implementation, verified by simulation. The validator checks a statistical property — coverage, type-I error, bias — not text. A validator must fail a corrupted twin before use. |
 | `run_experiment.py` | Thinking-level comparison harness. |
