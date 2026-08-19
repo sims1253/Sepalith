@@ -103,9 +103,17 @@ def load_edit_pairs():
                 stats[f"{fam}:{split}"] += 1
 
 
+# Families can outgrow their useful mixture share (roxygen_drafting mined
+# 246k rows from a corpus that grew 7x). Cap a family's rows BEFORE the
+# package holdout; sampling is seeded so reruns are stable.
+FAMILY_CAPS = {
+    "roxygen_drafting": 40000,
+}
+
+
 def load_scenarios():
-    """7 canonical files; per FAMILY hold out 3% of that family's packages
-    (min 1, seed 42) so every scenario family has eval coverage."""
+    """Canonical scenario files; per FAMILY hold out 3% of that family's
+    packages (min 1, seed 42) so every scenario family has eval coverage."""
     recs = []
     fam_pkgs = defaultdict(set)
     for fname in SCENARIO_FILES:
@@ -115,10 +123,20 @@ def load_scenarios():
             # the (fixed) generator rebuilds it; assemble without the family.
             notes.append(f"scenarios: {fname} missing -> skipped (0 rows)")
             continue
+        by_fam = defaultdict(list)
         for line in open(path):
             r = json.loads(line)
-            recs.append(r)
-            fam_pkgs[r["family"]].add(r["package"])
+            by_fam[r["family"]].append(r)
+        for fam, rows in by_fam.items():
+            cap = FAMILY_CAPS.get(fam)
+            if cap is not None and len(rows) > cap:
+                notes.append(f"scenarios: {fam} capped {len(rows)} -> {cap} (seeded sample)")
+                rng = random.Random(123)
+                idx = sorted(rng.sample(range(len(rows)), cap))
+                rows = [rows[i] for i in idx]
+            recs.extend(rows)
+            for r in rows:
+                fam_pkgs[r["family"]].add(r["package"])
     rng = random.Random(42)
     eval_pkgs = {}
     for fam in sorted(fam_pkgs):
@@ -167,13 +185,16 @@ def load_pr_instructed():
 
 def load_synthetic_analyst():
     fam = "synthetic_analyst"
-    for line in open(NAS / "synthetic_analyst_v1/analyst_scripts.jsonl"):
-        r = json.loads(line)
-        rr = comment_to_code_row("analyst.R", f"# {r['intent'].strip()}",
-                                 r["code"], fam, "synthetic_analyst_v1")
-        if rr:
-            yield "train", rr
-            stats[f"{fam}:train"] += 1
+    # analyst_scripts.jsonl: the detached 3-source generator (grow-only);
+    # analyst_direct.jsonl: the burst generator (deduped on merge)
+    for fname in ("analyst_scripts.jsonl", "analyst_direct.jsonl"):
+        for line in open(NAS / "synthetic_analyst_v1" / fname):
+            r = json.loads(line)
+            rr = comment_to_code_row("analyst.R", f"# {r['intent'].strip()}",
+                                     r["code"], fam, "synthetic_analyst_v1")
+            if rr:
+                yield "train", rr
+                stats[f"{fam}:train"] += 1
 
 
 def load_hidden_r_instruction(n_total=40_000, n_eval=1_000, seed=5):
