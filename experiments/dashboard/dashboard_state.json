@@ -1,103 +1,405 @@
 {
-  "running": [
-    {"what": "AST-FIM midtrain probe (Qwen3.5-2B-Base, 1500 steps on 220M semantic-span tokens)", "status": "running", "note": "train done, export + FIM eval in flight — first empirical brick under the from-scratch bet"},
-    {"what": "Hermes red-team of the architecture dossier", "status": "running", "note": "mandate: convenience must not pick the architecture; wide-space pass incl. diffusion/SSM/looped layers -> docs/research/arch-redteam-v1.md"},
-    {"what": "zai case generators (expectation_completion, trycatch, comment_styles)", "status": "running", "note": "6 concurrent zai consumers total, inside the 6-8 limit"},
-    {"what": "doc_sync reinforcement (+4.7k rows)", "status": "running", "note": "generator verified by tests; growing from version-pair mining"}
-  ],
-  "experiments": [
-    {"name": "Stage gates", "status": "done", "blurb": "Week-1 kill-tests before committing to the build.",
-     "table": {"headers": ["gate", "result", "note"], "rows": [
-       ["CPU latency", "PASS", "decode dominates warm latency; 8 threads; cold start 5-21s"],
-       ["niche (R gap)", "INCONCLUSIVE-SUPPORTIVE", "zeta-1 R first-line gap +14pts significant; exact 2x n.s. at n=50/62"],
-       ["data usability", "PASS", "93.6% usable after audit; 2,019-file public HF dataset with per-record provenance"]]}},
-    {"name": "SFT v1 — finish-block only (MiniCPM5-1B)", "status": "done",
-     "blurb": "First end-to-end proof: train -> merge -> GGUF -> llama.cpp -> eval.",
-     "table": {"headers": ["model", "R midtyping f1", "note"], "rows": [
-       ["base MiniCPM5-1B", "0.008", ""],
-       ["SFT v1", "0.020", "2.5x over base — learnability proven"],
-       ["SFT Qwen3.5-2B", "0.022", "comparable at 2B"],
-       ["zeta-2 7B (reference)", "0.089", "the 7B SOTA gap to close"]]}},
-    {"name": "SFT v2 — instruct vs base on the full mixture", "status": "done",
-     "blurb": "Dead tie — initialization doesn't matter at this scale; the bake-off can be decided on CPU decode + vocab.",
-     "table": {"headers": ["model", "R midtyping raw", "R suffix-aligned"], "rows": [
-       ["sft_v2_minicpm5 (instruct)", "0.0178", "0.0316"],
-       ["sft_v2_base (base init)", "0.0179", "0.0299"]]}},
-    {"name": "Conditioning ablation (types / plain / dropout)", "status": "done",
-     "blurb": "ry type conditioning shows NO benefit; the only significant effect is prompt-format mismatch. Dropout wins by robustness (never mismatched).",
-     "table": {"headers": ["model \\ prompts", "types", "plain"], "rows": [
-       ["types-trained", "0.0574", "0.0574"],
-       ["plain-trained", "0.0446", "0.0628"],
-       ["dropout (production)", "0.0632", "0.0768"]]},
-     "verdict": "Paired t: types conditioning -0.005 (t=-0.87, n.s.); mismatch -0.018 (t=-3.12, sig)."},
-    {"name": "Drafting families (v3) — comment & roxygen", "status": "win",
-     "blurb": "The clearest positive result: the drafting families teach drafting; the control can't even produce the right kind of output.",
-     "table": {"headers": ["metric", "v3 (drafting families)", "dropout control"], "rows": [
-       ["roxygen structural f1", "0.0663 (11x)", "0.0059"],
-       ["comment judge mean (0-2)", "1.24", "0.07"],
-       ["judge: semantically equivalent", "37%", "1%"],
-       ["judge: outright wrong", "13%", "94%"]]},
-     "verdict": "Control writes <b>code instead of comments</b>. Judge calibrated (GT 100% score-2, unrelated 100% score-0)."},
-    {"name": "Scenario-family eval (v3 vs control)", "status": "win",
-     "blurb": "Every programmatic family is learned and transfers to held-out packages (3%-per-family package holdout, exact validators).",
-     "table": {"headers": ["family", "v3 valid/exact", "control"], "rows": [
-       ["rename_propagation (n=150)", "0.920 / 0.793", "0.000"],
-       ["pipe_rewrite", "0.944 / 0.944", "0.000"],
-       ["format_propagation", "0.731 / 0.552", "0.000"],
-       ["doc_sync", "0.400 / 0.400", "0.000"],
-       ["na_rm_propagation", "0.800 / 0.800", "0.000"]]}},
-    {"name": "v4 — finish-block upweight (allocation experiment)", "status": "done",
-     "blurb": "Capability tracks training share in BOTH directions: +15% whole-region, roxygen drafting halved. Midtyping flat (4th datapoint). Conclusion: train longer, don't reweight.",
-     "table": {"headers": ["eval", "v4", "v3"], "rows": [
-       ["whole-region", "0.0494", "0.0432"],
-       ["roxygen drafting f1", "0.0333", "0.0663"],
-       ["comment judge", "1.19", "1.24"]]}},
-    {"name": "SFT v5 — suffix convention + no_op + mid_roxygen + cursor fix", "status": "win",
-     "blurb": "ACCEPTANCE CRITERIA MET. The live-session regression cases (sd-line echo, post-brace eagerness, mom-glue, mid-roxygen) flipped from 0 to pass. Best model on every capability metric.",
-     "table": {"headers": ["eval", "v5", "v3", "control"], "rows": [
-       ["intent suite mean (n=44)", "<b>1.409</b>", "1.318", "0.432"],
-       ["intent: fully satisfying", "<b>61.4%</b>", "54.5%", "11.4%"],
-       ["live-bug family", "<b>1.8 (80% pass)</b>", "sd-line & post-brace = 0", ""],
-       ["midtyping R raw", "<b>0.0195</b>", "0.0176", ""],
-       ["midtyping R suffix", "<b>0.0286</b>", "0.0247", ""],
-       ["whole-region", "0.0505", "0.0432", "0.0698 (pure-arm)"]]},
-     "verdict": "Data bugs fixed en route: scenario rows had silently lost their cursor marker since v2 (char-vs-line index); edit_pairs re-emitted region heads."},
-    {"name": "Intent-assertion suite (Zed-style)", "status": "done",
-     "blurb": "44 plain-English behavioral tests, glm-5.3 judge, calibration-gated. The user's live bugs became permanent regression tests."},
-    {"name": "Matryoshka gate probe", "status": "blocked",
-     "blurb": "Layer-prefix extraction works (12-layer prefix of Qwen3.5-2B converted to GGUF), but our llama.cpp build's converter hard-requires the MTP head. FIXED in llama.cpp main (--no-nextn/--mtp flags) — rebuild queued.",
-     "verdict": "Strategy alive: Matryoshka validated at 0.5/1.5/3B with -36% compute and +14-26% spec-decode throughput (arXiv 2608.09703)."},
-    {"name": "Architecture dossier v1", "status": "done",
-     "blurb": "Recommendation (prior to beat): dense GDN 3:1 hybrid, 32K R-vocab, 1 MTP layer, Matryoshka tiers 0.7/1.3/2.6B @ d=2560. Vocab math: lm_head reads 82MB vs 635MB per token (32K vs 248K). Hermes red-team running with the convenience-is-not-an-argument mandate.",
-     "verdict": "Standing rule recorded: <b>effort is never a blocker; convenience must not pick the architecture.</b>"}
-  ],
-  "data": [
-    {"family": "finish_block", "rows": "90,728", "note": "function-body completion (the backbone)"},
-    {"family": "roxygen_drafting", "rows": "246,401 mined / 40k in mixture (capped)", "note": "function->docs; corpus grew 7x overnight"},
-    {"family": "hidden_r_instruction", "rows": "39,000", "note": "harvested R rows from general code datasets"},
-    {"family": "edit_pairs", "rows": "~16,000", "note": "real git commits, mined"},
-    {"family": "AST-FIM midtrain corpus", "rows": "276,206 rows / 220.5M tokens", "note": "PSM semantic spans; package-held-out eval"},
-    {"family": "comment families (c2c + drafting + insert)", "rows": "~7k + ~920 Gemini comments growing", "note": "three views of the same mined triples; 5-style pool; two model families"},
-    {"family": "analyst scripts", "rows": "2,231 + ~840 Gemini growing", "note": "validated analyst-style R"},
-    {"family": "scenario families (rename/pipe/format/doc_sync/na_rm/no_op/mid_roxygen)", "rows": "~20k, doc_sync +4.7k in flight", "note": "exact-validator families"},
-    {"family": "cases wave 1 (namespace/pipe-link/metadata/expectation/trycatch)", "rows": "~1,600+, generating", "note": "first families via the declarative cases library"}
-  ],
-  "decisions": [
-    "Suffix-completion convention everywhere: predict ONLY what comes after the cursor (user decision; finish-block re-emission retired).",
-    "Dropout conditioning is the production config — justified by robustness to prompt population, not type signal (ablation showed none).",
-    "Telemetry: local collection always, upload never — until an explicit opt-in (off by default).",
-    "Eval battery: acceptance counters (extension) > validator-exact scenario families + calibrated judge + intent assertions > line-F1 midtyping (composition-blind, 4 datapoints).",
-    "Effort is never a blocker; llama.cpp support is deployment evidence, not selection criteria. Wide architecture space gets a genuine pass.",
-    "Quota discipline: max 6-8 concurrent zai consumers; Gemini (agy) and Opus 4.6 (separate quota) for free-tier generation; Opus reserved for high-judgment tasks.",
-    "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls — the 03:20 incident)."
-  ],
-  "next": [
-    "Hermes red-team verdict -> final architecture commitment (Candidate B vs alternatives)",
-    "AST-FIM probe FIM scores -> does semantic-span midtraining teach FIM to a base model?",
-    "llama.cpp rebuild to main (fixed converter, Vulkan GDN, --no-nextn prefix extraction)",
-    "v6 assembly (doc_sync +4.7k, cases wave 1, Gemini harvest) -> train -> full battery + intent suite",
-    "From-scratch pretraining design off the red-team verdict (gaps pretrainer: resumable, flock-locked, local checkpoints)",
-    "Extension: scope-aware context via LSP document symbols (spec'd); acceptance-count telemetry already live",
-    "HF dataset: packages/ letter-prefix restructure (per-directory limit hit at 14k packages)"
-  ]
+ "running": [
+  {
+   "what": "probe2 AST-FIM eval RERUN (corrected scorer) — 200 fixed-corpus examples, CPU llama-server port 18097",
+   "status": "run",
+   "note": "scoring bug #3 found 22 rows in: every target ends with a literal end-marker line the server always strips from preds, so exact was structurally 0; GT now stripped. ETA ~17:40"
+  },
+  {
+   "what": "extension v0.0.7: LSP scope-aware context (subagent)",
+   "status": "run",
+   "note": "context_build.ts + check-context.ts written; review + npm run check-context + commit pending"
+  },
+  {
+   "what": "comment_to_code_synthetic regrowth (user job, never kill)",
+   "status": "run",
+   "note": "4,000 main rows + partial growing toward 6,500; old build quarantined as .contaminated.bak"
+  }
+ ],
+ "experiments": [
+  {
+   "name": "Architecture red-team (hermes) — verdict: REPLACE B with A+",
+   "status": "done",
+   "blurb": "Convenience-is-not-an-argument mandate executed. The KV case for GDN hybrids collapses at 8-16K (weights traffic dominates; KV is 3-4 orders below it); llama.cpp hybrid prefix-cache reuse is broken today for exactly our PSM pattern (open #26994/#24785/#25913); sequential 3:1 is the worst hybrid shape for spec decode. Revised primary A+: vanilla dense GQA (2 KV heads), 32K R-regex-BPE tied vocab, MTP, Matryoshka tiers unified with LayerSkip early-exit, n-gram spec first. Falcon-H1-shape parallel hybrid = the one to watch. Six ordered kill-tests, first three ~1 week with zero training.",
+   "verdict": "Full report: <b>docs/research/arch-redteam-v1.md</b> (616 lines, primary-source cited). Decision pending user review."
+  },
+  {
+   "name": "AST-FIM probe — 0.000 (corpus format artifact)",
+   "status": "run",
+   "blurb": "Retrain DONE (1500 LoRA steps, Qwen3.5-2B-Base) + export --no-nextn OK. First eval run discarded at 22/200 rows: scoring bug #3 — corpus targets end with a literal end-marker line that stop-string stripping makes unreachable in preds, so exact was structurally 0 for every row (4789/4789 targets affected). Scorer fixed; rerun in flight. Raw generations are far healthier than probe1: real R spans (line-F1 up to 0.80 on row 1) but frequent marker-echo soup after the span — the model often never emits the stop string within budget.",
+   "verdict": "Pending corrected 200-row run — decides astfim 280,995-row corpus role in v6 (mixture vs midtrain stage vs drop)."
+  },
+  {
+   "name": "llama.cpp main build + verification",
+   "status": "win",
+   "blurb": "CPU-only build from current main. --no-nextn converts MTP-less qwen3_5; the main-build server loads and serves it (stale b10453 could not). Unblocks: Matryoshka prefix extraction, Vulkan GDN shaders, draft-only GGUFs."
+  },
+  {
+   "name": "Stage gates",
+   "status": "done",
+   "blurb": "Week-1 kill-tests before committing to the build.",
+   "table": {
+    "headers": [
+     "gate",
+     "result",
+     "note"
+    ],
+    "rows": [
+     [
+      "CPU latency",
+      "PASS",
+      "decode dominates warm latency; 8 threads; cold start 5-21s"
+     ],
+     [
+      "niche (R gap)",
+      "INCONCLUSIVE-SUPPORTIVE",
+      "zeta-1 R first-line gap +14pts significant; exact 2x n.s. at n=50/62"
+     ],
+     [
+      "data usability",
+      "PASS",
+      "93.6% usable after audit; 2,019-file public HF dataset with per-record provenance"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "SFT v1 — finish-block only (MiniCPM5-1B)",
+   "status": "done",
+   "blurb": "First end-to-end proof: train -> merge -> GGUF -> llama.cpp -> eval.",
+   "table": {
+    "headers": [
+     "model",
+     "R midtyping f1",
+     "note"
+    ],
+    "rows": [
+     [
+      "base MiniCPM5-1B",
+      "0.008",
+      ""
+     ],
+     [
+      "SFT v1",
+      "0.020",
+      "2.5x over base — learnability proven"
+     ],
+     [
+      "SFT Qwen3.5-2B",
+      "0.022",
+      "comparable at 2B"
+     ],
+     [
+      "zeta-2 7B (reference)",
+      "0.089",
+      "the 7B SOTA gap to close"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "SFT v2 — instruct vs base on the full mixture",
+   "status": "done",
+   "blurb": "Dead tie — initialization doesn't matter at this scale; the bake-off can be decided on CPU decode + vocab.",
+   "table": {
+    "headers": [
+     "model",
+     "R midtyping raw",
+     "R suffix-aligned"
+    ],
+    "rows": [
+     [
+      "sft_v2_minicpm5 (instruct)",
+      "0.0178",
+      "0.0316"
+     ],
+     [
+      "sft_v2_base (base init)",
+      "0.0179",
+      "0.0299"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "Conditioning ablation (types / plain / dropout)",
+   "status": "done",
+   "blurb": "ry type conditioning shows NO benefit; the only significant effect is prompt-format mismatch. Dropout wins by robustness (never mismatched).",
+   "table": {
+    "headers": [
+     "model \\ prompts",
+     "types",
+     "plain"
+    ],
+    "rows": [
+     [
+      "types-trained",
+      "0.0574",
+      "0.0574"
+     ],
+     [
+      "plain-trained",
+      "0.0446",
+      "0.0628"
+     ],
+     [
+      "dropout (production)",
+      "0.0632",
+      "0.0768"
+     ]
+    ]
+   },
+   "verdict": "Paired t: types conditioning -0.005 (t=-0.87, n.s.); mismatch -0.018 (t=-3.12, sig)."
+  },
+  {
+   "name": "Drafting families (v3) — comment & roxygen",
+   "status": "win",
+   "blurb": "The clearest positive result: the drafting families teach drafting; the control can't even produce the right kind of output.",
+   "table": {
+    "headers": [
+     "metric",
+     "v3 (drafting families)",
+     "dropout control"
+    ],
+    "rows": [
+     [
+      "roxygen structural f1",
+      "0.0663 (11x)",
+      "0.0059"
+     ],
+     [
+      "comment judge mean (0-2)",
+      "1.24",
+      "0.07"
+     ],
+     [
+      "judge: semantically equivalent",
+      "37%",
+      "1%"
+     ],
+     [
+      "judge: outright wrong",
+      "13%",
+      "94%"
+     ]
+    ]
+   },
+   "verdict": "Control writes <b>code instead of comments</b>. Judge calibrated (GT 100% score-2, unrelated 100% score-0)."
+  },
+  {
+   "name": "Scenario-family eval (v3 vs control)",
+   "status": "win",
+   "blurb": "Every programmatic family is learned and transfers to held-out packages (3%-per-family package holdout, exact validators).",
+   "table": {
+    "headers": [
+     "family",
+     "v3 valid/exact",
+     "control"
+    ],
+    "rows": [
+     [
+      "rename_propagation (n=150)",
+      "0.920 / 0.793",
+      "0.000"
+     ],
+     [
+      "pipe_rewrite",
+      "0.944 / 0.944",
+      "0.000"
+     ],
+     [
+      "format_propagation",
+      "0.731 / 0.552",
+      "0.000"
+     ],
+     [
+      "doc_sync",
+      "0.400 / 0.400",
+      "0.000"
+     ],
+     [
+      "na_rm_propagation",
+      "0.800 / 0.800",
+      "0.000"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "v4 — finish-block upweight (allocation experiment)",
+   "status": "done",
+   "blurb": "Capability tracks training share in BOTH directions: +15% whole-region, roxygen drafting halved. Midtyping flat (4th datapoint). Conclusion: train longer, don't reweight.",
+   "table": {
+    "headers": [
+     "eval",
+     "v4",
+     "v3"
+    ],
+    "rows": [
+     [
+      "whole-region",
+      "0.0494",
+      "0.0432"
+     ],
+     [
+      "roxygen drafting f1",
+      "0.0333",
+      "0.0663"
+     ],
+     [
+      "comment judge",
+      "1.19",
+      "1.24"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "SFT v5 — suffix convention + no_op + mid_roxygen + cursor fix",
+   "status": "win",
+   "blurb": "ACCEPTANCE CRITERIA MET. The live-session regression cases (sd-line echo, post-brace eagerness, mom-glue, mid-roxygen) flipped from 0 to pass. Best model on every capability metric.",
+   "table": {
+    "headers": [
+     "eval",
+     "v5",
+     "v3",
+     "control"
+    ],
+    "rows": [
+     [
+      "intent suite mean (n=44)",
+      "<b>1.409</b>",
+      "1.318",
+      "0.432"
+     ],
+     [
+      "intent: fully satisfying",
+      "<b>61.4%</b>",
+      "54.5%",
+      "11.4%"
+     ],
+     [
+      "live-bug family",
+      "<b>1.8 (80% pass)</b>",
+      "sd-line & post-brace = 0",
+      ""
+     ],
+     [
+      "midtyping R raw",
+      "<b>0.0195</b>",
+      "0.0176",
+      ""
+     ],
+     [
+      "midtyping R suffix",
+      "<b>0.0286</b>",
+      "0.0247",
+      ""
+     ],
+     [
+      "whole-region",
+      "0.0505",
+      "0.0432",
+      "0.0698 (pure-arm)"
+     ]
+    ]
+   },
+   "verdict": "Data bugs fixed en route: scenario rows had silently lost their cursor marker since v2 (char-vs-line index); edit_pairs re-emitted region heads."
+  },
+  {
+   "name": "Intent-assertion suite (Zed-style)",
+   "status": "done",
+   "blurb": "44 plain-English behavioral tests, glm-5.3 judge, calibration-gated. The user's live bugs became permanent regression tests."
+  },
+  {
+   "name": "Matryoshka gate probe",
+   "status": "unblocked",
+   "blurb": "Layer-prefix extraction works (12-layer prefix of Qwen3.5-2B converted to GGUF), but our llama.cpp build's converter hard-requires the MTP head. FIXED in llama.cpp main (--no-nextn/--mtp flags) — rebuild queued.",
+   "verdict": "llama.cpp main converts MTP-less qwen3_5 via --no-nextn and serves it (probe verified live). Prefix extraction retry queued."
+  },
+  {
+   "name": "Architecture dossier v1",
+   "status": "done",
+   "blurb": "Recommendation (prior to beat): dense GDN 3:1 hybrid, 32K R-vocab, 1 MTP layer, Matryoshka tiers 0.7/1.3/2.6B @ d=2560. Vocab math: lm_head reads 82MB vs 635MB per token (32K vs 248K). Hermes red-team running with the convenience-is-not-an-argument mandate.",
+   "verdict": "Standing rule recorded: <b>effort is never a blocker; convenience must not pick the architecture.</b>"
+  },
+  {
+   "name": "GLM-5.3 post-training read-out",
+   "status": "done",
+   "blurb": "Digested z.ai's GLM-5.3 story for our future RL phase. Headline: same base as 5.2, ALL gains from scaling post-training environments+RL. Transferables adopted: (1) environments plug in as DATA on one dataflow (our cases library is exactly this shape), (2) synthesized verifiers gated three ways before use (oracle passes / no-op fails / unsolved fails) - our corrupted-twin rule, generalized, (3) solver trajectories hunt reward shortcuts before training on binary rewards, (4) engineer training-rollout logprob alignment (they hit 1e-7), (5) token efficiency IMPROVES with capability under RL - our no_op family is the SFT seed of that.",
+   "verdict": "Logged to research notes. Bonus: their coding plan bills off-peak at 50% - our night burns are half-price; 98% cache-hit billing reinforces PSM prefix-cache design."
+  },
+  {
+   "name": "mid_body_edit case family (wave 1)",
+   "status": "done",
+   "blurb": "Subagent delivered the finish_block counter-skill: ONE edited line mid-function with the function's remainder pinned in the suffix (first family to carry a real suffix through the cases harness). Deterministic corpus-side mutations of CRAN functions: arg_edit / na_rm_insert / rename_once / insert_line (verbatim corpus RHS + fresh LHS, exact by construction). Tests pass; mock smoke 24/25; end-to-end PSM render verified (single-line target, suffix visible).",
+   "verdict": "Full 3,050-row batch generating via mock backend (targets are corpus-exact - zero quota). Assembler entry already wired."
+  }
+ ],
+ "data": [
+  {
+   "family": "finish_block",
+   "rows": "90,728",
+   "note": "function-body completion (the backbone)"
+  },
+  {
+   "family": "roxygen_drafting",
+   "rows": "246,401 mined / 40k in mixture (capped)",
+   "note": "function->docs; corpus grew 7x overnight"
+  },
+  {
+   "family": "hidden_r_instruction",
+   "rows": "39,000",
+   "note": "harvested R rows from general code datasets"
+  },
+  {
+   "family": "edit_pairs",
+   "rows": "~16,000",
+   "note": "real git commits, mined"
+  },
+  {
+   "family": "AST-FIM midtrain corpus",
+   "rows": "276,206 rows / 220.5M tokens",
+   "note": "PSM semantic spans; package-held-out eval"
+  },
+  {
+   "family": "comment families (c2c + drafting + insert)",
+   "rows": "~7k + ~920 Gemini comments growing",
+   "note": "three views of the same mined triples; 5-style pool; two model families"
+  },
+  {
+   "family": "analyst scripts",
+   "rows": "2,231 + ~840 Gemini growing",
+   "note": "validated analyst-style R"
+  },
+  {
+   "family": "scenario families (rename/pipe/format/doc_sync/na_rm/no_op/mid_roxygen)",
+   "rows": "~20k, doc_sync +4.7k in flight",
+   "note": "exact-validator families; doc_sync regrowth FAILED (+0 rows: miners found no new sources), stays 1,087"
+  },
+  {
+   "family": "cases wave 1 (namespace/pipe-link/metadata/expectation/trycatch)",
+   "rows": "wave1 ~1,600 + mid_body_edit 2,122 + astfim_partial 3,000",
+   "note": "mid_body_edit corpus-exact; astfim_partial delivered; removed_block_comment reworked spec only, rows pending"
+  }
+ ],
+ "decisions": [
+  "Suffix-completion convention everywhere: predict ONLY what comes after the cursor (user decision; finish-block re-emission retired).",
+  "Dropout conditioning is the production config — justified by robustness to prompt population, not type signal (ablation showed none).",
+  "Telemetry: local collection always, upload never — until an explicit opt-in (off by default).",
+  "Eval battery: acceptance counters (extension) > validator-exact scenario families + calibrated judge + intent assertions > line-F1 midtyping (composition-blind, 4 datapoints).",
+  "Effort is never a blocker; llama.cpp support is deployment evidence, not selection criteria. Wide architecture space gets a genuine pass.",
+  "Quota discipline: max 6-8 concurrent zai consumers; Gemini (agy) and Opus 4.6 (separate quota) for free-tier generation; Opus reserved for high-judgment tasks.",
+  "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls — the 03:20 incident)."
+ ],
+ "next": [
+  "probe2 verdict -> astfim role in v6 (mixture cap 40k / weak 20k / drop) -> assemble sft_v6 -> 6k-step MiniCPM5-1B chain -> full battery + intent suite (one sequential chain)",
+  "USER DECISION: architecture primary — dossier Candidate B (GDN hybrid) vs red-team A+ (vanilla GQA + LayerSkip-Matryoshka + MTP)",
+  "Kill-tests 1-3 from the red-team (cache semantics, FIM twins, spec acceptance) — ~1 week, zero training",
+  "Extension: LSP-symbols scope-aware context + acceptance telemetry readout",
+  "AST-FIM probe FIM scores -> does semantic-span midtraining teach FIM to a base model?",
+  "From-scratch pretraining design off the red-team verdict (gaps pretrainer: resumable, flock-locked, local checkpoints)",
+  "Extension: scope-aware context via LSP document symbols (spec'd); acceptance-count telemetry already live",
+  "HF dataset: packages/ letter-prefix restructure (per-directory limit hit at 14k packages)"
+ ]
 }

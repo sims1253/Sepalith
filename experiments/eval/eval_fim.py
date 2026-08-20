@@ -63,7 +63,13 @@ def main():
         if row.get("prompt") and row.get("target") is not None:
             # fixed corpus carries the split directly (its `text` field holds a
             # single trailing <|end|>, so split_row cannot find the boundary)
-            prompt, target = row["prompt"], row["target"].strip("\n")
+            t = row["target"].strip("\n")
+            # targets end with a literal <|end|> line; the server strips the
+            # stop string from preds, so it must be stripped from the GT too
+            # (else exact is structurally 0 and line-F1 loses one line/row)
+            if t.endswith("<|end|>"):
+                t = t[: -len("<|end|>")].rstrip("\n")
+            prompt, target = row["prompt"], t
         else:
             prompt, target = split_row(row["text"])
         if prompt is None:
