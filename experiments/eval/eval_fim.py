@@ -60,7 +60,12 @@ def main():
     rows = [json.loads(l) for l in open(args.examples)][: args.limit]
     results = []
     for i, row in enumerate(rows):
-        prompt, target = split_row(row["text"])
+        if row.get("prompt") and row.get("target") is not None:
+            # fixed corpus carries the split directly (its `text` field holds a
+            # single trailing <|end|>, so split_row cannot find the boundary)
+            prompt, target = row["prompt"], row["target"].strip("\n")
+        else:
+            prompt, target = split_row(row["text"])
         if prompt is None:
             continue
         try:
