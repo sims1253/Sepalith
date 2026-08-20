@@ -118,7 +118,8 @@ def main():
         except Exception as e:
             dt, sc = 0.0, dict(exact=0, first_line=0, line_f1=0.0, empty=1)
             sc["error"] = str(e)[:100]
-        rec = dict(i=i, package=ex["package"], kind=ex.get("kind"),
+        rec = dict(i=i, package=ex.get("package") or ex.get("package_or_repo"),
+                   kind=ex.get("kind"),
                    has_types=bool(ex.get("has_types")), latency_s=round(dt, 2),
                    pred=("\n".join(pred)[:600] if pred is not None else None), **sc)
         results.append(rec)
