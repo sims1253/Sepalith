@@ -25,7 +25,7 @@ if not Path(CONVERT).exists():  # /tmp gets wiped between sessions
                     "https://github.com/ggml-org/llama.cpp",
                     str(Path(CONVERT).parent)], check=True)
 subprocess.run([py, CONVERT, str(MERGED), "--outfile", str(MODELS / f"{STEM}-f16.gguf"),
-                "--outtype", "f16"], check=True)
+                "--outtype", "f16", "--no-nextn"], check=True)
 subprocess.run([str(QUANT), str(MODELS / f"{STEM}-f16.gguf"),
                 str(MODELS / f"{STEM}-Q8_0.gguf"), "Q8_0"], check=True)
 (MODELS / f"{STEM}-f16.gguf").unlink()
