@@ -102,6 +102,17 @@ def _params_hash(blob: dict) -> str:
     return hashlib.sha1(json.dumps(blob, sort_keys=True).encode()).hexdigest()[:12]
 
 
+def _stable_shuffle(items: list, meta: dict) -> None:
+    """Deterministic per-params item shuffle. A cache-hit rerun (resume, or
+    the agy->zai backend fallback) MUST reproduce the miss run's item order
+    and keys exactly — shuffling with the harness rng makes the keys depend
+    on how much of the rng the scan consumed, so every resumed run re-keys
+    the pool, misses every done-key and re-burns the whole quota. Seeding a
+    local Random from the params hash keeps the randomized spread while
+    making miss and hit runs agree."""
+    random.Random(_params_hash(meta)).shuffle(items)
+
+
 # ---------------------------------------------------------------------------
 # dataset_file selectors
 # ---------------------------------------------------------------------------
@@ -209,7 +220,7 @@ def sel_tidyselect(spec, rng: random.Random, want: int) -> list[dict]:
             blob = json.loads(cache.read_text())
             if blob.get("params_hash") == _params_hash(meta):
                 items = blob["items"]
-                rng.shuffle(items)
+                _stable_shuffle(items, meta)
                 for i, it in enumerate(items):
                     it["key"] = f"ts:{i}"
                 print(f"  [corpus] tidyselect cache: {len(items)} items "
@@ -238,10 +249,10 @@ def sel_tidyselect(spec, rng: random.Random, want: int) -> list[dict]:
             print(f"  [corpus] files={files} pkgs={len(pkgs)} "
                   f"items={len(items)} elapsed={time.time()-t0:.0f}s",
                   flush=True)
-    # unique keys, stable by (package, path, row)
+    # unique keys, stable by (package, path, row); the cache stores the
+    # sorted order and BOTH paths derive the run order from it (_stable_
+    # shuffle — see the helper's docstring)
     items.sort(key=lambda it: (it["package"], it["path"], it.get("row", 0)))
-    for i, it in enumerate(items):
-        it["key"] = f"ts:{i}"
     scan = dict(files=files, packages=len(pkgs), elapsed_s=round(time.time() - t0, 1),
                 items=len(items))
     try:
@@ -249,6 +260,9 @@ def sel_tidyselect(spec, rng: random.Random, want: int) -> list[dict]:
                                          scan=scan, items=items)))
     except OSError:
         pass
+    _stable_shuffle(items, meta)
+    for i, it in enumerate(items):
+        it["key"] = f"ts:{i}"
     print(f"  [corpus] tidyselect scan: {scan}")
     return items[:max_items]
 
@@ -289,7 +303,7 @@ def _scan_normalized(spec, rng: random.Random, cache_name: str, meta: dict,
             blob = json.loads(cache.read_text())
             if blob.get("params_hash") == _params_hash(meta):
                 items = blob["items"]
-                rng.shuffle(items)
+                _stable_shuffle(items, meta)
                 for i, it in enumerate(items):
                     it["key"] = f"{meta['selector']}:{i}"
                 print(f"  [corpus] {cache_name} cache: {len(items)} items "
@@ -322,8 +336,6 @@ def _scan_normalized(spec, rng: random.Random, cache_name: str, meta: dict,
                   flush=True)
     items.sort(key=lambda it: (it.get("package", ""),
                                it.get("path", ""), it.get("row", 0)))
-    for i, it in enumerate(items):
-        it["key"] = f"{meta['selector']}:{i}"
     scan = dict(files=files, packages=len(pkg_counts),
                 elapsed_s=round(time.time() - t0, 1), items=len(items))
     try:
@@ -331,6 +343,9 @@ def _scan_normalized(spec, rng: random.Random, cache_name: str, meta: dict,
                                          scan=scan, items=items)))
     except OSError:
         pass
+    _stable_shuffle(items, meta)
+    for i, it in enumerate(items):
+        it["key"] = f"{meta['selector']}:{i}"
     print(f"  [corpus] {cache_name} scan: {scan}")
     return items[:max_items]
 
@@ -355,7 +370,7 @@ def _scan_tarballs(spec, rng: random.Random, cache_name: str, meta: dict,
             blob = json.loads(cache.read_text())
             if blob.get("params_hash") == _params_hash(meta):
                 items = blob["items"]
-                rng.shuffle(items)
+                _stable_shuffle(items, meta)
                 for i, it in enumerate(items):
                     it["key"] = f"{meta['selector']}:{i}"
                 print(f"  [corpus] {cache_name} cache: {len(items)} items "
@@ -414,8 +429,6 @@ def _scan_tarballs(spec, rng: random.Random, cache_name: str, meta: dict,
                   flush=True)
     items.sort(key=lambda it: (it.get("package", ""),
                                it.get("path", ""), it.get("row", 0)))
-    for i, it in enumerate(items):
-        it["key"] = f"{meta['selector']}:{i}"
     scan = dict(tarballs=opened, packages=len(pkg_counts),
                 elapsed_s=round(time.time() - t0, 1), items=len(items),
                 **extras)
@@ -424,6 +437,9 @@ def _scan_tarballs(spec, rng: random.Random, cache_name: str, meta: dict,
                                          scan=scan, items=items)))
     except OSError:
         pass
+    _stable_shuffle(items, meta)
+    for i, it in enumerate(items):
+        it["key"] = f"{meta['selector']}:{i}"
     print(f"  [corpus] {cache_name} scan: {scan}")
     return items[:max_items]
 
@@ -1326,7 +1342,7 @@ def _scan_normalized_versions(spec, rng: random.Random, cache_name: str,
             blob = json.loads(cache.read_text())
             if blob.get("params_hash") == _params_hash(meta):
                 items = blob["items"]
-                rng.shuffle(items)
+                _stable_shuffle(items, meta)
                 for i, it in enumerate(items):
                     it["key"] = f"{meta['selector']}:{i}"
                 print(f"  [corpus] {cache_name} cache: {len(items)} items "
@@ -1359,8 +1375,6 @@ def _scan_normalized_versions(spec, rng: random.Random, cache_name: str,
                   flush=True)
     items.sort(key=lambda it: (it.get("package", ""),
                                it.get("path", ""), it.get("row", 0)))
-    for i, it in enumerate(items):
-        it["key"] = f"{meta['selector']}:{i}"
     scan = dict(files=files, packages=len(pkg_counts),
                 elapsed_s=round(time.time() - t0, 1), items=len(items))
     try:
@@ -1368,6 +1382,9 @@ def _scan_normalized_versions(spec, rng: random.Random, cache_name: str,
                                          scan=scan, items=items)))
     except OSError:
         pass
+    _stable_shuffle(items, meta)
+    for i, it in enumerate(items):
+        it["key"] = f"{meta['selector']}:{i}"
     print(f"  [corpus] {cache_name} scan: {scan}")
     return items[:max_items]
 

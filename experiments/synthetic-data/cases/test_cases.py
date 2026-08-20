@@ -307,6 +307,22 @@ class TestCorpusSelectors(unittest.TestCase):
             self.assertEqual(it["prefix"][-1], "  a <- x + 1")
             self.assertEqual(it["corpus_target"], "  b <- a * 2\n  sum(b)")
 
+    def test_stable_shuffle_determinism(self):
+        """Cache-hit reruns (resume / the agy->zai fallback) must reproduce
+        the miss run's item order: the shuffle seeds from the params hash,
+        never from the harness rng (whose consumption differs between the
+        scan and the cache hit)."""
+        import cases.corpus as C
+        a, b = list(range(60)), list(range(60))
+        meta = dict(selector="x", max_items=10)
+        C._stable_shuffle(a, meta)
+        C._stable_shuffle(b, meta)
+        self.assertEqual(a, b)
+        self.assertNotEqual(a, list(range(60)))     # actually shuffled
+        c = list(range(60))
+        C._stable_shuffle(c, dict(selector="x", max_items=11))
+        self.assertNotEqual(a, c)                   # params -> new order
+
     def test_tidyselect_extractor(self):
         b = Bundle("pkgT", "R/t.R", R_SRC)
         items = extract_tidyselect(b, {"select", "relocate", "across"},
