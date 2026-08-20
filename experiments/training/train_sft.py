@@ -14,7 +14,7 @@ STEPS = int(sys.argv[2]) if len(sys.argv) > 2 else 3000
 DATA = Path(sys.argv[3]) if len(sys.argv) > 3 else Path("/mnt/h/sepalith/datasets/sft_v1")
 # one output dir per (model, dataset): a shared dir lets the next chain
 # overwrite the previous run's checkpoints (lost sft_v2_minicpm5 that way)
-OUT = (Path(sys.argv[4]) if len(sys.argv) > 4 else
+OUT = (Path(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4].strip() else
        Path(f"/mnt/h/sepalith/runs/sft_{DATA.name}_{MODEL.split('/')[-1]}"))
 # 5th arg: "auto" resumes from the newest checkpoint in OUT (v5 died at
 # step 3086 in a GPU-contention incident; checkpoint-3000 was intact)
