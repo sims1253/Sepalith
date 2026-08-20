@@ -71,6 +71,7 @@ SCENARIO_FILES = [
     "comment_to_code_real.jsonl",
     "comment_to_code_synthetic.jsonl",
     "comment_drafting.jsonl",
+    "comment_insert.jsonl",
     "roxygen_drafting.jsonl",
     "no_op.jsonl",          # v5: the eagerness fix (empty targets allowed)
     "mid_roxygen.jsonl",    # v5: suffix-convention roxygen continuation
