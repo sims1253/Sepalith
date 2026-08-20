@@ -1,0 +1,78 @@
+{
+  "name": "removed_block_comment",
+  "version": 1,
+  "family": "removed_block_comment",
+  "description": "A sub-block was removed from inside a function and a developer-style ONE-LINER comment now marks the site; the target re-inserts the removed block verbatim. Corpus side: normalized CRAN functions with 6+ body lines (highest version per package, the build_astfim versions.json cache pattern); ONE strictly interior run of consecutive top-level statements (3-8 lines, tree-sitter statement boundaries - a guard clause, a computation stanza - never the whole body) is cut out. Prompt: file window + the function down to the removal site, then the comment line + cursor; suffix = the post-block remainder of the function through its closing brace plus a file-below window (scope-aware-context rule). The comment itself is the ONE LLM call per row (backend agy, zai fallback): the 5-style pool from comment_to_code as templates, prompted with the removed block, asked for how a dev would jot it - meaningful intent, NOT a complete spec, no code, max 80 chars. Validation: corpus-exact target text, comment length/format gate, and a tree-sitter floor that the target re-parses as clean R statements.",
+  "novelty_note": "comment_to_code_styles puts a generated comment above an INTACT block the model must then write - the comment describes code that is about to appear for the first time. Here the block is GONE (removed from a real function), the comment is the only trace a returning developer leaves at the site, and the model must reconstruct the exact removed code from function context + suffix + one-line intent. It is the remove-then-reinsert inverse of astfim_partial's retyping: no typed partial exists, only the jot-note. Nothing existing trains reconstruction of deleted code from a dev's site marker; the exact gate stays corpus-side (region_new = verbatim removed lines) while the single LLM call is confined to the comment (comment_prefix construction, r_comment_gate validator).",
+  "target_field": "comment",
+  "target_normalizer": "comment",
+  "prompt_templates": [
+    "A sub-block was cut out of the R function below. Write the ONE-line comment (max 80 chars, no code, describes what the removed code does) a developer would jot at the spot to mark it. Removed block:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "A sub-block was cut out of the R function below. Write ONE short comment line (max 80 chars) a developer would jot there saying WHY this code exists. Removed block:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "A sub-block was cut out of the R function below. Write the ONE terse comment line (max 60 chars, telegraphic) a developer would jot at the empty spot. Removed block:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "A sub-block was cut out of the R function below. Write ONE comment line (max 80 chars) a developer would jot there naming the inputs, transform, and result of the removed code. Removed block:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "A sub-block was cut out of the R function below. Write ONE comment line (max 80 chars) a developer would jot there flagging the edge case or gotcha the removed code handles (or what it does, if none). Removed block:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "normalized_corpus",
+    "selector": "removed_block_sites",
+    "params": {
+      "sample_packages": 500,
+      "min_body_lines": 6,
+      "block_lines_min": 3,
+      "block_lines_max": 8,
+      "window_lines": 10,
+      "per_package_cap": 3,
+      "per_file_cap": 2,
+      "max_items": 4850,
+      "time_budget_s": 2700,
+      "max_body_lines": 40
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "normalized CRAN corpus (/mnt/h/sepalith/normalized), highest version per package; one interior 3-8-line statement run removed per function"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "comment_prefix",
+    "params": {
+      "comment_indent": "  # ",
+      "carry": [
+        "fn_head"
+      ]
+    }
+  },
+  "validator": {
+    "name": "r_comment_gate",
+    "params": {
+      "max_len": 80,
+      "forbid": [
+        ";",
+        "<-",
+        "(",
+        "\n"
+      ]
+    }
+  },
+  "row_check": {
+    "name": "removed_block_site",
+    "params": {
+      "block_lines_min": 3,
+      "block_lines_max": 8
+    }
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 3,
+    "target_lines_max": 8,
+    "target_chars_min": 4,
+    "target_chars_max": 90
+  },
+  "response_format": "json"
+}

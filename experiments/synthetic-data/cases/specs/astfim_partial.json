@@ -1,0 +1,49 @@
+{
+  "name": "astfim_partial",
+  "version": 1,
+  "family": "astfim_partial",
+  "description": "Remove-a-block-then-RETYPED-k-lines completion, derived purely (no LLM) from the corrected astfim_v1 corpus (/mnt/h/sepalith/datasets/astfim_v1/fixed): the user removed a semantic span, then started retyping it. The first k span lines (k = 1..min(3, len-1), seeded choice) move above the cursor as the typed partial (midtyping convention, <|cursor|>partial<|suffix|>); the target is the REMAINING span lines, corpus-exact. Suffix convention everywhere: the partial is never re-emitted, the file below the span stays visible. The eval split follows the parent corpus package holdout: rerun this spec with corpus_source.path pointed at fixed/eval.jsonl, --n 100, --out cases_v1/astfim_partial_eval.jsonl (the assembler has no per-family eval input — it holds packages out itself — so the eval file stays unregistered).",
+  "novelty_note": "Every existing completion family starts at a code boundary (pipe operator, expect_ partial, handler comma, comment line) with NOTHING typed inside the span; mid_body_edit edits one existing line. This is the only family where the model CONTINUES a partially retyped removed block: the typed partial is genuine prefix context (the user's own retyping, seeded k), the target is the strict suffix of the original span, and construction is pure derivation of the corrected FIM corpus (mock backend, corpus-side exact GT — the namespace_qualify/mid_body_edit convention). The parent row's PSM fields ride along as psm_prompt/psm_target so the midtyping geometry (<|cursor|> + retyped lines + <|suffix|>) is auditable per row.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code at a cursor. The user deleted a block of code and is now RETYPING it by hand - the last line(s) above the cursor are the beginning of their re-typing. Continue the block from the cursor to its end. The rest of the file below is unchanged and must not be re-emitted; do not repeat the lines already typed above the cursor.\n\nCode above the cursor (the cursor sits at the very end of the last line shown):\n\n{context}\n\nFile below the cursor (unchanged):\n\n{suffix}\n\nEmit ONLY the remaining lines of the block being retyped.\n\nReply with ONLY this JSON: {{\"completion\": string}}",
+    "The cursor marks where a developer stopped retyping a block they had deleted. Finish the block - only the lines still missing, starting fresh at the cursor; the typed partial above the cursor and the file below are already in place.\n\nAbove the cursor:\n\n{context}\n\nBelow the cursor:\n\n{suffix}\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "dataset_file",
+    "path": "/mnt/h/sepalith/datasets/astfim_v1/fixed/train.jsonl",
+    "selector": "astfim_partial_rows",
+    "params": {
+      "max_partial_lines": 3,
+      "sample_lines": 15000,
+      "max_items": 3100
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "corrected astfim_v1 fixed split (build_astfim semantic spans, PSM markers); seeded reservoir sample across spans, train packages only"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {"carry": ["parent_kind", "k_partial", "partial_lines", "psm_prompt", "psm_target"]}
+  },
+  "validator": {
+    "name": "corpus_side",
+    "params": {}
+  },
+  "row_check": {
+    "name": "astfim_partial_site",
+    "params": {"max_partial_lines": 3}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "knobs": "retyped partial length k (1..3) and parent span kind (function_body / top_level_block / argument_list)"
+  },
+  "response_format": "json"
+}

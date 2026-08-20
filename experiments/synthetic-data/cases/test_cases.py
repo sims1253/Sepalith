@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from cases.backends import MockBackend, extract_json_object
 from cases import corpus as C
 from cases.corpus import _apply_difficulty, extract_mid_body_edits, \
-    extract_tidyselect, select_corpus
+    extract_removed_blocks, extract_tidyselect, select_corpus
 from cases.rows import normalize_target
 from cases.spec import (SpecError, list_cases, load_case, spec_from_dict)
 from cases.validators import (REGISTRY, check_row, get_validator,
@@ -75,7 +75,8 @@ def toy_spec_dict(path, **over):
         },
         "parameter_sampler": {"name": "template_uniform", "params": {}},
         "target_construction": {"kind": "comment_prefix",
-                                "params": {"comment_indent": "  # "}},
+                                "params": {"comment_indent": "  # ",
+                                           "carry": ["fn_head"]}},
         "validator": {"name": "r_comment_gate", "params": {"max_len": 90}},
         "row_check": {"name": "ends_with_comment_line", "params": {}},
         "dedup": "target+key",
@@ -601,6 +602,367 @@ class TestMidBodyEdit(unittest.TestCase):
             self.assertEqual(stats["counts"]["accepted"], 6)
             self.assertEqual(
                 len({r["content_hash"] for r in rows}), 6)
+
+
+# ---------------------------------------------------------------------------
+# case 7: astfim_partial (pure derivation of the corrected astfim corpus)
+# ---------------------------------------------------------------------------
+
+AFP_SPANS = [
+    "  a <- x + 1\n  b <- a * 2\n  sum(b)",                 # 3 lines, k 1..2
+    "  p <- nrow(x)\n  q <- head(x, p)",                    # 2 lines, k = 1
+    "  u <- x[1]\n  v <- x[2]\n  w <- x[3]\n  z <- u + v + w",  # 4, k 1..3
+    "  m <- mean(x)\n  s <- sd(x)\n  r <- m / s\n  t <- r + 1\n  out <- t * 2",  # 5
+]
+
+
+def write_toy_astfim(tmpdir):
+    """A miniature corrected-astfim corpus: PSM prompts (empty cursor zone,
+    no history) + span targets terminated by <|end|>."""
+    rows = []
+    for i, span in enumerate(AFP_SPANS):
+        prompt = ("<|context|>pkgP/R/f.R\n"
+                  "f <- function(x) {\n"
+                  "<|history|>\n\n"
+                  "<|cursor|><|suffix|>\n"
+                  "}\n\n"
+                  f"# tail marker {i}\n"
+                  "<|end|>\n")
+        rows.append(dict(text=prompt + span + "\n<|end|>", prompt=prompt,
+                         target=span + "\n<|end|>", kind="function_body",
+                         package="pkgP", path="R/f.R"))
+    p = Path(tmpdir) / "astfim_fixed.jsonl"
+    p.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    return p
+
+
+def astfim_partial_spec_dict(corpus_path, **over):
+    d = {
+        "name": "toy_astfim_partial",
+        "version": 1,
+        "description": "toy astfim_partial case for tests",
+        "novelty_note": "test-only",
+        "target_field": "completion",
+        "target_normalizer": "code",
+        "prompt_templates": [
+            "The user deleted a block and is retyping it; the cursor sits "
+            "after their typed partial. Finish the block.\n\n"
+            "Above:\n\n{context}\n\nBelow:\n\n{suffix}\n\n"
+            'JSON only: {{"completion": string}}'],
+        "corpus_source": {
+            "kind": "dataset_file",
+            "path": str(corpus_path),
+            "selector": "astfim_partial_rows",
+            "params": {"max_partial_lines": 3},
+            "provenance": {"license": "test-license",
+                           "source_url": "https://example.com/src",
+                           "note": "toy fixed corpus"},
+        },
+        "parameter_sampler": {"name": "template_uniform", "params": {}},
+        "target_construction": {
+            "kind": "exact_completion",
+            "params": {"carry": ["parent_kind", "k_partial", "partial_lines",
+                                 "psm_prompt", "psm_target"]}},
+        "validator": {"name": "corpus_side", "params": {}},
+        "row_check": {"name": "astfim_partial_site",
+                      "params": {"max_partial_lines": 3}},
+        "dedup": "target+key",
+        "difficulty": {},
+    }
+    d.update(over)
+    return d
+
+
+class TestAstfimPartial(unittest.TestCase):
+    """case 7: the first k target lines become the typed partial above the
+    cursor; the remaining span lines stay the corpus-exact target."""
+
+    def test_derivation_invariants(self):
+        import random
+        with tempfile.TemporaryDirectory() as td:
+            corpus = write_toy_astfim(td)
+            spec = spec_from_dict(astfim_partial_spec_dict(corpus),
+                                  origin=str(Path(td) / "spec.json"))
+            items = select_corpus(spec, random.Random(7), want=4)
+        self.assertEqual(len(items), 4)
+        for it in items:
+            span_lines = it["partial_lines"] + it["block"]
+            k = it["k_partial"]
+            self.assertTrue(1 <= k <= min(3, len(span_lines) - 1), k)
+            self.assertEqual(it["partial_lines"], span_lines[:k])
+            self.assertEqual(it["prefix"],
+                             ["f <- function(x) {"] + span_lines[:k])
+            self.assertEqual(it["block"], span_lines[k:])
+            self.assertGreaterEqual(len(it["block"]), 1)
+            self.assertEqual(it["suffix"][:2], ["}", ""])
+            self.assertTrue(it["suffix"][-1].startswith("# tail marker "))
+            self.assertEqual(it["corpus_target"], "\n".join(span_lines[k:]))
+            self.assertEqual(it["parent_kind"], "function_body")
+            # midtyping geometry: the partial sits inside the cursor zone
+            ci = it["psm_prompt"].find("<|cursor|>")
+            si = it["psm_prompt"].find("<|suffix|>")
+            self.assertEqual(it["psm_prompt"][ci + len("<|cursor|>"):si],
+                             "\n".join(span_lines[:k]))
+            self.assertEqual(it["psm_target"],
+                             "\n".join(span_lines[k:]) + "\n<|end|>")
+
+    def test_row_check_rejects(self):
+        from cases.validators import rc_astfim_partial
+        good = dict(k_partial=1, partial_lines=["  a <- x + 1"],
+                    prefix=["f <- function(x) {", "  a <- x + 1"],
+                    region_new=["  b <- a * 2", "  sum(b)"],
+                    corpus_target="  b <- a * 2\n  sum(b)",
+                    psm_prompt="<|cursor|>  a <- x + 1<|suffix|>\n}")
+        ok, reason = rc_astfim_partial(good, {})
+        self.assertTrue(ok, reason)
+        for mutate in (lambda r: r.update(k_partial=4),            # k > max
+                       lambda r: r.update(partial_lines=["nope"]),  # tail miss
+                       lambda r: r.update(region_new=[" "]),        # blank
+                       lambda r: r.update(corpus_target="other"),   # not exact
+                       lambda r: r.update(psm_prompt="<|cursor|><|suffix|>")):
+            row = json.loads(json.dumps(good))
+            mutate(row)
+            ok, _ = rc_astfim_partial(row, {})
+            self.assertFalse(ok)
+
+    def test_full_cycle_mock_backend(self):
+        with tempfile.TemporaryDirectory() as td:
+            corpus = write_toy_astfim(td)
+            spec_p = Path(td) / "afp.json"
+            spec_p.write_text(json.dumps(astfim_partial_spec_dict(corpus)))
+            out = Path(td) / "afp.jsonl"
+            rc = generate_main(["--spec", str(spec_p), "--n", "4",
+                                "--backend", "mock", "--out", str(out)])
+            self.assertEqual(rc, 0)
+            rows = [json.loads(l) for l in
+                    out.read_text().splitlines() if l.strip()]
+            self.assertEqual(len(rows), 4)
+            for row in rows:
+                self.assertEqual(row["case"], "toy_astfim_partial")
+                self.assertEqual(row["region_old"], [""])
+                self.assertEqual(row["cursor_idx"], 0)
+                self.assertEqual(row["region_new"],
+                                 row["corpus_target"].split("\n"))
+                self.assertEqual(row["prefix"][-row["k_partial"]:],
+                                 row["partial_lines"])
+                self.assertTrue(row["suffix"])
+                self.assertNotIn(row["region_new"][0],
+                                 row["full_prompt"])            # no GT leak
+                ok, reason = check_row(row, {"name": "astfim_partial_site",
+                                             "params": {}})
+                self.assertTrue(ok, reason)
+            self.assertEqual(len({r["content_hash"] for r in rows}), 4)
+
+    def test_shipped_spec_loads(self):
+        s = load_case("astfim_partial")
+        self.assertIn("astfim_partial", list_cases())
+        self.assertEqual(s.corpus_source["selector"], "astfim_partial_rows")
+        self.assertEqual(s.validator["name"], "corpus_side")
+        self.assertEqual(s.row_check["name"], "astfim_partial_site")
+        for t in s.prompt_templates:      # templates never leak the target
+            self.assertNotIn("{corpus_target}", t)
+            self.assertNotIn("{code}", t)
+
+
+# ---------------------------------------------------------------------------
+# case 8: removed_block_comment (ONE dev one-liner marks the removal site)
+# ---------------------------------------------------------------------------
+
+RBC_SRC = b'''blkfun <- function(df, thr) {
+  n0 <- nrow(df)
+  keep <- df[!is.na(df$y), ]
+  if (nrow(keep) == 0) {
+    stop("no complete rows after NA filter")
+  }
+  m <- mean(keep$y)
+  s <- sd(keep$y)
+  z <- (keep$y - m) / s
+  out <- keep[z > thr, ]
+  attr(out, "n0") <- n0
+  out
+}
+
+scalefun <- function(v, w) {
+  lo <- min(v)
+  hi <- max(v)
+  span <- hi - lo
+  adj <- (v - lo) / span
+  wadj <- adj * w
+  names(wadj) <- names(v)
+  wadj
+}
+
+tagfun <- function(d, lab) {
+  key <- tolower(lab)
+  hits <- grepl(key, d$name)
+  found <- d[hits, ]
+  miss <- d[!hits, ]
+  n_found <- nrow(found)
+  attr(found, "key") <- key
+  list(found = found, miss = miss, n = n_found)
+}
+'''
+
+
+@C.register("removed_block_toy")
+def _sel_removed_block_toy(spec, rng, want):
+    """Test-only selector: the removed_block extractor over an in-memory
+    bundle (the mid_body_toy precedent — no corpus access)."""
+    items = extract_removed_blocks(Bundle("pkgR", "R/r.R", RBC_SRC), rng,
+                                   dict(per_file_cap=12, window_lines=10))
+    for i, it in enumerate(items):
+        it["key"] = f"toy_rbc:{i}"
+    return items
+
+
+def removed_block_spec_dict(**over):
+    d = {
+        "name": "toy_removed_block",
+        "version": 1,
+        "description": "toy removed_block_comment case for tests",
+        "novelty_note": "test-only",
+        "target_field": "comment",
+        "target_normalizer": "comment",
+        "prompt_templates": [
+            "A sub-block was cut out of the R function below. Write the "
+            "ONE-line comment (max 80 chars, no code) a developer would jot "
+            "at the spot. Removed block:\n\n{code}\n\n"
+            'JSON only: {{"comment": string}}'],
+        "corpus_source": {
+            "kind": "normalized_corpus",
+            "selector": "removed_block_toy",
+            "params": {},
+            "provenance": {"license": "test-license",
+                           "source_url": "https://example.com/src",
+                           "note": "toy bundle"},
+        },
+        "parameter_sampler": {"name": "template_uniform", "params": {}},
+        "target_construction": {"kind": "comment_prefix",
+                                "params": {"comment_indent": "  # ",
+                                           "carry": ["fn_head"]}},
+        "validator": {"name": "r_comment_gate", "params": {"max_len": 80}},
+        "row_check": {"name": "removed_block_site", "params": {}},
+        "dedup": "target+key",
+        "difficulty": {"target_lines_min": 3, "target_lines_max": 8,
+                       "target_chars_min": 4, "target_chars_max": 90},
+    }
+    d.update(over)
+    return d
+
+
+class TestRemovedBlockComment(unittest.TestCase):
+    """case 8: interior statement sub-block removed; the LLM one-liner is the
+    site marker, the corpus-exact block is the target."""
+
+    def test_extractor_geometry(self):
+        import random
+        for seed in range(30):
+            for it in extract_removed_blocks(Bundle("pkgR", "R/r.R", RBC_SRC),
+                                             random.Random(seed),
+                                             dict(per_file_cap=12,
+                                                  window_lines=10)):
+                blk = it["block"]
+                self.assertTrue(3 <= len(blk) <= 8, blk)
+                self.assertFalse(blk[0].lstrip().startswith("#"))
+                self.assertIn(it["fn_head"], it["prefix"])
+                self.assertTrue(it["prefix"][-1].strip())
+                self.assertTrue(any(l.strip() == "}" for l in it["suffix"]))
+                self.assertTrue(any(l.strip() and l.strip() != "}"
+                                    for l in it["suffix"]))  # interior site
+                self.assertEqual(it["corpus_target"], "\n".join(blk))
+
+    def test_row_check(self):
+        from cases.validators import rc_removed_block
+        good = dict(prefix=["blkfun <- function(df, thr) {", "  n0 <- nrow(df)",
+                            "  # guard the empty case"],
+                    region_new=["  if (nrow(keep) == 0) {",
+                                '    stop("no complete rows")', "  }"],
+                    corpus_target="  if (nrow(keep) == 0) {\n"
+                                  '    stop("no complete rows")\n  }',
+                    fn_head="blkfun <- function(df, thr) {",
+                    suffix=["  m <- mean(keep$y)", "  out", "}"])
+        ok, reason = rc_removed_block(good, {})
+        self.assertTrue(ok, reason)
+        for mutate in (lambda r: r.update(prefix=r["prefix"][:-1]),  # no comment
+                       lambda r: r["prefix"].__setitem__(-1, "  #' roxygen"),
+                       lambda r: r.update(region_new=r["region_new"][:1]),  # <3
+                       lambda r: r.update(region_new=["  x <- ", "  y <- 2",
+                                                      "  z <- 3"]),  # broken R
+                       lambda r: r.update(suffix=[]),                 # no pin
+                       lambda r: r.update(fn_head="gone <- function() {"),
+                       lambda r: r.update(corpus_target="drift")):
+            row = json.loads(json.dumps(good))
+            mutate(row)
+            ok, _ = rc_removed_block(row, {})
+            self.assertFalse(ok)
+
+    def test_render_budget_cap(self):
+        """Items whose assembled scenario row would exceed the assembler's
+        6000-char budget are dropped at extraction — no agy call is burned
+        on a row assemble_sft_v5 would silently discard."""
+        import random
+        import cases.corpus as C
+        # every line padded to ~600 chars: any site's prefix+block+suffix
+        # overshoots a small budget (max_block_chars raised so the budget
+        # check is the only thing that can reject)
+        big = "\n".join(
+            (l.decode() if isinstance(l, bytes) else l).ljust(600)
+            for l in RBC_SRC.decode().split("\n")).encode()
+        saved = C.SCENARIO_RENDER_BUDGET
+        C.SCENARIO_RENDER_BUDGET = 3000
+        try:
+            self.assertEqual(
+                extract_removed_blocks(Bundle("pkgR", "R/r.R", big),
+                                       random.Random(1),
+                                       dict(per_file_cap=12, window_lines=10,
+                                            max_block_chars=999999)),
+                [])
+        finally:
+            C.SCENARIO_RENDER_BUDGET = saved
+        # the unmodified toy source fits the real budget
+        self.assertTrue(extract_removed_blocks(
+            Bundle("pkgR", "R/r.R", RBC_SRC), random.Random(1),
+            dict(per_file_cap=12, window_lines=10)))
+
+    def test_full_cycle_mock_backend(self):
+        with tempfile.TemporaryDirectory() as td:
+            spec_p = Path(td) / "rbc.json"
+            spec_p.write_text(json.dumps(removed_block_spec_dict()))
+            out = Path(td) / "rbc.jsonl"
+            rc = generate_main(["--spec", str(spec_p), "--n", "3",
+                                "--backend", "mock", "--out", str(out)])
+            self.assertEqual(rc, 0)
+            rows = [json.loads(l) for l in
+                    out.read_text().splitlines() if l.strip()]
+            self.assertEqual(len(rows), 3)
+            for row in rows:
+                self.assertEqual(row["case"], "toy_removed_block")
+                self.assertEqual(row["region_old"], [""])
+                self.assertEqual(row["cursor_idx"], 0)
+                self.assertTrue(row["prefix"][-1].startswith("  # "))
+                self.assertIn(row["fn_head"], row["prefix"])
+                self.assertEqual(row["region_new"],
+                                 row["corpus_target"].split("\n"))
+                self.assertTrue(3 <= len(row["region_new"]) <= 8)
+                self.assertTrue(any(l.strip() == "}" for l in row["suffix"]))
+                self.assertIn(row["region_new"][0], row["full_prompt"])
+                ok, reason = check_row(row, {"name": "removed_block_site",
+                                             "params": {}})
+                self.assertTrue(ok, reason)
+            self.assertEqual(len({r["content_hash"] for r in rows}), 3)
+
+    def test_shipped_spec_loads(self):
+        s = load_case("removed_block_comment")
+        self.assertIn("removed_block_comment", list_cases())
+        self.assertEqual(s.corpus_source["selector"], "removed_block_sites")
+        self.assertEqual(len(s.prompt_templates), 5)     # the 5-style pool
+        self.assertEqual(s.validator["name"], "r_comment_gate")
+        self.assertEqual(s.validator["params"]["max_len"], 80)
+        self.assertEqual(s.row_check["name"], "removed_block_site")
+        self.assertEqual(s.target_construction["kind"], "comment_prefix")
+        for t in s.prompt_templates:      # templates never leak the target
+            self.assertNotIn("{corpus_target}", t)
+            self.assertNotIn("{context}", t)
 
 
 if __name__ == "__main__":

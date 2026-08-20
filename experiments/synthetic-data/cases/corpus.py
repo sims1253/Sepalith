@@ -1185,8 +1185,11 @@ def _mid_body_item(b: Bundle, kind: str, row: int, payload: dict,
 def extract_mid_body_edits(b: Bundle, rng: random.Random,
                            params: dict) -> list[dict]:
     """Functions of 3+ body lines from one bundle: one deterministic
-    mutation per function (kind shuffled), at a site that is strictly
-    mid-body (a non-blank statement above AND below inside the braces)."""
+    mutation per function, at a site that is strictly mid-body (a non-blank
+    statement above AND below inside the braces). The kind draw is
+    MINORITY-FIRST: the kind with the fewest items so far in this bundle
+    wins the next slot, so the scarce na_rm sites are never starved by the
+    abundant rename/insert ones."""
     kinds = [k for k in (params.get("kinds") or MID_BODY_KINDS)
              if k in MID_BODY_KINDS]
     window = int(params.get("window_lines", 10))
@@ -1196,6 +1199,7 @@ def extract_mid_body_edits(b: Bundle, rng: random.Random,
     cap_fn = int(params.get("per_function_cap", 1))
     shadowed = bool(_STAT_SHADOW_RE.search(b.src))
     out: list[dict] = []
+    kind_counts: dict[str, int] = {}
     for fn in (n for n in _walk(b.tree.root_node)
                if n.type == "function_definition"):
         if len(out) >= cap_file:
@@ -1220,10 +1224,11 @@ def extract_mid_body_edits(b: Bundle, rng: random.Random,
             rng.shuffle(lst)
         emitted, seen_rows = 0, set()
         while emitted < cap_fn and len(out) < cap_file and cands:
-            # one KIND per emission slot (uniform over the kinds that still
-            # have candidates) so the abundant insert/rename sites cannot
-            # starve the rarer na_rm/arg_edit mutations
-            kind = rng.choice(sorted(cands))
+            # minority-first kind draw: scarcest kind so far wins the slot
+            # (alphabetical tiebreak), so rare-but-valuable mutations surface
+            order = sorted(cands)
+            kind = min(order, key=lambda k: (kind_counts.get(k, 0),
+                                             order.index(k)))
             _k, row, payload = cands[kind].pop()
             if not cands[kind]:
                 del cands[kind]
@@ -1239,6 +1244,7 @@ def extract_mid_body_edits(b: Bundle, rng: random.Random,
             out.append(item)
             emitted += 1
             seen_rows.add(row)
+            kind_counts[kind] = kind_counts.get(kind, 0) + 1
     return out
 
 
@@ -1366,6 +1372,258 @@ def _scan_normalized_versions(spec, rng: random.Random, cache_name: str,
     return items[:max_items]
 
 
+# ---------------------------------------------------------------------------
+# case 7: astfim_partial (pure derivation of the corrected astfim_v1 corpus:
+# remove-a-block-then-RETYPED-k-lines — the first k target lines become the
+# user's typed partial above the cursor, the remaining lines stay the target)
+# ---------------------------------------------------------------------------
+
+ASTFIM_CTX, ASTFIM_HIST = "<|context|>", "<|history|>"
+ASTFIM_CURSOR, ASTFIM_SUFFIX, ASTFIM_END = "<|cursor|>", "<|suffix|>", "<|end|>"
+# render_zeta2 + UPDATED markers push a scenario row ~150 chars past the raw
+# prefix/block/suffix text; keep a margin under the assembler's 6000-char
+# budget (assemble_sft_v5 MAX_CHARS) so no generated row is silently dropped
+SCENARIO_RENDER_BUDGET = 5800
+
+
+def _split_astfim_prompt(prompt: str) -> tuple[str, list[str], list[str]] | None:
+    """(path, file-above lines, file-below lines) of a corrected-corpus PSM
+    prompt (`<|context|>path\n...\n<|history|>\n\n<|cursor|><|suffix|>\n...
+    \n<|end|>\n`). None when the row is not the canonical shape."""
+    if not prompt.startswith(ASTFIM_CTX):
+        return None
+    h = prompt.find(ASTFIM_HIST)
+    c = prompt.find(ASTFIM_CURSOR)
+    s = prompt.find(ASTFIM_SUFFIX)
+    if min(h, c, s) < 0 or not (h < c < s) or prompt[c + len(ASTFIM_CURSOR):s]:
+        return None                      # cursor zone must be empty (no partial)
+    if prompt[h + len(ASTFIM_HIST):c].strip():
+        return None                      # astfim rows carry no history events
+    above = prompt[len(ASTFIM_CTX):h]
+    if not above.endswith("\n"):
+        return None
+    path, _, above_text = above.partition("\n")
+    below = prompt[s + len(ASTFIM_SUFFIX):]
+    if not below.startswith("\n") or not below.endswith("\n" + ASTFIM_END + "\n"):
+        return None
+    below_text = below[1:-len(ASTFIM_END)]      # drop the header \n and <|end|>
+    return (path, above_text.split("\n")[:-1], below_text.split("\n")[:-1])
+
+
+def derive_astfim_partial(row: dict, rng: random.Random,
+                          params: dict) -> dict | None:
+    """One fixed-corpus row -> one retyped-partial item. The first k span
+    lines move above the cursor as the user's retyped partial (midtyping
+    convention: `<|cursor|>partial<|suffix|>`), the remaining span lines are
+    the completion target (>= 1 line by the k <= len-1 bound)."""
+    parsed = _split_astfim_prompt(row.get("prompt") or "")
+    target = row.get("target") or ""
+    if parsed is None or not target.endswith("\n" + ASTFIM_END):
+        return None
+    _path, above, below = parsed
+    span_lines = target[:-len("\n" + ASTFIM_END)].split("\n")
+    max_k = int(params.get("max_partial_lines", 3))
+    if len(span_lines) < 2:
+        return None                      # nothing to move: k would be 0
+    k = rng.randint(1, min(max_k, len(span_lines) - 1))
+    partial, remaining = span_lines[:k], span_lines[k:]
+    if not any(l.strip() for l in remaining):
+        return None
+    psm_prompt = row["prompt"].replace(
+        ASTFIM_CURSOR + ASTFIM_SUFFIX,
+        ASTFIM_CURSOR + "\n".join(partial) + ASTFIM_SUFFIX, 1)
+    if len("\n".join(above + partial)) + len("\n".join(remaining)) + \
+            len("\n".join(below)) > SCENARIO_RENDER_BUDGET:
+        return None                      # the assembled scenario row would
+                                          # exceed the sft_v5 char budget
+    package = row.get("package") or _path.split("/", 1)[0]
+    rel = row.get("path") or _path.split("/", 1)[-1]
+    return _mk_item(
+        package, f"{package}/{rel}", row.get("row", 0), above + partial,
+        remaining, below,
+        parent_kind=row.get("kind", "?"),
+        k_partial=k,
+        partial_lines=partial,
+        psm_prompt=psm_prompt,
+        psm_target="\n".join(remaining) + "\n" + ASTFIM_END,
+        note=f"retyped-partial completion: the user removed a "
+             f"{row.get('kind', '?')} block and retyped its first {k} "
+             f"line(s); finish the remaining {len(remaining)}")
+
+
+@register("astfim_partial_rows")
+def sel_astfim_partial(spec, rng: random.Random, want: int) -> list[dict]:
+    """Sampled seeded derivation over the corrected astfim_v1 corpus (pure,
+    no LLM: the mock backend draw never reaches the row — corpus-side exact
+    construction, the mid_body_edit convention). The file is streamed once
+    with a raw-line reservoir (the 1.6 GB train split is never fully
+    parsed), then only the sampled rows are derived."""
+    cs = spec.corpus_source
+    params = dict(cs.get("params") or {})
+    path = _resolve_path(cs, spec)
+    max_items = int(params.get("max_items") or (want * 4 + 200))
+    keep = int(params.get("sample_lines") or max(max_items * 4, want * 6 + 200))
+
+    reservoir: list[str] = []
+    n_seen = 0
+    with open(path, "r") as fh:
+        for line in fh:
+            if not line.strip():
+                continue
+            n_seen += 1
+            if len(reservoir) < keep:
+                reservoir.append(line)
+            else:
+                j = rng.randrange(n_seen)
+                if j < keep:
+                    reservoir[j] = line
+    rng.shuffle(reservoir)
+
+    out: list[dict] = []
+    for i, raw in enumerate(reservoir):
+        if len(out) >= max_items:
+            break
+        try:
+            row = json.loads(raw)
+        except ValueError:
+            continue
+        row["row"] = i
+        item = derive_astfim_partial(row, rng, params)
+        if item is not None:
+            item["key"] = f"astfim_partial:{i}"
+            out.append(item)
+    print(f"  [corpus] astfim_partial: {n_seen} corpus rows streamed, "
+          f"{len(reservoir)} sampled, {len(out)} derived")
+    return out
+
+
+# ---------------------------------------------------------------------------
+# case 8: removed_block_comment (remove an interior statement sub-block of a
+# function; a dev-style ONE-LINER comment marks the site; target = the block)
+# ---------------------------------------------------------------------------
+
+def _body_statements(body) -> list:
+    """Top-level statement nodes of a braced function body, in source order
+    (comments are not statements — one may sit inside a chosen run's line
+    slice, but it never bounds the run)."""
+    return [c for c in body.children if c.is_named and c.type != "comment"]
+
+
+def _block_clean(text: str) -> bool:
+    """The removed block re-parses as clean R with 1..8 top-level statements
+    (a guard stanza is 1-3 statements, a computation run a few more)."""
+    if not fragment_clean(text):
+        return False
+    n = len([c for c in parse_fragment(text).root_node.children if c.is_named])
+    return 1 <= n <= 8
+
+
+def extract_removed_blocks(b: Bundle, rng: random.Random,
+                           params: dict) -> list[dict]:
+    """Functions of min_body_lines+ lines: ONE strictly interior run of
+    consecutive top-level statements (block_lines_min..max lines, tree-sitter
+    statement boundaries, never the whole body) is cut out. Prefix = file
+    window plus the function down to the site; suffix = the post-block
+    remainder of the function through its closing brace plus a file-below
+    window (the scope-aware-context rule); block = the removed lines,
+    verbatim. The site-marker comment is joined at row construction
+    (comment_prefix) — it is the ONE LLM call of this case."""
+    min_body = int(params.get("min_body_lines", 6))
+    max_body = int(params.get("max_body_lines", 40))
+    block_min = int(params.get("block_lines_min", 3))
+    block_max = int(params.get("block_lines_max", 8))
+    window = int(params.get("window_lines", 10))
+    cap_file = int(params.get("per_file_cap", 2))
+    max_len = int(params.get("max_block_chars", 700))
+    out: list[dict] = []
+    for fn in (n for n in _walk(b.tree.root_node)
+               if n.type == "function_definition"):
+        if len(out) >= cap_file:
+            break
+        geom = _fn_body(b, fn)
+        if geom is None:
+            continue
+        body, head_row, r0, r1, nb = geom
+        if not min_body <= len(nb) <= max_body:
+            continue
+        stmts = _body_statements(body)
+        cands = []
+        for i in range(len(stmts)):
+            first = stmts[i].start_point[0]
+            for j in range(i, len(stmts) - 1):    # j < last: never whole body
+                last = stmts[j].end_point[0]
+                n_lines = last - first + 1
+                if n_lines > block_max:
+                    break
+                if n_lines >= block_min and i > 0:  # interior: stmt above too
+                    cands.append((first, last))
+        if not cands:
+            continue
+        rng.shuffle(cands)
+        for first, last in cands:
+            block_lines = [b.line_str(r) for r in range(first, last + 1)]
+            if block_lines[0].lstrip().startswith("#"):
+                continue    # the site marker must be the only comment there
+            block_text = "\n".join(block_lines)
+            if not block_text.strip() or len(block_text) > max_len:
+                continue
+            if not _block_clean(block_text):
+                continue
+            prefix = [b.line_str(r)
+                      for r in range(max(0, head_row - window), first)]
+            if not prefix or not prefix[-1].strip():
+                continue
+            suffix = [b.line_str(r) for r in
+                      range(last + 1, min(b.nlines(), r1 + 1 + window))]
+            if not any(l.strip() for l in suffix):
+                continue      # site must not be the function's last statement
+            if len("\n".join(prefix)) + len(block_text) + \
+                    len("\n".join(suffix)) > SCENARIO_RENDER_BUDGET:
+                continue      # the assembled scenario row would exceed the
+                              # sft_v5 char budget — burn no agy call on it
+            out.append(_mk_item(
+                b.package, b.rel, first, prefix, block_lines, suffix,
+                fn_head=b.line_str(head_row),
+                note=f"removed interior {len(block_lines)}-line sub-block "
+                     f"(statement boundaries); the one-liner comment marks "
+                     f"the site, the target re-inserts the block"))
+            break                             # one block per function
+    return out
+
+
+@register("removed_block_sites")
+def sel_removed_block_sites(spec, rng: random.Random, want: int) -> list[dict]:
+    cs = spec.corpus_source
+    params = dict(cs.get("params") or {})
+    params.setdefault("max_items", want * 6 + 50)
+    return _scan_normalized_versions(
+        spec, rng, "removed_block_sites.json",
+        dict(selector="removed_block_sites",
+             block_lines_min=params.get("block_lines_min", 3),
+             block_lines_max=params.get("block_lines_max", 8),
+             min_body_lines=params.get("min_body_lines", 6),
+             max_body_lines=params.get("max_body_lines", 40),
+             window_lines=params.get("window_lines", 10)),
+        extract_removed_blocks, params)
+
+
+def _minority_first_items(items: list[dict]) -> list[dict]:
+    """Round-robin by mutation kind, scarcest kind first in each cycle
+    (na_rm -> arg_edit -> rename/insert), so a truncated n-row take keeps
+    every scarce item and stays balanced across the rest."""
+    by: dict[str, list] = {}
+    for it in items:
+        by.setdefault(it.get("mutation_kind") or "?", []).append(it)
+    order = ("na_rm_insert", "arg_edit", "rename_once", "insert_line")
+    pools = [by.pop(k) for k in order if k in by] + list(by.values())
+    out = []
+    while any(pools):
+        for p in pools:
+            if p:
+                out.append(p.pop(0))
+    return out
+
+
 @register("mid_body_sites")
 def sel_mid_body_sites(spec, rng: random.Random, want: int) -> list[dict]:
     cs = spec.corpus_source
@@ -1383,11 +1641,38 @@ def sel_mid_body_sites(spec, rng: random.Random, want: int) -> list[dict]:
         rest = [p for p in S.list_packages() if p not in set(pool)]
         rng.shuffle(rest)
         pool = list(pool) + rest[:extra]
-    return _scan_normalized_versions(
+    items = _scan_normalized_versions(
         spec, rng, "mid_body_sites.json",
         dict(selector="mid_body_sites",
              kinds=list(params.get("kinds") or MID_BODY_KINDS),
+             kind_balance="minority_first",
              window_lines=params.get("window_lines", 10),
              min_body_lines=params.get("min_body_lines", 3),
              max_body_lines=params.get("max_body_lines", 40)),
         extract_mid_body_edits, params, pool=pool)
+    # variant (b) is naturally scarce even in the tidy pool (~1 qualifying
+    # site per 3k files: most corpus mean/sd/var/median calls already carry
+    # na.rm or sit inside multi-line dplyr verbs whose lines do not parse
+    # standalone): a bounded na_rm-ONLY lean pass over fresh random packages
+    # tops it up (own cache), and the merged list is returned minority-first
+    enrich = int(params.get("na_rm_enrich_packages", 0) or 0)
+    if enrich > 0:
+        rest = [p for p in S.list_packages() if p not in set(pool)]
+        rng.shuffle(rest)
+        eparams = dict(params, kinds=["na_rm_insert"], per_package_cap=1,
+                       max_items=200, time_budget_s=1200)
+        got = _scan_normalized_versions(
+            spec, rng, "mid_body_sites_narm.json",
+            dict(selector="mid_body_sites_na_rm", kinds=["na_rm_insert"],
+                 kind_balance="minority_first"),
+            extract_mid_body_edits, eparams, pool=rest[:enrich])
+        seen = {(it.get("package"), it.get("path"), it.get("row"))
+                for it in items}
+        for i, it in enumerate(got):
+            k = (it.get("package"), it.get("path"), it.get("row"))
+            if k in seen:
+                continue          # also covered by the general scan
+            seen.add(k)
+            it["key"] = f"mbe_na_rm:{i}"
+            items.append(it)
+    return _minority_first_items(items)

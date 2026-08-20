@@ -54,12 +54,16 @@ def rc_comment(spec, item: dict, target: str, params: dict, meta: dict) -> dict:
     prefix = list(item["prefix"]) + [f"{indent}{comment}"]
     note = (f"{meta.get('model', '?')} comment for a "
             f"{len(item['block'])}-line block (case {spec.name})")
-    return {
+    row = {
         "prefix": prefix,
         "region_old": [""],
         "region_new": list(item["block"]),
         "note": note,
     }
+    for k in (params.get("carry") or ()):   # e.g. removed_block_comment's
+        if item.get(k) is not None:         # fn_head geometry pin
+            row[k] = item[k]
+    return row
 
 
 @register("cursor_completion")

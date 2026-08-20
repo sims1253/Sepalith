@@ -568,6 +568,83 @@ def rc_handler_cut(row: dict, params: dict):
 
 
 # ---------------------------------------------------------------------------
+# case 7: astfim_partial (retyped-k-lines partial above the cursor; the
+# remaining span lines are the corpus-exact completion target)
+# ---------------------------------------------------------------------------
+
+@register_row_check("astfim_partial_site")
+def rc_astfim_partial(row: dict, params: dict):
+    """astfim_partial rows: the prefix tail IS the retyped partial (the first
+    k span lines), region_new (>= 1 line) is the corpus-exact span remainder,
+    and the carried PSM rendering keeps the midtyping geometry
+    (`<|cursor|>partial<|suffix|>` — the cursor zone holds exactly the
+    partial, docs/prompt-format.md)."""
+    max_k = int(params.get("max_partial_lines", 3))
+    k = row.get("k_partial")
+    partial = row.get("partial_lines")
+    if not isinstance(k, int) or not (1 <= k <= max_k):
+        return False, f"k_partial out of range 1..{max_k}: {k!r}"
+    if not isinstance(partial, list) or len(partial) != k \
+            or any(not isinstance(l, str) or "\n" in l for l in partial):
+        return False, "partial_lines does not match k_partial"
+    if row["prefix"][-k:] != partial:
+        return False, "prefix tail is not the retyped partial"
+    if len(row["region_new"]) < 1 or not any(l.strip()
+                                             for l in row["region_new"]):
+        return False, "remaining target must be >= 1 non-blank line"
+    if row.get("corpus_target") != "\n".join(row["region_new"]):
+        return False, "region_new is not the corpus-exact remainder"
+    psm = row.get("psm_prompt") or ""
+    i, j = psm.find("<|cursor|>"), psm.find("<|suffix|>")
+    if i == -1 or j == -1 or psm[i + len("<|cursor|>"):j] != "\n".join(partial):
+        return False, "PSM cursor zone does not hold exactly the partial"
+    return True, ""
+
+
+# ---------------------------------------------------------------------------
+# case 8: removed_block_comment (ONE dev-style one-liner marks the removal
+# site; the corpus-exact removed block is the target)
+# ---------------------------------------------------------------------------
+
+@register_row_check("removed_block_site")
+def rc_removed_block(row: dict, params: dict):
+    """removed_block_comment rows: prefix ends with the ONE site-marker
+    comment (never roxygen), region_new is the corpus-exact removed interior
+    sub-block (block_lines_min..max lines that re-parse as clean R
+    statements — the tree-sitter floor), and the geometry pins the enclosing
+    function (opening line in the prefix; closing brace plus at least one
+    statement below the site in the suffix)."""
+    lo = int(params.get("block_lines_min", 3))
+    hi = int(params.get("block_lines_max", 8))
+    tgt = row["region_new"]
+    if not lo <= len(tgt) <= hi:
+        return False, f"removed block is {len(tgt)} lines, expected {lo}..{hi}"
+    text = "\n".join(tgt)
+    if row.get("corpus_target") != text:
+        return False, "region_new is not the corpus-exact removed block"
+    if not fragment_clean(text):
+        return False, "removed block does not parse as clean R"
+    n = len([c for c in parse_fragment(text).root_node.children if c.is_named])
+    if not 1 <= n <= 8:
+        return False, f"{n} top-level statements in the removed block"
+    last = row["prefix"][-1].lstrip()
+    if not last.startswith("#"):
+        return False, "prefix must end with the site-marker comment"
+    if last.startswith("#'"):
+        return False, "roxygen comments never mark a removed-block site"
+    if row.get("fn_head") and row["fn_head"] not in row["prefix"]:
+        return False, "function opening line missing from the prefix"
+    sfx = row["suffix"] or []
+    if not sfx:
+        return False, "suffix must carry the post-block function remainder"
+    if not any(l.strip() == "}" for l in sfx):
+        return False, "closing brace of the function not visible in the suffix"
+    if not any(l.strip() and l.strip() != "}" for l in sfx):
+        return False, "removal site is the last statement of the function"
+    return True, ""
+
+
+# ---------------------------------------------------------------------------
 # case 6: mid_body_edit (ONE changed line inside a function; suffix pins the
 # post-change function remainder — full-function context, single-line target)
 # ---------------------------------------------------------------------------

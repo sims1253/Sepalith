@@ -17,6 +17,7 @@
       "packages": "tidy",
       "extra_random_packages": 350,
       "sample_packages": 800,
+      "na_rm_enrich_packages": 2000,
       "kinds": ["arg_edit", "na_rm_insert", "rename_once", "insert_line"],
       "window_lines": 10,
       "min_body_lines": 3,
@@ -56,7 +57,7 @@
     "target_lines_max": 1,
     "target_chars_min": 3,
     "target_chars_max": 240,
-    "knobs": "body length (min_body_lines..max_body_lines of the corpus selector) and mutation kind (arg_edit / na_rm_insert / rename_once / insert_line)"
+    "knobs": "body length (min_body_lines..max_body_lines of the corpus selector) and mutation kind (arg_edit / na_rm_insert / rename_once / insert_line; na_rm is naturally scarce — ~1 qualifying site per 3k files, most corpus stat calls already carry na.rm or sit inside multi-line dplyr verbs — so it gets a dedicated enrichment scan and minority-first item ordering)"
   },
   "response_format": "json"
 }
