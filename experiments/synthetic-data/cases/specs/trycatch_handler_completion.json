@@ -1,0 +1,56 @@
+{
+  "name": "trycatch_handler_completion",
+  "version": 1,
+  "family": "trycatch_handler_completion",
+  "description": "Complete the condition handlers of an existing tryCatch / withCallingHandlers call (proposals_v1 rank 5, the CORRECTED suffix-convention version - completion, never wrapping). The cursor sits right after the comma following the guarded expression block; the completion is the author's handler clauses verbatim through the call's closing paren (tier-1 exact gate in handler_cut_cursor; tree-sitter structural floor in handler_clauses: named handlers error/warning/message/finally, the first three one-formal functions).",
+  "novelty_note": "Fills the named error-handling gap; nothing existing emits condition-handling code. Deliberately completion-NOT-wrapping (gemini#9 corrected): wrapping would re-indent the file below the cursor - the retired whole-region convention. Handler clauses are capped at max_handler_lines=4 for wave 1 (the canonical one-handler shape: header, up to two body lines, closing paren; keeps the exact gate learnable); the multi-valid-target caveat is acknowledged and eval must report structural-pass separately from exact.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code mid-call. The cursor sits right after the comma that follows the guarded expression of a tryCatch() (or withCallingHandlers()) call; the handler clauses are missing.\n\nContext (cursor at the end of the last line, after the comma):\n\n{context}\n\nFile below the cursor:\n\n{suffix}\n\nEmit the author's handler clauses (error = function(e) ..., warning = ..., finally = ...) exactly as written, through the call's closing parenthesis.\n\nReply with ONLY this JSON: {{\"completion\": \"<handler clauses through the closing paren>\"}}",
+    "Finish the tryCatch at the cursor: the guarded block is typed, the comma is typed, the handlers are missing. Context above (cursor after the comma ending the last line):\n\n{context}\n\nBelow the cursor:\n\n{suffix}\n\nEmit the handler clauses through the closing paren, verbatim.\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "normalized_corpus",
+    "selector": "trycatch_handlers",
+    "params": {
+      "sample_packages": 700,
+      "max_handler_lines": 4,
+      "window_lines": 8,
+      "per_package_cap": 2,
+      "per_file_cap": 2,
+      "max_items": 2600,
+      "time_budget_s": 1800
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "normalized CRAN corpus (/mnt/h/sepalith/normalized); tryCatch/withCallingHandlers calls spanning >= 3 lines"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {}
+  },
+  "validator": {
+    "name": "handler_clauses",
+    "params": {"max_len": 500}
+  },
+  "row_check": {
+    "name": "handler_cut_cursor",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 1,
+    "target_lines_max": 4,
+    "target_chars_min": 10,
+    "target_chars_max": 500
+  },
+  "response_format": "json"
+}

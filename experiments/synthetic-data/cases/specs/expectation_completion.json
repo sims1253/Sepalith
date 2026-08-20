@@ -1,0 +1,57 @@
+{
+  "name": "expectation_completion",
+  "version": 1,
+  "family": "expectation_completion",
+  "description": "Complete the author's expect_* assertion inside a real test_that() block (proposals_v1 rank 4). tests/testthat/*.R members are streamed from the CRAN tarballs; a single-line expect_* statement with its setup lines above is cut right after the typed `expect_` partial; the completion is the exact remainder of the author's line (tier-1 exact gate in expect_cut_cursor; tree-sitter structural floor in expect_call_tail).",
+  "novelty_note": "Fills the named tests gap: no existing family emits test code of any kind - testthat blocks live outside R/ so ast_fim/finish_block never see them, and testthat_skeleton (whole-block drafting) is a different capability. GT = the author's exact line suffix from real CRAN test files; the structural floor alone is intentionally insufficient (any well-formed expect call parses) - only the exact gate scores. Cold completion (no event_diff: the harness scenario_block check forbids it; the previously-completed expectations remain visible in the prefix above).",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R test code mid-line inside a test_that() block. The cursor sits right after the typed `expect_` partial at the end of the last context line.\n\nContext (cursor at end of the last line):\n\n{context}\n\nRest of the test file below the cursor:\n\n{suffix}\n\nComplete the assertion exactly as the author wrote it (from the cursor to the end of the line).\n\nReply with ONLY this JSON: {{\"completion\": \"<the line remainder>\"}}",
+    "Finish the expect_* assertion at the cursor. Context above (the last line ends with `expect_`):\n\n{context}\n\nBelow the cursor:\n\n{suffix}\n\nEmit the remainder of the author's assertion line.\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "tarballs",
+    "selector": "testthat_expectations",
+    "params": {
+      "members": ["*"],
+      "cut": "expect_",
+      "window_lines": 12,
+      "per_package_cap": 3,
+      "per_file_cap": 3,
+      "sample_tarballs": 2600,
+      "max_items": 2600,
+      "time_budget_s": 2700
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/src/contrib/",
+      "note": "CRAN tarballs (/mnt/h/sepalith/tarballs), tests/testthat/test-*.R members streamed via python-tarfile"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {}
+  },
+  "validator": {
+    "name": "expect_call_tail",
+    "params": {"max_len": 220}
+  },
+  "row_check": {
+    "name": "expect_cut_cursor",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 1,
+    "target_lines_max": 1,
+    "target_chars_min": 4,
+    "target_chars_max": 220
+  },
+  "response_format": "json"
+}

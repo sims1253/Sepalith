@@ -75,6 +75,16 @@ SCENARIO_FILES = [
     "roxygen_drafting.jsonl",
     "no_op.jsonl",          # v5: the eagerness fix (empty targets allowed)
     "mid_roxygen.jsonl",    # v5: suffix-convention roxygen continuation
+    # cases wave1 (experiments/synthetic-data/cases): entries containing "/"
+    # are NAS-relative (resolved against NAS itself, not scenarios_v1/). Same
+    # scenarios_v1 edit-format schema (prefix/region_old==[""]/region_new/
+    # cursor_idx==0/event_diff==""), so edit_row renders them unchanged with
+    # fd=0 (target = region_new, the verbatim corpus remainder).
+    "cases_v1/namespace_qualify_propagation.jsonl",
+    "cases_v1/pipe_chain_link.jsonl",
+    "cases_v1/pkg_metadata_sync.jsonl",
+    "cases_v1/expectation_completion.jsonl",
+    "cases_v1/trycatch_handler_completion.jsonl",
 ]
 
 # Families can outgrow their useful mixture share. Cap a family's rows
@@ -284,7 +294,9 @@ def load_scenarios():
     recs = []
     fam_pkgs = defaultdict(set)
     for fname in SCENARIO_FILES:
-        path = NAS / "scenarios_v1" / fname
+        # wave1 cases live under NAS/cases_v1: entries containing "/" are
+        # NAS-relative; plain filenames stay under scenarios_v1/
+        path = (NAS / fname) if "/" in fname else (NAS / "scenarios_v1" / fname)
         if not path.exists():
             # e.g. comment_to_code_synthetic.jsonl quarantined as .bak while
             # the (fixed) generator rebuilds it; assemble without the family.

@@ -1,0 +1,55 @@
+{
+  "name": "namespace_qualify_propagation",
+  "version": 1,
+  "family": "namespace_qualify_propagation",
+  "description": "Re-qualify the next bare call with its package namespace (proposals_v1 rank 1). Reverse-strip construction from the normalized CRAN corpus: in a file where one package's `pkg::` prefixes were stripped from the prompt-side state, an earlier occurrence is already restored (the propagation event, visible in the prefix) and the cursor sits immediately before the next bare callee; the completion re-adds `pkg::` and the rest of the line. Ground truth is the original corpus line text from the cursor - exact by construction (tier 1).",
+  "novelty_note": "No existing family edits call heads: rename_propagation renames identifiers, pipe_rewrite swaps operators. This teaches explicit pkg:: qualification (the FDA-submission convention over library() attachment) with the event-teaches-target-repeats geometry that scored 92% for rename. Fully corpus-side (reverse-strip): generated via the mock backend - the model draw is not the gate; exactness is enforced on the constructed row (qualified_call_cursor: prefix+target rebuilds the corpus line byte-for-byte). Deviation from the proposal: the cases-harness scenario_block check forbids a non-empty event_diff, so the restore event is encoded as the already-qualified earlier line inside the prefix instead of a diff block.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code mid-line. The cursor sits at the very end of the last context line, immediately before a bare function identifier whose package's `pkg::` qualifiers were stripped from this file (one earlier occurrence was already restored - see the qualified line above the cursor).\n\nContext (cursor at end of the last line):\n\n{context}\n\nFile below the cursor:\n\n{suffix}\n\nRe-qualify the call at the cursor with the correct `pkg::` prefix and complete the rest of the line exactly as it should read.\n\nReply with ONLY this JSON: {{\"completion\": \"<text from the cursor to end of line>\"}}",
+    "The file below lost every `pkg::` qualifier of one package; one earlier use was already fixed. The cursor is at the end of the last line shown, right before the bare callee that needs the qualifier back.\n\nAbove the cursor:\n\n{context}\n\nBelow the cursor:\n\n{suffix}\n\nEmit the text from the cursor to the end of that line (qualifier included).\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "normalized_corpus",
+    "selector": "namespace_qualifiers",
+    "params": {
+      "sample_packages": 600,
+      "window_lines": 12,
+      "per_package_cap": 3,
+      "per_file_cap": 2,
+      "max_items": 2600,
+      "time_budget_s": 1800
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "normalized CRAN corpus (/mnt/h/sepalith/normalized); files using one namespace >= 2x"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {"carry": ["qualify_package", "corpus_line"]}
+  },
+  "validator": {
+    "name": "corpus_side",
+    "params": {}
+  },
+  "row_check": {
+    "name": "qualified_call_cursor",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 1,
+    "target_lines_max": 1,
+    "target_chars_min": 6,
+    "target_chars_max": 250
+  },
+  "response_format": "json"
+}

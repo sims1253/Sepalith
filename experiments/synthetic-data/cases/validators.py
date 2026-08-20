@@ -297,3 +297,270 @@ def rc_midline(row: dict, params: dict):
     if not tail or tail[-1] not in "(,= +|>%$@-!&:":
         return False, f"prefix must end mid-expression, got ...{tail[-24:]!r}"
     return True, ""
+
+
+# ---------------------------------------------------------------------------
+# wave-1 validators (proposals_v1 top-5)
+# ---------------------------------------------------------------------------
+
+@register("corpus_side")
+def v_corpus_side(target: str, params: dict):
+    """Reverse-strip cases (namespace_qualify, pkg_metadata): the training
+    target is the verbatim corpus text (exact by construction); the model
+    draw is NOT the gate (mock/corpus-side generation mode). Real structural
+    checking happens in the case's row_check on the constructed row."""
+    if not isinstance(target, str) or not target.strip():
+        return False, "empty model draw"
+    return True, ""
+
+
+@register("pipe_link")
+def v_pipe_link(target: str, params: dict):
+    """Structural floor for pipe-chain link completions: after removing a
+    trailing pipe operator, the link parses as clean R holding exactly one
+    top-level call. Deeper cuts (after the callee's open paren) are parsed
+    wrapped in `f(`. The exact gate is the row-level corpus comparison."""
+    max_len = int(params.get("max_len", 220))
+    t = target.strip()
+    if not t:
+        return False, "empty completion"
+    if len(t) > max_len:
+        return False, f"link longer than {max_len} chars ({len(t)})"
+    body = re.sub(r"(?:%>%|\|>)\s*$", "", t).rstrip()
+    if not body.strip():
+        return False, "completion is only a pipe operator"
+    for cand in (body, f"f({body}" if not body.endswith(")") else body):
+        if fragment_clean(cand):
+            calls = top_level_calls(cand)
+            if len(calls) == 1 or cand.startswith("f("):
+                return True, ""
+    return False, "does not parse as one clean call link"
+
+
+@register("expect_call_tail")
+def v_expect_tail(target: str, params: dict):
+    """Structural floor for expect_* completions: the tail parses as clean R
+    (plainly for after-expect_ cuts, wrapped in `f(` for argument-continuation
+    cuts) and is short. Exact gate = row-level corpus comparison."""
+    max_len = int(params.get("max_len", 220))
+    t = target.strip()
+    if not t:
+        return False, "empty completion"
+    if len(t) > max_len:
+        return False, f"tail longer than {max_len} chars ({len(t)})"
+    if fragment_clean(t) and len(top_level_calls(t)) == 1:
+        return True, ""
+    if fragment_clean(f"f({t}" if not t.rstrip().endswith(")") else t):
+        return True, ""
+    return False, "does not parse as a clean expect_* tail"
+
+
+@register("handler_clauses")
+def v_handler_clauses(target: str, params: dict):
+    """Structural floor for tryCatch handler completions: reconstructed as
+    `tryCatch({ 1 }, <target>)` the fragment parses cleanly and every named
+    handler argument is error/warning/message/finally, the first three being
+    one-formal anonymous functions. Exact gate = row-level corpus comparison."""
+    max_len = int(params.get("max_len", 500))
+    t = target.strip()
+    if not t:
+        return False, "empty completion"
+    if len(t) > max_len:
+        return False, f"handlers longer than {max_len} chars ({len(t)})"
+    # t ends with the call's own closing paren, so the wrap balances as-is;
+    # a model draw that omits it still parses with the wrapper's paren
+    for wrapped in (f"tryCatch({{\n1\n}}, {t}", f"tryCatch({{\n1\n}}, {t})"):
+        if not fragment_clean(wrapped):
+            continue
+        break
+    else:
+        return False, "does not parse as tryCatch handler clauses"
+    if not fragment_clean(wrapped):
+        return False, "does not parse as tryCatch handler clauses"
+    names = params.get("handler_names") or ["error", "warning", "message",
+                                            "finally"]
+    ok_names = set(names)
+    seen = 0
+    for n in _walk(parse_fragment(wrapped).root_node):
+        if n.type != "call":
+            continue
+        src = wrapped.encode()
+        if _callee_str(src, n) != "tryCatch":
+            continue
+        args = next((c for c in n.children if c.type == "arguments"), None)
+        arg_nodes = [a for a in (args.children if args is not None else [])
+                     if a.type == "argument"]
+        for a in arg_nodes[1:]:
+            nm = _argument_name(wrapped, a)
+            if nm is None:
+                return False, "handler argument is not named"
+            if nm not in ok_names:
+                return False, f"handler name {nm!r} not in {sorted(ok_names)}"
+            val = _argument_value(a)
+            if nm != "finally" and val is not None:
+                if val.type != "function_definition":
+                    return False, f"{nm} handler is not a function"
+                pars = next((c for c in val.children
+                             if c.type == "parameters"), None)
+                n_formals = len([c for c in (pars.children if pars is not None
+                                             else []) if c.is_named])
+                if n_formals != 1:
+                    return False, (f"{nm} handler must take exactly 1 "
+                                   f"formal, has {n_formals}")
+            seen += 1
+        break
+    if not seen:
+        return False, "no handler clauses found"
+    return True, ""
+
+
+def _callee_str(src: bytes, call_node) -> str | None:
+    if not call_node.children:
+        return None
+    head = call_node.children[0]
+    txt = src[head.start_byte:head.end_byte].decode("utf-8", "replace")
+    return txt.split("::")[-1].split("$")[-1] if head.type in (
+        "identifier", "namespace_operator", "extract_operator") else None
+
+
+def _argument_name(text: str, arg_node) -> str | None:
+    for c in arg_node.children:
+        if c.type == "identifier" and any(
+                s.type == "=" for s in arg_node.children):
+            return text.encode()[c.start_byte:c.end_byte].decode(
+                "utf-8", "replace")
+    return None
+
+
+# ---------------------------------------------------------------------------
+# wave-1 row checks
+# ---------------------------------------------------------------------------
+
+def _corpus_equal(row: dict) -> tuple[bool, str]:
+    """Tier-1 exact gate for model-drawn completions: the model target must
+    equal the corpus remainder line-wise (modulo per-line leading/trailing
+    whitespace — models normalize indentation; the emitted region_new keeps
+    the verbatim corpus text)."""
+    mt, ct = row.get("model_target"), row.get("corpus_target") or ""
+    if mt is None:
+        return False, "exact_completion row lacks model_target"
+    ml = [l.strip() for l in str(mt).strip("\n").split("\n") if l.strip()]
+    cl = [l.strip() for l in ct.split("\n") if l.strip()]
+    if ml != cl:
+        return False, "model completion != corpus remainder (exact gate)"
+    return True, ""
+
+
+@register_row_check("matches_corpus")
+def rc_matches_corpus(row: dict, params: dict):
+    return _corpus_equal(row)
+
+
+@register_row_check("qualified_call_cursor")
+def rc_qualified(row: dict, params: dict):
+    """namespace_qualify rows: region_new re-qualifies with the stashed
+    package, and prefix[-1] + region_new[0] rebuilds the original corpus
+    line byte-for-byte (reverse-strip invariant)."""
+    p = row.get("qualify_package")
+    if not p:
+        return False, "row lacks qualify_package"
+    tgt = row["region_new"][0]
+    if not tgt.startswith(f"{p}::"):
+        return False, f"target does not re-qualify with {p}::"
+    if f"{p}::" in row["prefix"][-1]:
+        return False, "prefix tail already qualified (no-op geometry)"
+    joined = (row["prefix"][-1] + tgt).rstrip()
+    if joined != (row.get("corpus_line") or joined).rstrip():
+        return False, "prefix + target does not rebuild the corpus line"
+    return True, ""
+
+
+def _dsc_last_token_key(line: str | None):
+    """Sort key of the LAST comma-separated entry token on a DESCRIPTION
+    line (the 'Imports:' header prefix is dropped) — the neighbour above an
+    inline-entry cut. None when nothing parseable."""
+    if not line:
+        return None
+    tok = line.split("Imports:")[-1]
+    toks = [t.strip() for t in tok.split(",") if t.strip()]
+    if not toks:
+        return None
+    m = re.match(r"^([A-Za-z][\w.]*)", toks[-1])
+    return (m.group(1).lower(),) if m else None
+
+
+@register_row_check("sorted_entry_slot")
+def rc_sorted_slot(row: dict, params: dict):
+    """pkg_metadata rows: the entry matches its directive/field shape and
+    sorts strictly between its same-kind neighbours above (prefix) and below
+    (suffix) — the reverse-stripped alphabetically-correct slot."""
+    from cases.corpus import DSC_ENTRY_RE, NS_DIRECTIVE_RE, dsc_entry_key, \
+        ns_entry_key
+    kind = row.get("entry_kind") or ""
+    line = row["region_new"][0]
+    if kind.startswith("namespace:"):
+        m = NS_DIRECTIVE_RE.match(line)
+        if not m or m.group(1) != kind.split(":", 1)[1]:
+            return False, f"line is not a {kind.split(':', 1)[1]}() directive"
+        key = ns_entry_key(line)
+
+        def is_kind(l):
+            k2 = ns_entry_key(l)
+            return k2 is not None and k2[0] == key[0]
+    elif kind == "description:imports":
+        m = re.match(r"^\s*([A-Za-z][\w.]*)", line)
+        if not m:
+            return False, "line does not start with an Imports entry name"
+        key = (m.group(1).lower(),)
+        above = _dsc_last_token_key(row["prefix"][-1]
+                                    if row["prefix"] else None)
+        if above is not None and not above < key:
+            return False, "entry does not sort after the neighbour above"
+        if DSC_ENTRY_RE.match(line):     # own-line shape: suffix neighbour
+            below = next((l for l in row["suffix"]
+                          if dsc_entry_key(l) is not None), None)
+            kb = dsc_entry_key(below) if below else None
+            if kb is not None and not key < kb:
+                return False, "entry does not sort before the neighbour below"
+        return True, ""
+    else:
+        return False, f"unknown entry_kind {kind!r}"
+    above = next((l for l in reversed(row["prefix"]) if is_kind(l)), None)
+    below = next((l for l in row["suffix"] if is_kind(l)), None)
+    ka = ns_entry_key(above) if kind.startswith("namespace:") and above \
+        else dsc_entry_key(above) if above else None
+    kb = ns_entry_key(below) if kind.startswith("namespace:") and below \
+        else dsc_entry_key(below) if below else None
+    if ka is not None and not ka < key:
+        return False, "entry does not sort after the neighbour above"
+    if kb is not None and not key < kb:
+        return False, "entry does not sort before the neighbour below"
+    return True, ""
+
+
+@register_row_check("pipe_cut_cursor")
+def rc_pipe_cut(row: dict, params: dict):
+    tail = row["prefix"][-1].rstrip()
+    if not tail.endswith(("%>%", "|>")) and not tail.endswith("("):
+        return False, f"prefix must end at the pipe cut, got ...{tail[-20:]!r}"
+    return _corpus_equal(row)
+
+
+@register_row_check("expect_cut_cursor")
+def rc_expect_cut(row: dict, params: dict):
+    tail = row["prefix"][-1].rstrip()
+    if not (tail.endswith("expect_") or tail.endswith("(")
+            or tail.rstrip(",").endswith("expect_")):
+        return False, f"prefix must end at the expect_ cut, got ...{tail[-20:]!r}"
+    return _corpus_equal(row)
+
+
+@register_row_check("handler_cut_cursor")
+def rc_handler_cut(row: dict, params: dict):
+    tail = row["prefix"][-1].rstrip()
+    if tail[-1:] not in (",", "}", "{"):
+        return False, f"prefix must end after the guarded expression, got ...{tail[-20:]!r}"
+    head = row["region_new"][0].lstrip()
+    if not re.match(r"(error|warning|message|finally)\s*=", head):
+        return False, "target does not start with a handler clause"
+    return _corpus_equal(row)

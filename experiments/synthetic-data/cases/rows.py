@@ -75,6 +75,29 @@ def rc_completion(spec, item: dict, target: str, params: dict, meta: dict) -> di
     }
 
 
+@register("exact_completion")
+def rc_exact(spec, item: dict, target: str, params: dict, meta: dict) -> dict:
+    """Wave-1 cut/reverse-strip cases: region_new is the VERBATIM corpus
+    remainder (tier-1 exact ground truth by construction); the model draw is
+    kept in model_target so the case's row_check can enforce the exact gate
+    (model == corpus, modulo per-line whitespace)."""
+    carry = params.get("carry") or ("qualify_package", "corpus_line",
+                                    "entry_kind")
+    row = {
+        "prefix": list(item["prefix"]),
+        "region_old": [""],
+        "region_new": [str(l) for l in str(item.get("corpus_target") or
+                                           "").split("\n")],
+        "model_target": target,
+        "note": (f"corpus-exact completion (case {spec.name}); model draw "
+                 f"kept in model_target, gate = corpus remainder"),
+    }
+    for k in carry:
+        if item.get(k) is not None:
+            row[k] = item[k]
+    return row
+
+
 # ---------------------------------------------------------------------------
 # target normalizers
 # ---------------------------------------------------------------------------

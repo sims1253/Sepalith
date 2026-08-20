@@ -85,11 +85,16 @@ class CaseSpec:
     def template_vars(self, item: dict) -> dict:
         """Placeholder values every template may use. Corpus selectors emit
         items with `prefix` (list of lines, ending at the cursor), `block`
-        (list of lines), `suffix`, `package`, `path`, `key`."""
+        (list of lines), `suffix`, `package`, `path`, `key`. `suffix` (the
+        file below the cursor, zeta2 FIM order) and `corpus_target` exist for
+        the completion cases; completion templates must NEVER use {code} or
+        {corpus_target} — they hold the ground truth (prompt leak)."""
         code = "\n".join(str(l) for l in (item.get("block") or []))
         context = "\n".join(str(l) for l in (item.get("prefix") or []))
         return {"code": code, "context": context,
-                "package": item.get("package", ""), "path": item.get("path", "")}
+                "suffix": "\n".join(str(l) for l in (item.get("suffix") or [])),
+                "package": item.get("package", ""), "path": item.get("path", ""),
+                "corpus_target": item.get("corpus_target") or ""}
 
     def fill_template(self, index: int, item: dict) -> str:
         return self.prompt_templates[index].format(**self.template_vars(item))

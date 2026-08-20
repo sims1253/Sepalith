@@ -1,0 +1,54 @@
+{
+  "name": "pkg_metadata_sync",
+  "version": 1,
+  "family": "pkg_metadata_sync",
+  "description": "Package metadata maintenance (proposals_v1 rank 3): a real export()/importFrom()/S3method() directive from a tarball NAMESPACE (or a package entry from a DESCRIPTION Imports: block) is reverse-stripped from its alphabetically sorted slot; the completion re-inserts the exact line. Ground truth = the verbatim file line - exact by construction (tier 1).",
+  "novelty_note": "Only format_propagation touches non-.R files (and only R/ members); nothing edits package metadata. NAMESPACE/DESCRIPTION members are streamed from the CRAN tarballs with the python-tarfile reader (format_propagation infra). Sortedness is verified per directive type at scan time (only strictly sorted roxygen2-style files emit items); the row_check re-verifies the slot: the entry sorts strictly between its same-kind neighbours. Fully corpus-side (reverse-strip): generated via the mock backend - the model draw is not the gate. Deviation from the proposal: no event_diff (the cases-harness scenario_block check forbids it); the sorted-neighbourhood context carries the signal instead.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are editing a package metadata file. The cursor sits on the empty line at the insertion slot; one entry was removed and must be re-inserted at its alphabetically correct position.\n\nContext above the slot:\n\n{context}\n\nFile below the slot:\n\n{suffix}\n\nEmit the removed line exactly as it appeared.\n\nReply with ONLY this JSON: {{\"completion\": \"<the removed line>\"}}",
+    "A metadata entry was deleted from its sorted slot. The cursor is on the empty slot line.\n\nAbove:\n\n{context}\n\nBelow:\n\n{suffix}\n\nRe-insert the missing line verbatim.\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "tarballs",
+    "selector": "pkg_metadata",
+    "params": {
+      "members": ["NAMESPACE", "DESCRIPTION"],
+      "sample_tarballs": 2600,
+      "per_package_cap": 2,
+      "max_items": 2600,
+      "time_budget_s": 2700
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/src/contrib/",
+      "note": "CRAN tarballs (/mnt/h/sepalith/tarballs), NAMESPACE + DESCRIPTION members streamed via python-tarfile"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {"carry": ["entry_kind"]}
+  },
+  "validator": {
+    "name": "corpus_side",
+    "params": {}
+  },
+  "row_check": {
+    "name": "sorted_entry_slot",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 1,
+    "target_lines_max": 1,
+    "target_chars_min": 6,
+    "target_chars_max": 200
+  },
+  "response_format": "json"
+}

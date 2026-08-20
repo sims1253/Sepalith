@@ -37,6 +37,41 @@ Two later families (see the "new families" section below):
                       "#' @param <arg> <desc>" line before the @return/@export
                       tag in the roxygen block.
 
+doc_sync DIAGNOSIS (2026-08-19, from results_scenarios_sft_v3_minicpm5
++ intent_suite_v1: 40% validator pass, "duplicates the typed line, never
+adds the @param"). All three suspected causes are confirmed:
+
+  * TOO FEW / TOO NARROW EXAMPLES - 739 rows from 88 packages containing
+    only TWO distinct inserted lines (722x "@param verbose Show progress
+    messages while the function runs.", 17x "@param call ..."). The model
+    never sees enough variation to learn "an argument appeared in the
+    signature -> emit its @param tag NOW", it only sees one memorised
+    string.
+  * TARGET SHAPE MISMATCH - the GT inserts the new @param immediately
+    before the @return/@export anchor, i.e. AFTER the blank "#'" separator
+    line in 318/739 rows. Idiomatic roxygen (and the corpus prior the
+    model already carries) puts @param tags together BEFORE the blank, so
+    the model's natural answer fails exact match; conversely the
+    fail_kind="shape" rows show it re-emitting region_old unchanged -
+    the pure-insertion target is rare in the mixture (the sibling
+    families all teach "re-emit the region with a small in-line edit").
+  * ASSERTION DIFFICULTY - the description string is not derivable from
+    anything visible (the function body sits below the roxygen block and
+    is absent from the prompt), so the exact-match gate is a pure memory
+    test of DOC_DESCS; the observed paraphrases ("(logical) print
+    progress messages while the function runs", missing trailing period)
+    copy the surrounding block's style instead.
+
+Remedy (doc_sync v2, below): two additional constructions that keep the
+exactness gate but make the target DERIVABLE and the insertion the FIRST
+thing the model emits - variant="missing_param" (a real signature param
+with no @param yet; descriptions come from a fixed name grammar +
+punctuation/capitalisation copied from the block's own @param tags) and
+variant="version_pair" (REAL upstream doc updates mined from adjacent
+versions of the same package in the git mirrors; the normalized corpus
+holds exactly one version per package, so the pairs come from
+/mnt/h/sepalith/git).
+
 Example JSON shape (the first three families use single-line regions, so
 edits are exactly verifiable; the new families may carry multi-line
 regions/events with the same keys; cursor_idx is a character offset into
@@ -223,7 +258,11 @@ class Bundle:
 
 
 def list_packages(root: Path = ROOT) -> list[str]:
-    return sorted(p.name for p in root.iterdir() if p.is_dir())
+    import os
+    try:  # os.listdir: no per-entry stat (drvfs metadata reads are the
+        return sorted(p for p in os.listdir(root))  # bottleneck on the NAS)
+    except OSError:
+        return sorted(p.name for p in root.iterdir() if p.is_dir())
 
 
 TIDY_CACHE = Path(__file__).resolve().parent / ".tidy_pkgs_cache.json"
@@ -1108,6 +1147,955 @@ def build_doc_sync_examples(package_names, seed=13,
 
 
 # ---------------------------------------------------------------------------
+# doc_sync v2: variant="missing_param" + variant="version_pair"
+# (see the DIAGNOSIS block in the module docstring)
+# ---------------------------------------------------------------------------
+
+MISSING_MAX_PARAMS = 4          # new @param lines one row may add
+MISSING_REGION_MAX_LINES = 14
+MISSING_EVENT_MAX_LINES = 10
+PAIR_DELTA_MAX = 3              # max params added+removed per version bump
+PAIR_EVENT_MAX_LINES = 6
+PAIR_REGION_MAX_OLD = 14        # 1 cursor line + up to 13 changed lines
+PAIR_REGION_MAX_NEW = 16
+
+GIT_ROOT = Path("/mnt/h/sepalith/git")
+META_DIR = Path("/mnt/h/sepalith/meta/cran-to-git")
+PKG2GIT_CACHE = Path(__file__).resolve().parent / ".pkg2git_cache.json"
+PROV_DIR = Path("/mnt/h/sepalith/provenance")
+CRAN_CONTRIB = "https://cran.r-project.org/src/contrib/{}"
+
+# style_tag.py's classifier, duplicated (kept in sync by test) so the rows
+# carry the same `style` values the rest of the pipeline expects.
+STYLE_TIDY = re.compile(r"%>%|\|>|dplyr::|tidyr::|purrr::|ggplot|mutate\(|"
+                        r"summarise\(|summarize\(|filter\(|select\(|"
+                        r"group_by\(|across\(|left_join\(|pivot_longer\(|"
+                        r"pivot_wider\(|readr::|tibble\(")
+STYLE_BASE = re.compile(r"\bapply\(|\bsapply\(|\blapply\(|\btapply\(|"
+                        r"\baggregate\(|\bmerge\(|\bsubset\(|\bwith\(|"
+                        r"\bwithin\(|\bdata\.frame\(|\bstrsplit\(|\bgrepl\(|"
+                        r"\bregexpr\(|do\.call\(")
+
+
+def _style_of(text: str) -> str:
+    t, b = len(STYLE_TIDY.findall(text)), len(STYLE_BASE.findall(text))
+    if t >= 2 and t > b * 2:
+        return "tidyverse"
+    if b >= 2 and b > t * 2:
+        return "base"
+    if t > b:
+        return "tidyverse-lean"
+    if b > t:
+        return "base-lean"
+    return "neutral"
+
+
+def attach_provenance(rec: dict, derivation: str) -> dict:
+    """source_url/license/version/upstream/derivation/style, matching the
+    fields the existing scenario rows carry (enrich_provenance.py style)."""
+    pkg = rec.get("package", "")
+    try:
+        p = json.loads((PROV_DIR / f"{pkg}.json").read_text())
+    except (OSError, ValueError):
+        p = {}
+    if p.get("tarball"):
+        rec.setdefault("source_url", CRAN_CONTRIB.format(p["tarball"]))
+    rec.setdefault("license", p.get("license") or "unknown")
+    rec.setdefault("version", p.get("version"))
+    rec.setdefault("upstream", p.get("upstream") or "")
+    rec["derivation"] = derivation
+    rec["style"] = _style_of("\n".join(
+        rec.get("prefix", []) + rec.get("region_old", [])
+        + rec.get("region_new", [])))
+    return rec
+
+
+# --- deterministic name grammar -> @param description ----------------------
+# First matching rule wins; "{0}" is the humanised name prefix. A param name
+# that matches no rule yields no row (every target stays derivable from the
+# param NAME + the block's own tag style, both visible in the prompt).
+
+DOC_NAME_RULES: tuple[tuple[re.Pattern, str], ...] = (
+    (re.compile(r"^\.\.\.$"), "Further arguments passed on to other methods."),
+    (re.compile(r"^verbose$"), "Show progress messages while the function runs."),
+    (re.compile(r"^quiet$"), "Suppress messages when TRUE."),
+    (re.compile(r"^debug$"), "Print extra debug information when TRUE."),
+    (re.compile(r"^progress$"), "Display a progress bar when TRUE."),
+    (re.compile(r"^dry_run$"), "Skip applying the changes when TRUE."),
+    (re.compile(r"^checks?$"), "Perform consistency checks on the input."),
+    (re.compile(r"^na[._]rm$"), "Should missing values be removed?"),
+    (re.compile(r"^sep$"), "Separator used between values."),
+    (re.compile(r"^collapse$"),
+     "Separator used to combine the result into a single string."),
+    # prefix rules BEFORE suffix rules so e.g. use_names hits `use_` (not
+    # `_names`) and min_size hits `min_` (not `_sizes`)
+    (re.compile(r"^n_(.+)$"), "Number of {0}."),
+    (re.compile(r"^num_(.+)$"), "Number of {0}."),
+    (re.compile(r"^min_(.+)$"), "Minimum {0} allowed."),
+    (re.compile(r"^max_(.+)$"), "Maximum {0} allowed."),
+    (re.compile(r"^use_(.+)$"), "Use {0} when TRUE."),
+    (re.compile(r"^show_(.+)$"), "Show the {0}."),
+    (re.compile(r"^(.+)_cols$"), "Names of the columns holding {0}."),
+    (re.compile(r"^(.+)_columns$"), "Names of the columns holding {0}."),
+    (re.compile(r"^(.+)_col$"), "Name of the column holding {0}."),
+    (re.compile(r"^(.+)_colname$"), "Name of the column holding {0}."),
+    (re.compile(r"^(.+?)_files?$"), "Path to the {0} file."),
+    (re.compile(r"^(.+?)_paths?$"), "Path to the {0} file."),
+    (re.compile(r"^(.+?)_dirs?$"), "Directory containing the {0}."),
+    (re.compile(r"^(.+?)_directory$"), "Directory containing the {0}."),
+    (re.compile(r"^(.+?)_urls?$"), "URL of the {0}."),
+    (re.compile(r"^(.+?)_colors?$"), "Color used for the {0}."),
+    (re.compile(r"^(.+?)_colours?$"), "Color used for the {0}."),
+    (re.compile(r"^(.+?)_sizes?$"), "Size of the {0}."),
+    (re.compile(r"^(.+?)_width$"), "Width of the {0}."),
+    (re.compile(r"^(.+?)_height$"), "Height of the {0}."),
+    (re.compile(r"^(.+?)_fonts?$"), "Font used for the {0}."),
+    (re.compile(r"^(.+?)_names$"), "Names of the {0}."),
+    (re.compile(r"^(.+?)_name$"), "Name of the {0}."),
+    (re.compile(r"^(.+?)_labels$"), "Labels for the {0}."),
+    (re.compile(r"^(.+?)_label$"), "Label for the {0}."),
+    (re.compile(r"^(.+?)_types?$"), "Type of the {0}."),
+    (re.compile(r"^(.+?)_methods?$"), "Method to use for the {0}."),
+    (re.compile(r"^(.+?)_funs?$"), "Function to apply to the {0}."),
+    (re.compile(r"^(.+?)_patterns?$"), "Regular expression used to match the {0}."),
+    (re.compile(r"^(.+?)_prefix$"), "Prefix added to the {0}."),
+    (re.compile(r"^(.+?)_suffix$"), "Suffix added to the {0}."),
+    (re.compile(r"^(.+?)_formats?$"), "Format used for the {0}."),
+    (re.compile(r"^(.+?)_levels?$"), "Level of the {0}."),
+    (re.compile(r"^(.+?)_scales?$"), "Scale used for the {0}."),
+    (re.compile(r"^(.+?)_seeds?$"), "Random seed used for the {0}."),
+    (re.compile(r"^(.+?)_digits$"), "Number of digits used for the {0}."),
+    (re.compile(r"^(.+?)_thresholds?$"), "Threshold used for the {0}."),
+    (re.compile(r"^(.+?)_time$"), "Time point used for the {0}."),
+    (re.compile(r"^(.+?)_env$"), "Environment in which to evaluate the {0}."),
+    (re.compile(r"^(.+?)_datas?$"), "Data used for the {0}."),
+    (re.compile(r"^(.+?)_args$"), "Arguments passed to the {0}."),
+    (re.compile(r"^(.+?)_opts$"), "Options controlling the {0}."),
+)
+
+ROXY_PARAM_RE = re.compile(r"^\s*#'\s*@param\s+([.\w]+|\.\.\.)")
+ROXY_TAG_RE = re.compile(r"^\s*#'\s*(@\w+)")
+
+
+def doc_desc_for_name(name: str) -> str | None:
+    """Deterministic description for a parameter name (grammar above), or
+    None when the name matches no rule (row is then not built)."""
+    if not name or not IDENT_RE.match(name) and name != "...":
+        return None
+    if name in RESERVED:
+        return None
+    for rx, tpl in DOC_NAME_RULES:
+        m = rx.match(name)
+        if not m:
+            continue
+        if m.groups():
+            rest = m.group(1).replace("_", " ").strip()
+            if not rest or not re.match(r"^[A-Za-z][A-Za-z0-9 ]*$", rest):
+                return None
+            return tpl.format(rest)
+        return tpl
+    return None
+
+
+def _roxy_param_descs(lines) -> list[str]:
+    """First-line descriptions of the @param tags in a roxygen region (used
+    to copy the block's punctuation/capitalisation style)."""
+    out = []
+    for l in lines:
+        m = re.match(r"^\s*#'\s*@param\s+(?:[.\w]+|\.\.\.)\s+(.+)$", l)
+        if m:
+            out.append(m.group(1))
+    return out
+
+
+def _doc_style(descs: list[str]) -> tuple[bool, bool]:
+    """(capitalise, trailing_period) majority style of the block's @param
+    descriptions; ties keep the canonical form (capitalised, with period)."""
+    if not descs:
+        return True, True
+    n = len(descs)
+    cap = sum(1 for d in descs if d[:1].isupper())
+    per = sum(1 for d in descs if d.endswith("."))
+    return cap * 2 >= n, per * 2 >= n
+
+
+def _styled_desc(desc: str, cap: bool, period: bool) -> str:
+    d = (desc[0].upper() + desc[1:]) if cap else (desc[0].lower() + desc[1:])
+    if d[-1:] in ".?!":  # already terminal punctuation: never double it
+        return d
+    return d + "." if period else d
+
+
+def _roxy_param_names(lines) -> list[str]:
+    out = []
+    for l in lines:
+        m = ROXY_PARAM_RE.match(l)
+        if m:
+            out.append(m.group(1))
+    return out
+
+
+def _ordered_params(src: bytes, params):
+    """Ordered [(name, node)] of a tree-sitter `parameters` node."""
+    out = []
+    for c in params.children:
+        if c.type == "identifier":
+            out.append((node_text(src, c).decode("utf-8", "replace"), c))
+        elif c.type == "parameter":
+            for k in c.children:
+                if k.type == "identifier":
+                    out.append((node_text(src, k).decode("utf-8", "replace"),
+                                c))
+                    break
+        elif c.type == "dots":
+            out.append(("...", c))
+    return out
+
+
+def _params_from_sig_text(text: str) -> list[str] | None:
+    """Ordered parameter names from signature SOURCE text such as
+    'foo <- function(x, na_rm = TRUE, ...) {' (string-blind, depth-aware)."""
+    s = strip_strings(text.encode()).decode("utf-8", "replace")
+    m = re.search(r"\bfunction\s*\(", s)
+    if not m:
+        return None
+    i = m.end() - 1
+    depth, inner = 0, None
+    for j in range(i, len(s)):
+        if s[j] == "(":
+            depth += 1
+        elif s[j] == ")":
+            depth -= 1
+            if depth == 0:
+                inner = s[i + 1:j]
+                break
+    if inner is None:
+        return None
+    parts, buf, d = [], [], 0
+    for ch in inner:
+        if ch in "([{":
+            d += 1
+        elif ch in ")]}":
+            d -= 1
+        if ch == "," and d == 0:
+            parts.append("".join(buf))
+            buf = []
+        else:
+            buf.append(ch)
+    parts.append("".join(buf))
+    names = []
+    for p in parts:
+        if not p.strip():
+            return None  # trailing comma / empty -> ambiguous
+        nm = p.split("=", 1)[0].strip().strip("`")
+        if nm == "...":
+            names.append(nm)
+            continue
+        if not IDENT_RE.match(nm) or nm in RESERVED:
+            return None
+        names.append(nm)
+    return names
+
+
+def _arg_span(line: str, name: str) -> tuple[int, int] | None:
+    """(start, end) char span of the argument `name` (with its default) on
+    one signature source line, or None. The span ends at the first top-level
+    ',' (before it) or at the bracket that closes the argument list level."""
+    s = strip_strings(line.encode()).decode("utf-8", "replace")
+    for m in re.finditer(rf"(?<![\w.`]){re.escape(name)}(?![\w.`])", s):
+        pre = s[:m.start()].rstrip(" \t")
+        if pre and pre[-1] not in ",(":
+            continue  # not an argument position on this line (callee etc.)
+        depth, j = 0, m.end()
+        while j < len(s):
+            ch = s[j]
+            if ch in "([{":
+                depth += 1
+            elif ch in ")]}":
+                if depth == 0:
+                    break
+                depth -= 1
+            elif ch == "," and depth == 0:
+                break
+            j += 1
+        return m.start(), j
+    return None
+
+
+def _strip_prev_trailing_comma(lines: list[str], upto: int) -> bool:
+    """Drop the trailing comma of the nearest non-blank line above `upto`
+    (used when a wrapped signature's last argument was removed)."""
+    for pj in range(upto - 1, -1, -1):
+        if not lines[pj].strip():
+            continue
+        m = re.match(r"^(.*?),[ \t]*$", lines[pj], re.DOTALL)
+        if m and m.group(1).strip():
+            lines[pj] = m.group(1)
+            return True
+        return False
+    return False
+
+
+def _remove_named_args(lines: list[str], names: list[str]) -> list[str] | None:
+    """Remove the arguments `names` (and one adjacent separator comma) from
+    signature source lines; an argument alone on its line takes the whole
+    line with it (the previous line loses its trailing comma when the last
+    argument goes). Returns the new lines, or None when a name cannot be
+    removed cleanly. Shared by the missing_param generator AND its validator,
+    so the event is exact by construction."""
+    cur = list(lines)
+    for name in names:
+        hit = None
+        for li, line in enumerate(cur):
+            sp = _arg_span(line, name)
+            if sp is not None:
+                hit = (li, sp[0], sp[1])
+                break
+        if hit is None:
+            return None
+        li, s, e = hit
+        line = cur[li]
+        before, after = line[:s], line[e:]
+        if not before.strip() and not after.strip(" \t,"):
+            nxt = cur[li + 1] if li + 1 < len(cur) else ""
+            new = cur[:li] + cur[li + 1:]
+            if nxt.lstrip(" \t").startswith(")"):
+                if not _strip_prev_trailing_comma(new, li):
+                    return None
+            cur = new
+            continue
+        # separator comma after the argument on the same line?
+        k = e
+        while k < len(line) and line[k] in " \t":
+            k += 1
+        if k < len(line) and line[k] == ",":
+            k2 = k + 1
+            while k2 < len(line) and line[k2] in " \t":
+                k2 += 1
+            new_line = before + line[k2:]
+            cur[li] = new_line.rstrip() if not line[k2:] else new_line
+            continue
+        # separator comma before the argument on the same line?
+        k = s
+        while k > 0 and line[k - 1] in " \t":
+            k -= 1
+        if k > 0 and line[k - 1] == ",":
+            cur[li] = (line[:k - 1].rstrip()
+                       + ("" if after[:1] in ")]}," or not after else " ")
+                       + after)
+            continue
+        # wrapped signature: the separator comma sits on the previous line
+        if not before.strip() and after.lstrip(" \t")[:1] == ")":
+            cur[li] = before + after
+            if not _strip_prev_trailing_comma(cur, li):
+                return None
+            continue
+        return None
+    return cur
+
+
+def _missing_event_lines(b: Bundle, ordered, missing, sig_first, sig_last):
+    """(ev_old_lines, ev_new_lines) for a missing_param row: ev_new is the
+    file's real signature lines; ev_old is the same signature WITHOUT the
+    `missing` arguments (the user 'just added them'). Returns None when the
+    removals cannot be expressed exactly or would not parse as the intended
+    parameter list."""
+    sig_lines = [b.line_str(r) for r in range(sig_first, sig_last + 1)]
+    if not sig_lines or any(len(l) > FORMAT_LINE_MAX for l in sig_lines):
+        return None
+    names = [nm for nm, _ in missing]
+    ev_old = _remove_named_args(sig_lines, names)
+    if ev_old is None or ev_old == sig_lines:
+        return None
+    if any(len(l) > FORMAT_LINE_MAX for l in ev_old):
+        return None
+    want = [nm for nm, _ in ordered if nm not in set(names)]
+    got = _params_from_sig_text("\n".join(ev_old))
+    if got != want:  # guard against a name removed from the wrong spot
+        return None
+    return ev_old, sig_lines
+
+
+def extract_doc_sync_missing(b: Bundle, rng: random.Random,
+                             cap: int = 2) -> list[dict]:
+    """Single-file variant: REAL signature parameters that have no @param tag
+    yet (names must match the grammar). region_old = the block's @param tag
+    lines (with continuations); region_new = the same + the missing
+    "#' @param <name> <desc>" lines appended after the last tag (signature
+    order); the cursor sits at the end of the last existing tag line; the
+    event is the real signature with those arguments removed (the user "just
+    added them" - the event defines which arguments the target documents).
+    Descriptions are a pure function of the param name plus the block's own
+    punctuation/capitalisation style."""
+    src = b.src
+    out = []
+    for fn in traverse(b.tree.root_node):
+        if len(out) >= cap:
+            break
+        if fn.type != "function_definition":
+            continue
+        params = next((c for c in fn.children if c.type == "parameters"),
+                      None)
+        if params is None:
+            continue
+        parent = fn.parent
+        if (parent is None or parent.type != "binary_operator"
+                or not parent.children
+                or parent.children[0].type != "identifier"):
+            continue
+        ordered = _ordered_params(src, params)
+        if not ordered:
+            continue
+        fn_name = node_text(src, parent.children[0]).decode("utf-8", "replace")
+        top_row = min(fn.start_point[0], parent.children[0].start_point[0])
+        if top_row <= 0:
+            continue
+        r, block = top_row - 1, []
+        while r >= 0 and ROXY_LINE_RE.match(b.line_str(r)):
+            block.append(r)
+            r -= 1
+        if not block:
+            continue
+        block.reverse()
+        block_lines = [b.line_str(rr) for rr in block]
+        if any(re.match(r"^\s*#'\s*@inherit", l) for l in block_lines):
+            continue  # tags may be inherited on purpose -> ambiguous
+        documented = set(_roxy_param_names(block_lines))
+        pnames = [nm for nm, _ in ordered]
+        if not (documented & set(pnames)):
+            continue  # block documents none of the signature -> not doc_sync
+        prow = [rr for rr in block if ROXY_PARAM_TAG_RE.match(b.line_str(rr))]
+        if not prow:
+            continue
+        cand = [(nm, node) for nm, node in ordered
+                if nm not in documented and doc_desc_for_name(nm)]
+        if not cand:
+            continue
+        # region: first @param tag .. end of the last tag's continuation lines
+        rr = prow[-1] + 1
+        while rr <= block[-1]:
+            t = b.line_str(rr)
+            m = ROXY_TAG_RE.match(t)
+            if (not ROXY_LINE_RE.match(t) or m
+                    or t.strip() == "#'"):
+                break
+            rr += 1
+        win = list(range(prow[0], rr))
+        if not (win[0] >= 1 and 0 < len(win) <= MISSING_REGION_MAX_LINES):
+            continue  # need >= 1 line above the region for `prefix`
+        region_old = [b.line_str(x) for x in win]
+        if any(len(l) > FORMAT_LINE_MAX for l in region_old):
+            continue
+        end = params.end_byte
+        if src[end - 1:end] != b")":
+            continue
+        sig_first = top_row
+        sig_last = b.rowcol(end - 1)[0]
+        if not (1 <= sig_last - sig_first + 1 <= MISSING_EVENT_MAX_LINES):
+            continue
+        # document the largest prefix of the undocumented, grammar-covered
+        # arguments whose signature removal is exactly expressible
+        event = None
+        missing = None
+        for k in range(min(MISSING_MAX_PARAMS, len(cand)), 0, -1):
+            event = _missing_event_lines(b, ordered, cand[:k],
+                                         sig_first, sig_last)
+            if event is not None:
+                missing = cand[:k]
+                break
+        if missing is None or event is None:
+            continue
+        ev_old_lines, ev_new_lines = event
+        descs = _roxy_param_descs(region_old)
+        cap_s, per_s = _doc_style(descs)
+        names = [nm for nm, _ in missing]
+        ins_lines = []
+        pm = re.match(r"\s*#'", region_old[-1])
+        for nm in names:
+            ins_lines.append(f"{pm.group(0)} @param {nm} "
+                             f"{_styled_desc(doc_desc_for_name(nm), cap_s, per_s)}")
+        region_new = region_old + ins_lines
+        cursor = len("\n".join(region_old))  # end of the last existing tag
+        prefix = [b.line_str(x) for x in range(max(0, win[0] - 10), win[0])]
+        note = (f"document missing argument(s) {', '.join(names)} of "
+                f"{fn_name} (event added them to the signature)")
+        ex = make_multiline_example(
+            "doc_sync", b.package, b.rel, prefix, region_old, region_new,
+            cursor, ev_old_lines, ev_new_lines, sig_first + 1, note)
+        ex["variant"] = "missing_param"
+        out.append(ex)
+    return out
+
+
+# --- variant="version_pair": real upstream doc sync between releases -------
+
+def _git(repo: Path, *args: str, timeout: int = 120) -> bytes | None:
+    import subprocess
+    try:
+        r = subprocess.run(["git", "-C", str(repo), *args],
+                           capture_output=True, timeout=timeout)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return r.stdout if r.returncode == 0 else None
+
+
+_BUMP_VER = re.compile(rb"^([-+]Version:)\s*(\S+)\s*$", re.M)
+
+
+def version_transitions(repo: Path, cap: int = 6) -> list[tuple[str, str, str, str]]:
+    """Adjacent DESCRIPTION version bumps -> [(shaA, shaB, verA, verB)]: the
+    state just before bump k (version A's final state) vs just before bump
+    k+1 (version B's final state), i.e. everything done during B's cycle.
+    Newest pairs first."""
+    outp = _git(repo, "log", "-n", "400", "--format=%x00%H", "-p",
+                "--unified=0", "--", "DESCRIPTION")
+    if not outp:
+        return []
+    bumps = []  # (commit, old, new), newest first
+    for chunk in outp.split(b"\x00")[1:]:
+        lines = chunk.split(b"\n", 1)
+        if len(lines) < 2:
+            continue
+        commit = lines[0].decode("ascii", "replace").strip()
+        old = new = None
+        for m in _BUMP_VER.finditer(lines[1]):
+            if m.group(1).startswith(b"-"):
+                old = m.group(2).decode("ascii", "replace")
+            elif m.group(1).startswith(b"+"):
+                new = m.group(2).decode("ascii", "replace")
+        if commit and old and new and old != new:
+            bumps.append((commit, old, new))
+    pairs = []
+    for (c_new, _vu, ver_b), (c_old, _vd, ver_a) in zip(bumps, bumps[1:]):
+        pairs.append((f"{c_old}^", f"{c_new}^", ver_a, ver_b))
+        if len(pairs) >= cap:
+            break
+    return pairs
+
+
+def _roxy_param_group_only(lines) -> bool:
+    """Every line is a @param tag line or a continuation of one (regions are
+    restricted to the @param area of the roxygen block)."""
+    in_param = False
+    for l in lines:
+        if not ROXY_LINE_RE.match(l):
+            return False
+        m = ROXY_TAG_RE.match(l)
+        if m:
+            in_param = m.group(1) == "@param"
+        elif l.strip() == "#'":
+            return False  # blank separator: not part of a tag's description
+        elif not in_param:
+            return False
+    return True
+
+
+def _fn_table(src: bytes):
+    """{fn name: (fn_node, params_node, first_row, last_row, block_lines,
+    file_lines)} for named function definitions; duplicated names dropped."""
+    tree = parser.parse(src)
+    lines = src.decode("utf-8", "replace").splitlines()
+    by_name: dict[str, list] = {}
+    for fn in traverse(tree.root_node):
+        if fn.type != "function_definition":
+            continue
+        params = next((c for c in fn.children if c.type == "parameters"),
+                      None)
+        parent = fn.parent
+        if (params is None or parent is None
+                or parent.type != "binary_operator" or not parent.children
+                or parent.children[0].type != "identifier"):
+            continue
+        name = node_text(src, parent.children[0]).decode("utf-8", "replace")
+        first_row = min(fn.start_point[0],
+                        parent.children[0].start_point[0])
+        last_row = params.end_point[0]
+        if first_row <= 0 or last_row >= len(lines):
+            continue
+        r, block = first_row - 1, []
+        while r >= 0 and ROXY_LINE_RE.match(lines[r]):
+            block.append(lines[r])
+            r -= 1
+        if not block:
+            continue
+        block.reverse()
+        by_name.setdefault(name, []).append(
+            (fn, params, first_row, last_row, block, lines))
+    return {k: v[0] for k, v in by_name.items() if len(v) == 1}
+
+
+def extract_doc_sync_pair(pkg: str, rel: str, old_src: bytes,
+                          new_src: bytes, cap: int = 1) -> list[dict]:
+    """Rows from one file's two versions: the prompt keeps the OLD roxygen,
+    the event shows the REAL signature change, and the target is the
+    maintainer's actual updated @param lines. Accepted only when the
+    @param-name delta equals the signature-param delta exactly."""
+    if not old_src or not new_src or len(old_src) > MAX_FILE_BYTES \
+            or len(new_src) > MAX_FILE_BYTES:
+        return []
+    old_tab, new_tab = _fn_table(old_src), _fn_table(new_src)
+    out = []
+    for name in sorted(set(old_tab) & set(new_tab)):
+        if len(out) >= cap:
+            break
+        (fn_a, par_a, fr_a, lr_a, blk_a, lines_a) = old_tab[name]
+        (fn_b, par_b, fr_b, lr_b, blk_b, lines_b) = new_tab[name]
+        names_a = [nm for nm, _ in _ordered_params(old_src, par_a)]
+        names_b = [nm for nm, _ in _ordered_params(new_src, par_b)]
+        if not names_a or not names_b:
+            continue
+        added = [n for n in names_b if n not in names_a]
+        removed = [n for n in names_a if n not in names_b]
+        if not (added or removed) or len(added) + len(removed) > PAIR_DELTA_MAX:
+            continue
+        doc_a, doc_b = _roxy_param_names(blk_a), _roxy_param_names(blk_b)
+        if set(doc_b) - set(doc_a) != set(added):
+            continue
+        if set(doc_a) - set(doc_b) != set(removed):
+            continue
+        sm = difflib.SequenceMatcher(a=blk_a, b=blk_b, autojunk=False)
+        ops = [o for o in sm.get_opcodes() if o[0] != "equal"]
+        if not ops:
+            continue
+        s, e = min(o[1] for o in ops), max(o[2] for o in ops)
+        j1, j2 = min(o[3] for o in ops), max(o[4] for o in ops)
+        if s == 0 or blk_a[s - 1] != blk_b[j1 - 1]:
+            continue  # need one shared cursor line above the first change
+        region_old = [blk_a[s - 1]] + blk_a[s:e]
+        region_new = [blk_a[s - 1]] + blk_b[j1:j2]
+        if (len(region_old) > PAIR_REGION_MAX_OLD
+                or len(region_new) > PAIR_REGION_MAX_NEW
+                or region_old == region_new):
+            continue
+        if any(len(l) > FORMAT_LINE_MAX for l in region_old + region_new):
+            continue
+        if not (_roxy_param_group_only(region_old[1:])
+                and _roxy_param_group_only(region_new[1:])):
+            continue
+        if blk_a[:s - 1] + region_new + blk_a[e:] != blk_b:
+            continue  # splice invariant: the edit must rebuild the new block
+        sig_a, sig_b = lines_a[fr_a:lr_a + 1], lines_b[fr_b:lr_b + 1]
+        if (sig_a == sig_b or len(sig_a) > PAIR_EVENT_MAX_LINES
+                or len(sig_b) > PAIR_EVENT_MAX_LINES
+                or any(len(l) > FORMAT_LINE_MAX for l in sig_a + sig_b)):
+            continue
+        pa, pb = _params_from_sig_text("\n".join(sig_a)), \
+            _params_from_sig_text("\n".join(sig_b))
+        if pa is None or pb is None or set(pb) - set(pa) != set(added) \
+                or set(pa) - set(pb) != set(removed):
+            continue  # event must carry the same param delta as the docs
+        prefix = lines_a[max(0, s - 11):s - 1]
+        cursor = len(region_old[0])  # end of the first stale line
+        delta = ", ".join(f"+{a}" for a in added) + " " + \
+            ", ".join(f"-{r}" for r in removed)
+        note = (f"sync roxygen of {name} with the signature change between "
+                f"versions ({delta.strip()})")
+        ex = make_multiline_example(
+            "doc_sync", pkg, rel, prefix, region_old, region_new, cursor,
+            sig_a, sig_b, fr_a + 1, note)
+        ex["variant"] = "version_pair"
+        out.append(ex)
+    return out
+
+
+def pkg_to_git_dirs(cache: Path = PKG2GIT_CACHE) -> dict[str, str]:
+    """{package: git mirror dir name} for root-level CRAN mirrors that are
+    actually materialised (subdir repos are skipped; the drvfs walk of the
+    meta jsons is cached)."""
+    if cache.exists():
+        try:
+            return json.loads(cache.read_text())
+        except (ValueError, OSError):
+            pass
+    import os
+    mapping: dict[str, str] = {}
+    try:
+        git_dirs = {p for p in os.listdir(GIT_ROOT)}
+        meta_files = sorted(os.listdir(META_DIR))
+    except OSError:
+        return mapping
+    for mf in meta_files:
+        if not mf.endswith(".json"):
+            continue
+        try:
+            entries = json.loads((META_DIR / mf).read_text())
+        except (OSError, ValueError):
+            continue
+        for e in (entries if isinstance(entries, list) else [entries]):
+            pkg, url, sub = e.get("package"), e.get("url", ""), \
+                e.get("subdir", "")
+            if not pkg or not url or sub:
+                continue
+            tail = url.rstrip("/").split("github.com/")[-1]
+            gd = "__".join(tail.split("/"))
+            if gd in git_dirs:
+                mapping[pkg] = gd
+    try:
+        cache.write_text(json.dumps(mapping))
+    except OSError:
+        pass
+    return mapping
+
+
+def iter_pair_rows(pkg: str, git_dir: str, cap_per_repo: int = 4) -> list[dict]:
+    """All doc_sync version-pair rows mined from one git mirror."""
+    repo = GIT_ROOT / git_dir
+    out = []
+    try:
+        for sha_a, sha_b, _va, _vb in version_transitions(repo):
+            if len(out) >= cap_per_repo:
+                break
+            names = _git(repo, "diff", "--name-only", sha_a, sha_b, "--", "R")
+            if not names:
+                continue
+            files = [n for n in names.decode("utf-8", "replace").splitlines()
+                     if n.endswith((".R", ".r"))][:8]
+            for rel in files:
+                a = _git(repo, "show", f"{sha_a}:{rel}")
+                b = _git(repo, "show", f"{sha_b}:{rel}")
+                if a is None or b is None:
+                    continue
+                if len(a) > MAX_FILE_BYTES or len(b) > MAX_FILE_BYTES:
+                    continue
+                rel_norm = f"R/{rel.split('/', 1)[-1]}"
+                for ex in extract_doc_sync_pair(pkg, rel_norm, a, b):
+                    ex["version"] = _vb
+                    out.append(ex)
+                if len(out) >= cap_per_repo:
+                    break
+    except Exception:  # never let one flaky repo kill the run
+        pass
+    return out
+
+
+# --- builder: resumable, <=6 workers, drvfs-tolerant writes -----------------
+
+def _nas_write_jsonl(path: Path, rows: list[dict], tries: int = 20,
+                     wait_s: float = 30.0) -> bool:
+    """Write JSONL to the NAS store, riding out drvfs ENOMEM flaps (same
+    contract as comment_to_code.py _nas_write_lines)."""
+    for attempt in range(tries):
+        try:
+            with open(path, "w") as fh:
+                for ex in rows:
+                    fh.write(json.dumps(ex, ensure_ascii=False) + "\n")
+            return True
+        except OSError as e:
+            if attempt == tries - 1:
+                print(f"  [nas-write] giving up on {path}: {e}", flush=True)
+                return False
+            print(f"  [nas-write] {e}; retry {attempt + 1}/{tries - 1} "
+                  f"in {wait_s:.0f}s", flush=True)
+            time.sleep(wait_s)
+    return False
+
+
+def _row_key(ex: dict) -> tuple:
+    import hashlib
+    h = hashlib.sha1("\n".join(ex["region_new"]).encode()).hexdigest()[:16]
+    return (ex["package"], ex["path"], h)
+
+
+def build_doc_sync_v2(target_new: int = 4700, max_workers: int = 6,
+                      seed: int = 13, out_dir: Path = OUT_DIR,
+                      time_budget_s: float = 14400.0,
+                      sample_repos: int = 0, verbose: bool = True):
+    """Grow doc_sync: missing_param rows from the normalized corpus +
+    version_pair rows from the git mirrors. Resumable via sidecar progress
+    (doc_sync_v2_progress.json) and a partial rows file; every row passes
+    validate_example before it is kept (generator-side fixes only)."""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    prog_path = out_dir / "doc_sync_v2_progress.json"
+    partial_path = out_dir / "doc_sync_v2_partial.jsonl"
+    rows: list[dict] = []
+    prog = {"missing_done": [], "pair_done": []}
+    try:
+        rows = [json.loads(l) for l in partial_path.read_text().splitlines()
+                if l.strip()]
+        prog = json.loads(prog_path.read_text())
+    except (OSError, ValueError):
+        pass
+    seen_keys = {_row_key(r) for r in rows}
+    missing_done, pair_done = set(prog["missing_done"]), set(prog["pair_done"])
+    stats = {"resumed_rows": len(rows), "dropped_invalid": 0,
+             "missing_units": 0, "pair_units": 0}
+
+    def keep(new_rows: list[dict], unit_kind: str, unit: str):
+        kept = 0
+        for ex in new_rows:
+            if len(rows) >= target_new:
+                break
+            if _row_key(ex) in seen_keys:
+                continue
+            try:
+                validate_example(ex)
+            except AssertionError as e:
+                stats["dropped_invalid"] += 1
+                if verbose and stats["dropped_invalid"] <= 5:
+                    print(f"  [invalid:{ex.get('variant')}] {e} "
+                          f"({ex['package']} {ex['path']})", flush=True)
+                continue
+            attach_provenance(ex, f"doc_sync {ex.get('variant')} "
+                                  f"constructor (scenarios.py)")
+            seen_keys.add(_row_key(ex))
+            rows.append(ex)
+            kept += 1
+        (missing_done if unit_kind == "missing" else pair_done).add(unit)
+        return kept
+
+    t0 = time.time()
+    rng = random.Random(seed)
+
+    # phase A: version pairs first (scarcer, harder, mined from git history)
+    p2g = pkg_to_git_dirs()
+    pair_units = sorted(p2g.items())
+    if sample_repos:
+        rng.shuffle(pair_units)
+        pair_units = pair_units[:sample_repos]
+    todo = [(p, g) for p, g in pair_units if p not in pair_done]
+    if verbose:
+        print(f"doc_sync v2 phase A: {len(todo)} git mirrors to mine "
+              f"(target {target_new} new rows)", flush=True)
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futs = {pool.submit(iter_pair_rows, p, g): (p, g) for p, g in todo}
+        for fut in as_completed(futs):
+            p, g = futs[fut]
+            stats["pair_units"] += 1
+            try:
+                keep(fut.result(), "pair", p)
+            except Exception as e:  # noqa: BLE001 - one repo must not kill
+                pair_done.add(p)
+                if verbose:
+                    print(f"  [pair-error] {p}: {e}", flush=True)
+            if time.time() - t0 > time_budget_s * 0.4:
+                for f in futs:
+                    f.cancel()
+                break
+            if stats["pair_units"] % 50 == 0 and verbose:
+                print(f"  pairs: {stats['pair_units']}/{len(todo)} units, "
+                      f"rows={len(rows)} elapsed={time.time()-t0:.0f}s",
+                      flush=True)
+
+    # phase B: missing-@param rows from the normalized corpus (bulk)
+    pkgs = [p for p in list_packages() if p not in missing_done]
+    rng.shuffle(pkgs)
+    if verbose:
+        print(f"doc_sync v2 phase B: {len(pkgs)} packages to scan, "
+              f"{len(rows)} rows so far", flush=True)
+
+    def scan_pkg(pkg: str) -> list[dict]:
+        import zlib
+        got: list[dict] = []
+        rng_local = random.Random(seed + zlib.crc32(pkg.encode()) % 10_000)
+        try:
+            bundles = list(iter_bundles([pkg], rng_local, max_files=8))
+        except OSError:
+            return got
+        for b in bundles:
+            if len(got) >= 6:
+                break
+            got.extend(extract_doc_sync_missing(b, rng_local, cap=3))
+        return got
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futs = {pool.submit(scan_pkg, p): p for p in pkgs}
+        for fut in as_completed(futs):
+            p = futs[fut]
+            stats["missing_units"] += 1
+            try:
+                keep(fut.result(), "missing", p)
+            except Exception as e:  # noqa: BLE001
+                missing_done.add(p)
+                if verbose:
+                    print(f"  [missing-error] {p}: {e}", flush=True)
+            if stats["missing_units"] % 100 == 0 and verbose:
+                print(f"  missing: {stats['missing_units']}/{len(pkgs)} "
+                      f"pkgs, rows={len(rows)}/{target_new} "
+                      f"elapsed={time.time()-t0:.0f}s", flush=True)
+                _nas_write_jsonl(partial_path, rows)
+                try:
+                    prog_path.write_text(json.dumps(
+                        {"missing_done": sorted(missing_done),
+                         "pair_done": sorted(pair_done)}))
+                except OSError:
+                    pass
+            if len(rows) >= target_new or time.time() - t0 > time_budget_s:
+                for f in futs:
+                    f.cancel()
+                break
+
+    # final checkpoint
+    _nas_write_jsonl(partial_path, rows)
+    prog_path.write_text(json.dumps(
+        {"missing_done": sorted(missing_done), "pair_done": sorted(pair_done)}))
+    stats.update(count=len(rows), elapsed_s=round(time.time() - t0, 1),
+                 variants={v: sum(1 for r in rows if r.get("variant") == v)
+                           for v in ("missing_param", "version_pair")})
+    return rows, stats
+
+
+def merge_doc_sync(new_rows: list[dict], out_dir: Path = OUT_DIR,
+                   sample_n: int = 50, seed: int = 7) -> dict:
+    """Rewrite doc_sync.jsonl = old rows (preserved) + new rows appended,
+    deduped by (package, path, target-hash). Validates EVERY row, samples
+    `sample_n` new rows for the pass-rate report, and merges counts into
+    stats.json."""
+    path = out_dir / "doc_sync.jsonl"
+    old = []
+    try:
+        old = [json.loads(l) for l in path.read_text().splitlines() if l.strip()]
+    except (OSError, ValueError):
+        pass
+    merged, seen = [], set()
+    dropped = 0
+    for ex in old + new_rows:
+        k = _row_key(ex)
+        if k in seen:
+            dropped += 1
+            continue
+        seen.add(k)
+        merged.append(ex)
+    for ex in merged:
+        validate_example(ex)  # the whole family file stays validator-clean
+    rng = random.Random(seed)
+    sample = rng.sample(new_rows, min(sample_n, len(new_rows))) \
+        if new_rows else []
+    passed = fails = 0
+    for ex in sample:
+        try:
+            validate_example(ex)
+            noop_exact_score(ex)
+            passed += 1
+        except AssertionError:
+            fails += 1
+    if not _nas_write_jsonl(path, merged):
+        raise SystemExit(f"could not write {path}")
+    variants = {"canonical": sum(1 for r in merged if not r.get("variant"))}
+    for v in ("missing_param", "version_pair"):
+        variants[v] = sum(1 for r in merged if r.get("variant") == v)
+    rep = {"old_rows": len(old), "new_rows": len(new_rows),
+           "merged_rows": len(merged), "dropped_dupes": dropped,
+           "variants": variants,
+           "sample_size": len(sample), "sample_pass": passed,
+           "sample_pass_rate": round(passed / len(sample), 4) if sample else None}
+    try:
+        stats = json.loads((out_dir / "stats.json").read_text())
+    except (OSError, ValueError):
+        stats = {}
+    if not isinstance(stats.get("counts"), dict):
+        stats["counts"] = {}
+    stats["counts"]["doc_sync"] = len(merged)
+    stats["doc_sync_v2"] = rep
+    try:
+        (out_dir / "stats.json").write_text(json.dumps(stats, indent=1))
+    except OSError as e:
+        print(f"  [stats] write failed: {e}", flush=True)
+    return rep
+
+
+# ---------------------------------------------------------------------------
 # new-family example builder + event diff (multi-line capable) + validators
 # ---------------------------------------------------------------------------
 
@@ -1168,6 +2156,83 @@ def _assert_doc_region(old_lines, new_lines) -> str:
                          f"before @return/@export: {old_lines} -> {new_lines}")
 
 
+def _sig_args_added(ev_old: list[str], ev_new: list[str],
+                    names: list[str]) -> bool:
+    """True if `ev_new` is `ev_old` as a signature where exactly the
+    arguments `names` were added: removing them (one adjacent separator
+    comma each) from ev_new must rebuild ev_old, every other argument must
+    be identical and in order, and the parameter-list parses must agree."""
+    if not ev_old or not ev_new or ev_old == ev_new:
+        return False
+    if any(l != l.rstrip("\r") for l in ev_old + ev_new):
+        return False
+    po = _params_from_sig_text("\n".join(ev_old))
+    pn = _params_from_sig_text("\n".join(ev_new))
+    if po is None or pn is None:
+        return False
+    if [n for n in pn if n not in names] != [n for n in po if n not in names]:
+        return False  # every other argument identical and in order
+    if set(pn) - set(po) != set(names) or set(po) & set(names):
+        return False
+    return _remove_named_args(ev_new, names) == ev_old
+
+
+def _assert_doc_region_missing(old_lines, new_lines) -> list[str]:
+    """missing_param variant: new must be old with 1..MISSING_MAX_PARAMS
+    lines APPENDED after the last existing tag, each a deterministic
+    "#' @param <name> <desc>" whose description is the name grammar output
+    styled after the block's own @param tags. Returns the documented names."""
+    k = len(new_lines) - len(old_lines)
+    if not (1 <= k <= MISSING_MAX_PARAMS) \
+            or new_lines[:len(old_lines)] != old_lines:
+        raise AssertionError("doc_sync missing_param region must append the "
+                             f"new @param lines: {old_lines} -> {new_lines}")
+    cap, per = _doc_style(_roxy_param_descs(old_lines))
+    pm = re.match(r"\s*#'", old_lines[-1])
+    documented = _roxy_param_names(old_lines)
+    names = []
+    for l in new_lines[len(old_lines):]:
+        m = re.match(r"(\s*#') @param ([.\w]+|\.\.\.) (.+)$", l)
+        if not m or (pm and m.group(1) != pm.group(0)):
+            raise AssertionError(f"bad @param line: {l!r}")
+        name = m.group(2)
+        desc = doc_desc_for_name(name)
+        if desc is None or name in documented \
+                or m.group(3) != _styled_desc(desc, cap, per):
+            raise AssertionError(f"non-deterministic @param line: {l!r}")
+        names.append(name)
+    return names
+
+
+def _assert_doc_region_pair(old_lines, new_lines, ev_old, ev_new) -> None:
+    """version_pair variant: the region is the roxygen @param area of the
+    OLD version (plus one shared cursor line above the change); the new lines
+    are the maintainer's actual update. The @param-name delta must equal the
+    signature-param delta carried by the event."""
+    if not old_lines or old_lines[0] != new_lines[0]:
+        raise AssertionError("version_pair region must share the cursor line")
+    if not (_roxy_param_group_only(old_lines[1:])
+            and _roxy_param_group_only(new_lines[1:])):
+        raise AssertionError("version_pair region must stay inside the "
+                             "@param area of the roxygen block")
+    doc_a = _roxy_param_names(old_lines[1:])
+    doc_b = _roxy_param_names(new_lines[1:])
+    added = set(doc_b) - set(doc_a)
+    removed = set(doc_a) - set(doc_b)
+    if not (added or removed):
+        raise AssertionError("version_pair region changes no @param name")
+    pa = _params_from_sig_text("\n".join(ev_old))
+    pb = _params_from_sig_text("\n".join(ev_new))
+    if pa is None or pb is None:
+        raise AssertionError("version_pair event is not a parseable "
+                             "signature change")
+    if set(pb) - set(pa) != added or set(pa) - set(pb) != removed:
+        raise AssertionError("doc delta does not match the signature delta "
+                             f"(docs +{sorted(added)}/-{sorted(removed)}; "
+                             f"event +{sorted(set(pb)-set(pa))}"
+                             f"/-{sorted(set(pa)-set(pb))})")
+
+
 def _validate_new_family(ex: dict) -> None:
     epath, ev_old, ev_new = parse_event_diff_lines(ex["event_diff"])
     assert epath == ex["path"], "event path mismatch"
@@ -1179,7 +2244,18 @@ def _validate_new_family(ex: dict) -> None:
         shared = (set(l.rstrip() for l in ex["region_old"])
                   & set(l.rstrip() for l in ex["region_new"]))
         assert not shared, f"format region shares lines: {shared}"
-    else:  # doc_sync
+    elif ex.get("variant") == "missing_param":
+        names = _assert_doc_region_missing(ex["region_old"], ex["region_new"])
+        assert _sig_args_added(ev_old, ev_new, names), \
+            (ev_old, ev_new, names)
+        assert ex["cursor_idx"] == len("\n".join(ex["region_old"])), \
+            "missing_param cursor must sit at the end of the last tag line"
+    elif ex.get("variant") == "version_pair":
+        _assert_doc_region_pair(ex["region_old"], ex["region_new"],
+                                ev_old, ev_new)
+        assert ex["cursor_idx"] == len(ex["region_old"][0]), \
+            "version_pair cursor must sit at the end of the first stale line"
+    else:  # doc_sync (canonical construction, unchanged)
         arg = _assert_doc_region(ex["region_old"], ex["region_new"])
         assert len(ev_old) == 1 and len(ev_new) == 1, \
             "doc_sync event must be single-line"
@@ -1266,6 +2342,16 @@ def main():
     ap.add_argument("--n-per-family", type=int, default=30)
     ap.add_argument("--time-budget", type=int, default=780)
     ap.add_argument("--out", type=Path, default=OUT_DIR)
+    ap.add_argument("--doc-sync-v2", action="store_true",
+                    help="grow doc_sync (missing_param + version_pair rows) "
+                         "and rewrite doc_sync.jsonl (old rows preserved)")
+    ap.add_argument("--doc-sync-target-new", type=int, default=4700,
+                    help="new rows to add under --doc-sync-v2")
+    ap.add_argument("--doc-sync-workers", type=int, default=6)
+    ap.add_argument("--doc-sync-sample-repos", type=int, default=0,
+                    help=">0: probe only N git mirrors (yield test)")
+    ap.add_argument("--doc-sync-merge-only", action="store_true",
+                    help="skip mining; merge the partial file + rewrite")
     args = ap.parse_args()
 
     if args.calibrate:
@@ -1275,6 +2361,29 @@ def main():
 
     if args.calibrate_new:
         rep = calibrate_new(n_per_family=args.n_per_family)
+        print(json.dumps(rep, indent=1))
+        return
+
+    if args.doc_sync_v2 or args.doc_sync_merge_only:
+        if args.doc_sync_merge_only:
+            new_rows = []
+            try:
+                new_rows = [json.loads(l) for l in
+                            (args.out / "doc_sync_v2_partial.jsonl")
+                            .read_text().splitlines() if l.strip()]
+            except (OSError, ValueError):
+                pass
+            stats = {"count": len(new_rows), "variants": {
+                v: sum(1 for r in new_rows if r.get("variant") == v)
+                for v in ("missing_param", "version_pair")}}
+        else:
+            new_rows, stats = build_doc_sync_v2(
+                target_new=args.doc_sync_target_new,
+                max_workers=min(args.doc_sync_workers, 6),
+                seed=args.seed, out_dir=args.out,
+                sample_repos=args.doc_sync_sample_repos)
+            print(json.dumps(stats, indent=1))
+        rep = merge_doc_sync(new_rows, out_dir=args.out)
         print(json.dumps(rep, indent=1))
         return
 

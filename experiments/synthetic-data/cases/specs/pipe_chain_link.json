@@ -1,0 +1,58 @@
+{
+  "name": "pipe_chain_link",
+  "version": 1,
+  "family": "pipe_chain_link",
+  "description": "Next link of a pipe chain (proposals_v1 rank 2). A real multi-line magrittr/native pipe chain from the normalized CRAN corpus is cut right after the `|>`/`%>%` operator that ends a line; the completion is the next chain link line verbatim (the rest of the chain stays in the suffix). Ground truth = the corpus line - exact by construction; the model draw must equal it (tier-1 exact gate in pipe_cut_cursor).",
+  "novelty_note": "finish_block completes function bodies from the block START and ast_fim samples argument_list spans mid-call; neither teaches line-granular next-link continuation of a pipe chain - the most repeated edit shape in tidyverse reporting code. Absorbs gtsummary table-chaining as a stratum. Tree-sitter construction (operator must END its line, RHS call begins the next line, chain head always inside the prefix window so the data context is visible); validator tier: exact text on the emitted link with a structural tree-sitter floor (one clean call after stripping the trailing operator).",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code at a line boundary inside a pipe chain. The cursor sits immediately after the pipe operator at the end of the last context line; the next chain link is missing.\n\nContext (cursor right after the pipe operator ending the last line):\n\n{context}\n\nFile below the cursor (the missing link goes between them):\n\n{suffix}\n\nWrite the missing next chain link exactly as the author wrote it (one line, indentation included, with its trailing pipe operator if the chain continues).\n\nReply with ONLY this JSON: {{\"completion\": \"<the next link line>\"}}",
+    "Finish the pipe chain at the cursor. Context above (the last line ends with the pipe operator - the cursor is right after it):\n\n{context}\n\nChain continuation below:\n\n{suffix}\n\nEmit the single next link line of the chain, verbatim.\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "normalized_corpus",
+    "selector": "pipe_chain_links",
+    "params": {
+      "packages": "tidy",
+      "extra_random_packages": 800,
+      "sample_packages": 0,
+      "cut": "line",
+      "window_lines": 10,
+      "per_package_cap": 3,
+      "per_file_cap": 3,
+      "max_items": 2600,
+      "time_budget_s": 2700
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "normalized CRAN corpus (/mnt/h/sepalith/normalized), dplyr-using packages first"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {}
+  },
+  "validator": {
+    "name": "pipe_link",
+    "params": {"max_len": 220}
+  },
+  "row_check": {
+    "name": "pipe_cut_cursor",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 1,
+    "target_lines_max": 1,
+    "target_chars_min": 4,
+    "target_chars_max": 220
+  },
+  "response_format": "json"
+}

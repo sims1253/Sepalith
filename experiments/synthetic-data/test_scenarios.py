@@ -485,6 +485,173 @@ def test_doc_sync_validator_rejects_tampering():
         pass
 
 
+# ---------------------------------------------------------------------------
+# doc_sync v2: missing_param variant (undocumented real signature argument)
+# ---------------------------------------------------------------------------
+
+MISSING_R = b'''#' Title for sum_it
+#'
+#' @param x A numeric vector.
+#' @param min_val minimum accepted
+sum_it <- function(
+  x,
+  min_val = 0,
+  na_rm = TRUE,
+  debug = FALSE
+) {
+  sum(x[x >= min_val], na.rm = na_rm)
+}
+
+#' Fetch things
+#' @param name the name
+#' @param state_code the code
+get_tc <- function(name = NULL, state_code = NULL,
+                   use_cache = TRUE, verbose = FALSE) {
+  name
+}
+'''
+
+
+def test_doc_sync_missing_param():
+    b = make_bundle(MISSING_R)
+    exs = S.extract_doc_sync_missing(b, random.Random(0), cap=6)
+    assert len(exs) == 2, [e["note"] for e in exs]
+    for e in exs:
+        S.validate_example(e)
+        assert e["variant"] == "missing_param"
+        assert S.noop_exact_score(e) == 0.0
+        # target appends ONLY the new @param lines after the last tag
+        assert e["cursor_idx"] == len("\n".join(e["region_old"]))
+    e0 = exs[0]
+    assert e0["region_new"][-2:] == [
+        "#' @param na_rm Should missing values be removed?",
+        "#' @param debug Print extra debug information when TRUE.",
+    ]  # style copied from "A numeric vector." / "minimum accepted"
+    path, ev_old, ev_new = S.parse_event_diff_lines(e0["event_diff"])
+    assert ev_old == ["sum_it <- function(", "  x,", "  min_val = 0",
+                      ") {"]
+    assert ev_new[-1] == ") {"
+    e1 = exs[1]  # wrapped signature: separator comma on the previous line
+    _, ev_old1, _ = S.parse_event_diff_lines(e1["event_diff"])
+    assert ev_old1 == ["get_tc <- function(name = NULL, state_code = NULL",
+                       "                   ) {"]
+
+
+def test_doc_sync_missing_param_tampering():
+    b = make_bundle(MISSING_R)
+    e = dict(S.extract_doc_sync_missing(b, random.Random(0))[0])
+    bad = dict(e)
+    bad["region_new"] = [l.replace("Should missing values be removed?",
+                                   "Drop the missing values")
+                         for l in e["region_new"]]
+    try:
+        S.validate_example(bad)
+        raise SystemExit("validator accepted a non-grammar description")
+    except AssertionError:
+        pass
+    bad2 = dict(e)
+    bad2["region_new"] = e["region_new"][:-1]  # only one new @param line
+    try:
+        S.validate_example(bad2)
+        raise SystemExit("validator accepted a missing @param line")
+    except AssertionError:
+        pass
+    # style drift: the debug description loses its copied trailing period
+    bad3 = dict(e)
+    bad3["region_new"] = [
+        l[:-1] if l.startswith("#' @param debug") else l
+        for l in e["region_new"]]
+    try:
+        S.validate_example(bad3)
+        raise SystemExit("validator accepted punctuation style drift")
+    except AssertionError:
+        pass
+    # event that adds an argument the target does not document
+    bad4 = dict(e)
+    assert "+) {" in e["event_diff"]
+    bad4["event_diff"] = e["event_diff"].replace(
+        "+) {", "+, quiet = FALSE) {")
+    try:
+        S.validate_example(bad4)
+        raise SystemExit("validator accepted an undocumented event argument")
+    except AssertionError:
+        pass
+
+
+# ---------------------------------------------------------------------------
+# doc_sync v2: version_pair variant (real upstream doc sync)
+# ---------------------------------------------------------------------------
+
+PAIR_OLD = b'''#' Title for fit
+#'
+#' @param x A numeric vector.
+#' @param n_iter Number of iterations
+#' @param show_legend Show the legend?
+#' @return the fitted object
+fit <- function(x, n_iter = 100, show_legend = TRUE) {
+  x
+}
+'''
+
+PAIR_NEW = b'''#' Title for fit
+#'
+#' @param x A numeric vector.
+#' @param n_iter Number of iterations
+#' @param show_legend Show the legend?
+#' @param na_rm Should missing values be removed?
+#' @return the fitted object
+fit <- function(x, n_iter = 100, show_legend = TRUE, na_rm = FALSE) {
+  x
+}
+'''
+
+
+def test_doc_sync_version_pair():
+    exs = S.extract_doc_sync_pair("tpkg", "R/fit.R", PAIR_OLD, PAIR_NEW)
+    assert len(exs) == 1, [e["note"] for e in exs]
+    e = exs[0]
+    S.validate_example(e)
+    assert e["variant"] == "version_pair"
+    assert e["region_old"] == ["#' @param show_legend Show the legend?"]
+    assert e["region_new"] == [
+        "#' @param show_legend Show the legend?",
+        "#' @param na_rm Should missing values be removed?",
+    ]
+    assert e["cursor_idx"] == len(e["region_old"][0])
+    path, ev_old, ev_new = S.parse_event_diff_lines(e["event_diff"])
+    assert ev_old == ["fit <- function(x, n_iter = 100, show_legend = TRUE) {"]
+    assert ev_new == [
+        "fit <- function(x, n_iter = 100, show_legend = TRUE, "
+        "na_rm = FALSE) {"]
+    assert S.noop_exact_score(e) == 0.0
+
+
+def test_doc_sync_version_pair_rejects_desync():
+    # docs did NOT track the signature change -> no row
+    lazy = PAIR_NEW.replace(b"#' @param na_rm Should missing values be "
+                            b"removed?\n", b"")
+    assert S.extract_doc_sync_pair("tpkg", "R/fit.R", PAIR_OLD, lazy) == []
+    # docs renamed an argument the signature renamed too -> tracked, valid
+    renamed = PAIR_NEW.replace(b"@param n_iter", b"@param iterations")
+    renamed = renamed.replace(b"n_iter = 100", b"iterations = 100")
+    exs = S.extract_doc_sync_pair("tpkg", "R/fit.R", PAIR_OLD, renamed)
+    assert len(exs) == 1
+    S.validate_example(exs[0])
+    # region escaping the @param area (title rewritten too)
+    noisy = PAIR_NEW.replace(b"#' Title for fit", b"#' Title for fit2")
+    assert S.extract_doc_sync_pair("tpkg", "R/fit.R", PAIR_OLD, noisy) == []
+    # the region documents an argument the signature did not gain
+    e = dict(S.extract_doc_sync_pair("tpkg", "R/fit.R", PAIR_OLD, PAIR_NEW)[0])
+    bad = dict(e)
+    bad["region_new"] = [l.replace("@param na_rm ", "@param quiet ")
+                         for l in e["region_new"]]
+    try:
+        S.validate_example(bad)
+        raise SystemExit("validator accepted a doc/sig desync")
+    except AssertionError:
+        pass
+
+
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items())
            if k.startswith("test_") and callable(v)]
