@@ -1,0 +1,365 @@
+{
+  "version": "proposals_v1",
+  "date": "2026-08-19",
+  "companion_doc": "docs/research/case-specs-v1.md (untracked research notes)",
+  "context": {
+    "model": "1-2B local next-edit-suggestion model for R (pharma/biostat users, VS Code)",
+    "prompt": "file above cursor + typed partial + file below cursor + recent diffs (event)",
+    "target_convention": "suffix-only: the model predicts ONLY what comes after the cursor; cursor is placed at the first changed line; nothing above the cursor is ever re-emitted (v5 user-confirmed convention)",
+    "validator_preference_order": [
+      "exact text/AST match (tier 1)",
+      "structural tree-sitter check (tier 2)",
+      "jarl/R parse (tier 3)",
+      "calibrated judge (tier 4)",
+      "execution in R (tier 5, last resort)"
+    ],
+    "rscript_available": "/usr/bin/Rscript, R 4.6.1 (2026-06-24) — execution validators permitted but used only as optional construction-time filters (roxygen_examples)",
+    "difficulty_rule": "Prime Intellect: random/garbage output must score ~0 (stated per family in difficulty_knobs.random_fails); strong model must score well before training; no-op and shuffled-target controls must both score ~0 at build time",
+    "corpus": {
+      "normalized": "/mnt/h/sepalith/normalized/<pkg>/<ver>/<pkg>/R/*.R (tree-sitter-r, scenarios.py Bundle infra)",
+      "tarballs": "/mnt/h/sepalith/tarballs/*.tar.gz (14,202; python-tarfile streaming member reads per format_propagation.py; members confirmed to include NAMESPACE, DESCRIPTION, tests/testthat/*.R, vignettes|doc/*.Rmd)"
+    },
+    "row_conventions": "edit-pair schema (prefix/region_old/region_new/cursor_idx/event_diff/note) per scenarios.py; per-family caps 4-6k rows, per-package caps 2-4; 3% package holdout per family for eval_scenarios; char budget 5850 (assembler 6000 gate)",
+    "library_key_mapping": "this file is a MULTI-PROPOSAL design document (16 proposals), not a single loadable CaseSpec: load_case()/--spec target one case per file. Mapping to cases/spec.py REQUIRED_KEYS when splitting a proposal into its own spec file: prompt_template -> prompt_templates, sampler -> parameter_sampler {name, params}, corpus_source -> {selector, ...}, validator -> {name, params}, target_construction -> {kind, ...}; difficulty_knobs.random_fails and novelty_note carry over as-is (novelty_note is already a spec key)."
+  },
+  "triage_gemini_12": [
+    {"n": 1, "idea": "tidyselect-predicate-completion", "verdict": "merge", "target": "ast_fim tagged stratum tidyselect_slice", "reason": "argument_list FIM already sampled by ast_fim (48% of 276k rows); a new constructor would double-count; tag + mixture oversample gets the SDTM/ADaM column-selection bias for free"},
+    {"n": 2, "idea": "gtsummary-table-chaining", "verdict": "drop-standalone/absorb", "target": "pipe_chain_link", "reason": "standalone volume far too thin; proposed export-resolution validator passes any well-formed call (random-fails violated); the general chain-next-link capability subsumes it at high volume"},
+    {"n": 3, "idea": "testthat-expectation-inference", "verdict": "keep-reframed", "target": "expectation_completion", "reason": "fills tests gap; GT = author's exact suffix from real tests/testthat files; Gemini's structural-only validator demoted to a floor under the exact gate"},
+    {"n": 4, "idea": "namespace-resolution-insertion", "verdict": "keep-strengthened", "target": "namespace_qualify_propagation", "reason": "reverse-strip construction makes GT the exact corpus line (tier 1, no R namespace lookup needed); upgraded to the propagation pattern that scored 92% for rename"},
+    {"n": 5, "idea": "s4-r6-accessor-completion", "verdict": "drop", "reason": "class definitions usually live in other files/packages (Bioconductor S4 not in corpus); same-file setClass+@ co-occurrence too rare; validator cannot resolve slots reliably"},
+    {"n": 6, "idea": "matrix-dataframe-dimension-indexing", "verdict": "reframe", "target": "drop_false_propagation", "reason": "whole-bracket completion is low-learnability author-choice FIM; the exactly-checkable edit is the drop=FALSE insertion, which reuses _single_insert_before_close from na_rm_propagation"},
+    {"n": 7, "idea": "formula-specification-expansion", "verdict": "drop", "reason": "as.formula() accepts any valid formula so the proposed validator passes random output; exact-match to author covariate choice is unlearnable from local context — teaches confident hallucination"},
+    {"n": 8, "idea": "ggplot-geom-aesthetic-wiring", "verdict": "merge", "target": "ast_fim tagged stratum ggplot_aes_slice", "reason": "aes() completion is argument_list FIM; structural layer-parse check too weak (any call parses)"},
+    {"n": 9, "idea": "trycatch-withcallinghandlers-scaffolding", "verdict": "keep-corrected", "target": "trycatch_handler_completion", "reason": "fills error-handling gap; corrected because WRAPPING forces re-indentation below cursor (retired whole-region convention); suffix-compliant version completes handler clauses at a cut inside an existing tryCatch"},
+    {"n": 10, "idea": "cli-logging-message-formatting", "verdict": "keep-merged", "target": "condition_message_drafting", "reason": "merged with stop()-message drafting: one capability to a 1-2B model; cli tag whitelist regex is a genuine tier-3 check garbage fails"},
+    {"n": 11, "idea": "matrix-linear-algebra-operator-pairing", "verdict": "drop", "reason": "closed 3-operator target space plus arbitrary RHS — a tiny classification dressed as completion; ast_fim body spans cover mid-expression continuation"},
+    {"n": 12, "idea": "factor-relevel-ordering-pipeline", "verdict": "keep-wave2", "target": "factor_level_completion", "reason": "real pharma value and exact GT but level order only partially inferable; forcats-volume moderate; ship after exact-tier families"}
+  ],
+  "mixture_actions": [
+    {"name": "tidyselect_slice", "action": "tag ast_fim rows whose argument_list span sits inside select/relocate/across() calls; oversample in mixture", "reason": "gemini#1 merge"},
+    {"name": "ggplot_aes_slice", "action": "tag ast_fim rows whose span is the argument list of an aes() call; oversample in mixture", "reason": "gemini#8 merge"}
+  ],
+  "proposals": [
+    {
+      "name": "namespace_qualify_propagation",
+      "description": "Explicit package:: qualification of bare function calls. The event shows the user restoring one `pkg::fun(` prefix in a file where all `pkg::` prefixes for one package were stripped; the target re-qualifies the next bare occurrence of a function from the same package. Teaches the FDA-submission convention of explicit namespaces over library() attachment.",
+      "prompt_template": "edit-pair: prefix = file lines above the target call (10-line window), typed partial = the target line up to the cursor placed immediately before the bare function identifier, suffix = rest of file below, event_diff = one-line diff restoring the previous `pkg::` prefix",
+      "corpus_source": "/mnt/h/sepalith/normalized — files containing `pkg::` calls; pick packages whose functions are called with :: at least 3x in a file (dplyr, stats, utils, rlang heavy)",
+      "sampler": "per file: choose ONE package p such that p appears as a namespace >= 3 times; strip every `p::` prefix in the file to build the prompt-side state; event = first stripped occurrence re-qualified; target = the next stripped occurrence (70% immediately-next, 30% random later occurrence, rename_propagation convention); per-package cap 3, family cap 5k",
+      "target_construction": "region_old = the stripped line (bare `fun(`); region_new = the ORIGINAL corpus line verbatim (`pkg::fun(`) — GT is exact by construction because the corpus line exists; cursor at the byte offset of the bare identifier",
+      "validator": "tier 1 exact text: prediction must equal region_new exactly after rstrip-normalization; structural floor: tree-sitter parses the line and the qualified head resolves to a namespace_operator node. Insertion check: new == old with exactly one `pkg::` inserted at the cursor (a namespace twin of _single_token_edit)",
+      "difficulty_knobs": {
+        "random_fails": "random text does not equal the exact original line (exact 0) and does not parse as a qualified call; a shuffled-target control predicts a different package's prefix and fails the one-insertion check; no-op (bare call unchanged) scores 0",
+        "knobs": [
+          "distance: next-occurrence vs distant occurrence after the event",
+          "shadowing: exclude files where fun is also a base-R name (ambiguous) unless the event disambiguates",
+          "prefix length: 1-token functions vs long dashed names"
+        ]
+      },
+      "novelty_note": "No existing family edits call heads. rename_propagation renames identifiers, pipe_rewrite swaps operators; nothing teaches qualification. The event-teaches-target-repeats geometry is the exact pattern that hit 92% (rename) on held-out packages."
+    },
+    {
+      "name": "pipe_chain_link",
+      "description": "Next link of a pipe chain. Cursor at end-of-line right after a `%>%` or `|>` operator; target = the next chain link line (the next call) verbatim. The gtsummary `tbl_summary() |> add_p() |> bold_labels()` CSR workflow, generalized to all chains (dplyr, tidyr, ggplot2 plot chains).",
+      "prompt_template": "edit-pair: prefix = chain lines above (10-line window, always including the chain head so the data context is visible), typed partial = the line ending in the pipe operator with the cursor after it, suffix = file below (contains the REAL next line only in training GT sense — see target_construction), event_diff = empty (cold) or the previous link completed",
+      "corpus_source": "/mnt/h/sepalith/normalized — multi-line pipe chains (pipe operator at end of line, RHS call starting the next line); tidy_packages() pre-scan first for density, random packages for breadth",
+      "sampler": "tree-sitter walk for binary_operator chains whose operator ends a line and whose RHS begins the following line; require >= 2 remaining links; single-line calls only per link; cap links at 300 chars; per-package cap 3, family cap 5k; exclude byte ranges already published by ast_fim when its span map is recoverable (else accept mild overlap)",
+      "target_construction": "region_old = [the pipe-operator line with cursor at line end]; region_new = [the pipe line + the next link line]; the model-visible target is the suffix after the cursor = the next link line(s) (max 2 lines), verbatim from the file",
+      "validator": "tier 1 exact text on the emitted link; structural floor: tree-sitter parses the link as a call node (garbage fragments fail)",
+      "difficulty_knobs": {
+        "random_fails": "garbage neither equals the author's link nor parses as a call; a wrong-but-valid verb (add_overall vs add_p) fails exact and scores ~0 line-F1 because verb+args differ wholesale; no-op emits nothing = 0",
+        "knobs": [
+          "chain position: 2nd link (verb highly predictable from the head) vs deep link",
+          "chain family: dplyr data chains vs ggplot layer chains vs gtsummary-style table chains (stratify and report per stratum)",
+          "event on/off: cold completion vs previous-link-shown propagation"
+        ]
+      },
+      "novelty_note": "finish_block completes function bodies from block START; ast_fim samples argument_list spans mid-call; neither teaches line-granular next-link continuation of a chain — the single most repeated edit shape in tidyverse reporting code. Absorbs gemini#2 (gtsummary) as a stratum instead of a too-thin standalone family."
+    },
+    {
+      "name": "pkg_metadata_sync",
+      "description": "Package metadata maintenance: (a) NAMESPACE — after adding a function, insert its export() (or importFrom/S3method) line at the alphabetically correct position; (b) DESCRIPTION — after first using pkg:: / library(pkg) in R/, insert the package under Imports:. Both constructed by reverse-stripping a real entry from real tarball NAMESPACE/DESCRIPTION files, so GT is exact.",
+      "prompt_template": "edit-pair: prefix = NAMESPACE/DESCRIPTION lines above the insertion slot (for NAMESPACE typically the whole sorted file head; for DESCRIPTION the Imports: section), typed partial = empty line at the insertion slot with the cursor, suffix = remaining file lines, event_diff = the code-side change (function definition line added to R/<file>.R for (a); first pkg:: usage line added for (b))",
+      "corpus_source": "/mnt/h/sepalith/tarballs — NAMESPACE and DESCRIPTION members (confirmed present in every sampled tarball), streamed via python tarfile (format_propagation infra); restrict (a) to alphabetically-sorted NAMESPACE files (roxygen2 output; measure sortedness rate first — open item)",
+      "sampler": "per package: read NAMESPACE + DESCRIPTION once; for (a) pick an export line whose defining function is locatable in the normalized R/ tree; for (b) pick an Imports entry whose package appears as pkg:: in R/; strip it; per-package cap 2 (one per kind), family cap 4k",
+      "target_construction": "(a) region_old = ['' (the stripped slot)], region_new = ['export(<fn>)'] exactly as the real line read; (b) region_new = ['    <pkg>'] exactly as read (with its real indentation); cursor at slot start; the model-visible target is that inserted line plus nothing else",
+      "validator": "tier 1 exact single-line insertion: line matches ^(export|importFrom|S3method)\\(...)\\)$ or ^\\s+[A-Za-z][\\w.]*$ AND lands at the alphabetically correct position among the surviving lines (insertion twin of _assert_doc_region)",
+      "difficulty_knobs": {
+        "random_fails": "garbage matches neither the entry regex nor the sorted-position check; a valid-but-wrong entry (export of a different function) fails exact match and the position check; no-op = 0 (slot stays empty)",
+        "knobs": [
+          "neighborhood distance: insert next to a near-alphabet neighbor vs middle of a long file",
+          "kind mix: export vs importFrom vs S3method vs DESCRIPTION Imports",
+          "event salience: function def shown as event vs only its name in the diff header"
+        ]
+      },
+      "novelty_note": "Only format_propagation touches non-.R files (and only R/ members). DESCRIPTION/NAMESPACE sync is the roxygen2 workflow every package developer repeats; fills the named DESCRIPTION gap. No existing family edits package metadata."
+    },
+    {
+      "name": "expectation_completion",
+      "description": "Inside a test_that() block: after setup lines (assignments, fixture calls), complete the expect_* assertion. Cursor right after the typed `expect_` partial or after `expect_equal(`; target = the author's exact expectation call, from real CRAN test files.",
+      "prompt_template": "edit-pair: prefix = the test_that header + setup lines above (up to 15 lines), typed partial = the partial expect_ token or open call with cursor, suffix = remaining test block + file below, event_diff = a previously-completed expectation in the same block (propagation flavor) or empty",
+      "corpus_source": "/mnt/h/sepalith/tarballs — tests/testthat/*.R members (confirmed present in a large subset of tarballs), streamed via python tarfile; tree-sitter-r parse of test files",
+      "sampler": "extract test_that blocks via tree-sitter; keep single-line expect_* calls preceded by >= 1 setup line inside the block; prefer blocks with >= 2 expectations (event target pairs); per-package cap 3, family cap 5k",
+      "target_construction": "cut the file at a deterministic point: after the `expect_` prefix (medium) or after `expect_equal(res, ` (hard); region_old = the cut line; region_new = the author's full line verbatim; cursor at the cut column; visible target = the line suffix from the cursor",
+      "validator": "tier 1 exact text as the gate; tier 2 structural floor: tree-sitter parses the completion as a call whose callee matches ^expect_ and arg count >= 1 — the floor ALONE is intentionally insufficient (any well-formed expect call passes); document that only the exact gate scores",
+      "difficulty_knobs": {
+        "random_fails": "garbage does not parse as an expect_* call (floor) and equals neither the author's call (exact 0); a valid-but-wrong expectation (expect_true vs expect_equal) fails the exact gate — partial line-F1 credit only for shared prefix, ~0 in practice; no-op = 0",
+        "knobs": [
+          "cut depth: after `expect_` vs after `expect_equal(obj, ` vs mid-argument",
+          "setup richness: typed assignment visible (res <-) vs only the function call",
+          "expectation class stratification: expect_equal / expect_s3_class / expect_error / expect_snapshot"
+        ]
+      },
+      "novelty_note": "Fills the named tests gap. No existing family emits test code of any kind; testthat blocks live outside R/ so ast_fim/finish_block never see them. Distinct from testthat_skeleton (which drafts the whole block from a function)."
+    },
+    {
+      "name": "trycatch_handler_completion",
+      "description": "Complete the condition handlers of an existing tryCatch / withCallingHandlers call: cursor right after the comma following the guarded expression block; target = the author's handler clauses (`error = function(e) {...}, warning = function(w) {...}`) up to the closing paren.",
+      "prompt_template": "edit-pair: prefix = function context above + `tryCatch({` + the guarded expression block, typed partial = the line ending `}, ` with cursor after the comma+space, suffix = code after the tryCatch call, event_diff = empty (cold idiom completion)",
+      "corpus_source": "/mnt/h/sepalith/normalized — tryCatch/withCallingHandlers calls whose expression block and handlers are both parseable; single-file, cap handler clause at 8 lines",
+      "sampler": "tree-sitter walk for calls named tryCatch/withCallingHandlers with >= 1 handler argument of the form name = function(e){...}; require the call to span >= 3 lines; per-package cap 2, family cap 4k",
+      "target_construction": "cut immediately after `}, ` following the expression argument; region_old = that line; region_new = the author's remaining argument lines verbatim through the call's closing paren; cursor at the cut column",
+      "validator": "tier 1 exact text as gate; tier 2 structural floor: completion parses and contains named arguments where each handler name in {error, warning, message, finally} maps to a function of exactly 1 formal",
+      "difficulty_knobs": {
+        "random_fails": "garbage neither equals the author's clauses nor parses as handler arguments (unbalanced braces fail the floor); a swapped handler body (warning's body under error=) parses but fails exact — acknowledged multi-valid target, so per-family eval also reports structural-pass rate separately from exact",
+        "knobs": [
+          "handler count: single error handler vs error+warning vs +finally",
+          "body style: rethrow (rlang::abort) vs fallback value vs logging side-effect",
+          "guard complexity: expression block length 1 vs 5+ lines"
+        ]
+      },
+      "novelty_note": "Fills the named error-handling gap; nothing existing emits condition-handling code. Deliberately completion-NOT-wrapping: wrapping would re-indent the file below the cursor, the retired whole-region convention (gemini#9 corrected)."
+    },
+    {
+      "name": "drop_false_propagation",
+      "description": "Insert `drop = FALSE` into matrix-like `[` subsetting calls. The event adds it to one bracket call in a function; the target adds it to the next qualifying call — the exact geometry of na_rm_propagation, reusing its validator.",
+      "prompt_template": "edit-pair: prefix = 10-line window above, typed partial = the target line with cursor at the insertion column (immediately before the closing `]`), suffix = file below, event_diff = one-line diff adding `, drop = FALSE` to the previous call",
+      "corpus_source": "/mnt/h/sepalith/normalized — files where >= 2 single-line `[` calls take 2 arguments (i,j form) and lack drop; prefer files that already use drop = FALSE elsewhere (style-affine authors)",
+      "sampler": "tree-sitter subset nodes for `[` with >= 2 args, single-line, no drop= present, closing `]` locatable; pair event/target within the same function body first, same file as fallback (na_rm grouping logic reused); per-package cap 3, family cap 4k",
+      "target_construction": "insert `, drop = FALSE` before the closing bracket at the exact column; region_old/new = the target line before/after; cursor at the insertion column",
+      "validator": "tier 1 exact: _single_insert_before_close(old, new, ', drop = FALSE') generalized from ')' to ']' (validator code reused verbatim otherwise)",
+      "difficulty_knobs": {
+        "random_fails": "any prediction that is not the old line plus exactly one insertion before `]` fails the validator (count+position check); garbage text breaks the bracket parse; no-op = 0",
+        "knobs": [
+          "call shape: df[cond, cols] vs mat[i, j] vs x[i, , drop=FALSE] partially-typed",
+          "pairing distance: same summarise-style block vs same function vs same file",
+          "distractors: calls that legitimately want drop=TRUE are excluded by the corpus filter (only construct from authors who wrote FALSE)"
+        ]
+      },
+      "novelty_note": "na_rm_propagation appends a stat-argument; this inserts a subsetting-flag in bracket geometry — different node type, same proven validator. Fills the regulatory-matrix-coercion bug class (PK/PD) named in gemini#6, minus its unlearnable whole-bracket-completion framing."
+    },
+    {
+      "name": "format_string_completion",
+      "description": "Complete string-literal-first arguments: the format string of sprintf/formatC, the pattern of sub/gsub/grepl/grep, the template of glue. Cursor right after the opening quote or after `(\"`; target = the literal plus remaining args to end of line.",
+      "prompt_template": "edit-pair: prefix = 10-line window above (includes the variables the string references), typed partial = the call up to the opening quote with cursor after it, suffix = file below, event_diff = empty",
+      "corpus_source": "/mnt/h/sepalith/normalized — single-line calls to sprintf, formatC, format, glue, glue_data, sub, gsub, grepl, grep whose target argument is a double-quoted string literal without embedded quotes",
+      "sampler": "tree-sitter call walk; require the literal to be the FIRST argument (or the pattern= named arg for grep-family); line length <= 300; per-package cap 3, family cap 5k; skip spans published by ast_fim when recoverable",
+      "target_construction": "cut at the column after the opening `\"`; region_old = the cut line; region_new = the author's line verbatim; visible target = literal content + closing quote + remaining args",
+      "validator": "tier 1 exact text; structural floor (tier 2): the literal's escapes are balanced/valid, and for sprintf the count of printf specifiers (%d %s %f %.Nf %g) equals the count of following comma-separated args — garbage breaks escape/specifier consistency before exact comparison even runs",
+      "difficulty_knobs": {
+        "random_fails": "random text fails the escape/specifier consistency check and the exact gate; a fluent-but-wrong format string (%d vs %.4f) fails exact though it may pass the floor — the floor is a garbage filter, not a scorer; no-op = 0",
+        "knobs": [
+          "cut depth: after opening quote vs after `%,` inside the literal vs mid-literal (hard)",
+          "fn family: sprintf (specifier-constrained) vs grepl (regex-constrained) vs glue (brace-constrained)",
+          "context availability: referenced variables assigned in the prefix vs not"
+        ]
+      },
+      "novelty_note": "String-literal content is where small FIM models are weakest; ast_fim span kinds (argument_list/function_body/top_level_block) do not isolate string-initiated completions. CSR code is saturated with format strings (rounding, percentages, footnotes)."
+    },
+    {
+      "name": "rmd_chunk_scaffold",
+      "description": "R Markdown chunk headers: after the user types the fence `` ```{r ` , complete the chunk label + options through end of the header line (e.g. `sumtab, echo=FALSE, message=FALSE, warning=FALSE}`).",
+      "prompt_template": "edit-pair: prefix = preceding prose/chunk lines from the Rmd (10-line window; include the previous chunk's header when present), typed partial = the fence line `` ```{r `` with cursor after it, suffix = the chunk's code body + rest of the Rmd, event_diff = a previous chunk header completed (propagation flavor) or empty",
+      "corpus_source": "/mnt/h/sepalith/tarballs — vignettes/*.Rmd and doc/*.Rmd members (confirmed present in roughly half of sampled tarballs), streamed via python tarfile; line-regex scan (Rmd has no R parser; tree-sitter not applicable)",
+      "sampler": "Rmd files with >= 2 r-chunk headers; header line <= 200 chars; label non-empty; per-package cap 2, family cap 4k; pair consecutive chunks for the event flavor",
+      "target_construction": "cut after `` ```{r `` (sometimes after the label comma for a harder cut); region_old = the fence prefix; region_new = the full header line verbatim; cursor at the cut column",
+      "validator": "tier 1 exact line; structural floor: header completes to `^```\\{r[^,}]*(, [A-Za-z][\\w.]+=[^,}]+)*\\}$` with knitr-vocabulary option names (echo, eval, include, message, warning, results, fig.width, fig.height, fig.path, cache, child)",
+      "difficulty_knobs": {
+        "random_fails": "garbage fails the header regex (unbalanced fence/options); a valid-but-wrong option set passes the floor but fails exact — floor is the garbage filter; no-op leaves an unterminated chunk = 0",
+        "knobs": [
+          "cut depth: after `{r` vs after the label + comma",
+          "chunk role: setup chunks (knitr::opts_chunk) vs figure chunks (fig.*) vs hidden-info chunks (echo=FALSE)",
+          "event on/off: previous header shown vs cold"
+        ]
+      },
+      "novelty_note": "Zero Rmd coverage anywhere in the mixture (ast_fim walks .R only). CSR authoring is Rmd-first; the echo/message/warning triplet is arguably the most-repeated line in clinical reporting."
+    },
+    {
+      "name": "testthat_skeleton",
+      "description": "Draft a test_that block from a function: prompt shows the function's roxygen + signature (+ body head), target is the author's actual test_that block for that function — the 'write my tests' GxP action.",
+      "prompt_template": "edit-pair: prefix = the function's roxygen block + signature (body head if budget allows), typed partial = empty line at the end of a test file with cursor, suffix = following test blocks if any, event_diff = empty or a sibling test block for another function of the same package (propagation flavor)",
+      "corpus_source": "/mnt/h/sepalith/tarballs — pairing tests/testthat/test-*.R blocks with exported functions from the same package's normalized R/ tree",
+      "sampler": "extract test_that blocks (tree-sitter); for each exported function f, select the block with the highest count of f references (deterministic); require >= 1 reference; block capped at 30 lines / 2500 chars; per-package cap 2, family cap 3k",
+      "target_construction": "region_old = ['']; region_new = the test_that block lines verbatim (header quote included); cursor at the empty line; visible target = the whole block (pure suffix — nothing above the cursor is re-emitted)",
+      "validator": "tier 1 exact text as gate; tier 2 structural floor: parses, contains >= 1 expect_* call, references f by name",
+      "difficulty_knobs": {
+        "random_fails": "garbage equals neither the block nor its structure; a valid-but-different test block fails exact (multi-valid drafting target — report structural-pass separately, judge at eval time like comment_drafting)",
+        "knobs": [
+          "function visibility: full body below cursor (suffix contains it, roxygen_drafting geometry) vs signature only",
+          "block size: <= 10 lines vs up to 30",
+          "test kind stratification: pure-function tests vs snapshot-adjacent vs fixture-dependent (skip the latter if setup fixtures are external)"
+        ]
+      },
+      "novelty_note": "The drafting counterpart of expectation_completion: no existing family generates test code; fills the named tests gap from the other direction (function -> block, not block-internal completion)."
+    },
+    {
+      "name": "lambda_shorthand_migration",
+      "description": "Modernize `function(x) expr` to the R 4.1 lambda shorthand `\\(x) expr`. The event rewrites one single-expression anonymous function; the target rewrites the next — pipe_rewrite's exact style-migration pattern for the other live base-R migration.",
+      "prompt_template": "edit-pair: prefix = 10-line window above, typed partial = the target line with cursor at the `function` token, suffix = file below, event_diff = one-line diff rewriting the previous occurrence",
+      "corpus_source": "/mnt/h/sepalith/normalized — files with >= 2 anonymous `function(<simple args>) <single-line expr>` definitions (no defaults, no braces, body a single expression), typical in map/lapply/`function(x) ...` positions",
+      "sampler": "tree-sitter function_definition nodes without braced body, parameters without defaults, fully single-line; require the parent context to be a call argument (anonymous use); per-package cap 3, family cap 4k",
+      "target_construction": "replace the `function(` token with `\\(` leaving args and body byte-identical; region_old/new = the line before/after; cursor at the `function` token start",
+      "validator": "tier 1 mechanical swap (pipe_rewrite twin): new == old with exactly one occurrence of `function(` replaced by `\\(`, parens balanced, remainder byte-identical",
+      "difficulty_knobs": {
+        "random_fails": "any non-swap text fails the one-substring-replacement check exactly as tampered pipe_rewrite rows fail today; no-op = 0",
+        "knobs": [
+          "arg count: 1 vs 2 args",
+          "context verb: purrr map/modify vs base apply family vs stats",
+          "density: adjacent lines vs distant occurrences"
+        ]
+      },
+      "novelty_note": "pipe_rewrite covers %>% -> |>; nothing covers function() -> \\() — the other style migration R developers actually perform en masse. Fills the named style-migration gap."
+    },
+    {
+      "name": "condition_message_drafting",
+      "description": "Draft condition messages: the message argument of stop/warning/message, rlang::abort/inform, cli::cli_abort/cli_alert_* — including cli glue classes ({.var}, {.val}, {.cls}) and inline interpolation of in-scope variables.",
+      "prompt_template": "edit-pair: prefix = the guarding if() and surrounding checks (10-line window), typed partial = the call up to the opening quote / c( with cursor, suffix = file below, event_diff = empty",
+      "corpus_source": "/mnt/h/sepalith/normalized — stop/warning/message/rlang::abort/rlang::inform/cli::cli_abort/cli::cli_alert_* calls with a first-argument string or character vector; single-line or vector-of-strings targets capped 5 lines",
+      "sampler": "tree-sitter call walk keyed on callee names; require an enclosing if/stopifnot guard in the same function for context; per-package cap 2, family cap 3k",
+      "target_construction": "cut after `stop(` + opening quote (or after `c(` for cli vectors); region_old = cut line; region_new = author's argument(s) verbatim; cursor at the cut column",
+      "validator": "tier 3 structural: string parses (balanced quotes/escapes), glue braces balanced, every {.cls} tag from the cli whitelist ({.val .var .str .cls .arg .fn .emph .strong .code .field}); exact-text reported alongside but free-text semantics scored only by the calibrated judge at eval (comment_drafting precedent)",
+      "difficulty_knobs": {
+        "random_fails": "garbage breaks quote/brace balance or uses a non-whitelisted {.tag} — fails structurally; no-op = 0; note honestly that a grammatical wrong message can pass the structural tier, which is why eval uses the judge",
+        "knobs": [
+          "API family: base stop() vs rlang::abort(class=) vs cli vector messages",
+          "interpolation density: 0 vs 1-3 {var} references to in-scope names",
+          "guard visibility: the if-condition naming the failure visible in prefix"
+        ]
+      },
+      "novelty_note": "Fills the named logging/message gap (merged gemini#10 + stop()-message drafting). comment_drafting judges comments; nothing drafts messages. pharmaverse tooling mandates structured messages."
+    },
+    {
+      "name": "s3_method_insertion",
+      "description": "Add the next S3 method for a generic the file already implements: after print.myclass exists (event), insert summary.myclass / `[.myclass` at top level (target) — the 'make generic() work for my class' edit.",
+      "prompt_template": "edit-pair: prefix = the file's existing methods for the generic + class-assigning constructor above, typed partial = empty top-level line with cursor where the method belongs, suffix = following top-level definitions, event_diff = multi-line diff adding the previous method definition (format_propagation multi-line event format)",
+      "corpus_source": "/mnt/h/sepalith/normalized — files defining >= 2 top-level `generic.class <- function` sharing a generic (print/summary/plot/as.data.frame/[/format/str dominance)",
+      "sampler": "regex+tree-sitter: top-level binary_operator definitions whose LHS matches ^[a-zA-Z.][\\w.]*\\.[\\w.]+$; group by generic; require >= 2 in file; reverse-strip method k as target, method k-1 as event; target def capped 20 lines; per-package cap 2, family cap 3k",
+      "target_construction": "region_old = the stripped slot (empty line / adjacent def line); region_new = the stripped method's full definition verbatim; cursor at the slot",
+      "validator": "tier 1 exact text + structural name check: completion parses as a function definition whose LHS shares the event's generic prefix",
+      "difficulty_knobs": {
+        "random_fails": "garbage is not a function definition / LHS pattern breaks; a valid method for the WRONG generic fails the name check; no-op = 0",
+        "knobs": [
+          "generic popularity: print/summary (conventional signatures) vs niche generics",
+          "signature copying: event method shows the conventional (x, ...) signature to imitate vs not",
+          "def size: <= 5 lines vs up to 20"
+        ]
+      },
+      "novelty_note": "rename_propagation renames within a function; nothing adds sibling top-level definitions. S3 is the pharma ADaM-class tooling workhorse (gemini#5's S4 sibling dropped for volume; S3 is CRAN-native and abundant)."
+    },
+    {
+      "name": "assertion_insertion",
+      "description": "Insert the next input-check assertion (stopifnot(...) or checkmate assert_*) at the head of a function. The event adds one check; the target inserts the next — error-handling idiom coverage complementary to tryCatch.",
+      "prompt_template": "edit-pair: prefix = function signature + already-present checks above, typed partial = empty line at the checks' position with cursor, suffix = function body below, event_diff = one-line diff inserting the previous stopifnot check",
+      "corpus_source": "/mnt/h/sepalith/normalized — function bodies whose head (first 5 statements) contains >= 2 stopifnot(...) single-line calls (or checkmate::assert_* calls)",
+      "sampler": "tree-sitter function bodies; collect leading stopifnot/assert lines; reverse-strip one as target, the preceding one as event; per-package cap 2, family cap 3k",
+      "target_construction": "region_old = the line at the insertion slot; region_new = that line preceded by the stripped check line (single-line insertion); cursor at the slot — visible target = check line + the old line's start (insertion geometry)",
+      "validator": "tier 1 exact single-line insertion (doc_sync _assert_doc_region twin): new == old + exactly one inserted line that parses as a stopifnot/assert_* call",
+      "difficulty_knobs": {
+        "random_fails": "garbage is not an exact one-line insertion of a parseable check call; a wrong-but-valid check fails exact; no-op = 0",
+        "knobs": [
+          "API: stopifnot vs checkmate::assert_* vsrlang::is_installed guards",
+          "argument visibility: the checked parameter obvious from the signature vs derived",
+          "check complexity: simple !is.null(x) vs length(x) == nrow(df) cross-references"
+        ]
+      },
+      "novelty_note": "na_rm appends an argument to a call; assertion_insertion inserts a STATEMENT at a function head — different edit geometry, fills the defensive-validation half of the error-handling gap."
+    },
+    {
+      "name": "factor_level_completion",
+      "description": "Complete level specifications in factor()/forcats::fct_* calls: after the variable argument, the ordered level vector (Screening, Baseline, Week 4, ...) or na level mapping.",
+      "prompt_template": "edit-pair: prefix = 10-line window above (includes the data context where levels appear), typed partial = the call up to the comma after the first argument with cursor, suffix = file below, event_diff = empty",
+      "corpus_source": "/mnt/h/sepalith/normalized — factor(...levels=...) and forcats::fct_relevel/fct_rev/fct_na_value_to_level calls with explicit string-vector levels, single-line, via tidy_packages() pre-scan",
+      "sampler": "tree-sitter calls to factor/forcats::fct_* with >= 2 string-literal level args; cap line 300 chars; per-package cap 2, family cap 3k",
+      "target_construction": "cut after the first argument + comma; region_old = cut line; region_new = author's line verbatim; cursor at the cut column",
+      "validator": "tier 1 exact text; tier 2 floor: completion parses, level args are string literals",
+      "difficulty_knobs": {
+        "random_fails": "garbage fails parse/exact; a valid-but-reordered level list fails exact (ORDER is the semantics — this is the family's point); no-op = 0",
+        "knobs": [
+          "level-source salience: levels literal appears elsewhere in the prefix (tabulation code) vs not",
+          "call family: base factor vs forcats"
+        ]
+      },
+      "novelty_note": "gemini#12 kept at wave 2: exact GT and real CSR value (visit/arm ordering), but level inventories are only partially inferable — ship after the tier-1 families prove the pattern."
+    },
+    {
+      "name": "roxygen_examples",
+      "description": "Draft the @examples block: cursor inside a roxygen block at the position where @examples belongs; target = the author's examples stanza. Optionally filtered at construction time by EXECUTING the example in a fresh R env (Rscript 4.6.1 available) — execution is a construction filter, never the training-time gate.",
+      "prompt_template": "edit-pair: prefix = the roxygen block above the insertion point (title/params) with the function signature + body head visible in the suffix below, typed partial = the last roxygen line above the slot with cursor at its end, suffix = the function definition, event_diff = empty",
+      "corpus_source": "/mnt/h/sepalith/normalized — the 47k rich-roxygen functions already identified for doc_sync/roxygen_drafting; emit only when the block contains @examples with >= 2 code lines",
+      "sampler": "roxygen block walk (roxygen_drafting infra); target = the @examples sub-block only, capped 12 lines; per-package cap 2, family cap 3k; dedup against roxygen_drafting rows (same function never emits both a whole-block row and an examples-only row)",
+      "target_construction": "region_old = the roxygen window around the slot; region_new = window + the @examples lines inserted before @return/@export (doc_sync insertion geometry); cursor at the slot",
+      "validator": "tier 1 exact insertion of the @examples stanza; tier 2 floor: inserted lines are roxygen `#'` code lines; optional tier 5 construction filter: Rscript -e 'parse the examples' or run with library(pkg) in a temp env — discard non-running examples",
+      "difficulty_knobs": {
+        "random_fails": "garbage is not an exact insertion of #' -prefixed parseable R lines; wrong-but-valid examples fail exact; no-op = 0",
+        "knobs": [
+          "function visibility: full body in suffix vs signature only",
+          "example complexity: pure-expression vs library(require) prelude"
+        ]
+      },
+      "novelty_note": "roxygen_drafting drafts WHOLE blocks from an empty line above the function; this targets the examples stanza specifically with mid-block cursor geometry (the mid_roxygen lesson). Wave 2 pending the overlap/dedup check with roxygen_drafting's emitted blocks."
+    },
+    {
+      "name": "news_entry",
+      "description": "Draft the NEWS.md stanza for the release being prepared: event = DESCRIPTION Version bump; target = the release's own stanza (the tarball's top NEWS stanza, reverse-stripped). NOTE: the original multi-version time-travel recipe was killed by audit — 0 of the 14,202 tarballs are a second version of any package — so construction is single-version reverse-strip.",
+      "prompt_template": "edit-pair: prefix = empty (cursor at top of NEWS.md) or the stripped slot above the second stanza, typed partial = empty line with cursor, suffix = the remaining (previous-release) stanzas, event_diff = DESCRIPTION 'Version: <prev> -> Version: <cur>' where prev is derived from the second stanza's header",
+      "corpus_source": "/mnt/h/sepalith/tarballs — NEWS/NEWS.md members whose top stanza header contains the tarball's own DESCRIPTION Version and which have >= 2 stanzas (prev version derivable)",
+      "sampler": "read NEWS + DESCRIPTION from one tarball pass; require top-stanza/version match and >= 2 bullet lines in the top stanza, cap 10; per-package cap 1, family cap 2k",
+      "target_construction": "prompt-side NEWS = the file with its TOP stanza stripped; region_old = the stripped slot; region_new = the top stanza verbatim (header + bullets); cursor at the slot",
+      "validator": "tier 1 exact stanza text; tier 2 floor: markdown heading containing the current version string + bullet lines",
+      "difficulty_knobs": {
+        "random_fails": "garbage fails the heading/bullet structure and exact; a plausible-but-wrong bullet list fails exact (semantics judge-only at eval — drafting family); no-op = 0",
+        "knobs": [
+          "event richness: plain version bump vs bump + one-line diff summary of the code change",
+          "stanza length"
+        ]
+      },
+      "novelty_note": "Fills the named NEWS gap. Nobody's edit stream is more predictable in SHAPE and less in CONTENT — the exact gate trains the shape; a judge eval scores content. Wave 2: constructibility 2 until the multi-version tarball audit lands."
+    }
+  ],
+  "ranking": {
+    "formula": "score = value(1-5) x constructibility(1-5) x validator_exactness(1-5)",
+    "rows": [
+      {"rank": 1, "name": "namespace_qualify_propagation", "v": 5, "c": 5, "x": 5, "score": 125, "implement_first": true, "wave": 1},
+      {"rank": 2, "name": "pipe_chain_link", "v": 5, "c": 5, "x": 5, "score": 125, "implement_first": true, "wave": 1, "note": "tie with #1 broken by novelty: namespace introduces a brand-new edit capability, chain-link risks ast_fim overlap"},
+      {"rank": 3, "name": "pkg_metadata_sync", "v": 4, "c": 5, "x": 5, "score": 100, "implement_first": true, "wave": 1},
+      {"rank": 4, "name": "expectation_completion", "v": 5, "c": 4, "x": 4, "score": 80, "implement_first": true, "wave": 1, "note": "tie at 80 broken by named-gap coverage (tests)"},
+      {"rank": 5, "name": "trycatch_handler_completion", "v": 5, "c": 4, "x": 4, "score": 80, "implement_first": true, "wave": 1, "note": "tie at 80 broken by named-gap coverage (error-handling)"},
+      {"rank": 6, "name": "drop_false_propagation", "v": 4, "c": 4, "x": 5, "score": 80, "implement_first": false, "wave": 1, "note": "first reserve; cheapest to ship (validator reused from na_rm_propagation)"},
+      {"rank": 7, "name": "format_string_completion", "v": 4, "c": 5, "x": 4, "score": 80, "implement_first": false, "wave": 1},
+      {"rank": 8, "name": "rmd_chunk_scaffold", "v": 4, "c": 4, "x": 5, "score": 80, "implement_first": false, "wave": 1},
+      {"rank": 9, "name": "roxygen_examples", "v": 4, "c": 4, "x": 4, "score": 64, "implement_first": false, "wave": 2, "gated_on": "overlap/dedup check vs roxygen_drafting emitted blocks"},
+      {"rank": 10, "name": "testthat_skeleton", "v": 5, "c": 3, "x": 4, "score": 60, "implement_first": false, "wave": 1},
+      {"rank": 11, "name": "lambda_shorthand_migration", "v": 3, "c": 4, "x": 5, "score": 60, "implement_first": false, "wave": 1},
+      {"rank": 12, "name": "condition_message_drafting", "v": 4, "c": 4, "x": 3, "score": 48, "implement_first": false, "wave": 2},
+      {"rank": 13, "name": "s3_method_insertion", "v": 3, "c": 4, "x": 4, "score": 48, "implement_first": false, "wave": 2},
+      {"rank": 14, "name": "assertion_insertion", "v": 4, "c": 3, "x": 4, "score": 48, "implement_first": false, "wave": 2},
+      {"rank": 15, "name": "factor_level_completion", "v": 4, "c": 3, "x": 4, "score": 48, "implement_first": false, "wave": 2},
+      {"rank": 16, "name": "news_entry", "v": 3, "c": 3, "x": 4, "score": 36, "implement_first": false, "wave": 2, "note": "recipe corrected after the multi-version audit came back 0/14202; constructibility 3 under the single-version reverse-strip construction"}
+    ],
+    "tie_break_rule": "at equal score: (1) fills a user-named gap (tests, DESCRIPTION/NEWS, logging, error-handling, style migration), (2) validator reuse / implementation cost, (3) corpus volume margin"
+  },
+  "discarded_considered": [
+    {"name": "dplyr_to_data.table / base_to_tidyverse translation", "reason": "no deterministic parallel corpus; LLM-gen + judge breaks the exactness bar — right home is RL environments where Rscript execution IS the verifier (playbook verifiers pattern)"},
+    {"name": "library() insertion at file top", "reason": "directionally conflicts with namespace_qualify_propagation — teaching both directions of the same edit ambiguate a 1-2B model"},
+    {"name": "browser()/debug insertion", "reason": "ephemeral debug edits are never committed — absent from the corpus, cannot be constructed deterministically"},
+    {"name": "S4/R6 accessors (gemini#5)", "reason": "see triage_gemini_12"},
+    {"name": "formula expansion (gemini#7), special-operator pairing (gemini#11)", "reason": "see triage_gemini_12"}
+  ],
+  "open_verifications": [
+    "RESOLVED NEGATIVE: multi-version tarball count over /mnt/h/sepalith/tarballs = 0 of 14,202 (every package archived exactly once) — news_entry recipe corrected to single-version reverse-strip accordingly",
+    "astfim published byte-range recoverability for dedup vs pipe_chain_link/format_string spans",
+    "NAMESPACE alphabetical-sortedness rate across tarballs (pkg_metadata_sync exact-position validator keeps only sorted files)",
+    "roxygen_drafting emitted-block inventory (roxygen_examples dedup)"
+  ]
+}
