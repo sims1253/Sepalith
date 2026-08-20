@@ -16,6 +16,9 @@ DATA = Path(sys.argv[3]) if len(sys.argv) > 3 else Path("/mnt/h/sepalith/dataset
 # overwrite the previous run's checkpoints (lost sft_v2_minicpm5 that way)
 OUT = (Path(sys.argv[4]) if len(sys.argv) > 4 else
        Path(f"/mnt/h/sepalith/runs/sft_{DATA.name}_{MODEL.split('/')[-1]}"))
+# 5th arg: "auto" resumes from the newest checkpoint in OUT (v5 died at
+# step 3086 in a GPU-contention incident; checkpoint-3000 was intact)
+RESUME = sys.argv[5] if len(sys.argv) > 5 else ""
 
 # shared-machine guard
 gpu = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used",
@@ -48,9 +51,8 @@ trainer = SFTTrainer(
     train_dataset=ds["train"].shuffle(seed=42).select(range(min(48000, len(ds["train"])))),
     eval_dataset=ds["eval"].select(range(500)),
     args=SFTConfig(
-        # bs 4 x ga 4 = effective 16, same recipe as v3/v4; the smaller
-        # per-device batch keeps spill was fragmentation-driven; expandable_segments into shared
-        # memory (v5 at bs 4 filled the card and ran 3x slower)
+        # bs 4 x ga 4 = effective 16; expandable_segments (set by the chain
+        # env) keeps fragmentation from spilling into shared memory
         per_device_train_batch_size=4, gradient_accumulation_steps=4,
         num_train_epochs=1, max_steps=STEPS,
         learning_rate=2e-4, warmup_ratio=0.03, lr_scheduler_type="cosine",
@@ -60,7 +62,14 @@ trainer = SFTTrainer(
         bf16=True, seed=3407, report_to="none", dataset_text_field="text",
         max_seq_length=2048),
 )
-trainer.train()
+resume_from = None
+if RESUME == "auto":
+    cks = sorted(OUT.glob("checkpoint-*"), key=lambda p: int(p.name.split("-")[1]))
+    resume_from = str(cks[-1]) if cks else None
+    print(f"resume: {resume_from or '(no checkpoint found, fresh start)'}", flush=True)
+elif RESUME:
+    resume_from = RESUME
+trainer.train(resume_from_checkpoint=resume_from)
 
 # smoke generations: does it learn the format?
 FastLanguageModel.for_inference(model)
