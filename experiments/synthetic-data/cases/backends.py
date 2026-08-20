@@ -182,6 +182,9 @@ class _HttpBackend(Backend):
     def _payload(self, prompt: str) -> dict:  # pragma: no cover - abstract
         raise NotImplementedError
 
+    def _extract(self, payload: dict) -> str:
+        return payload["choices"][0]["message"]["content"]
+
     def _complete_once(self, prompt: str) -> str:
         self._pace()
         t0 = time.time()
@@ -195,7 +198,7 @@ class _HttpBackend(Backend):
         try:
             with urllib.request.urlopen(req, timeout=int(self.timeout_s)) as r:
                 payload = json.loads(r.read())
-                content = payload["choices"][0]["message"]["content"]
+                content = self._extract(payload)
         except urllib.error.HTTPError as e:
             dt = time.time() - t0
             detail = ""
@@ -279,6 +282,51 @@ class OpencodeBackend(_HttpBackend):
                 "messages": [{"role": "user", "content": prompt}]}
 
 
+class _OpencodeResponsesBackend(OpencodeBackend):
+    """muse-spark-1.2 models are REASONING models served ONLY via the
+    Responses API (the chat-completions path burns tokens and returns
+    null content). Contract, verified live 2026-08-21: input is a message
+    array with input_text parts; reasoning burns the budget first, so
+    max_output_tokens must be generous (>=2k) with effort low; the text
+    lands in output[] items of type "message" (skip type "reasoning")."""
+    url = "https://opencode.ai/zen/go/v1/responses"
+    model = "muse-spark-1.2-contributor"
+    timeout_s = 180.0
+
+    def _payload(self, prompt: str) -> dict:
+        return {
+            "model": self.model,
+            "input": [{"role": "user", "content": [
+                {"type": "input_text", "text": prompt}]}],
+            "max_output_tokens": 4000,
+            "reasoning": {"effort": "low"},
+            "text": {"format": {"type": "json_object"}},
+        }
+
+    def _extract(self, payload: dict) -> str:
+        return "".join(
+            c.get("text", "")
+            for o in payload.get("output", []) if o.get("type") == "message"
+            for c in o.get("content", []) if isinstance(c, dict))
+
+
+class OpencodeSparkBackend(_OpencodeResponsesBackend):
+    """Opus-level contributor tier on the GO endpoint (user opted in to
+    its data collection; discount pricing, uses the GO quota)."""
+    name = "opencode-spark"
+    pace_gap_s = 1.0
+
+
+class OpencodeSparkFreeBackend(_OpencodeResponsesBackend):
+    """Same model on the free tier: not GO-quota-bound but rate-limited
+    much harder — pace conservatively and cool down long on 429."""
+    name = "opencode-spark-free"
+    url = "https://opencode.ai/zen/v1/responses"
+    model = "muse-spark-1.2-contributor-free"
+    pace_gap_s = 8.0
+    cooldown_s = 900.0
+
+
 class OpenrouterBackend(_HttpBackend):
     name = "openrouter"
     model = OPENROUTER_MODEL
@@ -345,6 +393,8 @@ class MockBackend(Backend):
 
 
 BACKENDS = {"agy": AgyBackend, "zai": ZaiBackend, "opencode": OpencodeBackend,
+            "opencode-spark": OpencodeSparkBackend,
+            "opencode-spark-free": OpencodeSparkFreeBackend,
             "openrouter": OpenrouterBackend, "mock": MockBackend}
 
 
