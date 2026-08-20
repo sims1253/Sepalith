@@ -1,0 +1,49 @@
+{
+  "name": "astfim_partial_eval",
+  "version": 1,
+  "family": "astfim_partial",
+  "description": "Eval companion of astfim_partial: the SAME pure derivation, sampled from the parent corpus EVAL split only (fixed/eval.jsonl), so the package-level holdout of astfim_v1 is inherited exactly (train and eval share zero packages). 100 rows. Not registered in assemble_sft_v5 SCENARIO_FILES: that assembler takes train files and cuts its own 3% per-family package holdout, so a per-family eval input has no slot there - this file stands alone for family-level evals.",
+  "novelty_note": "Not a new family: the eval-side instantiation of astfim_partial (family stamp stays astfim_partial). Exists as its own spec so the eval split is reproducible from the checked-in JSON instead of an ad-hoc override, and so reruns never touch the train derivation's sampling.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code at a cursor. The user deleted a block of code and is now RETYPING it by hand - the last line(s) above the cursor are the beginning of their re-typing. Continue the block from the cursor to its end. The rest of the file below is unchanged and must not be re-emitted; do not repeat the lines already typed above the cursor.\n\nCode above the cursor (the cursor sits at the very end of the last line shown):\n\n{context}\n\nFile below the cursor (unchanged):\n\n{suffix}\n\nEmit ONLY the remaining lines of the block being retyped.\n\nReply with ONLY this JSON: {{\"completion\": string}}",
+    "The cursor marks where a developer stopped retyping a block they had deleted. Finish the block - only the lines still missing, starting fresh at the cursor; the typed partial above the cursor and the file below are already in place.\n\nAbove the cursor:\n\n{context}\n\nBelow the cursor:\n\n{suffix}\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "dataset_file",
+    "path": "/mnt/h/sepalith/datasets/astfim_v1/fixed/eval.jsonl",
+    "selector": "astfim_partial_rows",
+    "params": {
+      "max_partial_lines": 3,
+      "sample_lines": 800,
+      "max_items": 110
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "corrected astfim_v1 fixed EVAL split (parent package-level holdout); seeded reservoir sample, eval packages only"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {"carry": ["parent_kind", "k_partial", "partial_lines", "psm_prompt", "psm_target"]}
+  },
+  "validator": {
+    "name": "corpus_side",
+    "params": {}
+  },
+  "row_check": {
+    "name": "astfim_partial_site",
+    "params": {"max_partial_lines": 3}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "knobs": "retyped partial length k (1..3) and parent span kind (function_body / top_level_block / argument_list)"
+  },
+  "response_format": "json"
+}
