@@ -68,7 +68,8 @@ Generated {esc(now)}. This page is a static snapshot — it changes when the orc
 
     # experiments
     parts.append("<h2>Experiments &amp; results</h2>")
-    for exp in st["experiments"]:
+    parts.append('<div class="note" style="margin:-4px 0 8px">newest first — the state file is chronological, the page renders reversed</div>')
+    for exp in reversed(st["experiments"]):
         parts.append(f'<div class="card"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">'
                      f'<div style="font-weight:600;font-size:16px">{esc(exp["name"])}</div>'
                      f'<div>{chip(exp["status"])}</div></div>'
