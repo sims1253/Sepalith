@@ -1,0 +1,62 @@
+{
+  "name": "mid_body_edit",
+  "version": 1,
+  "family": "mid_body_edit",
+  "description": "Predict ONLY the single line that changed inside a function body (the finish_block counter-skill: one edit mid-function, never re-complete or re-emit the function). Deterministic corpus-side mutations of normalized CRAN functions (3+ body lines, highest version per package, the build_astfim versions.json pattern): a call's constant argument edited, na.rm = TRUE inserted into a mean/sd/var/median call, one declared local renamed at exactly ONE mid-body occurrence, or one attested neighbour assignment inserted with a fresh LHS. Suffix convention per the scope-aware-context rule (docs/prompt-format.md): prefix = file context through the function opening plus the body down to the mutation site (cursor at the end of the typed line before the change); suffix = the post-change remainder of the function through its closing brace plus a window of file-below lines, so the whole function stays visible; target = the one changed/new line.",
+  "novelty_note": "No existing family edits a line that sits mid-function with the function's remainder pinned in the suffix: finish_block ends at the cursor with no suffix and rewards completing everything; the scenario propagation families (rename/pipe/na_rm) re-emit a region driven by an event diff, which the cases harness forbids. Here the exact gate is fully deterministic and corpus-side (mock backend, namespace_qualify convention): the model draw is only a structural floor (mid_body_edit_line: <=3 lines, one clean tree-sitter statement - no full-function re-emission); the row_check re-derives the mutation from the carried pre-edit corpus_line with the scenarios transformation asserts (single-token constant edit / na.rm insertion before the close paren / valid rename pair / attested-pattern insert) and verifies the typed-partial prefix tail plus the closing brace in the suffix. insert_line (variant d) keeps exactness by construction: the new line is a verbatim corpus-attested same-function assignment with only the LHS swapped to a fresh non-colliding name (derive_new_name), so every RHS variable exists in the visible function.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code at a cursor in the middle of a function body. Exactly ONE line of this function was just edited - a constant argument changed, na.rm = TRUE added to a stats call, one identifier renamed, or one assignment line inserted - and that line is exactly the line at the cursor. The rest of the function below the cursor is already in the file and must NOT be re-emitted.\n\nCode above the cursor (the cursor sits at the very end of the last line shown):\n\n{context}\n\nFunction below the cursor (unchanged post-edit remainder):\n\n{suffix}\n\nEmit ONLY the single edited line that belongs at the cursor - one statement, nothing else.\n\nReply with ONLY this JSON: {{\"completion\": \"<the one edited line>\"}}",
+    "One line inside this R function changed; the cursor marks where it goes. The function's remaining lines are already present below the cursor - do not rewrite them, do not complete the function.\n\nAbove the cursor:\n\n{context}\n\nBelow the cursor:\n\n{suffix}\n\nOutput just the changed line as it should read at the cursor.\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "normalized_corpus",
+    "selector": "mid_body_sites",
+    "params": {
+      "packages": "tidy",
+      "extra_random_packages": 350,
+      "sample_packages": 800,
+      "kinds": ["arg_edit", "na_rm_insert", "rename_once", "insert_line"],
+      "window_lines": 10,
+      "min_body_lines": 3,
+      "max_body_lines": 40,
+      "per_package_cap": 3,
+      "per_file_cap": 2,
+      "per_function_cap": 1,
+      "max_items": 3050,
+      "time_budget_s": 2700
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "normalized CRAN corpus (/mnt/h/sepalith/normalized), highest version per package; tidy-pool + random top-up (na.rm density); one deterministic mid-body mutation per function"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "exact_completion",
+    "params": {"carry": ["mutation_kind", "corpus_line", "fn_head", "old_tok", "new_tok", "stat_fn", "insert_base"]}
+  },
+  "validator": {
+    "name": "mid_body_edit_line",
+    "params": {"max_lines": 3, "max_len": 220}
+  },
+  "row_check": {
+    "name": "mid_body_edit_site",
+    "params": {"max_target_lines": 1}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 0,
+    "target_lines_min": 1,
+    "target_lines_max": 1,
+    "target_chars_min": 3,
+    "target_chars_max": 240,
+    "knobs": "body length (min_body_lines..max_body_lines of the corpus selector) and mutation kind (arg_edit / na_rm_insert / rename_once / insert_line)"
+  },
+  "response_format": "json"
+}

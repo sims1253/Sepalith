@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # for scenarios/
+import scenarios as S
 import tree_sitter_r
 from tree_sitter import Language, Parser
 
@@ -564,3 +565,85 @@ def rc_handler_cut(row: dict, params: dict):
     if not re.match(r"(error|warning|message|finally)\s*=", head):
         return False, "target does not start with a handler clause"
     return _corpus_equal(row)
+
+
+# ---------------------------------------------------------------------------
+# case 6: mid_body_edit (ONE changed line inside a function; suffix pins the
+# post-change function remainder — full-function context, single-line target)
+# ---------------------------------------------------------------------------
+
+@register("mid_body_edit_line")
+def v_mid_body_edit_line(target: str, params: dict):
+    """Structural floor for mid-body edit predictions: at most `max_lines`
+    lines (3 by default — longer means the model re-emits the function), each
+    line short, and the fragment parses as clean R holding EXACTLY one
+    top-level statement. The exact gate is the row-level construction check."""
+    max_lines = int(params.get("max_lines", 3))
+    max_len = int(params.get("max_len", 220))
+    t = target.strip("\n")
+    if not t.strip():
+        return False, "empty completion"
+    lines = t.split("\n")
+    if len(lines) > max_lines:
+        return False, (f"prediction is {len(lines)} lines "
+                       f"(> {max_lines}: full-function re-emission)")
+    if any(len(l) > max_len for l in lines):
+        return False, f"a line exceeds {max_len} chars"
+    if not fragment_clean(t):
+        return False, "does not parse as clean R"
+    n = len([c for c in parse_fragment(t).root_node.children if c.is_named])
+    if n != 1:
+        return False, f"{n} top-level statements, expected exactly 1"
+    return True, ""
+
+
+@register_row_check("mid_body_edit_site")
+def rc_mid_body_edit(row: dict, params: dict):
+    """mid_body_edit rows: region_new is the ONE deterministically mutated
+    line, verified against the carried pre-mutation corpus_line with the
+    scenarios transformation asserts (exact text gate); the geometry holds
+    (typed-partial prefix tail, function opening visible, post-change
+    function remainder with the closing brace in the suffix, a statement
+    below the site so it is never the last)."""
+    tgt = row["region_new"]
+    if len(tgt) != int(params.get("max_target_lines", 1)):
+        return False, f"target must be exactly 1 line, got {len(tgt)}"
+    line = tgt[0]
+    if not line.strip() or len(line) > 220:
+        return False, "target line is blank or longer than 220 chars"
+    kind = row.get("mutation_kind")
+    old = row.get("corpus_line") or ""
+    if kind == "arg_edit":
+        pair = S._single_token_edit(old, line, r"TRUE|FALSE|\d+(?:\.\d+)?L?")
+        if pair is None or pair[0] == pair[1]:
+            return False, "target is not a single changed constant token"
+    elif kind == "na_rm_insert":
+        if not S._single_insert_before_close(old, line, ", na.rm = TRUE"):
+            return False, "target is not ', na.rm = TRUE' before the close paren"
+    elif kind == "rename_once":
+        cands = [S._single_token_edit(old, line, p) for p in S._TOKEN_PATS]
+        if not any(c and S._valid_rename_pair(*c) for c in cands):
+            return False, "target is not a single renamed identifier token"
+    elif kind == "insert_line":
+        base = row.get("insert_base") or ""
+        pair = S._single_token_edit(base, line, r"[A-Za-z][A-Za-z0-9._]*")
+        if pair is None or not S._valid_rename_pair(*pair):
+            return False, "inserted line is not the attested pattern with a fresh LHS"
+        if line in row["prefix"] or line in row["suffix"]:
+            return False, "inserted line already exists at the site"
+    else:
+        return False, f"unknown mutation_kind {kind!r}"
+    # geometry: cursor at the end of a typed line, function fully visible
+    tail = row["prefix"][-1].rstrip()
+    if not tail.strip():
+        return False, "prefix must end with the typed line before the change"
+    if row.get("fn_head") and row["fn_head"] not in row["prefix"]:
+        return False, "function opening line missing from the prefix"
+    sfx = row["suffix"] or []
+    if not sfx:
+        return False, "suffix must carry the function remainder (scope pin)"
+    if not any(l.strip() == "}" for l in sfx):
+        return False, "closing brace of the function not visible in the suffix"
+    if not any(l.strip() and l.strip() != "}" for l in sfx):
+        return False, "mutation site is the last statement of the function"
+    return True, ""

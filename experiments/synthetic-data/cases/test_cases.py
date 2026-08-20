@@ -23,12 +23,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from cases.backends import MockBackend, extract_json_object
-from cases.corpus import _apply_difficulty, extract_tidyselect, select_corpus
+from cases import corpus as C
+from cases.corpus import _apply_difficulty, extract_mid_body_edits, \
+    extract_tidyselect, select_corpus
 from cases.rows import normalize_target
 from cases.spec import (SpecError, list_cases, load_case, spec_from_dict)
 from cases.validators import (REGISTRY, check_row, get_validator,
                               rc_comment, rc_midline, v_comment,
-                              v_fragment, v_tidyselect)
+                              v_fragment, v_mid_body_edit_line, v_tidyselect)
 from cases.generate import main as generate_main
 from scenarios import Bundle
 
@@ -429,6 +431,176 @@ class TestGenerateCycles(unittest.TestCase):
         self.assertEqual(len(done), 4)             # no item re-burned
         stats = json.loads(Path(str(out) + ".stats.json").read_text())
         self.assertEqual(stats["counts"]["items_skipped_done"], 2)
+
+
+MID_SRC = b'''midfun <- function(x, df) {
+  pre <- head(x, 1)
+  a <- round(x, 3)
+  b <- mean(df$y)
+  c1 <- stats::sd(df$z)
+  flag <- grepl("a", x, fixed = TRUE)
+  q <- sprintf("%0.4f", 0.05)
+  a2 <- a + 1
+  out <- c(a, b, c1, pre)
+  total <- sum(out)
+  total
+}
+'''
+
+
+@C.register("mid_body_toy")
+def _sel_mid_body_toy(spec, rng, want):
+    """Test-only selector: the mid_body_edit extractor over an in-memory
+    bundle (the tidyselect test precedent — no corpus access)."""
+    items = extract_mid_body_edits(Bundle("pkgM", "R/m.R", MID_SRC), rng,
+                                   dict(per_file_cap=12, per_function_cap=12,
+                                        window_lines=10))
+    for i, it in enumerate(items):
+        it["key"] = f"toy_mbe:{i}"
+    return items
+
+
+def mid_body_spec_dict(**over):
+    d = {
+        "name": "toy_mid_body",
+        "version": 1,
+        "description": "toy mid_body_edit case for tests",
+        "novelty_note": "test-only",
+        "target_field": "completion",
+        "target_normalizer": "code",
+        "prompt_templates": [
+            "One line inside this R function changed; the cursor marks where "
+            "it goes. The function continues below the cursor.\n\n"
+            "Above the cursor:\n\n{context}\n\nBelow the cursor:\n\n"
+            "{suffix}\n\nJSON only: {{\"completion\": string}}"],
+        "corpus_source": {
+            "kind": "normalized_corpus",
+            "selector": "mid_body_toy",
+            "params": {},
+            "provenance": {"license": "test-license",
+                           "source_url": "https://example.com/src",
+                           "note": "toy bundle"},
+        },
+        "parameter_sampler": {"name": "template_uniform", "params": {}},
+        "target_construction": {
+            "kind": "exact_completion",
+            "params": {"carry": ["mutation_kind", "corpus_line", "fn_head",
+                                 "old_tok", "new_tok", "stat_fn",
+                                 "insert_base"]}},
+        "validator": {"name": "mid_body_edit_line", "params": {}},
+        "row_check": {"name": "mid_body_edit_site", "params": {}},
+        "dedup": "target+key",
+        "difficulty": {"target_chars_min": 3, "target_chars_max": 240,
+                       "target_lines_min": 1, "target_lines_max": 1},
+    }
+    d.update(over)
+    return d
+
+
+class TestMidBodyEdit(unittest.TestCase):
+    """case 6: one deterministic line-level mutation mid-function; the
+    suffix pins the post-change function remainder (scope-aware context)."""
+
+    EXTRACT_PARAMS = dict(per_file_cap=12, per_function_cap=12, window_lines=10)
+
+    def test_all_four_kinds_and_invariants(self):
+        import random
+        seen_kinds = set()
+        for seed in range(40):
+            b = Bundle("pkgM", "R/m.R", MID_SRC)
+            for it in extract_mid_body_edits(b, random.Random(seed),
+                                             dict(self.EXTRACT_PARAMS)):
+                seen_kinds.add(it["mutation_kind"])
+                self._assert_item(it)
+        self.assertEqual(seen_kinds, {"arg_edit", "na_rm_insert",
+                                      "rename_once", "insert_line"})
+
+    def _assert_item(self, it):
+        import scenarios as S
+        kind, new = it["mutation_kind"], it["corpus_target"]
+        old = it.get("corpus_line") or ""
+        self.assertEqual(it["block"], [new])
+        if kind == "arg_edit":
+            pair = S._single_token_edit(old, new, r"TRUE|FALSE|\d+(?:\.\d+)?L?")
+            self.assertIsNotNone(pair, (old, new))
+            self.assertNotEqual(pair[0], pair[1])
+        elif kind == "na_rm_insert":
+            self.assertTrue(S._single_insert_before_close(
+                old, new, ", na.rm = TRUE"), (old, new))
+        elif kind == "rename_once":
+            cands = [S._single_token_edit(old, new, p)
+                     for p in S._TOKEN_PATS]
+            self.assertTrue(any(c and S._valid_rename_pair(*c)
+                                for c in cands), (old, new))
+        else:                                   # insert_line
+            pair = S._single_token_edit(it["insert_base"], new,
+                                        r"[A-Za-z][A-Za-z0-9._]*")
+            self.assertIsNotNone(pair, (it["insert_base"], new))
+            self.assertTrue(S._valid_rename_pair(*pair))
+            self.assertNotIn(new, it["prefix"] + it["suffix"])
+        # geometry: typed-partial prefix tail, post-change function remainder
+        self.assertTrue(it["prefix"][-1].strip())
+        self.assertIn("midfun <- function(x, df) {", it["prefix"])
+        self.assertTrue(any(l.strip() == "}" for l in it["suffix"]))
+        self.assertTrue(any(l.strip() and l.strip() != "}"
+                            for l in it["suffix"]))
+
+    def test_validator_floor(self):
+        ok, _ = v_mid_body_edit_line("  b <- mean(df$y, na.rm = TRUE)", {})
+        self.assertTrue(ok)
+        for bad in ("l1\nl2\nl3\nl4",              # full-function re-emission
+                    "a <- 1\nb <- 2",              # two statements
+                    "x <- ",                       # broken R
+                    "", "   "):
+            ok, _ = v_mid_body_edit_line(bad, {})
+            self.assertFalse(ok, bad)
+
+    def test_shipped_spec_loads(self):
+        s = load_case("mid_body_edit")
+        self.assertIn("mid_body_edit", list_cases())
+        self.assertEqual(s.corpus_source["selector"], "mid_body_sites")
+        self.assertEqual(s.validator["name"], "mid_body_edit_line")
+        self.assertEqual(s.row_check["name"], "mid_body_edit_site")
+        self.assertEqual(len(s.corpus_source["params"]["kinds"]), 4)
+        # templates never leak the ground truth
+        for t in s.prompt_templates:
+            self.assertNotIn("{code}", t)
+            self.assertNotIn("{corpus_target}", t)
+
+    def test_full_cycle_mock_backend(self):
+        with tempfile.TemporaryDirectory() as td:
+            spec_p = Path(td) / "mbe.json"
+            spec_p.write_text(json.dumps(mid_body_spec_dict()))
+            out = Path(td) / "mbe.jsonl"
+            rc = generate_main(["--spec", str(spec_p), "--n", "6",
+                                "--backend", "mock", "--out", str(out)])
+            self.assertEqual(rc, 0)
+            rows = [json.loads(l) for l in
+                    out.read_text().splitlines() if l.strip()]
+            self.assertEqual(len(rows), 6)
+            for row in rows:
+                self.assertEqual(row["case"], "toy_mid_body")
+                self.assertEqual(row["region_old"], [""])
+                self.assertEqual(row["cursor_idx"], 0)
+                self.assertEqual(len(row["region_new"]), 1)
+                self.assertTrue(row["suffix"])
+                self.assertIn(row["mutation_kind"],
+                              ("arg_edit", "na_rm_insert", "rename_once",
+                               "insert_line"))
+                self.assertIn(row["suffix"][0], row["full_prompt"])
+                self.assertIn(row["suffix"][-2] if len(row["suffix"]) > 1
+                              else row["suffix"][-1],
+                              row["full_prompt"])            # scope pin
+                self.assertNotIn(row["region_new"][0],
+                                 row["full_prompt"])            # no GT leak
+                ok, reason = check_row(row, {"name": "mid_body_edit_site",
+                                             "params": {}})
+                self.assertTrue(ok, reason)
+            stats = json.loads(
+                Path(str(out) + ".stats.json").read_text())
+            self.assertEqual(stats["counts"]["accepted"], 6)
+            self.assertEqual(
+                len({r["content_hash"] for r in rows}), 6)
 
 
 if __name__ == "__main__":

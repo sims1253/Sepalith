@@ -25,10 +25,12 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # scenarios/
+import build_astfim as ASTFIM          # version_key/pick_version_dir helpers
 import scenarios as S
 from scenarios import Bundle, iter_bundles, node_text
 
-from cases.validators import TIDYSELECT_HELPERS, _walk
+from cases.validators import (TIDYSELECT_HELPERS, _walk, fragment_clean,
+                              parse_fragment)
 
 HERE = Path(__file__).resolve().parent
 CACHE_DIR = HERE / ".cases_cache"
@@ -948,3 +950,444 @@ def sel_trycatch_handlers(spec, rng: random.Random, want: int) -> list[dict]:
         dict(selector="trycatch_handlers",
              max_handler_lines=params.get("max_handler_lines", 4)),
         extract_trycatch_handlers, S.list_packages(), params)
+
+
+# ---------------------------------------------------------------------------
+# case 6: mid_body_edit (ONE deterministic line-level mutation inside a
+# function body; the target is only the changed line, the suffix pins the
+# post-change remainder of the function — the scope-aware-context rule of
+# docs/prompt-format.md: the enclosing function is always complete)
+# ---------------------------------------------------------------------------
+
+MID_BODY_STAT_FNS = ("mean", "sd", "var", "median")
+MID_BODY_KINDS = ("arg_edit", "na_rm_insert", "rename_once", "insert_line")
+_STAT_SHADOW_RE = re.compile(rb"(?<![\w.])(?:mean|sd|var|median)\s*<-")
+_LITERAL_RE = re.compile(r"^(?:TRUE|FALSE|\d+(?:\.\d+)?L?)$")
+_ASSIGN_LINE_RE = re.compile(r"^(\s*)([A-Za-z.][A-Za-z0-9._]*)\s*<-\s*(\S.*)$")
+NA_RM_INSERT = b", na.rm = TRUE"
+
+
+def _mutate_literal(text: str) -> str | None:
+    """Deterministic constant edit (the whole point: GT is exact by
+    construction): TRUE/FALSE flip; integer +1 (an L suffix survives);
+    float with the last decimal digit shifted +1 (9 wraps to 8)."""
+    if text in ("TRUE", "FALSE"):
+        return "FALSE" if text == "TRUE" else "TRUE"
+    if not _LITERAL_RE.match(text):
+        return None
+    if "." not in text:
+        if text.endswith("L"):
+            return f"{int(text[:-1]) + 1}L"
+        return str(int(text) + 1)
+    d = text[-1]
+    return text[:-1] + (str(int(d) + 1) if d < "9" else "8")
+
+
+def _fn_body(b: Bundle, fn) -> tuple | None:
+    """(body_node, head_row, r0, r1, non_blank_body_rows) of a function with
+    a braced body; r0/r1 are the `{`/`}` rows."""
+    body = next((c for c in fn.children if c.type == "braced_expression"),
+                None)
+    if body is None:
+        return None
+    r0, r1 = body.start_point[0], body.end_point[0]
+    nb = [r for r in range(r0 + 1, r1) if b.line_str(r).strip()]
+    return body, fn.start_point[0], r0, r1, nb
+
+
+def _arg_edit_cands(b: Bundle, body) -> list[tuple]:
+    """Call arguments holding a plain numeric/logical constant; mutating the
+    constant rewrites exactly one token of one line (target = that line)."""
+    src = b.src
+    out = []
+    for n in _walk(body):
+        if n.type != "argument" or n.parent is None \
+                or n.parent.type != "arguments":
+            continue
+        val = next((c for c in n.children if c.is_named), None)
+        if val is None or val.type not in ("float", "true", "false"):
+            continue
+        if val.start_point[0] != val.end_point[0]:
+            continue          # single-line edit only
+        old = node_text(src, val).decode("utf-8", "replace")
+        new = _mutate_literal(old)
+        if new is None or new == old:
+            continue
+        out.append(("arg_edit", val.start_point[0],
+                    dict(sb=val.start_byte, old_b=old.encode(),
+                         new_b=new.encode(), old_tok=old, new_tok=new)))
+    return out
+
+
+def _na_rm_cands(b: Bundle, body) -> list[tuple]:
+    """mean/sd/var/median calls (stats::-qualified or bare) lacking na.rm:
+    `, na.rm = TRUE` lands right before the closing paren (the scenarios
+    extract_na_rm splice)."""
+    src = b.src
+    out = []
+    for n in _walk(body):
+        if n.type != "call" or S.callee_name(src, n) not in MID_BODY_STAT_FNS:
+            continue
+        if n.start_point[0] != n.end_point[0]:
+            continue          # single-line calls only (exact line-region GT)
+        call_txt = S.strip_strings(node_text(src, n))
+        if S.NA_RM_EQ.search(call_txt):
+            continue          # already has na.rm
+        args_txt = call_txt[call_txt.find(b"(") + 1:-1].strip()
+        if not args_txt or args_txt.endswith(b","):
+            continue          # zero-arg call / trailing comma -> ambiguous
+        ins = n.end_byte - 1  # the closing ')'
+        while ins > 0 and src[ins - 1:ins] in (b" ", b"\t"):
+            ins -= 1
+        fn = S.callee_name(src, n)
+        out.append(("na_rm_insert", n.start_point[0],
+                    dict(ins_b=ins, stat_fn=fn)))
+    return out
+
+
+def _rename_cands(b: Bundle, fn_node, body) -> list[tuple]:
+    """Declared locals (scenarios extract_rename conventions) with >= 2
+    occurrences: ONE mid-body occurrence is renamed — single-site, the other
+    occurrences keep the old name in the visible prefix/suffix."""
+    src = b.src
+    params = next((c for c in fn_node.children if c.type == "parameters"),
+                  None)
+    declared: set[str] = set()
+    if params is not None:
+        for p in _walk(params):
+            if p.type == "identifier":
+                declared.add(node_text(src, p).decode("utf-8", "replace"))
+    for n in _walk(body):
+        if n.type == "binary_operator" and n.children and \
+                n.children[0].type == "identifier":
+            declared.add(node_text(src, n.children[0])
+                         .decode("utf-8", "replace"))
+
+    id_occ: dict[str, list] = {}
+    for n in _walk(body):
+        if n.type != "identifier":
+            continue
+        if S.parent_is_caller(n):
+            continue          # callee position: renaming changes the call
+        p = n.parent
+        if p is not None and p.type == "argument" and any(
+                c.type == "=" for c in p.children) and \
+                next(c for c in p.children if c.type == "identifier") is n:
+            continue          # named-argument slot: renaming breaks the call
+        tok = node_text(src, n).decode("utf-8", "replace")
+        if (len(tok) < 3 or tok in S.RESERVED or not S.IDENT_RE.match(tok)
+                or tok not in declared):
+            continue
+        id_occ.setdefault(tok, []).append((n.start_byte, n.end_byte))
+
+    out = []
+    for tok, occs in sorted(id_occ.items()):
+        if len(occs) < 2:
+            continue          # the old name must survive elsewhere (context)
+        new_tok = S.derive_new_name(tok)
+        if new_tok is None or new_tok in b.id_names or new_tok in b.str_contents:
+            continue          # collision anywhere in file -> ambiguous
+        for sb, eb in occs:
+            out.append(("rename_once", b.rowcol(sb)[0],
+                        dict(sb=sb, old_b=tok.encode(), new_b=new_tok.encode(),
+                             old_tok=tok, new_tok=new_tok)))
+    return out
+
+
+def _insert_cands(b: Bundle, r0: int, r1: int) -> list[tuple]:
+    """Insert-one-line: a corpus-attested assignment line of the SAME function
+    (the neighbour pattern), re-emitted with a fresh LHS (scenarios
+    derive_new_name) at the site's own indentation — every RHS variable is
+    attested in-function by construction."""
+    attested: list[tuple[str, str]] = []      # (lhs, rhs)
+    for r in range(r0 + 1, r1):
+        m = _ASSIGN_LINE_RE.match(b.line_str(r))
+        if m and len(b.line_str(r)) <= 200:
+            attested.append((m.group(2), m.group(3)))
+    if not attested:
+        return []
+    out = []
+    for anchor_row in range(r0 + 1, r1):
+        line = b.line_str(anchor_row)
+        if not line.strip():
+            continue
+        indent = line[:len(line) - len(line.lstrip())]
+        for lhs, rhs in attested:
+            lhs2 = S.derive_new_name(lhs)
+            if lhs2 is None or lhs2 in b.id_names or lhs2 in b.str_contents:
+                continue
+            new_line = f"{indent}{lhs2} <- {rhs}"
+            if len(new_line) > 220:
+                continue
+            out.append(("insert_line", anchor_row,
+                        dict(new_line=new_line, insert_base=f"{indent}{lhs} <- {rhs}")))
+    return out
+
+
+def _one_clean_statement(text: str) -> bool:
+    """The target line parses as clean R with exactly one top-level
+    statement (the same tree-sitter floor the validator puts on draws)."""
+    if not text.strip():
+        return False
+    if not fragment_clean(text):
+        return False
+    return len([c for c in parse_fragment(text).root_node.children
+                if c.is_named]) == 1
+
+
+def _mid_body_item(b: Bundle, kind: str, row: int, payload: dict,
+                   window: int, head_row: int, r1: int) -> dict | None:
+    """Assemble the suffix-convention item: prefix through the line before
+    the change (typed-partial tail), target = the one changed/new line,
+    suffix = the post-change remainder of the function (through the closing
+    brace) plus a window of file-below lines."""
+    lb = b.line_bytes(row)
+    if kind == "insert_line":
+        new_line, old_line = payload["new_line"], ""
+    else:
+        if kind == "na_rm_insert":
+            new_lb = lb[:payload["ins_b"] - b.starts[row]] + NA_RM_INSERT + \
+                lb[payload["ins_b"] - b.starts[row]:]
+            old_tok = new_tok = ""
+        else:
+            col = payload["sb"] - b.starts[row]
+            new_lb = lb[:col] + payload["new_b"] + lb[col + len(payload["old_b"]):]
+            old_tok, new_tok = payload["old_tok"], payload["new_tok"]
+        new_line = new_lb.decode("utf-8", "replace").rstrip("\r")
+        old_line = b.line_str(row)
+        if new_line == old_line:
+            return None
+    if not new_line.strip() or len(new_line) > 220 \
+            or new_line.lstrip().startswith("#") \
+            or not _one_clean_statement(new_line):
+        return None
+    cut = row + 1 if kind == "insert_line" else row
+    prefix = [b.line_str(r) for r in range(max(0, head_row - window), cut)]
+    if not prefix or not prefix[-1].strip():
+        return None          # the cursor must sit at the end of a typed line
+    suffix = [b.line_str(r) for r in
+              range(row + 1, min(b.nlines(), r1 + 1 + window))]
+    if not suffix:
+        return None
+    carry = dict(mutation_kind=kind, corpus_line=old_line,
+                 fn_head=b.line_str(head_row),
+                 note=f"{kind}: emit only the changed line; the post-change "
+                      f"function remainder stays visible below (scope pin)")
+    if kind in ("arg_edit", "rename_once"):
+        carry.update(old_tok=old_tok, new_tok=new_tok)
+    elif kind == "na_rm_insert":
+        carry.update(stat_fn=payload["stat_fn"])
+    elif kind == "insert_line":
+        carry.update(insert_base=payload["insert_base"])
+    return _mk_item(b.package, b.rel, row, prefix, [new_line], suffix, **carry)
+
+
+def extract_mid_body_edits(b: Bundle, rng: random.Random,
+                           params: dict) -> list[dict]:
+    """Functions of 3+ body lines from one bundle: one deterministic
+    mutation per function (kind shuffled), at a site that is strictly
+    mid-body (a non-blank statement above AND below inside the braces)."""
+    kinds = [k for k in (params.get("kinds") or MID_BODY_KINDS)
+             if k in MID_BODY_KINDS]
+    window = int(params.get("window_lines", 10))
+    min_body = int(params.get("min_body_lines", 3))
+    max_body = int(params.get("max_body_lines", 40))
+    cap_file = int(params.get("per_file_cap", 2))
+    cap_fn = int(params.get("per_function_cap", 1))
+    shadowed = bool(_STAT_SHADOW_RE.search(b.src))
+    out: list[dict] = []
+    for fn in (n for n in _walk(b.tree.root_node)
+               if n.type == "function_definition"):
+        if len(out) >= cap_file:
+            break
+        geom = _fn_body(b, fn)
+        if geom is None:
+            continue
+        body, head_row, r0, r1, nb = geom
+        if not min_body <= len(nb) <= max_body:
+            continue
+        cands: dict[str, list] = {}
+        if "arg_edit" in kinds:
+            cands["arg_edit"] = _arg_edit_cands(b, body)
+        if "na_rm_insert" in kinds and not shadowed:
+            cands["na_rm_insert"] = _na_rm_cands(b, body)
+        if "rename_once" in kinds:
+            cands["rename_once"] = _rename_cands(b, fn, body)
+        if "insert_line" in kinds:
+            cands["insert_line"] = _insert_cands(b, r0, r1)
+        cands = {k: lst for k, lst in cands.items() if lst}
+        for lst in cands.values():
+            rng.shuffle(lst)
+        emitted, seen_rows = 0, set()
+        while emitted < cap_fn and len(out) < cap_file and cands:
+            # one KIND per emission slot (uniform over the kinds that still
+            # have candidates) so the abundant insert/rename sites cannot
+            # starve the rarer na_rm/arg_edit mutations
+            kind = rng.choice(sorted(cands))
+            _k, row, payload = cands[kind].pop()
+            if not cands[kind]:
+                del cands[kind]
+            if row <= r0 or row >= r1 or row in seen_rows:
+                continue
+            if not (any(b.line_str(r).strip() for r in range(r0 + 1, row))
+                    and any(b.line_str(r).strip()
+                            for r in range(row + 1, r1))):
+                continue          # strictly mid-body, never the last statement
+            item = _mid_body_item(b, kind, row, payload, window, head_row, r1)
+            if item is None:
+                continue
+            out.append(item)
+            emitted += 1
+            seen_rows.add(row)
+    return out
+
+
+def _resolve_pkg_versions(pool: list[str]) -> dict[str, str]:
+    """{pkg: highest version dir} for the sampled packages only — the
+    build_astfim versions.json cache pattern, scoped to what this selector
+    touches (the full-corpus walk costs ~8 minutes on drvfs)."""
+    CACHE_DIR.mkdir(exist_ok=True)
+    cache = CACHE_DIR / "mid_body_versions.json"
+    versions: dict[str, str] = {}
+    if cache.exists():
+        try:
+            blob = json.loads(cache.read_text())
+            if blob.get("root") == str(S.ROOT):
+                versions = dict(blob.get("versions") or {})
+        except (ValueError, OSError):
+            versions = {}
+    dirty = False
+    for pkg in pool:
+        if pkg in versions:
+            continue
+        ver = ASTFIM.pick_version_dir(S.ROOT / pkg)
+        if ver is not None:
+            versions[pkg] = str(ver)
+            dirty = True
+    if dirty:
+        try:
+            cache.write_text(json.dumps(dict(root=str(S.ROOT),
+                                             versions=versions)))
+        except OSError:
+            pass
+    return versions
+
+
+def iter_bundles_highest(package_names, rng: random.Random,
+                         max_files: int = S.MAX_FILES_PER_PKG):
+    """iter_bundles, but the version directory is the HIGHEST version of the
+    package (build_astfim pick_version_dir + src_root_for), not whichever
+    iterdir happens to yield first."""
+    versions = _resolve_pkg_versions(list(package_names))
+    for pkg in package_names:
+        vd = versions.get(pkg)
+        rdir = ASTFIM.src_root_for(Path(vd), pkg) if vd else None
+        if rdir is None:
+            continue
+        try:
+            files = sorted(list(rdir.glob("*.R")) + list(rdir.glob("*.r")))
+        except OSError:
+            continue
+        if len(files) > max_files:
+            files = rng.sample(files, max_files)
+        for f in files:
+            try:
+                src = f.read_bytes()
+            except OSError:
+                continue
+            if not src or len(src) > S.MAX_FILE_BYTES:
+                continue
+            yield Bundle(pkg, f"R/{f.name}", src)
+
+
+def _scan_normalized_versions(spec, rng: random.Random, cache_name: str,
+                              meta: dict, extract, params: dict,
+                              pool: list[str] | None = None) -> list[dict]:
+    """_scan_normalized with the highest-version-per-package iterator
+    (mid_body_edit reads ONE canonical version of each package)."""
+    max_items = int(params.get("max_items") or 2500)
+    time_budget = float(params.get("time_budget_s", 2400))
+    n_packages = int(params.get("sample_packages", 500))
+    per_package = int(params.get("per_package_cap", 3))
+
+    CACHE_DIR.mkdir(exist_ok=True)
+    cache = CACHE_DIR / cache_name
+    meta = dict(meta, max_items=max_items, sample_packages=n_packages,
+                per_package_cap=per_package,
+                pool=params.get("packages", "all"))
+    if cache.exists():
+        try:
+            blob = json.loads(cache.read_text())
+            if blob.get("params_hash") == _params_hash(meta):
+                items = blob["items"]
+                rng.shuffle(items)
+                for i, it in enumerate(items):
+                    it["key"] = f"{meta['selector']}:{i}"
+                print(f"  [corpus] {cache_name} cache: {len(items)} items "
+                      f"(scan {blob.get('scan')})")
+                return items[:max_items]
+        except (ValueError, KeyError, OSError):
+            pass
+
+    order = list(pool if pool is not None else S.list_packages())
+    rng.shuffle(order)
+    order = order[:n_packages] if n_packages > 0 else order
+    items: list[dict] = []
+    pkg_counts: dict[str, int] = {}
+    t0, files = time.time(), 0
+    for b in iter_bundles_highest(order, rng):
+        files += 1
+        if pkg_counts.get(b.package, 0) >= per_package:
+            continue
+        got = extract(b, rng, params)
+        if got and pkg_counts.get(b.package, 0) + len(got) > per_package:
+            got = got[:per_package - pkg_counts.get(b.package, 0)]
+        if got:
+            pkg_counts[b.package] = pkg_counts.get(b.package, 0) + len(got)
+            items.extend(got)
+        if len(items) >= max_items or time.time() - t0 > time_budget:
+            break
+        if files % 250 == 0:
+            print(f"  [corpus] {cache_name}: files={files} "
+                  f"items={len(items)} elapsed={time.time()-t0:.0f}s",
+                  flush=True)
+    items.sort(key=lambda it: (it.get("package", ""),
+                               it.get("path", ""), it.get("row", 0)))
+    for i, it in enumerate(items):
+        it["key"] = f"{meta['selector']}:{i}"
+    scan = dict(files=files, packages=len(pkg_counts),
+                elapsed_s=round(time.time() - t0, 1), items=len(items))
+    try:
+        cache.write_text(json.dumps(dict(params_hash=_params_hash(meta),
+                                         scan=scan, items=items)))
+    except OSError:
+        pass
+    print(f"  [corpus] {cache_name} scan: {scan}")
+    return items[:max_items]
+
+
+@register("mid_body_sites")
+def sel_mid_body_sites(spec, rng: random.Random, want: int) -> list[dict]:
+    cs = spec.corpus_source
+    params = dict(cs.get("params") or {})
+    params.setdefault("max_items", want * 6 + 50)
+    # the na_rm_insert mutation needs tidyverse-style code (mean/sd calls
+    # lacking na.rm), which is rare in a uniform sample: the tidy pool first
+    # (scenarios tidy_packages DESCRIPTION pre-scan), topped up with random
+    # packages from the full corpus for breadth (pipe_chain_links convention)
+    params.setdefault("packages", "tidy")
+    pool = S.tidy_packages() if params.get("packages") == "tidy" \
+        else S.list_packages()
+    extra = int(params.get("extra_random_packages", 0) or 0)
+    if extra > 0:
+        rest = [p for p in S.list_packages() if p not in set(pool)]
+        rng.shuffle(rest)
+        pool = list(pool) + rest[:extra]
+    return _scan_normalized_versions(
+        spec, rng, "mid_body_sites.json",
+        dict(selector="mid_body_sites",
+             kinds=list(params.get("kinds") or MID_BODY_KINDS),
+             window_lines=params.get("window_lines", 10),
+             min_body_lines=params.get("min_body_lines", 3),
+             max_body_lines=params.get("max_body_lines", 40)),
+        extract_mid_body_edits, params, pool=pool)

@@ -85,6 +85,8 @@ SCENARIO_FILES = [
     "cases_v1/pkg_metadata_sync.jsonl",
     "cases_v1/expectation_completion.jsonl",
     "cases_v1/trycatch_handler_completion.jsonl",
+    "cases_v1/mid_body_edit.jsonl",   # one changed line mid-function; suffix
+                                      # pins the post-change function remainder
 ]
 
 # Families can outgrow their useful mixture share. Cap a family's rows
