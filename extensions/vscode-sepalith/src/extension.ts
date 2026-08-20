@@ -435,6 +435,11 @@ class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntr
 
 class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private controller: AbortController | null = null;
+  // acceptance telemetry counters (local only; the seed of the future
+  // opt-in upload). shown = ghost text rendered; accepted = any partial
+  // or full accept event from VS Code.
+  static shown = 0;
+  static accepted = 0;
   // identical prompts: reuse the in-flight promise or the cached result —
   // VS Code re-invokes the provider on every cursor move, which previously
   // aborted and re-sent the SAME request dozens of times per keystroke
@@ -538,6 +543,17 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     this.lastItems = null; // a different prompt invalidates the cache
     return promise;
   }
+
+  handleDidShowCompletionItem(item: vscode.InlineCompletionItem): void {
+    SepalithProvider.shown++;
+    renderStatusBar();
+  }
+
+  handleDidPartiallyAcceptCompletionItem(item: vscode.InlineCompletionItem): void {
+    SepalithProvider.accepted++;
+    channel.appendLine(`accept (${SepalithProvider.accepted}/${SepalithProvider.shown})`);
+    renderStatusBar();
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -562,7 +578,7 @@ function renderStatusBar(): void {
   const s = sidecar.currentState;
   const label = s === "starting" ? "starting…" : s === "ready" ? `ready (${modelName()})` : s === "external" ? "external server" : s;
   statusBarItem.text = `Sepalith: ${label}`;
-  statusBarItem.tooltip = `Sepalith sidecar\nstate: ${s}${sidecar.detailText ? `\n${sidecar.detailText}` : ""}\nlast request: ${lastStats}`;
+  statusBarItem.tooltip = `Sepalith sidecar\nstate: ${s}${sidecar.detailText ? `\n${sidecar.detailText}` : ""}\nlast request: ${lastStats}\nsuggestions shown ${SepalithProvider.shown} / accepted ${SepalithProvider.accepted}`;
 }
 
 function triggerInlineSuggestion(): void {
@@ -599,6 +615,19 @@ export function activate(context: vscode.ExtensionContext): void {
         vscode.window.showInformationMessage("Sepalith: last prompt copied to clipboard"));
     }),
     vscode.commands.registerCommand("sepalith.showLogs", () => channel.show()),
+    vscode.commands.registerCommand("sepalith.dumpStats", () => {
+      // local-only acceptance stats (the opt-in upload ships later, off
+      // by default per the recorded telemetry decision)
+      const line = JSON.stringify({
+        time: new Date().toISOString(),
+        shown: SepalithProvider.shown,
+        accepted: SepalithProvider.accepted,
+        lastStats,
+      });
+      channel.appendLine(`stats: ${line}`);
+      vscode.window.showInformationMessage(
+        `Sepalith: shown ${SepalithProvider.shown}, accepted ${SepalithProvider.accepted} (logged)`);
+    }),
     vscode.commands.registerCommand("sepalith.clearRequests", () => requestLog.clear()),
     vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, new SepalithProvider()),
     vscode.workspace.onDidChangeTextDocument((e) => {

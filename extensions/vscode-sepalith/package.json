@@ -2,7 +2,7 @@
   "name": "vscode-sepalith",
   "displayName": "Sepalith",
   "publisher": "sepalith-dev",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running a Sepalith GGUF.",
   "engines": {
     "vscode": "^1.85.0"
@@ -39,6 +39,10 @@
       {
         "command": "sepalith.clearRequests",
         "title": "Sepalith: Clear request log"
+      },
+      {
+        "command": "sepalith.dumpStats",
+        "title": "Sepalith: Dump acceptance stats"
       }
     ],
     "views": {
@@ -92,7 +96,7 @@
           "type": "number",
           "default": 8,
           "maximum": 8,
-          "description": "CPU threads for the sidecar (max 8 — more is slower on this machine)."
+          "description": "CPU threads for the sidecar (max 8 \u2014 more is slower on this machine)."
         },
         "sepalith.contextSize": {
           "type": "number",
