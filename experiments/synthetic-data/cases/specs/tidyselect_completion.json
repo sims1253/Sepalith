@@ -1,0 +1,55 @@
+{
+  "name": "tidyselect_completion",
+  "version": 1,
+  "family": "tidyselect_completion",
+  "description": "Complete the elided tidyselect helper call inside a real dplyr selection verb (idea #1 of docs/research/gemini-family-ideas.txt): a real select()/relocate()/across() line from the normalized CRAN corpus has its starts_with()/ends_with()/contains()/matches()/num_range()/all_of()/any_of()/where()/last_col() expression removed at a mid-line cursor; the model re-completes it. The corpus original is kept in corpus_target for reference/eval.",
+  "novelty_note": "Every existing family either pairs a natural-language target with code context (comment families), propagates a user edit to the next occurrence (rename/pipe/na_rm/format/doc_sync), or generates whole snippets from a grid (analyst). This is the first mid-line COMPLETION family whose target is code elided from real corpus calls: prompt context is a genuine CRAN line cut at the helper position, and validation is pure tree-sitter (exactly one clean call, callee in the tidyselect set, first-argument shape per helper) - no Rscript execution, no jarl run, deterministic and CPU-only.",
+  "target_field": "completion",
+  "target_normalizer": "code",
+  "prompt_templates": [
+    "You are completing R code mid-line. The cursor sits at the very end of the last line shown, inside a dplyr selection call.\n\nContext:\n\n{context}\n\nComplete the tidyselect helper call at the cursor. Use exactly ONE helper (starts_with, ends_with, contains, matches, num_range, all_of, any_of, where, last_col) with a plausible argument for this context. One line, no trailing comma, nothing else.\n\nReply with ONLY this JSON: {{\"completion\": \"<the helper call>\"}}",
+    "Finish the tidyselect expression at the cursor. Context (cursor is at the end of the last line):\n\n{context}\n\nOne helper call only: starts_with/ends_with/contains/matches/num_range/all_of/any_of/where/last_col. Pick the argument from the context.\n\nReply with ONLY this JSON: {{\"completion\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "normalized_corpus",
+    "selector": "tidyselect_helpers",
+    "params": {
+      "enclosing_verbs": ["select", "relocate", "across"],
+      "packages": "tidy",
+      "sample_packages": 300,
+      "context_lines": 8,
+      "max_items": 400,
+      "time_budget_s": 900
+    },
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "normalized CRAN corpus (/mnt/h/sepalith/normalized), dplyr-using packages"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "cursor_completion",
+    "params": {}
+  },
+  "validator": {
+    "name": "tidyselect_call",
+    "params": {"max_len": 120}
+  },
+  "row_check": {
+    "name": "mid_line_cursor",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 8,
+    "target_lines_min": 1,
+    "target_lines_max": 1,
+    "target_chars_min": 6,
+    "target_chars_max": 120
+  },
+  "response_format": "json"
+}

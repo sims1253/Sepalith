@@ -1,0 +1,52 @@
+{
+  "name": "comment_to_code_styles",
+  "version": 1,
+  "family": "comment_to_code_styles",
+  "description": "One-line R comment for a real comment-free CRAN code block (reverse-synthetic: the corpus code is the ground truth, the LLM writes the comment a developer would have put above it). Migration of the 5-style comment generation from agy_generators.py mode c2c / comment_to_code.py PROMPTS into a declarative spec.",
+  "novelty_note": "comment_to_code_synthetic and the agy c2c mode are one-off scripts with a single prompt distribution and hardcoded backend chains; this case makes the 5 comment STYLES (what/why/terse/inputs-transform-result/gotcha) first-class template rows of a spec, backend-agnostic (agy|zai|opencode|openrouter), with the comment gate as a registered validator, done-sidecar resume and per-row provenance. Row shape follows comment_to_code.make_synthetic_example exactly: prefix ends with the generated comment line, region_old is the empty cursor line, region_new is the real block.",
+  "target_field": "comment",
+  "target_normalizer": "comment",
+  "prompt_templates": [
+    "Write ONE concise R comment (max 80 chars, no code, describes what this block does). Code:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "Write ONE short R comment (max 80 chars) explaining WHY this block does what it does. Code:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "Write ONE terse R comment (max 60 chars, telegraphic). Code:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "Write ONE R comment (max 80 chars) naming the inputs, transform, and result. Code:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}",
+    "Write ONE R comment (max 80 chars) flagging the edge case or gotcha this block handles (or describe the block if none). Code:\n\n{code}\n\nReply with ONLY this JSON: {{\"comment\": string}}"
+  ],
+  "corpus_source": {
+    "kind": "dataset_file",
+    "path": "../../.c2c_cache.json",
+    "selector": "c2c_cache_blocks",
+    "params": {"max_items": 8000},
+    "provenance": {
+      "license": "CRAN package sources (per-package licenses, mostly GPL-3/MIT)",
+      "source_url": "https://cran.r-project.org/",
+      "note": "comment-free candidate blocks cached from the normalized CRAN corpus by comment_to_code.py (.c2c_cache.json)"
+    }
+  },
+  "parameter_sampler": {
+    "name": "template_uniform",
+    "params": {}
+  },
+  "target_construction": {
+    "kind": "comment_prefix",
+    "params": {"comment_indent": "  # "}
+  },
+  "validator": {
+    "name": "r_comment_gate",
+    "params": {"max_len": 90, "forbid": [";", "<-", "(", "\n"]}
+  },
+  "row_check": {
+    "name": "ends_with_comment_line",
+    "params": {}
+  },
+  "dedup": "target+key",
+  "difficulty": {
+    "context_lines": 30,
+    "target_lines_min": 2,
+    "target_lines_max": 8,
+    "target_chars_min": 4,
+    "target_chars_max": 90
+  },
+  "response_format": "json"
+}
