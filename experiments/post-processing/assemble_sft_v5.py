@@ -87,6 +87,15 @@ SCENARIO_FILES = [
     "cases_v1/trycatch_handler_completion.jsonl",
     "cases_v1/mid_body_edit.jsonl",   # one changed line mid-function; suffix
                                       # pins the post-change function remainder
+    # retyping families (edit-stream ideas): the removed-block continuum.
+    # astfim_partial derives train rows from the astfim_v1 FIXED TRAIN split
+    # (parent package holdout respected); its 100-row eval companion lives at
+    # cases_v1/astfim_partial_eval.jsonl but stays UNREGISTERED — this
+    # assembler takes train files only and cuts its own 3% per-family package
+    # holdout, so a per-family eval input has no slot here.
+    "cases_v1/astfim_partial.jsonl",
+    "cases_v1/removed_block_comment.jsonl",  # dev one-liner marks the site;
+                                      # target re-inserts the removed block
 ]
 
 # Families can outgrow their useful mixture share. Cap a family's rows
