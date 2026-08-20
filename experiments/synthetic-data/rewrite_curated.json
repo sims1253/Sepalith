@@ -1,0 +1,194 @@
+[
+ {
+  "id": "eq_stringart_resample",
+  "package": "stringArt",
+  "rel": "R/stregion.R",
+  "fn": ".st_resample_closed_contour",
+  "cls": "vectorize_loop",
+  "expect": "gain",
+  "file": "/mnt/h/sepalith/normalized/stringArt/0.1.0/stringArt/R/stregion.R",
+  "note": "per-point interpolation loop (findInterval + lerp per i) -> vectorized pmin/findInterval + vector lerp; hot: n = output points",
+  "fixed_args": {
+   "contour": "local({p <- cumsum(runif(min(SZ, 500L)) + 0.1); data.frame(x = p, y = rev(p))})",
+   "n": "max(8L, SZ)"
+  },
+  "sizes_digest": [
+   10,
+   100,
+   1000,
+   10000,
+   100000
+  ],
+  "sizes_bench": [
+   1000,
+   10000,
+   100000
+  ],
+  "old": "  px <- numeric(n)\n  py <- numeric(n)\n\n  for (i in seq_len(n)) {\n    s <- target_s[i]\n    segment_id <- min(\n      findInterval(s, cumulative, rightmost.closed = TRUE),\n      length(segment_lengths)\n    )\n\n    local_t <- (s - cumulative[segment_id]) / segment_lengths[segment_id]\n\n    px[i] <- (1 - local_t) * x[segment_id] + local_t * x[segment_id + 1L]\n    py[i] <- (1 - local_t) * y[segment_id] + local_t * y[segment_id + 1L]\n  }",
+  "new": "  segment_id <- pmin(\n    findInterval(target_s, cumulative, rightmost.closed = TRUE),\n    length(segment_lengths)\n  )\n  local_t <- (target_s - cumulative[segment_id]) / segment_lengths[segment_id]\n\n  px <- (1 - local_t) * x[segment_id] + local_t * x[segment_id + 1L]\n  py <- (1 - local_t) * y[segment_id] + local_t * y[segment_id + 1L]"
+ },
+ {
+  "id": "eq_stars_idx_grid",
+  "package": "stars",
+  "rel": "R/sample.R",
+  "fn": "get_index_ranges",
+  "cls": "vectorize_apply",
+  "expect": "gain",
+  "file": "/mnt/h/sepalith/normalized/stars/0.7-3/stars/R/sample.R",
+  "note": "t(apply(g, 1, ...)) doing pure arithmetic -> as.matrix + vector arithmetic (verified identical()); hot: rows scale with SZ",
+  "fixed_args": {
+   "d": "rep(max(4L, min(SZ %/% 10L + 3L, 70L)), 4L)",
+   "n": "2L",
+   "offset": "1L"
+  },
+  "sizes_digest": [
+   10,
+   100,
+   1000,
+   10000
+  ],
+  "sizes_bench": [
+   100,
+   500,
+   2000
+  ],
+  "old": "  g <- do.call(expand.grid, lapply(nd, seq_len))\n  g <- t(apply(g, 1, function(x) offset + 1 + (x - 1) * (n + 1)))",
+  "new": "  g <- do.call(expand.grid, lapply(nd, seq_len))\n  g <- as.matrix(g)\n  g <- offset + 1 + (g - 1) * (n + 1)"
+ },
+ {
+  "id": "eq_blockmodeling_dedup",
+  "package": "blockmodeling",
+  "rel": "R/canClu.R",
+  "fn": "canCluUniqe",
+  "cls": "vectorize_c_acc",
+  "expect": "gain",
+  "file": "/mnt/h/sepalith/normalized/blockmodeling/1.1.8/blockmodeling/R/canClu.R",
+  "note": "running-membership dedup loop with two c() accumulators + sapply -> duplicated() + vapply; quadratic %in% gone. Caveat: empty cluList would return list() not NULL - unreachable at SZ>=10",
+  "fixed_args": {
+   "cluList": "replicate(SZ, sample.int(3L, sample.int(10L, 1L) + 2L, replace = TRUE), simplify = FALSE)"
+  },
+  "sizes_digest": [
+   10,
+   100,
+   1000,
+   5000
+  ],
+  "sizes_bench": [
+   1000,
+   5000,
+   20000
+  ],
+  "old": "    uniqueClu <- NULL\n    uniqueCluStr <- NULL\n    cluList <- lapply(cluList, canClu)\n    cluListStr <- sapply(cluList, paste, collapse = \",\")\n    for (i in seq_along(cluList)) {\n      if (!(cluListStr[i] %in% uniqueCluStr)) {\n        uniqueClu <- c(uniqueClu, cluList[i])\n        uniqueCluStr <- c(uniqueCluStr, cluListStr[i])\n      }\n    }\n    return(uniqueClu)",
+  "new": "    cluList <- lapply(cluList, canClu)\n    keep <- !duplicated(vapply(cluList, paste, collapse = \",\",\n                               character(1)))\n    cluList[keep]"
+ },
+ {
+  "id": "eq_bayesplot_colors",
+  "package": "bayesplot",
+  "rel": "R/bayesplot-colors.R",
+  "fn": "prepare_custom_colors",
+  "cls": "vectorize_c_acc",
+  "expect": "clarity_only",
+  "file": "/mnt/h/sepalith/normalized/bayesplot/1.15.0/bayesplot/R/bayesplot-colors.R",
+  "attach": [
+   "rlang"
+  ],
+  "note": "c()-accumulator loop over a length-capped (== 6) scheme vector -> vectorized predicate. NOT hot (N domain-capped): maintainability track. NOTE: the naive `scheme[!is_hex_color(scheme) & ...]` BREAKS (see rv_bayesplot_colors_naive): is_hex_color uses identical(), which is length-sensitive; the predicate had to be inlined",
+  "fixed_args": {
+   "scheme": "rep(c(\"blue\", \"#C79999\"), 3)"
+  },
+  "sizes_digest": [
+   10,
+   100,
+   1000
+  ],
+  "sizes_bench": [
+   10,
+   100,
+   1000
+  ],
+  "old": "  not_found <- character(0)\n  for (j in seq_along(scheme)) {\n    clr <- scheme[j]\n    if (!is_hex_color(clr) && !clr %in% grDevices::colors()) {\n      not_found <- c(not_found, clr)\n    }\n  }",
+  "new": "  not_found <- scheme[(substr(scheme, 1, 1) != \"#\" | nchar(scheme) != 7) &\n    !scheme %in% grDevices::colors()]"
+ },
+ {
+  "id": "rv_bayesplot_kde_lapply",
+  "package": "bayesplot",
+  "rel": "R/ppc-loo.R",
+  "fn": ".ref_kde_correction",
+  "cls": "loop_to_lapply",
+  "expect": "no_gain",
+  "file": "/mnt/h/sepalith/normalized/bayesplot/1.15.0/bayesplot/R/ppc-loo.R",
+  "note": "REVERSE CASE: hot row-loop calling a black box per row -> lapply + do.call(rbind) + unlist. Behavior-preserving but adds allocations and indirection; no speedup possible (per-row .kde_correction dominates) - evidence that apply-family is not automatically better",
+  "fixed_args": {
+   "unifs": "matrix(rnorm(SZ * 100L), ncol = 100L)",
+   "bw": "0.3",
+   "grid_len": "100L"
+  },
+  "sizes_digest": [
+   10,
+   50,
+   100
+  ],
+  "sizes_bench": [
+   100,
+   500,
+   1000
+  ],
+  "old": "  for (i in seq_len(nrow(unifs))) {\n    bc_list <- .kde_correction(unifs[i, ], bw = bw, grid_len = grid_len)\n    bc_mat[i, ] <- bc_list$bc_pvals\n    xs[idx[i]:(idx[i + 1] - 1)] <- bc_list$xs\n  }",
+  "new": "  bc_lists <- lapply(seq_len(nrow(unifs)), function(i) {\n    .kde_correction(unifs[i, ], bw = bw, grid_len = grid_len)\n  })\n  bc_mat <- do.call(rbind, lapply(bc_lists, `[[`, \"bc_pvals\"))\n  xs <- unlist(lapply(bc_lists, `[[`, \"xs\"), use.names = FALSE)"
+ },
+ {
+  "id": "rv_stars_apply_to_lapply",
+  "package": "stars",
+  "rel": "R/sample.R",
+  "fn": "get_index_ranges",
+  "cls": "apply_to_lapply",
+  "expect": "no_gain",
+  "file": "/mnt/h/sepalith/normalized/stars/0.7-3/stars/R/sample.R",
+  "note": "REVERSE CASE: apply(g, 1, f, simplify=FALSE) -> lapply over row indices (verified identical()). Same speed, same LOC - pure churn; the no_op refusal should win. Tests the VALUE gate, not safety",
+  "fixed_args": {
+   "d": "rep(max(4L, min(SZ %/% 10L + 3L, 70L)), 4L)",
+   "n": "2L",
+   "offset": "1L"
+  },
+  "sizes_digest": [
+   10,
+   100,
+   1000
+  ],
+  "sizes_bench": [
+   100,
+   500,
+   1500
+  ],
+  "old": "  f <- function(x) mapply(seq, x, length.out = n + 1, SIMPLIFY = FALSE)\n  apply(g, 1, f, simplify = FALSE)",
+  "new": "  f <- function(x) mapply(seq, x, length.out = n + 1, SIMPLIFY = FALSE)\n  lapply(seq_len(nrow(g)), function(i) f(g[i, ]))"
+ },
+ {
+  "id": "rv_bayesplot_colors_naive",
+  "package": "bayesplot",
+  "rel": "R/bayesplot-colors.R",
+  "fn": "prepare_custom_colors",
+  "cls": "naive_vectorize",
+  "expect": "behavior_break",
+  "file": "/mnt/h/sepalith/normalized/bayesplot/1.15.0/bayesplot/R/bayesplot-colors.R",
+  "attach": [
+   "rlang"
+  ],
+  "note": "NEGATIVE CONTROL: the obvious vectorization is WRONG - is_hex_color() returns FALSE for vectors (identical() is length-sensitive), so every hex color lands in not_found and the function aborts. Caught by the G3 digest gate",
+  "fixed_args": {
+   "scheme": "rep(c(\"blue\", \"#C79999\"), 3)"
+  },
+  "sizes_digest": [
+   10,
+   100,
+   1000
+  ],
+  "sizes_bench": [
+   10,
+   100,
+   1000
+  ],
+  "old": "  not_found <- character(0)\n  for (j in seq_along(scheme)) {\n    clr <- scheme[j]\n    if (!is_hex_color(clr) && !clr %in% grDevices::colors()) {\n      not_found <- c(not_found, clr)\n    }\n  }",
+  "new": "  not_found <- scheme[!is_hex_color(scheme) &\n    !scheme %in% grDevices::colors()]"
+ }
+]
