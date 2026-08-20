@@ -2,7 +2,7 @@
   "name": "vscode-sepalith",
   "displayName": "Sepalith",
   "publisher": "sepalith-dev",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running a Sepalith GGUF.",
   "engines": {
     "vscode": "^1.85.0"
@@ -117,6 +117,11 @@
           "type": "boolean",
           "default": false,
           "description": "Log the full rendered prompt and raw completion for every request."
+        },
+        "sepalith.scopeContext": {
+          "type": "boolean",
+          "default": true,
+          "description": "Scope-aware prompt context: pin the enclosing function and add a top-level file outline (LSP document symbols, brace-scan fallback when no R language server is running). Off = plain prompt."
         }
       }
     }
@@ -126,6 +131,7 @@
     "bundle": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --platform=node --format=cjs --external:vscode",
     "build": "npm run compile && npm run bundle",
     "smoke": "npx --yes tsx scripts/smoke.ts",
+    "check-context": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-context.ts",
     "vsix": "npm run bundle && npx --yes @vscode/vsce package --allow-missing-repository"
   },
   "devDependencies": {

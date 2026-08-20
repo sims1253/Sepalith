@@ -39,6 +39,7 @@ files.
 | `contextSize` | `8192` | Context window; some prompts need ~5.6k tokens. |
 | `autoStart` | `true` | Start the sidecar on activation. |
 | `debounceMs` | `1500` | Idle time before an automatic suggestion attempt; `0` disables auto-trigger (manual only). |
+| `scopeContext` | `true` | Scope-aware prompt context: pin the enclosing function and add a top-level file outline (LSP document symbols, brace-scan fallback when no R language server is running). Off = plain prompt. |
 
 ## Behaviour notes
 
@@ -60,3 +61,12 @@ files.
 Starts the sidecar against the configured model, waits for readiness, sends
 one rendered prompt for a tiny synthetic R buffer, and prints the parsed
 suggestion and latency.
+
+## Context unit tests
+
+    npm run check-context
+
+Exercises the pure scope-context helpers in `src/context_build.ts` (outline
+formatting and caps, the brace-scan enclosing-function fallback, pin/suffix
+truncation, v0.0.6 prompt parity, and the stable-prefix property) under
+plain node — no vscode import.

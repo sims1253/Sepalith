@@ -2,6 +2,8 @@ import * as vscode from "vscode";
 import * as fs from "node:fs";
 import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
+import { buildScopedPrompt, normalizeSymbols, scopeFromScan, scopeFromSymbols } from "./context_build";
+import type { RawSymbol, ScopeInfo } from "./context_build";
 
 // Sepalith v0 — see SPEC.md. This is END-TO-END PLUMBING, not suggestion
 // quality: garbage suggestions from the current weak models are acceptable.
@@ -18,6 +20,7 @@ interface Config {
   autoStart: boolean;
   debounceMs: number;
   debugMode: boolean;
+  scopeContext: boolean;
 }
 
 function cfg(): Config {
@@ -31,61 +34,32 @@ function cfg(): Config {
     autoStart: c.get("autoStart", true),
     debounceMs: c.get("debounceMs", 1500),
     debugMode: c.get("debugMode", false),
+    scopeContext: c.get("scopeContext", true),
   };
 }
 
 // ---------------------------------------------------------------------------
-// Prompt render (must match experiments/eval/run_eval.py render_zeta2).
-// v0: the region is EMPTY — cursor marker alone ("signature" style).
+// Prompt render (must match experiments/eval/run_eval.py render_zeta2) and
+// the scope-aware context additions live in ./context_build — pure, so
+// scripts/check-context.ts can exercise them under plain node. This wrapper
+// supplies only the vscode bits (document text, relative path).
+// scope === null renders the byte-identical v0.0.6 prompt.
 // ---------------------------------------------------------------------------
 
-const MAX_PREFIX_SUFFIX_CHARS = 6000;
-
-function renderPrompt(prefixLines: string[], regionOld: string[], suffixLines: string[], relPath: string): string {
-  return [
-    "<[fim-suffix]>",
-    ...suffixLines,
-    `<[fim-prefix]><filename>${relPath}`,
-    ...prefixLines,
-    "<<<<<<< CURRENT",
-    ...regionOld,
-    "=======",
-    "<[fim-middle]>",
-  ].join("\n");
-}
-
-function buildPrompt(document: vscode.TextDocument, position: vscode.Position): { prompt: string; truncatedLines: number } {
-  const lines = document.getText().split("\n");
-  // the CURSOR LINE belongs to the prompt: text before the cursor is the
-  // typed partial (training's midtyping convention: partial + cursor marker
-  // in the region), text after the cursor leads the suffix. v0 dropped the
-  // line entirely, so the model re-predicted it from scratch and accepting
-  // glued the duplicate into the document.
-  const line = lines[position.line] ?? "";
-  const before = line.slice(0, position.character);
-  const after = line.slice(position.character);
-  const regionOld = [before === "" ? "<|user_cursor|>" : before + "<|user_cursor|>"];
-  const suffix = [after, ...lines.slice(position.line + 1)];
-  const suffixChars = suffix.reduce((n, l) => n + l.length + 1, 0);
-  const budget = Math.max(0, MAX_PREFIX_SUFFIX_CHARS - suffixChars);
-  const prefix = lines.slice(0, position.line); // everything above the cursor's line
-  // truncate the prefix from its START (keep the tail) so prefix+suffix stays under ~6000 chars
-  let keep = 0;
-  let used = 0;
-  for (let i = prefix.length - 1; i >= 0; i--) {
-    if (used + prefix[i].length + 1 > budget) break;
-    used += prefix[i].length + 1;
-    keep++;
-  }
-  const truncatedLines = prefix.length - keep;
-  const relPath = vscode.workspace.asRelativePath(document.uri);
-  return { prompt: renderPrompt(prefix.slice(truncatedLines), regionOld, suffix, relPath), truncatedLines };
+function buildPrompt(document: vscode.TextDocument, position: vscode.Position, scope: ScopeInfo | null) {
+  return buildScopedPrompt(
+    document.getText().split("\n"),
+    position.line,
+    position.character,
+    vscode.workspace.asRelativePath(document.uri),
+    scope,
+  );
 }
 
 // marker lines the model sometimes echoes from the prompt back into its
 // completion (seen live: an empty-file proposal consisting mostly of
 // "<<<<<<< CURRENT / ======= / <[fim-middle]" lines)
-const MARKER_LINE = /^\s*(<<<<<<<\s*CURRENT|=======|>>>>>>>\s*UPDATED|<\[fim-(middle|prefix|suffix)\]>|<\|user_cursor\|>)\s*$/;
+const MARKER_LINE = /^\s*(<<<<<<<\s*CURRENT|=======|>>>>>>>\s*UPDATED|<\[fim-(middle|prefix|suffix)\]>|<\|user_cursor\|>|<\|outline\|>)\s*$/;
 
 function parsePrediction(text: string): string[] {
   // everything before the first ">>>>>>>" is the predicted region
@@ -120,7 +94,7 @@ interface CompletionResult {
 
 // generation stops: the UPDATED terminator plus every prompt marker the
 // model has been seen echoing (marker echo = wasted seconds of generation)
-const STOPS = [">>>>>>> UPDATED", "<<<<<<< CURRENT", "=======", "<[fim-middle]>", "<[fim-suffix]>", "<[fim-prefix]>"];
+const STOPS = [">>>>>>> UPDATED", "<<<<<<< CURRENT", "=======", "<[fim-middle]>", "<[fim-suffix]>", "<[fim-prefix]>", "<|outline|>"];
 
 async function postCompletion(port: number, prompt: string, maxTokens: number, stop: string[] | null, signal?: AbortSignal): Promise<CompletionResult> {
   const body = JSON.stringify({ prompt, max_tokens: maxTokens, temperature: 0, stop, stream: false });
@@ -447,6 +421,45 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private lastItems: vscode.InlineCompletionItem[] | null = null;
   private inFlight: { prompt: string; promise: Promise<vscode.InlineCompletionItem[]> } | null = null;
   private lastSkipLog = 0;
+  // LSP document symbols, cached per document VERSION (a pure cursor move
+  // reuses them; any edit invalidates) — the scope path never re-queries
+  // the language server for the same document state
+  private symCache = new Map<string, { version: number; symbols: RawSymbol[] | null }>();
+
+  private async fetchSymbols(document: vscode.TextDocument): Promise<RawSymbol[] | null> {
+    const key = document.uri.toString();
+    const hit = this.symCache.get(key);
+    if (hit && hit.version === document.version) return hit.symbols;
+    let symbols: RawSymbol[] | null = null;
+    try {
+      // huge files can make the symbol provider slow: race it, never let it
+      // stall the request path longer than 500 ms
+      const raw = await Promise.race([
+        vscode.commands.executeCommand("vscode.executeDocumentSymbolProvider", document.uri),
+        sleep(500).then(() => null),
+      ]);
+      symbols = normalizeSymbols(raw);
+      if (symbols.length === 0) symbols = null; // no R LSP answering — brace-scan fallback
+    } catch {
+      symbols = null;
+    }
+    if (this.symCache.size > 16) this.symCache.clear(); // a few open files is the real working set
+    this.symCache.set(key, { version: document.version, symbols });
+    return symbols;
+  }
+
+  // scope-aware context (docs/prompt-format.md): enclosing-function pin +
+  // file outline, from the R language server's document symbols when it
+  // answers, from the brace-scan heuristic when it does not. Computed here
+  // — inside the debounced request path — so the symbol fetch never blocks
+  // anything outside this request.
+  private async buildScopeContext(document: vscode.TextDocument, position: vscode.Position): Promise<ScopeInfo> {
+    const lines = document.getText().split("\n");
+    const symbols = await this.fetchSymbols(document);
+    return symbols
+      ? scopeFromSymbols(symbols, lines, position.line, position.character)
+      : scopeFromScan(lines, position.line);
+  }
 
   private skipLogRateLimited(msg: string): void {
     const now = Date.now();
@@ -467,8 +480,14 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
       this.skipLogRateLimited("request skipped: document is empty");
       return [];
     }
-    const { prompt, truncatedLines } = buildPrompt(document, position);
+    const c = cfg();
+    const scope = c.scopeContext ? await this.buildScopeContext(document, position) : null;
+    logScopeMode(scope ? scope.mode : "off");
+    const { prompt, truncatedLines, truncatedSuffixLines } = buildPrompt(document, position, scope);
     if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
+    if (truncatedSuffixLines > 0) {
+      channel.appendLine(`prompt: truncated ${truncatedSuffixLines} lines from the end of the suffix (enclosing function protected)`);
+    }
 
     lastPrompt = prompt;
     if (this.lastItems && prompt === this.lastPrompt) {
@@ -486,7 +505,6 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     this.controller?.abort();
     const controller = new AbortController();
     this.controller = controller;
-    const c = cfg();
     let promise: Promise<vscode.InlineCompletionItem[]>;
     promise = (async () => {
       try {
@@ -579,6 +597,19 @@ function renderStatusBar(): void {
   const label = s === "starting" ? "starting…" : s === "ready" ? `ready (${modelName()})` : s === "external" ? "external server" : s;
   statusBarItem.text = `Sepalith: ${label}`;
   statusBarItem.tooltip = `Sepalith sidecar\nstate: ${s}${sidecar.detailText ? `\n${sidecar.detailText}` : ""}\nlast request: ${lastStats}\nsuggestions shown ${SepalithProvider.shown} / accepted ${SepalithProvider.accepted}`;
+}
+
+// which context mode built the prompt (scope:pin+outline / scope:outline /
+// scope:off) — one line per mode CHANGE, or every 50 requests, never per
+// request
+let lastScopeMode = "";
+let scopeModeRequests = 0;
+function logScopeMode(mode: string): void {
+  scopeModeRequests++;
+  if (mode !== lastScopeMode || scopeModeRequests % 50 === 0) {
+    lastScopeMode = mode;
+    channel.appendLine(`scope:${mode}`);
+  }
 }
 
 function triggerInlineSuggestion(): void {
