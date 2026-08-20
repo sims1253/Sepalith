@@ -487,10 +487,17 @@ def extract_rename(b: Bundle, rng: random.Random, cap: int = 6) -> list[dict]:
     return out
 
 
+def _same_node(a, b) -> bool:
+    """tree-sitter hands out fresh Node wrappers per .children access, so
+    Python `is` is unreliable — byte span + type is the stable identity."""
+    return (a is not None and b is not None and a.type == b.type
+            and a.start_byte == b.start_byte and a.end_byte == b.end_byte)
+
+
 def parent_is_caller(n) -> bool:
     p = n.parent
     return (p is not None and p.type == "call"
-            and p.children and p.children[0] is n)
+            and p.children and _same_node(p.children[0], n))
 
 
 # ---------------------------------------------------------------------------
