@@ -4,7 +4,7 @@
 Usage: export_gguf.py <model_id> <lora_dir> <out_stem>
 Run inside .venv-sft. Produces <out_stem>-Q8_0.gguf in experiments/models.
 """
-import subprocess, sys
+import json, subprocess, sys
 from pathlib import Path
 
 MODEL, LORA, STEM = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -24,8 +24,12 @@ if not Path(CONVERT).exists():  # /tmp gets wiped between sessions
     subprocess.run(["git", "clone", "-q", "--depth", "1",
                     "https://github.com/ggml-org/llama.cpp",
                     str(Path(CONVERT).parent)], check=True)
+# --no-nextn is the MTP-less qwen3_5 workaround; the converter REJECTS it
+# for LlamaForCausalLM (MiniCPM5), so pass it only for qwen architectures
+archs = json.load(open(MERGED / "config.json")).get("architectures", [])
+nextn = ["--no-nextn"] if any("qwen" in a.lower() for a in archs) else []
 subprocess.run([py, CONVERT, str(MERGED), "--outfile", str(MODELS / f"{STEM}-f16.gguf"),
-                "--outtype", "f16", "--no-nextn"], check=True)
+                "--outtype", "f16", *nextn], check=True)
 subprocess.run([str(QUANT), str(MODELS / f"{STEM}-f16.gguf"),
                 str(MODELS / f"{STEM}-Q8_0.gguf"), "Q8_0"], check=True)
 (MODELS / f"{STEM}-f16.gguf").unlink()
