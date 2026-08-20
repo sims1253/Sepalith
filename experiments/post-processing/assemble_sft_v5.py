@@ -70,6 +70,7 @@ SCENARIO_FILES = [
     "doc_sync.jsonl",
     "comment_to_code_real.jsonl",
     "comment_to_code_synthetic.jsonl",
+    "comment_to_code_gemini.jsonl",  # gemini-3.7-flash harvest, own family
     "comment_drafting.jsonl",
     "comment_insert.jsonl",
     "roxygen_drafting.jsonl",
@@ -96,6 +97,13 @@ SCENARIO_FILES = [
     "cases_v1/astfim_partial.jsonl",
     "cases_v1/removed_block_comment.jsonl",  # dev one-liner marks the site;
                                       # target re-inserts the removed block
+    # backend variants (same families as their mains, one stamp per family)
+    # + the agy proof families, kept for diversity
+    "cases_v1/expectation_completion_zai.jsonl",
+    "cases_v1/trycatch_handler_completion_zai.jsonl",
+    "cases_v1/comment_styles_zai.jsonl",
+    "cases_v1/tidyselect_completion.jsonl",
+    "cases_v1/comment_to_code_styles.jsonl",
 ]
 
 # Families can outgrow their useful mixture share. Cap a family's rows
@@ -316,6 +324,10 @@ def load_scenarios():
         by_fam = defaultdict(list)
         for line in open(path):
             r = json.loads(line)
+            # comment_to_code_gemini rows carry prefix: null (comment at file
+            # start); the renderer needs a list
+            if r.get("prefix") is None:
+                r["prefix"] = []
             by_fam[r["family"]].append(r)
         for fam, rows in by_fam.items():
             cap = FAMILY_CAPS.get(fam)
@@ -389,8 +401,10 @@ def load_pr_instructed():
 def load_synthetic_analyst():
     fam = "synthetic_analyst"
     # analyst_scripts.jsonl: the detached 3-source generator (grow-only);
-    # analyst_direct.jsonl: the burst generator (deduped on merge)
-    for fname in ("analyst_scripts.jsonl", "analyst_direct.jsonl"):
+    # analyst_direct.jsonl: the burst generator (deduped on merge);
+    # analyst_gemini.jsonl: the agy gemini-3.7-flash harvest (same schema)
+    for fname in ("analyst_scripts.jsonl", "analyst_direct.jsonl",
+                  "analyst_gemini.jsonl"):
         for line in open(NAS / "synthetic_analyst_v1" / fname):
             r = json.loads(line)
             rr = comment_to_code_row("analyst.R", f"# {r['intent'].strip()}",
