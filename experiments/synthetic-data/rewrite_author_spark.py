@@ -183,6 +183,23 @@ class AgyAuthorBackend(AgyBackend):
     pace_gap_s = 1.0
 
 
+
+class OxAlphaGoBackend(OpencodeBackend):
+    """ox-alpha on the GO subscription tier (user tip): chat-completions
+    works cleanly here (json mode + separate reasoning, ~14 tok overhead),
+    subscription rate limits instead of the starved free tier."""
+    name = "oxalpha-go"
+    model = "ox-alpha-free"
+    url = "https://opencode.ai/zen/go/v1/chat/completions"
+    timeout_s = 180.0
+    pace_gap_s = 1.5
+
+    def _payload(self, prompt: str) -> dict:
+        return {"model": self.model, "max_tokens": 4000,
+                "response_format": {"type": "json_object"},
+                "messages": [{"role": "user", "content": prompt}]}
+
+
 AUTHOR_BACKENDS = {
     "opencode-spark": SparkAuthorBackend,
     "opencode-spark-free": SparkFreeAuthorBackend,
@@ -192,6 +209,7 @@ AUTHOR_BACKENDS = {
     "xpreview-free": XpreviewFreeAuthorBackend,   # reversed verdict 92%
     "zai": ZA.ZaiAuthorBackend,          # takeover after the sibling exits
     "agy": AgyAuthorBackend,            # gemini-3.7 author (parallel quota)
+    "oxalpha-go": OxAlphaGoBackend,     # ox on the GO subscription (user tip)
 }
 
 
