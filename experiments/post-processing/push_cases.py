@@ -157,6 +157,32 @@ def main() -> int:
     pairs = projection()
     print(f"projection: {len(pairs)} files", flush=True)
 
+    # 0. the map FIRST — it must land even if later steps rate-limit
+    card = """# Sepalith dataset
+
+Open, R-specialized next-edit-suggestion training data. Private.
+
+## Layout
+- `corpus/` — acquired, license-tracked sources: CRAN package shards
+  (`cran/packages/`), per-package provenance/licenses, harvested
+  general-code R (`hidden-r/`), mined git edit pairs (`edit-pairs/`).
+- `families/<family>/<source>.jsonl` — synthetic case families, one
+  file per author-source (`glm-5.3`, `muse-spark-1.2`, `x-preview`,
+  openrouter model ids, `corpus` = deterministic/no-LLM). Sidecar
+  `.done.jsonl`/`.stats.json` carry provenance. Per-source files keep
+  every row attributable and purge-safe.
+- `mixtures/sft_vX/` — assembled train/eval splits (derived; rebuilt
+  from families by experiments/post-processing/assemble_sft_v5.py).
+
+Rows carry `base_sample_id` (content-hash parent link) + rule/backend
+provenance. Generator code lives in the Sepalith repo
+(experiments/synthetic-data/).
+"""
+
+    api.upload_file(path_or_fileobj=card.encode(), path_in_repo="README.md",
+                    repo_id=REPO, repo_type="dataset")
+
+
     # 1. delete legacy layout (idempotent; missing folders are skipped)
     for path in legacy_paths():
         try:
@@ -184,29 +210,6 @@ def main() -> int:
             print(f"...{pushed} pushed", flush=True)
     STATE.write_text(json.dumps(state, indent=1))
 
-    # 3. the map (root card content)
-    card = """# Sepalith dataset
-
-Open, R-specialized next-edit-suggestion training data. Private.
-
-## Layout
-- `corpus/` — acquired, license-tracked sources: CRAN package shards
-  (`cran/packages/`), per-package provenance/licenses, harvested
-  general-code R (`hidden-r/`), mined git edit pairs (`edit-pairs/`).
-- `families/<family>/<source>.jsonl` — synthetic case families, one
-  file per author-source (`glm-5.3`, `muse-spark-1.2`, `x-preview`,
-  openrouter model ids, `corpus` = deterministic/no-LLM). Sidecar
-  `.done.jsonl`/`.stats.json` carry provenance. Per-source files keep
-  every row attributable and purge-safe.
-- `mixtures/sft_vX/` — assembled train/eval splits (derived; rebuilt
-  from families by experiments/post-processing/assemble_sft_v5.py).
-
-Rows carry `base_sample_id` (content-hash parent link) + rule/backend
-provenance. Generator code lives in the Sepalith repo
-(experiments/synthetic-data/).
-"""
-    api.upload_file(path_or_fileobj=card.encode(), path_in_repo="README.md",
-                    repo_id=REPO, repo_type="dataset")
     print(f"done: pushed={pushed} skipped={skipped} -> "
           f"https://huggingface.co/datasets/{REPO}")
     return 0
