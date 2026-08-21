@@ -11,7 +11,8 @@ repo-path -> {size, mtime}; only changed files upload. Family files grow
 in place (the waves append), so a changed file is re-uploaded whole —
 fine at these sizes. .done/.stats sidecars ride along (provenance).
 
-Repo: sepalith-dev/synthetic-cases (private). HF_TOKEN from env.
+Repo: the main scholzmx/sepalith dataset (private) — CRAN shards live
+under datasets/, the synthetic families under synthetic/. HF_TOKEN env.
 """
 import json
 import os
@@ -21,7 +22,7 @@ from pathlib import Path
 
 from huggingface_hub import HfApi
 
-REPO = "scholzmx/sepalith-synthetic-cases"
+REPO = "scholzmx/sepalith"  # one dataset: packages under datasets/, synthetic under synthetic/
 ROOT = Path("/mnt/h/sepalith/datasets")
 STATE = Path(__file__).parent / ".push_cases_state.json"
 COVERED = [
@@ -48,7 +49,7 @@ def main() -> int:
         for f in sorted(base.glob("*.jsonl")) + sorted(base.glob("*.json")):
             if f.name.endswith(".contaminated.bak"):
                 continue
-            rel = f"{rel_base}/{f.name}"
+            rel = f"synthetic/{rel_base}/{f.name}"
             st = f.stat()
             sig = {"size": st.st_size, "mtime": st.st_mtime}
             if not full and state.get(rel) == sig:
