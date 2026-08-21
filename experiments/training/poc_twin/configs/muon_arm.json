@@ -1,0 +1,40 @@
+{
+  "arm": "muon",
+  "note": "Twin POC Muon arm - pinned recipe per docs/research/optimizer-sweep-2026-08.md section 5. lr/steps are filled from logs/plan.json (probe-picked) at launch; everything else is fixed here.",
+  "model": {
+    "arch": "TinyGQA (see model.py)",
+    "d_model": 768, "n_layers": 12, "n_q_heads": 16, "n_kv_heads": 2,
+    "head_dim": 64, "ffn_hidden": 3072, "ffn": "SwiGLU 4x (tall 3072x768 geometry)",
+    "norm": "pre-RMSNorm eps 1e-6", "rope_theta": 500000,
+    "max_seq": 1024, "vocab": 130560, "tied_embeddings": true,
+    "params_total_M": 206.5, "params_embed_M": 100.3, "params_hidden_M": 106.2,
+    "params_note": "spec band was 100-150M; MiniCPM5 tokenizer vocab is 130k (4x the design 32K R-vocab) so the tied embedding alone is 100M. Hidden-matrix budget (the Muon-relevant part) is 106M. Deliberate overshoot, POC instrument."
+  },
+  "optimizer": {
+    "hidden": {"type": "Muon", "momentum": 0.95, "nesterov": false,
+               "ns_steps": 5, "weight_decay": 0.1,
+               "update_scale": "0.2*sqrt(max(m,n)) Moonlight/K2 RMS matching"},
+    "excluded": {"type": "AdamW", "params": "embed(tied head) + RMSNorm weights",
+                 "betas": [0.9, 0.95], "eps": 1e-8, "weight_decay": 0.1,
+                 "lr": "set to the AdamW arm probe winner for parity"}
+  },
+  "qk_stabilization": {
+    "qk_norm": false,
+    "qk_clip": {"tau": 100.0, "alpha": 0.5, "per_head": true, "stateless": true,
+                "applied": "post-step, both arms, first-micro probe per step",
+                "gqa_rule": "shared K head takes strongest gamma of its Q-group"}
+  },
+  "schedule": {
+    "shape": "WSD: linear warmup 1.5 pct, constant, linear decay to 0.1x peak over final 20 pct",
+    "same_for_both_arms": true, "grad_clip": 1.0
+  },
+  "data": {
+    "train": "/mnt/h/sepalith/datasets/astfim_v1/fixed/train.jsonl text field (PSM-format R)",
+    "tokens": 245416745, "blocks": 239430, "block_len": 1025,
+    "packing": "overlap-1 consecutive stream chunks, eos separators",
+    "cache": "/tmp/poc_twin/train_blocks.npy int32 memmap tokenized once locally",
+    "order": "np.random.RandomState(1273+epoch) permutation - IDENTICAL for both arms",
+    "eval": "eval.jsonl first 500 rows packed the same way; 431324 tokens / 1309158 bytes"
+  },
+  "precision": "fp32 master weights + bf16 autocast; Muon NS in bf16; CE chunked+checkpointed (eager)"
+}
