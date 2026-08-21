@@ -192,23 +192,39 @@ provenance. Generator code lives in the Sepalith repo
             if "not found" not in str(e).lower() and "404" not in str(e):
                 print(f"(skip {path}: {str(e)[:80]})", flush=True)
 
-    # 2. push the projection incrementally
+    # 2. push the projection: staging dir + per-top-dir upload_folder
+    #    (3-6 COMMITS per run instead of one per file — the HF hourly
+    #    commit budget is 128 and per-file uploads exhausted it)
+    import shutil
+    stage = Path("/tmp/hf_projection")
+    if stage.exists():
+        shutil.rmtree(stage)
+    stage.mkdir(parents=True)
     state = {} if full else json.loads(STATE.read_text()) if STATE.exists() else {}
-    pushed = skipped = 0
+    staged = 0
     for f, rel in pairs:
         if not f.exists():
             continue
         sig = {"size": f.stat().st_size, "mtime": f.stat().st_mtime}
         if not full and state.get(rel) == sig:
-            skipped += 1
             continue
-        api.upload_file(path_or_fileobj=str(f), path_in_repo=rel,
-                        repo_id=REPO, repo_type="dataset")
+        tgt = stage / rel
+        tgt.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(f, tgt)
         state[rel] = sig
+        staged += 1
+    pushed = 0
+    for top in sorted({r.split("/", 1)[0] for _, r in pairs}):
+        d = stage / top
+        if not d.exists() or not any(d.iterdir()):
+            continue
+        api.upload_folder(folder_path=str(d), path_in_repo=top,
+                          repo_id=REPO, repo_type="dataset")
         pushed += 1
-        if pushed % 25 == 0:
-            print(f"...{pushed} pushed", flush=True)
+        print(f"pushed {top}/ ({sum(1 for _ in d.rglob(chr(42)))} files)", flush=True)
+    shutil.rmtree(stage, ignore_errors=True)
     STATE.write_text(json.dumps(state, indent=1))
+    skipped = len(pairs) - staged
 
     print(f"done: pushed={pushed} skipped={skipped} -> "
           f"https://huggingface.co/datasets/{REPO}")
