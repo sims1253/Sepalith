@@ -212,8 +212,29 @@ class GoMuseBackend(OpencodeSparkBackend):
                 "text": {"format": {"type": "json_object"}}}
 
 
+
+class NineSolHighBackend(GoOxBackend):
+    """gpt-5.6-sol on HIGH reasoning via the user's ChatGPT Plus
+    (9router local proxy) — user-designated tournament proposer (depth).
+    Gentle pacing: personal-account tier."""
+    name = "gpt56sol-high"
+    env_key = "NINE_ROUTER_API_KEY"
+
+    def _payload(self, prompt: str) -> dict:
+        return {"model": "cx/gpt-5.6-sol", "max_tokens": 8000,
+                "reasoning_effort": "high",
+                "response_format": {"type": "json_object"},
+                "messages": [{"role": "user", "content": prompt}]}
+
+    @property
+    def url(self):
+        import os
+        return os.environ.get("NINE_ROUTER_BASE_URL",
+                              "http://localhost:20128").rstrip("/") + "/v1/chat/completions"
+
+
 CAST_POOL = [GoOxBackend, OrGemmaBackend, AgyGeminiBackend,
-             ZenXpreviewBackend, GoMuseBackend]
+             ZenXpreviewBackend, GoMuseBackend, NineSolHighBackend]
 LETTERS = "ABC"
 
 
