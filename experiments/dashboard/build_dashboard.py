@@ -611,11 +611,12 @@ def main():
 <div class="sub">Open, R-specialized next-edit-suggestion model. Local-first (llama.cpp/GGUF), aimed at pharma/biostat.
 Generated {esc(now)}. This page is a static snapshot — it changes when the orchestrator re-uploads it.</div>
 <div class="tabs">
- <button class="tabbtn active" id="tb-exp" onclick="showTab('exp')">Experiments</button>
- <button class="tabbtn" id="tb-syn" onclick="showTab('syn')">Synthetic Data</button>
+ <button class="tabbtn active" id="tb-exp" data-tab="exp">Experiments</button>
+ <button class="tabbtn" id="tb-syn" data-tab="syn">Synthetic Data</button>
 </div>
 <script>
- function showTab(id){{
+ document.querySelectorAll(".tabbtn").forEach(function(b){{b.addEventListener("click", function(){{showTab(b.dataset.tab);}});}});
+function showTab(id){{
    for (const t of ['exp','syn']){{
      document.getElementById('tab-'+t).style.display = (t===id)?'block':'none';
      document.getElementById('tb-'+t).classList.toggle('active', t===id);
