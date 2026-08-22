@@ -217,6 +217,35 @@ class OxAlphaNousBackend(OpencodeBackend):
                 "messages": [{"role": "user", "content": prompt}]}
 
 
+
+class NineSolBackend(OpenrouterBackend):
+    """gpt-5.6-sol via the user's ChatGPT Plus through 9router (local
+    proxy; /v1 mount; ~2.5k prompt-token overhead from the codex-style
+    proxy context — personal-account tier, pace gently)."""
+    name = "gpt56sol"
+    model = "cx/gpt-5.6-sol"
+    url = "http://localhost:20128/v1/chat/completions"
+    env_key = "NINE_ROUTER_API_KEY"
+    timeout_s = 240.0
+    pace_gap_s = 4.0          # personal account — gentle
+    reasoning_effort = "low"  # judge tier; -high subclass for proposing
+
+    def _payload(self, prompt: str) -> dict:
+        return {"model": self.model, "max_tokens": 4000,
+                "reasoning_effort": self.reasoning_effort,
+                "response_format": {"type": "json_object"},
+                "messages": [{"role": "user", "content": prompt}]}
+
+
+class NineSolHighBackend(NineSolBackend):
+    """same model, high reasoning — the user's pick for tournament
+    proposing (depth)."""
+    name = "gpt56sol-high"
+    reasoning_effort = "high"
+    timeout_s = 420.0
+    pace_gap_s = 8.0
+
+
 AUTHOR_BACKENDS = {
     "opencode-spark": SparkAuthorBackend,
     "opencode-spark-free": SparkFreeAuthorBackend,
@@ -228,6 +257,8 @@ AUTHOR_BACKENDS = {
     "agy": AgyAuthorBackend,            # gemini-3.7 author (parallel quota)
     "oxalpha-go": OxAlphaGoBackend,     # ox on the GO subscription (user tip)
     "oxalpha-nous": OxAlphaNousBackend,  # ox via Nous portal (third provider)
+    "gpt56sol": NineSolBackend,          # ChatGPT Plus via 9router (low=judge tier)
+    "gpt56sol-high": NineSolHighBackend, # same, high reasoning (tournament propose)
 }
 
 
