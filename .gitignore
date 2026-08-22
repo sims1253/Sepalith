@@ -31,3 +31,4 @@ __pycache__/
 *.log
 finish_block_stats.json
 results/
+.push_cases_state.json
