@@ -15,7 +15,14 @@ rounds/rNNN/, raw model output never deleted):
   1 propose    round1/<L>.json   cast of N models (default 3, ROTATED
                                 between rounds so different model triples
                                 judge different idea pools) each propose
-                                8-10 diverse ideas as JSON
+                                8-10 diverse ideas as JSON; each round's
+                                propose brief carries 2-3 AMBIENT DOMAIN
+                                SEEDS (real vignette/README snippets from
+                                odd CRAN domains, deterministically rotated
+                                by round number, cached in
+                                domain_seeds.json + ledgered in the round's
+                                raw_calls.jsonl — "do not imitate, just let
+                                them widen your sense of where R runs")
   2 review     round2/<L>.json   blind NxN rating matrix: every model
                                 rates every anonymized proposal 0-5 on
                                 signal/novelty/buildability/risk plus
@@ -592,8 +599,446 @@ def build_brief(n: int) -> str:
     return "\n".join(parts)
 
 
-def prompt_propose(n: int) -> str:
-    return build_brief(n) + f"""
+# ---------------------------------------------------------------------------
+# ambient domain seeds — real-world artifacts from ODD corners of the corpus
+# (user idea 2026-08-20): each round's PROPOSE brief carries 2-3 short
+# snippets pulled deterministically (seeded by round number) from domains
+# OUTSIDE the tidyverse/biostat neighborhood, framed as "do not imitate".
+# Cached in results/ideation_tournament/domain_seeds.json so a round's
+# seeds are stable and auditable; every snippet is also appended to the
+# round's raw_calls.jsonl ledger for provenance.
+# ---------------------------------------------------------------------------
+
+NORMALIZED_CORPUS = Path("/mnt/h/sepalith/normalized")
+DOMAIN_SEEDS_CACHE = ROOT / "domain_seeds.json"
+MARIN_SEEDS_SRC = Path("/tmp/marin_seeds.jsonl")   # volatile; snapshotted
+SEED_MAX_LINES = 40          # snippet hard cap
+SEED_SCAN_CAP = 600          # DESCRIPTION reads per scan pass (drvfs-polite)
+
+DOMAIN_KEYWORDS = {          # insertion order == the rotation order
+    # original 18
+    "geotechnics/tunnel": ("geotechn", "rock mechanics", "tunnel",
+                           "pile foundation", "slope stability", "soil"),
+    "audio/synthesis/music": ("audio", "acoustic", "music", "speech",
+                              "synthes", "midi", "pitch detection", "sound"),
+    "hardware/microcontroller": ("arduino", "i2c", "spi bus", "gpio",
+                                 "sensor", "microcontroller", "serial port",
+                                 "embedded"),
+    "web/api": ("http", "api client", "url", "rest", "scrap", "curl",
+                "websocket"),
+    "finance": ("finance", "financial", "trading", "portfolio",
+                "option pricing", "stock", "bond", "accounting", "risk"),
+    "ecology": ("ecolog", "species distribution", "population dynamics",
+                "biodiversity", "habitat", "metabarcoding", "forest"),
+    "genomics": ("genom", "gene expression", "transcriptom", "sequencing",
+                 "snp", "variant call", "phylogen", "bioinformat"),
+    "astronomy": ("astro", "star", "planet", "celestial", "telescope",
+                  "light curve", "ephemeris"),
+    "game/simulation": ("game theory", "agent-based", "cellular automaton",
+                        "simulation of", "chess", "game-playing"),
+    "gis/spatial": ("gis", "spatial", "raster", "shapefile", "coordinate",
+                    "cartogra", "terrain", "map"),
+    "pharma/clinical": ("clinical trial", "drug", "pharmacokinetic",
+                        "adverse event", "dose response", "bioequivalence"),
+    "epidemiology": ("epidemi", "outbreak", "incidence", "epidemic",
+                     "seroprev", "contact tracing"),
+    "weather/climate": ("weather", "climate", "meteorolog", "rainfall",
+                        "atmospheric", "temperature record"),
+    "hydrology": ("hydrolog", "watershed", "streamflow", "groundwater",
+                  "river", "rainfall-runoff"),
+    "chemometrics/spectroscopy": ("spectrosc", "chromatograph",
+                                  "mass spectrometry", "chemomet",
+                                  "spectra", "near-infrared"),
+    "psychometrics": ("psychometr", "item response", "likert",
+                      "cognitive test", "questionnaire scale"),
+    "sports/analytics": ("sport", "football", "soccer", "athlete",
+                         "basketball", "batting"),
+    "ocean/marine": ("ocean", "marine", "fisheries", "sea surface",
+                     "tidal", "bathymetr"),
+    # marin-harrier K=40-anchored additions (2026-08-20 scout delivery):
+    # clusters like Finance/Insurance, Natural Sciences, Consumer Devices,
+    # Law/Regulation, Food/Gardening mapped onto CRAN-present veins
+    "insurance/actuarial": ("actuar", "insurance", "claim severity",
+                            "loss distribution", "premium", "mortality table"),
+    "agriculture": ("agricultur", "crop yield", "field trial", "farm survey",
+                    "dairy", "plant breeding", "cultivar"),
+    "energy/grid": ("energy", "power grid", "photovoltaic", "wind turbine",
+                    "electricity", "load forecasting"),
+    "transport/traffic": ("traffic", "transit", "transport", "road network",
+                          "vehicle", "logistics"),
+    "text-mining/nlp": ("text mining", "natural language", "tokeniz",
+                        "sentiment", "topic model", "corpus linguist"),
+    "imaging/microscopy": ("microscopy", "image analysis", "segmentation",
+                           "bioimag", "pixel", "tomograph"),
+    "seismic/geophysics": ("seismic", "seismolog", "earthquake",
+                           "geophysic", "magnetotelluric"),
+    "econometrics/forecasting": ("economet", "forecasting", "seasonal",
+                                 "arima", "garch", "causal inference"),
+}
+
+# fallback: my domain -> marin harrier K=40 cluster titles that carry
+# R/R-adjacent seed docs (snapshot below); used when a domain is thin or
+# unmatched in the CRAN corpus
+MARIN_CLUSTER_FALLBACK = {
+    "hydrology": ("Natural Sciences Research",),
+    "astronomy": ("Natural Sciences Research",),
+    "ocean/marine": ("Natural Sciences Research",),
+    "game/simulation": ("Mathematics Problems and Proofs",),
+    "hardware/microcontroller": ("Command-Line Agent Transcripts",
+                                 "Home Maintenance and Trades"),
+    "geotechnics/tunnel": ("Home Maintenance and Trades",
+                           "Natural Sciences Research"),
+    "psychometrics": ("Study Skills and Academic Writing",),
+    "web/api": ("Software Development and Web Code",
+                "Application and Web Development"),
+    "finance": ("Business Software and Strategy",),
+    "agriculture": ("Pets, Gardening, and Pest Control", "Food and Recipes"),
+    "epidemiology": ("Government Notices and Environment",),
+    "energy/grid": ("Government Notices and Environment",),
+    "text-mining/nlp": ("General Knowledge and Trivia",),
+    "pharma/clinical": ("Clinical Treatment and Dentistry",),
+    "sports/analytics": ("Racing, Sports, and Entertainment Records",),
+    "seismic/geophysics": ("Natural Sciences Research",),
+    "imaging/microscopy": ("Natural Sciences Research",),
+    "ecology": ("Natural Sciences Research",),
+    "chemometrics/spectroscopy": ("Natural Sciences Research",),
+}
+SEED_FRAME = """AMBIENT DIVERSITY SEEDS — do not imitate, just let them widen
+your sense of where R runs. Below are real artifacts from {ndom} CRAN
+{domword} far outside the tidyverse/biostat neighborhood (round {n} rotation:
+{doms}). They are NOT a template, NOT a topic request and NOT a quality
+bar: do not propose anything about these specific packages. Let them remind
+you that R users also work in tunnels, clinics, trading desks, forests, at
+telescopes and in hobby basements — propose idea families that would train
+a next-edit model for THOSE users too."""
+
+
+def _load_seed_cache() -> dict:
+    c = load_json(DOMAIN_SEEDS_CACHE) or {}
+    c.setdefault("rounds", {})
+    c.setdefault("index", {})        # domain -> [package, ...] (grows lazily)
+    c.setdefault("used", {})         # domain -> [package, ...] already seeded
+    c.setdefault("missed", [])       # domains with no corpus match (no rescan)
+    c.setdefault("marin", {})        # cluster -> [seeddoc, ...] snapshot
+    c.setdefault("marin_used", [])   # "cluster:i" ids already seeded
+    return c
+
+
+def _snapshot_marin(cache: dict) -> None:
+    """One-time snapshot of the volatile /tmp marin harrier seed docs into
+    the cache (28 R/R-adjacent docs across 16 K=40 clusters, delivered
+    2026-08-20). Prompt-context provenance only — never training data."""
+    if cache["marin"] or not MARIN_SEEDS_SRC.exists():
+        return
+    try:
+        for line in MARIN_SEEDS_SRC.read_text().splitlines():
+            if not line.strip():
+                continue
+            d = json.loads(line)
+            cache["marin"].setdefault(d.get("title", "?"), []).append({
+                "quality": d.get("quality"), "reason": d.get("reason"),
+                "source": d.get("source"), "source_url": d.get("source_url"),
+                "license_note": d.get("license_note"),
+                "text": (d.get("text") or "")[:4000]})
+        log(None, f"domain-seeds: snapshotted {sum(len(v) for v in cache['marin'].values())} "
+                  f"marin harrier seed docs into the cache")
+    except (OSError, ValueError) as e:
+        log(None, f"domain-seeds: marin snapshot failed ({e}); continuing")
+
+
+def _pkg_list() -> list[str]:
+    try:
+        return sorted(p.name for p in NORMALIZED_CORPUS.iterdir()
+                      if p.is_dir() and re.fullmatch(r"[A-Za-z][A-Za-z0-9.]*",
+                                                     p.name))
+    except OSError:
+        return []
+
+
+def _pkg_text(pkg: str) -> tuple[str, str]:
+    """(title part, full head) of a package's DESCRIPTION, lowercased."""
+    try:
+        base = NORMALIZED_CORPUS / pkg
+        ver = sorted((d.name for d in base.iterdir() if d.is_dir()))[-1]
+        desc = base / ver / pkg / "DESCRIPTION"
+        with open(desc, encoding="utf-8", errors="replace") as f:
+            text = f.read(2000).lower()
+        title = text[:text.find("description:")] if "description:" in text \
+            else text[:400]
+        return title, text
+    except (OSError, IndexError):
+        return "", ""
+
+
+def _domain_match(domain_kws: tuple, title: str, text: str) -> bool:
+    """A keyword hit on the Title, or TWO distinct word-boundary keyword
+    hits in the whole head — plain substring matching lets 'synthes'
+    (evidence synthesis) and 'sound' (grounded...) steal packages from
+    the wrong domain."""
+    pats = [re.compile(r"(?<![a-z0-9])" + re.escape(k) + r"(?![a-z0-9])")
+            for k in domain_kws]
+    if any(p.search(title) for p in pats):
+        return True
+    return sum(1 for p in pats if p.search(text)) >= 2
+
+
+def _find_artifact(pkg: str) -> tuple[str, list[str]] | None:
+    """(relpath, first lines) of a README or vignette, or None."""
+    try:
+        base = NORMALIZED_CORPUS / pkg
+        ver = sorted((d.name for d in base.iterdir() if d.is_dir()))[-1]
+        root = base / ver / pkg
+        cands = [root / "README.md"]
+        cands += sorted(root.glob("README*"))
+        cands += sorted((root / "vignettes").glob("*.Rmd"))
+        cands += sorted((root / "vignettes").glob("*.md"))
+        for p in cands:
+            if p.suffix.lower() in (".pdf", ".html", ".doc") or not p.is_file():
+                continue
+            with open(p, encoding="utf-8", errors="replace") as f:
+                lines = f.read(40000).splitlines()
+            if len(lines) >= 6:
+                rel = str(p.relative_to(NORMALIZED_CORPUS))
+                return rel, lines
+    except (OSError, IndexError):
+        pass
+    return None
+
+
+_JUNK = ("<!--", "[![", "<img", "<a ", "<p>", ")", "[x]", "[ ]",
+         "status]", "state]", "developed.]", "https://", "http://")
+
+
+def _debadge(lns: list[str]) -> list[str]:
+    """Trim README badge/comment noise off both ends of a window (a window
+    boundary can land mid-badge, so badge CONTINUATION lines count too)."""
+    def junk(ln):
+        t = ln.lstrip()
+        return (not t.strip()) or t.startswith(_JUNK) or \
+            (t.startswith("[") and "](" in t)
+    a, b = 0, len(lns)
+    while a < b and junk(lns[a]):
+        a += 1
+    while b > a and junk(lns[b - 1]):
+        b -= 1
+    return lns[a:b]
+
+
+def _snippet(lines: list[str], max_lines: int = SEED_MAX_LINES) -> list[str]:
+    """A <=max_lines window, preferring prose that introduces an R chunk."""
+    out = []
+    i = 0
+    if lines and lines[0].strip() == "---":        # YAML front matter
+        for j in range(1, len(lines)):
+            if lines[j].strip() in ("---", "..."):
+                i = j + 1
+                break
+    # skip title + blank noise
+    while i < len(lines) and (lines[i].startswith("#") or
+                              not lines[i].strip()):
+        i += 1
+    fence = next((j for j in range(i, min(i + 220, len(lines)))
+                  if lines[j].lstrip().startswith(("```{r", "```r",
+                                                   "```{R"))), None)
+    if fence is not None:
+        start = max(i, fence - 5)                   # a little prose context
+        end = next((j for j in range(fence + 1, len(lines))
+                    if lines[j].lstrip().startswith("```")), None)
+        end = min(end if end else len(lines), start + max_lines)
+        out = lines[start:end]
+    else:
+        out = [ln for ln in lines[i:i + 3 * max_lines] if ln.strip() or
+               (out and out[-1].strip())][:max_lines]
+    out = _debadge([ln for ln in out if len(ln) <= 400])
+    if len(out) < 4:                                # badge-heavy head
+        out = _debadge([ln for ln in lines if len(ln) <= 400
+                        and not ln.lstrip().startswith(_JUNK)
+                        and ln.strip()])[:max_lines]
+    out = [ln[:120] + ("…" if len(ln) > 120 else "") for ln in out]
+    return out[:max_lines]
+
+
+def _scan_domains(need: dict[str, tuple], n: int, cache: dict,
+                  per_domain: int = 6) -> None:
+    """One drvfs-polite pass over a seeded-shuffle of packages, filling
+    cache['index'][domain] for every domain in `need` that is still empty.
+    The pass matches ALL still-unindexed domains against each DESCRIPTION
+    read (one read amortized over the whole keyword list), so the expensive
+    corpus pass effectively happens once per cache lifetime."""
+    todo = {d for d, kws in need.items()
+            if not cache["index"].get(d) and kws
+            and d not in cache.get("missed", [])}
+    if not todo:
+        return
+    log(None, f"domain-seeds: first corpus index scan for {sorted(todo)} "
+              f"(cap {SEED_SCAN_CAP} DESCRIPTION reads; /mnt/h can be slow "
+              f"under wave load)")
+    pkgs = _pkg_list()
+    rng = random.Random("sepalith-domain-seeds-scan-v1:"
+                        + "|".join(sorted(todo)) + f":{n}")
+    rng.shuffle(pkgs)
+    for pkg in pkgs[:SEED_SCAN_CAP]:
+        if not todo:
+            break
+        title, text = _pkg_text(pkg)
+        if not text:
+            continue
+        for d in sorted(todo):
+            if _domain_match(need[d], title, text):
+                cache["index"].setdefault(d, []).append(pkg)
+                if len(cache["index"][d]) >= per_domain:
+                    todo.discard(d)
+    # only domains with ZERO candidates count as missed (partial index
+    # entries are usable seeds; they must not be discarded just because
+    # the scan cap hit before the domain filled to per_domain)
+    empty = {d for d in todo if not cache["index"].get(d)}
+    if empty:
+        cache.setdefault("missed", []).extend(sorted(empty))
+        log(None, f"domain-seeds: no corpus match after {SEED_SCAN_CAP} "
+                  f"packages for: {sorted(empty)} (will not rescan)")
+
+
+def _marin_seed(d: str, cache: dict, rng) -> dict | None:
+    """One unused marin harrier seed doc for domain d (fallback when the
+    CRAN corpus has no match for the domain)."""
+    for title in MARIN_CLUSTER_FALLBACK.get(d, ()):
+        for i, doc in enumerate(cache["marin"].get(title, [])):
+            key = f"{title}:{i}"
+            if key in cache["marin_used"]:
+                continue
+            snip = _snippet(doc["text"].splitlines())
+            if len(snip) < 3:
+                continue
+            cache["marin_used"].append(key)
+            return {"domain": d, "package": f"marin:{title}",
+                    "path": doc.get("source_url") or doc.get("source", "?"),
+                    "lines": len(snip), "snippet": "\n".join(snip),
+                    "source": "marin-harrier-k40",
+                    "license_note": doc.get("license_note", "")}
+    return None
+
+
+def domain_seeds_for_round(n: int) -> list[dict]:
+    """2-3 seeds from a DIFFERENT domain-set than round n-1; deterministic
+    given the round number and the cache state. The outcome — seeds or no
+    seeds — is FROZEN in the cache on first sampling, so the brief preview,
+    the round itself and every resume see the identical seeds."""
+    cache = _load_seed_cache()
+    # NB: rounds keys are STRINGS (json round-trips object keys as str);
+    # an int lookup silently misses and would re-sample the round.
+    frozen = cache["rounds"].get(str(n))
+    if isinstance(frozen, dict) and "seeds" in frozen:
+        return frozen["seeds"]
+    _snapshot_marin(cache)
+    rng = random.Random(f"sepalith-domain-seeds-v1:{n}")
+    prev = set()
+    for s in (cache["rounds"].get(str(n - 1)) or {}).get("seeds", []):
+        prev.add(s["domain"])
+
+    def has_seed_path(d):      # corpus candidates OR a marin fallback doc
+        return bool(cache["index"].get(d)) or any(
+            cache["marin"].get(t) for t in MARIN_CLUSTER_FALLBACK.get(d, ()))
+
+    pool = [d for d in DOMAIN_KEYWORDS if d not in prev and has_seed_path(d)]
+    pool = pool or [d for d in DOMAIN_KEYWORDS if has_seed_path(d)] or \
+        list(DOMAIN_KEYWORDS)
+    want = rng.sample(pool, min(2 + rng.randrange(2), len(pool)))
+    _scan_domains(DOMAIN_KEYWORDS, n, cache)   # fill every empty domain once
+    seeds, used_all = [], set()
+    for d in want:
+        idx = [p for p in cache["index"].get(d, [])
+               if p not in (cache["used"].get(d) or [])]
+        if not idx:
+            idx = list(cache["index"].get(d, []))
+            cache["used"][d] = []
+        rng.shuffle(idx)
+        got = None
+        for pkg in [p for p in idx if p not in used_all] or idx:
+            art = _find_artifact(pkg)
+            if not art:
+                continue
+            rel, lines = art
+            snip = _snippet(lines)
+            if len(snip) < 4:
+                continue
+            got = (pkg, rel, snip)
+            break                   # first candidate with a usable artifact
+        if got is not None:
+            pkg, rel, snip = got
+            used_all.add(pkg)
+            cache["used"].setdefault(d, []).append(pkg)
+            seeds.append({"domain": d, "package": pkg, "path": rel,
+                          "lines": len(snip), "snippet": "\n".join(snip),
+                          "source": "cran-corpus"})
+        else:
+            m = _marin_seed(d, cache, rng)
+            if m:
+                seeds.append(m)
+    cache["rounds"][str(n)] = {"round": n,
+                               "domains": [s["domain"] for s in seeds],
+                               "sampled": time.strftime("%F %T"),
+                               "seeds": seeds}
+    dump_json(DOMAIN_SEEDS_CACHE, cache)
+    return seeds
+
+
+def seeds_paragraph(n: int) -> str:
+    seeds = domain_seeds_for_round(n)
+    if not seeds:
+        return ""
+    head = SEED_FRAME.format(n=n, ndom=len(seeds),
+                             domword="domain" if len(seeds) == 1 else "domains",
+                             doms=", ".join(s["domain"] for s in seeds))
+    parts = [head]
+    for i, s in enumerate(seeds, 1):
+        origin = (" — marin harrier K=40 sample" if
+                  s.get("source") == "marin-harrier-k40" else "")
+        parts.append(f"\n[seed {i}/{len(seeds)} — domain: {s['domain']} — "
+                     f"{s['package']} — {s['path']} "
+                     f"({s['lines']} lines{origin})]\n{s['snippet']}")
+    return "\n".join(parts)
+
+
+def attach_domain_seeds(ctx: RoundCtx) -> None:
+    """Compute round n's seeds, ledger them into raw_calls.jsonl (once —
+    resume-safe), and stash the paragraph on the ctx for the propose stage.
+    Never fatal: a corpus hiccup just means an unseeded brief."""
+    try:
+        para = seeds_paragraph(ctx.n)
+        ctx.seeds_para = para
+        if not para:
+            return
+        ledger = ctx.rd / "raw_calls.jsonl"
+        done = False
+        if ledger.exists():
+            with open(ledger, encoding="utf-8", errors="replace") as f:
+                done = any('"stage": "domain_seeds"' in ln for ln in f)
+        if done:
+            return
+        for s in domain_seeds_for_round(ctx.n):
+            append_jsonl(ledger, {
+                "ts": time.strftime("%F %T"), "round": ctx.n, "letter": "-",
+                "stage": "domain_seeds",
+                "backend": ("marin-harrier-k40 (prompt-context only)"
+                            if s.get("source") == "marin-harrier-k40"
+                            else "corpus:/mnt/h/sepalith/normalized"),
+                "model": f"domain:{s['domain']}/{s['package']}", "ok": True,
+                "chars": len(s["snippet"]),
+                "raw": f"[{s['domain']}] {s['package']} :: {s['path']}\n"
+                       f"{s['snippet']}"[:40000]})
+        log(ctx.rd, f"domain-seeds: round {ctx.n} carries "
+                    f"{len(domain_seeds_for_round(ctx.n))} ambient seeds")
+    except Exception as e:                     # noqa: BLE001
+        log(ctx.rd, f"domain-seeds: FAILED ({type(e).__name__}: {e}); "
+                    f"round proceeds unseeded")
+        ctx.seeds_para = ""
+
+
+def prompt_propose(n: int, seeds_para: str | None = None) -> str:
+    brief = build_brief(n)
+    if seeds_para:
+        brief += "\n\n" + seeds_para
+    return brief + f"""
 
 TASK (tournament round {n}): Propose 8 to 10 DIVERSE ideas (different
 kinds, not variations of one idea). At least one should be a
@@ -700,7 +1145,9 @@ def stage_propose(ctx: RoundCtx) -> dict:
                         f"({len(out[L].get('proposals', []))} ideas)")
             continue
         log(ctx.rd, f"round1 {L} ({ctx.letters[L]}): proposing...")
-        obj = call_json(ctx, L, "propose", prompt_propose(ctx.n),
+        obj = call_json(ctx, L, "propose",
+                        prompt_propose(ctx.n,
+                                       getattr(ctx, "seeds_para", None)),
                         "proposals")
         if obj is None:
             log(ctx.rd, f"round1 {L}: FAILED (no backend produced JSON)")
@@ -1493,6 +1940,7 @@ def run_round(n: int, cast_override: list[str] | None = None) -> bool:
     cast_names = cast_override or cast_for_round(n)
     log(rd, f"=== round {n} start; cast rotation: {cast_names} ===")
     ctx = RoundCtx(n, rd, cast_names)
+    attach_domain_seeds(ctx)          # ambient diversity seeds (user idea)
     brief = build_brief(n)
 
     while ctx.left() > 300:
@@ -1622,6 +2070,11 @@ def main() -> None:
         return
     if args.cmd == "brief":
         print(build_brief(args.n))
+        para = seeds_paragraph(args.n)
+        if para:
+            print("\n" + "-" * 70 +
+                  "\nPROPOSE-stage ambient domain seeds for this round:\n" +
+                  "-" * 70 + "\n" + para)
         return
     if args.cmd == "triage":
         targets = [args.n] if args.n else triage_pending()
