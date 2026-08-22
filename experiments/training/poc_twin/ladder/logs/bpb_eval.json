@@ -1,0 +1,87 @@
+{
+ "ladder_fim0": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_ladder_fim0/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.7621236605192535,
+   "loss_per_tok": 1.6218162973721821,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.8458148432292435,
+   "loss_per_tok": 1.7846110605058216,
+   "tokens": 430080
+  },
+  "stop_acc": 0.0359,
+  "stop_prob": 0.0421
+ },
+ "ladder_fim10": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_ladder_fim10/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.7607805408826955,
+   "loss_per_tok": 1.6189581085653866,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7476046147805786,
+   "loss_per_tok": 1.5773942430814107,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1614,
+  "stop_prob": 0.1244
+ },
+ "ladder_fim20": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_ladder_fim20/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.759008456379549,
+   "loss_per_tok": 1.615187072870778,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7445764630363884,
+   "loss_per_tok": 1.5710050514766147,
+   "tokens": 430080
+  },
+  "stop_acc": 0.148,
+  "stop_prob": 0.1201
+ },
+ "ladder_fim35": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_ladder_fim35/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.7561067064259006,
+   "loss_per_tok": 1.609012083680022,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7409245898655692,
+   "loss_per_tok": 1.5632998506228128,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1525,
+  "stop_prob": 0.1284
+ },
+ "muon_final_anchor": {
+  "ckpt": "/home/m0hawk/Documents/Sepalith/experiments/training/poc_twin/checkpoints/muon_final.pt",
+  "step": 1300,
+  "tokens_trained": 681574400,
+  "causal": {
+   "bpb": 0.7565007419164181,
+   "loss_per_tok": 1.6098506000696444,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.703197264111397,
+   "loss_per_tok": 1.4836977918942769,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1614,
+  "stop_prob": 0.1446
+ }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "FIM dose ladder (POC scale) — settles the A2 (35-40%) vs B2 (18%) pretraining-mix dispute",
+  "date": "2026-08-22",
+  "instrument": "206.5M TinyGQA, the adopted twin-POC trainer (Muon lr 0.01 / embed 4e-3 / wd 0.1 / WSD / grad clip 1.0 / stateless QK-Clip tau=100 alpha=0.5 / seed 1273 / torch.compile trunk)",
+  "budget_per_arm": {"steps": 668, "tokens_per_step": 524288, "total_tokens": 350224384},
+  "arms": [
+    {"tag": "ladder_fim0",  "dose": 0.0,  "note": "pure causal control, fresh 350M pairing (muon_final was 681M — budget-mismatched)"},
+    {"tag": "ladder_fim10", "dose": 0.10},
+    {"tag": "ladder_fim20", "dose": 0.20},
+    {"tag": "ladder_fim35", "dose": 0.35, "note": "A2's zone (24% draw share ~= 35% doc rate); B2's center is 18-23%"}
+  ],
+  "paired_data_design": {
+    "same_rows": "both streams tile the SAME astfim_v1 fixed-corpus rows (276,206 rows; 94 rows dropped from the causal rendering on marker anomalies, 0.03%)",
+    "fim_stream": "/tmp/poc_twin/train_blocks.npy — row['text'] AS-IS (PSM surround format: context prefix, <|history|>, <|cursor|><|suffix|> suffix, span, <|end|>); 245.4M tokens / 239,430 blocks; byte-identical to the twin-POC stream (reused)",
+    "causal_stream": "/tmp/poc_twin/ladder/train_blocks_causal.npy — same rows re-rendered as plain documents in natural order (path header + prefix + span + suffix, all PSM markers stripped); 238.4M tokens / 232,566 blocks",
+    "slot_mix": "NESTED Bernoulli mask: u_s ~ U[0,1) from one fixed RNG stream (MASK_SEED 90210, dose-independent); slot s trains FIM iff u_s < dose. Dose 0.35's FIM slots strictly supersets 0.20's supersets 0.10's — monotone dose family, same underlying text pool",
+    "stream_order": "per-stream epoch permutations RandomState(1273+epoch) (causal stream seed offset +7,000,000), parent PackedData wrap discipline",
+    "loss": "full autoregressive CE on both streams at POC scale (the dose axis is the FORMAT mix; masked-span loss is the 0.5BT-scale A2-prime arm, unchanged by this ladder)"
+  },
+  "readouts": {
+    "causal_floor": "held-out BPB on 500 plain-rendered held-out rows (418,809 tok / 1,282,658 B) — bpb_eval.py",
+    "span_completion": "served greedy line-F1/exact on 223 held-out PSM rows (prompt<=640 tok so prompt+gen stays inside trained positions; stop <|end|>; eval_fim.py scoring) via llama-server CUDA --parallel 4, port 18107",
+    "fim_slice_bpb": "held-out BPB on the PSM-format eval stream (parent eval_blocks.npy) — objective-mix diagnostic",
+    "canary": "12-gram verbatim-span regurgitation vs dose (arms/regurgitation.py instrument; causal + FIM renderings, in-corpus + held-out)"
+  },
+  "decision_rule_pre_registered": {
+    "source": "fromscratch-design-A2.md section 5.3 + redteam-2 adjudication + tasking",
+    "rule": "highest dose whose causal-floor penalty is <=1% held-out BPB vs the 0% control wins on span-F1-per-causal-BPB-cost; masked/unmasked >=2x line-F1 and stop-accuracy gates are advisory at this POC scale (absolute astfim values never gating)"
+  },
+  "ops": {
+    "sequencing": "run_ladder.sh: 4 arms SEQUENTIAL (one GPU job), detached setsid, resumable per arm (latest.pt every 200 steps)",
+    "telemetry": "logs/ladder_fim{0,10,20,35}.jsonl every 100 steps + dual held-out eval every 200 steps",
+    "sharing": "0.55 memory fraction + LaunchGate >=16GB free + 29GB watchdog yield (3 other agents' llama-servers on the GPU all night — never touched)"
+  }
+}

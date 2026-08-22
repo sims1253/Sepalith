@@ -1,0 +1,38 @@
+{
+ "ladder_fim0": {
+  "arm": "ladder_fim0",
+  "n": 223,
+  "n_err": 0,
+  "exact": 0.0,
+  "line_f1": 0.0027,
+  "mean_latency_s": 1.48,
+  "wall_s": 92.7
+ },
+ "ladder_fim10": {
+  "arm": "ladder_fim10",
+  "n": 223,
+  "n_err": 0,
+  "exact": 0.0,
+  "line_f1": 0.0026,
+  "mean_latency_s": 1.69,
+  "wall_s": 101.0
+ },
+ "ladder_fim20": {
+  "arm": "ladder_fim20",
+  "n": 223,
+  "n_err": 0,
+  "exact": 0.0,
+  "line_f1": 0.0039,
+  "mean_latency_s": 0.9,
+  "wall_s": 55.7
+ },
+ "ladder_fim35": {
+  "arm": "ladder_fim35",
+  "n": 223,
+  "n_err": 0,
+  "exact": 0.0,
+  "line_f1": 0.0005,
+  "mean_latency_s": 0.82,
+  "wall_s": 45.7
+ }
+}
