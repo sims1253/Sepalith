@@ -104,6 +104,14 @@ SCENARIO_FILES = [
     "cases_v1/comment_styles_zai.jsonl",
     "cases_v1/tidyselect_completion.jsonl",
     "cases_v1/comment_to_code_styles.jsonl",
+    # v7 wave: author-LLM rewrite program (ideation + quota burns)
+    "cases_v1/rewrite_lint_fix.jsonl",          # glm-5.3 authored
+    "cases_v1/rewrite_lint_fix_spark.jsonl",    # muse-spark authored
+    "cases_v1/rewrite_lint_fix_oxalpha.jsonl",  # openrouter stealth ox
+    "cases_v1/fix_issue_inject.jsonl",          # injected bugs, glm authored
+    "cases_v1/rewrite_fixissue_zai.jsonl",      # injected bugs, fresh tank
+    "cases_v1/compound_spark.jsonl",            # base-sample authoring (stamps comment_to_code)
+    "cases_v1/doc_sync_spark.jsonl",            # doc_sync rebuild (stamps doc_sync)
 ]
 
 # Families can outgrow their useful mixture share. Cap a family's rows
@@ -112,6 +120,8 @@ FAMILY_CAPS = {
     "roxygen_drafting": 40000,
     "no_op": 8000,
     "mid_roxygen": 10000,
+    "rewrite_lint_fix": 12000,   # ~19.5k authored across 3 models; cap the share
+    "fix_issue_inject": 6000,
 }
 
 stats = Counter()
