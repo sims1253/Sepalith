@@ -200,6 +200,23 @@ class OxAlphaGoBackend(OpencodeBackend):
                 "messages": [{"role": "user", "content": prompt}]}
 
 
+
+class OxAlphaNousBackend(OpencodeBackend):
+    """stealth/ox-alpha on Nous Research's inference API (user key,
+    NOUS_PORTAL_API_KEY) — third independent provider for the model."""
+    name = "oxalpha-nous"
+    model = "stealth/ox-alpha"
+    url = "https://inference-api.nousresearch.com/v1/chat/completions"
+    env_key = "NOUS_PORTAL_API_KEY"
+    timeout_s = 180.0
+    pace_gap_s = 2.0
+
+    def _payload(self, prompt: str) -> dict:
+        return {"model": self.model, "max_tokens": 4000,
+                "response_format": {"type": "json_object"},
+                "messages": [{"role": "user", "content": prompt}]}
+
+
 AUTHOR_BACKENDS = {
     "opencode-spark": SparkAuthorBackend,
     "opencode-spark-free": SparkFreeAuthorBackend,
@@ -210,6 +227,7 @@ AUTHOR_BACKENDS = {
     "zai": ZA.ZaiAuthorBackend,          # takeover after the sibling exits
     "agy": AgyAuthorBackend,            # gemini-3.7 author (parallel quota)
     "oxalpha-go": OxAlphaGoBackend,     # ox on the GO subscription (user tip)
+    "oxalpha-nous": OxAlphaNousBackend,  # ox via Nous portal (third provider)
 }
 
 
