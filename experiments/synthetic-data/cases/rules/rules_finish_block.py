@@ -26,6 +26,21 @@ Rules (all family=finish_block, extends the existing mixture family):
                        close + the remaining statements)
   fb_cut_before_return cut before the final return-shaped statement — the
                        EASY end of the difficulty axis
+  fb_cut_random        RANDOMIZED cut depth (the positional-realism fix):
+                       the four cut rules above train the model on FOUR
+                       discrete, patterned depths; fb_cut_random picks a
+                       random STATEMENT BOUNDARY — start row of any
+                       statement at any nesting depth, top-level or inside
+                       a nested braced block — so the model must complete
+                       from ANYWHERE. Uniform over candidate boundary rows
+                       (seeded per-base_sample_id shuffle, first boundary
+                       passing the family floors; document choice: uniform
+                       over BOUNDARIES, not line-count-weighted — every cut
+                       position equally likely, the maximally
+                       position-agnostic choice). Same corpus-exact target,
+                       same gates + validator manifest as the fixed cuts;
+                       nested-CLOSE rows stay with fb_cut_mid_nested (their
+                       geometry differs: the target LEADS with `}`).
   fb_docstring_strip   the docstring-variant axis (user addition): every cut
                        also emitted with the roxygen block STRIPPED from the
                        prompt. Corpus rows are docstring-almost-always; real
@@ -57,6 +72,7 @@ pairing, render compatibility) runs under the family gate in
 from __future__ import annotations
 
 import hashlib
+import random
 import re
 import sys
 from pathlib import Path
@@ -254,6 +270,45 @@ def _absorb_blanks(b, sb: int, floor_row: int) -> int:
 # cut finding — deterministic, restraint-first
 # ---------------------------------------------------------------------------
 
+def _finalize_cut(bs: BaseSample, sb: int, kind: str, cut: str,
+                  note: str) -> dict | None:
+    """Shared tail of every cut geometry: absorb blanks above the cut byte,
+    slice head/target, apply the family floors + restraints. Returns the
+    info dict or None (restraint)."""
+    b = bs.b
+    sb = _absorb_blanks(b, sb, bs.r0)
+    cut_row = b.rowcol(sb)[0]
+    body_sb, body_eb = bs.body.start_byte, bs.body.end_byte
+    tgt_eb = body_eb - 1               # target ends just before the body `}`
+    head = b.src[body_sb + 1:sb].decode("utf-8", "replace")
+    target = b.src[sb:tgt_eb].decode("utf-8", "replace")
+
+    # family floors + restraints
+    if len(target.strip()) < MIN_TARGET_CHARS:
+        return None                    # trivial remainder: skip (the mixture
+                                       # forbids empty targets outside no_op)
+    tgt_nb = _nb(b, cut_row, bs.r1)
+    if tgt_nb > MAX_TARGET_NB:
+        return None
+    if cut != "signature":
+        head_nb = _nb(b, bs.r0 + 1, cut_row)
+        if head_nb < 1 or head_nb > MAX_HEAD_NB:
+            return None
+    # site row = the target's first NON-BLANK line (the corpus_line the
+    # verify contract re-derives; the cut byte can sit at end-of-row — the
+    # signature cut — or on an absorbed blank row)
+    crow, ccol = b.rowcol(sb)
+    trow = crow
+    while trow < bs.r1:
+        seg = b.line_str(trow)[ccol:] if trow == crow else b.line_str(trow)
+        if seg.strip():
+            break
+        trow += 1
+    return dict(kind=kind, cut=cut, row=trow, sb=sb, eb=tgt_eb,
+                row_end=b.rowcol(tgt_eb - 1)[0], head=head, target=target,
+                note=note)
+
+
 def find_cut(bs: BaseSample, cut: str) -> dict | None:
     """One cut geometry on the base sample, or None when a restraint fires
     (trivial remainder, one-line statement collisions, family floors).
@@ -310,35 +365,8 @@ def find_cut(bs: BaseSample, cut: str) -> dict | None:
     else:
         raise ValueError(cut)
 
-    sb = _absorb_blanks(b, sb, bs.r0)
-    cut_row = b.rowcol(sb)[0]
-    head = b.src[body_sb + 1:sb].decode("utf-8", "replace")
-    target = b.src[sb:tgt_eb].decode("utf-8", "replace")
-
-    # family floors + restraints
-    if len(target.strip()) < MIN_TARGET_CHARS:
-        return None                    # trivial remainder: skip (the mixture
-                                       # forbids empty targets outside no_op)
-    tgt_nb = _nb(b, cut_row, bs.r1)
-    if tgt_nb > MAX_TARGET_NB:
-        return None
-    if cut != "signature":
-        head_nb = _nb(b, bs.r0 + 1, cut_row)
-        if head_nb < 1 or head_nb > MAX_HEAD_NB:
-            return None
-    # site row = the target's first NON-BLANK line (the corpus_line the
-    # verify contract re-derives; the cut byte can sit at end-of-row — the
-    # signature cut — or on an absorbed blank row)
-    crow, ccol = b.rowcol(sb)
-    trow = crow
-    while trow < bs.r1:
-        seg = b.line_str(trow)[ccol:] if trow == crow else b.line_str(trow)
-        if seg.strip():
-            break
-        trow += 1
-    return dict(kind=kind, cut=cut, row=trow, sb=sb, eb=tgt_eb,
-                row_end=b.rowcol(tgt_eb - 1)[0], head=head, target=target,
-                note=note)
+    return _finalize_cut(
+        bs, sb, kind, cut, note)
 
 
 def cut_sites(bs: BaseSample, cuts: tuple[str, ...]) -> list[Site]:
@@ -356,6 +384,84 @@ def cut_sites(bs: BaseSample, cuts: tuple[str, ...]) -> list[Site]:
                         row_end=info["row_end"], payload=info,
                         note=info["note"]))
     return out
+
+
+# ---------------------------------------------------------------------------
+# randomized cut depth (fb_cut_random): a statement boundary at ANY nesting
+# depth — the positional-realism complement to the four fixed geometries
+# ---------------------------------------------------------------------------
+
+def statement_boundary_rows(bs: BaseSample) -> list[int]:
+    """Rows that BEGIN a statement (top-level OR nested): every named
+    non-comment direct child of a braced_expression inside the function
+    body whose start point is the row's first non-ws character (a clean
+    line cut — statements sharing a row with previous code are not
+    cuttable, the after_first convention), strictly inside the body, with
+    at least one non-blank body row above (something typed). Nested CLOSE
+    rows are deliberately NOT candidates: a close row does not begin a
+    statement, and that geometry (target leads with `}`) is owned by
+    fb_cut_mid_nested."""
+    b, rows, seen = bs.b, [], set()
+    for st in _stmts(bs):
+        for holder in (st, *[
+                n for n in V._walk(st) if n.type == "braced_expression"]):
+            for child in holder.children:
+                if not child.is_named or child.type == "comment":
+                    continue
+                r, c = child.start_point
+                if not (bs.r0 < r < bs.r1) or r in seen:
+                    continue
+                if b.line_str(r)[:c].strip():
+                    continue     # statement starts mid-row: not a boundary
+                if not any(b.line_str(rr).strip()
+                           for rr in range(bs.r0 + 1, r)):
+                    continue     # nothing typed above: that is the
+                                  # signature cut's geometry
+                seen.add(r)
+                rows.append(r)
+    rows.sort()
+    return rows
+
+
+def random_cut_site(bs: BaseSample) -> Site | None:
+    """The fb_cut_random detector: ONE cut per base sample at a random
+    statement boundary. CHOICE DOCUMENTED: uniform over candidate
+    BOUNDARY rows (not line-count-weighted) — every admissible cut
+    position is equally likely, the maximally position-agnostic prior;
+    line-weighting would skew cuts toward long statements. Reproducible:
+    the RNG is seeded per base_sample_id (the stable content-hash id), so
+    the same function always yields the same random cut regardless of
+    scan order, reruns or cache resets. The seeded shuffle orders the
+    candidates; the FIRST boundary passing the family floors wins —
+    uniform over admissible boundaries (floors are geometry facts, not
+    position preferences)."""
+    if _lhs_name(bs) is None or _nb(bs.b, bs.r0 + 1, bs.r1) < MIN_BODY_NB:
+        return None
+    rng = random.Random(f"fb_cut_random@1:{base_sample_id(bs)}")
+    cands = statement_boundary_rows(bs)
+    rng.shuffle(cands)
+    for r in cands:
+        info = _finalize_cut(
+            bs, bs.b.starts[r], "mid_body", "random",
+            "randomized-depth cut: cursor at a uniformly drawn statement "
+            "boundary (any nesting depth) — complete the remainder")
+        if info is None:
+            continue
+        return Site(row=info["row"], sb=info["sb"], eb=info["eb"],
+                    row_end=info["row_end"], payload=info,
+                    note=info["note"])
+    return None
+
+
+def rederive_cut(bs: BaseSample, cut: str) -> dict | None:
+    """family_gate's re-derivation hook: the fixed geometries re-derive
+    through find_cut; the random cut re-derives through its own SEEDED
+    detector (deterministic per base_sample_id, so the gate assert is
+    stable)."""
+    if cut == "random":
+        site = random_cut_site(bs)
+        return None if site is None else site.payload
+    return find_cut(bs, cut)
 
 
 # ---------------------------------------------------------------------------
@@ -522,7 +628,7 @@ def family_gate(bs: BaseSample, row: dict) -> tuple[bool, str]:
     b = bs.b
     target = row["target"]
     params = row["derivation"]["params"]
-    info = find_cut(bs, params["cut"])
+    info = rederive_cut(bs, params["cut"])
     if info is None:
         return False, f"cut {params['cut']} no longer derivable (unstable)"
     if info["target"] != target:
@@ -587,7 +693,18 @@ def derive_all(bs: BaseSample, prov: dict | None = None,
     for cut in ("after_first", "mid_nested"):
         if cut in sites:
             emit("fb_ctx_diag", sites[cut], "keep", "diag")
-    return rows, dict(cuts=sorted(sites), has_docstring=has_doc,
+    # randomized-depth cut: ONE per base sample (+ docstring twin), the
+    # positional-realism axis — completes the matrix with arbitrary depths
+    rsite = random_cut_site(bs)
+    if rsite is None:
+        restraints["cut random: restraint"] = \
+            restraints.get("cut random: restraint", 0) + 1
+    else:
+        emit("fb_cut_random", rsite, "keep", "plain")
+        if has_doc:
+            emit("fb_docstring_strip", rsite, "strip", "plain")
+    return rows, dict(cuts=sorted(sites), random_cut=rsite is not None,
+                      has_docstring=has_doc,
                       rows=len(rows), restraints=restraints,
                       gate_failures=gate_failures)
 
@@ -662,6 +779,29 @@ _fb_cut_before_return = _mk_rule(
     "at its first row — target = the value statement",
     "skip when the tail is an assignment, shares a row with the previous "
     "statement, or exceeds 8 lines")
+
+
+@rule(id="fb_cut_random", family="finish_block", determinism="D1",
+      kind="rewrite", requires=["fn_body"],
+      signal="any statement boundary (top-level or nested, any depth): "
+             "ONE uniformly drawn cut per base sample — RNG seeded per "
+             "base_sample_id, so the depth is random across the corpus but "
+             "reproducible per function",
+      restraint="skip when no statement-boundary row survives the family "
+                "floors (trivial remainder, head/target over the family "
+                "ceilings, prompt+target over the 6000-char cap)",
+      extends="finish_block", status="extends")
+class _FbCutRandom:
+    def detector(self, bs):
+        site = random_cut_site(bs)
+        return [site] if site is not None else []
+
+    def rewrite(self, bs, site):
+        return _rewrite_fb(bs, site)
+
+    verify = staticmethod(_verify_fb)
+
+
 _fb_docstring_strip = _mk_rule(
     "fb_docstring_strip", CUT_ORDER,
     "any surviving cut, roxygen present: same cut with the docstring "
@@ -761,6 +901,16 @@ def _selftest_cases(rid: str) -> list:
                 first_new="  list(mean = mean(scaled), sd = sd(scaled))")),
             (_NOTAIL, dict(expect_sites=0, why="final statement is an "
                            "assignment, not a value")),
+        ],
+        "fb_cut_random": [
+            (_TWO_STMNT, dict(
+                expect_sites=1,
+                first_new="  list(mean = mean(scaled), sd = sd(scaled))",
+                why="the ONLY statement boundary is stmt 2's row — the "
+                    "seeded draw is forced there (deterministic per "
+                    "base_sample_id)")),
+            (_TINY, dict(expect_sites=0,
+                         why="single statement: no interior boundary")),
         ],
         "fb_cut_mid_nested": [
             (_NONESTED, dict(expect_sites=0,

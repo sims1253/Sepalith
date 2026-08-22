@@ -45,6 +45,8 @@ import rewrite_author_zai as ZA                   # noqa: E402
 DATASETS = Path("/mnt/h/sepalith/datasets/cases_v1")
 OUT_ROWS = DATASETS / "finish_block_compound.jsonl"
 OUT_STATS = DATASETS / "finish_block_compound.stats.json"
+OUT_ROWS_RANDOM = DATASETS / "finish_block_compound_random.jsonl"
+OUT_STATS_RANDOM = DATASETS / "finish_block_compound_random.stats.json"
 LOCAL_OUT = HERE / "results" / "finish_block_compound"
 SEEDS = HERE / "results" / "ideation_tournament" / "domain_seeds.json"
 
@@ -208,6 +210,7 @@ def build_pool(rng: random.Random, params: dict) -> tuple[list[str], dict]:
 
 def run_wave(args) -> int:
     load_rules()
+    random_only = bool(getattr(args, "random_wave", False))
     rng = random.Random(args.seed)
     params = dict(seed=args.seed, tidy_packages=args.tidy_packages,
                   random_packages=args.random_packages)
@@ -288,6 +291,14 @@ def run_wave(args) -> int:
                 except Exception as e:                 # noqa: BLE001 — logged
                     restraints[f"EXC {type(e).__name__}"] += 1
                     continue
+                if random_only:
+                    # the randomized wave: ONLY the fb_cut_random rows and
+                    # their docstring-strip twins (params.cut == "random")
+                    rows = [r for r in rows
+                            if r["transform"] == "fb_cut_random"
+                            or (r["transform"] == "fb_docstring_strip"
+                                and r["derivation"]["params"]["cut"]
+                                == "random")]
                 for k, v in st["restraints"].items():
                     restraints[k] += v
                 if not rows:
@@ -318,23 +329,27 @@ def run_wave(args) -> int:
         funnel["packages"].add(pkg)
 
     # ---- write -----------------------------------------------------------
-    OUT_ROWS.parent.mkdir(parents=True, exist_ok=True)
+    out_rows, out_stats = (OUT_ROWS_RANDOM, OUT_STATS_RANDOM) if random_only \
+        else (OUT_ROWS, OUT_STATS)
+    out_rows.parent.mkdir(parents=True, exist_ok=True)
     LOCAL_OUT.mkdir(parents=True, exist_ok=True)
     if not args.dry_run:
         # deterministic single-pass generator: a fresh run REWRITES the file
         # (bit-for-bit regenerable from corpus + rules; no cross-run appends)
         try:
-            OUT_ROWS.write_text("")
+            out_rows.write_text("")
         except OSError:
             pass
         for row in rows_out:
-            ZA._append_line(OUT_ROWS, row)
+            ZA._append_line(out_rows, row)
     seed_rows = sum(1 for r in rows_out if r.get("seed_domain"))
     per_domain = Counter(r["seed_domain"] for r in rows_out
                          if r.get("seed_domain"))
     ys = sorted(v["rows"] for v in per_base.values())
     stats = dict(
-        case="finish_block_compound", wave="deterministic-corpus",
+        case="finish_block_compound",
+        wave=("randomized-cut (fb_cut_random + docstring twins) only"
+              if random_only else "deterministic-corpus"),
         ts=time.strftime("%Y-%m-%dT%H:%M:%S"),
         base_samples=funnel["samples"], rows=len(rows_out),
         rows_per_base=dict(min=ys[0] if ys else 0,
@@ -354,7 +369,7 @@ def run_wave(args) -> int:
         validator_manifest=FB.gates_manifest(),
     )
     if not args.dry_run:
-        ZA._write_json(OUT_STATS, stats)
+        ZA._write_json(out_stats, stats)
         ZA._write_json(LOCAL_OUT / "stats.json", stats)
     print(f"[wave] {len(rows_out)} rows from {funnel['samples']} base "
           f"samples in {time.time()-t0:.0f}s; per_cut={dict(per_cut)}; "
@@ -363,7 +378,7 @@ def run_wave(args) -> int:
           f"{funnel['seed_packages_hit']} base samples "
           f"({dict(per_domain)})")
     print(f"[wave] restraints: {dict(restraints)}; dups dropped: {dups}")
-    print(f"[wave] out: {OUT_ROWS} + {OUT_STATS}")
+    print(f"[wave] out: {out_rows} + {out_stats}")
     return 0
 
 
@@ -371,6 +386,9 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python3 finish_block_compound.py")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--wave", action="store_true")
+    ap.add_argument("--random-wave", action="store_true",
+                    help="emit ONLY the fb_cut_random rows (+ docstring "
+                         "twins) to finish_block_compound_random.jsonl")
     ap.add_argument("--base-samples", type=int, default=3000)
     ap.add_argument("--tidy-packages", type=int, default=30)
     ap.add_argument("--random-packages", type=int, default=400)
@@ -380,7 +398,7 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     if args.selftest:
         return run_family_selftest()
-    if args.wave:
+    if args.wave or args.random_wave:
         return run_wave(args)
     ap.print_help()
     return 2
