@@ -332,13 +332,23 @@ def load_scenarios():
             notes.append(f"scenarios: {fname} missing -> skipped (0 rows)")
             continue
         by_fam = defaultdict(list)
+        torn = 0
         for line in open(path):
-            r = json.loads(line)
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                # wave files are appended live; a torn final line is a
+                # concurrent write, not corruption — skip and count
+                torn += 1
+                continue
             # comment_to_code_gemini rows carry prefix: null (comment at file
             # start); the renderer needs a list
             if r.get("prefix") is None:
                 r["prefix"] = []
             by_fam[r["family"]].append(r)
+        if torn:
+            notes.append(f"scenarios: {fname}: {torn} torn lines skipped "
+                         f"(live-appended wave file)")
         for fam, rows in by_fam.items():
             cap = FAMILY_CAPS.get(fam)
             if cap is not None and len(rows) > cap:
