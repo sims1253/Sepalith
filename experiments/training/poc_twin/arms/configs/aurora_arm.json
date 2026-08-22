@@ -1,0 +1,22 @@
+{
+  "arm": "aurora",
+  "sweep_id": "OPT-3",
+  "note": "Arm C: Aurora-mix vs last night's Muon baseline (checkpoints/muon_final.pt, re-evaluated fresh the same day). Identical to the muon arm in EVERY respect (model, lr, schedule, seed, data order, wd, grad clip, QK-Clip, side AdamW) except the orthogonalization on the tall MLP up/gate projections Wg/Wu (3072x768): Aurora Alg. 3 (arXiv:2606.27715) K=2, beta=0.5 — damped alternating row-normalize + Newton-Schulz polar. See arms/aurora.py for exactly what is implemented vs skipped (Riemannian variant skipped).",
+  "optimizer": {
+    "hidden_tall_mlp_WgWu": {"type": "Aurora", "K": 2, "beta": 0.5,
+      "inner_polar": "vendored NS5 (3.4445/-4.7750/2.0315, bf16, fro-eps 1e-7)",
+      "momentum": 0.95, "weight_decay": 0.1,
+      "update_scale": "0.2*sqrt(max(m,n)) — unchanged; Aurora output entry RMS = 1/sqrt(m), identical to Muon's polar factor (verified on CPU smoke 2026-08-21)"},
+    "hidden_other_Wq_Wk_Wv_Wo_Wd": {"type": "Muon (vendored, unmodified)"},
+    "excluded": {"type": "AdamW", "params": "embed(tied head) + RMSNorm weights",
+                 "betas": [0.9, 0.95], "eps": 1e-8, "weight_decay": 0.1, "lr": 0.004}
+  },
+  "launch": "train_arm.py --arm aurora --lr 0.01 --lr-embed 0.004 --steps 1300 --tokens-per-step 524288 --compile --tag aurora",
+  "budget": {"steps": 1300, "tokens_per_step": 524288, "total_tokens": 681.6M, "epochs": 2.78},
+  "baseline": "checkpoints/muon_final.pt (2026-08-20/21 night, identical everything, Muon NS5 orthogonalization)",
+  "metrics": ["paired BPB vs fresh same-day muon_final eval (evaluate.py)",
+              "MLP neuron-utilization census: momentum-leverage (paper's criterion, from saved optimizer state) + activation-RMS dead fraction (hooks on Wd input)",
+              "wall-clock overhead vs muon arm tok/s (<1% pre-registered)"],
+  "verdict_rule_task": "any BPB gain + neuron-utilization improvement at <1% overhead",
+  "verdict_rule_sweep": "Aurora replaces Muon only if >=0.5% better paired BPB AND dead-neuron fraction >=5x lower"
+}

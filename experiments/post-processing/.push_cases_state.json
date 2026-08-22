@@ -1,0 +1,970 @@
+{
+ "synthetic/cases_v1/astfim_partial.jsonl": {
+  "size": 32655727,
+  "mtime": 1787233931.9255784
+ },
+ "synthetic/cases_v1/astfim_partial.jsonl.done.jsonl": {
+  "size": 371148,
+  "mtime": 1787233931.9030526
+ },
+ "synthetic/cases_v1/astfim_partial_eval.jsonl": {
+  "size": 992483,
+  "mtime": 1787235291.1242998
+ },
+ "synthetic/cases_v1/astfim_partial_eval.jsonl.done.jsonl": {
+  "size": 12220,
+  "mtime": 1787235290.984979
+ },
+ "synthetic/cases_v1/base_samples_spark.jsonl": {
+  "size": 1882398,
+  "mtime": 1787335777.1691878
+ },
+ "synthetic/cases_v1/comment_styles_zai.jsonl": {
+  "size": 640233,
+  "mtime": 1787217286.7633953
+ },
+ "synthetic/cases_v1/comment_styles_zai.jsonl.done.jsonl": {
+  "size": 54914,
+  "mtime": 1787217286.7295973
+ },
+ "synthetic/cases_v1/comment_to_code_styles.jsonl": {
+  "size": 31339,
+  "mtime": 1787185070.374622
+ },
+ "synthetic/cases_v1/comment_to_code_styles.jsonl.done.jsonl": {
+  "size": 2258,
+  "mtime": 1787185070.353999
+ },
+ "synthetic/cases_v1/compound_spark.jsonl": {
+  "size": 17958623,
+  "mtime": 1787335777.4539187
+ },
+ "synthetic/cases_v1/compound_spark.jsonl.done.jsonl": {
+  "size": 200277,
+  "mtime": 1787335777.491275
+ },
+ "synthetic/cases_v1/doc_sync_spark.jsonl": {
+  "size": 12013614,
+  "mtime": 1787339503.8638375
+ },
+ "synthetic/cases_v1/doc_sync_spark.jsonl.done.jsonl": {
+  "size": 300586,
+  "mtime": 1787339503.9056108
+ },
+ "synthetic/cases_v1/expectation_completion.jsonl": {
+  "size": 1037910,
+  "mtime": 1787267941.1095417
+ },
+ "synthetic/cases_v1/expectation_completion.jsonl.done.jsonl": {
+  "size": 288285,
+  "mtime": 1787267941.0743432
+ },
+ "synthetic/cases_v1/expectation_completion_zai.jsonl": {
+  "size": 769710,
+  "mtime": 1787218068.741974
+ },
+ "synthetic/cases_v1/expectation_completion_zai.jsonl.done.jsonl": {
+  "size": 140598,
+  "mtime": 1787218068.6925077
+ },
+ "synthetic/cases_v1/fix_issue_inject.jsonl": {
+  "size": 12391555,
+  "mtime": 1787274212.9014132
+ },
+ "synthetic/cases_v1/fix_issue_inject.jsonl.done.jsonl": {
+  "size": 458828,
+  "mtime": 1787274212.9521325
+ },
+ "synthetic/cases_v1/mid_body_edit.jsonl": {
+  "size": 8830906,
+  "mtime": 1787238276.6489806
+ },
+ "synthetic/cases_v1/mid_body_edit.jsonl.done.jsonl": {
+  "size": 294146,
+  "mtime": 1787238276.5969827
+ },
+ "synthetic/cases_v1/namespace_qualify_propagation.jsonl": {
+  "size": 1174828,
+  "mtime": 1787188070.3382628
+ },
+ "synthetic/cases_v1/namespace_qualify_propagation.jsonl.done.jsonl": {
+  "size": 51490,
+  "mtime": 1787188070.294552
+ },
+ "synthetic/cases_v1/pipe_chain_link.jsonl": {
+  "size": 194367,
+  "mtime": 1787256964.1031606
+ },
+ "synthetic/cases_v1/pipe_chain_link.jsonl.done.jsonl": {
+  "size": 203837,
+  "mtime": 1787264798.726201
+ },
+ "synthetic/cases_v1/pkg_metadata_sync.jsonl": {
+  "size": 1510750,
+  "mtime": 1787188285.59596
+ },
+ "synthetic/cases_v1/pkg_metadata_sync.jsonl.done.jsonl": {
+  "size": 48292,
+  "mtime": 1787188285.5705302
+ },
+ "synthetic/cases_v1/removed_block_comment.jsonl": {
+  "size": 2151774,
+  "mtime": 1787244175.8960435
+ },
+ "synthetic/cases_v1/removed_block_comment.jsonl.done.jsonl": {
+  "size": 133910,
+  "mtime": 1787244175.8690226
+ },
+ "synthetic/cases_v1/rewrite_fixissue_spark.jsonl": {
+  "size": 21189352,
+  "mtime": 1787339533.7361438
+ },
+ "synthetic/cases_v1/rewrite_fixissue_spark.jsonl.done.jsonl": {
+  "size": 733747,
+  "mtime": 1787339533.776333
+ },
+ "synthetic/cases_v1/rewrite_fixissue_zai.jsonl": {
+  "size": 11548509,
+  "mtime": 1787300580.1592138
+ },
+ "synthetic/cases_v1/rewrite_fixissue_zai.jsonl.done.jsonl": {
+  "size": 437297,
+  "mtime": 1787300580.219382
+ },
+ "synthetic/cases_v1/rewrite_lint_fix.jsonl": {
+  "size": 25570676,
+  "mtime": 1787269599.6286826
+ },
+ "synthetic/cases_v1/rewrite_lint_fix.jsonl.done.jsonl": {
+  "size": 756875,
+  "mtime": 1787269599.7116385
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_dots-studio-dots-3-note-preview.jsonl": {
+  "size": 518491,
+  "mtime": 1787307236.2258556
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_dots-studio-dots-3-note-preview.jsonl.done.jsonl": {
+  "size": 20834,
+  "mtime": 1787307449.7391944
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_google-gemma-4-31b-it.jsonl": {
+  "size": 12598184,
+  "mtime": 1787338979.226447
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_google-gemma-4-31b-it.jsonl.done.jsonl": {
+  "size": 424256,
+  "mtime": 1787338979.2674465
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_oxalpha.jsonl.done.jsonl": {
+  "size": 959,
+  "mtime": 1787327172.3056521
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_spark.jsonl": {
+  "size": 61971827,
+  "mtime": 1787339561.5818787
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_spark.jsonl.done.jsonl": {
+  "size": 1768155,
+  "mtime": 1787339561.611831
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_sparkfree.jsonl": {
+  "size": 3112304,
+  "mtime": 1787302816.4351075
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_sparkfree.jsonl.done.jsonl": {
+  "size": 110082,
+  "mtime": 1787302816.4758413
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_xpreview-free.jsonl": {
+  "size": 1025057,
+  "mtime": 1787339549.198486
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_xpreview-free.jsonl.done.jsonl": {
+  "size": 59814,
+  "mtime": 1787339549.238712
+ },
+ "synthetic/cases_v1/tidyselect_completion.jsonl": {
+  "size": 34437,
+  "mtime": 1787185998.1660776
+ },
+ "synthetic/cases_v1/tidyselect_completion.jsonl.done.jsonl": {
+  "size": 3668,
+  "mtime": 1787185998.1373549
+ },
+ "synthetic/cases_v1/trycatch_handler_completion.jsonl": {
+  "size": 74983,
+  "mtime": 1787217567.2963846
+ },
+ "synthetic/cases_v1/trycatch_handler_completion.jsonl.done.jsonl": {
+  "size": 47820,
+  "mtime": 1787224943.0705109
+ },
+ "synthetic/cases_v1/trycatch_handler_completion_zai.jsonl": {
+  "size": 62582,
+  "mtime": 1787218799.7768729
+ },
+ "synthetic/cases_v1/trycatch_handler_completion_zai.jsonl.done.jsonl": {
+  "size": 36682,
+  "mtime": 1787218808.8843288
+ },
+ "synthetic/cases_v1/astfim_partial.jsonl.stats.json": {
+  "size": 670,
+  "mtime": 1787233931.933781
+ },
+ "synthetic/cases_v1/astfim_partial_eval.jsonl.stats.json": {
+  "size": 674,
+  "mtime": 1787235291.191754
+ },
+ "synthetic/cases_v1/comment_styles_zai.jsonl.stats.json": {
+  "size": 678,
+  "mtime": 1787217286.7792351
+ },
+ "synthetic/cases_v1/comment_to_code_styles.jsonl.stats.json": {
+  "size": 684,
+  "mtime": 1787185070.3844278
+ },
+ "synthetic/cases_v1/compound_spark.jsonl.stats.json": {
+  "size": 17197,
+  "mtime": 1787335830.7893705
+ },
+ "synthetic/cases_v1/doc_sync_spark.jsonl.stats.json": {
+  "size": 1081,
+  "mtime": 1787339533.335513
+ },
+ "synthetic/cases_v1/expectation_completion.jsonl.stats.json": {
+  "size": 707,
+  "mtime": 1787267941.1301916
+ },
+ "synthetic/cases_v1/expectation_completion_zai.jsonl.stats.json": {
+  "size": 688,
+  "mtime": 1787218068.759531
+ },
+ "synthetic/cases_v1/fix_issue_inject.jsonl.stats.json": {
+  "size": 944,
+  "mtime": 1787274212.9941092
+ },
+ "synthetic/cases_v1/mid_body_edit.jsonl.stats.json": {
+  "size": 671,
+  "mtime": 1787238276.6907728
+ },
+ "synthetic/cases_v1/namespace_qualify_propagation.jsonl.stats.json": {
+  "size": 692,
+  "mtime": 1787188070.355578
+ },
+ "synthetic/cases_v1/pipe_chain_link.jsonl.stats.json": {
+  "size": 693,
+  "mtime": 1787264798.7581823
+ },
+ "synthetic/cases_v1/pkg_metadata_sync.jsonl.stats.json": {
+  "size": 668,
+  "mtime": 1787188285.6117644
+ },
+ "synthetic/cases_v1/removed_block_comment.jsonl.stats.json": {
+  "size": 686,
+  "mtime": 1787244175.9087253
+ },
+ "synthetic/cases_v1/rewrite_fixissue_spark.jsonl.stats.json": {
+  "size": 936,
+  "mtime": 1787339547.6911867
+ },
+ "synthetic/cases_v1/rewrite_fixissue_zai.jsonl.stats.json": {
+  "size": 987,
+  "mtime": 1787301222.6200297
+ },
+ "synthetic/cases_v1/rewrite_lint_fix.jsonl.stats.json": {
+  "size": 1033,
+  "mtime": 1787269599.7636666
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_dots-studio-dots-3-note-preview.jsonl.stats.json": {
+  "size": 1078,
+  "mtime": 1787308191.733377
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_google-gemma-4-31b-it.jsonl.stats.json": {
+  "size": 1121,
+  "mtime": 1787338979.369116
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_nvidia-nemotron-3-super-120b-a12b.jsonl.stats.json": {
+  "size": 941,
+  "mtime": 1787329252.5499024
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_orfree_nvidia-nemotron-3-ultra-550b-a55b.jsonl.stats.json": {
+  "size": 941,
+  "mtime": 1787328500.8653858
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_oxalpha.jsonl.stats.json": {
+  "size": 798,
+  "mtime": 1787327141.3141537
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_spark.jsonl.stats.json": {
+  "size": 1059,
+  "mtime": 1787339580.812853
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_sparkfree.jsonl.stats.json": {
+  "size": 1010,
+  "mtime": 1787303386.0151796
+ },
+ "synthetic/cases_v1/rewrite_lint_fix_xpreview-free.jsonl.stats.json": {
+  "size": 1015,
+  "mtime": 1787339580.0799177
+ },
+ "synthetic/cases_v1/tidyselect_completion.jsonl.stats.json": {
+  "size": 684,
+  "mtime": 1787185998.1784825
+ },
+ "synthetic/cases_v1/trycatch_handler_completion.jsonl.stats.json": {
+  "size": 707,
+  "mtime": 1787224943.1062658
+ },
+ "synthetic/cases_v1/trycatch_handler_completion_zai.jsonl.stats.json": {
+  "size": 698,
+  "mtime": 1787218808.9007728
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.jsonl": {
+  "size": 5276698,
+  "mtime": 1787124728.1650674
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w1.jsonl": {
+  "size": 273171,
+  "mtime": 1787123965.9345205
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w2.jsonl": {
+  "size": 273821,
+  "mtime": 1787123966.624374
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w3.jsonl": {
+  "size": 277581,
+  "mtime": 1787123966.5283136
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w4.jsonl": {
+  "size": 252758,
+  "mtime": 1787123978.9365118
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w5.jsonl": {
+  "size": 262422,
+  "mtime": 1787123972.783181
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w6.jsonl": {
+  "size": 268080,
+  "mtime": 1787123964.635703
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct.w7.jsonl": {
+  "size": 260090,
+  "mtime": 1787123977.2786672
+ },
+ "synthetic/synthetic_analyst_v1/analyst_direct_burst.jsonl": {
+  "size": 546936,
+  "mtime": 1787087824.258619
+ },
+ "synthetic/synthetic_analyst_v1/analyst_gemini.jsonl": {
+  "size": 2348862,
+  "mtime": 1787221084.4189339
+ },
+ "synthetic/synthetic_analyst_v1/analyst_scripts.enriched.jsonl": {
+  "size": 557338,
+  "mtime": 1787036267.497105
+ },
+ "synthetic/synthetic_analyst_v1/analyst_scripts.jsonl": {
+  "size": 455890,
+  "mtime": 1787076352.7662785
+ },
+ "synthetic/synthetic_analyst_v1/na_rm_contexts.enriched.jsonl": {
+  "size": 138380,
+  "mtime": 1787036267.6737983
+ },
+ "synthetic/synthetic_analyst_v1/na_rm_contexts.jsonl": {
+  "size": 53178,
+  "mtime": 1787016663.2743745
+ },
+ "synthetic/synthetic_analyst_v1/rejects.enriched.jsonl": {
+  "size": 333238,
+  "mtime": 1787036267.7808397
+ },
+ "synthetic/synthetic_analyst_v1/rejects.jsonl": {
+  "size": 556267,
+  "mtime": 1787078127.8282287
+ },
+ "synthetic/synthetic_analyst_v1/state.json": {
+  "size": 522270,
+  "mtime": 1787079489.0939484
+ },
+ "synthetic/synthetic_analyst_v1/stats.json": {
+  "size": 2488,
+  "mtime": 1787079489.2823133
+ },
+ "synthetic/scenarios_v1/comment_drafting.jsonl": {
+  "size": 5948451,
+  "mtime": 1787179973.1636114
+ },
+ "synthetic/scenarios_v1/comment_insert.jsonl": {
+  "size": 1057439,
+  "mtime": 1787184066.5718606
+ },
+ "synthetic/scenarios_v1/comment_to_code_gemini.done.jsonl": {
+  "size": 35043,
+  "mtime": 1787224659.5584445
+ },
+ "synthetic/scenarios_v1/comment_to_code_gemini.jsonl": {
+  "size": 446067,
+  "mtime": 1787224659.563753
+ },
+ "synthetic/scenarios_v1/comment_to_code_real.jsonl": {
+  "size": 2533913,
+  "mtime": 1787333540.6012392
+ },
+ "synthetic/scenarios_v1/comment_to_code_synthetic.jsonl": {
+  "size": 3967142,
+  "mtime": 1787260672.9887435
+ },
+ "synthetic/scenarios_v1/comment_to_code_synthetic.partial.jsonl": {
+  "size": 0,
+  "mtime": 1787339542.216105
+ },
+ "synthetic/scenarios_v1/doc_sync.jsonl": {
+  "size": 1955536,
+  "mtime": 1787233995.4301043
+ },
+ "synthetic/scenarios_v1/doc_sync_v2_partial.jsonl": {
+  "size": 649386,
+  "mtime": 1787233995.1782084
+ },
+ "synthetic/scenarios_v1/format_propagation.jsonl": {
+  "size": 5649078,
+  "mtime": 1787076352.272031
+ },
+ "synthetic/scenarios_v1/mid_roxygen.jsonl": {
+  "size": 11326832,
+  "mtime": 1787179023.6373632
+ },
+ "synthetic/scenarios_v1/na_rm_propagation.jsonl": {
+  "size": 188737,
+  "mtime": 1787076352.6903124
+ },
+ "synthetic/scenarios_v1/no_op.jsonl": {
+  "size": 7603074,
+  "mtime": 1787179274.75827
+ },
+ "synthetic/scenarios_v1/pipe_rewrite.jsonl": {
+  "size": 2739088,
+  "mtime": 1787076351.1514893
+ },
+ "synthetic/scenarios_v1/rename_propagation.jsonl": {
+  "size": 5538651,
+  "mtime": 1787076350.5994904
+ },
+ "synthetic/scenarios_v1/roxygen_drafting.jsonl": {
+  "size": 707257318,
+  "mtime": 1787136586.521263
+ },
+ "synthetic/scenarios_v1/doc_sync_v2_progress.json": {
+  "size": 183490,
+  "mtime": 1787233995.2112412
+ },
+ "synthetic/scenarios_v1/stats.json": {
+  "size": 2969,
+  "mtime": 1787260673.0944114
+ },
+ "synthetic/scenarios_v1/suffix_scenarios.stats.json": {
+  "size": 476,
+  "mtime": 1787179285.6999886
+ },
+ "synthetic/sft_v5/eval.jsonl": {
+  "size": 27124091,
+  "mtime": 1787179442.0976713
+ },
+ "synthetic/sft_v5/train.jsonl": {
+  "size": 813455396,
+  "mtime": 1787179441.5614045
+ },
+ "synthetic/sft_v5/stats.json": {
+  "size": 8560,
+  "mtime": 1787179443.5046055
+ },
+ "synthetic/sft_v6/eval.jsonl": {
+  "size": 29360239,
+  "mtime": 1787239120.450874
+ },
+ "synthetic/sft_v6/train.jsonl": {
+  "size": 853338537,
+  "mtime": 1787239119.2694862
+ },
+ "synthetic/sft_v6/stats.json": {
+  "size": 12995,
+  "mtime": 1787239130.2169738
+ },
+ "corpus/cran/licenses.jsonl": {
+  "size": 142909,
+  "mtime": 1787093147.858452
+ },
+ "corpus/cran/manifest.jsonl": {
+  "size": 3436503,
+  "mtime": 1787097536.4307096
+ },
+ "families/comment_drafting/corpus.jsonl": {
+  "size": 5948451,
+  "mtime": 1787179973.1636114
+ },
+ "families/comment_insert/corpus.jsonl": {
+  "size": 1057439,
+  "mtime": 1787184066.5718606
+ },
+ "families/comment_to_code_gemini/gemini-3.7-flash.jsonl": {
+  "size": 446067,
+  "mtime": 1787224659.563753
+ },
+ "families/comment_to_code_real/corpus.jsonl": {
+  "size": 2533913,
+  "mtime": 1787333540.6012392
+ },
+ "families/comment_to_code_synthetic/corpus.jsonl": {
+  "size": 3967142,
+  "mtime": 1787260672.9887435
+ },
+ "families/doc_sync/corpus.jsonl": {
+  "size": 1955536,
+  "mtime": 1787233995.4301043
+ },
+ "families/doc_sync_v2_partial/corpus.jsonl": {
+  "size": 649386,
+  "mtime": 1787233995.1782084
+ },
+ "families/format_propagation/corpus.jsonl": {
+  "size": 5649078,
+  "mtime": 1787076352.272031
+ },
+ "families/mid_roxygen/corpus.jsonl": {
+  "size": 11326832,
+  "mtime": 1787179023.6373632
+ },
+ "families/na_rm_propagation/corpus.jsonl": {
+  "size": 188737,
+  "mtime": 1787076352.6903124
+ },
+ "families/no_op/corpus.jsonl": {
+  "size": 7603074,
+  "mtime": 1787179274.75827
+ },
+ "families/pipe_rewrite/corpus.jsonl": {
+  "size": 2739088,
+  "mtime": 1787076351.1514893
+ },
+ "families/rename_propagation/corpus.jsonl": {
+  "size": 5538651,
+  "mtime": 1787076350.5994904
+ },
+ "families/roxygen_drafting/corpus.jsonl": {
+  "size": 707257318,
+  "mtime": 1787136586.521263
+ },
+ "families/astfim_partial/corpus.jsonl": {
+  "size": 32655727,
+  "mtime": 1787233931.9255784
+ },
+ "families/astfim_partial/corpus.done.jsonl": {
+  "size": 371148,
+  "mtime": 1787233931.9030526
+ },
+ "families/astfim_partial/corpus.stats.json": {
+  "size": 670,
+  "mtime": 1787233931.933781
+ },
+ "families/astfim_partial_eval/corpus.jsonl": {
+  "size": 992483,
+  "mtime": 1787235291.1242998
+ },
+ "families/astfim_partial_eval/corpus.done.jsonl": {
+  "size": 12220,
+  "mtime": 1787235290.984979
+ },
+ "families/astfim_partial_eval/corpus.stats.json": {
+  "size": 674,
+  "mtime": 1787235291.191754
+ },
+ "families/base_samples/muse-spark-1.2.jsonl": {
+  "size": 1882398,
+  "mtime": 1787335777.1691878
+ },
+ "families/comment_styles/glm-5.3.jsonl": {
+  "size": 640233,
+  "mtime": 1787217286.7633953
+ },
+ "families/comment_styles/glm-5.3.done.jsonl": {
+  "size": 54914,
+  "mtime": 1787217286.7295973
+ },
+ "families/comment_styles/glm-5.3.stats.json": {
+  "size": 678,
+  "mtime": 1787217286.7792351
+ },
+ "families/comment_to_code_styles/corpus.jsonl": {
+  "size": 31339,
+  "mtime": 1787185070.374622
+ },
+ "families/comment_to_code_styles/corpus.done.jsonl": {
+  "size": 2258,
+  "mtime": 1787185070.353999
+ },
+ "families/comment_to_code_styles/corpus.stats.json": {
+  "size": 684,
+  "mtime": 1787185070.3844278
+ },
+ "families/compound/muse-spark-1.2.jsonl": {
+  "size": 17958623,
+  "mtime": 1787335777.4539187
+ },
+ "families/compound/muse-spark-1.2.done.jsonl": {
+  "size": 200277,
+  "mtime": 1787335777.491275
+ },
+ "families/compound/muse-spark-1.2.stats.json": {
+  "size": 17197,
+  "mtime": 1787335830.7893705
+ },
+ "families/doc_sync/muse-spark-1.2.jsonl": {
+  "size": 12492715,
+  "mtime": 1787339938.1862495
+ },
+ "families/doc_sync/muse-spark-1.2.done.jsonl": {
+  "size": 312737,
+  "mtime": 1787339938.2458715
+ },
+ "families/doc_sync/muse-spark-1.2.stats.json": {
+  "size": 1080,
+  "mtime": 1787339938.2991264
+ },
+ "families/expectation_completion/corpus.jsonl": {
+  "size": 1037910,
+  "mtime": 1787267941.1095417
+ },
+ "families/expectation_completion/corpus.done.jsonl": {
+  "size": 288285,
+  "mtime": 1787267941.0743432
+ },
+ "families/expectation_completion/corpus.stats.json": {
+  "size": 707,
+  "mtime": 1787267941.1301916
+ },
+ "families/expectation_completion/glm-5.3.jsonl": {
+  "size": 769710,
+  "mtime": 1787218068.741974
+ },
+ "families/expectation_completion/glm-5.3.done.jsonl": {
+  "size": 140598,
+  "mtime": 1787218068.6925077
+ },
+ "families/expectation_completion/glm-5.3.stats.json": {
+  "size": 688,
+  "mtime": 1787218068.759531
+ },
+ "families/fix_issue_inject/glm-5.3.jsonl": {
+  "size": 12391555,
+  "mtime": 1787274212.9014132
+ },
+ "families/fix_issue_inject/glm-5.3.done.jsonl": {
+  "size": 458828,
+  "mtime": 1787274212.9521325
+ },
+ "families/fix_issue_inject/glm-5.3.stats.json": {
+  "size": 944,
+  "mtime": 1787274212.9941092
+ },
+ "families/mid_body_edit/corpus.jsonl": {
+  "size": 8830906,
+  "mtime": 1787238276.6489806
+ },
+ "families/mid_body_edit/corpus.done.jsonl": {
+  "size": 294146,
+  "mtime": 1787238276.5969827
+ },
+ "families/mid_body_edit/corpus.stats.json": {
+  "size": 671,
+  "mtime": 1787238276.6907728
+ },
+ "families/namespace_qualify_propagation/corpus.jsonl": {
+  "size": 1174828,
+  "mtime": 1787188070.3382628
+ },
+ "families/namespace_qualify_propagation/corpus.done.jsonl": {
+  "size": 51490,
+  "mtime": 1787188070.294552
+ },
+ "families/namespace_qualify_propagation/corpus.stats.json": {
+  "size": 692,
+  "mtime": 1787188070.355578
+ },
+ "families/pipe_chain_link/corpus.jsonl": {
+  "size": 194367,
+  "mtime": 1787256964.1031606
+ },
+ "families/pipe_chain_link/corpus.done.jsonl": {
+  "size": 203837,
+  "mtime": 1787264798.726201
+ },
+ "families/pipe_chain_link/corpus.stats.json": {
+  "size": 693,
+  "mtime": 1787264798.7581823
+ },
+ "families/pkg_metadata_sync/corpus.jsonl": {
+  "size": 1510750,
+  "mtime": 1787188285.59596
+ },
+ "families/pkg_metadata_sync/corpus.done.jsonl": {
+  "size": 48292,
+  "mtime": 1787188285.5705302
+ },
+ "families/pkg_metadata_sync/corpus.stats.json": {
+  "size": 668,
+  "mtime": 1787188285.6117644
+ },
+ "families/removed_block_comment/corpus.jsonl": {
+  "size": 2151774,
+  "mtime": 1787244175.8960435
+ },
+ "families/removed_block_comment/corpus.done.jsonl": {
+  "size": 133910,
+  "mtime": 1787244175.8690226
+ },
+ "families/removed_block_comment/corpus.stats.json": {
+  "size": 686,
+  "mtime": 1787244175.9087253
+ },
+ "families/rewrite_fixissue/muse-spark-1.2.jsonl": {
+  "size": 29795402,
+  "mtime": 1787346216.3645463
+ },
+ "families/rewrite_fixissue/muse-spark-1.2.done.jsonl": {
+  "size": 1035361,
+  "mtime": 1787346216.3950515
+ },
+ "families/rewrite_fixissue/muse-spark-1.2.stats.json": {
+  "size": 957,
+  "mtime": 1787346216.4787488
+ },
+ "families/rewrite_fixissue/glm-5.3.jsonl": {
+  "size": 11548509,
+  "mtime": 1787300580.1592138
+ },
+ "families/rewrite_fixissue/glm-5.3.done.jsonl": {
+  "size": 437297,
+  "mtime": 1787300580.219382
+ },
+ "families/rewrite_fixissue/glm-5.3.stats.json": {
+  "size": 987,
+  "mtime": 1787301222.6200297
+ },
+ "families/rewrite_lint_fix/glm-5.3.jsonl": {
+  "size": 25570676,
+  "mtime": 1787269599.6286826
+ },
+ "families/rewrite_lint_fix/glm-5.3.done.jsonl": {
+  "size": 756875,
+  "mtime": 1787269599.7116385
+ },
+ "families/rewrite_lint_fix/glm-5.3.stats.json": {
+  "size": 1033,
+  "mtime": 1787269599.7636666
+ },
+ "families/rewrite_lint_fix/dots-studio-dots-3-note-preview.jsonl": {
+  "size": 518491,
+  "mtime": 1787307236.2258556
+ },
+ "families/rewrite_lint_fix/dots-studio-dots-3-note-preview.done.jsonl": {
+  "size": 20834,
+  "mtime": 1787307449.7391944
+ },
+ "families/rewrite_lint_fix/dots-studio-dots-3-note-preview.stats.json": {
+  "size": 1078,
+  "mtime": 1787308191.733377
+ },
+ "families/rewrite_lint_fix/google-gemma-4-31b-it.jsonl": {
+  "size": 12598184,
+  "mtime": 1787338979.226447
+ },
+ "families/rewrite_lint_fix/google-gemma-4-31b-it.done.jsonl": {
+  "size": 424256,
+  "mtime": 1787338979.2674465
+ },
+ "families/rewrite_lint_fix/google-gemma-4-31b-it.stats.json": {
+  "size": 1121,
+  "mtime": 1787338979.369116
+ },
+ "families/rewrite_lint_fix_oxalpha/corpus.jsonl": {
+  "size": 1419359,
+  "mtime": 1787365353.6605034
+ },
+ "families/rewrite_lint_fix_oxalpha/corpus.done.jsonl": {
+  "size": 120147,
+  "mtime": 1787365606.8708687
+ },
+ "families/rewrite_lint_fix_oxalpha/corpus.stats.json": {
+  "size": 994,
+  "mtime": 1787365574.991742
+ },
+ "families/rewrite_lint_fix/muse-spark-1.2.jsonl": {
+  "size": 3112304,
+  "mtime": 1787302816.4351075
+ },
+ "families/rewrite_lint_fix/muse-spark-1.2.done.jsonl": {
+  "size": 110082,
+  "mtime": 1787302816.4758413
+ },
+ "families/rewrite_lint_fix/muse-spark-1.2.stats.json": {
+  "size": 1010,
+  "mtime": 1787303386.0151796
+ },
+ "families/rewrite_lint_fix/x-preview.jsonl": {
+  "size": 3265360,
+  "mtime": 1787365598.4970129
+ },
+ "families/rewrite_lint_fix/x-preview.done.jsonl": {
+  "size": 222509,
+  "mtime": 1787365598.534966
+ },
+ "families/rewrite_lint_fix/x-preview.stats.json": {
+  "size": 1028,
+  "mtime": 1787365566.9221258
+ },
+ "families/tidyselect_completion/corpus.jsonl": {
+  "size": 34437,
+  "mtime": 1787185998.1660776
+ },
+ "families/tidyselect_completion/corpus.done.jsonl": {
+  "size": 3668,
+  "mtime": 1787185998.1373549
+ },
+ "families/tidyselect_completion/corpus.stats.json": {
+  "size": 684,
+  "mtime": 1787185998.1784825
+ },
+ "families/trycatch_handler_completion/corpus.jsonl": {
+  "size": 74983,
+  "mtime": 1787217567.2963846
+ },
+ "families/trycatch_handler_completion/corpus.done.jsonl": {
+  "size": 47820,
+  "mtime": 1787224943.0705109
+ },
+ "families/trycatch_handler_completion/corpus.stats.json": {
+  "size": 707,
+  "mtime": 1787224943.1062658
+ },
+ "families/trycatch_handler_completion/glm-5.3.jsonl": {
+  "size": 62582,
+  "mtime": 1787218799.7768729
+ },
+ "families/trycatch_handler_completion/glm-5.3.done.jsonl": {
+  "size": 36682,
+  "mtime": 1787218808.8843288
+ },
+ "families/trycatch_handler_completion/glm-5.3.stats.json": {
+  "size": 698,
+  "mtime": 1787218808.9007728
+ },
+ "families/synthetic_analyst/analyst_direct.jsonl": {
+  "size": 5276698,
+  "mtime": 1787124728.1650674
+ },
+ "families/synthetic_analyst/analyst_direct.w1.jsonl": {
+  "size": 273171,
+  "mtime": 1787123965.9345205
+ },
+ "families/synthetic_analyst/analyst_direct.w2.jsonl": {
+  "size": 273821,
+  "mtime": 1787123966.624374
+ },
+ "families/synthetic_analyst/analyst_direct.w3.jsonl": {
+  "size": 277581,
+  "mtime": 1787123966.5283136
+ },
+ "families/synthetic_analyst/analyst_direct.w4.jsonl": {
+  "size": 252758,
+  "mtime": 1787123978.9365118
+ },
+ "families/synthetic_analyst/analyst_direct.w5.jsonl": {
+  "size": 262422,
+  "mtime": 1787123972.783181
+ },
+ "families/synthetic_analyst/analyst_direct.w6.jsonl": {
+  "size": 268080,
+  "mtime": 1787123964.635703
+ },
+ "families/synthetic_analyst/analyst_direct.w7.jsonl": {
+  "size": 260090,
+  "mtime": 1787123977.2786672
+ },
+ "families/synthetic_analyst/analyst_direct_burst.jsonl": {
+  "size": 546936,
+  "mtime": 1787087824.258619
+ },
+ "families/synthetic_analyst/analyst_gemini.jsonl": {
+  "size": 2348862,
+  "mtime": 1787221084.4189339
+ },
+ "families/synthetic_analyst/analyst_scripts.enriched.jsonl": {
+  "size": 557338,
+  "mtime": 1787036267.497105
+ },
+ "families/synthetic_analyst/analyst_scripts.jsonl": {
+  "size": 455890,
+  "mtime": 1787076352.7662785
+ },
+ "families/synthetic_analyst/na_rm_contexts.enriched.jsonl": {
+  "size": 138380,
+  "mtime": 1787036267.6737983
+ },
+ "families/synthetic_analyst/na_rm_contexts.jsonl": {
+  "size": 53178,
+  "mtime": 1787016663.2743745
+ },
+ "families/synthetic_analyst/rejects.enriched.jsonl": {
+  "size": 333238,
+  "mtime": 1787036267.7808397
+ },
+ "families/synthetic_analyst/rejects.jsonl": {
+  "size": 556267,
+  "mtime": 1787078127.8282287
+ },
+ "mixtures/sft_v3/eval.jsonl": {
+  "size": 27778127,
+  "mtime": 1787137310.8138099
+ },
+ "mixtures/sft_v3/train.jsonl": {
+  "size": 783065297,
+  "mtime": 1787137309.8780751
+ },
+ "mixtures/sft_v3/stats.json": {
+  "size": 3913,
+  "mtime": 1787137312.0977662
+ },
+ "mixtures/sft_v4/eval.jsonl": {
+  "size": 27778127,
+  "mtime": 1787152968.736447
+ },
+ "mixtures/sft_v4/train.jsonl": {
+  "size": 990183170,
+  "mtime": 1787152966.9109128
+ },
+ "mixtures/sft_v5/eval.jsonl": {
+  "size": 27124091,
+  "mtime": 1787179442.0976713
+ },
+ "mixtures/sft_v5/train.jsonl": {
+  "size": 813455396,
+  "mtime": 1787179441.5614045
+ },
+ "mixtures/sft_v5/stats.json": {
+  "size": 8560,
+  "mtime": 1787179443.5046055
+ },
+ "mixtures/sft_v6/eval.jsonl": {
+  "size": 29360239,
+  "mtime": 1787239120.450874
+ },
+ "mixtures/sft_v6/train.jsonl": {
+  "size": 853338537,
+  "mtime": 1787239119.2694862
+ },
+ "mixtures/sft_v6/stats.json": {
+  "size": 12995,
+  "mtime": 1787239130.2169738
+ }
+}

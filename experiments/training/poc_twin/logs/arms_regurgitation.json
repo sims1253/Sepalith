@@ -1,0 +1,330 @@
+{
+ "muon": {
+  "ckpt": "/tmp/poc_twin/ckpt_muon/final.pt",
+  "corpus_blocks": "/tmp/poc_twin/train_blocks.npy",
+  "train": {
+   "per_prompt": [
+    {
+     "prompt": 0,
+     "longest_span": 41,
+     "span_at": 39,
+     "prompt_cont_match": 4,
+     "text": "=T)\n}\n\nmedianpercentile<-function(sample,population){\n  sample %>% sapply(function(x) median(x<population,na.rm=T)) %>% median(na.rm=T)\n}\n\nmeanpercentile<-function(sample,population){\n  sample %>% sapply(function(x) mean(x<population,na.rm=T)) %>% mean(na.rm=T)\n}\n\nmedianpercentile<-function(sample,population){\n  sample %>% sapply(function(x) median(x<population,na.rm=T)) %>% median(na.rm=T)\n}\n\nmedianpercentile<-function(sample,population){\n  sample %>% sapply(function(x) median(x<population,na.rm=T)) %>% median(na.rm=T)\n}\n\nmedianpercentile<-function(sample,population){\n  sample %>% sapply(function(x) median(x<population,na.rm=T)) %>% median(na.rm=T)\n}\n\nmedianpercentile<-function(s"
+    },
+    {
+     "prompt": 1,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": 1,
+     "text": "=FALSE)\n  h<-as.data.frame(h)\n  colnames(h) <- c(\"x\",\"y\",\"y_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat_hat\",\"y_hat"
+    },
+    {
+     "prompt": 2,
+     "longest_span": 76,
+     "span_at": 2,
+     "prompt_cont_match": 9,
+     "text": "RajuMirror<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var(x1-x2)/var(x1+x2))\n  return(fr/max(1, 1-fr))\n}\n\nRajuMirrorV<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var(x1-x2)/var(x1+x2))\n  return(fr/max(1, 1-fr))\n}\n\nRajuMirrorV<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var"
+    },
+    {
+     "prompt": 3,
+     "longest_span": 76,
+     "span_at": 2,
+     "prompt_cont_match": 9,
+     "text": "RajuMirror<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var(x1-x2)/var(x1+x2))\n  return(fr/max(1, 1-fr))\n}\n\nRajuMirrorV<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var(x1-x2)/var(x1+x2))\n  return(fr/max(1, 1-fr))\n}\n\nRajuMirrorV<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var"
+    },
+    {
+     "prompt": 4,
+     "longest_span": 50,
+     "span_at": 9,
+     "prompt_cont_match": 0,
+     "text": "sumvar)\n  return(raju)\n}\n\nRajuMirror<-function(x1,x2,prop){\n  covar<-cov(x1,x2)\n  sumvar<-var(x1)+var(x2)+2*abs(covar)\n  raju<-covar / (sumvar)\n  return(raju)\n}\n\nRajuMirror<-function(x1,x2,prop){\n  covar<-cov(x1,x2)\n  sumvar<-var(x1)+var(x2)+2*abs(covar)\n  raju<-covar / (sumvar)\n  return(raju)\n}\n\nRajuMirror<-function(x1,x2,prop){\n  covar<-cov(x1,x2)\n  sumvar<-var(x1)+var(x2)+2*abs(covar)\n  raju<-covar / (sumvar)\n  return(raju)\n}\n\nRajuMirror<-function(x1,x2,prop){\n"
+    },
+    {
+     "prompt": 5,
+     "longest_span": 15,
+     "span_at": 37,
+     "prompt_cont_match": 0,
+     "text": " is \\code{~1} and the first one is used.\n#' @param nperm The number of permutations\n#' @param seed The seed for random number generator\n#'\n#' @return A list with the following elements:\n#' \\item{corr}{The correlation coefficient}\n#' \\item{ntests}{The number of permutations}\n#' \\item{nperm}{The number of permutations}\n#' \\item{cor}{The correlation coefficient}\n#' \\item{ntests}{The number of permutations}\n#' \\item{cor}{The correlation coefficient}\n#' \\item{ntests}{The number of permutations}\n#' \\item{cor}{The correlation coefficient}\n#' \\item{ntests}{The number of permutations}\n#' \\item{cor}{The correlation coefficient}\n#' \\item{ntests}{The number of permutations}\n#' \\item{cor}{The correlation coefficient}\n#' \\item{ntests"
+    },
+    {
+     "prompt": 6,
+     "longest_span": 28,
+     "span_at": 15,
+     "prompt_cont_match": 0,
+     "text": "\n#' @importFrom utils capture.output\n#' @importFrom stats pnorm\n#' @importFrom stats ppois\n#' @importFrom stats predict\n#' @importFrom stats predict\n#' @importFrom stats sd\n#' @importFrom stats ppois\n#' @importFrom stats predict\n#' @importFrom stats sd\n#' @importFrom stats ppois\n#' @importFrom stats predict\n#' @importFrom stats sd\n#' @importFrom stats ppois\n#' @importFrom stats predict\n#' @importFrom stats sd\n#' @importFrom stats ppois\n#' @importFrom stats predict\n#' @importFrom stats sd\n#' @importFrom stats ppois\n#' @importFrom stats predict\n#' @importFrom stats sd\n#' @importFrom stats ppois\n#' @importFrom stats predict"
+    },
+    {
+     "prompt": 7,
+     "longest_span": 41,
+     "span_at": 13,
+     "prompt_cont_match": 0,
+     "text": " the sample characteristics of the variance.\n#'\n#'     The app demonstrates the principles of Analysis of Variance.\n#'     The true parameter values are provided by the user.\n#'     The user changes sample characteristics, distribution function and simulation features\n#'     and the sample characteristics of the variance.\n#'\n#'     The app demonstrates the principles of Analysis of Variance.\n#'     The true parameter values are provided by the user.\n#'     The user changes sample characteristics, distribution function and simulation features\n#'     and the sample characteristics of the variance.\n#'\n#'     The app demonstrates the principles of Analysis of Variance.\n#'     The true parameter values are provided by the user.\n#'     The user changes sample characteristics, distribution function and simulation features\n#'     and the sample characteristics of the variance.\n#'\n#'     The app demonstrates the principles of Analysis of Variance.\n#'     The true parameter values are provided by the user.\n#'    "
+    },
+    {
+     "prompt": 8,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": 1,
+     "text": "#'\n#'     The app uses the following steps:\n#'     \\enumerate{\n#'       \\item \\strong{Example}: The app demonstrates the properties of Normal distribution.\n#'       \\item \\strong{Example}: The app demonstrates the properties of Normal distribution.\n#'     }\n#'\n#'     The app uses the following steps:\n#'     \\enumerate{\n#'       \\item \\strong{Example}: The app demonstrates the properties of Normal distribution.\n#'       \\item \\strong{Example}: The app demonstrates the properties of Normal distribution.\n#'     }\n#'\n#'     The app uses the following steps:\n#'     \\enumerate{\n#'       \\item \\strong{Example}: The app demonstrates the properties of Normal distribution.\n#'       \\item \\strong{Example}: The app demonstrates the properties of Normal distribution.\n#'     }\n#'\n#'     The app uses the following steps:\n#'     \\enumer"
+    },
+    {
+     "prompt": 9,
+     "longest_span": 12,
+     "span_at": 2,
+     "prompt_cont_match": 1,
+     "text": " the normal and Student's t distributions.\n#'     The app considers the normal and Student's t distributions.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t distribution.\n#'     The app considers the Student's t"
+    }
+   ],
+   "max_span": 76,
+   "mean_span": 33.9,
+   "n_ge30": 5,
+   "n_ge60": 2,
+   "mean_cont_match": 2.5,
+   "max_cont_match": 9
+  },
+  "heldout": {
+   "per_prompt": [
+    {
+     "prompt": 0,
+     "longest_span": 17,
+     "span_at": 35,
+     "prompt_cont_match": -1,
+     "text": " for the confidence interval.\n#' @param method Character string indicating which method should be used to compute the forecasts.\n#' @param ... Additional arguments passed to the forecast function.\n#'\n#' @return A list with the following components:\n#' \\item{forecast}{The forecast object.}\n#' \\item{out}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of the forecast object.}\n#' \\item{forecast.forecast}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of the forecast object.}\n#' \\item{forecast.res}{A list of"
+    },
+    {
+     "prompt": 1,
+     "longest_span": 18,
+     "span_at": 17,
+     "prompt_cont_match": -1,
+     "text": "ifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(shift_by))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n  stopifnot(is.numeric(fill))\n  stopifnot(is.numeric(x))\n "
+    },
+    {
+     "prompt": 2,
+     "longest_span": 13,
+     "span_at": 24,
+     "prompt_cont_match": -1,
+     "text": "|>\n}\n  if (shift_by == 0) {\n    return(x)\n  }\n  if (shift_by == 1) {\n    return(x)\n  }\n  if (shift_by == 2) {\n    return(x)\n  }\n  if (shift_by == 3) {\n    return(x)\n  }\n  if (shift_by == 4) {\n    return(x)\n  }\n  if (shift_by == 5) {\n    return(x)\n  }\n  if (shift_by == 6) {\n    return(x)\n  }\n  if (shift_by == 7) {\n    return(x)\n  }\n  if (shift_by == 8) {\n    return(x)\n  }\n  if (shift_by == 9) {\n    return(x)\n  }\n  if (shift_by == 10) {\n    return(x)\n  }\n  if (shift_by == 11) {\n    return(x)\n  }\n  if (shift_by"
+    },
+    {
+     "prompt": 3,
+     "longest_span": 12,
+     "span_at": 27,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\nmeanIT <- function(x, t) {\n    .Call(`_ATAforecasting_meanIT`, x, t)\n}\n\nmeanMT <- function(x, t) {\n    .Call(`_ATAforecasting_meanMT`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapproxapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t"
+    },
+    {
+     "prompt": 4,
+     "longest_span": 12,
+     "span_at": 27,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\nmeanIT <- function(x, t) {\n    .Call(`_ATAforecasting_meanIT`, x, t)\n}\n\nmeanMT <- function(x, t) {\n    .Call(`_ATAforecasting_meanMT`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapproxapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t"
+    },
+    {
+     "prompt": 5,
+     "longest_span": 12,
+     "span_at": 27,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\nmeanIT <- function(x, t) {\n    .Call(`_ATAforecasting_meanIT`, x, t)\n}\n\nmeanMT <- function(x, t) {\n    .Call(`_ATAforecasting_meanMT`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapproxapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t"
+    },
+    {
+     "prompt": 6,
+     "longest_span": 12,
+     "span_at": 27,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\nmeanIT <- function(x, t) {\n    .Call(`_ATAforecasting_meanIT`, x, t)\n}\n\nmeanMT <- function(x, t) {\n    .Call(`_ATAforecasting_meanMT`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapproxapprox`, x, t)\n}\n\nmeanMTapprox <- function(x, t) {\n    .Call(`_ATAforecasting_meanMTapprox`, x, t)\n}\n\nmeanMTapproxapprox <- function(x, t"
+    },
+    {
+     "prompt": 7,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": -1,
+     "text": "  trend.type,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n  trend.type.residuals,\n"
+    },
+    {
+     "prompt": 8,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": -1,
+     "text": " lenY <- length(Y)\n  if (lenX != lenY) {\n    stop(\"Length of X and Y must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must be the same.\")\n  }\n  if (lenY != lenX) {\n    stop(\"Length of Y and X must"
+    },
+    {
+     "prompt": 9,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": -1,
+     "text": " if (lenX != length(modelType)) {\n      stop(\"length of 'X' and 'outSample' must be the same\")\n    }\n    if (length(modelType) != lenX) {\n      stop(\"length of 'X' and 'outSample' must be the same\")\n    }\n    if (length(hh) != lenX) {\n      stop(\"length of 'X' and 'outSample' must be the same\")\n    }\n    if (length(phik) != lenX) {\n      stop(\"length of 'X' and 'outSample' must be the same\")\n    }\n    if (length(hh) != lenX) {\n      stop(\"length of 'X' and 'outSample' must be the same\")\n    }\n    if (length(phik) != lenX) {\n      stop(\"length of 'X' and 'outSample' must be the same\")\n    }\n    if (length(hh) !="
+    }
+   ],
+   "max_span": 18,
+   "mean_span": 9.6,
+   "n_ge30": 0,
+   "n_ge60": 0,
+   "mean_cont_match": -1.0,
+   "max_cont_match": -1
+  }
+ },
+ "muon-half": {
+  "ckpt": "/tmp/poc_twin/ckpt_muon-half/final.pt",
+  "corpus_blocks": "/tmp/poc_twin/train_blocks_half.npy",
+  "train": {
+   "per_prompt": [
+    {
+     "prompt": 0,
+     "longest_span": 31,
+     "span_at": 153,
+     "prompt_cont_match": 6,
+     "text": "=T)\n}\n\n#' @title Calculates the mean of a vector or matrix\n#' @description This function calculates the mean of a vector or matrix\n#' @param sample sample of a matrix\n#' @param population Population of each sample\n#' @param population_vector Population of each sample\n#' @param meanvector Mean vector of length nrow(population)\n#' @return Returns the mean of the vector or matrix\n#' @examples\n#' data(AAT)\n#' A<-AT_stimulus_rest(AAT)\n#' @export\nAT_stimulus_rest<-function(sample, population, meanvector){\n  na<-length(as.vector(sample))\n  nb<-length(population)\n  out<-matrix(NA,nrow=na,ncol=nb)\n  for(i in seq_len(na)){\n    out[i,]<-mean(sample[which(as.vector(sample) == i),])\n "
+    },
+    {
+     "prompt": 1,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": 1,
+     "text": "=FALSE)\n  h\n}\n\ndatasplits<-function(obs,prod,prod.block){\n  h<-array(0,dim=c(prod,prod))\n  for(i in 1:prod){\n    h[i,,]<-obs[prod==i,]\n  }\n  return(h)\n}\n\ndatasplits<-function(obs,prod,prod.block){\n  h<-array(0,dim=c(prod,prod))\n  for(i in 1:prod){\n    h[i,,]<-obs[prod==i,]\n  }\n  return(h)\n}\n\ndatasplits<-function(obs,prod,prod.block){\n  h<-array(0,dim=c(prod,prod))\n  for(i in 1:prod){\n    h[i,,]<-obs[prod==i,]\n  }\n  return(h)\n}\n\ndatasplits<-function(obs,prod,prod.block){\n  h<-array"
+    },
+    {
+     "prompt": 2,
+     "longest_span": 73,
+     "span_at": 2,
+     "prompt_cont_match": 9,
+     "text": "RajuMirror<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var(x1-x2)/var(x1+x2))\n  return(fr/max(1, 1-fr))\n}\n\n#' @title Standard error of a mean\n#' @description Compute the standard error of a mean.\n#' @param x A numeric vector.\n#' @return The standard error of a mean.\n#' @examples\n#' sd(1:10)\n#' @export\nsd<-function(x){\n  sqrt(var(x,na.rm=TRUE))\n}\n\n#' @title Standard error of a standard deviation\n#' @description Compute the standard error of a standard deviation.\n#' @param x A numeric vector.\n#' @return The standard error of a standard deviation.\n#'"
+    },
+    {
+     "prompt": 3,
+     "longest_span": 73,
+     "span_at": 2,
+     "prompt_cont_match": 9,
+     "text": "RajuMirror<-function(x1,x2){\n  key<-!is.na(x1) & !is.na(x2)\n  x1<-x1[key]\n  x2<-x2[key]\n  fr<-(1-var(x1-x2)/var(x1+x2))\n  return(fr/max(1, 1-fr))\n}\n\n#' @title Standard error of a mean\n#' @description Compute the standard error of a mean.\n#' @param x A numeric vector.\n#' @return The standard error of a mean.\n#' @examples\n#' sd(1:10)\n#' @export\nsd<-function(x){\n  sqrt(var(x,na.rm=TRUE))\n}\n\n#' @title Standard error of a standard deviation\n#' @description Compute the standard error of a standard deviation.\n#' @param x A numeric vector.\n#' @return The standard error of a standard deviation.\n#'"
+    },
+    {
+     "prompt": 4,
+     "longest_span": 21,
+     "span_at": 50,
+     "prompt_cont_match": 18,
+     "text": "prop * (1-prop) * sumvar)\n  return(raju)\n}\n\n#' @title Standard error of the mean\n#' @description\n#' Compute the standard error of the mean.\n#' @param x A numeric vector.\n#' @param na.rm A logical value indicating whether `NA` values should be stripped.\n#' @return A number.\n#' @examples\n#' sd<-c(1:4,NA,3)\n#' sd<-sd/sqrt(sum(sd))\n#' prop<-prop/sqrt(sum(sd))\n#' prop*sqrt(sum(sd))\n#' @rdname sd\n#' @export\nsd<-function(x,na.rm=FALSE) {\n  if (na.rm) x<-na.omit(x)\n  ux<-na.omit(x)\n  if (na.rm) x<-na.omit(x)\n  return(sqrt(mean((x-mean(x))"
+    },
+    {
+     "prompt": 5,
+     "longest_span": 13,
+     "span_at": 24,
+     "prompt_cont_match": 0,
+     "text": " is \\code{ntests=1} (the default).\n#' @param nreps Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nreps_estimation Number of bootstrap replicates. Default is \\code{1000}.\n#' @param nre"
+    },
+    {
+     "prompt": 6,
+     "longest_span": 19,
+     "span_at": 110,
+     "prompt_cont_match": 0,
+     "text": "\n#' @importFrom utils head tail\n#' @importFrom utils packageVersion\n#' @importFrom stats median\n#' @importFrom stats median\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats sd\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats median\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats median\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats quantile\n#' @importFrom stats median\n#' @importFrom stats quantile\n#' @importFrom"
+    },
+    {
+     "prompt": 7,
+     "longest_span": 15,
+     "span_at": 18,
+     "prompt_cont_match": 2,
+     "text": " explores the distribution of variance for each sample.\n#'     The user can also define the sample characteristics, distribution function and simulation features\n#'     and explores the distribution of variance for each sample.\n#'     The user can also define the sample characteristics, distribution function and simulation features\n#'     and explores the distribution of variance for each sample.\n#'     The user can also define the sample characteristics, distribution function and simulation features\n#'     and explores the distribution of variance for each sample.\n#'     The user can also define the sample characteristics, distribution function and simulation features\n#'     and explores the distribution of variance for each sample.\n#'     The user can also define the sample characteristics, distribution function and simulation features\n#'     and explores the distribution of variance for each sample.\n#'     The user can also define the sample characteristics, distribution function and simulation features\n#'     and explores the distribution of variance for each sample.\n#'     The user"
+    },
+    {
+     "prompt": 8,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": 1,
+     "text": "#'\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Normal distribution.\n#' @"
+    },
+    {
+     "prompt": 9,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": 1,
+     "text": " the Normal distribution and\n#'     Student's t distribution.\n#'\n#' @param mean Mean of the Normal distribution.\n#' @param sd Standard deviation of the Normal distribution.\n#' @param mean Mean of the Student's t distribution.\n#' @param sd Standard deviation of the Student's t distribution.\n#' @param mean Mean of the Student's t distribution.\n#' @param sd Standard deviation of the Student's t distribution.\n#' @param mean Mean of the Student's t distribution.\n#' @param sd Standard deviation of the Student's t distribution.\n#' @param mean Mean of the Student's t distribution.\n#' @param sd Standard deviation of the Student's t distribution.\n#' @param mean Mean of the Student's t distribution.\n#' @param sd Standard deviation of the Student's t distribution.\n#' @param mean Mean of the Student's t distribution.\n#' @param sd Standard deviation of the Student's t distribution.\n"
+    }
+   ],
+   "max_span": 73,
+   "mean_span": 24.5,
+   "n_ge30": 3,
+   "n_ge60": 2,
+   "mean_cont_match": 4.7,
+   "max_cont_match": 18
+  },
+  "heldout": {
+   "per_prompt": [
+    {
+     "prompt": 0,
+     "longest_span": 31,
+     "span_at": 115,
+     "prompt_cont_match": -1,
+     "text": " for the confidence interval.\n#' @param ... Additional arguments passed to or from other methods.\n#'\n#' @return A list of class \\code{forecasting} with components:\n#' \\itemize{\n#'   \\item \\code{forecasting} A matrix of the forecasts.\n#'   \\item \\code{forecasting} A matrix of the forecasts.\n#' }\n#'\n#' @export\n#'\n#' @examples\n#' # Generate example data\n#' set.seed(123)\n#' n <- 200\n#' p <- 5\n#' x <- matrix(rnorm(n * p), nrow = n, ncol = p)\n#' colnames(x) <- paste0(\"x\", 1:n)\n#' y <- rnorm(n)\n#'\n#' # Forecasting\n#' ts <- ts(y, frequency = c(1, 2))\n#' forecast <- forecast(ts, h"
+    },
+    {
+     "prompt": 1,
+     "longest_span": 12,
+     "span_at": 19,
+     "prompt_cont_match": -1,
+     "text": "ifnot(is.numeric(fill))\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na(fill)) {\n    fill <- 0\n  }\n  if (is.na"
+    },
+    {
+     "prompt": 2,
+     "longest_span": 0,
+     "span_at": -1,
+     "prompt_cont_match": -1,
+     "text": "|>\n}\n  if (is.na(shift_by)) {\n    shift_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n  }\n  if (is.na(fill)) {\n    fill_by <- -1\n"
+    },
+    {
+     "prompt": 3,
+     "longest_span": 12,
+     "span_at": 29,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\ncalc_rao <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao`, x, t)\n}\n\ncalc_rao_mean <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_mean`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_ci <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_ci`, x, t)\n}\n\ncalc_rao_standard <- function(x, t) {\n    ."
+    },
+    {
+     "prompt": 4,
+     "longest_span": 12,
+     "span_at": 29,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\ncalc_rao <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao`, x, t)\n}\n\ncalc_rao_mean <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_mean`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_ci <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_ci`, x, t)\n}\n\ncalc_rao_standard <- function(x, t) {\n    ."
+    },
+    {
+     "prompt": 5,
+     "longest_span": 12,
+     "span_at": 29,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\ncalc_rao <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao`, x, t)\n}\n\ncalc_rao_mean <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_mean`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_ci <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_ci`, x, t)\n}\n\ncalc_rao_standard <- function(x, t) {\n    ."
+    },
+    {
+     "prompt": 6,
+     "longest_span": 12,
+     "span_at": 29,
+     "prompt_cont_match": -1,
+     "text": " function(x, t) {\n    .Call(`_ATAforecasting_calc_amse`, x, t)\n}\n\ncalc_rao <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao`, x, t)\n}\n\ncalc_rao_mean <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_mean`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_var <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_var`, x, t)\n}\n\ncalc_rao_ci <- function(x, t) {\n    .Call(`_ATAforecasting_calc_rao_ci`, x, t)\n}\n\ncalc_rao_standard <- function(x, t) {\n    ."
+    },
+    {
+     "prompt": 7,
+     "longest_span": 12,
+     "span_at": 40,
+     "prompt_cont_match": -1,
+     "text": "  model,\n  type,\n  level,\n  trend,\n  trend.args,\n  trend.args\n) {\n  if (model.type == \"const\") {\n    model <- 1\n  }\n  if (model.type == \"mcp\") {\n    model <- 2\n  }\n  if (model.type == \"exponential\") {\n    model <- 3\n  }\n  if (model.type == \"const\") {\n    model <- 4\n  }\n  if (model.type == \"const\") {\n    model <- 5\n  }\n  if (model.type == \"const\") {\n    model <- 6\n  }\n  if (model.type == \"const\") {\n    model <- 7\n  }\n  if (model.type == \"const\") {\n    model <- 8\n  }\n  if (model.type == \"const\") {\n    model <- 9\n  }\n  if (model.type == \"const\") {\n    model <- 10"
+    },
+    {
+     "prompt": 8,
+     "longest_span": 18,
+     "span_at": 143,
+     "prompt_cont_match": -1,
+     "text": " lenH <- length(hh)\n  if (lenX != lenH) {\n    stop(\"Length of hh vector must be equal to length of dataset\")\n  }\n  if (lenH != lenX) {\n    stop(\"Length of hh vector must be equal to length of dataset\")\n  }\n  if (lenH != lenX) {\n    stop(\"Length of hh vector must be equal to length of dataset\")\n  }\n  if (lenH != lenX) {\n    stop(\"Length of hh vector must be equal to length of dataset\")\n  }\n  if (hh != hh) {\n    stop(\"hh vector must be equal to length of dataset\")\n  }\n  if (anyNA(X) || anyNA(Y)) {\n    stop(\"NA values not allowed in the dataset\")\n  }\n  if (anyNA(Y) || anyNA(X)) {\n    stop(\"NA values not allowed in the dataset\")\n  }\n  if ("
+    },
+    {
+     "prompt": 9,
+     "longest_span": 13,
+     "span_at": 40,
+     "prompt_cont_match": -1,
+     "text": " if (is.null(phik)) {\n      phik <- seq_len(lenX)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is.null(phik)) {\n      phik <- seq_len(lenX + 1)\n    }\n    if (is"
+    }
+   ],
+   "max_span": 31,
+   "mean_span": 13.4,
+   "n_ge30": 1,
+   "n_ge60": 0,
+   "mean_cont_match": -1.0,
+   "max_cont_match": -1
+  }
+ }
+}

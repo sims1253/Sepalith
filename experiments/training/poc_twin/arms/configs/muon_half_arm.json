@@ -1,0 +1,18 @@
+{
+  "arm": "muon",
+  "sweep_id": "OPT-5 (repetition cross, Muon side, 2-cell form)",
+  "note": "Arm D: repetition cross at FIXED total tokens. Same 681.6M budget and identical optimizer/schedule/seed/clip discipline as last night's muon arm, but the corpus is a seeded HALF split (138,103 of 276,206 docs, RandomState(20260821), original relative order) => ~5.5 epochs over ~122.7M unique tokens vs the baseline's 2.78 epochs over 245.4M. Question: does deeper repetition on less unique data hurt, hold, or help under Muon? Baseline = checkpoints/muon_final.pt re-evaluated fresh the same day.",
+  "data": {
+    "train_half": "/tmp/poc_twin/train_blocks_half.npy (packed by arms/data_prep_half.py, parent pack_file/to_blocks)",
+    "split_seed": 20260821,
+    "order": "np.random.RandomState(1273+epoch) permutation over the half's blocks — same discipline"
+  },
+  "optimizer": "identical vendored Muon(lr 0.01, wd 0.1) on hidden 2D + AdamW(lr 4e-3) on embed/norms + QK-Clip tau 100 alpha 0.5",
+  "launch": "train_arm.py --arm muon --lr 0.01 --lr-embed 0.004 --steps 1300 --tokens-per-step 524288 --compile --tag muon_half --data /tmp/poc_twin/train_blocks_half.npy",
+  "budget": {"steps": 1300, "tokens_per_step": 524288, "total_tokens": 681.6M,
+             "epochs_over_half": "~5.55 (vs baseline 2.78 over full)"},
+  "metrics": ["paired BPB on the SAME held-out 500-row eval (evaluate.py)",
+              "regurgitation canary: 20 greedy gens per model (10 in-corpus train prompts from the half split — in-corpus for BOTH models — + 10 held-out eval prompts), longest verbatim training-span reproduced via 12-gram index + forward extension",
+              "epoch-slope sign: BPB(5.5ep/122.7M) - BPB(2.78ep/245.4M)"],
+  "verdict_rule": "epoch-slope sign: negative = repetition hurts Muon (self-falsifier direction), ~0 = holds, positive = repetition helps"
+}
