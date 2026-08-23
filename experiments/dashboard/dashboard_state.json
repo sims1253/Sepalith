@@ -547,9 +547,10 @@
   "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls — the 03:20 incident)."
  ],
  "next": [
-  "USER DECISION: A2-prime adoption (Aurora mechanism-adopted; arm D + zero-training gates are the remaining evidence)",
-  "Wave-2 from tournament winners: X-002 imports-graph adversarial family (spec ready), X-004 cross-file rename",
-  "Bioconductor merge checklist + Stack v2 R subset + pwc-archive one-shot (scout ordering)",
-  "RL run 2 per the 5-point plan (vLLM rollouts, mixed-family reward, 4-judge ensemble if calibrations pass)"
+  "USER DECISION: adopt A2-prime (package complete pending occupancy + acquisition net-new) — then rental gates + 0.5BT ladders",
+  "v8 assembly when the banked levers land (doc_sync rebuild, finish_block compound+authored, no_op geometries, cut randomization)",
+  "RL run 2: mixed-family GRPO + DPO arm + OPD anchor + the 3-family judge panel (design complete)",
+  "Extension v0.0.8: air-on-save + jarl settings, completeness gate (the 70.6% FP fix), user live-test of v0.0.7 scope context",
+  "SO r-tag acquisition (CC-BY-SA ruled in) + Stack v3 delta + RMarkdown tranche (pipelined, in flight)"
  ]
 }
