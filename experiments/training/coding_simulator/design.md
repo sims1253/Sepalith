@@ -73,6 +73,41 @@ opt-in telemetry counters (shown/accepted already instrumented), and
 always reporting RELATIVE comparisons (v7 vs candidate on the same
 simulator, same seed).
 
+### Judged acceptance + summary-network RL (user synthesis, 2026-08-23)
+
+> "That rl thing would also work well to RL the summary network — we'd
+> work a lot in full packages/projects starting from the parent commit
+> and have a judge accept or reject proposals based on the shape/goal of
+> the commit, rather than perfect literal match."
+
+This upgrades the acceptance policy from prefix-match to JUDGED
+acceptance, and makes the simulator the RL environment for the
+workspace-level summary network (the Q2 lane):
+
+- **Trajectory scope**: full packages from the PARENT COMMIT (not single
+  hunks) — the normalized tree's version transitions give before/after
+  states for thousands of packages; the simulated developer works
+  through the whole transition.
+- **Acceptance = judge vs the goal card**: each transition gets a GOAL
+  CARD (what the developer was trying to achieve — corpus being mined
+  now via gpt-5.6-sol, `mine_commit_goals.py`); a judge scores each
+  proposal by "does this advance the goal / match the change shape",
+  NOT literal diff equality. This finally rewards the multimodality the
+  posterior view identified: many different spans can be correct.
+- **Summary network RL**: the workspace state (parent-commit sources
+  across files) is exactly the input the summary network must compress;
+  the judged-accept/accept-reject signal over the work stream is its
+  reward. Train it jointly with the trunk (the SBI lesson) inside the
+  simulator loop — cheap encoder, cross-attention adapter, gradients
+  from episode return.
+- Literal-match reward stays as a CALIBRATION anchor (the exact/valid
+  metrics) so the judge can't drift unboundedly: judge scores are
+  periodically re-anchored on transitions where ground truth is known.
+
+Sequencing: goal-card corpus (today) → stage-1 simulator with
+prefix-match acceptance → judge upgrade → summary-network arm last
+(it needs the simulator + judge both working first).
+
 ## RL integration — two stages
 
 - **Stage 1 (offline trajectories, works with the current GRPO
