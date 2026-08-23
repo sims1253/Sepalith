@@ -109,6 +109,10 @@ def corrupt(chunk: str, rng: random.Random) -> str:
 
 def simulate_commit(repo: str, sha: str, card: dict | None,
                     seed: str) -> dict | None:
+    """One trajectory. DETERMINISTIC per seed; the seed embeds a variant
+    index (sim@2:..., sim@3:...) so the same goal-card commit yields
+    multiple distinct-but-reproducible developer behaviors — the user's
+    'randomly generate trajectories' knob."""
     rng = random.Random(seed)
     tasks = hunks_for(repo, sha)
     if not tasks:
@@ -265,6 +269,8 @@ def simulate_commit(repo: str, sha: str, card: dict | None,
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--n", type=int, default=30)
+    ap.add_argument("--variants", type=int, default=1,
+                    help="trajectories per commit (variant 1..N seeds)")
     ap.add_argument("--out", default="/mnt/h/sepalith/datasets/"
                                       "sim_trajectories_v1/trajectories.jsonl")
     args = ap.parse_args()
@@ -291,9 +297,14 @@ def main():
             if not (GIT / repo).exists():
                 continue
             try:
-                traj = simulate_commit(repo, sha, card,
-                                       f"sim@1:{repo}@{sha[:12]}")
-            except Exception as e:
+                traj = None
+                for v in range(1, args.variants + 1):
+                    traj = simulate_commit(
+                        repo, sha, card, f"sim@{v}:{repo}@{sha[:12]}")
+                    if traj:
+                        traj["variant"] = v
+                        break
+            except Exception:
                 continue
             if traj:
                 fh.write(json.dumps(traj, ensure_ascii=False) + "\n")
