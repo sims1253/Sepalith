@@ -112,6 +112,12 @@ SCENARIO_FILES = [
     "cases_v1/rewrite_fixissue_zai.jsonl",      # injected bugs, fresh tank
     "cases_v1/compound_spark.jsonl",            # base-sample authoring (stamps comment_to_code)
     "cases_v1/doc_sync_spark.jsonl",            # doc_sync rebuild (stamps doc_sync)
+    # v8 wave additions (same families, new authoring lanes)
+    "cases_v1/rewrite_lint_fix_xpreview-free.jsonl",   # zen x-preview
+    "cases_v1/rewrite_lint_fix_sparkfree.jsonl",       # spark free tier
+    "cases_v1/rewrite_lint_fix_orfree_google-gemma-4-31b-it.jsonl",
+    "cases_v1/rewrite_fixissue_spark.jsonl",           # GO-ox buinject
+    "cases_v1/rewrite_fixissue_xpreview-free.jsonl",   # xpreview buinject
 ]
 
 # Families can outgrow their useful mixture share. Cap a family's rows
@@ -261,7 +267,32 @@ def render_finish_block(rec):
 
 def load_finish_block():
     fam = "finish_block"
-    recs = [json.loads(l) for l in open(FINISH_SRC)]
+    v1_recs = [json.loads(l) for l in open(FINISH_SRC)]
+    recs = list(v1_recs)
+    stats[f"{fam}:source_v1_sample"] = len(v1_recs)
+    # v8 sources: the compound waves (deterministic registry re-derivation
+    # incl fb_cut_random + the randomized-cut wave) and the authored lanes
+    # (agy/xpreview/nous). Same drop-in schema (prefix/target/kind/
+    # package/path — verified by the 297/300 drop-in proof).
+    v8_sources = [
+        "finish_block_compound.jsonl",
+        "finish_block_compound_random.jsonl",
+        "finish_block_authored.jsonl",
+        "finish_block_authored_agy.jsonl",
+    ]
+    n_v8 = 0
+    for name in v8_sources:
+        p = NAS / "cases_v1" / name
+        if not p.exists():
+            continue
+        with open(p) as fh:
+            for l in fh:
+                try:
+                    recs.append(json.loads(l))
+                except ValueError:
+                    pass  # torn tail: lanes append live
+                n_v8 += 1
+    stats[f"{fam}:source_v8_waves"] = n_v8
     # exact-target dedup (v1 convention, keep first)
     seen, uniq = set(), []
     for r in recs:
@@ -269,14 +300,17 @@ def load_finish_block():
         if h not in seen:
             seen.add(h)
             uniq.append(r)
-    stats[f"{fam}:source"] = len(recs)
     stats[f"{fam}:after_dedup"] = len(uniq)
-    # v1 package-level split (5% of packages, seed 11) — kept identical so
-    # v5 evals stay comparable with v1-v4
-    pkgs = sorted({r["package"] for r in uniq})
+    # v1 package-level split (5% of packages, seed 11) — computed over the
+    # ORIGINAL sample's packages ONLY (v1_recs tracked at load), so the
+    # eval split stays byte-stable vs v1-v7 (and eval_noop_fp's
+    # contamination control, which re-derives this exact procedure, keeps
+    # its guarantee). New-wave rows from those eval packages land in EVAL,
+    # never train.
+    v1_pkgs = sorted({r["package"] for r in v1_recs})
     rng = random.Random(11)
-    rng.shuffle(pkgs)
-    eval_pkgs = set(pkgs[: max(1, len(pkgs) // 20)])
+    rng.shuffle(v1_pkgs)
+    eval_pkgs = set(v1_pkgs[: max(1, len(v1_pkgs) // 20)])
     n_mid = n_conv = n_drop_empty = 0
     for r in uniq:
         prompt, target, converted = render_finish_block(r)

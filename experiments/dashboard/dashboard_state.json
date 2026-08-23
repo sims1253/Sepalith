@@ -1,19 +1,14 @@
 {
  "running": [
   {
-   "what": "Data waves v8 (12 lanes live): muse-GO lintfix4 + buinject3 on fresh pool6 (12k specs), sparkfree, xpreview x2, OR-ox stealth, gemma-orfree (re-pooled), docsync2, finish_block agy (1600 target) + Nous-ox, c2c synth 4k",
+   "what": "Data waves (12 lanes) + tournament: continuing through the day",
    "status": "run",
-   "note": "all detached+supervised, resume-safe; STOP_* files pause"
+   "note": "pool6 fresh; agy finish_block 1600/1600 DONE (8,381 rows)"
   },
   {
-   "what": "Ideation tournament loop (continuing): event-paced, 26-domain ambient seeding",
-   "status": "run",
-   "note": "bank 105+, build specs growing"
-  },
-  {
-   "what": "v8 positional-realism data: LANDED (regenerated under random cuts)",
+   "what": "v8 trained + full battery (overnight chain)",
    "status": "done",
-   "note": "astfim_partial k 1..165 (was 3-capped); mid_roxygen uniform interior (dead zone 0.25-0.67 filled); finish_block det wave 11.5k rows incl fb_cut_random; no_op 2->6 geometries, 12.6k rows"
+   "note": "INFORMATIVE NEGATIVE: intent 1.295 (v7 1.636), no-op FP 97.5% (v7 70.6%) \u2014 v7 STAYS SERVING; mechanism = random-cut-vs-no_op context collision (night log)"
   }
  ],
  "experiments": [
@@ -537,10 +532,10 @@
   "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls \u2014 the 03:20 incident)."
  ],
  "next": [
-  "USER CALL: adopt A2-prime (package complete, all inputs measured; unique-R 4.1-4.5B -> 4.0-4.3 epochs under the 4.6 cap, no transfer shift needed)",
-  "v8 assembly once finish_block authored + c2c waves land (levers banked: cut-randomized families, 6-geometry no_op, doc_sync 3k)",
-  "RL-run-2 launch (design complete + today's no-op arm: 25-35% no-op prompts, stop-correctness reward, FP-rate gate <20%)",
-  "Outline-slot A/B per matryoshka exit (answers the layer-routing + summary-network questions with one experiment)",
-  "Extension v0.0.8 scope: air-on-save + completeness gate + LSP live-test verdict"
+  "USER CALL: RL-run-2 on v7-merged base with the no-op arm (--run2 ready + dry-checked) \u2014 now evidence-backed NECESSARY by the v8 negative",
+  "Alternative if RL deferred: v8.1 mixture fix (drop the 11.4% colliding fb_cut_random rows, rebalance no_op)",
+  "USER CALL: A2-prime adoption (package complete, all inputs measured)",
+  "Extension v0.0.8: client-side completeness gate now product-critical",
+  "Random-cursor pretraining stream (astfim_random_v1, 76k rows/50.8M tok) slots into the A2-prime FIM share"
  ]
 }

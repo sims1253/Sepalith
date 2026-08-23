@@ -94,6 +94,21 @@ FAMILY_QUOTA = {          # train-split draws; held-out packages excluded
     "no_op": 350,                 # emit-nothing discipline (intent guard)
     "pipe_rewrite": 150,          # tiny anchor for the near-ceiling 0.944
 }
+# RL-run-2 no-op arm (docs/research/v8-noop-random-cursor.md layer 3): the
+# no_op share rises to ~30% of prompts and — on v8 data — covers all SIX
+# stop geometries (the 4 untrained ones included). The reward path is
+# unchanged (empty-target rows already give all-or-nothing: 1.2 iff the
+# completion is just the UPDATED marker); the run metric to watch is the
+# per-family no_op exact in rl_metrics.jsonl — that IS 1 - FP-rate on the
+# trained geometries. The untrained-geometry gate (<20% FP, from 100%) is
+# eval-side: eval_noop_fp.py, never this trainer.
+FAMILY_QUOTA_RUN2 = {
+    "rename_propagation": 1400,
+    "format_propagation": 1400,
+    "no_op": 1600,                # ~30% of the prompt draw
+    "pipe_rewrite": 150,
+    "finish_block": 800,          # present in sft_v8 renders; skipped if absent
+}
 SHAPING = 0.2             # reward = exact + SHAPING * line_f1 (max 1.2)
 
 # ---------------------------------------------------------------------------
@@ -111,7 +126,8 @@ def gt_lines(target: str):
     return norm(body.splitlines())
 
 
-def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407):
+def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407,
+                  data_path=TRAIN_JSONL):
     import random
     holdout = set()
     for line in open(HOLDOUT_REF):
@@ -121,7 +137,7 @@ def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407):
             holdout.add(r["prompt"])
     pools, excluded = {f: [] for f in quotas}, {"holdout": 0, "dupe": 0}
     seen = set()
-    for line in open(TRAIN_JSONL):
+    for line in open(data_path):
         r = json.loads(line)
         fam = r.get("family")
         if fam not in quotas:
@@ -232,6 +248,12 @@ def main():
     ap.add_argument("--memfrac", type=float, default=0.62,
                     help="cuda memory fraction cap (twin POC co-existence)")
     ap.add_argument("--families", default=",".join(FAMILY_QUOTA))
+    ap.add_argument("--data", default=str(TRAIN_JSONL),
+                    help="train split jsonl (family-keyed zeta2 renders)")
+    ap.add_argument("--model", default=str(MERGED_BASE),
+                    help="merged GRPO base dir")
+    ap.add_argument("--run2", action="store_true",
+                    help="RL-run-2 no-op arm profile (see FAMILY_QUOTA_RUN2)")
     ap.add_argument("--out", default="/mnt/h/sepalith/runs/rl_grpo_v1")
     args = ap.parse_args()
 
@@ -246,12 +268,13 @@ def main():
     from transformers import TrainerCallback
     from trl import GRPOConfig, GRPOTrainer
 
-    quotas = {f: FAMILY_QUOTA[f] for f in
-              [x.strip() for x in args.families.split(",")] if f in FAMILY_QUOTA}
+    quotas = {f: n for f, n in
+              (FAMILY_QUOTA_RUN2 if args.run2 else FAMILY_QUOTA).items()
+              if f in [x.strip() for x in args.families.split(",")]}
     if args.smoke:
         quotas = {f: min(n, 8) for f, n in quotas.items()}
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=str(MERGED_BASE), max_seq_length=2048, dtype=None,
+        model_name=args.model, max_seq_length=2048, dtype=None,
         load_in_4bit=False)
     model = FastLanguageModel.get_peft_model(
         model, r=16, lora_alpha=16, lora_dropout=0,
@@ -268,7 +291,8 @@ def main():
     assert ids[0] == tokenizer.bos_token_id, \
         f"BOS parity broken: {ids[:3]} vs bos_id={tokenizer.bos_token_id}"
 
-    rows, dstat = build_dataset(tokenizer, quotas)
+    rows, dstat = build_dataset(tokenizer, quotas,
+                                data_path=Path(args.data))
     print(json.dumps(dict(dataset=dstat, n_rows=len(rows),
                           bos=tokenizer.bos_token)), flush=True)
     ds = Dataset.from_list(rows)

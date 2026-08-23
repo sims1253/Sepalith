@@ -620,16 +620,16 @@
   "mtime": 1787335830.7893705
  },
  "families/doc_sync/muse-spark-1.2.jsonl": {
-  "size": 12492715,
-  "mtime": 1787339938.1862495
+  "size": 14303406,
+  "mtime": 1787452781.6640253
  },
  "families/doc_sync/muse-spark-1.2.done.jsonl": {
-  "size": 312737,
-  "mtime": 1787339938.2458715
+  "size": 354222,
+  "mtime": 1787452781.702292
  },
  "families/doc_sync/muse-spark-1.2.stats.json": {
-  "size": 1080,
-  "mtime": 1787339938.2991264
+  "size": 1033,
+  "mtime": 1787452781.7399344
  },
  "families/expectation_completion/corpus.jsonl": {
   "size": 1037910,
@@ -728,16 +728,16 @@
   "mtime": 1787244175.9087253
  },
  "families/rewrite_fixissue/muse-spark-1.2.jsonl": {
-  "size": 34862718,
-  "mtime": 1787450601.3915763
+  "size": 52184119,
+  "mtime": 1787470099.7710824
  },
  "families/rewrite_fixissue/muse-spark-1.2.done.jsonl": {
-  "size": 1280978,
-  "mtime": 1787450601.4124837
+  "size": 1884218,
+  "mtime": 1787470099.809834
  },
  "families/rewrite_fixissue/muse-spark-1.2.stats.json": {
-  "size": 896,
-  "mtime": 1787450601.433146
+  "size": 1011,
+  "mtime": 1787470099.8482401
  },
  "families/rewrite_fixissue/glm-5.3.jsonl": {
   "size": 11548509,
@@ -776,52 +776,52 @@
   "mtime": 1787308191.733377
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.jsonl": {
-  "size": 13192937,
-  "mtime": 1787450451.0411155
+  "size": 18120278,
+  "mtime": 1787470414.4034386
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.done.jsonl": {
-  "size": 442931,
-  "mtime": 1787450451.069436
+  "size": 591910,
+  "mtime": 1787470414.4392629
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.stats.json": {
-  "size": 1046,
-  "mtime": 1787450576.2884655
+  "size": 1072,
+  "mtime": 1787470414.4825633
  },
  "families/rewrite_lint_fix_oxalpha/corpus.jsonl": {
-  "size": 2230366,
-  "mtime": 1787450267.9205823
+  "size": 2497414,
+  "mtime": 1787470345.9707334
  },
  "families/rewrite_lint_fix_oxalpha/corpus.done.jsonl": {
-  "size": 214782,
-  "mtime": 1787450550.3562996
+  "size": 270888,
+  "mtime": 1787470441.4462726
  },
  "families/rewrite_lint_fix_oxalpha/corpus.stats.json": {
-  "size": 926,
-  "mtime": 1787450550.3807487
+  "size": 970,
+  "mtime": 1787470441.4658363
  },
  "families/rewrite_lint_fix/muse-spark-1.2.jsonl": {
-  "size": 4907435,
-  "mtime": 1787450610.5505826
+  "size": 7792727,
+  "mtime": 1787456614.5283144
  },
  "families/rewrite_lint_fix/muse-spark-1.2.done.jsonl": {
-  "size": 160799,
-  "mtime": 1787450610.5755568
+  "size": 245714,
+  "mtime": 1787456614.6083539
  },
  "families/rewrite_lint_fix/muse-spark-1.2.stats.json": {
-  "size": 972,
-  "mtime": 1787450578.924611
+  "size": 1042,
+  "mtime": 1787457091.5114596
  },
  "families/rewrite_lint_fix/x-preview.jsonl": {
-  "size": 5407801,
-  "mtime": 1787448933.5640044
+  "size": 5715741,
+  "mtime": 1787470386.3719933
  },
  "families/rewrite_lint_fix/x-preview.done.jsonl": {
-  "size": 381411,
-  "mtime": 1787449059.1288738
+  "size": 410681,
+  "mtime": 1787470386.416256
  },
  "families/rewrite_lint_fix/x-preview.stats.json": {
-  "size": 976,
-  "mtime": 1787450560.9922574
+  "size": 1016,
+  "mtime": 1787470386.4587154
  },
  "families/tidyselect_completion/corpus.jsonl": {
   "size": 34437,
@@ -968,16 +968,16 @@
   "mtime": 1787239130.2169738
  },
  "families/rewrite_fixissue/x-preview.jsonl": {
-  "size": 2106388,
-  "mtime": 1787450598.379253
+  "size": 3501873,
+  "mtime": 1787470393.1687453
  },
  "families/rewrite_fixissue/x-preview.done.jsonl": {
-  "size": 114801,
-  "mtime": 1787450598.40176
+  "size": 185827,
+  "mtime": 1787470393.246786
  },
  "families/rewrite_fixissue/x-preview.stats.json": {
-  "size": 983,
-  "mtime": 1787450538.1534488
+  "size": 989,
+  "mtime": 1787470425.1131556
  },
  "families/finish_block_authored/corpus.jsonl": {
   "size": 45389,
@@ -992,16 +992,16 @@
   "mtime": 1787416828.7879555
  },
  "families/finish_block_authored/gemini-3.7-flash.jsonl": {
-  "size": 22876622,
-  "mtime": 1787450573.4294899
+  "size": 60544054,
+  "mtime": 1787461722.1213937
  },
  "families/finish_block_authored/gemini-3.7-flash.done.jsonl": {
-  "size": 92438,
-  "mtime": 1787450573.4716542
+  "size": 226847,
+  "mtime": 1787461722.1607294
  },
  "families/finish_block_authored/gemini-3.7-flash.stats.json": {
-  "size": 2148,
-  "mtime": 1787450518.8145988
+  "size": 2219,
+  "mtime": 1787461722.1968184
  },
  "families/finish_block_authored_bases/corpus.jsonl": {
   "size": 3608,
@@ -1016,19 +1016,19 @@
   "mtime": 1787448138.1220765
  },
  "families/finish_block_authored_oxalpha-nous/corpus.jsonl": {
-  "size": 74618,
-  "mtime": 1787448881.7087722
+  "size": 101195,
+  "mtime": 1787452078.8510904
  },
  "families/finish_block_authored_oxalpha-nous/corpus.done.jsonl": {
-  "size": 743,
-  "mtime": 1787449789.1001568
+  "size": 1106,
+  "mtime": 1787455788.1783216
  },
  "families/finish_block_authored_oxalpha-nous/corpus.stats.json": {
-  "size": 1552,
-  "mtime": 1787450540.237742
+  "size": 1656,
+  "mtime": 1787456077.4066947
  },
  "families/finish_block_authored_oxalpha-nous_bases/corpus.jsonl": {
-  "size": 4055,
-  "mtime": 1787448881.4612904
+  "size": 5689,
+  "mtime": 1787452078.6949763
  }
 }
