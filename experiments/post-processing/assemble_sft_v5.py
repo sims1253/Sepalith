@@ -293,6 +293,22 @@ def load_finish_block():
                     pass  # torn tail: lanes append live
                 n_v8 += 1
     stats[f"{fam}:source_v8_waves"] = n_v8
+    # v8 lesson (night log 2026-08-23): fb_cut_random rows whose target
+    # starts with a blank line collide with the no_op interior_line_end
+    # geometry — identical cursor context, contradictory target (11.4%
+    # of random cuts; the measured mechanism behind v8's FP regression).
+    # Reserve blank-following cut positions for no_op: drop them here.
+    n_collide = 0
+    kept_recs = []
+    for r in recs:
+        if r.get("transform") == "fb_cut_random":
+            tgt = (r.get("target") or "").splitlines()
+            if tgt and not tgt[0].strip():
+                n_collide += 1
+                continue
+        kept_recs.append(r)
+    recs = kept_recs
+    stats[f"{fam}:v81_collision_dropped"] = n_collide
     # exact-target dedup (v1 convention, keep first)
     seen, uniq = set(), []
     for r in recs:

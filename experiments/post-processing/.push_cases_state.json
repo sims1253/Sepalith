@@ -776,28 +776,28 @@
   "mtime": 1787308191.733377
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.jsonl": {
-  "size": 18120278,
-  "mtime": 1787470414.4034386
+  "size": 19976984,
+  "mtime": 1787477948.9809513
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.done.jsonl": {
-  "size": 591910,
-  "mtime": 1787470414.4392629
+  "size": 650779,
+  "mtime": 1787478009.1395395
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.stats.json": {
-  "size": 1072,
-  "mtime": 1787470414.4825633
+  "size": 1074,
+  "mtime": 1787478009.158894
  },
  "families/rewrite_lint_fix_oxalpha/corpus.jsonl": {
-  "size": 2497414,
-  "mtime": 1787470345.9707334
+  "size": 2657608,
+  "mtime": 1787477843.5650063
  },
  "families/rewrite_lint_fix_oxalpha/corpus.done.jsonl": {
-  "size": 270888,
-  "mtime": 1787470441.4462726
+  "size": 298839,
+  "mtime": 1787477993.8971655
  },
  "families/rewrite_lint_fix_oxalpha/corpus.stats.json": {
-  "size": 970,
-  "mtime": 1787470441.4658363
+  "size": 975,
+  "mtime": 1787477993.9379728
  },
  "families/rewrite_lint_fix/muse-spark-1.2.jsonl": {
   "size": 7792727,
@@ -812,16 +812,16 @@
   "mtime": 1787457091.5114596
  },
  "families/rewrite_lint_fix/x-preview.jsonl": {
-  "size": 5715741,
-  "mtime": 1787470386.3719933
+  "size": 6213978,
+  "mtime": 1787477765.8179386
  },
  "families/rewrite_lint_fix/x-preview.done.jsonl": {
-  "size": 410681,
-  "mtime": 1787470386.416256
+  "size": 449712,
+  "mtime": 1787478006.2320547
  },
  "families/rewrite_lint_fix/x-preview.stats.json": {
-  "size": 1016,
-  "mtime": 1787470386.4587154
+  "size": 1022,
+  "mtime": 1787478006.268952
  },
  "families/tidyselect_completion/corpus.jsonl": {
   "size": 34437,
@@ -968,16 +968,16 @@
   "mtime": 1787239130.2169738
  },
  "families/rewrite_fixissue/x-preview.jsonl": {
-  "size": 3501873,
-  "mtime": 1787470393.1687453
+  "size": 4344994,
+  "mtime": 1787478005.093499
  },
  "families/rewrite_fixissue/x-preview.done.jsonl": {
-  "size": 185827,
-  "mtime": 1787470393.246786
+  "size": 228772,
+  "mtime": 1787478005.1304784
  },
  "families/rewrite_fixissue/x-preview.stats.json": {
-  "size": 989,
-  "mtime": 1787470425.1131556
+  "size": 997,
+  "mtime": 1787478005.1694398
  },
  "families/finish_block_authored/corpus.jsonl": {
   "size": 45389,
