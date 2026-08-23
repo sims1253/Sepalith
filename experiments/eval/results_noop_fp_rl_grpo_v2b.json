@@ -1,0 +1,367 @@
+{"cases": 258, "per_class": {"b_mid_typing": 54, "c_blank_in_fn": 16, "c_stmt_line_end": 54, "a_after_close_brace": 54, "d_tempt_stmt_end": 12, "d_tempt_close_brace": 12, "c_mid_identifier": 29, "a_file_end": 27}, "authored_sources": 24, "elapsed_s": 1.5}
+[serve] external server :18117 ready (not ours — never killed)
+{"id": "ae4064e4f7d9", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.374}
+{"id": "002b9ad95368", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.187}
+{"id": "7401be19f732", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.186}
+{"id": "c3a0c33c9764", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.186}
+{"id": "9c43620b1498", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.129}
+{"id": "2167642a04a4", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.128}
+{"id": "6c24fa70933d", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.25}
+{"id": "3cc8630479ea", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.229}
+{"id": "25afe386464d", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.32}
+{"id": "57474065a537", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.079}
+{"id": "cd99b2340dbb", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.297}
+{"id": "c1e7bfb0cdab", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.081}
+{"id": "fd0403dbd863", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.399}
+{"id": "b18e17f52e44", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.204}
+{"id": "1e3de32838f5", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.195}
+{"id": "14722856e987", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.294}
+{"id": "79b71994dc45", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.288}
+{"id": "e7d417f526b5", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.206}
+{"id": "5a157c1fb562", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.188}
+{"id": "a0bfc7d5ac4b", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.239}
+{"id": "1f6086316933", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.107}
+{"id": "4746fa5c7c76", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.165}
+{"id": "08e8ea8ba36f", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.197}
+{"id": "f447c6feeabd", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.441}
+{"id": "80a9aa7000d9", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.225}
+{"id": "0f0a6fb1ef0b", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.241}
+{"id": "4c48ca4fde01", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.217}
+{"id": "4e17302d1137", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.145}
+{"id": "2687924ef375", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.154}
+{"id": "40ddc86db1d4", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.157}
+{"id": "973ad8113916", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.18}
+{"id": "51d1ca33f601", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.168}
+{"id": "cc635c8782e2", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.203}
+{"id": "8b9f20722a32", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.303}
+{"id": "92c0f9789f8d", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.302}
+{"id": "55c7b3c67d7c", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.162}
+{"id": "f1dedf42299f", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.298}
+{"id": "1bf04cd2fbd0", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.167}
+{"id": "080271420b4c", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.246}
+{"id": "679dcd300b5e", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.188}
+{"id": "490245ddf747", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.241}
+{"id": "4dc3bd0d99ab", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.078}
+{"id": "fbcacb0506f0", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.319}
+{"id": "08268f5d28a6", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.202}
+{"id": "bdd0ff959673", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.319}
+{"id": "10e6b1af69ca", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.293}
+{"id": "10fa9cb09651", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.363}
+{"id": "e4a2ba0a6d1c", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.184}
+{"id": "43bc409b5483", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.493}
+{"id": "4c4224a58103", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.076}
+{"id": "0bfb14cb670a", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.245}
+{"id": "b837cbc5cb00", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.239}
+{"id": "c9f531134006", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.21}
+{"id": "38f37dc938c2", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.148}
+{"id": "8b469ce5196d", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.178}
+{"id": "eacf6991804e", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.134}
+{"id": "448a6960dfc8", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.155}
+{"id": "9887a2502cad", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.41}
+{"id": "0cea8d070c8e", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.192}
+{"id": "00c92de2d631", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.1}
+{"id": "5ff826449c9c", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.099}
+{"id": "00815834366b", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.184}
+{"id": "2a0231482fc9", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.249}
+{"id": "7239a89472c2", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.214}
+{"id": "bcb3ebed6ab2", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 7, "latency_s": 0.555}
+{"id": "3b5ab3b8cb61", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.165}
+{"id": "1d1977ef9270", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.165}
+{"id": "77c12eb7e9b3", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.207}
+{"id": "2087002c5f68", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.111}
+{"id": "3d32a0e24205", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.133}
+{"id": "a6552e9b39fc", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.238}
+{"id": "ea754d2d70a1", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.137}
+{"id": "3bdadf665d78", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.224}
+{"id": "a0a79a4f7ab5", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.281}
+{"id": "23805e5b19e7", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.133}
+{"id": "bf610648025a", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.181}
+{"id": "82cc8bffe73d", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.121}
+{"id": "c103c2cd9241", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.145}
+{"id": "0ecf03f97805", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.129}
+{"id": "88be65ac04cc", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.413}
+{"id": "f15a84febe5a", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.113}
+{"id": "c0a542a33416", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.241}
+{"id": "5d5fe95fddd6", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.091}
+{"id": "3cc6cb313063", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.191}
+{"id": "815c38cab9d3", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.323}
+{"id": "c039bb1ee89e", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.087}
+{"id": "9bd39c312a26", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.365}
+{"id": "8fe17610ffff", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 9, "latency_s": 0.812}
+{"id": "56160834b5b1", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.242}
+{"id": "4dcecccd7827", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.2}
+{"id": "76099aad5a5d", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.174}
+{"id": "b63cb78d4f34", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.428}
+{"id": "1e0c3f012f1c", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.27}
+{"id": "37447681be43", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.091}
+{"id": "cd812e65f33c", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.344}
+{"id": "67e3b60c2121", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.143}
+{"id": "c3f25931c79b", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.221}
+{"id": "b9f661166e7c", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.122}
+{"id": "c1ce12040cb5", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.193}
+{"id": "970ac1737a3a", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.321}
+{"id": "52623f28cde6", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.177}
+{"id": "9624449edac5", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.155}
+{"id": "99273c43215f", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.303}
+{"id": "07e3001daa73", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.498}
+{"id": "f5d1d16faff4", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.598}
+{"id": "8da5e86402e9", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.218}
+{"id": "5f42f324df4c", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.108}
+{"id": "52d7cce06109", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.225}
+{"id": "927a3ede94e1", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.336}
+{"id": "16f2d82bcbfa", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.215}
+{"id": "a6764f357bf7", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.234}
+{"id": "5fb66bde9931", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.252}
+{"id": "3edaa63d127e", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.279}
+{"id": "eea06d05ec29", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.271}
+{"id": "ae5738dddf0f", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.26}
+{"id": "9b9f5524a6a1", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.164}
+{"id": "c41888d43238", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.085}
+{"id": "dd9306bfc08f", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.079}
+{"id": "6975b9a8f973", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.097}
+{"id": "30c928188fac", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 5, "latency_s": 0.327}
+{"id": "fc090fd3e2c6", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.09}
+{"id": "ee8a133be6f2", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.212}
+{"id": "28a488f5f07a", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.233}
+{"id": "98d9625b283b", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.068}
+{"id": "f153202eb431", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.123}
+{"id": "4741aa05d010", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.115}
+{"id": "526c8795e2a4", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.649}
+{"id": "4d952e98998e", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.78}
+{"id": "28c4380460f4", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.648}
+{"id": "2f3ad2861337", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.729}
+{"id": "237342cf1467", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.112}
+{"id": "c32e54c68b9a", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.197}
+{"id": "cb0e96173482", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.182}
+{"id": "cb095072cbf9", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.16}
+{"id": "0b72d810997a", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.163}
+{"id": "484b074dc511", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.17}
+{"id": "67408c91c3db", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.272}
+{"id": "2b786333152a", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.117}
+{"id": "32fff68fd0cb", "cls": "b_mid_typing", "kind": "mid_typing_m<-mean(x,na", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.211}
+{"id": "ab1d6bea6cf7", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.33}
+{"id": "1aa4f541ee79", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.07}
+{"id": "99a63573c00e", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.172}
+{"id": "1dc2a41f5d39", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.145}
+{"id": "16747384d628", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.232}
+{"id": "72d57fcd2428", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.2}
+{"id": "e8a79748bfb3", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.229}
+{"id": "6aa3864d319a", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.049}
+{"id": "f24b6f780200", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.082}
+{"id": "0ac3a8b8866c", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.081}
+{"id": "6a29521d19f5", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.167}
+{"id": "113270002fef", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.421}
+{"id": "dc69659de3b3", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.173}
+{"id": "abe9b152178b", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.226}
+{"id": "96afed62c955", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.087}
+{"id": "93edafcf3f34", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.189}
+{"id": "b9811634a8f9", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.332}
+{"id": "8d114e9fe65f", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.592}
+{"id": "c2e678887a7a", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.122}
+{"id": "3016b8c34493", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.065}
+{"id": "179d0ddb3621", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.172}
+{"id": "1a734898e89a", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.309}
+{"id": "3d2ffd9ec66b", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.219}
+{"id": "f1b625112a47", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.072}
+{"id": "6e231ddc088d", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.236}
+{"id": "6ae142edb140", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.147}
+{"id": "46eab0c7b137", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.225}
+{"id": "a80a55af8c5a", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.252}
+{"id": "00cce3a6ae0a", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.312}
+{"id": "f5327ece02e8", "cls": "d_tempt_close_brace", "kind": "tempt_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.188}
+{"id": "9eeb578a7528", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.326}
+{"id": "93672dcdce8b", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.228}
+{"id": "a8ad7cbf8c32", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.132}
+{"id": "7a2662a0132c", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.227}
+{"id": "1f480c8831f2", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.2}
+{"id": "0a678ffcc00c", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.376}
+{"id": "ebe6d7d61af2", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.216}
+{"id": "3bf635d979dc", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 2, "latency_s": 0.232}
+{"id": "f24e5f00d068", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.06}
+{"id": "9ebd01462835", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.095}
+{"id": "af67d71248b7", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.294}
+{"id": "e7385771a5df", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.453}
+{"id": "f1fc55a3dca7", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.091}
+{"id": "1113de6f6ca1", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.243}
+{"id": "b57c8b0c4604", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.238}
+{"id": "e5f0d2a43e4b", "cls": "b_mid_typing", "kind": "mid_typing_vals<-c(vals", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.244}
+{"id": "63592b2a2d0d", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.21}
+{"id": "14f2f58bb3e0", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.233}
+{"id": "140ef9b8cee4", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.282}
+{"id": "f8271d2f0b5f", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.466}
+{"id": "c44772d38cb0", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.202}
+{"id": "5feb06ad401c", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.279}
+{"id": "19e2667a0a3b", "cls": "b_mid_typing", "kind": "mid_typing_if(n>", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.269}
+{"id": "262712edc784", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.132}
+{"id": "2f32eaf4a4bf", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.41}
+{"id": "13e6433b3994", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.224}
+{"id": "f75a65f87d3e", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.13}
+{"id": "ef09d6e6928f", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.11}
+{"id": "f3af5d73a850", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.158}
+{"id": "54a242430f30", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.366}
+{"id": "603191017cc3", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.2}
+{"id": "ffb4ea58ade3", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.198}
+{"id": "fa5afaf6ff7b", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.067}
+{"id": "907ec17300e4", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.474}
+{"id": "cd54a92a8be2", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.203}
+{"id": "588b0aa602c6", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.296}
+{"id": "37376abf1ed8", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.104}
+{"id": "dcd31f5d7efe", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.124}
+{"id": "6c9b7f7af135", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.177}
+{"id": "659003521f1a", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.133}
+{"id": "17acb7564467", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.265}
+{"id": "1cefb8f20572", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.103}
+{"id": "58a071a4b796", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.168}
+{"id": "e831db882abe", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.118}
+{"id": "4e92f5c41ff3", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.23}
+{"id": "0aa246d9784a", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.095}
+{"id": "ee2d1e4a102c", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.273}
+{"id": "580e536a7868", "cls": "a_file_end", "kind": "file_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.263}
+{"id": "3ea216a2e9a5", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.071}
+{"id": "bc359237d446", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.229}
+{"id": "990782ed13f1", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.116}
+{"id": "1d2e455e39fa", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.099}
+{"id": "e90b59f56f4c", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.373}
+{"id": "5ba519b07ca6", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.138}
+{"id": "d5ae6227cc66", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.165}
+{"id": "a2f3edb23770", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.347}
+{"id": "9cc00b27c99c", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.142}
+{"id": "a487c0504d76", "cls": "d_tempt_stmt_end", "kind": "tempt_stmt_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.399}
+{"id": "d0bd52eec999", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.473}
+{"id": "0a443058f30e", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.266}
+{"id": "163c24eaedb2", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.106}
+{"id": "6b3e196b5f39", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.199}
+{"id": "72d3b5dbf6c0", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.243}
+{"id": "e8fd29e6befa", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.323}
+{"id": "6bd84ab3305a", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.087}
+{"id": "1ec2231909c6", "cls": "b_mid_typing", "kind": "mid_typing_plot(x,co", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.121}
+{"id": "1927470df373", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 3, "latency_s": 0.404}
+{"id": "eeec3b44fdf1", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.06}
+{"id": "c8517ac95e7c", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.06}
+{"id": "67ceeb8ced0e", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.103}
+{"id": "528b53309db4", "cls": "b_mid_typing", "kind": "mid_typing_res<-x%>%", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.161}
+{"id": "4e2b8c584188", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.142}
+{"id": "565e48a3674c", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.131}
+{"id": "138834064d3e", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.218}
+{"id": "487d988cc81a", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.217}
+{"id": "326940f697b8", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.236}
+{"id": "c21e14fe34c4", "cls": "c_blank_in_fn", "kind": "blank_in_fn", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.328}
+{"id": "2bcb2997ae46", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.092}
+{"id": "095e52b252f7", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.224}
+{"id": "046067c0243e", "cls": "b_mid_typing", "kind": "mid_typing_out<-lapp", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.442}
+{"id": "c07ae27acff8", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.079}
+{"id": "36c6b34eb9a6", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.138}
+{"id": "86f18dcb6c90", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.266}
+{"id": "4ab893de8471", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.123}
+{"id": "18c2d85a57cd", "cls": "a_after_close_brace", "kind": "after_close_brace", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.108}
+{"id": "4949d8179f5c", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.118}
+{"id": "4aeb66724a2d", "cls": "c_mid_identifier", "kind": "mid_identifier", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.128}
+{"id": "a6786ff6ad50", "cls": "a_file_end", "kind": "file_end", "proposal": 0, "n_pred_lines": 0, "latency_s": 0.077}
+{"id": "907b3901f584", "cls": "c_stmt_line_end", "kind": "stmt_line_end", "proposal": 1, "n_pred_lines": 1, "latency_s": 0.103}
+{
+ "VERDICT": {
+  "model": "rl_grpo_v2b",
+  "gguf": "/home/m0hawk/Documents/Sepalith/experiments/models/rl_grpo_v2b-Q8_0.gguf",
+  "port": 18117,
+  "external": true,
+  "workers": 4,
+  "temperature": 0,
+  "max_tokens": 320,
+  "stop": [
+   ">>>>>>> UPDATED",
+   "<<<<<<< CURRENT",
+   "=======",
+   "<[fim-middle]>",
+   "<[fim-suffix]>",
+   "<[fim-prefix]>",
+   "<|outline|>"
+  ],
+  "render": "extension v0.0.6 (context_build.buildScopedPrompt scope=null)",
+  "acceptance": "extension.parsePrediction non-empty == ghost text shown",
+  "cases_total": 258,
+  "no_op_cases": 204,
+  "FALSE_POSITIVE_RATE": 0.5392,
+  "by_class": {
+   "a_after_close_brace": {
+    "n": 54,
+    "proposal_rate": 0.0,
+    "scored_as_fp": true,
+    "mean_pred_chars": 0.0,
+    "mean_completion_tokens": 7.0,
+    "p50_latency_s": 0.123,
+    "p95_latency_s": 0.225,
+    "sample_proposal": ""
+   },
+   "a_file_end": {
+    "n": 27,
+    "proposal_rate": 0.2593,
+    "scored_as_fp": true,
+    "mean_pred_chars": 45.7,
+    "mean_completion_tokens": 9.7,
+    "p50_latency_s": 0.113,
+    "p95_latency_s": 0.363,
+    "sample_proposal": "check_model_val <- function(model, call = caller_env()) {"
+   },
+   "b_mid_typing": {
+    "n": 54,
+    "proposal_rate": 1.0,
+    "scored_as_fp": false,
+    "mean_pred_chars": 23.6,
+    "mean_completion_tokens": 16.0,
+    "p50_latency_s": 0.238,
+    "p95_latency_s": 0.428,
+    "sample_proposal": "  m <- mean(x, na.rm = TRUE)"
+   },
+   "c_blank_in_fn": {
+    "n": 16,
+    "proposal_rate": 0.5625,
+    "scored_as_fp": true,
+    "mean_pred_chars": 66.1,
+    "mean_completion_tokens": 17.2,
+    "p50_latency_s": 0.245,
+    "p95_latency_s": 0.555,
+    "sample_proposal": "  fn <- parse_full_name(orcid)"
+   },
+   "c_mid_identifier": {
+    "n": 29,
+    "proposal_rate": 1.0,
+    "scored_as_fp": true,
+    "mean_pred_chars": 31.9,
+    "mean_completion_tokens": 15.9,
+    "p50_latency_s": 0.226,
+    "p95_latency_s": 0.441,
+    "sample_proposal": "    ngrepl(comment, authors$comment) &"
+   },
+   "c_stmt_line_end": {
+    "n": 54,
+    "proposal_rate": 0.9815,
+    "scored_as_fp": true,
+    "mean_pred_chars": 33.1,
+    "mean_completion_tokens": 16.4,
+    "p50_latency_s": 0.229,
+    "p95_latency_s": 0.592,
+    "sample_proposal": "    }"
+   },
+   "d_tempt_close_brace": {
+    "n": 12,
+    "proposal_rate": 0.0,
+    "scored_as_fp": true,
+    "mean_pred_chars": 0.0,
+    "mean_completion_tokens": 7.0,
+    "p50_latency_s": 0.134,
+    "p95_latency_s": 0.188,
+    "sample_proposal": ""
+   },
+   "d_tempt_stmt_end": {
+    "n": 12,
+    "proposal_rate": 1.0,
+    "scored_as_fp": true,
+    "mean_pred_chars": 30.5,
+    "mean_completion_tokens": 16.8,
+    "p50_latency_s": 0.273,
+    "p95_latency_s": 0.373,
+    "sample_proposal": "    out[i] <- sd(x[lo:i])"
+   }
+  }
+ }
+}

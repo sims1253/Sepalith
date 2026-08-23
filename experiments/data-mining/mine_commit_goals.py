@@ -60,8 +60,11 @@ Diff (files: {nfiles}, changed lines: {nch}):
 
 
 def git(repo: Path, *args: str, timeout: int = 30) -> str:
+    # errors="replace": repo diffs can carry Windows-1252 bytes (0x92
+    # smart quotes killed a run); the card model tolerates replacements
     return subprocess.run(["git", "-C", str(repo), *args],
-                          capture_output=True, text=True, timeout=timeout
+                          capture_output=True, text=True,
+                          errors="replace", timeout=timeout
                           ).stdout
 
 
