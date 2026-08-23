@@ -19,6 +19,7 @@ interface Config {
   contextSize: number;
   autoStart: boolean;
   debounceMs: number;
+  postAcceptCooldown: boolean;
   debugMode: boolean;
   scopeContext: boolean;
 }
@@ -33,6 +34,7 @@ function cfg(): Config {
     contextSize: c.get("contextSize", 8192),
     autoStart: c.get("autoStart", true),
     debounceMs: c.get("debounceMs", 1500),
+    postAcceptCooldown: c.get("postAcceptCooldown", true),
     debugMode: c.get("debugMode", false),
     scopeContext: c.get("scopeContext", true),
   };
@@ -569,6 +571,10 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
 
   handleDidPartiallyAcceptCompletionItem(item: vscode.InlineCompletionItem): void {
     SepalithProvider.accepted++;
+    // post-accept cooldown (user rule 2026-08-23): no new suggestion until
+    // the user's NEXT button press. The accepted text lands as a document
+    // change right after this event — that insertion must not re-trigger.
+    postAcceptInsertionPending = cfg().postAcceptCooldown;
     channel.appendLine(`accept (${SepalithProvider.accepted}/${SepalithProvider.shown})`);
     renderStatusBar();
   }
@@ -585,6 +591,10 @@ let lastStats = "no requests yet";
 let lastPrompt = "(no request yet)";
 let lastRaw = "(no response yet)";
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+// post-accept cooldown state: true between an accept event and the
+// acceptance's own document-change event (which gets swallowed so it
+// cannot re-trigger; the user's next keystroke triggers normally)
+let postAcceptInsertionPending = false;
 const sidecar = new Sidecar();
 
 function modelName(): string {
@@ -663,6 +673,13 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, new SepalithProvider()),
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (e.document.languageId !== "r") return;
+      if (postAcceptInsertionPending) {
+        // the just-accepted text landing: swallow this change — the next
+        // auto-suggestion waits for the user's next real button press
+        postAcceptInsertionPending = false;
+        if (debounceTimer !== null) { clearTimeout(debounceTimer); debounceTimer = null; }
+        return;
+      }
       const ms = cfg().debounceMs;
       if (ms <= 0) return; // 0 disables auto-trigger (manual only)
       if (debounceTimer !== null) clearTimeout(debounceTimer);

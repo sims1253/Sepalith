@@ -108,6 +108,11 @@
           "default": true,
           "description": "Start the sidecar on activation."
         },
+        "sepalith.postAcceptCooldown": {
+          "type": "boolean",
+          "default": true,
+          "description": "After accepting a suggestion, suppress the next auto-trigger until your next keystroke (the acceptance insertion itself does not re-trigger)."
+        },
         "sepalith.debounceMs": {
           "type": "number",
           "default": 1500,

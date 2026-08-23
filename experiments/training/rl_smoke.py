@@ -127,7 +127,7 @@ def gt_lines(target: str):
 
 
 def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407,
-                  data_path=TRAIN_JSONL):
+                  data_path=TRAIN_JSONL, refine_path=None):
     import random
     holdout = set()
     for line in open(HOLDOUT_REF):
@@ -155,6 +155,23 @@ def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407,
     for fam, pool in pools.items():
         rng.shuffle(pool)                       # random draw, not file order
         rows.extend(pool[: quotas[fam]])
+    # refinement arm (recursive validator feedback, user idea 2026-08-23):
+    # prompts embed the model's own failed attempt + a leak-free diagnostic
+    # (#! validator: ... / #! feedback: dismissed); target/reward unchanged.
+    # 1x — ~9% of the prompt draw: an arm-within-the-run, not a quota
+    # family (the smoke showed occasional nonzero rewards zero-shot, so
+    # GRPO has group variance to learn from without a format warm-start).
+    if refine_path:
+        n_ref = 0
+        for line in open(refine_path):
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if r.get("family", "").startswith("refine_"):
+                rows.append(r)
+                n_ref += 1
+        print(f"refinement arm: {n_ref} prompt slots", flush=True)
     rng.shuffle(rows)
     # BOS parity + length guard: prompts must fit max_prompt_length tokens
     # (trl truncates from the RIGHT, which would cut the <[fim-middle]> cue),
@@ -254,6 +271,9 @@ def main():
                     help="merged GRPO base dir")
     ap.add_argument("--run2", action="store_true",
                     help="RL-run-2 no-op arm profile (see FAMILY_QUOTA_RUN2)")
+    ap.add_argument("--refine-data", default=None,
+                    help="refinement prompt jsonl (recursive validator "
+                         "feedback arm, build_refinement_set.py output)")
     ap.add_argument("--out", default="/mnt/h/sepalith/runs/rl_grpo_v1")
     args = ap.parse_args()
 
@@ -292,7 +312,8 @@ def main():
         f"BOS parity broken: {ids[:3]} vs bos_id={tokenizer.bos_token_id}"
 
     rows, dstat = build_dataset(tokenizer, quotas,
-                                data_path=Path(args.data))
+                                data_path=Path(args.data),
+                                refine_path=args.refine_data)
     print(json.dumps(dict(dataset=dstat, n_rows=len(rows),
                           bos=tokenizer.bos_token)), flush=True)
     ds = Dataset.from_list(rows)
