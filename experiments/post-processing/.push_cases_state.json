@@ -513,11 +513,11 @@
  },
  "families/comment_to_code_real/corpus.jsonl": {
   "size": 2533913,
-  "mtime": 1787333540.6012392
+  "mtime": 1787446818.6358008
  },
  "families/comment_to_code_synthetic/corpus.jsonl": {
-  "size": 3967142,
-  "mtime": 1787260672.9887435
+  "size": 0,
+  "mtime": 1787380528.5069284
  },
  "families/doc_sync/corpus.jsonl": {
   "size": 1955536,
@@ -532,16 +532,16 @@
   "mtime": 1787076352.272031
  },
  "families/mid_roxygen/corpus.jsonl": {
-  "size": 11326832,
-  "mtime": 1787179023.6373632
+  "size": 30869596,
+  "mtime": 1787449646.59792
  },
  "families/na_rm_propagation/corpus.jsonl": {
   "size": 188737,
   "mtime": 1787076352.6903124
  },
  "families/no_op/corpus.jsonl": {
-  "size": 7603074,
-  "mtime": 1787179274.75827
+  "size": 14003586,
+  "mtime": 1787448904.4238918
  },
  "families/pipe_rewrite/corpus.jsonl": {
   "size": 2739088,
@@ -556,28 +556,28 @@
   "mtime": 1787136586.521263
  },
  "families/astfim_partial/corpus.jsonl": {
-  "size": 32655727,
-  "mtime": 1787233931.9255784
+  "size": 33223737,
+  "mtime": 1787450369.1623454
  },
  "families/astfim_partial/corpus.done.jsonl": {
-  "size": 371148,
-  "mtime": 1787233931.9030526
+  "size": 371190,
+  "mtime": 1787450369.228105
  },
  "families/astfim_partial/corpus.stats.json": {
-  "size": 670,
-  "mtime": 1787233931.933781
+  "size": 710,
+  "mtime": 1787450369.275134
  },
  "families/astfim_partial_eval/corpus.jsonl": {
-  "size": 992483,
-  "mtime": 1787235291.1242998
+  "size": 1073548,
+  "mtime": 1787450369.3396282
  },
  "families/astfim_partial_eval/corpus.done.jsonl": {
-  "size": 12220,
-  "mtime": 1787235290.984979
+  "size": 12226,
+  "mtime": 1787450369.392673
  },
  "families/astfim_partial_eval/corpus.stats.json": {
-  "size": 674,
-  "mtime": 1787235291.191754
+  "size": 712,
+  "mtime": 1787450369.4416966
  },
  "families/base_samples/muse-spark-1.2.jsonl": {
   "size": 1882398,
@@ -728,16 +728,16 @@
   "mtime": 1787244175.9087253
  },
  "families/rewrite_fixissue/muse-spark-1.2.jsonl": {
-  "size": 29795402,
-  "mtime": 1787346216.3645463
+  "size": 34862718,
+  "mtime": 1787450601.3915763
  },
  "families/rewrite_fixissue/muse-spark-1.2.done.jsonl": {
-  "size": 1035361,
-  "mtime": 1787346216.3950515
+  "size": 1280978,
+  "mtime": 1787450601.4124837
  },
  "families/rewrite_fixissue/muse-spark-1.2.stats.json": {
-  "size": 957,
-  "mtime": 1787346216.4787488
+  "size": 896,
+  "mtime": 1787450601.433146
  },
  "families/rewrite_fixissue/glm-5.3.jsonl": {
   "size": 11548509,
@@ -776,52 +776,52 @@
   "mtime": 1787308191.733377
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.jsonl": {
-  "size": 12598184,
-  "mtime": 1787338979.226447
+  "size": 13192937,
+  "mtime": 1787450451.0411155
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.done.jsonl": {
-  "size": 424256,
-  "mtime": 1787338979.2674465
+  "size": 442931,
+  "mtime": 1787450451.069436
  },
  "families/rewrite_lint_fix/google-gemma-4-31b-it.stats.json": {
-  "size": 1121,
-  "mtime": 1787338979.369116
+  "size": 1046,
+  "mtime": 1787450576.2884655
  },
  "families/rewrite_lint_fix_oxalpha/corpus.jsonl": {
-  "size": 1419359,
-  "mtime": 1787365353.6605034
+  "size": 2230366,
+  "mtime": 1787450267.9205823
  },
  "families/rewrite_lint_fix_oxalpha/corpus.done.jsonl": {
-  "size": 120147,
-  "mtime": 1787365606.8708687
+  "size": 214782,
+  "mtime": 1787450550.3562996
  },
  "families/rewrite_lint_fix_oxalpha/corpus.stats.json": {
-  "size": 994,
-  "mtime": 1787365574.991742
+  "size": 926,
+  "mtime": 1787450550.3807487
  },
  "families/rewrite_lint_fix/muse-spark-1.2.jsonl": {
-  "size": 3112304,
-  "mtime": 1787302816.4351075
+  "size": 4907435,
+  "mtime": 1787450610.5505826
  },
  "families/rewrite_lint_fix/muse-spark-1.2.done.jsonl": {
-  "size": 110082,
-  "mtime": 1787302816.4758413
+  "size": 160799,
+  "mtime": 1787450610.5755568
  },
  "families/rewrite_lint_fix/muse-spark-1.2.stats.json": {
-  "size": 1010,
-  "mtime": 1787303386.0151796
+  "size": 972,
+  "mtime": 1787450578.924611
  },
  "families/rewrite_lint_fix/x-preview.jsonl": {
-  "size": 3265360,
-  "mtime": 1787365598.4970129
+  "size": 5407801,
+  "mtime": 1787448933.5640044
  },
  "families/rewrite_lint_fix/x-preview.done.jsonl": {
-  "size": 222509,
-  "mtime": 1787365598.534966
+  "size": 381411,
+  "mtime": 1787449059.1288738
  },
  "families/rewrite_lint_fix/x-preview.stats.json": {
-  "size": 1028,
-  "mtime": 1787365566.9221258
+  "size": 976,
+  "mtime": 1787450560.9922574
  },
  "families/tidyselect_completion/corpus.jsonl": {
   "size": 34437,
@@ -966,5 +966,69 @@
  "mixtures/sft_v6/stats.json": {
   "size": 12995,
   "mtime": 1787239130.2169738
+ },
+ "families/rewrite_fixissue/x-preview.jsonl": {
+  "size": 2106388,
+  "mtime": 1787450598.379253
+ },
+ "families/rewrite_fixissue/x-preview.done.jsonl": {
+  "size": 114801,
+  "mtime": 1787450598.40176
+ },
+ "families/rewrite_fixissue/x-preview.stats.json": {
+  "size": 983,
+  "mtime": 1787450538.1534488
+ },
+ "families/finish_block_authored/corpus.jsonl": {
+  "size": 45389,
+  "mtime": 1787415892.3907645
+ },
+ "families/finish_block_authored/corpus.done.jsonl": {
+  "size": 361,
+  "mtime": 1787415892.416278
+ },
+ "families/finish_block_authored/corpus.stats.json": {
+  "size": 1460,
+  "mtime": 1787416828.7879555
+ },
+ "families/finish_block_authored/gemini-3.7-flash.jsonl": {
+  "size": 22876622,
+  "mtime": 1787450573.4294899
+ },
+ "families/finish_block_authored/gemini-3.7-flash.done.jsonl": {
+  "size": 92438,
+  "mtime": 1787450573.4716542
+ },
+ "families/finish_block_authored/gemini-3.7-flash.stats.json": {
+  "size": 2148,
+  "mtime": 1787450518.8145988
+ },
+ "families/finish_block_authored_bases/corpus.jsonl": {
+  "size": 3608,
+  "mtime": 1787415892.2805395
+ },
+ "families/finish_block_compound/corpus.jsonl": {
+  "size": 38745246,
+  "mtime": 1787447954.924351
+ },
+ "families/finish_block_compound_random/corpus.jsonl": {
+  "size": 7208161,
+  "mtime": 1787448138.1220765
+ },
+ "families/finish_block_authored_oxalpha-nous/corpus.jsonl": {
+  "size": 74618,
+  "mtime": 1787448881.7087722
+ },
+ "families/finish_block_authored_oxalpha-nous/corpus.done.jsonl": {
+  "size": 743,
+  "mtime": 1787449789.1001568
+ },
+ "families/finish_block_authored_oxalpha-nous/corpus.stats.json": {
+  "size": 1552,
+  "mtime": 1787450540.237742
+ },
+ "families/finish_block_authored_oxalpha-nous_bases/corpus.jsonl": {
+  "size": 4055,
+  "mtime": 1787448881.4612904
  }
 }

@@ -1,186 +1,176 @@
 {
  "running": [
   {
-   "what": "Bioconductor INGEST (agent): mirroring 2,384 packages politely into normalized_bioc/ staging + license ledger (scout's #1 acquisition, 0.35-0.55B net-new tokens)",
+   "what": "Data waves v8 (12 lanes live): muse-GO lintfix4 + buinject3 on fresh pool6 (12k specs), sparkfree, xpreview x2, OR-ox stealth, gemma-orfree (re-pooled), docsync2, finish_block agy (1600 target) + Nous-ox, c2c synth 4k",
    "status": "run",
-   "note": "runs into the night; merge is a later explicit decision"
+   "note": "all detached+supervised, resume-safe; STOP_* files pause"
   },
   {
-   "what": "Judge calibrations (agent): gemini-3.7 AND opus-4.6 via agy through the three-gate protocol — 4 judges / 3 families if both pass",
+   "what": "Ideation tournament loop (continuing): event-paced, 26-domain ambient seeding",
    "status": "run",
-   "note": "agy quotas parallel"
+   "note": "bank 105+, build specs growing"
   },
   {
-   "what": "Arm D on GPU: muon-half repetition cross (2.78 vs ~5.5 epochs at fixed budget) + regurgitation canary",
-   "status": "run",
-   "note": "last A2-pending GPU item; zero-training gates queue behind"
-  },
-  {
-   "what": "Data waves (detached): GO muse-spark + GO ox-alpha (4w, subscription) + openrouter-ox filler (healed to 50%) + agy gemini wave + zai + spark-free + gemma orfree + comment_to_code resumed",
-   "status": "run",
-   "note": "~30k+ validated rows banked across the family files"
-  },
-  {
-   "what": "Recurring tournament LIVE: event-paced (45min gap, 6/24h), band policy (BUILD/BANK/RECYCLE), ox triage stage; r002+r003 done tonight",
-   "status": "run",
-   "note": "First recurring BUILD: '$ Partial-Matching Restraint Ladder' 4.47. Bank 39, build specs 4. GO tier congested under the muse wave (ox 500s there; OR fallback works)"
+   "what": "v8 positional-realism data: LANDED (regenerated under random cuts)",
+   "status": "done",
+   "note": "astfim_partial k 1..165 (was 3-capped); mid_roxygen uniform interior (dead zone 0.25-0.67 filled); finish_block det wave 11.5k rows incl fb_cut_random; no_op 2->6 geometries, 12.6k rows"
   }
  ],
  "experiments": [
   {
-   "name": "FIM dose ladder — the last A2/B2 dispute settled with data",
+   "name": "FIM dose ladder \u2014 the last A2/B2 dispute settled with data",
    "status": "done",
-   "blurb": "4 paired arms (0/10/20/35% PSM-FIM share, nested monotone masks, same text tiles, 350.2M tok each): causal floor NEVER pays (0.2-0.8% better than control — B2's dose-cost worry refuted); span BPB saturates by 10-20%; served free-running collapses at 35% (dose 20 best); canary flat (no dose-memorization link). The masked/unmasked >=2x gate untested (replica arm pending).",
+   "blurb": "4 paired arms (0/10/20/35% PSM-FIM share, nested monotone masks, same text tiles, 350.2M tok each): causal floor NEVER pays (0.2-0.8% better than control \u2014 B2's dose-cost worry refuted); span BPB saturates by 10-20%; served free-running collapses at 35% (dose 20 best); canary flat (no dose-memorization link). The masked/unmasked >=2x gate untested (replica arm pending).",
    "verdict": "ADOPT 20-35% band, center 25-30%, with masked loss + stop-density as enabling conditions. A2-prime's mixture arithmetic is now fully evidence-backed end to end."
   },
   {
-   "name": "Positional realism — cut bias measured, no-op FP rate 70.6%",
+   "name": "Positional realism \u2014 cut bias measured, no-op FP rate 70.6%",
    "status": "done",
-   "blurb": "CUT AUDIT: finish_block 74.6% signature cuts + 0.1-0.3 depth cluster; mid_roxygen 3 fixed fractional candidates (dead zone 0.25-0.67); astfim 3-line cap. fb_cut_random shipped (uniform statement-boundary, seeded, corpus-exact) + 4,369-row wave, 41/41 selftests. NO_OP FP BENCHMARK (user suspicion CONFIRMED): v7 false-suggests 70.6% (v6 68.6% — structural). 100% proposal on every UNTRAINED stop geometry (interior line-end, mid-identifier, blank line, refactorable); trained geometries ~30%. Restraint is geometry-specific, not general.",
+   "blurb": "CUT AUDIT: finish_block 74.6% signature cuts + 0.1-0.3 depth cluster; mid_roxygen 3 fixed fractional candidates (dead zone 0.25-0.67); astfim 3-line cap. fb_cut_random shipped (uniform statement-boundary, seeded, corpus-exact) + 4,369-row wave, 41/41 selftests. NO_OP FP BENCHMARK (user suspicion CONFIRMED): v7 false-suggests 70.6% (v6 68.6% \u2014 structural). 100% proposal on every UNTRAINED stop geometry (interior line-end, mid-identifier, blank line, refactorable); trained geometries ~30%. Restraint is geometry-specific, not general.",
    "verdict": "v8 levers: no_op training on the 3 untrained in-function geometries; rewrite families conditioned on edit events; client-side completeness gate as the cheap immediate fix."
   },
   {
-   "name": "Compound finish_block — the glm-corner counterattack",
+   "name": "Compound finish_block \u2014 the glm-corner counterattack",
    "status": "win",
-   "blurb": "7 registry rules (4 cut-points + docstring-strip axis + context packaging), 39/39 selftests. Deterministic wave: 9,574 corpus-exact rows from 1,562 base samples (1,237 from odd-domain seed packages; 297/300 pass the real renderer unchanged). The docstring axis closes the training-distribution hole (1,368 with/without pairs, zero target mismatches). Per-row validator manifests + environment stamps (jarl/ry/air/TS/R versions) = the selective-replacement convention, now the standard. Authored wave at the 400-sample quality gate — spot-check PASSED with real domain logic (rolling-incidence windows, item-total correlation with variance guard).",
-   "verdict": "Committed e7aec65. Targets the landscape's one lost corner (finish_block 0.5 vs glm 2.0) with domain-diverse authored functions x cut-point derivations — the register CRAN lacks."
+   "blurb": "7 registry rules (4 cut-points + docstring-strip axis + context packaging), 39/39 selftests. Deterministic wave: 9,574 corpus-exact rows from 1,562 base samples (1,237 from odd-domain seed packages; 297/300 pass the real renderer unchanged). The docstring axis closes the training-distribution hole (1,368 with/without pairs, zero target mismatches). Per-row validator manifests + environment stamps (jarl/ry/air/TS/R versions) = the selective-replacement convention, now the standard. Authored wave at the 400-sample quality gate \u2014 spot-check PASSED with real domain logic (rolling-incidence windows, item-total correlation with variance guard).",
+   "verdict": "Committed e7aec65. Targets the landscape's one lost corner (finish_block 0.5 vs glm 2.0) with domain-diverse authored functions x cut-point derivations \u2014 the register CRAN lacks."
   },
   {
-   "name": "SFT v7 — 264k rows, 33 families: strongest serving model; landscape champion",
+   "name": "SFT v7 \u2014 264k rows, 33 families: strongest serving model; landscape champion",
    "status": "win",
-   "blurb": "264,516 train rows / 9,252 eval / 33 families (quadrupled synthetic program). Battery: scenario families .772/.677 (rename .967/.883, pipe 1.0/1.0, format .700/.550); intent 1.636 best-ever (v6 1.386); drafting judge 1.083 (watch); whole-region parity with v6 (clean rerun after the GPU-resume artifact was caught); doc_sync still 0 — its rebuild data landed post-assembly, the v8 lever. LANDSCAPE: beats glm-5.3 by 35, zeta-2.1 by 61, gemma-e2b by 66 on identical held-out rows.",
+   "blurb": "264,516 train rows / 9,252 eval / 33 families (quadrupled synthetic program). Battery: scenario families .772/.677 (rename .967/.883, pipe 1.0/1.0, format .700/.550); intent 1.636 best-ever (v6 1.386); drafting judge 1.083 (watch); whole-region parity with v6 (clean rerun after the GPU-resume artifact was caught); doc_sync still 0 \u2014 its rebuild data landed post-assembly, the v8 lever. LANDSCAPE: beats glm-5.3 by 35, zeta-2.1 by 61, gemma-e2b by 66 on identical held-out rows.",
    "verdict": "sft_v7_minicpm5-Q8_0.gguf is the serving model. Extension-compatible as-is."
   },
   {
-   "name": "LANDSCAPE: v7 vs the field — 17-pt honest spread over the frontier (3-shot controlled)",
+   "name": "LANDSCAPE: v7 vs the field \u2014 17-pt honest spread over the frontier (3-shot controlled)",
    "status": "win",
-   "blurb": "Four corners, 158 identical held-out rows: v7 0.772/0.677 vs glm-5.3 0.424/0.335 zero-shot / 0.601/0.494 3-SHOT (control), zeta-2.1 0.165 (native format), gemma-e2b 0.114. The few-shot control halves the apparent gap: three worked examples close ~50% of glm's deficit (terminator typos 16->3, shape fails 38->21) — the honest v7-vs-frontier spread is 17/18 points, not 35/34. The residual edge lives in the rule-knowledge families: format exact stays +0.20 for v7 (the air-transform RULE wasn't teachable by example), pipe 1.0 vs 0.889, rename .967 vs .717; doc_sync 0/15 humbles everyone. Intent layer unchanged: v7 1.433 vs glm 1.067; glm keeps finish_block 2.0-vs-0.5 (the general-knowledge corner).",
+   "blurb": "Four corners, 158 identical held-out rows: v7 0.772/0.677 vs glm-5.3 0.424/0.335 zero-shot / 0.601/0.494 3-SHOT (control), zeta-2.1 0.165 (native format), gemma-e2b 0.114. The few-shot control halves the apparent gap: three worked examples close ~50% of glm's deficit (terminator typos 16->3, shape fails 38->21) \u2014 the honest v7-vs-frontier spread is 17/18 points, not 35/34. The residual edge lives in the rule-knowledge families: format exact stays +0.20 for v7 (the air-transform RULE wasn't teachable by example), pipe 1.0 vs 0.889, rename .967 vs .717; doc_sync 0/15 humbles everyone. Intent layer unchanged: v7 1.433 vs glm 1.067; glm keeps finish_block 2.0-vs-0.5 (the general-knowledge corner).",
    "verdict": "Framing for all future citation: specialist beats frontier by ~17 points on-deployment-distribution with the format handicap controlled; the zero-shot 35-point figure includes ~50% format unfamiliarity. Report: docs/research/landscape-v7-vs-glm53.md + the 3shot files."
   },
   {
-   "name": "GPT-Sol judge calibrated — takes the third seat; CUDA serving unlocked (74x)",
+   "name": "GPT-Sol judge calibrated \u2014 takes the third seat; CUDA serving unlocked (74x)",
    "status": "win",
-   "blurb": "gpt-5.6-sol via 9router PASSED the three gates at/above glm-5.3's baseline (40/40, 39/40, 40/40; 120/120 clean JSON) — and its single miss is the MIRROR of every other judge's (strict where glm/ox/gemini/opus were generous). Agreement vs glm: 70% exact, 100% within-one-band, one-directional strict (-0.18 bands) with defensible code-fact reasons. Panel: {glm-family, gemini, gpt-sol} majority 2-of-3, gemini arbiter, gpt-sol the STRICT vote / plausible-drift auditor — the band it compresses is exactly where reward-hacking drafts live. 2.6-3s/call, zero throttles. SEPARATELY: the CPU-serving mystery is fully solved — all llama.cpp binaries were CPU-only builds; the new CUDA build serves at 177 tok/s vs 2.4 (74x), and the v7 battery rode it to near-completion in minutes.",
+   "blurb": "gpt-5.6-sol via 9router PASSED the three gates at/above glm-5.3's baseline (40/40, 39/40, 40/40; 120/120 clean JSON) \u2014 and its single miss is the MIRROR of every other judge's (strict where glm/ox/gemini/opus were generous). Agreement vs glm: 70% exact, 100% within-one-band, one-directional strict (-0.18 bands) with defensible code-fact reasons. Panel: {glm-family, gemini, gpt-sol} majority 2-of-3, gemini arbiter, gpt-sol the STRICT vote / plausible-drift auditor \u2014 the band it compresses is exactly where reward-hacking drafts live. 2.6-3s/call, zero throttles. SEPARATELY: the CPU-serving mystery is fully solved \u2014 all llama.cpp binaries were CPU-only builds; the new CUDA build serves at 177 tok/s vs 2.4 (74x), and the v7 battery rode it to near-completion in minutes.",
    "verdict": "Judge program complete: 5 judges calibrated total, 3-family active panel with no quota caps. Serving rule amended: GPU when free, CPU only when contending, and VERIFY the binary has CUDA."
   },
   {
-   "name": "Judge ensemble calibrated — 4 judges, 3 families, governance designed",
+   "name": "Judge ensemble calibrated \u2014 4 judges, 3 families, governance designed",
    "status": "win",
-   "blurb": "gemini-3.7 PASS at parity (40/40, 39/40, 40/40) AND the best independent rubric replicate: 39/50 exact, 50/50 within-band vs glm-5.3, NO generosity bias (unlike ox's half-band lean). opus-4.6 PASS at parity, zero parse failures — real-pair agreement 7/50 so far (weekly agy cap; detached resume loop finishes it post-reset). User's glm-correlation concern quantified: gemini-glm 78% exact. Ensemble: collapse glm+x-preview into ONE glm-family vote; reward = majority {glm-family, gemini, opus}; gemini tie-break (best calibrated, unbiased); opus weekly-audit tier (~150-200 calls/wk); unanimity bonus-tier only (78% exact agreement makes it too lossy as a gate).",
+   "blurb": "gemini-3.7 PASS at parity (40/40, 39/40, 40/40) AND the best independent rubric replicate: 39/50 exact, 50/50 within-band vs glm-5.3, NO generosity bias (unlike ox's half-band lean). opus-4.6 PASS at parity, zero parse failures \u2014 real-pair agreement 7/50 so far (weekly agy cap; detached resume loop finishes it post-reset). User's glm-correlation concern quantified: gemini-glm 78% exact. Ensemble: collapse glm+x-preview into ONE glm-family vote; reward = majority {glm-family, gemini, opus}; gemini tie-break (best calibrated, unbiased); opus weekly-audit tier (~150-200 calls/wk); unanimity bonus-tier only (78% exact agreement makes it too lossy as a gate).",
    "verdict": "RL reward governance ready for run 2. Quota intel: gemini ~9.8s/call unthrottled at 175 calls; opus 18.3s/call with dual-layer caps; separate per-model quotas confirmed."
   },
   {
-   "name": "A2 zero-training gates r1 — data wall MEASURED; mixture re-cut required",
+   "name": "A2 zero-training gates r1 \u2014 data wall MEASURED; mixture re-cut required",
    "status": "done",
-   "blurb": "G1 PASS: product gates are pure SFT-currency (base 0.159/0%/0.000 vs v6 1.386/63.6%) — R-BPB validated as pretraining currency. G2/G3 FAIL vs design claims: in-hand unique-R is 1.7-2.2B source-class tokens (the 3.0-3.5B figure counted ~33% rendered-HTML junk); realistic permissive pool 2.3-3.9B — 5-8B unreachable with named sources; A2's adaptive transfer rule FIRES on in-hand data alone. G4 PASS w/ corrections: anchor-move = full re-prefill on stock llama.cpp (1.0-1.2x of cold, within bar; render-ordering mitigation dead; CPU cold-8K ~50s, 3x worse than the design row). G5 BLOCKED: needs LFM2.5-2.6B-GGUF download.",
-   "verdict": "Two USER CALLS queued: (1) LFM GGUF download to unblock the occupancy sweep; (2) Stack Overflow r-tag is CC-BY-SA — in or out under the no-NC framework? Consistent with arm D: acquisition is THE lever; mixture re-cut to the adaptive-rule shape before any spend."
+   "blurb": "G1 PASS: product gates are pure SFT-currency (base 0.159/0%/0.000 vs v6 1.386/63.6%) \u2014 R-BPB validated as pretraining currency. G2/G3 FAIL vs design claims: in-hand unique-R is 1.7-2.2B source-class tokens (the 3.0-3.5B figure counted ~33% rendered-HTML junk); realistic permissive pool 2.3-3.9B \u2014 5-8B unreachable with named sources; A2's adaptive transfer rule FIRES on in-hand data alone. G4 PASS w/ corrections: anchor-move = full re-prefill on stock llama.cpp (1.0-1.2x of cold, within bar; render-ordering mitigation dead; CPU cold-8K ~50s, 3x worse than the design row). G5 BLOCKED: needs LFM2.5-2.6B-GGUF download.",
+   "verdict": "Two USER CALLS queued: (1) LFM GGUF download to unblock the occupancy sweep; (2) Stack Overflow r-tag is CC-BY-SA \u2014 in or out under the no-NC framework? Consistent with arm D: acquisition is THE lever; mixture re-cut to the adaptive-rule shape before any spend."
   },
   {
-   "name": "Bioconductor ingest — 2,363 pkgs staged, zero overlap, license-correct",
+   "name": "Bioconductor ingest \u2014 2,363 pkgs staged, zero overlap, license-correct",
    "status": "win",
-   "blurb": "Scout's #1 acquisition executed: 2,363 packages mirrored + normalized (air+jarl at ingest, CRAN-identical tree shape), 99.2% permissive, ZERO overlap with CRAN on the full 2,384x14,202 name join. Measured 0.16B net-new tokens [CI 0.11-0.21B] — Bioc is exactly as dense as CRAN per-package (67.5k vs 65.6k tok/pkg); the scout's 0.35-0.55B was a different measurement basis. LICENSE FIND: GPL text itself contains 'noncommercial(ly)' — naive NC scans false-positive on GPL; fixed to CC-designation-only regexes under the no-NC ruling.",
-   "verdict": "Pipeline committed a8813a3; staged at normalized_bioc/ + bioc_staging/ (CRAN store untouched). Merge is an explicit decision per the 5-step checklist. Program context: unique-R remains the wall — Stack v2 R (5.15M files) is the next big lever."
+   "blurb": "Scout's #1 acquisition executed: 2,363 packages mirrored + normalized (air+jarl at ingest, CRAN-identical tree shape), 99.2% permissive, ZERO overlap with CRAN on the full 2,384x14,202 name join. Measured 0.16B net-new tokens [CI 0.11-0.21B] \u2014 Bioc is exactly as dense as CRAN per-package (67.5k vs 65.6k tok/pkg); the scout's 0.35-0.55B was a different measurement basis. LICENSE FIND: GPL text itself contains 'noncommercial(ly)' \u2014 naive NC scans false-positive on GPL; fixed to CC-designation-only regexes under the no-NC ruling.",
+   "verdict": "Pipeline committed a8813a3; staged at normalized_bioc/ + bioc_staging/ (CRAN store untouched). Merge is an explicit decision per the 5-step checklist. Program context: unique-R remains the wall \u2014 Stack v2 R (5.15M files) is the next big lever."
   },
   {
-   "name": "Ideation tournament v1 — complete (27 ideas, 3 models, blind)",
+   "name": "Ideation tournament v1 \u2014 complete (27 ideas, 3 models, blind)",
    "status": "win",
-   "blurb": "ox-alpha + muse-spark + gemma (substitutions logged): 27 proposals, full 3x27 blind rating matrix, top-6 deepened, blind re-rated. WINNER X-002 (4.67, build-readiness 5.0): DESCRIPTION/NAMESPACE/imports-graph adversarial scenarios — invertible metadata corruptions validated by R CMD check diffs, with no-op twins; an R-specific dimension no family covers ('a moat' per all three raters). X-004 cross-file rename with ambiguous cursor (4.27); X-006 tidy-eval inversion (4.13) — DELIVERED as a working rule already (rules_tidyeval.py, 26/26 selftest, 6 real corpus sites). Model intel: no gaming, convergent scoring (26/27 spreads <=1), no A-B bloc.",
-   "verdict": "Wave-2 specs ready in docs/research/ideation-tournament-v1.md (973 lines). Runner-up wrong-but-passing probe set loved for novelty, flagged expensive — feeds the RL shortcut-hunting gap."
+   "blurb": "ox-alpha + muse-spark + gemma (substitutions logged): 27 proposals, full 3x27 blind rating matrix, top-6 deepened, blind re-rated. WINNER X-002 (4.67, build-readiness 5.0): DESCRIPTION/NAMESPACE/imports-graph adversarial scenarios \u2014 invertible metadata corruptions validated by R CMD check diffs, with no-op twins; an R-specific dimension no family covers ('a moat' per all three raters). X-004 cross-file rename with ambiguous cursor (4.27); X-006 tidy-eval inversion (4.13) \u2014 DELIVERED as a working rule already (rules_tidyeval.py, 26/26 selftest, 6 real corpus sites). Model intel: no gaming, convergent scoring (26/27 spreads <=1), no A-B bloc.",
+   "verdict": "Wave-2 specs ready in docs/research/ideation-tournament-v1.md (973 lines). Runner-up wrong-but-passing probe set loved for novelty, flagged expensive \u2014 feeds the RL shortcut-hunting gap."
   },
   {
-   "name": "Data-acquisition scout — verdicts with numbers",
+   "name": "Data-acquisition scout \u2014 verdicts with numbers",
    "status": "done",
-   "blurb": "KAGGLE closed (19,117 R kernels ~12-15M tok but NO per-item license — ToS grants Kaggle, not us; excluded under no-NC/strict). BIOCONDUCTOR GREEN top-priority: 2,384 pkgs, ZERO overlap with our 14,202 CRAN corpus, 96% permissive, est. 0.35-0.55B net-new tokens. GITHUB: 141k permissively-declared R repos; Stack v2 R = 22.4GB/5.15M files with per-file license columns (cheapest bulk ledger). arXiv-LATEX DEAD: 360 papers/8 strata measured 1.9% papers-with-R (~100-150k tok/mo) AND arXiv default license fails the permissive-only rule (density ~0). bioRxiv: API broken + NC-majority. PwC sunset Jul-2025; HF pwc-archive mirror = ~3.8k R-ish repos w/ GitHub licenses (one bulk pass). paperswithcode2.com redundant rebuild; .co empty shell.",
+   "blurb": "KAGGLE closed (19,117 R kernels ~12-15M tok but NO per-item license \u2014 ToS grants Kaggle, not us; excluded under no-NC/strict). BIOCONDUCTOR GREEN top-priority: 2,384 pkgs, ZERO overlap with our 14,202 CRAN corpus, 96% permissive, est. 0.35-0.55B net-new tokens. GITHUB: 141k permissively-declared R repos; Stack v2 R = 22.4GB/5.15M files with per-file license columns (cheapest bulk ledger). arXiv-LATEX DEAD: 360 papers/8 strata measured 1.9% papers-with-R (~100-150k tok/mo) AND arXiv default license fails the permissive-only rule (density ~0). bioRxiv: API broken + NC-majority. PwC sunset Jul-2025; HF pwc-archive mirror = ~3.8k R-ish repos w/ GitHub licenses (one bulk pass). paperswithcode2.com redundant rebuild; .co empty shell.",
    "verdict": "Unique-R ordering: Bioconductor now -> Stack v2 R subset (accept-gated) -> pwc-archive one-shot. paper_to_r grows from Bioc + pwc repos, not LaTeX. Harvester implemented (paper_code_harvester.py) but undeployed. Report: docs/research/data-acquisition-scout.md"
   },
   {
-   "name": "Aurora arm — ADOPTED (mechanism proven)",
+   "name": "Aurora arm \u2014 ADOPTED (mechanism proven)",
    "status": "win",
-   "blurb": "Matched-token: Aurora beats Muon ~1% at every checkpoint (accidental eager replication runs flat — BPB gain small/noisy). NEURON CENSUS DECISIVE: leverage-dead neurons 3.05% (Muon) vs 0.21% (Aurora) — ~15x fewer; near-dead activations ~150x fewer. The claimed mechanism (polar-factor neuron death on tall SwiGLU, fixed by damped alternating row-normalize) is real at our geometry. Adopted into the A2-prime Muon recipe per the pre-registered rule; expect more at 1.5B scale.",
-   "verdict": "Also logged: both of tonight's 'trainer died' diagnoses were stdout-buffering artifacts — the compiled run finished at 12:43, the eager at 20:26; telemetry files held the truth. Scar recorded: verify liveness by telemetry/checkpoint mtimes, never stdout. Arm D (repetition) running."
+   "blurb": "Matched-token: Aurora beats Muon ~1% at every checkpoint (accidental eager replication runs flat \u2014 BPB gain small/noisy). NEURON CENSUS DECISIVE: leverage-dead neurons 3.05% (Muon) vs 0.21% (Aurora) \u2014 ~15x fewer; near-dead activations ~150x fewer. The claimed mechanism (polar-factor neuron death on tall SwiGLU, fixed by damped alternating row-normalize) is real at our geometry. Adopted into the A2-prime Muon recipe per the pre-registered rule; expect more at 1.5B scale.",
+   "verdict": "Also logged: both of tonight's 'trainer died' diagnoses were stdout-buffering artifacts \u2014 the compiled run finished at 12:43, the eager at 20:26; telemetry files held the truth. Scar recorded: verify liveness by telemetry/checkpoint mtimes, never stdout. Arm D (repetition) running."
   },
   {
-   "name": "ox-alpha as verifier — calibrated (user prior vindicated x3)",
+   "name": "ox-alpha as verifier \u2014 calibrated (user prior vindicated x3)",
    "status": "win",
-   "blurb": "Three-gate calibration at PARITY with glm-5.3 (40/40, 38/39, 40/40 vs 40/40, 38/40, 39/39 — same failure class even); 99/100 within-one-band agreement with glm on real drafting judgments (systematically half a band more generous = rubric width, not error — use as second judge/arbiter, not drop-in swap); fuzzy-gate verifier essentially perfect after adjudication (behavior-preservation 10/10, fix_applied 10/10, restraint 9-10/10 — its misses were it being RIGHT where strict rules over-flag T=TRUE/paste0 equivalences; caught all 3 real reversed bugs; zero parse failures).",
-   "verdict": "ROLES CLEARED: (a) free calibrated SECOND JUDGE for RL reward diversity — anchor battery registered as its baseline; (b) fuzzy-gate verifier (behavior preservation for non-runnable code, jarl-gap fix_applied, restraint adjudication). Free on zen, 10-16s latency, ~1% 503s. Infra note: zen needs a curl User-Agent or Cloudflare 403s. Report: docs/research/oxalpha-verifier-eval.md"
+   "blurb": "Three-gate calibration at PARITY with glm-5.3 (40/40, 38/39, 40/40 vs 40/40, 38/40, 39/39 \u2014 same failure class even); 99/100 within-one-band agreement with glm on real drafting judgments (systematically half a band more generous = rubric width, not error \u2014 use as second judge/arbiter, not drop-in swap); fuzzy-gate verifier essentially perfect after adjudication (behavior-preservation 10/10, fix_applied 10/10, restraint 9-10/10 \u2014 its misses were it being RIGHT where strict rules over-flag T=TRUE/paste0 equivalences; caught all 3 real reversed bugs; zero parse failures).",
+   "verdict": "ROLES CLEARED: (a) free calibrated SECOND JUDGE for RL reward diversity \u2014 anchor battery registered as its baseline; (b) fuzzy-gate verifier (behavior preservation for non-runnable code, jarl-gap fix_applied, restraint adjudication). Free on zen, 10-16s latency, ~1% 503s. Infra note: zen needs a curl User-Agent or Cloudflare 403s. Report: docs/research/oxalpha-verifier-eval.md"
   },
   {
-   "name": "Twin POC — Muon beats AdamW by 7.2% BPB on our data",
+   "name": "Twin POC \u2014 Muon beats AdamW by 7.2% BPB on our data",
    "status": "win",
-   "blurb": "First training on our own architecture shape (206.5M dense GQA 2KV, QK-Clip live, 681.6M tokens/arm over the 245M-token PSM-R corpus = 2.78 epochs, byte-identical pairing). VERDICT: Muon 0.7032 vs AdamW 0.7578 held-out BPB — the optimizer sweep's falsifier cleared decisively. QK-Clip reproduced Kimi K2's cap-then-decay pattern in both arms; Muon's early-token gap (4.61 vs 6.76 at 52M) narrows but never closes; speedrun lr lore does not transfer (0.01 beat 0.02/0.04). torch.compile 4.4x; coexisted with the RL trial all night, zero incidents. 7GB checkpoints kept local, gitignored.",
-   "verdict": "Trainer committed 14556b8 (becomes the pretrainer seed). FOLLOW-UP ARMS RUNNING: Aurora (the leverage-score fix for tall-SwiGLU neuron death — with neuron-utilization diagnostics) and the Repetition cross (2.78 vs ~5.5 epochs at fixed budget + regurgitation canary) — both decision-relevant for the rental flagship."
+   "blurb": "First training on our own architecture shape (206.5M dense GQA 2KV, QK-Clip live, 681.6M tokens/arm over the 245M-token PSM-R corpus = 2.78 epochs, byte-identical pairing). VERDICT: Muon 0.7032 vs AdamW 0.7578 held-out BPB \u2014 the optimizer sweep's falsifier cleared decisively. QK-Clip reproduced Kimi K2's cap-then-decay pattern in both arms; Muon's early-token gap (4.61 vs 6.76 at 52M) narrows but never closes; speedrun lr lore does not transfer (0.01 beat 0.02/0.04). torch.compile 4.4x; coexisted with the RL trial all night, zero incidents. 7GB checkpoints kept local, gitignored.",
+   "verdict": "Trainer committed 14556b8 (becomes the pretrainer seed). FOLLOW-UP ARMS RUNNING: Aurora (the leverage-score fix for tall-SwiGLU neuron death \u2014 with neuron-utilization diagnostics) and the Repetition cross (2.78 vs ~5.5 epochs at fixed budget + regurgitation canary) \u2014 both decision-relevant for the rental flagship."
   },
   {
-   "name": "RL PIPELINE TRIAL — first RL on our own model: THESIS HOLDS",
+   "name": "RL PIPELINE TRIAL \u2014 first RL on our own model: THESIS HOLDS",
    "status": "win",
-   "blurb": "GRPO with validator rewards on merged-v6 (fresh r=16 LoRA, 220 steps, 7,040 completions, 3h05, train-split rows only, prompts verbatim from the assembler renders). HELD-OUT GAINS: rename .907 to .940 valid / .820 to .840 exact; format .672 to .746 / .522 to .537; pipe held .944. no_op reward 0.39 to 0.97 — restraint LEARNED. Curves clean, no collapse, zeta2 format intact. HONEST COST: intent 1.386/63.6 to 1.295/56.8 — one comment_drafting emptied + two finish_block degraded (single-family validator-RL bias; artifact is research, not a serving candidate). format's valid-vs-exact gap shows validator-passing reformats that miss GT formatting. Ops scars: WSL2 decode is launch-bound (~23s of every 45s step — vLLM/bare metal next); generate() full-vocab prefill spikes 6.25GB (prompt cap 480); unsloth-before-trl import order.",
+   "blurb": "GRPO with validator rewards on merged-v6 (fresh r=16 LoRA, 220 steps, 7,040 completions, 3h05, train-split rows only, prompts verbatim from the assembler renders). HELD-OUT GAINS: rename .907 to .940 valid / .820 to .840 exact; format .672 to .746 / .522 to .537; pipe held .944. no_op reward 0.39 to 0.97 \u2014 restraint LEARNED. Curves clean, no collapse, zeta2 format intact. HONEST COST: intent 1.386/63.6 to 1.295/56.8 \u2014 one comment_drafting emptied + two finish_block degraded (single-family validator-RL bias; artifact is research, not a serving candidate). format's valid-vs-exact gap shows validator-passing reformats that miss GT formatting. Ops scars: WSL2 decode is launch-bound (~23s of every 45s step \u2014 vLLM/bare metal next); generate() full-vocab prefill spikes 6.25GB (prompt cap 480); unsloth-before-trl import order.",
    "verdict": "Pipeline committed 830d8c9; artifacts in runs/rl_grpo_v1 + rl_grpo_v1-Q8_0.gguf. Next-run plan logged (5 points): vLLM rollouts, mixed-family reward to cure the intent cost, KL/anchor regularization, longer horizon, the doc_sync question stays SFT-side."
   },
   {
-   "name": "Quota burn: author-LLM rewrite rows — 8,469 VALIDATED",
+   "name": "Quota burn: author-LLM rewrite rows \u2014 8,469 VALIDATED",
    "status": "win",
    "blurb": "glm-5.3 as author through the constraint gates: 7,818 zero-quota specs mined from 3,500 packages (mine/inject/buinject), 9,296 calls at 99.7% ok, spec pool DRAINED before quota (supply is scan-bound). Rows: rewrite_lint_fix 5,374 (T/F 3,114 / paste0 1,356 / seq 724 / sapply 159 / class_equals 21) + fix_issue_inject 3,095 (char_swap 2,621 / wrong_variable 405 / boundary_operator 69). 100% parent-links, 0 dup hashes, inject GT 100% corpus-exact; rejects 15% wave-1 falling to 3.5% with verifier-feedback retries; the behavior gate caught exactly one behavior-changing rewrite. Two new gates added: fix_applied (semantic marker) + per-row check_rewrite_row.",
-   "verdict": "Driver committed dc2ddb3. New families ready for the v7 assembler. OPS: user's comment_to_code job died on its own at 23:17 (4,884/6,500, drvfs-crash pattern — never-restart rule applies, flagged for the user). zai tank handed to the overnight data-ops agent."
+   "verdict": "Driver committed dc2ddb3. New families ready for the v7 assembler. OPS: user's comment_to_code job died on its own at 23:17 (4,884/6,500, drvfs-crash pattern \u2014 never-restart rule applies, flagged for the user). zai tank handed to the overnight data-ops agent."
   },
   {
-   "name": "SFT v6 — suffix mixture + wave-1 cases + gemini harvest",
+   "name": "SFT v6 \u2014 suffix mixture + wave-1 cases + gemini harvest",
    "status": "win",
-   "blurb": "236,577 train / 8,682 eval / 29 families (astfim held out per probe2). 6k steps, 3.1h. BATTERY COMPLETE: intent 1.386 / 63.6% pass-2 (v5 61.4 — UP); rename exact .820 (v5 .79 — UP); pipe_rewrite .944 held; whole-region ablation exact .016 vs v5 .004 (4x); drafting judge 1.17 with PERFECT calibration (v5 1.24 — watch item); doc_sync 0.0 REGRESSION (over-transforms barely-change rows — open investigation); midtyping n=4 down (tiebreaker only).",
-   "verdict": "ACCEPTANCE MET — v6 is the serving model (sft_v6_minicpm5-Q8_0.gguf, same zeta2 format, extension-compatible as-is). Open: doc_sync investigation, drafting-judge watch, ablation stratification for future batteries."
+   "blurb": "236,577 train / 8,682 eval / 29 families (astfim held out per probe2). 6k steps, 3.1h. BATTERY COMPLETE: intent 1.386 / 63.6% pass-2 (v5 61.4 \u2014 UP); rename exact .820 (v5 .79 \u2014 UP); pipe_rewrite .944 held; whole-region ablation exact .016 vs v5 .004 (4x); drafting judge 1.17 with PERFECT calibration (v5 1.24 \u2014 watch item); doc_sync 0.0 REGRESSION (over-transforms barely-change rows \u2014 open investigation); midtyping n=4 down (tiebreaker only).",
+   "verdict": "ACCEPTANCE MET \u2014 v6 is the serving model (sft_v6_minicpm5-Q8_0.gguf, same zeta2 format, extension-compatible as-is). Open: doc_sync investigation, drafting-judge watch, ablation stratification for future batteries."
   },
   {
-   "name": "From-scratch competition COMPLETE — 2 designs + 2 red-teams",
+   "name": "From-scratch competition COMPLETE \u2014 2 designs + 2 red-teams",
    "status": "done",
-   "blurb": "No kills. Consolidated: A leads both lenses (serving ~7/9, training 8-4) and wins on data-efficiency, inference in our 8-16K envelope, portability (zero-PR; B fork-mandatory AND SM120-only kernels vs user's AMD interest favoring A's torch-native dense). SHARED major wounds: token-accounting hole (neither flagship mixture computable as written) and 2x/1.5x compute optimism. Corpus MEASURED ~3.0-3.5B qwen-tokens; unique-R ~5-8B post-dedup is the wall — data acquisition, not architecture. B's keeps: the no-op objective (fold into A), DSpark drafter pattern, attention-tier intuition. Probe2 dose dispute (35-40% vs 18% FIM) unevidenced both ways — dose ladder + held-out-R-BPB floor gate settles it.",
+   "blurb": "No kills. Consolidated: A leads both lenses (serving ~7/9, training 8-4) and wins on data-efficiency, inference in our 8-16K envelope, portability (zero-PR; B fork-mandatory AND SM120-only kernels vs user's AMD interest favoring A's torch-native dense). SHARED major wounds: token-accounting hole (neither flagship mixture computable as written) and 2x/1.5x compute optimism. Corpus MEASURED ~3.0-3.5B qwen-tokens; unique-R ~5-8B post-dedup is the wall \u2014 data acquisition, not architecture. B's keeps: the no-op objective (fold into A), DSpark drafter pattern, attention-tier intuition. Probe2 dose dispute (35-40% vs 18% FIM) unevidenced both ways \u2014 dose ladder + held-out-R-BPB floor gate settles it.",
    "verdict": "DECISION PACKAGE: A as base direction + B's no-op objective, gated on (1) token-accounting/MinHash unique-R audit (CPU-day), (2) SFT-proxy calibration of product-currency gates (2 GPU-h), dose ladder for FIM share, edit-diff capped or SFT-stage, rental smoke test added to both. USER DECISION required before build. Docs local: fromscratch-design-{A,B}.md, fromscratch-redteam-{1,2}.md (2,257 lines total)."
   },
   {
-   "name": "From-scratch red-team 1 (serving lens) — verdict",
+   "name": "From-scratch red-team 1 (serving lens) \u2014 verdict",
    "status": "done",
-   "blurb": "A wounded but architecturally intact (arithmetic verified vs a real 22 t/s anchor; wounds: prefill table 2-4x optimistic, spec-mode stacking assumption, missing anchor-move kill-test). B: every serving ADVANTAGE dies inside the 8-16K envelope — prefill crossover vs A at ~23,600 tokens (B is 7% MORE expensive at 16K at 1.6x A's program FLOPs), CPU decode 21-22 t/s not 35-50, the Matryoshka tier table is not the flagship prefix (true prefix 4A+8G ending on GDN), anchor-hysteresis-to-state-checkpoint mapping false both ways. Original red-team's 15-20k tok/s dense figure also dies (112-149% of BF16 peak) — B's correction upheld in substance. Fork policy prices B's floor at ~0.2-0.4 FTE; rental B300 makes both flagships sub-day, converting A's undertraining hedge into a DATA WALL (30BT wants 12B R tokens vs 13.3B optimistic pool).",
+   "blurb": "A wounded but architecturally intact (arithmetic verified vs a real 22 t/s anchor; wounds: prefill table 2-4x optimistic, spec-mode stacking assumption, missing anchor-move kill-test). B: every serving ADVANTAGE dies inside the 8-16K envelope \u2014 prefill crossover vs A at ~23,600 tokens (B is 7% MORE expensive at 16K at 1.6x A's program FLOPs), CPU decode 21-22 t/s not 35-50, the Matryoshka tier table is not the flagship prefix (true prefix 4A+8G ending on GDN), anchor-hysteresis-to-state-checkpoint mapping false both ways. Original red-team's 15-20k tok/s dense figure also dies (112-149% of BF16 peak) \u2014 B's correction upheld in substance. Fork policy prices B's floor at ~0.2-0.4 FTE; rental B300 makes both flagships sub-day, converting A's undertraining hedge into a DATA WALL (30BT wants 12B R tokens vs 13.3B optimistic pool).",
    "verdict": "First-cut ranking leans A on ~7 of 9 dimensions; B's case rests on the unproven hybrid capability claim (settled only by the 0.7B twin) and >24K contexts we do not serve. Red-team 2 (training lens) pending. Three zero-training kill-tests proposed: merged 4-arm cache bench w/ vanilla control, spec-mode composability on our 20-60-token traces, anchor-move/cold-prefill product gate. Local doc: docs/research/fromscratch-redteam-1.md"
   },
   {
-   "name": "Rewrite exploration — verification track (subagent)",
+   "name": "Rewrite exploration \u2014 verification track (subagent)",
    "status": "win",
-   "blurb": "Behavior-preservation harness with sandboxed throwaway R runs: runnable fraction 19/50 (38%) of arbitrary corpus functions; gate calibration both ways (0 false positives on benign renames, 14/15 injected single defects caught); execution verification widens loop-rewrite supply 7x (0.62% vs 0.06% strict static). REAL verified rewrites: 53.6x / -5 LOC and 3.7x / -7 LOC, digest-equal at all sizes; reverse cases confirmed (some modernizations gain nothing — no_op wins). TWO CATCHES: a naive vectorization that is WRONG (digest gate caught length-sensitive identical()), and a 50x block speedup that is only 1.09x function-wide (function-scoped perf claims enforced). Gate costs 0.2ms to 105s — static-first ordering ~1000x cheaper.",
-   "verdict": "Committed 72b283f. The gates demonstrably catch both wrong rewrites and misleading claims — verified-better is buildable; judge never needed for the objective core."
+   "blurb": "Behavior-preservation harness with sandboxed throwaway R runs: runnable fraction 19/50 (38%) of arbitrary corpus functions; gate calibration both ways (0 false positives on benign renames, 14/15 injected single defects caught); execution verification widens loop-rewrite supply 7x (0.62% vs 0.06% strict static). REAL verified rewrites: 53.6x / -5 LOC and 3.7x / -7 LOC, digest-equal at all sizes; reverse cases confirmed (some modernizations gain nothing \u2014 no_op wins). TWO CATCHES: a naive vectorization that is WRONG (digest gate caught length-sensitive identical()), and a 50x block speedup that is only 1.09x function-wide (function-scoped perf claims enforced). Gate costs 0.2ms to 105s \u2014 static-first ordering ~1000x cheaper.",
+   "verdict": "Committed 72b283f. The gates demonstrably catch both wrong rewrites and misleading claims \u2014 verified-better is buildable; judge never needed for the objective core."
   },
   {
-   "name": "Rewrite exploration — maintainability track (subagent)",
+   "name": "Rewrite exploration \u2014 maintainability track (subagent)",
    "status": "win",
-   "blurb": "Lint census: 23.3% of corpus files carry findings (70% judgment / 28% mechanical / 2.4% restraint); jarl position-sensitivity found — detector-linter agreement 0.80-0.90 is calibration, not gate. Author-under-constraint loop with mock author: all gates 100%, lint-delta 0.96-1.00, LOC never increases. THREE STRUCTURAL FINDINGS: (1) clean CRAN is thin on mechanical findings (2.06% of fns, ~43k) — volume must come from REVERSE-STRIP injection (inject the dirty twin, corpus original = ground truth); (2) the human modernization mine is only 3.0% of edit_pairs (~479 rows) — eval-only, validating the user's elegance skepticism; (3) behavior probes: only 1/90 corpus functions executable standalone — the coverage gap the dynamic sibling must close. Smells: 28.2% of fns flagged — gates/difficulty knobs, dead-assign deletion is the one exact LOC-reducing smell family. Fix-issue injection arm 30/30 gates.",
+   "blurb": "Lint census: 23.3% of corpus files carry findings (70% judgment / 28% mechanical / 2.4% restraint); jarl position-sensitivity found \u2014 detector-linter agreement 0.80-0.90 is calibration, not gate. Author-under-constraint loop with mock author: all gates 100%, lint-delta 0.96-1.00, LOC never increases. THREE STRUCTURAL FINDINGS: (1) clean CRAN is thin on mechanical findings (2.06% of fns, ~43k) \u2014 volume must come from REVERSE-STRIP injection (inject the dirty twin, corpus original = ground truth); (2) the human modernization mine is only 3.0% of edit_pairs (~479 rows) \u2014 eval-only, validating the user's elegance skepticism; (3) behavior probes: only 1/90 corpus functions executable standalone \u2014 the coverage gap the dynamic sibling must close. Smells: 28.2% of fns flagged \u2014 gates/difficulty knobs, dead-assign deletion is the one exact LOC-reducing smell family. Fix-issue injection arm 30/30 gates.",
    "verdict": "Committed 62ac07a. Volume strategy: inject dirt backward for (dirty, clean) pairs; elegance mine re-rated to eval-only; awaits the verification-track sibling for synthesis."
   },
   {
    "name": "Transform rule registry (subagent)",
    "status": "win",
-   "blurb": "Contributable rule registry for the compounding pipeline: python-plugin rules (detector/rewrite/verify, verify = pure re-derivation usable as deterministic RL reward), 45-candidate catalog with MEASURED prevalence (equals_arrow 50% of files ~113k sites; partial_arg_match extinct post-normalization; 21 D2 / 5 D1-meta / 10 D3 / 5 D4), parent-sample linking contract (content-hash base_sample_id + derivation block + base-sample-level eval splits + derivation_key dedup), CONTRIBUTING sketch. Prototype: 7 rules, selftest 22/22, gates caught 3 of the prototype's own bugs — verify-as-reward self-hosting proof.",
+   "blurb": "Contributable rule registry for the compounding pipeline: python-plugin rules (detector/rewrite/verify, verify = pure re-derivation usable as deterministic RL reward), 45-candidate catalog with MEASURED prevalence (equals_arrow 50% of files ~113k sites; partial_arg_match extinct post-normalization; 21 D2 / 5 D1-meta / 10 D3 / 5 D4), parent-sample linking contract (content-hash base_sample_id + derivation block + base-sample-level eval splits + derivation_key dedup), CONTRIBUTING sketch. Prototype: 7 rules, selftest 22/22, gates caught 3 of the prototype's own bugs \u2014 verify-as-reward self-hosting proof.",
    "verdict": "Committed e5948e2. Wave-2: promote equals_arrow/single_quote/stopifnot/tf as scan-backed families (4.7k-46.7k fn volumes corpus-wide); yields are sampling-bound, not supply-bound. Local doc: docs/research/transform-rule-registry.md"
   },
   {
    "name": "Compounding-samples exploration (subagent) + scenarios.py bug fix",
    "status": "win",
-   "blurb": "Design + working prototype for one-base-sample-to-many-cases: 20 transform concepts mapped (14 exist / 4 new: comment-continuation, trycatch-wrap, loop-rewrite, vectorize / 2 as proposals incl. roxygen_examples); determinism classes D1-D4; modular author-prompt grid with coverage math; SFT caps + RL env wiring (row_check-as-reward, SAO single-rollout fit). Prototype: 11 transforms, 20 base samples -> 200 validated rows = 10.0 rows/sample, 4.7 families/sample, measured mock speed 40x-3,500x cheaper than LLM backends. KEY NEGATIVE: loop-rewrite shape covers only ~0.06% of corpus functions (~1.2k corpus-wide) — thin; roxygen @examples: ~88k blocks, 97% parse-clean, mean 9.7 lines.",
+   "blurb": "Design + working prototype for one-base-sample-to-many-cases: 20 transform concepts mapped (14 exist / 4 new: comment-continuation, trycatch-wrap, loop-rewrite, vectorize / 2 as proposals incl. roxygen_examples); determinism classes D1-D4; modular author-prompt grid with coverage math; SFT caps + RL env wiring (row_check-as-reward, SAO single-rollout fit). Prototype: 11 transforms, 20 base samples -> 200 validated rows = 10.0 rows/sample, 4.7 families/sample, measured mock speed 40x-3,500x cheaper than LLM backends. KEY NEGATIVE: loop-rewrite shape covers only ~0.06% of corpus functions (~1.2k corpus-wide) \u2014 thin; roxygen @examples: ~88k blocks, 97% parse-clean, mean 9.7 lines.",
    "verdict": "Committed 88bf477 incl. the tree-sitter identity bug fix the exploration surfaced (byte-span+type identity; 37 tests green). Design doc local: docs/research/compounding-samples-design.md. Phases: pure-static first (zero quota), author-LLM modular prompts second, RL wiring third."
   },
   {
    "name": "Model-landscape survey (40 HF links, subagent)",
    "status": "done",
-   "blurb": "26 ranked entries, 12 stealable mechanisms, 3-model eval shortlist, 23 not-useful (never re-review). docs/research/model-survey-2026-08-20.md (local-only per gitignore). Headlines: NextCoder/SeleKT gradient-importance masking (naive edit-SFT REGRESSES CanItEdit 48.1 to 36.7 — our exact failure mode); NextCoderDataset seed x edit-criteria x 3-variants construction; SmolLM3 playbook = full from-scratch recipe incl. a NEGATIVE result on synthetic FIM upsampling; DFlash block-diffusion drafters beat MTP at matched budgets but are SGLang-only (keeps MTP + n-gram for local-first); Qwen3.5-4B is a GDN hybrid already served as GGUF on phones — a llama.cpp existence proof for the GDN option in B-vs-A+.",
+   "blurb": "26 ranked entries, 12 stealable mechanisms, 3-model eval shortlist, 23 not-useful (never re-review). docs/research/model-survey-2026-08-20.md (local-only per gitignore). Headlines: NextCoder/SeleKT gradient-importance masking (naive edit-SFT REGRESSES CanItEdit 48.1 to 36.7 \u2014 our exact failure mode); NextCoderDataset seed x edit-criteria x 3-variants construction; SmolLM3 playbook = full from-scratch recipe incl. a NEGATIVE result on synthetic FIM upsampling; DFlash block-diffusion drafters beat MTP at matched budgets but are SGLang-only (keeps MTP + n-gram for local-first); Qwen3.5-4B is a GDN hybrid already served as GGUF on phones \u2014 a llama.cpp existence proof for the GDN option in B-vs-A+.",
    "verdict": "Shortlist to bench on the zeta2 probe before any vehicle switch: LFM2.5-1.2B-Base (official GGUF + unsloth recipes, 65k vocab, license check needed), granite-4.1-3b-base (only sub-4B base with native FIM), SmolLM3-3B-Base (Apache, RNoPE+GQA+tied = closest to A+ shape). None obviously displaces MiniCPM5-1B; MiniCPM5 official SFT data (400B tokens) is released and its 2-stage RL + reverse-KL OPD details transplant into our keystroke-RL phase."
   },
   {
-   "name": "Architecture red-team (hermes) — verdict: REPLACE B with A+",
+   "name": "Architecture red-team (hermes) \u2014 verdict: REPLACE B with A+",
    "status": "done",
    "blurb": "Convenience-is-not-an-argument mandate executed. The KV case for GDN hybrids collapses at 8-16K (weights traffic dominates; KV is 3-4 orders below it); llama.cpp hybrid prefix-cache reuse is broken today for exactly our PSM pattern (open #26994/#24785/#25913); sequential 3:1 is the worst hybrid shape for spec decode. Revised primary A+: vanilla dense GQA (2 KV heads), 32K R-regex-BPE tied vocab, MTP, Matryoshka tiers unified with LayerSkip early-exit, n-gram spec first. Falcon-H1-shape parallel hybrid = the one to watch. Six ordered kill-tests, first three ~1 week with zero training.",
    "verdict": "Full report: <b>docs/research/arch-redteam-v1.md</b> (616 lines, primary-source cited). Decision pending user review."
   },
   {
-   "name": "AST-FIM probe — 0.000 (corpus format artifact)",
+   "name": "AST-FIM probe \u2014 0.000 (corpus format artifact)",
    "status": "done",
-   "blurb": "FINAL (corrected scorer, n=200): exact 0.000, line-F1 0.0427. 153/200 rows score exactly 0 with marker-echo loops to the token budget; 22 above 0.1; 7 above 0.3 (best 0.81 — genuine span completion occurs in ~3.5% of rows). Corpus verified clean (full 276k-row marker scan: only the five canonical markers). The capability is learnable but one half-epoch pass with unmasked prompts on a 2B base does not stick a stop+span policy.",
+   "blurb": "FINAL (corrected scorer, n=200): exact 0.000, line-F1 0.0427. 153/200 rows score exactly 0 with marker-echo loops to the token budget; 22 above 0.1; 7 above 0.3 (best 0.81 \u2014 genuine span completion occurs in ~3.5% of rows). Corpus verified clean (full 276k-row marker scan: only the five canonical markers). The capability is learnable but one half-epoch pass with unmasked prompts on a 2B base does not stick a stop+span policy.",
    "verdict": "DROPPED from v6 per the >= 0.3 line-F1 rule. v7 options logged: masked-prompt loss + 2 epochs, shorter spans, or a midtrain-native base. Nothing in v6 is blocked by it."
   },
   {
@@ -218,7 +208,7 @@
    }
   },
   {
-   "name": "SFT v1 — finish-block only (MiniCPM5-1B)",
+   "name": "SFT v1 \u2014 finish-block only (MiniCPM5-1B)",
    "status": "done",
    "blurb": "First end-to-end proof: train -> merge -> GGUF -> llama.cpp -> eval.",
    "table": {
@@ -236,7 +226,7 @@
      [
       "SFT v1",
       "0.020",
-      "2.5x over base — learnability proven"
+      "2.5x over base \u2014 learnability proven"
      ],
      [
       "SFT Qwen3.5-2B",
@@ -252,9 +242,9 @@
    }
   },
   {
-   "name": "SFT v2 — instruct vs base on the full mixture",
+   "name": "SFT v2 \u2014 instruct vs base on the full mixture",
    "status": "done",
-   "blurb": "Dead tie — initialization doesn't matter at this scale; the bake-off can be decided on CPU decode + vocab.",
+   "blurb": "Dead tie \u2014 initialization doesn't matter at this scale; the bake-off can be decided on CPU decode + vocab.",
    "table": {
     "headers": [
      "model",
@@ -306,7 +296,7 @@
    "verdict": "Paired t: types conditioning -0.005 (t=-0.87, n.s.); mismatch -0.018 (t=-3.12, sig)."
   },
   {
-   "name": "Drafting families (v3) — comment & roxygen",
+   "name": "Drafting families (v3) \u2014 comment & roxygen",
    "status": "win",
    "blurb": "The clearest positive result: the drafting families teach drafting; the control can't even produce the right kind of output.",
    "table": {
@@ -380,7 +370,7 @@
    }
   },
   {
-   "name": "v4 — finish-block upweight (allocation experiment)",
+   "name": "v4 \u2014 finish-block upweight (allocation experiment)",
    "status": "done",
    "blurb": "Capability tracks training share in BOTH directions: +15% whole-region, roxygen drafting halved. Midtyping flat (4th datapoint). Conclusion: train longer, don't reweight.",
    "table": {
@@ -409,7 +399,7 @@
    }
   },
   {
-   "name": "SFT v5 — suffix convention + no_op + mid_roxygen + cursor fix",
+   "name": "SFT v5 \u2014 suffix convention + no_op + mid_roxygen + cursor fix",
    "status": "win",
    "blurb": "ACCEPTANCE CRITERIA MET. The live-session regression cases (sd-line echo, post-brace eagerness, mom-glue, mid-roxygen) flipped from 0 to pass. Best model on every capability metric.",
    "table": {
@@ -468,7 +458,7 @@
   {
    "name": "Matryoshka gate probe",
    "status": "unblocked",
-   "blurb": "Layer-prefix extraction works (12-layer prefix of Qwen3.5-2B converted to GGUF), but our llama.cpp build's converter hard-requires the MTP head. FIXED in llama.cpp main (--no-nextn/--mtp flags) — rebuild queued.",
+   "blurb": "Layer-prefix extraction works (12-layer prefix of Qwen3.5-2B converted to GGUF), but our llama.cpp build's converter hard-requires the MTP head. FIXED in llama.cpp main (--no-nextn/--mtp flags) \u2014 rebuild queued.",
    "verdict": "llama.cpp main converts MTP-less qwen3_5 via --no-nextn and serves it (probe verified live). Prefix extraction retry queued."
   },
   {
@@ -539,18 +529,18 @@
  ],
  "decisions": [
   "Suffix-completion convention everywhere: predict ONLY what comes after the cursor (user decision; finish-block re-emission retired).",
-  "Dropout conditioning is the production config — justified by robustness to prompt population, not type signal (ablation showed none).",
-  "Telemetry: local collection always, upload never — until an explicit opt-in (off by default).",
+  "Dropout conditioning is the production config \u2014 justified by robustness to prompt population, not type signal (ablation showed none).",
+  "Telemetry: local collection always, upload never \u2014 until an explicit opt-in (off by default).",
   "Eval battery: acceptance counters (extension) > validator-exact scenario families + calibrated judge + intent assertions > line-F1 midtyping (composition-blind, 4 datapoints).",
   "Effort is never a blocker; llama.cpp support is deployment evidence, not selection criteria. Wide architecture space gets a genuine pass.",
   "Quota discipline: max 6-8 concurrent zai consumers; Gemini (agy) and Opus 4.6 (separate quota) for free-tier generation; Opus reserved for high-judgment tasks.",
-  "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls — the 03:20 incident)."
+  "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls \u2014 the 03:20 incident)."
  ],
  "next": [
-  "USER DECISION: adopt A2-prime (package complete pending occupancy + acquisition net-new) — then rental gates + 0.5BT ladders",
-  "v8 assembly when the banked levers land (doc_sync rebuild, finish_block compound+authored, no_op geometries, cut randomization)",
-  "RL run 2: mixed-family GRPO + DPO arm + OPD anchor + the 3-family judge panel (design complete)",
-  "Extension v0.0.8: air-on-save + jarl settings, completeness gate (the 70.6% FP fix), user live-test of v0.0.7 scope context",
-  "SO r-tag acquisition (CC-BY-SA ruled in) + Stack v3 delta + RMarkdown tranche (pipelined, in flight)"
+  "USER CALL: adopt A2-prime (package complete, all inputs measured; unique-R 4.1-4.5B -> 4.0-4.3 epochs under the 4.6 cap, no transfer shift needed)",
+  "v8 assembly once finish_block authored + c2c waves land (levers banked: cut-randomized families, 6-geometry no_op, doc_sync 3k)",
+  "RL-run-2 launch (design complete + today's no-op arm: 25-35% no-op prompts, stop-correctness reward, FP-rate gate <20%)",
+  "Outline-slot A/B per matryoshka exit (answers the layer-routing + summary-network questions with one experiment)",
+  "Extension v0.0.8 scope: air-on-save + completeness gate + LSP live-test verdict"
  ]
 }

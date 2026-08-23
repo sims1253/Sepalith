@@ -1439,7 +1439,11 @@ def derive_astfim_partial(row: dict, rng: random.Random,
         return None
     _path, above, below = parsed
     span_lines = target[:-len("\n" + ASTFIM_END)].split("\n")
-    max_k = int(params.get("max_partial_lines", 3))
+    # positional-realism fix: max_partial_lines null/absent = UNCAPPED —
+    # the retyped prefix may run any depth into the block (the old
+    # default 3 made every cut shallow); an explicit int still caps
+    cap = params.get("max_partial_lines")
+    max_k = (len(span_lines) - 1) if cap is None else int(cap)
     if len(span_lines) < 2:
         return None                      # nothing to move: k would be 0
     k = rng.randint(1, min(max_k, len(span_lines) - 1))

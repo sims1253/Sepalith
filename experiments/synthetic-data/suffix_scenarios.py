@@ -5,7 +5,7 @@ SFT v5 target convention: the model only ever predicts what comes AFTER the
 cursor. Both families below are constructed natively in that convention.
 
 no_op (the eagerness fix): teach the model to STOP instead of hallucinating
-the next construct. Two kinds, emitted to no_op.jsonl:
+the next construct. Five kinds, emitted to no_op.jsonl:
 
   after_close_brace : cursor immediately after a top-level function's
       closing-brace line. region_old = ["}"] (+ cursor marker), target EMPTY
@@ -13,9 +13,21 @@ the next construct. Two kinds, emitted to no_op.jsonl:
   blank_between     : cursor at the end of the FIRST blank line of a run of
       >= 2 blank lines between two top-level functions. region_old = [""]
       (+ cursor), target = the following blank line only.
+  interior_line_end : cursor at the end of a complete statement line
+      mid-body whose next line is blank (the natural pause between
+      statements) — v8 geometry (eval_noop_fp: untrained = 100% FP).
+  mid_identifier    : cursor INSIDE an identifier being typed (midtyping;
+      rest of the line not typed yet) — the only sane suggestion at a
+      mid-word pause is nothing — v8 geometry.
+  blank_in_body     : cursor on a blank line strictly inside a body —
+      the intra-function sibling of blank_between — v8 geometry.
+  file_end          : cursor at the last non-blank line of the file, all
+      code complete (eval class a_file_end, 100% FP on v7) — v8 geometry.
 
-mid_roxygen: cursor at the END of line k INSIDE a roxygen block (k varied
-across the block). region_old = the roxygen lines so far (+ cursor),
+mid_roxygen: cursor at the END of line k INSIDE a roxygen block; k is now
+drawn UNIFORMLY from the whole block interior (the positional-realism fix
+— the old 3-candidate set left a dead zone at head-fraction 0.25-0.67).
+region_old = the roxygen lines so far (+ cursor),
 region_new = the REMAINING roxygen lines (suffix convention: nothing already
 above the cursor is re-emitted), suffix = the function below the block.
 
@@ -87,9 +99,17 @@ MIN_ROXY_LINES = 3
 WORKERS = 6
 SHUFFLE_SEED = 7           # package visit order (stable across reruns)
 
-# row quotas and per-package caps
-NO_OP_QUOTA = dict(after_close_brace=4200, blank_between=2800)   # 7000 total
-NO_OP_PKG_CAP = dict(after_close_brace=3, blank_between=2)
+# row quotas and per-package caps. The three v8 geometries
+# (interior_line_end / mid_identifier / blank_in_body) are the untrained
+# stop geometries from eval_noop_fp (100% false-suggestion on v7) —
+# restraint must generalize across cursor positions, not just the two
+# geometries v6/v7 trained on.
+NO_OP_QUOTA = dict(after_close_brace=4200, blank_between=2800,
+                   interior_line_end=2400, mid_identifier=1200,
+                   blank_in_body=1200, file_end=800)   # 12.6k total
+NO_OP_PKG_CAP = dict(after_close_brace=3, blank_between=2,
+                     interior_line_end=3, mid_identifier=2, blank_in_body=2,
+                     file_end=1)
 MID_QUOTA = 8000
 MID_PKG_CAP = 4
 BATCH = 240                # packages submitted per executor wave
@@ -265,10 +285,134 @@ def extract_no_op(pkg: str, fname: str, src: bytes, rows: list,
             caps["blank_between"] += 1
             rows.append(dict(base, kind="blank_between",
                              prefix=head, region_old=[""],
-                             cursor_idx=0, region_new=[""],
+                             cursor_idx=0, region_new=[],
                              note=f"{n1}/{n2}: one more blank line, "
                                   f"then stop"))
             break
+
+    # (c)-(e): the three untrained stop geometries (eval_noop_fp: v7
+    # proposes on 100% of them; the trained two sit at ~30%). Same row
+    # shape as (a)/(b): region_old anchors the cursor line, region_new
+    # empty = the sanctioned suggestion is NOTHING.
+    def _body_rows(fn):
+        body = next((c for c in fn.children
+                     if c.type == "braced_expression"), None)
+        if body is None:
+            return None
+        return row(body.start_byte), row(body.end_byte - 1)
+
+    # (c) interior_line_end: cursor at the end of a complete statement
+    #     line INSIDE a body, next line blank (the natural mid-function
+    #     pause). Not a finish_block cut: nothing was removed, the user
+    #     is between statements.
+    if caps["interior_line_end"] < NO_OP_PKG_CAP["interior_line_end"]:
+        for name, node, fn in fns:
+            geom = _body_rows(fn)
+            if geom is None:
+                continue
+            r0, r1 = geom
+            cut = next((r for r in range(r0 + 1, r1 - 1)
+                        if text[r].strip()
+                        and not text[r].lstrip().startswith("#")
+                        and r + 1 < r1 and not text[r + 1].strip()
+                        and any(text[rr].strip()
+                                for rr in range(r0 + 1, r))), None)
+            if cut is None:
+                continue
+            head = trim_prefix(text[:cut], MAX_RECORD_CHARS, st, "c")
+            if head is None:
+                continue
+            st["emitted_c"] += 1
+            caps["interior_line_end"] += 1
+            rows.append(dict(base, kind="interior_line_end",
+                             prefix=head, region_old=[text[cut]],
+                             cursor_idx=0, region_new=[],
+                             note=f"{name}: statement end mid-body, "
+                                  f"blank line follows — stop"))
+            break
+
+    # (d) mid_identifier: cursor INSIDE an identifier the user is typing
+    #     (not at a word boundary). The rest of the line is not typed
+    #     yet — midtyping convention; the only sane suggestion at a
+    #     mid-word pause is nothing. Cut position is seeded per site.
+    if caps["mid_identifier"] < NO_OP_PKG_CAP["mid_identifier"]:
+        idre = re.compile(r"[A-Za-z.][A-Za-z0-9._]{5,}")
+        for name, node, fn in fns:
+            geom = _body_rows(fn)
+            if geom is None:
+                continue
+            r0, r1 = geom
+            for r in range(r0 + 1, r1):
+                line = text[r]
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                m = idre.search(line)
+                if not m:
+                    continue
+                rng = random.Random(f"{pkg}:{fname}:{name}:{r}:midid")
+                cutcol = m.start() + rng.randint(2, max(2, m.end()
+                                                       - m.start() - 2))
+                head = trim_prefix(text[:r], MAX_RECORD_CHARS, st, "d")
+                if head is None:
+                    continue
+                st["emitted_d"] += 1
+                caps["mid_identifier"] += 1
+                rows.append(dict(base, kind="mid_identifier",
+                                 prefix=head,
+                                 region_old=[line[:cutcol]],
+                                 cursor_idx=0, region_new=[],
+                                 note=f"{name}: mid-identifier pause at "
+                                      f"'{m.group()[:cutcol - m.start()]}' "
+                                      f"— stop"))
+                break
+            else:
+                continue
+            break
+
+    # (e) blank_in_body: cursor on a blank line strictly inside a body
+    #     (statements above and below) — the intra-function sibling of
+    #     blank_between.
+    if caps["blank_in_body"] < NO_OP_PKG_CAP["blank_in_body"]:
+        for name, node, fn in fns:
+            geom = _body_rows(fn)
+            if geom is None:
+                continue
+            r0, r1 = geom
+            cut = next((r for r in range(r0 + 1, r1)
+                        if not text[r].strip()
+                        and any(text[rr].strip()
+                                for rr in range(r0 + 1, r))
+                        and any(text[rr].strip()
+                                for rr in range(r + 1, r1))), None)
+            if cut is None:
+                continue
+            head = trim_prefix(text[:cut + 1], MAX_RECORD_CHARS, st, "e")
+            if head is None:
+                continue
+            st["emitted_e"] += 1
+            caps["blank_in_body"] += 1
+            rows.append(dict(base, kind="blank_in_body",
+                             prefix=head, region_old=[""],
+                             cursor_idx=0, region_new=[],
+                             note=f"{name}: blank line mid-body — stop"))
+            break
+
+    # (f) file_end: cursor at the last non-blank line of the file —
+    #     everything is complete, there is nothing left to propose
+    if caps["file_end"] < NO_OP_PKG_CAP["file_end"]:
+        last = max((r for r in range(len(text)) if text[r].strip()),
+                   default=None)
+        if last is not None and not text[last].lstrip().startswith("#") \
+                and len(text) - 1 - last <= 3:
+            head = trim_prefix(text[:last], MAX_RECORD_CHARS, st, "f")
+            if head is not None:
+                st["emitted_f"] += 1
+                caps["file_end"] += 1
+                rows.append(dict(base, kind="file_end",
+                                 prefix=head, region_old=[text[last]],
+                                 cursor_idx=0, region_new=[],
+                                 note=f"end of file (last non-blank "
+                                      f"line {last + 1}) — stop"))
 
 
 def extract_mid_roxygen(pkg: str, fname: str, src: bytes, rows: list,
@@ -308,13 +452,12 @@ def extract_mid_roxygen(pkg: str, fname: str, src: bytes, rows: list,
         suffix = text[row(node.start_byte):row(fn.end_byte - 1) + 1]
         if not suffix:
             continue
-        # vary k deterministically across the block interior
-        cand = sorted({max(0, L // 3 - 1), (2 * L) // 3, L - 2})
-        cand = [k for k in cand if 0 <= k <= L - 2]
-        if not cand:
-            continue
+        # k drawn UNIFORMLY from the whole block interior (the
+        # positional-realism fix: the old 3-candidate set left a dead
+        # zone at head-fraction 0.25-0.67); seeded per base sample, so
+        # the same block always yields the same cut on reruns
         rng = random.Random(f"{pkg}:{fname}:{name}")
-        k = cand[rng.randrange(len(cand))]
+        k = rng.randrange(0, L - 1)
         core = len("\n".join(roxy)) + len("\n".join(suffix))
         if core > MAX_RECORD_CHARS:
             st["skip_mid_too_long"] += 1
@@ -480,14 +623,12 @@ def main():
     # down per appended row; avoids re-parsing the JSONL per package)
     _, kinds = count_existing(NO_OP_OUT)
     n_mid, _ = count_existing(MID_OUT)
-    left = dict(a=max(0, NO_OP_QUOTA["after_close_brace"]
-                      - kinds.get("after_close_brace", 0)),
-                b=max(0, NO_OP_QUOTA["blank_between"]
-                      - kinds.get("blank_between", 0)),
-                mid=max(0, MID_QUOTA - n_mid))
+    left = {kind: max(0, quota - kinds.get(kind, 0))
+            for kind, quota in NO_OP_QUOTA.items()}
+    left["mid_roxygen"] = max(0, MID_QUOTA - n_mid)
     print(f"packages: {len(pkgs)} total | {len(done)} done (skipped) | "
           f"{len(todo)} todo | workers={args.workers} | quotas left "
-          f"a/b/mid={left['a']}/{left['b']}/{left['mid']}", flush=True)
+          f"{dict(left)}", flush=True)
 
     totals: Counter = Counter()
     written = Counter()
@@ -501,7 +642,7 @@ def main():
     with ProcessPoolExecutor(max_workers=args.workers) as ex:
         try:
             for i in range(0, len(todo), BATCH):
-                if left["a"] == 0 and left["b"] == 0 and left["mid"] == 0:
+                if not any(left.values()):
                     print("quotas filled; stopping early", flush=True)
                     break
                 futs = {ex.submit(process_package, p, versions[p]): p
@@ -516,32 +657,33 @@ def main():
                               flush=True)
                         continue  # stays pending; a rerun retries it
                     totals.update(st)
-                    take_a = take(no_rows, "after_close_brace", left["a"])
-                    take_b = take(no_rows, "blank_between", left["b"])
-                    take_m = take(mid_rows, None, left["mid"])
-                    ok = (not (take_a + take_b) or append_all(
+                    takes = [take(no_rows, kind, left[kind])
+                             for kind in NO_OP_QUOTA]
+                    for t in takes:
+                        for r in t:
+                            left[r["kind"]] = max(0, left[r["kind"]] - 1)
+                    take_m = take(mid_rows, None, left["mid_roxygen"])
+                    left["mid_roxygen"] = max(0, left["mid_roxygen"]
+                                              - len(take_m))
+                    ok = (not any(takes) or append_all(
                         NO_OP_OUT, "".join(
                             json.dumps(r, ensure_ascii=False) + "\n"
-                            for r in take_a + take_b)))
+                            for t in takes for r in t)))
                     ok = ok and (not take_m or append_all(
                         MID_OUT, "".join(
                             json.dumps(r, ensure_ascii=False) + "\n"
                             for r in take_m)))
                     if ok and append_all(NO_OP_DONE, pkg + "\n") \
                             and append_all(MID_DONE, pkg + "\n"):
-                        written["no_op"] += len(take_a + take_b)
+                        written["no_op"] += sum(len(t) for t in takes)
                         written["mid"] += len(take_m)
-                        left["a"] -= len(take_a)
-                        left["b"] -= len(take_b)
-                        left["mid"] -= len(take_m)
                         n_done += 1
                     else:
                         totals["write_failures"] += 1
                     if n_done and n_done % 50 == 0:
                         el = time.time() - t0
                         print(f"[{n_done}] written={dict(written)} "
-                              f"left a/b/mid={left['a']}/{left['b']}/"
-                              f"{left['mid']} elapsed={el:.0f}s "
+                              f"left={dict(left)} elapsed={el:.0f}s "
                               f"last={pkg}", flush=True)
         except KeyboardInterrupt:
             print("interrupted; rerun to resume from the sidecars",

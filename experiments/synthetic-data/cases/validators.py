@@ -579,11 +579,14 @@ def rc_astfim_partial(row: dict, params: dict):
     and the carried PSM rendering keeps the midtyping geometry
     (`<|cursor|>partial<|suffix|>` — the cursor zone holds exactly the
     partial, docs/prompt-format.md)."""
-    max_k = int(params.get("max_partial_lines", 3))
+    cap = params.get("max_partial_lines")
     k = row.get("k_partial")
     partial = row.get("partial_lines")
-    if not isinstance(k, int) or not (1 <= k <= max_k):
-        return False, f"k_partial out of range 1..{max_k}: {k!r}"
+    # uncapped (null/absent): any depth 1..len(span)-1 is admissible
+    if not isinstance(k, int) or k < 1 or (
+            cap is not None and k > int(cap)):
+        bound = "uncapped" if cap is None else f"1..{int(cap)}"
+        return False, f"k_partial out of range {bound}: {k!r}"
     if not isinstance(partial, list) or len(partial) != k \
             or any(not isinstance(l, str) or "\n" in l for l in partial):
         return False, "partial_lines does not match k_partial"

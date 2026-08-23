@@ -507,9 +507,12 @@ def t_astfim_partial(bs: BaseSample, rng: random.Random, params: dict):
     if site is None:
         return [], ["no removed-block site to retype from"]
     first, last, block_lines, _prefix, suffix, _indent = site
-    max_k = int(params.get("max_partial_lines", 3))
+    # positional-realism fix: null/absent max_partial_lines = uncapped
+    # (any retyped-prefix depth); explicit int still caps
+    cap = params.get("max_partial_lines")
     if len(block_lines) < 2:
         return [], ["block too short to split"]
+    max_k = (len(block_lines) - 1) if cap is None else int(cap)
     k = rng.randint(1, min(max_k, len(block_lines) - 1))
     partial, remaining = block_lines[:k], block_lines[k:]
     if not any(l.strip() for l in remaining):

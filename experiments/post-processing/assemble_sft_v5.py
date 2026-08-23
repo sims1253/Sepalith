@@ -118,7 +118,7 @@ SCENARIO_FILES = [
 # BEFORE the package holdout; sampling is seeded so reruns are stable.
 FAMILY_CAPS = {
     "roxygen_drafting": 40000,
-    "no_op": 8000,
+    "no_op": 12600,     # v8: 6 stop geometries (4 untrained ones added)
     "mid_roxygen": 10000,
     "rewrite_lint_fix": 12000,   # ~19.5k authored across 3 models; cap the share
     "fix_issue_inject": 6000,

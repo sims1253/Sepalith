@@ -1,6 +1,6 @@
 {
   "name": "astfim_partial_eval",
-  "version": 1,
+  "version": 2,
   "family": "astfim_partial",
   "description": "Eval companion of astfim_partial: the SAME pure derivation, sampled from the parent corpus EVAL split only (fixed/eval.jsonl), so the package-level holdout of astfim_v1 is inherited exactly (train and eval share zero packages). 100 rows. Not registered in assemble_sft_v5 SCENARIO_FILES: that assembler takes train files and cuts its own 3% per-family package holdout, so a per-family eval input has no slot there - this file stands alone for family-level evals.",
   "novelty_note": "Not a new family: the eval-side instantiation of astfim_partial (family stamp stays astfim_partial). Exists as its own spec so the eval split is reproducible from the checked-in JSON instead of an ad-hoc override, and so reruns never touch the train derivation's sampling.",
@@ -15,7 +15,7 @@
     "path": "/mnt/h/sepalith/datasets/astfim_v1/fixed/eval.jsonl",
     "selector": "astfim_partial_rows",
     "params": {
-      "max_partial_lines": 3,
+      "max_partial_lines": null,
       "sample_lines": 800,
       "max_items": 110
     },
@@ -31,7 +31,15 @@
   },
   "target_construction": {
     "kind": "exact_completion",
-    "params": {"carry": ["parent_kind", "k_partial", "partial_lines", "psm_prompt", "psm_target"]}
+    "params": {
+      "carry": [
+        "parent_kind",
+        "k_partial",
+        "partial_lines",
+        "psm_prompt",
+        "psm_target"
+      ]
+    }
   },
   "validator": {
     "name": "corpus_side",
@@ -39,7 +47,9 @@
   },
   "row_check": {
     "name": "astfim_partial_site",
-    "params": {"max_partial_lines": 3}
+    "params": {
+      "max_partial_lines": null
+    }
   },
   "dedup": "target+key",
   "difficulty": {

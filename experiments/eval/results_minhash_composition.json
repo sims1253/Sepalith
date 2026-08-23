@@ -1,0 +1,63 @@
+{
+ "n_sample": 100,
+ "extrapolated": {
+  "total_tokens": 5068531045.08,
+  "by_bucket": {
+   "html": {
+    "tokens": 1690641158.94,
+    "bytes": 2662990746.2999997,
+    "share": 0.3336
+   },
+   "R": {
+    "tokens": 1348573349.16,
+    "bytes": 4100973638.58,
+    "share": 0.2661
+   },
+   "other_text": {
+    "tokens": 515509166.7,
+    "bytes": 1427146056.18,
+    "share": 0.1017
+   },
+   "C_elsewhere": {
+    "tokens": 460397453.58,
+    "bytes": 1503705771.72,
+    "share": 0.0908
+   },
+   "C_src": {
+    "tokens": 402291532.8,
+    "bytes": 1319398180.56,
+    "share": 0.0794
+   },
+   "Rd": {
+    "tokens": 313895728.44,
+    "bytes": 1050587269.2,
+    "share": 0.0619
+   },
+   "md_txt": {
+    "tokens": 157318536.42,
+    "bytes": 428439261.06,
+    "share": 0.031
+   },
+   "rmd_src": {
+    "tokens": 73849831.92,
+    "bytes": 257789733.3,
+    "share": 0.0146
+   },
+   "rmd_rendered": {
+    "tokens": 68619377.34,
+    "bytes": 239356105.38,
+    "share": 0.0135
+   },
+   "meta": {
+    "tokens": 21428403.66,
+    "bytes": 67736439.0,
+    "share": 0.0042
+   },
+   "r_rendered": {
+    "tokens": 16006506.12,
+    "bytes": 57608708.76,
+    "share": 0.0032
+   }
+  }
+ }
+}

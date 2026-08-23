@@ -1,8 +1,8 @@
 {
   "name": "astfim_partial",
-  "version": 1,
+  "version": 2,
   "family": "astfim_partial",
-  "description": "Remove-a-block-then-RETYPED-k-lines completion, derived purely (no LLM) from the corrected astfim_v1 corpus (/mnt/h/sepalith/datasets/astfim_v1/fixed): the user removed a semantic span, then started retyping it. The first k span lines (k = 1..min(3, len-1), seeded choice) move above the cursor as the typed partial (midtyping convention, <|cursor|>partial<|suffix|>); the target is the REMAINING span lines, corpus-exact. Suffix convention everywhere: the partial is never re-emitted, the file below the span stays visible. The eval companion is the astfim_partial_eval spec (same derivation over the parent EVAL split, package holdout inherited); it is NOT registered in the assembler, which takes train files and cuts its own per-family package holdout.",
+  "description": "Remove-a-block-then-RETYPED-k-lines completion, derived purely (no LLM) from the corrected astfim_v1 corpus (/mnt/h/sepalith/datasets/astfim_v1/fixed): the user removed a semantic span, then started retyping it. The first k span lines (k = 1..len-1 uniform, seeded choice (v2: uncapped depth — the positional-realism fix; v1's 3-line cap made every retyped partial shallow)) move above the cursor as the typed partial (midtyping convention, <|cursor|>partial<|suffix|>); the target is the REMAINING span lines, corpus-exact. Suffix convention everywhere: the partial is never re-emitted, the file below the span stays visible. The eval companion is the astfim_partial_eval spec (same derivation over the parent EVAL split, package holdout inherited); it is NOT registered in the assembler, which takes train files and cuts its own per-family package holdout.",
   "novelty_note": "Every existing completion family starts at a code boundary (pipe operator, expect_ partial, handler comma, comment line) with NOTHING typed inside the span; mid_body_edit edits one existing line. This is the only family where the model CONTINUES a partially retyped removed block: the typed partial is genuine prefix context (the user's own retyping, seeded k), the target is the strict suffix of the original span, and construction is pure derivation of the corrected FIM corpus (mock backend, corpus-side exact GT — the namespace_qualify/mid_body_edit convention). The parent row's PSM fields ride along as psm_prompt/psm_target so the midtyping geometry (<|cursor|> + retyped lines + <|suffix|>) is auditable per row.",
   "target_field": "completion",
   "target_normalizer": "code",
@@ -15,7 +15,7 @@
     "path": "/mnt/h/sepalith/datasets/astfim_v1/fixed/train.jsonl",
     "selector": "astfim_partial_rows",
     "params": {
-      "max_partial_lines": 3,
+      "max_partial_lines": null,
       "sample_lines": 15000,
       "max_items": 3100
     },
@@ -31,7 +31,15 @@
   },
   "target_construction": {
     "kind": "exact_completion",
-    "params": {"carry": ["parent_kind", "k_partial", "partial_lines", "psm_prompt", "psm_target"]}
+    "params": {
+      "carry": [
+        "parent_kind",
+        "k_partial",
+        "partial_lines",
+        "psm_prompt",
+        "psm_target"
+      ]
+    }
   },
   "validator": {
     "name": "corpus_side",
@@ -39,7 +47,9 @@
   },
   "row_check": {
     "name": "astfim_partial_site",
-    "params": {"max_partial_lines": 3}
+    "params": {
+      "max_partial_lines": null
+    }
   },
   "dedup": "target+key",
   "difficulty": {
