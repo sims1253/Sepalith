@@ -28,6 +28,36 @@
  ],
  "experiments": [
   {
+   "name": "FIM dose ladder — the last A2/B2 dispute settled with data",
+   "status": "done",
+   "blurb": "4 paired arms (0/10/20/35% PSM-FIM share, nested monotone masks, same text tiles, 350.2M tok each): causal floor NEVER pays (0.2-0.8% better than control — B2's dose-cost worry refuted); span BPB saturates by 10-20%; served free-running collapses at 35% (dose 20 best); canary flat (no dose-memorization link). The masked/unmasked >=2x gate untested (replica arm pending).",
+   "verdict": "ADOPT 20-35% band, center 25-30%, with masked loss + stop-density as enabling conditions. A2-prime's mixture arithmetic is now fully evidence-backed end to end."
+  },
+  {
+   "name": "Positional realism — cut bias measured, no-op FP rate 70.6%",
+   "status": "done",
+   "blurb": "CUT AUDIT: finish_block 74.6% signature cuts + 0.1-0.3 depth cluster; mid_roxygen 3 fixed fractional candidates (dead zone 0.25-0.67); astfim 3-line cap. fb_cut_random shipped (uniform statement-boundary, seeded, corpus-exact) + 4,369-row wave, 41/41 selftests. NO_OP FP BENCHMARK (user suspicion CONFIRMED): v7 false-suggests 70.6% (v6 68.6% — structural). 100% proposal on every UNTRAINED stop geometry (interior line-end, mid-identifier, blank line, refactorable); trained geometries ~30%. Restraint is geometry-specific, not general.",
+   "verdict": "v8 levers: no_op training on the 3 untrained in-function geometries; rewrite families conditioned on edit events; client-side completeness gate as the cheap immediate fix."
+  },
+  {
+   "name": "Compound finish_block — the glm-corner counterattack",
+   "status": "win",
+   "blurb": "7 registry rules (4 cut-points + docstring-strip axis + context packaging), 39/39 selftests. Deterministic wave: 9,574 corpus-exact rows from 1,562 base samples (1,237 from odd-domain seed packages; 297/300 pass the real renderer unchanged). The docstring axis closes the training-distribution hole (1,368 with/without pairs, zero target mismatches). Per-row validator manifests + environment stamps (jarl/ry/air/TS/R versions) = the selective-replacement convention, now the standard. Authored wave at the 400-sample quality gate — spot-check PASSED with real domain logic (rolling-incidence windows, item-total correlation with variance guard).",
+   "verdict": "Committed e7aec65. Targets the landscape's one lost corner (finish_block 0.5 vs glm 2.0) with domain-diverse authored functions x cut-point derivations — the register CRAN lacks."
+  },
+  {
+   "name": "SFT v7 — 264k rows, 33 families: strongest serving model; landscape champion",
+   "status": "win",
+   "blurb": "264,516 train rows / 9,252 eval / 33 families (quadrupled synthetic program). Battery: scenario families .772/.677 (rename .967/.883, pipe 1.0/1.0, format .700/.550); intent 1.636 best-ever (v6 1.386); drafting judge 1.083 (watch); whole-region parity with v6 (clean rerun after the GPU-resume artifact was caught); doc_sync still 0 — its rebuild data landed post-assembly, the v8 lever. LANDSCAPE: beats glm-5.3 by 35, zeta-2.1 by 61, gemma-e2b by 66 on identical held-out rows.",
+   "verdict": "sft_v7_minicpm5-Q8_0.gguf is the serving model. Extension-compatible as-is."
+  },
+  {
+   "name": "LANDSCAPE: v7 vs the field — 17-pt honest spread over the frontier (3-shot controlled)",
+   "status": "win",
+   "blurb": "Four corners, 158 identical held-out rows: v7 0.772/0.677 vs glm-5.3 0.424/0.335 zero-shot / 0.601/0.494 3-SHOT (control), zeta-2.1 0.165 (native format), gemma-e2b 0.114. The few-shot control halves the apparent gap: three worked examples close ~50% of glm's deficit (terminator typos 16->3, shape fails 38->21) — the honest v7-vs-frontier spread is 17/18 points, not 35/34. The residual edge lives in the rule-knowledge families: format exact stays +0.20 for v7 (the air-transform RULE wasn't teachable by example), pipe 1.0 vs 0.889, rename .967 vs .717; doc_sync 0/15 humbles everyone. Intent layer unchanged: v7 1.433 vs glm 1.067; glm keeps finish_block 2.0-vs-0.5 (the general-knowledge corner).",
+   "verdict": "Framing for all future citation: specialist beats frontier by ~17 points on-deployment-distribution with the format handicap controlled; the zero-shot 35-point figure includes ~50% format unfamiliarity. Report: docs/research/landscape-v7-vs-glm53.md + the 3shot files."
+  },
+  {
    "name": "GPT-Sol judge calibrated — takes the third seat; CUDA serving unlocked (74x)",
    "status": "win",
    "blurb": "gpt-5.6-sol via 9router PASSED the three gates at/above glm-5.3's baseline (40/40, 39/40, 40/40; 120/120 clean JSON) — and its single miss is the MIRROR of every other judge's (strict where glm/ox/gemini/opus were generous). Agreement vs glm: 70% exact, 100% within-one-band, one-directional strict (-0.18 bands) with defensible code-fact reasons. Panel: {glm-family, gemini, gpt-sol} majority 2-of-3, gemini arbiter, gpt-sol the STRICT vote / plausible-drift auditor — the band it compresses is exactly where reward-hacking drafts live. 2.6-3s/call, zero throttles. SEPARATELY: the CPU-serving mystery is fully solved — all llama.cpp binaries were CPU-only builds; the new CUDA build serves at 177 tok/s vs 2.4 (74x), and the v7 battery rode it to near-completion in minutes.",
