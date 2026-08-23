@@ -274,6 +274,9 @@ def main():
     ap.add_argument("--refine-data", default=None,
                     help="refinement prompt jsonl (recursive validator "
                          "feedback arm, build_refinement_set.py output)")
+    ap.add_argument("--no-op-n", type=int, default=None,
+                    help="override the no_op prompt quota (the FP-intent "
+                         "knee test: 15%% share ≈ 800)")
     ap.add_argument("--out", default="/mnt/h/sepalith/runs/rl_grpo_v1")
     args = ap.parse_args()
 
@@ -291,6 +294,8 @@ def main():
     quotas = {f: n for f, n in
               (FAMILY_QUOTA_RUN2 if args.run2 else FAMILY_QUOTA).items()
               if f in [x.strip() for x in args.families.split(",")]}
+    if args.no_op_n is not None and "no_op" in quotas:
+        quotas["no_op"] = args.no_op_n
     if args.smoke:
         quotas = {f: min(n, 8) for f, n in quotas.items()}
     model, tokenizer = FastLanguageModel.from_pretrained(

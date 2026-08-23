@@ -1,18 +1,13 @@
 {
  "running": [
   {
-   "what": "RL-run-2c (collision-filtered v8.1 data): the interior-geometry closer",
-   "status": "run",
-   "note": "2a: brace 0.00, FP 57.4; 2b: blank_in_fn 56, FP 53.9; intent cost ~1.29 share-driven"
-  },
-  {
-   "what": "Quota burn: goal cards (3.3k+) + sol finish_block lane (710+ rows)",
-   "status": "run",
-   "note": "codex reset tomorrow"
-  },
-  {
-   "what": "Data waves + tournament continuing",
+   "what": "Data waves + tournament: continuing overnight",
    "status": "run"
+  },
+  {
+   "what": "RL-run-2 program COMPLETE (2a/2b/2c): frontier mapped",
+   "status": "done",
+   "note": "FP 70.6->46.6 with collision fix; intent cost monotone; next rung = 15% no_op share knee test (user call)"
   }
  ],
  "experiments": [
@@ -536,9 +531,9 @@
   "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls \u2014 the 03:20 incident)."
  ],
  "next": [
-  "USER CALL: serving trade \u2014 rl_grpo_v2* wins FP (70.6->54) + scenarios but pays ~0.35 intent (empty-bias, share-driven); 2c result closes the collision question",
-  "USER CALL: A2-prime adoption (package complete)",
-  "Simulator implementation (design complete; goal cards flowing)",
-  "Extension v0.0.8: cooldown landed; completeness gate + air-on-save remain"
+  "USER CALL: the FP-intent operating point \u2014 2c recipe at 15% no_op share (knee test), or rl_grpo_v2c as restraint-tuned variant + v7 for generative",
+  "Codex reset tomorrow: resume goal-card miner (one command; ~3.2k transitions pending)",
+  "USER CALL: A2-prime adoption (package complete since morning)",
+  "Simulator implementation (design + goal cards ready)"
  ]
 }
