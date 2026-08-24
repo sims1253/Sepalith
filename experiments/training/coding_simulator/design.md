@@ -164,3 +164,45 @@ Policy adopted:
 - Panel (user directive): ox-alpha + gemini + muse, majority vote
   (glm rejoins at quota reset); gemma-free retired as judge. Blind
   card rounds exclude ox when ox authored a side.
+
+## Contamination protocol (user catch, 2026-08-24)
+
+The models are (or will be) pretrained on package code that includes
+these repos — a memorizing model "proposes" the commit's next lines by
+recall, inflating acceptance and rewarding recall in RL.
+
+- TODAY'S NUMBERS ARE HONEST: verbatim rates ~1% across v7/2c/2d (a
+  memorizing model scores far higher); the risk is forward-looking.
+- PROTOCOL: the 2,586-repo git mirror is an EVAL-PROTECTED asset.
+  repo_contamination.json holds the clean/seen split (16 direct
+  training-side matches today). The A2 corpus build (a) excludes all
+  mirror slugs by name, (b) verifies content-level with the phase-C
+  MinHash pattern against the mirror before launch (CRAN dev-version
+  overlap makes slug-matching insufficient).
+- For RL on simulator trajectories: prefer the clean split; if a seen
+  repo is used, its reward is suspect (recall-reward).
+- Periodic canary: verbatim-rate delta between clean and seen repos —
+  a growing gap = memorization signal.
+
+## Acceptance semantics (corrected same day)
+
+The user's goal-card design allows proposals that do the SAME SEMANTIC
+WORK in different words — "no edits needed" constrains edits to the
+PROPOSAL, not textual identity with the commit. Panel prompt corrected:
+the developer's typed direction is presented as "evidence of intent —
+NOT the answer key". Verbatim-prefix remains only as the offline rule
+metric; the goal-card judge is the RL/training acceptance.
+
+## Measured acceptance semantics (2026-08-24, all on the same v7 records)
+
+| semantics | accept rate |
+|---|---|
+| verbatim prefix rule (offline) | ~3.0% |
+| edit-distance credit (computed) | 0.6% (point mass at 0) |
+| PANEL, verbatim-only (ox+gemini+muse) | (superseded) |
+| **PANEL, as-is + semantic equivalence** | **10.8%** (13 acc / 29 rej / 25 wrong / 53 split, n=120) |
+
+The goal-card semantics triples acceptance vs literal matching — the
+user's design intent confirmed. 44% panel SPLIT rate = the
+accept/reject boundary is genuinely fuzzy; splits recorded per-judge,
+glm at reset becomes the fourth/tiebreak judge.

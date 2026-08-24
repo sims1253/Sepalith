@@ -116,7 +116,7 @@ class Panel:
 
 ACCEPT_PROMPT = """You are simulating a developer's acceptance decision for a code suggestion shown as ghost text in their editor.
 
-THE RULE (strict): accept ONLY if the developer would take the suggestion EXACTLY as proposed, with NO EDITS needed. If they would accept part of it, modify it, or type something different — reject. If it is wrong for this position — wrong.
+THE RULE: accept ONLY if the developer would keep the suggestion AS-IS, with NO EDITS. The suggestion does NOT need to match their intended wording — doing the same work in different (good) style still needs no edits and IS an accept. Reject if they would need to modify it, trim it, or it goes beyond/aside from what belongs at this position. Wrong if it is simply incorrect for this position.
 
 THEIR GOAL (this commit): {goal}
 
@@ -125,7 +125,7 @@ CODE AT THE CURSOR (they just paused here):
 {ctx}
 ```
 
-WHAT THEY ACTUALLY TYPED NEXT:
+THE DIRECTION THEY WERE HEADING (evidence of intent — NOT the answer key; equivalent work in different words is still an accept):
 ```
 {gt}
 ```
