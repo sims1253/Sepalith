@@ -1,13 +1,14 @@
 {
  "running": [
   {
-   "what": "Ox cards (370+) + overlap blind-judge round 2 chained",
+   "what": "Ox goal cards (2,000+ corpus) + waves + tournament",
    "status": "run",
-   "note": "free tiers; sol parked"
+   "note": "free tiers grinding"
   },
   {
-   "what": "Data waves + tournament: continuing",
-   "status": "run"
+   "what": "Operating-point table CONFIRMED at 300-traj power",
+   "status": "done",
+   "note": "v7: FP 98.5%, panel-accept 10.8 | 2c: FP 40.2%, panel-accept 20.8 \u2014 2c dominates under product semantics"
   }
  ],
  "experiments": [

@@ -174,6 +174,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--arm", choices=["muon", "adamw"], required=True)
     ap.add_argument("--lr", type=float, required=True)
+    ap.add_argument("--d-model", type=int, default=None,
+                    help="model shape override (the A2 1.5B infra shakeout)")
+    ap.add_argument("--n-layers", type=int, default=None)
+    ap.add_argument("--n-q", type=int, default=None)
+    ap.add_argument("--n-kv", type=int, default=None)
+    ap.add_argument("--head-dim", type=int, default=None)
+    ap.add_argument("--ffn-hidden", type=int, default=None)
+    ap.add_argument("--vocab", type=int, default=None,
+                    help="vocab override (the A2 32K R-vocab shakeout)")
     ap.add_argument("--lr-embed", type=float, default=None,
                     help="AdamW lr for embed/norms in the Muon arm (default: same as AdamW arm winner)")
     ap.add_argument("--wd", type=float, default=0.1)
@@ -209,10 +218,18 @@ def main():
     torch.backends.cudnn.allow_tf32 = True
     torch.set_float32_matmul_precision("high")
 
-    torch.cuda.set_per_process_memory_fraction(0.42)  # junior-job hard cap ~13.7GB
+    frac = float(os.environ.get("POC_MEM_FRACTION", "0.42"))
+    torch.cuda.set_per_process_memory_fraction(frac)  # 0.42 = co-tenant era cap; exclusive runs raise via POC_MEM_FRACTION
     dev = torch.cuda.current_device()
 
-    cfg = model_config(max_seq=args.seq)
+    over = {"max_seq": args.seq}
+    for k, arg in (("d_model", args.d_model), ("n_layers", args.n_layers),
+                   ("n_q", args.n_q), ("n_kv", args.n_kv),
+                   ("head_dim", args.head_dim),
+                   ("ffn_hidden", args.ffn_hidden), ("vocab", args.vocab)):
+        if arg is not None:
+            over[k] = arg
+    cfg = model_config(**over)
     model = TinyGQA(cfg).cuda()
     n_all, n_emb, n_hid = (sum(p.numel() for p in model.parameters()),
                            model.embed.weight.numel(),
