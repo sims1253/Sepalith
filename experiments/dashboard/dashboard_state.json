@@ -1,13 +1,18 @@
 {
  "running": [
   {
-   "what": "Data waves + tournament: continuing overnight",
+   "what": "Ox goal-card writer + blind-judge overlap pass (free tiers)",
+   "status": "run",
+   "note": "sol parked for reset per user; judge = gemma-free"
+  },
+  {
+   "what": "Data waves + tournament: continuing",
    "status": "run"
   },
   {
-   "what": "RL-run-2 program COMPLETE (2a/2b/2c): frontier mapped",
+   "what": "A2-prime POC + simulator stage 2 + RL frontier: COMPLETE",
    "status": "done",
-   "note": "FP 70.6->46.6 with collision fix; intent cost monotone; next rung = 15% no_op share knee test (user call)"
+   "note": "causal 0.7533 best-in-family; rc-slice 0.682; v7-vs-2c workstream metrics: FP 99->44, accept 3.0->1.9"
   }
  ],
  "experiments": [
@@ -531,9 +536,9 @@
   "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls \u2014 the 03:20 incident)."
  ],
  "next": [
-  "USER CALL: the FP-intent operating point \u2014 2c recipe at 15% no_op share (knee test), or rl_grpo_v2c as restraint-tuned variant + v7 for generative",
-  "Codex reset tomorrow: resume goal-card miner (one command; ~3.2k transitions pending)",
-  "USER CALL: A2-prime adoption (package complete since morning)",
-  "Simulator implementation (design + goal cards ready)"
+  "USER CALL: A2-prime full run GO (POC validated; needs the real data build: transfers + edit-diff strata, ~days)",
+  "USER CALL: serving operating point \u2014 v7 (generative) vs rl_grpo_v2c (restraint) or threshold-based both",
+  "Simulator rungs: LLM-judge acceptance (goal-card conditioned), stage-2 RL arm on judged trajectories",
+  "Codex reset: resume sol goal cards + refinement warm-start option"
  ]
 }
