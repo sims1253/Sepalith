@@ -140,3 +140,27 @@ scoring needs the model.
 Design (this doc). Implementation order after RL-run-2 lands: trajectory
 generator + label export → offline dataset build → episode metrics for
 v7 (baseline) → stage-1 RL arm.
+
+## Acceptance credit policy (user question, 2026-08-24 — measured)
+
+User asked about partial credit for "needs minor edit". Measured answer
+on the recorded workstream proposals (edit-credit = common-prefix minus
+Levenshtein on the remainder, normalized): **a point mass at zero** —
+862/871 v7 typing points score 0.0, 5 verbatim; models don't separate
+(v7 .006 / 2c .009 / 2d .010). There is no minor-edit mode to credit at
+arbitrary positions today.
+
+Policy adopted:
+- DECISIONS and metrics: binary verbatim-only (panel-judged for the
+  workstream, prefix-rule offline) — robust, unhackable.
+- TRAINING reward: partial credit stays where it bites — the existing
+  exact + 0.2·line-F1 shaping on curated families (that IS the user's
+  idea, already in service).
+- When models close the gap (or on mid-line continuations, where
+  agreement is high), graded credit returns as a COMPUTED quantity
+  (edit-distance formula above), never a judged one — graded judge
+  scales wreck inter-judge agreement and invite plausible-drift
+  reward hacking.
+- Panel (user directive): ox-alpha + gemini + muse, majority vote
+  (glm rejoins at quota reset); gemma-free retired as judge. Blind
+  card rounds exclude ox when ox authored a side.

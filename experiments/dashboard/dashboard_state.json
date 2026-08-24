@@ -1,18 +1,13 @@
 {
  "running": [
   {
-   "what": "Ox goal-card writer + blind-judge overlap pass (free tiers)",
+   "what": "Ox cards (370+) + overlap blind-judge round 2 chained",
    "status": "run",
-   "note": "sol parked for reset per user; judge = gemma-free"
+   "note": "free tiers; sol parked"
   },
   {
    "what": "Data waves + tournament: continuing",
    "status": "run"
-  },
-  {
-   "what": "A2-prime POC + simulator stage 2 + RL frontier: COMPLETE",
-   "status": "done",
-   "note": "causal 0.7533 best-in-family; rc-slice 0.682; v7-vs-2c workstream metrics: FP 99->44, accept 3.0->1.9"
   }
  ],
  "experiments": [
