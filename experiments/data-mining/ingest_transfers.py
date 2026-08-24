@@ -86,8 +86,21 @@ def ingest_stratum(name: str, repo: str, dirs, budget: int, tok: Tokenizer):
         rng2.shuffle(files)
         files = files[:40]
         print(f"[{name}] sampled {len(files)} fineweb parquets", flush=True)
-    texts, nbytes = [], 0
+    # STREAM: tokenize per chunk and discard text (earlyoom killed the
+    # first attempt holding 6.6GB of strings)
+    stream = array("i")
+    n_docs = nbytes = 0
+    pending = []
     t0 = time.time()
+
+    def flush():
+        nonlocal n_docs
+        for e in tok.encode_batch(pending):
+            stream.extend(e.ids)
+            stream.append(eos)
+        n_docs += len(pending)
+        pending.clear()
+
     for i, rf in enumerate(files):
         if nbytes > budget:
             break
@@ -102,23 +115,35 @@ def ingest_stratum(name: str, repo: str, dirs, budget: int, tok: Tokenizer):
             if nbytes > budget:
                 break
             t = t[:50_000]
-            texts.append(t)
+            pending.append(t)
             nbytes += len(t.encode("utf-8", "replace"))
+            if len(pending) >= 5000:
+                flush()
         os.remove(local)  # drvfs space: parquet consumed streaming
         print(f"[{name}] {i+1}/{len(files)} files, {nbytes/1e9:.1f} GB text, "
-              f"{time.time()-t0:.0f}s", flush=True)
-
-    # tokenize + pack
-    stream = array("i")
-    B = 2000
-    for i in range(0, len(texts), B):
-        for e in tok.encode_batch(texts[i:i + B]):
-            stream.extend(e.ids)
-            stream.append(eos)
-    blocks = to_blocks(stream)
-    np.save(out_dir / "blocks.npy", blocks)
-    stats = dict(stratum=name, docs=len(texts), chars=nbytes,
-                 tokens=len(stream), blocks=int(blocks.shape[0]),
+              f"{len(stream)/1e6:.0f}M tok, {time.time()-t0:.0f}s", flush=True)
+    if pending:
+        flush()
+    # memmap write: no big copies (earlyoom killed the .copy() version)
+    import numpy as _np
+    n_blocks = (len(stream) - 1) // SEQ
+    mm = _np.lib.format.open_memmap(
+        out_dir / "blocks.npy", mode="w+", dtype=_np.int32,
+        shape=(n_blocks, SEQ))
+    flat = _np.frombuffer(stream, dtype=_np.int32)
+    CH = 4096
+    for b0 in range(0, n_blocks, CH):
+        b1 = min(b0 + CH, n_blocks)
+        seg = flat[b0 * 1024: (b1 - 1) * 1024 + SEQ]
+        view = _np.lib.stride_tricks.as_strided(
+            seg, shape=(b1 - b0, SEQ),
+            strides=(seg.strides[0] * 1024, seg.strides[0]))
+        mm[b0:b1] = view
+    mm.flush()
+    del mm
+    blocks_shape = (n_blocks, SEQ)
+    stats = dict(stratum=name, docs=n_docs, chars=nbytes,
+                 tokens=len(stream), blocks=int(blocks_shape[0]),
                  est_tokens_32k=len(stream), repo=repo,
                  files_used=min(i + 1, len(files)))
     (out_dir / "stats.json").write_text(json.dumps(stats, indent=1))
