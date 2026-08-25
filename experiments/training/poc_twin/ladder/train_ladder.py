@@ -31,6 +31,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 POC = os.path.dirname(HERE)                       # poc_twin/
 sys.path.insert(0, POC)
 from model import TinyGQA, model_config, chunked_ce  # noqa: E402
+from model_a2 import A2Model  # noqa: E402  --a2 structure arm
 from muon import Muon                              # noqa: E402
 import train as base                               # noqa: E402
 
@@ -133,6 +134,8 @@ def main():
     ap.add_argument("--tau", type=float, default=100.0)
     ap.add_argument("--alpha", type=float, default=0.5)
     ap.add_argument("--mem-frac", type=float, default=0.55)
+    ap.add_argument("--a2", action="store_true",
+                    help="A2 structure: matryoshka exits + MTP on the same dose mechanic")
     ap.add_argument("--tag", default="")
     ap.add_argument("--resume", default=None)
     ap.add_argument("--compile", action="store_true")
@@ -154,7 +157,13 @@ def main():
     dev = torch.cuda.current_device()
 
     cfg = model_config(max_seq=args.seq)
-    model = TinyGQA(cfg).cuda()
+    if args.a2:
+        cfg['exit_layers'] = [4, 8] if cfg['n_layers'] == 12 else [8, 16]
+        cfg['exit_weights'] = [0.25, 0.125]
+        cfg['use_mtp'] = True
+        model = A2Model(cfg).cuda()
+    else:
+        model = TinyGQA(cfg).cuda()
     n_all = sum(p.numel() for p in model.parameters())
     opt, extra_opts = build_optim(model, args.lr, args.lr_embed, args.wd)
     opts = [opt] + extra_opts
@@ -229,6 +238,7 @@ def main():
         return nats / toks
 
     step = step0
+    mtp_from = int(args.steps * 0.10)
     while step < args.steps:
         if watchdog.event.is_set():
             base.save_ckpt(os.path.join(ckpt_dir, "yield.pt"),
@@ -255,6 +265,7 @@ def main():
                 g["lr"] = lr_emb_now
 
         xb = data.batch(step, sps)
+        mtp_w = 0.5 if (args.a2 and step >= mtp_from) else 0.0
         micro_nats_sum = 0.0
         for o in opts:
             o.zero_grad(set_to_none=True)
@@ -262,8 +273,18 @@ def main():
             rows = xb[mi * args.micro_bs:(mi + 1) * args.micro_bs]
             x = torch.from_numpy(rows.astype(np.int64)).cuda(non_blocking=True)
             with torch.autocast("cuda", dtype=torch.bfloat16):
-                h = fwd_trunk(x[:, :-1], probe=(mi == 0))
-                loss = chunked_ce(h, model.embed.weight, x[:, 1:])
+                if args.a2:
+                    _, ld = model(x, targets=x, probe=(mi == 0),
+                                  mtp_weight=mtp_w)
+                    loss = ld["ce_top"] \
+                        + mtp_w * ld.get("ce_mtp",
+                                         torch.zeros((), device="cuda"))
+                    for e_l, e_w in zip(model.exit_layers,
+                                        model.exit_weights):
+                        loss = loss + e_w * ld[f"ce_{e_l}"]
+                else:
+                    h = fwd_trunk(x[:, :-1], probe=(mi == 0))
+                    loss = chunked_ce(h, model.embed.weight, x[:, 1:])
             (loss / accum).backward()
             micro_nats_sum += loss.item()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item()
