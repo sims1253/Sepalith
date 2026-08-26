@@ -23,9 +23,15 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.nn.attention import SDPBackend, sdpa_kernel
 
 from experiments.training.poc_twin import model as twin
 from experiments.training.poc_diff import BASE_VOCAB
+
+# With a bool attn_mask the flash backend is unavailable; MATH materializes
+# (B,H,T,T) scores and OOMs a 13.7GB budget. Memory-efficient handles bool
+# masks without materialization; MATH stays as the CPU/fallback path.
+_SDPA_BACKENDS = [SDPBackend.EFFICIENT_ATTENTION, SDPBackend.MATH]
 
 
 class BiAttention(twin.Attention):
@@ -41,9 +47,10 @@ class BiAttention(twin.Attention):
         k = twin.apply_rope(k, cos, sin)
         if probe:
             self.qk_smax = self._max_qk_logit(q, k)
-        y = F.scaled_dot_product_attention(
-            q.transpose(1, 2), k.transpose(1, 2), v.transpose(1, 2),
-            is_causal=False, attn_mask=attn_mask, enable_gqa=True)
+        with sdpa_kernel(_SDPA_BACKENDS):
+            y = F.scaled_dot_product_attention(
+                q.transpose(1, 2), k.transpose(1, 2), v.transpose(1, 2),
+                is_causal=False, attn_mask=attn_mask, enable_gqa=True)
         y = y.transpose(1, 2).reshape(B, T, self.n_q * self.head_dim)
         return self.Wo(y)
 

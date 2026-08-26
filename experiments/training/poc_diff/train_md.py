@@ -42,7 +42,7 @@ from experiments.training.poc_diff.model_md import MDGQA, model_config_md
 from experiments.training.poc_diff import objective
 
 POC_DIFF_DIR = os.path.dirname(os.path.abspath(__file__))
-MICRO_PAD_TOK = 16_384
+MICRO_PAD_TOK = 4_096
 BUCKET = 128
 
 
@@ -200,8 +200,8 @@ def main():
 
     fwd_trunk = model.trunk
     if args.compile:
-        import torch._dynamo
-        torch._dynamo.config.cache_size_limit = 64  # per-bucket shapes
+        import torch._dynamo as _dynamo
+        _dynamo.config.cache_size_limit = 64  # per-bucket shapes
         try:
             fwd_trunk = torch.compile(model.trunk)
             x0 = torch.zeros(8, 512, dtype=torch.long, device=device)
