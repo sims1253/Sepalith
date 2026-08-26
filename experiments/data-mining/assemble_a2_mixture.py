@@ -44,7 +44,6 @@ STRATA = {
     "sql":        ("a2_transfers/sql_v2/blocks.npy",     0.016),
     "julia":      ("a2_transfers/julia_v2/blocks.npy",   0.012),
     "matlab":     ("a2_transfers/matlab_v2/blocks.npy",  0.010),
-    "so_r_qa":    ("a2_transfers/so_r_qa/blocks.npy",    0.012),
     "curated_py": ("a2_transfers/python/blocks.npy",     0.004),
 }
 R_STRATA = ("r_causal", "r_fim_mix", "r_noop")
