@@ -1,0 +1,7 @@
+# A2 cluster run deps (runbook §1 — the trainer + data prep need nothing else;
+# install torch first from the CUDA index, then the rest)
+#   pip install torch --index-url https://download.pytorch.org/whl/cu126
+#   pip install -r requirements-cluster.txt
+torch
+numpy
+tokenizers

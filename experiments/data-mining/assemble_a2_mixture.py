@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """A2 mixture manifest builder (the §3.2 table as an executable artifact).
 
-Inputs: the packed strata block files under /mnt/h/sepalith/a2_transfers/
-plus the R-side sources. Output: a2_mixture_manifest.json — per-stratum
-block-file paths, token counts, draw weights, and epochs-equivalent
-checks against the A2 table — ready for train_a2 --mixture (the trainer
-samples the stratum per block-slot, seeded: repetition-by-sampling, no
-giant merged file, cluster-portable).
+Inputs: the packed strata block files under <data-root>/a2_transfers/
+(transfer strata) and <data-root>/a2/r/*.npy (R strata, from
+r_repack_full.py) plus the twin-scale R-side sources. Output:
+a2_mixture_manifest.json — per-stratum block-file paths, token counts,
+draw weights, and epochs-equivalent checks against the A2 table — ready
+for train_a2 --mixture (the trainer samples the stratum per block-slot,
+seeded: repetition-by-sampling, no giant merged file, cluster-portable).
+
+--data-root defaults to /data (the rented-instance layout) when present,
+else /mnt/h/sepalith (the NAS staging) — both worlds, zero flags.
 
 Deferred strata (documented, adaptive-rule territory):
   edit-diff (0.5B, 2%): needs CRAN-Archive acquisition (the git mirror
     is EVAL-PROTECTED and must NOT enter training)
   SO r-tag (0.3B): stack_staging R shards — pack when the R-repack runs
-R-side full-scale re-pack (astfim corpus at 25B-draw depth) is a build
-step on the target machine; the manifest references the twin-scale
-blocks for structure validation and marks R_TOKENS_TARGET.
 """
 from __future__ import annotations
 
@@ -24,40 +25,48 @@ from pathlib import Path
 
 import numpy as np
 
-OUT = Path("/mnt/h/sepalith/a2_mixture_manifest.json")
+SEQ = 1025
 
-# stratum -> (block file, draw_share per the §3.2 table)
+# stratum -> (block file RELATIVE to data-root, draw_share per §3.2)
 STRATA = {
     # R side (shares of the 25B draw; the R strata tile the SAME corpus)
-    "r_causal":   ("/tmp/poc_twin/ladder/train_blocks_causal.npy", 0.44),
-    "r_fim_mix":  ("/tmp/poc_twin/a2/train_blocks_fim_mixed.npy",  0.24),
-    "r_noop":     ("/mnt/h/sepalith/a2_transfers/r_noop_blocks.npy", 0.016),
+    "r_causal":   ("a2/r/r_causal.npy",   0.44),
+    "r_fim_mix":  ("a2/r/r_fim_mix.npy",  0.24),
+    "r_noop":     ("a2/r/r_noop.npy",     0.016),
     # transfers (single-epoch)
-    "english":    ("/mnt/h/sepalith/a2_transfers/english/blocks.npy", 0.074),
-    "python":     ("/mnt/h/sepalith/a2_transfers/python_v2/blocks.npy", 0.112),
-    "c_cpp":      ("/mnt/h/sepalith/a2_transfers/c_cpp_v2/blocks.npy", 0.024),
-    "js_ts":      ("/mnt/h/sepalith/a2_transfers/js_ts_v2/blocks.npy", 0.020),
-    "sql":        ("/mnt/h/sepalith/a2_transfers/sql_v2/blocks.npy", 0.016),
-    "julia":      ("/mnt/h/sepalith/a2_transfers/julia_v2/blocks.npy", 0.012),
-    "matlab":     ("/mnt/h/sepalith/a2_transfers/matlab_v2/blocks.npy", 0.010),
-    "so_r_qa":    ("/mnt/h/sepalith/a2_transfers/so_r_qa/blocks.npy", 0.012),
-    "curated_py": ("/mnt/h/sepalith/a2_transfers/python/blocks.npy", 0.004),
+    "english":    ("a2_transfers/english/blocks.npy",    0.074),
+    "python":     ("a2_transfers/python_v2/blocks.npy",  0.112),
+    "c_cpp":      ("a2_transfers/c_cpp_v2/blocks.npy",   0.024),
+    "js_ts":      ("a2_transfers/js_ts_v2/blocks.npy",   0.020),
+    "sql":        ("a2_transfers/sql_v2/blocks.npy",     0.016),
+    "julia":      ("a2_transfers/julia_v2/blocks.npy",   0.012),
+    "matlab":     ("a2_transfers/matlab_v2/blocks.npy",  0.010),
+    "so_r_qa":    ("a2_transfers/so_r_qa/blocks.npy",    0.012),
+    "curated_py": ("a2_transfers/python/blocks.npy",     0.004),
 }
 R_STRATA = ("r_causal", "r_fim_mix", "r_noop")
-SEQ = 1025
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--total-draw", type=float, default=25.0e9)
-    ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--data-root", default=None,
+                    help="default: /data if present, else /mnt/h/sepalith")
+    ap.add_argument("--out", default=None,
+                    help="default: <data-root>/a2_mixture_manifest.json")
     args = ap.parse_args()
+    if args.data_root is None:
+        args.data_root = ("/data" if Path("/data").exists()
+                          else "/mnt/h/sepalith")
+    root = Path(args.data_root)
+    out = Path(args.out) if args.out else root / "a2_mixture_manifest.json"
     manifest = {"total_draw_tokens": args.total_draw,
-                "seq": SEQ, "strata": {}, "notes": []}
+                "seq": SEQ, "data_root": str(root), "strata": {},
+                "notes": []}
     tot_avail = 0.0
-    for name, (path, share) in STRATA.items():
-        p = Path(path)
-        entry = dict(path=path, draw_share=share,
+    for name, (rel, share) in STRATA.items():
+        p = root / rel
+        entry = dict(path=str(p), draw_share=share,
                      draw_tokens=round(share * args.total_draw, 1))
         if p.exists():
             n_blocks = np.load(p, mmap_mode="r").shape[0]
@@ -70,7 +79,7 @@ def main():
             entry["blocks"] = None
             entry["avail_tokens"] = 0
             entry["epochs_equiv"] = None
-            manifest["notes"].append(f"{name}: not yet packed (pending fetch)")
+            manifest["notes"].append(f"{name}: not yet packed (pending fetch/repack)")
         manifest["strata"][name] = entry
 
     r_share = sum(s["draw_share"] for n, s in manifest["strata"].items()
@@ -82,19 +91,21 @@ def main():
     manifest["notes"] += [
         f"edit-diff stratum (2%) deferred: needs CRAN-Archive; the git "
         f"mirror is EVAL-PROTECTED (never train on it)",
-        f"R strata at twin-scale blocks here are structural placeholders; "
-        f"the real R re-pack happens at target-machine build time",
+        f"R strata packed by r_repack_full.py (32K tokenizer, full depth, "
+        f"contamination gate: contamination.json in a2/r/)",
         f"adaptive rule: strata still missing at build time re-cut their "
-        f"share to r_causal (epochs cap 4.6 governs)",
+        f"share pro-rata across packed strata (train_a2 MixtureData "
+        f"applies it; epochs cap 4.6 governs)",
     ]
-    Path(args.out).write_text(json.dumps(manifest, indent=1))
+    out.write_text(json.dumps(manifest, indent=1))
     avail_b = tot_avail / 1e9
     print(json.dumps(dict(
+        data_root=str(root),
         strata=len(manifest["strata"]), packed=sum(
             1 for s in manifest["strata"].values() if s["blocks"]),
         r_share=manifest["r_share"], missing_share=manifest["missing_share"],
         tokens_available_now=f"{avail_b:.2f}B",
-        out=args.out), indent=1))
+        out=str(out)), indent=1))
 
 
 if __name__ == "__main__":

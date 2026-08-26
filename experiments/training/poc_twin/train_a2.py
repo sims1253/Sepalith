@@ -11,7 +11,10 @@ CLUSTER LAUNCH (single big GPU — the zero-friction path):
   python train_a2.py --arm muon --lr 0.01 --d-model 2048 --n-layers 24 \
     --n-q 16 --n-kv 2 --head-dim 128 --ffn-hidden 8192 --vocab 32768 \
     --exits 8,16 --steps <N> --tokens-per-step 524288 --micro-bs <auto> \
-    --data <blocks> ...
+    --mixture <a2_mixture_manifest.json>
+  latest.pt every --ckpt-every steps into --ckpt-dir (default
+  <repo>/checkpoints/<tag> — instance disk, never /tmp); --resume
+  latest.pt restarts exactly (step-pure data order both loaders).
 Multi-GPU: not yet DDP-wrapped (documented next step); one 80GB card
 runs the 1.5B at micro-bs 8-12 single-GPU (~3-4x the 5090 rate).
 """
@@ -31,7 +34,80 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from model import model_config  # noqa: E402
 from model_a2 import A2Model  # noqa: E402
-import train as base  # noqa: E402  PackedData, lr_at, build_optim, logging
+import train as base  # noqa: E402  PackedData, lr_at, build_optim, save_ckpt
+
+
+class MixtureData:
+    """Manifest-driven multi-stratum loader (the runbook §3.2 sampler).
+
+    Every block slot draws its stratum by draw_share, then takes the next
+    block from that stratum's seeded per-epoch permutation — repetition-
+    by-sampling, no merged file, memmap per stratum. batch(step) is a PURE
+    function of (manifest, seed, step): stratum cursors are reconstructed
+    by replaying slot draws on first use, so a resumed run sees the exact
+    data order a continuous run would have (the resume-discipline backstop
+    for interruptible rented hosts). Missing strata re-cut their share
+    pro-rata across the packed ones (the manifest's adaptive rule).
+    """
+
+    def __init__(self, manifest_path, seed):
+        man = json.load(open(manifest_path))
+        self.seed = seed
+        self.names, self.paths, self.shares, self.ns = [], [], [], []
+        for name, s in sorted(man["strata"].items()):
+            if not s.get("blocks"):
+                print(f"[mixture] {name}: not packed — share re-cut "
+                      f"pro-rata", flush=True)
+                continue
+            self.names.append(name)
+            self.paths.append(s["path"])
+            self.shares.append(s["draw_share"])
+            self.ns.append(s["blocks"])
+        tot = sum(self.shares)
+        self.p = [x / tot for x in self.shares]
+        self.blocks = [np.load(p, mmap_mode="r") for p in self.paths]
+        self._cursors = None
+        self._perm = {}
+        print(f"[mixture] {len(self.names)} strata, "
+              f"{sum(n*1024 for n in self.ns)/1e9:.2f}B tok avail", flush=True)
+
+    def _slot_draws(self, upto_step):
+        """Per-stratum slot counts over steps 1..upto_step (replay)."""
+        counts = np.zeros(len(self.names), dtype=np.int64)
+        for s in range(1, upto_step + 1):
+            slots = np.random.RandomState(self.seed + s).choice(
+                len(self.names), size=self.seq_per_step, p=self.p)
+            counts += np.bincount(slots, minlength=len(self.names))
+        return counts
+
+    def _perm_for(self, si, epoch):
+        key = (si, epoch)
+        if key not in self._perm:
+            keep = {k: v for k, v in self._perm.items() if k[1] >= epoch}
+            keep[key] = np.random.RandomState(
+                self.seed + 977 * (si + 1) + epoch).permutation(self.ns[si])
+            self._perm = keep
+        return self._perm[key]
+
+    def batch(self, step):
+        if self._cursors is None:
+            self._cursors = self._slot_draws(step - 1).tolist()
+        slots = np.random.RandomState(self.seed + step).choice(
+            len(self.names), size=self.seq_per_step, p=self.p)
+        xb = np.empty((self.seq_per_step, self.blocks[0].shape[1]),
+                      dtype=np.int32)
+        for i, si in enumerate(slots):
+            n = self.ns[si]
+            ep, within = divmod(self._cursors[si], n)
+            xb[i] = self.blocks[si][self._perm_for(si, ep)[within]]
+            self._cursors[si] += 1
+        return xb
+
+    def epoch_float(self, step):
+        if self._cursors is None:
+            self._cursors = self._slot_draws(step - 1).tolist()
+        eps = [c / n for c, n in zip(self._cursors, self.ns)]
+        return float(min(eps))
 
 
 def main():
@@ -48,6 +124,16 @@ def main():
     ap.add_argument("--seed", type=int, default=1273)
     ap.add_argument("--data", default="/tmp/poc_twin/train_blocks.npy")
     ap.add_argument("--eval-data", default="/tmp/poc_twin/eval_blocks.npy")
+    ap.add_argument("--mixture", default=None,
+                    help="a2_mixture_manifest.json (overrides --data; the "
+                         "cluster path — per-slot stratum sampling)")
+    ap.add_argument("--ckpt-dir", default=None,
+                    help="default: <repo>/checkpoints/<tag> (instance disk, "
+                         "NOT /tmp — survives restarts)")
+    ap.add_argument("--ckpt-every", type=int, default=2000)
+    ap.add_argument("--resume", default=None,
+                    help="latest.pt from a killed run (step-pure data order "
+                         "makes resume exact)")
     ap.add_argument("--d-model", type=int, default=None)
     ap.add_argument("--n-layers", type=int, default=None)
     ap.add_argument("--n-q", type=int, default=None)
@@ -93,6 +179,13 @@ def main():
     print(json.dumps(dict(event="cfg", params=n_params,
                           exits=exits, mtp=over["use_mtp"], cfg=cfg)),
           flush=True)
+    if args.resume:
+        ck = torch.load(args.resume, map_location="cpu", weights_only=False)
+        model.load_state_dict({k: v.float() for k, v in ck["model"].items()})
+        step0 = ck["step"]
+        print(f"[resume] model from step {step0}", flush=True)
+    else:
+        step0 = 0
 
     # auto-shape micro-bs (cluster-ready): target ~60% of free VRAM for
     # activations; the 206M twin ~0.5GB/row, 1.5B ~2.5GB/row at seq 1024
@@ -102,15 +195,31 @@ def main():
         per_row = {12: 500, 24: 2600}.get(n_layers, 1000)
         args.micro_bs = max(1, min(16, int(free * 0.25 / per_row)))
     accum = args.tokens_per_step // (args.seq * args.micro_bs)
+    seq_per_step = args.micro_bs * accum
     print(json.dumps(dict(event="shape", micro_bs=args.micro_bs,
                           accum=accum)), flush=True)
 
     torch.manual_seed(args.seed)
-    data = base.PackedData(args.data, args.seed, args.micro_bs * max(accum, 1))
+    if args.mixture:
+        data = MixtureData(args.mixture, args.seed)
+        data.seq_per_step = seq_per_step
+    else:
+        data = base.PackedData(args.data, args.seed, seq_per_step)
     lr_embed = args.lr_embed if args.lr_embed is not None else args.lr
     muon, extra_opts, desc = base.build_optim(
         args.arm, model, args.lr, lr_embed, args.wd)
     opts = [muon] + extra_opts
+    if args.resume:
+        for o, sd in zip(opts, ck["opt"]):
+            o.load_state_dict(sd)
+        torch.set_rng_state(ck["torch_rng"])
+        if ck.get("cuda_rng") is not None:
+            torch.cuda.set_rng_state(ck["cuda_rng"])
+        print(f"[resume] optim + rng restored", flush=True)
+
+    ckpt_dir = args.ckpt_dir or os.path.join(
+        HERE, "checkpoints", args.tag)
+    os.makedirs(ckpt_dir, exist_ok=True)
 
     log_path = os.path.join(HERE, "logs", f"{args.tag}.jsonl")
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
@@ -125,8 +234,8 @@ def main():
 
     mtp_from_step = int(args.steps * args.mtp_from)
     t0 = time.time()
-    tokens_seen = 0
-    for step in range(1, args.steps + 1):
+    tokens_seen = step0 * args.tokens_per_step
+    for step in range(step0 + 1, args.steps + 1):
         lr_now = base.lr_at(step, args.steps, args.lr)
         lr_emb_now = base.lr_at(step, args.steps, lr_embed)
         for g in opts[0].param_groups:
@@ -157,21 +266,23 @@ def main():
             o.step()
         n_clip, qk_max = model.qk_clip_all(args.tau, args.alpha)
         tokens_seen += args.tokens_per_step
+        if step % args.ckpt_every == 0:
+            base.save_ckpt(os.path.join(ckpt_dir, "latest.pt"),
+                           model, opts, step, cfg, args)
         if step % args.log_every == 0 or step == 1:
             out = dict(event="step", step=step, tokens=tokens_seen,
                        grad_norm=round(gn, 4), qk_max=round(qk_max, 1),
                        qk_clipped_heads=n_clip,
-                       tok_per_s=round(tokens_seen / (time.time() - t0), 1),
+                       tok_per_s=round(
+                           (tokens_seen - step0 * args.tokens_per_step)
+                           / (time.time() - t0), 1),
                        elapsed_s=round(time.time() - t0, 1))
             for k, v in sums.items():
                 out[k] = round(v / accum, 4)
             log(out)
 
-    ckpt_dir = os.path.join("/tmp/poc_twin", f"ckpt_{args.tag}")
-    os.makedirs(ckpt_dir, exist_ok=True)
-    torch.save({"model": model.state_dict(), "cfg": cfg,
-                "args": vars(args)},
-               os.path.join(ckpt_dir, "final.pt"))
+    base.save_ckpt(os.path.join(ckpt_dir, "final.pt"),
+                   model, opts, args.steps, cfg, args)
     log(dict(event="done", steps=args.steps, tokens=tokens_seen,
              ckpt=ckpt_dir))
 
