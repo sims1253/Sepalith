@@ -1,14 +1,17 @@
 {
  "running": [
   {
-   "what": "Ox goal cards (2,000+ corpus) + waves + tournament",
-   "status": "run",
-   "note": "free tiers grinding"
+   "what": "stack-v2 fetch: c_cpp flowing, python last (~1.7B new tokens banked)",
+   "status": "run"
   },
   {
-   "what": "Operating-point table CONFIRMED at 300-traj power",
+   "what": "A2 recipe FULLY VALIDATED at POC scale",
    "status": "done",
-   "note": "v7: FP 98.5%, panel-accept 10.8 | 2c: FP 40.2%, panel-accept 20.8 \u2014 2c dominates under product semantics"
+   "note": "structure beats plain (0.7465 vs 0.7533 causal, paired); every component green"
+  },
+  {
+   "what": "Data waves + tournament continuing",
+   "status": "run"
   }
  ],
  "experiments": [
@@ -532,9 +535,8 @@
   "Ops: llama-server evals CPU-only; readiness via POST /v1/completions (never /health); kill by tracked PID/port only; GPU jobs strictly sequential (flock, not memory polls \u2014 the 03:20 incident)."
  ],
  "next": [
-  "USER CALL: A2-prime full run GO (POC validated; needs the real data build: transfers + edit-diff strata, ~days)",
-  "USER CALL: serving operating point \u2014 v7 (generative) vs rl_grpo_v2c (restraint) or threshold-based both",
-  "Simulator rungs: LLM-judge acceptance (goal-card conditioned), stage-2 RL arm on judged trajectories",
-  "Codex reset: resume sol goal cards + refinement warm-start option"
+  "USER: A2 GO + big-GPU access \u2014 runbook v1 + mixture manifest ready; H100 ~/25B or ~/13B",
+  "USER: serving point \u2014 2c dominates at workstream level (v8.2 confirms SFT route dead)",
+  "python_v2 lands -> rebuild manifest -> transfer side complete"
  ]
 }

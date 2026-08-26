@@ -77,9 +77,12 @@ def fam_of(fname: str) -> str:
     return stem.replace(".jsonl", "").rstrip("_-") or "misc"
 
 
+CARD = Path("/mnt/h/sepalith/datasets/hf_dataset_card.md")
+
+
 def projection() -> list[tuple[Path, str]]:
     """(local file, repo path) pairs — the whole intended repo content."""
-    out: list[tuple[Path, str]] = []
+    out: list[tuple[Path, str]] = [(CARD, "README.md")]
 
     # -- corpus (from the era-1 pushes + NAS) --
     out.append((NAS / "license_texts.jsonl", "corpus/cran/licenses.jsonl"))
@@ -131,12 +134,41 @@ def projection() -> list[tuple[Path, str]]:
             out.append((f, f"families/synthetic_analyst/{f.name}"))
 
     # -- mixtures --
-    for v in ("sft_v3", "sft_v4", "sft_v5", "sft_v6"):
+    for v in ("sft_v3", "sft_v4", "sft_v5", "sft_v6", "sft_v7",
+              "sft_v8_1", "sft_v8_2"):
         d = NAS / v
         if not d.exists():
             continue
         for f in sorted(d.glob("*.jsonl")) + sorted(d.glob("stats.json")):
             out.append((f, f"mixtures/{v}/{f.name}"))
+
+    # -- corpus ledgers/manifests for EVERY acquired corpus (the public
+    # licensing story is auditable from this repo; heavy raw content
+    # stays on the source NAS and is documented in the dataset card).
+    # CRAN's full corpus/ was already here (era-1); the newer corpora
+    # project at ledger+manifest level.
+    for src_p, dst in [
+        ("/mnt/h/sepalith/bioc_staging/bioc_license_ledger.jsonl",
+         "corpus/bioc/license_ledger.jsonl"),
+        ("/mnt/h/sepalith/bioc_staging/manifest.jsonl",
+         "corpus/bioc/manifest.jsonl"),
+        ("/mnt/h/sepalith/stack_staging/license_ledger.jsonl",
+         "corpus/stack_v2/license_ledger.jsonl"),
+        ("/mnt/h/sepalith/stack_staging/measure_report.json",
+         "corpus/stack_v2/measure_report.json"),
+        ("/mnt/h/sepalith/stack_staging/logs/phase_c_report.json",
+         "corpus/stack_v2/dedup_report.json"),
+        ("/mnt/h/sepalith/stack_staging/logs/phase_e_report.json",
+         "corpus/stack_v3/acceptance_report.json"),
+        ("/mnt/h/sepalith/pwc_staging/pwc_license_ledger.jsonl",
+         "corpus/pwc/license_ledger.jsonl"),
+        ("/mnt/h/sepalith/pwc_staging/measure_report.json",
+         "corpus/pwc/measure_report.json"),
+        ("/mnt/h/sepalith/pwc_staging/manifest.jsonl",
+         "corpus/pwc/manifest.jsonl"),
+    ]:
+        if Path(src_p).exists():
+            out.append((Path(src_p), dst))
 
     return out
 
@@ -216,6 +248,12 @@ provenance. Generator code lives in the Sepalith repo
     pushed = 0
     for top in sorted({r.split("/", 1)[0] for _, r in pairs}):
         d = stage / top
+        if d.is_file():
+            api.upload_file(path_or_fileobj=str(d), path_in_repo=top,
+                            repo_id=REPO, repo_type="dataset")
+            pushed += 1
+            print(f"pushed {top} (file)", flush=True)
+            continue
         if not d.exists() or not any(d.iterdir()):
             continue
         api.upload_folder(folder_path=str(d), path_in_repo=top,

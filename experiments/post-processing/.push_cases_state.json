@@ -1058,5 +1058,81 @@
  "families/finish_block_authored/glm-5.3.stats.json": {
   "size": 2232,
   "mtime": 1787509202.019628
+ },
+ "README.md": {
+  "size": 1877,
+  "mtime": 1787716547.4889967
+ },
+ "mixtures/sft_v7/eval.jsonl": {
+  "size": 32913557,
+  "mtime": 1787380805.3435729
+ },
+ "mixtures/sft_v7/train.jsonl": {
+  "size": 941550070,
+  "mtime": 1787380804.6310306
+ },
+ "mixtures/sft_v7/stats.json": {
+  "size": 14322,
+  "mtime": 1787380808.881652
+ },
+ "mixtures/sft_v8_1/eval.jsonl": {
+  "size": 37308406,
+  "mtime": 1787502162.7888632
+ },
+ "mixtures/sft_v8_1/train.jsonl": {
+  "size": 1033373647,
+  "mtime": 1787502162.2557888
+ },
+ "mixtures/sft_v8_1/stats.json": {
+  "size": 14957,
+  "mtime": 1787502167.07865
+ },
+ "mixtures/sft_v8_2/eval.jsonl": {
+  "size": 37170770,
+  "mtime": 1787704036.4542818
+ },
+ "mixtures/sft_v8_2/train.jsonl": {
+  "size": 1063249318,
+  "mtime": 1787704849.1378818
+ },
+ "mixtures/sft_v8_2/stats.json": {
+  "size": 14993,
+  "mtime": 1787704040.442048
+ },
+ "corpus/bioc/license_ledger.jsonl": {
+  "size": 839785,
+  "mtime": 1787357009.5617626
+ },
+ "corpus/bioc/manifest.jsonl": {
+  "size": 677342,
+  "mtime": 1787357010.4324286
+ },
+ "corpus/stack_v2/license_ledger.jsonl": {
+  "size": 63261,
+  "mtime": 1787419031.4318013
+ },
+ "corpus/stack_v2/measure_report.json": {
+  "size": 6596,
+  "mtime": 1787419410.116601
+ },
+ "corpus/stack_v2/dedup_report.json": {
+  "size": 19937,
+  "mtime": 1787407765.6860595
+ },
+ "corpus/stack_v3/acceptance_report.json": {
+  "size": 990,
+  "mtime": 1787419031.0730476
+ },
+ "corpus/pwc/license_ledger.jsonl": {
+  "size": 1063510,
+  "mtime": 1787415539.1764712
+ },
+ "corpus/pwc/measure_report.json": {
+  "size": 4480,
+  "mtime": 1787416490.6483133
+ },
+ "corpus/pwc/manifest.jsonl": {
+  "size": 227876,
+  "mtime": 1787415422.4868202
  }
 }
