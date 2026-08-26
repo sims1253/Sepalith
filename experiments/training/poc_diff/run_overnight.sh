@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
-# pocdiff overnight supervisor (ops rule: detached supervisor for anything
-# long-lived). Waits for the pvf RL-run-4 GPU release (claim 2026-08-26
-# 23:35, ETA ~2.5h), then: 40-step smoke (throughput gate >=30k tok/s,
-# VRAM sanity) -> full 3815-step / 2B-token run -> rsync artifacts to
-# /mnt/h/sepalith/runs/poc_diff/. Every state change is mirrored to the
-# comms ledger (comms/gpu.md) and board (comms/board.md) per protocol.
+# pocdiff overnight supervisor v2 (ops rule: detached supervisor for
+# anything long-lived). Chain: drain any in-flight train_md -> wait for
+# >=16GB free -> gate the ALREADY-RUNNING/recent smoke off its "done"
+# event (tokens/total_s; a 40-step run emits no per-100-step telemetry,
+# which is what v1's grep wrongly required) or run a fresh smoke if none
+# -> full 3815-step / 2B-token run -> rsync artifacts to
+# /mnt/h/sepalith/runs/poc_diff/. Ledger claims + board notes at each
+# transition. If the full run fails, latest.pt survives for --resume and
+# the GPU is released (zcode-ddot-poc's OT supervisor stands down on our
+# failure instead of racing — board 01:21).
 set -u
 ROOT=/home/m0hawk/Documents/Sepalith
 GPU_LEDGER=$ROOT/comms/gpu.md
 BOARD=$ROOT/comms/board.md
 LOG=/tmp/poc_diff/supervisor.log
+LOGMD=$ROOT/experiments/training/poc_diff/logs_md.jsonl
 mkdir -p /tmp/poc_diff
 
 ts() { date "+%Y-%m-%dT%H:%M+02"; }
@@ -19,46 +24,64 @@ board() {
   { echo ""; echo "## [$(ts)] FROM zcode-pocdiff TO ALL — $1"; echo "$2"; } >> "$BOARD"
 }
 free_mib() { nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null | head -1; }
-rl_running() { pgrep -f "03_grpo_tether" >/dev/null 2>&1; }
+md_running() { pgrep -f "poc_diff.train_md" >/dev/null 2>&1; }
 
-log "supervisor up (pid $$); waiting for pvf RL-run-4 release"
-while true; do
-  if grep -q "zcode-pvf-poc RELEASE RL-run-4" "$GPU_LEDGER"; then
-    log "ledger shows RL-run-4 released"
-    break
-  fi
-  # fallback per the reap house rule: process gone AND >=16GB free
-  if ! rl_running; then
-    fm=$(free_mib)
-    if [ "${fm:-0}" -ge 16384 ]; then
-      log "RL-run-4 absent + ${fm}MiB free; reaping stale claim with board note"
-      board "stale RL-run-4 claim reaped" \
-        "RL-run-4 process not found and >=16GB free; taking the GPU per the reap house rule. @zcode-pvf-poc: correct me on the board if your run is still alive."
-      break
-    fi
-  fi
-  sleep 300
+# 1. drain: an orphaned smoke from a previous supervisor may still be up
+while md_running; do
+  log "drain: a train_md process is still running; waiting"
+  sleep 60
 done
 
+# 2. gate
 while [ "$(free_mib)" -lt 16384 ]; do
   log "gate: waiting for >=16GB free (now $(free_mib)MiB)"
   sleep 300
 done
 
-claim "CLAIM md smoke+full (train_md.py, memfrac 0.42 <=14GB) ETA 16h"
-log "GPU claimed; running smoke"
+claim "CLAIM md smoke-adjudicated+full (train_md.py, memfrac 0.42 <=14GB) ETA 16h"
 cd "$ROOT" || exit 1
-if ! PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-    .venv/bin/python -m experiments.training.poc_diff.train_md --smoke >> "$LOG" 2>&1; then
-  log "SMOKE FAILED (crash)"
-  claim "RELEASE md smoke+full (smoke crashed)"
-  board "md smoke FAILED" \
-    "smoke crashed; see /tmp/poc_diff/supervisor.log tail; GPU released."
-  exit 1
+
+# 3. adjudicate the most recent smoke from its done event; else fresh smoke
+tok="none"
+if [ -f "$LOGMD" ]; then
+  tok=$(python3 - "$LOGMD" << 'PY'
+import json, sys
+last = None
+for line in open(sys.argv[1]):
+    try:
+        r = json.loads(line)
+    except ValueError:
+        continue
+    if r.get("event") == "done" and r.get("total_s"):
+        last = r
+print(round(last["tokens"] / max(last["total_s"], 1e-9), 1) if last and last.get("tokens") else "")
+PY
+)
 fi
-tok=$(grep -o '"tok_per_s": *[0-9.]*' experiments/training/poc_diff/logs_md.jsonl \
-      | tail -1 | grep -o '[0-9.]*$')
-log "smoke finished, last tok_per_s=${tok:-none}"
+if [ -z "$tok" ] || [ "$tok" = "none" ]; then
+  log "no completed smoke on record; running a fresh one"
+  if ! PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+      .venv/bin/python -m experiments.training.poc_diff.train_md --smoke >> "$LOG" 2>&1; then
+    log "SMOKE FAILED (crash)"
+    claim "RELEASE md smoke+full (smoke crashed)"
+    board "md smoke FAILED" "smoke crashed; see /tmp/poc_diff/supervisor.log tail; GPU released."
+    exit 1
+  fi
+  tok=$(python3 - "$LOGMD" << 'PY'
+import json, sys
+last = None
+for line in open(sys.argv[1]):
+    try:
+        r = json.loads(line)
+    except ValueError:
+        continue
+    if r.get("event") == "done" and r.get("total_s"):
+        last = r
+print(round(last["tokens"] / max(last["total_s"], 1e-9), 1) if last and last.get("tokens") else "")
+PY
+)
+fi
+log "smoke adjudicated at ${tok:-?} tok/s"
 ok=$(python3 -c "print(1 if float('${tok:-0}') >= 30000 else 0)")
 if [ "$ok" != "1" ]; then
   claim "RELEASE md smoke+full (throughput ${tok} < 30k gate)"
@@ -68,6 +91,7 @@ if [ "$ok" != "1" ]; then
   exit 1
 fi
 
+# 4. full run
 log "smoke PASSED (${tok} tok/s); starting full run (3815 steps, 2B tokens)"
 if PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
     .venv/bin/python -m experiments.training.poc_diff.train_md --steps 3815 --compile >> "$LOG" 2>&1; then

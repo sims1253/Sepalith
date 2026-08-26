@@ -66,6 +66,19 @@ def test_seed_reproducibility_and_distinctness():
         "different seed gave identical sample (multinomial not live?)"
 
 
+def test_greedy_confidences_not_flat():
+    """Regression (board 00:35, found by zcode-ddot-poc): at temperature=0
+    the sampler must still report TRUE argmax probabilities as confidence
+    — dividing logits by ~0 saturated the softmax to one-hots and every
+    confidence read exactly 1.0."""
+    m = tiny_model(seed=4)
+    out = sample_spans(m, [[1, 2, 3, 4]], [8], steps=4, temperature=0.0)
+    conf = out["conf"][0]
+    assert (conf <= 1.0).all()
+    assert not torch.allclose(conf, torch.ones_like(conf)), \
+        "greedy confidences saturated to 1.0 (zero-temperature softmax)"
+
+
 def test_all_positions_frozen_when_steps_ge_len():
     m = tiny_model()
     out = sample_spans(m, [[1, 2, 3]], [4], steps=8)

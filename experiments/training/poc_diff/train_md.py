@@ -165,6 +165,7 @@ def main():
     args = ap.parse_args()
     if args.smoke:
         args.steps = min(args.steps, 40)
+        args.log_every = min(args.log_every, 10)  # a 40-step run must emit telemetry
 
     if not args.no_gate:
         base.LaunchGate(min_free_mib=args.gate_min_free_mib).wait()
@@ -314,7 +315,7 @@ def main():
                 loss = objective.mdlm_loss(h, x, m, t, span_pos.sum(1),
                                            model.embed.weight)
             (loss / len(micros)).backward()
-            step_nats += float(loss)
+            step_nats += loss.item()
             step_stats = dict(t_mean=float(t.mean()),
                               mask_rate=float(m.sum() / span_pos.sum()),
                               span_cov=float(span_pos.sum()) /

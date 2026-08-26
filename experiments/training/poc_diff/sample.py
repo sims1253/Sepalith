@@ -20,11 +20,16 @@ import torch.nn.functional as F
 
 def _chunked_probs(h_sel, head_w, chunk=1024, temperature=1.0):
     """(N,V) softmax rows for selected positions, chunked. bf16 matmul,
-    fp32 softmax."""
+    fp32 softmax. temperature <= 0 means GREEDY PICK, not zero-temperature
+    softmax: dividing by ~0 saturates every row to an exact one-hot, all
+    confidences read 1.0 and confidence-ranked freezing degenerates to
+    index order — so the distribution is computed at temperature 1.0 and
+    the caller argmaxes it (found by zcode-ddot-poc, board 00:35)."""
+    temp = temperature if temperature > 0 else 1.0
     probs = []
     for c in range(0, h_sel.size(0), chunk):
         logits = F.linear(h_sel[c:c + chunk], head_w).float()
-        probs.append(F.softmax(logits / max(temperature, 1e-6), dim=-1))
+        probs.append(F.softmax(logits / temp, dim=-1))
     return torch.cat(probs) if probs else h_sel.new_zeros(0, head_w.size(0))
 
 
@@ -82,7 +87,7 @@ def sample_spans(model, prompt_ids, span_lens, steps, temperature=0.0,
         h = model.trunk(x, probe=False, attn_mask=attn_mask)
         bidx, pidx = open_pos.nonzero(as_tuple=True)  # (N,), (N,)
         probs = _chunked_probs(h[bidx, pidx], model.embed.weight,
-                               chunk=chunk, temperature=max(temperature, 1e-6))
+                               chunk=chunk, temperature=temperature)
         if temperature and temperature > 0:
             picks = torch.multinomial(probs, 1, generator=generator).squeeze(1)
             pconf = probs.gather(1, picks[:, None]).squeeze(1)
