@@ -1060,8 +1060,8 @@
   "mtime": 1787509202.019628
  },
  "README.md": {
-  "size": 1877,
-  "mtime": 1787716547.4889967
+  "size": 3964,
+  "mtime": 1787760692.393172
  },
  "mixtures/sft_v7/eval.jsonl": {
   "size": 32913557,
@@ -1134,5 +1134,133 @@
  "corpus/pwc/manifest.jsonl": {
   "size": 227876,
   "mtime": 1787415422.4868202
+ },
+ "pretraining/a2/r/bioc.npy": {
+  "size": 368897628,
+  "mtime": 1787763687.4136255
+ },
+ "pretraining/a2/r/eval_causal.npy": {
+  "size": 16551828,
+  "mtime": 1787749022.263966
+ },
+ "pretraining/a2/r/eval_rc.npy": {
+  "size": 1123528,
+  "mtime": 1787749022.4414036
+ },
+ "pretraining/a2/r/r_causal.npy": {
+  "size": 944709828,
+  "mtime": 1787748906.3021176
+ },
+ "pretraining/a2/r/r_fim_mix.npy": {
+  "size": 1063154728,
+  "mtime": 1787749016.0669396
+ },
+ "pretraining/a2/r/r_noop.npy": {
+  "size": 13218528,
+  "mtime": 1787749017.7746482
+ },
+ "pretraining/a2/r/so_r_qa.npy": {
+  "size": 801775628,
+  "mtime": 1787760780.4684112
+ },
+ "pretraining/a2/r/so_r_qa_eval.npy": {
+  "size": 2242828,
+  "mtime": 1787760780.9792132
+ },
+ "pretraining/a2/r/stats.json": {
+  "size": 1015,
+  "mtime": 1787763687.9978616
+ },
+ "pretraining/a2/r/contamination.json": {
+  "size": 458,
+  "mtime": 1787749692.524346
+ },
+ "pretraining/datasets/a2_tokenizer_v1/tokenizer.json": {
+  "size": 2285821,
+  "mtime": 1787587536.1162336
+ },
+ "pretraining/a2_transfers/c_cpp/blocks.npy": {
+  "size": 26588628,
+  "mtime": 1787608289.582047
+ },
+ "pretraining/a2_transfers/c_cpp/stats.json": {
+  "size": 74,
+  "mtime": 1787608289.588307
+ },
+ "pretraining/a2_transfers/c_cpp_v2/blocks.npy": {
+  "size": 2828754128,
+  "mtime": 1787716530.239748
+ },
+ "pretraining/a2_transfers/c_cpp_v2/stats.json": {
+  "size": 157,
+  "mtime": 1787716530.7761586
+ },
+ "pretraining/a2_transfers/english/blocks.npy": {
+  "size": 6741720328,
+  "mtime": 1787606591.1045134
+ },
+ "pretraining/a2_transfers/english/stats.json": {
+  "size": 195,
+  "mtime": 1787606592.4945548
+ },
+ "pretraining/a2_transfers/js_ts/blocks.npy": {
+  "size": 5813928,
+  "mtime": 1787608205.301182
+ },
+ "pretraining/a2_transfers/js_ts/stats.json": {
+  "size": 75,
+  "mtime": 1787608205.310819
+ },
+ "pretraining/a2_transfers/js_ts_v2/blocks.npy": {
+  "size": 1768309628,
+  "mtime": 1787707715.0580032
+ },
+ "pretraining/a2_transfers/js_ts_v2/stats.json": {
+  "size": 173,
+  "mtime": 1787707715.4069455
+ },
+ "pretraining/a2_transfers/julia/blocks.npy": {
+  "size": 12591228,
+  "mtime": 1787608100.0023139
+ },
+ "pretraining/a2_transfers/julia/stats.json": {
+  "size": 74,
+  "mtime": 1787608100.0098605
+ },
+ "pretraining/a2_transfers/julia_v2/blocks.npy": {
+  "size": 1537783028,
+  "mtime": 1787620242.2486007
+ },
+ "pretraining/a2_transfers/julia_v2/stats.json": {
+  "size": 152,
+  "mtime": 1787620242.5819836
+ },
+ "pretraining/a2_transfers/matlab_v2/blocks.npy": {
+  "size": 1233013628,
+  "mtime": 1787631891.4347515
+ },
+ "pretraining/a2_transfers/matlab_v2/stats.json": {
+  "size": 153,
+  "mtime": 1787631891.6872725
+ },
+ "pretraining/a2_transfers/python/blocks.npy": {
+  "size": 83562228,
+  "mtime": 1787608039.7375226
+ },
+ "pretraining/a2_transfers/python/stats.json": {
+  "size": 78,
+  "mtime": 1787608039.7441761
+ },
+ "pretraining/a2_transfers/sql_v2/blocks.npy": {
+  "size": 2082521328,
+  "mtime": 1787645998.6422544
+ },
+ "pretraining/a2_transfers/sql_v2/stats.json": {
+  "size": 193,
+  "mtime": 1787645999.1155643
+ },
+ "pretraining/a2_mixture_manifest.json": {
+  "size": 3714,
+  "mtime": 1787763836.3554256
  }
 }
