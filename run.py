@@ -55,7 +55,8 @@ SPEC = [
     ("a2_transfers/julia_v2/blocks.npy", True, "julia stratum"),
     ("a2_transfers/matlab_v2/blocks.npy", True, "matlab stratum"),
     ("a2_transfers/python/blocks.npy", True, "curated python stratum"),
-    ("a2_transfers/so_r_qa/blocks.npy", False, "SO r-QA (documented deferral)"),
+    ("a2/r/so_r_qa.npy", False, "SO r-tag keep set (packed; provisional share)"),
+    ("a2/r/bioc.npy", False, "Bioconductor R/tests (packed; provisional share)"),
     ("datasets/astfim_v1/fixed/train.jsonl", False, "R raw (or stage a2/r/ packed)"),
     ("datasets/astfim_v1/fixed/eval.jsonl", False, "R eval raw"),
     ("datasets/astfim_random_v1/train-000.jsonl", False, "random-cut raw"),
@@ -271,6 +272,9 @@ def cmd_stage_list(args):
                   f"--exclude='*' \"{nas}/a2_transfers/\" "
                   f"\"{dst}/a2_transfers/\"")
     print("# --- stage to the instance (run on the NAS-reachable box) ---")
+    print("# (or, if pretraining/ is on the HF dataset: "
+          "hf download scholzmx/sepalith --repo-type dataset "
+          f"--include 'pretraining/*' --local-dir {dst})")
     print("\n".join(rsyncs))
     print(f"# then ON THE INSTANCE: python3 run.py all --data-root {dst}")
     print("# NAS-side pre-flight (recommended, uses the mirror):")

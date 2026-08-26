@@ -170,6 +170,40 @@ def projection() -> list[tuple[Path, str]]:
         if Path(src_p).exists():
             out.append((Path(src_p), dst))
 
+    # -- pretraining/: THE A2 TRAINING PACKAGE (2026-08-26). Everything a
+    #    rented instance needs, laid out exactly as run.py's data-root, so:
+    #      hf download scholzmx/sepalith --repo-type dataset \
+    #        --include "pretraining/*" --local-dir /data
+    #      python3 run.py all --data-root /data
+    #    Blocks are int32 1025-overlap-1 (tokenizer a2_tokenizer_v1);
+    #    manifest/stats/contamination make the draw plan + gates portable.
+    a2r = Path("/mnt/h/sepalith/a2/r")
+    if a2r.exists():
+        for npy in sorted(a2r.glob("*.npy")):
+            out.append((npy, f"pretraining/a2/r/{npy.name}"))
+        for j in ("stats.json", "contamination.json"):
+            f = a2r / j
+            if f.exists():
+                out.append((f, f"pretraining/a2/r/{j}"))
+    tokf = NAS / "a2_tokenizer_v1" / "tokenizer.json"
+    if tokf.exists():
+        out.append((tokf,
+                    "pretraining/datasets/a2_tokenizer_v1/tokenizer.json"))
+    transfers = Path("/mnt/h/sepalith/a2_transfers")
+    if transfers.exists():
+        for d in sorted(transfers.iterdir()):
+            b = d / "blocks.npy"
+            if not b.exists():
+                continue
+            out.append((b, f"pretraining/a2_transfers/{d.name}/blocks.npy"))
+            s2 = d / "stats.json"
+            if s2.exists():
+                out.append((s2,
+                            f"pretraining/a2_transfers/{d.name}/stats.json"))
+    man = Path("/mnt/h/sepalith/a2_mixture_manifest.json")
+    if man.exists():
+        out.append((man, "pretraining/a2_mixture_manifest.json"))
+
     return out
 
 
@@ -190,29 +224,26 @@ def main() -> int:
     print(f"projection: {len(pairs)} files", flush=True)
 
     # 0. the map FIRST — it must land even if later steps rate-limit
-    card = """# Sepalith dataset
+    #    (the real card lives on the NAS: datasets/hf_dataset_card.md)
+    if CARD.exists():
+        api.upload_file(path_or_fileobj=str(CARD), path_in_repo="README.md",
+                        repo_id=REPO, repo_type="dataset")
+    else:
+        card = """# Sepalith dataset
 
 Open, R-specialized next-edit-suggestion training data. Private.
 
 ## Layout
-- `corpus/` — acquired, license-tracked sources: CRAN package shards
-  (`cran/packages/`), per-package provenance/licenses, harvested
-  general-code R (`hidden-r/`), mined git edit pairs (`edit-pairs/`).
-- `families/<family>/<source>.jsonl` — synthetic case families, one
-  file per author-source (`glm-5.3`, `muse-spark-1.2`, `x-preview`,
-  openrouter model ids, `corpus` = deterministic/no-LLM). Sidecar
-  `.done.jsonl`/`.stats.json` carry provenance. Per-source files keep
-  every row attributable and purge-safe.
-- `mixtures/sft_vX/` — assembled train/eval splits (derived; rebuilt
-  from families by experiments/post-processing/assemble_sft_v5.py).
-
-Rows carry `base_sample_id` (content-hash parent link) + rule/backend
-provenance. Generator code lives in the Sepalith repo
-(experiments/synthetic-data/).
+- `corpus/` — acquired, license-tracked sources (CRAN shards + provenance,
+  bioc/stack/pwc ledgers; heavy raw content NAS-resident, see card).
+- `families/<family>/<source>.jsonl` — synthetic case families, one file
+  per author-source, purge-safe, `base_sample_id` provenance.
+- `mixtures/sft_vX/` — assembled train/eval splits (derived).
+- `pretraining/` — the A2 training package (blocks + tokenizer +
+  manifest + gate artifacts; consumed by run.py on the instance).
 """
-
-    api.upload_file(path_or_fileobj=card.encode(), path_in_repo="README.md",
-                    repo_id=REPO, repo_type="dataset")
+        api.upload_file(path_or_fileobj=card.encode(), path_in_repo="README.md",
+                        repo_id=REPO, repo_type="dataset")
 
 
     # 1. delete legacy layout (idempotent; missing folders are skipped)

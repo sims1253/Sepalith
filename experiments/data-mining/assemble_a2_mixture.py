@@ -33,6 +33,9 @@ STRATA = {
     "r_causal":   ("a2/r/r_causal.npy",   0.44),
     "r_fim_mix":  ("a2/r/r_fim_mix.npy",  0.24),
     "r_noop":     ("a2/r/r_noop.npy",     0.016),
+    # R-adjacent real-world (packed by pack_r_strata.py)
+    "so_r_qa":    ("a2/r/so_r_qa.npy",  0.012),
+    "bioc":       ("a2/r/bioc.npy",     0.012),
     # transfers (single-epoch)
     "english":    ("a2_transfers/english/blocks.npy",    0.074),
     "python":     ("a2_transfers/python_v2/blocks.npy",  0.112),
@@ -93,6 +96,13 @@ def main():
         f"mirror is EVAL-PROTECTED (never train on it)",
         f"R strata packed by r_repack_full.py (32K tokenizer, full depth, "
         f"contamination gate: contamination.json in a2/r/)",
+        f"so_r_qa = the stack v3 R keep set (answer-CODE, ODC-By-1.0; the "
+        f"English×R Q&A-prose bridge slice remains unmaterialized); "
+        f"bioc = Bioconductor current R/tests only (man/ excluded per the "
+        f"roxygen double-count rule; vignettes/src deferred)",
+        f"so_r_qa + bioc shares are PROVISIONAL (0.012 each) pending the "
+        f"GO-time §3.2 re-cut alongside the full-CRAN causal and git/ "
+        f"GitHub decisions (see the R-inventory map, 2026-08-26)",
         f"adaptive rule: strata still missing at build time re-cut their "
         f"share pro-rata across packed strata (train_a2 MixtureData "
         f"applies it; epochs cap 4.6 governs)",
