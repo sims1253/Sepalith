@@ -95,7 +95,11 @@ def main():
             continue
         ck = torch.load(ckpt, map_location="cpu", weights_only=False)
         cfg = model_config(**{k: v for k, v in ck["cfg"].items()})
-        model = TinyGQA(cfg).cuda().eval()
+        if cfg.get("exit_layers") or cfg.get("use_mtp"):
+            from model_a2 import A2Model
+            model = A2Model(cfg).cuda().eval()
+        else:
+            model = TinyGQA(cfg).cuda().eval()
         model.load_state_dict({k: v.float() for k, v in ck["model"].items()})
         sa, sp = stop_accuracy(model, tok, fim_rows)
         r = dict(ckpt=ckpt, step=ck["step"],

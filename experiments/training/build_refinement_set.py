@@ -54,10 +54,10 @@ UPDATED = ">>>>>>> UPDATED"
 PORT = 18110
 
 QUOTA = {          # sampled per family from the TRAIN split
-    "rename_propagation": 450,
-    "format_propagation": 450,
-    "pipe_rewrite": 120,
-    "no_op": 350,
+    "rename_propagation": 1800,
+    "format_propagation": 1800,
+    "pipe_rewrite": 480,
+    "no_op": 1400,
 }
 
 
@@ -130,7 +130,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--gguf", default="experiments/models/sft_v7_minicpm5-Q8_0.gguf")
     ap.add_argument("--train", default="/mnt/h/sepalith/datasets/sft_v7/train.jsonl")
-    ap.add_argument("--out", default="/mnt/h/sepalith/datasets/rl_refinement_v1.jsonl")
+    ap.add_argument("--out", default="/mnt/h/sepalith/datasets/rl_refinement_v2.jsonl")
     ap.add_argument("--port", type=int, default=PORT)
     ap.add_argument("--max-prompt-chars", type=int, default=1500,
                     help="keep headroom for the attempt + feedback inside "

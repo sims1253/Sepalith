@@ -100,5 +100,22 @@
   },
   "stop_acc": 0.1525,
   "stop_prob": 0.1254
+ },
+ "a2struct_d30": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_a2struct_d30/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.7464577798817579,
+   "loss_per_tok": 1.5884789508931778,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7455615201262453,
+   "loss_per_tok": 1.573083454086667,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1345,
+  "stop_prob": 0.1229
  }
 }

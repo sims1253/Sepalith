@@ -74,48 +74,61 @@ def fetch_blob(blob_id: str, sha: str) -> str | None:
 
 
 def select_rows(langs: list[str], budget: int) -> list[dict]:
+    """Per-parquet quota selection (BOUNDED MEMORY — the first version
+    accumulated ALL rows and JavaScript's 8.7M-rows/parquet OOM'd it):
+    each parquet's filtered rows are sorted by stars desc and the top
+    per-parquet quota is kept; quotas fill the byte budget across files."""
     import pyarrow.parquet as pq
-    rows = []
+    from huggingface_hub import HfApi
+    api = HfApi()
+    info = api.dataset_info(REPO)
+    files = []
     for lang in langs:
-        # v2 file names: data/<lang>/train-XXXXX-of-YYYYY.parquet
-        from huggingface_hub import HfApi
-        api = HfApi()
-        info = api.dataset_info(REPO)
-        files = [s.rfilename for s in info.siblings
-                 if s.rfilename.startswith(f"data/{lang}/")
-                 and s.rfilename.endswith(".parquet")]
-        for rf in files:
-            local = hf_hub_download(REPO, rf, repo_type="dataset")
-            t = pq.read_table(local, columns=[
-                "blob_id", "content_id", "path", "detected_licenses",
-                "repo_name", "star_events_count", "is_vendor",
-                "is_generated", "length_bytes"])
-            for r in t.to_pylist():
-                if r["is_vendor"] or r["is_generated"]:
-                    continue
-                if not (0 < (r["length_bytes"] or 0) < 300_000):
-                    continue
-                lic = " ".join(r["detected_licenses"] or []).lower()
-                if lic and not any(h in lic for h in PERMISSIVE_HINTS):
-                    continue
-                rows.append(r)
-            os.remove(local)
-    # best repos first (phase_b convention), then a seeded shuffle within
-    # star buckets for breadth
-    rows.sort(key=lambda r: -(r["star_events_count"] or 0))
-    rng = random.Random(20260825)
-    # bucket-shuffle: top-star material first, breadth inside buckets
-    out, est, i = [], 0, 0
-    while est < budget and i < len(rows):
-        bucket = rows[i:i + 500]
-        rng.shuffle(bucket)
-        for r in bucket:
-            if est >= budget:
+        files += [s.rfilename for s in info.siblings
+                  if s.rfilename.startswith(f"data/{lang}/")
+                  and s.rfilename.endswith(".parquet")]
+    # budget split: bigger share to languages with more files (proxy for
+    # corpus size), then per-file quotas
+    est_avg = 6_000                       # bytes/blob planning figure
+    budget_rows = int(budget / est_avg)
+    per_file = max(50_000, budget_rows // max(1, len(files)))
+    kept: list[dict] = []
+    est = 0
+    for rf in files:
+        local = hf_hub_download(REPO, rf, repo_type="dataset")
+        t = pq.read_table(local, columns=[
+            "blob_id", "content_id", "path", "detected_licenses",
+            "repo_name", "star_events_count", "is_vendor",
+            "is_generated", "length_bytes"])
+        rows = []
+        for r in t.to_pylist():
+            if r["is_vendor"] or r["is_generated"]:
+                continue
+            if not (0 < (r["length_bytes"] or 0) < 300_000):
+                continue
+            lic = " ".join(r["detected_licenses"] or []).lower()
+            if lic and not any(h in lic for h in PERMISSIVE_HINTS):
+                continue
+            rows.append(r)
+        del t
+        rows.sort(key=lambda r: -(r["star_events_count"] or 0))
+        quota = per_file
+        take = []
+        for r in rows:
+            if len(take) >= quota or est >= budget:
                 break
-            out.append(r)
+            take.append(r)
             est += r["length_bytes"]
-        i += 500
-    return out
+        # breadth inside the kept slice (star-sorted take, seeded shuffle)
+        rng = random.Random(f"sel:{rf}")
+        rng.shuffle(take)
+        kept.extend(take)
+        print(f"  [sel] {rf.split('/')[1]}: kept {len(take)} "
+              f"(est {est/1e9:.2f} GB)", flush=True)
+        del rows
+        if est >= budget:
+            break
+    return kept
 
 
 def main():
