@@ -165,4 +165,6 @@ def sample_ot_spans(model, prompt_ids, window, steps, temperature=0.0,
                                           device=device)
         L_raw[b] = pos_out[b, T_ctx:]
     return dict(pred_ids=L_ids, slots=L_slots, conf=L_conf, n_fwd=n_fwd,
+                lengths=torch.tensor([len(r) for r in ids_rows],
+                                     dtype=torch.long),
                 latency_ms=latency_ms, raw_positions=L_raw)
