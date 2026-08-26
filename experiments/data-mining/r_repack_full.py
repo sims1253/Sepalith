@@ -26,13 +26,18 @@ boilerplate overlap is expected).
 
 Discipline (scars): stream-tokenize into array('i'), memmap +
 as_strided block writes ONLY, no whole-stream copies, bounded shingle
-memory. Output layout matches the manifest builder's cluster paths:
+memory, and LEAN source loading — the v1 of this script held all 276k
+row dicts at once and earlyoom killed it mid-load (strings-only pools,
+one stratum's working set at a time, gc between strata). Output layout
+matches the manifest builder's cluster paths:
   <out>/{r_causal,r_fim_mix,r_noop}.npy + eval slices + stats.json
 """
 from __future__ import annotations
 
 import argparse
+import gc
 import hashlib
+import itertools
 import json
 import random
 import re
@@ -87,6 +92,23 @@ def jsonl(path):
     with open(path, encoding="utf-8", errors="replace") as f:
         for line in f:
             yield json.loads(line)
+
+
+def count_rows(path):
+    """Fast pre-pass (no json parse) — pool sizing for the rc ratio."""
+    n = 0
+    with open(path, "rb") as f:
+        for _ in f:
+            n += 1
+    return n
+
+
+def causal_stream(path):
+    """PSM rows -> plain documents, one at a time (never materialized)."""
+    for r in jsonl(path):
+        c = causal_from_row(r)
+        if c is not None and "<|" not in c:
+            yield c
 
 
 def stream_tokens(texts, tok, eos, label):
@@ -167,16 +189,19 @@ def protected_shingles(sources):
 def contamination_check(train_streams, protected, out_dir):
     """Sampled probe of train renderings vs protected shingle sets.
 
+    train_streams: (label, factory) where factory() yields a FRESH text
+    iterable per protected source (generators exhaust).
+
     The git mirror is the EVAL-PROTECTED asset (protocol: never in
     training) — mirror hits above MIRROR_FAIL abort the pack. The
     internal eval slices are package-disjoint BY CONSTRUCTION; boiler-
     plate overlap there is expected and reported warn-only.
     """
     report = {}
-    for label, texts in train_streams:
+    for label, make_texts in train_streams:
         for src, (prot, hard) in protected.items():
             hits = total = 0
-            for i, t in enumerate(texts):
+            for i, t in enumerate(make_texts()):
                 if i >= TRAIN_PROBE_DOCS:
                     break
                 for h in shingles(t):
@@ -239,90 +264,85 @@ def main():
     def done(name):
         return args.skip_existing and name in stats.get("streams", {})
 
-    # ---- sources (single pass, reuse across streams) ----
-    print("[load] astfim train rows", flush=True)
-    train_rows = list(jsonl(train_path))
-    causal_texts = [c for c in (causal_from_row(r) for r in train_rows)
-                    if c is not None and "<|" not in c]
-    fim_texts = [r["text"] for r in train_rows]
+    # ---- sources: LEAN loading (earlyoom discipline — strings only,
+    # one stratum's working set at a time, never row dicts en masse) ----
+    n_ast = count_rows(train_path)
+    print(f"[load] astfim rows: {n_ast} (counted, never held)", flush=True)
 
-    print("[load] random-cursor + no_op rows", flush=True)
-    rc_rows = list(jsonl(rc_path))
-    rc_eval = rc_rows[-400:]                 # POC holdout convention
-    rc_train_pool = rc_rows[:-400]
+    rc_rows = list(jsonl(rc_path))           # small file (~190MB)
+    rc_eval = [r["prompt"] + r["target"] for r in rc_rows[-400:]]
+    del rc_rows[-400:]                       # POC holdout convention
     rng = random.Random(20260826)
-    pool = list(rc_train_pool)
-    rng.shuffle(pool)
-    rc_texts = [r["prompt"] + r["target"]
-                for r in pool[:round(0.12 * len(fim_texts))]]
-    noop_texts = [noop_psm_text(r) for r in jsonl(noop_path)]
+    rng.shuffle(rc_rows)
+    n_rc = round(0.12 * n_ast)
+    rc_texts = [r["prompt"] + r["target"] for r in rc_rows[:n_rc]]
+    del rc_rows
+    noop_texts = [noop_psm_text(r) for r in jsonl(noop_path)]  # small
+    print(f"[load] rc mix {len(rc_texts)} docs, no_op {len(noop_texts)}",
+          flush=True)
 
-    # ---- r_causal ----
+    # ---- r_causal (pure stream: no doc list ever materialized) ----
     if not done("r_causal"):
-        s, nd, nb = stream_tokens(causal_texts, tok, eos, "r_causal")
+        s, nd, nb = stream_tokens(causal_stream(train_path), tok, eos,
+                                  "r_causal")
         stats["streams"]["r_causal"] = dict(
             docs=nd, bytes=nb, tokens=len(s),
             blocks=write_blocks(s, out / "r_causal.npy"))
         del s
+        gc.collect()
         print(f"[r_causal] done "
               f"{stats['streams']['r_causal']['tokens']/1e6:.0f}M tok",
               flush=True)
 
-    # ---- r_fim_mix (seeded shuffle over the full pool) ----
+    # ---- r_fim_mix (lean pool: text strings only, POC shuffle seed) ----
     if not done("r_fim_mix"):
-        mix = ([("ast", t) for t in fim_texts]
-               + [("rc", t) for t in rc_texts]
-               + [("noop", t) for t in noop_texts])
-        random.Random(20260823).shuffle(mix)
-        from collections import Counter
-        shares = Counter(k for k, _ in mix)
-        s, nd, nb = stream_tokens((t for _, t in mix), tok, eos, "r_fim_mix")
+        pool = [r["text"] for r in jsonl(train_path)] + rc_texts \
+            + noop_texts
+        random.Random(20260823).shuffle(pool)
+        shares = dict(ast=n_ast, rc=len(rc_texts), noop=len(noop_texts))
+        s, nd, nb = stream_tokens(iter(pool), tok, eos, "r_fim_mix")
         stats["streams"]["r_fim_mix"] = dict(
-            docs=nd, bytes=nb, tokens=len(s), doc_shares={
-                k: round(v / len(mix), 4) for k, v in shares.items()},
+            docs=nd, bytes=nb, tokens=len(s),
+            doc_shares={k: round(v / len(pool), 4) for k, v in
+                        shares.items()},
             blocks=write_blocks(s, out / "r_fim_mix.npy"))
-        del s, mix
+        del pool, s
+        gc.collect()
         print(f"[r_fim_mix] done "
               f"{stats['streams']['r_fim_mix']['tokens']/1e6:.0f}M tok "
-              f"{dict(shares)}", flush=True)
+              f"{shares}", flush=True)
 
     # ---- r_noop ----
     if not done("r_noop"):
-        s, nd, nb = stream_tokens(noop_texts, tok, eos, "r_noop")
+        s, nd, nb = stream_tokens(iter(noop_texts), tok, eos, "r_noop")
         stats["streams"]["r_noop"] = dict(
             docs=nd, bytes=nb, tokens=len(s),
             blocks=write_blocks(s, out / "r_noop.npy"))
         del s
+        gc.collect()
         print(f"[r_noop] done "
               f"{stats['streams']['r_noop']['tokens']/1e6:.0f}M tok",
               flush=True)
 
     # ---- eval slices + byte counts (BPB denominators) ----
-    for name, texts in (("eval_causal",
-                         [c for c in (causal_from_row(r)
-                                      for r in jsonl(eval_path))
-                          if c is not None and "<|" not in c]),
-                        ("eval_rc", [r["prompt"] + r["target"]
-                                     for r in rc_eval])):
+    for name, texts in (("eval_causal", causal_stream(eval_path)),
+                        ("eval_rc", iter(rc_eval))):
         if not done(name):
             s, nd, nb = stream_tokens(texts, tok, eos, name)
             stats["streams"][name] = dict(
                 docs=nd, bytes=nb, tokens=len(s),
                 blocks=write_blocks(s, out / f"{name}.npy"))
             del s
+            gc.collect()
             print(f"[{name}] done {nd} docs {nb} bytes", flush=True)
 
-    # ---- contamination gate ----
+    # ---- contamination gate (fresh streams per protected source) ----
     if not args.skip_check:
         print("[contam] building protected shingle sets", flush=True)
         protected = {  # name -> (shingles, hard-fail?)
             "eval_slices": (protected_shingles([
-                ("eval_causal", [c for c in
-                                 (causal_from_row(r)
-                                  for r in jsonl(eval_path))
-                                 if c is not None]),
-                ("eval_rc", [r["prompt"] + r["target"]
-                             for r in rc_eval])]), False),
+                ("eval_causal", causal_stream(eval_path)),
+                ("eval_rc", iter(rc_eval))]), False),
         }
         if args.mirror and Path(args.mirror).exists():
             mirror_files = (sorted(Path(args.mirror).rglob("*.R"))[:2000]
@@ -338,9 +358,13 @@ def main():
             print("  [contam] NOTE: no --mirror — the EVAL-PROTECTED "
                   "mirror check must run NAS-side before staging",
                   flush=True)
+
+        def ast_texts():
+            return (r["text"] for r in itertools.islice(
+                jsonl(train_path), 200_000))
         contamination_check(
-            [("r_causal", causal_texts),
-             ("r_fim_mix", fim_texts[:200_000])],
+            [("r_causal", lambda: causal_stream(train_path)),
+             ("r_fim_mix", ast_texts)],
             protected, out)
     stats["repacked_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
     stats_path.write_text(json.dumps(stats, indent=1))
