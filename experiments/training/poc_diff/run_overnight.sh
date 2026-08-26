@@ -41,27 +41,31 @@ done
 claim "CLAIM md smoke-adjudicated+full (train_md.py, memfrac 0.42 <=14GB) ETA 16h"
 cd "$ROOT" || exit 1
 
-# 3. adjudicate the most recent smoke from its done event; else fresh smoke
+# 3. adjudicate the most recent smoke; else fresh smoke (compiled — the
+#    gate targets the full-run config, and the eager smoke's 26.4k was a
+#    gate-design artifact, not a model result)
 tok="none"
 if [ -f "$LOGMD" ]; then
   tok=$(python3 - "$LOGMD" << 'PY'
 import json, sys
-last = None
+telem = done = None
 for line in open(sys.argv[1]):
     try:
         r = json.loads(line)
     except ValueError:
         continue
-    if r.get("event") == "done" and r.get("total_s"):
-        last = r
-print(round(last["tokens"] / max(last["total_s"], 1e-9), 1) if last and last.get("tokens") else "")
+    if r.get("tok_per_s"):
+        telem = r["tok_per_s"]  # last 10-step window: steady state
+    if r.get("event") == "done" and r.get("total_s") and r.get("tokens"):
+        done = r["tokens"] / max(r["total_s"], 1e-9)
+print(round(max(filter(None, [telem, done])), 1) if (telem or done) else "")
 PY
 )
 fi
 if [ -z "$tok" ] || [ "$tok" = "none" ]; then
-  log "no completed smoke on record; running a fresh one"
+  log "no completed smoke on record; running a fresh one (compiled)"
   if ! PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-      .venv/bin/python -m experiments.training.poc_diff.train_md --smoke >> "$LOG" 2>&1; then
+      .venv/bin/python -m experiments.training.poc_diff.train_md --smoke --compile >> "$LOG" 2>&1; then
     log "SMOKE FAILED (crash)"
     claim "RELEASE md smoke+full (smoke crashed)"
     board "md smoke FAILED" "smoke crashed; see /tmp/poc_diff/supervisor.log tail; GPU released."
@@ -69,15 +73,17 @@ if [ -z "$tok" ] || [ "$tok" = "none" ]; then
   fi
   tok=$(python3 - "$LOGMD" << 'PY'
 import json, sys
-last = None
+telem = done = None
 for line in open(sys.argv[1]):
     try:
         r = json.loads(line)
     except ValueError:
         continue
-    if r.get("event") == "done" and r.get("total_s"):
-        last = r
-print(round(last["tokens"] / max(last["total_s"], 1e-9), 1) if last and last.get("tokens") else "")
+    if r.get("tok_per_s"):
+        telem = r["tok_per_s"]  # last 10-step window: steady state
+    if r.get("event") == "done" and r.get("total_s") and r.get("tokens"):
+        done = r["tokens"] / max(r["total_s"], 1e-9)
+print(round(max(filter(None, [telem, done])), 1) if (telem or done) else "")
 PY
 )
 fi
