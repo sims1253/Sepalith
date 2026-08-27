@@ -45,9 +45,11 @@ from experiments.training.poc_diff.train_md import (
 try:
     from .objective_ot import noise_positions, ot_mdlm_loss
     from .eval_ot import PosModel  # noqa: F401  (re-exported for tests/loading)
+    from .graphed_step import GraphedOTStep
 except ImportError:                          # script/test path (dir on sys.path)
     from objective_ot import noise_positions, ot_mdlm_loss
     from eval_ot import PosModel  # noqa: F401
+    from graphed_step import GraphedOTStep
 
 POC_DDOT_TMP = "/tmp/poc_ddot"
 POC_DDOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -193,6 +195,9 @@ def main():
     ap.add_argument("--alpha", type=float, default=0.5)
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--compile", action="store_true")
+    ap.add_argument("--full-graph", action="store_true",
+                    help="replay each micro's fwd+loss+bwd as ONE CUDA "
+                         "graph (graphed_step.GraphedOTStep); default OFF")
     ap.add_argument("--resume", default=None)
     ap.add_argument("--gate-min-free-mib", type=int, default=16 * 1024)
     ap.add_argument("--no-gate", action="store_true")
@@ -243,6 +248,19 @@ def main():
         print(f"[resume] from step {step0}", flush=True)
 
     fwd_trunk = model.trunk
+    gstep = None
+    if args.full_graph:
+        # whole-micro CUDA graph capture (fwd + OT loss + bwd). Inside a
+        # manual capture the trunk must run EAGER (torch.compile's own
+        # cudagraphs would nest), so --compile is ignored for the step
+        # path; it still serves quick_eval.
+        gstep = GraphedOTStep(model, pos_head, model.trunk,
+                              eps=args.eps, kappa=args.kappa, lam=args.lam,
+                              pair_topk=args.pair_topk, chunk=256,
+                              max_graphs=32)
+        cpu_gen = torch.Generator().manual_seed(args.seed ^ 0x5EED)
+        print("[full-graph] GraphedOTStep armed (captures lazily per "
+              "shape bucket)", flush=True)
     if args.compile:
         import torch._dynamo as _dynamo
         _dynamo.config.cache_size_limit = 64
@@ -348,6 +366,8 @@ def main():
         micros = micro_batches(rows, data)
         for o in opts:
             o.zero_grad(set_to_none=True)
+        if gstep is not None:
+            gstep.zero_accumulators()
         # sync-free accumulation: tensors until the log window converts
         step_loss = step_val = step_pos = None
         ent = torch.zeros((), device=device)
@@ -355,12 +375,28 @@ def main():
         n_micro_t = 0
         for mi, micro in enumerate(micros):
             x, span_pos, valid, slots = gpu_data.micro(*micro)
-            with torch.autocast("cuda", dtype=torch.bfloat16):
-                out = ot_step(model, pos_head, x, span_pos, valid, slots,
-                              generator=cuda_gen, eps=args.eps,
-                              kappa=args.kappa, lam=args.lam,
-                              pair_topk=args.pair_topk, trunk=fwd_trunk)
-            (out["total"] / len(micros)).backward()
+            if gstep is not None:
+                micro_rows, _ = micro
+                rows_a = np.asarray(micro_rows)
+                nmax = int(np.max(data.region_len[rows_a]))
+                # host-side span mask (same geometry as gpu_data.micro's,
+                # without the D2H sync of span_pos.cpu())
+                B_r, T_r = x.shape
+                sp_cpu = torch.zeros(B_r, T_r, dtype=torch.bool)
+                for i, r in enumerate(micro_rows):
+                    p0, s0 = int(data.prompt_len[r]), int(data.region_len[r])
+                    sp_cpu[i, p0:p0 + s0] = True
+                out = gstep.run_micro(x, span_pos, valid, slots, nmax,
+                                      gen=cpu_gen, scale=1.0 / len(micros),
+                                      span_pos_cpu=sp_cpu)
+            else:
+                with torch.autocast("cuda", dtype=torch.bfloat16):
+                    out = ot_step(model, pos_head, x, span_pos, valid,
+                                  slots, generator=cuda_gen,
+                                  eps=args.eps, kappa=args.kappa,
+                                  lam=args.lam, pair_topk=args.pair_topk,
+                                  trunk=fwd_trunk)
+                (out["total"] / len(micros)).backward()
             d = out["total"].detach()
             step_loss = d if step_loss is None else step_loss + d
             d = out["value"].detach()
@@ -370,6 +406,8 @@ def main():
             ent += out["telemetry"]["plan_entropy"]
             iters += out["telemetry"]["iters_mean"]
             n_micro_t += 1
+        if gstep is not None:
+            gstep.export_grads()
         gn = torch.nn.utils.clip_grad_norm_(
             list(model.parameters()) + list(pos_head.parameters()), 1.0).item()
         opt.step()
