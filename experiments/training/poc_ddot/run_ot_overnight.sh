@@ -81,7 +81,7 @@ if [ ! -f /tmp/poc_ddot/train_slots.bin ]; then
   fi
 fi
 
-claim "CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h"
+claim "CLAIM ot smoke+full (train_ot.py, memfrac 0.7 full-graph, <=23GB) ETA 11h"
 log "GPU claimed; running OT smoke"
 cd "$ROOT" || exit 1
 if ! POC_MEM_FRACTION=0.7 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
