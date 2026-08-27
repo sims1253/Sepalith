@@ -168,6 +168,7 @@ VLOG = []           # per-step critic stats for the metrics callback
 
 def make_reward_fn(critic, rho, ref_map, num_generations):
     SHAPING = rl_smoke.SHAPING
+    bos = critic.bos if critic is not None else None
 
     def tether_reward(prompts, completions, completion_ids=None, target=None,
                       family=None, trainer_state=None, **kw):
@@ -184,13 +185,17 @@ def make_reward_fn(critic, rho, ref_map, num_generations):
             rows.append(dict(prompt=pr, completion=comp, reward=rew,
                              family=fam))
         # critic values for the whole generation round, one batch
-        pc = [(r["prompt"].removeprefix(critic.bos), r["completion"],
-               ref_map.get(r["prompt"].removeprefix(critic.bos), ""))
-              for r in rows]
-        try:
-            vals = critic.values(pc)
-        except Exception as e:                        # critic down -> pure LOO
-            print(f"CRITIC_FAIL {e}", flush=True)
+        # (rho == 0 ablation: no critic loaded, pure unnormalized LOO)
+        if critic is not None:
+            pc = [(r["prompt"].removeprefix(critic.bos), r["completion"],
+                   ref_map.get(r["prompt"].removeprefix(critic.bos), ""))
+                  for r in rows]
+            try:
+                vals = critic.values(pc)
+            except Exception as e:                    # critic down -> pure LOO
+                print(f"CRITIC_FAIL {e}", flush=True)
+                vals = [None] * len(rows)
+        else:
             vals = [None] * len(rows)
         K = num_generations
         advs = []
@@ -203,7 +208,8 @@ def make_reward_fn(critic, rho, ref_map, num_generations):
                 adv = r["reward"] - ((1 - rho) * loo +
                                      (rho * v if v is not None else 0.0))
                 advs.append(adv)
-                ADV[(norm_bos(r["prompt"], critic.bos), r["completion"])] = adv
+                key_p = norm_bos(r["prompt"], bos) if bos else r["prompt"]
+                ADV[(key_p, r["completion"])] = adv
         if vals and vals[0] is not None:
             vv = [v for v in vals if v is not None]
             VLOG.append((round(sum(vv) / len(vv), 4),
@@ -283,8 +289,10 @@ def build_trainer_class():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rho", type=float, required=True,
-                    help="TETHER blend weight (offline-fitted from 02)")
+                    help="TETHER blend weight (offline-fitted from 02); "
+                         "0.0 = unnormalized pure-LOO ablation, no critic")
     ap.add_argument("--steps", type=int, default=220)   # v1's actual length
+    ap.add_argument("--out", default=str(OUT_DIR))
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
 
@@ -298,9 +306,12 @@ def main():
     from trl import GRPOConfig
 
     torch.cuda.set_per_process_memory_fraction(0.92)    # card is ours tonight
-    print("building prompt->reference map (v6)...", flush=True)
-    ref_map = build_ref_map()
-    critic = Critic()
+    if args.rho > 0:
+        print("building prompt->reference map (v6)...", flush=True)
+        ref_map = build_ref_map()
+        critic = Critic()
+    else:
+        ref_map, critic = {}, None
     num_generations = 4
 
     model, tokenizer = FastLanguageModel.from_pretrained(
@@ -324,7 +335,7 @@ def main():
           flush=True)
     ds = Dataset.from_list(rows)
 
-    out = Path("/tmp/rl_tether_smoke" if args.smoke else OUT_DIR)
+    out = Path("/tmp/rl_tether_smoke" if args.smoke else args.out)
     out.mkdir(parents=True, exist_ok=True)
     metrics_path = out / "rl_metrics.jsonl"
 
