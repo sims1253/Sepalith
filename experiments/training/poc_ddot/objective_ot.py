@@ -125,7 +125,7 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
                  slots_noised=None, slots_true=None, plan=None,
                  span_pos=None, eps=0.05, kappa=None, n_iters=50,
                  lam=LAMBDA, pos_pred=None, sigma=None,
-                 pair_thresh=PAIR_THRESH, chunk=4096):
+                 pair_thresh=PAIR_THRESH, pair_topk=None, chunk=4096):
     """Joint (value, position) MDLM loss with OT-routed value CE.
 
     Args mirror poc_diff.objective.mdlm_loss (h/x/m/t/span_len/head_w) plus:
@@ -202,15 +202,38 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
         row_mass = [rw[b].sum(-1) for b in range(B)]
 
     # --- value term: routed, chunked CE (poc_diff estimator shape) --------
-    # pairs: every (masked span slot i -> span slot j) with weight >= thresh
+    # Routing pairs: top-k per masked row when pair_topk is set (renormalized
+    # to row-sum 1 — the estimator scale is preserved exactly; sharp/identity
+    # plans are unaffected since top-1 carries the mass). The threshold path
+    # keeps O(N^2) pairs on DIFFUSE plans (early training, sigma up to 1),
+    # which was the last throughput killer: ~125x the base MDLM's CE work.
     pairs_map = None
-    sel = (rw >= pair_thresh) & m_px[:, :, None]
-    if not sel.any():
+    if pair_topk is not None:
+        k = min(int(pair_topk), Nmax)
+        vals, idxs = rw.topk(k, dim=-1)                   # (B, Nmax, k)
+        vals = vals / vals.sum(-1, keepdim=True).clamp_min(1e-12)
+        pb, pi = m_px.nonzero(as_tuple=True)              # masked (loss) rows
+        if pb.numel() == 0:
+            b = i = j = w = None
+        else:
+            b = pb.repeat_interleave(k)
+            i = pi.repeat_interleave(k)
+            j = idxs[pb, pi].reshape(-1)
+            w = vals[pb, pi].reshape(-1).float()
+            keep = w > 1e-9
+            b, i, j, w = b[keep], i[keep], j[keep], w[keep]
+    else:
+        sel = (rw >= pair_thresh) & m_px[:, :, None]
+        if sel.any():
+            b, i, j = sel.nonzero(as_tuple=True)
+            w = rw[b, i, j].float()
+        else:
+            b = i = j = w = None
+
+    if w is None or w.numel() == 0:
         value = h.sum() * 0.0
         pairs = ()
     else:
-        b, i, j = sel.nonzero(as_tuple=True)
-        w = rw[b, i, j].float()
         if bk is None:                    # packed == absolute
             h_sel = h[b, i]
         else:

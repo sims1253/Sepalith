@@ -81,7 +81,8 @@ class SlotsData:
 
 
 def ot_step(model, pos_head, x, span_pos, valid, slots, generator=None,
-            eps=0.05, kappa=None, lam=1.0, t_override=None, n_iters=50):
+            eps=0.05, kappa=None, lam=1.0, t_override=None, n_iters=50,
+            pair_topk=8):
     """One forward + joint OT loss on a micro-batch (testable on CPU).
 
     Returns dict(total, value, position, telemetry, t, mask). Autocast is
@@ -99,7 +100,7 @@ def ot_step(model, pos_head, x, span_pos, valid, slots, generator=None,
                        slots_noised=noised, slots_true=slots,
                        span_pos=span_pos, eps=eps, kappa=kappa,
                        lam=lam, pos_pred=pos_pred, sigma=sigma,
-                       n_iters=n_iters)
+                       n_iters=n_iters, pair_topk=pair_topk)
     return dict(total=out.total, value=out.value, position=out.position,
                 telemetry=out.telemetry, t=t, mask=m)
 
@@ -141,6 +142,7 @@ def main():
     ap.add_argument("--eps", type=float, default=0.05)
     ap.add_argument("--kappa", type=float, default=None)
     ap.add_argument("--lam", type=float, default=1.0)
+    ap.add_argument("--pair-topk", type=int, default=8)
     ap.add_argument("--steps", type=int, default=3815)
     ap.add_argument("--tokens-per-step", type=int, default=524288)
     ap.add_argument("--seed", type=int, default=1273)
@@ -313,7 +315,8 @@ def main():
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 out = ot_step(model, pos_head, x, span_pos, valid, slots,
                               generator=cuda_gen, eps=args.eps,
-                              kappa=args.kappa, lam=args.lam)
+                              kappa=args.kappa, lam=args.lam,
+                              pair_topk=args.pair_topk)
             (out["total"] / len(micros)).backward()
             step_loss += float(out["total"])
             step_val += float(out["value"])

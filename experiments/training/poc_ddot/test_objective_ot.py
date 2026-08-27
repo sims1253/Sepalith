@@ -297,3 +297,35 @@ def test_batched_sinkhorn_matches_per_example_plans():
     assert abs(batched.value.item() - ref.value.item()) < 2e-3, (
         f"{batched.value.item()} vs {ref.value.item()} "
         f"(delta {abs(batched.value.item()-ref.value.item()):.2e})")
+
+
+def test_topk_routing_preserves_identity_reduction():
+    """Top-k routing on a sharp (identity) plan equals the threshold path
+    and the plain poc_diff estimator: top-1 carries all the mass."""
+    torch.manual_seed(0)
+    h, x, span_pos, t, span_len = toy_batch()
+    head_w = torch.randn(5, 8)
+    m = bernoulli_mask(span_pos, t, generator=torch.Generator().manual_seed(42))
+    assert m.any()
+    ref = mdlm_loss(h, x, m, t, span_len, head_w, chunk=3).item()
+    out = OTO.ot_mdlm_loss(h, x, m, t, span_len, head_w,
+                           plan=identity_plan(span_pos), pair_topk=1,
+                           chunk=3)
+    assert abs(out.value.item() - ref) < 1e-5, f"{out.value.item()} vs {ref}"
+
+
+def test_topk_routing_reduces_pair_count():
+    torch.manual_seed(1)
+    h, x, span_pos, t, span_len = toy_batch(span=6)
+    head_w = torch.randn(5, 8)
+    m = bernoulli_mask(span_pos, t, generator=torch.Generator().manual_seed(2))
+    assert m.any()
+    slots = slots_for(span_pos)
+    kw = dict(slots_noised=slots + 0.6, slots_true=slots,
+              span_pos=span_pos, eps=0.2)      # diffuse plan regime
+    full = OTO.ot_mdlm_loss(h, x, m, t, span_len, head_w, **kw)
+    tk = OTO.ot_mdlm_loss(h, x, m, t, span_len, head_w, pair_topk=2, **kw)
+    n_full = full.pairs[0].numel()
+    n_topk = tk.pairs[0].numel()
+    assert n_topk < n_full, f"{n_topk} vs {n_full}"
+    assert torch.isfinite(tk.total)
