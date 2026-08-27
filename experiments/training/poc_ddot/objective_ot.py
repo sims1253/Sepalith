@@ -64,12 +64,22 @@ class OTLossResult:
     position: torch.Tensor
     telemetry: dict
     pairs: tuple = ()      # flat (b, i, j, w) routed pairs — the actual routing
+    pairs_map: torch.Tensor | None = None   # packed-index -> sequence-position
 
     def pair_weights(self):
-        """(B, T, T) routing-weight matrix (zeros outside recorded pairs)."""
+        """(B, T, T) routing-weight matrix (zeros outside recorded pairs).
+        Pairs are recorded in packed span coordinates; `pairs_map`
+        translates them back to sequence positions when present."""
         if not self.pairs:
             raise ValueError("no pairs recorded (zero-mask batch)")
         b, i, j, w = self.pairs
+        if self.pairs_map is not None:
+            tk = self.pairs_map
+            T = int(tk.max().item()) + 1
+            out = torch.zeros(int(b.max().item()) + 1, T, T)
+            out[b.long(), tk[b.long(), i.long()], tk[b.long(), j.long()]] = \
+                w.float()
+            return out
         T = int(max(i.max(), j.max()).item()) + 1
         out = torch.zeros(int(b.max().item()) + 1, T, T)
         out[b.long(), i.long(), j.long()] = w.float()
@@ -136,58 +146,78 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
             "Sinkhorn path needs slots_noised, slots_true AND span_pos "
             "(or pass an explicit `plan`)")
 
-    # --- coupling: explicit plan, or ONE batched Sinkhorn on the window ---
-    # Batched with padded marginals (zero-mass pad rows/cols), so the whole
-    # micro-batch is a single Sinkhorn call — the per-example Python loop
-    # was kernel-launch-bound (~4k tok/s; the plan's Risks section called
-    # this). Computed under no_grad: the plan's inputs (noised slots, true
-    # slots) are data/noise constants w.r.t. model parameters, so training
-    # gradients flow through the routed CE and position term only — no_grad
-    # is exact here, not an approximation.
+    # --- pack the span window: (B, Nmax) coords instead of (B, T, T) grids --
+    # The plan only lives on span positions (<=256); the full-sequence grid
+    # was 162MB+/micro of dead traffic and the throughput killer.
+    if span_pos is not None:
+        span_rank = (span_pos.cumsum(dim=1) - 1).clamp(min=0)     # (B, T)
+        bk, tk = span_pos.nonzero(as_tuple=True)                  # span coords
+        kk = span_rank[bk, tk]
+        lens = span_pos.sum(dim=1)
+        Nmax = max(1, int(lens.max().item()))
+        t_of_k = torch.zeros(B, Nmax, dtype=torch.long, device=h.device)
+        t_of_k[bk, kk] = tk
+        x_px = torch.zeros(B, Nmax, dtype=torch.long, device=h.device)
+        x_px[bk, kk] = x[bk, tk]
+        m_px = torch.zeros(B, Nmax, dtype=torch.bool, device=h.device)
+        m_px[bk, kk] = m[bk, tk]
+    else:
+        # explicit plan, no span mask: packed == absolute coordinates
+        Nmax, t_of_k, x_px, m_px = T, None, x, m
+        bk = kk = None
+
     entropies, iters, row_mass = [], [], []
-    W = plan
-    if W is None:
+    if plan is None:
+        # ONE batched Sinkhorn with zero-mass padded marginals (the whole
+        # micro is a single call; per-example loops were kernel-launch-
+        # bound — the plan's Risks section called this). Under no_grad —
+        # exact, not an approximation: the plan's inputs (noised/target
+        # slots) are data+noise constants w.r.t. model parameters.
         with torch.no_grad():
-            lens = span_pos.sum(dim=1)
-            Nmax = int(lens.max().item())
-            B_idx = torch.arange(B, device=h.device)
             src = torch.zeros(B, Nmax, device=h.device)
             dst = torch.zeros(B, Nmax, device=h.device)
-            log_a = torch.full((B, Nmax), -1e9, device=h.device)
-            for b in range(B):
-                idx = span_pos[b].nonzero(as_tuple=False).flatten()
-                n = idx.numel()
-                src[b, :n] = slots_noised[b, idx].float()
-                dst[b, :n] = slots_true[b, idx].float()
-                log_a[b, :n] = -math.log(max(n, 1))
+            src[bk, kk] = slots_noised[bk, tk].float()
+            dst[bk, kk] = slots_true[bk, tk].float()
+            ar = torch.arange(Nmax, device=h.device)
+            log_a = torch.where(ar[None, :] < lens[:, None],
+                                -torch.log(lens.clamp(min=1).float())[:, None],
+                                torch.full_like(lens.float()[:, None], -1e9))
             out = OT.sinkhorn_coupling(src, dst, eps=eps, kappa=kappa,
                                        n_iters=n_iters, log_a=log_a,
                                        log_b=log_a)
-            rw = OT.row_weights(out.plan)              # pads -> ~0 rows
+            rw = OT.row_weights(out.plan)          # pads -> ~0 rows
             entropies.append(_explicit_plan_entropy(rw))
             iters.append(out.iters_ran)
-            row_mass.append(out.plan.sum(-1).amax(-1))  # per-example max
-        W = torch.zeros(B, T, T, device=h.device)
-        for b in range(B):
-            idx = span_pos[b].nonzero(as_tuple=False).flatten()
-            W[b, idx[:, None], idx[None, :]] = rw[b, :idx.numel(),
-                                                 :idx.numel()].float()
+            row_mass.append(out.plan.sum(-1).amax(-1))
     else:
-        entropies = [_explicit_plan_entropy(W)]
+        # explicit (B, T, T) plan (tests, sampler path) -> packed; when
+        # no span mask was given, packed == absolute: no gather needed
+        if t_of_k is None:
+            rw = plan
+        else:
+            rw = plan[torch.arange(B, device=h.device)[:, None, None],
+                      t_of_k[:, :, None], t_of_k[:, None, :]]
+        entropies = [_explicit_plan_entropy(rw)]
         iters = 0
-        row_mass = [W[b].sum(-1) for b in range(B)]
+        row_mass = [rw[b].sum(-1) for b in range(B)]
 
     # --- value term: routed, chunked CE (poc_diff estimator shape) --------
-    # pairs: every (masked i -> target j) with routing weight >= thresh
-    sel = (W >= pair_thresh) & m[:, :, None]
+    # pairs: every (masked span slot i -> span slot j) with weight >= thresh
+    pairs_map = None
+    sel = (rw >= pair_thresh) & m_px[:, :, None]
     if not sel.any():
         value = h.sum() * 0.0
         pairs = ()
     else:
         b, i, j = sel.nonzero(as_tuple=True)
-        w = W[b, i, j].float()
-        h_sel = h[b, i]
-        tgt = x[b, j]
+        w = rw[b, i, j].float()
+        if bk is None:                    # packed == absolute
+            h_sel = h[b, i]
+        else:
+            h_px = h.new_zeros(B, Nmax, h.size(-1))
+            h_px = h_px.index_put((bk, kk), h[bk, tk])  # differentiable gather
+            h_sel = h_px[b, i]
+        tgt = x_px[b, j]
         w_pos = w * (1.0 / t.clamp(min=T_MIN))[b]
         n = w.size(0)
 
@@ -206,6 +236,7 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
         contrib = ex_sum / span_len.clamp(min=1).float()
         value = contrib.mean()
         pairs = (b.detach(), i.detach(), j.detach(), w.detach())
+        pairs_map = t_of_k
 
     # --- position term -------------------------------------------------------
     if pos_pred is not None:
@@ -226,4 +257,5 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
                       else float("nan")),
     )
     return OTLossResult(total=total_loss, value=value, position=position,
-                        telemetry=telemetry, pairs=pairs)
+                        telemetry=telemetry, pairs=pairs,
+                        pairs_map=pairs_map)
