@@ -158,6 +158,9 @@ def main():
     args = ap.parse_args()
     if args.smoke:
         args.steps = min(args.steps, 40)
+        # the supervisor's throughput gate reads the last tok_per_s telemetry
+        # row — a 40-step smoke must log inside its lifetime
+        args.log_every = min(args.log_every, 10)
 
     if not args.no_gate:
         base.LaunchGate(min_free_mib=args.gate_min_free_mib).wait()
