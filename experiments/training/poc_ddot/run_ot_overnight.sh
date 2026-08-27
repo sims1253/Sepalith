@@ -85,7 +85,7 @@ claim "CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h"
 log "GPU claimed; running OT smoke"
 cd "$ROOT" || exit 1
 if ! PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-    .venv/bin/python -m experiments.training.poc_ddot.train_ot --smoke >> "$LOG" 2>&1; then
+    .venv/bin/python -m experiments.training.poc_ddot.train_ot --smoke --compile >> "$LOG" 2>&1; then
   log "OT SMOKE FAILED (crash)"
   claim "RELEASE ot smoke+full (smoke crashed)"
   board "OT smoke FAILED" \
