@@ -254,10 +254,15 @@ def main():
         # manual capture the trunk must run EAGER (torch.compile's own
         # cudagraphs would nest), so --compile is ignored for the step
         # path; it still serves quick_eval.
+        # bucket constants tuned for the real micro mix (avg ~5.5 rows):
+        # b_mult 4 was padding 5->8 (+45% trunk compute on pad rows) and
+        # r_mult 256 over-padded the masked-row sets — step-100 measured
+        # 26.3k tok/s at 98% util (busy doing pad work). b_mult 2 + r_mult
+        # 64 bound pad waste to <=25%/<=60% of the smallest sets.
         gstep = GraphedOTStep(model, pos_head, model.trunk,
                               eps=args.eps, kappa=args.kappa, lam=args.lam,
                               pair_topk=args.pair_topk, chunk=256,
-                              max_graphs=32)
+                              b_mult=2, r_mult=64, max_graphs=96)
         cpu_gen = torch.Generator().manual_seed(args.seed ^ 0x5EED)
         print("[full-graph] GraphedOTStep armed (captures lazily per "
               "shape bucket)", flush=True)
