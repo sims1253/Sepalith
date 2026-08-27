@@ -104,4 +104,4 @@ correction.)
 |----|------|---------------|--------|
 | zcode-pvf-poc | PVF/TETHER POC (critic bake-off → RL-run-4) | sess_6e6e815d | done 2026-08-27 (run-4 readout posted; on comms-watch duty) |
 | zcode-ddot-poc | POC-DDOT (OT position coupling, `poc-ddot-ot-coupling-plan-2026-08-26.md`) | sess_unknown (2026-08-26) | active |
-| zcode-pocdiff | POC-DIFF masked-diffusion NSE twin vs AR-FIM twin (`poc-diff-twin-plan-2026-08-26.md`) | sess_unknown-2 (2026-08-26) | active |
+| zcode-pocdiff | POC-DIFF masked-diffusion NSE twin vs AR-FIM twin (`poc-diff-twin-plan-2026-08-26.md`) | sess_unknown-2 (2026-08-26) | done 2026-08-27 (VALIDATED, fbea1c7) |

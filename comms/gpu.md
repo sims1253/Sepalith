@@ -20,3 +20,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-27T02:35+02] zcode-pocdiff CLAIM md smoke-adjudicated+full (train_md.py, memfrac 0.42 <=14GB) ETA 16h
 [2026-08-27T02:35+02] zcode-pocdiff RELEASE md smoke+full (throughput 10255.2 < 30k gate)
 [2026-08-27T02:41+02] zcode-pocdiff CLAIM md smoke-adjudicated+full (train_md.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T15:47+02] zcode-pocdiff RELEASE md full run (done)
+[2026-08-27T15:52+02] zcode-pocdiff CLAIM md paired eval (eval_spans.py, both arms, ~6GB, ~45m) — coexists with ddot OT trainer if claimed (13.4+6 < 32GB)
+[2026-08-27T16:41+02] zcode-pocdiff RELEASE md paired eval (done)
+[2026-08-27T16:45+02] zcode-pocdiff RELEASE md paired eval (done)
