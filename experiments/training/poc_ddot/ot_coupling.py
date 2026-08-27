@@ -96,12 +96,12 @@ def position_cost(x: Tensor, y: Tensor) -> Tensor:
 
 
 def sinkhorn_coupling(
-    x: Tensor,
-    y: Tensor,
-    eps: float = 0.05,
+    x, y, eps: float = 0.05,
     n_iters: int = DEFAULT_ITERS,
     kappa: float | None = None,
     tol: float | None = None,
+    log_a: Tensor | None = None,
+    log_b: Tensor | None = None,
 ) -> CouplingResult:
     """Entropic OT between two sets of slot coordinates.
 
@@ -115,6 +115,10 @@ def sinkhorn_coupling(
         -> inf) recovers the balanced solver, smaller kappa relaxes rows
         harder. Columns are always hard-normalized.
       tol: if set, stop early once both marginal errors' batch max < tol.
+      log_a / log_b: explicit log-marginals, (B, N) / (B, M). Default:
+      uniform. Zero-mass entries (large-negative log, e.g. -1e9) mark
+      PADDING — their plan rows/columns come out ~0, which is how the
+      trainer batches variable-length spans into one call.
 
     Returns CouplingResult; gradients flow through x and y.
     """
@@ -133,8 +137,16 @@ def sinkhorn_coupling(
     # Everything coupling-related in fp32 (plan's numerics decision), even
     # when the caller feeds bf16 slots from the training loop.
     C = position_cost(xf, yf)                              # (B, N, M) fp32
-    log_a = torch.full((B, N), -math.log(N), device=C.device, dtype=torch.float32)
-    log_b = torch.full((B, M), -math.log(M), device=C.device, dtype=torch.float32)
+    if log_a is None:
+        log_a = torch.full((B, N), -math.log(N), device=C.device,
+                           dtype=torch.float32)
+    else:
+        log_a = log_a.to(C.device, torch.float32)
+    if log_b is None:
+        log_b = torch.full((B, M), -math.log(M), device=C.device,
+                           dtype=torch.float32)
+    else:
+        log_b = log_b.to(C.device, torch.float32)
 
     lam = 1.0 if kappa is None else kappa / (kappa + eps)
     f = torch.zeros(B, N, device=C.device, dtype=torch.float32)

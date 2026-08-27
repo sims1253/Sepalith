@@ -260,3 +260,40 @@ if __name__ == "__main__":
                 failures += 1
                 print(f"ERROR {name}: {e!r}")
     sys.exit(1 if failures else 0)
+
+
+def test_batched_sinkhorn_matches_per_example_plans():
+    """The trainer's batched padded-marginal path must equal the per-example
+    Sinkhorn reference (variable span lengths 1/3/6). Plans compared
+    directly (padded-path fp residual ~5e-4 on some rows — sub-training-
+    scale); the loss compared with pair_thresh~0 so the discrete 1e-3
+    threshold can't flip pair sets between the two paths."""
+    torch.manual_seed(5)
+    B, T = 3, 10
+    h = torch.randn(B, T, 8)
+    x = torch.randint(0, 5, (B, T))
+    span_pos = torch.zeros(B, T, dtype=torch.bool)
+    for b, L in enumerate((1, 3, 6)):
+        span_pos[b, T - 6:T - 6 + L] = True
+    t = torch.full((B,), 0.7)
+    m = bernoulli_mask(span_pos, t, generator=torch.Generator().manual_seed(9))
+    assert m.any()
+    slots = slots_for(span_pos)
+    noised = slots + 0.1
+    head_w = torch.randn(5, 8)
+    batched = OTO.ot_mdlm_loss(h, x, m, t, span_pos.sum(1), head_w,
+                               slots_noised=noised, slots_true=slots,
+                               span_pos=span_pos, eps=0.05, n_iters=500,
+                               pair_thresh=1e-9)
+    W = torch.zeros(B, T, T)
+    for b in range(B):
+        idx = span_pos[b].nonzero(as_tuple=True)[0]
+        out = OT.sinkhorn_coupling(noised[b, idx].unsqueeze(0),
+                                   slots[b, idx].unsqueeze(0), eps=0.05,
+                                   n_iters=500)
+        W[b, idx[:, None], idx[None, :]] = OT.row_weights(out.plan)[0]
+    ref = OTO.ot_mdlm_loss(h, x, m, t, span_pos.sum(1), head_w, plan=W,
+                           pair_thresh=1e-9)
+    assert abs(batched.value.item() - ref.value.item()) < 2e-3, (
+        f"{batched.value.item()} vs {ref.value.item()} "
+        f"(delta {abs(batched.value.item()-ref.value.item()):.2e})")

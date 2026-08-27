@@ -40,6 +40,7 @@ masked positions. Callers on the Sinkhorn path must pass span_pos
 explicit plan instead).
 """
 from dataclasses import dataclass
+import math
 
 import torch
 import torch.nn.functional as F
@@ -135,25 +136,45 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
             "Sinkhorn path needs slots_noised, slots_true AND span_pos "
             "(or pass an explicit `plan`)")
 
-    # --- coupling: explicit plan, or per-example Sinkhorn on the window ---
+    # --- coupling: explicit plan, or ONE batched Sinkhorn on the window ---
+    # Batched with padded marginals (zero-mass pad rows/cols), so the whole
+    # micro-batch is a single Sinkhorn call — the per-example Python loop
+    # was kernel-launch-bound (~4k tok/s; the plan's Risks section called
+    # this). Computed under no_grad: the plan's inputs (noised slots, true
+    # slots) are data/noise constants w.r.t. model parameters, so training
+    # gradients flow through the routed CE and position term only — no_grad
+    # is exact here, not an approximation.
     entropies, iters, row_mass = [], [], []
     W = plan
     if W is None:
+        with torch.no_grad():
+            lens = span_pos.sum(dim=1)
+            Nmax = int(lens.max().item())
+            B_idx = torch.arange(B, device=h.device)
+            src = torch.zeros(B, Nmax, device=h.device)
+            dst = torch.zeros(B, Nmax, device=h.device)
+            log_a = torch.full((B, Nmax), -1e9, device=h.device)
+            for b in range(B):
+                idx = span_pos[b].nonzero(as_tuple=False).flatten()
+                n = idx.numel()
+                src[b, :n] = slots_noised[b, idx].float()
+                dst[b, :n] = slots_true[b, idx].float()
+                log_a[b, :n] = -math.log(max(n, 1))
+            out = OT.sinkhorn_coupling(src, dst, eps=eps, kappa=kappa,
+                                       n_iters=n_iters, log_a=log_a,
+                                       log_b=log_a)
+            rw = OT.row_weights(out.plan)              # pads -> ~0 rows
+            entropies.append(_explicit_plan_entropy(rw))
+            iters.append(out.iters_ran)
+            row_mass.append(out.plan.sum(-1).amax(-1))  # per-example max
         W = torch.zeros(B, T, T, device=h.device)
         for b in range(B):
             idx = span_pos[b].nonzero(as_tuple=False).flatten()
-            out = OT.sinkhorn_coupling(
-                slots_noised[b, idx].float().unsqueeze(0),
-                slots_true[b, idx].float().unsqueeze(0),
-                eps=eps, kappa=kappa, n_iters=n_iters)
-            W[b, idx[:, None], idx[None, :]] = OT.row_weights(out.plan)[0]
-            entropies.append(OT.plan_entropy(out.plan).item())
-            iters.append(out.iters_ran)
-            row_mass.append(out.plan.sum(-1))
-        iters_mean = sum(iters) / len(iters)
+            W[b, idx[:, None], idx[None, :]] = rw[b, :idx.numel(),
+                                                 :idx.numel()].float()
     else:
         entropies = [_explicit_plan_entropy(W)]
-        iters_mean = 0
+        iters = 0
         row_mass = [W[b].sum(-1) for b in range(B)]
 
     # --- value term: routed, chunked CE (poc_diff estimator shape) --------
@@ -196,11 +217,13 @@ def ot_mdlm_loss(h, x, m, t, span_len, head_w,
     total_loss = value + lam * position
     telemetry = dict(
         plan_entropy=(sum(entropies) / len(entropies) if entropies else 0.0),
-        iters_mean=iters_mean,
-        row_mass_min=(min(r.min().item() for r in row_mass)
-                      if row_mass and len(row_mass[0]) else float("nan")),
-        row_mass_max=(max(r.max().item() for r in row_mass)
-                      if row_mass and len(row_mass[0]) else float("nan")),
+        iters_mean=(iters[0] if iters else 0),
+        row_mass_min=(float(torch.stack(row_mass).min())
+                      if row_mass and len(row_mass[0].shape) == 0
+                      else float("nan")),
+        row_mass_max=(float(torch.stack(row_mass).max())
+                      if row_mass and len(row_mass[0].shape) == 0
+                      else float("nan")),
     )
     return OTLossResult(total=total_loss, value=value, position=position,
                         telemetry=telemetry, pairs=pairs)
