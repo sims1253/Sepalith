@@ -84,8 +84,8 @@ fi
 claim "CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h"
 log "GPU claimed; running OT smoke"
 cd "$ROOT" || exit 1
-if ! PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-    .venv/bin/python -m experiments.training.poc_ddot.train_ot --smoke --compile >> "$LOG" 2>&1; then
+if ! POC_MEM_FRACTION=0.7 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+    .venv/bin/python -m experiments.training.poc_ddot.train_ot --smoke --compile --full-graph >> "$LOG" 2>&1; then
   log "OT SMOKE FAILED (crash)"
   claim "RELEASE ot smoke+full (smoke crashed)"
   board "OT smoke FAILED" \
@@ -107,8 +107,8 @@ if [ "$ok" != "1" ]; then
 fi
 
 log "smoke PASSED (${tok} tok/s, plan entropy ${ent}); starting full OT run (3815 steps, 2B tokens)"
-if PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-    .venv/bin/python -m experiments.training.poc_ddot.train_ot --steps 3815 --compile >> "$LOG" 2>&1; then
+if POC_MEM_FRACTION=0.7 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+    .venv/bin/python -m experiments.training.poc_ddot.train_ot --steps 3815 --compile --full-graph >> "$LOG" 2>&1; then
   rsync -a /tmp/poc_ddot/ckpt/ /mnt/h/sepalith/runs/poc_ddot/
   claim "RELEASE ot full run (done)"
   board "OT full run DONE" \
