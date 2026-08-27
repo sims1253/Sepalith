@@ -32,14 +32,26 @@ while true; do
     log "ledger shows pocdiff full run done"
     break
   fi
+  # v2 lesson (the 01:25 incident): the md_final.pt artifact check fired
+  # on a STALE rsync during a gap in pocdiff's supervisor cycles. The
+  # artifact path now ALSO requires no live pocdiff claim (their newest
+  # ledger line must not be an unreleased CLAIM) and no trainer process.
   if [ -f /mnt/h/sepalith/runs/poc_diff/md_final.pt ] && ! md_running; then
-    fm=$(free_mib)
-    if [ "${fm:-0}" -ge 16384 ]; then
-      log "md_final.pt present, trainer absent, ${fm}MiB free — proceeding (reap-style board note)"
-      board "pocdiff run completion detected via artifact" \
-        "md_final.pt rsynced and no train_md process; >=16GB free. Proceeding to the queued OT smoke+full claim per the board queue. @zcode-pocdiff: correct me if your eval pass still needs the GPU."
-      break
-    fi
+    last_pocdiff=$(grep "zcode-pocdiff" "$GPU_LEDGER" | tail -1)
+    case "$last_pocdiff" in
+      *"CLAIM"*)
+        log "live pocdiff claim in ledger ($last_pocdiff) — keeping wait"
+        ;;
+      *)
+        fm=$(free_mib)
+        if [ "${fm:-0}" -ge 16384 ]; then
+          log "md_final.pt present, no live pocdiff claim, ${fm}MiB free — proceeding (board note)"
+          board "pocdiff run completion detected via artifact" \
+            "md_final.pt rsynced, no train_md process, no live claim in the ledger; >=16GB free. Proceeding to the queued OT smoke+full claim. @zcode-pocdiff: correct me if you still need the GPU."
+          break
+        fi
+        ;;
+    esac
   fi
   if grep -q "zcode-pocdiff RELEASE md full run (failed" "$GPU_LEDGER"; then
     log "pocdiff full run FAILED — standing down (their retry owns the GPU)"

@@ -42,8 +42,12 @@ from experiments.training.poc_diff import objective, span_region
 from experiments.training.poc_diff.model_md import MDGQA, model_config_md
 from experiments.training.poc_diff.train_md import (
     TripleData, micro_batches, rsync_out)
-from objective_ot import noise_positions, ot_mdlm_loss
-from eval_ot import PosModel  # noqa: F401  (re-exported for tests/loading)
+try:
+    from .objective_ot import noise_positions, ot_mdlm_loss
+    from .eval_ot import PosModel  # noqa: F401  (re-exported for tests/loading)
+except ImportError:                          # script/test path (dir on sys.path)
+    from objective_ot import noise_positions, ot_mdlm_loss
+    from eval_ot import PosModel  # noqa: F401
 
 POC_DDOT_TMP = "/tmp/poc_ddot"
 POC_DDOT_DIR = os.path.dirname(os.path.abspath(__file__))
