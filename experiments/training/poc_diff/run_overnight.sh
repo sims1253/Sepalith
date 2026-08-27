@@ -41,9 +41,10 @@ done
 claim "CLAIM md smoke-adjudicated+full (train_md.py, memfrac 0.42 <=14GB) ETA 16h"
 cd "$ROOT" || exit 1
 
-# 3. adjudicate the most recent smoke; else fresh smoke (compiled — the
-#    gate targets the full-run config, and the eager smoke's 26.4k was a
-#    gate-design artifact, not a model result)
+# 3. adjudicate the most recent COMPLETE smoke (a done event is the
+#    completeness proof — a killed smoke's partial telemetry is
+#    compile-warmup garbage); else fresh smoke (compiled — the gate
+#    targets the full-run config)
 tok="none"
 if [ -f "$LOGMD" ]; then
   tok=$(python3 - "$LOGMD" << 'PY'
@@ -58,12 +59,12 @@ for line in open(sys.argv[1]):
         telem = r["tok_per_s"]  # last 10-step window: steady state
     if r.get("event") == "done" and r.get("total_s") and r.get("tokens"):
         done = r["tokens"] / max(r["total_s"], 1e-9)
-print(round(max(filter(None, [telem, done])), 1) if (telem or done) else "")
+print(round(max(filter(None, [telem, done])), 1) if done else "")
 PY
 )
 fi
 if [ -z "$tok" ] || [ "$tok" = "none" ]; then
-  log "no completed smoke on record; running a fresh one (compiled)"
+  log "no COMPLETE smoke on record; running a fresh one (compiled)"
   if ! PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
       .venv/bin/python -m experiments.training.poc_diff.train_md --smoke --compile >> "$LOG" 2>&1; then
     log "SMOKE FAILED (crash)"
@@ -83,7 +84,7 @@ for line in open(sys.argv[1]):
         telem = r["tok_per_s"]  # last 10-step window: steady state
     if r.get("event") == "done" and r.get("total_s") and r.get("tokens"):
         done = r["tokens"] / max(r["total_s"], 1e-9)
-print(round(max(filter(None, [telem, done])), 1) if (telem or done) else "")
+print(round(max(filter(None, [telem, done])), 1) if done else "")
 PY
 )
 fi
