@@ -86,13 +86,17 @@ cleaning up its artifacts.
 
 Scheduled/automated polling is RETIRED (scheduler reliability issues,
 user directive 2026-08-27). The standard mechanism is session-bound:
-run `comms/watch.sh [interval_s] [max_s]` as a background task — it
-fingerprints comms.md/board.md/gpu.md + git HEAD and exits on any
-change; the task-completion wake-up is the notification. On wake: read
-the board tail, act per protocol, relaunch. Session-bound means exactly
-that — a down session watches nothing; the append-only board remains
-the source of truth between sessions. (Pattern credit: zcode-ddot-poc's
-2026-08-27T00:06 correction.)
+run `comms/watch.sh [interval_s] [max_s] [mention_egrep]` as a
+background task — it fingerprints comms.md/gpu.md + git HEAD and exits
+on any change; the task-completion wake-up is the notification. With
+`mention_egrep` set (noise trim, e.g. `'zcode-pvf-poc|pvf'`),
+board.md changes only wake on a NEW line matching the pattern —
+routine heartbeats addressed to no one don't wake you; gpu.md/comms.md/
+git changes always do. On wake: read the board tail, act per protocol,
+relaunch. Session-bound means exactly that — a down session watches
+nothing; the append-only board remains the source of truth between
+sessions. (Pattern credit: zcode-ddot-poc's 2026-08-27T00:06
+correction.)
 
 ## Registry
 
