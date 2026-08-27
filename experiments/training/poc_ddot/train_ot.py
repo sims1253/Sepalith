@@ -106,6 +106,45 @@ def ot_step(model, pos_head, x, span_pos, valid, slots, generator=None,
                 telemetry=out.telemetry, t=t, mask=m)
 
 
+
+class GPUData:
+    """GPU-resident flat ids + lens + slots with a fully-vectorized micro
+    builder — the CPU per-row tensor path left the GPU idle ~50% of the
+    step (measured: ~10s/step of a 24s step was CPU serialization across
+    ~128 micros; the OT loss itself is ~1.5s/step)."""
+
+    def __init__(self, data, slots_data, device):
+        self.data = data
+        self.ids = torch.from_numpy(
+            np.array(data.ids, dtype=np.int32, copy=True)).long().to(device)
+        self.slots = torch.from_numpy(
+            np.array(slots_data.slots, dtype=np.float32, copy=True)).to(device)
+        lens = np.stack([data.prompt_len, data.region_len], axis=1)
+        self.pl = torch.from_numpy(lens[:, 0]).long().to(device)
+        self.rl = torch.from_numpy(lens[:, 1]).long().to(device)
+        self.tl = self.pl + self.rl
+        self.off = torch.zeros_like(self.tl)
+        self.off[1:] = self.tl.cumsum(0)[:-1]
+        self.slot_off = torch.zeros_like(self.tl)
+        self.slot_off[1:] = self.rl.cumsum(0)[:-1]
+        self.device = device
+
+    def micro(self, rows, pad_len):
+        rows_t = torch.tensor(rows, dtype=torch.long, device=self.device)
+        n = len(rows)
+        tgrid = torch.arange(pad_len, device=self.device)
+        pl, tl = self.pl[rows_t], self.tl[rows_t]
+        valid = tgrid[None, :] < tl[:, None]                     # (n,P)
+        gidx = self.off[rows_t, None] + tgrid[None, :]
+        x = torch.where(valid, self.ids[gidx.clamp(max=self.ids.numel() - 1)],
+                        torch.ones_like(gidx))
+        span_pos = (tgrid[None, :] >= pl[:, None]) & valid
+        sidx = (self.slot_off[rows_t, None] + tgrid[None, :] - pl[:, None]
+                ).clamp(min=0, max=self.slots.numel() - 1)
+        slots = torch.where(span_pos, self.slots[sidx],
+                            torch.zeros_like(sidx, dtype=torch.float32))
+        return x, span_pos, valid, slots
+
 def build_micro_tensors_ot(micro, data, slots_data, device):
     """train_md.build_micro_tensors + the slots field."""
     rows, pad_len = micro
@@ -190,6 +229,7 @@ def main():
 
     data = TripleData(seed=args.seed)
     slots_data = SlotsData()
+    gpu_data = GPUData(data, slots_data, device)
 
     step0 = 0
     if args.resume:
@@ -308,25 +348,28 @@ def main():
         micros = micro_batches(rows, data)
         for o in opts:
             o.zero_grad(set_to_none=True)
-        step_loss, step_val, step_pos = 0.0, 0.0, 0.0
-        ent, iters, pos_share = [], [], []
+        # sync-free accumulation: tensors until the log window converts
+        step_loss = step_val = step_pos = None
+        ent = torch.zeros((), device=device)
+        iters = torch.zeros((), device=device)
+        n_micro_t = 0
         for mi, micro in enumerate(micros):
-            x, span_pos, valid, slots = build_micro_tensors_ot(
-                micro, data, slots_data, device)
+            x, span_pos, valid, slots = gpu_data.micro(*micro)
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 out = ot_step(model, pos_head, x, span_pos, valid, slots,
                               generator=cuda_gen, eps=args.eps,
                               kappa=args.kappa, lam=args.lam,
                               pair_topk=args.pair_topk, trunk=fwd_trunk)
             (out["total"] / len(micros)).backward()
-            step_loss += float(out["total"])
-            step_val += float(out["value"])
-            step_pos += float(out["position"])
-            tel = out["telemetry"]
-            ent.append(tel["plan_entropy"])
-            iters.append(tel["iters_mean"])
-            pos_share.append(float(out["position"]) /
-                             (float(out["value"]) + 1e-8))
+            d = out["total"].detach()
+            step_loss = d if step_loss is None else step_loss + d
+            d = out["value"].detach()
+            step_val = d if step_val is None else step_val + d
+            d = out["position"].detach()
+            step_pos = d if step_pos is None else step_pos + d
+            ent += out["telemetry"]["plan_entropy"]
+            iters += out["telemetry"]["iters_mean"]
+            n_micro_t += 1
         gn = torch.nn.utils.clip_grad_norm_(
             list(model.parameters()) + list(pos_head.parameters()), 1.0).item()
         opt.step()
@@ -336,12 +379,13 @@ def main():
 
         step += 1
         tokens_seen += acc
-        win["loss"].append(step_loss / len(micros))
-        win["value"].append(step_val / len(micros))
-        win["pos"].append(step_pos / len(micros))
-        win["ent"] += ent
-        win["iters"] += iters
-        win["pos_share"] += pos_share
+        win["loss"].append(float(step_loss) / n_micro_t)
+        win["value"].append(float(step_val) / n_micro_t)
+        win["pos"].append(float(step_pos) / n_micro_t)
+        win["ent"].append(float(ent) / n_micro_t)
+        win["iters"].append(float(iters) / n_micro_t)
+        win["pos_share"].append(float(step_pos) /
+                                (float(step_val) + 1e-8))
         win["gn"].append(gn)
         win["qk"] = max(win["qk"], qk_now)
         win["clip"] += n_clip
