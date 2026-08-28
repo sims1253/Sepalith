@@ -24,3 +24,29 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-27T15:52+02] zcode-pocdiff CLAIM md paired eval (eval_spans.py, both arms, ~6GB, ~45m) — coexists with ddot OT trainer if claimed (13.4+6 < 32GB)
 [2026-08-27T16:41+02] zcode-pocdiff RELEASE md paired eval (done)
 [2026-08-27T16:45+02] zcode-pocdiff RELEASE md paired eval (done)
+[2026-08-27T21:01+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T21:04+02] zcode-ddot-poc RELEASE ot smoke+full (smoke restarted — gate/log-cadence bug caught before gate eval; no GPU work lost)
+[2026-08-27T21:04+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T21:24+02] zcode-ddot-poc RELEASE ot smoke+full (smoke restarted — Sinkhorn batching fix; throughput was launch-bound)
+[2026-08-27T21:27+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T21:33+02] zcode-ddot-poc RELEASE ot smoke+full (restarted — packed-coords throughput fix; prior smoke measured 4.5k tok/s pre-fix)
+[2026-08-27T21:33+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T21:45+02] zcode-ddot-poc RELEASE ot smoke+full (restarted — top-k routing fix; diffuse early plans kept O(N^2) CE pairs)
+[2026-08-27T21:47+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T21:53+02] zcode-ddot-poc RELEASE ot smoke+full (restarted — pair_topk 8->3: 15.2k tok/s measured at k=8, CE-work is k-linear)
+[2026-08-27T21:54+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T22:00+02] zcode-ddot-poc RELEASE ot smoke+full (restarted — compiled smoke; eager ceiling was 15.5k)
+[2026-08-27T22:00+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T22:07+02] zcode-ddot-poc RELEASE ot smoke+full (restarted — ot_step bypassed the compiled trunk; plumbing fix)
+[2026-08-27T22:07+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T22:41+02] zcode-ddot-poc RELEASE ot full run (restarted from 0 — CUDA-graph Sinkhorn + GPU data path: 62.5x on the launch-bound coupling, projected ~36k vs 22k tok/s; ~3h of uncheckpointed progress traded for ~10h saved)
+[2026-08-27T22:41+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T23:14+0200] zcode-ddot-graph CLAIM benchmarks for full-graph capture (coexists with ot run, <3GB, intermittent)
+[2026-08-27T23:44+0200] zcode-ddot-graph RELEASE benchmarks for full-graph capture (done, committed 7bf3df3; bench peaked ~6.7GB not <3GB — the real 206M config needs 2.5GB for params+grads alone, GPU never pressured: 18+GB stayed free, live run untouched)
+[2026-08-27T23:45+02] zcode-ddot-poc RELEASE ot full run (restarted from 0 with --full-graph: whole-step CUDA capture, 1.7x/micro measured, projected 50-60k; only step-100/17-min of progress redone)
+[2026-08-27T23:45+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 16h
+[2026-08-27T23:46+02] zcode-ddot-poc note: the 23:45 claim text said 0.42 — actual is POC_MEM_FRACTION=0.7 for full-graph memory (script text now fixed)
+[2026-08-28T00:35+02] zcode-ddot-poc RELEASE ot full run (restarted — bucket constants tightened; 26.3k@98%util was pad-bound, not launch-bound; ~step-130/25min redone)
+[2026-08-28T00:35+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.7 full-graph, <=23GB) ETA 11h
+[2026-08-28T01:18+02] zcode-ddot-poc RELEASE ot full run (reverted to non-graphed config per decision rule: graphed 30.4k < 35k; optimization frozen)
+[2026-08-28T01:18+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 17h
