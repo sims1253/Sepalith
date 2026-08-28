@@ -136,31 +136,54 @@ def load_ot(path, device):
 
 # ---------------- arm runners ----------------
 
-def cal_arm_rows(md, rows, tok, steps, window, device):
-    """Arm (b): CAL length pick + fixed-window sampling at the picked L."""
+def cal_arm_rows(md, rows, tok, steps, window, device, batch=16):
+    """Arm (b): CAL length pick + fixed-window sampling at the picked L.
+    Batched: the unbatched 216-row call materialized ~29GB of concatenated
+    probs (216x256x130k fp32) and spilled to system RAM via WSL sysmem
+    fallback — the machine OOM the user felt."""
     out_rows = []
-    lens = CAL.pick_length(md, [r["prompt_ids"] for r in rows], window=window)
-    for r, L in zip(rows, lens):
-        if L == 0:
-            text, ids = "", []
-        else:
+    for i in range(0, len(rows), batch):
+        chunk = rows[i:i + batch]
+        lens = CAL.pick_length(md, [r["prompt_ids"] for r in chunk],
+                               window=window)
+        for r, L in zip(chunk, lens):
+            if L == 0:
+                out_rows.append(dict(
+                    metrics=point_metrics("", r["span_text"], tok),
+                    pred_len=0, gt_len=r["span_len"], first_slot=0,
+                    pred_empty=True, gt_empty=r["span_len"] == 0,
+                    lat_ms=0.0, picked_L=0))
+                continue
             s = sample_spans(md, [r["prompt_ids"]], [L], steps,
                              temperature=0.0)
-            ids = s["pred_ids"][0, :L].tolist()
+            ids = s["pred_ids"][0, :L]
             text = decode_span(tok, ids, md.empty_id)
-        out_rows.append(dict(
-            metrics=point_metrics(text, r["span_text"], tok),
-            pred_len=len(tok(text, add_special_tokens=False)["input_ids"]),
-            gt_len=r["span_len"], first_slot=0,
-            pred_empty=is_pred_empty(ids), gt_empty=r["span_len"] == 0,
-            lat_ms=0.0, picked_L=L))
+            out_rows.append(dict(
+                metrics=point_metrics(text, r["span_text"], tok),
+                pred_len=len(tok(text,
+                                 add_special_tokens=False)["input_ids"]),
+                gt_len=r["span_len"], first_slot=0,
+                pred_empty=is_pred_empty(ids.tolist()),
+                gt_empty=r["span_len"] == 0,
+                lat_ms=0.0, picked_L=L))
     return out_rows
 
 
-def ot_arm_rows(ot_model, rows, tok, steps, window):
-    """Arm (c): joint value+position sampling; snap decides length/anchor."""
-    out = sample_ot_spans(ot_model, [r["prompt_ids"] for r in rows],
-                          window=window, steps=steps, temperature=0.0)
+def ot_arm_rows(ot_model, rows, tok, steps, window, batch=16):
+    """Arm (c): joint value+position sampling; snap decides length/anchor.
+    Batched for the same memory reason as cal_arm_rows."""
+    out = dict(pred_ids=[], slots=[], lengths=[], latency_ms=0.0)
+    for i in range(0, len(rows), batch):
+        o = sample_ot_spans(ot_model,
+                            [r["prompt_ids"] for r in rows[i:i + batch]],
+                            window=window, steps=steps, temperature=0.0)
+        out["pred_ids"].append(o["pred_ids"].cpu())
+        out["slots"].append(o["slots"].cpu())
+        out["lengths"].append(o["lengths"].cpu())
+        out["latency_ms"] += o["latency_ms"]
+    out["pred_ids"] = torch.cat(out["pred_ids"])
+    out["slots"] = torch.cat(out["slots"])
+    out["lengths"] = torch.cat(out["lengths"])
     out_rows = []
     for i, r in enumerate(rows):
         n = int(out["lengths"][i])
@@ -265,6 +288,9 @@ def main():
     args = ap.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if device.type == "cuda":
+        torch.cuda.set_per_process_memory_fraction(
+            float(__import__("os").environ.get("POC_MEM_FRACTION", "0.6")))
     from transformers import AutoTokenizer
     tok = AutoTokenizer.from_pretrained("openbmb/MiniCPM5-1B")
     rows = [json.loads(l) for l in
