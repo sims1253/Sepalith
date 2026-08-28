@@ -466,7 +466,10 @@ def main():
         if step % args.ckpt_every == 0:
             save(os.path.join(ckpt_dir, "latest.pt"), step)
 
-    save(os.path.join(ckpt_dir, "ot_final.pt"), step)
+    # smoke runs exit the loop early too — a 40-step "final" must never
+    # masquerade under the real final name (found live on the NAS twice)
+    final_name = "smoke_final.pt" if args.smoke else "ot_final.pt"
+    save(os.path.join(ckpt_dir, final_name), step)
     log(dict(event="done", step=step, tokens=tokens_seen,
              total_s=round(time.time() - t_start, 1)))
     if watchdog:
