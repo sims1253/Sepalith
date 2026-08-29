@@ -174,11 +174,6 @@ def ot_arm_rows(ot_model, rows, tok, steps, window, batch=16):
     Batched in chunks (memory); per-row results collected directly —
     per-batch tensors pad to their own max length, so never cross-cat."""
     out_rows = []
-    import sample_ot as _so
-    try:
-        from . import sample_ot as _so
-    except ImportError:
-        pass
     for i in range(0, len(rows), batch):
         chunk = rows[i:i + batch]
         o = sample_ot_spans(ot_model, [r["prompt_ids"] for r in chunk],
@@ -187,7 +182,7 @@ def ot_arm_rows(ot_model, rows, tok, steps, window, batch=16):
             n = int(o["lengths"][j])
             ids = o["pred_ids"][j, :n].tolist()
             first = int(o["slots"][j, 0].item()) if n else 0
-            text = _so.decode_ot_span(ids, tok=tok)
+            text = sample_ot.decode_ot_span(ids, tok=tok)
             out_rows.append(dict(
                 metrics=point_metrics(text, r["span_text"], tok),
                 pred_len=len(tok(text,
