@@ -24,6 +24,25 @@ classic quintic on random matrices.
 import torch
 from torch import Tensor
 
+# Deterministic draw sequence for the power-iteration bound (optimizer steps
+# must be reproducible run-to-run).
+_GEN = torch.Generator().manual_seed(1273)
+
+
+def _sigma_max(X: Tensor, iters: int = 3, exact: bool = False) -> float:
+    """Largest singular value. `exact` uses matrix_norm (SVD); default is a
+    3-iteration power estimate — an underestimate from below, which pairs
+    with the 1.01 safety margin (the clamp fires slightly late at worst)."""
+    if exact:
+        return float(torch.linalg.matrix_norm(X.float(), ord=2))
+    v = torch.randn(X.size(1), generator=_GEN, dtype=torch.float32,
+                    device="cpu").to(X.device)
+    v = v / (v.norm() + 1e-30)
+    for _ in range(iters):
+        v = X.float().T @ (X.float() @ v)
+        v = v / (v.norm() + 1e-30)
+    return float((X.float() @ v).norm())
+
 # Raw Appendix-A table (8 steps; steps >8 repeat the last row numerically).
 _POLAR_RAW = [
     (8.28721201814563, -23.595886519098837, 17.300387312530933),
@@ -61,10 +80,12 @@ def orthogonalization_error(O: Tensor) -> float:
     return float((M - I).norm() / r ** 0.5)
 
 
-def zeropower_via_polar(G: Tensor, steps: int = 8, eps: float = 1e-7) -> Tensor:
+def zeropower_via_polar(G: Tensor, steps: int = 8, eps: float = 1e-7,
+                        bound: str = "power", power_iters: int = 3) -> Tensor:
     """Polar Express variant of zeropower_via_newtonschulz5: same interface
     (bf16 iteration, transpose convention), per-step coefficients, released-
-    code normalization X/(‖X‖·1.01 + eps)."""
+    code normalization X/(‖X‖·1.01 + eps). bound="power" (default, cheap —
+    for optimizer steps) or "svd" (exact — for tests)."""
     assert len(G.shape) == 2
     coeffs = polar_coeffs(steps)
     X = G.bfloat16()
@@ -77,7 +98,7 @@ def zeropower_via_polar(G: Tensor, steps: int = 8, eps: float = 1e-7) -> Tensor:
         X = a * X + B @ X
         # §3.4 upper bound u=1, enforced per step: overshoot past the
         # polynomial's design domain otherwise diverges in bf16.
-        sig = torch.linalg.matrix_norm(X.float(), ord=2)
+        sig = _sigma_max(X, iters=power_iters, exact=(bound == "svd"))
         if sig > 1.0:
             X = (X.float() * (1.0 / (sig * _SAFETY))).bfloat16()
     if G.size(0) > G.size(1):
