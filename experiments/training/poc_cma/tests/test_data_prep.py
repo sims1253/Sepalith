@@ -91,3 +91,35 @@ class TestDataPrep(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCurriculum(unittest.TestCase):
+    def test_multiset_and_trend(self):
+        import score_blocks as sb
+        rng = np.random.RandomState(0)
+        order = np.stack([rng.randint(0, 3, 600),
+                          rng.randint(0, 50, 600)], axis=1).astype(np.int32)
+        # stratum 0 easy (low CE), stratum 2 hard — CE correlated to block
+        ce = (order[:, 0] * 2.0 + rng.rand(600) * 0.1).astype(np.float32)
+        with tempfile.TemporaryDirectory() as d:
+            np.save(f"{d}/ce.npy", ce)
+            np.save(f"{d}/uniform_order.idx.npy", order)
+            man = dict(strata=[dict(name=f"s{i}") for i in range(3)])
+            with open(f"{d}/draw_manifest.json", "w") as f:
+                json.dump(man, f)
+            out = f"{d}/cur.npy"
+            sb.cmd_curriculum(d, f"{d}/ce.npy", 10, out, seed=1273)
+            cur = np.load(out)
+            self.assertEqual(len(cur), 600)
+            # block multiset preserved exactly
+            a = np.array(sorted(map(tuple, order.tolist())))
+            b = np.array(sorted(map(tuple, cur.tolist())))
+            self.assertTrue((a == b).all())
+            # global CE trend is ascending (hard/noisy-last)
+            self.assertLess(cur[:300, 0].mean(), cur[300:, 0].mean())
+            # per-bucket mixture shares ~ production (1/3 each bucket)
+            for bk in range(10):
+                seg = cur[bk * 60:(bk + 1) * 60]
+                for si in range(3):
+                    self.assertAlmostEqual((seg[:, 0] == si).mean(),
+                                           1 / 3, delta=0.12)

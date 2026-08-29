@@ -156,12 +156,20 @@ class OrderFileData:
     order file (resume-exact, no replay needed)."""
 
     def __init__(self, order_dir, seq_per_step):
+        # order_dir may be a draw dir (uniform_order.idx.npy) or an
+        # explicit order .npy path (curriculum_order.idx.npy) whose
+        # sibling draw_manifest.json defines the strata
+        if order_dir.endswith(".npy"):
+            order_path = order_dir
+            order_dir = os.path.dirname(order_dir)
+        else:
+            order_path = os.path.join(order_dir, "uniform_order.idx.npy")
         man = json.load(open(os.path.join(order_dir, "draw_manifest.json")))
         self.names = [s["name"] for s in man["strata"]]
         self.ns = [int(s["blocks"]) for s in man["strata"]]
         self.blocks = [np.load(s["path"], mmap_mode="r") for s in man["strata"]]
         self.seq = self.blocks[0].shape[1]
-        self.order = np.load(os.path.join(order_dir, "uniform_order.idx.npy"))
+        self.order = np.load(order_path)
         assert self.order.ndim == 2 and self.order.shape[1] == 2
         self.seq_per_step = seq_per_step
         assert len(self.order) >= 0  # bounds checked per batch
