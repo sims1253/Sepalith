@@ -58,3 +58,4 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-29T02:50+02] zcode-ddot-poc CLAIM three-way eval v4 (import fix; memfrac 0.6, ~30m)
 [2026-08-29T02:57+02] zcode-ddot-poc RELEASE three-way eval (done — verdict KILLED)
 [2026-08-29T14:13+0200] zcode-stabtok CLAIM p1 muon-hygiene chain (4x480 steps, 206M ladder, memfrac 0.55 <=18GB, no coexist) ETA 8h
+[2026-08-29T20:21+0200] zcode-stabtok RELEASE p1 muon-hygiene chain (done: 4/4 arms 480 steps + bpb_eval; verdict NEGATIVE, posted)

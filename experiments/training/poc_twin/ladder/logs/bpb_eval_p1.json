@@ -1,0 +1,70 @@
+{
+ "p1_control": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_p1_control/final.pt",
+  "step": 480,
+  "tokens_trained": 251658240,
+  "causal": {
+   "bpb": 0.7907832789408711,
+   "loss_per_tok": 1.6828046102149814,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7752699872588978,
+   "loss_per_tok": 1.6357662734531222,
+   "tokens": 430080
+  },
+  "stop_acc": 0.139,
+  "stop_prob": 0.1283
+ },
+ "p1_split": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_p1_split/final.pt",
+  "step": 480,
+  "tokens_trained": 251658240,
+  "causal": {
+   "bpb": 0.7965416024233745,
+   "loss_per_tok": 1.6950584521480636,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7805958739270916,
+   "loss_per_tok": 1.6470035274823507,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1031,
+  "stop_prob": 0.0985
+ },
+ "p1_polar": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_p1_polar/final.pt",
+  "step": 480,
+  "tokens_trained": 251658240,
+  "causal": {
+   "bpb": 0.7957427225578982,
+   "loss_per_tok": 1.693358417819528,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7796964614591108,
+   "loss_per_tok": 1.6451058291253589,
+   "tokens": 430080
+  },
+  "stop_acc": 0.148,
+  "stop_prob": 0.1219
+ },
+ "p1_nesterov": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_p1_nesterov/final.pt",
+  "step": 480,
+  "tokens_trained": 251658240,
+  "causal": {
+   "bpb": 0.8031218421342361,
+   "loss_per_tok": 1.7090613503082126,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7877743121758157,
+   "loss_per_tok": 1.6621495377449762,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1256,
+  "stop_prob": 0.0993
+ }
+}
