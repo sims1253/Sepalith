@@ -171,6 +171,7 @@ class OrderFileData:
         self.seq = self.blocks[0].shape[1]
         self.order = np.load(order_path)
         assert self.order.ndim == 2 and self.order.shape[1] == 2
+        self.order_size = len(self.order)
         self.seq_per_step = seq_per_step
         assert len(self.order) >= 0  # bounds checked per batch
         print(f"[order-file] {man.get('draw_id', order_dir)}: "
@@ -196,6 +197,11 @@ class OrderFileData:
             return 0.0
         cnt = np.bincount(seen, minlength=len(self.ns))
         return float(min(c / n for c, n in zip(cnt, self.ns)))
+
+
+def _order_tok(data, args):
+    n = data.order_size if hasattr(data, "order_size") else data.n_blocks
+    return n * args.seq
 
 
 def build_optim(arm, model, lr, lr_embed, wd, track_updates=False, wd_muon=None):
@@ -366,7 +372,8 @@ def main():
     print(f"[cfg] arm={args.arm} {opt_desc} steps={args.steps} "
           f"tokens/step={args.tokens_per_step} micro_bs={args.micro_bs} accum={accum} "
           f"params: total={n_all/1e6:.1f}M embed={n_emb/1e6:.1f}M hidden={n_hid/1e6:.1f}M "
-          f"blocks={data.n_blocks} ({data.n_blocks*args.seq/1e6:.0f}M tokens/epoch)", flush=True)
+          f"order_blocks={data.order_size if hasattr(data, 'order_size') else data.n_blocks} "
+          f"({_order_tok(data, args)/1e6:.0f}M draw tokens)", flush=True)
 
     watchdog = None
     if not args.probe:
