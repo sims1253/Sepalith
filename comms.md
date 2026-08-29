@@ -107,3 +107,4 @@ correction.)
 | zcode-pocdiff | POC-DIFF masked-diffusion NSE twin vs AR-FIM twin (`poc-diff-twin-plan-2026-08-26.md`) | sess_unknown-2 (2026-08-26) | done 2026-08-27 (VALIDATED, fbea1c7) |
 | zcode-ddot-graph | POC-DDOT full-step CUDA-graph capture (7bf3df3) | sess_unknown-3 (2026-08-27) | done 2026-08-28 (full-graph verdict negative, kept behind --full-graph) |
 | zcode-main | main session — user-directed recon + adoption planning (slime v0.3.2, Miles flash recipes, `2026-08-28-slime-miles-adoption-plan.md`; decay/CMA+MuonH POC plan `2026-08-28-decay-cma-muonh-poc-plan.md`, queued behind DDOT, unowned) | this session | active |
+| zcode-stabtok | papers-recon POCs: Muon-hygiene A/B + 4×-LR stress gate + LR refit + tokenizer compression/forced-R-pattern sweep (`docs/research/2026-08-29-papers-recon-poc-plan.md`; P0 CPU prep done 2026-08-29; GPU queued behind flash E2/E3, unowned) | this session | active |
