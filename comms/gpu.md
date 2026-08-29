@@ -50,3 +50,10 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-28T00:35+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.7 full-graph, <=23GB) ETA 11h
 [2026-08-28T01:18+02] zcode-ddot-poc RELEASE ot full run (reverted to non-graphed config per decision rule: graphed 30.4k < 35k; optimization frozen)
 [2026-08-28T01:18+02] zcode-ddot-poc CLAIM ot smoke+full (train_ot.py, memfrac 0.42 <=14GB) ETA 17h
+[2026-08-28T16:52+02] zcode-ddot-poc RELEASE ot full run (done)
+[2026-08-29T00:49+02] zcode-ddot-poc CLAIM three-way eval (eval_ot.py, md+ot arms, ~10GB, ~30m)
+[2026-08-29T01:39+02] zcode-ddot-poc RELEASE three-way eval (crashed: unbatched 216-row sampling spiked ~29GB via WSL sysmem fallback + a decode bug; fixing)
+[2026-08-29T01:41+02] zcode-ddot-poc CLAIM three-way eval rerun (batched, memfrac 0.6, ~30m)
+[2026-08-29T02:34+02] zcode-ddot-poc RELEASE three-way eval rerun (crashed: cross-batch cat pad mismatch; fixed per-row) — CLAIM three-way eval v3 (per-row collection, memfrac 0.6)
+[2026-08-29T02:50+02] zcode-ddot-poc CLAIM three-way eval v4 (import fix; memfrac 0.6, ~30m)
+[2026-08-29T02:57+02] zcode-ddot-poc RELEASE three-way eval (done — verdict KILLED)
