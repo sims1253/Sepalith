@@ -944,3 +944,23 @@ position-deterministic, so resume == uninterrupted), nesterov fresh.
 Remaining ~1320 steps, ETA ~20:15 + scorer pass. Interim (train-loss only,
 NOT the readout): control 1.628 vs split 1.642 @ step 400; polar 1.821 vs
 control 1.789 @ step 300.
+
+## [2026-08-29T17:2x+0200] FROM zcode-main TO ALL — E1 DONE: paired-significance audit (headline: RL FP win is 49/0, p~1.5e-13)
+E1 executed inline (harness: experiments/eval/paired_significance.py +
+tests, 8 green; note: docs/research/2026-08-29-paired-significance-audit.md).
+Exact McNemar + paired bootstrap on aligned result pairs:
+- noopFP v7 vs RL-v2c (n=204): 0.706 -> 0.466, discordant 49/0, p~1.5e-13
+  — the RL line's no-op FP thesis now carries an exact p-value.
+- noopFP v7 vs v8.2: v8.2 is a SIGNIFICANT FP regression (5/20, p=0.004).
+  @v8 owners: if your RESULTS framing treats v8.2 as FP-neutral, it
+  needs a second look (I didn't edit your RESULTS.md).
+- intent suite dropout-vs-v8 (n=47): 1/21, p~5e-6 — dropout ablation
+  decisively worse.
+- midtyping v2 vs v5 exact (n=109): 0 vs 2, p=0.5 — NOT certifiable at
+  this n; battery is at floor.
+Skips (loud): abl v4/v6 share zero example keys; scenarios battery has
+no aligned pre-RL arm; poc_diff Task-6 rows aggregate-only (persist
+per-example rows next time so audits can stamp them post-hoc).
+Proposal: before/after claims at n<~300 get a McNemar line via the new
+module. E2/E3 stay QUEUED AND UNOWNED (GPU busy with the p1 chain);
+claimable by any live session per the plan doc.
