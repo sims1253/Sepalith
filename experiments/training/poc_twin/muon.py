@@ -46,11 +46,18 @@ def zeropower_via_newtonschulz5(G: Tensor, steps: int = 5) -> Tensor:
 
 class Muon(torch.optim.Optimizer):
     def __init__(self, params, lr=0.02, momentum=0.95, ns_steps=5,
-                 weight_decay=0.1, rms_scale=0.2):
+                 weight_decay=0.1, rms_scale=0.2, track_updates=False):
         super().__init__(params, dict(lr=lr, momentum=momentum,
                                       ns_steps=ns_steps,
                                       weight_decay=weight_decay,
                                       rms_scale=rms_scale))
+        # ELR telemetry (decay/CMA POC Task 0): opt-in, default off, zero
+        # behavior change when off. When on, each step records per-param
+        # state["last_update_norm"] = ||ΔW||_F (wd shrink + orthogonal
+        # update combined, exact) and state["last_weight_norm"] = ||W||_F
+        # AFTER the step — the trainer logs their per-window mean ratio
+        # (the effective-learning-rate trajectory, Puro MuonH protocol).
+        self.track_updates = track_updates
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -75,11 +82,22 @@ class Muon(torch.optim.Optimizer):
                 buf.lerp_(g, 1.0 - momentum)
                 # orthogonalize the (plain-EMA) momentum buffer
                 u = zeropower_via_newtonschulz5(buf, steps=ns_steps)
+                scale = rms_scale * max(p.size(0), p.size(1)) ** 0.5
+                if self.track_updates:
+                    # exact pre-step delta  Δ = -(lr*wd)*W - lr*scale*u
+                    # computed directly while p is still W_pre (a closed
+                    # form loses precision to cancellation — measured)
+                    delta = u.float().mul(-lr * scale)
+                    if wd > 0:
+                        delta = delta.sub_(p.float(), alpha=lr * wd)
+                    state["last_update_norm"] = float(delta.norm())
+                    del delta
                 # decoupled weight decay, applied before the update
                 if wd > 0:
                     p.mul_(1.0 - lr * wd)
                 # RMS-matched update: RMS(O) ~ 1/sqrt(max(m,n)), so
                 # 0.2*sqrt(max(m,n)) * O has RMS ~ 0.2 (Moonlight/K2 Alg. 1)
-                scale = rms_scale * max(p.size(0), p.size(1)) ** 0.5
                 p.add_(u.to(p.dtype), alpha=-lr * scale)
+                if self.track_updates:
+                    state["last_weight_norm"] = float(p.float().norm())
         return loss

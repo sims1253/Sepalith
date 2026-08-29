@@ -128,11 +128,17 @@ class PackedData:
         return (step * self.seq_per_step) / self.n_blocks
 
 
-def lr_at(step, total_steps, peak, warmup_frac=0.015, decay_frac=0.2, floor_ratio=0.1):
-    """WSD: linear warmup -> constant -> linear decay to floor_ratio*peak."""
+def lr_at(step, total_steps, peak, warmup_frac=0.015, decay_frac=0.2,
+          floor_ratio=0.1, const_tail_frac=0.0):
+    """WSD: linear warmup -> constant -> linear decay to floor_ratio*peak.
+    const_tail_frac > 0 (decay/CMA POC arm KT): hold LR AT the floor for
+    the final const_tail_frac of steps after the decay ends (Puro CMA).
+    Defaults reproduce the historical curve bit-exactly."""
     w = max(1, int(total_steps * warmup_frac))
     if step < w:
         return peak * (step + 1) / w
+    if const_tail_frac > 0 and step >= int(total_steps * (1 - const_tail_frac)):
+        return peak * floor_ratio
     d_start = int(total_steps * (1 - decay_frac))
     if step < d_start:
         return peak
@@ -140,7 +146,51 @@ def lr_at(step, total_steps, peak, warmup_frac=0.015, decay_frac=0.2, floor_rati
     return peak * (floor_ratio + (1 - floor_ratio) * (1 - frac))
 
 
-def build_optim(arm, model, lr, lr_embed, wd):
+class OrderFileData:
+    """Explicit block-index-sequence loader (decay/CMA POC Task 3).
+    Consumes a data_prep draw dir (draw_manifest.json + uniform_order.idx.npy
+    of (stratum_slot, block_idx) rows in draw order) instead of permuting —
+    every arm sees the identical token sequence, curriculum arms just get a
+    different order file. Strata are memmapped, never dict-held; rows are
+    gathered per stratum per step. batch(step) is a pure function of the
+    order file (resume-exact, no replay needed)."""
+
+    def __init__(self, order_dir, seq_per_step):
+        man = json.load(open(os.path.join(order_dir, "draw_manifest.json")))
+        self.names = [s["name"] for s in man["strata"]]
+        self.ns = [int(s["blocks"]) for s in man["strata"]]
+        self.blocks = [np.load(s["path"], mmap_mode="r") for s in man["strata"]]
+        self.seq = self.blocks[0].shape[1]
+        self.order = np.load(os.path.join(order_dir, "uniform_order.idx.npy"))
+        assert self.order.ndim == 2 and self.order.shape[1] == 2
+        self.seq_per_step = seq_per_step
+        assert len(self.order) >= 0  # bounds checked per batch
+        print(f"[order-file] {man.get('draw_id', order_dir)}: "
+              f"{len(self.order)} blocks from {len(self.names)} strata", flush=True)
+
+    def batch(self, step):
+        pos = step * self.seq_per_step
+        if pos + self.seq_per_step > len(self.order):
+            raise IndexError(f"order file exhausted at step {step} "
+                             f"(need {pos + self.seq_per_step}, "
+                             f"have {len(self.order)})")
+        idx = self.order[pos:pos + self.seq_per_step]
+        xb = np.empty((self.seq_per_step, self.seq), dtype=np.int32)
+        for si in np.unique(idx[:, 0]):
+            m = idx[:, 0] == si
+            xb[m] = self.blocks[si][idx[m, 1]]
+        return xb
+
+    def epoch_float(self, step):
+        # min over strata of per-stratum epochs consumed so far
+        seen = self.order[:step * self.seq_per_step, 0]
+        if len(seen) == 0:
+            return 0.0
+        cnt = np.bincount(seen, minlength=len(self.ns))
+        return float(min(c / n for c, n in zip(cnt, self.ns)))
+
+
+def build_optim(arm, model, lr, lr_embed, wd, track_updates=False, wd_muon=None):
     hidden, other = [], []
     for n, p in model.named_parameters():
         if p.ndim == 2 and "embed" not in n:
@@ -151,10 +201,19 @@ def build_optim(arm, model, lr, lr_embed, wd):
         opt = torch.optim.AdamW(hidden + other, lr=lr, betas=(0.9, 0.95),
                                 eps=1e-8, weight_decay=wd, fused=True)
         return opt, [], f"AdamW(all) lr={lr}"
-    muon = Muon(hidden, lr=lr, momentum=0.95, ns_steps=5, weight_decay=wd)
+    if wd_muon is None:
+        wd_muon = wd
+    if arm == "muonh":
+        from muonh import MuonH  # noqa: E402  (decay/CMA POC arm H)
+        muon = MuonH(hidden, lr=lr, momentum=0.95, ns_steps=5,
+                     weight_decay=wd_muon, track_updates=track_updates)
+    else:
+        muon = Muon(hidden, lr=lr, momentum=0.95, ns_steps=5,
+                    weight_decay=wd_muon, track_updates=track_updates)
     adam = torch.optim.AdamW(other, lr=lr_embed, betas=(0.9, 0.95),
                              eps=1e-8, weight_decay=wd, fused=True)
-    return muon, [adam], f"Muon(hidden, lr={lr}, wd={wd}) + AdamW(embed/norms, lr={lr_embed}, wd={wd})"
+    return muon, [adam], (f"{arm}(hidden, lr={lr}, wd={wd_muon}) "
+                          f"+ AdamW(embed/norms, lr={lr_embed}, wd={wd})")
 
 
 def save_ckpt(path, model, opts, step, cfg, args):
@@ -172,7 +231,7 @@ def save_ckpt(path, model, opts, step, cfg, args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arm", choices=["muon", "adamw"], required=True)
+    ap.add_argument("--arm", choices=["muon", "adamw", "muonh"], required=True)
     ap.add_argument("--lr", type=float, required=True)
     ap.add_argument("--d-model", type=int, default=None,
                     help="model shape override (the A2 1.5B infra shakeout)")
@@ -186,6 +245,20 @@ def main():
     ap.add_argument("--lr-embed", type=float, default=None,
                     help="AdamW lr for embed/norms in the Muon arm (default: same as AdamW arm winner)")
     ap.add_argument("--wd", type=float, default=0.1)
+    ap.add_argument("--wd-muon", type=float, default=None,
+                    help="weight decay for the Muon group only (arm H: 0)")
+    ap.add_argument("--decay-frac", type=float, default=0.2)
+    ap.add_argument("--floor-ratio", type=float, default=0.1)
+    ap.add_argument("--const-tail-frac", type=float, default=0.0,
+                    help="KT: hold LR at floor for the final frac of steps")
+    ap.add_argument("--tail-ckpts", type=int, default=0,
+                    help="save N evenly-spaced checkpoints inside the const tail")
+    ap.add_argument("--order-file", default=None,
+                    help="data_prep draw dir (draw_manifest.json + "
+                         "uniform_order.idx.npy); overrides --data")
+    ap.add_argument("--elr", action="store_true",
+                    help="log per-window mean ||dW||_F/||W||_F for the Muon "
+                         "group (opt-in; default off, zero behavior change)")
     ap.add_argument("--steps", type=int, default=1600)
     ap.add_argument("--tokens-per-step", type=int, default=524288)
     ap.add_argument("--micro-bs", type=int, default=8)
@@ -235,7 +308,9 @@ def main():
                            model.embed.weight.numel(),
                            sum(p.numel() for n_, p in model.named_parameters()
                                if p.ndim == 2 and "embed" not in n_))
-    opt, extra_opts, opt_desc = build_optim(args.arm, model, args.lr, args.lr_embed, args.wd)
+    opt, extra_opts, opt_desc = build_optim(
+        args.arm, model, args.lr, args.lr_embed, args.wd,
+        track_updates=args.elr, wd_muon=args.wd_muon)
     opts = [opt] + extra_opts
 
     step0 = 0
@@ -265,7 +340,10 @@ def main():
             print(f"[compile] FAILED ({type(e).__name__}: {e}); running eager", flush=True)
             fwd_trunk = model.trunk
 
-    data = PackedData(args.data, args.tokens_per_step // args.seq, args.seed)
+    if args.order_file:
+        data = OrderFileData(args.order_file, args.tokens_per_step // args.seq)
+    else:
+        data = PackedData(args.data, args.tokens_per_step // args.seq, args.seed)
     accum = args.tokens_per_step // (args.seq * args.micro_bs)
     tag = args.tag or (f"probe_{args.arm}_{args.lr:g}" if args.probe else args.arm)
     log_path = os.path.join(POC_DIR, "logs", f"{tag}.jsonl")
@@ -290,7 +368,17 @@ def main():
     t_start = time.time()
     tokens_seen = step0 * args.tokens_per_step
     win_loss, win_gn, win_qk, win_clip, win_t0 = [], [], -1.0, 0, time.time()
+    win_elr = []
     yields = 0
+
+    # KT tail checkpoints: evenly spaced inside the const-LR tail
+    tail_ckpt_steps = set()
+    if args.tail_ckpts > 0:
+        assert args.const_tail_frac > 0, "--tail-ckpts needs --const-tail-frac"
+        tail_start = int(args.steps * (1 - args.const_tail_frac))
+        tail_ckpt_steps = set(np.linspace(tail_start, args.steps,
+                                          args.tail_ckpts + 1,
+                                          dtype=int)[1:])
 
     @torch.no_grad()
     def quick_eval(n_blocks=64, bs=8):
@@ -312,7 +400,7 @@ def main():
     while step < args.steps:
         # --- junior-job yield discipline ---
         if watchdog is not None and watchdog.event.is_set():
-            ck = os.path.join(TMP, f"ckpt_{args.arm}", "yield.pt")
+            ck = os.path.join(TMP, f"ckpt_{args.tag or args.arm}", "yield.pt")
             save_ckpt(ck, model, opts, step, cfg, args)
             torch.cuda.empty_cache()
             yields += 1
@@ -333,8 +421,13 @@ def main():
             lr_now = lr_at(step, 40, args.lr, warmup_frac=0.125, decay_frac=0.0)
             lr_emb_now = lr_at(step, 40, args.lr_embed, warmup_frac=0.125, decay_frac=0.0)
         else:
-            lr_now = lr_at(step, args.steps, args.lr)
-            lr_emb_now = lr_at(step, args.steps, args.lr_embed)
+            lr_now = lr_at(step, args.steps, args.lr, decay_frac=args.decay_frac,
+                           floor_ratio=args.floor_ratio,
+                           const_tail_frac=args.const_tail_frac)
+            lr_emb_now = lr_at(step, args.steps, args.lr_embed,
+                               decay_frac=args.decay_frac,
+                               floor_ratio=args.floor_ratio,
+                               const_tail_frac=args.const_tail_frac)
         for g in opt.param_groups:
             g["lr"] = lr_now if g is opt.param_groups[0] else lr_emb_now
         for o in extra_opts:
@@ -361,6 +454,11 @@ def main():
         opt.step()
         for o in extra_opts:
             o.step()
+        if args.elr and hasattr(opt, "track_updates"):
+            rs = [s["last_update_norm"] / max(1e-12, s["last_weight_norm"])
+                  for s in opt.state.values() if "last_update_norm" in s]
+            if rs:
+                win_elr.append(float(np.mean(rs)))
         n_clip, qk_now = model.qk_clip_all(tau=args.tau, alpha=args.alpha)
         win_qk = max(win_qk, qk_now)
         win_clip += n_clip
@@ -380,10 +478,13 @@ def main():
                        epoch=round(data.epoch_float(step), 3),
                        elapsed_s=round(time.time() - t_start, 1),
                        gpu_mib=watchdog.last_reading if watchdog else None)
+            if args.elr and win_elr:
+                rec["elr"] = float(np.mean(win_elr))
+                win_elr = []
             if not math.isfinite(rec["loss"]):
                 rec["event"] = "LOSS-NAN — aborting at checkpoint"
                 log(rec)
-                save_ckpt(os.path.join(TMP, f"ckpt_{args.arm}", "nan_abort.pt"),
+                save_ckpt(os.path.join(TMP, f"ckpt_{args.tag or args.arm}", "nan_abort.pt"),
                           model, opts, step, cfg, args)
                 sys.exit(2)
             log(rec)
@@ -395,11 +496,15 @@ def main():
                 log(dict(event="eval", step=step, tokens=tokens_seen,
                          eval_loss=round(ev, 5)))
             if step % args.ckpt_every == 0:
-                save_ckpt(os.path.join(TMP, f"ckpt_{args.arm}", "latest.pt"),
+                save_ckpt(os.path.join(TMP, f"ckpt_{args.tag or args.arm}", "latest.pt"),
                           model, opts, step, cfg, args)
                 if abs(step - args.steps // 2) < args.ckpt_every // 2:
-                    save_ckpt(os.path.join(TMP, f"ckpt_{args.arm}", "mid.pt"),
+                    save_ckpt(os.path.join(TMP, f"ckpt_{args.tag or args.arm}", "mid.pt"),
                               model, opts, step, cfg, args)
+            if step in tail_ckpt_steps:
+                k = sorted(tail_ckpt_steps).index(step) + 1
+                save_ckpt(os.path.join(TMP, f"ckpt_{args.tag or args.arm}", f"tail_{k}.pt"),
+                          model, opts, step, cfg, args)
 
     if args.probe:
         ev = quick_eval(n_blocks=32)
@@ -411,7 +516,7 @@ def main():
                  train_s=round(train_s, 1)))
         return
 
-    save_ckpt(os.path.join(TMP, f"ckpt_{args.arm}", "final.pt"), model, opts, step, cfg, args)
+    save_ckpt(os.path.join(TMP, f"ckpt_{args.tag or args.arm}", "final.pt"), model, opts, step, cfg, args)
     log(dict(event="done", step=step, tokens=tokens_seen,
              total_s=round(time.time() - t_start, 1), yields=yields))
     if watchdog:

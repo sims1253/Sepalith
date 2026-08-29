@@ -127,6 +127,16 @@ def main():
     ap.add_argument("--mixture", default=None,
                     help="a2_mixture_manifest.json (overrides --data; the "
                          "cluster path — per-slot stratum sampling)")
+    ap.add_argument("--order-file", default=None,
+                    help="decay/CMA POC draw dir (draw_manifest.json + "
+                         "uniform_order.idx.npy); overrides --mixture/--data")
+    ap.add_argument("--decay-frac", type=float, default=0.2)
+    ap.add_argument("--floor-ratio", type=float, default=0.1)
+    ap.add_argument("--const-tail-frac", type=float, default=0.0)
+    ap.add_argument("--wd-muon", type=float, default=None,
+                    help="weight decay for the Muon group only (arm H: 0)")
+    ap.add_argument("--elr", action="store_true",
+                    help="log per-window mean ||dW||_F/||W||_F (Muon group)")
     ap.add_argument("--ckpt-dir", default=None,
                     help="default: <repo>/checkpoints/<tag> (instance disk, "
                          "NOT /tmp — survives restarts)")
@@ -200,14 +210,17 @@ def main():
                           accum=accum)), flush=True)
 
     torch.manual_seed(args.seed)
-    if args.mixture:
+    if args.order_file:
+        data = base.OrderFileData(args.order_file, seq_per_step)
+    elif args.mixture:
         data = MixtureData(args.mixture, args.seed)
         data.seq_per_step = seq_per_step
     else:
         data = base.PackedData(args.data, args.seed, seq_per_step)
     lr_embed = args.lr_embed if args.lr_embed is not None else args.lr
     muon, extra_opts, desc = base.build_optim(
-        args.arm, model, args.lr, lr_embed, args.wd)
+        args.arm, model, args.lr, lr_embed, args.wd,
+        track_updates=args.elr, wd_muon=args.wd_muon)
     opts = [muon] + extra_opts
     if args.resume:
         for o, sd in zip(opts, ck["opt"]):
@@ -236,8 +249,14 @@ def main():
     t0 = time.time()
     tokens_seen = step0 * args.tokens_per_step
     for step in range(step0 + 1, args.steps + 1):
-        lr_now = base.lr_at(step, args.steps, args.lr)
-        lr_emb_now = base.lr_at(step, args.steps, lr_embed)
+        lr_now = base.lr_at(step, args.steps, args.lr,
+                            decay_frac=args.decay_frac,
+                            floor_ratio=args.floor_ratio,
+                            const_tail_frac=args.const_tail_frac)
+        lr_emb_now = base.lr_at(step, args.steps, lr_embed,
+                                decay_frac=args.decay_frac,
+                                floor_ratio=args.floor_ratio,
+                                const_tail_frac=args.const_tail_frac)
         for g in opts[0].param_groups:
             g["lr"] = lr_now
         for o in opts[1:]:
