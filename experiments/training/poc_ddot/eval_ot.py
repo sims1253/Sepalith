@@ -171,31 +171,30 @@ def cal_arm_rows(md, rows, tok, steps, window, device, batch=16):
 
 def ot_arm_rows(ot_model, rows, tok, steps, window, batch=16):
     """Arm (c): joint value+position sampling; snap decides length/anchor.
-    Batched for the same memory reason as cal_arm_rows."""
-    out = dict(pred_ids=[], slots=[], lengths=[], latency_ms=0.0)
-    for i in range(0, len(rows), batch):
-        o = sample_ot_spans(ot_model,
-                            [r["prompt_ids"] for r in rows[i:i + batch]],
-                            window=window, steps=steps, temperature=0.0)
-        out["pred_ids"].append(o["pred_ids"].cpu())
-        out["slots"].append(o["slots"].cpu())
-        out["lengths"].append(o["lengths"].cpu())
-        out["latency_ms"] += o["latency_ms"]
-    out["pred_ids"] = torch.cat(out["pred_ids"])
-    out["slots"] = torch.cat(out["slots"])
-    out["lengths"] = torch.cat(out["lengths"])
+    Batched in chunks (memory); per-row results collected directly —
+    per-batch tensors pad to their own max length, so never cross-cat."""
     out_rows = []
-    for i, r in enumerate(rows):
-        n = int(out["lengths"][i])
-        ids = out["pred_ids"][i, :n].tolist()
-        first = int(out["slots"][i, 0].item()) if n else 0
-        text = sample_ot.decode_ot_span(ids, tok=tok)
-        out_rows.append(dict(
-            metrics=point_metrics(text, r["span_text"], tok),
-            pred_len=len(tok(text, add_special_tokens=False)["input_ids"]),
-            gt_len=r["span_len"], first_slot=first,
-            pred_empty=is_pred_empty(ids), gt_empty=r["span_len"] == 0,
-            lat_ms=out["latency_ms"]))
+    import sample_ot as _so
+    try:
+        from . import sample_ot as _so
+    except ImportError:
+        pass
+    for i in range(0, len(rows), batch):
+        chunk = rows[i:i + batch]
+        o = sample_ot_spans(ot_model, [r["prompt_ids"] for r in chunk],
+                            window=window, steps=steps, temperature=0.0)
+        for j, r in enumerate(chunk):
+            n = int(o["lengths"][j])
+            ids = o["pred_ids"][j, :n].tolist()
+            first = int(o["slots"][j, 0].item()) if n else 0
+            text = _so.decode_ot_span(ids, tok=tok)
+            out_rows.append(dict(
+                metrics=point_metrics(text, r["span_text"], tok),
+                pred_len=len(tok(text,
+                                 add_special_tokens=False)["input_ids"]),
+                gt_len=r["span_len"], first_slot=first,
+                pred_empty=is_pred_empty(ids), gt_empty=r["span_len"] == 0,
+                lat_ms=o["latency_ms"]))
     return out_rows
 
 
