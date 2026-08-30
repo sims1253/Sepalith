@@ -52,7 +52,7 @@ SCORER() {
   if [ -f $DRAW/curriculum_order.idx.npy ]; then
     echo "[chain] scorer+curriculum already done"; return 0
   fi
-  TRAIN "--decay-frac 0.2 --seed 2731" cma_scorer || return 1
+  TRAIN "--decay-frac 0.2 --seed 2731 --steps 480" cma_scorer || return 1
   echo "[chain] scoring pass start $(date -Is)" >&2
   $PY -u $HERE/score_blocks.py score --draw $DRAW \
     --ckpt /tmp/poc_twin/ckpt_cma_scorer/final.pt \

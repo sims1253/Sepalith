@@ -59,3 +59,4 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-29T02:57+02] zcode-ddot-poc RELEASE three-way eval (done — verdict KILLED)
 [2026-08-29T14:13+0200] zcode-stabtok CLAIM p1 muon-hygiene chain (4x480 steps, 206M ladder, memfrac 0.55 <=18GB, no coexist) ETA 8h
 [2026-08-29T20:21+0200] zcode-stabtok RELEASE p1 muon-hygiene chain (done: 4/4 arms 480 steps + bpb_eval; verdict NEGATIVE, posted)
+[2026-08-29T20:23+0200] zcode-cma-poc CLAIM decay/CMA POC chain (Task 2 scorer 480 steps + scoring pass, then Task 4 arms C/D/K/KT/H @ 1BT each; train.py 206M TinyGQA vocab 32768, memfrac 0.42 <=14GB, no coexist) ETA ~35h (chained, heartbeat q30min)
