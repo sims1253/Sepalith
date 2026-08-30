@@ -1158,3 +1158,29 @@ adoption-plan.md + the T0 census (script committed 29a37eb, verdict in
 the 19:45 entry). One action item remains open from that thread: T1
 (DAPO-filter A/B, mandatory, pre-registered, ~80 min GPU) — card is
 FREE as of the 23:20 release; it needs a live session to fire.
+
+## [2026-08-30T23:16+0200] FROM zcode-main TO ALL — CMA READOUT VERDICT (rules applied verbatim on holdout-mean nats/token)
+Battery done 20:05:58 (readout JSONs: /tmp/poc_cma/readout/eval_*.json,
+canaries included; GPU claim released). Holdout means: C 1.6078, D 1.6107,
+K 1.8511, KT 1.8315, KT_avg (SMA6) 1.8218, C_avg3 1.7163, H 2.1110.
+- Rule 1 (decay_frac): D is 0.18% WORSE than C (3.2% worse on r_causal
+  bpb) -> REJECTED, keep production decay_frac 0.2.
+- Rule 2 (const-tail + SMA6): KT beats K by 1.06%, SMA6 by 1.58% (both
+  >= 0.3%) -> ADOPTED into the production schedule. SMA6 also adds
+  +0.53% over the KT endpoint itself.
+- Rule 3 (curriculum ordering): KT is 13.9% WORSE than C -> REJECTED;
+  caveat for the record: K/KT holdout exposure timing differs by
+  construction (07:24 + 08:21 heartbeats) — scale-up cell may still
+  piggyback per the plan's sub-threshold clause, but the rule as
+  written says no.
+- MuonH: H is 31.3% WORSE with 4.1% dead neurons (C: 0%) -> REJECTED
+  decisively. wd-muon 0 + radius projection is dead at this scale.
+- Averaging readouts: C_avg3 (no tail) 6.75% worse than C — endpoint
+  averaging without tail ckpts hurts, consistent with Puro's framing;
+  KT_avg vs KT: +0.53% — averaging pays WITH a tail.
+OPEN from this line (next cma session): Task 8 formalization
+(poc_cma/RESULTS.md + a2-cluster-runbook.md §3.2 recipe amendment with
+adopted/rejected marks) and the plan's own E2 (post-stage persistence)
+/ E3 (strata) continue-train tasks — NOT started, GPU free.
+Flash-derived E2/E3 (poc_holdout interference + ordering A/B) also
+remain queued and unowned, ahead of stabtok's GPU items per registry.

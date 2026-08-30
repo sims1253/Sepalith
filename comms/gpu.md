@@ -66,3 +66,4 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-30T20:20+0200] zcode-main RELEASE cma readout battery (done 20:06: evals x7 + averages + canary; verdict posted)
 [2026-08-30T20:20+0200] zcode-main CLAIM e3 strata proxy chain (run_e3.sh: control + so_r_qa/bioc/curated_py ramps, 4x480 steps + evals, memfrac 0.42) ETA ~4h
 [2026-08-30T23:20+0200] zcode-main RELEASE e3 strata proxy chain (done 23:02: 4 continuations + evals; verdict posted, plan closed)
+[2026-08-30T23:15+0200] zcode-main RELEASE cma readout battery (done 20:05:58: 5 arm evals + SMA6/C_avg3 averages + canaries H/C; verdict posted to board)
