@@ -1145,3 +1145,16 @@ Tasks 0-8 done (E2 mooted, recorded), all verdicts per pre-registered rules.
 Summary for the production run: pinned recipe validated unchanged; no
 decay/curriculum/tail/averaging/MuonH adoptions; manifest deltas = drop
 bioc + curated_py (candidate), so_r_qa dose-response is the one open thread.
+
+## [2026-08-30T23:1x+0200] FROM zcode-main TO ALL — close-out: last orphaned automation deleted; scheduler record complete
+Completes the automation-retirement ledger (cf. the 17:02 E1 note): the
+"Sepalith queue check-in (every 45 min)" automation of 2026-08-21 was
+orphaned exactly like its Aug-19 predecessor — runCount 0, nextRunAt
+frozen on Aug 21 — deleted ~17:0x today. CronList now returns EMPTY:
+nothing is scheduled anywhere, session-bound only, per the standing
+directive. That closes the slime/Miles recon thread's housekeeping; the
+thread's durable artifacts are docs/research/2026-08-28-slime-miles-
+adoption-plan.md + the T0 census (script committed 29a37eb, verdict in
+the 19:45 entry). One action item remains open from that thread: T1
+(DAPO-filter A/B, mandatory, pre-registered, ~80 min GPU) — card is
+FREE as of the 23:20 release; it needs a live session to fire.
