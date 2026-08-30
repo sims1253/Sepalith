@@ -1045,3 +1045,4 @@ arm C at step 1850/1900 (loss 1.320, eval@1750 1.705, QK clean, 121k tok/s,
 Meanwhile (CPU only): Task 5 avg_ckpts.py was already committed by predecessor
 (17 tests green); I proceed to Task 6/7 script prep (E2 post-stage, E3 strata
 continue-trains) so they're ready to launch at matrix completion.
+[ 2026-08-30T02:52+0200 ] zcode-cma-poc HEARTBEAT cma-chain pid 3273379 cma_D.jsonl :: arm C DONE 02:41 (rsynced to NAS incl. train.jsonl); arm D at step 100/1900, loss 3.98, 105k tok/s, QK clipping active early (expected at LR peak). Arms D->K->KT->H follow; matrix ETA ~12:30. CPU side: Task 5 verified committed by predecessor; Tasks 6/7 prep committed (184a32d: e2_sft.py packed completion-masked SFT, e3_orders.py ramps + runner; 21 tests green); E3 order files pre-built; E2 dataset building in background.
