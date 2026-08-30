@@ -69,12 +69,12 @@ case "${1:-chain}" in
   C) TRAIN "--decay-frac 0.2" cma_C ;;
   D) TRAIN "--decay-frac 0.5" cma_D ;;
   K) TRAIN "--decay-frac 0.2 --order-file $DRAW/curriculum_order.idx.npy" cma_K ;;
-  KT) TRAIN "--decay-frac 0.2 --const-tail-frac 0.05 --tail-ckpts 6" cma_KT ;;
+  KT) TRAIN "--decay-frac 0.2 --order-file $DRAW/curriculum_order.idx.npy --const-tail-frac 0.05 --tail-ckpts 6" cma_KT ;;
   H) TRAIN "--decay-frac 0.2 --arm muonh --wd-muon 0" cma_H ;;
   chain)
     SCORER && TRAIN "--decay-frac 0.2" cma_C && TRAIN "--decay-frac 0.5" cma_D \
       && TRAIN "--decay-frac 0.2 --order-file $DRAW/curriculum_order.idx.npy" cma_K \
-      && TRAIN "--decay-frac 0.2 --const-tail-frac 0.05 --tail-ckpts 6" cma_KT \
+      && TRAIN "--decay-frac 0.2 --order-file $DRAW/curriculum_order.idx.npy --const-tail-frac 0.05 --tail-ckpts 6" cma_KT \
       && TRAIN "--decay-frac 0.2 --arm muonh --wd-muon 0" cma_H
     echo "[chain] ALL DONE rc=$? $(date -Is)"
     ;;
