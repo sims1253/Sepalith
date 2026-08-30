@@ -111,8 +111,14 @@ def build(argv=None):
                     ids, npre2 = ids[over:], npre - over
                 else:
                     npre2 = npre
-                m = [False] * npre2 + [True] * ncomp \
-                    + [False] * (len(ids) - npre2 - ncomp)
+                # boundary merges can make the combined encoding SHORTER
+                # than npre+ncomp — clamp the mask to the actual ids
+                m = [False] * min(npre2, len(ids))
+                rest = len(ids) - npre2
+                if rest > 0:
+                    m += [True] * min(ncomp, rest)
+                    m += [False] * (rest - min(ncomp, rest))
+                assert len(m) == len(ids)
                 row_id = hashlib.md5((fn + line[:200]).encode()).hexdigest()
                 if int(row_id[:8], 16) % args.holdout_mod == 0:
                     pieces_hold.append((ids, m))
