@@ -4,7 +4,8 @@
 # ZSTD keying + drop counters), then the 220-step full arm.
 set -u
 PV=/home/m0hawk/Documents/Sepalith/experiments/training/pvf_poc
-PY=/home/m0hawk/Documents/Sepalith/.venv/bin/python3
+PY=/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python3   # 3.10: the
+# 3.14 venv's dill/datasets pickling is broken (fingerprint crash)
 OUT=/mnt/h/sepalith/runs/rl_grpo_t1_dapo
 
 echo "[t1] smoke start $(date -Is)"
