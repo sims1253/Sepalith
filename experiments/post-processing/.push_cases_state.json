@@ -1260,8 +1260,8 @@
   "mtime": 1787645999.1155643
  },
  "pretraining/a2_mixture_manifest.json": {
-  "size": 3672,
-  "mtime": 1787813919.9177773
+  "size": 3523,
+  "mtime": 1788188603.094807
  },
  "pretraining/a2_transfers/python_v2/blocks.npy": {
   "size": 10766649328,
