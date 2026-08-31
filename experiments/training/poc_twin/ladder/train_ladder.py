@@ -136,6 +136,9 @@ def main():
     ap.add_argument("--mem-frac", type=float, default=0.55)
     ap.add_argument("--a2", action="store_true",
                     help="A2 structure: matryoshka exits + MTP on the same dose mechanic")
+    ap.add_argument("--gated-norm", action="store_true",
+                    help="GatedNorm arms: RMSNorm->gated (Qwen Eq.29, "
+                         "rank d/8, gn_ params on AdamW)")
     ap.add_argument("--tag", default="")
     ap.add_argument("--resume", default=None)
     ap.add_argument("--compile", action="store_true")
@@ -157,6 +160,8 @@ def main():
     dev = torch.cuda.current_device()
 
     cfg = model_config(max_seq=args.seq)
+    if args.gated_norm:
+        cfg["gated_norm"] = True
     if args.a2:
         cfg['exit_layers'] = [4, 8] if cfg['n_layers'] == 12 else [8, 16]
         cfg['exit_weights'] = [0.25, 0.125]

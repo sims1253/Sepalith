@@ -207,9 +207,9 @@ def _order_tok(data, args):
 def build_optim(arm, model, lr, lr_embed, wd, track_updates=False, wd_muon=None):
     hidden, other = [], []
     for n, p in model.named_parameters():
-        if p.ndim == 2 and "embed" not in n:
-            hidden.append(p)
-        else:
+        if p.ndim == 2 and "embed" not in n and "gn_" not in n:
+            hidden.append(p)   # gn_ low-rank gates -> AdamW (elongated
+        else:                  # shape; Qwen §3.1 orthogonalizes poorly)
             other.append(p)
     if arm == "adamw":
         opt = torch.optim.AdamW(hidden + other, lr=lr, betas=(0.9, 0.95),

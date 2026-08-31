@@ -125,13 +125,43 @@ class Attention(nn.Module):
         return n, float(smax.max().item())
 
 
+class GatedNorm(nn.Module):
+    """RMSNorm ⊙ σ(W2·SiLU(W1·RMSNorm(u))) — Qwen3.8-Flash-Next Eq. 29.
+
+    Low-rank bottleneck r = d/8; the gate supplies the rescaling that
+    keeps high-LR training stable (their single-variable ablation: spikes
+    32 -> 3.2 per 10k steps at 3x LR; full-scale run spike-free at 4x LR
+    with no qk-clip-class method). Standard init suffices per the report.
+    Params are gn_-prefixed -> AdamW bucket in build_optim (elongated
+    shapes orthogonalize poorly; Qwen §3.1).
+    """
+
+    def __init__(self, d, eps=1e-6):
+        super().__init__()
+        self.rms = nn.RMSNorm(d, eps=eps)
+        r = max(8, d // 8)
+        self.gn_w1 = nn.Linear(d, r, bias=False)
+        self.gn_w2 = nn.Linear(r, d, bias=False)
+
+    def forward(self, u):
+        h = self.rms(u)
+        return h * torch.sigmoid(self.gn_w2(F.silu(self.gn_w1(h))))
+
+
+def make_norm(cfg, which):
+    d = cfg["d_model"]
+    if cfg.get("gated_norm"):
+        return GatedNorm(d)
+    return nn.RMSNorm(d, eps=1e-6)
+
+
 class Block(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         d = cfg["d_model"]
-        self.ln1 = nn.RMSNorm(d, eps=1e-6)
+        self.ln1 = make_norm(cfg, "attn")
         self.attn = Attention(d, cfg["n_q"], cfg["n_kv"], cfg["head_dim"])
-        self.ln2 = nn.RMSNorm(d, eps=1e-6)
+        self.ln2 = make_norm(cfg, "ffn")
         h = cfg["ffn_hidden"]
         self.Wg = nn.Linear(d, h, bias=False)
         self.Wu = nn.Linear(d, h, bias=False)
@@ -150,7 +180,7 @@ class TinyGQA(nn.Module):
         self.cfg = cfg
         self.embed = nn.Embedding(cfg["vocab"], cfg["d_model"])
         self.blocks = nn.ModuleList(Block(cfg) for _ in range(cfg["n_layers"]))
-        self.ln_f = nn.RMSNorm(cfg["d_model"], eps=1e-6)
+        self.ln_f = make_norm(cfg, "final")
         cos, sin = rope_cache(cfg["max_seq"], cfg["head_dim"],
                               cfg["rope_theta"], "cpu")
         self.register_buffer("rope_cos", cos, persistent=False)

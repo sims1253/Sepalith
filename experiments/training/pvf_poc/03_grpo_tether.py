@@ -164,6 +164,8 @@ class Critic:
 
 ADV = {}            # (prompt, completion) -> tether advantage
 VLOG = []           # per-step critic stats for the metrics callback
+ZSTD = {}           # norm prompt -> group degenerate? (T1 DAPO filter)
+DAPO_FILTER = False  # set by --dapo-filter (T1)
 
 
 def make_reward_fn(critic, rho, ref_map, num_generations):
@@ -184,6 +186,12 @@ def make_reward_fn(critic, rho, ref_map, num_generations):
             out_rewards.append(rew)
             rows.append(dict(prompt=pr, completion=comp, reward=rew,
                              family=fam))
+        # T1: mark zero-variance groups (identical rewards across K)
+        if DAPO_FILTER:
+            for gi in range(0, len(rows), num_generations):
+                grp = rows[gi: gi + num_generations]
+                key = grp[0]["prompt"]
+                ZSTD[key] = len(set(r["reward"] for r in grp)) == 1
         # critic values for the whole generation round, one batch
         # (rho == 0 ablation: no critic loaded, pure unnormalized LOO)
         if critic is not None:
@@ -241,10 +249,35 @@ def build_trainer_class():
     class TetherGRPOTrainer(GRPOTrainer):
         misses = 0
         debug_shown = 0
+        dapo_dropped = 0
+        dapo_kept_fallback = 0
 
         def compute_loss(self, model, inputs, return_outputs=False,
                          num_items_in_batch=None):
             tok = self.processing_class
+            # T1 DAPO filter: drop rows from zero-std groups UNLESS the
+            # whole batch is degenerate (keep-when-insufficient fallback —
+                # upstream check_reward_nonzero_std_with_fallback semantics)
+            if DAPO_FILTER:
+                import torch
+
+                def _zstd(row_i):
+                    pm = inputs["prompt_mask"][row_i].bool()
+                    p = norm_bos(tok.decode(inputs["prompt_ids"][row_i][pm],
+                                            skip_special_tokens=False),
+                                 tok.bos_token)
+                    return bool(ZSTD.get(p, False))
+                flags = [_zstd(i) for i in
+                         range(inputs["prompt_ids"].shape[0])]
+                if any(not f for f in flags):      # batch has signal
+                    keep = [i for i, f in enumerate(flags) if not f]
+                    self.dapo_dropped += len(flags) - len(keep)
+                    n0 = inputs["prompt_ids"].shape[0]
+                    inputs = {k: (v[keep] if isinstance(v, torch.Tensor)
+                                  and v.shape[:1] == torch.Size([n0]) else v)
+                              for k, v in inputs.items()}
+                else:                              # all-degenerate: keep
+                    self.dapo_kept_fallback += len(flags)
             advs = []
             for i in range(inputs["prompt_ids"].shape[0]):
                 pm = inputs["prompt_mask"][i].bool()
@@ -294,7 +327,13 @@ def main():
     ap.add_argument("--steps", type=int, default=220)   # v1's actual length
     ap.add_argument("--out", default=str(OUT_DIR))
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--dapo-filter", action="store_true",
+                    help="T1: drop zero-std groups from the loss batch "
+                         "(keep-when-insufficient fallback)")
     args = ap.parse_args()
+
+    global DAPO_FILTER
+    DAPO_FILTER = args.dapo_filter
 
     gpu_guard()
     if not (rl_smoke.MERGED_BASE / "config.json").exists():
@@ -362,6 +401,9 @@ def main():
                 line["v_mean"], line["v_std"] = v
             line["adv_lookup_miss"] = getattr(self.trainer_ref, "misses", -1) \
                 if getattr(self, "trainer_ref", None) else -1
+            if DAPO_FILTER and getattr(self, "trainer_ref", None):
+                line["dapo_dropped"] = self.trainer_ref.dapo_dropped
+                line["dapo_kept_fallback"] = self.trainer_ref.dapo_kept_fallback
             line["elapsed_s"] = round(time.time() - self.t0, 1)
             with open(metrics_path, "a") as f:
                 f.write(json.dumps(line) + "\n")
