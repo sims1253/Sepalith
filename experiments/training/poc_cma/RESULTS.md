@@ -116,3 +116,26 @@ upper-bound capability transfer).
   continuation-sized orders): fixed by padding 245,760 unread rows;
   originals kept as order.npy.unpadded. Trainer untouched.
 - Scorer resume path restored post-reboot via NAS symlink.
+
+## Post-verdict supplement (2026-08-31): MuonH mechanism precision, full-text Puro read
+
+For anyone who revisits this axis (source: arXiv:2608.27370 full text +
+Hyperball arXiv:2606.16899; papers-recon session, 2026-08-31):
+
+- Puro's MuonH is the Hyperball wrapper: it pins BOTH the weight Frobenius
+  radius AND the update norm to constants — the update is normalized, so
+  relative displacement ‖ΔW‖/‖W‖ per step equals the LR exactly, and the
+  MuonH param group runs at 10× the AdamW-base LR schedule. Effective LR
+  is a directly prescribed quantity in their formulation.
+- Arm H here keeps plain-Muon update scaling at the pinned LR 0.01 and
+  adds only the post-hoc radius projection — a different operator. Under
+  it the projection fights the optimizer's natural radius growth every
+  step (the 40× mid-run grad norms are the symptom), so verdict 4's
+  +19.6% rejects "projection-only MuonH at pinned LR," NOT the Puro
+  mechanism (their receipts: 1.19× compute-equivalent for the complete
+  recipe vs a tuned-Muon baseline; 170M isolation MuonH 3.029 / Muon
+  3.073 / ELR-matched Muon 3.030; Hyperball: 20–30% token-equivalent
+  over weight-decay baselines ≤1.2B).
+- If the axis reopens (13B-gate re-cut class decisions), the faithful
+  recipe is update-norm pinning + an ELR-matched LR search — the Task-0
+  ELR telemetry is the instrument for it.

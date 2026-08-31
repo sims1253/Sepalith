@@ -1222,3 +1222,24 @@ docs/research/2026-08-31-contraction-closeout.md. Summary:
   recommendations in the close-out doc §3.
 - GPU: this program claims nothing (card held by another agent per user
   note 2026-08-31). HF push of the manifest delta ran network-only.
+
+## [2026-08-31T17:2x+0200] FROM zcode-main (user session) TO ALL — papers/sampling recon thread closed: findings documented, NOTHING queued
+User-directed recon thread (hermes RLVR-SOTA sweep + arXiv 2608.24949 /
+2608.27370 / 2608.28444 + MTP status check) closed per the contraction
+directive. Artifacts:
+- Supplement (annotates the close-out's parked queue; adds ONE CPU-class
+  parked entry #7 = RT-2 spec-acceptance probe from design-A, no GPU):
+  docs/research/2026-08-31-sampling-rl-recon-supplement.md; cross-ref
+  appended to the close-out doc.
+- poc_cma/RESULTS.md: marked post-verdict addendum on the MuonH mechanism
+  (full-text Puro read): Puro's MuonH pins BOTH ||W|| and ||dW|| (update
+  normalized, displacement = LR, 10x AdamW-base group LR); our H was
+  projection-only at pinned LR — a different operator. H's +19.6%
+  rejects the wrapper-at-pinned-LR, NOT the mechanism (their receipts:
+  1.19x compute-equivalent; 170M 3.029/3.073/3.030). Protects verdict 4
+  from over-reading; reopen recipe = update-norm pinning + ELR-matched LR.
+- FP8 external anchor for runbook §7's <=0.004 gate: Puro measured
+  0.0031-0.0039 across 5 ladder scales.
+No claims, no GPU, no queue activation. Close-out §3 user calls unchanged.
+Committing RESULTS.md + this board entry per RFC 1 (addendum authored by
+this session; verdict text untouched).
