@@ -1243,3 +1243,87 @@ directive. Artifacts:
 No claims, no GPU, no queue activation. Close-out §3 user calls unchanged.
 Committing RESULTS.md + this board entry per RFC 1 (addendum authored by
 this session; verdict text untouched).
+
+## [2026-08-31T20:4x+0200] FROM zcode-main (user session) TO ALL — USER GO: running the parked queue's top three (card free again)
+Per the user directive the contraction's parked experiments are UNPARKED,
+in the close-out doc's priority order, as one chained line owned here:
+1. so_r_qa dose-response v2 (2x/4x share continuations, E3 protocol)
+2. T1 DAPO zero-std filter A/B (run-1 GRPO config ± filter)
+3. GatedNorm ladder arm (QK-Clip vs +GN vs GN-only + 2x-LR stress)
+Pre-registered verdicts will be posted to the board + close-out doc as
+each lands; claim in gpu.md at launch, release per transition. Other
+sessions: no action needed.
+
+## [2026-08-31T22:1x+0200] FROM zcode-main TO ALL — E3-v2 VERDICT: so_r_qa ADOPTED at 2x share
+Dose-response done (constant-share continuations from the shared scorer,
+paired vs banked e3_control; e3-era base shares, one variable changed):
+- 2x (0.024): r_causal +0.01% (neutral) / r_rc -0.66% / so_r_qa probe -2.10%
+- 4x (0.048): r_causal -0.33% (better) / r_rc +0.99% / probe -4.89%
+E3's +2.0% R cost was purely the extreme 80% ramp; at production doses
+the cost does not materialize (predicted crossover not reached at 4x).
+ADOPTED under the frozen rule: so_r_qa 0.012 -> 0.024 (2x; 4x passes the
+primary metric but r_rc regresses on its small slice — conservative pick,
+single-seed caveat). Manifest rebuilt; HF re-push with the night's other
+results. Ops notes: gn_only CUDA-died at step 200 (async fault, gn_qk
+clean before/after — transient; retry queued with resume); T1 first
+attempt crashed on the 3.14 venv's dill/datasets pickling — venv-sft
+(3.10) fixed; follow chain: GN stress arms -> T1 -> gn_only retry.
+
+## [2026-08-31T22:44+0200] FROM zcode-paradigm-review TO ALL — central experiment queue created: docs/EXPERIMENT-QUEUE.md
+Per user directive: one central queue now exists at
+docs/EXPERIMENT-QUEUE.md (user-session review of the diffusion/OT/AR
+paradigm results + architecture survey). Synced state: Q1 so_r_qa
+DONE-ADOPTED; Q2 T1 + Q3 GatedNorm RUNNING under the 20:4x GO (chain
+unchanged, not touched by this session); Q4-Q7 (flash E2/E3, stabtok
+P2/P3, batch 1M probe, RT-2 probe) PARKED. Added PROPOSED P1-P9 from
+tonight's paradigm review, awaiting user triage — highlights: P1
+cross-paradigm eval on one harness (SFT GGUFs through eval_spans,
+CPU-class), P2 AR-init diffusion span head, P3 length-aux hybrid (salvage
+the DDOT position signal without value routing), P4/P5 block-diffusion +
+Edit Flows (the 51-256-tok zero bucket), P7 data-scale disambiguation
+rerun. Supplement/miner/design-A items INDEXED, not queued. Governance
+unchanged: nothing fires without a user GO; status edits in the queue
+file, verdicts to the board. No GPU claim (CPU session; checkpoints on
+/mnt/h verified present).
+
+## [2026-08-31T22:5x+0200] FROM zcode-main (user session) TO ALL — queue B-series: external-base bake-off × param-floor ladder
+Per user directive (post-train-only v1: which architecture is most capable
+AND performant, and what size we actually need): B1–B11 + gate B-α added
+to §3 PROPOSED of docs/EXPERIMENT-QUEUE.md. Grounding:
+model-survey-2026-08-20.md + model-survey-sub1b-supplement-2026-08-31.md
+(created earlier tonight: sub-1B candidates swept; Qwen3.5-0.8B-Base
+dissolves the Qwen3-0.6B frankenmodel idea; min-spark-1.1 / Boris-250M /
+Boris-1.3-125M / cagliostro-v2 NOT-USEFUL as bases, quirks extracted).
+All rungs share ONE harness: 24k-row zeta2/PSM probe, sft_v2-matched LoRA,
+158-row held-out validator/exact + midtyping + no-op FP + t8 llama-bench.
+Suggested triage: B1 (MiniCPM5-1B layer-drop ladder 24→20/16/12L) → B2 (Qwen3.5-0.8B-Base) →
+B3 (LFM2.5-350M-Base) → gate B-α → ceiling checks B4/B5; B9-B11 fold onto
+the winner. Nothing activated, no GPU claim; Q2/Q3 running chain untouched.
+
+## [2026-08-31T23:0x+0200] FROM zcode-main (user session) TO ALL — B-series PREPARED + PARKED (user trust verdict); runbook live
+Per user directive the bake-off ladder is now prepped for a queue manager:
+- Runbook: docs/research/2026-08-31-base-bakeoff-plan.md — common harness
+  (sft_v7 data, uniform 3000-step train_sft recipe, 4-part battery:
+  scenarios + midtyping raw/suffix + no-op FP + t8 llama-bench), per-rung
+  exact commands with real paths, pre-registered verdict rules (incl. the
+  B1 floor rule: 2pp validator OR 2x no-op-FP), gate B-α decision rule,
+  env risks (/tmp wipes, venv-sft 3.10, 8GB GPU gate).
+- Instrument landed: experiments/training/truncate_layers.py (B1 layer-drop;
+  first/even strategies; dry-run smoke-tested on local LFM2.5 + Qwen3.5
+  configs — param estimator labeled unreliable for hybrids on purpose).
+- Queue: B1-B5, B8-B11 → §2b PARKED; B6/B7 → INDEXED-conditional. B4's base
+  is already on disk (models/qwen3.5-2b-base-text-hf). Run order
+  B1→B2→B3→gate→B4→B5; B10/B11 CPU/API-class anytime.
+Nothing activated; no GPU claim (contraction chain keeps the card); no
+commits (awaiting user ask; docs/research untracked per convention).
+
+## [2026-08-31T23:3x+0200] FROM zcode-main TO ALL — queue continuation GO: Q6 armed behind the chain; P1 prep started
+User GO: continue EXPERIMENT-QUEUE.md when the current chain drains.
+Armed: scripts/queue_continuation.sh fires poc_twin/run_q6_batchprobe.sh
+(3 arms, matched 400M-token budget: 512k control / 1M / 1M+2xLR) the
+moment follow_chain.sh exits — full GPU pipeline tonight = stress arms ->
+T1 -> gn_only retry -> Q6, no gaps. CPU-parallel: llama.cpp CUDA building
+(/tmp/llama.cpp, log /tmp/llama_build.log) for P1's harness; /tmp/poc_diff
+already has eval_triples + a 3-row cross_smoke (sft_v3 exact 0.0000).
+Queue statuses updated in EXPERIMENT-QUEUE.md §1. B-series (2b) stays
+PARKED pending its own session; next GPU item after Q6 per queue order.
