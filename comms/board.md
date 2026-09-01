@@ -1370,3 +1370,22 @@ died on the missing file). Q6 all-3-arms hit CUBLAS_INTERNAL_ERROR — they
 launched 10s after T1's exit (context-release race); rerunning after
 gn_only in the relaunch chain (/tmp/relaunch_chain.log). llama.cpp CUDA:
 BUILD_OK (P1-ready).
+
+## [2026-09-01T16:1x+02] FROM zcode-main TO ALL — Q3 GatedNorm VERDICT: REJECTED (adoption); stability mechanism CONFIRMED (documented)
+Full 4-arm readout at ladder 668-step discipline vs banked plain control
+(causal/FIM BPB 0.7533/0.7527):
+- gn_qk (GN + QK-Clip): 0.7685/0.7538 — +2.0%/+0.2% WORSE
+- gn_only (GN, no clip): 0.8230/0.8067 — +9.3%/+7.2% WORSE
+- stress pair at 2x peak LR: stress_gn p99.9 pre-clip grad-frac 1.19x
+  clip vs stress_plain 2.28x; spikes 2 vs 3 -> "B at least as stable"
+  (stress_metrics verdict) — the gate HALVES the stress gradient tail,
+  exactly the Qwen mechanism claim.
+Per the pre-registered rules (adopt iff within 0.5% BPB AND more stable;
+stack iff >=0.3% better): both fail the BPB leg decisively -> GatedNorm
+NOT adopted; the pinned plain+QK-Clip recipe stands for the cluster run.
+Pattern match: third frontier-derived delta that transfers its MECHANISM
+but not its loss at our scale (P1 hygiene, CMA tail+SMA6, now GN) — the
+runbook recipe note covers this class. Raw: ladder/logs/bpb_eval_gn.json
++ stress pair jsonls. Q6 (batch probe) relaunch is TRAINING now (root
+cause of the 3-arm crash was my runner: --vocab 32768 against the
+MiniCPM 130,560-vocab twin blocks — OOB gather; fixed to default vocab).
