@@ -88,7 +88,7 @@ GPU claim; X2/X3 slot BEHIND the §1 chain (no preemption).
 | X3 | Length-aux hybrid (aux length head, NO value routing; the DDOT-signal salvage) | ~4h GPU | plan-frozen; kill: exact ≥ 0.0347 with predicted lengths AND length-MAE ≤ 58.2 | plan §X3 (Task 1 = aux head + warm-start `md_final.pt`) |
 | X4 | CAL-full recipe (bias calibration + peak search — the two pieces v1 lacked) | CPU + GPU-minutes | plan-frozen; kill: length-MAE ≤ 100 AND exact ≥ 0.0347; Task 0 (paper+repo recon) mandatory before code | plan §X4 (`poc_ddot/cal_length.py`) |
 
-## 3. PROPOSED — remaining, awaiting user triage
+## 4. PROPOSED — remaining, awaiting user triage
 
 Grounding: POC-DIFF VALIDATED (MD exact 0.0694 vs AR 0.0000; 51–256-tok
 spans 0.000 on BOTH arms), POC-DDOT KILLED (position field converges <200M
@@ -106,6 +106,71 @@ suggested order: P7 → P4, P5 → P8, P9. User arbitrates.
 | P9 | **Differentiable edit-distance loss** trained into a code model | GPU, speculative build | Survey white-space item #4 (edit-distance-as-OT exists for graphs/trees, never trained into a code model) | survey §2 white-space list |
 | P10 | **GatedNorm-v2 (near-identity init)** ladder arm — σ-init ≈1 (bias the gate) instead of the standard 0.5, same 668-step paired discipline + 2x-LR stress | ~1h GPU | Directly tests the user's scale question (2026-09-01): Q3's +2% BPB cost may be an init transient (σ≈0.5 halves sublayer outputs until learned open — a large fraction of a 350M-token run, <1% of a 13-25B run; Qwen's "standard init suffices" claim was made at 560B tokens). If v2 closes most of the +2%, the cost amortizes at scale and GN re-enters the 25B conversation; if not, the rejection is structural and scale-proof. Stability leg already CONFIRMED (stress pair: p99.9 1.19x vs 2.28x clip) | `ladder/run_gatednorm.sh` + one-line init change in `model.py` GatedNorm |
 
+## 3. WORK — the engineering/build backlog (2026-09-01 expansion; user directive: queue must carry ALL remaining work)
+
+The program's remaining work beyond experiments: build, port, harden,
+decide. Grouped by phase; everything here is PARKED under the same
+governance (nothing fires without a user GO unless covered by one).
+Sourced from the runbook's documented next steps, design-A banked
+decisions, the simulator roadmap, and the 2026-08-26→09-01 sessions.
+
+### 3a. Pre-launch (before the A2 cluster GO — do when GO is imminent)
+
+| # | Work item | Size | Source / notes |
+|---|---|---|---|
+| W1 | **FP8 validation cell** — write the rental-hour-1 script (H100 E4M3 path; B200 MXFP8 alt), gate ≤0.004 val-loss delta at ~0.5BT | ~half day | runbook §7 launch-checklist item; nothing exists yet |
+| W2 | **13B gate hardening**: port canary/regurgitation evals to the A2 32K run (currently MiniCPM/ladder-anchored) + automate the causal-floor-vs-twin-anchor curve comparison (currently a manual read) | ~1 day | runbook §4 gates; the high-epoch R streams make canaries load-bearing |
+| W3 | **GGUF export dry-run** at full 1.5B config on a shakeout ckpt (24L + 8/16 tier prefixes + MTP head) — converter verified at twin scale only | ~half day | runbook §5; de-risks the post-train path before the 5-day run |
+| W4 | **run.py polish**: doctor `--fix` (installs deps), HF-download path integration test in a clean env, `gates` on 24L exit-set sanity | ~half day | 2026-08-26 session |
+| W5 | **Decision package assembly**: §3.2 re-cut options memo (so_r_qa curve incl. 4x, epochs table, B-series floor when it lands, 1.5B-vs-2B arithmetic under rental throughput) — the one-table brief for the GO call | ~2h writing | close-out §3 + 2026-09-01 size discussion |
+
+### 3b. Data program continuation (the epochs levers)
+
+| # | Work item | Size | Source / notes |
+|---|---|---|---|
+| W6 | **`git/` GitHub-R pack**: license audit (2,586 repos) → holdout carve-out → pack → manifest entry | ~2-3 days | biggest real-world R lever (~91GB tree); R-eval holdout rule applies |
+| W7 | **R-eval holdout rule implementation**: packer hook enforcing 2%-by-package holdout on new R corpora (rule proposed 2026-08-31; code not written) | ~2h | enables W6/W8 safely |
+| W8 | **full-CRAN causal render** beyond astfim's 3.5% span sample, with the 284-package eval exclusion wired | ~1 day | closes the r_causal epochs gap from the content side |
+| W9 | **CRAN Archive acquisition** (edit-diff stratum, 0.5B/2% design slice) | acquisition + pack | manifest deferral; optional at re-cut |
+| W10 | **vignettes/prose slice pack** (10% design slice; man/ stays excluded) | ~half day | design-A mixture table row |
+| W11 | **English×R Q&A-prose bridge** — requires SO raw-dumps acquisition decision (so_r_qa is answer-code only) | acquisition decision + pack | design "bridge" slice; unmaterialized |
+
+### 3c. Post-13B / 25B path
+
+| # | Work item | Size | Source / notes |
+|---|---|---|---|
+| W12 | **Eval battery port to the A2 base**: FP gate battery + intent suite + scenarios on the 32K tokenizer/PSM formats (currently MiniCPM-keyed) | ~1-2 days | runbook §5; needed before any serving claim on the new base |
+| W13 | **MTP serving path**: llama.cpp speculative-decode integration for the A2 MTP head (informed by Q7/RT-2) | ~1-2 days | runbook §5; the 1.04x-cost structure pays off only if this lands |
+| W14 | **DDP/multi-GPU wrap of train_a2** — only if renting >1 card | ~1 day | train_a2 docstring "documented next step"; single-80GB plan = conditional |
+| W15 | **25B GO decision package**: assembled from the 13B gates + canaries + the W5 memo updates | ~2h writing | runbook §4 staged decision |
+
+### 3d. Post-train program (fresh-retrain-per-version house pattern)
+
+| # | Work item | Size | Source / notes |
+|---|---|---|---|
+| W16 | **SFT pipeline adaptation to the A2 base** (tokenizer, PSM render formats at 32K, eval harnesses) | ~1-2 days | runbook §5; zeta2/scenario data exists |
+| W17 | **RL-run-5 design on the new base** — constraints banked: no warm-start (clean negative), no critic blend (v4/v5), keep zero-std groups (T1 verdict), run-2 profile | design + run | board verdicts 2026-08-27→09-01 |
+| W18 | **Simulator closed loop (stage 2→3)**: model outputs influence the simulated typist — the RL-integration stage-2 design | build | simulator design.md "RL integration — two stages" |
+| W19 | **2c serving productization**: extension acceptance-threshold knob + post-accept cooldown as user-facing config; intent-suite regression watch | ~1 day | the standing serving call's engineering side |
+
+### 3e. Design-A banked build decisions (experiments parked inside the build)
+
+| # | Work item | Size | Source / notes |
+|---|---|---|---|
+| W20 | **Outline A/B per exit** (answers workspace-Q1+Q2 with one experiment) | ladder-scale arm | architecture-questions "banked for A2-prime build decisions" |
+| W21 | **Exit-wise self-distillation option** | ladder-scale arm | same bank |
+| W22 | **n-best decode product lever** | serving-side | same bank |
+| W23 | **Workspace summary adapter** (100-200M encoder, SFT-phase) | build | design-A §Q2 path 2 |
+
+### 3f. Infrastructure / hygiene
+
+| # | Work item | Size | Source / notes |
+|---|---|---|---|
+| W24 | **SYSTEMS.md update**: run.py, r_repack_full, pack_r_strata, push_cases pretraining/, the venv split (3.10 vs 3.14 dill breakage), CUBLAS/vocab scar | ~1h | 2026-08-26→09-01 sessions' scripts undocumented there |
+| W25 | **HF dataset card YAML frontmatter** (silences the repo-card warning; adds license/language tags) + card sync with the adopted manifest | ~30 min | push_cases warns every run |
+| W26 | **NAS runs/ retention policy**: q6/gatednorm/e3v2 checkpoints organized or pruned (results JSONs retained) | ~1h | disk hygiene; /tmp scars say keep NAS canonical |
+| W27 | **Dashboard state refresh** (v55 → current: verdicts, queue link) | ~1h | house pattern |
+
 ### B-series — PARKED in §2b above (user trust verdict, 2026-08-31 23:0x)
 
 B1–B5, B8–B11 moved to §2b with a full queue-manager runbook:
@@ -114,7 +179,7 @@ commands, pre-registered verdict rules, gate B-α decision rule, env risks).
 B6/B7 → INDEXED (§4, conditional). B1's instrument is landed and dry-run
 smoke-tested: `experiments/training/truncate_layers.py`.
 
-## 4. INDEXED — decided elsewhere, listed for single-lookup (do not re-derive)
+## 5. INDEXED — decided elsewhere, listed for single-lookup (do not re-derive)
 
 - **RL-resume miners** (supplement §6, CPU-class, no GPU, when RL resumes):
   pass@8-vs-pass@1 boundary canary, near-miss mining (add edit-sim to A7
