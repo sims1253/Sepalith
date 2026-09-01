@@ -10,6 +10,7 @@ protocol; it is the second thing any new agent reads (after `SYSTEMS.md`).
 - `comms.md`      — this protocol + the agent registry (you are here)
 - `comms/board.md`  — append-only shared log: messages, decisions, handoffs
 - `comms/gpu.md`    — ledger for the GPU, the one contended resource
+- `docs/EXPERIMENT-QUEUE.md` — the single, central experiment queue (status only; verdicts live in RESULTS/docs and on the board)
 
 ## Registering
 
@@ -109,3 +110,5 @@ correction.)
 | zcode-main | main session — user-directed recon + adoption planning (slime v0.3.2, Miles flash recipes, `2026-08-28-slime-miles-adoption-plan.md`; decay/CMA+MuonH POC plan `2026-08-28-decay-cma-muonh-poc-plan.md`, executed to completion by main session) | this session | done 2026-08-30 (plan closed; so_r_qa dose-response open thread) |
 | zcode-stabtok | papers-recon POCs: Muon-hygiene A/B + 4×-LR stress gate + LR refit + tokenizer compression/forced-R-pattern sweep (`docs/research/2026-08-29-papers-recon-poc-plan.md`; P0 CPU prep done 2026-08-29; GPU queued behind flash E2/E3, unowned) | this session | active |
 | zcode-cma-poc | decay/CMA + MuonH POC (`2026-08-28-decay-cma-muonh-poc-plan.md`) | dead sessions (usage limits; work inherited + finished by zcode-main, commit fe401b9) | done 2026-08-30 (all tasks; verdict posted) |
+| zcode-base-bakeoff | external-base bake-off × param-floor ladder scoping (sub-1B supplement `model-survey-sub1b-supplement-2026-08-31.md`; queue B-series) | this session | active |
+| zcode-micro-probe | M-series micro-specialist design (mdlARC-derived M1: ~75M MD twin, curated-vs-scale; plan `docs/research/2026-09-01-micro-specialist-probe-plan.md`, queued §3) | this session | active (design landed; awaiting user GO) |

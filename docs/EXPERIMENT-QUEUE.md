@@ -16,12 +16,16 @@ awaiting GO) · `PROPOSED` (new, awaiting user triage) · `INDEXED` (decided
 elsewhere; listed so this file is the single lookup) · `DONE` / `CLOSED`
 (verdict landed — linked, then pruned on the next sync).
 
-Last synced: 2026-09-01T16:2x+0200 (user GO — "setup the experiment and add
-it to the queue": B12 Spark-X2.5-1.7B rung added to §2b, PREP landed CPU-side
-while the §1 chain holds the card: weights pulled, llama.cpp PR #27868 CUDA
-build, `.venv-spark` (transformers 4.57 — 5.5 breaks the remote code),
-`train_sft_trl.py` + export_gguf env overrides, untracked builds inventory).
-Prior sync 2026-08-31T23:3x+0200: user queue-continuation GO — Q6 promoted,
+Last synced: 2026-09-01T23:2x+0200 (user request — "design an experiment
+around mdlARC for our case and add it to the queue": M1 micro-specialist
+probe designed + queued §3 PROPOSED, pre-registered plan
+`docs/research/2026-09-01-micro-specialist-probe-plan.md`; nothing fired,
+no GPU claim). Prior sync 2026-09-01T16:2x+0200: user GO — B12
+Spark-X2.5-1.7B rung added to §2b, PREP landed CPU-side while the §1 chain
+holds the card: weights pulled, llama.cpp PR #27868 CUDA build,
+`.venv-spark` (transformers 4.57 — 5.5 breaks the remote code),
+`train_sft_trl.py` + export_gguf env overrides, untracked builds inventory.
+Prior 2026-08-31T23:3x+0200: user queue-continuation GO — Q6 promoted,
 P1 prep started; prior 23:0x: close-out §1 + supplement, paradigm review +
 base-bakeoff prep sessions.
 
@@ -94,7 +98,10 @@ Grounding: POC-DIFF VALIDATED (MD exact 0.0694 vs AR 0.0000; 51–256-tok
 spans 0.000 on BOTH arms), POC-DDOT KILLED (position field converges <200M
 tok; value routing poisons quality), survey = `nse-ot-flows-survey-2026-08.md`.
 P1/P2/P3/P6 promoted to §2c (X-series) 2026-08-31 23:4x. Remaining
-suggested order: P7 → P4, P5 → P8, P9. User arbitrates.
+suggested order: P7 → P4, P5 → P8, P9; M1 (added 2026-09-01, the
+cheapest P7-adjacent item at ~4h GPU) slots ahead of P7 if GO'd — its
+verdict tells P7 whether the corpus-scale spend is the right lever.
+User arbitrates.
 
 | # | Experiment | Class / cost | Why (the datapoint) | Entry point |
 |---|---|---|---|---|
@@ -105,6 +112,7 @@ suggested order: P7 → P4, P5 → P8, P9. User arbitrates.
 | P8 | **OT as training loss** (FMPE-style continuous relaxation over span embeddings, family F) | GPU, speculative build | Pure white space — no text/code result exists anywhere; the "NSE as OT" idea's last untested form | survey §3.3 (FMPE 2305.17161 + minibatch OT) |
 | P9 | **Differentiable edit-distance loss** trained into a code model | GPU, speculative build | Survey white-space item #4 (edit-distance-as-OT exists for graphs/trees, never trained into a code model) | survey §2 white-space list |
 | P10 | **GatedNorm-v2 (near-identity init)** ladder arm — σ-init ≈1 (bias the gate) instead of the standard 0.5, same 668-step paired discipline + 2x-LR stress | ~1h GPU | Directly tests the user's scale question (2026-09-01): Q3's +2% BPB cost may be an init transient (σ≈0.5 halves sublayer outputs until learned open — a large fraction of a 350M-token run, <1% of a 13-25B run; Qwen's "standard init suffices" claim was made at 560B tokens). If v2 closes most of the +2%, the cost amortizes at scale and GN re-enters the 25B conversation; if not, the rejection is structural and scale-proof. Stability leg already CONFIRMED (stress pair: p99.9 1.19x vs 2.28x clip) | `ladder/run_gatednorm.sh` + one-line init change in `model.py` GatedNorm |
+| M1 | **Micro-specialist probe (mdlARC-derived)**: ~75M from-scratch MD twin at fixed 0.5B-token budget — arm a = scale control on the frozen twin triple set, arm b = task-curated pool (so_r_qa 2x + edit-bearing upweight, weights frozen at prep) — vs the banked 206M/2.0B anchor on the SAME 216-row harness, eval unchanged | ~3.5–4h GPU + ~half-day CPU prep | Tests mdlARC's sample-efficiency-over-scale claim on OUR focused task (span exact; anchor 0.0694 at ~9x the compute): does small+curated match big+generic, and is curation the lever at fixed size+budget. Verdict feeds the W5 memo, reframes P7 (curation before corpus-scale), prioritizes W6–W11, answers X1(a) from the specialist side; kill test + conditional M1c verbatim in plan | `docs/research/2026-09-01-micro-specialist-probe-plan.md` (rigs: `poc_diff/train_md.py` + `eval_spans.py`) |
 
 ## 4. WORK — the engineering/build backlog (2026-09-01 expansion; user directive: queue must carry ALL remaining work)
 
@@ -236,3 +244,10 @@ smoke-tested: `experiments/training/truncate_layers.py`.
   pre-gate required before verdict-grade numbers), `.venv-spark`,
   `train_sft_trl.py`, `export_gguf.py` env overrides, inventory
   `docs/research/2026-09-01-local-builds.md`. Announced on the board.
+- 2026-09-01T23:2x: M1 micro-specialist probe (mdlARC-derived: ~75M
+  from-scratch MD twin, 0.5B-token budget, scale-control + curated arms vs
+  the banked 206M/2.0B anchor on the unchanged 216-row harness) designed +
+  added to §3 PROPOSED per the user's request; plan pre-registered
+  (`docs/research/2026-09-01-micro-specialist-probe-plan.md` — kill test,
+  curation delta rule, conditional M1c). Reuses poc_diff rigs only; no GO
+  asked, nothing fired. Announced on the board.

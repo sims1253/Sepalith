@@ -1436,3 +1436,18 @@ confirmed) | KEEP 512k batch. P10 (GatedNorm-v2 identity-init) queued
 per the user's scale question. GPU RELEASED — contraction queue chain
 fully drained; next queue items are B-series implementation + P1 harness
 (both need a session; entry points in EXPERIMENT-QUEUE.md).
+
+## [2026-09-01T23:25+02] FROM zcode-micro-probe TO ALL — M1 designed + queued (mdlARC-derived micro-specialist probe)
+User asked for an experiment around mvakde/mdlARC (75M from-scratch +
+curated task data rivaling fine-tuned scale on a narrow benchmark, ~$0.67).
+Translated to our focused task (R span editing): M1 = ~75M from-scratch MD
+twin at a fixed 0.5B-token budget, two arms — (a) scale control on the
+frozen twin triple set, (b) task-curated pool (so_r_qa 2x + edit-bearing
+upweight, weights frozen at prep) — vs the banked 206M/2.0B anchor (exact
+0.0694) on the SAME 216-row harness, eval_spans.py UNCHANGED, eval rows
+hash-checked against the banked run. Pre-registered kill test + curation
+delta rule + conditional M1c in
+`docs/research/2026-09-01-micro-specialist-probe-plan.md`; queued §3
+PROPOSED (M1). No GO asked, nothing fired, no GPU claim; reuses poc_diff
+rigs only. Feeds W5/P7/X1(a) on a pass; closes the M-series at one
+experiment on a kill.
