@@ -1389,3 +1389,50 @@ runbook recipe note covers this class. Raw: ladder/logs/bpb_eval_gn.json
 + stress pair jsonls. Q6 (batch probe) relaunch is TRAINING now (root
 cause of the 3-arm crash was my runner: --vocab 32768 against the
 MiniCPM 130,560-vocab twin blocks — OOB gather; fixed to default vocab).
+
+## [2026-09-01T16:27+02] FROM zcode-main TO ALL — B12 (Spark-X2.5-1.7B) added to §2b; prep landed CPU-only, no GPU claim
+User GO'd the new external-base rung: SWA 3:1 hybrid = 4th arch-class column
+for gate B-α (vs GDN/conv+GQA/dense), sized 1.7B between B2/B4. Prep done
+while the §1 chain holds the card (nothing trained, no claim):
+- weights `experiments/models/spark-x2.5-1.7b-base-hf`; f16 GGUF converted
+  via the PR branch (parity pre-gate pending its binaries)
+- llama.cpp `experiments/bin/llama/llama-spark2_5-pr27868` = KnightYao fork
+  HEAD fe158c6 (draft PR #27868, spark2_5 arch) — CUDA build, still compiling
+- `.venv-spark` (uv): transformers 4.57.1 — 5.5 breaks the remote code
+  (post_init tied-weights); trl 1.12/peft 0.20; smoke-PASS (import, layers
+  path, LoRA targets q_k_v_proj/out_proj/g_proj/gate/up/down, CPU forward)
+- `train_sft_trl.py` (train_sft.py recipe, unsloth→PEFT swap) +
+  `export_gguf.py` env overrides (LLAMA_QUANT/LLAMA_CONVERT/MERGE_VIA_PEFT) +
+  `parity_check_b12.py`
+Two pre-gates before verdict-grade numbers: (1) draft-backend parity
+(≥2/3 exact greedy-48, runbook §2 B12); (2) trainer-stack calibration anchor
+`b12_cal_minicpm5`. Queue §2b + runbook updated; untracked builds/env
+inventory: `docs/research/2026-09-01-local-builds.md`.
+
+## [2026-09-01T17:0x+02] FROM zcode-main TO ALL — B12 pre-gate 1 (backend parity) PASSED 3/3
+Follow-up to 16:27: the PR-build binaries landed (after an rpath patchelf
+fix — install stripped $ORIGIN) and the parity gate ran CPU-pinned:
+greedy-48 continuations from the draft build (f16 GGUF) are token-identical
+to transformers eager bf16 on all 3 tracked prompts
+(`experiments/eval/parity_prompts_b12/`, receipt in runbook §2 B12).
+Base Q8_0 decode-reference GGUF kept (`models/b12_base-Q8_0.gguf`). B12 is
+now fully armed except the GPU legs (calibration anchor + rung) — they wait
+for the card per the queue. Fork quirk on record: raw completion =
+`llama-completion -no-cnv` + explicit `-c` (llama-cli in this fork
+auto-templates and spins).
+
+## [2026-09-01T21:1x+02] FROM zcode-main TO ALL — Q6 VERDICT: keep 512k tokens/step; contraction queue COMPLETE
+Matched 419M-token budget, 206M twin, same schedule shape:
+- q6_b512k (control): eval 1.1989, 114 min
+- q6_b1m:            eval 1.3074 (+9.0%), 101 min
+- q6_b1m_lr2:        eval 1.3025 (+8.6%), 100 min
+The 1M batch buys ~11% wall-clock for +9% loss; 2x LR does not recover
+it. Qwen's flat-above-optimum finding does not transfer to our scale —
+the local optimum is at-or-below 512k (their finding was at 100B+ token
+scale with 8-25M-token batches). Production keeps 512k; the 25B run's
+wall-clock lever is the H100 itself, not the batch. Q1-Q6 all landed:
+ADOPT so_r_qa 2x | DROP DAPO filter | REJECT GatedNorm (mechanism
+confirmed) | KEEP 512k batch. P10 (GatedNorm-v2 identity-init) queued
+per the user's scale question. GPU RELEASED — contraction queue chain
+fully drained; next queue items are B-series implementation + P1 harness
+(both need a session; entry points in EXPERIMENT-QUEUE.md).

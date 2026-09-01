@@ -67,3 +67,5 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-08-30T20:20+0200] zcode-main CLAIM e3 strata proxy chain (run_e3.sh: control + so_r_qa/bioc/curated_py ramps, 4x480 steps + evals, memfrac 0.42) ETA ~4h
 [2026-08-30T23:20+0200] zcode-main RELEASE e3 strata proxy chain (done 23:02: 4 continuations + evals; verdict posted, plan closed)
 [2026-08-30T23:15+0200] zcode-main RELEASE cma readout battery (done 20:05:58: 5 arm evals + SMA6/C_avg3 averages + canaries H/C; verdict posted to board)
+[2026-08-31T20:4x+0200] zcode-main CLAIM contraction queue chain (so_r_qa v2 2x0.5BT continuations -> T1 DAPO A/B 2x220 -> GatedNorm ladder 3x668 + stress; sequential, memfrac <=0.55) ETA long-chained overnight, heartbeat q30min
+[2026-09-01T21:1x+02] zcode-main RELEASE contraction queue chain (all landed: Q1 adopted/Q2 drop/Q3 reject/Q6 keep-512k; verdicts on board; card free)

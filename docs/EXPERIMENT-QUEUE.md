@@ -16,12 +16,14 @@ awaiting GO) · `PROPOSED` (new, awaiting user triage) · `INDEXED` (decided
 elsewhere; listed so this file is the single lookup) · `DONE` / `CLOSED`
 (verdict landed — linked, then pruned on the next sync).
 
-Last synced: 2026-08-31T23:3x+0200 (user GO ~23:2x — "continue running
-experiments from EXPERIMENT-QUEUE.md whenever the current ones are done":
-queue proceeds in its own cost-first order. Q6 promoted to RUNNING-QUEUED,
-P1 prep started (llama.cpp CUDA building; eval triples present). Prior
-sync 23:0x: close-out §1 + supplement, board through 22:5x, paradigm
-review + base-bakeoff prep sessions same night).
+Last synced: 2026-09-01T16:2x+0200 (user GO — "setup the experiment and add
+it to the queue": B12 Spark-X2.5-1.7B rung added to §2b, PREP landed CPU-side
+while the §1 chain holds the card: weights pulled, llama.cpp PR #27868 CUDA
+build, `.venv-spark` (transformers 4.57 — 5.5 breaks the remote code),
+`train_sft_trl.py` + export_gguf env overrides, untracked builds inventory).
+Prior sync 2026-08-31T23:3x+0200: user queue-continuation GO — Q6 promoted,
+P1 prep started; prior 23:0x: close-out §1 + supplement, paradigm review +
+base-bakeoff prep sessions.
 
 ---
 
@@ -30,9 +32,9 @@ review + base-bakeoff prep sessions same night).
 | # | Experiment | Status | Entry point |
 |---|---|---|---|
 | Q1 | so_r_qa dose-response v2 (2x/4x share, E3 protocol) | **DONE — ADOPTED at 2x** (board 22:1x; manifest rebuilt, so_r_qa 0.012→0.024) | `poc_cma` run_e3.sh pattern |
-| Q2 | T1 DAPO zero-std filter A/B (~80min; mandatory gate before production RL) | RUNNING (in follow chain; 3.14-venv crash fixed via venv-sft 3.10) | `docs/research/2026-08-28-slime-miles-adoption-plan.md` §T1 |
-| Q3 | GatedNorm ladder arm (QK-Clip vs +GN vs GN-only + 2x-LR stress) | RUNNING (gn_qk clean; gn_only CUDA-died step 200 — transient, retry queued with resume; stress arms pending) | ladder rig + `stress_metrics.py` |
-| Q6 | Batch 512k→1M tokens/step + LR probe (promoted from §2 by the queue-continuation GO) | RUNNING-QUEUED — auto-fires after the Q2/Q3 follow chain (`scripts/queue_continuation.sh` → `poc_twin/run_q6_batchprobe.sh`): 3 arms at matched 400M-token budget (512k control / 1M / 1M+2xLR), loss-at-tokens readout | `poc_twin/run_q6_batchprobe.sh` |
+| Q2 | T1 DAPO zero-std filter A/B | **DONE — DROP** (board 2026-09-01 08:2x: structural degradation, batch-shrinkage mechanism at K=4; production RL keeps zero-std groups) | `docs/research/2026-08-28-slime-miles-adoption-plan.md` §T1 |
+| Q3 | GatedNorm ladder arm | **DONE — REJECTED for adoption, stability mechanism CONFIRMED** (board 2026-09-01 16:1x: +9.3/+7.2 BPB standalone, +2.0/+0.2 stacked; stress p99.9 1.19x vs 2.28x; P10 = the identity-init follow-up) | ladder rig + `stress_metrics.py` |
+| Q6 | Batch 512k→1M tokens/step + LR probe | **DONE — KEEP 512k** (board 2026-09-01 21:1x: 1M = +9.0% eval loss for ~11% wall-clock; 2x LR doesn't recover; flat-above-optimum does not transfer to 206M scale) | `poc_twin/run_q6_batchprobe.sh` |
 
 Follow chain as posted: GN stress arms → T1 → gn_only retry → Q6.
 CPU-parallel: P1 prep live (llama.cpp CUDA build in background; a 3-row
@@ -53,7 +55,10 @@ Runbook = `docs/research/2026-08-31-base-bakeoff-plan.md` — exact commands,
 common harness, pre-registered verdict rules, artifact naming; written to be
 executable cold by a queue manager. Run order B1 → B2 → B3 → gate B-α →
 B4 → B5; B8–B10 fold onto the gate winner; B10/B11 are CPU/API-class,
-anytime. GPU rungs additionally wait for the card.
+anytime. B12 joins the gate B-α input set if its two pre-gates (draft-backend
+parity, trainer-stack calibration) have passed by the time the gate fires;
+otherwise it runs post-gate as an added column. GPU rungs additionally wait
+for the card.
 
 | # | Experiment | Cost | Why (the datapoint) | Entry |
 |---|---|---|---|---|
@@ -67,6 +72,7 @@ anytime. GPU rungs additionally wait for the card.
 | B9 | SeleKT gradient-importance masking A/B on the winner | GPU-hours | The one documented post-train-only failure mode (naive SFT loses edit ability) | runbook §2 B9 |
 | B10 | WiSE-FT LoRA interpolation (α∈{0.3,0.5,0.7}) | CPU-class, anytime | Multi-task shipping path + the pre-registered RL-phase guardrail | runbook §2 B10 |
 | B11 | NextCoder-style R edit-seed pack | API+CPU, anytime | The edit-shaped data construction for post-train v1 | runbook §2 B11 |
+| B12 | Spark-X2.5-1.7B-Base rung — **4th arch class** (SWA 3:1 hybrid: 21 SW-512 + 7 full attn, 8Q/2KV, tied emb, Apache-2.0) on the TRL/PEFT trainer path (`train_sft_trl.py`) + PR-build llama.cpp | ~2-3h GPU + ~1.5h calibration anchor | SWA-hybrid vs GDN 3:1 / conv+GQA / dense GQA, sized between B2 (0.8B) and B4 (2B). **PREP DONE 2026-09-01** (weights local, PR #27868 CUDA build, `.venv-spark`, scripts, base Q8 GGUF) and **pre-gate 1 (backend parity) PASSED 3/3**; remaining pre-gate: trainer-stack calibration anchor `b12_cal_minicpm5` (needs GPU). Runbook §2 B12 + `docs/research/2026-09-01-local-builds.md` | runbook §2 B12 |
 
 ### 2c. X-series — paradigm follow-ups (PARKED/prepared 2026-08-31 23:4x)
 
@@ -158,3 +164,10 @@ smoke-tested: `experiments/training/truncate_layers.py`.
   = exactly 216 matching the banked eval). P4/P5/P7/P8/P9 remain §3.
   Note for the §1 owner: the "P1 prep" smoke you spotted is X1's — the
   full harness is `cross_eval.py`, runnable now (see §2c).
+- 2026-09-01T16:2x: B12 (Spark-X2.5-1.7B-Base, SWA 3:1 hybrid — 4th arch
+  class for gate B-α) added to §2b per user GO; prep landed CPU-only (no GPU
+  claim, §1 chain untouched): weights `models/spark-x2.5-1.7b-base-hf`,
+  llama.cpp build `bin/llama/llama-spark2_5-pr27868` (draft PR — parity
+  pre-gate required before verdict-grade numbers), `.venv-spark`,
+  `train_sft_trl.py`, `export_gguf.py` env overrides, inventory
+  `docs/research/2026-09-01-local-builds.md`. Announced on the board.
