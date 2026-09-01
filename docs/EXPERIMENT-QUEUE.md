@@ -88,7 +88,7 @@ GPU claim; X2/X3 slot BEHIND the §1 chain (no preemption).
 | X3 | Length-aux hybrid (aux length head, NO value routing; the DDOT-signal salvage) | ~4h GPU | plan-frozen; kill: exact ≥ 0.0347 with predicted lengths AND length-MAE ≤ 58.2 | plan §X3 (Task 1 = aux head + warm-start `md_final.pt`) |
 | X4 | CAL-full recipe (bias calibration + peak search — the two pieces v1 lacked) | CPU + GPU-minutes | plan-frozen; kill: length-MAE ≤ 100 AND exact ≥ 0.0347; Task 0 (paper+repo recon) mandatory before code | plan §X4 (`poc_ddot/cal_length.py`) |
 
-## 4. PROPOSED — remaining, awaiting user triage
+## 3. PROPOSED — remaining, awaiting user triage
 
 Grounding: POC-DIFF VALIDATED (MD exact 0.0694 vs AR 0.0000; 51–256-tok
 spans 0.000 on BOTH arms), POC-DDOT KILLED (position field converges <200M
@@ -106,7 +106,7 @@ suggested order: P7 → P4, P5 → P8, P9. User arbitrates.
 | P9 | **Differentiable edit-distance loss** trained into a code model | GPU, speculative build | Survey white-space item #4 (edit-distance-as-OT exists for graphs/trees, never trained into a code model) | survey §2 white-space list |
 | P10 | **GatedNorm-v2 (near-identity init)** ladder arm — σ-init ≈1 (bias the gate) instead of the standard 0.5, same 668-step paired discipline + 2x-LR stress | ~1h GPU | Directly tests the user's scale question (2026-09-01): Q3's +2% BPB cost may be an init transient (σ≈0.5 halves sublayer outputs until learned open — a large fraction of a 350M-token run, <1% of a 13-25B run; Qwen's "standard init suffices" claim was made at 560B tokens). If v2 closes most of the +2%, the cost amortizes at scale and GN re-enters the 25B conversation; if not, the rejection is structural and scale-proof. Stability leg already CONFIRMED (stress pair: p99.9 1.19x vs 2.28x clip) | `ladder/run_gatednorm.sh` + one-line init change in `model.py` GatedNorm |
 
-## 3. WORK — the engineering/build backlog (2026-09-01 expansion; user directive: queue must carry ALL remaining work)
+## 4. WORK — the engineering/build backlog (2026-09-01 expansion; user directive: queue must carry ALL remaining work)
 
 The program's remaining work beyond experiments: build, port, harden,
 decide. Grouped by phase; everything here is PARKED under the same
