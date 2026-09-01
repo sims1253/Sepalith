@@ -68,25 +68,37 @@ anytime. GPU rungs additionally wait for the card.
 | B10 | WiSE-FT LoRA interpolation (α∈{0.3,0.5,0.7}) | CPU-class, anytime | Multi-task shipping path + the pre-registered RL-phase guardrail | runbook §2 B10 |
 | B11 | NextCoder-style R edit-seed pack | API+CPU, anytime | The edit-shaped data construction for post-train v1 | runbook §2 B11 |
 
-## 3. PROPOSED — from the 2026-08-31 paradigm/architecture review, awaiting user triage
+### 2c. X-series — paradigm follow-ups (PARKED/prepared 2026-08-31 23:4x)
+
+Runbook = `docs/research/2026-08-31-paradigm-followup-plan.md` —
+pre-registered metrics, verbatim kill tests, tasks, costs. Promoted from
+§3 (P1/P2/P3/P6) per the user's queue-preparation directive. X1 needs no
+GPU claim; X2/X3 slot BEHIND the §1 chain (no preemption).
+
+| # | Experiment | Cost | Status / kill test | Entry |
+|---|---|---|---|---|
+| X1 | Cross-paradigm span eval — SFT GGUFs (sft_v3/v7/v8_2 + base) on the poc_diff 216-row harness, raw-PSM render (format-transfer caveat pre-registered) | ~4h CPU (no claim) or ~30min GPU | **PREPARED — code landed + smoke-verified** (`cross_eval.py` + tests; poc_diff suite 34-pass; eval triples regenerated deterministically = exactly 216, matching the banked run); measurement, readout rule in plan | `experiments/training/poc_diff/cross_eval.py` → `CROSS_EVAL.md` |
+| X2 | AR-init diffusion span head (the un-triggered Task 8) | ~7h GPU | plan-frozen; kill: EXCEED 0.0694 exact within 1.0B continuation tokens or write the negative | plan §X2 (Task 1 = AR→MD weight conversion + test) |
+| X3 | Length-aux hybrid (aux length head, NO value routing; the DDOT-signal salvage) | ~4h GPU | plan-frozen; kill: exact ≥ 0.0347 with predicted lengths AND length-MAE ≤ 58.2 | plan §X3 (Task 1 = aux head + warm-start `md_final.pt`) |
+| X4 | CAL-full recipe (bias calibration + peak search — the two pieces v1 lacked) | CPU + GPU-minutes | plan-frozen; kill: length-MAE ≤ 100 AND exact ≥ 0.0347; Task 0 (paper+repo recon) mandatory before code | plan §X4 (`poc_ddot/cal_length.py`) |
+
+## 3. PROPOSED — remaining, awaiting user triage
 
 Grounding: POC-DIFF VALIDATED (MD exact 0.0694 vs AR 0.0000; 51–256-tok
 spans 0.000 on BOTH arms), POC-DDOT KILLED (position field converges <200M
 tok; value routing poisons quality), survey = `nse-ot-flows-survey-2026-08.md`.
-Suggested triage order = P1 → P6, P3 → P2 → P7 → P4, P5 → P8, P9 (cheap+high-info
-first, speculative last). User arbitrates.
+P1/P2/P3/P6 promoted to §2c (X-series) 2026-08-31 23:4x. Remaining
+suggested order: P7 → P4, P5 → P8, P9. User arbitrates.
 
 | # | Experiment | Class / cost | Why (the datapoint) | Entry point |
 |---|---|---|---|---|
-| P1 | **Cross-paradigm eval on one harness**: SFT GGUFs through `eval_spans.py` + KV-cached AR re-baseline | CPU-class (llama-server) + triples regen, ~1 day | The only honest common table; poc_diff RESULTS "Next" already names it; first read on whether the long-span zero is paradigm-specific | `experiments/training/poc_diff/eval_spans.py` + `data_prep.py` (regen triples; /tmp wiped) |
-| P2 | **AR-init diffusion span head** (families B×G; the never-triggered Task 8 rescue) | GPU ~13h (2B tok, 206M; warm-start) | AR learns context fastest (held-out 1.57 nats/tok @131M); diffusion only where multimodality pays; trunk keeps a llama.cpp path | `poc_diff/train_md.py` + survey family G (DiffuLLaMA/Dream shift-op) |
-| P3 | **Length-aux hybrid**: aux length/position head on the validated MD arm, NO value routing | GPU ~13h (warm-start from `md_final.pt`) | DDOT's one real signal: position field 8.14→0.008 in <200M tok; honest replacement for GT-length conditioning now that CAL v1 failed | `poc_ddot` position-head components folded into `train_md.py` as aux loss |
 | P4 | **Block-diffusion span head** (family D targeted at spans) | GPU ~13–26h + build | The 51–256-tok bucket is 0.000 everywhere; AR anchors structure, diffusion fills within blocks; KV-cacheable | new `poc_bd/` reusing poc_diff data + sampler |
 | P5 | **Edit Flows arm** (family C: insert/delete/substitute CTMC) | GPU ~13–26h + new trainer | Survey's named candidate for long spans (+138% over mask-only at 1.3B on code); native variable length + deletions — the primitive AR-PSM and MD both lack | new `poc_editflows/`; survey §3.2 (2506.09018) |
 | P6 | **Full CAL recipe** (not our failed v1 half-peak rule) | CPU + GPU-hours on existing ckpts | v1 failed hard (length-MAE 191) but the paper's full recipe reports +47.7% Pass@1 on code infilling; cheap to test on `md_final.pt` | `poc_ddot/cal_length.py` upgraded to the paper's full search |
 | P7 | **Data-scale disambiguation rerun**: both twins at 10–20x corpus, ~4 epochs (vs current 44 epochs/44.5M unique) | Largest: corpus build + 2 retrains (~1.8–3.6B tok total) | Tests paradigm-vs-data for the long-span zero before any big arch bet; survey notes the regime is data-starved; DEPENDS on A2 data program (so_r_qa stratum) | `poc_diff/data_prep.py` + A2 `pretraining/` package |
 | P8 | **OT as training loss** (FMPE-style continuous relaxation over span embeddings, family F) | GPU, speculative build | Pure white space — no text/code result exists anywhere; the "NSE as OT" idea's last untested form | survey §3.3 (FMPE 2305.17161 + minibatch OT) |
 | P9 | **Differentiable edit-distance loss** trained into a code model | GPU, speculative build | Survey white-space item #4 (edit-distance-as-OT exists for graphs/trees, never trained into a code model) | survey §2 white-space list |
+| P10 | **GatedNorm-v2 (near-identity init)** ladder arm — σ-init ≈1 (bias the gate) instead of the standard 0.5, same 668-step paired discipline + 2x-LR stress | ~1h GPU | Directly tests the user's scale question (2026-09-01): Q3's +2% BPB cost may be an init transient (σ≈0.5 halves sublayer outputs until learned open — a large fraction of a 350M-token run, <1% of a 13-25B run; Qwen's "standard init suffices" claim was made at 560B tokens). If v2 closes most of the +2%, the cost amortizes at scale and GN re-enters the 25B conversation; if not, the rejection is structural and scale-proof. Stability leg already CONFIRMED (stress pair: p99.9 1.19x vs 2.28x clip) | `ladder/run_gatednorm.sh` + one-line init change in `model.py` GatedNorm |
 
 ### B-series — PARKED in §2b above (user trust verdict, 2026-08-31 23:0x)
 
@@ -140,3 +152,9 @@ smoke-tested: `experiments/training/truncate_layers.py`.
   as §2b (runbook `docs/research/2026-08-31-base-bakeoff-plan.md`; B1
   instrument `experiments/training/truncate_layers.py` landed, dry-run
   tested); B6/B7 → INDEXED-conditional. Announced on the board.
+- 2026-08-31T23:4x: P1/P2/P3/P6 prepared + promoted to §2c as X1–X4
+  (runbook `docs/research/2026-08-31-paradigm-followup-plan.md`; X1 code
+  `cross_eval.py` landed + smoke-verified, suite 34-pass, triples regen
+  = exactly 216 matching the banked eval). P4/P5/P7/P8/P9 remain §3.
+  Note for the §1 owner: the "P1 prep" smoke you spotted is X1's — the
+  full harness is `cross_eval.py`, runnable now (see §2c).
