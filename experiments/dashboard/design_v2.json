@@ -1,0 +1,65 @@
+{
+ "concept": "The page is a bench logbook for a model that edits R: ink on lab paper, annotated like a diff. Verdicts are written first in the scientist's hand (serif, sentence case), evidence stays in machine type (mono R snippets, paths, counts). Killed branches are preserved as pressed specimens — visibly dead, still legible — because in this program a kill is a result. Everything quiet except verdict color.",
+ "hero": "Section 1 verdict timeline is the hero: placed first under a two-line standfirst plus live-now strip, set largest (serif verdict sentences at display size) with a thick left verdict-rule per entry. The tree and queue are supporting reference, deliberately smaller mono-dense. Rationale: collaborators reload to ask 'what was decided' — the program's product is verdicts (ship/kill/park), not runs.",
+ "palette": [
+  {
+   "name": "Lab paper",
+   "hex": "#F7F8F5",
+   "role": "page ground, cool grey-green white, not cream"
+  },
+  {
+   "name": "Bench ink",
+   "hex": "#22333B",
+   "role": "body text, rules, tree edges"
+  },
+  {
+   "name": "Sepal",
+   "hex": "#2E6E4E",
+   "role": "live / ship verdicts and live tree lines"
+  },
+  {
+   "name": "Specimen oxblood",
+   "hex": "#A63A4A",
+   "role": "kill verdicts and killed branches only"
+  },
+  {
+   "name": "Lamp amber",
+   "hex": "#9A6B0F",
+   "role": "parked / gate / queued attention, used sparingly"
+  },
+  {
+   "name": "R blue",
+   "hex": "#2F5DA3",
+   "role": "links, R code keywords, running pulse dot only"
+  },
+  {
+   "name": "Wash sage",
+   "hex": "#E3E9E2",
+   "role": "live-now strip ground and code-block ground"
+  }
+ ],
+ "type": {
+  "families": [
+   {
+    "stack": "Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif",
+    "role": "standfirst + verdict so-what sentences + glossary plain-words definitions (the human voice)"
+   },
+   {
+    "stack": "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace",
+    "role": "dates/ids/asked/measured fields, tree nodes, queue one-liners, R examples, inventory counts (the machine voice)"
+   }
+  ],
+  "scale_notes": "Standfirst 20px serif italic-adjacent; section titles 22px serif semibold, sentence case, numbered '1.' as given; verdict so-what 17–19px serif with 1.55 line-height, ~62ch max; mono evidence 12.5–13px with 1.5 line-height; queue/inventory mono 13px tabular numerals. One scale jump only (hero verdicts); everything else flat ledger size."
+ },
+ "layout": {
+  "prose": "Single ledger column, max 880px, left aligned ragged-right throughout; live-now strip is a full-bleed sage band pinned directly under the masthead (not a card). Sections separated by full rules with generous air, not cards. Tree section goes full ledger width with horizontal scroll on mobile; glossary is definition-list rows, not grid cards.",
+  "alignment": "Left aligned everywhere; numbers right-aligned in inventory tables; never centered, never justified.",
+  "wireframe": "masthead (title left, reload-date right) / ──rule── / STAND first (2 lines serif) / [ live-now band: dot owner task ETA | dot owner task ETA ] / ──rule── / 1 What happened [hero entries stacked] / ──rule── / 2 The program tree [mono tree, scroll-x] / ──rule── / 3 What is queued [3 grouped lists] / ──rule── / 4 Family glossary [dl rows + jargon table] / ──rule── / 5 Data on disk [3 tables side-by-side→stacked] / footer colophon"
+ },
+ "structure_devices": "Left verdict-rules encode outcome (4px solid: sepal=ship/live, oxblood=kill, amber=parked/gate, ink=info) — color plus label text, never color alone. Tree edges encode state: solid 2px = live line, hatched/double-faded + strikethrough label = killed specimen, hollow box = gate decision, pulsing dot = running (static dot with text label when no JS). Section numbers 1–5 are the brief's fixed IA, not decoration. No eyebrows, no 01/02 markers, no dotted meta strings.",
+ "timeline_treatment": "Each entry keeps mono date id line, solid pill with white sentence case text, serif verdict sentence at hero size, then mono ask, found, decision lines with 7ch hanging labels. Decision replaces call to avoid clash with R calls.",
+ "tree_treatment": "Rendered as nested lists with CSS-drawn elbows (no images, no JS): vertical+horizontal 2px ink connectors via borders. Node = mono chip with expt id + one-line outcome. Live = ink-bordered chip on paper with sepal left tab; killed = oxblood dashed border, faded text, terminal cross-mark '×' with reason in parentheses, edge line dashed and faded; gate = amber hollow diamond marker before chip; running = R-blue filled dot + bold chip. Killed subtrees are collapsed to one line each (one-line kill reason) so dead wood reads dense and distinct from airy live lines.",
+ "table_treatment": "Queue: three plain grouped lists (Running / Parked / Proposed) with status word set inline in mono, one line each, ruled between rows — no pill cloud, no cards. Inventories: three true <table>s with header row in sentence-case mono, right-aligned counts with tabular numerals, footer total row; zebra none, only horizontal hairlines; caption above each table names the root path.",
+ "motion": "Single enhancement: filter-as-you-type box above verdict timeline plus 'copy' buttons on R examples, both progressively added by one small script; page is complete and filter-free with JS disabled. Running pulse is CSS animation only, wrapped in @media (prefers-reduced-motion: reduce) that freezes it to a static dot. Keyboard focus: 3px R-blue outline offset 2px on all links, buttons, inputs.",
+ "anti_defaults": "Avoided cream+terracotta (chose cool sage paper + oxblood/sepal diff inks); avoided near-black+acid accent (ink is desaturated slate #22333B, accents muted lab tones); avoided broadsheet zero-radius columns (single ledger column, 6px radius only on pills/chips); avoided SaaS card grid + soft shadows (zero shadows, sections divided by rules); avoided tracked all-caps eyebrows, middle-dot meta strings, 'WORD — fragment' labels, mono-everything labels (labels are sentence case, dots only as date separators, human voice in serif); avoided generic fade-up on scroll (no scroll motion at all)."
+}

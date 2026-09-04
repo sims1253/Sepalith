@@ -1,0 +1,498 @@
+{
+ "meta": {
+  "stand": "Base pick is not made. B13 LFM2.5-2.6B rung training blocks the base-pick GO, with H1, TU2, V1d, and S0 trace freeze running. Banked calls stand: P12 KERNEL-DAY is GO, sft_v7 serves now, gate B-beta is a three-way tie with production rec b4-config, and TU1 is DEAD with O3-S0 NOT LAND and W29 cloud-ready.",
+  "editor_note": "seeded by build v2 rework",
+  "updated": "2026-09-05T01:18:12"
+ },
+ "running": [
+  {
+   "what": "B13 LFM2.5-2.6B rung (conv+GQA at the family ceiling)",
+   "owner": "zcode-b13-lfm26",
+   "status": "run",
+   "eta": "train-end ~02:10, then export+battery",
+   "note": "relaunched with resume=auto after a task-manager kill at step 1394/3000; checkpoint-1000 intact; VRAM 15GB stable"
+  },
+  {
+   "what": "H1 harness-search bake-off (hill vs population vs GEPA)",
+   "owner": "zcode-h1-harness",
+   "status": "run",
+   "eta": "~7-10h total pipeline",
+   "note": "baseline done (exact 0.6797, doc_sync collapses at max_tokens=320); hill arm running; CPU server port 18310"
+  },
+  {
+   "what": "TU2 teacher solve pass (solve-gated rows for the SFT A/B)",
+   "owner": "zcode-tu2-prep",
+   "status": "run",
+   "eta": "~5h",
+   "note": "310/2360 rows; rename solved 98/310 so far (glm-5.3 one-attempt ~36 percent on the unframed prompt)"
+  },
+  {
+   "what": "V1d blind pairwise preference (v8_2 vs base, then v7 vs rl_v2c)",
+   "owner": "zcode-v1d-pref",
+   "status": "run",
+   "eta": "~70 min per pair",
+   "note": "anchor done 43-0-6 (strict win-rate 0.878); blindness sentinel conservative"
+  },
+  {
+   "what": "S0 spec-decode trace freeze (500-2000 frozen edit continuations)",
+   "owner": "zcode-s0-traces",
+   "status": "run",
+   "eta": "not stated",
+   "note": "doubles as Q7's trace set either way"
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2026-08-22",
+   "id": "sft_v7",
+   "title": "SFT v7 becomes the serving model",
+   "ask": "Does training on 264516 rows produce a better serving model?",
+   "measured": "Train had 264,516 rows and eval had 9,252 rows. Scenario families scored 0.772 valid and 0.677 exact, with rename at 0.967 and 0.883, pipe at 1.0 and 1.0, and format at 0.700 and 0.550. Intent layer reached 1.636 against v6 at 1.386, while doc_sync stayed at 0.",
+   "verdict": "WIN",
+   "verdict_class": "good",
+   "implies": "WIN: sft_v7_minicpm5-Q8_0.gguf is the served model and the baseline for later SFT tests."
+  },
+  {
+   "date": "2026-08-22",
+   "id": "LANDSCAPE",
+   "title": "v7 measured honestly against the frontier",
+   "ask": "What is the gap to glm-53 after controlling for format unfamiliarity?",
+   "measured": "Held-out set had 158 identical rows. v7 scored 0.772 and 0.677 against glm-5.3 at 0.424 and 0.335 zero-shot and at 0.601 and 0.494 with three worked examples. The few-shot control closes about half of the deficit.",
+   "verdict": "WIN (17 points, not 35)",
+   "verdict_class": "good",
+   "implies": "WIN: cite the controlled 17-point gap, not the zero-shot 35, with the edge in format and pipe and rename."
+  },
+  {
+   "date": "2026-08-22",
+   "id": "FIM-DOSE",
+   "title": "FIM dose ladder settled the A2/B2 dispute",
+   "ask": "How much fill-in-the-middle data should pretraining include?",
+   "measured": "Four paired arms used 0, 10, 20 and 35 percent PSM-FIM share, with 350.2M tokens each. Doses ran 0.2 to 0.8 percent over control. Span BPB saturates by 10 to 20 percent, free-running serving collapses at 35 percent, and dose 20 is best.",
+   "verdict": "ADOPT 20 to 35 percent, center 25 to 30",
+   "verdict_class": "good",
+   "implies": "ADOPT: set the mix at 20 to 35 percent centered at 25 to 30, with one masked replica arm still parked."
+  },
+  {
+   "date": "2026-08-22",
+   "id": "COMPOUND-FB",
+   "title": "Compound finish_block attacked the glm corner",
+   "ask": "Can derived rows plus authored functions close the finish_block gap?",
+   "measured": "Registry has 7 rules with 39 of 39 selftests passing. Derivation made 9,574 corpus-exact rows from 1,562 base samples, with 297 of 300 passing the real renderer unchanged. Authored wave passed the 400-sample quality gate at commit e7aec65.",
+   "verdict": "WIN (data landed)",
+   "verdict_class": "good",
+   "implies": "WIN: the data program for the weak corner has landed as authored functions times cut-point derivations."
+  },
+  {
+   "date": "2026-08-23",
+   "id": "NOOP-FP",
+   "title": "The no-op false-positive suspicion was confirmed",
+   "ask": "Does v7 propose edits where the right answer is to change nothing?",
+   "measured": "v7 false-suggests on 70.6 percent of decoy prompts against v6 at 68.6 percent, so the fault is structural. Proposal is 100 percent on every untrained stop geometry, namely interior line-end and mid-identifier and blank line and refactorable, and about 30 percent on trained geometries.",
+   "verdict": "CONFIRMED (bad news, banked)",
+   "verdict_class": "bad",
+   "implies": "CONFIRMED: restraint is geometry-specific, so train no_op on the three untrained geometries and add a client completeness gate."
+  },
+  {
+   "date": "2026-08-27",
+   "id": "POC-DIFF",
+   "title": "Masked diffusion beat autoregression on edit spans",
+   "ask": "At matched harness does a masked-diffusion twin beat an AR-FIM twin at infilling?",
+   "measured": "Paired eval had 216 rows. Span exact was MD@32 at 0.0694 against AR at 0.0000. p95 latency was 855ms against 7,689ms. Both arms scored 0.000 on the 51-to-256-token bucket with 80 rows.",
+   "verdict": "VALIDATED (all three kill-test disjuncts)",
+   "verdict_class": "good",
+   "implies": "VALIDATED: the diffusion line earned follow-ups while long spans stayed unsolved for later work."
+  },
+  {
+   "date": "2026-08-29",
+   "id": "POC-DDOT",
+   "title": "OT position coupling killed",
+   "ask": "Does an optimal-transport position field help the diffusion head place edits?",
+   "measured": "The position field converges before 200M tokens, while value routing poisons quality.",
+   "verdict": "KILLED",
+   "verdict_class": "bad",
+   "implies": "KILLED: Family E is closed and only the length-aux head remains as the honest-length path."
+  },
+  {
+   "date": "2026-09-01",
+   "id": "Q1-Q6",
+   "title": "The contraction question set closed",
+   "ask": "Did six early questions settle before any large training spend?",
+   "measured": "All were DONE on 2026-09-01. Verdicts live on the board and in the 2026-08-31 contraction close-out doc, and queue section 1 rows were pruned. The set covers Q1 to Q6.",
+   "verdict": "DONE (verdict map in the close-out doc)",
+   "verdict_class": "neutral",
+   "implies": "DONE: scope was cut to what the evidence supports with the queue file as the single lookup."
+  },
+  {
+   "date": "2026-09-02",
+   "id": "X1",
+   "title": "Cross-paradigm span eval: SFT arms measure zero",
+   "ask": "Do the serving SFT models carry span skill on the poc_diff harness?",
+   "measured": "All SFT arms scored exact 0.0000 against MD at 32 at 0.0694, and the 51 to 256 bucket is 0.0000 paradigm-wide. edit_sim was v3 at 0.066, v8_2 at 0.058, v7 at 0.052, and base at 0.024.",
+   "verdict": "DONE (measurement closed)",
+   "verdict_class": "neutral",
+   "implies": "DONE: span-exact needs pretraining scale, so serving keeps its battery wins with no serving change."
+  },
+  {
+   "date": "2026-09-02",
+   "id": "X4",
+   "title": "CAL full recipe killed",
+   "ask": "Can the full length-search recipe fix span length prediction?",
+   "measured": "All SFT arms scored exact 0.0000 against MD@32 at 0.0694, and the 51 to 256 bucket is 0.0000 paradigm-wide. edit_sim was v3 at 0.066, v8_2 at 0.058, v7 at 0.052, and base at 0.024.",
+   "verdict": "KILLED",
+   "verdict_class": "bad",
+   "implies": "KILLED: the CAL line is closed at v1 and v2 with only the length-aux head parked as salvage."
+  },
+  {
+   "date": "2026-09-02",
+   "id": "M1",
+   "title": "Micro-specialist probe killed",
+   "ask": "Is a small curated corpus enough.",
+   "measured": "Both arms scored 0.0000 exact against 0.0694 for the 206M/2.0B anchor. M1b fell below 0.0347 so the kill test fired. Curation added +0.024 edit-sim with zero exact.",
+   "verdict": "KILLED",
+   "verdict_class": "bad",
+   "implies": "KILLED: scale and broad corpus exposure carry the result at each tested size, with no curation term in W5 arithmetic and the M-series closed."
+  },
+  {
+   "date": "2026-09-02",
+   "id": "B-SERIES-RUNGS",
+   "title": "Bake-off rungs B-anchor, B1, B2, B3, B12 measured",
+   "ask": "Which outside base classes hold up under one shared recipe.",
+   "measured": "b12_cal passed pre-gate 2 with unsloth versus PEFT delta -3.1pp at p=0.039. B1 dense scored 76.9/72.2/56.9/12.5 valid at 1.08B/967M/854M/741M. B2 GDN 0.8B scored 82.7/73.3. B3 conv plus GQA 350M scored 15.7 valid with 95.0 noopFP and 94.1 t/s. B12 SWA spark 1.7B scored 85.1/77.3 on the TRL path.",
+   "verdict": "MEASURED (gate input)",
+   "verdict_class": "neutral",
+   "implies": "MEASURED (gate input): results support a first architecture verdict, and B3 speed does not offset its accuracy gap."
+  },
+  {
+   "date": "2026-09-02",
+   "id": "GATE-B-ALPHA",
+   "title": "Gate B-alpha: the architecture verdict",
+   "ask": "Which architecture class should supply the next base.",
+   "measured": "SWA 3:1 led raw at 85.1 valid but at 1.71B with no matched-size rival. GDN at 752M beat dense at 1.08B by 82.7 versus 76.9 with minus 30 percent params. Dense does not survive as the next-build base and conv plus GQA is out. doc_sync scored 0/15 on every arm.",
+   "verdict": "SWA leader (size-provisional), GDN conditional on B4, conv out",
+   "verdict_class": "good",
+   "implies": "SWA leader (size-provisional), GDN conditional on B4, conv out: B4 and B5 became the size controls, and doc_sync affects construction rather than capacity."
+  },
+  {
+   "date": "2026-09-03",
+   "id": "D-GRID",
+   "title": "D-grid: budget is the lever, breadth is not",
+   "ask": "Is the span-exact edge from params, budget, or data breadth.",
+   "measured": "D2 at 76M and 2.0B tokens scored 0.0602. D1 at 206M and 0.5B scored 0.0000. D3 at 76M and 2.0B tokens over 7x unique data scored 0.0000. Size at matched budget added +0.0092.",
+   "verdict": "DONE: budget/anneal depth is the lever",
+   "verdict_class": "good",
+   "implies": "DONE: budget/anneal depth is the lever: deep anneal on a small set beats coverage here, and the A2 program tests the larger regime."
+  },
+  {
+   "date": "2026-09-04",
+   "id": "B4-B5",
+   "title": "Size controls landed: a three-way tie",
+   "ask": "Do GDN at 2B and dense at 3B confirm or end the spark lead.",
+   "measured": "b4 GDN 1.88B scored 85.1/76.5 at 19.2 t/s. b5 granite 3B scored 87.8/78.0 at 10.65 t/s, with native-FIM at 79.1. Spark versus b4 gave McNemar p=1.0000, and b5 plus 2.7pp gave p=0.119.",
+   "verdict": "TIE at the top",
+   "verdict_class": "neutral",
+   "implies": "TIE at the top: the gate-alpha lead was size rather than SWA, and the classes now split on decode and fit rather than quality."
+  },
+  {
+   "date": "2026-09-04",
+   "id": "GATE-B-BETA",
+   "title": "Gate B-beta: the final base verdict",
+   "ask": "Which base do we use for production fine-tuning.",
+   "measured": "b5, spark and b4 tied on stats. GDN held best validator-at-decode at both sizes, with b2 at 82.7 and 36.2 t/s and b4 at 85.1 and 19.2 t/s. doc_sync scored 0.0 at each size from 350M to 3B.",
+   "verdict": "GDN wins the product axis; recommendation is b4-config",
+   "verdict_class": "good",
+   "implies": "GDN wins the product axis; recommendation is b4-config: the B8 to fine-tune track is clear pending GO, B13 runs first, and B8 plus data own doc_sync."
+  },
+  {
+   "date": "2026-09-04",
+   "id": "P12",
+   "title": "Roofline profiling: kernel-day GO",
+   "ask": "Is CPU decode bandwidth bound and do Q4 quants pay out.",
+   "measured": "STREAM triad hit 25 GB/s on this WSL2 box against about 43 bare-metal. Q8, Q6 and Q5 decode tracked the read ceiling at 92-97 percent of Copy and about 34 GB/s. Q4_K_M versus Q8_0 speedup was 1.37-1.45x, below the 1.5x bar at each thread count.",
+   "verdict": "KERNEL-DAY GO via the realization arm",
+   "verdict_class": "good",
+   "implies": "KERNEL-DAY GO via the realization arm: a GGML Q4 dequant-path kernel day is worth time behind the 13B gate, with Q8_0, Q4_K_M and Q4_0 as the CPU quant order."
+  },
+  {
+   "date": "2026-09-05",
+   "id": "O3-S0",
+   "title": "Suffix-entropy telemetry did not land",
+   "ask": "Does output-position entropy warn of RL stall before exact does.",
+   "measured": "The 97-157-step stall lead was a run-family confound, with partial r -0.48 to -0.16 and ns when controlled. Banked runs sat at 220-300 steps against papers at 3K-10K plus. Retry stayed hard-blocked by save_total_limit=2.",
+   "verdict": "NOT LAND",
+   "verdict_class": "bad",
+   "implies": "NOT LAND: O3-S1 stays closed, and what remains is a stop/continue rule at frac_reward_zero_std 0.70 or above and reward_std 0.15 or below plus a MetricsCb fix."
+  },
+  {
+   "date": "2026-09-05",
+   "id": "TU1",
+   "title": "Sufficiency judge-gate dead",
+   "ask": "Can the judge tag derivable rows and predict exact results.",
+   "measured": "Pooled gap was +56.6pp at Fisher p=1e-6, but direction-consistency was 1/5 families against required 3/5. The judge rated 92.2 percent of rows SUFFICIENT, and 3 of 5 families had zero insufficient rows. Free readout gave doc_sync sufficiency 0.267 with 0/4 exact on 4 derivable rows.",
+   "verdict": "DEAD per pre-registered rule",
+   "verdict_class": "bad",
+   "implies": "DEAD per pre-registered rule: reported as written with no rescue, TU2 runs solve-gated only with arm d cancelled, and B-beta doc_sync stands as broken beyond sufficiency."
+  },
+  {
+   "date": "2026-09-05",
+   "id": "W29",
+   "title": "Cloud SFT capability proven",
+   "ask": "Can the repo train on rented GPUs with no PAT or baked image.",
+   "measured": "60-step LoRA smoke on Anyscale A10G cut loss from 1.495 to 1.326, with time-to-ready 3.5 minutes and burn 0.55 dollars of a 10-dollar cap. A10G gave 2,746 tok/s at 0.63x the 5090. A B13-class rung cost about 6.5-8 dollars.",
+   "verdict": "CLOUD-READY",
+   "verdict_class": "good",
+   "implies": "CLOUD-READY: about 85 dollars of credit stays reserved for production fine-tuning at about 12 B13-class rungs, and W1 FP8 stays out at 57 dollars against about 7 on rental."
+  }
+ ],
+ "queue": {
+  "running": [
+   {
+    "id": "D1",
+    "item": "206M @ 0.5B undertraining disambiguation (user-reopened; readout pre-registered in script head…",
+    "why": "RUNNING (ETA ~21:00)"
+   }
+  ],
+  "parked": [
+   {
+    "id": "Q4",
+    "item": "Flash E2/E3 (holdout-interference probe ~2.5h; blocked-vs-interleaved SFT A/B)",
+    "why": "RL/SFT-methodology; relevant only when that phase resumes"
+   },
+   {
+    "id": "Q5",
+    "item": "stabtok P2/P3 + T1-tokenizer (~35h GPU)",
+    "why": "4x-LR stress margin of pinned recipe (P2 = the only pre-launch value; partially answered by Q3's stress pair); tokenizer compression + forced R-pattern tokens"
+   },
+   {
+    "id": "Q7",
+    "item": "RT-2 spec-acceptance probe (n-gram lookup + MTP acceptance on mined r-universe traces)",
+    "why": "Sets training spend for any MTP work + n-gram-first question before A2 freezes the head; 1.4–1.9x rollout speedup if real"
+   },
+   {
+    "id": "FIM-Replica",
+    "item": "FIM-dose replica arm — unmasked-FIM @35% probe2-replica control (the one untested leg of the a…",
+    "why": "The adopted FIM-dose verdict has a never-run falsifier; dashboard_state.json:21 tracks it as \"untested (replica arm pending)\""
+   },
+   {
+    "id": "B1",
+    "item": "In-family param ladder: MiniCPM5-1B layer-drop 24→20/16/12L + retrained 24L reference, LoRA ea…",
+    "why": "Params as the only variable → the size floor + the restraint (no-op FP) floor; instrument landed + dry-run tested"
+   },
+   {
+    "id": "B2",
+    "item": "Qwen3.5-0.8B-Base rung (GDN 3:1 at 0.8B; supersedes the Qwen3-0.6B frankenmodel idea)",
+    "why": "GDN column's sub-1B point; pre-checks: GGUF throughput #20072, MTP weights, text-strip precedent"
+   },
+   {
+    "id": "B3",
+    "item": "LFM2.5-350M-Base rung (conv+GQA at the stage-0 latency floor)",
+    "why": "conv-hybrid column at the floor; no-chat-template serve; lfm1.0 license check"
+   },
+   {
+    "id": "B4",
+    "item": "Qwen3.5-2B-Base straight-SFT rung — base ALREADY LOCAL (models/qwen3.5-2b-base-text-hf)",
+    "why": "GDN column at 2B; the honest redo of the instrument-broken bake-off leg (no midtrain)"
+   },
+   {
+    "id": "B5",
+    "item": "granite-4.1-3b-base rung (3B dense, native FIM in pretraining)",
+    "why": "Ceiling check + the doc_sync capacity-vs-construction disambiguation + native-FIM sample efficiency"
+   },
+   {
+    "id": "B8",
+    "item": "AST-FIM midtrain re-probe with the FIXED instrument (masking+packing), on the gate winner",
+    "why": "Does midtrained edit-span ability help at all; cross-checks B5's granite datapoint"
+   },
+   {
+    "id": "B9",
+    "item": "SeleKT gradient-importance masking A/B on the winner",
+    "why": "The one documented post-train-only failure mode (naive SFT loses edit ability)"
+   },
+   {
+    "id": "B10",
+    "item": "WiSE-FT LoRA interpolation (α∈{0.3,0.5,0.7})",
+    "why": "Multi-task shipping path + the pre-registered RL-phase guardrail"
+   },
+   {
+    "id": "B11",
+    "item": "NextCoder-style R edit-seed pack",
+    "why": "The edit-shaped data construction for post-train v1"
+   },
+   {
+    "id": "X2",
+    "item": "AR-init diffusion span head (the un-triggered Task 8)",
+    "why": "plan-frozen; kill: EXCEED 0.0694 exact within 1.0B continuation tokens or write the negative"
+   },
+   {
+    "id": "X3",
+    "item": "Length-aux hybrid (aux length head, NO value routing; the DDOT-signal salvage)",
+    "why": "plan-frozen; kill: exact ≥ 0.0347 with predicted lengths AND length-MAE ≤ 58.2"
+   }
+  ],
+  "proposed": [
+   {
+    "id": "P4",
+    "item": "Block-diffusion span head (family D targeted at spans)",
+    "why": "The 51–256-tok bucket is 0.000 everywhere; AR anchors structure, diffusion fills within blocks; KV-cacheable"
+   },
+   {
+    "id": "P5",
+    "item": "Edit Flows arm (family C: insert/delete/substitute CTMC)",
+    "why": "Survey's named candidate for long spans (+138% over mask-only at 1.3B on code); native variable length + deletions — the primitive AR-PSM and MD both lack"
+   },
+   {
+    "id": "P6",
+    "item": "Full CAL recipe (not our failed v1 half-peak rule)",
+    "why": "v1 failed hard (length-MAE 191) but the paper's full recipe reports +47.7% Pass@1 on code infilling; cheap to test on md_final.pt"
+   },
+   {
+    "id": "P7",
+    "item": "Data-scale disambiguation rerun — corpus dependency RESOLVED 2026-09-02 (strata already on dis…",
+    "why": "Tests paradigm-vs-data for the long-span zero; survey notes the regime is data-starved"
+   },
+   {
+    "id": "P8",
+    "item": "OT as training loss (FMPE-style continuous relaxation over span embeddings, family F)",
+    "why": "Pure white space — no text/code result exists anywhere; the \"NSE as OT\" idea's last untested form"
+   },
+   {
+    "id": "P9",
+    "item": "Differentiable edit-distance loss trained into a code model",
+    "why": "Survey white-space item #4 (edit-distance-as-OT exists for graphs/trees, never trained into a code model)"
+   },
+   {
+    "id": "P10",
+    "item": "GatedNorm-v2 (near-identity init) ladder arm — σ-init ≈1 (bias the gate) instead of the standa…",
+    "why": "Directly tests the user's scale question (2026-09-01): Q3's +2% BPB cost may be an init transient (σ≈0.5 halves sublayer outputs until learned open — a large fracti…"
+   },
+   {
+    "id": "V1",
+    "item": "Eval-strategy v2 (feel-of-use battery) — the user's 2026-09-01 directive: current non-RL evals…",
+    "why": "Every gate from here (B-α onward) gets additive v2 columns without changing pre-registered verdict rules; retroactively applicable to all arms whose raw outputs are…"
+   },
+   {
+    "id": "KV-AR",
+    "item": "KV-cached AR re-baseline (honest serving-latency table for the poc_diff AR arm; current 7689ms…",
+    "why": "Sharpens X1's cross-paradigm latency readout; gated by X1 landing"
+   },
+   {
+    "id": "P11",
+    "item": "Vocab probe — R-weighted 32K vs generic (tokenmonster) — staged, pre-registered. S1 tokenizer-…",
+    "why": "A2's vocab is a one-way door and the only datapoint is LFM vocab-scaling (survey Q4). tokenmonster record: tokenizer-only change ≈ 40% token-efficiency, realized as…"
+   },
+   {
+    "id": "P13",
+    "item": "Looped-depth probe (compute-for-bandwidth) — staged, pre-registered. S0 CPU paper gate (~half…",
+    "why": "User 2026-09-03 question: bandwidth-bound decode → trade compute for memory? DeepLoop (2607.13491) is stability-only (no memory/FLOP numbers); honest accounting: fi…"
+   },
+   {
+    "id": "E1",
+    "item": "EL-scheduler retrofit on rl_smoke.py — ordered difficulty scheduling vs the current random fix…",
+    "why": "Cheapest paper win; directly tests whether our pipe-near-ceiling vs format-headroom split is wasting GRPO group variance today"
+   },
+   {
+    "id": "E2",
+    "item": "Length-axis evolver lineage (format → compound) — build the Loop-1/Loop-2 harness at our scale…",
+    "why": "Paper's strongest single-step effect (−7.1pp pass rate at the smallest mutation); maps exactly onto our compound tasks + saturation problem (pipe ≈ dead at 90% zero…"
+   },
+   {
+    "id": "E3",
+    "item": "Scenario- + skill-axis evolver + cross-mode fallback — same harness as E2, other two axes adap…",
+    "why": "Length-only lineages risk depth overfitting; the paper's generality claim rests on all three axes + random ordering"
+   },
+   {
+    "id": "E4",
+    "item": "Evolution vs co-evolution head-to-head — matched-env-count comparison: (a) off-policy evolver…",
+    "why": "The paper's headline (+14.4/+18.0pp over co-evolution/ensemble) is the claim that would justify evolver infra as permanent; without this A/B we cannot separate evol…"
+   },
+   {
+    "id": "H1",
+    "item": "Harness-search method bake-off — three methods on the FIXED extension-only space (caps, trunca…",
+    "why": "Decides the search machinery before spending regime/re-render budget; pre-registers the expectation that code-search beats prompt-only (the WHALE FST gap, 4–13pp) o…"
+   },
+   {
+    "id": "H2",
+    "item": "Harness-only diagnostic (regime test) — H1-winner method, weights FROZEN at the B-α winner (sm…",
+    "why": "The cheap WHALE diagnostic: tells us which regime R-edit prediction lives in before any joint spend (their SearchQA matched peak weight-only at ~6% of rollouts; the…"
+   },
+   {
+    "id": "H3",
+    "item": "Render-format liberation (break zeta2) — render_zeta2 is anchoring, not optimality: all SFT da…",
+    "why": "Prices exactly what breaking zeta2 costs (re-render + adaptation + re-eval); the PSM-vs-zeta2 cache question is otherwise argued from principle, never measured"
+   },
+   {
+    "id": "H4",
+    "item": "Full WHALE alternating loop — alternate filtered-SFT (E=0.2–0.6 epochs) with the H1-winner har…",
+    "why": "The actual joint-optimization claim, with the paper's two load-bearing comparisons (alternating-vs-stagewise, adaptive-vs-fixed) re-run on our task and our budgets"
+   },
+   {
+    "id": "H5",
+    "item": "iGPU serving tier (re-target the ship matrix) — UPDATED 2026-09-04: hardware exists. User-meas…",
+    "why": "Every serving conclusion in the repo (prompt-format.md ordering, P12 roofline, quant A/B priors) was derived for slow-CPU prefill; the user's 2–3x measurement, if i…"
+   },
+   {
+    "id": "O1",
+    "item": "16-diverse prompt selection — selection script (embed TRAIN-split candidates per family, K-mea…",
+    "why": "Paper 2's cheapest win (1 prompt = 71.5% coverage / 87% of full-data gain; 16 diverse = 98.9% = full-data; single-cluster 16 ≈ diverse 4; order irrelevant) mapped o…"
+   },
+   {
+    "id": "O2",
+    "item": "Unanimous-group guard (pass-rate filter) — pre-screen candidates under the frozen base, admit…",
+    "why": "Our variance problem stated plainly; composes with E1 (O2 = admission filter, E1 = ordering) and with O1 (filter underneath the diverse set)"
+   },
+   {
+    "id": "O4",
+    "item": "Template-alignment price + novelty check (zeta2 stays canonical) — (a) aligned (current byte-i…",
+    "why": "Paper 1 §§3/5: template alone moved gap recovery 80→85%; content-matched wins but risks entropy collapse"
+   },
+   {
+    "id": "TU2",
+    "item": "Re-solve-vs-imitate SFT A/B (the §6.1 headline) — 4 arms at matched row count (subsample to sm…",
+    "why": "Their largest single ablation (+15.4 imitate→re-solve) mapped onto our data route: is the v-series raw-diff rendering leaving supervision on the table"
+   },
+   {
+    "id": "TU3",
+    "item": "Cross-file reference family (the §6.4 breadth analog) — new family cross_file_reference: writa…",
+    "why": "Their cross-WS data is the only +2.0-on-top datapoint (56.4→58.4) with 1.6-1.9× trajectory complexity; our rename/doc_sync families are the seed; single-package sco…"
+   },
+   {
+    "id": "TU4",
+    "item": "Multi-round version-chain sessions (the §6.5 depth analog; build folds into W18) — extend the…",
+    "why": "Their multi-round data is what moved persistent-session metrics (MT@4 18.4→21.0; round-verifier removal −2.2/−3.7); our simulator already plans full-package workstr…"
+   },
+   {
+    "id": "TU5",
+    "item": "Budget-split rule (the §6.6 analog) — optional piggyback — at matched row budget on the TU2 ri…",
+    "why": "The paper's only budget-allocation datapoint, and it prices exactly our assembler knob: per-commit render multiplicity vs package coverage"
+   },
+   {
+    "id": "S1",
+    "item": "Spec-decode wall-clock on our pattern — staged. S0 trace freeze (CPU, chain-safe): mine ~500–2…",
+    "why": "The NVIDIA MTP=3 + Unsloth n=2 receipts re-run on OUR traces, OUR renders, OUR tiers — replaces the folk 1.4–2.5x bands with one measured number before any latency…"
+   },
+   {
+    "id": "S2",
+    "item": "Quant wall-clock + quality on the keystroke-cycle — the P12 companion: P12 prices bytes (roofl…",
+    "why": "Stock-quant serving IS the CPU-tier memory-throughput optimization (intel-batch §5: Q8 already at/near roofline) — this measures what the user feels instead of argu…"
+   }
+  ],
+  "work_count": 37,
+  "synced": "2026-09-04T23:5x+0200 (zcode-queue-mgr-2 takeover — user GO: run the queue, NEW series prioritized (E/H/O/TU/S). Round-1 working set fired, all subagent-owned: P12 roofline (quiet window now), TU1 sufficiency judge (API), O3-S0 RL telemetry, S0 trace freeze, E1/O1 build-only patches, B8 train_sft midtrain patch (base-agnostic, unblocks the winner track on GO). §1 B-series chai…"
+ },
+ "next": [
+  "Base-pick GO after B13 (b4-config recommended by gate B-beta)",
+  "Winner track once picked: B8 midtrain run, B9, B10, W16, production fine-tune (plan doc open)",
+  "E1/O1 GPU runs armed (builds done, not fired)",
+  "H1 verdict, then H2 regime test",
+  "TU2 arms after the teacher solve pass"
+ ],
+ "decisions": [
+  "Suffix-completion convention everywhere: predict only what comes after the cursor (user decision; finish-block re-emission retired).",
+  "Dropout conditioning is the production config (robustness to prompt population, not type signal).",
+  "Telemetry: local collection always, upload never, until an explicit opt-in.",
+  "Eval battery order: extension acceptance counters first, then validator-exact scenario families plus calibrated judge plus intent assertions, then line-F1 midtyping.",
+  "llama.cpp support is deployment evidence, not a selection criterion; the architecture space gets a genuine pass.",
+  "Quota discipline: at most 6-8 concurrent zai consumers; Gemini and Opus 4.6 on separate quotas; Opus reserved for high-judgment tasks.",
+  "Ops: llama-server evals CPU-only; readiness via POST /v1/completions; kill by tracked PID/port only; one CUDA workload at a time, no exceptions (W37).",
+  "Every validator faces a corrupted twin before we trust it (RL reward rules)."
+ ]
+}

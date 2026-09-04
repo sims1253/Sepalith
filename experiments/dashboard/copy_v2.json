@@ -1,0 +1,527 @@
+{
+ "families": [
+  {
+   "name": "rename_propagation",
+   "decode": "When a name appears three or more times in one function and you rename one use, the next use takes the same rename.",
+   "example": "event: threshold <- cutoff at one site\ntarget: the next  threshold  becomes  cutoff"
+  },
+  {
+   "name": "na_rm_propagation",
+   "decode": "When one mean, sd, or var call in a summarise or mutate gains na.rm, the next call that lacks it gains it too.",
+   "example": "mean(x, na.rm = TRUE)  # the event\nsd(y)                 # the target gets na.rm = TRUE"
+  },
+  {
+   "name": "format_propagation",
+   "decode": "One hunk shown changed to air format carries the same style change to the next hunk.",
+   "example": "event: one hunk switched to air format\ntarget: the next hunk, same style change"
+  },
+  {
+   "name": "doc_sync",
+   "decode": "When the signature gains one benign argument such as verbose = FALSE, the matching roxygen @param line goes above it.",
+   "example": "#' @param verbose Show progress messages.\nverbose = FALSE  # added in signature"
+  },
+  {
+   "name": "namespace_qualify_propagation",
+   "decode": "When one bare call in a file is already restored with its pkg:: prefix, the next bare call at the cursor gains its prefix.",
+   "example": "dplyr::mutate(...)   # already restored\ngroup_by(...)        # target: dplyr::group_by"
+  },
+  {
+   "name": "pkg_metadata_sync",
+   "decode": "When a real export, importFrom, S3method, or DESCRIPTION Imports line is removed from its sorted place, the exact line goes back.",
+   "example": "export(parse_data)   # removed; model re-inserts it"
+  },
+  {
+   "name": "finish_block",
+   "decode": "Trains body completion from the opening brace. It writes the rest of the function body.",
+   "example": "summarise_stats <- function(x) {\n  # model completes the body"
+  },
+  {
+   "name": "mid_body_edit",
+   "decode": "Trains one-line repair inside a body. It predicts only the single changed line and does not re-emit the function.",
+   "example": "mean(x)  becomes  mean(x, na.rm = TRUE)"
+  },
+  {
+   "name": "astfim_partial",
+   "decode": "Trains continued retyping of a deleted span. It continues from the first retyped lines above the cursor and types the rest.",
+   "example": "# deleted span, first 2 lines retyped\n# model types the rest"
+  },
+  {
+   "name": "pipe_chain_link",
+   "decode": "Trains next-link completion in pipe chains. When a chain is cut after |> or %>% at end of line, it writes the next link verbatim from the corpus.",
+   "example": "x |>\n  # model completes: filter(!is.na(value))"
+  },
+  {
+   "name": "expectation_completion",
+   "decode": "Trains test assertion completion. Inside a real test_that block, it completes the expect_ call at the cursor.",
+   "example": "test_that(\"na dropped\", {\n  expect_   # model: equal(nrow(out), 2L)\n})"
+  },
+  {
+   "name": "tidyselect_completion",
+   "decode": "Trains tidyselect helper completion. It re-completes the removed helper call such as starts_with, contains, or where at a mid-line cursor.",
+   "example": "select(where(is.numeric),   # model: starts_with(\"pt_\"))"
+  },
+  {
+   "name": "trycatch_handler_completion",
+   "decode": "Trains handler completion for guarded calls. From the comma after the guarded block, it writes the condition handlers to the closing paren.",
+   "example": "tryCatch(fit(), error =   # model: function(e) NULL)"
+  },
+  {
+   "name": "removed_block_comment",
+   "decode": "Trains block restore at a marked site. When 3 to 8 statements were removed and a one-line comment marks the place, it puts the removed block back verbatim.",
+   "example": "# compute fold changes\n# model re-inserts the removed lines"
+  },
+  {
+   "name": "mid_roxygen",
+   "decode": "Trains roxygen completion at a mid-line cursor. It completes the rest of the doc block line with the text after the cursor given.",
+   "example": "#' @param x the values to summar   # model: ize."
+  },
+  {
+   "name": "hidden_r_instruction",
+   "decode": "Trains general R knowledge. It covers R rows from general code-instruction sets, not one edit skill.",
+   "example": ""
+  },
+  {
+   "name": "rewrite_lint_fix",
+   "decode": "Trains lint fixes that keep behavior. It fixes real lint findings on corpus code such as T/F booleans, seq, paste0, sapply, and class checks.",
+   "example": "if (x == T)  becomes  if (isTRUE(x))"
+  },
+  {
+   "name": "fix_issue_inject",
+   "decode": "Trains fault repair to exact original. The prompt shows a dirty twin with a small fault and the target is the corpus original.",
+   "example": "length(x) = n  becomes  n <- length(x)"
+  },
+  {
+   "name": "loop_rewrite",
+   "decode": "Trains loop to vector rewrite. It rewrites a for-loop into vectorized R with the same behavior.",
+   "example": "for (i in seq_along(x)) s[i] <- x[i]^2\n# becomes: s <- x^2"
+  },
+  {
+   "name": "edit_pairs",
+   "decode": "Trains edits mined from real git commit diffs. This is also the source of the midtyping eval rows.",
+   "example": ""
+  },
+  {
+   "name": "no_op",
+   "decode": "Trains restraint. The prompt has a plausible edit hook but the correct act is to change nothing and emit only the terminator.",
+   "example": "# bait: a line that LOOKS unfinished\n# correct output: (nothing)"
+  },
+  {
+   "name": "roxygen_drafting",
+   "decode": "Trains full roxygen drafting. Given a function, it writes the full roxygen doc block to match corpus ground truth.",
+   "example": "#' Summarise with a guard\n#' @param x numeric vector"
+  },
+  {
+   "name": "comment_drafting",
+   "decode": "Trains one-line comment drafting. Given real comment-free corpus code, it writes the comment from a five-style pool.",
+   "example": "# keep the last observation per group"
+  },
+  {
+   "name": "comment_insert",
+   "decode": "Trains comment placement. It puts a comment at the right place mid-function.",
+   "example": ""
+  },
+  {
+   "name": "comment_to_code (real / synthetic / gemini / styles)",
+   "decode": "Trains comment writing from code. Given corpus code as ground truth, it writes the one-line comment a developer would put above it.",
+   "example": "df <- df[order(df$id), ]  # model: order by id"
+  },
+  {
+   "name": "synthetic_analyst",
+   "decode": "Trains analyst script writing. It writes scripts from a domain and construct grid that passed validation.",
+   "example": ""
+  },
+  {
+   "name": "paper_to_r",
+   "decode": "Trains paper to R reimplementation. It rewrites a reported analysis as R that passes statistical checks run by the validator.",
+   "example": ""
+  },
+  {
+   "name": "pr_instructed",
+   "decode": "Trains instructed pull-request edits. It makes the requested pull-request style edit in the pilot set.",
+   "example": ""
+  },
+  {
+   "name": "compound (finish_block_compound, compound_spark)",
+   "decode": "Trains many cases from one sample. It derives many rows per base corpus function by rule grid or author models.",
+   "example": ""
+  },
+  {
+   "name": "registry (transform rules)",
+   "decode": "Trains rule-based transforms over corpus code. Each registered detector, rewrite, and verify plugin gives deterministic rows and rewards.",
+   "example": ""
+  },
+  {
+   "name": "refine_* (rename / format / pipe / no_op)",
+   "decode": "Trains correction from rollout failure. Each row pairs a failed RL rollout plus a complaint with the corrected completion.",
+   "example": ""
+  }
+ ],
+ "jargon": [
+  {
+   "term": "AR (autoregressive)",
+   "plain": "Writes left to right, one token at a time.",
+   "definition": "Generates text left to right, one token at a time. The classic decoder."
+  },
+  {
+   "term": "AST-FIM (syntax-tree fill-in-the-middle)",
+   "plain": "Fill in a code span picked from the syntax tree.",
+   "definition": "FIM variant where spans are semantic units such as function bodies or argument lists, picked by parsing the syntax tree, not by fixed-size windows. Built on the astfim_v1 corpus."
+  },
+  {
+   "term": "BPB (bits per byte)",
+   "plain": "Loss per input byte.",
+   "definition": "Loss measured per input byte rather than per token, so models with different vocabularies compare fairly."
+  },
+  {
+   "term": "edit_sim (edit similarity)",
+   "plain": "Partial credit for near matches.",
+   "definition": "Token-level similarity between prediction and ground truth. The partial-credit metric when exact match is too harsh."
+  },
+  {
+   "term": "eval-v2 (V-series) (feel-of-use battery)",
+   "plain": "Added use checks from 2026-09-01.",
+   "definition": "The 2026-09-01 addition: episode metrics, AST-equivalence scoring, and pairwise preference. Additive columns with pre-registered verdict rules unchanged."
+  },
+  {
+   "term": "exact / valid (metrics)",
+   "plain": "Match rate and parse rate, quoted as a pair.",
+   "definition": "exact means prediction equals ground truth. valid means parseable R. Quoted as a pair."
+  },
+  {
+   "term": "GDN (Gated DeltaNet)",
+   "plain": "Fast layer type with constant memory.",
+   "definition": "A linear-attention layer class with fast constant memory use. Qwen3.5 mixes 3 GDN layers per 1 full-attention layer."
+  },
+  {
+   "term": "GGUF / Q8_0 / Q4_K_M (model file formats)",
+   "plain": "Single-file model format and size levels.",
+   "definition": "GGUF is the single-file format llama.cpp serves. Q8_0 and Q4_K_M are quantization levels within it."
+  },
+  {
+   "term": "GRPO (the RL algorithm)",
+   "plain": "Learns by comparing 4 answers to one prompt.",
+   "definition": "Reward is exact match plus 0.2 times line-F1. Advantage comes from comparing 4 completions of the same prompt. Unanimous groups give zero signal."
+  },
+  {
+   "term": "kernel-day (scheduled GGML work)",
+   "plain": "One day of compute kernel work.",
+   "definition": "One day spent on llama.cpp compute kernels."
+  },
+  {
+   "term": "LoRA (low-rank adapter)",
+   "plain": "Small patch trained on a frozen model.",
+   "definition": "Train a small patch on a frozen base model."
+  },
+  {
+   "term": "MD / MD@32 (masked diffusion)",
+   "plain": "Fills a span by repeated unmasking.",
+   "definition": "Fills a span by iteratively unmasking tokens. MD@32 means 32 denoising steps."
+  },
+  {
+   "term": "McNemar rule (significance discipline)",
+   "plain": "Test rule for small before and after claims.",
+   "definition": "Any before and after claim at n under about 300 carries a McNemar test line and a verdict from the fixed vocabulary. Per-example rows are persisted."
+  },
+  {
+   "term": "midtyping (eval battery)",
+   "plain": "Completes a half-typed line.",
+   "definition": "Rows from real git diffs where the cursor sits mid-line. The model completes a partially typed line."
+  },
+  {
+   "term": "noopFP (no-op false-positive rate)",
+   "plain": "Share of decoy prompts wrongly edited.",
+   "definition": "Share of decoy prompts where nothing should be edited and the model proposes an edit anyway. Lower is better."
+  },
+  {
+   "term": "OPD (on-policy distillation)",
+   "plain": "Teacher signal on each rollout.",
+   "definition": "RL with a teacher signal on every rollout, even wrong or unanimous ones."
+  },
+  {
+   "term": "PSM (prefix-suffix-middle)",
+   "plain": "Prompt layout that gives prefix and suffix.",
+   "definition": "A FIM prompt layout where prefix and suffix are given and the middle is filled. zeta2 renders PSM with the suffix placed first."
+  },
+  {
+   "term": "RLVR (verifiable-reward RL)",
+   "plain": "RL scored by a program, not opinion.",
+   "definition": "RL where the reward is a program such as exact match, a validator, or a statistical property, not a model opinion."
+  },
+  {
+   "term": "SWA (sliding-window attention)",
+   "plain": "Attention over a short recent window.",
+   "definition": "Attention restricted to a window, mixed with full layers. It keeps memory constant per layer and makes long context cheaper."
+  },
+  {
+   "term": "t/s (tg128) (decode speed)",
+   "plain": "Tokens per second for 128 tokens.",
+   "definition": "Tokens per second generating 128 tokens, measured by llama-bench with 8 CPU threads under the contended-box convention."
+  },
+  {
+   "term": "zeta2 (the canonical prompt render)",
+   "plain": "Fixed order for suffix, diff, and prefix.",
+   "definition": "Suffix first, then the raw edit-history diff, then the file prefix with the edit region in merge markers. All SFT data and evals are keyed to it."
+  }
+ ],
+ "group_titles": [
+  "Propagation",
+  "Completion",
+  "Rewrite and repair",
+  "Restraint",
+  "Drafting",
+  "Compounding",
+  "RL refinement"
+ ],
+ "_turns": [
+  "families",
+  "chrome",
+  "verdicts",
+  "verdicts",
+  "verdicts"
+ ],
+ "title": "Sepalith",
+ "subtitle": "Program log for an open R next-edit model, local-first, for pharma and biostat work",
+ "stand": "Base pick is not made. B13 LFM2.5-2.6B rung training blocks the base-pick GO, with H1, TU2, V1d, and S0 trace freeze running. Banked calls stand: P12 KERNEL-DAY is GO, sft_v7 serves now, gate B-beta is a three-way tie with production rec b4-config, and TU1 is DEAD with O3-S0 NOT LAND and W29 cloud-ready.",
+ "live_label": "live now",
+ "section_intros": {
+  "happened": "Newest first. Each verdict is banked. Numbers are quoted from results docs.",
+  "tree": "Lines depend on each other. Killed branches stay in the tree because they carry load. Gates are pre-registered.",
+  "queued": "Parsed from the queue file each cycle.",
+  "glossary": "Each family name is decoded in plain words, with live row counts.",
+  "data": "Three inventories counted from disk, cached between cycles."
+ },
+ "timeline_labels": {
+  "ask": "ask",
+  "measured": "found",
+  "implies": "decision"
+ },
+ "footer_line": "Standing decisions and next-up lists are shown below, with build provenance stated from the repo.",
+ "timeline": [
+  {
+   "id": "sft_v7",
+   "ask": "Does training on 264516 rows produce a better serving model?",
+   "measured": "Train had 264,516 rows and eval had 9,252 rows. Scenario families scored 0.772 valid and 0.677 exact, with rename at 0.967 and 0.883, pipe at 1.0 and 1.0, and format at 0.700 and 0.550. Intent layer reached 1.636 against v6 at 1.386, while doc_sync stayed at 0.",
+   "implies": "WIN: sft_v7_minicpm5-Q8_0.gguf is the served model and the baseline for later SFT tests."
+  },
+  {
+   "id": "LANDSCAPE",
+   "ask": "What is the gap to glm-53 after controlling for format unfamiliarity?",
+   "measured": "Held-out set had 158 identical rows. v7 scored 0.772 and 0.677 against glm-5.3 at 0.424 and 0.335 zero-shot and at 0.601 and 0.494 with three worked examples. The few-shot control closes about half of the deficit.",
+   "implies": "WIN: cite the controlled 17-point gap, not the zero-shot 35, with the edge in format and pipe and rename."
+  },
+  {
+   "id": "FIM-DOSE",
+   "ask": "How much fill-in-the-middle data should pretraining include?",
+   "measured": "Four paired arms used 0, 10, 20 and 35 percent PSM-FIM share, with 350.2M tokens each. Doses ran 0.2 to 0.8 percent over control. Span BPB saturates by 10 to 20 percent, free-running serving collapses at 35 percent, and dose 20 is best.",
+   "implies": "ADOPT: set the mix at 20 to 35 percent centered at 25 to 30, with one masked replica arm still parked."
+  },
+  {
+   "id": "COMPOUND-FB",
+   "ask": "Can derived rows plus authored functions close the finish_block gap?",
+   "measured": "Registry has 7 rules with 39 of 39 selftests passing. Derivation made 9,574 corpus-exact rows from 1,562 base samples, with 297 of 300 passing the real renderer unchanged. Authored wave passed the 400-sample quality gate at commit e7aec65.",
+   "implies": "WIN: the data program for the weak corner has landed as authored functions times cut-point derivations."
+  },
+  {
+   "id": "NOOP-FP",
+   "ask": "Does v7 propose edits where the right answer is to change nothing?",
+   "measured": "v7 false-suggests on 70.6 percent of decoy prompts against v6 at 68.6 percent, so the fault is structural. Proposal is 100 percent on every untrained stop geometry, namely interior line-end and mid-identifier and blank line and refactorable, and about 30 percent on trained geometries.",
+   "implies": "CONFIRMED: restraint is geometry-specific, so train no_op on the three untrained geometries and add a client completeness gate."
+  },
+  {
+   "id": "POC-DIFF",
+   "ask": "At matched harness does a masked-diffusion twin beat an AR-FIM twin at infilling?",
+   "measured": "Paired eval had 216 rows. Span exact was MD@32 at 0.0694 against AR at 0.0000. p95 latency was 855ms against 7,689ms. Both arms scored 0.000 on the 51-to-256-token bucket with 80 rows.",
+   "implies": "VALIDATED: the diffusion line earned follow-ups while long spans stayed unsolved for later work."
+  },
+  {
+   "id": "POC-DDOT",
+   "ask": "Does an optimal-transport position field help the diffusion head place edits?",
+   "measured": "The position field converges before 200M tokens, while value routing poisons quality.",
+   "implies": "KILLED: Family E is closed and only the length-aux head remains as the honest-length path."
+  },
+  {
+   "id": "Q1-Q6",
+   "ask": "Did six early questions settle before any large training spend?",
+   "measured": "All were DONE on 2026-09-01. Verdicts live on the board and in the 2026-08-31 contraction close-out doc, and queue section 1 rows were pruned. The set covers Q1 to Q6.",
+   "implies": "DONE: scope was cut to what the evidence supports with the queue file as the single lookup."
+  },
+  {
+   "id": "X1",
+   "ask": "Do the serving SFT models carry span skill on the poc_diff harness?",
+   "measured": "All SFT arms scored exact 0.0000 against MD at 32 at 0.0694, and the 51 to 256 bucket is 0.0000 paradigm-wide. edit_sim was v3 at 0.066, v8_2 at 0.058, v7 at 0.052, and base at 0.024.",
+   "implies": "DONE: span-exact needs pretraining scale, so serving keeps its battery wins with no serving change."
+  },
+  {
+   "id": "X4",
+   "ask": "Can the full length-search recipe fix span length prediction?",
+   "measured": "All SFT arms scored exact 0.0000 against MD@32 at 0.0694, and the 51 to 256 bucket is 0.0000 paradigm-wide. edit_sim was v3 at 0.066, v8_2 at 0.058, v7 at 0.052, and base at 0.024.",
+   "implies": "KILLED: the CAL line is closed at v1 and v2 with only the length-aux head parked as salvage."
+  },
+  {
+   "id": "M1",
+   "ask": "Is a small curated corpus enough.",
+   "measured": "Both arms scored 0.0000 exact against 0.0694 for the 206M/2.0B anchor. M1b fell below 0.0347 so the kill test fired. Curation added +0.024 edit-sim with zero exact.",
+   "implies": "KILLED: scale and broad corpus exposure carry the result at each tested size, with no curation term in W5 arithmetic and the M-series closed."
+  },
+  {
+   "id": "B-SERIES-RUNGS",
+   "ask": "Which outside base classes hold up under one shared recipe.",
+   "measured": "b12_cal passed pre-gate 2 with unsloth versus PEFT delta -3.1pp at p=0.039. B1 dense scored 76.9/72.2/56.9/12.5 valid at 1.08B/967M/854M/741M. B2 GDN 0.8B scored 82.7/73.3. B3 conv plus GQA 350M scored 15.7 valid with 95.0 noopFP and 94.1 t/s. B12 SWA spark 1.7B scored 85.1/77.3 on the TRL path.",
+   "implies": "MEASURED (gate input): results support a first architecture verdict, and B3 speed does not offset its accuracy gap."
+  },
+  {
+   "id": "GATE-B-ALPHA",
+   "ask": "Which architecture class should supply the next base.",
+   "measured": "SWA 3:1 led raw at 85.1 valid but at 1.71B with no matched-size rival. GDN at 752M beat dense at 1.08B by 82.7 versus 76.9 with minus 30 percent params. Dense does not survive as the next-build base and conv plus GQA is out. doc_sync scored 0/15 on every arm.",
+   "implies": "SWA leader (size-provisional), GDN conditional on B4, conv out: B4 and B5 became the size controls, and doc_sync affects construction rather than capacity."
+  },
+  {
+   "id": "D-GRID",
+   "ask": "Is the span-exact edge from params, budget, or data breadth.",
+   "measured": "D2 at 76M and 2.0B tokens scored 0.0602. D1 at 206M and 0.5B scored 0.0000. D3 at 76M and 2.0B tokens over 7x unique data scored 0.0000. Size at matched budget added +0.0092.",
+   "implies": "DONE: budget/anneal depth is the lever: deep anneal on a small set beats coverage here, and the A2 program tests the larger regime."
+  },
+  {
+   "id": "B4-B5",
+   "ask": "Do GDN at 2B and dense at 3B confirm or end the spark lead.",
+   "measured": "b4 GDN 1.88B scored 85.1/76.5 at 19.2 t/s. b5 granite 3B scored 87.8/78.0 at 10.65 t/s, with native-FIM at 79.1. Spark versus b4 gave McNemar p=1.0000, and b5 plus 2.7pp gave p=0.119.",
+   "implies": "TIE at the top: the gate-alpha lead was size rather than SWA, and the classes now split on decode and fit rather than quality."
+  },
+  {
+   "id": "GATE-B-BETA",
+   "ask": "Which base do we use for production fine-tuning.",
+   "measured": "b5, spark and b4 tied on stats. GDN held best validator-at-decode at both sizes, with b2 at 82.7 and 36.2 t/s and b4 at 85.1 and 19.2 t/s. doc_sync scored 0.0 at each size from 350M to 3B.",
+   "implies": "GDN wins the product axis; recommendation is b4-config: the B8 to fine-tune track is clear pending GO, B13 runs first, and B8 plus data own doc_sync."
+  },
+  {
+   "id": "P12",
+   "ask": "Is CPU decode bandwidth bound and do Q4 quants pay out.",
+   "measured": "STREAM triad hit 25 GB/s on this WSL2 box against about 43 bare-metal. Q8, Q6 and Q5 decode tracked the read ceiling at 92-97 percent of Copy and about 34 GB/s. Q4_K_M versus Q8_0 speedup was 1.37-1.45x, below the 1.5x bar at each thread count.",
+   "implies": "KERNEL-DAY GO via the realization arm: a GGML Q4 dequant-path kernel day is worth time behind the 13B gate, with Q8_0, Q4_K_M and Q4_0 as the CPU quant order."
+  },
+  {
+   "id": "O3-S0",
+   "ask": "Does output-position entropy warn of RL stall before exact does.",
+   "measured": "The 97-157-step stall lead was a run-family confound, with partial r -0.48 to -0.16 and ns when controlled. Banked runs sat at 220-300 steps against papers at 3K-10K plus. Retry stayed hard-blocked by save_total_limit=2.",
+   "implies": "NOT LAND: O3-S1 stays closed, and what remains is a stop/continue rule at frac_reward_zero_std 0.70 or above and reward_std 0.15 or below plus a MetricsCb fix."
+  },
+  {
+   "id": "TU1",
+   "ask": "Can the judge tag derivable rows and predict exact results.",
+   "measured": "Pooled gap was +56.6pp at Fisher p=1e-6, but direction-consistency was 1/5 families against required 3/5. The judge rated 92.2 percent of rows SUFFICIENT, and 3 of 5 families had zero insufficient rows. Free readout gave doc_sync sufficiency 0.267 with 0/4 exact on 4 derivable rows.",
+   "implies": "DEAD per pre-registered rule: reported as written with no rescue, TU2 runs solve-gated only with arm d cancelled, and B-beta doc_sync stands as broken beyond sufficiency."
+  },
+  {
+   "id": "W29",
+   "ask": "Can the repo train on rented GPUs with no PAT or baked image.",
+   "measured": "60-step LoRA smoke on Anyscale A10G cut loss from 1.495 to 1.326, with time-to-ready 3.5 minutes and burn 0.55 dollars of a 10-dollar cap. A10G gave 2,746 tok/s at 0.63x the 5090. A B13-class rung cost about 6.5-8 dollars.",
+   "implies": "CLOUD-READY: about 85 dollars of credit stays reserved for production fine-tuning at about 12 B13-class rungs, and W1 FP8 stays out at 57 dollars against about 7 on rental."
+  }
+ ],
+ "tree": [
+  {
+   "id": "contraction",
+   "note": "Six pre-start questions settled 2026-09-01, scope cut to evidence-supported work."
+  },
+  {
+   "id": "pocdiff",
+   "note": "MD@32 twin beats AR twin 0.0694 to 0.0000, validated 2026-08-27, long spans tie at 0.000."
+  },
+  {
+   "id": "x1",
+   "note": "SFT arms score 0.0000 on span harness, measurement closed."
+  },
+  {
+   "id": "x2x3",
+   "note": "AR-init and length-aux follow-ups plan-frozen with pre-registered kill tests."
+  },
+  {
+   "id": "x4",
+   "note": "Full CAL recipe MAE 158.1 exact 0.0000, oracle needs visible suffix."
+  },
+  {
+   "id": "dgrid",
+   "note": "Budget is the lever with D2 at 0.0602, breadth loses with D3 at 0.0000, series closed."
+  },
+  {
+   "id": "m1",
+   "note": "76M arms 0.0000 vs 0.0694 anchor, scale and general corpus exposure carry the result."
+  },
+  {
+   "id": "pocddot",
+   "note": "Closed 2026-08-29: OT position field converges under 200M tokens, value routing harms quality."
+  },
+  {
+   "id": "bseries",
+   "note": "Done: external bases tested under one uniform recipe with two pre-registered gates."
+  },
+  {
+   "id": "brungs",
+   "note": "Done: B12 pre-gate 2 passed, dense has no floor above 24L, GDN 82.7/73.3 at 752M, spark 85.1/77.3 at 1.71B."
+  },
+  {
+   "id": "b3",
+   "note": "Killed: 15.7 valid with 95.0 noopFP, 94.1 t/s cannot close gap, B7 rescue conditional."
+  },
+  {
+   "id": "balpha",
+   "note": "Gate: SWA leads size-provisional, GDN conditional on B4, dense out, conv out, doc_sync 0 guides build."
+  },
+  {
+   "id": "b4b5",
+   "note": "Done: spark vs B4 exact tie p=1.0, B5 plus 2.7pp not significant, granite native-FIM 79.1 best."
+  },
+  {
+   "id": "bbeta",
+   "note": "Gate: three-way tie, GDN wins product use, production pick is B4 config."
+  },
+  {
+   "id": "b13",
+   "note": "Running: user call to try untried candidates before final pick, blocks base pick GO."
+  },
+  {
+   "id": "winner",
+   "note": "Blocked: B8 train_sft patch built and tested with 31 tests not fired, waits on base pick."
+  },
+  {
+   "id": "sftline",
+   "note": "Done: v7 is serving champion, v8 mixture route closed 2026-08-23, RL owns serving question."
+  },
+  {
+   "id": "rlline",
+   "note": "Done: runs v1 to v5 with t1_dapo banked, no_op reward 0.39 to 0.97, stop/continue tool banked."
+  },
+  {
+   "id": "eseries",
+   "note": "Proposed: E1 scheduler patch built with 26 tests and GPU run armed, E2 to E4 gated behind it."
+  },
+  {
+   "id": "oseries",
+   "note": "Proposed: O1 diverse-16 built, O3-S0 telemetry not land, O2 filter and O4 price queued."
+  },
+  {
+   "id": "tuseries",
+   "note": "Proposed: TU1 judge-gate dead, TU2 solve-gated with teacher solve in flight, TU3 to TU5 queued."
+  },
+  {
+   "id": "vseries",
+   "note": "Running: V1a metrics and V1b equivalence landed plus 14.9pp recovery, V1c pending, V1d judging now."
+  },
+  {
+   "id": "hseries",
+   "note": "Running: H1 search-method rig built and smoke passed with full run going, H2 to H5 gated behind it."
+  },
+  {
+   "id": "sseries",
+   "note": "Proposed: S0 trace freeze running as Q7 trace set, S1 and S2 proposed and fed by P12 priors."
+  },
+  {
+   "id": "p12",
+   "note": "Done: KERNEL-DAY GO with CPU quant priors Q8_0 Q4_K_M Q4_0, WSL2 bandwidth tax measured."
+  },
+  {
+   "id": "dataprog",
+   "note": "Running: normalized CRAN corpus and astfim_v1 276k rows 220.5M tokens, 40 plus family bank, A2 13/13 strata 7.55B tok."
+  }
+ ]
+}
