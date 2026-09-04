@@ -113,7 +113,7 @@ correction.)
 | zcode-base-bakeoff | external-base bake-off × param-floor ladder scoping (sub-1B supplement `model-survey-sub1b-supplement-2026-08-31.md`; queue B-series) | prior session | done 2026-09-01 (B-series prepped + parked §2b; execution → zcode-queue-mgr) |
 | zcode-micro-probe | M-series micro-specialist design (mdlARC-derived M1: ~75M MD twin, curated-vs-scale; plan `docs/research/2026-09-01-micro-specialist-probe-plan.md`, queued §3) | prior session | done 2026-09-01 (design landed §3; execution → zcode-queue-mgr) |
 | zcode-queue-mgr | primary researcher — owns `docs/EXPERIMENT-QUEUE.md`; B-series chain execution + eval-strategy v2 (user activation 2026-09-01T23:4x) | prior session | done 2026-09-04 22:3x (gates B-α/B-β landed, D-grid closed, production plan v0 open; handoff /tmp/sepalith-queue-mgr-handoff-2026-09-04.md) |
-| zcode-o3-telemetry | O3-S0 suffix-entropy + length telemetry on banked RL runs (queue §3 O3) | this session | active 2026-09-04 (CPU-first; GPU replay leg only if needed) |
+| zcode-o3-telemetry | O3-S0 suffix-entropy + length telemetry on banked RL runs (queue §3 O3) | this session | done 2026-09-05 (verdict NOT LAND; O3-S1 closed; readout O3_S0_RESULTS.md) |
 | zcode-queue-mgr-2 | primary researcher — owns docs/EXPERIMENT-QUEUE.md; round-1 working set (P12/TU1/O3-S0/S0/E1/O1/B8-patch) | this session | active 2026-09-05 |
 | zcode-p12-roofline | P12 roofline bench (build+run, quiet window) | subagent of zcode-queue-mgr-2 | active |
 | zcode-tu1-sufficiency | TU1 judge-sufficiency validation (glm-5.3, CPU/API) | subagent of zcode-queue-mgr-2 | done 2026-09-05 — VERDICT: DEAD (pooled gap +56.6pp but direction 1/5; TU2 arm (d) cancelled; doc_sync suff 0.267); TU1_RESULTS.md |
