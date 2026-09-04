@@ -1,0 +1,2046 @@
+{
+ "seed": 42,
+ "per_family": {
+  "rename_propagation": {
+   "file_rows": 5000,
+   "eval_split_pkg_rows": 207,
+   "over_budget": 0,
+   "eval_prompt_hits": 0,
+   "train_pool": 4793,
+   "carved": 52,
+   "packages": [
+    "CodelistGenerator",
+    "bibliometrix",
+    "broom.mixed",
+    "cardx",
+    "doBy",
+    "downlit",
+    "ggiraph",
+    "ggplot2",
+    "hardhat",
+    "heplots",
+    "hutils",
+    "lares",
+    "poorman",
+    "readabs",
+    "tidygeocoder",
+    "tidyr"
+   ],
+   "rule2_holdout_pkgs": [],
+   "rows": [
+    {
+     "id": "c4bfdca39eeb",
+     "package": "broom.mixed",
+     "path": "R/utilities.R",
+     "note": "rename Estimate -> Estimate2 (variable, occurrence after the edited one; fn cifun)",
+     "prompt_chars": 588
+    },
+    {
+     "id": "22b828468f21",
+     "package": "hardhat",
+     "path": "R/spruce.R",
+     "note": "rename missing -> missing2 (variable, occurrence after the edited one; fn names_as_spruce_names)",
+     "prompt_chars": 398
+    },
+    {
+     "id": "756488249614",
+     "package": "heplots",
+     "path": "R/utility-car.R",
+     "note": "rename which.term -> which_term (variable, occurrence after the edited one; fn df.terms.default)",
+     "prompt_chars": 590
+    },
+    {
+     "id": "72d7d6c8ef13",
+     "package": "tidyr",
+     "path": "R/append.R",
+     "note": "rename y_names -> y_names2 (variable, occurrence after the edited one; fn df_append)",
+     "prompt_chars": 374
+    },
+    {
+     "id": "dd7a22c0911e",
+     "package": "hardhat",
+     "path": "R/validation.R",
+     "note": "rename check -> check2 (variable, occurrence after the edited one; fn validate_outcomes_are_factors)",
+     "prompt_chars": 555
+    },
+    {
+     "id": "fce830fd666d",
+     "package": "lares",
+     "path": "R/missings.R",
+     "note": "rename miss -> miss2 (variable, occurrence after the edited one; fn missingness)",
+     "prompt_chars": 561
+    },
+    {
+     "id": "1174f00939b4",
+     "package": "ggplot2",
+     "path": "R/geom-path.R",
+     "note": "rename data -> data2 (variable, occurrence after the edited one; fn <anon>)",
+     "prompt_chars": 748
+    },
+    {
+     "id": "88f760a55850",
+     "package": "readabs",
+     "path": "R/check_abs_connection.R",
+     "note": "rename con -> con2 (variable, occurrence after the edited one; fn url_exists_nocurl)",
+     "prompt_chars": 828
+    },
+    {
+     "id": "1f0a3e66c373",
+     "package": "ggplot2",
+     "path": "R/make-constructor.R",
+     "note": "rename fixed_fmls_names -> fixed_fmls_names2 (variable, occurrence after the edited one; fn make_constructor.Geom)",
+     "prompt_chars": 472
+    },
+    {
+     "id": "fdc45bac5d1f",
+     "package": "downlit",
+     "path": "R/link.R",
+     "note": "rename urls -> urls2 (variable, occurrence after the edited one; fn href_package)",
+     "prompt_chars": 409
+    },
+    {
+     "id": "613d39457f28",
+     "package": "tidyr",
+     "path": "R/unnest.R",
+     "note": "rename names_sep -> names_sep2 (variable, occurrence after the edited one; fn unnest)",
+     "prompt_chars": 392
+    },
+    {
+     "id": "41e08028e1ec",
+     "package": "ggplot2",
+     "path": "R/guide-.R",
+     "note": "rename params -> params2 (variable, occurrence after the edited one; fn new_guide)",
+     "prompt_chars": 500
+    },
+    {
+     "id": "adc01ee657b4",
+     "package": "hutils",
+     "path": "R/find_pattern.R",
+     "note": "rename comment.char -> comment_char (variable, occurrence after the edited one; fn .reader)",
+     "prompt_chars": 464
+    },
+    {
+     "id": "e53b31984faa",
+     "package": "tidygeocoder",
+     "path": "R/reverse_batch_geocoding.R",
+     "note": "rename api_url -> api_url2 (variable, occurrence after the edited one; fn reverse_batch_bing)",
+     "prompt_chars": 458
+    },
+    {
+     "id": "54ce2f332e49",
+     "package": "bibliometrix",
+     "path": "R/apply_citation_matching.R",
+     "note": "rename ABBR_CLEAN -> ABBR_CLEAN2 (variable, occurrence after the edited one; fn normalize_journal_to_iso4)",
+     "prompt_chars": 721
+    },
+    {
+     "id": "c91b7ff37119",
+     "package": "readabs",
+     "path": "R/scrape_abs_catalogues.r",
+     "note": "rename sub_heading -> sub_heading2 (variable, occurrence after the edited one; fn scrape_sub_page)",
+     "prompt_chars": 575
+    },
+    {
+     "id": "7bd7cb1fbab1",
+     "package": "tidyr",
+     "path": "R/unnest-wider.R",
+     "note": "rename any_empty -> any_empty2 (variable, occurrence after the edited one; fn elt_to_wide)",
+     "prompt_chars": 374
+    },
+    {
+     "id": "beefa14c4f9a",
+     "package": "tidyr",
+     "path": "R/separate-longer.R",
+     "note": "rename data -> data2 (variable, occurrence after the edited one; fn map_unchop)",
+     "prompt_chars": 423
+    },
+    {
+     "id": "b6198b77cb9a",
+     "package": "heplots",
+     "path": "R/cqplot.R",
+     "note": "rename ylab -> ylab2 (variable, occurrence after the edited one; fn cqplot.default)",
+     "prompt_chars": 479
+    },
+    {
+     "id": "842d710ee54c",
+     "package": "heplots",
+     "path": "R/leveneTests.R",
+     "note": "rename form -> form2 (variable, occurrence after the edited one; fn leveneTests.formula)",
+     "prompt_chars": 424
+    },
+    {
+     "id": "34267f852f03",
+     "package": "hutils",
+     "path": "R/mutate_ntile.R",
+     "note": "rename weights -> weights2 (variable, occurrence after the edited one; fn mutate_ntile)",
+     "prompt_chars": 530
+    },
+    {
+     "id": "1f7932a0db90",
+     "package": "ggplot2",
+     "path": "R/layer.R",
+     "note": "rename mapping -> mapping2 (variable, occurrence after the edited one; fn validate_mapping)",
+     "prompt_chars": 530
+    },
+    {
+     "id": "5b30f7696c66",
+     "package": "tidyr",
+     "path": "R/separate-wider.R",
+     "note": "rename widths -> widths2 (variable, occurrence after the edited one; fn str_separate_wider_position)",
+     "prompt_chars": 582
+    },
+    {
+     "id": "b0beaa32f264",
+     "package": "cardx",
+     "path": "R/ard_incidence_rate.R",
+     "note": "rename n_person_time -> n_person_time2 (variable, occurrence after the edited one; fn ard_incidence_rate)",
+     "prompt_chars": 509
+    },
+    {
+     "id": "901281ab75de",
+     "package": "broom.mixed",
+     "path": "R/rstanarm_tidiers.R",
+     "note": "rename \"term\" -> \"term2\" (string, occurrence after the edited one; fn tidy.stanreg)",
+     "prompt_chars": 748
+    },
+    {
+     "id": "32fa28d4c2e4",
+     "package": "cardx",
+     "path": "R/ard_survival_survfit.R",
+     "note": "rename type -> type2 (variable, occurrence after the edited one; fn .process_survfit_time)",
+     "prompt_chars": 634
+    },
+    {
+     "id": "b6bfef724aba",
+     "package": "heplots",
+     "path": "R/interpPlot.R",
+     "note": "rename labels -> labels2 (variable, occurrence after the edited one; fn interpPlot)",
+     "prompt_chars": 498
+    },
+    {
+     "id": "2daad3052ba8",
+     "package": "CodelistGenerator",
+     "path": "R/summariseAchillesCodeUse.R",
+     "note": "rename codes -> codes2 (variable, occurrence after the edited one; fn getSourceCodes)",
+     "prompt_chars": 471
+    },
+    {
+     "id": "362c5ab6490c",
+     "package": "hutils",
+     "path": "R/drop_constant_cols.R",
+     "note": "rename constant_cols -> constant_cols2 (variable, occurrence after the edited one; fn drop_constant_cols)",
+     "prompt_chars": 465
+    },
+    {
+     "id": "003772de46f6",
+     "package": "readabs",
+     "path": "R/search_files.R",
+     "note": "rename out -> out2 (variable, occurrence after the edited one; fn search_files)",
+     "prompt_chars": 389
+    },
+    {
+     "id": "0c5f268926ae",
+     "package": "bibliometrix",
+     "path": "R/conceptualStructure.R",
+     "note": "rename rangey -> rangey2 (variable, occurrence after the edited one; fn conceptualStructure)",
+     "prompt_chars": 567
+    },
+    {
+     "id": "cbd1d313a4e9",
+     "package": "ggplot2",
+     "path": "R/geom-path.R",
+     "note": "rename attr -> attr2 (variable, occurrence after the edited one; fn <anon>)",
+     "prompt_chars": 559
+    },
+    {
+     "id": "92d6ee9bcbb1",
+     "package": "ggiraph",
+     "path": "R/labeller_interactive.R",
+     "note": "rename lbl -> lbl2 (variable, occurrence after the edited one; fn fun)",
+     "prompt_chars": 582
+    },
+    {
+     "id": "7f9f58a140fa",
+     "package": "poorman",
+     "path": "R/pivot_longer.R",
+     "note": "rename values_to -> values_to2 (variable, occurrence after the edited one; fn pivot_longer)",
+     "prompt_chars": 487
+    },
+    {
+     "id": "78a47355c966",
+     "package": "cardx",
+     "path": "R/ard_continuous_ci.survey.design.R",
+     "note": "rename lst_results -> lst_results2 (variable, occurrence after the edited one; fn .svymean_confint_wrapper)",
+     "prompt_chars": 468
+    },
+    {
+     "id": "808ba006b24e",
+     "package": "broom.mixed",
+     "path": "R/utilities.R",
+     "note": "rename newvals -> newvals2 (variable, occurrence after the edited one; fn finish_glance)",
+     "prompt_chars": 584
+    },
+    {
+     "id": "35361b04192e",
+     "package": "tidyr",
+     "path": "R/unnest-auto.R",
+     "note": "rename is_null -> is_null2 (variable, occurrence after the edited one; fn guess_dir)",
+     "prompt_chars": 578
+    },
+    {
+     "id": "d5e0d6f0d70c",
+     "package": "poorman",
+     "path": "R/count-tally.R",
+     "note": "rename groups -> groups2 (variable, occurrence after the edited one; fn count)",
+     "prompt_chars": 490
+    },
+    {
+     "id": "f44dd1acca5a",
+     "package": "lares",
+     "path": "R/confidence.R",
+     "note": "rename group_var -> group_var2 (variable, occurrence after the edited one; fn ci_var)",
+     "prompt_chars": 522
+    },
+    {
+     "id": "40271f2051fe",
+     "package": "bibliometrix",
+     "path": "R/apply_citation_matching.R",
+     "note": "rename matches_no_comma -> matches_no_comma2 (variable, occurrence after the edited one; fn normalize_citations)",
+     "prompt_chars": 540
+    },
+    {
+     "id": "ff5b0ae8b466",
+     "package": "cardx",
+     "path": "R/ard_categorical_ci.R",
+     "note": "rename data -> data2 (variable, occurrence after the edited one; fn .calculate_ard_proportion_cell)",
+     "prompt_chars": 583
+    },
+    {
+     "id": "c48bbb0214ad",
+     "package": "tidyr",
+     "path": "R/unnest-helper.R",
+     "note": "rename has_list_of_list -> has_list_of_list2 (variable, occurrence after the edited one; fn col_simplify)",
+     "prompt_chars": 533
+    },
+    {
+     "id": "d702f3b6aece",
+     "package": "doBy",
+     "path": "R/modelling.R",
+     "note": "rename out -> out2 (variable, occurrence after the edited one; fn align_coefs)",
+     "prompt_chars": 496
+    },
+    {
+     "id": "91852c0ba822",
+     "package": "downlit",
+     "path": "R/metadata.R",
+     "note": "rename local_path -> local_path2 (variable, occurrence after the edited one; fn local_metadata)",
+     "prompt_chars": 504
+    },
+    {
+     "id": "0d1c5bfe0a92",
+     "package": "tidyr",
+     "path": "R/expand.R",
+     "note": "rename out -> out2 (variable, occurrence after the edited one; fn nesting)",
+     "prompt_chars": 434
+    },
+    {
+     "id": "f446fb3bc4e2",
+     "package": "hardhat",
+     "path": "R/blueprint-formula-default.R",
+     "note": "rename data -> data2 (variable, occurrence after the edited one; fn mold_formula_default_clean)",
+     "prompt_chars": 472
+    },
+    {
+     "id": "9e03ff3fc4fe",
+     "package": "CodelistGenerator",
+     "path": "R/functions.R",
+     "note": "rename omopTable -> omopTable2 (variable, occurrence after the edited one; fn subsetOmopTable)",
+     "prompt_chars": 528
+    },
+    {
+     "id": "e09dacdb054f",
+     "package": "ggplot2",
+     "path": "R/geom-rug.R",
+     "note": "rename \"npc\" -> \"npc2\" (string, occurrence after the edited one; fn <anon>)",
+     "prompt_chars": 663
+    },
+    {
+     "id": "f20fe93c21bd",
+     "package": "lares",
+     "path": "R/model_metrics.R",
+     "note": "rename nums -> nums2 (variable, occurrence after the edited one; fn model_metrics)",
+     "prompt_chars": 531
+    },
+    {
+     "id": "86b3ffe09b8d",
+     "package": "bibliometrix",
+     "path": "R/collabByRegionPlot.R",
+     "note": "rename NetMatrix_reg -> NetMatrix_reg2 (variable, occurrence after the edited one; fn collabByRegionPlot)",
+     "prompt_chars": 550
+    },
+    {
+     "id": "3f662deca1c3",
+     "package": "ggplot2",
+     "path": "R/geom-ribbon.R",
+     "note": "rename data -> data2 (variable, occurrence after the edited one; fn <anon>)",
+     "prompt_chars": 466
+    },
+    {
+     "id": "53a94cddc2f2",
+     "package": "ggplot2",
+     "path": "R/geom-ribbon.R",
+     "note": "rename params -> params2 (variable, occurrence after the edited one; fn <anon>)",
+     "prompt_chars": 466
+    }
+   ]
+  },
+  "pipe_rewrite": {
+   "file_rows": 2592,
+   "eval_split_pkg_rows": 18,
+   "over_budget": 0,
+   "eval_prompt_hits": 0,
+   "train_pool": 2574,
+   "carved": 51,
+   "packages": [
+    "CDMConnector",
+    "baseballr",
+    "bayesplot",
+    "bootnet",
+    "dm",
+    "fabletools",
+    "ggdag",
+    "ggmap",
+    "ggpicrust2",
+    "ggpubr",
+    "ggsurvfit",
+    "gtExtras",
+    "gtsummary",
+    "hutils",
+    "janitor",
+    "lares",
+    "meta",
+    "metan",
+    "naniar",
+    "oysteR",
+    "pammtools",
+    "readabs",
+    "regions",
+    "rempsyc",
+    "rstatix",
+    "salesforcer",
+    "styler",
+    "tidybayes",
+    "tidyquant",
+    "timetk",
+    "tsDyn",
+    "visdat"
+   ],
+   "rule2_holdout_pkgs": [
+    "baseballr",
+    "visdat"
+   ],
+   "rows": [
+    {
+     "id": "5ac95f22faae",
+     "package": "rstatix",
+     "path": "R/tukey_hsd.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 439
+    },
+    {
+     "id": "0a2b95023cb1",
+     "package": "rstatix",
+     "path": "R/fligner_test.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 571
+    },
+    {
+     "id": "849d277f5481",
+     "package": "readabs",
+     "path": "R/scrape_abs_catalogues.r",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 505
+    },
+    {
+     "id": "4a20e05c6770",
+     "package": "gtsummary",
+     "path": "R/as_flex_table.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 536
+    },
+    {
+     "id": "399f29fa5952",
+     "package": "regions",
+     "path": "R/impute_down_nuts.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 482
+    },
+    {
+     "id": "704feed47aed",
+     "package": "hutils",
+     "path": "R/select_grep.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 453
+    },
+    {
+     "id": "715ce836c47b",
+     "package": "metan",
+     "path": "R/anova_joint.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 505
+    },
+    {
+     "id": "f205482750c3",
+     "package": "ggmap",
+     "path": "R/geocode.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 400
+    },
+    {
+     "id": "ae1ffceab56e",
+     "package": "ggsurvfit",
+     "path": "R/add_quantile.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 532
+    },
+    {
+     "id": "39018c636b62",
+     "package": "pammtools",
+     "path": "R/make-newdata.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 590
+    },
+    {
+     "id": "2d6b0fc47a91",
+     "package": "bootnet",
+     "path": "R/bootInclude.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 497
+    },
+    {
+     "id": "cc143fcbc8d5",
+     "package": "bayesplot",
+     "path": "R/mcmc-diagnostics-nuts.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 525
+    },
+    {
+     "id": "adc52e0df078",
+     "package": "ggpicrust2",
+     "path": "R/pathway_errorbar.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 798
+    },
+    {
+     "id": "81b8dd9def8b",
+     "package": "readabs",
+     "path": "R/download_data_cube.r",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 400
+    },
+    {
+     "id": "ab1c51e82447",
+     "package": "lares",
+     "path": "R/confidence.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 425
+    },
+    {
+     "id": "b189b107d4de",
+     "package": "visdat",
+     "path": "R/vis-binary.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 389
+    },
+    {
+     "id": "3e3e4db8300d",
+     "package": "baseballr",
+     "path": "R/mlb_high_low_types.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 463
+    },
+    {
+     "id": "647666f6c8c8",
+     "package": "timetk",
+     "path": "R/get-tk_get_holiday_signature.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 564
+    },
+    {
+     "id": "ddd703ab6345",
+     "package": "ggdag",
+     "path": "R/pull.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 435
+    },
+    {
+     "id": "c68a88c43302",
+     "package": "bayesplot",
+     "path": "R/mcmc-recover.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 687
+    },
+    {
+     "id": "0982ed663d80",
+     "package": "readabs",
+     "path": "R/get_xml_dfs.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 359
+    },
+    {
+     "id": "720a40510483",
+     "package": "lares",
+     "path": "R/confidence.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 380
+    },
+    {
+     "id": "805115368c62",
+     "package": "meta",
+     "path": "R/pairwise-internal.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 556
+    },
+    {
+     "id": "eb2a978ecc58",
+     "package": "ggdag",
+     "path": "R/StatsandGeoms.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 540
+    },
+    {
+     "id": "41acf22c227a",
+     "package": "ggpubr",
+     "path": "R/ggpaired.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 376
+    },
+    {
+     "id": "929ab357fb14",
+     "package": "dm",
+     "path": "R/dm.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 456
+    },
+    {
+     "id": "103a35efa247",
+     "package": "metan",
+     "path": "R/ge_stats.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 540
+    },
+    {
+     "id": "6b5ace14d288",
+     "package": "rempsyc",
+     "path": "R/grouped_bar_chart.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 453
+    },
+    {
+     "id": "60ff4443ba36",
+     "package": "styler",
+     "path": "R/testing.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 353
+    },
+    {
+     "id": "6a092521d942",
+     "package": "rstatix",
+     "path": "R/get_comparisons.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 547
+    },
+    {
+     "id": "aa106b3889a7",
+     "package": "bootnet",
+     "path": "R/replicationSimulator_methods.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 488
+    },
+    {
+     "id": "2f5625ada150",
+     "package": "rstatix",
+     "path": "R/add_cld.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 503
+    },
+    {
+     "id": "6a54a0fda258",
+     "package": "CDMConnector",
+     "path": "R/summariseQuantile.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 496
+    },
+    {
+     "id": "bb760bc0ec28",
+     "package": "dm",
+     "path": "R/enumerate_all_paths.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 356
+    },
+    {
+     "id": "c8e1b00fca67",
+     "package": "lares",
+     "path": "R/dataframe_str.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 694
+    },
+    {
+     "id": "68526f022d35",
+     "package": "tidyquant",
+     "path": "R/tq_get.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 384
+    },
+    {
+     "id": "fc26f2c63c7a",
+     "package": "tidyquant",
+     "path": "R/tq_stock_list.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 500
+    },
+    {
+     "id": "7a1ed3dd8d23",
+     "package": "janitor",
+     "path": "R/tabyl.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 551
+    },
+    {
+     "id": "9bc80667061e",
+     "package": "bootnet",
+     "path": "R/bootInclude.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 494
+    },
+    {
+     "id": "c3808284a4e0",
+     "package": "timetk",
+     "path": "R/plot-stl_diagnostics.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 548
+    },
+    {
+     "id": "43939db84a3f",
+     "package": "naniar",
+     "path": "R/shadows.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 486
+    },
+    {
+     "id": "b72d851b9af0",
+     "package": "tsDyn",
+     "path": "R/nlAny-methods.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 482
+    },
+    {
+     "id": "c1abfbc095ee",
+     "package": "gtExtras",
+     "path": "R/gt_theme_espn.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 416
+    },
+    {
+     "id": "7d80dc3c0311",
+     "package": "fabletools",
+     "path": "R/accuracy.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 364
+    },
+    {
+     "id": "586f877182e7",
+     "package": "baseballr",
+     "path": "R/mlb_league_leader_types.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 473
+    },
+    {
+     "id": "cc316f8863fc",
+     "package": "oysteR",
+     "path": "R/cache.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 453
+    },
+    {
+     "id": "d6eeab903d7a",
+     "package": "tidybayes",
+     "path": "R/gather_pairs.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 479
+    },
+    {
+     "id": "b5c1193290c1",
+     "package": "salesforcer",
+     "path": "R/utils-query.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 579
+    },
+    {
+     "id": "4d553610a06b",
+     "package": "styler",
+     "path": "R/initialize.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 531
+    },
+    {
+     "id": "4ea94773e387",
+     "package": "ggdag",
+     "path": "R/colliders.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 442
+    },
+    {
+     "id": "d4592f4b563c",
+     "package": "ggpubr",
+     "path": "R/stat_pvalue_manual.R",
+     "note": "rewrite magrittr pipe %>% to native pipe |> (next occurrence after the edited one)",
+     "prompt_chars": 495
+    }
+   ]
+  },
+  "format_propagation": {
+   "file_rows": 3924,
+   "eval_split_pkg_rows": 67,
+   "over_budget": 0,
+   "eval_prompt_hits": 0,
+   "train_pool": 3857,
+   "carved": 51,
+   "packages": [
+    "IsingSampler",
+    "MBESS",
+    "Matrix",
+    "OmopSketch",
+    "Polychrome",
+    "RMySQL",
+    "arsenal",
+    "clue",
+    "corncob",
+    "crossnma",
+    "fansi",
+    "gdata",
+    "gemtc",
+    "ggpicrust2",
+    "gistr",
+    "glmnet",
+    "gsignal",
+    "gt",
+    "gtExtras",
+    "irace",
+    "marginaleffects",
+    "mediation",
+    "mlr3tuning",
+    "pillar",
+    "pubmedR",
+    "relaimpo",
+    "scattermore",
+    "scoringRules",
+    "segmented",
+    "semTools",
+    "sensitivity",
+    "seriation",
+    "sjPlot",
+    "statmod",
+    "text2vec",
+    "tidytree"
+   ],
+   "rule2_holdout_pkgs": [],
+   "rows": [
+    {
+     "id": "04cb2b670bd0",
+     "package": "RMySQL",
+     "path": "R/mysql.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 37 -> formatted)",
+     "prompt_chars": 616
+    },
+    {
+     "id": "38ab4e7591f9",
+     "package": "scoringRules",
+     "path": "R/scores_lnorm.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 19 -> formatted)",
+     "prompt_chars": 839
+    },
+    {
+     "id": "9e2b4c5b2e8f",
+     "package": "gsignal",
+     "path": "R/peak2rms.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 87 -> formatted)",
+     "prompt_chars": 533
+    },
+    {
+     "id": "f76e7524f053",
+     "package": "statmod",
+     "path": "R/growthcurve.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 22 -> formatted)",
+     "prompt_chars": 1062
+    },
+    {
+     "id": "550f70293afc",
+     "package": "glmnet",
+     "path": "R/response.coxnet.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 36 -> formatted)",
+     "prompt_chars": 1126
+    },
+    {
+     "id": "ae68144318c9",
+     "package": "corncob",
+     "path": "R/print_summary_bbdml.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 32 -> formatted)",
+     "prompt_chars": 825
+    },
+    {
+     "id": "7f3415e2604b",
+     "package": "IsingSampler",
+     "path": "R/Entropy.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 27 -> formatted)",
+     "prompt_chars": 464
+    },
+    {
+     "id": "8eb8a408ef80",
+     "package": "gemtc",
+     "path": "R/data.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 22 -> formatted)",
+     "prompt_chars": 927
+    },
+    {
+     "id": "bdfc0b6d9777",
+     "package": "mlr3tuning",
+     "path": "R/ObjectiveTuningBatch.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 119 -> formatted)",
+     "prompt_chars": 809
+    },
+    {
+     "id": "f3a81cbd8f27",
+     "package": "ggpicrust2",
+     "path": "R/color_themes.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 204 -> formatted)",
+     "prompt_chars": 957
+    },
+    {
+     "id": "8f9c61218ba4",
+     "package": "crossnma",
+     "path": "R/crossnma.model.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 411 -> formatted)",
+     "prompt_chars": 498
+    },
+    {
+     "id": "6bc9d281824f",
+     "package": "fansi",
+     "path": "R/misc.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 116 -> formatted)",
+     "prompt_chars": 561
+    },
+    {
+     "id": "c4047eb815d7",
+     "package": "relaimpo",
+     "path": "R/betasqcalc.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 25 -> formatted)",
+     "prompt_chars": 717
+    },
+    {
+     "id": "b315c5415a79",
+     "package": "text2vec",
+     "path": "R/iterators.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 257 -> formatted)",
+     "prompt_chars": 806
+    },
+    {
+     "id": "52b3968c51d9",
+     "package": "seriation",
+     "path": "R/seriate_MDS.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 27 -> formatted)",
+     "prompt_chars": 839
+    },
+    {
+     "id": "880b15f9a7fa",
+     "package": "gsignal",
+     "path": "R/fracshift.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 89 -> formatted)",
+     "prompt_chars": 370
+    },
+    {
+     "id": "2940a19bfea8",
+     "package": "segmented",
+     "path": "R/pwr.seg.r",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 66 -> formatted)",
+     "prompt_chars": 698
+    },
+    {
+     "id": "562cbf3d5033",
+     "package": "arsenal",
+     "path": "R/comparedf.control.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 110 -> formatted)",
+     "prompt_chars": 1106
+    },
+    {
+     "id": "58008ed30134",
+     "package": "clue",
+     "path": "R/predict.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 14 -> formatted)",
+     "prompt_chars": 634
+    },
+    {
+     "id": "efe80e91d1a0",
+     "package": "marginaleffects",
+     "path": "R/sanity_dots.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 16 -> formatted)",
+     "prompt_chars": 1165
+    },
+    {
+     "id": "8d40f3a5b5a7",
+     "package": "pubmedR",
+     "path": "R/utils.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 90 -> formatted)",
+     "prompt_chars": 493
+    },
+    {
+     "id": "fab6c1be8001",
+     "package": "gemtc",
+     "path": "R/minimum.diameter.spanning.tree.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 11 -> formatted)",
+     "prompt_chars": 824
+    },
+    {
+     "id": "0c7d434b3c3c",
+     "package": "arsenal",
+     "path": "R/freq.control.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 40 -> formatted)",
+     "prompt_chars": 577
+    },
+    {
+     "id": "65a024f5af2f",
+     "package": "semTools",
+     "path": "R/partialInvariance.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 986 -> formatted)",
+     "prompt_chars": 950
+    },
+    {
+     "id": "45e276f54bc2",
+     "package": "sensitivity",
+     "path": "R/shapleyPermRand.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 56 -> formatted)",
+     "prompt_chars": 953
+    },
+    {
+     "id": "b5bf64552e73",
+     "package": "irace",
+     "path": "R/timer.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 12 -> formatted)",
+     "prompt_chars": 607
+    },
+    {
+     "id": "b5873ac2a817",
+     "package": "irace",
+     "path": "R/parameters.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 13 -> formatted)",
+     "prompt_chars": 1029
+    },
+    {
+     "id": "d0b7b431b6e5",
+     "package": "text2vec",
+     "path": "R/model_Collocations.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 194 -> formatted)",
+     "prompt_chars": 951
+    },
+    {
+     "id": "ddeaed359072",
+     "package": "sensitivity",
+     "path": "R/base.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 23 -> formatted)",
+     "prompt_chars": 737
+    },
+    {
+     "id": "4801cfa22ac5",
+     "package": "semTools",
+     "path": "R/clipboard.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 211 -> formatted)",
+     "prompt_chars": 796
+    },
+    {
+     "id": "9208411b373d",
+     "package": "segmented",
+     "path": "R/predict.stepmented.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 7 -> formatted)",
+     "prompt_chars": 1179
+    },
+    {
+     "id": "28e2606b74d2",
+     "package": "gtExtras",
+     "path": "R/gt_vendor.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 82 -> formatted)",
+     "prompt_chars": 1023
+    },
+    {
+     "id": "65413af25755",
+     "package": "gdata",
+     "path": "R/env.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 12 -> formatted)",
+     "prompt_chars": 969
+    },
+    {
+     "id": "29af2b69c90c",
+     "package": "arsenal",
+     "path": "R/tableby.control.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 98 -> formatted)",
+     "prompt_chars": 1570
+    },
+    {
+     "id": "79c45dca82ae",
+     "package": "pillar",
+     "path": "R/sigfig.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 397 -> formatted)",
+     "prompt_chars": 675
+    },
+    {
+     "id": "a5f270afde4b",
+     "package": "marginaleffects",
+     "path": "R/methods_crch.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 14 -> formatted)",
+     "prompt_chars": 2129
+    },
+    {
+     "id": "7808b5f5c3bf",
+     "package": "gt",
+     "path": "R/nanoplot.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 1412 -> formatted)",
+     "prompt_chars": 518
+    },
+    {
+     "id": "68a07325a6ad",
+     "package": "corncob",
+     "path": "R/plot_differentialTest.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 62 -> formatted)",
+     "prompt_chars": 1432
+    },
+    {
+     "id": "b48d36b0b3b4",
+     "package": "Matrix",
+     "path": "R/colSums.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 62 -> formatted)",
+     "prompt_chars": 1215
+    },
+    {
+     "id": "16491cf9e0da",
+     "package": "tidytree",
+     "path": "R/filter.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 12 -> formatted)",
+     "prompt_chars": 921
+    },
+    {
+     "id": "9105795b9323",
+     "package": "MBESS",
+     "path": "R/ci.reliability.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 56 -> formatted)",
+     "prompt_chars": 1054
+    },
+    {
+     "id": "62cf3ed4953f",
+     "package": "scattermore",
+     "path": "R/scatter_points_histogram.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 43 -> formatted)",
+     "prompt_chars": 1318
+    },
+    {
+     "id": "8507e1307b8b",
+     "package": "gt",
+     "path": "R/cols_add.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 394 -> formatted)",
+     "prompt_chars": 552
+    },
+    {
+     "id": "749f64c47feb",
+     "package": "glmnet",
+     "path": "R/plot.relaxed.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 40 -> formatted)",
+     "prompt_chars": 711
+    },
+    {
+     "id": "0fe5b35b6fe5",
+     "package": "sjPlot",
+     "path": "R/plot_residuals.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 51 -> formatted)",
+     "prompt_chars": 967
+    },
+    {
+     "id": "6138b4f25886",
+     "package": "RMySQL",
+     "path": "R/mysql.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 41 -> formatted)",
+     "prompt_chars": 664
+    },
+    {
+     "id": "9c8cef7fb3d3",
+     "package": "OmopSketch",
+     "path": "R/tableMissingData.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 52 -> formatted)",
+     "prompt_chars": 833
+    },
+    {
+     "id": "5d67fca8fb96",
+     "package": "mediation",
+     "path": "R/mediations.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 364 -> formatted)",
+     "prompt_chars": 728
+    },
+    {
+     "id": "70daeb39bb76",
+     "package": "gistr",
+     "path": "R/gist_create_git.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 191 -> formatted)",
+     "prompt_chars": 877
+    },
+    {
+     "id": "2d9838687663",
+     "package": "gt",
+     "path": "R/cols_align.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 150 -> formatted)",
+     "prompt_chars": 507
+    },
+    {
+     "id": "9959adf19526",
+     "package": "Polychrome",
+     "path": "R/palettes.R",
+     "note": "propagate air format to the next changed hunk (raw hunk at line 11 -> formatted)",
+     "prompt_chars": 879
+    }
+   ]
+  },
+  "doc_sync": {
+   "file_rows": 1087,
+   "eval_split_pkg_rows": 15,
+   "over_budget": 0,
+   "eval_prompt_hits": 0,
+   "train_pool": 1072,
+   "carved": 51,
+   "packages": [
+    "BWStest",
+    "BeviMed",
+    "IOBR",
+    "MatchingPursuit",
+    "OmopSketch",
+    "SimDesign",
+    "animation",
+    "av",
+    "brand.yml",
+    "circle",
+    "corncob",
+    "cowplot",
+    "declared",
+    "decor",
+    "doBy",
+    "ellmer",
+    "exactextractr",
+    "formattable",
+    "ggmap",
+    "hahmmr",
+    "irace",
+    "kknn",
+    "mlr3tuning",
+    "modeldata",
+    "openxlsx2",
+    "parquetize",
+    "piggyback",
+    "pillar",
+    "plot.matrix",
+    "r2rtf",
+    "rsei",
+    "sfd",
+    "shiny",
+    "shinyFiles",
+    "simr",
+    "stopwords",
+    "tabnet",
+    "trialSizing",
+    "units",
+    "vcdExtra",
+    "yulab.utils"
+   ],
+   "rule2_holdout_pkgs": [
+    "exactextractr"
+   ],
+   "rows": [
+    {
+     "id": "9d6a44f526ae",
+     "package": "sfd",
+     "path": "R/update_values.R",
+     "note": "document new argument verbose in the roxygen block of update_values (event added it to the signature)",
+     "prompt_chars": 757
+    },
+    {
+     "id": "2288e361016c",
+     "package": "formattable",
+     "path": "R/formattable.R",
+     "note": "document new argument verbose in the roxygen block of formattable (event added it to the signature)",
+     "prompt_chars": 655
+    },
+    {
+     "id": "e766651ccc3d",
+     "package": "shinyFiles",
+     "path": "R/filesave.R",
+     "note": "document new argument verbose in the roxygen block of formatFiletype (event added it to the signature)",
+     "prompt_chars": 589
+    },
+    {
+     "id": "c6914ef659bd",
+     "package": "units",
+     "path": "R/mixed.R",
+     "note": "document new argument verbose in the roxygen block of mixed_units (event added it to the signature)",
+     "prompt_chars": 1081
+    },
+    {
+     "id": "1b1c58969ce9",
+     "package": "IOBR",
+     "path": "R/IPS_helper.R",
+     "note": "document new argument verbose in the roxygen block of mapcolors (event added it to the signature)",
+     "prompt_chars": 724
+    },
+    {
+     "id": "d861a0d130f3",
+     "package": "vcdExtra",
+     "path": "R/HLtest.R",
+     "note": "document new argument verbose in the roxygen block of HosmerLemeshow (event added it to the signature)",
+     "prompt_chars": 966
+    },
+    {
+     "id": "50c837e73257",
+     "package": "parquetize",
+     "path": "R/utilities.R",
+     "note": "document missing argument(s) max_memory of get_lines_for_memory (event added them to the signature)",
+     "prompt_chars": 510
+    },
+    {
+     "id": "7d01e13d2a9f",
+     "package": "hahmmr",
+     "path": "R/workflows.R",
+     "note": "document missing argument(s) verbose of filter_genes (event added them to the signature)",
+     "prompt_chars": 673
+    },
+    {
+     "id": "d4ac6c27c6a7",
+     "package": "stopwords",
+     "path": "R/stopwords.R",
+     "note": "document new argument verbose in the roxygen block of stopwords (event added it to the signature)",
+     "prompt_chars": 1110
+    },
+    {
+     "id": "e8324c76fea8",
+     "package": "corncob",
+     "path": "R/plot_bbdml.R",
+     "note": "document new argument verbose in the roxygen block of plot.bbdml (event added it to the signature)",
+     "prompt_chars": 1740
+    },
+    {
+     "id": "c2fe955aecf9",
+     "package": "animation",
+     "path": "R/sample.strat.R",
+     "note": "document new argument verbose in the roxygen block of sample.strat (event added it to the signature)",
+     "prompt_chars": 824
+    },
+    {
+     "id": "3781c5029898",
+     "package": "irace",
+     "path": "R/race-wrapper.R",
+     "note": "document new argument verbose in the roxygen block of buildCommandLine (event added it to the signature)",
+     "prompt_chars": 954
+    },
+    {
+     "id": "0244af4d3891",
+     "package": "exactextractr",
+     "path": "R/exact_extract_helpers.R",
+     "note": "document missing argument(s) colname_fun of .resultColumns (event added them to the signature)",
+     "prompt_chars": 1129
+    },
+    {
+     "id": "95b8a2f09876",
+     "package": "OmopSketch",
+     "path": "R/tableObservationPeriod.R",
+     "note": "document new argument verbose in the roxygen block of tableObservationPeriod (event added it to the signature)",
+     "prompt_chars": 408
+    },
+    {
+     "id": "87b3da38489d",
+     "package": "shiny",
+     "path": "R/devmode.R",
+     "note": "document missing argument(s) verbose of with_devmode (event added them to the signature)",
+     "prompt_chars": 702
+    },
+    {
+     "id": "4bac1f004684",
+     "package": "units",
+     "path": "R/plot.R",
+     "note": "document new argument verbose in the roxygen block of boxplot.units (event added it to the signature)",
+     "prompt_chars": 774
+    },
+    {
+     "id": "ae83f34e23ef",
+     "package": "kknn",
+     "path": "R/specClust.R",
+     "note": "document new argument verbose in the roxygen block of specClust (event added it to the signature)",
+     "prompt_chars": 1391
+    },
+    {
+     "id": "ebf13ea0beb0",
+     "package": "vcdExtra",
+     "path": "R/glmlist.R",
+     "note": "document new argument verbose in the roxygen block of glmlist (event added it to the signature)",
+     "prompt_chars": 927
+    },
+    {
+     "id": "318ee1a0f066",
+     "package": "tabnet",
+     "path": "R/utils.R",
+     "note": "document new argument verbose in the roxygen block of check_compliant_node (event added it to the signature)",
+     "prompt_chars": 647
+    },
+    {
+     "id": "442e2df41be8",
+     "package": "ggmap",
+     "path": "R/gglocator.R",
+     "note": "document new argument verbose in the roxygen block of gglocator (event added it to the signature)",
+     "prompt_chars": 815
+    },
+    {
+     "id": "3b808d3edfcb",
+     "package": "BWStest",
+     "path": "R/zzz_murakami_dist.r",
+     "note": "document new argument verbose in the roxygen block of murakami_cdf (event added it to the signature)",
+     "prompt_chars": 1174
+    },
+    {
+     "id": "2e8aeef679a6",
+     "package": "mlr3tuning",
+     "path": "R/extract_inner_tuning_archives.R",
+     "note": "document new argument verbose in the roxygen block of extract_inner_tuning_archives (event added it to the signature)",
+     "prompt_chars": 990
+    },
+    {
+     "id": "65d1e56de7c4",
+     "package": "av",
+     "path": "R/fft.R",
+     "note": "document missing argument(s) start_time, end_time of read_audio_bin (event added them to the signature)",
+     "prompt_chars": 765
+    },
+    {
+     "id": "1a3cb7395504",
+     "package": "r2rtf",
+     "path": "R/conversion.R",
+     "note": "document missing argument(s) use_i18n of convert (event added them to the signature)",
+     "prompt_chars": 701
+    },
+    {
+     "id": "07b716a221a5",
+     "package": "brand.yml",
+     "path": "R/helpers.R",
+     "note": "document new argument verbose in the roxygen block of brand_has (event added it to the signature)",
+     "prompt_chars": 756
+    },
+    {
+     "id": "e44710952b3e",
+     "package": "pillar",
+     "path": "R/type-sum.R",
+     "note": "document new argument verbose in the roxygen block of type_sum (event added it to the signature)",
+     "prompt_chars": 760
+    },
+    {
+     "id": "b5dae13330bb",
+     "package": "yulab.utils",
+     "path": "R/os.R",
+     "note": "document new argument verbose in the roxygen block of exec (event added it to the signature)",
+     "prompt_chars": 365
+    },
+    {
+     "id": "f64085e830df",
+     "package": "piggyback",
+     "path": "R/pb_download.R",
+     "note": "document new argument verbose in the roxygen block of pb_download (event added it to the signature)",
+     "prompt_chars": 781
+    },
+    {
+     "id": "20a848580677",
+     "package": "trialSizing",
+     "path": "R/calc_replicates.R",
+     "note": "document missing argument(s) max_iter of calc_replicates (event added them to the signature)",
+     "prompt_chars": 1559
+    },
+    {
+     "id": "f52f0a791df7",
+     "package": "corncob",
+     "path": "R/wald.R",
+     "note": "document new argument verbose in the roxygen block of waldt (event added it to the signature)",
+     "prompt_chars": 379
+    },
+    {
+     "id": "f123746b27fa",
+     "package": "corncob",
+     "path": "R/otu_to_taxonomy.R",
+     "note": "document new argument verbose in the roxygen block of otu_to_taxonomy (event added it to the signature)",
+     "prompt_chars": 634
+    },
+    {
+     "id": "2ecd49d8a18d",
+     "package": "plot.matrix",
+     "path": "R/plot.cor.R",
+     "note": "document new argument verbose in the roxygen block of plot.cor (event added it to the signature)",
+     "prompt_chars": 1153
+    },
+    {
+     "id": "7742df20a069",
+     "package": "simr",
+     "path": "R/extend.R",
+     "note": "document new argument verbose in the roxygen block of extend (event added it to the signature)",
+     "prompt_chars": 1206
+    },
+    {
+     "id": "0e981f1b7170",
+     "package": "units",
+     "path": "R/conversion.R",
+     "note": "document new argument verbose in the roxygen block of `units<-.numeric` (event added it to the signature)",
+     "prompt_chars": 1079
+    },
+    {
+     "id": "d4940a9d962b",
+     "package": "ellmer",
+     "path": "R/types.R",
+     "note": "document new argument verbose in the roxygen block of type_enum (event added it to the signature)",
+     "prompt_chars": 694
+    },
+    {
+     "id": "5633d7cacbc0",
+     "package": "shinyFiles",
+     "path": "R/filechoose.R",
+     "note": "document new argument verbose in the roxygen block of parseFilePaths (event added it to the signature)",
+     "prompt_chars": 1017
+    },
+    {
+     "id": "f14bafebb090",
+     "package": "declared",
+     "path": "R/wvar.R",
+     "note": "document missing argument(s) na.rm of `wvar` (event added them to the signature)",
+     "prompt_chars": 378
+    },
+    {
+     "id": "6120762675e7",
+     "package": "vcdExtra",
+     "path": "R/expand.dft.R",
+     "note": "document new argument verbose in the roxygen block of expand.dft (event added it to the signature)",
+     "prompt_chars": 1265
+    },
+    {
+     "id": "9d3ec775c17e",
+     "package": "decor",
+     "path": "R/decor.R",
+     "note": "document new argument verbose in the roxygen block of cpp_files (event added it to the signature)",
+     "prompt_chars": 379
+    },
+    {
+     "id": "f574fec62613",
+     "package": "rsei",
+     "path": "R/escrita.R",
+     "note": "document missing argument(s) verbose of lancar_andamento (event added them to the signature)",
+     "prompt_chars": 1294
+    },
+    {
+     "id": "c9f840361279",
+     "package": "vcdExtra",
+     "path": "R/collapse.table.R",
+     "note": "document new argument verbose in the roxygen block of collapse.table (event added it to the signature)",
+     "prompt_chars": 953
+    },
+    {
+     "id": "bdc0ef7f787e",
+     "package": "doBy",
+     "path": "R/modelling.R",
+     "note": "document new argument verbose in the roxygen block of align_coefs (event added it to the signature)",
+     "prompt_chars": 815
+    },
+    {
+     "id": "0d278b74269f",
+     "package": "cowplot",
+     "path": "R/gtable.R",
+     "note": "document new argument verbose in the roxygen block of gtable_squash_rows (event added it to the signature)",
+     "prompt_chars": 739
+    },
+    {
+     "id": "ccee46602c2b",
+     "package": "mlr3tuning",
+     "path": "R/as_tuner.R",
+     "note": "document new argument verbose in the roxygen block of as_tuner (event added it to the signature)",
+     "prompt_chars": 422
+    },
+    {
+     "id": "39d4049b8b77",
+     "package": "BeviMed",
+     "path": "R/functions.R",
+     "note": "document missing argument(s) min_ac of subset_variants (event added them to the signature)",
+     "prompt_chars": 942
+    },
+    {
+     "id": "7930922c0622",
+     "package": "circle",
+     "path": "R/checkout-key.R",
+     "note": "document missing argument(s) vcs_type of has_checkout_key (event added them to the signature)",
+     "prompt_chars": 943
+    },
+    {
+     "id": "183905bdeb7c",
+     "package": "openxlsx2",
+     "path": "R/get-named-regions.R",
+     "note": "sync roxygen of wb_get_named_regions with the signature change between versions (+builtins -x)",
+     "prompt_chars": 538
+    },
+    {
+     "id": "c3e351c90e8a",
+     "package": "MatchingPursuit",
+     "path": "R/eeg_montage.R",
+     "note": "document missing argument(s) montage_type of eeg_montage (event added them to the signature)",
+     "prompt_chars": 1020
+    },
+    {
+     "id": "da7c45c862ab",
+     "package": "modeldata",
+     "path": "R/import-standalone-obj-type.R",
+     "note": "document new argument verbose in the roxygen block of obj_type_friendly (event added it to the signature)",
+     "prompt_chars": 741
+    },
+    {
+     "id": "ef1079916582",
+     "package": "SimDesign",
+     "path": "R/runSimulation.R",
+     "note": "document new argument verbose in the roxygen block of summary.SimDesign (event added it to the signature)",
+     "prompt_chars": 588
+    },
+    {
+     "id": "cd834dc8070f",
+     "package": "vcdExtra",
+     "path": "R/blogits.R",
+     "note": "document new argument verbose in the roxygen block of blogits (event added it to the signature)",
+     "prompt_chars": 1549
+    }
+   ]
+  },
+  "na_rm_propagation": {
+   "file_rows": 167,
+   "eval_split_pkg_rows": 5,
+   "over_budget": 0,
+   "eval_prompt_hits": 0,
+   "train_pool": 162,
+   "carved": 51,
+   "packages": [
+    "ENMeval",
+    "SimDesign",
+    "bootnet",
+    "cSEM",
+    "contentanalysis",
+    "descriptr",
+    "directlabels",
+    "doBy",
+    "duckplyr",
+    "flexsurv",
+    "ggpubr",
+    "ggraph",
+    "gsDesign",
+    "infer",
+    "inlabru",
+    "lares",
+    "metan",
+    "mice",
+    "pbkrtest",
+    "phyr",
+    "plotly",
+    "posterior",
+    "prophet",
+    "radiant.model",
+    "rempsyc",
+    "summarytools",
+    "tabnet"
+   ],
+   "rule2_holdout_pkgs": [],
+   "rows": [
+    {
+     "id": "4ce3500630ea",
+     "package": "duckplyr",
+     "path": "R/tpch.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 643
+    },
+    {
+     "id": "4de88a90e1e2",
+     "package": "phyr",
+     "path": "R/pglmm.R",
+     "note": "add na.rm = TRUE to var( lacking it (next call after the edited one)",
+     "prompt_chars": 759
+    },
+    {
+     "id": "f1935d0c72ab",
+     "package": "ENMeval",
+     "path": "R/tune.enm.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 672
+    },
+    {
+     "id": "1fccf98c7970",
+     "package": "inlabru",
+     "path": "R/track_plotting.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 578
+    },
+    {
+     "id": "301a4905c6b4",
+     "package": "pbkrtest",
+     "path": "R/PB_modcomp.R",
+     "note": "add na.rm = TRUE to var( lacking it (next call after the edited one)",
+     "prompt_chars": 424
+    },
+    {
+     "id": "99b709c4a338",
+     "package": "flexsurv",
+     "path": "R/standsurv.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 587
+    },
+    {
+     "id": "896f11753a52",
+     "package": "tabnet",
+     "path": "R/model_training.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 505
+    },
+    {
+     "id": "892e30cb80ba",
+     "package": "metan",
+     "path": "R/imput_miss_val.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 619
+    },
+    {
+     "id": "67ee2f499cba",
+     "package": "cSEM",
+     "path": "R/helper_estimators_paths.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 427
+    },
+    {
+     "id": "647c13474531",
+     "package": "summarytools",
+     "path": "R/dfSummary.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 554
+    },
+    {
+     "id": "043011004134",
+     "package": "descriptr",
+     "path": "R/ds-group-summary.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 394
+    },
+    {
+     "id": "e807e069ea05",
+     "package": "cSEM",
+     "path": "R/helper_assess.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 492
+    },
+    {
+     "id": "0bf4c60c4ce9",
+     "package": "mice",
+     "path": "R/D3.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 444
+    },
+    {
+     "id": "920b6b799954",
+     "package": "metan",
+     "path": "R/plot_blup.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 637
+    },
+    {
+     "id": "03cab6142a76",
+     "package": "radiant.model",
+     "path": "R/evalbin.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 725
+    },
+    {
+     "id": "fa4de86af321",
+     "package": "ggpubr",
+     "path": "R/utilities_label.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 851
+    },
+    {
+     "id": "22e0fd96340d",
+     "package": "doBy",
+     "path": "R/plot_functions.r",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 511
+    },
+    {
+     "id": "bae433a01d5a",
+     "package": "metan",
+     "path": "R/plot_blup.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 615
+    },
+    {
+     "id": "91e00be6a403",
+     "package": "plotly",
+     "path": "R/utils.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 595
+    },
+    {
+     "id": "931be3e82471",
+     "package": "infer",
+     "path": "R/calculate.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 628
+    },
+    {
+     "id": "b02429bebc7b",
+     "package": "posterior",
+     "path": "R/nested_rhat.R",
+     "note": "add na.rm = TRUE to var( lacking it (next call after the edited one)",
+     "prompt_chars": 591
+    },
+    {
+     "id": "27b906f66778",
+     "package": "gsDesign",
+     "path": "R/simBinomialSeasonalExact.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 489
+    },
+    {
+     "id": "6da4ad61f252",
+     "package": "tabnet",
+     "path": "R/model_training.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 518
+    },
+    {
+     "id": "f55533afd24d",
+     "package": "radiant.model",
+     "path": "R/crs.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 643
+    },
+    {
+     "id": "d8a7e033af21",
+     "package": "lares",
+     "path": "R/model_metrics.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 451
+    },
+    {
+     "id": "19034091e317",
+     "package": "metan",
+     "path": "R/plot_blup.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 638
+    },
+    {
+     "id": "04cb2f0dc0ec",
+     "package": "bootnet",
+     "path": "R/centralityCompare.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 550
+    },
+    {
+     "id": "efe30036e26a",
+     "package": "infer",
+     "path": "R/calculate.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 566
+    },
+    {
+     "id": "7be2777ce0a5",
+     "package": "summarytools",
+     "path": "R/dfSummary.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 521
+    },
+    {
+     "id": "ab0d06a4912f",
+     "package": "contentanalysis",
+     "path": "R/pdf_import.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 543
+    },
+    {
+     "id": "71fe41ae7ead",
+     "package": "mice",
+     "path": "R/pool.vector.R",
+     "note": "add na.rm = TRUE to var( lacking it (next call after the edited one)",
+     "prompt_chars": 476
+    },
+    {
+     "id": "3ebc20960e78",
+     "package": "cSEM",
+     "path": "R/helper_assess.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 515
+    },
+    {
+     "id": "e9fcfbc1172b",
+     "package": "ggraph",
+     "path": "R/geom_edge_density.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 601
+    },
+    {
+     "id": "55e123b217cb",
+     "package": "lares",
+     "path": "R/model_metrics.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 467
+    },
+    {
+     "id": "e6ab54879b63",
+     "package": "radiant.model",
+     "path": "R/regress.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 574
+    },
+    {
+     "id": "bc4c2d6b4eae",
+     "package": "directlabels",
+     "path": "R/utility.function.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 584
+    },
+    {
+     "id": "95ddafdd99f9",
+     "package": "descriptr",
+     "path": "R/ds-utils.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 320
+    },
+    {
+     "id": "bd3e280c0c17",
+     "package": "gsDesign",
+     "path": "R/simBinomialSeasonalExact.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 704
+    },
+    {
+     "id": "4481dc0671a8",
+     "package": "metan",
+     "path": "R/cv_blup.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 430
+    },
+    {
+     "id": "4ea3d6b84d01",
+     "package": "prophet",
+     "path": "R/prophet.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 523
+    },
+    {
+     "id": "3f605befa81f",
+     "package": "plotly",
+     "path": "R/utils.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 756
+    },
+    {
+     "id": "56747beae6a1",
+     "package": "inlabru",
+     "path": "R/track_plotting.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 595
+    },
+    {
+     "id": "cd8c259d59ec",
+     "package": "rempsyc",
+     "path": "R/nice_lm_slopes.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 739
+    },
+    {
+     "id": "045e797bd05e",
+     "package": "radiant.model",
+     "path": "R/evalbin.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 727
+    },
+    {
+     "id": "1fa2159e7be4",
+     "package": "SimDesign",
+     "path": "R/summary_functions.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 539
+    },
+    {
+     "id": "67808ebbda13",
+     "package": "rempsyc",
+     "path": "R/plot_means_over_time.R",
+     "note": "add na.rm = TRUE to sd( lacking it (next call after the edited one)",
+     "prompt_chars": 496
+    },
+    {
+     "id": "9abe272155b4",
+     "package": "radiant.model",
+     "path": "R/crs.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 586
+    },
+    {
+     "id": "1e4803c9a755",
+     "package": "cSEM",
+     "path": "R/helper_estimators_paths.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 570
+    },
+    {
+     "id": "63ad3cce40f7",
+     "package": "rempsyc",
+     "path": "R/nice_violin.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 437
+    },
+    {
+     "id": "a5d3b4a091ed",
+     "package": "metan",
+     "path": "R/gytb.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 572
+    },
+    {
+     "id": "fa1208ee95c8",
+     "package": "flexsurv",
+     "path": "R/standsurv.R",
+     "note": "add na.rm = TRUE to mean( lacking it (next call after the edited one)",
+     "prompt_chars": 610
+    }
+   ]
+  }
+ },
+ "total": 256,
+ "authority": "/mnt/h/sepalith/datasets/sft_v3/eval.jsonl",
+ "eval_packages": {
+  "rename_propagation": [
+   "devtools"
+  ],
+  "pipe_rewrite": [
+   "feasts",
+   "ieugwasr",
+   "plumber"
+  ],
+  "format_propagation": [
+   "PASWR",
+   "geosphere",
+   "rnndescent",
+   "rrapply"
+  ],
+  "doc_sync": [
+   "glmmTMB",
+   "marginaleffects",
+   "rcartocolor"
+  ],
+  "na_rm_propagation": [
+   "fabletools",
+   "merTools"
+  ]
+ }
+}

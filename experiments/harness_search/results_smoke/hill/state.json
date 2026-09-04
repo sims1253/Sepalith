@@ -1,0 +1,691 @@
+{
+ "arm": "hill",
+ "method": "hill",
+ "kind": "config",
+ "iterations_done": 2,
+ "evaluated": [
+  {
+   "tag": "hill-it1",
+   "cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": 2000,
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 320,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "fp": "1dd9b92cefe0",
+   "exact_pass": 0.925,
+   "unstable_frac": 0.025,
+   "families": {
+    "rename_propagation": {
+     "n": 40,
+     "exact": 0.925
+    }
+   },
+   "p95_latency_s": 1.937,
+   "mean_latency_s": 1.113,
+   "noop": {
+    "scored_n": 24,
+    "proposal_rate": 0.7083,
+    "proposals": 17,
+    "per_class": {
+     "a_after_close_brace": [
+      0,
+      3
+     ],
+     "a_file_end": [
+      2,
+      3
+     ],
+     "b_mid_typing": [
+      6,
+      6
+     ],
+     "c_blank_in_fn": [
+      4,
+      4
+     ],
+     "c_mid_identifier": [
+      3,
+      3
+     ],
+     "c_stmt_line_end": [
+      7,
+      7
+     ],
+     "d_tempt_close_brace": [
+      0,
+      3
+     ],
+     "d_tempt_stmt_end": [
+      1,
+      1
+     ]
+    }
+   },
+   "guard": {
+    "noop_ok": true,
+    "latency_ok": true,
+    "noop_gap": 0.0,
+    "latency_ratio": 1.0
+   },
+   "completions": 0,
+   "pair_reuses": 70,
+   "digest": [
+    "fail mix: shape=1 transform=1 unstable=1",
+    "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+    "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+   ],
+   "origin": "proposer",
+   "iter": 1
+  },
+  {
+   "tag": "hill-it1",
+   "cfg": {
+    "prefix_suffix_cap": 8000,
+    "pin": "off",
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 320,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": false
+   },
+   "texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "fp": "8ef064f7f06b",
+   "exact_pass": 0.35,
+   "unstable_frac": 0.0,
+   "families": {
+    "rename_propagation": {
+     "n": 40,
+     "exact": 0.35
+    }
+   },
+   "p95_latency_s": 1.937,
+   "mean_latency_s": 1.113,
+   "noop": {
+    "scored_n": 24,
+    "proposal_rate": 0.7083,
+    "proposals": 17,
+    "per_class": {
+     "a_after_close_brace": [
+      0,
+      3
+     ],
+     "a_file_end": [
+      2,
+      3
+     ],
+     "b_mid_typing": [
+      6,
+      6
+     ],
+     "c_blank_in_fn": [
+      4,
+      4
+     ],
+     "c_mid_identifier": [
+      3,
+      3
+     ],
+     "c_stmt_line_end": [
+      7,
+      7
+     ],
+     "d_tempt_close_brace": [
+      0,
+      3
+     ],
+     "d_tempt_stmt_end": [
+      1,
+      1
+     ]
+    }
+   },
+   "guard": {
+    "noop_ok": true,
+    "latency_ok": true,
+    "noop_gap": 0.0,
+    "latency_ratio": 1.0
+   },
+   "completions": 0,
+   "pair_reuses": 70,
+   "digest": [
+    "fail mix: shape=2 transform=24 unstable=0",
+    "- [rename_propagation] transform: 1 line(s); pred='        conf.high = conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+    "- [rename_propagation] transform: 1 line(s); pred='  if (length(if (length(missing2) > 0L) {' target='  if (length(missing2) > 0L) {'",
+    "- [rename_propagation] transform: 1 line(s); pred='    if (0 == length(if (0 == length(which_term)) {' target='    if (0 == length(which_term)) {'",
+    "- [rename_propagation] transform: 1 line(s); pred='  lhs <- setdiff(x_names[lhs], lhs <- setdiff(x_names[lhs], y_names2)' target='  lhs <- setdiff(x_names[lhs], y_names2)'",
+    "- [rename_propagation] transform: 1 line(s); pred='  if (!if (!check2$ok) {' target='  if (!check2$ok) {'",
+    "- [rename_propagation] transform: 1 line(s); pred='      missp <- 100 * missp <- 100 * miss2 / obs' target='      missp <- 100 * miss2 / obs'",
+    "- [rename_propagation] transform: 1 line(s); pred='  out <- suppressWarnings(tryCatch(readLines(out <- suppressWarnings(t' target='  out <- suppressWarnings(tryCatch(readLines(con2), error = function(e'",
+    "- [rename_propagation] transform: 1 line(s); pred='  if (length(if (length(urls2) == 0) {' target='  if (length(urls2) == 0) {'",
+    "- [rename_propagation] transform: 1 line(s); pred='      out <- sub(paste0(out <- sub(paste0(comment_char, \".*$\"), \"\", ou' target='      out <- sub(paste0(comment_char, \".*$\"), \"\", out, perl = TRUE)'",
+    "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+   ],
+   "origin": "proposer",
+   "iter": 1
+  },
+  {
+   "tag": "hill-it1",
+   "cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": "off",
+    "outline": [
+     20,
+     800
+    ],
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 640,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "fp": "66c659ef9753",
+   "exact_pass": 0.9,
+   "unstable_frac": 0.0,
+   "families": {
+    "rename_propagation": {
+     "n": 40,
+     "exact": 0.9
+    }
+   },
+   "p95_latency_s": 0.957,
+   "mean_latency_s": 0.609,
+   "noop": {
+    "scored_n": 24,
+    "proposal_rate": 0.7917,
+    "proposals": 19,
+    "per_class": {
+     "a_after_close_brace": [
+      2,
+      3
+     ],
+     "a_file_end": [
+      2,
+      3
+     ],
+     "b_mid_typing": [
+      6,
+      6
+     ],
+     "c_blank_in_fn": [
+      4,
+      4
+     ],
+     "c_mid_identifier": [
+      3,
+      3
+     ],
+     "c_stmt_line_end": [
+      7,
+      7
+     ],
+     "d_tempt_close_brace": [
+      0,
+      3
+     ],
+     "d_tempt_stmt_end": [
+      1,
+      1
+     ]
+    }
+   },
+   "guard": {
+    "noop_ok": false,
+    "latency_ok": true,
+    "noop_gap": 0.0834,
+    "latency_ratio": 0.494
+   },
+   "completions": 140,
+   "pair_reuses": 0,
+   "digest": [
+    "fail mix: shape=3 transform=1 unstable=0",
+    "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+    "- [rename_propagation] shape: 4 line(s); pred='  out <- suppressWarnings(tryCatch(' target='  out <- suppressWarnings(tryCatch(readLines(con2), error = function(e'",
+    "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'",
+    "- [rename_propagation] shape: 1 line(s); pred='  mf <- if (missing(data)) model.frame(form) else model.frame(form, da' target='  mf <- if (missing(data)) model.frame(form2) else model.frame(form, d'"
+   ],
+   "origin": "proposer",
+   "iter": 1
+  },
+  {
+   "tag": "hill-it2",
+   "cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": "off",
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 640,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "fp": "67d21c11f63c",
+   "exact_pass": 0.95,
+   "unstable_frac": 0.0,
+   "families": {
+    "rename_propagation": {
+     "n": 40,
+     "exact": 0.95
+    }
+   },
+   "p95_latency_s": 0.957,
+   "mean_latency_s": 0.615,
+   "noop": {
+    "scored_n": 24,
+    "proposal_rate": 0.75,
+    "proposals": 18,
+    "per_class": {
+     "a_after_close_brace": [
+      0,
+      3
+     ],
+     "a_file_end": [
+      3,
+      3
+     ],
+     "b_mid_typing": [
+      6,
+      6
+     ],
+     "c_blank_in_fn": [
+      4,
+      4
+     ],
+     "c_mid_identifier": [
+      3,
+      3
+     ],
+     "c_stmt_line_end": [
+      7,
+      7
+     ],
+     "d_tempt_close_brace": [
+      0,
+      3
+     ],
+     "d_tempt_stmt_end": [
+      1,
+      1
+     ]
+    }
+   },
+   "guard": {
+    "noop_ok": false,
+    "latency_ok": true,
+    "noop_gap": 0.0417,
+    "latency_ratio": 0.494
+   },
+   "completions": 82,
+   "pair_reuses": 29,
+   "digest": [
+    "fail mix: shape=1 transform=1 unstable=0",
+    "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+    "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+   ],
+   "origin": "proposer",
+   "iter": 2
+  },
+  {
+   "tag": "hill-it2",
+   "cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": "off",
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 320,
+    "stops": "minimal",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "fp": "31a0f26bcc24",
+   "exact_pass": 0.95,
+   "unstable_frac": 0.0,
+   "families": {
+    "rename_propagation": {
+     "n": 40,
+     "exact": 0.95
+    }
+   },
+   "p95_latency_s": 0.928,
+   "mean_latency_s": 0.632,
+   "noop": {
+    "scored_n": 24,
+    "proposal_rate": 0.75,
+    "proposals": 18,
+    "per_class": {
+     "a_after_close_brace": [
+      0,
+      3
+     ],
+     "a_file_end": [
+      3,
+      3
+     ],
+     "b_mid_typing": [
+      6,
+      6
+     ],
+     "c_blank_in_fn": [
+      4,
+      4
+     ],
+     "c_mid_identifier": [
+      3,
+      3
+     ],
+     "c_stmt_line_end": [
+      7,
+      7
+     ],
+     "d_tempt_close_brace": [
+      0,
+      3
+     ],
+     "d_tempt_stmt_end": [
+      1,
+      1
+     ]
+    }
+   },
+   "guard": {
+    "noop_ok": false,
+    "latency_ok": true,
+    "noop_gap": 0.0417,
+    "latency_ratio": 0.479
+   },
+   "completions": 140,
+   "pair_reuses": 0,
+   "digest": [
+    "fail mix: shape=1 transform=1 unstable=0",
+    "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+    "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+   ],
+   "origin": "proposer",
+   "iter": 2
+  },
+  {
+   "tag": "hill-it2",
+   "cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": "off",
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 320,
+    "stops": "full",
+    "parse_rep_cut": false,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "fp": "d296a18ac450",
+   "exact_pass": 0.925,
+   "unstable_frac": 0.025,
+   "families": {
+    "rename_propagation": {
+     "n": 40,
+     "exact": 0.925
+    }
+   },
+   "p95_latency_s": 1.937,
+   "mean_latency_s": 1.113,
+   "noop": {
+    "scored_n": 24,
+    "proposal_rate": 0.7083,
+    "proposals": 17,
+    "per_class": {
+     "a_after_close_brace": [
+      0,
+      3
+     ],
+     "a_file_end": [
+      2,
+      3
+     ],
+     "b_mid_typing": [
+      6,
+      6
+     ],
+     "c_blank_in_fn": [
+      4,
+      4
+     ],
+     "c_mid_identifier": [
+      3,
+      3
+     ],
+     "c_stmt_line_end": [
+      7,
+      7
+     ],
+     "d_tempt_close_brace": [
+      0,
+      3
+     ],
+     "d_tempt_stmt_end": [
+      1,
+      1
+     ]
+    }
+   },
+   "guard": {
+    "noop_ok": true,
+    "latency_ok": true,
+    "noop_gap": 0.0,
+    "latency_ratio": 1.0
+   },
+   "completions": 0,
+   "pair_reuses": 70,
+   "digest": [
+    "fail mix: shape=1 transform=1 unstable=1",
+    "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+    "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+   ],
+   "origin": "proposer",
+   "iter": 2
+  }
+ ],
+ "started": "2026-09-04T23:49:05",
+ "model": "/home/m0hawk/Documents/Sepalith/experiments/models/sft_v7_minicpm5-Q8_0.gguf",
+ "baseline": {
+  "p95_latency_s": 1.937,
+  "noop_rate": 0.7083
+ },
+ "seed": {
+  "tag": "seed",
+  "cfg": {
+   "prefix_suffix_cap": 6000,
+   "pin": "off",
+   "outline": "off",
+   "suffix_truncation": "protect-pin",
+   "max_tokens": 320,
+   "stops": "full",
+   "parse_rep_cut": true,
+   "parse_marker_drop": true,
+   "comment_heuristic": true,
+   "full_region_replace": true
+  },
+  "texts": {
+   "instruction_line": "",
+   "checklist_line": "",
+   "outline_header": "<|outline|>"
+  },
+  "fp": "76237511bf48",
+  "exact_pass": 0.925,
+  "unstable_frac": 0.025,
+  "p95_latency_s": 1.937,
+  "noop": {
+   "scored_n": 24,
+   "proposal_rate": 0.7083,
+   "proposals": 17,
+   "per_class": {
+    "a_after_close_brace": [
+     0,
+     3
+    ],
+    "a_file_end": [
+     2,
+     3
+    ],
+    "b_mid_typing": [
+     6,
+     6
+    ],
+    "c_blank_in_fn": [
+     4,
+     4
+    ],
+    "c_mid_identifier": [
+     3,
+     3
+    ],
+    "c_stmt_line_end": [
+     7,
+     7
+    ],
+    "d_tempt_close_brace": [
+     0,
+     3
+    ],
+    "d_tempt_stmt_end": [
+     1,
+     1
+    ]
+   }
+  },
+  "digest": [
+   "fail mix: shape=1 transform=1 unstable=1",
+   "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+   "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+  ],
+  "origin": "seed",
+  "iter": 0
+ },
+ "best_entry": {
+  "tag": "seed",
+  "cfg": {
+   "prefix_suffix_cap": 6000,
+   "pin": "off",
+   "outline": "off",
+   "suffix_truncation": "protect-pin",
+   "max_tokens": 320,
+   "stops": "full",
+   "parse_rep_cut": true,
+   "parse_marker_drop": true,
+   "comment_heuristic": true,
+   "full_region_replace": true
+  },
+  "texts": {
+   "instruction_line": "",
+   "checklist_line": "",
+   "outline_header": "<|outline|>"
+  },
+  "fp": "76237511bf48",
+  "exact_pass": 0.925,
+  "unstable_frac": 0.025,
+  "p95_latency_s": 1.937,
+  "noop": {
+   "scored_n": 24,
+   "proposal_rate": 0.7083,
+   "proposals": 17,
+   "per_class": {
+    "a_after_close_brace": [
+     0,
+     3
+    ],
+    "a_file_end": [
+     2,
+     3
+    ],
+    "b_mid_typing": [
+     6,
+     6
+    ],
+    "c_blank_in_fn": [
+     4,
+     4
+    ],
+    "c_mid_identifier": [
+     3,
+     3
+    ],
+    "c_stmt_line_end": [
+     7,
+     7
+    ],
+    "d_tempt_close_brace": [
+     0,
+     3
+    ],
+    "d_tempt_stmt_end": [
+     1,
+     1
+    ]
+   }
+  },
+  "digest": [
+   "fail mix: shape=1 transform=1 unstable=1",
+   "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+   "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'"
+  ],
+  "origin": "seed",
+  "iter": 0
+ },
+ "proposer_raw": {
+  "1": "{\"candidates\":[{\"prefix_suffix_cap\":6000,\"pin\":2000,\"outline\":\"off\",\"suffix_truncation\":\"protect-pin\",\"max_tokens\":320,\"stops\":\"full\",\"parse_rep_cut\":true,\"parse_marker_drop\":true,\"comment_heuristic\":true,\"full_region_replace\":true},{\"prefix_suffix_cap\":8000,\"pin\":\"off\",\"outline\":\"off\",\"suffix_truncation\":\"protect-pin\",\"max_tokens\":320,\"stops\":\"full\",\"parse_rep_cut\":true,\"parse_marker_drop\":true,\"",
+  "2": "{\"candidates\":[{\"prefix_suffix_cap\":6000,\"pin\":\"off\",\"outline\":\"off\",\"suffix_truncation\":\"protect-pin\",\"max_tokens\":640,\"stops\":\"full\",\"parse_rep_cut\":true,\"parse_marker_drop\":true,\"comment_heuristic\":true,\"full_region_replace\":true},{\"prefix_suffix_cap\":6000,\"pin\":\"off\",\"outline\":\"off\",\"suffix_truncation\":\"protect-pin\",\"max_tokens\":320,\"stops\":\"minimal\",\"parse_rep_cut\":true,\"parse_marker_drop\":tr"
+ },
+ "proposer_totals": {
+  "calls": 2,
+  "ok": 2,
+  "prompt_tokens": 2234,
+  "completion_tokens": 552,
+  "total_tokens": 2786,
+  "reasoning_tokens": 91,
+  "fallbacks": 0,
+  "repair_calls": 0
+ }
+}
