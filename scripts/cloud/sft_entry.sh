@@ -26,11 +26,32 @@ ts "python $(python -V 2>&1) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print 
 # 1) env: uv-managed py3.10 venv mirroring .venv-sft pins (job user is NOT
 # root — everything lives under $HOME or /tmp)
 pip install -q uv
-uv venv "$HOME/.venv-sft" --python 3.10 --quiet
-export VIRTUAL_ENV="$HOME/.venv-sft"
-export PATH="$VIRTUAL_ENV/bin:$PATH"
-ts "venv created; installing pins (~3GB wheels)"
-uv pip install -q -r scripts/cloud/requirements-cloud-sft.txt
+
+setup_venv() {  # $1 = uv venv --python argument
+  rm -rf "$HOME/.venv-sft"
+  uv venv "$HOME/.venv-sft" "$1" --quiet
+  export VIRTUAL_ENV="$HOME/.venv-sft"
+  export PATH="$VIRTUAL_ENV/bin:$PATH"
+  ts "venv created ($1); installing pins (~3GB wheels)"
+  uv pip install -q -r scripts/cloud/requirements-cloud-sft.txt
+}
+
+# triton JIT-compiles cuda_utils with -I/usr/include/python3.10 at first
+# kernel launch; uv-managed pythons keep headers under their own prefix, so
+# gcc exits 1 (CalledProcessError in compute_loss on the first step). Link
+# the uv include dir into the distro path (job images grant sudo -n).
+setup_venv --python 3.10
+UVBIN="$(uv python find 3.10 2>/dev/null || true)"
+if [ -n "$UVBIN" ] && [ ! -e /usr/include/python3.10/Python.h ]; then
+  UVPREFIX="$(dirname "$(dirname "$UVBIN")")"
+  sudo -n ln -sfn "$UVPREFIX/include/python3.10" /usr/include/python3.10 2>/dev/null \
+    || sudo -n apt-get install -y -qq python3.10-dev 2>/dev/null || true
+fi
+if [ ! -e /usr/include/python3.10/Python.h ]; then
+  # no sudo path to 3.10 headers: fall back to the image's own python (3.11)
+  ts "py3.10 headers unavailable — falling back to system python"
+  setup_venv --python /usr/bin/python3
+fi
 ts "env ready: torch $(python -c 'import torch;print(torch.__version__, torch.version.cuda, torch.cuda.get_device_name(0))')"
 
 # 2) data: private HF dataset -> byte-identical local mixture
