@@ -17,7 +17,7 @@ from transformers import AutoTokenizer
 
 MODEL = os.environ.get("MODEL", "Qwen/Qwen3.5-0.8B-Base")
 DATA = Path(os.environ.get("DATA_DIR", "/root/data/sft_v7"))
-LOG = Path("/root/train.log").read_text(errors="ignore")
+LOG = Path(os.environ.get("TRAIN_LOG", "/tmp/train.log")).read_text(errors="ignore")
 
 m = re.search(r"train_runtime['\"]?\s*[:=]\s*([\d.]+)", LOG)
 runtime = float(m.group(1)) if m else None

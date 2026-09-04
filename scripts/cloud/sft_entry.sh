@@ -16,16 +16,18 @@ ts() { echo "[CLOUD T+$(( $(date +%s) - T0 ))s] $*"; }
 
 MODEL="${MODEL:-Qwen/Qwen3.5-0.8B-Base}"
 STEPS="${STEPS:-60}"
-DATA_DIR="${DATA_DIR:-/root/data/sft_v7}"
-OUT_DIR="${OUT_DIR:-/root/run_sft}"
+DATA_DIR="${DATA_DIR:-/tmp/data/sft_v7}"
+OUT_DIR="${OUT_DIR:-/tmp/run_sft}"
+TRAIN_LOG="${TRAIN_LOG:-/tmp/train.log}"
 
 ts "node probe: $(nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader)"
-ts "python $(python -V 2>&1) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print $2}')GiB"
+ts "python $(python -V 2>&1) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print $2}')GiB user=$(whoami) HOME=$HOME"
 
-# 1) env: uv-managed py3.10 venv mirroring .venv-sft pins
+# 1) env: uv-managed py3.10 venv mirroring .venv-sft pins (job user is NOT
+# root — everything lives under $HOME or /tmp)
 pip install -q uv
-uv venv /root/.venv-sft --python 3.10 --quiet
-export VIRTUAL_ENV=/root/.venv-sft
+uv venv "$HOME/.venv-sft" --python 3.10 --quiet
+export VIRTUAL_ENV="$HOME/.venv-sft"
 export PATH="$VIRTUAL_ENV/bin:$PATH"
 ts "venv created; installing pins (~3GB wheels)"
 uv pip install -q -r scripts/cloud/requirements-cloud-sft.txt
@@ -38,7 +40,7 @@ ts "data ready: $(du -sh "$DATA_DIR" | cut -f1)"
 # 3) train: the repo's own trainer, verbatim (smoke = small STEPS)
 ts "train start: $MODEL $STEPS steps"
 cd experiments/training
-python train_sft.py "$MODEL" "$STEPS" "$DATA_DIR" "$OUT_DIR" "" 2>&1 | tee /root/train.log
+python train_sft.py "$MODEL" "$STEPS" "$DATA_DIR" "$OUT_DIR" "" 2>&1 | tee "$TRAIN_LOG"
 ts "train done"
 
 # 4) metrics: tok/s over the exact trained subset + throughput summary
