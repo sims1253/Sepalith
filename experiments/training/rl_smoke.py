@@ -39,11 +39,72 @@ Usage (.venv-sft, GPU free per day-queue):
   python rl_smoke.py --merge                 # step 1 only
   python rl_smoke.py --smoke                 # 10 steps, 32 prompts, /tmp out
   python rl_smoke.py --steps 300             # full run
+  python rl_smoke.py --schedule ordered ...  # E1 EL-scheduler arm
+  python rl_smoke.py --dry-run 20            # E1 plan mode (CPU, no model)
 Output: --out (default /mnt/h/sepalith/runs/rl_grpo_v1): checkpoints,
 final_lora/, rl_metrics.jsonl (one line per optimizer step).
+
+E1 PRE-REGISTRATION (EL-scheduler retrofit, queue row E1, 2026-09-04; paper
+arXiv:2609.04128 "6/8 over 8 rollouts" tier admission, mapped to our GRPO
+geometry — num_generations=4, one optimizer step == one generation batch ==
+8 unique prompts x 4 completions, reward fn called once per step):
+
+  Treatment (--schedule ordered; default --schedule random is BYTE-IDENTICAL
+  to the banked runs: same build_dataset, same stock GRPOTrainer + trl
+  RepeatSampler, same RNG streams — the ordered machinery is never
+  constructed when the flag is off). Family order (tiers, easiest first):
+  pipe_rewrite -> rename_propagation -> format_propagation, plus a final
+  compound tier when any compound_* family is present in the pools. Tiers
+  CUMULATE once admitted; families outside the tier list (no_op,
+  finish_block, refine_*) are background: always drawable at their quota
+  share, so the ordered-vs-random comparison holds the quota table fixed
+  and varies only the ordering/gating of the tiered families.
+
+  Adapted admission rule (paper: a tier is mastered when a task passes >=
+  6 of 8 rollouts, i.e. an observed 75% pass rate; ours): the next tier is
+  admitted when, pooled over the last K=5 optimizer steps, >= 75% of the
+  FRONTIER tier's GRPO groups are FULLY solved (4/4 completions exact) and
+  at least 8 frontier groups were observed in the window (min-count guard;
+  below it the gate defers, never fails). Justification, in three parts:
+  (1) unit-of-measure: our "8 rollouts of one task" is the GRPO group of
+      num_generations=4 completions of one prompt; the ratio-preserving
+      per-group analog of 6/8 is 3/4, but one 4-rollout group is far too
+      noisy a gate (one binomial draw), so the rate is pooled over the
+      window instead — with >=8 pooled groups the full-solve MLE's SE at
+      the threshold is ~0.13, comparable to the paper's single-task
+      8-rollout gate (SE ~0.15 at p=0.75).
+  (2) why FULL groups (4/4) rather than >=3/4 groups as the pass unit: a
+      fully-solved group is exactly a zero-advantage group in GRPO — it
+      carries no further learning signal. The gate therefore fires when
+      >= 75% of the tier's groups have stopped teaching, which is the EL
+      principle restated in GRPO currency.
+  (3) strictness: 0.75-of-fully-solved implies a per-completion exact rate
+      of ~0.93 (0.93^4 ~ 0.75) vs the paper's 0.75. Deliberate: admitting
+      the next tier early re-dilutes group variance — the exact pathology
+      E1 exists to test. K=5 steps (~40 groups window-wide, ~12 frontier
+      groups at the starting quota mix) keeps admission possible inside a
+      50-step readout window. Known interplay: if the frontier tier's
+      quota share is so small that 5 steps pool < 8 groups (e.g. run2
+      quotas), admission defers indefinitely — visible as
+      el_tiers_admitted flatlining in rl_metrics.jsonl.
+
+  Pre-registered readout (paper Fig 5; shared field contract with O2/O3 so
+  their telemetry reads the same names): every step line of
+  rl_metrics.jsonl gains psg_rate / full_group_rate / n_groups (partial-
+  solved = 0 < solved < 4 of 4 exact in a group); the step-50 line (or a
+  final event line if the run is shorter) gains first50_psg_rate +
+  first50_reward + first50_psg_<family> pooled over steps 1-50. Kill rule
+  per queue row E1: no partial-solved-rate gain vs random at matched
+  rollout budget -> KILL before any evolver build.
+
+  CPU sanity (no GPU): --dry-run N prints the tier plan + first N
+  generation-batch draws without loading a model; unit tests in
+  test_rl_smoke_el.py cover tier admission, ordering, quota interplay and
+  the sampler contract with a mocked reward stream.
 """
 import argparse
 import json
+import random
 import subprocess
 import sys
 import time
@@ -110,6 +171,223 @@ FAMILY_QUOTA_RUN2 = {
     "finish_block": 800,          # present in sft_v8 renders; skipped if absent
 }
 SHAPING = 0.2             # reward = exact + SHAPING * line_f1 (max 1.2)
+
+# ---------------------------------------------------------------------------
+# E1: ordered-difficulty (EL) scheduling — pure-python, torch-free so the
+# unit tests run CPU-only. The torch/trl wiring lives in main() behind
+# --schedule ordered; the default path never touches any of this.
+# ---------------------------------------------------------------------------
+
+EL_TIER_ORDER = ("pipe_rewrite", "rename_propagation", "format_propagation")
+EL_THRESHOLD = 0.75       # adapted "6/8 over 8 rollouts" — see header
+EL_WINDOW_K = 5           # optimizer steps in the admission window
+EL_MIN_GROUPS = 8         # pooled frontier groups before a gate is valid
+
+
+class OrderedScheduler:
+    """Tier-gated prompt-draw scheduler (E1). Tiers cumulate; the next tier
+    is admitted only when the frontier tier's fully-solved-group rate over
+    the last K steps clears the threshold (see header pre-registration).
+
+    pools: {family: [dataset_index, ...]} — the quota-satisfied draw pools
+    (same pools the random baseline consumes; ordering is the only
+    treatment). Families not in any tier are background: always drawable.
+    """
+
+    def __init__(self, pools, tier_order=EL_TIER_ORDER,
+                 threshold=EL_THRESHOLD, window_k=EL_WINDOW_K,
+                 min_groups=EL_MIN_GROUPS, seed=3407):
+        self.pools = pools
+        self.threshold = threshold
+        self.window_k = window_k
+        self.min_groups = min_groups
+        compound = sorted(f for f in pools if f.startswith("compound"))
+        self.tiers = [[f] for f in tier_order if f in pools]
+        if compound:
+            self.tiers.append(compound)      # final tier, admitted as one
+        tiered = {f for t in self.tiers for f in t}
+        self.background = sorted(f for f in pools if f not in tiered)
+        self.admitted = 1 if self.tiers else 0
+        self.window = deque()                # per-step {fam: [n_groups, n_full]}
+        self.rng = random.Random(seed)
+        self.decks = {f: deque() for f in pools}
+        self.draws = 0                       # unique prompts drawn (batches)
+
+    # -- draw side ----------------------------------------------------------
+    def active_families(self):
+        act = [f for t in self.tiers[: self.admitted] for f in t]
+        return act + self.background
+
+    def _pop(self, fam, in_batch):
+        """Next index from fam's deck (reshuffle on exhaust); skip dupes
+        that would repeat a prompt already drawn into this batch."""
+        for _ in range(len(self.pools[fam]) + 1):
+            if not self.decks[fam]:
+                deck = list(self.pools[fam])
+                self.rng.shuffle(deck)
+                self.decks[fam] = deque(deck)
+            idx = self.decks[fam].popleft()
+            if idx not in in_batch:
+                return idx
+        return None                           # pool smaller than batch slot
+
+    def next_batch(self, batch_prompts):
+        """One generation batch: `batch_prompts` unique indices, families
+        drawn quota-proportionally over the active set."""
+        fams = self.active_families()
+        weights = [len(self.pools[f]) for f in fams]
+        out = []
+        for _ in range(batch_prompts):
+            fam = self.rng.choices(fams, weights=weights, k=1)[0]
+            idx = self._pop(fam, out)
+            if idx is not None:
+                out.append(idx)
+        self.draws += len(out)
+        return out
+
+    # -- observe side (called once per optimizer step by MetricsCb) --------
+    def observe(self, per_family):
+        """per_family: {family: [n_groups, n_full]} for THIS step's groups."""
+        self.window.append({f: list(v) for f, v in per_family.items()
+                            if f not in self.background})
+        while len(self.window) > self.window_k:
+            self.window.popleft()
+
+    def frontier(self):
+        if not self.tiers or self.admitted >= len(self.tiers):
+            return []
+        return list(self.tiers[self.admitted - 1])
+
+    def maybe_admit(self):
+        """Admit the next tier if the frontier clears the adapted gate.
+        Returns the newly admitted tier's families, or None."""
+        if not self.tiers or self.admitted >= len(self.tiers):
+            return None
+        frontier = set(self.frontier())
+        n_groups = n_full = 0
+        for step_counts in self.window:
+            for fam, (g, full) in step_counts.items():
+                if fam in frontier:
+                    n_groups += g
+                    n_full += full
+        if n_groups < self.min_groups:
+            return None
+        if n_full / n_groups >= self.threshold:
+            self.admitted += 1
+            self.window.clear()              # fresh window for new frontier
+            return list(self.tiers[self.admitted - 1])
+        return None
+
+    def state(self):
+        """Compact per-step telemetry for rl_metrics.jsonl."""
+        frontier = self.frontier()
+        n_groups = n_full = 0
+        for step_counts in self.window:
+            for fam, (g, full) in step_counts.items():
+                if fam in frontier:
+                    n_groups += g
+                    n_full += full
+        return {"el_tiers_admitted": self.admitted,
+                "el_frontier": "+".join(frontier) if frontier else "done",
+                "el_window_groups": n_groups,
+                "el_window_full_rate": round(n_full / n_groups, 4)
+                if n_groups else None}
+
+
+class ELSamplerStream:
+    """Drop-in for trl's RepeatSampler index stream (duck-typed — no torch
+    subclass needed): identical chunk/mini-repeat/repeat geometry, but the
+    unique-prompt chunks come from the OrderedScheduler instead of a single
+    randperm. One chunk == one generation batch == one optimizer step."""
+
+    def __init__(self, scheduler, num_samples, num_generations,
+                 unique_per_batch, repeat_count):
+        self.scheduler = scheduler
+        self.num_samples = num_samples
+        self.num_generations = num_generations
+        self.unique_per_batch = unique_per_batch
+        self.repeat_count = repeat_count
+        self.num_chunks = num_samples // unique_per_batch
+
+    def __len__(self):
+        return (self.num_chunks * self.unique_per_batch
+                * self.num_generations * self.repeat_count)
+
+    def __iter__(self):
+        for _ in range(self.num_chunks):
+            chunk = self.scheduler.next_batch(self.unique_per_batch)
+            for _ in range(self.repeat_count):
+                for idx in chunk:
+                    for _ in range(self.num_generations):
+                        yield idx
+
+
+def group_stats(recs):
+    """Group-level stats from one step's STASH flush. recs: (family, exact,
+    reward[, prompt]) tuples — prompt groups the completions into GRPO
+    groups (4 per prompt at num_generations=4); legacy 3-tuples fall back
+    to one group per completion. Returns None if recs is empty."""
+    if not recs:
+        return None
+    groups = {}
+    for r in recs:
+        fam, ex = r[0], r[1]
+        key = r[3] if len(r) > 3 and r[3] is not None else id(r)
+        g = groups.setdefault(key, [fam, 0, 0])
+        g[1] += 1
+        g[2] += int(ex)
+    n_groups = len(groups)
+    full = partial = 0
+    per_family = {}
+    for fam, size, solved in groups.values():
+        pf = per_family.setdefault(fam, [0, 0, 0])  # n, full, partial
+        pf[0] += 1
+        if solved == size:
+            full += 1
+            pf[1] += 1
+        elif solved > 0:
+            partial += 1
+            pf[2] += 1
+    return {"n_groups": n_groups,
+            "full_group_rate": full / n_groups,
+            "psg_rate": partial / n_groups,      # partial-solved-group rate
+            "per_family": per_family}
+
+
+class First50Readout:
+    """Pools the pre-registered E1/O2 readout over steps 1-50: overall +
+    per-family partial-solved-group rate, and mean reward."""
+
+    def __init__(self, max_step=50):
+        self.max_step = max_step
+        self.n = 0
+        self.reward_sum = 0.0
+        self.g = 0
+        self.partial = 0
+        self.per_family = {}
+
+    def add(self, step, recs, stats):
+        if step > self.max_step or not stats:
+            return
+        self.n += len(recs)
+        self.reward_sum += sum(r[2] for r in recs)
+        self.g += stats["n_groups"]
+        self.partial += round(stats["psg_rate"] * stats["n_groups"])
+        for fam, (gn, _f, p) in stats["per_family"].items():
+            pf = self.per_family.setdefault(fam, [0, 0])
+            pf[0] += gn
+            pf[1] += p
+
+    def emit(self):
+        if self.g == 0:
+            return {}
+        out = {"first50_psg_rate": round(self.partial / self.g, 4),
+               "first50_reward": round(self.reward_sum / self.n, 4),
+               "first50_n_groups": self.g}
+        for fam in sorted(self.per_family):
+            gn, p = self.per_family[fam]
+            out[f"first50_psg_{fam}"] = round(p / gn, 4) if gn else None
+        return out
 
 # ---------------------------------------------------------------------------
 # dataset: train.jsonl -> {prompt (BOS-prefixed), target, family}
@@ -201,21 +479,23 @@ def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407,
                      max_prompt_tok=max_prompt_tok, max_target_tok=max_target_tok)
 
 
-# reward-fn metric stash: (family, exact, reward) per completion, flushed
-# per optimizer step by the callback below (on-policy: one reward call per
-# generation round == one optimizer step)
+# reward-fn metric stash: (family, exact, reward[, prompt]) per completion,
+# flushed per optimizer step by the callback below (on-policy: one reward
+# call per generation round == one optimizer step). The optional prompt
+# element (E1/O2 group readout) lets the flush regroup completions into
+# GRPO groups; legacy 3-tuples are tolerated by group_stats().
 STASH = deque()
 
 
 def scenario_reward(prompts, completions, completion_ids=None, target=None,
                     family=None, trainer_state=None, **kw):
     out = []
-    for fam, comp, tgt in zip(family, completions, target):
+    for fam, comp, tgt, p in zip(family, completions, target, prompts):
         pred = parse_pred("zeta2", comp)      # exact eval parsing path
         gt = gt_lines(tgt)
         ex = int(pred == gt)
         rew = ex + SHAPING * exact_reward(pred, gt)
-        STASH.append((fam, ex, rew))
+        STASH.append((fam, ex, rew, p))
         out.append(rew)
     return out
 
@@ -223,6 +503,74 @@ def scenario_reward(prompts, completions, completion_ids=None, target=None,
 # ---------------------------------------------------------------------------
 # training
 # ---------------------------------------------------------------------------
+
+
+def pick_quotas(families_csv, run2=False, no_op_n=None, smoke=False):
+    """Quota table after CLI overrides (pure; shared by train + dry-run)."""
+    fams = [x.strip() for x in families_csv.split(",")]
+    quotas = {f: n for f, n in
+              (FAMILY_QUOTA_RUN2 if run2 else FAMILY_QUOTA).items() if f in fams}
+    if no_op_n is not None and "no_op" in quotas:
+        quotas["no_op"] = no_op_n
+    if smoke:
+        quotas = {f: min(n, 8) for f, n in quotas.items()}
+    return quotas
+
+
+def _dry_run_tokenizer(model_dir):
+    """Tokenizer for --dry-run only: the real one when the merged base
+    exists, else a whitespace-counting stand-in (approximate length
+    filter — printed caveat; good enough to show tier/batch structure)."""
+    try:
+        from transformers import AutoTokenizer
+        return AutoTokenizer.from_pretrained(model_dir), True
+    except Exception as e:                    # missing dir / no fast tokenizer
+        print(f"dry-run: real tokenizer unavailable ({e}); "
+              "using whitespace approximation for the length filter",
+              flush=True)
+
+        class _FakeTok:
+            bos_token = "<bos>"
+            def __call__(self, text, add_special_tokens=False):
+                return {"input_ids": text.split()}
+        return _FakeTok(), False
+
+
+def do_dry_run(args, n_batches=20):
+    """E1 plan mode: tier plan + first N generation-batch draws, no model,
+    no GPU context, no CUDA. Admission shown at its INITIAL state (tier 1
+    only) — live admission depends on observed pass rates (unit tests in
+    test_rl_smoke_el.py cover the dynamics with a mocked reward stream)."""
+    tok, real_tok = _dry_run_tokenizer(args.model)
+    quotas = pick_quotas(args.families, args.run2, args.no_op_n, args.smoke)
+    rows, dstat = build_dataset(tok, quotas, data_path=Path(args.data),
+                                refine_path=args.refine_data)
+    pools = {}
+    for i, r in enumerate(rows):
+        pools.setdefault(r["family"], []).append(i)
+    sched = OrderedScheduler(
+        pools, threshold=args.el_threshold, window_k=args.el_window,
+        seed=3407)
+    per_batch = max(1, args.bs * args.ga // args.num_generations)
+    print(json.dumps(dict(
+        dry_run=True, real_tokenizer=real_tok, n_rows=len(rows),
+        dataset=dstat, tier_order=[t for t in sched.tiers],
+        background=sched.background,
+        el=dict(threshold=args.el_threshold, window_k=args.el_window,
+                min_groups=EL_MIN_GROUPS, num_generations=args.num_generations,
+                unique_prompts_per_batch=per_batch))), flush=True)
+    for b in range(n_batches):
+        batch = sched.next_batch(per_batch)
+        comp = {}
+        for idx in batch:
+            fam = rows[idx]["family"]
+            comp[fam] = comp.get(fam, 0) + 1
+        print(f"ELDRAW batch {b + 1}: " + json.dumps(
+            dict(families=comp, tiers_admitted=sched.admitted,
+                 frontier="+".join(sched.frontier()) or "done"),
+            sort_keys=True), flush=True)
+    print("DRYRUN DONE (initial-admission draws only; live gating is "
+          "reward-driven)", flush=True)
 
 
 def gpu_guard(limit_mib=20000):
@@ -277,11 +625,30 @@ def main():
     ap.add_argument("--no-op-n", type=int, default=None,
                     help="override the no_op prompt quota (the FP-intent "
                          "knee test: 15%% share ≈ 800)")
+    ap.add_argument("--schedule", default="random",
+                    choices=["random", "ordered"],
+                    help="random (default) = banked fixed-quota draw, "
+                         "byte-identical; ordered = E1 EL-scheduler "
+                         "(pipe -> rename -> format tiers, pass-rate "
+                         "admission — see module header)")
+    ap.add_argument("--el-window", type=int, default=EL_WINDOW_K,
+                    help="EL admission window K in optimizer steps")
+    ap.add_argument("--el-threshold", type=float, default=EL_THRESHOLD,
+                    help="EL admission threshold on frontier fully-solved-"
+                         "group rate (adapted 6/8; see header)")
+    ap.add_argument("--dry-run", type=int, default=None, metavar="N",
+                    help="E1 plan mode: print the tier plan + first N "
+                         "generation-batch draws and exit (no model load, "
+                         "no GPU)")
     ap.add_argument("--out", default="/mnt/h/sepalith/runs/rl_grpo_v1")
     args = ap.parse_args()
 
     if args.merge:
         do_merge()
+        return
+
+    if args.dry_run is not None:
+        do_dry_run(args, n_batches=args.dry_run)
         return
 
     gpu_guard()
@@ -291,13 +658,7 @@ def main():
     from transformers import TrainerCallback
     from trl import GRPOConfig, GRPOTrainer
 
-    quotas = {f: n for f, n in
-              (FAMILY_QUOTA_RUN2 if args.run2 else FAMILY_QUOTA).items()
-              if f in [x.strip() for x in args.families.split(",")]}
-    if args.no_op_n is not None and "no_op" in quotas:
-        quotas["no_op"] = args.no_op_n
-    if args.smoke:
-        quotas = {f: min(n, 8) for f, n in quotas.items()}
+    quotas = pick_quotas(args.families, args.run2, args.no_op_n, args.smoke)
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=args.model, max_seq_length=2048, dtype=None,
         load_in_4bit=False)
@@ -322,6 +683,21 @@ def main():
     print(json.dumps(dict(dataset=dstat, n_rows=len(rows),
                           bos=tokenizer.bos_token)), flush=True)
     ds = Dataset.from_list(rows)
+    # E1 ordered-difficulty scheduling: build the per-family index pools
+    # from the SAME quota-satisfied rows the random baseline consumes, then
+    # hand prompt-draw ordering to the scheduler (ordering-only treatment).
+    el_sched = None
+    if args.schedule == "ordered":
+        pools = {}
+        for i, r in enumerate(rows):
+            pools.setdefault(r["family"], []).append(i)
+        el_sched = OrderedScheduler(
+            pools, threshold=args.el_threshold, window_k=args.el_window,
+            seed=3407)
+        print(f"EL schedule: tiers={el_sched.tiers} "
+              f"background={el_sched.background} "
+              f"threshold={args.el_threshold} K={args.el_window} "
+              f"min_groups={EL_MIN_GROUPS}", flush=True)
     max_prompt_len = 512
     assert dstat["max_prompt_tok"] + 1 <= max_prompt_len, \
         f"prompt overflow: {dstat['max_prompt_tok']} > {max_prompt_len - 1}"
@@ -341,6 +717,7 @@ def main():
         def __init__(self):
             self.t0 = time.time()
             self.last_flush = 0
+            self.first50 = First50Readout()
 
         def on_step_end(self, a, state, control, **kw):
             recs = list(STASH)
@@ -349,18 +726,48 @@ def main():
                 return
             n = len(recs)
             line = dict(step=state.global_step, n=n,
-                        reward=round(sum(r for _, _, r in recs) / n, 4),
-                        exact=round(sum(e for _, e, _ in recs) / n, 4))
-            for fam in sorted(set(f for f, _, _ in recs)):
+                        reward=round(sum(r[2] for r in recs) / n, 4),
+                        exact=round(sum(e[1] for e in recs) / n, 4))
+            for fam in sorted(set(r[0] for r in recs)):
                 fr = [x for x in recs if x[0] == fam]
-                line[f"exact_{fam}"] = round(sum(e for _, e, _ in fr) / len(fr), 4)
+                line[f"exact_{fam}"] = round(
+                    sum(x[1] for x in fr) / len(fr), 4)
                 line[f"n_{fam}"] = len(fr)
             line["elapsed_s"] = round(time.time() - self.t0, 1)
+            # E1/O2 group readout (paper Fig 5; field contract in header)
+            gstats = group_stats(recs)
+            if gstats:
+                line["psg_rate"] = round(gstats["psg_rate"], 4)
+                line["full_group_rate"] = round(gstats["full_group_rate"], 4)
+                line["n_groups"] = gstats["n_groups"]
+            if el_sched is not None and gstats:
+                # feed the admission gate: {fam: [n_groups, n_full]}
+                el_sched.observe({f: (v[0], v[1]) for f, v in
+                                  gstats["per_family"].items()})
+                admitted = el_sched.maybe_admit()
+                line.update(el_sched.state())
+                if admitted:
+                    print(f"ELADMIT step={state.global_step} "
+                          f"tier={'+'.join(admitted)} "
+                          f"(frontier full-group rate cleared "
+                          f"{args.el_threshold} over K={args.el_window})",
+                          flush=True)
+            self.first50.add(state.global_step, recs, gstats)
+            if state.global_step == 50:
+                line.update(self.first50.emit())
             with open(metrics_path, "a") as f:
                 f.write(json.dumps(line) + "\n")
             print("RLMETRIC " + json.dumps(line), flush=True)
 
         def on_train_end(self, a, state, control, **kw):
+            # short runs (< 50 steps): emit the pooled readout as a final
+            # event line so the E1/O2 readout is always in rl_metrics.jsonl
+            if 0 < state.global_step < 50 and self.first50.g:
+                rec = dict(step=state.global_step, event="first50_short")
+                rec.update(self.first50.emit())
+                with open(metrics_path, "a") as f:
+                    f.write(json.dumps(rec) + "\n")
+                print("RLMETRIC " + json.dumps(rec), flush=True)
             # greedy probe: does the model still emit zeta2 completions?
             import torch as _t
             model = kw.get("model")
@@ -399,7 +806,28 @@ def main():
         save_strategy="steps" if not args.smoke else "no",
         save_steps=50, save_total_limit=2,
     )
-    trainer = GRPOTrainer(
+    if args.schedule == "ordered":
+        class ELGRPOTrainer(GRPOTrainer):
+            """GRPOTrainer whose prompt-draw order the EL scheduler owns.
+            Overrides ONLY _get_train_sampler: identical chunk/repeat
+            geometry to trl's RepeatSampler (same __len__ semantics), with
+            scheduler-driven unique-prompt chunks. num_workers=0 in our
+            config, so each step's chunk is drawn after the previous
+            step's metrics callback ran -> admission is on-policy."""
+            def _get_train_sampler(self, dataset=None):
+                if dataset is None:
+                    dataset = self.train_dataset
+                return ELSamplerStream(
+                    el_sched, num_samples=len(dataset),
+                    num_generations=self.num_generations,
+                    unique_per_batch=(self.args.generation_batch_size
+                                      // self.num_generations),
+                    repeat_count=(self.num_iterations
+                                  * self.args.steps_per_generation))
+        trainer_cls = ELGRPOTrainer
+    else:
+        trainer_cls = GRPOTrainer          # banked default path, untouched
+    trainer = trainer_cls(
         model=model, processing_class=tokenizer, reward_funcs=scenario_reward,
         args=cfg, train_dataset=ds,
         callbacks=[MetricsCb()])

@@ -22,6 +22,20 @@ Status: scaffold. The environments exist. Trainer selection is staged.
 4. No-edit tasks: the correct target is an unchanged region. This penalizes
    eagerness, the top UX complaint about edit suggestion.
 
+## Difficulty scheduling (E1, 2026-09-04)
+
+`rl_smoke.py --schedule ordered` adds the EL-scheduler arm (arXiv:2609.04128
+mapping): tiers pipe_rewrite → rename_propagation → format_propagation
+(+ compound when present), next tier admitted only when the frontier's
+fully-solved-group rate ≥ 0.75 over the last 5 steps (adapted "6/8 over 8
+rollouts" for num_generations=4 — justification + pre-registered readout in
+the rl_smoke.py header). Default `--schedule random` is byte-identical to
+the banked runs. Readout fields in rl_metrics.jsonl (`psg_rate`,
+`full_group_rate`, `first50_psg_rate`, `first50_reward`) are the shared
+contract for O2/O3 telemetry. CPU checks: `--dry-run N`, unit tests in
+`experiments/training/test_rl_smoke_el.py`. GPU run NOT fired (queue
+manager arms it per W37).
+
 ## Reward rules
 
 - Exact rewards dominate. The judge fills gaps, never leads.

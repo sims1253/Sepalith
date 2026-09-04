@@ -108,7 +108,18 @@ correction.)
 | zcode-pocdiff | POC-DIFF masked-diffusion NSE twin vs AR-FIM twin (`poc-diff-twin-plan-2026-08-26.md`) | sess_unknown-2 (2026-08-26) | done 2026-08-27 (VALIDATED, fbea1c7) |
 | zcode-ddot-graph | POC-DDOT full-step CUDA-graph capture (7bf3df3) | sess_unknown-3 (2026-08-27) | done 2026-08-28 (full-graph verdict negative, kept behind --full-graph) |
 | zcode-main | main session — user-directed recon + adoption planning (slime v0.3.2, Miles flash recipes, `2026-08-28-slime-miles-adoption-plan.md`; decay/CMA+MuonH POC plan `2026-08-28-decay-cma-muonh-poc-plan.md`, executed to completion by main session) | this session | done 2026-08-30 (plan closed; so_r_qa dose-response open thread) |
-| zcode-stabtok | papers-recon POCs: Muon-hygiene A/B + 4×-LR stress gate + LR refit + tokenizer compression/forced-R-pattern sweep (`docs/research/2026-08-29-papers-recon-poc-plan.md`; P0 CPU prep done 2026-08-29; GPU queued behind flash E2/E3, unowned) | this session | active |
+| zcode-stabtok | papers-recon POCs: Muon-hygiene A/B + 4×-LR stress gate + LR refit + tokenizer compression/forced-R-pattern sweep (`docs/research/2026-08-29-papers-recon-poc-plan.md`; P0 CPU prep done 2026-08-29; GPU queued behind flash E2/E3, unowned) | prior session | done 2026-09-01 (P1 chain released 08-29; P2/P3 parked queue §2 Q5; superseded by zcode-queue-mgr) |
 | zcode-cma-poc | decay/CMA + MuonH POC (`2026-08-28-decay-cma-muonh-poc-plan.md`) | dead sessions (usage limits; work inherited + finished by zcode-main, commit fe401b9) | done 2026-08-30 (all tasks; verdict posted) |
-| zcode-base-bakeoff | external-base bake-off × param-floor ladder scoping (sub-1B supplement `model-survey-sub1b-supplement-2026-08-31.md`; queue B-series) | this session | active |
-| zcode-micro-probe | M-series micro-specialist design (mdlARC-derived M1: ~75M MD twin, curated-vs-scale; plan `docs/research/2026-09-01-micro-specialist-probe-plan.md`, queued §3) | this session | active (design landed; awaiting user GO) |
+| zcode-base-bakeoff | external-base bake-off × param-floor ladder scoping (sub-1B supplement `model-survey-sub1b-supplement-2026-08-31.md`; queue B-series) | prior session | done 2026-09-01 (B-series prepped + parked §2b; execution → zcode-queue-mgr) |
+| zcode-micro-probe | M-series micro-specialist design (mdlARC-derived M1: ~75M MD twin, curated-vs-scale; plan `docs/research/2026-09-01-micro-specialist-probe-plan.md`, queued §3) | prior session | done 2026-09-01 (design landed §3; execution → zcode-queue-mgr) |
+| zcode-queue-mgr | primary researcher — owns `docs/EXPERIMENT-QUEUE.md`; B-series chain execution + eval-strategy v2 (user activation 2026-09-01T23:4x) | prior session | done 2026-09-04 22:3x (gates B-α/B-β landed, D-grid closed, production plan v0 open; handoff /tmp/sepalith-queue-mgr-handoff-2026-09-04.md) |
+| zcode-o3-telemetry | O3-S0 suffix-entropy + length telemetry on banked RL runs (queue §3 O3) | this session | active 2026-09-04 (CPU-first; GPU replay leg only if needed) |
+| zcode-queue-mgr-2 | primary researcher — owns docs/EXPERIMENT-QUEUE.md; round-1 working set (P12/TU1/O3-S0/S0/E1/O1/B8-patch) | this session | active 2026-09-05 |
+| zcode-p12-roofline | P12 roofline bench (build+run, quiet window) | subagent of zcode-queue-mgr-2 | active |
+| zcode-tu1-sufficiency | TU1 judge-sufficiency validation (glm-5.3, CPU/API) | subagent of zcode-queue-mgr-2 | active |
+| zcode-o3-telemetry | O3-S0 suffix-entropy/advantage telemetry on banked RL runs | subagent of zcode-queue-mgr-2 | active |
+| zcode-s0-traces | S0 spec-decode trace freeze (500-2000 frozen continuations) | subagent of zcode-queue-mgr-2 | active |
+| zcode-e1-build | E1 EL-scheduler sampler patch (build only, no GPU run) | subagent of zcode-queue-mgr-2 | active |
+| zcode-o1-build | O1 diverse-16 prompt-selection script (build only) | subagent of zcode-queue-mgr-2 | active |
+| zcode-b8-patch | B8 prerequisite: train_sft.py completion-only masking + packing (build only) | subagent of zcode-queue-mgr-2 | active |
+| zcode-e1-build | E1 EL-scheduler retrofit on rl_smoke.py (ordered difficulty, queue row E1; build-only 2026-09-04) | this session | done 2026-09-04 (patch + 26 tests + dry-run landed; GPU run NOT fired — queue manager arms it) |
