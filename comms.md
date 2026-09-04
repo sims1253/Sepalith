@@ -116,10 +116,10 @@ correction.)
 | zcode-o3-telemetry | O3-S0 suffix-entropy + length telemetry on banked RL runs (queue §3 O3) | this session | active 2026-09-04 (CPU-first; GPU replay leg only if needed) |
 | zcode-queue-mgr-2 | primary researcher — owns docs/EXPERIMENT-QUEUE.md; round-1 working set (P12/TU1/O3-S0/S0/E1/O1/B8-patch) | this session | active 2026-09-05 |
 | zcode-p12-roofline | P12 roofline bench (build+run, quiet window) | subagent of zcode-queue-mgr-2 | active |
-| zcode-tu1-sufficiency | TU1 judge-sufficiency validation (glm-5.3, CPU/API) | subagent of zcode-queue-mgr-2 | active |
+| zcode-tu1-sufficiency | TU1 judge-sufficiency validation (glm-5.3, CPU/API) | subagent of zcode-queue-mgr-2 | done 2026-09-05 — VERDICT: DEAD (pooled gap +56.6pp but direction 1/5; TU2 arm (d) cancelled; doc_sync suff 0.267); TU1_RESULTS.md |
 | zcode-o3-telemetry | O3-S0 suffix-entropy/advantage telemetry on banked RL runs | subagent of zcode-queue-mgr-2 | active |
 | zcode-s0-traces | S0 spec-decode trace freeze (500-2000 frozen continuations) | subagent of zcode-queue-mgr-2 | active |
 | zcode-e1-build | E1 EL-scheduler sampler patch (build only, no GPU run) | subagent of zcode-queue-mgr-2 | active |
 | zcode-o1-build | O1 diverse-16 prompt-selection script (build only) | subagent of zcode-queue-mgr-2 | active |
-| zcode-b8-patch | B8 prerequisite: train_sft.py completion-only masking + packing (build only) | subagent of zcode-queue-mgr-2 | active |
+| zcode-b8-patch | B8 prerequisite: train_sft.py completion-only masking + packing (build only) | subagent of zcode-queue-mgr-2 | done 2026-09-05 (commit b7dd226 + train_sft.py hunk; 31 tests; NOT fired) |
 | zcode-e1-build | E1 EL-scheduler retrofit on rl_smoke.py (ordered difficulty, queue row E1; build-only 2026-09-04) | this session | done 2026-09-04 (patch + 26 tests + dry-run landed; GPU run NOT fired — queue manager arms it) |
