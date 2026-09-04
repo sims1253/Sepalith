@@ -12,6 +12,7 @@
 #             – banked B4-safe recipe values (set by the job yaml; see runbook)
 set -euo pipefail
 T0=$(date +%s)
+REPO_ROOT="$(pwd)"
 ts() { echo "[CLOUD T+$(( $(date +%s) - T0 ))s] $*"; }
 
 MODEL="${MODEL:-Qwen/Qwen3.5-0.8B-Base}"
@@ -72,10 +73,32 @@ ts "data ready: $(du -sh "$DATA_DIR" | cut -f1)"
 
 # 3) train: the repo's own trainer, verbatim (smoke = small STEPS)
 ts "train start: $MODEL $STEPS steps"
-cd experiments/training
+cd "$REPO_ROOT/experiments/training"
 python train_sft.py "$MODEL" "$STEPS" "$DATA_DIR" "$OUT_DIR" "" 2>&1 | tee "$TRAIN_LOG"
 ts "train done"
+cd "$REPO_ROOT"
 
-# 4) metrics: tok/s over the exact trained subset + throughput summary
+# 4) push the adapter back to the HF hub (the transfer path for real
+#    rungs — nodes die with their disks). Opt-in via LORA_REPO/RUN_NAME.
+if [ -n "${LORA_REPO:-}" ] && [ -d "$OUT_DIR/final_lora" ]; then
+  RUN_NAME="${RUN_NAME:-sepalith-run}"
+  LORA_REPO="$LORA_REPO" RUN_NAME="$RUN_NAME" python - "$OUT_DIR/final_lora" <<'PY'
+import os
+import sys
+from huggingface_hub import HfApi
+
+repo, run = os.environ["LORA_REPO"], os.environ["RUN_NAME"]
+folder = sys.argv[1]
+api = HfApi(token=os.environ["HF_TOKEN"])
+api.create_repo(repo, repo_type="model", private=True, exist_ok=True)
+api.upload_folder(folder_path=folder, path_in_repo=f"{run}/final_lora",
+                  repo_id=repo, repo_type="model",
+                  commit_message=f"final_lora: {run}")
+print(f"LORA PUSHED -> https://huggingface.co/{repo}/tree/main/{run}/final_lora")
+PY
+  ts "final_lora pushed: $LORA_REPO/$RUN_NAME"
+fi
+
+# 5) metrics: tok/s over the exact trained subset + throughput summary
 python scripts/cloud/report_toks.py
 ts "CLOUD RUN COMPLETE"
