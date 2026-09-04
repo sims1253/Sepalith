@@ -20,6 +20,8 @@ STEPS="${STEPS:-60}"
 DATA_DIR="${DATA_DIR:-/tmp/data/sft_v7}"
 OUT_DIR="${OUT_DIR:-/tmp/run_sft}"
 TRAIN_LOG="${TRAIN_LOG:-/tmp/train.log}"
+# export for the python helpers (report_toks re-reads DATA_DIR/MODEL/STEPS)
+export MODEL STEPS DATA_DIR OUT_DIR TRAIN_LOG
 
 ts "node probe: $(nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader)"
 ts "python $(python -V 2>&1) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print $2}')GiB user=$(whoami) HOME=$HOME"
@@ -71,7 +73,18 @@ ts "env ready: torch $(python -c 'import torch;print(torch.__version__, torch.ve
 python scripts/cloud/pull_data.py "$DATA_DIR"
 ts "data ready: $(du -sh "$DATA_DIR" | cut -f1)"
 
-# 3) train: the repo's own trainer, verbatim (smoke = small STEPS)
+# 3) pre-flight: LoRA attachment audit when EXPECT_TRAINABLE is set (the
+#    B3 under-attach rule — abort BEFORE the burn if the loaded trainable
+#    count mismatches; CPU-only, reuses the hub cache the train load wants)
+if [ -n "${EXPECT_TRAINABLE:-}" ]; then
+  ts "target audit: expecting ${EXPECT_TRAINABLE} trainable params"
+  EXPECT_TRAINABLE="$EXPECT_TRAINABLE" \
+    python scripts/cloud/audit_targets.py "$MODEL" "${SFT_TARGETS:-q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj}" \
+    || { ts "FATAL: audit failed — not training"; exit 4; }
+  ts "audit pass"
+fi
+
+# 3b) train: the repo's own trainer, verbatim (smoke = small STEPS)
 ts "train start: $MODEL $STEPS steps"
 cd "$REPO_ROOT/experiments/training"
 python train_sft.py "$MODEL" "$STEPS" "$DATA_DIR" "$OUT_DIR" "" 2>&1 | tee "$TRAIN_LOG"

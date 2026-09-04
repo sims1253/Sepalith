@@ -1,0 +1,38 @@
+# B7 cloud rung — LiquidAI/LFM2.5-1.2B-Base LoRA SFT on sft_v7 (3000 steps,
+# banked B-series recipe for comparability). PARKED: fire ONLY on the queue
+# manager's explicit GO (gated on B13's verdict; STAND-DOWN = leave parked).
+#
+# ONE COMMAND TO FIRE (from the repo root, working tree committed):
+#   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
+#   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
+#     && git archive HEAD | tar -x -C /tmp/anyscale_sft/pkg
+#   sed -e "s|<HF_TOKEN>|$HF_TOKEN|" -e "s|REPLACE_PKG|/tmp/anyscale_sft/pkg|" \
+#     scripts/cloud/job_b7.yaml.example > /tmp/anyscale_sft/job_b7.yaml
+#   anyscale job submit -f /tmp/anyscale_sft/job_b7.yaml
+#   anyscale job logs --id <prodjob_...>   # source of truth for the run
+#
+# Pre-flight verified 2026-09-05 (CPU audit, scripts/cloud/audit_targets.py):
+#   10 conv + 6 GQA of 16 layers attach 92 LoRA modules
+#   ({in_proj:10, out_proj:16, w1:16, w2:16, w3:16, q/k/v:6}) = 22,216,704
+#   trainable params (1.90% of 1,170,340,608). EXPECT_TRAINABLE below makes
+#   the cloud job re-run the audit pre-train and abort on any mismatch
+#   (the B3 under-attach rule — board 2026-09-02).
+# Expected burn (A10G $1.006/h): ~3h ≈ $3-4.
+name: sepalith-sft-b7
+entrypoint: bash scripts/cloud/sft_entry.sh
+working_dir: REPLACE_PKG
+max_retries: 0
+env_vars:
+  HF_TOKEN: "<HF_TOKEN>"
+  MODEL: "LiquidAI/LFM2.5-1.2B-Base"
+  STEPS: "3000"
+  SFT_TARGETS: "q_proj,k_proj,v_proj,out_proj,in_proj,w1,w2,w3"
+  EXPECT_TRAINABLE: "22216704"
+  LORA_REPO: "scholzmx/sepalith-lora"
+  RUN_NAME: "b7_lfm25_12b"
+  UNSLOTH_COMPILE_DISABLE: "1"
+  UNSLOTH_DISABLE_AUTO_PADDING_FREE: "1"
+compute_config:
+  head_node:
+    instance_type: g5.xlarge   # A10G 24GB; L4 measured 0.73x A10G — not worth it
+  worker_nodes: []

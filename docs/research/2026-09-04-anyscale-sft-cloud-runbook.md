@@ -149,8 +149,9 @@ anyscale job logs --id <prodjob_...>    # CLOUD T+ stamps, loss, runtime
 
 | use class | local 5090 wall | cloud est. | Anyscale cost | note |
 |---|---|---|---|---|
-| 60-step smoke (this run) | — | 8.5 min node | **≈ $0.15** | measured |
-| B7-class rung (1.2B, 3000 steps) | ~1.7 h | ~2.7 h | **≈ $2.7** | 1.94 s/it ÷ 0.63 |
+| 60-step smoke (A10G, this run) | — | 8.5 min node | **≈ $0.15** | measured |
+| 60-step smoke (L4 g6.xlarge) | — | 10 min node | **≈ $0.13** | measured: 3.8-4.0 s/it steady = 0.73× A10G; despite $0.804/h vs $1.006/h that is ~9% WORSE per token → **A10G stays the default node** |
+| B7-class rung (1.2B, 3000 steps) | ~1.7 h | ~2.7 h | **≈ $2.7** | 1.94 s/it ÷ 0.63; see also `scripts/cloud/job_b7.yaml.example` (audited: 22,216,704 trainable) |
 | B13-class rung (LFM2.5-2.6B, 3000 steps) | 4-5 h | ~6.5-8 h | **≈ $6.5-8** | board estimate 4-5h ÷ 0.63; setup +$0.01 |
 | GRPO 300-step arm (rl_smoke.py class) | ~1.7 h | ~2.5-3 h | **≈ $2.5-3** | rl_grpo_v3 anchor: 50 steps/16 min; gen-bound, 0.6× assumed |
 | H100 FP8 W1 cell (~0.5 BT) | n/a | ~4.5 h @30k tok/s | **$57 on Anyscale H100 ($12.3/GPU-h) — use the A2 rental at $1.47/h ≈ $7 instead** | Anyscale per-H100 pricing unverified; W1 is the A2 runbook's own checklist item |
@@ -162,10 +163,34 @@ A2 rental price); keep ≈ $85 reserved for the production fine-tune
 
 ## Limits / open items
 
-- final_lora artifacts on the node die with it — jobs needing exports must
-  push the adapter (HF hub, same pattern as the dataset) from the
-  entrypoint before exit. Not wired yet; trivial add.
-- L4 (g6.xlarge ≈ $0.80/h) untested — likely ~15-20% cheaper per token
-  than A10G; one 60-step smoke would pin it.
+- ~~final_lora artifacts die with the node~~ — WIRED 2026-09-05: set
+  `LORA_REPO` (+ optional `RUN_NAME`) in the job env and the entrypoint
+  pushes `final_lora` to the private model repo (`scholzmx/sepalith-lora`
+  by convention). Proven live by the L4 smoke (adapter at
+  `smoke-qwen35-08b-l4/final_lora`). GGUF export still happens locally
+  (export_gguf.py) from the pushed adapter.
+- ~~L4 untested~~ — measured 2026-09-05 (see burn table): 0.73× A10G
+  speed; ~9% worse per token despite the lower $/h. A10G stays default.
+- LoRA under-attach guard for hybrid archs — WIRED: set `EXPECT_TRAINABLE`
+  in the job env and `scripts/cloud/audit_targets.py` re-audits attachment
+  on the node pre-train (CPU peft load; aborts on mismatch or <1%-of-base).
 - nproc reads 1 in the job cgroup (cosmetic, matches smoke-#1 note).
 - Anyscale H100 availability/pricing on this cloud not verified.
+
+## Parked: B7 cloud rung (LFM2.5-1.2B-Base) — one command, DO NOT FIRE
+
+Gated on B13's verdict (queue rule: B13-pass ⇒ B7 optional GO;
+B13-fail-with-verified-attachment ⇒ B7 retired unspent). Everything is
+pre-flighted:
+
+- weights: hub pull `LiquidAI/LFM2.5-1.2B-Base` (Lfm2ForCausalLM, 1.17B,
+  bf16 ~2.4 GB; native arch in transformers 5.5, unsloth-official LoRA path)
+- target set (verified vs the hub config/checkpoint, CPU audit 2026-09-05):
+  `q_proj,k_proj,v_proj,out_proj,in_proj,w1,w2,w3` → 92 modules attached
+  ({in_proj: 10 conv, out_proj: 16, w1/w2/w3: 16 each, q/k/v: 6 GQA}) =
+  **22,216,704 trainable (1.90%)** — the exact 10-conv+6-GQA map, no
+  under-attach; `EXPECT_TRAINABLE=22216704` aborts the cloud job on drift
+- recipe: sft_v7 + 3000 steps + B4-safe env, identical to the B-series
+  rungs for comparability; adapter push-back included.
+- fire command + full yaml: `scripts/cloud/job_b7.yaml.example` (sed
+  substitutes the token; never committed). Expected burn ≈ $3-4.
