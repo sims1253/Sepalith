@@ -27,9 +27,9 @@ ts "python $(python -V 2>&1) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print 
 # root — everything lives under $HOME or /tmp)
 pip install -q uv
 
-setup_venv() {  # $1 = uv venv --python argument
+setup_venv() {  # $1 = python selector for uv venv
   rm -rf "$HOME/.venv-sft"
-  uv venv "$HOME/.venv-sft" "$1" --quiet
+  uv venv "$HOME/.venv-sft" --python "$1" --quiet
   export VIRTUAL_ENV="$HOME/.venv-sft"
   export PATH="$VIRTUAL_ENV/bin:$PATH"
   ts "venv created ($1); installing pins (~3GB wheels)"
@@ -40,7 +40,7 @@ setup_venv() {  # $1 = uv venv --python argument
 # kernel launch; uv-managed pythons keep headers under their own prefix, so
 # gcc exits 1 (CalledProcessError in compute_loss on the first step). Link
 # the uv include dir into the distro path (job images grant sudo -n).
-setup_venv --python 3.10
+setup_venv 3.10
 UVBIN="$(uv python find 3.10 2>/dev/null || true)"
 if [ -n "$UVBIN" ] && [ ! -e /usr/include/python3.10/Python.h ]; then
   UVPREFIX="$(dirname "$(dirname "$UVBIN")")"
@@ -50,7 +50,7 @@ fi
 if [ ! -e /usr/include/python3.10/Python.h ]; then
   # no sudo path to 3.10 headers: fall back to the image's own python (3.11)
   ts "py3.10 headers unavailable — falling back to system python"
-  setup_venv --python /usr/bin/python3
+  setup_venv /usr/bin/python3
 fi
 ts "env ready: torch $(python -c 'import torch;print(torch.__version__, torch.version.cuda, torch.cuda.get_device_name(0))')"
 
