@@ -117,42 +117,77 @@ def failure_digest(rows, rollouts_by_row, cfg, limit=10) -> list[str]:
 
 
 class Evaluator:
-    def __init__(self, rows, noop_cases, client, baseline=None):
+    """Evaluates candidate batches against D_harness + the noopFP subset.
+
+    MULTI-SERVER SHARDING: one PairClient per server port. Rows (and noop
+    cases) are split by index parity across servers; each shard processes
+    its rows with the iteration's candidates INNER (row-major per shard),
+    so (a) each server keeps the KV prefix reuse across candidates of the
+    same row and (b) both servers are loaded concurrently (the latency
+    guardrail's baseline is measured under the same co-running regime).
+    The 2-rollout pair stays sequential on one server per key.
+    """
+
+    def __init__(self, rows, noop_cases, clients, baseline=None):
+        if isinstance(clients, S.PairClient):
+            clients = [clients]
         self.rows, self.noop_cases = rows, noop_cases
-        self.client, self.baseline = client, baseline
+        self.clients, self.baseline = clients, baseline
 
     def _delta(self):
-        return dict(self.client.ledger)
+        return dict(self.client_ledger())
+
+    def client_ledger(self):
+        led = dict(new_completions=0, pair_reuses=0, cache_entries=0)
+        for c in self.clients:
+            for k, v in c.ledger.items():
+                led[k] += v
+        return led
 
     def evaluate_batch(self, cands: list) -> list[dict]:
-        """Evaluate one iteration's candidates together. ROW-MAJOR across
-        candidates (same row, candidates differ only in the prompt tail or
-        gen knobs) so the server's KV prefix cache is shared; the pair rule
-        (2 sequential temp-0 rollouts per key) is unchanged. Per-candidate
-        completion attribution: a key's completions are charged to the
-        FIRST candidate in the batch that needed it; later ones count as
-        pair reuses (the archive semantics).
-        """
-        pre_keys = set(self.client.cache.keys())
-        sc_keys = [set() for _ in cands]
+        """Evaluate one iteration's candidates together (sharded across
+        servers). Per-candidate completion attribution: a key's completions
+        are charged to the FIRST candidate in the batch that needed it;
+        later ones count as pair reuses (the archive semantics)."""
+        pre_keys = set()
+        for c in self.clients:
+            pre_keys.update(c.cache.keys())
+        n_shard = len(self.clients)
         sc_rolls = [dict() for _ in cands]
-        for row in self.rows:
-            for i, (cfg, texts, _tag) in enumerate(cands):
-                prompt, _meta = render_scenario(row, cfg, texts)
-                sc_rolls[i][row["id"]] = self.client.pair(
-                    prompt, stops_for(cfg), cfg["max_tokens"])
-                sc_keys[i].add(self.client.key(prompt, stops_for(cfg),
-                                               cfg["max_tokens"]))
-        np_keys = [set() for _ in cands]
         np_rolls = [dict() for _ in cands]
-        for c in self.noop_cases:
-            for i, (cfg, texts, _tag) in enumerate(cands):
-                prompt, _meta = build_scoped_prompt(
-                    c.lines, c.cursor_line, c.cursor_char, c.rel_path, cfg, texts)
-                np_rolls[i][c.id] = self.client.pair(
-                    prompt, stops_for(cfg), cfg["max_tokens"])
-                np_keys[i].add(self.client.key(prompt, stops_for(cfg),
-                                               cfg["max_tokens"]))
+        sc_keys = [set() for _ in cands]
+        np_keys = [set() for _ in cands]
+
+        def run_shard(ci):
+            client = self.clients[ci]
+            for j, row in enumerate(self.rows):
+                if j % n_shard != ci:
+                    continue
+                for i, (cfg, texts, _tag) in enumerate(cands):
+                    prompt, _meta = render_scenario(row, cfg, texts)
+                    sc_rolls[i][row["id"]] = client.pair(
+                        prompt, stops_for(cfg), cfg["max_tokens"])
+                    sc_keys[i].add(client.key(prompt, stops_for(cfg),
+                                              cfg["max_tokens"]))
+            for j, c in enumerate(self.noop_cases):
+                if j % n_shard != ci:
+                    continue
+                for i, (cfg, texts, _tag) in enumerate(cands):
+                    prompt, _meta = build_scoped_prompt(
+                        c.lines, c.cursor_line, c.cursor_char, c.rel_path,
+                        cfg, texts)
+                    np_rolls[i][c.id] = client.pair(
+                        prompt, stops_for(cfg), cfg["max_tokens"])
+                    np_keys[i].add(client.key(prompt, stops_for(cfg),
+                                              cfg["max_tokens"]))
+
+        if n_shard == 1:
+            run_shard(0)
+        else:
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(n_shard) as ex:
+                list(ex.map(run_shard, range(n_shard)))
+
         entries, claimed = [], set()
         for i, (cfg, texts, tag) in enumerate(cands):
             score = score_candidate(self.rows, sc_rolls[i], cfg)
@@ -244,6 +279,8 @@ def next_candidates(state, proposer, kind, it) -> list[dict]:
     """3 candidates: proposer's valid ones + seeded fallbacks, deduped."""
     rng = random.Random(f"{state['arm']}-{it}")
     seen = {e["fp"] for e in state["evaluated"]}
+    if state.get("seed"):
+        seen.add(state["seed"]["fp"])  # never re-evaluate the default config
     out, origins = [], []
     if proposer is not None:
         try:
@@ -378,6 +415,8 @@ def main():
                     help="cap D_harness rows (smoke; 0 = all 256)")
     ap.add_argument("--noop-cap", type=int, default=0,
                     help="cap noopFP guardrail rows (smoke; 0 = full subset)")
+    ap.add_argument("--ports", default=str(S.H1_PORT),
+                    help="comma-separated server ports (sharded by row parity)")
     args = ap.parse_args()
 
     results = Path(args.results)
@@ -391,22 +430,28 @@ def main():
     noop_cases = load_noop_cases()
     if args.noop_cap:
         noop_cases = noop_cases[:args.noop_cap]
-    client = S.PairClient(args.port)
-    client.load(cache_path)
+    ports = [int(p) for p in str(args.ports).split(",")]
+    fresh = args.arm == "baseline"  # baseline re-measures latency fresh
+    clients = [S.PairClient(p, fresh=fresh) for p in ports]
+    for c in clients:
+        c.load(cache_path)
 
-    srv = None
+    srv = []
     if not args.no_server:
-        srv = S.Server(args.model, port=args.port,
-                       log_path=results / f"llama-server-h1-{args.port}.log")
-        srv.start()
-        print(f"[server] up on {args.port} (pid {srv.proc.pid})", flush=True)
+        for p in ports:
+            s = S.Server(args.model, port=p,
+                         log_path=results / f"llama-server-h1-{p}.log")
+            s.start()
+            srv.append(s)
+            print(f"[server] up on {p} (pid {s.proc.pid})", flush=True)
     try:
-        evaluator = Evaluator(rows, noop_cases, client)
+        evaluator = Evaluator(rows, noop_cases, clients)
         base_path = results / "baseline.json"
         if args.arm == "baseline":
             t0 = time.time()
             base = evaluator.evaluate(DEFAULT_CONFIG, DEFAULT_TEXTS, "baseline")
             base["wall_s"] = round(time.time() - t0)
+            base["ports"] = ports
             base_path.write_text(json.dumps(base, indent=1))
             print(json.dumps({k: base[k] for k in
                               ("exact_pass", "unstable_frac", "p95_latency_s",
@@ -431,7 +476,7 @@ def main():
             method = {"hill": "hill", "population": "population",
                       "gepa": "gepa", "smoke": "smoke"}[args.arm]
             kind = "gepa" if args.arm == "gepa" else "config"
-            state = run_arm(args.arm, method, kind, args.iters, args.port,
+            state = run_arm(args.arm, method, kind, args.iters, ports,
                             args.model, results, proposer, evaluator,
                             seed=seed)
             print(json.dumps(dict(
@@ -439,10 +484,10 @@ def main():
                 best_exact=state["best_entry"]["exact_pass"],
                 proposer_totals=state.get("proposer_totals")), indent=1))
     finally:
-        client.dump(cache_path)
-        if srv:
-            srv.stop()
-            print(f"[server] stopped", flush=True)
+        S.dump_all(clients, cache_path)
+        for s in srv or []:
+            s.stop()
+        print("[server] stopped", flush=True)
 
 
 if __name__ == "__main__":

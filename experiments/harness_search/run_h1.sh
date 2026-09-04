@@ -13,31 +13,44 @@ RES=$RIG/results
 SERVER_PID_FILE=$RES/server.pid
 mkdir -p "$RES"
 
-# ---- server (tracked PID; CPU-only binary, no CUDA context) ----------------
-if ! ss -tln 2>/dev/null | grep -q ":18310 "; then
-  nohup experiments/bin/llama/llama-b10453/llama-server \
-    -m experiments/models/sft_v7_minicpm5-Q8_0.gguf \
-    --port 18310 --host 127.0.0.1 -t 8 --parallel 1 -c 8192 -ngl 0 \
-    --cache-reuse 1024 >> "$RES/llama-server-h1-18310.log" 2>&1 &
-  echo $! > "$SERVER_PID_FILE"
-  echo "$(date '+%F %T') server started pid $(cat "$SERVER_PID_FILE")"
-fi
+# ---- servers (tracked PIDs; CPU-only binary, no CUDA context) ---------------
+# TWO convention-verbatim servers sharded by row parity (see H1_RESULTS.md):
+# 16 of 24 threads for the rig, symmetric co-running load for the latency
+# guardrail (baseline re-measured under the same regime).
+PORTS="18310,18311"
+mkdir -p "$RES"
+for P in 18310 18311; do
+  if ! ss -tln 2>/dev/null | grep -q ":$P "; then
+    nohup experiments/bin/llama/llama-b10453/llama-server \
+      -m experiments/models/sft_v7_minicpm5-Q8_0.gguf \
+      --port $P --host 127.0.0.1 -t 8 --parallel 1 -c 8192 -ngl 0 \
+      --cache-reuse 1024 >> "$RES/llama-server-h1-$P.log" 2>&1 &
+    echo $! >> "$SERVER_PID_FILE"
+    echo "$(date '+%F %T') server $P started pid $!"
+  fi
+done
+# readiness: a real POST per port
+for P in 18310 18311; do
+  until curl -s -o /dev/null -X POST "http://127.0.0.1:$P/v1/completions" \
+        -H 'Content-Type: application/json' \
+        -d '{"prompt":"ready","max_tokens":1,"temperature":0}'; do sleep 2; done
+done
 
 # ---- phases -----------------------------------------------------------------
 echo "$(date '+%F %T') phase: baseline"
 nice -n 15 "$PY" "$RIG/methods.py" --arm baseline --results "$RES" \
-  --no-server > "$RES/baseline.log" 2>&1 || { echo baseline FAILED; exit 2; }
+  --no-server --ports "$PORTS" > "$RES/baseline.log" 2>&1 || { echo baseline FAILED; exit 2; }
 
 for ARM in hill population gepa; do
   echo "$(date '+%F %T') phase: $ARM"
   nice -n 15 "$PY" "$RIG/methods.py" --arm "$ARM" --iters 13 \
-    --results "$RES" --no-server > "$RES/$ARM.log" 2>&1 \
+    --results "$RES" --no-server --ports "$PORTS" > "$RES/$ARM.log" 2>&1 \
     || { echo "$ARM FAILED"; exit 3; }
 done
 
 echo "$(date '+%F %T') phase: verdict battery"
 nice -n 15 "$PY" "$RIG/verdict_battery.py" --results "$RES" \
-  --out verdict.json > "$RES/verdict.log" 2>&1 || { echo verdict FAILED; exit 4; }
+  --ports "$PORTS" --out verdict.json > "$RES/verdict.log" 2>&1 || { echo verdict FAILED; exit 4; }
 
 date '+%F %T' > "$RES/PIPELINE_DONE"
 echo "$(date '+%F %T') PIPELINE DONE"

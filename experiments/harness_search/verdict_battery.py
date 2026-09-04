@@ -30,7 +30,29 @@ import methods                                                     # noqa: E402
 import server as S                                                 # noqa: E402
 
 
-def verdict_scenarios(cfg, texts, client) -> dict:
+def _shard_single(clients, items, render_fn):
+    """Parallel singles across servers: items split by index parity, each
+    server serves its shard; returns a list of rollouts aligned to items."""
+    out = [None] * len(items)
+
+    def run(ci):
+        client = clients[ci]
+        for j, item in enumerate(items):
+            if j % len(clients) != ci:
+                continue
+            prompt, cfgstops, mt = render_fn(item)
+            out[j] = client.single(prompt, cfgstops, mt)
+
+    if len(clients) == 1:
+        run(0)
+    else:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(len(clients)) as ex:
+            list(ex.map(run, range(len(clients))))
+    return out
+
+
+def verdict_scenarios(cfg, texts, clients) -> dict:
     examples, report = load_heldout(150)
     rows = []
     for fam, fam_rows in examples.items():
@@ -39,11 +61,15 @@ def verdict_scenarios(cfg, texts, client) -> dict:
             r["id"] = hashlib.sha1(r["_prompt"].encode()).hexdigest()[:12]
             rows.append(r)
     stops, mt = stops_for(cfg), cfg["max_tokens"]
+
+    def render(row):
+        prompt, _ = render_scenario(row, cfg, texts)
+        return prompt, stops, mt
+
+    rolls = _shard_single(clients, rows, render)
     per_fam = {}
     lats = []
-    for row in rows:
-        prompt, _ = render_scenario(row, cfg, texts)
-        roll = client.single(prompt, stops, mt)
+    for row, roll in zip(rows, rolls):
         pred = predict(roll["text"], row, cfg)
         ok, kind, reason = validator_verdict(row, pred)
         gt = [l.rstrip() for l in row["region_new"]]
@@ -69,14 +95,18 @@ def verdict_scenarios(cfg, texts, client) -> dict:
         families=fams, selection=report)
 
 
-def verdict_noop(cfg, texts, client) -> dict:
+def verdict_noop(cfg, texts, clients) -> dict:
     cases = methods.load_noop_cases(subset_n=None)  # FULL set
     stops, mt = stops_for(cfg), cfg["max_tokens"]
-    per_cls, scored, props, lats = {}, 0, 0, []
-    for c in cases:
+
+    def render(c):
         prompt, _ = build_scoped_prompt(c.lines, c.cursor_line, c.cursor_char,
                                         c.rel_path, cfg, texts)
-        roll = client.single(prompt, stops, mt)
+        return prompt, stops, mt
+
+    rolls = _shard_single(clients, cases, render)
+    per_cls, scored, props, lats = {}, 0, 0, []
+    for c, roll in zip(cases, rolls):
         proposed = len(parse_prediction(roll["text"], cfg)) > 0
         per_cls.setdefault(c.cls, [0, 0])
         per_cls[c.cls][1] += 1
@@ -84,13 +114,13 @@ def verdict_noop(cfg, texts, client) -> dict:
         if c.cls[0] in "acd":
             scored += 1
             props += int(proposed)
-        lats.append(roll["latency"])
+        lats.append(rolls[c]["latency"])
     return dict(scored_n=scored, proposal_rate=round(props / max(1, scored), 4),
                 per_class={k: [v[0], v[1]] for k, v in sorted(per_cls.items())},
                 p95_latency_s=round(_p95(lats), 3), n_cases=len(cases))
 
 
-def verdict_intent(cfg, texts, client) -> dict:
+def verdict_intent(cfg, texts, clients) -> dict:
     """Intent suite leg (44 rows, glm-5.3 judged): run_intent_suite's render
     + judge with the candidate's cap/outline/text-slot render knobs and
     gen/parse knobs applied. Anchors run once per invocation for judge
@@ -105,7 +135,7 @@ def verdict_intent(cfg, texts, client) -> dict:
     cal_ok = all(j.get("score") == exp for _, j, exp in cal)
     stops, mt = stops_for(cfg), cfg["max_tokens"]
     scores = []
-    for case in cases:
+    for k, case in enumerate(cases):
         inp = case["input"]
         suffix = list(inp["suffix_lines"])
         prefix = list(inp["prefix_lines"])
@@ -126,7 +156,7 @@ def verdict_intent(cfg, texts, client) -> dict:
         region = [partial + "<|user_cursor|>"] if partial else ["<|user_cursor|>"]
         parts += ["<<<<<<< CURRENT"] + region + ["=======", "<[fim-middle]>"]
         prompt = "\n".join(parts)
-        roll = client.single(prompt, stops, mt)
+        roll = clients[k % len(clients)].single(prompt, stops, mt)
         from scorer import parse_prediction
         pred = parse_prediction(roll["text"], cfg)
         j = judge(case, pred)
@@ -139,17 +169,17 @@ def verdict_intent(cfg, texts, client) -> dict:
                 anchors_ok=cal_ok)
 
 
-def run_verdict(name, cfg, texts, client, with_intent=False) -> dict:
+def run_verdict(name, cfg, texts, clients, with_intent=False) -> dict:
     cfg = validate_config(cfg)
     t0 = time.time()
-    scen = verdict_scenarios(cfg, texts, client)
-    noop = verdict_noop(cfg, texts, client)
+    scen = verdict_scenarios(cfg, texts, clients)
+    noop = verdict_noop(cfg, texts, clients)
     out = dict(name=name, fp=None, cfg=cfg, texts=texts,
                scenarios=scen, noop=noop,
                wall_s=round(time.time() - t0))
     if with_intent:
         t1 = time.time()
-        out["intent"] = verdict_intent(cfg, texts, client)
+        out["intent"] = verdict_intent(cfg, texts, clients)
         out["wall_s"] = round(time.time() - t0)
     return out
 
@@ -157,6 +187,8 @@ def run_verdict(name, cfg, texts, client, with_intent=False) -> dict:
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--port", type=int, default=S.H1_PORT)
+    ap.add_argument("--ports", default="",
+                    help="comma-separated ports (overrides --port)")
     ap.add_argument("--model", default=str(
         HERE.parent / "models" / "sft_v7_minicpm5-Q8_0.gguf"))
     ap.add_argument("--results", default=str(HERE / "results"))
@@ -169,13 +201,17 @@ def main():
 
     results = Path(args.results)
     model_tag = Path(args.model).stem.replace("-Q8_0", "")
-    client = S.PairClient(args.port)
-    client.load(results / f"cache-{model_tag}.jsonl")
-    srv = None
-    if not S.port_open(args.port):
-        srv = S.Server(args.model, port=args.port,
-                       log_path=results / f"llama-server-h1-{args.port}.log")
-        srv.start()
+    ports = [int(p) for p in args.ports.split(",") if p.strip()] or [args.port]
+    clients = [S.PairClient(p) for p in ports]
+    for c in clients:
+        c.load(results / f"cache-{model_tag}.jsonl")
+    started = []
+    for p in ports:
+        if not S.port_open(p):
+            s = S.Server(args.model, port=p,
+                         log_path=results / f"llama-server-h1-{p}.log")
+            s.start()
+            started.append(s)
     path = results / args.out
     try:
         if args.intent_only:
@@ -184,7 +220,7 @@ def main():
                 if arm.get("intent"):
                     continue
                 t0 = time.time()
-                arm["intent"] = verdict_intent(arm["cfg"], arm["texts"], client)
+                arm["intent"] = verdict_intent(arm["cfg"], arm["texts"], clients)
                 print(json.dumps(dict(arm=arm["name"],
                                       intent=arm["intent"],
                                       wall_s=round(time.time() - t0))), flush=True)
@@ -192,7 +228,7 @@ def main():
         else:
             out = dict(model=model_tag, generated=time.strftime("%FT%T"), arms=[])
             out["arms"].append(run_verdict("default", DEFAULT_CONFIG, DEFAULT_TEXTS,
-                                           client, with_intent=args.with_intent))
+                                           clients, with_intent=args.with_intent))
             for arm in ("hill", "population", "gepa"):
                 sp = results / arm / "state.json"
                 if not sp.exists():
@@ -201,15 +237,15 @@ def main():
                 state = json.loads(sp.read_text())
                 best = state["best_entry"]
                 out["arms"].append(run_verdict(arm, best["cfg"], best["texts"],
-                                               client, with_intent=args.with_intent))
+                                               clients, with_intent=args.with_intent))
                 print(json.dumps(dict(arm=arm, fp=best["fp"],
                                       valid=out["arms"][-1]["scenarios"]["valid_pass"])),
                       flush=True)
             path.write_text(json.dumps(out, indent=1))
     finally:
-        client.dump(results / f"cache-{model_tag}.jsonl")
-        if srv:
-            srv.stop()
+        S.dump_all(clients, results / f"cache-{model_tag}.jsonl")
+        for s in started:
+            s.stop()
     print(f"verdict -> {path}")
 
 

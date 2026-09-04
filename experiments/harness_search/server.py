@@ -126,8 +126,9 @@ class PairClient:
     Subclasses override _do_complete for offline tests.
     """
 
-    def __init__(self, port: int):
+    def __init__(self, port: int, fresh: bool = False):
         self.port = port
+        self.fresh = fresh  # baseline re-measure mode: bypass reads, overwrite
         self.cache: dict[tuple, list[dict]] = {}
         self.ledger = dict(new_completions=0, pair_reuses=0, cache_entries=0)
 
@@ -140,7 +141,7 @@ class PairClient:
 
     def pair(self, prompt: str, stops: list[str], max_tokens: int) -> list[dict]:
         k = self.key(prompt, stops, max_tokens)
-        if k in self.cache:
+        if k in self.cache and not self.fresh:
             self.ledger["pair_reuses"] += 1
             return self.cache[k]
         out = []
@@ -155,13 +156,14 @@ class PairClient:
     def single(self, prompt: str, stops: list[str], max_tokens: int) -> dict:
         """Verdict-battery mode: reuse the cached pair's first rollout when
         available, else one fresh completion (the eval_scenarios 1-shot
-        convention)."""
+        convention). Fresh mode never writes the cache from a single."""
         k = self.key(prompt, stops, max_tokens)
-        if k in self.cache:
+        if k in self.cache and not self.fresh:
             self.ledger["pair_reuses"] += 1
             return self.cache[k][0]
         text, lat = self._do_complete(prompt, max_tokens, stops)
-        self.ledger["new_completions"] += 1
+        if not self.fresh:
+            self.ledger["new_completions"] += 1
         return dict(text=text, latency=round(lat, 3))
 
     def dump(self, path: Path):
@@ -185,6 +187,20 @@ class PairClient:
             self.cache[k] = [dict(text=t, latency=l) for t, l in
                              zip(r["texts"], r["latencies"])]
         self.ledger["cache_entries"] = len(self.cache)
+
+
+def dump_all(clients, path: Path):
+    """Merge-dump every client's cache into one file (keys are port-free,
+    so they are globally unique)."""
+    seen = {}
+    for c in clients:
+        seen.update(c.cache)
+    with open(path, "w") as f:
+        for (prompt, stops, mt), rolls in seen.items():
+            f.write(json.dumps(dict(stops=list(stops), max_tokens=mt,
+                                    prompt=prompt,
+                                    texts=[r["text"] for r in rolls],
+                                    latencies=[r["latency"] for r in rolls])) + "\n")
 
 
 def wait_port_gone(port: int, timeout: float = 30.0):
