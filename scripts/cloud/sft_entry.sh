@@ -36,22 +36,34 @@ setup_venv() {  # $1 = python selector for uv venv
   uv pip install -q -r scripts/cloud/requirements-cloud-sft.txt
 }
 
-# triton JIT-compiles cuda_utils with -I/usr/include/python3.10 at first
-# kernel launch; uv-managed pythons keep headers under their own prefix, so
-# gcc exits 1 (CalledProcessError in compute_loss on the first step). Link
-# the uv include dir into the distro path (job images grant sudo -n).
-setup_venv 3.10
-UVBIN="$(uv python find 3.10 2>/dev/null || true)"
-if [ -n "$UVBIN" ] && [ ! -e /usr/include/python3.10/Python.h ]; then
-  UVPREFIX="$(dirname "$(dirname "$UVBIN")")"
-  sudo -n ln -sfn "$UVPREFIX/include/python3.10" /usr/include/python3.10 2>/dev/null \
-    || sudo -n apt-get install -y -qq python3.10-dev 2>/dev/null || true
+# triton JIT-compiles cuda_utils (gcc, needs Python.h) at first kernel
+# launch, but the image ships NO python3.10 dev headers, sudo is restricted,
+# and `uv venv --python 3.10` silently binds the header-less SYSTEM 3.10.
+# Fix: force a uv-managed standalone CPython (python-build-standalone
+# bundles full headers), venv from it explicitly, and export the venv's
+# sysconfig include path via C_INCLUDE_PATH (gcc reads it from the env).
+uv python install 3.10
+M310="$(ls -d "$HOME"/.local/share/uv/python/cpython-3.10*/bin/python3 2>/dev/null | head -1)"
+[ -z "$M310" ] && M310=3.10
+setup_venv "$M310"
+PYINC="$("$HOME/.venv-sft/bin/python" -c 'import sysconfig; print(sysconfig.get_path("include"))')"
+if [ ! -f "$PYINC/Python.h" ]; then
+  PYINC="$(dirname "$(dirname "$(readlink -f "$HOME/.venv-sft/bin/python")")")/include/python3.10"
 fi
-if [ ! -e /usr/include/python3.10/Python.h ]; then
-  # no sudo path to 3.10 headers: fall back to the image's own python (3.11)
-  ts "py3.10 headers unavailable — falling back to system python"
-  setup_venv /usr/bin/python3
+if [ -f "$PYINC/Python.h" ]; then
+  export C_INCLUDE_PATH="$PYINC${C_INCLUDE_PATH:+:$C_INCLUDE_PATH}"
+  export CPLUS_INCLUDE_PATH="$C_INCLUDE_PATH"
+  ts "headers: $PYINC/Python.h"
+else
+  # last resort: the image's own default python keeps headers with it
+  ts "managed 3.10 headers missing — trying image default python"
+  setup_venv "$(command -v python)"
+  PYINC="$("$HOME/.venv-sft/bin/python" -c 'import sysconfig; print(sysconfig.get_path("include"))')"
+  export C_INCLUDE_PATH="$PYINC${C_INCLUDE_PATH:+:$C_INCLUDE_PATH}"
+  export CPLUS_INCLUDE_PATH="$C_INCLUDE_PATH"
 fi
+printf '#include <Python.h>\nint main(void){return 0;}\n' > /tmp/hdrtest.c
+gcc -fsyntax-only /tmp/hdrtest.c || { ts "FATAL: no usable Python.h — triton cannot JIT"; exit 3; }
 ts "env ready: torch $(python -c 'import torch;print(torch.__version__, torch.version.cuda, torch.cuda.get_device_name(0))')"
 
 # 2) data: private HF dataset -> byte-identical local mixture
