@@ -4,6 +4,8 @@
 # experiments/synthetic-data/TU2_RESULTS.md ((a) = seeded raw draw incl. 82
 # unsolved rows — the filter contrast).
 #
+# RE-CUT 2026-09-05: train = arm_a_raw_624/train.jsonl (624-row primary, a'); eval = the staged shared 307-row slice (byte-verified identical to the _624 dir's eval.jsonl).
+#
 # FIRE (from repo root, tree committed):
 #   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
 #   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
@@ -23,10 +25,10 @@ env_vars:
   SFT_TARGETS: "q_proj,k_proj,v_proj,o_proj,in_proj_qkv,in_proj_a,in_proj_b,in_proj_z,out_proj,gate_proj,up_proj,down_proj"
   EXPECT_TRAINABLE: "33638400"  # CPU-audited 2026-09-05 vs local dir: 186 modules, 1.79% of 1.88B
   SFT_DATA_REPO: "scholzmx/sepalith-tu2-arms"
-  SFT_DATA_FILES: "arm_a_raw/train.jsonl>train.jsonl,arm_a_raw/eval.jsonl>eval.jsonl"
+  SFT_DATA_FILES: "arm_a_raw_624/train.jsonl>train.jsonl,arm_a_raw/eval.jsonl>eval.jsonl"
   DATA_DIR: "/tmp/data/tu2_a"
   LORA_REPO: "scholzmx/sepalith-lora"
-  RUN_NAME: "tu2_a_raw"
+  RUN_NAME: "tu2_a_raw_624"
   UNSLOTH_COMPILE_DISABLE: "1"
   UNSLOTH_DISABLE_AUTO_PADDING_FREE: "1"
 compute_config:

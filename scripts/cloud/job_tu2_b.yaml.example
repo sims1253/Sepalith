@@ -4,6 +4,8 @@
 # experiments/synthetic-data/TU2_RESULTS.md
 # ((b) = solve-gated: ground-truth targets, prompts identical to (c)).
 #
+# RE-CUT 2026-09-05: train = arm_b_solve_gated_624/train.jsonl (624-row primary, b'); eval = the staged shared 307-row slice. (c)@113 stays the paired secondary; b@113 stays its pair.
+#
 # FIRE (from repo root, tree committed):
 #   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
 #   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
@@ -23,10 +25,10 @@ env_vars:
   SFT_TARGETS: "q_proj,k_proj,v_proj,o_proj,in_proj_qkv,in_proj_a,in_proj_b,in_proj_z,out_proj,gate_proj,up_proj,down_proj"
   EXPECT_TRAINABLE: "33638400"  # CPU-audited 2026-09-05 vs local dir: 186 modules, 1.79% of 1.88B
   SFT_DATA_REPO: "scholzmx/sepalith-tu2-brms"
-  SFT_DATA_FILES: "arm_b_solve_gated/train.jsonl>train.jsonl,arm_b_solve_gated/eval.jsonl>eval.jsonl"
+  SFT_DATA_FILES: "arm_b_solve_gated_624/train.jsonl>train.jsonl,arm_b_solve_gated/eval.jsonl>eval.jsonl"
   DATA_DIR: "/tmp/data/tu2_b"
   LORA_REPO: "scholzmx/sepalith-lora"
-  RUN_NAME: "tu2_b_solve_gated"
+  RUN_NAME: "tu2_b_solve_gated_624"
   UNSLOTH_COMPILE_DISABLE: "1"
   UNSLOTH_DISABLE_AUTO_PADDING_FREE: "1"
 compute_config:
