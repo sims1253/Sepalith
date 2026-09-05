@@ -123,3 +123,4 @@ correction.)
 | zcode-o1-build | O1 diverse-16 prompt-selection script (build only) | subagent of zcode-queue-mgr-2 | active |
 | zcode-b8-patch | B8 prerequisite: train_sft.py completion-only masking + packing (build only) | subagent of zcode-queue-mgr-2 | done 2026-09-05 (commit b7dd226 + train_sft.py hunk; 31 tests; NOT fired) |
 | zcode-e1-build | E1 EL-scheduler retrofit on rl_smoke.py (ordered difficulty, queue row E1; build-only 2026-09-04) | this session | done 2026-09-04 (patch + 26 tests + dry-run landed; GPU run NOT fired — queue manager arms it) |
+| zcode-s0-traces | S-series S0: spec-decode trace freeze (Q7/RT-2 trace set; miner experiments/data-mining/freeze_spec_traces.py, data /mnt/h/sepalith/datasets/spec_traces/) | this session | done 2026-09-05 (1100 traces, validation clean, board posts 2026-09-04T23:2x + 2026-09-05T02:5x) |

@@ -278,3 +278,96 @@ class-shaped, and a 1.2B rung would mainly re-test them at a size
 where capacity is lower; if a future CPU-latency tier ever wants the
 94-t/s-class decode family, B7 is the probe to run (with this rung's
 regex target set + bs2 knobs + detached-launch pattern).
+
+## B8 — AST-FIM midtrain re-probe, FIXED instrument, on the gate winner (b8_midtrain_qwen35_2b) — 2026-09-05
+
+Arm = the banked b4_qwen35_2b recipe VERBATIM (3000 steps, LoRA r32/a64
+lr2e-4 cosine, seq 2048, seed 3407, shuffle(42)+48k cap, the qwen3.5 GDN
+target list) but with the dataset REPLACED by astfim_v1 (276,206 rows) and
+MIDTRAIN_MASK=1: completion-only loss masking (prefix-route LCP) + the
+conservative bucket packing (group_by_length; MIDTRAIN_PACK=seq is refused
+for GDN by the instrument). Paired control = the BANKED b4 rung (same base,
+sft_v7, no midtrain). Base = experiments/models/qwen3.5-2b-base-text-hf
+(the resolved GDN pick). Runner zcode-b8-run; chain script
+`scripts/run_b8_midtrain.sh` (gates A/B/C in-script); McNemar helper
+`experiments/eval/b8_mcnemar.py` (validated: reproduces the banked b4
+85.1/76.5 and the B-β discord counts on self-pairing).
+
+### Instrument health — the thing B8 existed to un-confound (ALL PASS)
+Pre-registered signature vs measured (train_sft [midtrain:*] telemetry):
+- attachment: Trainable 21,823,488 of 1,903,648,576 (1.15%) — the exact b4
+  line (gate A; B3 incident rule).
+- prefix-route: 47,381/47,381 routed = 100% (pre-registered ~100%);
+  619 rows >2048 tok dropped, 0 seam-dirty.
+- **token-seam exact: 48000/48000** (pre-registered; the broken 08-19
+  instrument had 0% exact masking — this is the fix, measured on the full
+  48k selection). eval split 500/500, 12.0% completion.
+- completion share 12.2% (pre-registered ~13-14%; b8-patch sample 13.5%).
+- finite losses throughout: first 0.856 (step 20), eval_loss
+  0.773→0.761→0.743→0.720→0.709→0.710 (plateau), final train 0.604;
+  zero non-finite entries (gate C). Runs ABOVE b4's ~0.68 final as expected
+  — completion-only masking scores only target tokens.
+- ops: 3h01m wall, ~3.6s/it avg (astfim rows are longer than sft_v7),
+  VRAM flat 16.2-16.3GB (b4 peak 21.6) — no creep, no SFT_PD_BATCH fallback.
+
+### Battery (Q8_0, b10453 CPU convention; contended box — two foreign
+llama-servers through most legs; raw outputs persisted)
+
+| metric | b8_midtrain | b4 (paired control) | granite (b5) |
+|---|---|---|---|
+| valid % | **0.8** | 85.1 | 87.8 |
+| exact % | **0.0** | 76.5 | 78.0 |
+| noopFP % (all / scored n=204) | **93.4 / 91.7** | 67.4 / 58.8 | 68.2 / 59.8 |
+| format_propagation valid % | 3.0 (2/67) | 71.6 | 79.1 |
+| midtyping raw / suffix (18, join PASS) | 0 / 0 | 0 / 0 | 0 / 0 |
+| tg128 t/s (Q8, t8 CPU) | 17.99 ± 1.67 | 19.21 | 10.65 |
+
+McNemar vs b4 (n=255 paired, exact binomial): valid discord 215/0
+(ctl+/arm- 215, arm+ 0) **p≈1e-48 → significant DECISIVE loss**; exact
+discord 195/0, p≈1e-44. Per-family valid: rename 0/150 (b4 97.3), pipe
+0/18 (100), na_rm 0/5 (100), format 2/67 (71.6), doc_sync 0/15 (0 — tied,
+universal construction problem). Midtyping join-check: PASS 18/18 (i,sha)
+keys identical to banked b4 rows, same order, both alignments; line_f1
+0.009/0.007 vs b4 0.006/0.033 (both ~floor).
+
+### Failure mode (read the predictions, not just the rates)
+Output is FLUENT R but in AST-FIM stream format: `<filename>` chains,
+`<[fim-prefix]>/<[fim-suffix]>` marker echo, `=======`/`>>>>>>> REPLACE`
+diff-marker loops, degenerate repetition (e.g. `vignettes2 <- FALSE` x N).
+The scenario validator rejects on shape ("single-line region family, got
+92 lines"). The model learned span-completion, not the zeta2 edit-block
+contract — it never saw a product-format row (astfim_v1 replaced sft_v7
+for the full 3000-step budget). The pre-registered RAW-PSM/format-transfer
+caveat applies in full: these numbers measure ZERO-SHOT format transfer of
+the zeta2 battery onto an astfim-only model, not absence of edit-span
+ability per se. Restraint collapsed with it (91.7% scored noopFP —
+B13-class propose-always; every no-op class ≥0.78, temptation classes
+1.00/0.83).
+
+### Verdict — instrument VALIDATED, arm DECISIVE NEGATIVE (p≈1e-48)
+1. **The 08-19 confound is resolved**: with completion-only masking +
+   packing verified end-to-end (seam exact 48000/48000 on the real corpus),
+   the midtrain instrument works. Any future astfim-class result is now
+   interpretable.
+2. **Midtrain-only does not subsume product SFT** — it is a catastrophic
+   product regression on every axis (quality p≈1e-48, restraint 58.8→91.7,
+   midtyping flat). AST-FIM span training alone does not induce the
+   product edit format on the GDN base.
+3. **Granite cross-check (the B5 question)**: granite's best-in-field
+   format_propagation 79.1 sits ON TOP of product SFT (native-FIM
+   pretraining + sft_v7). B8 shows the granite class of gain does NOT
+   transfer to GDN via midtrain-only: format 71.6→3.0. The runbook's
+   "then the standard loop" stacked arm (midtrain THEN sft_v7) remains
+   UNTESTED — as staged by the queue manager (single 3000-step astfim run
+   vs banked b4), this run cannot attribute any gain to the midtrain stage.
+4. **Production plan §2 midtrain slot: recommendation DROP** (as
+   currently constituted — full-replacement astfim stage). Remaining
+   live options per the 08-19 close-out: midtrain→SFT stacking (~3h GPU,
+   queue-mgr call), shorter spans, or the midtrain-native base (granite).
+   Nothing here revives doc_sync (0/15, tied with everything —
+   construction problem, gate B-β).
+- Artifacts: `experiments/models/b8_midtrain_qwen35_2b-Q8_0.gguf` (2.01GB),
+  runs/logs `/mnt/h/sepalith/runs/b8_midtrain_qwen35_2b*` + `b8_chain.log`,
+  eval rows `experiments/eval/results_{scenarios,noop_fp}_b8_midtrain_qwen35_2b.jsonl`
+  + `results_b8_midtrain_qwen35_2b_midtyping{,_suffix}.jsonl` (mirrored to
+  `/mnt/h/sepalith/runs/b8_midtrain_qwen35_2b/eval_rows/`).
