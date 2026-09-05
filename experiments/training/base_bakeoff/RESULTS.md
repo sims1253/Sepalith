@@ -371,3 +371,101 @@ B13-class propose-always; every no-op class ≥0.78, temptation classes
   eval rows `experiments/eval/results_{scenarios,noop_fp}_b8_midtrain_qwen35_2b.jsonl`
   + `results_b8_midtrain_qwen35_2b_midtyping{,_suffix}.jsonl` (mirrored to
   `/mnt/h/sepalith/runs/b8_midtrain_qwen35_2b/eval_rows/`).
+
+## B8b — STACKED arm: midtrain-THEN-sft_v7, granite's structure (b8b_stacked_qwen35_2b) — 2026-09-06
+
+The runbook arm B8 could not test: granite's stacking (native-FIM
+pretraining UNDER product SFT) reproduced on the GDN base. Stage 1: merge
+the BANKED b8_midtrain LoRA into `experiments/models/qwen3.5-2b-base-text-hf`
+via the export_gguf.py MERGE_VIA_PEFT flow (CPU-side; scripts/b8b_merge_base.py;
+merge gates all PASS: 96-module adapter profile = the exact b4/b8 attachment
+{down/gate/up x24, q/k/v/o x6}, targeted weight moved mean|delta| 5.9e-4 /
+untouched byte-identical; persistent merged dir
+`/mnt/h/sepalith/runs/b8b_stacked_base_merged`, 3.6GB — NOT /tmp). Stage 2:
+the BANKED b4 recipe VERBATIM on the merged base (3000 steps, sft_v7, LoRA
+r32/a64 lr2e-4 cosine, seed 3407, 48k shuffle(42) cap, same SFT_TARGETS,
+unsloth-with-knobs, MIDTRAIN OFF — the legacy byte-compat path). Paired
+control = the BANKED b4 rung. Runner zcode-b8b-stacked; chain
+`scripts/run_b8b_stacked.sh`; verdict helper `scripts/b8b_verdict.py`
+(validated: reproduces B8's published numbers exactly on self-check).
+
+### Health signature — ALL PASS (third consecutive exact reproduction)
+- attachment: Trainable 21,823,488 of 1,903,648,576 (gate A; 3 min from
+  NAS-side merged base — unsloth loads the transformers-saved dir cleanly).
+- legacy path held end-to-end: 0 `[midtrain:` lines (MIDTRAIN off).
+- losses finite throughout: 150 log points, train 1.598→0.988; eval_loss
+  1.2176→1.2002→1.1794→1.1685→1.1650→1.1623 (monotone, plateau).
+- ops: 1h46m wall, avg ~2.1s/it (the b4 2.0s/it class); VRAM transient
+  peak 32.1GB in the longest-row region (b4 peak 21.6; NO OOM, no
+  SFT_PD_BATCH fallback; expandable_segments) — anomaly, see ops notes.
+
+**MECHANISM FINDING (the tell):** b8b's eval_loss tracks b4's banked curve
+(1.2243→1.2018→1.1791→1.1679→1.1642→1.1622) within 0.001 at EVERY
+checkpoint — the product SFT annihilates the merged midtrain deltas to
+near-identity. This predicts the battery outcome below exactly.
+
+### Battery (Q8_0, b10453 CPU convention, flock; box contended by the
+quietwindow bench batch on cores 0-15; battery pinned 16-23)
+
+| metric | b8b stacked | b4 (control) | b8 (replacement) | granite (b5) |
+|---|---|---|---|---|
+| valid % | 83.1 | 85.1 | 0.8 | 87.8 |
+| exact % | 74.9 | 76.5 | 0.0 | 78.0 |
+| noopFP % (all / scored n=204) | 67.4 / 58.8 | 67.4 / 58.8 | 93.4 / 91.7 | 68.2 / 59.8 |
+| format_propagation valid / exact | 71.6 / 56.7 | 71.6 / 52.2 | 3.0 / 0.0 | 79.1 / — |
+| midtyping raw / suffix (18) | 0 / 0 (join PASS 18/18) | 0 / 0 | 0 / 0 | 0 / 0 |
+| tg128 t/s (Q8, t8 CPU) | 15.09 ± 2.44 (contended) | 19.21 | 17.99 | 10.65 |
+
+McNemar vs b4 (n=255 paired, exact binomial): valid 83.1 vs 85.1, discord
+12/7 **p=0.359 — TIE**; exact 74.9 vs 76.5, discord 13/9 **p=0.523 —
+TIE**. noopFP paired McNemar: **0/0 discord — the proposal decision is
+IDENTICAL to b4 on all 258 rows** (scored 58.8 = b4's exact rate; the
+restraint collapse of the replacement arm is fully unwound). Per-family
+valid: rename 95.3 vs 97.3 (discord 3/0), pipe 94.4 vs 100 (1/0), na_rm
+80.0 vs 100 (1/0, n=5), format_propagation 71.6 vs 71.6 (valid discord
+7/7 — same rate on different rows; exact 56.7 vs 52.2, discord 6/9,
+p≈0.6), doc_sync 0/15 tied (the universal construction problem stands).
+Midtyping: join-check PASS 18/18 (i,sha) keys identical to banked b4 rows,
+same order, both alignments; line_f1 0.005/0.011 vs b4 0.006/0.033 (both
+floor). Smoke generation: coherent zeta2-format R (vs B8's FIM-marker
+soup).
+
+### Verdict — stacking RECOVERS b4 parity exactly, adds NOTHING
+1. **Contract fully recovered** vs the replacement arm's collapse:
+   valid 0.8→83.1 (p=0.36 vs b4 — parity), noopFP scored 91.7→58.8 with
+   row-identical decisions, midtyping join PASS at floor. Stacking the
+   midtrain stage UNDER product SFT is SAFE — nothing is lost.
+2. **No axis beats b4.** Quality TIE (p=0.36/0.52); format_propagation
+   EXACTLY tied at 71.6 valid — the granite class of gain (79.1 on top of
+   product SFT) does NOT transfer to GDN via midtrain→SFT stacking;
+   restraint identical; midtyping floor both; tg128 15.1 contended vs 19.2
+   (B13-precedent contention caveat — same-rig class, not a product axis).
+3. **Production plan §2 midtrain slot: DROP — now with both structures
+   measured.** Replacement (B8) is catastrophic; stacking (B8b) is a
+   ~3h GPU stage that buys 0.0pp on every measured axis, with the
+   eval_loss curve showing why: the product SFT re-learns near-identical
+   weights over the merged deltas. The remaining route to granite's
+   format class is the midtrain-native base itself (B5), not a stage.
+4. doc_sync stays 0/15 across all arms (construction problem, gate B-β).
+
+### Ops notes
+- Gate-B quoting bug: TRL emits loss values as QUOTED strings
+  (`'loss': '1.05'`) and trainer stdout is block-buffered, so the
+  in-script grep `'loss': [0-9.]+` could never match — bridged at runtime
+  with a clearly-labeled ops line in the train log (chain proceeded; the
+  authoritative finite-loss scan ran on trainer_state.json). Script
+  patterns patched post-run for reuse; the in-script gate C is inert for
+  the same reason and is superseded by the external scan.
+- VRAM: transient 32.1GB peak in the longest-row region (vs b4's 21.6
+  under the same recipe/seed/dataset) — no OOM; if a future stacked run
+  OOMs there, the SFT_PD_BATCH=2/SFT_GRAD_ACCUM=8 fallback is identical
+  optimizer math.
+- Card discipline: claimed 22:41 on observed gpushorts release; one
+  workload (W37); released 00:34 post-export; battery CPU-only.
+- Artifacts: `experiments/models/b8b_stacked_qwen35_2b-Q8_0.gguf` (2.01GB);
+  runs/logs `/mnt/h/sepalith/runs/b8b_stacked_*` (train/export/battery
+  logs, checkpoints, final_lora, `eval_rows/` NAS mirror incl. a GGUF
+  copy) + the persistent merged base
+  `/mnt/h/sepalith/runs/b8b_stacked_base_merged`; per-example rows
+  `experiments/eval/results_{scenarios,noop_fp}_b8b_stacked_qwen35_2b.jsonl`
+  + `results_b8b_stacked_qwen35_2b_midtyping{,_suffix}.jsonl`.
