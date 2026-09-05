@@ -1,0 +1,43 @@
+{
+ "run_id": "run-20260905T032607-n1-r1",
+ "smoke": false,
+ "arms": [
+  "draft-mtp@2",
+  "model-draft@2"
+ ],
+ "n_per_class": {
+  "2k": 1
+ },
+ "reps": 1,
+ "host_load": "26.07",
+ "arms_summary": {
+  "draft-mtp@2|2k": {
+   "n": 1,
+   "n_err": 0,
+   "gen_tps_med": 0.27,
+   "ttft_ms_med": 51009.82,
+   "prompt_ms_med": 50567.83,
+   "warm_ttft_ms_med": 1182.15,
+   "warm_prompt_ms_med": 1171.6,
+   "accept_tps_med": 1.0,
+   "accept_rate_med": 0.0,
+   "n_with_accept": 1,
+   "stop_hit": 1,
+   "matches_baseline": 0
+  },
+  "model-draft@2|2k": {
+   "n": 1,
+   "n_err": 0,
+   "gen_tps_med": 0.36,
+   "ttft_ms_med": 73675.55,
+   "prompt_ms_med": 72586.53,
+   "warm_ttft_ms_med": 4422.13,
+   "warm_prompt_ms_med": 4404.38,
+   "accept_tps_med": 2.706,
+   "accept_rate_med": 0.967,
+   "n_with_accept": 1,
+   "stop_hit": 1,
+   "matches_baseline": 0
+  }
+ }
+}
