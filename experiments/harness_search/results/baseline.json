@@ -1,0 +1,107 @@
+{
+ "tag": "baseline",
+ "cfg": {
+  "prefix_suffix_cap": 6000,
+  "pin": "off",
+  "outline": "off",
+  "suffix_truncation": "protect-pin",
+  "max_tokens": 320,
+  "stops": "full",
+  "parse_rep_cut": true,
+  "parse_marker_drop": true,
+  "comment_heuristic": true,
+  "full_region_replace": true
+ },
+ "texts": {
+  "instruction_line": "",
+  "checklist_line": "",
+  "outline_header": "<|outline|>"
+ },
+ "fp": "76237511bf48",
+ "exact_pass": 0.6797,
+ "unstable_frac": 0.0117,
+ "families": {
+  "doc_sync": {
+   "n": 51,
+   "exact": 0.0
+  },
+  "format_propagation": {
+   "n": 51,
+   "exact": 0.6863
+  },
+  "na_rm_propagation": {
+   "n": 51,
+   "exact": 0.8235
+  },
+  "pipe_rewrite": {
+   "n": 51,
+   "exact": 0.9608
+  },
+  "rename_propagation": {
+   "n": 52,
+   "exact": 0.9231
+  }
+ },
+ "p95_latency_s": 17.754,
+ "mean_latency_s": 3.668,
+ "noop": {
+  "scored_n": 90,
+  "proposal_rate": 0.7444,
+  "proposals": 67,
+  "per_class": {
+   "a_after_close_brace": [
+    6,
+    21
+   ],
+   "a_file_end": [
+    8,
+    11
+   ],
+   "b_mid_typing": [
+    30,
+    30
+   ],
+   "c_blank_in_fn": [
+    9,
+    9
+   ],
+   "c_mid_identifier": [
+    10,
+    10
+   ],
+   "c_stmt_line_end": [
+    30,
+    30
+   ],
+   "d_tempt_close_brace": [
+    0,
+    5
+   ],
+   "d_tempt_stmt_end": [
+    4,
+    4
+   ]
+  }
+ },
+ "guard": null,
+ "completions": 0,
+ "pair_reuses": 372,
+ "digest": [
+  "fail mix: shape=7 transform=72 unstable=3",
+  "- [rename_propagation] transform: 1 line(s); pred='        conf.high = Estimate2 + mult * `Std. Error`,' target='        conf.high = Estimate2 + mult * `Std. Error`'",
+  "- [rename_propagation] shape: 4 line(s); pred='    dplyr::filter(' target='    dplyr::filter(WORD_CLEAN != \"\", ABBR_CLEAN2 != \"\") %>%'",
+  "- [rename_propagation] shape: 2 line(s); pred='  data2 <- coerce_to_tibble(data)' target='  data <- coerce_to_tibble(data2)'",
+  "- [pipe_rewrite] transform: 1 line(s); pred='    rvest::html_elements(\"h3\") |>' target='    rvest::html_text() |>'",
+  "- [pipe_rewrite] shape: 1 line(s); pred='    ) %>%' target='    ) |>'",
+  "- [format_propagation] transform: 9 line(s); pred='      if (any(y[, 1] < 0) || any(y[, 2] <= 0)) {' target='      }'",
+  "- [format_propagation] transform: 6 line(s); pred='    if (diff && p > 2) {' target='    if (diff & p > 2) {'",
+  "- [format_propagation] transform: 7 line(s); pred='  itoken.character(' target='  ids = names(iterable),'",
+  "- [format_propagation] transform: 4 line(s); pred='  tol.factor <- make_tol(tol.factor, \"tol.factor.\", c(\"none\", \"levels\"' target='  tol.factor <- make_tol('",
+  "- [format_propagation] transform: 3 line(s); pred='        xj <- Xset(Ni, Sj, Sjc, xjc)' target='        xx <- cbind(xj, matrix(xjc, nrow = Ni, ncol = length(xjc), byr'"
+ ],
+ "wall_s": 1118,
+ "ports": [
+  18310,
+  18311
+ ]
+}

@@ -1,0 +1,4201 @@
+{
+ "baseline": {
+  "exact": 0.6797,
+  "unstable": 0.0117,
+  "p95": 17.754,
+  "noop": 0.7444,
+  "completions": 0,
+  "families": {
+   "doc_sync": {
+    "n": 51,
+    "exact": 0.0
+   },
+   "format_propagation": {
+    "n": 51,
+    "exact": 0.6863
+   },
+   "na_rm_propagation": {
+    "n": 51,
+    "exact": 0.8235
+   },
+   "pipe_rewrite": {
+    "n": 51,
+    "exact": 0.9608
+   },
+   "rename_propagation": {
+    "n": 52,
+    "exact": 0.9231
+   }
+  }
+ },
+ "arms": {
+  "hill": {
+   "arm": "hill",
+   "n_candidates": 39,
+   "completions": 3896,
+   "pair_reuses": 12560,
+   "best_fp": "752a6dbb5b1a",
+   "best_cfg": {
+    "prefix_suffix_cap": 8000,
+    "pin": 2000,
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 640,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "best_texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "best_dh_exact": 0.6875,
+   "proposer_calls": 14,
+   "proposer_ok": 14,
+   "prompt_tokens": 25148,
+   "completion_tokens": 3414,
+   "total_tokens": 28562,
+   "reasoning_tokens": 178,
+   "fallback_iters": 7,
+   "proposer_candidates": 29,
+   "evaluated": [
+    {
+     "iter": 1,
+     "fp": "e3a5c14df778",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 8.763,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 1,
+     "fp": "1dd9b92cefe0",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 8.763,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 1,
+     "fp": "e622636bd2ee",
+     "origin": "proposer",
+     "exact": 0.6758,
+     "unstable": 0.0078,
+     "p95": 8.377,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 378,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "67d21c11f63c",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 6.882,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 604,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "054e6fd14c48",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 8.763,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "ec0b7df79aac",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 8.763,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 4000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "hard-cut",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "dfa5dc6a17c9",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 6.882,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "9cbed5daab6c",
+     "origin": "proposer",
+     "exact": 0.2461,
+     "unstable": 0.0039,
+     "p95": 6.882,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "153990605831",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 6.882,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 296,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       20,
+       1500
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "d807ce134638",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 6.882,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 4000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "f9070fed0741",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 6.882,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       60,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "3a134937d3ed",
+     "origin": "fallback",
+     "exact": 0.6758,
+     "unstable": 0.0078,
+     "p95": 8.377,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "b2fdd66749c9",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 6.882,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 2000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "66c659ef9753",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 6.882,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "e9186910d88d",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 8.763,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "752a6dbb5b1a",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 604,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "24d861627bfd",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 13.266,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 686,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       60,
+       1500
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "171dcfb0f51a",
+     "origin": "fallback",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "e863fdb094a1",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "bd93d592fae5",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 148,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "cfcaf420a14c",
+     "origin": "proposer",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "hard-cut",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "4a6dc43ceb9a",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       20,
+       1500
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "74c60658c81a",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       60,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "dc564838c7ad",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "0f44a6f81932",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "a0bb32e2aac1",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 4000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "fd0e648475f1",
+     "origin": "fallback",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "188c4cba2068",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 4000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "cb1a67ad7179",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       60,
+       1500
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "118bcb3cdfe8",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0039,
+     "p95": 11.638,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "ac4caae2a2bc",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0117,
+     "p95": 10.45,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 166,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "fa5ae9b67499",
+     "origin": "proposer",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "142734c22df7",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 11.638,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 270,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "1f996c0cc654",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "9dfe08d754d3",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 4000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "e12f04af972c",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 11.638,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "11c22bfe0747",
+     "origin": "fallback",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "2c90d3d126e6",
+     "origin": "fallback",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": 4000,
+      "outline": [
+       60,
+       1500
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "357278874ae4",
+     "origin": "fallback",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 4000,
+      "pin": 2000,
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    }
+   ]
+  },
+  "population": {
+   "arm": "population",
+   "n_candidates": 39,
+   "completions": 2804,
+   "pair_reuses": 13106,
+   "best_fp": "67d21c11f63c",
+   "best_cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": "off",
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 640,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "best_texts": {
+    "instruction_line": "",
+    "checklist_line": "",
+    "outline_header": "<|outline|>"
+   },
+   "best_dh_exact": 0.6875,
+   "proposer_calls": 15,
+   "proposer_ok": 15,
+   "prompt_tokens": 27273,
+   "completion_tokens": 3961,
+   "total_tokens": 31234,
+   "reasoning_tokens": 350,
+   "fallback_iters": 10,
+   "proposer_candidates": 18,
+   "evaluated": [
+    {
+     "iter": 1,
+     "fp": "e3a5c14df778",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 1,
+     "fp": "67d21c11f63c",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 1,
+     "fp": "24cb3981c003",
+     "origin": "proposer",
+     "exact": 0.2461,
+     "unstable": 0.0078,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "3e25102b5879",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 6.062,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 128,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "af5947b03e2b",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 11.962,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 166,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "6f2e4db99532",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "d807ce134638",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 4000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "66c659ef9753",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 206,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "9f2f4c4d4cd0",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "hard-cut",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "1a24d9bdd3fe",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 2000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "9cbed5daab6c",
+     "origin": "proposer",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "111d9de3cd9d",
+     "origin": "fallback",
+     "exact": 0.2461,
+     "unstable": 0.0078,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "dfa5dc6a17c9",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "171dcfb0f51a",
+     "origin": "proposer",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "59880324499d",
+     "origin": "fallback",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "b2fdd66749c9",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 2000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "a3ddedf30bb6",
+     "origin": "fallback",
+     "exact": 0.2461,
+     "unstable": 0.0039,
+     "p95": 11.962,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "9ac4320aa72a",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "d19af4a97f22",
+     "origin": "fallback",
+     "exact": 0.2461,
+     "unstable": 0.0039,
+     "p95": 11.451,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 296,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "fb4db348e359",
+     "origin": "fallback",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 11.962,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "c4437f4e5a81",
+     "origin": "fallback",
+     "exact": 0.2461,
+     "unstable": 0.0039,
+     "p95": 11.962,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "dbfd07afe8c1",
+     "origin": "fallback",
+     "exact": 0.6836,
+     "unstable": 0.0,
+     "p95": 6.095,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 128,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "9fad1a8499b5",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "a3a4222efd62",
+     "origin": "fallback",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 11.962,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": 4000,
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "6206901cc9a1",
+     "origin": "fallback",
+     "exact": 0.2461,
+     "unstable": 0.0078,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": false,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "7959e5215153",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "b2c99ade9a03",
+     "origin": "fallback",
+     "exact": 0.6758,
+     "unstable": 0.0078,
+     "p95": 10.45,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 270,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       60,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "1bbd9f4c26ac",
+     "origin": "fallback",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "2ddcf1c61099",
+     "origin": "fallback",
+     "exact": 0.6758,
+     "unstable": 0.0078,
+     "p95": 10.45,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "8d9437facdd9",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 6.141,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 378,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       60,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 128,
+      "stops": "minimal",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "369ecf6a6a6c",
+     "origin": "proposer",
+     "exact": 0.2461,
+     "unstable": 0.0039,
+     "p95": 11.451,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "cd257fc9f0dc",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "hard-cut",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "9b3e3b00e32d",
+     "origin": "fallback",
+     "exact": 0.25,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "d296a18ac450",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0117,
+     "p95": 10.45,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": false,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "0a4e5de1d682",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0,
+     "p95": 12.461,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "231d6aa9e962",
+     "origin": "fallback",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 6.062,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 128,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "4a1c2a10fdb5",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 12.129,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 2000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "hard-cut",
+      "max_tokens": 640,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": false,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "6088c6ab3807",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0,
+     "p95": 11.638,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": [
+       20,
+       800
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 640,
+      "stops": "minimal",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "656b93966dcb",
+     "origin": "fallback",
+     "exact": 0.2461,
+     "unstable": 0.0039,
+     "p95": 10.45,
+     "noop": 0.8333,
+     "guard_ok": false,
+     "completions": 0,
+     "cfg": {
+      "prefix_suffix_cap": 8000,
+      "pin": "off",
+      "outline": [
+       60,
+       1500
+      ],
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": false,
+      "comment_heuristic": false,
+      "full_region_replace": false
+     },
+     "texts": {
+      "instruction_line": "",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    }
+   ]
+  },
+  "gepa": {
+   "arm": "gepa",
+   "n_candidates": 39,
+   "completions": 29016,
+   "pair_reuses": 0,
+   "best_fp": "a9e95f441d5b",
+   "best_cfg": {
+    "prefix_suffix_cap": 6000,
+    "pin": "off",
+    "outline": "off",
+    "suffix_truncation": "protect-pin",
+    "max_tokens": 320,
+    "stops": "full",
+    "parse_rep_cut": true,
+    "parse_marker_drop": true,
+    "comment_heuristic": true,
+    "full_region_replace": true
+   },
+   "best_texts": {
+    "instruction_line": "Copy the current code verbatim except for the single intended edit: one line changed stays one line, a multi-line call keeps its exact original breaks, and every added argument appears with a value.",
+    "checklist_line": "Check: number of output lines equals the replacement length, no call is collapsed onto one line, indentation matches, nothing follows the final line.",
+    "outline_header": "<|outline|>"
+   },
+   "best_dh_exact": 0.7109,
+   "proposer_calls": 17,
+   "proposer_ok": 17,
+   "prompt_tokens": 27909,
+   "completion_tokens": 5924,
+   "total_tokens": 33833,
+   "reasoning_tokens": 613,
+   "fallback_iters": 7,
+   "proposer_candidates": 30,
+   "evaluated": [
+    {
+     "iter": 1,
+     "fp": "5449c0356b04",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0117,
+     "p95": 15.265,
+     "noop": 0.9,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Output only the edited lines that belong in the UPDATED section, matching the target code exactly with no extra or trailing text.",
+      "checklist_line": "Before completing: identify the exact changed lines, preserve indentation, and avoid adding commas, parens, or comments not present in the intended edit.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 1,
+     "fp": "c1aa9d85af56",
+     "origin": "proposer",
+     "exact": 0.6992,
+     "unstable": 0.0,
+     "p95": 12.076,
+     "noop": 0.7667,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Complete the UPDATED region with the minimal correct edit: keep original spacing and style, write only lines that replace the CURRENT block.",
+      "checklist_line": "Check: same indentation as surrounding code, no trailing punctuation changes, stop immediately after the last edited line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 1,
+     "fp": "81f980275974",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 14.476,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite the marked region as the intended updated R code, changing only what the edit requires and mirroring the original formatting exactly.",
+      "checklist_line": "Verify: line count matches the edit scope, tokens like |> vs %>% follow the surrounding file convention, and no stray characters are appended.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "186346445535",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0078,
+     "p95": 14.248,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Complete the CURRENT region as its UPDATED replacement: apply the exact edit (renames, arguments, formatting) and always finish the full last line including closing parens or pipes.",
+      "checklist_line": "Check: indentation depth copied from surrounding lines, single vs double && preserved as in target, and every opened parenthesis or pipe is completed on the final line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "33fed4af4222",
+     "origin": "proposer",
+     "exact": 0.6797,
+     "unstable": 0.0039,
+     "p95": 15.22,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Write the full UPDATED version of the marked lines, propagating renames and format changes to every occurrence, with no truncation before the final closing parenthesis.",
+      "checklist_line": "Verify: the region ends with a complete line, argument lists include any newly added arguments, and native pipe |> vs magrittr %>% matches the surrounding code.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 2,
+     "fp": "efc228aa25ba",
+     "origin": "proposer",
+     "exact": 0.6992,
+     "unstable": 0.0078,
+     "p95": 15.208,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite the marked region exactly as the intended edit: change only renamed identifiers, inserted arguments, and formatting, keeping every other token identical.",
+      "checklist_line": "Confirm: no partial lines left unfinished, indentation mirrors the file, and no extra blank lines, comments, or trailing characters are emitted.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "e685b4e15e72",
+     "origin": "proposer",
+     "exact": 0.6953,
+     "unstable": 0.0039,
+     "p95": 14.202,
+     "noop": 0.7333,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite the marked region exactly as the intended edit: change only renamed identifiers, inserted arguments, and formatting, keeping every other token identical.",
+      "checklist_line": "Confirm: every line is complete with balanced parentheses and pipes, argument lists include all newly added arguments, indentation mirrors the file, and no extra text follows the last edited line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "df40d2caab98",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0078,
+     "p95": 12.371,
+     "noop": 0.6889,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite the marked region exactly as the intended edit: keep unchanged tokens byte-identical, apply renames and argument insertions, and complete the region fully line by line.",
+      "checklist_line": "Confirm: each rewritten line is fully written to its closing paren or pipe, indentation matches the file, and no extra blank lines, comments, or trailing characters are emitted.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 3,
+     "fp": "71494c047222",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0117,
+     "p95": 14.216,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Complete the marked region as its UPDATED replacement: apply the exact edit (renames, inserted arguments, formatting) without truncating any line or dropping trailing operators.",
+      "checklist_line": "Confirm: full multi-line arguments are emitted completely, indentation mirrors the file, and no extra blank lines, comments, or trailing characters appear.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "2a3050badb3f",
+     "origin": "proposer",
+     "exact": 0.6953,
+     "unstable": 0.0039,
+     "p95": 8.189,
+     "noop": 0.8,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Reproduce the UPDATED region line by line, finishing every line completely to its newline: apply identifier renames, add every newly inserted argument and its value, and copy the original leading whitespace exactly.",
+      "checklist_line": "Confirm: the first line starts with the same indentation as CURRENT, every added argument appears with a value, and the last line is fully closed before stopping.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "1cb88c79277a",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0,
+     "p95": 12.482,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Write out the edited region in full, one complete line at a time, mirroring the CURRENT block's spacing; where the edit inserts arguments or renames, write them in place and continue the line to its true end.",
+      "checklist_line": "Confirm: long calls are not cut off, every line ends where the target line ends, indentation depth is preserved, and no commentary or blank lines are added.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 4,
+     "fp": "555014f8ede4",
+     "origin": "fallback",
+     "exact": 0.7031,
+     "unstable": 0.0039,
+     "p95": 14.663,
+     "noop": 0.7667,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Output only the edited lines that belong in the UPDATED section, matching the target code exactly with no extra or trailing text.",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "f6baab046c91",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0078,
+     "p95": 16.468,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite the entire marked region line by line, emitting every line of the replacement block in order and writing each function call out fully with all of its arguments before moving to the next line.",
+      "checklist_line": "Confirm: no line ends at an open parenthesis or comma, every original line of the region is reproduced with its edit applied, indentation mirrors the file, and nothing extra follows the last line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "f63e86541b30",
+     "origin": "proposer",
+     "exact": 0.6992,
+     "unstable": 0.0039,
+     "p95": 14.952,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Write the complete replacement for the CURRENT block: copy unchanged lines byte-identically, apply the rename or argument insertion exactly, and always finish multi-line calls down to their closing parenthesis.",
+      "checklist_line": "Confirm: argument lists are complete with values, pipes and parens are balanced on every line, indentation matches the file, and no comments, blank lines, or trailing text are added.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 5,
+     "fp": "527302e0c994",
+     "origin": "proposer",
+     "exact": 0.6758,
+     "unstable": 0.0,
+     "p95": 18.246,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Output the full UPDATED region exactly: replace only the changed tokens, keep every other character identical, and never stop after a partial line \u2014 continue until the whole region is rewritten.",
+      "checklist_line": "Confirm: the region is complete from first line to last, no call is left open, indentation mirrors the file, and no extra blank lines or trailing characters are emitted.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "577a22994c9e",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 16.308,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Output the UPDATED block line by line exactly as the file should read after the edit: keep the original line breaks and wrapping of unchanged lines, do not join or reflow lines, and stop after the last changed line.",
+      "checklist_line": "Confirm: identical line breaks to the file for unchanged lines, changed lines contain only the intended rename or argument, and no lines are merged, re-wrapped, or appended.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "a9e95f441d5b",
+     "origin": "proposer",
+     "exact": 0.7109,
+     "unstable": 0.0,
+     "p95": 15.665,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Copy the current code verbatim except for the single intended edit: one line changed stays one line, a multi-line call keeps its exact original breaks, and every added argument appears with a value.",
+      "checklist_line": "Check: number of output lines equals the replacement length, no call is collapsed onto one line, indentation matches, nothing follows the final line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 6,
+     "fp": "ab19dc8962e3",
+     "origin": "proposer",
+     "exact": 0.7031,
+     "unstable": 0.0078,
+     "p95": 15.496,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Reproduce the replacement block with byte-exact fidelity to the file's existing formatting: same line splits, same whitespace, only the renamed identifier or inserted argument differs.",
+      "checklist_line": "Confirm: do not reformat, realign, or join lines; wrap points stay where the file has them; emit no trailing text or commentary.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "f45d54eecec9",
+     "origin": "proposer",
+     "exact": 0.7031,
+     "unstable": 0.0,
+     "p95": 13.929,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Copy the CURRENT block verbatim, then apply only the single intended edit; preserve unusual formatting, operator spacing, and nesting exactly as given, and complete each replacement line to its end without truncation.",
+      "checklist_line": "Check: each output line is fully written and balanced, indentation depth matches the original, line count equals the replacement, no trailing text.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "cb7899848514",
+     "origin": "fallback",
+     "exact": 0.668,
+     "unstable": 0.0078,
+     "p95": 9.0,
+     "noop": 0.8444,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Complete the edited R region; apply the same change pattern as the recent edit.",
+      "checklist_line": "Repeat the demonstrated transformation on the current region.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 7,
+     "fp": "22a54a6a20cd",
+     "origin": "fallback",
+     "exact": 0.6797,
+     "unstable": 0.0078,
+     "p95": 14.625,
+     "noop": 0.7778,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Follow the file's style. One precise edit.",
+      "checklist_line": "Predict the full updated region only. No explanations, no markers.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "74c81468d1a8",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 18.081,
+     "noop": 0.7,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Emit the full replacement block line by line, completing every line to its true end: never stop mid-call, always close parentheses on later lines, and apply the rename or argument change to every line where it appears.",
+      "checklist_line": "Check: every line is a complete statement fragment matching the file's own wrapping, multi-line calls finish at their closing paren, identifiers renamed everywhere they occur, no trailing commentary.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "1b541f3831b2",
+     "origin": "proposer",
+     "exact": 0.6836,
+     "unstable": 0.0039,
+     "p95": 9.31,
+     "noop": 0.7333,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Copy the CURRENT block exactly, then apply the intended edit across all affected lines, preserving the file's own line breaks, spacing quirks (e.g. '&' vs '&&', 'dt[ ,' vs 'dt['), and indentation exactly.",
+      "checklist_line": "Check: output has exactly the replacement line count, each line ends where the file ends it, operators and spacing match the file style, nothing after the last line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 8,
+     "fp": "14bf55285ade",
+     "origin": "fallback",
+     "exact": 0.7031,
+     "unstable": 0.0,
+     "p95": 18.204,
+     "noop": 0.7778,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Copy the CURRENT block verbatim, then apply only the single intended edit; preserve unusual formatting, operator spacing, and nesting exactly as given, and complete each replacement line to its end without truncation.",
+      "checklist_line": "Follow the file's style. One precise edit.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "d470ed59ebf5",
+     "origin": "proposer",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 14.819,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Reproduce the UPDATED block line-for-line exactly as it appears in the file: keep the original wrap points of multi-line calls, keep blank lines and comments inside the block, change only the tokens the edit touches.",
+      "checklist_line": "Check: identical line count and indentation, multi-line calls stay multi-line at their original break points, no trailing text after the last line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "2b7803758f04",
+     "origin": "proposer",
+     "exact": 0.6758,
+     "unstable": 0.0195,
+     "p95": 17.735,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Emit each replacement line to its exact end, then stop: never merge the region onto fewer lines, never drop closing parentheses or commas, never add code that was not in the file.",
+      "checklist_line": "Check: no collapsed multi-line calls, every line syntactically complete, parentheses balanced across the block, output ends at the last replacement line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 9,
+     "fp": "3752945f274a",
+     "origin": "proposer",
+     "exact": 0.6875,
+     "unstable": 0.0039,
+     "p95": 16.958,
+     "noop": 0.7333,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Transcribe the edited block from the file exactly, including its internal line breaks, indentation widths, and spacing around operators; the edit changes content tokens only, never the layout.",
+      "checklist_line": "Check: line count matches the file's version of the block, indentation depth per line matches, spacing style matches, nothing emitted past the final line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "ba321608bb44",
+     "origin": "proposer",
+     "exact": 0.6953,
+     "unstable": 0.0039,
+     "p95": 25.964,
+     "noop": 0.7444,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Write the complete UPDATED block: start at the first changed line and continue through every following line of the call or assignment until it closes, copying the file's exact spacing and line breaks.",
+      "checklist_line": "Check: first line matches target start, all continuation lines emitted, indentation of wrapped lines preserved, stop at the block's end.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "53ee3acfe17b",
+     "origin": "proposer",
+     "exact": 0.7109,
+     "unstable": 0.0,
+     "p95": 21.974,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Copy the current code verbatim except for the single intended edit; when a call spans several lines, reproduce every wrapped line of it in full rather than stopping at the first line or a partial expression.",
+      "checklist_line": "Check: output line count equals replacement length, no line ends mid-expression, indentation matches the file, no trailing text or commentary.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 10,
+     "fp": "5a893d5b6d6c",
+     "origin": "fallback",
+     "exact": 0.6758,
+     "unstable": 0.0,
+     "p95": 28.828,
+     "noop": 0.8111,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Predict the full updated region only. No explanations, no markers.",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "972366dcaa16",
+     "origin": "proposer",
+     "exact": 0.6641,
+     "unstable": 0.0117,
+     "p95": 18.063,
+     "noop": 0.7222,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Transcribe the CURRENT block verbatim, then make only the intended change; do not beautify, re-indent, or re-wrap any line, and reproduce each line to its full end exactly as it appears in the file.",
+      "checklist_line": "Check: no style cleanup, indentation depth identical to the original, line count equals replacement length, no line truncated, no trailing text.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "bcd3304b8009",
+     "origin": "proposer",
+     "exact": 0.6992,
+     "unstable": 0.0039,
+     "p95": 17.167,
+     "noop": 0.8556,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Output the replacement block as the file would contain it after the single intended edit: preserve original whitespace, spacing inside brackets, and line breaks; change only the identifier or argument the edit targets.",
+      "checklist_line": "Check: spacing inside [ and ( unchanged from CURRENT, indentation matches the file, multi-line calls keep their exact breaks, nothing follows the final line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 11,
+     "fp": "8d4560bfa3a3",
+     "origin": "fallback",
+     "exact": 0.6914,
+     "unstable": 0.0,
+     "p95": 17.207,
+     "noop": 0.7333,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite the marked region exactly as the intended edit: keep unchanged tokens byte-identical, apply renames and argument insertions, and complete the region fully line by line.",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "17389c36e6d3",
+     "origin": "proposer",
+     "exact": 0.6953,
+     "unstable": 0.0039,
+     "p95": 14.697,
+     "noop": 0.7,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Apply only the single intended edit, keeping the file's exact line breaks and spacing; when the edit lands inside a multi-line call, emit the whole call exactly as formatted in the file down to its closing parenthesis.",
+      "checklist_line": "Check: no truncated arguments or open parentheses, replacement length equals target, indentation matches, no extra lines after the last edited line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "d63e76901ec9",
+     "origin": "fallback",
+     "exact": 0.6953,
+     "unstable": 0.0039,
+     "p95": 14.504,
+     "noop": 0.7556,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Transcribe the edited block from the file exactly, including its internal line breaks, indentation widths, and spacing around operators; the edit changes content tokens only, never the layout.",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 12,
+     "fp": "b821efb6079b",
+     "origin": "fallback",
+     "exact": 0.6875,
+     "unstable": 0.0039,
+     "p95": 14.191,
+     "noop": 0.7667,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Follow the file's style. One precise edit.",
+      "checklist_line": "",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "8b1a732bed62",
+     "origin": "proposer",
+     "exact": 0.6992,
+     "unstable": 0.0078,
+     "p95": 13.562,
+     "noop": 0.7333,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Emit the complete UPDATED replacement: every line from the first changed line through the last, each line written in full to its closing delimiter, in the file's original wrapping and indentation.",
+      "checklist_line": "Check: first and last replacement lines are both present, no line is truncated mid-expression, indentation and wrap points match the file, stop after the final replacement line.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "a3c5f645ee54",
+     "origin": "proposer",
+     "exact": 0.6992,
+     "unstable": 0.0039,
+     "p95": 14.246,
+     "noop": 0.7444,
+     "guard_ok": true,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Rewrite only the intended lines, then continue copying the surrounding CURRENT lines unchanged so the full region is reproduced; never stop after the first edited line.",
+      "checklist_line": "Check: replacement length in lines is matched exactly, indentation depth of nested blocks is preserved, no reformatting, no commentary.",
+      "outline_header": "<|outline|>"
+     }
+    },
+    {
+     "iter": 13,
+     "fp": "ff564cad9bf0",
+     "origin": "fallback",
+     "exact": 0.668,
+     "unstable": 0.0039,
+     "p95": 14.457,
+     "noop": 0.8111,
+     "guard_ok": false,
+     "completions": 744,
+     "cfg": {
+      "prefix_suffix_cap": 6000,
+      "pin": "off",
+      "outline": "off",
+      "suffix_truncation": "protect-pin",
+      "max_tokens": 320,
+      "stops": "full",
+      "parse_rep_cut": true,
+      "parse_marker_drop": true,
+      "comment_heuristic": true,
+      "full_region_replace": true
+     },
+     "texts": {
+      "instruction_line": "Repeat the demonstrated transformation on the current region.",
+      "checklist_line": "Predict the full updated region only. No explanations, no markers.",
+      "outline_header": "<|outline|>"
+     }
+    }
+   ]
+  }
+ },
+ "verdict": {
+  "model": "sft_v7_minicpm5",
+  "generated": "2026-09-05T15:41:37",
+  "arms": [
+   {
+    "name": "default",
+    "fp": null,
+    "cfg": {
+     "prefix_suffix_cap": 6000,
+     "pin": "off",
+     "outline": "off",
+     "suffix_truncation": "protect-pin",
+     "max_tokens": 320,
+     "stops": "full",
+     "parse_rep_cut": true,
+     "parse_marker_drop": true,
+     "comment_heuristic": true,
+     "full_region_replace": true
+    },
+    "texts": {
+     "instruction_line": "",
+     "checklist_line": "",
+     "outline_header": "<|outline|>"
+    },
+    "scenarios": {
+     "n_rows": 255,
+     "valid_pass": 0.8353,
+     "exact_str": 0.7529,
+     "p95_latency_s": 4.273,
+     "families": {
+      "rename_propagation": {
+       "n": 150,
+       "valid_pass": 0.9467,
+       "exact": 0.8733,
+       "p95_latency_s": 2.525
+      },
+      "pipe_rewrite": {
+       "n": 18,
+       "valid_pass": 1.0,
+       "exact": 1.0,
+       "p95_latency_s": 1.655
+      },
+      "format_propagation": {
+       "n": 67,
+       "valid_pass": 0.7313,
+       "exact": 0.597,
+       "p95_latency_s": 4.692
+      },
+      "doc_sync": {
+       "n": 15,
+       "valid_pass": 0.0,
+       "exact": 0.0,
+       "p95_latency_s": 11.728
+      },
+      "na_rm_propagation": {
+       "n": 5,
+       "valid_pass": 0.8,
+       "exact": 0.6,
+       "p95_latency_s": 2.066
+      }
+     },
+     "selection": {
+      "rename_propagation": {
+       "held_out": 202,
+       "scored": 150,
+       "capped_away": 52
+      },
+      "pipe_rewrite": {
+       "held_out": 18,
+       "scored": 18,
+       "capped_away": 0
+      },
+      "format_propagation": {
+       "held_out": 67,
+       "scored": 67,
+       "capped_away": 0
+      },
+      "doc_sync": {
+       "held_out": 15,
+       "scored": 15,
+       "capped_away": 0
+      },
+      "na_rm_propagation": {
+       "held_out": 5,
+       "scored": 5,
+       "capped_away": 0
+      }
+     }
+    },
+    "noop": {
+     "scored_n": 204,
+     "proposal_rate": 0.6961,
+     "per_class": {
+      "a_after_close_brace": [
+       16,
+       54
+      ],
+      "a_file_end": [
+       12,
+       27
+      ],
+      "b_mid_typing": [
+       54,
+       54
+      ],
+      "c_blank_in_fn": [
+       16,
+       16
+      ],
+      "c_mid_identifier": [
+       29,
+       29
+      ],
+      "c_stmt_line_end": [
+       54,
+       54
+      ],
+      "d_tempt_close_brace": [
+       3,
+       12
+      ],
+      "d_tempt_stmt_end": [
+       12,
+       12
+      ]
+     },
+     "p95_latency_s": 3.744,
+     "n_cases": 258
+    },
+    "wall_s": 424,
+    "intent": {
+     "n": 44,
+     "n_judged": 44,
+     "mean_score": 1.5455,
+     "frac_2": 0.7045,
+     "frac_0": 0.1591,
+     "anchors_ok": true
+    }
+   },
+   {
+    "name": "hill",
+    "fp": null,
+    "cfg": {
+     "prefix_suffix_cap": 8000,
+     "pin": 2000,
+     "outline": "off",
+     "suffix_truncation": "protect-pin",
+     "max_tokens": 640,
+     "stops": "full",
+     "parse_rep_cut": true,
+     "parse_marker_drop": true,
+     "comment_heuristic": true,
+     "full_region_replace": true
+    },
+    "texts": {
+     "instruction_line": "",
+     "checklist_line": "",
+     "outline_header": "<|outline|>"
+    },
+    "scenarios": {
+     "n_rows": 255,
+     "valid_pass": 0.8353,
+     "exact_str": 0.749,
+     "p95_latency_s": 5.665,
+     "families": {
+      "rename_propagation": {
+       "n": 150,
+       "valid_pass": 0.9467,
+       "exact": 0.8667,
+       "p95_latency_s": 2.158
+      },
+      "pipe_rewrite": {
+       "n": 18,
+       "valid_pass": 1.0,
+       "exact": 1.0,
+       "p95_latency_s": 2.111
+      },
+      "format_propagation": {
+       "n": 67,
+       "valid_pass": 0.7313,
+       "exact": 0.597,
+       "p95_latency_s": 5.665
+      },
+      "doc_sync": {
+       "n": 15,
+       "valid_pass": 0.0,
+       "exact": 0.0,
+       "p95_latency_s": 32.788
+      },
+      "na_rm_propagation": {
+       "n": 5,
+       "valid_pass": 0.8,
+       "exact": 0.6,
+       "p95_latency_s": 1.8
+      }
+     },
+     "selection": {
+      "rename_propagation": {
+       "held_out": 202,
+       "scored": 150,
+       "capped_away": 52
+      },
+      "pipe_rewrite": {
+       "held_out": 18,
+       "scored": 18,
+       "capped_away": 0
+      },
+      "format_propagation": {
+       "held_out": 67,
+       "scored": 67,
+       "capped_away": 0
+      },
+      "doc_sync": {
+       "held_out": 15,
+       "scored": 15,
+       "capped_away": 0
+      },
+      "na_rm_propagation": {
+       "held_out": 5,
+       "scored": 5,
+       "capped_away": 0
+      }
+     }
+    },
+    "noop": {
+     "scored_n": 204,
+     "proposal_rate": 0.701,
+     "per_class": {
+      "a_after_close_brace": [
+       16,
+       54
+      ],
+      "a_file_end": [
+       13,
+       27
+      ],
+      "b_mid_typing": [
+       54,
+       54
+      ],
+      "c_blank_in_fn": [
+       16,
+       16
+      ],
+      "c_mid_identifier": [
+       29,
+       29
+      ],
+      "c_stmt_line_end": [
+       54,
+       54
+      ],
+      "d_tempt_close_brace": [
+       3,
+       12
+      ],
+      "d_tempt_stmt_end": [
+       12,
+       12
+      ]
+     },
+     "p95_latency_s": 3.271,
+     "n_cases": 258
+    },
+    "wall_s": 486,
+    "intent": {
+     "n": 44,
+     "n_judged": 44,
+     "mean_score": 1.5682,
+     "frac_2": 0.7273,
+     "frac_0": 0.1591,
+     "anchors_ok": true
+    }
+   },
+   {
+    "name": "population",
+    "fp": null,
+    "cfg": {
+     "prefix_suffix_cap": 6000,
+     "pin": "off",
+     "outline": "off",
+     "suffix_truncation": "protect-pin",
+     "max_tokens": 640,
+     "stops": "full",
+     "parse_rep_cut": true,
+     "parse_marker_drop": true,
+     "comment_heuristic": true,
+     "full_region_replace": true
+    },
+    "texts": {
+     "instruction_line": "",
+     "checklist_line": "",
+     "outline_header": "<|outline|>"
+    },
+    "scenarios": {
+     "n_rows": 255,
+     "valid_pass": 0.8353,
+     "exact_str": 0.749,
+     "p95_latency_s": 5.298,
+     "families": {
+      "rename_propagation": {
+       "n": 150,
+       "valid_pass": 0.9467,
+       "exact": 0.8667,
+       "p95_latency_s": 2.218
+      },
+      "pipe_rewrite": {
+       "n": 18,
+       "valid_pass": 1.0,
+       "exact": 1.0,
+       "p95_latency_s": 2.498
+      },
+      "format_propagation": {
+       "n": 67,
+       "valid_pass": 0.7313,
+       "exact": 0.597,
+       "p95_latency_s": 5.298
+      },
+      "doc_sync": {
+       "n": 15,
+       "valid_pass": 0.0,
+       "exact": 0.0,
+       "p95_latency_s": 33.718
+      },
+      "na_rm_propagation": {
+       "n": 5,
+       "valid_pass": 0.8,
+       "exact": 0.6,
+       "p95_latency_s": 1.628
+      }
+     },
+     "selection": {
+      "rename_propagation": {
+       "held_out": 202,
+       "scored": 150,
+       "capped_away": 52
+      },
+      "pipe_rewrite": {
+       "held_out": 18,
+       "scored": 18,
+       "capped_away": 0
+      },
+      "format_propagation": {
+       "held_out": 67,
+       "scored": 67,
+       "capped_away": 0
+      },
+      "doc_sync": {
+       "held_out": 15,
+       "scored": 15,
+       "capped_away": 0
+      },
+      "na_rm_propagation": {
+       "held_out": 5,
+       "scored": 5,
+       "capped_away": 0
+      }
+     }
+    },
+    "noop": {
+     "scored_n": 204,
+     "proposal_rate": 0.701,
+     "per_class": {
+      "a_after_close_brace": [
+       16,
+       54
+      ],
+      "a_file_end": [
+       13,
+       27
+      ],
+      "b_mid_typing": [
+       54,
+       54
+      ],
+      "c_blank_in_fn": [
+       16,
+       16
+      ],
+      "c_mid_identifier": [
+       29,
+       29
+      ],
+      "c_stmt_line_end": [
+       54,
+       54
+      ],
+      "d_tempt_close_brace": [
+       3,
+       12
+      ],
+      "d_tempt_stmt_end": [
+       12,
+       12
+      ]
+     },
+     "p95_latency_s": 3.927,
+     "n_cases": 258
+    },
+    "wall_s": 483,
+    "intent": {
+     "n": 44,
+     "n_judged": 44,
+     "mean_score": 1.5455,
+     "frac_2": 0.7045,
+     "frac_0": 0.1591,
+     "anchors_ok": true
+    }
+   },
+   {
+    "name": "gepa",
+    "fp": null,
+    "cfg": {
+     "prefix_suffix_cap": 6000,
+     "pin": "off",
+     "outline": "off",
+     "suffix_truncation": "protect-pin",
+     "max_tokens": 320,
+     "stops": "full",
+     "parse_rep_cut": true,
+     "parse_marker_drop": true,
+     "comment_heuristic": true,
+     "full_region_replace": true
+    },
+    "texts": {
+     "instruction_line": "Copy the current code verbatim except for the single intended edit: one line changed stays one line, a multi-line call keeps its exact original breaks, and every added argument appears with a value.",
+     "checklist_line": "Check: number of output lines equals the replacement length, no call is collapsed onto one line, indentation matches, nothing follows the final line.",
+     "outline_header": "<|outline|>"
+    },
+    "scenarios": {
+     "n_rows": 255,
+     "valid_pass": 0.8275,
+     "exact_str": 0.7333,
+     "p95_latency_s": 5.724,
+     "families": {
+      "rename_propagation": {
+       "n": 150,
+       "valid_pass": 0.9733,
+       "exact": 0.8867,
+       "p95_latency_s": 2.808
+      },
+      "pipe_rewrite": {
+       "n": 18,
+       "valid_pass": 0.8333,
+       "exact": 0.8333,
+       "p95_latency_s": 2.668
+      },
+      "format_propagation": {
+       "n": 67,
+       "valid_pass": 0.6866,
+       "exact": 0.5373,
+       "p95_latency_s": 5.937
+      },
+      "doc_sync": {
+       "n": 15,
+       "valid_pass": 0.0,
+       "exact": 0.0,
+       "p95_latency_s": 23.004
+      },
+      "na_rm_propagation": {
+       "n": 5,
+       "valid_pass": 0.8,
+       "exact": 0.6,
+       "p95_latency_s": 2.519
+      }
+     },
+     "selection": {
+      "rename_propagation": {
+       "held_out": 202,
+       "scored": 150,
+       "capped_away": 52
+      },
+      "pipe_rewrite": {
+       "held_out": 18,
+       "scored": 18,
+       "capped_away": 0
+      },
+      "format_propagation": {
+       "held_out": 67,
+       "scored": 67,
+       "capped_away": 0
+      },
+      "doc_sync": {
+       "held_out": 15,
+       "scored": 15,
+       "capped_away": 0
+      },
+      "na_rm_propagation": {
+       "held_out": 5,
+       "scored": 5,
+       "capped_away": 0
+      }
+     }
+    },
+    "noop": {
+     "scored_n": 204,
+     "proposal_rate": 0.6912,
+     "per_class": {
+      "a_after_close_brace": [
+       13,
+       54
+      ],
+      "a_file_end": [
+       15,
+       27
+      ],
+      "b_mid_typing": [
+       54,
+       54
+      ],
+      "c_blank_in_fn": [
+       16,
+       16
+      ],
+      "c_mid_identifier": [
+       29,
+       29
+      ],
+      "c_stmt_line_end": [
+       54,
+       54
+      ],
+      "d_tempt_close_brace": [
+       2,
+       12
+      ],
+      "d_tempt_stmt_end": [
+       12,
+       12
+      ]
+     },
+     "p95_latency_s": 5.859,
+     "n_cases": 258
+    },
+    "wall_s": 530,
+    "intent": {
+     "n": 44,
+     "n_judged": 44,
+     "mean_score": 1.2955,
+     "frac_2": 0.5909,
+     "frac_0": 0.2955,
+     "anchors_ok": true
+    }
+   }
+  ]
+ },
+ "verdict_analysis": {
+  "winner": "default",
+  "winner_valid": 0.8353,
+  "winner_exact_str": 0.7529,
+  "winner_noop": 0.6961,
+  "margin_vs_runner": 0.0,
+  "runner": "hill",
+  "margins_vs_default": {
+   "hill": 0.0,
+   "population": 0.0,
+   "gepa": -0.0078
+  },
+  "default_valid": 0.8353,
+  "default_noop": 0.6961,
+  "noop_gaps": {
+   "default": 0.0,
+   "hill": 0.0049,
+   "population": 0.0049,
+   "gepa": -0.0049
+  },
+  "per_family": {
+   "default": {
+    "rename_propagation": {
+     "n": 150,
+     "valid_pass": 0.9467,
+     "exact": 0.8733,
+     "p95_latency_s": 2.525
+    },
+    "pipe_rewrite": {
+     "n": 18,
+     "valid_pass": 1.0,
+     "exact": 1.0,
+     "p95_latency_s": 1.655
+    },
+    "format_propagation": {
+     "n": 67,
+     "valid_pass": 0.7313,
+     "exact": 0.597,
+     "p95_latency_s": 4.692
+    },
+    "doc_sync": {
+     "n": 15,
+     "valid_pass": 0.0,
+     "exact": 0.0,
+     "p95_latency_s": 11.728
+    },
+    "na_rm_propagation": {
+     "n": 5,
+     "valid_pass": 0.8,
+     "exact": 0.6,
+     "p95_latency_s": 2.066
+    }
+   },
+   "hill": {
+    "rename_propagation": {
+     "n": 150,
+     "valid_pass": 0.9467,
+     "exact": 0.8667,
+     "p95_latency_s": 2.158
+    },
+    "pipe_rewrite": {
+     "n": 18,
+     "valid_pass": 1.0,
+     "exact": 1.0,
+     "p95_latency_s": 2.111
+    },
+    "format_propagation": {
+     "n": 67,
+     "valid_pass": 0.7313,
+     "exact": 0.597,
+     "p95_latency_s": 5.665
+    },
+    "doc_sync": {
+     "n": 15,
+     "valid_pass": 0.0,
+     "exact": 0.0,
+     "p95_latency_s": 32.788
+    },
+    "na_rm_propagation": {
+     "n": 5,
+     "valid_pass": 0.8,
+     "exact": 0.6,
+     "p95_latency_s": 1.8
+    }
+   },
+   "population": {
+    "rename_propagation": {
+     "n": 150,
+     "valid_pass": 0.9467,
+     "exact": 0.8667,
+     "p95_latency_s": 2.218
+    },
+    "pipe_rewrite": {
+     "n": 18,
+     "valid_pass": 1.0,
+     "exact": 1.0,
+     "p95_latency_s": 2.498
+    },
+    "format_propagation": {
+     "n": 67,
+     "valid_pass": 0.7313,
+     "exact": 0.597,
+     "p95_latency_s": 5.298
+    },
+    "doc_sync": {
+     "n": 15,
+     "valid_pass": 0.0,
+     "exact": 0.0,
+     "p95_latency_s": 33.718
+    },
+    "na_rm_propagation": {
+     "n": 5,
+     "valid_pass": 0.8,
+     "exact": 0.6,
+     "p95_latency_s": 1.628
+    }
+   },
+   "gepa": {
+    "rename_propagation": {
+     "n": 150,
+     "valid_pass": 0.9733,
+     "exact": 0.8867,
+     "p95_latency_s": 2.808
+    },
+    "pipe_rewrite": {
+     "n": 18,
+     "valid_pass": 0.8333,
+     "exact": 0.8333,
+     "p95_latency_s": 2.668
+    },
+    "format_propagation": {
+     "n": 67,
+     "valid_pass": 0.6866,
+     "exact": 0.5373,
+     "p95_latency_s": 5.937
+    },
+    "doc_sync": {
+     "n": 15,
+     "valid_pass": 0.0,
+     "exact": 0.0,
+     "p95_latency_s": 23.004
+    },
+    "na_rm_propagation": {
+     "n": 5,
+     "valid_pass": 0.8,
+     "exact": 0.6,
+     "p95_latency_s": 2.519
+    }
+   }
+  }
+ }
+}
