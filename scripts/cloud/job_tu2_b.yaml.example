@@ -24,7 +24,7 @@ env_vars:
   STEPS: "<STEPS>"                 # short-adaptation class; set by FIRE order
   SFT_TARGETS: "q_proj,k_proj,v_proj,o_proj,in_proj_qkv,in_proj_a,in_proj_b,in_proj_z,out_proj,gate_proj,up_proj,down_proj"
   EXPECT_TRAINABLE: "33638400"  # CPU-audited 2026-09-05 vs local dir: 186 modules, 1.79% of 1.88B
-  SFT_DATA_REPO: "scholzmx/sepalith-tu2-brms"
+  SFT_DATA_REPO: "scholzmx/sepalith-tu2-arms"
   SFT_DATA_FILES: "arm_b_solve_gated_624/train.jsonl>train.jsonl,arm_b_solve_gated/eval.jsonl>eval.jsonl"
   DATA_DIR: "/tmp/data/tu2_b"
   LORA_REPO: "scholzmx/sepalith-lora"

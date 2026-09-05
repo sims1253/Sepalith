@@ -142,7 +142,8 @@ trainer = SFTTrainer(
     model=model, tokenizer=tokenizer,
     train_dataset=(train_ds if MIDTRAIN else
                    ds["train"].shuffle(seed=42).select(range(min(48000, len(ds["train"]))))),
-    eval_dataset=(eval_ds if MIDTRAIN else ds["eval"].select(range(500))),
+    eval_dataset=(eval_ds if MIDTRAIN else
+                  ds["eval"].select(range(min(500, len(ds["eval"]))))),
     data_collator=midtrain_collator,
     args=SFTConfig(
         # bs 4 x ga 4 = effective 16; expandable_segments (set by the chain
