@@ -119,7 +119,12 @@ def main():
     print("\n== dose response (causal floor | FIM slice) ==")
     base = out.get([t for t in out if t.endswith("fim0")] [0], None) if any(
         t.endswith("fim0") for t in out) else None
-    for tag in sorted(out, key=lambda t: float(t.split("fim")[-1]) if "fim" in t else 99):
+    def _dose_key(t):
+        try:
+            return float(t.split("fim")[-1])
+        except ValueError:
+            return 99.0
+    for tag in sorted(out, key=_dose_key):
         r = out[tag]
         line = (f"{tag:16s} step={r['step']:5d} causal_bpb={r['causal']['bpb']:.4f} "
                 f"fim_bpb={r['fim']['bpb']:.4f}")

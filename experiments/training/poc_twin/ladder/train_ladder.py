@@ -26,6 +26,7 @@ import argparse, json, math, os, sys, time
 import numpy as np
 import torch
 import torch.nn.functional as F
+from torch.utils.checkpoint import checkpoint
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 POC = os.path.dirname(HERE)                       # poc_twin/
@@ -42,12 +43,18 @@ MASK_SEED = 90210          # fixed across arms -> nested dose family
 
 
 class StreamBlocks:
-    """PackedData-style deterministic order over one block array."""
+    """PackedData-style deterministic order over one block array.
 
-    def __init__(self, path, seed):
+    companion: optional index-aligned uint8 loss-mask array (same packing),
+    gathered with the SAME order permutation so (tokens, mask) stay paired.
+    """
+
+    def __init__(self, path, seed, companion=None):
         self.blocks = np.load(path, mmap_mode="r")
         self.n = len(self.blocks)
         self.seed = seed
+        self.comp = np.load(companion, mmap_mode="r") if companion else None
+        self.has_comp = companion is not None
         self._cache = {}
 
     def _order(self, epoch):
@@ -59,6 +66,7 @@ class StreamBlocks:
     def take(self, start, k):
         """k consecutive blocks (in stream order) from stream position start."""
         out = np.empty((k, self.blocks.shape[1]), dtype=np.int32)
+        mout = np.empty((k, self.blocks.shape[1]), dtype=np.uint8) if self.has_comp else None
         got = 0
         while got < k:
             epoch = start // self.n
@@ -66,16 +74,21 @@ class StreamBlocks:
             order = self._order(epoch)
             m = min(k - got, self.n - within)
             out[got:got + m] = self.blocks[order[within:within + m]]
+            if self.has_comp:
+                mout[got:got + m] = self.comp[order[within:within + m]]
             got += m
             start += m
+        if self.has_comp:
+            return out, mout
         return out
 
 
 class MixedStreams:
     """Nested-Bernoulli slot mask over the two streams, shared across arms."""
 
-    def __init__(self, fim_path, causal_path, dose, seed, total_slots):
-        self.fim = StreamBlocks(fim_path, seed)
+    def __init__(self, fim_path, causal_path, dose, seed, total_slots,
+                 fim_mask=None):
+        self.fim = StreamBlocks(fim_path, seed, companion=fim_mask)
         self.causal = StreamBlocks(causal_path, seed + 7_000_000)
         self.dose = dose
         self.total_slots = total_slots
@@ -93,11 +106,42 @@ class MixedStreams:
         m = self.mask[s0:s1]
         nf, nc = int(m.sum()), sps - int(m.sum())
         rows = np.empty((sps, self.fim.blocks.shape[1]), dtype=np.int32)
+        lmask = np.ones((sps, self.fim.blocks.shape[1]), dtype=np.uint8)
         if nf:
-            rows[m] = self.fim.take(f0, nf)
+            if self.fim.has_comp:
+                frows, fmask = self.fim.take(f0, nf)
+                rows[m] = frows
+                lmask[m] = fmask
+            else:
+                rows[m] = self.fim.take(f0, nf)
         if nc:
             rows[~m] = self.causal.take(c0, nc)
-        return rows
+        return (rows, lmask) if self.fim.has_comp else rows
+
+
+def _ce_chunk_masked(h, w, t, m):
+    lg = F.linear(h, w)
+    ce = F.cross_entropy(lg.float(), t, reduction="none")
+    return (ce * m).sum(), m.sum()
+
+
+def chunked_ce_masked(h, w, targets, mask, chunk=4096):
+    """Masked-loss CE (FIM-Replica): mean CE over mask=1 target positions
+    only — span+<|end|> tokens of FIM docs; causal rows carry all-ones.
+    Same checkpointed-chunk memory discipline as model.chunked_ce."""
+    h2 = h.view(-1, h.size(-1))
+    t2 = targets.reshape(-1)
+    m2 = mask.reshape(-1).float()
+    n = h2.size(0)
+    tot = h2.new_zeros((), dtype=torch.float32)
+    ntok = h2.new_zeros((), dtype=torch.float32)
+    for c in range(0, n, chunk):
+        s, k = checkpoint(_ce_chunk_masked, h2[c:c + chunk], w,
+                          t2[c:c + chunk], m2[c:c + chunk],
+                          use_reentrant=False)
+        tot = tot + s
+        ntok = ntok + k
+    return tot / ntok.clamp_min(1.0)
 
 
 def build_optim(model, lr, lr_embed, wd):
@@ -126,6 +170,11 @@ def main():
     ap.add_argument("--seed", type=int, default=1273)
     ap.add_argument("--fim-data", default=f"{TMP}/train_blocks.npy")
     ap.add_argument("--causal-data", default=f"{LAD}/train_blocks_causal.npy")
+    ap.add_argument("--loss-mask", action="store_true",
+                    help="FIM-Replica masked-loss arm: CE only on span+"
+                         "<|end|> tokens of FIM docs (data_prep_mask.py "
+                         "companion stream); causal docs keep full loss")
+    ap.add_argument("--fim-mask", default=f"{TMP}/train_blocks_mask.npy")
     ap.add_argument("--eval-fim", default=f"{TMP}/eval_blocks.npy")
     ap.add_argument("--eval-causal", default=f"{LAD}/eval_blocks_causal.npy")
     ap.add_argument("--log-every", type=int, default=100)
@@ -139,6 +188,9 @@ def main():
     ap.add_argument("--gated-norm", action="store_true",
                     help="GatedNorm arms: RMSNorm->gated (Qwen Eq.29, "
                          "rank d/8, gn_ params on AdamW)")
+    ap.add_argument("--gated-norm-v2", action="store_true",
+                    help="P10: GatedNorm with sigma-init ~1 (gate bias +4; "
+                         "near-identity init). Implies --gated-norm")
     ap.add_argument("--tag", default="")
     ap.add_argument("--resume", default=None)
     ap.add_argument("--compile", action="store_true")
@@ -160,8 +212,10 @@ def main():
     dev = torch.cuda.current_device()
 
     cfg = model_config(max_seq=args.seq)
-    if args.gated_norm:
+    if args.gated_norm or args.gated_norm_v2:
         cfg["gated_norm"] = True
+    if args.gated_norm_v2:
+        cfg["gated_norm_v2"] = True
     if args.a2:
         cfg['exit_layers'] = [4, 8] if cfg['n_layers'] == 12 else [8, 16]
         cfg['exit_weights'] = [0.25, 0.125]
@@ -176,7 +230,8 @@ def main():
     sps = args.tokens_per_step // args.seq
     accum = args.tokens_per_step // (args.seq * args.micro_bs)
     data = MixedStreams(args.fim_data, args.causal_data, args.dose,
-                        args.seed, args.steps * sps + 64)
+                        args.seed, args.steps * sps + 64,
+                        fim_mask=args.fim_mask if args.loss_mask else None)
 
     step0 = 0
     if args.resume:
@@ -216,7 +271,8 @@ def main():
     print(f"[cfg] tag={tag} dose={args.dose} steps={args.steps} "
           f"tokens/step={args.tokens_per_step} micro_bs={args.micro_bs} accum={accum} "
           f"params={n_all/1e6:.1f}M fim_blocks={data.fim.n} causal_blocks={data.causal.n} "
-          f"seed={args.seed} MASK_SEED={MASK_SEED}", flush=True)
+          f"seed={args.seed} MASK_SEED={MASK_SEED} loss_mask={args.loss_mask}",
+          flush=True)
 
     watchdog = base.GPUWatchdog()
     watchdog.start()
@@ -270,6 +326,9 @@ def main():
                 g["lr"] = lr_emb_now
 
         xb = data.batch(step, sps)
+        mb = None
+        if isinstance(xb, tuple):
+            xb, mb = xb
         mtp_w = 0.5 if (args.a2 and step >= mtp_from) else 0.0
         micro_nats_sum = 0.0
         for o in opts:
@@ -287,6 +346,13 @@ def main():
                     for e_l, e_w in zip(model.exit_layers,
                                         model.exit_weights):
                         loss = loss + e_w * ld[f"ce_{e_l}"]
+                elif args.loss_mask:
+                    lm = mb[mi * args.micro_bs:(mi + 1) * args.micro_bs]
+                    m = torch.from_numpy(lm.astype(np.float32)).cuda(
+                        non_blocking=True)
+                    h = fwd_trunk(x[:, :-1], probe=(mi == 0))
+                    loss = chunked_ce_masked(h, model.embed.weight,
+                                             x[:, 1:], m[:, 1:])
                 else:
                     h = fwd_trunk(x[:, :-1], probe=(mi == 0))
                     loss = chunked_ce(h, model.embed.weight, x[:, 1:])

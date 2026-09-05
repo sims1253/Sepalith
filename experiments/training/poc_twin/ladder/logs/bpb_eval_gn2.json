@@ -1,0 +1,36 @@
+{
+ "gn2_qk": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_gn2_qk/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.7644450344499013,
+   "loss_per_tok": 1.626756233327529,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.7496487979849704,
+   "loss_per_tok": 1.5817073288417998,
+   "tokens": 430080
+  },
+  "stop_acc": 0.1345,
+  "stop_prob": 0.1221
+ },
+ "stress_gn2": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_stress_gn2/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 1.29338407966707,
+   "loss_per_tok": 2.7523504226815465,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 1.2685171807752502,
+   "loss_per_tok": 2.6764838774998982,
+   "tokens": 430080
+  },
+  "stop_acc": 0.0179,
+  "stop_prob": 0.0188
+ }
+}

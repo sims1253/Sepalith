@@ -117,5 +117,22 @@
   },
   "stop_acc": 0.1345,
   "stop_prob": 0.1229
+ },
+ "ladder_fim35m": {
+  "ckpt": "/tmp/poc_twin/ladder/ckpt_ladder_fim35m/final.pt",
+  "step": 668,
+  "tokens_trained": 350224384,
+  "causal": {
+   "bpb": 0.7792549795140389,
+   "loss_per_tok": 1.658272129647872,
+   "tokens": 417792
+  },
+  "fim": {
+   "bpb": 0.8784934606291204,
+   "loss_per_tok": 1.8535606923557464,
+   "tokens": 430080
+  },
+  "stop_acc": 0.157,
+  "stop_prob": 0.1255
  }
 }

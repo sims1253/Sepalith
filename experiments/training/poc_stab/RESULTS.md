@@ -111,3 +111,12 @@ memfrac 0.65 + resume from step-200 ckpts (position-deterministic data order
 stress_metrics' veto EXIT CODE, not a scorer failure. Artifacts: control
 final.pt archived to /mnt/h/sepalith/runs/p1_stabtok/; variant ckpts deleted
 after the verdict was rendered (logs + bpb_eval_p1.json retain all evidence).
+
+## P10 GatedNorm-v2 pointer (2026-09-05, zcode-gpushorts)
+
+The Q3 GatedNorm follow-up (σ-init ≈1 near-identity gate) ran on the ladder
+rig: verdict **rejection stands — v2 recovers only ~27% of the +2% causal
+BPB cost** (0.7685→0.7644 vs plain 0.7533; FIM slice now BEATS plain,
+GN-v2 strictly dominates GN-v1; stress mechanism survives: p99.9 1.56x vs
+plain 2.28x, scorer PASS). Full readout:
+`../poc_twin/ladder/results_gatednorm_v2.md`.

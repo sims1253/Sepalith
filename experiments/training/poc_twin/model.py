@@ -136,12 +136,20 @@ class GatedNorm(nn.Module):
     shapes orthogonalize poorly; Qwen §3.1).
     """
 
-    def __init__(self, d, eps=1e-6):
+    def __init__(self, d, eps=1e-6, sigma_bias=None):
         super().__init__()
         self.rms = nn.RMSNorm(d, eps=eps)
         r = max(8, d // 8)
         self.gn_w1 = nn.Linear(d, r, bias=False)
-        self.gn_w2 = nn.Linear(r, d, bias=False)
+        # v2 (P10, 2026-09-05): optional gate bias -> sigma-init ~1.0.
+        # Standard init centers the gate pre-activation at ~0 => sigmoid ~0.5,
+        # halving every sublayer output until the gate learns to open (a
+        # large fraction of a 350M-token run; <1% of a 13-25B run — Qwen's
+        # "standard init suffices" was claimed at 560B tokens). sigma_bias=4
+        # gives sigmoid ~0.982: GatedNorm starts == RMSNorm (within 1.8%).
+        self.gn_w2 = nn.Linear(r, d, bias=sigma_bias is not None)
+        if sigma_bias is not None:
+            nn.init.constant_(self.gn_w2.bias, sigma_bias)
 
     def forward(self, u):
         h = self.rms(u)
@@ -151,7 +159,7 @@ class GatedNorm(nn.Module):
 def make_norm(cfg, which):
     d = cfg["d_model"]
     if cfg.get("gated_norm"):
-        return GatedNorm(d)
+        return GatedNorm(d, sigma_bias=4.0 if cfg.get("gated_norm_v2") else None)
     return nn.RMSNorm(d, eps=1e-6)
 
 

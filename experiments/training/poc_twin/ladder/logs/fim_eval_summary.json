@@ -34,5 +34,14 @@
   "line_f1": 0.0005,
   "mean_latency_s": 0.82,
   "wall_s": 45.7
+ },
+ "ladder_fim35m": {
+  "arm": "ladder_fim35m",
+  "n": 223,
+  "n_err": 0,
+  "exact": 0.0,
+  "line_f1": 0.0019,
+  "mean_latency_s": 1.01,
+  "wall_s": 62.9
  }
 }
