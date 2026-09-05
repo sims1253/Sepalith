@@ -1,0 +1,35 @@
+# TU2 arm (b) solve-gated — cloud SFT on the b4 base (qwen3.5-2b-base-text), 113-row
+# matched arm dataset, shared 307-row eval. PARKED: fire ONLY on the queue
+# manager's explicit FIRE (after B13's verdict). Arm definitions:
+# experiments/synthetic-data/TU2_RESULTS.md
+# ((b) = solve-gated: ground-truth targets, prompts identical to (c)).
+#
+# FIRE (from repo root, tree committed):
+#   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
+#   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
+#     && git archive HEAD | tar -x -C /tmp/anyscale_sft/pkg
+#   sed -e "s|<HF_TOKEN>|$HF_TOKEN|" -e "s|<STEPS>|SET_BY_FIRE_ORDER|" \
+#       -e "s|REPLACE_PKG|/tmp/anyscale_sft/pkg|" \
+#     scripts/cloud/job_tu2_b.yaml.example > /tmp/anyscale_sft/job_tu2_b.yaml
+#   anyscale job submit -f /tmp/anyscale_sft/job_tu2_b.yaml
+name: sepalith-sft-tu2-b
+entrypoint: bash scripts/cloud/sft_entry.sh
+working_dir: REPLACE_PKG
+max_retries: 0
+env_vars:
+  HF_TOKEN: "<HF_TOKEN>"
+  MODEL: "scholzmx/sepalith-base-qwen35-2b-text"
+  STEPS: "<STEPS>"                 # short-adaptation class; set by FIRE order
+  SFT_TARGETS: "q_proj,k_proj,v_proj,o_proj,in_proj_qkv,in_proj_a,in_proj_b,in_proj_z,out_proj,gate_proj,up_proj,down_proj"
+  EXPECT_TRAINABLE: "33638400"  # CPU-audited 2026-09-05 vs local dir: 186 modules, 1.79% of 1.88B
+  SFT_DATA_REPO: "scholzmx/sepalith-tu2-brms"
+  SFT_DATA_FILES: "arm_b_solve_gated/train.jsonl>train.jsonl,arm_b_solve_gated/eval.jsonl>eval.jsonl"
+  DATA_DIR: "/tmp/data/tu2_b"
+  LORA_REPO: "scholzmx/sepalith-lora"
+  RUN_NAME: "tu2_b_solve_gated"
+  UNSLOTH_COMPILE_DISABLE: "1"
+  UNSLOTH_DISABLE_AUTO_PADDING_FREE: "1"
+compute_config:
+  head_node:
+    instance_type: g5.xlarge
+  worker_nodes: []
