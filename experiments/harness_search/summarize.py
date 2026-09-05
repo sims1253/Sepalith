@@ -45,6 +45,35 @@ def arm_summary(results: Path, arm: str) -> dict:
     )
 
 
+def verdict_analysis(results: Path) -> dict:
+    """The pre-registered H1 verdict from verdict.json: winner = best HELD-OUT
+    valid_pass (the plan's `exact` = validator verdict rate) at matched
+    budget; margins vs default and vs the runner-up."""
+    v = json.loads((results / "verdict.json").read_text())
+    arms = {a["name"]: a for a in v["arms"]}
+    ranked = sorted(v["arms"], key=lambda a: -a["scenarios"]["valid_pass"])
+    win = ranked[0]
+    runner = ranked[1] if len(ranked) > 1 else None
+    dflt = arms.get("default")
+    return dict(
+        winner=win["name"], winner_valid=win["scenarios"]["valid_pass"],
+        winner_exact_str=win["scenarios"]["exact_str"],
+        winner_noop=win["noop"]["proposal_rate"],
+        margin_vs_runner=round(win["scenarios"]["valid_pass"]
+                               - runner["scenarios"]["valid_pass"], 4) if runner else None,
+        runner=runner["name"] if runner else None,
+        margins_vs_default={a["name"]: round(
+            a["scenarios"]["valid_pass"] - dflt["scenarios"]["valid_pass"], 4)
+            for a in v["arms"] if a["name"] != "default"},
+        default_valid=dflt["scenarios"]["valid_pass"],
+        default_noop=dflt["noop"]["proposal_rate"],
+        noop_gaps={a["name"]: round(
+            a["noop"]["proposal_rate"] - dflt["noop"]["proposal_rate"], 4)
+            for a in v["arms"]},
+        per_family={a["name"]: a["scenarios"]["families"] for a in v["arms"]},
+    )
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", default=str(HERE / "results"))
@@ -64,6 +93,7 @@ def main():
             out["arms"][arm] = arm_summary(results, arm)
     if (results / "verdict.json").exists():
         out["verdict"] = json.loads((results / "verdict.json").read_text())
+        out["verdict_analysis"] = verdict_analysis(results)
     print(json.dumps(out, indent=1))
 
 

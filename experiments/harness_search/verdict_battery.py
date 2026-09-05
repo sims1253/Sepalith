@@ -114,7 +114,7 @@ def verdict_noop(cfg, texts, clients) -> dict:
         if c.cls[0] in "acd":
             scored += 1
             props += int(proposed)
-        lats.append(rolls[c]["latency"])
+        lats.append(roll["latency"])
     return dict(scored_n=scored, proposal_rate=round(props / max(1, scored), 4),
                 per_class={k: [v[0], v[1]] for k, v in sorted(per_cls.items())},
                 p95_latency_s=round(_p95(lats), 3), n_cases=len(cases))

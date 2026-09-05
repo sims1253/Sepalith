@@ -114,7 +114,33 @@ net gain on this box (decode bandwidth-bound; both servers ~790% CPU);
 kept for regime consistency. ETA at full pre-registered budget ≈ 15-20h
 wall, dominated by the GEPA arm (every candidate all-novel).
 
-## 3. Search-phase results (D_harness) **[PENDING]**
+## 3. Search-phase results (D_harness, never the verdict set)
+
+Baseline (seed, shared by all arms): exact 0.6797, noop 0.7444, p95 17.75s.
+
+| arm | cands (M=3×13) | guard-passing | best exact | best config / texts | Δ vs baseline |
+|---|---|---|---|---|---|
+| (a) hill | 39 | 17 | **0.6875** | max_tokens 640 + pin 2000 + cap 8000 | +0.78pp |
+| (b) population | 39 | 31 | **0.6875** | max_tokens 640 (fp 67d21c11f63c) | +0.78pp |
+| (c) GEPA | **[PENDING]** | | | | |
+
+Search-phase observations (honest method behavior):
+
+- The optimum both code arms converged to is the 640-token decode budget
+  (+0.4pp alone); pin/cap add nothing further on D_harness (inert knobs —
+  see §7.1) but are harmless on the guardrails.
+- Five hill candidates and several GEPA candidates scored 0.6914+ on exact
+  and were BLOCKED by the noopFP guardrail (all outline-section configs:
+  the outline inflates no-op proposals, +4 to +9pp). The pre-registered
+  guardrail is the binding constraint in this space, not the objective.
+- Population: 21/39 candidates were seeded-fallback origin — after the
+  neighborhood of the best exhausted, glm-5.3 kept re-proposing archive
+  duplicates which the dedupe rejected. The 2-deme structure degenerated
+  to deme 0 (the best never left deme 0, so cross-deme migration had no
+  deme-1 material; the islands were decorative under this budget). The
+  archive's value was cache reuse, not diversity.
+- Hill kept its lineage discipline: best only moved baseline → 0.6836
+  (iter 2, max_tokens 640) → 0.6875 (iter 6); regressions reverted.
 
 ## 4. Held-out verdict battery **[PENDING]**
 
