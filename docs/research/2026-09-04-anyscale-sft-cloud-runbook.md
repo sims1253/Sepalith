@@ -187,12 +187,15 @@ B13's verdict resolves the base pick). Everything staged 2026-09-05:
   private model repo `scholzmx/sepalith-base-qwen35-2b-text` (7 files).
   Cloud MODEL env points at that repo id; HF_TOKEN handles the private pull.
 - **Arm datasets** (all tiny): `experiments/synthetic-data/results/tu2_arms/`
-  → private dataset repo `scholzmx/sepalith-tu2-arms`. NOTE per
-  TU2_RESULTS.md the arms are **matched at 113 train rows each** (not
-  624×2+113 — the 624 is the pooled teacher-solve pool; all three train
-  files are 113 rows by the composition-matching rule, seed 3407), shared
-  307-row eval verbatim. (a)=raw draw incl. unsolved, (b)=solve-gated GT,
-  (c)=teacher renderings; (b)/(c) share identical prompts.
+  → private dataset repo `scholzmx/sepalith-tu2-arms`. RE-CUT 2026-09-05:
+  the primaries are the **624-row** files `arm_a_raw_624/train.jsonl` and
+  `arm_b_solve_gated_624/train.jsonl` (staged under those paths; the 113-row
+  originals stay staged too — (c)@113 is the paired secondary and (b)@113
+  its pair). All eval.jsonl files are the same shared 307-row slice
+  (sha256-verified identical across all five dirs); templates map eval
+  from the staged `arm_*/eval.jsonl`. (a')=raw draw incl. unsolved,
+  (b')=solve-gated GT, (c)=teacher renderings; (b)@113/(c) share identical
+  prompts.
 - **Templates**: `scripts/cloud/job_tu2_{a,b,c}.yaml.example` — same
   sft_entry.sh path, STEPS templated (`<STEPS>` — FIRE order sets it),
   LORA_REPO push-back ON (`RUN_NAME` tu2_a_raw / tu2_b_solve_gated /
@@ -202,8 +205,8 @@ B13's verdict resolves the base pick). Everything staged 2026-09-05:
 - **Per-arm cost** (A10G; ~3.2 s/it for the 2B; node ≈ ready-in ~6 min incl.
   3.6 GB model pull + CPU audit + JIT): STEPS=300 → ~21 min ≈ **$0.35**;
   600 → ~37 min ≈ **$0.62**; 1000 → ~58 min ≈ **$0.97**. All three arms at
-  600 steps ≈ **$1.9**. (113 rows × bs16 = 7 steps/epoch — STEPS is the
-  epoch dial here.)
+  600 steps ≈ **$1.9**. (624 rows × bs16 = 39 steps/epoch — 300 steps ≈ 7.7
+  epochs; the 113-row (c) is 7 steps/epoch — STEPS is the epoch dial.)
 - If the base flips to LFM per B13's verdict: datasets stay valid; restage
   weights via `push_hf_folder.py <lfm-dir> <repo> model .` + retarget
   MODEL/SFT_TARGETS/EXPECT_TRAINABLE in the templates (audit first).
