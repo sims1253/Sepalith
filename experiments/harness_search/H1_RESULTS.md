@@ -88,7 +88,31 @@ Status: RUNNING — this file is finalized at verdict time; sections marked
   ordering, config validation, pair-cache ledger math, usage
   normalization, fallback determinism, per-candidate budget attribution.
 
-## 2. Baseline (default config on D_harness) **[PENDING]**
+## 2. Baseline (default config on D_harness)
+
+Two-regime note: the run started single-server (18310), then moved to the
+two-server sharded regime (18310+18311) for throughput; the baseline was
+RE-MEASURED fresh under the co-running regime for guardrail consistency.
+exact is text-derived and IDENTICAL across regimes (0.6797 both — a
+determinism check); only latencies differ.
+
+| regime | exact | unstable | p95 | mean | noopFP | wall |
+|---|---|---|---|---|---|---|
+| 1-server | 0.6797 | 0.0117 | 8.76s | 2.04s | 0.7444 | 1117s |
+| 2-server (guardrail baseline) | 0.6797 | 0.0117 | 17.75s | — | 0.7444 | 1118s |
+
+Per-family (2-server regime): rename .9231 / pipe .9608 / na_rm .8235 /
+format .6863 / doc_sync .0000. Banked v7 HELD-OUT profile (same model,
+eval_scenarios battery): rename .947 / pipe 1.0 / format .731 / na_rm .80 /
+doc_sync .000 — the rig reproduces the model's behavior profile on the
+train-side carve; doc_sync is a model-capability gap (0.0 held-out too), not
+a harness artifact, so the search's headroom lives in rename/pipe/format/
+na_rm (and in the noopFP/latency guardrail interactions).
+
+Throughput reality (measured, board 01:44): two-server sharding gives ~zero
+net gain on this box (decode bandwidth-bound; both servers ~790% CPU);
+kept for regime consistency. ETA at full pre-registered budget ≈ 15-20h
+wall, dominated by the GEPA arm (every candidate all-novel).
 
 ## 3. Search-phase results (D_harness) **[PENDING]**
 
