@@ -268,17 +268,23 @@ def parse_queue_file() -> dict:
         return out
 
     # section 1: RUNNING (only rows still RUNNING; DONE verdicts are the
-    # timeline's job)
+    # timeline's job). Also collect ids whose verdict already landed so the
+    # parked/proposed parse (sections 2b/2c re-list runbook rows) drops them.
+    landed: set[str] = set()
     for cells in _rows_from(text, "## 1.", ("## 2.", "## 3.", "## 4.", "## 5.")):
         stat = " ".join(cells[2:3])
+        rid = _clip(cells[0], 18) if cells else ""
+        if re.search(r"\bDONE|KILLED|ELIMINATED|COMPLETE|CLOSED\b", stat):
+            landed.add(rid)
         if re.search(r"\bRUNNING\b", stat):
             row = mkrow(cells, 2)
             row["why"] = _clip(stat, 165)
             q["running"].append(row)
 
-    # sections 2, 2b, 2c: PARKED
-    q["parked"] = live_rows(
-        _rows_from(text, "## 2.", ("## 3.", "## 4.", "## 5."))[:48], 3)[:22]
+    # sections 2, 2b, 2c: PARKED (skip rows whose section-1 verdict landed)
+    q["parked"] = [r for r in live_rows(
+        _rows_from(text, "## 2.", ("## 3.", "## 4.", "## 5."))[:48], 3)
+        if r["id"] not in landed][:22]
 
     # section 3 + its subsections (E/H/O/TU/S): PROPOSED
     q["proposed"] = live_rows(

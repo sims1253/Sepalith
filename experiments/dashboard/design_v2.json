@@ -9,7 +9,7 @@
   },
   {
    "name": "Bench ink",
-   "hex": "#22333B",
+   "hex": "#22333B stays for body text, rules, tree edges. Secondary text no longer uses 47 percent alpha. Secondary text uses solid #3D4F57 at 7.1 to 1 on paper.",
    "role": "body text, rules, tree edges"
   },
   {
@@ -49,17 +49,17 @@
     "role": "dates/ids/asked/measured fields, tree nodes, queue one-liners, R examples, inventory counts (the machine voice)"
    }
   ],
-  "scale_notes": "Standfirst 20px serif italic-adjacent; section titles 22px serif semibold, sentence case, numbered '1.' as given; verdict so-what 17–19px serif with 1.55 line-height, ~62ch max; mono evidence 12.5–13px with 1.5 line-height; queue/inventory mono 13px tabular numerals. One scale jump only (hero verdicts); everything else flat ledger size."
+  "scale_notes": "Three weight levels. Level 1 section titles 26px serif bold with 3px top rule and 32px space above. Level 2 verdict sentences 18px serif semibold. Level 3 mono evidence 13px regular in #3D4F57. Standfirst 20px serif. No other sizes."
  },
  "layout": {
-  "prose": "Single ledger column, max 880px, left aligned ragged-right throughout; live-now strip is a full-bleed sage band pinned directly under the masthead (not a card). Sections separated by full rules with generous air, not cards. Tree section goes full ledger width with horizontal scroll on mobile; glossary is definition-list rows, not grid cards.",
+  "prose": "Single ledger column max 880px left aligned. Section titles interrupt scroll with rule plus air. Timeline verdict rule 6px solid. Chips use 2px borders. Queue and glossary rows use 8px vertical padding with hairlines only between groups.",
   "alignment": "Left aligned everywhere; numbers right-aligned in inventory tables; never centered, never justified.",
   "wireframe": "masthead (title left, reload-date right) / ──rule── / STAND first (2 lines serif) / [ live-now band: dot owner task ETA | dot owner task ETA ] / ──rule── / 1 What happened [hero entries stacked] / ──rule── / 2 The program tree [mono tree, scroll-x] / ──rule── / 3 What is queued [3 grouped lists] / ──rule── / 4 Family glossary [dl rows + jargon table] / ──rule── / 5 Data on disk [3 tables side-by-side→stacked] / footer colophon"
  },
- "structure_devices": "Left verdict-rules encode outcome (4px solid: sepal=ship/live, oxblood=kill, amber=parked/gate, ink=info) — color plus label text, never color alone. Tree edges encode state: solid 2px = live line, hatched/double-faded + strikethrough label = killed specimen, hollow box = gate decision, pulsing dot = running (static dot with text label when no JS). Section numbers 1–5 are the brief's fixed IA, not decoration. No eyebrows, no 01/02 markers, no dotted meta strings.",
- "timeline_treatment": "Each entry keeps mono date id line, solid pill with white sentence case text, serif verdict sentence at hero size, then mono ask, found, decision lines with 7ch hanging labels. Decision replaces call to avoid clash with R calls.",
- "tree_treatment": "Rendered as nested lists with CSS-drawn elbows (no images, no JS): vertical+horizontal 2px ink connectors via borders. Node = mono chip with expt id + one-line outcome. Live = ink-bordered chip on paper with sepal left tab; killed = oxblood dashed border, faded text, terminal cross-mark '×' with reason in parentheses, edge line dashed and faded; gate = amber hollow diamond marker before chip; running = R-blue filled dot + bold chip. Killed subtrees are collapsed to one line each (one-line kill reason) so dead wood reads dense and distinct from airy live lines.",
- "table_treatment": "Queue: three plain grouped lists (Running / Parked / Proposed) with status word set inline in mono, one line each, ruled between rows — no pill cloud, no cards. Inventories: three true <table>s with header row in sentence-case mono, right-aligned counts with tabular numerals, footer total row; zebra none, only horizontal hairlines; caption above each table names the root path.",
+ "structure_devices": "Status is structure plus text plus color. Queue groups keep h3 and add per row left rule 6px solid and leading status word in mono bold: Running uses Sepal #2E6E4E, Parked uses amber #7A5400 darkened for contrast, Proposed uses ink #22333B with dashed rule. Tree edges use state color on connectors, not chips alone.",
+ "timeline_treatment": "Verdict rule 6px. Date id line 13px mono in #3D4F57. Pill text white 13px bold. Verdict sentence 18px serif semibold in #22333B. Killed verdict text uses #7A2430 at 7 to 1 with oxblood rule.",
+ "tree_treatment": "Spine 3px solid. Elbows 28px horizontal 3px. Live edges #22333B. Killed edges #7A2430 dashed 3px with faded chip border 2px dashed. Gate edges #7A5400 dashed 3px with hollow marker. Running edge #2E6E4E solid 3px with dot plus text label.",
+ "table_treatment": "Glossary term dt is strongest: 15px mono bold in #22333B. Description dd is 14px serif regular in #22333B. Row counts 13px mono in #3D4F57. R examples 13px mono on #E3E9E2 with 4px R blue #2F5DA3 left rule, placed directly under term line with 4px gap, source line after with 12px gap. Queue why text moves inline after status word, no full width wrap.",
  "motion": "Single enhancement: filter-as-you-type box above verdict timeline plus 'copy' buttons on R examples, both progressively added by one small script; page is complete and filter-free with JS disabled. Running pulse is CSS animation only, wrapped in @media (prefers-reduced-motion: reduce) that freezes it to a static dot. Keyboard focus: 3px R-blue outline offset 2px on all links, buttons, inputs.",
  "anti_defaults": "Avoided cream+terracotta (chose cool sage paper + oxblood/sepal diff inks); avoided near-black+acid accent (ink is desaturated slate #22333B, accents muted lab tones); avoided broadsheet zero-radius columns (single ledger column, 6px radius only on pills/chips); avoided SaaS card grid + soft shadows (zero shadows, sections divided by rules); avoided tracked all-caps eyebrows, middle-dot meta strings, 'WORD — fragment' labels, mono-everything labels (labels are sentence case, dots only as date separators, human voice in serif); avoided generic fade-up on scroll (no scroll motion at all)."
 }

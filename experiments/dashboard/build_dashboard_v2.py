@@ -115,16 +115,20 @@ def _tree_node(node: dict) -> str:
     cls = _NODE_CLS.get(node.get("status", "proposed"), "n-proposed")
     note = _COPY_TREE.get(node["id"], node.get("note", ""))
     kids = node.get("children") or []
-    out = (f'<li><div class="node {cls}">'
-           f'<span class="node-tag">{esc(node.get("status", ""))}</span>')
-    if node.get("status") == "killed":
-        out += f'<span class="node-x">×</span>'
+    status = node.get("status", "proposed")
+    edge = {"killed": " edge-killed", "gate": " edge-gate",
+            "running": " edge-run"}.get(status, "")
+    out = (f'<li{" class=" + edge.strip() if edge else ""}>'
+           f'<div class="node {cls}">'
+           f'<span class="node-tag">{esc(status)}</span>')
+    if status == "killed":
+        out += '<span class="node-x">×</span>'
     out += f'<span class="node-label">{esc(node.get("label", ""))}</span>'
     if note:
         out += f'<span class="node-note">{esc(note)}</span>'
     out += "</div>"
     if kids:
-        out += "<ul>"
+        out += f'<ul class="st-{status}">'
         for k in kids:
             out += _tree_node(k)
         out += "</ul>"
@@ -140,6 +144,10 @@ def render_tree() -> str:
     return "".join(out)
 
 
+_QUEUE_ST = {"Running": ("st-run", "running"), "Parked": ("st-park", "parked"),
+             "Proposed": ("st-prop", "proposed")}
+
+
 def render_queue(q: dict) -> str:
     if not q:
         return '<p class="empty">Queue unavailable this cycle.</p>'
@@ -150,6 +158,7 @@ def render_queue(q: dict) -> str:
     for title, rows in (("Running", q.get("running", [])),
                         ("Parked", q.get("parked", [])),
                         ("Proposed", q.get("proposed", []))):
+        st_cls, st_word = _QUEUE_ST[title]
         out.append(f"<h3>{esc(title)}</h3>")
         if not rows:
             out.append(f'<p class="empty">Nothing {title.lower()}.</p>')
@@ -157,9 +166,11 @@ def render_queue(q: dict) -> str:
         out.append("<ul class='qlist'>")
         for r in rows:
             out.append(
-                f'<li><span class="q-id">{esc(r.get("id", ""))}</span>'
+                f'<li class="{st_cls}">'
+                f'<span class="q-status">{st_word}</span>'
+                f'<span class="q-id">{esc(r.get("id", ""))}</span>'
                 f'<span class="q-item">{safe_render(r.get("item", ""))}</span>'
-                f'<span class="q-why">{safe_render(r.get("why", ""))}</span>'
+                f' <span class="q-why">{safe_render(r.get("why", ""))}</span>'
                 f"</li>")
         out.append("</ul>")
     wc = q.get("work_count")
@@ -181,12 +192,12 @@ def render_glossary(bank: dict) -> str:
             example = cf.get("example", f.get("example", ""))
             rows_txt = _gloss_rows(f["rows_key"], bank)
             out.append(f'<div class="gl-e"><dt><code>{esc(f["name"])}</code>'
-                       f'<span class="gl-rows">{esc(rows_txt)}</span></dt>'
-                       f'<dd class="serif">{esc(plain)}')
+                       f'<span class="gl-rows">{esc(rows_txt)}</span></dt>')
             if example:
                 out.append(f'<pre class="rex">{esc(example)}</pre>')
-            out.append(f'<span class="src">source: {esc(f["source"])}</span>'
-                       f"</dd></div>")
+            out.append(f'<dd>{esc(plain)} '
+                       f'<span class="src">source: {esc(f["source"])}'
+                       f"</span></dd></div>")
         out.append("</dl>")
     return "".join(out)
 
@@ -364,51 +375,52 @@ MONO = ((DESIGNJ.get("type", {}).get("families") or [{}, {}])[-1].get(
 CSS = f"""
 :root{{
  --paper:{PAPER}; --ink:{INK}; --sepal:{SEPAL}; --oxblood:{OXBLOOD};
- --amber:{AMBER}; --rblue:{RBLUE}; --sage:{SAGE};
- --rule:{INK}33; --hair:{INK}22; --faint:{INK}77;
+ --oxdark:#7A2430; --amber:{AMBER}; --amberdk:#7A5400; --rblue:{RBLUE};
+ --sage:{SAGE}; --mute:#3D4F57;
+ --rule:{INK}33; --hair:{INK}22; --faint:#3D4F57;
 }}
 *{{box-sizing:border-box}}
 html{{scroll-behavior:smooth}}
 @media (prefers-reduced-motion: reduce){{html{{scroll-behavior:auto}}}}
 body{{margin:0;background:var(--paper);color:var(--ink);
-font:13.5px/1.55 {MONO.split('monospace')[0]}monospace}}
+font:13px/1.55 {MONO.split('monospace')[0]}monospace}}
 .wrap{{max-width:880px;margin:0 auto;padding:0 20px 70px}}
-.serif{{font-family:{SERIF};font-size:15px;line-height:1.55}}
-h1,h2,h3{{font-family:{SERIF};font-weight:600;line-height:1.2;margin:0}}
-h1{{font-size:27px;letter-spacing:.2px}}
-h2{{font-size:21px;margin:44px 0 4px;padding:10px 0 6px;
-border-top:2px solid var(--ink);scroll-margin-top:64px}}
-h2 .sn{{color:var(--rblue);margin-right:8px}}
-h3{{font-size:15.5px;margin:22px 0 6px}}
+.serif{{font-family:{SERIF};font-size:14px;line-height:1.55}}
+h1,h2,h3{{font-family:{SERIF};line-height:1.2;margin:0}}
+h1{{font-size:28px;font-weight:700;letter-spacing:.2px}}
+h2{{font-size:26px;font-weight:700;margin:48px 0 16px;padding:12px 0 6px;
+border-top:3px solid var(--ink);scroll-margin-top:64px}}
+h2 .sn{{color:var(--rblue);margin-right:10px}}
+h3{{font-size:16px;font-weight:700;margin:24px 0 6px}}
 p{{margin:7px 0}}
 a{{color:var(--rblue)}}
 a:focus-visible,button:focus-visible,input:focus-visible{{
  outline:3px solid var(--rblue);outline-offset:2px}}
 code{{font-family:{MONO.split('monospace')[0]}monospace;font-size:.95em;
 background:var(--sage);padding:0 4px;border-radius:3px}}
-pre{{font-size:12.5px;background:var(--sage);border-left:3px solid var(--rblue);
+pre{{font-size:13px;background:var(--sage);border-left:4px solid var(--rblue);
 padding:9px 12px;margin:7px 0;overflow-x:auto;white-space:pre-wrap}}
 table{{border-collapse:collapse;width:100%;margin:8px 0 14px;font-size:12.5px}}
-caption{{text-align:left;color:var(--faint);padding-bottom:3px;font-size:12px}}
+caption{{text-align:left;color:var(--mute);padding-bottom:3px;font-size:12px}}
 th,td{{text-align:left;padding:6px 9px;border-bottom:1px solid var(--hair);
 vertical-align:top}}
 th{{font-weight:600;font-size:12px}}
 td.num{{text-align:right;font-variant-numeric:tabular-nums}}
-.sub{{color:var(--faint);margin:4px 0 0;max-width:70ch}}
-.src{{color:var(--faint);font-size:12px;margin:5px 0}}
-.empty{{color:var(--faint);font-style:italic}}
-.upd{{color:var(--faint);font-size:12px;margin-top:36px;
+.sub{{color:var(--mute);margin:4px 0 0;max-width:70ch}}
+.src{{color:var(--mute);font-size:12px;margin:5px 0}}
+.empty{{color:var(--mute);font-style:italic}}
+.upd{{color:var(--mute);font-size:12px;margin-top:36px;
 border-top:1px solid var(--hair);padding-top:10px}}
 /* masthead */
 .mast{{display:flex;justify-content:space-between;align-items:baseline;
 flex-wrap:wrap;gap:8px;padding:30px 0 10px}}
-.mast .when{{color:var(--faint);font-size:12px}}
-.stand{{font-family:{SERIF};font-size:19px;line-height:1.5;margin:14px 0 10px;
-max-width:62ch;scroll-margin-top:64px}}
+.mast .when{{color:var(--mute);font-size:12px}}
+.stand{{font-family:{SERIF};font-size:20px;font-weight:600;line-height:1.5;
+margin:14px 0 10px;max-width:62ch;scroll-margin-top:64px}}
 /* live-now band */
 .live{{background:var(--sage);border-top:1px solid var(--hair);
 border-bottom:1px solid var(--hair);margin:14px -20px 0;padding:10px 20px}}
-.live-h{{color:var(--faint);font-size:12px;margin-bottom:4px}}
+.live-h{{color:var(--mute);font-size:12px;margin-bottom:4px}}
 .live ul{{list-style:none;margin:0;padding:0}}
 .live li{{display:flex;gap:12px;flex-wrap:wrap;padding:3px 0;
 border-bottom:1px solid var(--hair)}}
@@ -420,12 +432,12 @@ display:inline-block;margin:5px 6px 0 0;flex:none}}
 @keyframes pulse{{0%,100%{{opacity:1}}50%{{opacity:.35}}}}
 .lv-what{{flex:1 1 46%}}
 .lv-owner{{color:var(--rblue)}}
-.lv-note{{color:var(--faint);flex:1 1 100%;padding-left:14px}}
+.lv-note{{color:var(--mute);flex:1 1 100%;padding-left:14px}}
 /* nav */
 nav.top{{position:sticky;top:0;background:var(--paper);
 border-bottom:1px solid var(--rule);z-index:5;padding:7px 0;margin-top:16px}}
 nav.top .wrap{{display:flex;flex-wrap:wrap}}
-nav.top a{{margin-right:16px;text-decoration:none;color:var(--faint);
+nav.top a{{margin-right:16px;text-decoration:none;color:var(--mute);
 font-size:12.5px;padding:2px 0;border-bottom:2px solid transparent}}
 nav.top a.on{{color:var(--ink);border-bottom-color:var(--rblue)}}
 /* 1 timeline (hero) */
@@ -433,80 +445,94 @@ nav.top a.on{{color:var(--ink);border-bottom-color:var(--rblue)}}
 .filterbox input{{font:inherit;width:100%;max-width:420px;padding:5px 8px;
 border:1px solid var(--rule);background:var(--paper);color:var(--ink)}}
 ol.tl{{list-style:none;margin:14px 0;padding:0}}
-.tl-e{{border-left:4px solid var(--faint);margin:0 0 26px;padding:0 0 0 16px}}
+.tl-e{{border-left:6px solid var(--mute);margin:0 0 26px;padding:0 0 0 16px}}
 .tl-e.v-good{{border-left-color:var(--sepal)}}
-.tl-e.v-bad{{border-left-color:var(--oxblood);
+.tl-e.v-bad{{border-left-color:var(--oxdark);
 background:linear-gradient(to right,{OXBLOOD}0D,transparent 60%)}}
-.tl-e.v-pending{{border-left-color:var(--amber)}}
-.tl-meta{{color:var(--faint);font-size:12px;margin-bottom:2px}}
-.tl-meta .tl-id{{color:var(--rblue);margin-left:8px}}
-.tl-call{{font-family:{SERIF};font-size:18.5px;line-height:1.4;
+.tl-e.v-pending{{border-left-color:var(--amberdk)}}
+.tl-meta{{color:var(--mute);font-size:13px;margin-bottom:2px}}
+.tl-meta .tl-id{{color:var(--rblue);margin-left:8px;font-weight:600}}
+.tl-call{{font-family:{SERIF};font-size:18px;font-weight:600;line-height:1.4;
 margin:0 0 6px;max-width:58ch}}
-.tl-call .tl-what{{color:var(--faint)}}
-.tl-line{{margin:3px 0;color:var(--ink);font-size:12.5px;max-width:80ch}}
-.lab{{color:var(--faint);display:inline-block;min-width:7ch}}
-.tl-measured .lab,.tl-implies .lab{{min-width:7ch}}
-/* 2 tree */
-.tree ul{{list-style:none;margin:0;padding:0 0 0 24px;
-border-left:2px solid var(--ink)}}
+.tl-e.v-bad .tl-call{{color:var(--oxdark)}}
+.tl-call .tl-what{{color:var(--mute);font-weight:400}}
+.tl-line{{margin:3px 0;color:var(--ink);font-size:13px;max-width:80ch}}
+.lab{{color:var(--mute);display:inline-block;min-width:7ch}}
+/* 2 tree — rails and elbows carry state (spark tree_treatment) */
+.tree ul{{list-style:none;margin:0;padding:0 0 2px 28px;
+border-left:3px solid var(--ink)}}
 .tree ul.tree-root{{padding:0;border-left:none}}
-.tree li{{margin:9px 0;position:relative}}
-.tree ul li:before{{content:"";position:absolute;left:-24px;top:15px;
-width:18px;border-top:2px solid var(--ink)}}
-.tree ul li.n-killed-row:before{{border-top-style:dashed;
-border-top-color:{OXBLOOD}88}}
+.tree li{{margin:10px 0;position:relative}}
+.tree ul li:before{{content:"";position:absolute;left:-28px;top:17px;
+width:25px;border-top:3px solid var(--ink)}}
+.tree ul li.edge-killed:before{{border-top-style:dashed;
+border-top-color:var(--oxdark)}}
+.tree ul li.edge-gate:before{{border-top-style:dashed;
+border-top-color:var(--amberdk)}}
+.tree ul li.edge-run:before{{border-top-color:var(--sepal)}}
+.tree ul.st-killed{{border-left-color:{OXBLOOD}AA;border-left-style:dashed}}
+.tree ul.st-gate{{border-left-color:var(--amberdk);border-left-style:dashed}}
+.tree ul.st-run{{border-left-color:var(--sepal)}}
 .node{{display:inline-block;max-width:100%;background:var(--paper);
-border:1px solid var(--ink);border-radius:6px;padding:5px 11px;
-border-left-width:4px;border-left-color:var(--ink)}}
-.node-tag{{display:inline-block;font-size:10.5px;border:1px solid;
-border-radius:8px;padding:0 6px;margin-right:8px;vertical-align:1px}}
-.node-label{{font-weight:600;font-size:12.5px}}
-.node-note{{display:block;color:var(--faint);font-size:12px;margin-top:2px;
+border:2px solid var(--ink);border-radius:6px;padding:5px 11px;
+border-left-width:5px;border-left-color:var(--ink)}}
+.node-tag{{display:inline-block;font-size:11px;border:2px solid;
+border-radius:8px;padding:0 6px;margin-right:8px;vertical-align:1px;
+font-weight:600}}
+.node-label{{font-weight:700;font-size:13px}}
+.node-note{{display:block;color:var(--mute);font-size:12.5px;margin-top:2px;
 max-width:74ch}}
 .n-win{{border-left-color:var(--sepal)}}
 .n-win .node-tag{{color:var(--sepal);border-color:var(--sepal)}}
-.n-killed{{border-style:dashed;border-color:{OXBLOOD}AA;
-border-left-style:dashed;border-left-color:{OXBLOOD}AA;background:{OXBLOOD}08}}
-.n-killed .node-tag{{color:var(--oxblood);border-color:{OXBLOOD}AA}}
+.n-killed{{border-style:dashed;border-color:{OXBLOOD}CC;
+border-left-style:dashed;border-left-color:{OXBLOOD}CC;background:{OXBLOOD}08}}
+.n-killed .node-tag{{color:var(--oxdark);border-color:{OXBLOOD}CC}}
 .n-killed .node-label{{text-decoration:line-through;
 text-decoration-color:{OXBLOOD}CC;text-decoration-thickness:1px}}
-.n-killed .node-note{{color:{OXBLOOD}99}}
-.node-x{{color:var(--oxblood);font-weight:700;margin-right:6px}}
-.n-gate{{border-style:double;border-width:3px;border-color:var(--amber)}}
-.n-gate .node-tag{{color:var(--amber);border-color:var(--amber)}}
+.n-killed .node-note{{color:var(--oxdark)}}
+.node-x{{color:var(--oxdark);font-weight:700;margin-right:6px}}
+.n-gate{{border-style:double;border-width:4px;border-color:var(--amberdk)}}
+.n-gate .node-tag{{color:var(--amberdk);border-color:var(--amberdk)}}
 .n-run{{border-left-color:var(--rblue)}}
 .n-run .node-tag{{color:var(--rblue);border-color:var(--rblue)}}
 .n-run .node-label{{font-weight:700}}
-.n-parked .node-tag,.n-proposed .node-tag{{color:var(--amber);
-border-color:{AMBER}AA}}
-.n-blocked{{border-color:{INK}66;border-left-color:{INK}66}}
-.n-blocked .node-tag{{color:var(--oxblood);border-color:{INK}66}}
-/* 3 queue lists */
-.qlist{{list-style:none;margin:6px 0 16px;padding:0}}
-.qlist li{{display:flex;gap:10px;flex-wrap:wrap;padding:5px 0;
-border-bottom:1px solid var(--hair);font-size:12.5px}}
-.q-id{{color:var(--rblue);flex:0 0 7ch}}
-.q-item{{flex:1 1 40%}}
-.q-why{{color:var(--faint);flex:1 1 100%;padding-left:0}}
-@media (min-width:760px){{.q-why{{flex:1 1 30%;padding-left:0}}}}
-/* 4 glossary */
+.n-parked .node-tag,.n-proposed .node-tag{{color:var(--amberdk);
+border-color:#7A5400AA}}
+.n-blocked{{border-color:{INK}77;border-left-color:{INK}77}}
+.n-blocked .node-tag{{color:var(--oxdark);border-color:{INK}77}}
+/* 3 queue — status is structure: left rule + status word (spark) */
+.qlist{{list-style:none;margin:6px 0 18px;padding:0}}
+.qlist li{{padding:8px 0 8px 12px;font-size:13px;
+border-left:6px solid var(--ink)}}
+.qlist li.st-run{{border-left-color:var(--sepal)}}
+.qlist li.st-park{{border-left-color:var(--amberdk)}}
+.qlist li.st-prop{{border-left-style:dashed;border-left-color:var(--ink)}}
+.q-status{{font-weight:700;margin-right:8px}}
+.st-run .q-status{{color:var(--sepal)}}
+.st-park .q-status{{color:var(--amberdk)}}
+.st-prop .q-status{{color:var(--ink)}}
+.q-id{{color:var(--rblue);font-weight:600;margin-right:8px}}
+.q-item{{font-weight:600}}
+.q-why{{color:var(--mute)}}
+/* 4 glossary — the term is the strongest text in its row (spark) */
 dl.gl{{margin:8px 0}}
-.gl-e{{border-left:2px solid var(--rule);padding:2px 0 6px 13px;margin:0 0 13px}}
-.gl-e dt{{font-weight:600;font-size:13px}}
-.gl-rows{{color:var(--faint);font-size:11.5px;font-weight:400;margin-left:10px}}
-.gl-e dd{{margin:2px 0 0}}
-.rex{{margin:6px 0 4px;min-width:0}}
+.gl-e{{border-left:2px solid var(--rule);padding:8px 0 10px 14px;margin:0 0 6px}}
+.gl-e dt{{font-weight:700;font-size:15px;color:var(--ink)}}
+.gl-e dt code{{background:none;padding:0;font-size:15px}}
+.gl-rows{{color:var(--mute);font-size:13px;font-weight:400;margin-left:12px}}
+.gl-e dd{{margin:4px 0 0;font-family:{SERIF};font-size:14px;line-height:1.5}}
+.rex{{margin:4px 0 12px;min-width:0;font-size:13px}}
 /* 5 inventory */
 .inv3{{display:flex;flex-wrap:wrap;gap:22px}}
 .inv3 section{{flex:1 1 300px;min-width:0}}
 .inv-scroll{{overflow-x:auto;-webkit-overflow-scrolling:touch}}
 @media (max-width:480px){{
- .tree ul{{padding-left:16px}}
- .tree ul li:before{{left:-16px;width:12px}}}}
+ .tree ul{{padding-left:18px}}
+ .tree ul li:before{{left:-18px;width:14px}}}}
 /* footer */
-.foot{{margin-top:46px;border-top:2px solid var(--ink);padding-top:8px}}
+.foot{{margin-top:46px;border-top:3px solid var(--ink);padding-top:8px}}
 .foot ul{{margin:6px 0 16px;padding-left:18px}}
-.foot li{{margin:5px 0;font-size:12.5px}}
+.foot li{{margin:5px 0;font-size:13px}}
 """
 
 JS = """
