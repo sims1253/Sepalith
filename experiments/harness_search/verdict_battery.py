@@ -25,6 +25,7 @@ from eval_scenarios import load_heldout, validator_verdict      # noqa: E402
 from harness_config import (DEFAULT_CONFIG, DEFAULT_TEXTS,      # noqa: E402
                             validate_config, stops_for)
 from render import render_scenario, build_scoped_prompt          # noqa: E402
+import render as R                                                # noqa: E402
 from scorer import predict, parse_prediction, _p95               # noqa: E402
 import methods                                                     # noqa: E402
 import server as S                                                 # noqa: E402

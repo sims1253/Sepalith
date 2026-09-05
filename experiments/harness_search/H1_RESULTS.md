@@ -2,9 +2,10 @@
 
 Queue: `docs/EXPERIMENT-QUEUE.md` §3 H1. Runbook:
 `docs/research/2026-09-04-whale-harness-weight-plan.md` (§1 rig, §2 H1).
-Run: 2026-09-05 (started 2026-09-04T23:26+02). Agent: zcode-h1-harness.
-Status: RUNNING — this file is finalized at verdict time; sections marked
-**[PENDING]** fill from `results/`.
+Run: 2026-09-04T23:26+02 → 2026-09-05T16:45+02 (~17.3h wall incl. ~5h of
+CPU contention from co-running batteries). Agent: zcode-h1-harness.
+Weights FROZEN: `sft_v7_minicpm5-Q8_0.gguf` (the banked v7-class serving
+GGUF; no B-α winner exists yet — swap per plan §1.2 when it does).
 
 ## 1. Rig (experiments/harness_search/)
 
@@ -122,7 +123,16 @@ Baseline (seed, shared by all arms): exact 0.6797, noop 0.7444, p95 17.75s.
 |---|---|---|---|---|---|
 | (a) hill | 39 | 17 | **0.6875** | max_tokens 640 + pin 2000 + cap 8000 | +0.78pp |
 | (b) population | 39 | 31 | **0.6875** | max_tokens 640 (fp 67d21c11f63c) | +0.78pp |
-| (c) GEPA | **[PENDING]** | | | | |
+| (c) GEPA | 39 | 27 | **0.7109** | instr+checklist text (fp a9e95f441d5b) | +3.12pp |
+
+GEPA's winning texts (guard-passing, noop BELOW baseline at 0.7222):
+
+    instruction_line: Copy the current code verbatim except for the single
+      intended edit: one line changed stays one line, a multi-line call keeps
+      its exact original breaks, and every added argument appears with a value.
+    checklist_line: Check: number of output lines equals the replacement
+      length, no call is collapsed onto one line, indentation matches,
+      nothing follows the final line.
 
 Search-phase observations (honest method behavior):
 
@@ -142,11 +152,77 @@ Search-phase observations (honest method behavior):
 - Hill kept its lineage discipline: best only moved baseline → 0.6836
   (iter 2, max_tokens 640) → 0.6875 (iter 6); regressions reverted.
 
-## 4. Held-out verdict battery **[PENDING]**
+## 4. Held-out verdict battery (NEVER D_harness)
 
-## 5. Budget accounting (rollouts + proposer compute) **[PENDING]**
+eval_scenarios held-out selection (255 rows: 150 rename / 18 pipe / 67
+format / 15 doc_sync / 5 na_rm) + FULL noopFP set (258 cases: 204 scored
+a/c/d + 54 judgment b) + intent suite (44 rows, glm-5.3 judged, anchors
+all OK), one rollout per row at temp 0, all four configs measured in one
+uncontended window (16:00-16:45).
 
-## 6. Verdict (pre-registered) **[PENDING]**
+| config | scenarios valid | scenarios exact-str | noopFP (a/c/d) | p95 vs default | intent mean (frac 2) |
+|---|---|---|---|---|---|
+| default (shipped) | **0.8353** | 0.7529 | 0.6961 | 1.00× | 1.5455 (0.7045) |
+| hill (mt640+pin2000+cap8000) | **0.8353** | 0.7490 | 0.7010 (+0.5pp) | 1.326× | **1.5682 (0.7273)** |
+| population (mt640) | **0.8353** | 0.7490 | 0.7010 (+0.5pp) | 1.240× | 1.5455 (0.7045) |
+| gepa (best texts) | 0.8275 | 0.7333 | 0.6912 (−0.5pp) | 1.340× | 1.2955 (0.5909) |
+
+Per-family held-out valid: default = hill = population on every family
+(rename .9467 / pipe 1.0 / format .7313 / doc_sync .000 / na_rm .80).
+GEPA: rename UP .9467→.9733 but pipe DOWN 1.0→.8333 and format DOWN
+.7313→.6866 — the prompt text overfits the carve's family mix.
+
+Latency note: search-time guardrails all passed under their measurement
+regimes; the unified-window re-measurement puts the 640-token configs at
+1.24–1.34× (the 1.3× line is regime-sensitive; none of them buy held-out
+quality anyway).
+
+## 5. Budget accounting (matched at 39 candidates/arm = 19,968 row-rollout-pairs each; fresh server completions + proposer tokens reported per the plan)
+
+| arm | fresh completions | archive reuses | proposer calls (ok) | proposer tokens (p+c, reasoning) | wall |
+|---|---|---|---|---|---|
+| baseline (shared) | 752 | 0 | — | — | 19 min ×2 regimes |
+| (a) hill | 3,896 | 12,560 | 14 | 28,562 (25,148+3,414; 178 reasoning) | ~2.1h |
+| (b) population | 2,804 | 13,106 | 15 | 31,234 (27,273+3,961; 350) | ~35 min |
+| (c) gepa | 29,016 | 0 | 17 (incl. 2 repairs) | 33,833 (27,909+5,924; 613) | ~12.7h |
+| verdict battery | ~4,700 singles | — | — | intent judge ~180 glm calls | ~1.7h |
+
+All proposer traffic went to zai glm-5.3 (fallback spark never fired).
+Cache-reuse semantics: a (prompt, stops, max_tokens) key's completions are
+charged once to the first arm/candidate needing it; later hits are archive
+reuses. GEPA has zero reuses by construction (every candidate re-renders
+every prompt).
+
+## 6. Verdict (pre-registered rule: winner = best held-out exact at matched rollouts + proposer tokens)
+
+1. **Method winner for the H2/H4 slot: (a) hill-climb, by tie-break.**
+   hill and population tie exactly on the primary metric (held-out
+   validator-exact 0.8353 each, identical per-family); GEPA is −0.78pp.
+   Tie-breaks: hill spent 8.5% fewer proposer tokens (28,562 vs 31,234),
+   and won the intent leg (frac_2 0.7273 vs 0.7045, +4.5pp over
+   population/default). Margins vs (c): +0.78pp scenarios valid, +0.25
+   intent mean, +13.6pp intent frac_2, and 16% fewer proposer tokens than
+   GEPA.
+2. **The flat branch fires: no method beat the DEFAULT config held-out**
+   (hill 0.0pp, population 0.0pp, GEPA −0.78pp). Per the plan's
+   pre-registration: the extension-only space is already near-optimal for
+   this frozen θ (v7-class weights) ⇒ H2's regime question is moot until
+   weights move; record and skip to H3-S0 / H5-S0 / H4-decision points.
+3. **(c) did NOT win ⇒ the space is NOT prompt-bound.** No scope shrink,
+   no code-search-line closure on this evidence. The FST-analogue control
+   lost held-out DESPITE winning the harness set by +3.12pp — the
+   D_harness→held-out transfer gap is the headline methodological finding:
+   a 256-row harness set at temp-0 with the 2-rollout agreement rule STILL
+   lets prompt-text search overfit (train +3.12pp inverts to −0.78pp).
+   Consequence for H4: any harness-phase winner must be confirmed on a
+   held-out slice (or a larger D_harness) before adoption; the rig already
+   supports this (`verdict_battery.py`).
+4. **Recommended H2/H4 config**: harness baseline UNCHANGED (shipped
+   defaults; max_tokens stays 320 — 640 buys nothing held-out and sits at
+   the 1.24–1.34× latency line). Search machinery for any future harness
+   phase: single-lineage hill-climb, M=3, ~13 iters, guardrails as built.
+   Treat max_tokens/stops as θ-coupled: re-search only after weight moves
+   (B-α winner, H4 SFT steps).
 
 ## 7. Confounds and limitations (known before reading §6)
 
@@ -171,3 +247,12 @@ Search-phase observations (honest method behavior):
    backend) proposes different candidates per run; the arm comparison is
    one draw per method, not an average over restarts (WHALE-style
    replication would need multi-seed arms — out of H1 budget).
+5. **Contention windows**: co-running batteries (B13 chain) contended the
+   CPU for ~5h mid-run; exact scores are unaffected (text-deterministic)
+   but latency measurements span different contention regimes. The §4
+   battery re-measured all four configs in ONE uncontended window, which
+   is the authoritative latency column.
+6. **Held-out family mix ≠ D_harness mix** (rename is 59% of held-out vs
+   20% of D_harness; doc_sync 15 vs 51 rows): the D_harness→held-out gap
+   partially reflects mix differences, not only overfitting. Both effects
+   argue the same direction (adopt nothing without held-out confirmation).
