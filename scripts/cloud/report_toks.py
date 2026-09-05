@@ -19,11 +19,11 @@ MODEL = os.environ.get("MODEL", "Qwen/Qwen3.5-0.8B-Base")
 DATA = Path(os.environ.get("DATA_DIR", "/root/data/sft_v7"))
 LOG = Path(os.environ.get("TRAIN_LOG", "/tmp/train.log")).read_text(errors="ignore")
 
-m = re.search(r"train_runtime['\"]?\s*[:=]\s*([\d.]+)", LOG)
+m = re.search(r"train_runtime['\"]?\s*[:=]\s*['\"]?([\d.]+)", LOG)
 runtime = float(m.group(1)) if m else None
-m2 = re.search(r"train_steps_per_second['\"]?\s*[:=]\s*([\d.]+)", LOG)
+m2 = re.search(r"train_steps_per_second['\"]?\s*[:=]\s*['\"]?([\d.]+)", LOG)
 sps = float(m2.group(1)) if m2 else None
-losses = re.findall(r"'loss': ([\d.]+)", LOG)
+losses = re.findall(r"'loss': '?([\d.]+)", LOG)
 
 ds = load_dataset("json", data_files=str(DATA / "train.jsonl"))["train"]
 sel = ds.shuffle(seed=42).select(range(min(48000, len(ds))))
