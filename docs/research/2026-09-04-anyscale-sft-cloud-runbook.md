@@ -177,6 +177,37 @@ A2 rental price); keep ≈ $85 reserved for the production fine-tune
 - nproc reads 1 in the job cgroup (cosmetic, matches smoke-#1 note).
 - Anyscale H100 availability/pricing on this cloud not verified.
 
+## Parked: TU2 training arms (b4 base) — staged, DO NOT FIRE
+
+Three small SFTs firing only on the queue manager's explicit FIRE (after
+B13's verdict resolves the base pick). Everything staged 2026-09-05:
+
+- **Base weights**: `experiments/models/qwen3.5-2b-base-text-hf` (3.6 GB —
+  measured; NOT 4-5 GB: single 3.5 GB safetensors + tokenizer/configs) →
+  private model repo `scholzmx/sepalith-base-qwen35-2b-text` (7 files).
+  Cloud MODEL env points at that repo id; HF_TOKEN handles the private pull.
+- **Arm datasets** (all tiny): `experiments/synthetic-data/results/tu2_arms/`
+  → private dataset repo `scholzmx/sepalith-tu2-arms`. NOTE per
+  TU2_RESULTS.md the arms are **matched at 113 train rows each** (not
+  624×2+113 — the 624 is the pooled teacher-solve pool; all three train
+  files are 113 rows by the composition-matching rule, seed 3407), shared
+  307-row eval verbatim. (a)=raw draw incl. unsolved, (b)=solve-gated GT,
+  (c)=teacher renderings; (b)/(c) share identical prompts.
+- **Templates**: `scripts/cloud/job_tu2_{a,b,c}.yaml.example` — same
+  sft_entry.sh path, STEPS templated (`<STEPS>` — FIRE order sets it),
+  LORA_REPO push-back ON (`RUN_NAME` tu2_a_raw / tu2_b_solve_gated /
+  tu2_c_teacher_target), `EXPECT_TRAINABLE=33638400` (CPU-audited against
+  the local b4 dir: 186 modules attach = GDN in/out×18 + MLP×24 + dense
+  q/k/v/o×6 = 1.79% of 1,881,825,088 — full hybrid coverage, B3 rule live).
+- **Per-arm cost** (A10G; ~3.2 s/it for the 2B; node ≈ ready-in ~6 min incl.
+  3.6 GB model pull + CPU audit + JIT): STEPS=300 → ~21 min ≈ **$0.35**;
+  600 → ~37 min ≈ **$0.62**; 1000 → ~58 min ≈ **$0.97**. All three arms at
+  600 steps ≈ **$1.9**. (113 rows × bs16 = 7 steps/epoch — STEPS is the
+  epoch dial here.)
+- If the base flips to LFM per B13's verdict: datasets stay valid; restage
+  weights via `push_hf_folder.py <lfm-dir> <repo> model .` + retarget
+  MODEL/SFT_TARGETS/EXPECT_TRAINABLE in the templates (audit first).
+
 ## Parked: B7 cloud rung (LFM2.5-1.2B-Base) — one command, DO NOT FIRE
 
 Gated on B13's verdict (queue rule: B13-pass ⇒ B7 optional GO;
