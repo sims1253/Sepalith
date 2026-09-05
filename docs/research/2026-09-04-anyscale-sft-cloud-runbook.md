@@ -211,11 +211,15 @@ B13's verdict resolves the base pick). Everything staged 2026-09-05:
   weights via `push_hf_folder.py <lfm-dir> <repo> model .` + retarget
   MODEL/SFT_TARGETS/EXPECT_TRAINABLE in the templates (audit first).
 
-## Parked: B7 cloud rung (LFM2.5-1.2B-Base) — one command, DO NOT FIRE
+## Parked: B7 cloud rung (LFM2.5-1.2B-Base) — STOOD DOWN PERMANENTLY
 
-Gated on B13's verdict (queue rule: B13-pass ⇒ B7 optional GO;
-B13-fail-with-verified-attachment ⇒ B7 retired unspent). Everything is
-pre-flighted:
+B13 verdict (2026-09-05): quality tie but product-eliminated (noopFP 99% vs
+field ~59%, decode ~half the bar). Base pick resolved to GDN/Qwen3.5
+b4-config. Per the order rule, B7 is **left unspent** — both LFM failures
+are class-shaped (format fragility + decode), a 1.2B sibling fixes neither.
+The prep below stays parked at zero cost (no restage, no fire).
+
+Pre-flighted (for the record):
 
 - weights: hub pull `LiquidAI/LFM2.5-1.2B-Base` (Lfm2ForCausalLM, 1.17B,
   bf16 ~2.4 GB; native arch in transformers 5.5, unsloth-official LoRA path)
