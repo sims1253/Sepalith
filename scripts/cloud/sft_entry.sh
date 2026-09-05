@@ -20,8 +20,10 @@ STEPS="${STEPS:-60}"
 DATA_DIR="${DATA_DIR:-/tmp/data/sft_v7}"
 OUT_DIR="${OUT_DIR:-/tmp/run_sft}"
 TRAIN_LOG="${TRAIN_LOG:-/tmp/train.log}"
-# export for the python helpers (report_toks re-reads DATA_DIR/MODEL/STEPS)
+# export for the python helpers (report_toks re-reads DATA_DIR/MODEL/STEPS;
+# SFT_DATA_REPO/SFT_DATA_FILES parameterize pull_data.py for non-sft_v7 sets)
 export MODEL STEPS DATA_DIR OUT_DIR TRAIN_LOG
+export SFT_DATA_REPO="${SFT_DATA_REPO:-scholzmx/sepalith-sft-v7}"
 
 ts "node probe: $(nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader)"
 ts "python $(python -V 2>&1) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print $2}')GiB user=$(whoami) HOME=$HOME"
