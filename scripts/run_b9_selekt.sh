@@ -59,10 +59,24 @@ mkdir -p "$RUNS"
 log "=== B9 SELEKT CHAIN START (stem $STEM, base $MODEL, data $DATA, keep 0.5) ==="
 
 # ---------- 1) TRAIN (b4 recipe + SELEKT token-grad-imp label masking) ----------
-rm -rf "$RUNS/$STEM"
+# RESUME_MODE=auto (ops fallback path): keep the run dir, pass "auto" as the
+# 5th arg (resume from newest checkpoint), skip the rm — used with
+# SFT_PD_BATCH=2/SFT_GRAD_ACCUM=8 pre-OOM fallbacks (B13/B8b precedent:
+# identical optimizer math at effective 16; effective-batch composition is
+# preserved — same 16-row groups, split 2x8 instead of 4x4).
+RESUME_ARG=""
+if [ "${RESUME_MODE:-}" = "auto" ]; then
+  RESUME_ARG="auto"
+  log "B9 RESUME MODE: keeping $RUNS/$STEM, resuming from newest checkpoint"
+else
+  rm -rf "$RUNS/$STEM"
+fi
 log "B9 TRAIN start (expected trainable $EXPECT_TRAINEE; probe ~25m then ~1h45m train)"
-taskset -c 16-23 .venv-sft/bin/python experiments/training/train_sft.py \
-  "$MODEL" 3000 "$DATA" "$RUNS/$STEM" "" >> "$TRAIN_LOG" 2>&1 &
+# -u: unbuffered stdout — launch-1 postmortem (01:25): unsloth's "Trainable
+# parameters" line sat in the block buffer past the gate-A window while the
+# flush=True [selekt:*] lines appeared; -u makes every line land in order.
+taskset -c 16-23 .venv-sft/bin/python -u experiments/training/train_sft.py \
+  "$MODEL" 3000 "$DATA" "$RUNS/$STEM" "$RESUME_ARG" >> "$TRAIN_LOG" 2>&1 &
 TPID=$!
 log "B9 trainer pid $TPID (log $TRAIN_LOG)"
 

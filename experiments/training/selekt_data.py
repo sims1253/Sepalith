@@ -248,8 +248,15 @@ def probe_importances(model: Callable[..., Any],
 
     NOTE (pre-registered): the caller puts the model in eval() and restores
     train() afterwards; the probe state is the b4 init state (base +
-    zero-init LoRA — see module docstring point 3).
+    zero-init LoRA — see module docstring point 3). Inputs are built on the
+    model's own parameter device (the probe calls the model DIRECTLY — no
+    accelerate device placement like the Trainer loop) and forwarded with
+    use_cache=False (probe never decodes; KV cache would be pure VRAM waste).
     """
+    try:
+        device = next(model.parameters()).device
+    except (StopIteration, AttributeError):
+        device = torch.device("cpu")
     order = sorted(range(len(rows)), key=lambda i: (-len(rows[i]), i))
     imps: list[Optional[np.ndarray]] = [None] * len(rows)
     batch: list[int] = []
@@ -260,14 +267,16 @@ def probe_importances(model: Callable[..., Any],
         if not batch:
             return 0
         max_len = batch_max
-        ids = torch.full((len(batch), max_len), pad_token_id, dtype=torch.long)
-        att = torch.zeros((len(batch), max_len), dtype=torch.long)
+        ids = torch.full((len(batch), max_len), pad_token_id, dtype=torch.long,
+                         device=device)
+        att = torch.zeros((len(batch), max_len), dtype=torch.long, device=device)
         for bi, ri in enumerate(batch):
             r = rows[ri]
-            ids[bi, :len(r)] = torch.tensor(r, dtype=torch.long)
+            ids[bi, :len(r)] = torch.tensor(r, dtype=torch.long, device=device)
             att[bi, :len(r)] = 1
         with torch.no_grad():
-            logits = model(input_ids=ids, attention_mask=att).logits
+            logits = model(input_ids=ids, attention_mask=att,
+                           use_cache=False).logits
         for bi, ri in enumerate(batch):
             n = len(rows[ri])
             imps[ri] = importances_from_logits(logits[bi, :n, :], rows[ri])

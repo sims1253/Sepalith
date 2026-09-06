@@ -469,3 +469,138 @@ soup).
   `/mnt/h/sepalith/runs/b8b_stacked_base_merged`; per-example rows
   `experiments/eval/results_{scenarios,noop_fp}_b8b_stacked_qwen35_2b.jsonl`
   + `results_b8b_stacked_qwen35_2b_midtyping{,_suffix}.jsonl`.
+
+## B9 — SeleKT gradient-importance masking A/B (b9_select_qwen35_2b) — 2026-09-06
+
+Arm = the BANKED b4_qwen35_2b recipe VERBATIM (3000 steps, LoRA r32/a64
+lr 2e-4 cosine, seq 2048, seed 3407, 48k-row shuffle(42) cap, same
+SFT_TARGETS, unsloth-with-knobs, base experiments/models/qwen3.5-2b-base-text-hf,
+sft_v7) with SELEKT_MASK=1 — token-space gradient-importance label masking
+(the queue brief's mechanism; the runbook's per-module-restriction variant is
+NOT what ran — pre-registered deviation in the module header). Labels are the
+ONLY delta vs b4: same 48k rows, same order, same token streams (TRL-legacy
++eos, truncate 2048 — equivalence verified on the real corpus), FULL 96-module
+attachment. Paired control = the BANKED b4 rung. Runner zcode-b9-select;
+chain `scripts/run_b9_selekt.sh`; instrument
+`experiments/training/selekt_data.py` (+28 CPU tests; 31 B8 regression green).
+
+### Exact adaptation implemented (pre-registered, selekt_data.py header)
+I_t = ||softmax(z_{t-1}) - onehot(y_t)||_2 — the closed-form per-token loss
+gradient w.r.t. final-layer logits, from forward-only passes at the b4 INIT
+state (base + zero-init LoRA = the base's exact forward; deviation from the
+runbook's "merged winner" probe point registered: importance for what
+training should see is measured where training starts). Single global
+keep-threshold tau = the (1-keep) quantile over all 23,535,359 train target
+positions; keep-50% default; keep iff I_t >= tau; >=1 kept token per row
+(liveness; zero used); pos-0 never a target; eval masked at the same tau.
+
+### Instrument health — ALL PASS
+- attachment: Trainable 21,823,488 of 1,903,648,576 (1.15%) — the exact
+  b4/b8/b8b line (gate A).
+- probe: 48,000 train + 500 eval rows forwarded in 19m (4096-token budget,
+  right-padded, use_cache=False); I_t stats mean 0.466 / median 0.296 /
+  p05 0.0003 / p95 1.191 / **max 1.4142 = sqrt(2)** — the confident-and-wrong
+  bound, closed form verified against brute-force ||p-onehot|| on random
+  logits (CPU test) and by the distribution's exact endpoint.
+- tau = 0.2963 (= the median, by construction at keep-50%); kept
+  11,767,681/23,535,359 = 50.0%, ZERO fallback rows; eval kept 53.6%.
+- **determinism: the pre-OOM relaunch reran the probe BIT-EXACT** (same tau,
+  same kept counts, 1147s vs 1154s wall) — the instrument is reproducible
+  across processes.
+- losses finite throughout: train 3.018 -> 1.888; eval (masked-label
+  surface — NOT b4-comparable) 2.094 -> 2.054 -> 2.018 -> 2.003 -> 1.994 ->
+  1.990, monotone. First loss ABOVE b4's 1.56 as pre-registered reasoning
+  predicted (the masked loss scores only the surprising half of tokens).
+- probe artifact: runs/b9_select_qwen35_2b/selekt_probe.json (audit/resume).
+- smoke generation: coherent zeta2-format R (the edit-block contract held,
+  unlike B8's FIM-marker soup).
+
+### Battery (Q8_0, b10453 CPU convention, flock, pinned 16-23; box contended
+by foreign CPU-class agents through most legs; raw outputs persisted)
+
+| metric | b9 SeleKT keep-50% | b4 (control) | b8b (stacked) | granite (b5) |
+|---|---|---|---|---|
+| valid % | **72.2** | 85.1 | 83.1 | 87.8 |
+| exact % | **47.1** | 76.5 | 74.9 | 78.0 |
+| noopFP % (all / scored n=204) | 67.8 / 59.3 | 67.4 / 58.8 | 67.4 / 58.8 | 68.2 / 59.8 |
+| format_propagation valid / exact | 34.3 / 25.4 | 71.6 / 52.2 | 71.6 / 56.7 | 79.1 / — |
+| midtyping raw / suffix (18, join PASS) | 0.020 / 0.009 | 0.006 / 0.033 | 0.005 / 0.011 | floor |
+| tg128 t/s (Q8, t8 CPU) | 3.37 ± 3.39 (heavily contended) | 19.21 | 15.09 (contended) | 10.65 |
+
+McNemar vs b4 (n=255 paired, exact binomial): valid 72.2 vs 85.1, discord
+34/1 **p=2.1e-9 — significant loss**; exact 47.1 vs 76.5, discord 77/2
+**p=1.0e-15 — decisive loss** (29.4pp below the control, ~30x outside the
+pre-registered 1.0pp no-harm band). Per-family: rename 94.0/56.0 vs
+97.3/91.3; pipe 88.9/88.9 vs 100/100; na_rm 80/60 vs 100/100 (n=5);
+format_propagation 34.3/25.4 vs 71.6/52.2 (discord 25/0 — hardest hit);
+doc_sync 0/15 tied (the universal construction problem). noopFP paired
+McNemar: **0/1 discord p=1 — restraint row-identical to b4** (fourth
+consecutive arm where the no-op decision boundary is insensitive to
+everything above the format-collapse threshold). Midtyping join PASS 18/18
+both alignments, line_f1 floor both arms.
+
+### Failure shape (read the predictions)
+Of the 77 b4-exact rows the arm lost, **50 remain VALID** — the zeta2
+edit-block contract is intact (only 8 shape failures; 63 transform, i.e.
+valid R but not the exact required edit; e.g. plausible-but-wrong rename
+content). The model learned the FORMAT (high-I tokens: markers, boundaries)
+but under-fits exact CONTENT reproduction — the masked-out 50% at init is
+dominated by tokens the BASE already predicts well (generic R, the
+must-be-exactly-right edit content), which therefore never enter the loss.
+format_propagation — the generalization axis — collapses hardest (25/0
+discord): it needs the full-signal training b4 gets.
+
+### Verdict — NO-ADOPT (pre-registered rule: no-edit-harm FAILED first)
+1. **The pre-registered adopt rule fired its first clause**: exact within
+   1.0pp of b4 is required; measured -29.4pp (p=1e-15). Retention
+   improvement is moot (noopFP identical, midtyping floor both).
+2. **Mechanism**: token-space gradient-importance masking at keep-50%
+   halves the effective loss signal at fixed steps; the edit task's
+   exact-match requirement punishes exactly that. The SeleKT anti-forgetting
+   rationale did not buy anything measurable — restraint (the one retention
+   proxy with headroom in the field) was already saturated at b4's level and
+   stays row-identical. The failure mode the arm guarded against (naive SFT
+   loses edit ability, Qwen2.5-Coder 48.1->36.7) never manifested in the b4
+   rung's battery in the first place.
+3. **Production plan §2 masking policy: PLAIN SFT (default OFF) — the slot
+   resolves closed.** B8 replacement catastrophic, B8b stacking barren, B9
+   token-space masking a significant quality loss: every masked-loss variant
+   tried on this base is dominated by the unmasked b4 recipe at matched
+   budget. The runbook's per-MODULE restriction variant (probe->top-K
+   modules) remains untested but is now bracketed by three negatives on the
+   masking family; reopening needs a mechanism argument, not a variant.
+4. Winner track status: with B9 closed, the b4-config winner track's open
+   items are done (base picked by elimination B13; midtrain slot measured
+   DROP B8/B8b; masking policy measured PLAIN B9). Remaining production-track
+   deltas live in their own rows (PFT1 full-FT, W16 serve work).
+
+### Ops notes
+- Launch-1 postmortem: probe fed CPU tensors to the cuda model (direct model
+  call — no accelerate placement) + unsloth's "Trainable parameters" line
+  sat in the block buffer past gate A (B8b's buffered-stdout class). Fixed:
+  inputs placed on the model's param device + use_cache=False; chain python
+  -u; regression test added. ~2 min GPU lost.
+- **Pre-OEM/pre-OOM fallback EXECUTED as briefed**: training-era long-row
+  VRAM spikes to 27.8GB under bs4 (baseline 21.8 = b4's 21.6 class; B8b
+  reached 32.1 on the same data/seed) -> killed my own trainer at the
+  ckpt-1000 boundary (pids logged in gpu.md), relaunched
+  SFT_PD_BATCH=2/SFT_GRAD_ACCUM=8 (identical optimizer math at effective
+  16; the 16-row effective-batch composition is preserved — split 2x8
+  instead of 4x4; B13 precedent) + RESUME_MODE=auto. 36 steps redone.
+  Post-fallback VRAM baseline 19.7GB flat (spikes gone; allocator watermark
+  later grew to 31.8GB reserved without OOM — noted, no co-tenant compute
+  PIDs visible).
+- CPU contention: foreign CPU-class agents (x5-s0 replay ~8 cores,
+  quietwindow S1 rigs, two llama-servers) starved the GPU trainer to 10%
+  util / 6.6s/it for a window; a board pin request (03:34) recovered pace to
+  3.4s/it. Battery legs contended throughout (noopFP rows 10-78s; bench
+  3.37±3.39 t/s vs 19.21 quiet — B13-precedent contention caveat, not a
+  product axis).
+- Wall: 01:23 claim -> 06:34 chain end (train 2h34m incl. restart + 19m
+  probe x2; battery 1h31m contended). Card released 05:05 post-export.
+- Artifacts: `experiments/models/b9_select_qwen35_2b-Q8_0.gguf` (2.01GB);
+  runs/logs `/mnt/h/sepalith/runs/b9_select_{qwen35_2b,chain.log}*` incl.
+  `selekt_probe.json`, vram log, checkpoints; eval rows
+  `experiments/eval/results_{scenarios,noop_fp}_b9_select_qwen35_2b.jsonl` +
+  `results_b9_select_qwen35_2b_midtyping{,_suffix}.jsonl` (mirrored to
+  `/mnt/h/sepalith/runs/b9_select_qwen35_2b/eval_rows/`).

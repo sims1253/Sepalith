@@ -252,6 +252,9 @@ class _StubModel:
         self.vocab = vocab
         self.calls: list[tuple] = []
 
+    def parameters(self):
+        return iter(())  # no params -> probe falls back to CPU tensors
+
     def _row_logits(self, ids: list[int]) -> torch.Tensor:
         L = len(ids)
         logits = torch.full((L, self.vocab), 0.25)
@@ -259,7 +262,8 @@ class _StubModel:
             logits[i, t % self.vocab] += 3.0 + 0.01 * i
         return logits
 
-    def __call__(self, input_ids=None, attention_mask=None):
+    def __call__(self, input_ids=None, attention_mask=None, use_cache=False):
+        assert use_cache is False  # probe must not build KV caches
         self.calls.append((tuple(input_ids.shape), attention_mask.sum(dim=1).tolist()))
         B, L = input_ids.shape
         rows = [self._row_logits(input_ids[b][:L].tolist()) for b in range(B)]
@@ -267,6 +271,18 @@ class _StubModel:
         for b, r in enumerate(rows):
             logits[b, :r.shape[0], :] = r
         return SimpleNamespace(logits=logits)
+
+
+class _ParamStubModel(_StubModel):
+    """Stub with a registered parameter — probe must place inputs on ITS
+    device and dtype-path (structural check for the direct-call path)."""
+
+    def __init__(self, vocab: int):
+        super().__init__(vocab)
+        self._p = torch.nn.Parameter(torch.zeros(1))
+
+    def parameters(self):
+        return iter([self._p])
 
 
 def test_probe_preserves_order_and_matches_direct():
@@ -298,6 +314,17 @@ def test_probe_single_token_rows_get_zero_importance():
                             progress_every=0, log=lambda s: None)
     assert list(got[0]) == [0.0]
     assert len(got[1]) == 2
+
+
+def test_probe_places_inputs_on_model_device_and_disables_cache():
+    # regression for the first launch failure: the probe calls the model
+    # DIRECTLY (no accelerate placement) — inputs must be built on the
+    # model's own parameter device; use_cache must be False
+    stub = _ParamStubModel(32)
+    rows = [[1, 2, 3], [4, 5, 6, 7]]
+    got = probe_importances(stub, rows, token_budget=8,
+                            progress_every=0, log=lambda s: None)
+    assert all(len(g) == len(r) for g, r in zip(got, rows))  # ran clean
 
 
 def test_probe_end_to_end_threshold_flow():
