@@ -119,6 +119,8 @@ ENV = {
     "RUN_NAME": "${RUN_NAME}",
     "UNSLOTH_COMPILE_DISABLE": "1",
     "UNSLOTH_DISABLE_AUTO_PADDING_FREE": "1",
+    # T4 (Turing) has no bf16 — fp16 channel on GPU arms (train_sft SFT_FP16)
+    "SFT_FP16": "$([ "$MODE" = "gpu" ] && echo 1 || echo 0)",
 }
 os.environ.update(ENV)
 # Kaggle auto-extracted the repo tarball into the dataset mount. THREE
