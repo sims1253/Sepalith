@@ -14,20 +14,21 @@ _REPRESENTATIONS = {"input_embeddings", "kv_cache"}
 _DTYPES = {"float16", "bfloat16", "float32"}
 
 
-def _identity(value: Any, name: str) -> None:
+def _identity(value: object, name: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{name} requires a nonempty identity")
+    return value
 
 
-def _relative_file(value: Any, name: str) -> None:
-    _identity(value, name)
+def _relative_file(value: object, name: str) -> None:
+    value = _identity(value, name)
     path = PurePosixPath(value)
     if (path.is_absolute() or "\\" in value or ":" in value
             or any(part in {"", ".", ".."} for part in value.split("/"))):
         raise ValueError(f"{name} requires a normalized relative POSIX file path")
 
 
-def _digest(value: Any, name: str) -> None:
+def _digest(value: object, name: str) -> None:
     if not isinstance(value, str) or _SHA256.fullmatch(value) is None:
         raise ValueError(f"{name} requires a lowercase SHA256 hex digest")
 

@@ -1,3 +1,4 @@
+import { parseCompletion } from "./completion";
 import { loadManifest, provision, sharedCacheRoot } from "./runtime";
 import * as vscode from "vscode";
 import * as fs from "node:fs";
@@ -116,8 +117,8 @@ async function postCompletion(port: number, prompt: string, maxTokens: number, s
     signal,
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = (await res.json()) as { choices?: { text?: string }[]; usage?: { completion_tokens?: number } };
-  return { text: data.choices?.[0]?.text ?? "", completionTokens: data.usage?.completion_tokens ?? 0 };
+  const data = parseCompletion(await res.json());
+  return data;
 }
 
 async function portAnswers(port: number): Promise<boolean> {
@@ -129,8 +130,8 @@ async function portAnswers(port: number): Promise<boolean> {
   }
 }
 
-function errText(e: unknown): string {
-  return e instanceof Error ? e.message : String(e);
+function errText(cause: unknown): string {
+  return cause instanceof Error ? cause.message : String(cause);
 }
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -542,7 +543,6 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
       try {
         const t0 = Date.now();
         const r = await postCompletion(c.port, prompt, 320, STOPS, controller.signal);
-        lastRaw = r.text;
         lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
         channel.appendLine(`response: ${lastStats}`);
         if (c.debugMode) {
@@ -594,12 +594,12 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     return promise;
   }
 
-  handleDidShowCompletionItem(item: vscode.InlineCompletionItem): void {
+  handleDidShowCompletionItem(_item: vscode.InlineCompletionItem): void {
     SepalithProvider.shown++;
     renderStatusBar();
   }
 
-  handleDidPartiallyAcceptCompletionItem(item: vscode.InlineCompletionItem): void {
+  handleDidPartiallyAcceptCompletionItem(_item: vscode.InlineCompletionItem): void {
     SepalithProvider.accepted++;
     // post-accept cooldown (user rule 2026-08-23): no new suggestion until
     // the user's NEXT button press. The accepted text lands as a document
@@ -619,7 +619,6 @@ let statusBarItem: vscode.StatusBarItem;
 let requestLog: RequestLog;
 let lastStats = "no requests yet";
 let lastPrompt = "(no request yet)";
-let lastRaw = "(no response yet)";
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 // post-accept cooldown state: true between an accept event and the
 // acceptance's own document-change event (which gets swallowed so it

@@ -82,6 +82,8 @@ export interface RawSymbol {
   children: RawSymbol[];
 }
 
+// The LSP boundary validates each accessed field below. Unknown values must stay unknown here.
+// oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null;
 }

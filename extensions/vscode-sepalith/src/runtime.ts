@@ -4,6 +4,7 @@ import * as path from 'node:path';
 import * as os from 'node:os';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { Readable, Transform } from 'node:stream';
+import type { ReadableStream } from 'node:stream/web';
 import { pipeline } from 'node:stream/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -51,6 +52,8 @@ function validAsset(a: Asset): void {
       (a.executable !== undefined && typeof a.executable !== 'boolean') || !httpsUrl(a.url)) throw new Error('Invalid release asset');
 }
 export function validateManifest(value: unknown): Manifest {
+  // SAFETY: this provisional view never escapes until all manifest fields pass the checks below.
+  // keysOnly rejects null and primitives before any property access.
   const m = value as Manifest;
   if (!keysOnly(m, ['schema', 'build', 'model', 'bundles', 'modelProfile']) || m.schema !== 1 || !safeName(m.build) || !Array.isArray(m.bundles) || !m.bundles.length)
     throw new Error('Invalid runtime manifest');
@@ -145,7 +148,8 @@ export async function install(a: Asset, directory: string, signal: AbortSignal, 
       if (bytes > a.bytes) return callback(new Error(`Asset exceeds expected size: ${a.name}`));
       hash.update(chunk); callback(null, chunk);
     }});
-    await pipeline(Readable.fromWeb(response.body as never), verify, createWriteStream(temporary, { flags: 'wx' }), { signal: bounded });
+    // SAFETY: fetch supplies a WHATWG byte stream; Node 18's DOM and node:stream/web declarations differ.
+    await pipeline(Readable.fromWeb(response.body as ReadableStream<Uint8Array>), verify, createWriteStream(temporary, { flags: 'wx' }), { signal: bounded });
     if (bytes !== a.bytes || hash.digest('hex') !== a.sha256) throw new Error(`Checksum or size mismatch: ${a.name}`);
     if (a.executable && process.platform !== 'win32') await fs.chmod(temporary, 0o755);
     bounded.throwIfAborted();
@@ -171,7 +175,7 @@ export async function loadManifest(url: string, storage: string, signal: AbortSi
       return cached;
     } catch (error) {
       signal.throwIfAborted();
-      if ((error as NodeJS.ErrnoException).code !== 'ENOENT')
+      if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT'))
         throw new Error('Cached manifest is invalid; explicitly refresh the release manifest');
     }
   }

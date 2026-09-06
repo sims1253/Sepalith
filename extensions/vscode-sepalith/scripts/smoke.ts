@@ -1,3 +1,4 @@
+import { parseCompletion } from "../src/completion.ts";
 // Smoke test for the extension plumbing (SPEC.md acceptance item 3).
 // Starts the sidecar per the spec's sidecar contract, waits for readiness
 // (rule 2), renders one zeta2 prompt for a tiny synthetic R buffer, prints
@@ -63,7 +64,8 @@ async function ready(): Promise<boolean> {
 async function main(): Promise<void> {
   let child: ChildProcess | null = null;
   let done = false;
-  const rings = { out: [] as string[], err: [] as string[] };
+  interface OutputRings { out: string[]; err: string[] }
+  const rings: OutputRings = { out: [], err: [] };
   // rule 3: kill ONLY the tracked child pid — never pkill by name
   const killOurs = () => {
     if (child && child.exitCode === null) child.kill("SIGTERM");
@@ -133,10 +135,10 @@ async function main(): Promise<void> {
   const t1 = Date.now();
   const res = await post({ prompt, max_tokens: 640, temperature: 0, stop: [">>>>>>> UPDATED"], stream: false }, 300_000);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = (await res.json()) as { choices?: { text?: string }[]; usage?: { completion_tokens?: number } };
+  const data = parseCompletion(await res.json());
   const latency = Date.now() - t1;
-  const text = data.choices?.[0]?.text ?? "";
-  console.log(`smoke: latency ${latency} ms, completion tokens ${data.usage?.completion_tokens ?? "?"}`);
+  const text = data.text;
+  console.log(`smoke: latency ${latency} ms, completion tokens ${data.completionTokens}`);
   const lines = parsePrediction(text);
   console.log(`smoke: parsed suggestion (${lines.length} lines):`);
   console.log(lines.map((l) => "  > " + l).join("\n") || "  (empty — zero score is fine, crashes are not)");

@@ -15,7 +15,6 @@ import {
   scopeFromSymbols,
   MAX_OUTLINE_CHARS,
   type OutlineEntry,
-  type RawSymbol,
   type ScopeInfo,
 } from "../src/context_build.ts";
 

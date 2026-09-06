@@ -66,7 +66,7 @@ async function testManifestCache() {
   const signal = new AbortController().signal;
   const url = 'https://example.com/release.json';
   let calls = 0;
-  let value: unknown = manifest;
+  let value = manifest;
   const response = (body: unknown) => {
     const r = new Response(JSON.stringify(body));
     Object.defineProperty(r, 'url', {value: url}); return r;

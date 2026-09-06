@@ -1,0 +1,8 @@
+[project]
+name = "sepalith-quality"
+version = "0.0.0"
+requires-python = ">=3.10"
+dependencies = ["ruff==0.16.1", "ty==0.0.65"]
+
+[tool.uv]
+package = false

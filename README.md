@@ -9,6 +9,8 @@ edit-prediction provider).
 Status: active research and editor integration development. Start with the
 [project map](docs/PROJECT-MAP.md) for workflows, environments and checks.
 Local design notes in `DESIGN.md` are not distributed with a clone.
+See [code quality checks](docs/CODE-QUALITY.md) for TypeScript linting, the Python
+package gate, and the optional research audit.
 
 ## Components
 

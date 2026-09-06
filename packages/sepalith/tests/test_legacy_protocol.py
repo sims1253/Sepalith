@@ -23,14 +23,14 @@ def legacy_renderer():
     namespace = {"CURSOR2": ast.literal_eval(constants[0])}
     # Execute only these two function definitions. Module imports, CLI, server
     # code and model evaluation do not enter this namespace or run.
-    module = ast.Module(body=functions, type_ignores=[])
+    module = ast.Module(body=list(functions), type_ignores=[])
     exec(compile(module, str(path), "exec"), namespace)
     return namespace["render_zeta2"]
 
 
 class LegacyProtocolTests(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         cls.legacy = staticmethod(legacy_renderer())
 
     def test_baseline_fixtures_match_actual_legacy_bytes(self):

@@ -10,7 +10,8 @@ SCHEMA_VERSION = "sepalith.edit-context.v1"
 RENDERER_VERSION = "zeta2-v1"
 
 
-def _json_copy(value: Any) -> Any:
+# JSON metadata is intentionally open; this recursive validator rejects non-JSON values.
+def _json_copy(value: object) -> Any:  # noqa: ANN401
     """Check JSON types without silently converting keys, tuples or NaN."""
     if value is None or type(value) in (str, bool, int):
         return value
@@ -23,7 +24,7 @@ def _json_copy(value: Any) -> Any:
     raise ValueError("Metadata must contain JSON values with finite numbers and string keys")
 
 
-def _text(value: Any, name: str) -> None:
+def _text(value: object, name: str) -> None:
     if not isinstance(value, str):
         raise ValueError(f"{name} must be a string")
 
@@ -40,7 +41,7 @@ def _record(extra: Mapping[str, Any], fields: dict[str, Any]) -> dict[str, Any]:
     return {**_json_copy(dict(extra)), **fields}
 
 
-def _metadata(value: Any) -> dict[str, Any]:
+def _metadata(value: object) -> dict[str, Any]:
     if not isinstance(value, Mapping):
         raise ValueError("metadata must be a mapping")
     return _json_copy(dict(value))

@@ -16,7 +16,7 @@ def main():
            'TRANSFORMERS_OFFLINE': '1', 'PYTHONDONTWRITEBYTECODE': '1'}
     npm = 'npm.cmd' if os.name == 'nt' else 'npm'
     commands = [[npm, '--prefix', str(extension), 'run', name]
-                for name in ('compile', 'bundle', 'check-context', 'check-runtime', 'check-process')]
+                for name in ('lint', 'test:lint', 'compile', 'bundle', 'check-context', 'check-completion', 'check-runtime', 'check-process')]
     commands.extend([
         [sys.executable, '-m', 'unittest', 'discover', '-s', 'scripts/packaging', '-p', 'test_*.py', '-v'],
         [sys.executable, 'experiments/training/test_quant_export.py'],
