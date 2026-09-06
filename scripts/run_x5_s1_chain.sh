@@ -38,44 +38,49 @@ EOF
   [ $? -eq 0 ] || { echo "GATE FAIL $tag — chain aborting"; exit 1; }
 }
 
-nlines() { wc -l < "$1" 2>/dev/null || echo 0; }
+nlines() { if [ -f "$1" ]; then wc -l < "$1"; else echo 0; fi; }
 LA=experiments/training/poc_diff/logs_x5_s1_a.jsonl
 LB=experiments/training/poc_diff/logs_x5_s1_b.jsonl
+CK=/tmp/poc_diff/ckpt_x5_s1
 
-echo "--- stage A smoke $(date -Is)"
-N=$(nlines $LA)
-PY experiments.training.poc_diff.x5_s1_train --stage A \
-  --resume /mnt/h/sepalith/runs/poc_diff/md_final.pt --smoke --no-gate
-gate A-smoke $LA "$N" 10
+if [ ! -f "$CK/x5_s1_a_final.pt" ]; then
+  echo "--- stage A smoke $(date -Is)"
+  N=$(nlines $LA)
+  PY experiments.training.poc_diff.x5_s1_train --stage A \
+    --resume /mnt/h/sepalith/runs/poc_diff/md_final.pt --smoke --no-gate
+  gate A-smoke $LA "$N" 10
 
-echo "--- stage A full (400 steps) $(date -Is)"
-N=$(nlines $LA)
-PY experiments.training.poc_diff.x5_s1_train --stage A --steps 400 --compile \
-  --resume /mnt/h/sepalith/runs/poc_diff/md_final.pt
-gate A-full $LA "$N" 400
+  echo "--- stage A full (400 steps) $(date -Is)"
+  N=$(nlines $LA)
+  PY experiments.training.poc_diff.x5_s1_train --stage A --steps 400 --compile \
+    --resume /mnt/h/sepalith/runs/poc_diff/md_final.pt
+  gate A-full $LA "$N" 400
+else
+  echo "--- stage A already banked ($CK/x5_s1_a_final.pt) — skipping"
+fi
 
 echo "--- stage B smoke $(date -Is)"
 N=$(nlines $LB)
 PY experiments.training.poc_diff.x5_s1_train --stage B \
-  --resume /tmp/poc_diff/ckpt/x5_s1_a_final.pt --smoke --no-gate
+  --resume $CK/x5_s1_a_final.pt --smoke --no-gate
 gate B-smoke $LB "$N" 10
 
 echo "--- stage B full (260 steps) $(date -Is)"
 N=$(nlines $LB)
 PY experiments.training.poc_diff.x5_s1_train --stage B --steps 260 --compile \
-  --resume /tmp/poc_diff/ckpt/x5_s1_a_final.pt
+  --resume $CK/x5_s1_a_final.pt
 gate B-full $LB "$N" 260
 
 echo "--- eval legs $(date -Is)"
 PY experiments.training.poc_diff.x5_s1_eval run \
-  --ckpt /tmp/poc_diff/ckpt/x5_s1_b_final.pt \
+  --ckpt $CK/x5_s1_b_final.pt \
   --out experiments/training/poc_diff/results_x5_s1
 [ -f experiments/training/poc_diff/results_x5_s1/eval_x5_s1.json ] \
   || { echo "GATE FAIL eval — chain aborting"; exit 1; }
 
 echo "--- residual replay $(date -Is)"
 PY experiments.training.poc_diff.x5_s1_eval resid --resume \
-  --ckpt /tmp/poc_diff/ckpt/x5_s1_b_final.pt \
+  --ckpt $CK/x5_s1_b_final.pt \
   --out experiments/training/poc_diff/results_x5_s1
 [ -f experiments/training/poc_diff/results_x5_s1/analysis_x5_s1.json ] \
   || { echo "GATE FAIL resid — chain aborting"; exit 1; }

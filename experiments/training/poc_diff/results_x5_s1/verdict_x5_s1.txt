@@ -1,0 +1,12 @@
+# X5-S1 verdict computation (pre-registered bars)
+
+best NFE<=128 : s8k2 exact=0.0787 vs anchor 0.0741 -> PASS
+  51-256 lift-off: 0.0000 -> zero
+  11-50: 0.1250 vs 0.110 -> no regression
+best NFE<=64  : s8k2 exact=0.0787 vs 32-anchor 0.0694
+best NFE>=256 : s32k8 exact=0.0833 lift=0.0000
+VERDICT: NO-WIN
+
+equal-NFE ladder (exact): NFE 64: s64k1=0.0741 s32k2=0.0741 s16k4=0.0694 s8k8=0.0648
+NFE 128: s32k4=0.0741 s16k8=0.0741
+NFE 256: s32k8=0.0833
