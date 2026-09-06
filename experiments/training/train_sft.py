@@ -75,8 +75,13 @@ RESUME = sys.argv[5] if len(sys.argv) > 5 else ""
 # shared-machine guard
 gpu = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used",
                       "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
-util, mem = [x.strip().split()[0] for x in gpu.split(",")]
-print(f"GPU check: util={util}% mem={mem}MiB", flush=True)
+# first GPU line only (multi-GPU hosts — Kaggle T4x2 — emit one line per
+# device and the old whole-output split unpacked 3 values; zcode-kaggle-intel)
+first_gpu = gpu.splitlines()[0] if gpu else "0 %, 0 MiB"
+util, mem = [x.strip().split()[0] for x in first_gpu.split(",")]
+print(f"GPU check: util={util}% mem={mem}MiB"
+      + (f" ({len(gpu.splitlines())} GPUs, guarded on #0)" if len(gpu.splitlines()) > 1 else ""),
+      flush=True)
 if float(mem) > 8000:
     raise SystemExit("GPU busy (>8GB used) — aborting per shared-machine policy")
 
