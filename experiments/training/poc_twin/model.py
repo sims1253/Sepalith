@@ -56,15 +56,16 @@ def chunked_eval_ce(h, w, targets, chunk=4096, initial_sum=0.0):
         raise ValueError("chunk must be positive")
     h2 = h.reshape(-1, h.size(-1))
     t2 = targets.reshape(-1)
-    if h2.size(0) != t2.numel():
+    n = t2.numel()
+    if h2.size(0) != n:
         raise ValueError("hidden states and targets must have equal token counts")
     total = initial_sum
-    for c in range(0, t2.numel(), chunk):
+    for c in range(0, n, chunk):
         logits = F.linear(h2[c:c + chunk], w)
         total += F.cross_entropy(logits.float(), t2[c:c + chunk],
                                  reduction="sum").item()
         del logits
-    return total, t2.numel()
+    return total, n
 
 
 def rope_cache(max_seq: int, head_dim: int, theta: float, device, dtype=torch.float32):
