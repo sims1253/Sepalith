@@ -159,7 +159,9 @@ the correctness signal does not need deep schedules to separate.
   (`run` replays; `analyze` emits `analysis_steps{K}.json`)
 - Per-row residual data: `results_x5_s0/residuals_steps64.jsonl`
   (216 rows: per-step r_all/r_open, conf trajectory, k*, committed
-  ids, texts, metrics) + `residuals_steps32.jsonl` + analysis JSONs
+  ids, texts, metrics) + `residuals_steps32.jsonl` + analysis JSONs;
+  repo `*.jsonl` is gitignored, so the per-row data is mirrored to
+  `/mnt/h/sepalith/runs/poc_diff/x5_s0/` (B8b repo+NAS convention)
 - Log: `/tmp/x5_s0_full.log`; board posts 2026-09-06T01:52 → verdict
 - Run metadata: taskset 8-15 → moved to 16-23 at T+12min (measured
   quietest; 8-15 went battery-saturated), nice 19, 8 torch threads,
