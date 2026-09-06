@@ -20,6 +20,12 @@ CASES = [
 ]
 
 
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        # Even an HTTPS redirect can cross origins. Never forward proxy tokens.
+        return None
+
+
 def failure_code(error):
     if isinstance(error, urllib.error.HTTPError): return error.code
     # Kaggle SDK translates these responses into ValueError and removes the
@@ -56,7 +62,7 @@ def main():
             request = urllib.request.Request(base + path, data=data, headers={
                 'Authorization': 'Bearer ' + config['MODEL_PROXY_API_KEY'],
                 'Content-Type': 'application/json'})
-            with urllib.request.urlopen(request, timeout=60) as response:
+            with urllib.request.build_opener(NoRedirect()).open(request, timeout=60) as response:
                 return json.load(response)
         listing = call('/models')
         models = [m['id'] for m in listing['data']]

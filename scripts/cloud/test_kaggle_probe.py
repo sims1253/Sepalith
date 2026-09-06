@@ -7,6 +7,14 @@ import kaggle_job as jobs
 
 
 class Probes(unittest.TestCase):
+    def test_proxy_redirects_never_forward_credentials(self):
+        from probe_benchmark_proxy import NoRedirect
+        import urllib.request
+        handler = NoRedirect()
+        request = urllib.request.Request('https://mp.kaggle.net/models', headers={'Authorization': 'Bearer fake'})
+        for destination in ['https://other.example/collect', 'http://mp.kaggle.net/collect', 'https://mp.kaggle.net/new']:
+            self.assertIsNone(handler.redirect_request(request, None, 302, 'redirect', {}, destination))
+
     def test_interrupted_profile_preparation_cannot_submit_default_smoke(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / 'run'
