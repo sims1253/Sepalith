@@ -44,6 +44,16 @@ def paired_bootstrap_ci(
         raise ValueError("paired deltas must be finite numbers")
     rng = random.Random(seed)
     n = len(deltas)
+    # Only ordinary, uniformly typed constants can bypass resampling. Keep
+    # validation and seed construction above, and preserve fsum rounding.
+    if type(deltas) in (list, tuple) and type(alpha) in (int, float):
+        first = deltas[0]
+        value_type = type(first)
+        if value_type in (int, float, bool) and all(
+            type(value) is value_type and value == first for value in deltas
+        ):
+            mean = math.fsum(deltas) / n
+            return mean, mean
     stats = []
     for _ in range(n_boot):
         sample = (deltas[rng.randrange(n)] for _ in range(n))
