@@ -80,6 +80,10 @@ exports.run = async function () {
     assert.equal(SepalithProvider.accepted, accepted + 1);
     assert.equal(count, initialCount + 1, 'accept must not schedule another suggestion');
     await config.update('debounceMs', 0, vscode.ConfigurationTarget.Global);
+    const beforeManual = count;
+    await vscode.commands.executeCommand('sepalith.suggest');
+    await until(() => count > beforeManual);
+    await vscode.commands.executeCommand('editor.action.inlineSuggest.hide');
     assert.equal(doc.lineAt(2).text, 'answer <- sum(values)');
     await vscode.commands.executeCommand('undo');
     await until(() => doc.getText() === original);

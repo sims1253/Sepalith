@@ -706,6 +706,7 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     // manual suggest: bypasses the debounce entirely
     vscode.commands.registerCommand("sepalith.suggest", () => {
+      acceptedDocument = null; // an explicit user request ends the cooldown
       if (debounceTimer !== null) {
         clearTimeout(debounceTimer);
         debounceTimer = null;

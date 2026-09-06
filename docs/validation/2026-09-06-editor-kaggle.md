@@ -15,7 +15,7 @@ Further tests cover cancellation, same-prompt retry after failure, rejecting a l
 response after editing, actual replacement/accept/undo commands, acceptance cooldown,
 switching files while a response is pending, preserving an external server, and
 reconnecting after stop. The cooldown assertion first failed with an extra request;
-recording the accepted document version now suppresses that request until an edit.
+recording the accepted document version now suppresses that request until an edit or an explicit Suggest command.
 
 Both version runs passed all eight reported groups. `scripts/check_product.py`
 also passed lint, TypeScript compilation, bundling, context/completion/runtime/process

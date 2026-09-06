@@ -41,15 +41,15 @@
     },
     {
       "original_path": "editor-kaggle-20260906/sepalith-editor-tests.log",
-      "sha256": "1255e85d94456560308f40c5fc8ca32af27a14fb1ab516417c0feaf1a43b1731",
+      "sha256": "491606514ed0a2c3410392444a6f1f54a15fe721b0b727379767998a25d98c96",
       "bytes": 1925,
-      "object": "sha256/1255e85d94456560308f40c5fc8ca32af27a14fb1ab516417c0feaf1a43b1731/sepalith-editor-tests.log"
+      "object": "sha256/491606514ed0a2c3410392444a6f1f54a15fe721b0b727379767998a25d98c96/sepalith-editor-tests.log"
     },
     {
       "original_path": "editor-kaggle-20260906/sepalith-editor-minimum.log",
-      "sha256": "436d5c265d1dbe5aa26c9f32153adf222c04ecbd76a5d70e92245d15813da9ff",
-      "bytes": 2250,
-      "object": "sha256/436d5c265d1dbe5aa26c9f32153adf222c04ecbd76a5d70e92245d15813da9ff/sepalith-editor-minimum.log"
+      "sha256": "36f02f8252b352ce11a9c4fe0ee340edd85778cf98d7d3aa93abdfd94120d244",
+      "bytes": 2009,
+      "object": "sha256/36f02f8252b352ce11a9c4fe0ee340edd85778cf98d7d3aa93abdfd94120d244/sepalith-editor-minimum.log"
     },
     {
       "original_path": "editor-kaggle-20260906/sepalith-product-readiness.log",
