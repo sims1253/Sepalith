@@ -162,17 +162,15 @@ if ("--full-ft" in _ARGV) or (os.environ.get("FULL_FT", "") == "1"):
 from unsloth import FastLanguageModel
 import torch
 
-# SFT_FP16 (2026-09-06, zcode-kaggle-intel): T4-compat channel for cloud
-# arms — Turing (sm75) has no bf16 and transformers hard-rejects bf16=True
-# on pre-Ampere ("You need Ampere+ GPU"). ON = fp16 weights at load +
-# fp16=True in the LoRA SFTConfig (HF Trainer auto GradScaler; T4 fp16
-# tensor cores). OFF = banked bf16 recipe byte-identical. Sweep arms are
-# internally consistent (all fp16 on Kaggle); the anchor arm doubles as
-# the cross-platform normalization line.
+# SFT_FP16 (2026-09-06, zcode-kaggle-intel): no-bf16-GPU (T4/Turing) compat
+# channel for cloud arms. transformers hard-rejects bf16=True on pre-Ampere,
+# and unsloth VETOES fp16 for the qwen3_5 GDN arch ("Using float16 precision
+# won't work! Using float32") — so ON = both precision flags OFF and unsloth
+# auto-selects fp32 training (weights fp32; measured T4 s/it decides sweep
+# sizing). OFF = banked bf16 recipe byte-identical.
 _FP16 = os.environ.get("SFT_FP16", "0") == "1"
 model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name=MODEL, max_seq_length=2048,
-    dtype=torch.float16 if _FP16 else None, load_in_4bit=False)
+    model_name=MODEL, max_seq_length=2048, dtype=None, load_in_4bit=False)
 # SFT_TARGETS env: hybrid archs name their projections differently
 # (LFM2: out_proj/in_proj/w1-3; Qwen3.5 GDN: in_proj_qkv/a/b/z/out_proj).
 # Default = the llama-arch recipe, unchanged for the MiniCPM rungs.
@@ -371,7 +369,7 @@ trainer = SFTTrainer(
         logging_steps=20, eval_strategy="steps", eval_steps=500,
         save_strategy="steps", save_steps=1000, save_total_limit=2,
         output_dir=str(OUT),
-        bf16=not _FP16, fp16=_FP16, seed=3407, report_to="none", dataset_text_field="text",
+        bf16=not _FP16, fp16=False, seed=3407, report_to="none", dataset_text_field="text",
         max_seq_length=2048, **midtrain_kwargs),
 )
 resume_from = None
