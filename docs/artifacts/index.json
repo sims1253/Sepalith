@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "bucket": "scholzmx/sepalith-raw",
+  "private": true,
+  "source_commit": "6b597058047aebbb70669e5042c4607be76898a0",
+  "artifacts": [
+    {
+      "original_path": "comms/board.md",
+      "sha256": "24959666388e7b639b3382e0bb79967bb117276d47a7c86e361c6c0fcc753311",
+      "bytes": 320572,
+      "object": "sha256/24959666388e7b639b3382e0bb79967bb117276d47a7c86e361c6c0fcc753311/board.md",
+      "retained_in_git": true
+    },
+    {
+      "original_path": "experiments/training/poc_diff/logs/logs_md.jsonl",
+      "sha256": "b58f4bca6b9174ce49cc00a5e7589aeb43493662b446272c0fef8bd349708124",
+      "bytes": 15271,
+      "object": "sha256/b58f4bca6b9174ce49cc00a5e7589aeb43493662b446272c0fef8bd349708124/logs_md.jsonl",
+      "retained_in_git": false
+    },
+    {
+      "original_path": "experiments/latent_memory/resource-observation.json",
+      "sha256": "49110f14a0fc29e7d02aee7cfc1ebcaf0e8b2f236041391bc59e3fdd5aa90f3c",
+      "bytes": 1857,
+      "object": "sha256/49110f14a0fc29e7d02aee7cfc1ebcaf0e8b2f236041391bc59e3fdd5aa90f3c/resource-observation.json",
+      "retained_in_git": false
+    }
+  ]
+}
