@@ -101,3 +101,7 @@ Exercises the pure scope-context helpers in `src/context_build.ts` (outline
 formatting and caps, the brace-scan enclosing-function fallback, pin/suffix
 truncation, v0.0.6 prompt parity, and the stable-prefix property) under
 plain node — no vscode import.
+
+## Editor integration checks
+
+See [editor acceptance](../../docs/EDITOR-ACCEPTANCE.md) for the isolated extension-host tests and the remaining native release checks.

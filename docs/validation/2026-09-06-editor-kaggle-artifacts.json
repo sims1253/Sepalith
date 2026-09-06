@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "bucket": "scholzmx/sepalith-raw",
+  "private": true,
+  "artifacts": [
+    {
+      "original_path": "editor-kaggle-20260906/kernel.py",
+      "sha256": "fc02d444caae549ab71f550f8cbec216febda29e0bc040ec0cbb8eaa3c4f8ac8",
+      "bytes": 2818,
+      "object": "sha256/fc02d444caae549ab71f550f8cbec216febda29e0bc040ec0cbb8eaa3c4f8ac8/kernel.py"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/kernel-metadata.json",
+      "sha256": "eb4a6c38d55b0ad6d56fa8258876f71a4ff637c4916f7988b075eb7156e09798",
+      "bytes": 351,
+      "object": "sha256/eb4a6c38d55b0ad6d56fa8258876f71a4ff637c4916f7988b075eb7156e09798/kernel-metadata.json"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/receipt.json",
+      "sha256": "de4b5498bfcbb21ea72f8985894c17542c0f07c488e7fe56f3ba557e2c51992c",
+      "bytes": 793,
+      "object": "sha256/de4b5498bfcbb21ea72f8985894c17542c0f07c488e7fe56f3ba557e2c51992c/receipt.json"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/metrics.json",
+      "sha256": "072d354e6c8cd641e153862ff4f91da81f35fef3ca3f7066d1823ddc92db9961",
+      "bytes": 1442,
+      "object": "sha256/072d354e6c8cd641e153862ff4f91da81f35fef3ca3f7066d1823ddc92db9961/metrics.json"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/checkpoint.pt",
+      "sha256": "8c6904e72f9e48a78307c40e9572892f399a5925fab48a925f527bd1a52e6056",
+      "bytes": 1853,
+      "object": "sha256/8c6904e72f9e48a78307c40e9572892f399a5925fab48a925f527bd1a52e6056/checkpoint.pt"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/state.json",
+      "sha256": "9e0c3aa39fe98bdea29dec55a1fd7c5e7867c7e9ddc1e3994e6b06e7be227436",
+      "bytes": 824,
+      "object": "sha256/9e0c3aa39fe98bdea29dec55a1fd7c5e7867c7e9ddc1e3994e6b06e7be227436/state.json"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/sepalith-editor-tests.log",
+      "sha256": "1255e85d94456560308f40c5fc8ca32af27a14fb1ab516417c0feaf1a43b1731",
+      "bytes": 1925,
+      "object": "sha256/1255e85d94456560308f40c5fc8ca32af27a14fb1ab516417c0feaf1a43b1731/sepalith-editor-tests.log"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/sepalith-editor-minimum.log",
+      "sha256": "436d5c265d1dbe5aa26c9f32153adf222c04ecbd76a5d70e92245d15813da9ff",
+      "bytes": 2250,
+      "object": "sha256/436d5c265d1dbe5aa26c9f32153adf222c04ecbd76a5d70e92245d15813da9ff/sepalith-editor-minimum.log"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/sepalith-product-readiness.log",
+      "sha256": "225b060cdb3291da805a00b2ac920b4f9a53edd7594fc429f27286cbb072ee88",
+      "bytes": 5078,
+      "object": "sha256/225b060cdb3291da805a00b2ac920b4f9a53edd7594fc429f27286cbb072ee88/sepalith-product-readiness.log"
+    },
+    {
+      "original_path": "editor-kaggle-20260906/sepalith-kaggle-tests.log",
+      "sha256": "2e121f7b7be2a29474d7bbdc0ea7bf315c24ee51634e18385c7b5a8ed624de39",
+      "bytes": 684,
+      "object": "sha256/2e121f7b7be2a29474d7bbdc0ea7bf315c24ee51634e18385c7b5a8ed624de39/sepalith-kaggle-tests.log"
+    }
+  ]
+}
