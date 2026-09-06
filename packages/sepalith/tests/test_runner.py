@@ -84,6 +84,24 @@ class RunnerTests(unittest.TestCase):
         self.runner.run_next()
         self.assertEqual(2, len(self.runner.plan()["attempts"]))
 
+    def test_each_source_include_must_match(self):
+        with self.assertRaisesRegex(RunnerError, "No Git-visible files.*missing.py"):
+            self.runner.snapshot(self.repo, ["job.py", "missing.py"])
+
+    def test_later_step_cannot_invalidate_recorded_artifact(self):
+        for operation in ("p.write_text('overwritten')", "p.unlink()"):
+            with self.subTest(operation=operation):
+                name = "mutate" if "write_text" in operation else "delete"
+                code = "from pathlib import Path; p=Path('{run}/output.txt'); " + operation
+                steps = [*self.recipe()["steps"],
+                         {"id": "archive", "argv": ["{python}", "-c", code]}]
+                self.runner.enqueue(self.recipe(name, steps=steps))
+                self.runner.resume()
+                self.runner.run_next()
+                state = self.runner.plan()["attempts"][-1]
+                self.assertEqual("failed", state["status"])
+                self.assertIn("Previously verified artifact changed", state["detail"])
+
     def test_missing_artifact_is_not_success(self):
         recipe = self.recipe()
         recipe["steps"][0]["artifacts"] = ["missing.txt"]
