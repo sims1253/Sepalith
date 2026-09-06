@@ -1,5 +1,7 @@
 **Sepalith research audit — first pass, 2026-09-06**
 
+> **2026-09-06 retrospective correction:** The completed [saved-result reanalysis](reanalysis/README.md) separates doc_sync meaning and preservation from canonical reconstruction, reconstructs B8b paired selection, and reports LOC1 any-gold hit, multi-gold recall and parser defects separately. Historical scores and claims below are retained as recorded.
+
 Purpose: identify flawed comparisons, overstated conclusions and useful work to preserve before rebuilding the repository. The user permits replacing every part of the implementation and wants both research and product development supported.
 
 Three reviewers used `gpt-6-astra` at low reasoning effort: production recipe; data/evaluation/RL; alternative architectures. The primary agent reviewed retrieval, serving and benchmark design, and checked the key findings against local source files. This was a read-only audit of documents, representative code and small saved summaries. No experiments, tests, model calls, large corpus scans, queue changes or process controls were performed. External papers and model training cutoffs were not independently verified.

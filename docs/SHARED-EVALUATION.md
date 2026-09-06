@@ -1,5 +1,7 @@
 # Shared paired evaluation
 
+> **2026-09-06 retrospective correction:** The completed [saved-result reanalysis](reanalysis/README.md) separates doc_sync meaning and preservation from canonical reconstruction, reconstructs B8b paired selection, and reports LOC1 any-gold hit, multi-gold recall and parser defects separately. Historical scores and claims below are retained as recorded.
+
 `sepalith.evaluation` owns the numeric part of the historical
 `experiments/eval/paired_significance.py` audit. The historical script retains
 its result-file readers and audit command, and re-exports the numeric functions

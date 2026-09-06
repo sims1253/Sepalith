@@ -17,7 +17,7 @@ are tracked here. Raw prompts, completions, corpora and embeddings remain privat
 |---|---|---|
 | 1 | Adopt a correction | Report doc_sync preservation, coverage, placement and meaning separately. Its current exact metric tests canonical placement as well as wording. Keep exact scores as historical reconstruction scores. |
 | 2 | Adopt a correction | Rename LOC1's historical “recall” to **any-gold hit@k**. Add multi-gold recall and all-gold hit. Qualify its child-state and parser-dependent gold; retract any inference that matching inputs removes absolute product-usefulness bias. |
-| 3 | Run a discriminating experiment | For localization, first build a parser-checked, parent-state set with natural pre-edit queries and complete candidate pools. Compare lexical, released neural and a fixed hybrid before paying for another training recipe. This analysis does not authorize that experiment. |
+| 3 | Run a discriminating experiment | For localization, first build a parser-checked, parent-state set with natural pre-edit queries and complete candidate pools. Compare lexical, released neural and a fixed hybrid before paying for another training recipe. New queries and parent-state embeddings are outside this saved-artifact analysis. |
 | 4 | Run a discriminating experiment | Test B8b's token-preservation selector on new packages, at an explicit two-output cost and with an R syntax check. Do not tune it further on this battery. |
 | 5 | Retain the original decision | Keep B4 over B8b as the default. Keep TU2's original raw-route decision on its measured benchmark: semantic doc_sync rescoring supplies no rescue for its four arms. |
 | 6 | Insufficient evidence | General documentation correctness, an SFT mechanism that erases midtraining, parent-state retrieval performance, and production hybrid latency remain unestablished. |
@@ -393,3 +393,47 @@ four numeric result files match an independent replay byte for byte. Review
 covered privacy, null handling for missing evidence, native parsing, candidate
 identity, selector inputs and grouped uncertainty. The execution hashes are in
 [validation.json](validation.json).
+
+**Follow-up: R parser check of LOC1 gold and parent files**
+
+A bounded second pass uses R 4.6.1's `parse()` on the 128 saved gold chunks and
+54 available parent source files. It never evaluates dataset code. The source
+snapshots and parent SHA256 receipts are checked before parsing. The
+[parser diagnostics](loc1-parser-results.json) publish hashes, counts and gold
+identifiers, not source text. This pass did not inspect a new query set or tune
+fusion or selection policies.
+
+Of 128 gold chunks, 104 parse as exactly one direct named function assignment.
+Sixteen do not parse as standalone source, and eight parse as multiple expressions;
+24 affected chunks span 21 of the 60 queries. A standalone parse failure can mean
+a fragment extracted from valid nested code, not an invalid original file.
+Multiple expressions demonstrate that the candidate boundary includes more than
+the named function. For example, neural-only case `1a7fab8fc4ae` contains eight
+expressions and two function assignments. Lexical-only case `49944459fc6a` fails
+standalone parsing. Both methods can benefit from the defective construction.
+
+All 54 available parent files parse. Among their 102 associated gold names, 74
+are direct top-level function assignments under the recorded names. Fifteen of
+these 54 queries have at least one missing name. Six unavailable parent files
+account for another 26 gold names. The historical heuristic found 78 names across
+all 128 gold units; the R parser finds 74. Neither result rules out nested methods,
+renames, moves or equivalent behavior elsewhere. This checks the recorded
+**top-level function** contract; it does not define corrected semantic gold.
+
+Do not filter the 21 affected queries and call the remaining result confirmatory:
+that would select a subset after seeing outcomes. Keep the original scores and
+use these diagnostics to design a new, independently reviewed parent-state set.
+The recommendation remains to correct metric names and establish sound gold
+before adopting retrieval fusion. No saved-artifact operation can supply missing
+pre-edit queries or parent-state neural rankings.
+
+Reproduce this additional check after the parent-object command above:
+
+```sh
+nice -n 19 python3 scripts/reanalysis/loc1_parser.py --inventory docs/reanalysis/input-inventory.json --snapshot docs/reanalysis/private/inputs --parent-sources docs/reanalysis/private/parent-sources.json --receipts docs/reanalysis/loc1-provenance.json --out docs/reanalysis/private/loc1-parser-results.json
+```
+
+The focused suite now has 26 passing tests, including real R grammar tests for
+nested callbacks, absorbed following functions, incomplete fragments, and parsing
+without evaluation. These five tests explicitly skip if Rscript is unavailable;
+the parser analysis itself requires Rscript and fails if it is unavailable.
