@@ -59,12 +59,14 @@ def mdlm_loss(h, x, m, t, span_len, head_w, chunk=4096):
     tgt = x[idx[:, 0], idx[:, 1]]
     w_pos = (1.0 / t.clamp(min=T_MIN))[idx[:, 0]]
     n = h_sel.size(0)
-    total = h_sel.new_zeros((), dtype=torch.float32)
+    per_pos_chunks = []
     for c in range(0, n, chunk):
-        total = total + checkpoint(
+        per_pos_chunks.append(checkpoint(
             _ce_chunk_weighted, h_sel[c:c + chunk], head_w,
-            tgt[c:c + chunk], w_pos[c:c + chunk], use_reentrant=False)
-    per_pos = total  # sum_i w_i * CE_i
+            tgt[c:c + chunk], w_pos[c:c + chunk], use_reentrant=False))
+    # Each chunk returns one weighted loss per masked position, not a sum.
+    # Preserve their order so every value maps to its own example below.
+    per_pos = torch.cat(per_pos_chunks)
     # per-example (1/t)-weighted sum, normalized by span length S_i
     bidx = idx[:, 0]
     ex_sum = torch.zeros(h.size(0), device=h.device, dtype=torch.float32)
