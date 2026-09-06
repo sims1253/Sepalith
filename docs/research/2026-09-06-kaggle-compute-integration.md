@@ -190,3 +190,26 @@ likely repeat on TPU with less community precedent to lean on.)
 - Concurrent-GPU-session cap unmeasured (irrelevant while GDN-blocked).
 - Benchmarks inference credits: unspent, unusable for training; flagged for
   a future LLM-judge eval leg.
+
+## APPENDIX (2026-09-06 15:41) — LR sweep FIRED on Anyscale: DONE, 4/4 SUCCESS
+
+Executed the queue FIRE (~15:00 local): 4 arms, g5.xlarge, package @83b43b2
+(includes the SFT_EVAL_STEPS=150 readout knob). Jobs: prodjob_ttgi…(5e-5),
+y44u…(1e-4), 2w4m…(2e-4), qckk…(4e-4). All four: audit exact 21,823,488,
+train to 300 clean, adapters pushed + hub-verified at
+`scholzmx/sepalith-lora/{lr_sweep_5e5,lr_sweep_1e4,lr_sweep_2e4,lr_sweep_4e4}/final_lora`.
+
+| arm | eval@150 | eval@300 | train@300 | wall (entry) |
+|-----|----------|----------|-----------|--------------|
+| 5e-5  | 1.255 | 1.249 | 1.114 | T+1904s |
+| 1e-4  | 1.244 | 1.237 | 1.098 | T+1880s |
+| 2e-4  | 1.238 | 1.226 | 1.084 | T+1877s |
+| 4e-4  | 1.244 | 1.222 | 1.076 | T+1902s |
+
+No divergence anywhere (kill rule never fired). Cost $2.26 total (~$0.57/arm
+— above the $1.6 estimate: 2 eval passes + setup; ~$2.8 of the $10 trial
+cap now used). Verdict sketch: banked 2e-4 anchor confirmed (4e-4 eval-ties
+it at this horizon, 5e-5 clearly under-learns); production LR unchanged.
+Ops traps hit + fixed: zsh no-word-split in the monitor loop (use ${=var} or
+python); YAML double-quoted scalars eat `\b`/`\d` — single-quote regex env
+values in anyscale yamls.
