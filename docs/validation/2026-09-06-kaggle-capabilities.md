@@ -114,6 +114,31 @@ partially prepared profile cannot dispatch the default smoke payload.
 
 ## Practical next use
 
+### Account access follow-up, 15:25 UTC
+
+Read-only SDK quota calls report 46 minutes 24.618 seconds of GPU use out of
+30 hours, with no reserved time. TPU use and reserved time are zero; the provider
+also reports `has_ever_run=false` for TPU. This supports treating the earlier jobs
+as failed attempts to obtain TPU compute. It does not establish why allocation
+failed. Inspection of the installed CLI confirms that it passes both
+`enable_tpu` and the requested `machine_shape` to `save_kernel`; neither field was
+dropped by our submission wrapper. Further package-install retries have no clear
+basis until a session exposes a real TPU.
+
+The model-proxy quota endpoint succeeds and reports **$10 daily and $100 monthly**,
+both unused. These are inference spend allowances, not hours. Token creation
+still has the previously observed HTTP 403. The installed SDK documents phone
+and Persona verification as requirements for local proxy tokens; we have not
+verified the account's verification state, so this is a possible prerequisite
+to inspect, not an established diagnosis. Quota visibility does not grant token
+access. The next access check belongs in the signed-in Kaggle account interface.
+
+The allowlisted response is archived as `access-followup.json` in the artifact
+index. This follow-up submitted no jobs and made no model inference requests.
+The local S1 supervisor, benchmark and separate CPU server were all observed
+alive at this check. Migration still requires completed evaluation, verdict and
+archive work, plus the queue manager's follow-on hold and candidate-scope ACK.
+
 Use the proven T4 path for a modest, separately specified dense-model pilot or
 embedding/evaluation task. Do not spend another session repeating the already
 completed Anyscale LR sweep. Keep TPU training pending real device access, and keep
