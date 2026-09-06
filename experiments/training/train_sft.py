@@ -349,7 +349,11 @@ trainer = SFTTrainer(
         per_device_train_batch_size=int(os.environ.get("SFT_PD_BATCH", "4")),
         gradient_accumulation_steps=int(os.environ.get("SFT_GRAD_ACCUM", "4")),
         num_train_epochs=1, max_steps=STEPS,
-        learning_rate=2e-4, warmup_ratio=0.03, lr_scheduler_type="cosine",
+        # SFT_LR knob (2026-09-06, zcode-kaggle-intel): LoRA-LR sweep channel
+        # for cloud arms; default = the banked b4 literal 2e-4 (OFF = byte-
+        # identical contract). Same names/convention as SFT_PD_BATCH.
+        learning_rate=float(os.environ.get("SFT_LR", "2e-4")),
+        warmup_ratio=0.03, lr_scheduler_type="cosine",
         logging_steps=20, eval_strategy="steps", eval_steps=500,
         save_strategy="steps", save_steps=1000, save_total_limit=2,
         output_dir=str(OUT),

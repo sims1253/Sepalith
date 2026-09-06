@@ -24,10 +24,17 @@ from peft import LoraConfig, get_peft_model
 from transformers import AutoModelForCausalLM
 
 model_id = sys.argv[1]
-targets = [t.strip() for t in (
-    sys.argv[2] if len(sys.argv) > 2 else os.environ.get(
-        "SFT_TARGETS", "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj")
-).split(",") if t.strip()]
+# "regex:<pattern>" passthrough (2026-09-06, zcode-kaggle-intel): same
+# convention as train_sft.py — pass the RAW regex string to PEFT (str
+# target_modules => re.fullmatch semantics) instead of the exact-name list,
+# so the guard can validate regex recipes (the banked b4 GDN target is a
+# regex; a comma-split LIST would exact-match 0 modules and false-fail).
+_raw = (sys.argv[2] if len(sys.argv) > 2 else os.environ.get(
+    "SFT_TARGETS", "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"))
+if _raw.startswith("regex:"):
+    targets = _raw[6:]
+else:
+    targets = [t.strip() for t in _raw.split(",") if t.strip()]
 
 model = AutoModelForCausalLM.from_pretrained(model_id, dtype=torch.bfloat16)
 total_base = sum(p.numel() for p in model.parameters())
