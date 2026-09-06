@@ -90,10 +90,12 @@ def load_corpus_control(cap_rows):
 
 
 @torch.no_grad()
-def corpus_bpb(model, tokenizer, docs, block=2048, bs=4, chunk=8192):
+def corpus_bpb(model, tokenizer, docs, block=2048, bs=4, chunk=4096):
     """nats over next-token CE of contiguous 2048-token blocks (no overlap;
     same block discipline as the ladder eval; doc boundaries lose at most
-    block-1 tokens of context each — identical across arms)."""
+    block-1 tokens of context each — identical across arms). Doc-final
+    blocks are shorter: batches are right-padded and pad positions are
+    MASKED OUT of the CE sum (no pad token ever enters the score)."""
     nats, toks, bytes_total = 0.0, 0, 0
     blocks = []
     for d in docs:
@@ -104,14 +106,23 @@ def corpus_bpb(model, tokenizer, docs, block=2048, bs=4, chunk=8192):
             if len(b) >= 2:
                 blocks.append(b)
     for i in range(0, len(blocks), bs):
-        x = torch.tensor(blocks[i:i + bs], dtype=torch.long, device="cuda")
+        grp = blocks[i:i + bs]
+        L = max(len(b) for b in grp)
+        x = torch.zeros(len(grp), L, dtype=torch.long, device="cuda")
+        keep = torch.zeros(len(grp), L, dtype=torch.bool, device="cuda")
+        for j, b in enumerate(grp):
+            x[j, :len(b)] = torch.tensor(b, dtype=torch.long, device="cuda")
+            keep[j, :len(b)] = True
         logits = model(x[:, :-1]).logits
         lg = logits.reshape(-1, logits.size(-1))
         tg = x[:, 1:].reshape(-1)
+        m = keep[:, 1:].reshape(-1)
+        ce = torch.empty(lg.size(0), dtype=torch.float32, device="cuda")
         for c in range(0, lg.size(0), chunk):
-            nats += F.cross_entropy(lg[c:c + chunk].float(), tg[c:c + chunk],
-                                    reduction="sum").item()
-        toks += tg.numel()
+            ce[c:c + chunk] = F.cross_entropy(lg[c:c + chunk].float(),
+                                              tg[c:c + chunk], reduction="none")
+        nats += ce[m].sum().item()
+        toks += int(m.sum().item())
     return dict(bpb=nats / (bytes_total * math.log(2)),
                 loss_per_tok=nats / max(toks, 1), tokens=toks,
                 bytes=bytes_total, docs=len(docs), blocks=len(blocks))

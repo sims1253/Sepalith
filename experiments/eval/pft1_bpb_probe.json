@@ -1,0 +1,63 @@
+{
+ "base": {
+  "model_dir": "experiments/models/qwen3.5-2b-base-text-hf",
+  "general_r": {
+   "bpb": 0.5598805675117747,
+   "loss_per_tok": 1.154329548297897,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.08930321893434004,
+   "loss_per_tok": 0.28989307038709405,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "b4": {
+  "model_dir": "/mnt/h/sepalith/runs/pft1_b4_merged",
+  "general_r": {
+   "bpb": 0.5288416070177885,
+   "loss_per_tok": 1.0903352049937673,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.10738641279490072,
+   "loss_per_tok": 0.34859411894053194,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "pft1": {
+  "model_dir": "/mnt/h/sepalith/runs/pft1_fullft_qwen35_2b/final_model",
+  "general_r": {
+   "bpb": 0.5356454458114797,
+   "loss_per_tok": 1.1043629684439573,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.08963258132750539,
+   "loss_per_tok": 0.290962235379847,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "verdict": {
+  "general_r_regression_pct": 1.287,
+  "general_text_regression_pct": -16.533
+ }
+}
