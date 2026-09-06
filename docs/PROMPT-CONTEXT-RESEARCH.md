@@ -4,9 +4,9 @@ Research date: 2026-09-06. Scope: the current Sepalith editor path and a propose
 
 ## Recommendation
 
-Build the context system around a versioned, local symbol/dependency index. Test a learned compressor that emits short, source-linked text summaries for modules, then selects or combines the relevant summaries for the cursor. Keep exact signatures and critical source excerpts beside those summaries. This gives the whole workspace an indexed representation without requiring every request to encode or receive the whole workspace.
+User-selected direction: **learned latent workspace memory consumed by a specially trained edit model**. Test module-local compressed vectors projected into Qwen3.5's input embedding space, with encoder training and decoder LoRA. This selection reflects the user's assessment of potential value; it is not evidence of superiority. The concrete staged specification is [LATENT-WORKSPACE-MEMORY.md](LATENT-WORKSPACE-MEMORY.md).
 
-Keep latent memory compression as a separate model-development experiment. It can be worthwhile, but it requires a decoder trained to consume that representation and a compatible serving path. A readable summary and a latent vector are different model interfaces.
+Keep a versioned local symbol/dependency index for module boundaries, evidence selection and invalidation. Readable summaries and exact retrieval remain controls, not prerequisites that latent memory must wait for. Cache encoder outputs per module; optionally cache the consuming decoder's complete hybrid prefix state after processing an unchanged selected memory prefix. Do not inject unrelated-model KV tensors. A readable summary, a learned input vector and a decoder state are different interfaces.
 
 Use cyclomatic complexity first as a context-allocation and evaluation feature. Prioritize current diagnostics, definitions, signatures, dependency facts, and relevant tests as prompt content. A complexity score alone does not say what edit is intended or which branch is wrong.
 
@@ -51,7 +51,7 @@ Repository graphs are useful selectors, not guaranteed semantic truth. Aider ran
 | Representation | Training and evidence | Fit to Sepalith |
 |---|---|---|
 | Learned extraction of exact source spans | A selector learns which evidence helps the downstream task. LLMLingua-2 learns token retention from distilled data. | Text transport works; prefer whole signatures/statements rather than token deletion inside R code. Removing a negation, delimiter, or namespace qualifier changes meaning. |
-| Learned discrete, readable summaries | RECOMP trains extractive and abstractive compressors for end-task utility and supports emitting nothing when context is unhelpful. | Best first learned-compression experiment: train a local model to emit a compact schema with evidence pointers, then retokenize its text with the edit model's tokenizer. |
+| Learned discrete, readable summaries | RECOMP trains extractive and abstractive compressors for end-task utility and supports emitting nothing when context is unhelpful. | Text-based control for the user-selected latent experiment; retokenize with the edit model's tokenizer. |
 | Soft memory slots | ICAE trains an encoder using reconstruction and language-model objectives, then instruction training; slots condition an associated decoder. | Requires an encoder/decoder compatibility contract and adaptation to repository editing. Retrieval embeddings are not a substitute for these learned slots. |
 | Gist/KV representation | Gisting trains with attention masks so a small set of positions carries prompt information and can be reused. | Needs the corresponding trained model and state handling; it is not a generic way to turn arbitrary summary text into portable KV. |
 
@@ -79,6 +79,14 @@ A useful accounting identity is `amortized cost = changed-module compression / r
 
 ## 5. Controlled ablation before a rebuild commitment
 
+The primary latent-memory experiment is specified in
+[LATENT-WORKSPACE-MEMORY.md](LATENT-WORKSPACE-MEMORY.md), including trained
+retrieval controls, latent ablations and encoder cost accounting. The text-only
+design below is an optional separate context study; readable-summary arm D is
+not a prerequisite or replacement for the user-selected latent experiment.
+Its 512-token context allowance differs from the latent screen's 128 positions;
+do not combine their results as if they were one matched-budget comparison.
+
 First freeze the selected checkpoint, tokenizer, renderer, stop/parser rules, generation budget and cache policy. Save pre-edit workspace snapshots. Choose package/repository-disjoint development and confirmation sets with long-file and cross-file tasks; H1's tiny constructed prefixes cannot test this question. Include no-op cases, nested functions, dynamic/NSE code, stale-summary cases, API changes, and tasks where another file is provably needed. Exclude the answer span and future edits from every indexed artifact.
 
 **Small first experiment:** 160 development cases and 160 untouched confirmation cases, balanced across four strata: local-only, long-scope, cross-file, and no-op/irrelevant-context. This is an exploratory screen, not a precise estimate of a one-percentage-point improvement. Derive the final power requirement from paired disagreements before a production claim.
@@ -100,7 +108,7 @@ Score paired validator correctness, exact preservation of unrelated code, diagno
 
 Latency needs cold and warm editing traces in a quiet, serialized window, with identical cache policy and actual summary invalidations. Report full p50/p95 request latency and background resource cost; compare measured bytes and FLOPs for soft slots rather than calling one vector “one text token.” No compute is authorized by this research note.
 
-A later matched-training comparison should adapt the editor to B and D at the same training-row, token and optimizer budgets. A frozen model's failure to read an unfamiliar summary schema rejects immediate deployment, not learned compression as a family. A latent-memory comparison is a separate arm with its encoder training, decoder adaptation and runner integration fully charged.
+A matched-training comparison should adapt the editor to B and D at the same training-row, token and optimizer budgets. A frozen model's failure to read an unfamiliar summary schema rejects immediate deployment, not learned compression as a family. The user-selected latent arm is specified separately with encoder training, decoder adaptation and runner integration fully charged; these text arms are controls, not a required first deployment.
 
 ## 6. Risks and decision boundary
 
@@ -110,4 +118,4 @@ A later matched-training comparison should adapt the editor to B and D at the sa
 - **No-op regression:** more context can prompt unnecessary edits. H1 makes this a concrete local risk, not a hypothetical one.
 - **Latent portability:** changing decoder weights or position/attention conventions can invalidate compressed memories. Version and regenerate them; do not assume cross-model interchangeability.
 
-Decision now: preserve the current format-compatible serving baseline; build the index/schema and equal-budget evidence first. The most practical learned model to test emits source-linked text at module granularity. Keep latent workspace memory open as a research path if readable compression shows useful signal or if a separately costed soft-memory experiment justifies its integration work. Neither the old conditioning result nor H1 closes this question.
+Decision now: preserve the current serving baseline while pursuing the user-selected latent-memory research specification. Start with projected module-memory vectors and a trained decoder, then evaluate caching of its complete hybrid state. Text summaries and retrieval provide measured alternatives. Neither the old conditioning result nor H1 closes this question. No training or serving experiment is launched by either document.

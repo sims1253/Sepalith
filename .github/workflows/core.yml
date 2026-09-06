@@ -1,0 +1,34 @@
+name: Core contracts and runner
+
+on:
+  pull_request:
+    paths:
+      - 'packages/sepalith/**'
+      - 'experiments/eval/run_eval.py'
+      - 'scripts/check_core.py'
+      - '.github/workflows/core.yml'
+  push:
+    paths:
+      - 'packages/sepalith/**'
+      - 'experiments/eval/run_eval.py'
+      - 'scripts/check_core.py'
+      - '.github/workflows/core.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Check core without installing dependencies
+        run: python scripts/check_core.py

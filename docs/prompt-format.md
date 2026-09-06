@@ -1,5 +1,13 @@
 # Prompt format: PSM with edit history
 
+Status clarification (2026-09-06): this is a design note, not a description of
+the shipped prompt contract. The current extension and baseline renderer emit
+Zeta-2 markers. The PSM ordering, history collection and truncation-anchor rules
+below must not be assumed implemented. See [the current input contract](PROMPT-CONTRACT.md)
+for supported behavior, [the context review](PROMPT-CONTEXT-RESEARCH.md) for
+training/inference differences, and [the latent workspace-memory proposal](LATENT-WORKSPACE-MEMORY.md)
+for the user-selected research direction.
+
 How Sepalith builds prompts for edit suggestions. This document explains the
 format and the reasons behind each choice. You need it to serve the model or
 to build an editor extension.

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sepalith-core"
+version = "0.1.0"
+description = "Lightweight experiment execution and edit-context contracts for Sepalith"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+sepalith-run = "sepalith.runner:main"
+sepalith-context = "sepalith.context_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

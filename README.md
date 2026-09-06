@@ -6,13 +6,16 @@ cloud autocomplete is compliance-blocked. Served through editor integrations
 (VS Code / Positron inline completion; Zed via its OpenAI-compatible
 edit-prediction provider).
 
-Status: research + data-pipeline phase. See `DESIGN.md` for the product design
-and kill-test plan.
+Status: active research and editor integration development. Start with the
+[project map](docs/PROJECT-MAP.md) for workflows, environments and checks.
+Local design notes in `DESIGN.md` are not distributed with a clone.
 
 ## Components
 
-All work lives under `experiments/`, one directory per pipeline stage. Each
-stage has a README that lists its inputs and how to run it.
+Research work lives under `experiments/`, grouped by pipeline stage and research
+family. Each stage has a README that lists its inputs and how to run it. The shared
+core lives in [packages/sepalith](packages/sepalith/README.md). Product integration
+lives in `extensions/` and builds separately from the Python training stack.
 
 - `experiments/data-mining/` — corpus building: CRAN ingestion with download
   ranking, repo selection and cloning, git edit-pair mining, and the
@@ -37,7 +40,16 @@ including per-package provenance, license texts, and derived finish-block pairs.
 No credentials are stored in this repository; tools read `HF_TOKEN` /
 `ZAI_API_KEY` from the environment.
 
-## Python environment
+## Quick checks
+
+```bash
+python3 scripts/check_core.py
+```
+
+These checks use Python’s standard library and do not need model weights, NAS
+access, credentials or a GPU. See the project map for separate editor checks.
+
+## Research Python environment
 
 Managed with [uv](https://docs.astral.sh/uv/): `uv sync` creates `.venv` from
 `pyproject.toml` + `uv.lock`. Run tools via `uv run python <script>`.
@@ -47,3 +59,12 @@ Managed with [uv](https://docs.astral.sh/uv/): `uv sync` creates `.venv` from
 This machine is shared with other workloads: GPU inference only when explicitly
 free, CPU-heavy jobs capped (≤8 threads) and `nice`d, latency numbers measured
 under contention are labeled pessimistic.
+
+## Cleanup implementation
+
+The independent [core package](packages/sepalith/README.md) contains the new local
+runner and versioned edit-context/latent-memory contracts. It can be checked without
+the training environment. See the [research audit](docs/RESEARCH-AUDIT.md),
+[runner cutover](docs/EXPERIMENT-RUNNER.md), and
+[learned workspace-memory proposal](docs/LATENT-WORKSPACE-MEMORY.md).
+Existing experiments continue through their current entry points until cutover.
