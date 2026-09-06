@@ -1,0 +1,98 @@
+# Sepalith performance audit — READ-ONLY, bounded
+
+No files modified, no commands run, no workloads launched, no credentials accessed. `read/grep/find/ls` only. Live S1 CPU bench (`spec_bench.py` pid 831052 + server 1005713/1421824 per board 15:12–21:09) and W37 (one CUDA workload, `comms/gpu.md` + board 2026-09-03T13:2x) respected — all findings are static; no new measurements taken.
+
+Read first: `SYSTEMS.md` §5, `comms.md`, `docs/PROJECT-MAP.md`, `comms/board.md` tail (4200–4273), `comms/gpu.md` tail. Inspected: `packages/sepalith/src/sepalith/{protocol,runner,context_cli,evaluation}.py`, `extensions/vscode-sepalith/src/{extension,runtime,context_build,process_lifecycle}.ts` + `SPEC.md`, `experiments/eval/{spec_bench,eval_scenarios,eval_noop_fp,eval_ablation,run_eval,keystroke_sim,cache_bench,latency_load}.py`, `scripts/{quant_serve_bench.sh,quant_serve_requests.py}`, `docs/{SERVING-PACKAGING,PROMPT-CONTRACT}.md`, `experiments/eval/S1_RIG.md`.
+
+## 1. Concrete findings (file:line)
+
+### A. Eval HTTP loops — serial, new TCP per row
+
+1. `experiments/eval/eval_scenarios.py:136-142` `complete()` builds `json.dumps({prompt,max_tokens,temperature:0,stop})` + `urllib.request.urlopen(...,timeout=600)` per row. Called serially in nested loops `249: for fam ... 250: for i,row ... 259: complete(...)`. No session/keep-alive, no threading. Same pattern in `eval_ablation.py:complete`, `run_eval.py:102-109`, `cache_bench.py:123-129`, `scripts/quant_serve_requests.py:post()`.
+   - Cost: ~750 rows (150×5, `eval_scenarios.py:89 load_heldout`, `342: --cap default 150`) × TCP+HTTP setup + Python `json` encode/decode per row, strictly serial. Server is `--parallel 1` so decode is serial anyway, but per-request handshake + `json.loads(r.read())` fully blocks the driver.
+   - Semantic risk: LOW for parity if replaced with keep-alive (same bytes). HIGH if anyone adds concurrency against `--parallel 1` — changes server queueing/latency and invalidates `latency_s p50/p95` in `eval_scenarios.py:313-322`.
+
+2. `experiments/eval/spec_bench.py:221-236` `stream_completion()` same: `json.dumps(... stream:True,cache_prompt ...)` + `urlopen` per request, SSE parse line-by-line `236-268`. `run_leg():443-454` loops `for tr in traces: for rep in reps:` serially. `465: warm = stream_completion(...,cache_prompt=True)` issues a **second full streamed request per (trace,rep)**. With defaults `561: --reps 3`, `n-traces 100×2 classes`, 4 arms → ~2400 cold + 2400 warm streamed completions. Warm leg is intentional (H1 tie-in, `S1_RIG.md`), but it is a 2× multiplier on wall-clock.
+   - Risk if removed/merged: breaks `warm_prompt_ms/warm_ttft_ms` contract (`spec_bench.py:473-479`, `summarize():~530`) and H1 cache-hit axis. Do not drop; batch differently only in a copy.
+
+3. `experiments/eval/eval_noop_fp.py:757-765` `complete()` identical `urlopen` pattern, but `898: ThreadPoolExecutor(max_workers=args.workers default 4)` with `Server --parallel 4` (`eval_noop_fp.py:809-815`). This is the **only** eval that overlaps HTTP. Risk: raising `workers` beyond `--parallel` changes contention/TTFT and `FALSE_POSITIVE_RATE` timing side-channels; lowering to 1 doubles wall-clock. Keep paired.
+
+4. Readiness polling everywhere is `sleep(2)` + full POST: `spec_bench.py:336-353`, `eval_scenarios.py:183-208`, `eval_noop_fp.py:771-800`, `scripts/quant_serve_bench.sh:start_server()` `curl -m 120 ... sleep 2` up to 300 tries. Correct per `SYSTEMS.md` §5 (readiness = POST `/v1/completions` 200, never `/health`), but slow-start models pay 2s granularity. Risk of shortening: false-ready flakes. Parity-safe only as timeout/poll-interval change in a copy.
+
+### B. Model/server setup — reload per arm/format, no reuse (by design)
+
+5. `spec_bench.py:452 srv.start() ... finally: srv.stop()` per `run_leg`, `609: port += 1` per arm. `arm_flags()` shows `baseline` and `ngram-simple` share `MODEL` (`b4_qwen35_2b-Q8_0.gguf`) — same bytes re-`mmap`ed per arm because flags differ. `scripts/quant_serve_bench.sh`: `for fmt in Q8_0 Q6_K ...` → `start_server` → 30 reqs → `kill $pid` per format. `eval_scenarios.py:246 server.start() ... 286 server.stop()` per model invocation.
+   - This is correct isolation (spec flags, quant bytes, `--parallel/-c` differ). Reusing one server across arms/formats would leak KV/spec state and invalidate `matches_baseline` lossless check (`spec_bench.py:480-483`) and per-model `results_scenarios_<stem>.jsonl` keying. Hypothesis only: `mmap` + warm page-cache makes reload ~10s of seconds, small vs 100s of decode minutes — do not optimize here first.
+
+### C. Data loading / corpus staging — repeated full scans
+
+6. `eval_scenarios.py:89-115 load_heldout()`: opens `HOLDOUT_REF (/mnt/h/sepalith/datasets/sft_v3/eval.jsonl)` fully + all 5 `scenarios_v1/{fam}.jsonl`, re-renders every row via `assemble_sft_v2.edit_row()` to test held-out membership. Runs on every invocation; no cache. ~15 min NAS cold-read analogue noted for assembler in `SYSTEMS.md` §3; here smaller but still O(corpus) Python per battery leg.
+   - Risk: caching `ref` prompts to a hash set file is parity-safe only if `edit_row` version pinned; stale cache on assembler change silently drifts the split. Keep authoritative JSONL as source.
+
+7. `keystroke_sim.py:30-35 ntokens()` = HTTP POST `/tokenize` per call. `38-55 build_r_context()`: `42: while ntokens(port,total) < target` appends one file at a time, `49: while ntokens(port,total) > target*1.05` trims middle and re-tokenizes. O(N²) tokenize RPCs over a growing multi-KB string, each a full server tokenize.
+   - Risk: replacing with client-side tokenizer changes counts (server tokenizer is authoritative for `prompt_n`). Any fix must keep server recount as oracle.
+
+8. `cache_bench.py:stage_corpus()` copies 100 R files via `rglob("*.R")` + `read_text` per run (first run burst, then `/tmp` reuse). Fine; do not move to RAM-only — `SYSTEMS.md` disk-not-RAM rule from slime adoption.
+
+### D. Prompt rendering / tokenization — char budget, no token cache
+
+9. `packages/sepalith/src/sepalith/protocol.py:200-229 render_context()`: `207: event.replace("```diff\\n","").replace("```","")`, `208-213 splitlines` + `223: "\\n".join(parts)`. `229: len(tokenizer.encode(prompt))` re-encodes the **entire prompt** when `max_tokens` enforced. No truncation, no cache — correct per `PROMPT-CONTRACT.md` (reject, don't truncate; caller reserves output).
+   - Risk: adding truncation or char→token estimation breaks `zeta2-v1` byte parity (`test_protocol.py`, `test_legacy_protocol.py`, `test_assembler_protocol.py`). Char budget (`6000` in TS) ≠ token budget; extension can overflow `-c` unpredictably on dense R.
+
+10. `extensions/vscode-sepalith/src/context_build.ts: renderPrompt()` + `buildScopedPrompt()`: `MAX_PREFIX_SUFFIX_CHARS=6000`, prefix truncated from START, suffix pinned-remainder logic. Pure — good. But `extension.ts:62 buildPrompt: document.getText().split("\\n")` + `489: same in buildScopeContext` + `511: document.getText().trim()` = **3 full document copies per provider invocation**, before debounce. On large R files this is the only client-side O(file) per keystroke-idle.
+    - Parity-safe to dedupe (same `prompt` bytes), but wall impact is µs–ms vs 100s of ms inference — not the bottleneck.
+
+11. `extension.ts:524-525,530-532,592-593`: global `lastPrompt` (line 621) vs `this.lastPrompt` (452) shadowing + `inFlight` never cleared. Works today (identical-prompt cache hit via `this.lastItems`, in-flight join via `inFlight.prompt`), but stale `inFlight.promise` + prompt string retained indefinitely; `this.controller?.abort()` aborts prior different-prompt request even though `--parallel 1` server still paid prefill. Risk of “fixing” abort/cancel semantics: changes `aborted` vs `ok` telemetry and server-side decode waste measured by `latency_load.py` abort-waste columns.
+
+### E. Serving generation cost — fixed 320, suffix-first kills prefix cache
+
+12. `extension.ts:544 postCompletion(c.port,prompt,320,STOPS)` fixed `max_tokens 320`, `STOPS` 7 strings. `eval_noop_fp.py:EXT_MAX_TOKENS=320, EXT_STOPS` mirrors it byte-faithfully — good. Consequence: every noop/cursor-move probe pays up-to-320 decode until stop/empty. No adaptive cap, no abstain fast-path. Changing it changes `proposal` (= non-empty `parsePrediction`) and breaks product↔battery parity — not a parity-safe tweak.
+
+13. Suffix-first PSM (`context_build.ts`, `cache_bench.py:render_psm`, `run_eval.py:render_zeta2`) puts ~1.2K suffix head at prompt HEAD. Anchor moves rewrite the head → llama.cpp byte-prefix cache (`--cache-reuse 256` in `cache_bench.py`) misses. `cache_bench.py` exists precisely to quantify PSM vs prefix-first; prefix-first reorder would help cache but **changes every prompt byte** and invalidates all trained renders + `render_zeta2` parity. Hypothesis only, never do as “perf fix” without retrain/reeval.
+
+14. Allocation/per-token: no client pooling, no batching, `temperature:0` greedy everywhere (correct for determinism + `matches_baseline`). Server flags `--parallel 1 -t 8 -c {8192,10240,12288}` per harness are load-bearing for TTFT comparability. Changing threads/parallel/ctx changes prefill/decode wall without changing tokens — never batch “for throughput” in quality legs.
+
+## 2. Measured evidence vs hypotheses
+
+**Measured (files/board, no new runs):**
+
+- S1 rig is live and contended: board `2026-09-06T12:35` (8k ~90%, 0 errors, load logger banding), `19:35` (baseline done ~13:00, ngram 8k final rep, model-draft ETA ~01:00), `21:09` (1441/1800 rows). Any wall-clock taken now is not quiet-window.
+- Prior spec numbers banked in-tree: `S1_RIG.md` MTP smoke — wired (90 drafts/trace) but **0 accepted** (base head on b4 body, lower bound); `poc_diff` verdict `MD@32 p95 855ms vs AR 7689ms` with cacheless-AR caveat; X5-S1 `s8k2 327ms vs 757ms p50` first latency-positive point but `51-256 0.000` at all NFE.
+- W37 broadened `2026-09-03T13:2x`: one CUDA workload, no exceptions. GPU ledger shows card free since `2026-09-06T16:21` X5-S1 release, but S1 CPU servers own the box for latency validity — no CUDA context from this audit either way.
+
+**Hypotheses (not measured here, stated as such):**
+
+- Per-row `urlopen` handshake + `json` codec is likely 1–5ms/row loopback — negligible per row, but ×1500–4800 rows + 2× warm multiplier it dominates **driver** time, not decode time. Needs the §4 fixture to quantify, not assumed.
+- Prefix-cache miss from suffix-first ordering likely dominates **prefill** on cursor moves (cache_bench’s axis), but no numbers quoted here; read `results_cachebench*.jsonl` + S1 `summary.json` after drain, don’t re-derive from code.
+- Triple `getText()` likely <1% of end-to-end suggestion latency; do not prioritize on wall-clock grounds alone.
+
+## 3. Prioritized shortlist (perf × risk)
+
+1. **P0 — HTTP keep-alive in a harness copy (not live scripts).** Preserves bytes, attacks the only parity-safe driver overhead. Fixture in §4.
+2. **P1 — `keystroke_sim.py` tokenize batching (copy only).** Cache `ntokens` by string hash + binary-search trim length instead of per-append RPC; keep server recount as final oracle. Parity: final `ctx_tokens` identical; intermediate counts never scored.
+3. **P2 — `load_heldout` memoization (copy only).** Persist `ref` prompt-hash sets + `edit_row` version in a sidecar; validate hash on load, fall back to full rescan. Parity: same row IDs or fail-loud.
+4. **P3 — Extension single-split (trivial, low gain).** Pass one `lines` array through `buildScopeContext→buildPrompt`; assert `prompt` bytes identical. Do after P0–P2, still needs editor-host test per `SERVING-PACKAGING.md`.
+5. **Explicitly deprioritized:** prefix-first reorder, adaptive `max_tokens`, server reuse across arms/formats, thread/parallel/ctx tuning, any CUDA-graph/kernel work (W37 + live S1). All break parity or the quiet window.
+
+## 4. ONE bounded optimization (recommended)
+
+**Persistent HTTP connections for eval completion POSTs — new fixture only, no live-script edit.**
+
+- **Scope:** Create `/tmp/sepalith-perf-fixture-20260906/` (outside repo, no repo writes) with `keepalive_client.py` exposing `post_completion_keepalive(conn,prompt,...)` via one `http.client.HTTPConnection("127.0.0.1",port)` reused across N rows, and `parity_check.py` that replays identical bodies through both `urllib.request.urlopen` (current) and the keep-alive path against a **stub `http.server`** (no model, no CUDA, CPU-only, no credentials). Stub records (a) request bodies, (b) `self.connection` accept count / `Connection: keep-alive` behavior.
+- **Parity gate (must all pass):** bodies byte-identical for N=20 prompts (10 S0-trace-shaped synthetic PSM prompts + 10 noop-shaped prompts, fixed seed); stub response bytes consumed identically (`choices[0].text`, `usage.completion_tokens`, SSE timings path untouched in this fixture); `Connection` reuse `20 accepts → 1 accept` (or ≤2 with retry); no change to `prompt`, `stop`, `temperature`, `max_tokens`, `cache_prompt`.
+- **Perf gate:** report `wall_old vs wall_new` on loopback stub + `connects_old vs connects_new`; claim win only if connects drop ≥10× with zero body diffs. Then, **after S1 drains and queue-mgr ACKs**, port the same 30-line helper into a *copy* of one harness (e.g. `eval_ablation.py` copy) and require `gen_text`/`prompt_n` diff-empty on a 20-row smoke before any battery adoption.
+- **Why this one:** only candidate that is strictly output-identical (TCP reuse is invisible to the model), CPU-fixture-verifiable in seconds, touches neither running `spec_bench.py` nor any server flags, and directly addresses the serial-driver overhead present in every harness (`eval_scenarios`, `eval_ablation`, `run_eval`, `quant_serve_requests`, `cache_bench`).
+- **Non-goals for this item:** no server reuse, no concurrency change, no prompt/stop/token change, no `/health` shortcut, no quiet-window claim.
+
+## 5. What an autonomous optimization harness must preserve
+
+- **Process discipline:** tracked-PID spawn/kill only, never `pkill`; `start_new_session=True`; battery lock `/tmp/b_battery.lock` across bind; external-server mode never kills (`eval_noop_fp.py:Server`, `extension.ts: Sidecar` rules 1–4, `SPEC.md` hard rules).
+- **Readiness:** real `POST /v1/completions` (or `/completion`) 200, never `/health` (`SYSTEMS.md` §5, all `Server.start()`).
+- **Prompt bytes:** `zeta2-v1` / `render_zeta2` / `buildScopedPrompt(scope=null)` v0.0.6 parity; `PROMPT-CONTRACT.md` reject-don’t-truncate; `manifest modelProfile.renderer zeta2-v1` + pinned hashes (`runtime.ts:validateManifest`, `SERVING-PACKAGING.md`).
+- **Determinism:** `temperature 0`, pinned stops (`>>>>>>> UPDATED` + 6 extension echoes), `--parallel 1` (except noop’s explicit 4×4), fixed `-c/-t`, frozen trace/held-out IDs, seed-pinned sampling (`spec_bench.sample_traces seed 20260905`).
+- **Lossless/spec contract:** `matches_baseline` greedy-identity check; single-mode arms only (A2 §4.5); `accept_tps=None` when no draft, never 1.0 default.
+- **Resumability + evidence:** resume-by-`id`, per-request JSONL + `summary.json` with loadavg, server logs per arm/format, `gen_text` on rep-0, `operator_resolutions` append-only if runner-mediated.
+- **Resource/quiet rules:** W37 single CUDA; CPU benches in quiet window with 5s load-log banding; co-tenant ETAs on board; no mid-arm load transitions without solo re-run (board `12:35` rule).
+- **Release gates before promotion:** full held-out battery + paired McNemar/bootstrap (`evaluation.py:audit_pair`), noop FP, midtyping, quant `control vs imatrix` same-policy comparison, native-editor/runtime smoke — offline fixtures never substitute (`SERVING-PACKAGING.md`, `PROJECT-MAP.md`).
+
+Dirty working-tree state left untouched as instructed; ownership stays with live sessions.

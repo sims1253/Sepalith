@@ -1,0 +1,39 @@
+{
+  "candidate_ce_sum": 724.1060361862183,
+  "kind": "correctness_smoke",
+  "limits": "Synthetic evaluation projection only; no training-step or serving speed claim.",
+  "parity_pass": true,
+  "reference_ce_sum": 724.1060361862183,
+  "runtime": {
+    "affinity": [
+      16
+    ],
+    "cuda_matmul_allow_tf32": true,
+    "device": "cpu",
+    "matmul_precision": "high",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "threads": 1,
+    "torch": "2.11.0+cu130"
+  },
+  "schema_version": 1,
+  "settings": {
+    "batch": 2,
+    "chunk": 32,
+    "device": "cpu",
+    "hidden": 32,
+    "matmul_precision": "high",
+    "measure": false,
+    "output": "docs/validation/performance-20260906/ce-smoke.json",
+    "repeats": 5,
+    "resource_window": null,
+    "seq": 65,
+    "threads": 1,
+    "vocab": 257
+  },
+  "source_sha256": {
+    "experiments/performance/bench_eval_ce.py": "accda112bc51beeb48c00f3779df8f88b6caa827f7a2e8547bfa145a41c51ac2",
+    "experiments/training/poc_twin/model.py": "85d1afee957965836d2db247aff98f7e650dc7e21b93a78152dcf6b0d478e6b6"
+  },
+  "tokens": 130
+}

@@ -1,0 +1,23 @@
+unittest.case.FunctionTestCase (test_eps_clamp) ... ok
+unittest.case.FunctionTestCase (test_gradient_only_at_span_positions) ... ok
+unittest.case.FunctionTestCase (test_span_batch_to_loss_end_to_end) ... ok
+unittest.case.FunctionTestCase (test_t_zero_untouched_t_one_all_masked) ... ok
+unittest.case.FunctionTestCase (test_vectorized_matches_naive_toy_vocab) ... ok
+unittest.case.FunctionTestCase (test_zero_mask_batch_keeps_graph)
+No span token masked at all: loss must be a graph-connected 0. ... ok
+test_loss_and_gradients_match_dense_reference_across_chunks (experiments.training.poc_diff.test_objective_chunks.ObjectiveChunksTest) ... ok
+test_ignored_targets_keep_legacy_count (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_initial_sum_preserves_sequential_python_additions (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_invalid_chunk_and_mismatched_counts (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_matches_full_projection_for_chunk_boundaries (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_no_gradients_or_input_mutation (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_projection_is_bounded_with_short_final_chunk (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_running_sum_and_noncontiguous_targets (experiments.training.poc_twin.test_eval_ce.ChunkedEvalCETest) ... ok
+test_bpb_multi_batch_and_short_chunk (experiments.training.poc_twin.test_ladder_eval_ce.LadderEvalIntegrationTest) ... ok
+test_exits_and_mtp_preserve_alignment_and_autocast_scope (experiments.training.poc_twin.test_ladder_eval_ce.LadderEvalIntegrationTest) ... ok
+test_quick_eval_preserves_batch_and_token_reduction (experiments.training.poc_twin.test_ladder_eval_ce.LadderEvalIntegrationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.989s
+
+OK

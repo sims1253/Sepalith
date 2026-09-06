@@ -1,0 +1,36 @@
+[
+  {
+    "args": [
+      "--threads",
+      "9"
+    ],
+    "exit_code": 2,
+    "error": "bench_eval_ce.py: error: shared-machine policy limits CPU threads to 8"
+  },
+  {
+    "args": [
+      "--device",
+      "cuda"
+    ],
+    "exit_code": 2,
+    "error": "bench_eval_ce.py: error: CUDA requires an explicitly coordinated --measure run"
+  },
+  {
+    "args": [
+      "--measure"
+    ],
+    "exit_code": 2,
+    "error": "bench_eval_ce.py: error: measurement requires --resource-window and 3..30 repeats"
+  },
+  {
+    "args": [
+      "--measure",
+      "--resource-window",
+      "test",
+      "--repeats",
+      "2"
+    ],
+    "exit_code": 2,
+    "error": "bench_eval_ce.py: error: measurement requires --resource-window and 3..30 repeats"
+  }
+]

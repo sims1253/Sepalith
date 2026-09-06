@@ -1,0 +1,45 @@
+
+======================================================================
+ERROR: test_loss_and_gradients_match_dense_reference_across_chunks (experiments.training.poc_diff.test_objective_chunks.ObjectiveChunksTest) (chunk=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/test_objective_chunks.py", line 31, in test_loss_and_gradients_match_dense_reference_across_chunks
+    got = mdlm_loss(h, targets, mask, rates, spans, w, chunk=chunk)
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/objective.py", line 71, in mdlm_loss
+    ex_sum.scatter_add_(0, bidx, per_pos)
+RuntimeError: Expected index [5] to be no larger than self [3] apart from dimension 0 and to be no larger size than src [1]
+
+======================================================================
+ERROR: test_loss_and_gradients_match_dense_reference_across_chunks (experiments.training.poc_diff.test_objective_chunks.ObjectiveChunksTest) (chunk=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/test_objective_chunks.py", line 31, in test_loss_and_gradients_match_dense_reference_across_chunks
+    got = mdlm_loss(h, targets, mask, rates, spans, w, chunk=chunk)
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/objective.py", line 71, in mdlm_loss
+    ex_sum.scatter_add_(0, bidx, per_pos)
+RuntimeError: Expected index [5] to be no larger than self [3] apart from dimension 0 and to be no larger size than src [2]
+
+======================================================================
+ERROR: test_loss_and_gradients_match_dense_reference_across_chunks (experiments.training.poc_diff.test_objective_chunks.ObjectiveChunksTest) (chunk=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/test_objective_chunks.py", line 31, in test_loss_and_gradients_match_dense_reference_across_chunks
+    got = mdlm_loss(h, targets, mask, rates, spans, w, chunk=chunk)
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/objective.py", line 64, in mdlm_loss
+    total = total + checkpoint(
+RuntimeError: The size of tensor a (3) must match the size of tensor b (2) at non-singleton dimension 0
+
+======================================================================
+ERROR: test_loss_and_gradients_match_dense_reference_across_chunks (experiments.training.poc_diff.test_objective_chunks.ObjectiveChunksTest) (chunk=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/test_objective_chunks.py", line 31, in test_loss_and_gradients_match_dense_reference_across_chunks
+    got = mdlm_loss(h, targets, mask, rates, spans, w, chunk=chunk)
+  File "/home/m0hawk/Documents/Sepalith-performance/experiments/training/poc_diff/objective.py", line 71, in mdlm_loss
+    ex_sum.scatter_add_(0, bidx, per_pos)
+RuntimeError: Expected index [5] to be no larger than self [3] apart from dimension 0 and to be no larger size than src [4]
+
+----------------------------------------------------------------------
+Ran 1 test in 1.381s
+
+FAILED (errors=4)

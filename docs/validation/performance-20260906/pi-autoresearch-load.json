@@ -1,0 +1,8 @@
+{
+  "kind": "offline_rpc_extension_load",
+  "success": true,
+  "autoresearch_registered": true,
+  "source_revision": "41820794dcdc1a1fa9f3f19593052f7978f0de5e",
+  "model_requests": 0,
+  "optimization_loop_started": false
+}

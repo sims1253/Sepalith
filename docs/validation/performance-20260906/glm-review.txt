@@ -1,0 +1,103 @@
+All evidence gathered. Here is the audit report.
+
+---
+
+# Sepalith performance audit — custom training kernels & model code (read-only, 2026-09-06)
+
+Scope honored: no files modified, no commands run beyond read/grep/find/ls, no CUDA touched (S1 CPU benchmark live; W37 in force). Dirty working tree belongs to other sessions.
+
+## 0. Context anchors (from SYSTEMS.md, comms, P12, MLK)
+
+- **Failed/learned experiments not to repeat:**
+  - Full-step CUDA-graph capture on poc_ddot: graphed 30.4k < 35k tok/s gate ⇒ reverted, optimization frozen (`comms/board.md` 2026-08-28T01:20; `gpu.md` 00:35). MLK codified this: **kernel verdicts are FLOP-matched, never wall-clock-gated, never on the verdict path** (`docs/EXPERIMENT-QUEUE.md` §3 MLK; `2026-09-06-looped-matryoshka-plan.md` §6).
+  - Muon algorithm changes: Muon-hygiene A/B NEGATIVE (2026-08-29T20:21), decay/CMA control-wins (2026-08-30T20:20). The pinned Muon recipe stands — kernel-level only, no algorithm edits.
+  - `torch.compile` on the CE chunk: inductor materializes fp32 vocab-sized intermediates ⇒ CE stays EAGER (`poc_twin/model.py:16-19`, `poc_diff/objective.py:56-58`). Do not re-try compiling `_ce_chunk`.
+  - W35: `MICRO_PAD_TOK=4096` launch-bound at small scale — prescribed fix (raise to 16–32K) is **blocked on a math-identity check that fails as stated** (see F5).
+- **P12/kernel-day** is a llama.cpp CPU dequant lane (Q4-class realization 82–87%); it prices GGML kernel work, not PyTorch trainer work — kept separate.
+
+## 1. Measured evidence (from logs/board — not hypotheses)
+
+| Measurement | Value | Source |
+|---|---|---|
+| AR twin 206M, fixed-shape rig | 49.8k tok/s | `poc_twin/logs/plan.json:5` |
+| MD 206M anchor, bucketed rig, compiled | ~48k tok/s steady | `poc_diff/logs_md.jsonl` (steps 200–400) |
+| M1a micro 76M, same rig | ~47–49k tok/s steady (35% util observed, W35) | `poc_diff/logs_m1a_micro.jsonl` |
+| X5-S1 Stage A 206M (2 fwd + bwd, compiled) | ~33k tok/s | `poc_diff/logs_x5_s1_a.jsonl` (steps 50–400) |
+| quick_eval OOM — partial chain failure | P1 chain v1 died in `quick_eval` | board 2026-08-29T17:03/17:03+ |
+| B4-vocab logits: 248k-vocab fp32 logits ≈ 8GB/fwd → 51s/it crawl via sysmem fallback | gpu.md 2026-09-04T08:2x | (production SFT, unsloth path) |
+
+**Reading:** 76M and 206M plateau at the same ~48k tok/s. After correcting for the shared 130,562-row tied head (which is ~80% of per-token FLOPs at 76M), the micro rig delivers only ~58% of its compute-scaled expectation — a fixed-overhead signature (syncs + serial CPU data prep), consistent with W35's 35%-util observation. X5-S1 at 33k ≈ FLOP-proportional (48k/1.45) — no gross hidden inefficiency in the two-pass path itself.
+
+## 2. Findings (file:line; M = measured backing, H = hypothesis)
+
+### Cross-entropy / logits
+
+- **F1 (M). Full-vocab logits materialized in every poc eval leg.** `poc_twin/train.py:405-412` (`quick_eval`), `poc_twin/ladder/train_ladder.py:288-297`, `poc_twin/evaluate.py:24-30`, `poc_twin/ladder/bpb_eval.py:26-36`, `poc_twin/ladder/eval_a2_exits.py:49-67`: `F.linear(h, embed.weight)` over the whole batch (8×1024×130,560 fp32 ≈ **4.3GB transient**), then CE chunked at 4096 rows — the chunking protects the softmax, not the linear. `quick_eval` also runs the trunk **outside autocast** (fp32, ~2× the training path's compute). This is the exact OOM class that killed P1 chain v1 (board 2026-08-29T17:03). The training path already has the fix (`chunked_ce`, `model.py:23-40`) — it was never ported to eval. `bpb_eval` is the standing G2/G3/G4 instrument for ML-series verdicts, so this repeats on every future rung.
+- **F2 (H). Head+CE is ~half of trunk FLOPs at 206M (~80% at 76M) and is computed twice by design** (checkpoint recompute, `model.py:30-33`). A fused linear+CE chunked kernel (Liger-class) is the biggest FLOP-side lever, but it is exactly the inductor trap (fp32 vocab intermediates) ⇒ custom-kernel work → MLK lane, P12-style gate. Not a quick win; do not attempt inside `torch.compile`.
+
+### CPU/GPU synchronization
+
+- **F3 (M for existence, H for magnitude). Per-micro syncs in every poc trainer.** `loss.item()`/`float(loss)` inside the accumulation loop: `poc_twin/train.py:467` (64 micros/step), `poc_twin/ladder/train_ladder.py:360`, `poc_diff/train_md.py:358`, `poc_diff/x5_s1_train.py:376`, `poc_twin/train_a2.py:282`. Plus per-micro stats floats (`train_md.py:359-362`, `x5_s1_train.py` via `stage_loss` stats at `:168-170`), `clip_grad_norm_(...).item()` per step (`train.py:468` et al.), and `qk_clip` `.item()` ×2 per layer per step (`model.py:111,125` — ~24 syncs/step at 12L). Each sync drains the async queue and couples the next micro's CPU prep to GPU completion. Historical footnote: the WSL2 dual-context crashes surfaced *at* `loss.item()` (`d3_prep.py:262` comment, W37) — fewer syncs also shrink the observation surface, though the root cause was dual contexts.
+- **F4 (H). Data path is serial and unpinned.** `train_md.py:136-151` `build_micro_tensors`: per-row Python loop builds CPU tensors, then `.to(device, non_blocking=True)` from **non-pinned** memory (non_blocking is a no-op there — synchronous H2D per micro). No prefetch overlap. In `train.py:462`, `rows.astype(np.int64)` + `.cuda(non_blocking=True)` — same non-pinned pattern, smaller volume. This is the M-class fixed-overhead component W35 flagged.
+
+### Masking / MD objective
+
+- **F5 (M from code). W35's `MICRO_PAD_TOK` raise is NOT math-identical as preconditioned.** `train_md.py` weights micros as `(loss / len(micros))` where `mdlm_loss` returns `contrib.mean()` over the micro's examples (`objective.py:92-98`) — an example-count-weighted mean-of-means, not per-real-token aggregation. Changing `MICRO_PAD_TOK` changes bucket composition ⇒ changes loss weighting. The W35 verification ("span_batch_to_loss aggregates per-real-token") **fails**: `span_batch_to_loss` (`objective.py:100-124`) isn't even on train_md's path, and the trainer's own weighting is example-based. Any pad raise needs either a token-weighted global-loss restructure (breaks comparability with banked MD telemetry) or an explicit bucket-composition-delta acceptance. Flag to queue before anyone executes W35.
+- **F6 (H). `m.nonzero()` per micro** (`objective.py:75`) is a data-dependent-shape sync. The in-house fix pattern already exists: graphed_step.py's "DENSE ROUTING replaces nonzero()/masked-select" (`poc_ddot/graphed_step.py` header). Medium effort, static shapes required — pairs with F4/F3 work, not standalone.
+
+### Attention / RoPE / QK probe
+
+- **F7 (H). QK-Clip probe redundant allocations.** `model.py:93-94`: `q.float()` + `k.float().repeat_interleave(H//n_kv, dim=2)` materializes the full GQA-expanded fp32 K (4× K size: ~33MB/layer at 8×1024) each probe pass, then O(T²) fp32 logits per 256-query chunk. Probe runs on the first micro of each step only (train.py:464-465) ⇒ ~1.5% amortized FLOP overhead — but eager paths and compile-graph memory pay the churn. Exact-value alternative: reshape q→(B,n_kv,grp,T,hd), k→(B,n_kv,1,T,hd), einsum to (B,n_kv,grp,Tq,Tk), amax over the same set — no K expansion, same `smax` up to reduction order (telemetry tolerance already accepted class).
+- **F8 (H, low priority). `apply_rope`** (`model.py:54-61`): ~6 temporaries per call (fp32 upcast, two half-products, cat, downcast), ×2 (q,k) ×layers. The compiled trunk fuses this — only eager smoke/eval paths pay. Cosmetic unless eager latency matters.
+- **F9 (correctness note, no action).** MD `BiAttention` correctly forces EFFICIENT_ATTENTION for bool masks (flash unavailable) — documented at `model_md.py:22-30`. Padding is masked at keys; probe covers pad positions by accepted design.
+
+### Muon
+
+- **F10 (clean).** `muon.py` has no default-path syncs (floats only under opt-in `--elr`, which adds ~2 syncs/param/step — acceptable, telemetry mode). NS iteration is compiled bf16; recipe pinned by two negative verdicts — **algorithm is off-limits**; only launch-count engineering (e.g., batched NS across same-shape params) would be legitimate, and it is below F1/F3/F4 in value.
+
+### Production SFT (`train_sft.py`)
+
+- **F11 (context, no recommendation).** The trainer is a TRL/unsloth pipeline with no custom kernels; its speed comes from unsloth's fused CE (B4-saga: plain path 25s/it vs 2–3s/it class). It carries deliberate byte-compatibility contracts (banked-recipe literals, B8/B9/PFT1 flags OFF = verbatim legacy). The right performance posture here is **not to touch it**: OOM levers (SFT_PD_BATCH/GRAD_ACCUM) are already armed, and the 248k-vocab fp32-logits scar is documented. Any change must keep the OFF-path byte-identical contract (`test_midtrain_data.py`, `test_selekt_data.py`, `test_fullft_mode.py` pin it).
+
+## 3. Prioritized shortlist
+
+| # | Item | Files | Expected value | Risk |
+|---|---|---|---|---|
+| 1 | **Chunk the linear in eval CE** (port `chunked_ce` discipline to eval; nats as GPU scalar, one `.item()` per batch) | train.py:405-412, train_ladder.py:288-297, evaluate.py:24-30, bpb_eval.py:26-36, eval_a2_exits.py:49-67 | Removes 4.3GB transient + OOM class (measured incident); faster eval legs; unblocks 0.42-memfrac windows | Very low — eval-only, training math untouched |
+| 2 | **Defer per-micro syncs to log boundaries** (GPU accumulator for `step_nats`; stats only on probe micro; keep clip/qk per-step but drop `.item()` until log tick) | train.py:467-468, train_md.py:358-362, x5_s1_train.py:376, train_ladder.py:360, train_a2.py:282 | Recovers part of the ~40% M-class overhead gap; helps all future ML/X rungs | Low — logging values shift in last ulp (GPU fp32 sum vs Python float); document |
+| 3 | **Pinned prefetch for micro tensors** (background thread, pinned staging, true async H2D) | train_md.py:136-151 | Overlaps CPU prep with GPU; complements #2 | Low-medium — ordering/resume determinism must be preserved (data is a pure function of step; keep construction deterministic) |
+| 4 | **QK probe without K expansion** (grouped einsum, F7) | model.py:86-103 | Alloc churn −4×/layer on probe micros | Low — smax reduction-order tolerance |
+| 5 | **MICRO_PAD_TOK raise (W35) — blocked**: re-weight loss per-real-token first (estimator change) or accept bucket-composition delta | train_md.py, objective.py | M-class throughput (2-4× fewer micros) | **High** — changes the loss estimator; breaks banked-telemetry comparability; needs pre-registration |
+| 6 | **Fused chunked linear+CE kernel** (F2) — MLK lane only, golden tests + leaderboard, post-experiment windows | model.py `_ce_chunk` | Up to ~2× headroom at 206M per MLK roofline note | High effort; inductor trap known; must stay off verdict paths |
+| 7 | Sampler per-row loop + per-row syncs (`sample.py:97-105`) — S-series latency lane, separate from training | sample.py | p50 latency on MD head | Medium — decode semantics must stay byte-comparable |
+
+## 4. Recommended first optimization (one, small, isolated)
+
+**Shortlist #1: chunked-linear eval CE in the poc_twin/poc_twin-ladder eval paths.**
+
+Replace, in the five eval sites above, `logits = F.linear(h, w)` + chunked CE with a loop that computes `F.linear(h[c:c+chunk], w)` → `F.cross_entropy(..., reduction="sum")` per 4096-row chunk, accumulating `nats` as a GPU fp32 scalar, one `.item()` per batch (or per eval). Keep the trunk dtype policy exactly as today (fp32, no autocast) in v1 so only GEMM-tiling order differs.
+
+Why this one first:
+- It fixes a **measured** failure class (P1 quick_eval OOM, 2026-08-29) rather than a hypothesized one.
+- It is strictly eval-side: no training math, no banked-run comparability, no estimator semantics — the safest possible change under this repo's verdict-pinning discipline.
+- It is ~30 lines reusing an in-repo pattern (`model.py:23-40`); isolated to functions with existing test files nearby.
+- It cuts the largest single redundant allocation found (4.3GB → ≤~0.5GB at chunk 4096 fp32), and removes multi-GB alloc/free churn per eval batch.
+- CPU-testable end-to-end (tiny config), so correctness work needs **no CUDA now** (W37/S1-respecting); GPU validation slots into any post-experiment window (~5-min MLK round).
+
+## 5. Reference-equivalence benchmark outline (MLK discipline)
+
+**Golden reference:** the *current* implementations, frozen, on fixed inputs.
+
+1. **Correctness harness (CPU, CI-class, no CUDA):**
+   - Tiny TinyGQA (vocab≈512, d=64, 2L) with seeded init; seeded eval blocks, including batch tails not divisible by chunk (edge coverage).
+   - Old vs new: assert token counts identical; `|nats_new − nats_old| / nats_old ≤ 1e-6` (fp32 reduction-order tolerance; log the achieved rel-diff). Bit-exactness is not required across implementations — record the number, per PFT1 byte-identical-*default* spirit keep old path available behind an env flag for one rung if tolerance surprises.
+2. **GPU validation (post-experiment window only; W37; no claim of its own; ~5-min round):**
+   - 206M banked ckpt + frozen `eval_blocks.npy`; run both paths; same tolerance gate.
+   - Memory gate: `torch.cuda.max_memory_allocated` during eval shows logits transient ≤ `chunk × V × 4B` (≈0.5GB fp32 @4096×130,560... use 2048 chunk ⇒ ~0.25GB) vs ~4.3GB baseline.
+   - Perf column (leaderboard file, FLOP-matched — same tokens evaluated): wall-time old vs new; expectation ≥1.3× on the eval leg (removes 4.3GB write+read + per-batch alloc churn); **no verdict anywhere gates on this number** (ddot precedent).
+3. **Regression pins:** existing suites stay green (`test_midtrain_data.py`-class discipline); add one test asserting the new eval helper matches `chunked_ce` numerics on a shared case.
+4. **Ops gates:** board note before the GPU validation leg; quiet window for the perf number (S1 contamination precedent: 1.78× prefill error from co-tenant load); trainer taskset 16-23 if run beside anything.
+
+## 6. Summary
+
+The training loops are FLOP-proportional where it matters (X5-S1 two-pass at 33k vs 48k single-pass), and the compiled+chunked-CE discipline is sound. The concrete waste is (a) eval legs still materializing full-vocab logits — a measured OOM class with the fix already in-repo; (b) per-micro syncs and serial unpinned data prep explaining the size-independent ~48k tok/s ceiling at ≤76M; (c) W35's pad-raise is blocked on a math-identity precondition that fails in the code as written and should be re-scoped before anyone executes it. Muon and the production SFT stack should be left algorithmically untouched; the fused-CE kernel day stays in the MLK side-lane behind golden tests, never on a verdict path.
