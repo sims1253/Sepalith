@@ -67,13 +67,15 @@ else
   # `datasets status` can read "ready" from the PREVIOUS version while the
   # new one processes (kernel then attaches a STALE tree — cost one
   # iteration). The real readiness signal: this SHA's sentinel appears in
-  # the FILES listing of the latest version.
+  # the FILES listing of the latest version. Observed flip latency: 15-20
+  # min per version re-ingest of the 423-file tree — poll 45 min.
   ok=""
-  for i in $(seq 1 60); do
+  for i in $(seq 1 135); do
     if ds_files | grep -q "REPO_SHA_$SHA"; then ok=1; break; fi
-    sleep 15
+    if [ $((i % 6)) -eq 0 ]; then echo "  ...waiting for version flip ($((i*20/60))min)"; fi
+    sleep 20
   done
-  [ -n "$ok" ] || { echo "FATAL: REPO_SHA_$SHA not in dataset after 15min"; exit 3; }
+  [ -n "$ok" ] || { echo "FATAL: REPO_SHA_$SHA not in dataset after 45min"; exit 3; }
 fi
 echo "repo staged: m0hawk/sepalith-repo @ $SHA (auto-extracted tree + REPO_SHA sentinel)"
 
