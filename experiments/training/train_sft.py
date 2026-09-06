@@ -164,13 +164,15 @@ import torch
 
 # SFT_FP16 (2026-09-06, zcode-kaggle-intel): no-bf16-GPU (T4/Turing) compat
 # channel for cloud arms. transformers hard-rejects bf16=True on pre-Ampere,
-# and unsloth VETOES fp16 for the qwen3_5 GDN arch ("Using float16 precision
-# won't work! Using float32") — so ON = both precision flags OFF and unsloth
-# auto-selects fp32 training (weights fp32; measured T4 s/it decides sweep
-# sizing). OFF = banked bf16 recipe byte-identical.
+# unsloth VETOES fp16 for the qwen3_5 GDN arch, and its no-bf16 auto path
+# leaves mixed bf16/half casts (BFloat16 != Half at q_proj). ON = the
+# sanctioned pure-fp32 flow: weights load fp32 (unsloth `_unsloth_user_
+# float32`) + UNSLOTH_FORCE_FLOAT32=1 (set by the Kaggle driver) + both
+# config precision flags OFF. OFF = banked bf16 recipe byte-identical.
 _FP16 = os.environ.get("SFT_FP16", "0") == "1"
 model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name=MODEL, max_seq_length=2048, dtype=None, load_in_4bit=False)
+    model_name=MODEL, max_seq_length=2048,
+    dtype=torch.float32 if _FP16 else None, load_in_4bit=False)
 # SFT_TARGETS env: hybrid archs name their projections differently
 # (LFM2: out_proj/in_proj/w1-3; Qwen3.5 GDN: in_proj_qkv/a/b/z/out_proj).
 # Default = the llama-arch recipe, unchanged for the MiniCPM rungs.
