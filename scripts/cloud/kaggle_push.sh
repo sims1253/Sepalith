@@ -64,12 +64,16 @@ else
   else
     kaggle datasets create -p "$REPO_DS" >/dev/null
   fi
-  for i in $(seq 1 40); do
-    S="$(kaggle datasets status m0hawk/sepalith-repo 2>&1)"
-    [ "$S" = "ready" ] && break
+  # `datasets status` can read "ready" from the PREVIOUS version while the
+  # new one processes (kernel then attaches a STALE tree — cost one
+  # iteration). The real readiness signal: this SHA's sentinel appears in
+  # the FILES listing of the latest version.
+  ok=""
+  for i in $(seq 1 60); do
+    if ds_files | grep -q "REPO_SHA_$SHA"; then ok=1; break; fi
     sleep 15
   done
-  [ "$S" = "ready" ] || { echo "FATAL: dataset not ready after 10min ($S)"; exit 3; }
+  [ -n "$ok" ] || { echo "FATAL: REPO_SHA_$SHA not in dataset after 15min"; exit 3; }
 fi
 echo "repo staged: m0hawk/sepalith-repo @ $SHA (auto-extracted tree + REPO_SHA sentinel)"
 
@@ -110,20 +114,23 @@ ENV = {
     "UNSLOTH_DISABLE_AUTO_PADDING_FREE": "1",
 }
 os.environ.update(ENV)
-# Kaggle auto-extracted the repo tarball into the dataset mount; copy the
-# read-only tree to the writable working volume and exec the entry script.
-src = "/kaggle/input/sepalith-repo"
+# Kaggle auto-extracted the repo tarball into the dataset mount. With the
+# REPO_SHA sentinel at the mount root the tree nests one level down
+# (<archive-name>/); without it, it extracts to the root. Probe both.
+root = "/kaggle/input/sepalith-repo"
 try:
-    entries = os.listdir(src)
+    entries = os.listdir(root)
 except OSError as e:
-    print("FATAL: cannot list", src, e, flush=True)
+    print("FATAL: cannot list", root, e, flush=True)
     sys.exit(6)
-if "run.py" not in entries or "scripts" not in entries:
-    print("FATAL:", src, "is not the repo tree (got:", entries[:8], ") — "
-          "dataset not attached or still processing", flush=True)
+cands = [root] + [os.path.join(root, d) for d in entries if os.path.isdir(os.path.join(root, d))]
+src = next((c for c in cands if os.path.isfile(os.path.join(c, "run.py"))), None)
+if src is None:
+    print("FATAL:", root, "has no repo tree (got:", entries[:8], ") — "
+          "dataset not attached or a stale version", flush=True)
     sys.exit(6)
 sha = [e for e in entries if e.startswith("REPO_SHA_")]
-print("bootstrap: repo tree @", sha[0][9:] if sha else "?", flush=True)
+print("bootstrap: repo tree @", sha[0][9:] if sha else "?", "from", src, flush=True)
 dst = "/kaggle/working/Sepalith"
 shutil.copytree(src, dst)
 r = subprocess.run(["bash", "scripts/cloud/kaggle_sft_entry.sh"], cwd=dst)
