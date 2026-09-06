@@ -209,8 +209,13 @@ def render_context(
     event_lines = event.splitlines()
     if event_lines and event_lines[0].startswith("User edited"):
         event_lines = event_lines[1:]
-    while event_lines and not event_lines[0].strip():
-        event_lines.pop(0)
+    leading = 0
+    for line in event_lines:
+        if line.strip():
+            break
+        leading += 1
+    if leading:
+        del event_lines[:leading]
     parts = ["<[fim-suffix]>", *context.suffix, "<[fim-prefix]><filename>edit_history"]
     if event_lines:
         parts.extend([*event_lines, ""])
