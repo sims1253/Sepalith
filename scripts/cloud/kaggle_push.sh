@@ -5,10 +5,12 @@
 # Anyscale job-yaml FIRE commands; runbook:
 # docs/research/2026-09-06-kaggle-compute-integration.md
 #
-# The GPU type (T4x2) cannot be selected via the push API — the FIRST GPU
-# kernel needs a one-time UI check of Settings->Accelerator (default is
-# T4x2; if it lands on P100 the entry script aborts with the fix instead of
-# burning quota).
+# The GPU type is set via machine_shape/--accelerator (NvidiaTeslaT4 = the
+# T4x2 shape) on a kaggle CLI 2.x binary — API default is P100 (sm60, wrong
+# for our cu130 pins; the entry script hard-gates it). One-time setup:
+#   uv venv /tmp/k2venv --python 3.12 && uv pip install --python
+#   /tmp/k2venv/bin/python kaggle==2.2.4    # + export KAGGLE_API_TOKEN
+# (2.x also provides `kaggle quota` — live weekly GPU/TPU state.)
 #
 # Usage (from repo root, tree COMMITTED — the tarball is `git archive HEAD`):
 #   bash scripts/cloud/kaggle_push.sh <slug> <steps> <lr> <mode> [--fire]
@@ -119,23 +121,29 @@ ENV = {
     "UNSLOTH_DISABLE_AUTO_PADDING_FREE": "1",
 }
 os.environ.update(ENV)
-# Kaggle auto-extracted the repo tarball into the dataset mount. With the
-# REPO_SHA sentinel at the mount root the tree nests one level down
-# (<archive-name>/); without it, it extracts to the root. Probe both.
-root = "/kaggle/input/sepalith-repo"
-try:
-    entries = os.listdir(root)
-except OSError as e:
-    print("FATAL: cannot list", root, e, flush=True)
-    sys.exit(6)
-cands = [root] + [os.path.join(root, d) for d in entries if os.path.isdir(os.path.join(root, d))]
+# Kaggle auto-extracted the repo tarball into the dataset mount. THREE
+# observed layouts: classic /kaggle/input/<slug>; nested <slug>/<slug> when
+# the REPO_SHA sentinel sits at the mount root; and GPU-worker images
+# mounting under /kaggle/input/datasets/<owner>/<slug>[/<slug>] (diag
+# kernel 2026-09-06). Probe them all, then a bounded walk for run.py.
+cands = [
+    "/kaggle/input/sepalith-repo",
+    "/kaggle/input/sepalith-repo/sepalith-repo",
+    "/kaggle/input/datasets/m0hawk/sepalith-repo",
+    "/kaggle/input/datasets/m0hawk/sepalith-repo/sepalith-repo",
+]
 src = next((c for c in cands if os.path.isfile(os.path.join(c, "run.py"))), None)
 if src is None:
-    print("FATAL:", root, "has no repo tree (got:", entries[:8], ") — "
-          "dataset not attached or a stale version", flush=True)
+    for dirpath, dirnames, filenames in os.walk("/kaggle/input"):
+        if "run.py" in filenames:
+            src = dirpath
+            break
+if src is None:
+    tops = os.listdir("/kaggle/input") if os.path.isdir("/kaggle/input") else []
+    print("FATAL: no repo tree (run.py) under /kaggle/input (tops:", tops[:8],
+          ") — dataset not attached or a stale version", flush=True)
     sys.exit(6)
-sha = [e for e in entries if e.startswith("REPO_SHA_")]
-print("bootstrap: repo tree @", sha[0][9:] if sha else "?", "from", src, flush=True)
+print("bootstrap: repo tree at", src, flush=True)
 dst = "/kaggle/working/Sepalith"
 shutil.copytree(src, dst)
 r = subprocess.run(["bash", "scripts/cloud/kaggle_sft_entry.sh"], cwd=dst)
@@ -143,6 +151,11 @@ sys.exit(r.returncode)
 EOF
 
 # 3) push as a private script kernel (Save & Run All starts automatically)
+#    GPU pushes route through a kaggle CLI 2.x binary when available
+#    (KAGGLE2_BIN, default /tmp/k2venv/bin/kaggle): only 2.x carries the
+#    --accelerator/machine_shape field. Without it the API default is P100
+#    (sm60 — incompatible with the cu130 pins; the entry script gates it).
+#    NvidiaTeslaT4 = the "GPU T4 x2" shape. CPU pushes stay on the 1.x CLI.
 cat > "$KDIR/kernel-metadata.json" <<EOF
 {
   "id": "m0hawk/${SLUG}",
@@ -154,10 +167,16 @@ cat > "$KDIR/kernel-metadata.json" <<EOF
   "enable_gpu": ${GPU},
   "enable_tpu": false,
   "enable_internet": true,
-  "dataset_sources": ["m0hawk/sepalith-repo"]
+  "dataset_sources": ["m0hawk/sepalith-repo"]$( [ "$GPU" = "true" ] && echo -n ',
+  "machine_shape": "NvidiaTeslaT4"' )
 }
 EOF
-kaggle kernels push -p "$KDIR"
+KAGGLE2="${KAGGLE2_BIN:-/tmp/k2venv/bin/kaggle}"
+if [ "$GPU" = "true" ] && [ -x "$KAGGLE2" ]; then
+  "$KAGGLE2" kernels push -p "$KDIR" --accelerator NvidiaTeslaT4
+else
+  kaggle kernels push -p "$KDIR"
+fi
 echo
 echo "kernel pushed: m0hawk/${SLUG} (mode=${MODE} steps=${STEPS} lr=${LR} run=${RUN_NAME})"
 echo "watch: kaggle kernels status m0hawk/${SLUG}"
