@@ -22,14 +22,18 @@ The public modules are:
 |---|---|
 | `sepalith.runner` | Capture source, enqueue recipes, inspect, drain, execute and reconcile attempts |
 | `sepalith.protocol` | Versioned edit/evidence records and baseline `zeta2-v1` rendering |
+| `sepalith.evaluation` | Paired binary-outcome tests and deterministic bootstrap intervals |
 | `sepalith.memory` | Latent payload identity, compatibility and source freshness checks |
 
 See [runner operations](../../docs/EXPERIMENT-RUNNER.md),
 [prompt contract](../../docs/PROMPT-CONTRACT.md), and
 [latent workspace memory proposal](../../docs/LATENT-WORKSPACE-MEMORY.md).
 
-No existing experiment entry point has been migrated to this package yet. Its
-runner is not a replacement for the active supervisors until the documented
+The v5 assembler now uses the protocol renderer for its edit rows. Its direct
+Python invocation loads the package source from this checkout, including when
+started from another working directory; it needs no package installation.
+Other assembler prompt families retain their existing rendering conventions.
+The runner is not a replacement for the active supervisors until the documented
 cutover is performed. The memory module describes artifacts; it does not train
 a compressor, execute a decoder or load KV tensors.
 
@@ -47,3 +51,8 @@ uv pip install --python /tmp/sepalith-dev/bin/python ./packages/sepalith
 `--legacy` flag is required for unversioned evaluation records. Static evidence
 stays in the record until a separately versioned renderer has been trained and
 evaluated to consume it.
+
+The historical paired-significance audit now uses `sepalith.evaluation`; see
+[scoring conventions and corrections](../../docs/SHARED-EVALUATION.md). The v5
+assembler also accepts `--data-root`, `--finish-source` and `--out`, resolves its
+checkout from its own location, and reports the resolved input/output paths.

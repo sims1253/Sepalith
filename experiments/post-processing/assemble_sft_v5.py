@@ -46,6 +46,9 @@ Sources (all on the NAS under /mnt/h/sepalith/datasets):
 Output: /mnt/h/sepalith/datasets/sft_v5/{train,eval}.jsonl + stats.json
 Row schema: {text, prompt, target, family, package_or_repo, has_types: false}
 Train shuffled with seed 42. Run resource-polite: nice -n 19, 1 process.
+
+Run this script directly with Python from any working directory. The renderer
+loads from this checkout's packages/sepalith/src; no package install is needed.
 """
 import json
 import random
@@ -53,10 +56,10 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "eval"))
-from run_eval import render_zeta2  # noqa: E402  (exact v1 renderer conventions)
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages/sepalith/src"))
+from sepalith.protocol import EditContext, render_context  # noqa: E402
 
-REPO = Path("/home/m0hawk/Documents/Sepalith")
+REPO = Path(__file__).resolve().parents[2]
 NAS = Path("/mnt/h/sepalith/datasets")
 OUT = NAS / "sft_v5"
 UPDATED = "\n>>>>>>> UPDATED"
@@ -188,7 +191,13 @@ def edit_row(ex, family, pkg, fd=None, cursor_after=None):
     ex.setdefault("suffix", [])  # scenario rows carry prefix context only
     ex["cursor_idx"] = cursor_after if cursor_after is not None \
         else max(fd - 1, 0)
-    prompt = render_zeta2(ex)
+    # Project only fields the legacy renderer consumed. Scenario metadata must
+    # not opt into new cursor geometry or change the existing training prompt.
+    context = EditContext.from_legacy({
+        **{key: ex[key] for key in ("path", "prefix", "region_old", "suffix", "cursor_idx")},
+        "event_diff": ex.get("event_diff"),
+    })
+    prompt = render_context(context)
     if len(prompt) + len(target) > MAX_CHARS:
         stats[f"drop:{family}:over_{MAX_CHARS}"] += 1
         return None
@@ -648,12 +657,19 @@ def spot_check(train, evals):
 
 def main():
     import argparse
-    global OUT
+    global OUT, NAS, FINISH_SRC
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--out", type=Path, default=OUT,
-                    help="output dir (default: the live sft_v5)")
+    ap.add_argument("--data-root", type=Path, default=NAS,
+                    help="dataset directory (default: /mnt/h/sepalith/datasets)")
+    ap.add_argument("--finish-source", type=Path, default=FINISH_SRC,
+                    help="finish-block input (default: sample in this checkout)")
+    ap.add_argument("--out", type=Path,
+                    help="output dir (default: DATA_ROOT/sft_v5)")
     args = ap.parse_args()
-    OUT = args.out
+    NAS = args.data_root.resolve()
+    FINISH_SRC = args.finish_source.resolve()
+    OUT = (args.out or NAS / "sft_v5").resolve()
+    print(f"Resolved inputs: datasets={NAS}, finish_source={FINISH_SRC}; output={OUT}")
     OUT.mkdir(parents=True, exist_ok=True)
     train, evals = [], []
     for loader in (load_finish_block, load_edit_pairs, load_scenarios,

@@ -5,12 +5,18 @@ on:
     paths:
       - 'packages/sepalith/**'
       - 'experiments/eval/run_eval.py'
+      - 'experiments/eval/paired_significance.py'
+      - 'experiments/eval/test_paired_significance.py'
+      - 'experiments/post-processing/assemble_sft_v5.py'
       - 'scripts/check_core.py'
       - '.github/workflows/core.yml'
   push:
     paths:
       - 'packages/sepalith/**'
       - 'experiments/eval/run_eval.py'
+      - 'experiments/eval/paired_significance.py'
+      - 'experiments/eval/test_paired_significance.py'
+      - 'experiments/post-processing/assemble_sft_v5.py'
       - 'scripts/check_core.py'
       - '.github/workflows/core.yml'
   workflow_dispatch:

@@ -1,8 +1,9 @@
 # Edit context and prompt contract
 
 `sepalith.protocol` provides a standard-library input contract and the named
-`zeta2-v1` renderer. Existing training, evaluation and extension callers keep
-their current paths. This module does not change the production prompt format.
+`zeta2-v1` renderer. The v5 assembler's edit-row path uses this renderer with
+legacy byte parity; other training, evaluation and extension callers keep their
+current paths. This module does not change the production prompt format.
 
 ## Inputs and snapshots
 
