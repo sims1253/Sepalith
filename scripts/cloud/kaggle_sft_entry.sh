@@ -97,11 +97,19 @@ if [ -n "${EXPECT_TRAINABLE:-}" ]; then
   ts "audit pass"
 fi
 
-# 3b) train: the repo's own trainer, verbatim (SKIP_TRAIN=1 = CPU smoke stops here)
+# 3b) train: the repo's own trainer, verbatim (SKIP_TRAIN=1 = CPU smoke stops here).
 if [ "${SKIP_TRAIN:-0}" = "1" ]; then
   ts "SMOKE COMPLETE (SKIP_TRAIN=1): packaging + egress + data + audit proven, no GPU burn"
   exit 0
 fi
+# The repo SHIPS unsloth_compiled_cache/ generated on the 5090 (bf16 GPU);
+# on no-bf16 hosts (T4) its compiled dtype dispatch mixes bf16/fp16 casts
+# (BFloat16 != Half at q_proj — cost two GPU iterations) while
+# UNSLOTH_COMPILE_DISABLE=1 does not prevent USING an existing cache.
+# Purge it: with compile disabled unsloth falls back to its runtime
+# (non-compiled, dtype-consistent) patch path.
+rm -rf "$REPO_ROOT/unsloth_compiled_cache" \
+       "$REPO_ROOT/experiments/training/unsloth_compiled_cache"
 ts "train start: $MODEL $STEPS steps lr=$SFT_LR"
 cd "$REPO_ROOT/experiments/training"
 python train_sft.py "$MODEL" "$STEPS" "$DATA_DIR" "$OUT_DIR" "" 2>&1 | tee "$TRAIN_LOG"
