@@ -43,6 +43,10 @@
       {
         "command": "sepalith.dumpStats",
         "title": "Sepalith: Dump acceptance stats"
+      },
+      {
+        "command": "sepalith.refreshRuntime",
+        "title": "Sepalith: Refresh runtime manifest"
       }
     ],
     "views": {
@@ -79,13 +83,15 @@
       "properties": {
         "sepalith.modelPath": {
           "type": "string",
-          "default": "/home/m0hawk/Documents/Sepalith/experiments/models/abl_dropout-Q8_0.gguf",
-          "description": "Absolute path to a GGUF model."
+          "default": "",
+          "description": "Absolute path to a GGUF model.",
+          "scope": "application"
         },
         "sepalith.serverPath": {
           "type": "string",
-          "default": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-server",
-          "description": "Absolute path to the llama-server binary."
+          "default": "",
+          "description": "Absolute path to the llama-server binary.",
+          "scope": "application"
         },
         "sepalith.port": {
           "type": "number",
@@ -96,7 +102,7 @@
           "type": "number",
           "default": 8,
           "maximum": 8,
-          "description": "CPU threads for the sidecar (max 8 \u2014 more is slower on this machine)."
+          "description": "CPU threads for the sidecar."
         },
         "sepalith.contextSize": {
           "type": "number",
@@ -127,6 +133,32 @@
           "type": "boolean",
           "default": true,
           "description": "Scope-aware prompt context: pin the enclosing function and add a top-level file outline (LSP document symbols, brace-scan fallback when no R language server is running). Off = plain prompt."
+        },
+        "sepalith.manifestUrl": {
+          "type": "string",
+          "default": "",
+          "scope": "application",
+          "description": "HTTPS URL of a validated Sepalith release manifest. Downloads runtime and model into the shared Sepalith cache."
+        },
+        "sepalith.backend": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "cpu",
+            "vulkan",
+            "metal"
+          ],
+          "default": "auto",
+          "scope": "application",
+          "description": "Managed runtime backend. Auto probes Vulkan on Windows/Linux and uses Metal on macOS; CPU is the fallback."
+        },
+        "sepalith.gpuLayers": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 999,
+          "scope": "application",
+          "description": "GPU layers for a manually configured server. Managed runtimes select this automatically."
         }
       }
     }
@@ -137,7 +169,9 @@
     "build": "npm run compile && npm run bundle",
     "smoke": "npx --yes tsx scripts/smoke.ts",
     "check-context": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-context.ts",
-    "vsix": "npm run bundle && npx --yes @vscode/vsce package --allow-missing-repository"
+    "vsix": "npm run bundle && npx --yes @vscode/vsce package --allow-missing-repository",
+    "check-runtime": "esbuild scripts/check-runtime.ts --bundle --platform=node --format=cjs --outfile=dist/check-runtime.cjs && node dist/check-runtime.cjs",
+    "check-process": "esbuild scripts/check-process.ts --bundle --platform=node --format=cjs --outfile=dist/check-process.cjs && node dist/check-process.cjs"
   },
   "devDependencies": {
     "@types/node": "^18.19.0",

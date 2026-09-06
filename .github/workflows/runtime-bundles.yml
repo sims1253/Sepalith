@@ -1,0 +1,33 @@
+name: Prepare pinned runtime bundles
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Pinned GitHub Release download URL for reviewed runtime files
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        target: [linux-x64-cpu, linux-arm64-cpu, linux-x64-vulkan, linux-arm64-vulkan, win32-x64-cpu, win32-arm64-cpu, win32-x64-vulkan, darwin-x64-metal, darwin-arm64-metal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize upstream bundle
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          TARGET: ${{ matrix.target }}
+        run: python scripts/packaging/bundle_runtime.py "$TARGET" "out/$TARGET" --base-url "$BASE_URL"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: llama-b10453-${{ matrix.target }}
+          path: |
+            out/*/release-assets/*
+            out/*/bundle.json
+            out/*/receipt.json

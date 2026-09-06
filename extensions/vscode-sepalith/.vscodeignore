@@ -6,3 +6,12 @@ node_modules/**
 dist/**/*.map
 tsconfig.json
 SPEC.md
+**/*.gguf
+**/*.safetensors
+**/*.dll
+**/*.so*
+**/*.dylib
+**/llama-server*
+
+# offline test bundles
+dist/check-*.cjs

@@ -46,8 +46,10 @@ No credentials are stored in this repository; tools read `HF_TOKEN` /
 python3 scripts/check_core.py
 ```
 
-These checks use Python’s standard library and do not need model weights, NAS
-access, credentials or a GPU. See the project map for separate editor checks.
+Core checks use Python’s standard library and need no model weights, NAS,
+credentials or GPU. For product development, install editor dependencies once
+with `npm --prefix extensions/vscode-sepalith ci`, then run
+`python3 scripts/check_product.py`. This uses fake assets and tiny test processes.
 
 ## Research Python environment
 
@@ -67,4 +69,7 @@ runner and versioned edit-context/latent-memory contracts. It can be checked wit
 the training environment. See the [research audit](docs/RESEARCH-AUDIT.md),
 [runner cutover](docs/EXPERIMENT-RUNNER.md), and
 [learned workspace-memory proposal](docs/LATENT-WORKSPACE-MEMORY.md).
-Existing experiments continue through their current entry points until cutover.
+The v5 assembler and paired-statistics audit now use shared modules through
+their existing entry points. Managed runtime and packaging tools have separate
+product checks. Live experiment dispatch remains with its current manager until
+the documented cutover.

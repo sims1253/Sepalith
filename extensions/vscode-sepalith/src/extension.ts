@@ -1,17 +1,23 @@
+import { loadManifest, provision, sharedCacheRoot } from "./runtime";
 import * as vscode from "vscode";
 import * as fs from "node:fs";
 import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
+import { terminateChild } from "./process_lifecycle";
 import { buildScopedPrompt, normalizeSymbols, scopeFromScan, scopeFromSymbols } from "./context_build";
 import type { RawSymbol, ScopeInfo } from "./context_build";
 
 // Sepalith v0 — see SPEC.md. This is END-TO-END PLUMBING, not suggestion
 // quality: garbage suggestions from the current weak models are acceptable.
 
-const DEFAULT_MODEL = "/home/m0hawk/Documents/Sepalith/experiments/models/abl_dropout-Q8_0.gguf";
-const DEFAULT_SERVER = "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-server";
+const DEFAULT_MODEL = "";
+let runtimeStorage = "";
+const DEFAULT_SERVER = "";
 
 interface Config {
+  manifestUrl: string;
+  backend: "auto" | "cpu" | "vulkan" | "metal";
+  gpuLayers: number;
   modelPath: string;
   serverPath: string;
   port: number;
@@ -27,6 +33,9 @@ interface Config {
 function cfg(): Config {
   const c = vscode.workspace.getConfiguration("sepalith");
   return {
+    manifestUrl: c.get("manifestUrl", ""),
+    backend: c.get("backend", "auto"),
+    gpuLayers: c.get("gpuLayers", 0),
     modelPath: c.get("modelPath", DEFAULT_MODEL),
     serverPath: c.get("serverPath", DEFAULT_SERVER),
     port: c.get("port", 18099),
@@ -134,6 +143,7 @@ type SidecarState = "starting" | "ready" | "external" | "stopped" | "error";
 
 class Sidecar {
   private child: ChildProcess | null = null;
+  private setup: AbortController | null = null;
   private state: SidecarState = "stopped";
   private detail = "";
   private outRing: string[] = [];
@@ -156,24 +166,46 @@ class Sidecar {
     renderStatusBar();
   }
 
-  async start(): Promise<void> {
+  async start(forceCpu = false): Promise<void> {
     if (this.child || this.state === "starting" || this.state === "ready" || this.state === "external") return;
     const c = cfg();
+    this.setState("starting");
+    this.setup = new AbortController();
+    const setup = this.setup;
     // rule 4: if the port is already answering, treat the server as external — use it, never spawn, never kill
-    if (await portAnswers(c.port)) {
-      channel.appendLine(`sidecar: port ${c.port} already answering — treating server as external`);
-      this.setState("external");
+    const occupied = await portAnswers(c.port);
+    if (setup.signal.aborted) return;
+    if (occupied) {
+      try {
+        await postCompletion(c.port, "x", 1, null, AbortSignal.timeout(5000));
+        if (setup.signal.aborted) return;
+        channel.appendLine(`sidecar: port ${c.port} passed completion probe — treating server as external`);
+        this.setState("external");
+      } catch (e) {
+        if (!setup.signal.aborted) this.fail(`Port ${c.port} is occupied but failed the completion probe: ${errText(e)}`);
+      }
       return;
     }
+    if (setup.signal.aborted) return;
+    if (!c.serverPath && c.manifestUrl) {
+      try {
+        Object.assign(c, await provision(c.manifestUrl, runtimeStorage, forceCpu ? "cpu" : c.backend,
+          setup.signal, message => channel.appendLine(message), c.modelPath));
+      } catch (e) {
+        if (!setup.signal.aborted) this.fail(errText(e));
+        return;
+      }
+    }
+    if (setup.signal.aborted) return;
     for (const p of [c.serverPath, c.modelPath]) {
       if (!fs.existsSync(p)) {
         channel.appendLine(`sidecar: error: missing ${p}`);
-        this.setState("error", `missing ${p}`);
+        this.setState("error", `Set modelPath/serverPath or a release manifest URL (${p || "path unset"})`);
         return;
       }
     }
     this.setState("starting");
-    channel.appendLine(`sidecar: spawning ${c.serverPath} --port ${c.port} -t ${c.threads} -c ${c.contextSize} -ngl 0 (cpu-only)`);
+    channel.appendLine(`sidecar: spawning ${c.serverPath} --port ${c.port} -t ${c.threads} -c ${c.contextSize} -ngl ${c.gpuLayers}`);
     this.stopping = false;
     this.outRing = [];
     this.errRing = [];
@@ -184,88 +216,86 @@ class Sidecar {
       c.serverPath,
       [
         "-m", c.modelPath,
+        "--alias", "sepalith",
+        "--temp", "0",
         "--port", String(c.port),
         "--host", "127.0.0.1",
         "-c", String(c.contextSize),
         "--parallel", "1",
         "-t", String(c.threads),
-        "-ngl", "0",
+        "-ngl", String(c.gpuLayers),
       ],
       { stdio: ["ignore", "pipe", "pipe"] },
     );
     this.child = child;
     child.stdout?.on("data", (d: Buffer) => this.pushRing("out", d));
     child.stderr?.on("data", (d: Buffer) => this.pushRing("err", d));
+    const failed = (message: string) => {
+      if (!setup.signal.aborted && !forceCpu && c.manifestUrl && !cfg().serverPath && c.gpuLayers > 0) {
+        channel.appendLine(`${message}; retrying with CPU runtime`);
+        this.setState("stopped");
+        void this.start(true).catch(e => this.fail(errText(e)));
+      } else if (!setup.signal.aborted) this.fail(message);
+    };
     child.on("error", (err) => {
+      if (this.child !== child) return;
+      // An error can also mean signaling failed; it does not prove exit.
+      if (child.pid && child.exitCode === null && child.signalCode === null) {
+        this.fail(`owned server error: ${err.message}`);
+        return;
+      }
       this.child = null;
-      this.fail(`spawn failed: ${err.message}`);
+      failed(`spawn failed: ${err.message}`);
     });
     child.on("exit", (code, sig) => {
+      if (this.child !== child) return;
       this.child = null;
       if (this.stopping) {
         this.setState("stopped");
         return;
       }
-      this.fail(`server exited (code=${code} sig=${sig})`);
+      failed(`server exited (code=${code} sig=${sig})`);
     });
     // rule 2: /health answers ok DURING load — poll completions until HTTP 200 (3 s interval, 180 s budget)
     const t0 = Date.now();
     for (;;) {
-      if (!this.child) return; // exited/errored; handler already surfaced it
+      if (setup.signal.aborted || this.child !== child) return; // This start was stopped or replaced.
       if (Date.now() - t0 > 180_000) {
-        this.killChild();
-        this.fail("readiness timeout after 180 s");
+        try {
+          await this.stop();
+          this.fail("readiness timeout after 180 s");
+        } catch (error) { this.fail(errText(error)); }
         return;
       }
       try {
-        await postCompletion(c.port, "x", 1, null);
+        await postCompletion(c.port, "x", 1, null, AbortSignal.timeout(5000));
         break;
       } catch (e) {
         channel.appendLine(`sidecar: not ready (${Math.round((Date.now() - t0) / 1000)} s): ${errText(e)}`);
       }
       await sleep(3000);
     }
+    if (setup.signal.aborted || this.child !== child) return;
     channel.appendLine(`sidecar: ready after ${Math.round((Date.now() - t0) / 1000)} s`);
     this.setState("ready", c.modelPath);
   }
 
-  stop(): void {
-    if (this.state === "external") return; // rule 4: never kill a server we did not spawn
+  async stop(): Promise<void> {
+    this.setup?.abort();
+    if (this.state === "external") return; // Never stop an unowned server.
     const child = this.child;
-    if (!child || child.exitCode !== null) {
-      this.setState("stopped");
-      return;
-    }
-    // rule 3: kill the TRACKED child pid only — never pkill by name
     this.stopping = true;
-    try {
-      child.kill("SIGTERM");
-    } catch {
-      // already gone
-    }
-    const t = setTimeout(() => {
+    if (child) {
       try {
-        child.kill("SIGKILL");
-      } catch {
-        // already gone
+        await terminateChild(child);
+      } catch (error) {
+        // Keep the handle: a failed stop must not permit a duplicate start.
+        this.fail(errText(error));
+        throw error;
       }
-    }, 5000);
-    child.once("exit", () => clearTimeout(t));
-    this.child = null;
+      if (this.child === child) this.child = null;
+    }
     this.setState("stopped");
-  }
-
-  private killChild(): void {
-    const child = this.child;
-    this.child = null;
-    this.stopping = true;
-    if (child && child.exitCode === null) {
-      try {
-        child.kill("SIGTERM");
-      } catch {
-        // already gone
-      }
-    }
   }
 
   private pushRing(which: "out" | "err", d: Buffer): void {
@@ -627,6 +657,7 @@ function triggerInlineSuggestion(): void {
 }
 
 export function activate(context: vscode.ExtensionContext): void {
+  runtimeStorage = sharedCacheRoot();
   channel = vscode.window.createOutputChannel("Sepalith");
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   statusBarItem.show();
@@ -640,6 +671,19 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.commands.registerCommand("sepalith.startServer", () => void sidecar.start()),
     vscode.commands.registerCommand("sepalith.stopServer", () => sidecar.stop()),
+    vscode.commands.registerCommand("sepalith.refreshRuntime", async () => {
+      const url = cfg().manifestUrl;
+      if (!url) {
+        channel.appendLine("Set sepalith.manifestUrl before refreshing a managed runtime.");
+        channel.show(true);
+        return;
+      }
+      try {
+        await loadManifest(url, runtimeStorage, new AbortController().signal, { refreshManifest: true });
+        channel.appendLine("Runtime manifest refreshed. Stop and start the server to apply it.");
+      } catch (error) { channel.appendLine(`Runtime refresh failed: ${errText(error)}`); }
+      channel.show(true);
+    }),
     // manual suggest: bypasses the debounce entirely
     vscode.commands.registerCommand("sepalith.suggest", () => {
       if (debounceTimer !== null) {
@@ -694,6 +738,6 @@ export function activate(context: vscode.ExtensionContext): void {
   if (cfg().autoStart) void sidecar.start();
 }
 
-export function deactivate(): void {
-  sidecar.stop(); // kills only a child we spawned; external servers are left alone
+export async function deactivate(): Promise<void> {
+  await sidecar.stop(); // kills only a child we spawned; external servers are left alone
 }

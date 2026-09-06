@@ -11,7 +11,7 @@ Updated 2026-09-06. Sepalith develops local R edit suggestions through product i
 | Run or interpret research | [`experiments`](../experiments/README.md), [queue](EXPERIMENT-QUEUE.md) | Per-workflow research environment and external data/model stores | Frozen recipe/data/model identities → checkpoints, predictions, result summaries | Family-specific RESULTS and manifests; [research audit](RESEARCH-AUDIT.md) limits broader claims |
 | Develop learned workspace memory | [latent-memory specification](LATENT-WORKSPACE-MEMORY.md) | Proposed encoder/decoder training and runner integration, not installed by core | Parent-workspace evidence → proposed trained slots and adapted decoder | Only manifest contracts are implemented; staged research gates are not executed |
 
-This cleanup delivers the core package, core CI/checks, audit and prompt/context documentation, and the V1d accounting correction. The product baseline is the previously tracked VS Code extension. Concurrent managed-runtime, packaging and Zed work in the local checkout is excluded from this delivery and may be absent from a clone.
+This cleanup delivers the core package, core CI/checks, audit and prompt/context documentation, and the V1d accounting correction. The reviewed product batch also includes managed runtimes, packaging and Zed launcher tooling. These have offline fixture checks; native-platform tests and public release remain separate.
 
 ## Shared code: independent and lightweight
 
@@ -20,6 +20,7 @@ The Python distribution is named `sepalith-core`, located at `packages/sepalith`
 | Module | Public responsibility | Explicit limit |
 |---|---|---|
 | [`protocol.py`](../packages/sepalith/src/sepalith/protocol.py) | Versioned `EditContext`/`EvidenceRecord`, snapshots, baseline `zeta2-v1` rendering and tokenizer-backed size rejection | Does not collect workspace evidence, select context, truncate automatically, parse output or apply edits |
+| [`evaluation.py`](../packages/sepalith/src/sepalith/evaluation.py) | Paired binary outcomes, exact McNemar and deterministic bootstrap intervals | Caller establishes row alignment; row-level intervals do not account for trajectory clustering |
 | [`memory.py`](../packages/sepalith/src/sepalith/memory.py) | Latent payload identity, consumer compatibility and source-freshness validation | Does not train a compressor, load tensors, inject embeddings or restore hybrid model state |
 | [`runner.py`](../packages/sepalith/src/sepalith/runner.py) | Snapshot source, enqueue immutable recipes, serial dispatch, drain, explicit retry, recover attempts and hash outputs | Linux/WSL2, its own state directory only; no cloud scheduler or automatic training-checkpoint resume |
 
@@ -31,24 +32,34 @@ python3 scripts/check_core.py
 
 No NAS, weights, credentials, GPU or model server is required. The wrapper resolves paths from its own location, so invoking it by absolute path also works outside the repository. From another directory, use an absolute `PYTHONPATH` or install `packages/sepalith` in a separate development environment for direct module access. The installed CLIs are `sepalith-run` and `sepalith-context`; without installation, use the corresponding modules with that `PYTHONPATH`.
 
-`sepalith-context normalize --legacy example.json` validates and preserves a legacy record as versioned JSON. `sepalith-context render context.json` writes the baseline UTF-8 prompt without an added trailing newline. These operations use `context_cli.py` and do not load a model. The core suite covers other-working-directory CLI behavior and prompt-byte parity. The implementation batch records 38 core tests; separate V1d checks are not included in this wrapper. Test counts describe this batch, not a permanent interface.
+`sepalith-context normalize --legacy example.json` validates and preserves a legacy record as versioned JSON. `sepalith-context render context.json` writes the baseline UTF-8 prompt without an added trailing newline. These operations use `context_cli.py` and do not load a model. The core suite covers other-working-directory CLI behavior and prompt-byte parity. The suite includes compatibility tests for the v5 assembler and historical paired audit. Separate V1d and product checks have their own commands.
 
 The runner guide specifies a local state directory outside the checkout, recipes and a tiny receipt example. Queue inspection uses `--state /absolute/state/path plan`. New queues begin paused. `resume` permits dispatch; it does not launch a process. `run-next`/`run` do launch declared jobs and must wait for operational cutover. Do not start them alongside existing dispatchers.
 
 ## Product and serving boundary
 
-The delivered VS Code baseline has context building in `src/context_build.ts` and editor/server lifecycle in `src/extension.ts`. No new runtime-module separation is delivered by this cleanup. Its current renderer uses Zeta markers, not the historical PSM design. The Python shared renderer preserves the named eval baseline; it has not replaced the TypeScript implementation. [Prompt contract](PROMPT-CONTRACT.md) and [prompt-format status](prompt-format.md) explain the distinction.
-
-With extension dependencies already installed:
+The VS Code source separates context building, runtime provisioning, owned-process
+termination and editor interaction. It retains its TypeScript renderer. The shared
+Python renderer is used by the v5 assembler, with literal and legacy parity tests;
+these implementations are not assumed interchangeable for all context choices.
 
 ```sh
-npm --prefix extensions/vscode-sepalith run compile
-npm --prefix extensions/vscode-sepalith run check-context
+npm --prefix extensions/vscode-sepalith ci
+python3 scripts/check_product.py
 ```
 
-`npm run build` in that directory compiles and bundles. `smoke` and VSIX packaging may invoke external tools; they are not part of the no-network core check. Integration requires manually configured compatible model/server artifacts as documented by the tracked extension baseline.
+Once npm dependencies are installed, the check uses fake assets and tiny child
+processes. It compiles TypeScript, checks context handling, offline provisioning,
+manifest compatibility, shutdown, packaging and fake quantization. It needs no
+NAS, training environment, credentials, model server or GPU.
 
-Concurrent local work includes `src/runtime.ts`, `scripts/packaging/`, a Zed integration, quant-export additions, packaging documents and a runtime-bundle workflow. These are other contributors' unfinished changes, excluded from this cleanup push. They are not supported entry points or runnable checks of this delivered tree. Evaluate their eventual release separately. The delivered CI addition is `.github/workflows/core.yml`.
+[Serving/packaging](SERVING-PACKAGING.md) documents pinned runtime preparation,
+manifest generation, quant export and their real-model gates. The editor caches
+validated manifests for offline restart; refresh is explicit. Python and
+TypeScript consume the same manifest fixtures. Zed has [launcher/settings
+guidance](../extensions/zed-sepalith/README.md); its actual editing behavior still
+needs editor validation. Product CI runs offline checks, while the runtime-bundle
+workflow requires manual dispatch and prepares artifacts without publishing them.
 
 ## Existing research workflows
 
@@ -81,4 +92,4 @@ These workflow families retain their existing tracked entry points and environme
 
 ## Remaining work
 
-[Cleanup delivery and migration](CLEANUP-PLAN.md) separates four next steps: operational cutover, migration of recurring callers, latent-memory experiments, and product release validation/publication. None is silently completed by the existence of a package or specification. The current usable boundary is shared tests/contracts, a documented local runner for explicit recipes, existing research entry points, and the previously tracked VS Code product baseline. Concurrent packaging/runtime/Zed work is outside this delivery.
+[Cleanup delivery and migration](CLEANUP-PLAN.md) separates four next steps: operational cutover, migration of recurring callers, latent-memory experiments, and product release validation/publication. None is silently completed by the existence of a package or specification. The current usable boundary is shared tests/contracts, a documented local runner for explicit recipes, existing research entry points, and reviewed editor/runtime packaging tools. Release validation and other concurrent research work remain separate.

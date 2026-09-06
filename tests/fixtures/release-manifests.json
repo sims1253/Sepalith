@@ -1,0 +1,2152 @@
+{
+  "cases": [
+    {
+      "name": "valid_linux",
+      "valid": true,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "valid_windows_and_optional_nonserver_flag",
+      "valid": true,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "win32",
+            "arch": "arm64",
+            "backend": "vulkan",
+            "server": "llama-server.exe",
+            "files": [
+              {
+                "name": "llama-server.exe",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              },
+              {
+                "name": "ggml.dll",
+                "url": "https://example.com/ggml.dll",
+                "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "bytes": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "valid_ipv6_and_port",
+      "valid": true,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://[2001:db8::1]:8443/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "valid_ipv4",
+      "valid": true,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://192.0.2.1/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "valid_quoted_url_path",
+      "valid": true,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/it's-model.gguf?key=a%20b",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "boolean_schema",
+      "valid": false,
+      "manifest": {
+        "schema": true,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown_schema",
+      "valid": false,
+      "manifest": {
+        "schema": 2,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown_manifest_field",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ],
+        "future": true
+      }
+    },
+    {
+      "name": "missing_model_profile",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "wrong_renderer",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta3",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "wrong_task",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "generic-completion",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "blank_tokenizer_revision",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": " \t",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nonstring_model_revision",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": 42
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown_profile_field",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2",
+          "extra": true
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty_bundles",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": []
+      }
+    },
+    {
+      "name": "null_bundles",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": null
+      }
+    },
+    {
+      "name": "duplicate_target",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          },
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "late_invalid_bundle",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          },
+          {
+            "platform": "linux",
+            "arch": "arm64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid_target",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "plan9",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown_bundle_field",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ],
+            "extra": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty_files",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate_filename",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              },
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "case_duplicate_filename",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              },
+              {
+                "name": "LLAMA-SERVER",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing_server",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "other-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nonboolean_executable",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": "true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nonexecutable_server",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing_server_executable",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "model_nonboolean_executable",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7,
+          "executable": 1
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "path_traversal",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "../model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "shell_filename",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model$(id).gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "trailing_dot",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "device_filename",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "CON.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "double_dot",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model..gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nonstring_filename",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": 42,
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid_build",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "../escape",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "uppercase_digest",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nonstring_digest",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": 42,
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "boolean_bytes",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": true
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "zero_bytes",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 0
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "fractional_bytes",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 1.5
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unsafe_integer_bytes",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 9007199254740992
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown_asset_field",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/releases/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7,
+          "extra": true
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "http_url",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "http://example.com/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing_host",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https:///model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty_host",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "url_userinfo",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://user:pass@example.com/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "url_space",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/a b",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "url_control",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/a\nb",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "url_backslash",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com\\evil/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid_port",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com:65536/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "zero_port",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com:0/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty_port",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com:/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid_host",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://-example.com/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid_ipv4",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://999.1.2.3/model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "trailing_dot_host",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com./model",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nonstring_url",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": 42,
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/releases/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "array_digest_coercion",
+      "valid": false,
+      "manifest": {
+        "schema": 1,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/model.gguf",
+          "sha256": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "bytes": 7
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "valid_integral_json_numbers",
+      "valid": true,
+      "manifest": {
+        "schema": 1.0,
+        "build": "b10453",
+        "model": {
+          "name": "model.gguf",
+          "url": "https://example.com/model.gguf",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 7.0
+        },
+        "modelProfile": {
+          "renderer": "zeta2-v1",
+          "task": "r-next-edit",
+          "tokenizerRevision": "tokenizer:rev1",
+          "modelRevision": "model:rev2"
+        },
+        "bundles": [
+          {
+            "platform": "linux",
+            "arch": "x64",
+            "backend": "cpu",
+            "server": "llama-server",
+            "files": [
+              {
+                "name": "llama-server",
+                "url": "https://example.com/llama-server",
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "bytes": 64.0,
+                "executable": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

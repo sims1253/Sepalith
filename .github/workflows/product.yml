@@ -1,0 +1,41 @@
+name: Product checks
+on:
+  pull_request:
+    paths:
+      - 'extensions/**'
+      - 'scripts/packaging/**'
+      - 'scripts/check_product.py'
+      - 'tests/fixtures/release-manifests.json'
+      - 'experiments/training/export_gguf.py'
+      - 'experiments/training/build_imatrix_corpus.py'
+      - 'experiments/training/test_quant_export.py'
+      - '.github/workflows/product.yml'
+  push:
+    paths:
+      - 'extensions/**'
+      - 'scripts/packaging/**'
+      - 'scripts/check_product.py'
+      - 'tests/fixtures/release-manifests.json'
+      - 'experiments/training/export_gguf.py'
+      - 'experiments/training/build_imatrix_corpus.py'
+      - 'experiments/training/test_quant_export.py'
+      - '.github/workflows/product.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  product:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: extensions/vscode-sepalith/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm --prefix extensions/vscode-sepalith ci
+      - run: python scripts/check_product.py

@@ -1,5 +1,9 @@
 # Sepalith VS Code extension — v0 spec ("prove the plumbing")
 
+Historical v0 contract. The serving/packaging upgrade in
+[docs/SERVING-PACKAGING.md](../../docs/SERVING-PACKAGING.md) supersedes
+the fixed paths, CPU-only managed serving, and no-download restrictions below.
+
 Goal: a minimal, testable VS Code extension that serves next-edit suggestions
 for R files from a local llama.cpp sidecar running a Sepalith GGUF. v0 is
 about END-TO-END PLUMBING, not suggestion quality — the current models are

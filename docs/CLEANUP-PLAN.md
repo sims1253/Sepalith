@@ -1,6 +1,6 @@
 # Cleanup delivery and remaining migration
 
-Updated 2026-09-06. The user authorized a repository rebuild supporting both research and product development. The delivered boundary is an independent shared package, documented local execution and prompt/memory contracts, core CI/checks, the V1d accounting correction, and an evidence-backed research backlog. This is no longer an initial proposal. It is also not a claim that every historical pipeline has been migrated or that a public product release exists.
+Updated 2026-09-06. The user authorized a repository rebuild supporting both research and product development. The delivered boundary is an independent shared package, documented local execution and prompt/memory contracts, separate core/product CI checks, reviewed runtime/packaging integration, the V1d accounting correction, and an evidence-backed research backlog. This is no longer an initial proposal. It is also not a claim that every historical pipeline has been migrated or that a public product release exists.
 
 The [project map](PROJECT-MAP.md) identifies current entry points, environments, inputs, outputs and checks. Detailed contracts live in [runner operations](EXPERIMENT-RUNNER.md), [prompt contracts](PROMPT-CONTRACT.md).
 
@@ -8,11 +8,11 @@ The [project map](PROJECT-MAP.md) identifies current entry points, environments,
 
 | Area | Implemented or recorded | Boundary |
 |---|---|---|
-| Shared Python package | `packages/sepalith`: standard-library runner, protocol, memory and context CLI with focused tests; `scripts/check_core.py` is the lightweight check entry point | Independent of the root training environment; existing experiment callers remain at their old paths |
+| Shared Python package | `packages/sepalith`: standard-library runner, protocol, memory and context CLI with focused tests; `scripts/check_core.py` is the lightweight check entry point | Independent of the root training environment; v5 edit-row rendering and paired-significance scoring use the package through compatibility entry points |
 | Local runner | Captured source, immutable recipes, serial dispatch, durable attempts, dependencies, drain, explicit retry, process reconciliation and hashed outputs | Linux/WSL2; one state directory coordinates its own jobs only; no live Markdown queue import, cloud dispatch or automatic checkpoint resume |
 | Prompt contract | Versioned edit/evidence records, serialization, `zeta2-v1` baseline rendering and tokenizer-supplied budget checks | Evidence records do not silently enter the prompt; context selection, output parsing and editor application remain separate |
 | Latent-memory contract | Payload identity, consumer compatibility and source-freshness validation | No compressor training, tensor execution, decoder injection or hybrid-cache integration |
-| Product baseline | Previously tracked VS Code extension remains in place | Concurrent runtime, packaging and Zed work is excluded from this cleanup delivery |
+| Product integration | Managed runtimes with offline cache, model/prompt profiles, refresh, download verification, owned-process shutdown; validated manifest and launcher tooling | Fake-asset checks pass; model promotion, native-platform tests and release publication remain separate |
 | Scientific audit | [RESEARCH-AUDIT.md](RESEARCH-AUDIT.md) records findings, evidence limits and recovery priorities; V1d tie accounting and ML1 control specification were corrected | Correcting a conclusion is not rerunning an experiment or changing its authorization |
 | Context research | [PROMPT-CONTEXT-RESEARCH.md](PROMPT-CONTEXT-RESEARCH.md) and [LATENT-WORKSPACE-MEMORY.md](LATENT-WORKSPACE-MEMORY.md) specify the user-selected learned latent-memory direction | Architecture, controls and falsifiers are proposals; no trained workspace compressor is delivered |
 
@@ -22,15 +22,16 @@ Shared code must not import experiment scripts. Product setup must not require N
 
 ```text
 packages/sepalith/       independent Python distribution: sepalith-core
-  src/sepalith/          runner.py, protocol.py, memory.py, context_cli.py
+  src/sepalith/          runner, protocol, memory, evaluation and context CLI
   tests/                standard-library contract and runner tests
   examples/             tiny receipt writer for runner validation
 experiments/            existing data, evaluation, training and research workflows
-extensions/             previously tracked VS Code extension
-scripts/                existing experiment chains and machine operations
+extensions/             VS Code integration and Zed launcher/settings guidance
+scripts/packaging/      reviewed manifest, runtime and export operations
+scripts/                separate core/product checks and legacy experiment chains
 docs/                   current contracts, operations, audit and research specifications
 comms/                  live coordination and append-only history
-.github/workflows/      core.yml lightweight validation
+.github/workflows/      core/product checks and manual runtime-bundle preparation
 ```
 
 The root `pyproject.toml` remains the research dependency environment with `package = false`. It was not replaced by the independent `packages/sepalith/pyproject.toml`. There is no delivered `src/sepalith/` at the repository root and no bulk move into a new `pipelines/` tree. Retaining old paths protects existing imports, frozen recipes and active jobs while callers migrate deliberately.
@@ -46,7 +47,7 @@ The user authorized finishing the current experiment, cutting over, and resuming
 5. Activate exactly one dispatcher, run that experiment, verify its receipts, then migrate the remaining eligible queue. Keep parked decisions parked and scientific verdicts separate from execution status.
 6. Preserve the old queue snapshot for rollback. Reconcile new attempts before restoring old dispatch; never run both systems concurrently.
 
-The runner cannot see unmanaged jobs or jobs in another state directory. Its unknown-launch crash window requires operator investigation; an operator-resolution command is not implemented. External datasets, archives and backups remain operational responsibilities. See the runner guide for these limits before cutover.
+The runner cannot see unmanaged jobs or jobs in another state directory. Its unknown-launch crash window requires operator investigation; `resolve-unknown` records an explicit audit atomically before releasing the claim. External datasets, archives and backups remain operational responsibilities. See the runner guide for these limits before cutover.
 
 ## Research work still pending
 
@@ -56,15 +57,24 @@ Before training: freeze parent-workspace splits, candidate selection, encoder/de
 
 Other recovery work follows the scientific audit: use existing artifacts first, distinguish recipe failures from mechanism failures, and repair comparison specifications before spending compute. Historical negative results and their implementations remain useful evidence. Do not delete a family merely because its adoption gate failed.
 
-## Concurrent product work: outside this delivery
+## Reviewed product integration
 
-Other contributors are developing managed runtime support, packaging scripts, quant-export additions and Zed integration in the shared local checkout. Their untracked files and related product edits are not included in this cleanup push. In particular, `runtime.ts`, `scripts/packaging/`, the Zed directory, serving/quant-packaging documents and `runtime-bundles.yml` are not delivered interfaces. This cleanup retains the previously tracked VS Code baseline and does not claim a runtime extraction, packaged distribution or product release.
+The previously local runtime and packaging work has now been reviewed and
+integrated. The review fixed offline startup, explicit model/renderer identity,
+network deadlines, shared manifest validation and readiness-timeout cleanup.
+`python3 scripts/check_product.py` checks the product independently of training.
+The exporter is import-safe and its fake-quantizer checks need no model stack.
 
-Those changes need their own review, native-platform and editor validation, model promotion and publication steps. The shared core package does not depend on them. Keep their local presence separate from what a fresh clone of this delivery contains.
+This is tooling for a reviewed release, not a published distribution. Real
+Windows/macOS/Vulkan behavior, Zed acceptance and model quality remain release
+gates. See [SERVING-PACKAGING.md](SERVING-PACKAGING.md). Other concurrent research
+edits in this checkout are preserved separately.
 
 ## Further extractions
 
-Migrate recurring callers one behavior at a time: prompt rendering, row contracts/split policies, aligned scoring, then common serving lifecycle and root resolution. Preserve literal prompt/target fixtures, IDs, split membership and denominator rules. Different historical 2%/3% holdout policies or PSM/Zeta formats must retain names and versions rather than being silently unified.
+The v5 assembler now uses shared edit rendering, resolves its checkout automatically, and accepts explicit data/input/output paths. The historical paired audit uses shared numeric scoring; non-default confidence levels now apply consistently to its interval and probability test. See [SHARED-EVALUATION.md](SHARED-EVALUATION.md).
+
+Continue migrating recurring callers one behavior at a time: prompt rendering, row contracts/split policies, aligned scoring, then common serving lifecycle and root resolution. Preserve literal prompt/target fixtures, IDs, split membership and denominator rules. Different historical 2%/3% holdout policies or PSM/Zeta formats must retain names and versions rather than being silently unified.
 
 Centralize path configuration while retaining resolved absolute execution paths. Keep incompatible training stacks separate. Consolidate queue/dashboard views only after authoritative run records exist; the old Markdown queue and board remain operational sources until migration. Archive code only after checking imports, launch recipes, external runbooks and active use.
 

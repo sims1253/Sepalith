@@ -1,0 +1,18 @@
+{
+  "edit_predictions": {
+    "provider": "open_ai_compatible_api",
+    "open_ai_compatible_api": {
+      "api_url": "http://127.0.0.1:18099/v1/completions",
+      "model": "sepalith",
+      "prompt_format": "zeta2",
+      "max_output_tokens": 640,
+      "prediction_debounce": 1500
+    }
+  },
+  "show_edit_predictions": false,
+  "languages": {
+    "R": {
+      "show_edit_predictions": true
+    }
+  }
+}

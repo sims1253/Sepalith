@@ -32,3 +32,7 @@ __pycache__/
 finish_block_stats.json
 results/
 .push_cases_state.json
+
+# local agent sessions and dispatcher locks
+.zcode/
+/comms/.queue-manager.lock
