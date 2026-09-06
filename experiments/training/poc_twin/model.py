@@ -44,6 +44,29 @@ def chunked_ce(h, w, targets, chunk=4096):
     return total / n
 
 
+@torch.no_grad()
+def chunked_eval_ce(h, w, targets, chunk=4096, initial_sum=0.0):
+    """Return (running CE sum, token count), projecting at most chunk rows.
+
+    Keep the projection's current dtype/autocast behavior and evaluate CE
+    in fp32. initial_sum preserves Python addition order across eval batches.
+    Like quick_eval, the count includes every target (including ignored ones).
+    """
+    if chunk <= 0:
+        raise ValueError("chunk must be positive")
+    h2 = h.reshape(-1, h.size(-1))
+    t2 = targets.reshape(-1)
+    if h2.size(0) != t2.numel():
+        raise ValueError("hidden states and targets must have equal token counts")
+    total = initial_sum
+    for c in range(0, t2.numel(), chunk):
+        logits = F.linear(h2[c:c + chunk], w)
+        total += F.cross_entropy(logits.float(), t2[c:c + chunk],
+                                 reduction="sum").item()
+        del logits
+    return total, t2.numel()
+
+
 def rope_cache(max_seq: int, head_dim: int, theta: float, device, dtype=torch.float32):
     inv_freq = 1.0 / (theta ** (torch.arange(0, head_dim, 2, device=device).float() / head_dim))
     t = torch.arange(max_seq, device=device).float()

@@ -14,7 +14,7 @@ import torch.nn.functional as F
 HERE = os.path.dirname(os.path.abspath(__file__))
 POC = os.path.dirname(HERE)
 sys.path.insert(0, POC)
-from model import TinyGQA, model_config  # noqa: E402
+from model import TinyGQA, model_config, chunked_eval_ce  # noqa: E402
 
 TMP = "/tmp/poc_twin"
 LAD = os.path.join(TMP, "ladder")
@@ -26,13 +26,9 @@ def bpb(model, blocks, total_bytes, bs=8, chunk=4096):
     for i in range(0, len(blocks), bs):
         x = torch.from_numpy(blocks[i:i + bs].astype(np.int64)).cuda()
         h = model.trunk(x[:, :-1], probe=False)
-        logits = F.linear(h, model.embed.weight)
-        lg = logits.view(-1, logits.size(-1))
-        tg = x[:, 1:].reshape(-1)
-        for c in range(0, lg.size(0), chunk):
-            nats += F.cross_entropy(lg[c:c + chunk].float(), tg[c:c + chunk],
-                                    reduction="sum").item()
-        toks += tg.numel()
+        nats, n_tokens = chunked_eval_ce(
+            h, model.embed.weight, x[:, 1:], chunk=chunk, initial_sum=nats)
+        toks += n_tokens
     return dict(bpb=nats / (total_bytes * math.log(2)),
                 loss_per_tok=nats / toks, tokens=toks)
 

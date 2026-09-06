@@ -16,12 +16,11 @@ import sys
 
 import numpy as np
 import torch
-import torch.nn.functional as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 POC = os.path.dirname(HERE)
 sys.path.insert(0, POC)
-from model import model_config  # noqa: E402
+from model import model_config, chunked_eval_ce  # noqa: E402
 from model_a2 import A2Model  # noqa: E402
 
 
@@ -40,14 +39,7 @@ def exit_bpbs(model, blocks, bs=8, chunk=4096):
             for e, tap in zip(model.exit_layers, taps.values()):
                 all_h[f"exit_{e}"] = tap
             for label, h in all_h.items():
-                logits = F.linear(h, model.embed.weight)
-                lg = logits.view(-1, logits.size(-1))
-                tg = targets.reshape(-1)
-                tot = 0.0
-                for c in range(0, lg.size(0), chunk):
-                    tot += F.cross_entropy(
-                        lg[c:c + chunk].float(), tg[c:c + chunk],
-                        reduction="sum").item()
+                tot, _ = chunked_eval_ce(h, model.embed.weight, targets, chunk=chunk)
                 nats[label] = nats.get(label, 0.0) + tot
             if model.use_mtp:
                 Tm = inp.size(1) - 1
@@ -57,14 +49,8 @@ def exit_bpbs(model, blocks, bs=8, chunk=4096):
                 cos = model.rope_cos[:Tm].cuda()
                 sin = model.rope_sin[:Tm].cuda()
                 mh = model.mtp_block(mtp_in, cos, sin, probe=False)
-                lg = F.linear(mh, model.embed.weight).view(
-                    -1, model.embed.weight.size(0))
-                tg = x[:, 2:Tm + 2].reshape(-1)
-                tot = 0.0
-                for c in range(0, lg.size(0), chunk):
-                    tot += F.cross_entropy(
-                        lg[c:c + chunk].float(), tg[c:c + chunk],
-                        reduction="sum").item()
+                tot, _ = chunked_eval_ce(
+                    mh, model.embed.weight, x[:, 2:Tm + 2], chunk=chunk)
                 nats["mtp"] = nats.get("mtp", 0.0) + tot
         n_tok += targets.numel()
     return nats, n_tok

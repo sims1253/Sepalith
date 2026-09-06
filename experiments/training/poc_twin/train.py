@@ -13,10 +13,9 @@ Artifacts: code/configs/logs in the repo dir; run checkpoints in /tmp/poc_twin
 import argparse, json, math, os, subprocess, sys, threading, time
 import numpy as np
 import torch
-import torch.nn.functional as F
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from model import TinyGQA, model_config  # noqa: E402
+from model import TinyGQA, model_config, chunked_eval_ce  # noqa: E402
 from muon import Muon  # noqa: E402
 
 POC_DIR = "/home/m0hawk/Documents/Sepalith/experiments/training/poc_twin"
@@ -402,13 +401,9 @@ def main():
         for i in range(0, min(n_blocks, len(eb)), bs):
             x = torch.from_numpy(eb[i:i + bs].astype(np.int64)).cuda()
             h = fwd_trunk(x[:, :-1], probe=False)
-            logits = F.linear(h, model.embed.weight)
-            lg = logits.view(-1, logits.size(-1))
-            tg = x[:, 1:].reshape(-1)
-            for c in range(0, lg.size(0), 4096):
-                nats += F.cross_entropy(lg[c:c + 4096].float(), tg[c:c + 4096],
-                                        reduction="sum").item()
-            toks += tg.numel()
+            nats, n_tokens = chunked_eval_ce(
+                h, model.embed.weight, x[:, 1:], initial_sum=nats)
+            toks += n_tokens
         return nats / toks
 
     step = step0
