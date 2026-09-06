@@ -1,0 +1,124 @@
+{
+  "v8_2_vs_base": {
+    "coverage": {
+      "n_rows": 300,
+      "unparsed": 4
+    },
+    "models": [
+      "base",
+      "sft_v8_2"
+    ],
+    "expected_winner": "sft_v8_2",
+    "n_points": 148,
+    "wins": {
+      "base": 5,
+      "sft_v8_2": 103
+    },
+    "ties": 32,
+    "flips": 8,
+    "win_rate": 0.6959,
+    "ties_half_rate": 0.8311,
+    "win_rate_wilson95": [
+      0.6177,
+      0.7643
+    ],
+    "sign_p": 7.213042994342267e-25,
+    "first_slot_pick_rate": 0.5591,
+    "first_slot_calls": 254,
+    "per_label": {
+      "noop": {
+        "n": 57,
+        "base": 2,
+        "sft_v8_2": 36,
+        "ties": 15,
+        "flips": 4
+      },
+      "typing": {
+        "n": 91,
+        "base": 3,
+        "sft_v8_2": 67,
+        "ties": 17,
+        "flips": 4
+      }
+    }
+  },
+  "v7_vs_rl_v2c": {
+    "coverage": {
+      "n_rows": 304,
+      "unparsed": 8
+    },
+    "models": [
+      "v7",
+      "rl_v2c"
+    ],
+    "expected_winner": "v7",
+    "n_points": 148,
+    "wins": {
+      "v7": 17,
+      "rl_v2c": 43
+    },
+    "ties": 73,
+    "flips": 15,
+    "win_rate": 0.1149,
+    "ties_half_rate": 0.4122,
+    "win_rate_wilson95": [
+      0.073,
+      0.1763
+    ],
+    "sign_p": 0.0010657657791434353,
+    "first_slot_pick_rate": 0.5868,
+    "first_slot_calls": 167,
+    "per_label": {
+      "typing": {
+        "n": 107,
+        "v7": 16,
+        "rl_v2c": 33,
+        "ties": 48,
+        "flips": 10
+      },
+      "noop": {
+        "n": 41,
+        "v7": 1,
+        "rl_v2c": 10,
+        "ties": 25,
+        "flips": 5
+      }
+    }
+  },
+  "anchor_gt_corrupt": {
+    "coverage": {
+      "n_rows": 100,
+      "unparsed": 2
+    },
+    "models": [
+      "gt",
+      "corrupted"
+    ],
+    "expected_winner": "gt",
+    "n_points": 49,
+    "wins": {
+      "gt": 43,
+      "corrupted": 0
+    },
+    "ties": 6,
+    "flips": 0,
+    "win_rate": 0.8776,
+    "ties_half_rate": 0.9388,
+    "win_rate_wilson95": [
+      0.7576,
+      0.9427
+    ],
+    "sign_p": 2.2737367544323206e-13,
+    "first_slot_pick_rate": 0.5165,
+    "first_slot_calls": 91,
+    "per_label": {
+      "typing": {
+        "n": 49,
+        "gt": 43,
+        "corrupted": 0,
+        "ties": 6,
+        "flips": 0
+      }
+    }
+  }
+}
