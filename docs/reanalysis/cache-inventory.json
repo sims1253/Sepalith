@@ -1,0 +1,1928 @@
+{
+  "schema": 1,
+  "source_root": "/home/m0hawk/Documents/Sepalith",
+  "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+  "source_status": "M comms.md\n M comms/board.md\n M comms/gpu.md\n M docs/EXPERIMENT-QUEUE.md\n M experiments/dashboard/dashboard_state.json\n M experiments/dashboard/index.html\n M experiments/dashboard/state_v2.json\n M experiments/data-mining/assemble_a2_mixture.py\n M experiments/data-mining/pack_r_strata.py\n M experiments/data-mining/r_repack_full.py\n M experiments/eval/eval_noop_fp.py\n M experiments/eval/eval_scenarios.py\n M experiments/eval/run_eval.py\n M experiments/eval/spec_bench.py\n M experiments/eval/test_spec_bench.py\n M experiments/post-processing/assemble_sft_v5.py\n M experiments/post-processing/push_cases.py\n M experiments/synthetic-data/README.md\n M experiments/synthetic-data/cases/backends.py\n M experiments/synthetic-data/cases/corpus.py\n M experiments/synthetic-data/cases/generate.py\n M experiments/synthetic-data/cases/rows.py\n M experiments/synthetic-data/cases/spec.py\n M experiments/synthetic-data/cases/test_cases.py\n M experiments/synthetic-data/cases/validators.py\n M experiments/synthetic-data/compound_author_spark.py\n M experiments/synthetic-data/doc_sync_spark.py\n M experiments/synthetic-data/ideation_tournament.py\n M experiments/synthetic-data/rewrite_author_spark.py\n M experiments/training/coding_simulator/judge_loop.py\n M experiments/training/coding_simulator/panel_judge.py\n M experiments/training/poc_ddot/RESULTS.md\n M experiments/training/poc_ddot/cal_length.py\n M experiments/training/poc_diff/RESULTS.md\n M experiments/training/poc_diff/train_md.py\n M experiments/training/poc_twin/run_q6_batchprobe.sh\n M experiments/training/rl/README.md\n M scripts/run_x5_s1_chain.sh\n?? experiments/bench/\n?? experiments/dashboard/index_v2.html\n?? experiments/dashboard/refresh_cycle.py\n?? experiments/data-mining/LOC1_S0_RESULTS.md\n?? experiments/data-mining/freeze_spec_traces.py\n?? experiments/data-mining/holdout_rule.py\n?? experiments/data-mining/loc1_build_set.py\n?? experiments/data-mining/loc1_run_eval.py\n?? experiments/data-mining/loc1_s0_results/\n?? experiments/eval/ast_equiv.py\n?? experiments/eval/episode_metrics.py\n?? experiments/eval/episode_metrics_v8_2_vs_base.json\n?? experiments/eval/episode_metrics_v8_2_vs_base.md\n?? experiments/eval/latency_load.py\n?? experiments/eval/parity_prompts_b12/\n?? experiments/eval/test_ast_equiv.py\n?? experiments/synthetic-data/TU1_RESULTS.md\n?? experiments/synthetic-data/cases/CONTRACTS.md\n?? experiments/synthetic-data/cases/contracts.py\n?? experiments/synthetic-data/cases/specs/cleanup_restoration.json\n?? experiments/synthetic-data/cases/specs/forwarding_restoration.json\n?? experiments/synthetic-data/cases/specs/matched_restraint.json\n?? experiments/synthetic-data/cases/specs/returned_field_migration.json\n?? experiments/synthetic-data/cases/specs/ry_diagnostic_repair.json\n?? experiments/synthetic-data/cases/specs/ry_diagnostic_repair_blind.json\n?? experiments/synthetic-data/cases/specs/signature_migration.json\n?? experiments/synthetic-data/cases/test_contracts.py\n?? experiments/synthetic-data/sufficiency_judge.py\n?? experiments/synthetic-data/teacher_resolve.py\n?? experiments/synthetic-data/test_sufficiency_judge.py\n?? experiments/synthetic-data/test_teacher_resolve.py\n?? experiments/training/parity_check_b12.py\n?? experiments/training/poc_ddot/test_cal_length.py\n?? experiments/training/poc_diff/CROSS_EVAL.md\n?? experiments/training/poc_diff/D3_PREP.md\n?? experiments/training/poc_diff/M1_PREP.md\n?? experiments/training/poc_diff/cross_eval.py\n?? experiments/training/poc_diff/cross_eval_results.json\n?? experiments/training/poc_diff/d3_prep.py\n?? experiments/training/poc_diff/m1b_prep.py\n?? experiments/training/poc_diff/test_cross_eval.py\n?? experiments/training/poc_diff/test_m1b_prep.py\n?? experiments/training/poc_twin/ladder/logs/bpb_eval_gn.json\n?? experiments/training/rl/O1_RESULTS.md\n?? experiments/training/rl/e1_readout.py\n?? experiments/training/rl/o1_paired_analysis.py\n?? experiments/training/rl/select_diverse.py\n?? experiments/training/rl/test_select_diverse.py\n?? experiments/training/train_sft_trl.py\n?? experiments/training/truncate_layers.py\n?? scripts/quant_serve_bench.sh\n?? scripts/quant_serve_requests.py\n?? scripts/run_b4_trl_now.sh\n?? scripts/run_b4_trl_retry.sh\n?? scripts/run_b4_trl_safe.sh\n?? scripts/run_b4_unsloth_safe.sh\n?? scripts/run_b_chain2.sh\n?? scripts/run_b_chain3.sh\n?? scripts/run_b_chain4_spark.sh\n?? scripts/run_b_chain5_spark_recover.sh\n?? scripts/run_b_series_chain.sh\n?? scripts/run_d1_chain.sh\n?? scripts/run_d23_chain.sh\n?? scripts/run_morning_serial.sh\n?? scripts/run_morning_serial2.sh\n?? scripts/run_serial3.sh",
+  "inputs": [
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/0089db82f940.0ce026976999b8cd.npz",
+      "exists": true,
+      "sha256": "52b7940ec6dda23247eef93df623bd7b14e4b52d8ca67f239e64787fb52a0050",
+      "bytes": 373508,
+      "mtime_ns": 1788677390708801700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/01198c36250e.fd570cfb82c99287.npz",
+      "exists": true,
+      "sha256": "7bc66decf6f5c2fa25a9d2574cb16040b5bee7df00d078dc8abbdb83d42f9d75",
+      "bytes": 100100,
+      "mtime_ns": 1788675236494082700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/08bc6bf2e89f.c29a44cedb3d5683.npz",
+      "exists": true,
+      "sha256": "7722ca18d46d5ecb93ca5de736ebef31f653c5e7fbf7438af552556b4db19aa9",
+      "bytes": 336644,
+      "mtime_ns": 1788676045633037500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/0a31158db511.81dfdd79523bfab0.npz",
+      "exists": true,
+      "sha256": "03fdb3f7f0b17c8261d1f0093a1e1d11f01ea68455fe0e5dae2b50437f80b345",
+      "bytes": 481028,
+      "mtime_ns": 1788678013704309400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/133c5832a167.2a4750acc3454aa0.npz",
+      "exists": true,
+      "sha256": "f4624164581e6eb9b0512950131e22b6c7c2ba20fbcfd39a504ed3559be9084e",
+      "bytes": 232196,
+      "mtime_ns": 1788677711389080500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/15b252741fd7.4199525ae473818f.npz",
+      "exists": true,
+      "sha256": "2fd0260c74090dcf42131a47bda5fd11642c96f9a3ed1af95dae54b8d31cfa2b",
+      "bytes": 132356,
+      "mtime_ns": 1788675353557563700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/1a7fab8fc4ae.e5be38506c03a2ed.npz",
+      "exists": true,
+      "sha256": "446758ead24a988eb97a39e4c7d99f3bba4097da25113bec713253c2ad642705",
+      "bytes": 133892,
+      "mtime_ns": 1788676147881617800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/1d7a74cf5743.66cc5a6ff159ea38.npz",
+      "exists": true,
+      "sha256": "12af683da7a352d60c99ef0ae3463e6433b38fee050eadb081c10ee53d04e3cc",
+      "bytes": 325892,
+      "mtime_ns": 1788675662146059500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/1dfeee15950b.7355cf7a9387a79b.npz",
+      "exists": true,
+      "sha256": "d2f75ba2b736acec2cfd4d87b7e2f4e70b6a04c0a568da566e2f3a7ab0ebe138",
+      "bytes": 921860,
+      "mtime_ns": 1788675328085790300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/24a40e7c14fc.196749d3f3718c49.npz",
+      "exists": true,
+      "sha256": "36ed58adad61b9262b32c1136951e12ba9a6493dbb3df79c3a7b4aa16ff84c3a",
+      "bytes": 739076,
+      "mtime_ns": 1788677853873188500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/2a3144695b19.2e40bb63826ad9e6.npz",
+      "exists": true,
+      "sha256": "48f3b5d44d78c6286ce33fb0b264edea2445953e0fa3da48f54a774140a94d30",
+      "bytes": 293636,
+      "mtime_ns": 1788677234469454300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/372c492b42a1.5418b972e45019bd.npz",
+      "exists": true,
+      "sha256": "fedfa4a4228efdd1229cdba3c4fb7ba753b6bf61b966ce2ba80f78f944152993",
+      "bytes": 921860,
+      "mtime_ns": 1788676649980253200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/39f3aacebe0c.7d28b237aadfd639.npz",
+      "exists": true,
+      "sha256": "086bb6ed19218a0e8e711985ff0a5e7bd2f1ea165e03c4863b2e1ae608e28e29",
+      "bytes": 416516,
+      "mtime_ns": 1788654106231462400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/3d3ddf8c8017.d976a5b112b96f15.npz",
+      "exists": true,
+      "sha256": "4ec5aabd8c2f590b04b7860fd6d244107971d0e8a7e6edbe0a44524f981ae282",
+      "bytes": 278276,
+      "mtime_ns": 1788677671667729500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/3d56f289106f.4852fa4985ea62e1.npz",
+      "exists": true,
+      "sha256": "67c0c4d6272d51ed6f8346fd72f6d1b86f85c11d893bc5f696941ac4e70dde68",
+      "bytes": 921860,
+      "mtime_ns": 1788675762987403800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/416c1f53971e.25ec6374ee39155f.npz",
+      "exists": true,
+      "sha256": "8113066bff6abe4830347843bc3e5b83d2b64f1fcd1650ac5a6908a200da3b30",
+      "bytes": 206084,
+      "mtime_ns": 1788676538902461700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/49944459fc6a.83c74200bf888626.npz",
+      "exists": true,
+      "sha256": "ac1c31435ec7a8b5cb368f879b429863630d896360f1d50ed1750d9ab7a00e01",
+      "bytes": 289028,
+      "mtime_ns": 1788677085594098000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/4d2b4c8246c9.ad00da94262ed4d0.npz",
+      "exists": true,
+      "sha256": "45bc2d4969d224e18e60cdc5e40cacc6e337f8beaf0746f7eeec262ad5e853f2",
+      "bytes": 212228,
+      "mtime_ns": 1788675966595352800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/4e6d4fda6449.f5e17e20f0118f22.npz",
+      "exists": true,
+      "sha256": "b34b8460de356c6ff02419a013cbe70cd96193dbbc39e476198dbff9531a112a",
+      "bytes": 140036,
+      "mtime_ns": 1788676821712608200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/548e816f16d7.3efd326aa7a3132b.npz",
+      "exists": true,
+      "sha256": "b9feb62a2c37630f8b412521b7af74975e3688a228521be51fa0aaf269c328ea",
+      "bytes": 120068,
+      "mtime_ns": 1788676311017734300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/5628cf93d1f8.329ccdabc1a0bf44.npz",
+      "exists": true,
+      "sha256": "2bb4697507966e2e46b06d886a759e3c11cfd4edf4488f029cb2298c0c2cb606",
+      "bytes": 120068,
+      "mtime_ns": 1788676845205046400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/5ac8b027fea5.f011979bb39ac787.npz",
+      "exists": true,
+      "sha256": "3a038ceb9a7111f20effba7b0c6e421e616f443475e332f6753e8c9f665ac11f",
+      "bytes": 175364,
+      "mtime_ns": 1788675845378615700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/5b4b0eda9789.42518591e0d7c39b.npz",
+      "exists": true,
+      "sha256": "ca93e25934e449e4af0191f32ea32eb9977ed4be13d999e78c390e2294fc27a2",
+      "bytes": 120068,
+      "mtime_ns": 1788676499973821700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/5feb2ccbd78f.ff37bf20fb0f3d68.npz",
+      "exists": true,
+      "sha256": "89b8ab32f13b496578696d01ddadc1596bf9ae4e5b5b940d26d46bd3f013a4b4",
+      "bytes": 115460,
+      "mtime_ns": 1788678148633327200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/63553c61824c.637340b3724c8439.npz",
+      "exists": true,
+      "sha256": "ca87837acd2f093aabf091b041d3e08630760de91361d8d696696fb98ee2a8a0",
+      "bytes": 204548,
+      "mtime_ns": 1788676119761763700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/64e8eb8f8590.6bd4a948202bf333.npz",
+      "exists": true,
+      "sha256": "da22c5f46976a0487ff01f570f691f861874c72dcce1a24144d87f4ac0f12b4b",
+      "bytes": 554756,
+      "mtime_ns": 1788677039017238000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/67bc36e2951c.005a63197c563b39.npz",
+      "exists": true,
+      "sha256": "53f3e8bb25d76a89d11a3e6aeece5beb1a6e6d5a9b14589d7d5792e317e5833e",
+      "bytes": 290564,
+      "mtime_ns": 1788676794842206500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/68cbf703a575.ecf92b56c2f6a1ab.npz",
+      "exists": true,
+      "sha256": "c6872c5f24a1e1114e462bf06d96af26518c57448512e9855c3ea8cd725cbc20",
+      "bytes": 878852,
+      "mtime_ns": 1788677185206832500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/699d8cb5801a.5598e33becfe5336.npz",
+      "exists": true,
+      "sha256": "00b17ba778374703fac9089689ec22afaebb887691eb9813d1df45a55dd21b14",
+      "bytes": 739076,
+      "mtime_ns": 1788676946776666900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/6eb0d6b9ccfe.88bdcff6960faaaa.npz",
+      "exists": true,
+      "sha256": "6c97b1a5e6e630c2837ae30f806f3472a45a07de736db2dac16807fd731672aa",
+      "bytes": 737540,
+      "mtime_ns": 1788676448731437700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/745d786aa183.bdce75a70a6e6df2.npz",
+      "exists": true,
+      "sha256": "170843fef52d03846bc65f3714757fd1cfca8fe3d714b3dc5cbd9a5a82f9a07d",
+      "bytes": 118532,
+      "mtime_ns": 1788676672651818700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/7c3f6abe3c16.470036f36b5ba580.npz",
+      "exists": true,
+      "sha256": "fe8cac0b545527cdbdcf282789283d37dfad199364729214f689225e79b1210d",
+      "bytes": 921860,
+      "mtime_ns": 1788675521637507200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/87fb3331a649.f5de7012f9b178a2.npz",
+      "exists": true,
+      "sha256": "4289ca8806f1babfa57ca6daea09abf8e6220d83c2e92b80885480979e1c3442",
+      "bytes": 345860,
+      "mtime_ns": 1788677569175898600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/8cff920308c5.e52bb9522fd44295.npz",
+      "exists": true,
+      "sha256": "04b4d30ccf15f0eacce57a2b9622210b48da9b1df9d719298ec2cadbc4b20d1f",
+      "bytes": 425732,
+      "mtime_ns": 1788677447756752400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/8f9753c6e3b4.4c9b3b070d8b728d.npz",
+      "exists": true,
+      "sha256": "144ed9e4ed670fbe9d92a5d72126eed78b59a8a442f3a40c7326471e600eb2a7",
+      "bytes": 170756,
+      "mtime_ns": 1788676344495432700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/9032bf22d8ef.ddd7e01776118e22.npz",
+      "exists": true,
+      "sha256": "3c1f8dba850c289e8b40a71db2ade1af24807cee76221ef731952661b720bc22",
+      "bytes": 100100,
+      "mtime_ns": 1788677630820148800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/96bae592ad17.30cc24a8320417c9.npz",
+      "exists": true,
+      "sha256": "c5459e6e7bca155e2daaf7cba2c0018572ae1fb4d24ed6308d4a6b29c3f579ac",
+      "bytes": 203012,
+      "mtime_ns": 1788677892310488300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/9e0bf214599a.c8731a0d3ae66921.npz",
+      "exists": true,
+      "sha256": "afdff72b0e27f9e873f45776d6a700e358e5ac137f5190a05c1b837d47e75b7c",
+      "bytes": 173828,
+      "mtime_ns": 1788676081077630000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/9e602b3b2ef8.ec67384306d64077.npz",
+      "exists": true,
+      "sha256": "a2d484f902147b0390192a6c7c8ba651b71e2b205ed687ef70842062ec25c4ac",
+      "bytes": 132356,
+      "mtime_ns": 1788678081974367400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/9f0654f00758.09297d64ea4d17e8.npz",
+      "exists": true,
+      "sha256": "352c177ae8f4af10c4d868110dddcd8e428c8ebbd263bcdeff922952c381ee49",
+      "bytes": 293636,
+      "mtime_ns": 1788675811151133200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/a52851d9fa36.217330cbce371f1f.npz",
+      "exists": true,
+      "sha256": "a84c95bce69827e90226b92be2d049f5294a6ec20195c4783150bc6e7c7d2890",
+      "bytes": 259844,
+      "mtime_ns": 1788678126120789200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/ae0d76d2e8e6.65ed825257364a6d.npz",
+      "exists": true,
+      "sha256": "df28ad10e1b232f6506c44c2157f1e28645dfca6b428eec738a83a3632b2f36f",
+      "bytes": 281348,
+      "mtime_ns": 1788677609601975900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/b04d34218cce.cc6d734b1ee8509b.npz",
+      "exists": true,
+      "sha256": "aa6e992ecf1d33ddeb1c8fbc5a8e2b60d2fbba7f481ac10b51af18c11a661394",
+      "bytes": 192260,
+      "mtime_ns": 1788678056179149100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/b0b879c380b0.e20bff2add4c1077.npz",
+      "exists": true,
+      "sha256": "caa917e3bbb4195ddd4ae8b89e351b6ecf07acc4aceedc68ab5d11d63b5346bd",
+      "bytes": 921860,
+      "mtime_ns": 1788676753770471600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/c1bdaf5e4bb1.236c24ac50fc29c0.npz",
+      "exists": true,
+      "sha256": "e307b46c247eece5e05b5a5b2b067928b143f85eada4b0ee7fd1be97bb0bb682",
+      "bytes": 101636,
+      "mtime_ns": 1788677341113955000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/c64e21c1b2dd.7527e8f4e4a42fc1.npz",
+      "exists": true,
+      "sha256": "022ece6666b07c11e65d6098fad5a549867127b51fe4df4c7aaa352d41695b07",
+      "bytes": 235268,
+      "mtime_ns": 1788677933718780400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/cbc23478b6d0.d7821bf329e5788e.npz",
+      "exists": true,
+      "sha256": "e7757015bca98173400c37ba8a318852fc5d138f4c2d44da9cd030251d96b276",
+      "bytes": 559364,
+      "mtime_ns": 1788675413239905500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/ce7fcdf164b5.dc5be8ec91e74449.npz",
+      "exists": true,
+      "sha256": "5c06a4485dcb4fca21d1980c2db86d0baa0185828b167f11879e2847b93d6227",
+      "bytes": 921860,
+      "mtime_ns": 1788678238119919100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/d3281e37b87e.160da29999c8a3b6.npz",
+      "exists": true,
+      "sha256": "edc0d8ac02ac17c9c215260134ed888a6650c11db06251d88a0c3a8eb2b8cdbd",
+      "bytes": 559364,
+      "mtime_ns": 1788675612635218200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/d79bc5419077.5f75aa813300b9cb.npz",
+      "exists": true,
+      "sha256": "e6d96732a08f125960ccf185a89ef48cc23cd69664d868cc8db0f6fb02ef778d",
+      "bytes": 100100,
+      "mtime_ns": 1788675255076493300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/d99367a9c256.c0a089b8a41f064f.npz",
+      "exists": true,
+      "sha256": "f86111ac1c08a80033c25f68995a683a4c3e5766748ba1d93b77f9d6eeed65e2",
+      "bytes": 482564,
+      "mtime_ns": 1788677320558330900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/f34fa895a97c.bc79422e134beca8.npz",
+      "exists": true,
+      "sha256": "fe40df64f991bcdaa112a57a00252421809a52c16159179d41105c102a5de871",
+      "bytes": 921860,
+      "mtime_ns": 1788675929042464000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/f5275c5bc17c.b96295aba11ae344.npz",
+      "exists": true,
+      "sha256": "6e57993f6dafb9397eb06d2902db1c11f00488822daef329c7cc28f8a5a2b704",
+      "bytes": 534788,
+      "mtime_ns": 1788677521579425300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fa0605022124.9927416a38a94905.npz",
+      "exists": true,
+      "sha256": "46eda3466a65afc4cbd1dc808065981d1c80cabc2a03765e8736460aeaaa4885",
+      "bytes": 204548,
+      "mtime_ns": 1788676282905129000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fc88e0abb8ef.c3b49c91baf2da3e.npz",
+      "exists": true,
+      "sha256": "a68319de684fc16481a3416f7bd9eaee1e68adcee225db2799f878b4ff07cdce",
+      "bytes": 425732,
+      "mtime_ns": 1788676202623428800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fd73af50db4a.5d73e40ea5d248bf.npz",
+      "exists": true,
+      "sha256": "ce1674a24c05526e469afffc6e358fdef2d4e9ce8e503b398c3720de44911ad4",
+      "bytes": 127748,
+      "mtime_ns": 1788675991632815500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fdd79e3cb2fc.32e6b73a78fd5382.npz",
+      "exists": true,
+      "sha256": "ccd38bc924d3cd1184165d9bc02aaec1b30c7078e91cae3db57e62a98cea7ac5",
+      "bytes": 112388,
+      "mtime_ns": 1788676475698413400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fe3f3feefc9d.9c6df05c6d8d13e3.npz",
+      "exists": true,
+      "sha256": "35dc7bc8bbc520cba3abdfca31c8b71edb99ffde1b4b353edcdcf0c8ceff3920",
+      "bytes": 136964,
+      "mtime_ns": 1788677961622653200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fe5cb5f55d01.5bbaab891108edc5.npz",
+      "exists": true,
+      "sha256": "9834d26b6298a34f25e3de665d6869415ebd19505d24d9e87016b319c3031d40",
+      "bytes": 259844,
+      "mtime_ns": 1788676244330487600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/fea02c3fdf9e.640de35afba6a3d1.npz",
+      "exists": true,
+      "sha256": "0cf563e1cf128855b58d465ce5a6e30f5ba152b575d699d2a2742d9e3e285f10",
+      "bytes": 212228,
+      "mtime_ns": 1788677749783060900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.0089db82f940.0ce026976999b8cd.npz",
+      "exists": true,
+      "sha256": "c27c0b7da0725a09e0581c1932d0703d90850a0a1829e7b87b42142de7641c55",
+      "bytes": 1796,
+      "mtime_ns": 1788677390833058500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.01198c36250e.fd570cfb82c99287.npz",
+      "exists": true,
+      "sha256": "53245715a3369b6e98e960664a632222ecacacffb659f77efeaf2f4acac614d5",
+      "bytes": 1796,
+      "mtime_ns": 1788675236692040400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.08bc6bf2e89f.c29a44cedb3d5683.npz",
+      "exists": true,
+      "sha256": "2a3a2907cf0780020cdf250de947d49c99bef9d3da2a5ab67064ba1d0217539a",
+      "bytes": 1796,
+      "mtime_ns": 1788676045784371700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.0a31158db511.81dfdd79523bfab0.npz",
+      "exists": true,
+      "sha256": "5b7bfc45edcb1fa2da1ddda08280a68e52fee5715fcf80f1a024e17d7765be2d",
+      "bytes": 1796,
+      "mtime_ns": 1788678013893747900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.133c5832a167.2a4750acc3454aa0.npz",
+      "exists": true,
+      "sha256": "2d0b32d4a0e57b430ead8c1e0dd8d7b40d9aa23dfb8509ddfc67cb1269eec059",
+      "bytes": 1796,
+      "mtime_ns": 1788677711581206000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.15b252741fd7.4199525ae473818f.npz",
+      "exists": true,
+      "sha256": "5f5782b64a0943e1bbf1f02f615c8d8036b49b4668d4b4c816aed46e8ade8550",
+      "bytes": 1796,
+      "mtime_ns": 1788675353673135000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.1a7fab8fc4ae.e5be38506c03a2ed.npz",
+      "exists": true,
+      "sha256": "5aabcb03535228490f81b65aee2ba16b7dbf257b714cd17eef55d2057de3c893",
+      "bytes": 1796,
+      "mtime_ns": 1788676148178413700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.1d7a74cf5743.66cc5a6ff159ea38.npz",
+      "exists": true,
+      "sha256": "43be1ff40543bb3afd11d167375081efded532493d16143ee6d9180b18078535",
+      "bytes": 1796,
+      "mtime_ns": 1788675662347815000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.1dfeee15950b.7355cf7a9387a79b.npz",
+      "exists": true,
+      "sha256": "2285e7d17e201018cd760b26f7d1c829bff2b3e2bb91c2dc586739db8323d02f",
+      "bytes": 1796,
+      "mtime_ns": 1788675328385094200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.24a40e7c14fc.196749d3f3718c49.npz",
+      "exists": true,
+      "sha256": "60324e033b28ddc4728d12ccbe8851dacbf7353f38cb58a3791f8c25f9802aee",
+      "bytes": 1796,
+      "mtime_ns": 1788677854167107300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.2a3144695b19.2e40bb63826ad9e6.npz",
+      "exists": true,
+      "sha256": "e058741635bcac95fd8554395a2d4d0803b73a24f29de8087d2e410053c53f40",
+      "bytes": 1796,
+      "mtime_ns": 1788677234675599000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.372c492b42a1.5418b972e45019bd.npz",
+      "exists": true,
+      "sha256": "067d1bb3599be203beca9a39ec3f4be7aa83532f94017779329a330daf5ca2b6",
+      "bytes": 1796,
+      "mtime_ns": 1788676650190332100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.39f3aacebe0c.7d28b237aadfd639.npz",
+      "exists": true,
+      "sha256": "d4d10a70492d6c247485d8d8cad129551cf8d310f1959010fdf92807c47180a6",
+      "bytes": 1796,
+      "mtime_ns": 1788654106598416000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.3d3ddf8c8017.d976a5b112b96f15.npz",
+      "exists": true,
+      "sha256": "dccfdca9d8fc7d6c4ef48f88dec74237a92853972ea139a3b9fc8875be3a81dd",
+      "bytes": 1796,
+      "mtime_ns": 1788677671821521600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.3d56f289106f.4852fa4985ea62e1.npz",
+      "exists": true,
+      "sha256": "1bf3b86eb367de3668bb4a4d2b1fd20c43174c45439dd03cd39b7ddde0271d5c",
+      "bytes": 1796,
+      "mtime_ns": 1788675763123408200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.416c1f53971e.25ec6374ee39155f.npz",
+      "exists": true,
+      "sha256": "7d974e0d9ac8d253a928c579a9a48cc8d4554696e5fc3acff8f8af56f0e56d9c",
+      "bytes": 1796,
+      "mtime_ns": 1788676539113538300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.49944459fc6a.83c74200bf888626.npz",
+      "exists": true,
+      "sha256": "ec546695607d0d107b7a1f1f34f3661bea956f7d68dfc3d9970ea9cd38f519b3",
+      "bytes": 1796,
+      "mtime_ns": 1788677085726232700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.4d2b4c8246c9.ad00da94262ed4d0.npz",
+      "exists": true,
+      "sha256": "aaec2b216ef2f03d35a3d5fbaff95a83cac04e608e8e68cfb1df5d02cbc8e18e",
+      "bytes": 1796,
+      "mtime_ns": 1788675966782848000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.4e6d4fda6449.f5e17e20f0118f22.npz",
+      "exists": true,
+      "sha256": "fd79bf3ec75568a661fa7b9ef98138fa9c9da372e4f07017e1e370898bad0a85",
+      "bytes": 1796,
+      "mtime_ns": 1788676821849778300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.548e816f16d7.3efd326aa7a3132b.npz",
+      "exists": true,
+      "sha256": "19cc69b127c9368b23dbcfdb85299e5e2a34029c0ed0eebc45e905c480b85482",
+      "bytes": 1796,
+      "mtime_ns": 1788676311161120600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.5628cf93d1f8.329ccdabc1a0bf44.npz",
+      "exists": true,
+      "sha256": "f8642d2d4056524d146a4737d526b9650d409b647bfabadbdd7acd8afaeecd6b",
+      "bytes": 1796,
+      "mtime_ns": 1788676845329292400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.5ac8b027fea5.f011979bb39ac787.npz",
+      "exists": true,
+      "sha256": "7908d1600d4f0e45818dccd97a7ff2ad2d9a4e3b5814ef7871ecffa863bc7524",
+      "bytes": 1796,
+      "mtime_ns": 1788675845556316500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.5b4b0eda9789.42518591e0d7c39b.npz",
+      "exists": true,
+      "sha256": "bb205ff913eeabd8df75f0844b6bba852f872ea9db8e0dd695da71bd5a2318da",
+      "bytes": 1796,
+      "mtime_ns": 1788676500085690100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.5feb2ccbd78f.ff37bf20fb0f3d68.npz",
+      "exists": true,
+      "sha256": "a95da268cece916c2a1885a09ae83cc854a95fc23442e71c190c5485e3072ffb",
+      "bytes": 1796,
+      "mtime_ns": 1788678148933483000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.63553c61824c.637340b3724c8439.npz",
+      "exists": true,
+      "sha256": "db439c94c155356235598325ec6d3d76d5bf9741cfbba244f28da42605173ba7",
+      "bytes": 1796,
+      "mtime_ns": 1788676119943868600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.64e8eb8f8590.6bd4a948202bf333.npz",
+      "exists": true,
+      "sha256": "30fede652b504bfbec4adefc049c9f777d952e8731f9325640c906f44b189612",
+      "bytes": 1796,
+      "mtime_ns": 1788677039170237400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.67bc36e2951c.005a63197c563b39.npz",
+      "exists": true,
+      "sha256": "7188768a9923b53ab1253780e99d23b21b19e9b8e0c265d76f860478d96b7d31",
+      "bytes": 1796,
+      "mtime_ns": 1788676794987901000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.68cbf703a575.ecf92b56c2f6a1ab.npz",
+      "exists": true,
+      "sha256": "b02c8d4a7510457b276a37090141ee71f7a6f6e2a20d07d8098ee8e011102355",
+      "bytes": 1796,
+      "mtime_ns": 1788677185340101300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.699d8cb5801a.5598e33becfe5336.npz",
+      "exists": true,
+      "sha256": "035ccb2ae06227ca92ded65e7366aa9aaee2717a5d7179d89c1913e07587c8a9",
+      "bytes": 1796,
+      "mtime_ns": 1788676946920587100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.6eb0d6b9ccfe.88bdcff6960faaaa.npz",
+      "exists": true,
+      "sha256": "855292cf5d4a3384b927d096f7b7c3c90f83f136f799f447e866010c5d64077c",
+      "bytes": 1796,
+      "mtime_ns": 1788676448874692900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.745d786aa183.bdce75a70a6e6df2.npz",
+      "exists": true,
+      "sha256": "200dd81057aef43c543ee880731e4e0a3cc47c8702ef1388c61ae42452cd8a60",
+      "bytes": 1796,
+      "mtime_ns": 1788676672800619200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.7c3f6abe3c16.470036f36b5ba580.npz",
+      "exists": true,
+      "sha256": "cfc26266b87688e0635bf7de7ec75ca5234987510415443a840e182f2c2245a0",
+      "bytes": 1796,
+      "mtime_ns": 1788675522558536100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.87fb3331a649.f5de7012f9b178a2.npz",
+      "exists": true,
+      "sha256": "d3a7c04ad9d7a0d74963a2b982bef86cb5e26b9eea8c2781361acbc88a05c4de",
+      "bytes": 1796,
+      "mtime_ns": 1788677569330156500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.8cff920308c5.e52bb9522fd44295.npz",
+      "exists": true,
+      "sha256": "cfaf82bfc2ad5868b1b2c5f29e92b5bd1418d9bb206d941d5097ba01fc48968a",
+      "bytes": 1796,
+      "mtime_ns": 1788677447885299900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.8f9753c6e3b4.4c9b3b070d8b728d.npz",
+      "exists": true,
+      "sha256": "071fd5a58118a35c9094b4fc16069c71d049b66b68e47848adb061bec5777798",
+      "bytes": 1796,
+      "mtime_ns": 1788676344689401100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.9032bf22d8ef.ddd7e01776118e22.npz",
+      "exists": true,
+      "sha256": "dee902d70550685b69d7e9ffa015fa5ef73fa25dcbbe4ed4b6abb3b7aff1a347",
+      "bytes": 1796,
+      "mtime_ns": 1788677631022201500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.96bae592ad17.30cc24a8320417c9.npz",
+      "exists": true,
+      "sha256": "5bcf40019fd9d23790bd24e854e16f4878ef706c2534236cf8fcc2cdc15724f8",
+      "bytes": 1796,
+      "mtime_ns": 1788677892488093500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.9e0bf214599a.c8731a0d3ae66921.npz",
+      "exists": true,
+      "sha256": "6ada39373f2e382d87e9c2be23c7da27fe4847c02c9011191c7dca96709f548e",
+      "bytes": 1796,
+      "mtime_ns": 1788676081463568700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.9e602b3b2ef8.ec67384306d64077.npz",
+      "exists": true,
+      "sha256": "088933a65f114560c1289f783f400fa7a57e62c2ddaad63b4fe9cd6b62250e6c",
+      "bytes": 1796,
+      "mtime_ns": 1788678082411743900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.9f0654f00758.09297d64ea4d17e8.npz",
+      "exists": true,
+      "sha256": "49027f9c334260885fc71e5e31f18e5166418211a1c68ad2be80ed82188452d5",
+      "bytes": 1796,
+      "mtime_ns": 1788675811284950200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.a52851d9fa36.217330cbce371f1f.npz",
+      "exists": true,
+      "sha256": "ce26cde31079f2cf4f3a1e4eeea3f5b44da25b6968d818c0b7a92cc9e6fcf6e2",
+      "bytes": 1796,
+      "mtime_ns": 1788678126275019900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.ae0d76d2e8e6.65ed825257364a6d.npz",
+      "exists": true,
+      "sha256": "e56d62a0c50a1cae37e4d3edb1059ccc5b11f3d04b558dd1e022526291837997",
+      "bytes": 1796,
+      "mtime_ns": 1788677609814130700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.b04d34218cce.cc6d734b1ee8509b.npz",
+      "exists": true,
+      "sha256": "77189b1375b8396669590399fc7acd78a013bda50ccdaa1b6214c2ef64ccf1c4",
+      "bytes": 1796,
+      "mtime_ns": 1788678056396919900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.b0b879c380b0.e20bff2add4c1077.npz",
+      "exists": true,
+      "sha256": "dea6821a87523e51731eb456ca8b287cf7f9939efbe9215bf675209909deb399",
+      "bytes": 1796,
+      "mtime_ns": 1788676753935256600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.c1bdaf5e4bb1.236c24ac50fc29c0.npz",
+      "exists": true,
+      "sha256": "e628d8996f3c2687e58a2586f0ec74872a0b5590e74c7464d9eb83be8c0818b7",
+      "bytes": 1796,
+      "mtime_ns": 1788677341273295200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.c64e21c1b2dd.7527e8f4e4a42fc1.npz",
+      "exists": true,
+      "sha256": "5344f13ce8c8b2c37379a12f8aa8ae0b440530ddbd85b99ccf9facc2c0a0b111",
+      "bytes": 1796,
+      "mtime_ns": 1788677933858479200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.cbc23478b6d0.d7821bf329e5788e.npz",
+      "exists": true,
+      "sha256": "df095b0465607df3b40c059dba405b9adbf6fa303f08de3b63e3ecdc78d7f3c7",
+      "bytes": 1796,
+      "mtime_ns": 1788675413486581100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.ce7fcdf164b5.dc5be8ec91e74449.npz",
+      "exists": true,
+      "sha256": "9a9f452c4298041f554ed0168fd41db818d27d1f3520f36e5987d714a5a3bf9a",
+      "bytes": 1796,
+      "mtime_ns": 1788678238274911900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.d3281e37b87e.160da29999c8a3b6.npz",
+      "exists": true,
+      "sha256": "e796be500a4440cdd5204655a3ba3b381d6e875a6140ecfdfbec8949d4d38e6a",
+      "bytes": 1796,
+      "mtime_ns": 1788675612791637400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.d79bc5419077.5f75aa813300b9cb.npz",
+      "exists": true,
+      "sha256": "2e4d5618888108711dbae74856285b7803c3c44f975ec75fed322360ee93abdb",
+      "bytes": 1796,
+      "mtime_ns": 1788675255246848400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.d99367a9c256.c0a089b8a41f064f.npz",
+      "exists": true,
+      "sha256": "6418379df742c207ce8ec1b11130eb95a3f0a221dc3fc293f8c2158d127761e4",
+      "bytes": 1796,
+      "mtime_ns": 1788677320724559600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.f34fa895a97c.bc79422e134beca8.npz",
+      "exists": true,
+      "sha256": "490091de40c514661b45fe52d4b5cd6609dd8066c386893a490b79d041d8a430",
+      "bytes": 1796,
+      "mtime_ns": 1788675929223373900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.f5275c5bc17c.b96295aba11ae344.npz",
+      "exists": true,
+      "sha256": "7669ed6bf8d53a93f1b84d65ebac1e152adb563024c01f0749eeabb4894c0539",
+      "bytes": 1796,
+      "mtime_ns": 1788677521765791800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fa0605022124.9927416a38a94905.npz",
+      "exists": true,
+      "sha256": "b378a906275fa5af2aa227bf3a8dcd107fb7e81b0eae98374ff4e4fd32842f70",
+      "bytes": 1796,
+      "mtime_ns": 1788676283055394200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fc88e0abb8ef.c3b49c91baf2da3e.npz",
+      "exists": true,
+      "sha256": "d734b91bc301d2ddca1cf56ebe1f88952051b7f6e56e9405e335682479400c4b",
+      "bytes": 1796,
+      "mtime_ns": 1788676202807889900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fd73af50db4a.5d73e40ea5d248bf.npz",
+      "exists": true,
+      "sha256": "5b5a9618a7a738f9fe2e80d130ac218d10bab2819e03ad32ce09a852522db685",
+      "bytes": 1796,
+      "mtime_ns": 1788675991825122900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fdd79e3cb2fc.32e6b73a78fd5382.npz",
+      "exists": true,
+      "sha256": "2f4cdc041cddb9f335483158f1d6b7546d637b5feaa0dc32a20c5b83745f4470",
+      "bytes": 1796,
+      "mtime_ns": 1788676475806642900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fe3f3feefc9d.9c6df05c6d8d13e3.npz",
+      "exists": true,
+      "sha256": "2302a721c2f685b6d753533ad1eeca415f2eb9a6d2858e05385e1d1b81502a39",
+      "bytes": 1796,
+      "mtime_ns": 1788677961794334200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fe5cb5f55d01.5bbaab891108edc5.npz",
+      "exists": true,
+      "sha256": "a80909773aedb7e3450e54b8dc9518cab5675d6a16fee2c35b1374114d2c0469",
+      "bytes": 1796,
+      "mtime_ns": 1788676244474539100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn-small/q.fea02c3fdf9e.640de35afba6a3d1.npz",
+      "exists": true,
+      "sha256": "de6cbe2fb2835b4f59962add04d9e78bd60c4782b70d44cc5d7aa312021ddad8",
+      "bytes": 1796,
+      "mtime_ns": 1788677749979517700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/0089db82f940.0ce026976999b8cd.npz",
+      "exists": true,
+      "sha256": "3ea0ba6d81d3f0110a7093275ffbf1a4c3226f617bbb20bb904917ae000a6559",
+      "bytes": 1990916,
+      "mtime_ns": 1788671002792167100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/01198c36250e.fd570cfb82c99287.npz",
+      "exists": true,
+      "sha256": "f4afc6be2ba75e94c8269629fffb1767fd88ff1ee2ae66ece9c85b0e3befe369",
+      "bytes": 532740,
+      "mtime_ns": 1788654945494882500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/08bc6bf2e89f.c29a44cedb3d5683.npz",
+      "exists": true,
+      "sha256": "bd52019113af18d77424a32c802341bebb695b38f5d42b1001d440c4a4f2fef7",
+      "bytes": 1794308,
+      "mtime_ns": 1788661716402376900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/0a31158db511.81dfdd79523bfab0.npz",
+      "exists": true,
+      "sha256": "c18653c4b9cb24ad897b8ec87ffd24c2117be5152354c06cd32d5f6d3b98a7bb",
+      "bytes": 2564356,
+      "mtime_ns": 1788674147220522100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/133c5832a167.2a4750acc3454aa0.npz",
+      "exists": true,
+      "sha256": "178c349f01a82a0182e9f55a5d48a0d665bb6228244c6a719827b210f5dfc8d8",
+      "bytes": 1237252,
+      "mtime_ns": 1788672600023678300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/15b252741fd7.4199525ae473818f.npz",
+      "exists": true,
+      "sha256": "c5adc444bbd4ced27139f1441be9aac794e2c0a9bae2eb304e34e17f668194d4",
+      "bytes": 704772,
+      "mtime_ns": 1788655818543153100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/1a7fab8fc4ae.e5be38506c03a2ed.npz",
+      "exists": true,
+      "sha256": "9d8ec69fddefbe0a7b55ba1b97d9ffc4517554f38833984b91a6911038902643",
+      "bytes": 712964,
+      "mtime_ns": 1788662301012608600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/1d7a74cf5743.66cc5a6ff159ea38.npz",
+      "exists": true,
+      "sha256": "3b434f9a865e0b83eba1434709943c69e712f1ac11505f757cc36d9d86bbbf2d",
+      "bytes": 1736964,
+      "mtime_ns": 1788658213727009900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/1dfeee15950b.7355cf7a9387a79b.npz",
+      "exists": true,
+      "sha256": "a5ac38ff8d16f0b6d7f647ddc0f8cb550d5b36af5b5040148dcbcef6ebc8ed47",
+      "bytes": 4915460,
+      "mtime_ns": 1788655626131718900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/24a40e7c14fc.196749d3f3718c49.npz",
+      "exists": true,
+      "sha256": "1a76a5621e37329e89134ff31173083092d9f93d7b2cef61a474b88b042ee8b6",
+      "bytes": 3940612,
+      "mtime_ns": 1788673324895857500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/2a3144695b19.2e40bb63826ad9e6.npz",
+      "exists": true,
+      "sha256": "452c9f494b9934caa11abace109989f56d6c7858565630f66f3ffefdd622f3ab",
+      "bytes": 1564932,
+      "mtime_ns": 1788669801130605700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/372c492b42a1.5418b972e45019bd.npz",
+      "exists": true,
+      "sha256": "3a25eac651ab8fd11b0538b8b00e57abe8a8ef4a40537de8b86d4c0a0bc4e1ac",
+      "bytes": 4915460,
+      "mtime_ns": 1788666100781354400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/39f3aacebe0c.7d28b237aadfd639.npz",
+      "exists": true,
+      "sha256": "95229c9a8cb9aa3833b6b5827337b202af8aeee7631c283bd99d1c53db3cd10b",
+      "bytes": 2220292,
+      "mtime_ns": 1788670643252748900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/3d3ddf8c8017.d976a5b112b96f15.npz",
+      "exists": true,
+      "sha256": "3784d055181481457a6aa410de7f91cbcbde91ffa8ce63cd447a888830ffaaca",
+      "bytes": 1483012,
+      "mtime_ns": 1788672392336800500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/3d56f289106f.4852fa4985ea62e1.npz",
+      "exists": true,
+      "sha256": "c03bc23e402ac3e298b8f1141ac0c0d14a38ef2379e2404831adb0f5f0c88614",
+      "bytes": 4915460,
+      "mtime_ns": 1788659822673887100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/416c1f53971e.25ec6374ee39155f.npz",
+      "exists": true,
+      "sha256": "020a9e521bf5e2151878fa420f001b4accf3277fed97af323e0f33fe74c790eb",
+      "bytes": 1097988,
+      "mtime_ns": 1788665419279176300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/49944459fc6a.83c74200bf888626.npz",
+      "exists": true,
+      "sha256": "bd97c4aa7b654d7bd60f98917c5e47398a99423743613978c4f093e8946c7f84",
+      "bytes": 1540356,
+      "mtime_ns": 1788668994081404000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/4d2b4c8246c9.ad00da94262ed4d0.npz",
+      "exists": true,
+      "sha256": "7498841cc2d6410c374542b54bfafd2168fc3ef2c940b6dd63528d3be6e6638c",
+      "bytes": 1130756,
+      "mtime_ns": 1788661190510277900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/4e6d4fda6449.f5e17e20f0118f22.npz",
+      "exists": true,
+      "sha256": "d4de937a189136a77d76aac000095144718d025720ef99b9cd1d918a525de5f7",
+      "bytes": 745732,
+      "mtime_ns": 1788667219780148900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/548e816f16d7.3efd326aa7a3132b.npz",
+      "exists": true,
+      "sha256": "23a0d184391b76e946a34425b96400697c577b53eb3165d7c4b53e01682d1197",
+      "bytes": 639236,
+      "mtime_ns": 1788663666126344700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/5628cf93d1f8.329ccdabc1a0bf44.npz",
+      "exists": true,
+      "sha256": "f18a38e0571e32e6a0d4705e4cb32356c0c550b80635d29b9dc6e02066a54136",
+      "bytes": 639236,
+      "mtime_ns": 1788667384949295000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/5ac8b027fea5.f011979bb39ac787.npz",
+      "exists": true,
+      "sha256": "2458ac25059fe9bee69f4bd654a6ed11f212fb4c33568a581be5660c6fed10ee",
+      "bytes": 934148,
+      "mtime_ns": 1788660384575663000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/5b4b0eda9789.42518591e0d7c39b.npz",
+      "exists": true,
+      "sha256": "c769a22b9d5b11fb3a8c0c52afcd8d068a8c6d66bc0149c74c0a7fc18af4dd4d",
+      "bytes": 639236,
+      "mtime_ns": 1788665154609270200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/5feb2ccbd78f.ff37bf20fb0f3d68.npz",
+      "exists": true,
+      "sha256": "21c4b4cfc0c0c255834ddc60720c9e88e74f060120f760d6950031d32dd10e92",
+      "bytes": 614660,
+      "mtime_ns": 1788674821310511200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/63553c61824c.637340b3724c8439.npz",
+      "exists": true,
+      "sha256": "4d0bfa4afae1173c2df7f371f4d8185ba7a25cdd631db91c2ae841574496abad",
+      "bytes": 1089796,
+      "mtime_ns": 1788662172974776000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/64e8eb8f8590.6bd4a948202bf333.npz",
+      "exists": true,
+      "sha256": "3de037b9973cfc5df2b9867dcd6d8528a7b7ed825535207499c1cb3c4ee10565",
+      "bytes": 2957572,
+      "mtime_ns": 1788668683144635400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/67bc36e2951c.005a63197c563b39.npz",
+      "exists": true,
+      "sha256": "7409535f9c264f32ac75d78f9bcf3a6235099d662f93b0ec5b5f56fff991c9b2",
+      "bytes": 1548548,
+      "mtime_ns": 1788667038973546400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/68cbf703a575.ecf92b56c2f6a1ab.npz",
+      "exists": true,
+      "sha256": "c79c107f01b01a44522fafacfeb52eaca1813e1c6b877f77b740ce014ff395c4",
+      "bytes": 4686084,
+      "mtime_ns": 1788669531988934100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/699d8cb5801a.5598e33becfe5336.npz",
+      "exists": true,
+      "sha256": "62860a328fdba17613d7e2c173d8891ee2ce214704ebdbd23518db2d57d349ee",
+      "bytes": 3940612,
+      "mtime_ns": 1788668069954254700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/6eb0d6b9ccfe.88bdcff6960faaaa.npz",
+      "exists": true,
+      "sha256": "1fd94854c56e82624cf75597422e8d81f6729394be6920198770731f5615b7db",
+      "bytes": 3932420,
+      "mtime_ns": 1788664788175395300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/745d786aa183.bdce75a70a6e6df2.npz",
+      "exists": true,
+      "sha256": "84aee469488f8ffb20ca5a76b680bc9808abde7fea90d584cf979a5ed178489e",
+      "bytes": 631044,
+      "mtime_ns": 1788666267672013700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/7c3f6abe3c16.470036f36b5ba580.npz",
+      "exists": true,
+      "sha256": "55faa586fd3076de1133e88ea0151d12f65c2a210b3c98fb9c1808b423be75f9",
+      "bytes": 4915460,
+      "mtime_ns": 1788657055714420500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/87fb3331a649.f5de7012f9b178a2.npz",
+      "exists": true,
+      "sha256": "54ef8c162f53691365ff6312c7df28809cba8d13f0696c3e0691b7a586b2cbc0",
+      "bytes": 1843460,
+      "mtime_ns": 1788671861896489400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/8cff920308c5.e52bb9522fd44295.npz",
+      "exists": true,
+      "sha256": "aec09287a95bd07493bc043decc03d0527d4019388e8b248ef3d1cd61c5323fc",
+      "bytes": 2269444,
+      "mtime_ns": 1788671272092358200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/8f9753c6e3b4.4c9b3b070d8b728d.npz",
+      "exists": true,
+      "sha256": "8959a332f37f2a2642d5d78769ab3d9ad02d311fccc4cdaf33b1d675d1a025d6",
+      "bytes": 909572,
+      "mtime_ns": 1788663910823072700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/9032bf22d8ef.ddd7e01776118e22.npz",
+      "exists": true,
+      "sha256": "031453c71b57e54dd9b2d0174087c6793d6236686bd29977d29e4e180d1f6028",
+      "bytes": 532740,
+      "mtime_ns": 1788672175710939800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/96bae592ad17.30cc24a8320417c9.npz",
+      "exists": true,
+      "sha256": "74f6114b9050e7a26282dbe30d68acb35556c2d02fbdca1982410e7f6c523576",
+      "bytes": 1081604,
+      "mtime_ns": 1788673527227493700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/9e0bf214599a.c8731a0d3ae66921.npz",
+      "exists": true,
+      "sha256": "372e5617c78f4ee3cb358794e44a640a5b60256664a1f3d1d27b4874b3e4057f",
+      "bytes": 925956,
+      "mtime_ns": 1788661935200858400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/9e602b3b2ef8.ec67384306d64077.npz",
+      "exists": true,
+      "sha256": "a4d0530287d1a1bc87f869834d8bf13f473406a01b6f4346946764ee23145178",
+      "bytes": 704772,
+      "mtime_ns": 1788674483789719700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/9f0654f00758.09297d64ea4d17e8.npz",
+      "exists": true,
+      "sha256": "d16bf2deef61567287277e90238e9bff10aa9f5761e887e4f746040c40a031f2",
+      "bytes": 1564932,
+      "mtime_ns": 1788660144741814200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/a52851d9fa36.217330cbce371f1f.npz",
+      "exists": true,
+      "sha256": "1c1bd8097318aa68add13e39fb614c392a1fa002302b82588922e1d9d2840420",
+      "bytes": 1384708,
+      "mtime_ns": 1788674701280957500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/ae0d76d2e8e6.65ed825257364a6d.npz",
+      "exists": true,
+      "sha256": "67be6b960173bfa72a1e483fd94384dd23c8f1afb4151fadab18703f307f4105",
+      "bytes": 1499396,
+      "mtime_ns": 1788672072315084200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/b04d34218cce.cc6d734b1ee8509b.npz",
+      "exists": true,
+      "sha256": "78da34db95fa9b6da2b578e5cfe5b561483592a977426fa7e642f40dde001504",
+      "bytes": 1024260,
+      "mtime_ns": 1788674345939173600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/b0b879c380b0.e20bff2add4c1077.npz",
+      "exists": true,
+      "sha256": "92ea931dab1a7c16a3cdd6416a0c5d31637430604bde65abb6c9077d1436dd68",
+      "bytes": 4915460,
+      "mtime_ns": 1788666763291233700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/c1bdaf5e4bb1.236c24ac50fc29c0.npz",
+      "exists": true,
+      "sha256": "8c225d8f233d8c14b8410ba15057b0fbf68d3481e48bb33627f12f9d88eed2c8",
+      "bytes": 540932,
+      "mtime_ns": 1788670752939739600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/c64e21c1b2dd.7527e8f4e4a42fc1.npz",
+      "exists": true,
+      "sha256": "ca0f051af96eda57363077b8cdda27aaa812d4ebfcbfd9f43f989f6cdf17f2bf",
+      "bytes": 1253636,
+      "mtime_ns": 1788673737519786000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/cbc23478b6d0.d7821bf329e5788e.npz",
+      "exists": true,
+      "sha256": "4ad0e31bc345c0ddbedf49d136a01070550db21ede6e5d0688da7c37f8c18268",
+      "bytes": 2982148,
+      "mtime_ns": 1788656250504387200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/ce7fcdf164b5.dc5be8ec91e74449.npz",
+      "exists": true,
+      "sha256": "b3f5c79322792f0b8453ca02f52a0aaf33e1ba1422de5793681430db99a436ac",
+      "bytes": 4915460,
+      "mtime_ns": 1788675212881673000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/d3281e37b87e.160da29999c8a3b6.npz",
+      "exists": true,
+      "sha256": "d65e603afc3ebee37fee239f028cc40d010287c4e1e006aef2fb60aa8e9e538c",
+      "bytes": 2982148,
+      "mtime_ns": 1788657799152992500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/d79bc5419077.5f75aa813300b9cb.npz",
+      "exists": true,
+      "sha256": "7a6dd8fa8acfaa1b3e5e449918c374b7c9a00e456b6156330e4eb3ebf8aee741",
+      "bytes": 532740,
+      "mtime_ns": 1788655101263924800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/d99367a9c256.c0a089b8a41f064f.npz",
+      "exists": true,
+      "sha256": "08036b00abcd38784365ec1efa0bcea255e6069901f2237cb51d096e4d033984",
+      "bytes": 2572548,
+      "mtime_ns": 1788670236529311100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/f34fa895a97c.bc79422e134beca8.npz",
+      "exists": true,
+      "sha256": "6bab7fb5de968e21efc1140ceaa9f7f9bc3895f225d81fa0a053f31c5fe6dd60",
+      "bytes": 4915460,
+      "mtime_ns": 1788660934259817500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/f5275c5bc17c.b96295aba11ae344.npz",
+      "exists": true,
+      "sha256": "7ed367b32b5813445dfe945fb375d5f38f87d0dfb9d5427e31172665ddb3fac7",
+      "bytes": 2851076,
+      "mtime_ns": 1788671627474229300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fa0605022124.9927416a38a94905.npz",
+      "exists": true,
+      "sha256": "c26f6759332ccab99a8cfde2150be476f57f264db62b1013a58d4b2b0cbe20c0",
+      "bytes": 1089796,
+      "mtime_ns": 1788662961541697400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fc88e0abb8ef.c3b49c91baf2da3e.npz",
+      "exists": true,
+      "sha256": "e6ad6cfc2a38db056f0d77d08295ff58b304c73a5d278cc4db8fbfed4e78ece9",
+      "bytes": 2269444,
+      "mtime_ns": 1788662551250915000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fd73af50db4a.5d73e40ea5d248bf.npz",
+      "exists": true,
+      "sha256": "3fbf5deacacb1021ef57e253c446c076da4ccc06d5c395489f5974e23d8cb98b",
+      "bytes": 680196,
+      "mtime_ns": 1788661361611012200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fdd79e3cb2fc.32e6b73a78fd5382.npz",
+      "exists": true,
+      "sha256": "c78b025cf46dc54d7266ba4beb7e0f7042d81af50c13d73968ef2095fdff0ea0",
+      "bytes": 598276,
+      "mtime_ns": 1788664979304262700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fe3f3feefc9d.9c6df05c6d8d13e3.npz",
+      "exists": true,
+      "sha256": "01ca678a80f9a53ac83e22c466c80812bbc39da9da697549dccef251d945a452",
+      "bytes": 729348,
+      "mtime_ns": 1788673877482486300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fe5cb5f55d01.5bbaab891108edc5.npz",
+      "exists": true,
+      "sha256": "f94d0783204d2ccbce0bb3e4a9b5bd45150b42b29c863be9fb4f6aaec7fca595",
+      "bytes": 1384708,
+      "mtime_ns": 1788662748553028700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/fea02c3fdf9e.640de35afba6a3d1.npz",
+      "exists": true,
+      "sha256": "00848cb88e4022c2a7f80d00e9b4de45cd90dfac61b993812bc0ea029785466b",
+      "bytes": 1130756,
+      "mtime_ns": 1788672803305727600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.0089db82f940.0ce026976999b8cd.npz",
+      "exists": true,
+      "sha256": "9a99656afd0dbda047c3d5736840137da66846380e5e09e43dd49f9f3fff5096",
+      "bytes": 8452,
+      "mtime_ns": 1788671003034538400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.01198c36250e.fd570cfb82c99287.npz",
+      "exists": true,
+      "sha256": "eb42db50ca5e8735fe914c52eef79a18ffed0884c834c17ab4e14d542f6402ed",
+      "bytes": 8452,
+      "mtime_ns": 1788654948715074800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.08bc6bf2e89f.c29a44cedb3d5683.npz",
+      "exists": true,
+      "sha256": "2ebfc68e9a3b156c87ccbb5dc060881bfdc778e1b062ae8c559eb72cbf9b45aa",
+      "bytes": 8452,
+      "mtime_ns": 1788661717416837900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.0a31158db511.81dfdd79523bfab0.npz",
+      "exists": true,
+      "sha256": "ca63817e8e559cc5c93f395b82c999118f6f30fb9c9e33d3c1dc913c5db51926",
+      "bytes": 8452,
+      "mtime_ns": 1788674147448270100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.133c5832a167.2a4750acc3454aa0.npz",
+      "exists": true,
+      "sha256": "cf3fe58f5ef44bdf28ea32117552e711bf2a788e979e20aa29074ba0d46901f0",
+      "bytes": 8452,
+      "mtime_ns": 1788672600334955700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.15b252741fd7.4199525ae473818f.npz",
+      "exists": true,
+      "sha256": "031aa543009d35fccb1ce7ad0719b125075b4ea8c33c7e16342dedb3bddc661a",
+      "bytes": 8452,
+      "mtime_ns": 1788655818910658100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.1a7fab8fc4ae.e5be38506c03a2ed.npz",
+      "exists": true,
+      "sha256": "80fb30d5dfae7b5afbeee3e7a077862c5cad01f5d2fdb3c02eebdb9559dff0a8",
+      "bytes": 8452,
+      "mtime_ns": 1788662301196850100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.1d7a74cf5743.66cc5a6ff159ea38.npz",
+      "exists": true,
+      "sha256": "7bad613f2d4df1926ad00379bee941dcccddbdc2ec292c76757888f0695ee3f1",
+      "bytes": 8452,
+      "mtime_ns": 1788658214620544600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.1dfeee15950b.7355cf7a9387a79b.npz",
+      "exists": true,
+      "sha256": "fac47d9738a5fe8d165740f1eb309e7e72a4b9008c02ca930b05f24ad6b9d2f3",
+      "bytes": 8452,
+      "mtime_ns": 1788655626582288300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.24a40e7c14fc.196749d3f3718c49.npz",
+      "exists": true,
+      "sha256": "a3dc8088638268d5001601a1db7ba9e5b9e2fe2a994e61ca0d0e27aae13d033c",
+      "bytes": 8452,
+      "mtime_ns": 1788673326341515500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.2a3144695b19.2e40bb63826ad9e6.npz",
+      "exists": true,
+      "sha256": "dafb49c04197e84093316a02d568dd675f9fc5825e7f6ffdc179681b0b3e5efc",
+      "bytes": 8452,
+      "mtime_ns": 1788669801457369900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.372c492b42a1.5418b972e45019bd.npz",
+      "exists": true,
+      "sha256": "1603bed4298925f459a17f35e287eb1f85212d146a25bfa6d130470aa14b025b",
+      "bytes": 8452,
+      "mtime_ns": 1788666103684368500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.39f3aacebe0c.7d28b237aadfd639.npz",
+      "exists": true,
+      "sha256": "55a39cce62f1b8baca65819d9f2c83dc4e3d190c2086dc7c60b70e03493376bc",
+      "bytes": 8452,
+      "mtime_ns": 1788670643542483000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.3d3ddf8c8017.d976a5b112b96f15.npz",
+      "exists": true,
+      "sha256": "1d741059b2700f72dad490c0237bb6e3f0e94a566e2cb52c9aa0cada94511f3c",
+      "bytes": 8452,
+      "mtime_ns": 1788672392993243500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.3d56f289106f.4852fa4985ea62e1.npz",
+      "exists": true,
+      "sha256": "fa488f435d3dd60355aa0959a629d97a35c7f2efd6a138a74f0939dcdcfdb581",
+      "bytes": 8452,
+      "mtime_ns": 1788659825350024500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.416c1f53971e.25ec6374ee39155f.npz",
+      "exists": true,
+      "sha256": "c7efb6933a534fde5a94f713a23db4c243934f5edf03b984d2244be7a7bceb96",
+      "bytes": 8452,
+      "mtime_ns": 1788665419674234700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.49944459fc6a.83c74200bf888626.npz",
+      "exists": true,
+      "sha256": "1ea56dddf342fb9de05cc4e756fea5f21d47d8f416e894f1a237d94674d27b41",
+      "bytes": 8452,
+      "mtime_ns": 1788668994433677000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.4d2b4c8246c9.ad00da94262ed4d0.npz",
+      "exists": true,
+      "sha256": "2e66a1877f2bba3bdf8f19c25b202f051e3810a2c2775725caa0a045f4723c79",
+      "bytes": 8452,
+      "mtime_ns": 1788661192589350400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.4e6d4fda6449.f5e17e20f0118f22.npz",
+      "exists": true,
+      "sha256": "6a219ed459d9c70d37f7bac195b02c99e91f5672e6ed54c8b861739fbb7e7074",
+      "bytes": 8452,
+      "mtime_ns": 1788667220047312700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.548e816f16d7.3efd326aa7a3132b.npz",
+      "exists": true,
+      "sha256": "b85efe5305b2799e67cd18395c3fd6d9bedb2b660aa2bbbbf610c9bbabab6729",
+      "bytes": 8452,
+      "mtime_ns": 1788663667479238400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.5628cf93d1f8.329ccdabc1a0bf44.npz",
+      "exists": true,
+      "sha256": "a16a71be4027fbec72f9a13ed8dec48674fc825b0379a5a2848c2030e39d17a4",
+      "bytes": 8452,
+      "mtime_ns": 1788667385216404700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.5ac8b027fea5.f011979bb39ac787.npz",
+      "exists": true,
+      "sha256": "5ec2fe5206123b63a40b4eb32c3d63cde0c941df5ca39aeff4344abfa00b295f",
+      "bytes": 8452,
+      "mtime_ns": 1788660387402180900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.5b4b0eda9789.42518591e0d7c39b.npz",
+      "exists": true,
+      "sha256": "6a2e16d0591cb03631a5ed62c173ef9ffbd327022115449d5936d4ad153a75ec",
+      "bytes": 8452,
+      "mtime_ns": 1788665157687630200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.5feb2ccbd78f.ff37bf20fb0f3d68.npz",
+      "exists": true,
+      "sha256": "b144c525dcf474e89daf703110dccb4c5f3546ab2dfd52f05079a7ca40c50624",
+      "bytes": 8452,
+      "mtime_ns": 1788674821553659000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.63553c61824c.637340b3724c8439.npz",
+      "exists": true,
+      "sha256": "8ac9a769e07adbe0aa1126c238094bb1406ad148a6920d91a5514e4fb6b640b7",
+      "bytes": 8452,
+      "mtime_ns": 1788662173149133600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.64e8eb8f8590.6bd4a948202bf333.npz",
+      "exists": true,
+      "sha256": "23cc0f71109b686f28c2729fa5eaab240c6d3d421fb7c557ec1f30590d969e5b",
+      "bytes": 8452,
+      "mtime_ns": 1788668683488209300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.67bc36e2951c.005a63197c563b39.npz",
+      "exists": true,
+      "sha256": "72df07ba2ee4ad0a356c9242d5728b094d827582567e59d1bf472c95d7afc8c5",
+      "bytes": 8452,
+      "mtime_ns": 1788667039306234200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.68cbf703a575.ecf92b56c2f6a1ab.npz",
+      "exists": true,
+      "sha256": "4b45b8c1be68f24b68a7da5db32920b9f157dd5acf98c473b6e970c68b2a2f7f",
+      "bytes": 8452,
+      "mtime_ns": 1788669532288695700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.699d8cb5801a.5598e33becfe5336.npz",
+      "exists": true,
+      "sha256": "58bcc56220291c095513da3d76c03c59f4e4985ba972615658bf2a1ac2c80a82",
+      "bytes": 8452,
+      "mtime_ns": 1788668070620590300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.6eb0d6b9ccfe.88bdcff6960faaaa.npz",
+      "exists": true,
+      "sha256": "9272f2ba8283d23be441ba114b568ff71610f78897ebe5741a856e03424a62f9",
+      "bytes": 8452,
+      "mtime_ns": 1788664788612115600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.745d786aa183.bdce75a70a6e6df2.npz",
+      "exists": true,
+      "sha256": "c71e6a3c2ddfcb60aaab8f5f8b05a61f9b6ce2c8db343a80e4b991b0429624d4",
+      "bytes": 8452,
+      "mtime_ns": 1788666267929801700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.7c3f6abe3c16.470036f36b5ba580.npz",
+      "exists": true,
+      "sha256": "184f6bea9f43a0cf14f3f63b3ea58cc08052bcf0b874b981e134417b790b63a4",
+      "bytes": 8452,
+      "mtime_ns": 1788657056884816900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.87fb3331a649.f5de7012f9b178a2.npz",
+      "exists": true,
+      "sha256": "db7d608fd879d5307bc943b0d724d6090275b489332efa93e02a45d876a75b43",
+      "bytes": 8452,
+      "mtime_ns": 1788671862181147600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.8cff920308c5.e52bb9522fd44295.npz",
+      "exists": true,
+      "sha256": "cc268830a92cfd7f9aa66cae9480c90688391ccaef9a3f4919fc1cd39e22f1ca",
+      "bytes": 8452,
+      "mtime_ns": 1788671272385801400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.8f9753c6e3b4.4c9b3b070d8b728d.npz",
+      "exists": true,
+      "sha256": "deb2515ba062b77a82e6d9c7fe8118b34c68a3c07c92ac3c8a66db48a63d0297",
+      "bytes": 8452,
+      "mtime_ns": 1788663911254264500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.9032bf22d8ef.ddd7e01776118e22.npz",
+      "exists": true,
+      "sha256": "43160c5ffa74a4784fc4e5509ba32e633f0de4bfc4b0cde3613edd2862a16dde",
+      "bytes": 8452,
+      "mtime_ns": 1788672176039832900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.96bae592ad17.30cc24a8320417c9.npz",
+      "exists": true,
+      "sha256": "0a6df61403e01dd8683f93572a1efff21f51b68fb152b3aac5dce2b467a583d8",
+      "bytes": 8452,
+      "mtime_ns": 1788673527463802200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.9e0bf214599a.c8731a0d3ae66921.npz",
+      "exists": true,
+      "sha256": "f6fba3e3660ad521381a3b0158cca5faec70b20ca2d5ba4545c4d356979c3f9c",
+      "bytes": 8452,
+      "mtime_ns": 1788661935488375500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.9e602b3b2ef8.ec67384306d64077.npz",
+      "exists": true,
+      "sha256": "b4f21e7aba36d537ad6daa883f28c438a7a6c7591937f138e24b348652ec1bc9",
+      "bytes": 8452,
+      "mtime_ns": 1788674484241198800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.9f0654f00758.09297d64ea4d17e8.npz",
+      "exists": true,
+      "sha256": "559553b3806951de30b19dfb136f60e8a31d9075ce4a5ba8a7cad92fd1074a51",
+      "bytes": 8452,
+      "mtime_ns": 1788660144913289100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.a52851d9fa36.217330cbce371f1f.npz",
+      "exists": true,
+      "sha256": "740328addc4a2ac7bb0b90fd58c4354f76f7451ecc5726aa7aaec01897b50e54",
+      "bytes": 8452,
+      "mtime_ns": 1788674701559845400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.ae0d76d2e8e6.65ed825257364a6d.npz",
+      "exists": true,
+      "sha256": "0dc43b501e5dd98d76bd9cf5c12d90a712d1e96fb69fe6f02b02fff2ebdf9621",
+      "bytes": 8452,
+      "mtime_ns": 1788672072691016100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.b04d34218cce.cc6d734b1ee8509b.npz",
+      "exists": true,
+      "sha256": "c50bf7caccdb4d8efb8a66731c51a25bbe8545457cc6bc35af55ce96668d2664",
+      "bytes": 8452,
+      "mtime_ns": 1788674346452343200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.b0b879c380b0.e20bff2add4c1077.npz",
+      "exists": true,
+      "sha256": "a21d6ef56c837d7057cb75889d2ba97e0a1fa6761943124f72ef1b71668167c3",
+      "bytes": 8452,
+      "mtime_ns": 1788666763589041600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.c1bdaf5e4bb1.236c24ac50fc29c0.npz",
+      "exists": true,
+      "sha256": "90c6624a8aa76a9a3c728e47eab58808844c5cca978ec852f57adf759808941e",
+      "bytes": 8452,
+      "mtime_ns": 1788670753196377500,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.c64e21c1b2dd.7527e8f4e4a42fc1.npz",
+      "exists": true,
+      "sha256": "bffc446ba590164137116b50880d5de73c9c16d3a94eab4653a75e8c2a9e5dd8",
+      "bytes": 8452,
+      "mtime_ns": 1788673737947254800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.cbc23478b6d0.d7821bf329e5788e.npz",
+      "exists": true,
+      "sha256": "3cc6f81783b381b6c7dd22c8e1aab0e1cb9d7cb802be39b796194acc7773a100",
+      "bytes": 8452,
+      "mtime_ns": 1788656250810506300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.ce7fcdf164b5.dc5be8ec91e74449.npz",
+      "exists": true,
+      "sha256": "b078b4c869d506a6932505cf4a9f3a78b6c6464142373ed3d107bfe0486d9630",
+      "bytes": 8452,
+      "mtime_ns": 1788675213263433200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.d3281e37b87e.160da29999c8a3b6.npz",
+      "exists": true,
+      "sha256": "27eac2ca96d25f33362bc172698576412cf6fdbd50a2b5d215e7631d02a6a9f0",
+      "bytes": 8452,
+      "mtime_ns": 1788657799677973000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.d79bc5419077.5f75aa813300b9cb.npz",
+      "exists": true,
+      "sha256": "6ca9b5950711c2658f9d819b969753f6c28e6d5793432049200d7eb3ebb58aa8",
+      "bytes": 8452,
+      "mtime_ns": 1788655101649991900,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.d99367a9c256.c0a089b8a41f064f.npz",
+      "exists": true,
+      "sha256": "a044b1a8409220ecb1d70128337c57382dc2412c1a45197e9d885f1a5fc6f7c5",
+      "bytes": 8452,
+      "mtime_ns": 1788670236897250800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.f34fa895a97c.bc79422e134beca8.npz",
+      "exists": true,
+      "sha256": "d26f927607eac1ebf4d485fd0b8913a0a3dbf53d85ff6b6ead3665131abfd864",
+      "bytes": 8452,
+      "mtime_ns": 1788660935700976000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.f5275c5bc17c.b96295aba11ae344.npz",
+      "exists": true,
+      "sha256": "739212f3ab4a9a424fe0c1aa11cea61e76d1517206e4b2656501dc273ee2c85e",
+      "bytes": 8452,
+      "mtime_ns": 1788671627729698800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fa0605022124.9927416a38a94905.npz",
+      "exists": true,
+      "sha256": "00334942c6e34ec469b4602571489ebd35e517578168028e3c897f847c7f0740",
+      "bytes": 8452,
+      "mtime_ns": 1788662961805598600,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fc88e0abb8ef.c3b49c91baf2da3e.npz",
+      "exists": true,
+      "sha256": "2a2b8c09ae93041d75f13d4ed324ba0e1e1e26610df6d0c5f791d67f4841fe45",
+      "bytes": 8452,
+      "mtime_ns": 1788662551455882700,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fd73af50db4a.5d73e40ea5d248bf.npz",
+      "exists": true,
+      "sha256": "4a7642b0891852a2b5eb00f8129ed139d428765e6bc35c1d1247ae28621665d4",
+      "bytes": 8452,
+      "mtime_ns": 1788661363600001200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fdd79e3cb2fc.32e6b73a78fd5382.npz",
+      "exists": true,
+      "sha256": "171997ac5b68e41f49b8d33353e5d2745d56af4a973f0e60d46575a6fc035988",
+      "bytes": 8452,
+      "mtime_ns": 1788664979663319000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fe3f3feefc9d.9c6df05c6d8d13e3.npz",
+      "exists": true,
+      "sha256": "f4c8f3cb57ad161c16ceb9fa3f07d81328d4bed47ca5c0eca9bdb76e95ba176d",
+      "bytes": 8452,
+      "mtime_ns": 1788673877775280200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fe5cb5f55d01.5bbaab891108edc5.npz",
+      "exists": true,
+      "sha256": "6e4458fac38a7500d1777e4e9acbc513f83dcaf6b938790cf625e02f7924c1d9",
+      "bytes": 8452,
+      "mtime_ns": 1788662748729830800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/emb_cache/muninn/q.fea02c3fdf9e.640de35afba6a3d1.npz",
+      "exists": true,
+      "sha256": "3481d617147ef56ab342a685193faaadb46e4b1837794261b3de90dd24872b4c",
+      "bytes": 8452,
+      "mtime_ns": 1788672804051773900,
+      "source_head": null
+    }
+  ]
+}

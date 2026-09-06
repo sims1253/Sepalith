@@ -1,0 +1,790 @@
+{
+  "schema": 1,
+  "source_root": "/home/m0hawk/Documents/Sepalith",
+  "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+  "source_status": "M comms.md\n M comms/gpu.md\n M docs/EXPERIMENT-QUEUE.md\n M experiments/dashboard/dashboard_state.json\n M experiments/dashboard/index.html\n M experiments/dashboard/state_v2.json\n M experiments/data-mining/assemble_a2_mixture.py\n M experiments/data-mining/pack_r_strata.py\n M experiments/data-mining/r_repack_full.py\n M experiments/eval/eval_noop_fp.py\n M experiments/eval/eval_scenarios.py\n M experiments/eval/run_eval.py\n M experiments/eval/spec_bench.py\n M experiments/eval/test_spec_bench.py\n M experiments/post-processing/assemble_sft_v5.py\n M experiments/post-processing/push_cases.py\n M experiments/synthetic-data/README.md\n M experiments/synthetic-data/cases/backends.py\n M experiments/synthetic-data/cases/corpus.py\n M experiments/synthetic-data/cases/generate.py\n M experiments/synthetic-data/cases/rows.py\n M experiments/synthetic-data/cases/spec.py\n M experiments/synthetic-data/cases/test_cases.py\n M experiments/synthetic-data/cases/validators.py\n M experiments/synthetic-data/compound_author_spark.py\n M experiments/synthetic-data/doc_sync_spark.py\n M experiments/synthetic-data/ideation_tournament.py\n M experiments/synthetic-data/rewrite_author_spark.py\n M experiments/training/coding_simulator/judge_loop.py\n M experiments/training/coding_simulator/panel_judge.py\n M experiments/training/poc_ddot/RESULTS.md\n M experiments/training/poc_ddot/cal_length.py\n M experiments/training/poc_diff/RESULTS.md\n M experiments/training/poc_diff/train_md.py\n M experiments/training/poc_twin/run_q6_batchprobe.sh\n M experiments/training/rl/README.md\n M scripts/run_x5_s1_chain.sh\n?? experiments/bench/\n?? experiments/dashboard/index_v2.html\n?? experiments/dashboard/refresh_cycle.py\n?? experiments/data-mining/LOC1_S0_RESULTS.md\n?? experiments/data-mining/freeze_spec_traces.py\n?? experiments/data-mining/holdout_rule.py\n?? experiments/data-mining/loc1_build_set.py\n?? experiments/data-mining/loc1_run_eval.py\n?? experiments/data-mining/loc1_s0_results/\n?? experiments/eval/ast_equiv.py\n?? experiments/eval/episode_metrics.py\n?? experiments/eval/episode_metrics_v8_2_vs_base.json\n?? experiments/eval/episode_metrics_v8_2_vs_base.md\n?? experiments/eval/latency_load.py\n?? experiments/eval/parity_prompts_b12/\n?? experiments/eval/test_ast_equiv.py\n?? experiments/synthetic-data/TU1_RESULTS.md\n?? experiments/synthetic-data/cases/CONTRACTS.md\n?? experiments/synthetic-data/cases/contracts.py\n?? experiments/synthetic-data/cases/specs/cleanup_restoration.json\n?? experiments/synthetic-data/cases/specs/forwarding_restoration.json\n?? experiments/synthetic-data/cases/specs/matched_restraint.json\n?? experiments/synthetic-data/cases/specs/returned_field_migration.json\n?? experiments/synthetic-data/cases/specs/ry_diagnostic_repair.json\n?? experiments/synthetic-data/cases/specs/ry_diagnostic_repair_blind.json\n?? experiments/synthetic-data/cases/specs/signature_migration.json\n?? experiments/synthetic-data/cases/test_contracts.py\n?? experiments/synthetic-data/sufficiency_judge.py\n?? experiments/synthetic-data/teacher_resolve.py\n?? experiments/synthetic-data/test_sufficiency_judge.py\n?? experiments/synthetic-data/test_teacher_resolve.py\n?? experiments/training/parity_check_b12.py\n?? experiments/training/poc_ddot/test_cal_length.py\n?? experiments/training/poc_diff/CROSS_EVAL.md\n?? experiments/training/poc_diff/D3_PREP.md\n?? experiments/training/poc_diff/M1_PREP.md\n?? experiments/training/poc_diff/cross_eval.py\n?? experiments/training/poc_diff/cross_eval_results.json\n?? experiments/training/poc_diff/d3_prep.py\n?? experiments/training/poc_diff/m1b_prep.py\n?? experiments/training/poc_diff/test_cross_eval.py\n?? experiments/training/poc_diff/test_m1b_prep.py\n?? experiments/training/poc_twin/ladder/logs/bpb_eval_gn.json\n?? experiments/training/rl/O1_RESULTS.md\n?? experiments/training/rl/e1_readout.py\n?? experiments/training/rl/o1_paired_analysis.py\n?? experiments/training/rl/select_diverse.py\n?? experiments/training/rl/test_select_diverse.py\n?? experiments/training/train_sft_trl.py\n?? experiments/training/truncate_layers.py\n?? scripts/quant_serve_bench.sh\n?? scripts/quant_serve_requests.py\n?? scripts/run_b4_trl_now.sh\n?? scripts/run_b4_trl_retry.sh\n?? scripts/run_b4_trl_safe.sh\n?? scripts/run_b4_unsloth_safe.sh\n?? scripts/run_b_chain2.sh\n?? scripts/run_b_chain3.sh\n?? scripts/run_b_chain4_spark.sh\n?? scripts/run_b_chain5_spark_recover.sh\n?? scripts/run_b_series_chain.sh\n?? scripts/run_d1_chain.sh\n?? scripts/run_d23_chain.sh\n?? scripts/run_morning_serial.sh\n?? scripts/run_morning_serial2.sh\n?? scripts/run_serial3.sh",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/SYSTEMS.md",
+      "exists": true,
+      "sha256": "82f93ceae95f48c712b69688867c14b23dd220eddd480888361d6ecedbac2331",
+      "bytes": 7568,
+      "mtime_ns": 1787404747240110739,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "20d3d79e8f8dc00f5482e0929c779d3846aea072",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/comms.md",
+      "exists": true,
+      "sha256": "63867f0dea983c7f3a0be2f9ee2008adc9b0cea5617ed29867c0f87273194615",
+      "bytes": 9822,
+      "mtime_ns": 1788695251779114840,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "e971819e44d0714e97408f2fb8e557dff328b4ce",
+      "status": "M comms.md"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/comms/board.md",
+      "exists": true,
+      "sha256": "24959666388e7b639b3382e0bb79967bb117276d47a7c86e361c6c0fcc753311",
+      "bytes": 320572,
+      "mtime_ns": 1788699449341459168,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "8240782bf28cfaf366b5236dab4e1c0469e8a952",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/comms/gpu.md",
+      "exists": true,
+      "sha256": "64802e70f227ff76c82ec8b8433d53d737270a4f981ba32d1e9fb2bf4c7140d8",
+      "bytes": 26274,
+      "mtime_ns": 1788682544268668573,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "ea9216e79a4a9327808ab78ab22253ae89d0f72b",
+      "status": "M comms/gpu.md"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/docs/PROJECT-MAP.md",
+      "exists": true,
+      "sha256": "7419d9a73003c000865dcdf20289c1a3bd7c9cd97fd9c661e8000b9f0b257e84",
+      "bytes": 12313,
+      "mtime_ns": 1788699012674772129,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "c1db9f029bc03bea45a1c2bef543f6cef1a58a4b",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/docs/RESEARCH-AUDIT.md",
+      "exists": true,
+      "sha256": "e1e113f2eabb19952f8da35c13a47ae48a674bc4f5f2eee788850f6c5284cbf3",
+      "bytes": 17041,
+      "mtime_ns": 1788698214541692533,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "4d0f47244698d4ceae73d18e5a41b7480f752c81",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/docs/SHARED-EVALUATION.md",
+      "exists": true,
+      "sha256": "bfc98307f6435bce9f23cacea0ef4bb4d983a2aa1369cc6a96753e83bc0815a8",
+      "bytes": 1928,
+      "mtime_ns": 1788698857717068666,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "fc5219b09b069e35cab1bb75c56f311606ae7142",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/LOC1_S0_RESULTS.md",
+      "exists": true,
+      "sha256": "c24212d0e8402c12f29bc3a39ca3008355d089123d8dbd7ee71b111a5a9fd6fc",
+      "bytes": 7873,
+      "mtime_ns": 1788678692751578046,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/LOC1_S0_RESULTS.md"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/loc1_build_set.py",
+      "exists": true,
+      "sha256": "aa4ecb34f538eb6826fa6a7f65fd1b409c521837358d9733744fa859116e5a42",
+      "bytes": 17133,
+      "mtime_ns": 1788650924295673258,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/loc1_build_set.py"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/loc1_run_eval.py",
+      "exists": true,
+      "sha256": "e7b7156c9dd8200c5ca54812e6dde74c219b9d18fa6881e8aea1a11a8bfa6a92",
+      "bytes": 11884,
+      "mtime_ns": 1788654767287372450,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/loc1_run_eval.py"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/loc1_s0_results/partial_bm25.json",
+      "exists": true,
+      "sha256": "3d699a17b599e1190a169a91b87950980c191415789c9764574f35a8c4b8b57b",
+      "bytes": 4627,
+      "mtime_ns": 1788663482105068951,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/loc1_s0_results/partial_bm25.json"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/loc1_s0_results/partial_muninn-small.json",
+      "exists": true,
+      "sha256": "7f4ab6b5cbfe9ff1db7b86e5f0fa7687f3eb356ba353320ce38cd7f5f054b1aa",
+      "bytes": 4696,
+      "mtime_ns": 1788678235889906781,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/loc1_s0_results/partial_muninn-small.json"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/loc1_s0_results/partial_muninn.json",
+      "exists": true,
+      "sha256": "0816121f99fa4c628fc2821f7b859a7be75456c5743e1007903875c2b08a4147",
+      "bytes": 4679,
+      "mtime_ns": 1788675213062773434,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/loc1_s0_results/partial_muninn.json"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/data-mining/loc1_s0_results/results.json",
+      "exists": true,
+      "sha256": "8e55fb2ae45a12975c311a4dc95d9447d84a4c5e3782e6c7b07bcba2ad2b182f",
+      "bytes": 31251,
+      "mtime_ns": 1788678235891194787,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "?? experiments/data-mining/loc1_s0_results/results.json"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/eval_scenarios.py",
+      "exists": true,
+      "sha256": "fdb3961f54306f6d178a6b603a1df8813715db1cded604df402d330123f6df95",
+      "bytes": 16835,
+      "mtime_ns": 1788298645816787696,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "861632ba4ffc8fad4632135c99d26a3e18618661",
+      "status": "M experiments/eval/eval_scenarios.py"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_abl_dropout.jsonl",
+      "exists": true,
+      "sha256": "609e7455cba17fa8402890a983ee390428e4f0a21ab6828ebebb3f3eab2706dd",
+      "bytes": 205651,
+      "mtime_ns": 1787166345336136664,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_abl_dropout.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b12_cal_minicpm5.jsonl",
+      "exists": true,
+      "sha256": "89c8c65ae9e40555aae30e46b41bfc1b1151dccbeb26399da1356039a69256db",
+      "bytes": 152558,
+      "mtime_ns": 1788313961171294032,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b12_cal_minicpm5.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b12_spark17b.jsonl",
+      "exists": true,
+      "sha256": "557e6ddc735bb2da5348453f59339644810ae4739b3eb1afe25fb4c491ed21bb",
+      "bytes": 135335,
+      "mtime_ns": 1788366456752328765,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b12_spark17b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b13_lfm25_26b.jsonl",
+      "exists": true,
+      "sha256": "0aecbe584ebdadacf1716b28430a5beaf78395e49c48b369c158b23a84f282ad",
+      "bytes": 135649,
+      "mtime_ns": 1788584286142547081,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b13_lfm25_26b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b1_l12.jsonl",
+      "exists": true,
+      "sha256": "9ff4128d0a2e851769baff7b280f8f692b22d487dff91c4560e1a67370963987",
+      "bytes": 401271,
+      "mtime_ns": 1788322572182616437,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b1_l12.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b1_l16.jsonl",
+      "exists": true,
+      "sha256": "21a7013ae4cdec8c41eeb0ec9a6519293bf4276413d5cf421e2d470d34a870b5",
+      "bytes": 146623,
+      "mtime_ns": 1788327850310245913,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b1_l16.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b1_l20.jsonl",
+      "exists": true,
+      "sha256": "812a64cce9ced0a027a1d276578e6dc1a52895e17afc6d696162f8453e279aca",
+      "bytes": 136410,
+      "mtime_ns": 1788317680273696517,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b1_l20.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b1_ref24.jsonl",
+      "exists": true,
+      "sha256": "34d46fbc81748c0aa07884df6388357003164ae66cca12cda3caaaa5cf4d31ee",
+      "bytes": 152984,
+      "mtime_ns": 1788314551704387475,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b1_ref24.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b2_qwen35_08b.jsonl",
+      "exists": true,
+      "sha256": "77657cca3a8f3825594515d54ec2cd297e303c77b2299ddf67d27caea590e018",
+      "bytes": 135504,
+      "mtime_ns": 1788333641143962223,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b2_qwen35_08b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b3_lfm25_350m.jsonl",
+      "exists": true,
+      "sha256": "356606935ef5467817f9e007a3920f2d94715a4934da842d33459a40d0f23cfb",
+      "bytes": 404949,
+      "mtime_ns": 1788337476096123753,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b3_lfm25_350m.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b4_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "22b8796a5a3b4ba162f70386ad35c4cf4856d346dd5483c83dcd722cf352566c",
+      "bytes": 134729,
+      "mtime_ns": 1788510920621297769,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b4_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b5_granite3b.jsonl",
+      "exists": true,
+      "sha256": "e9685e08f9daf7712646afae11f48e7c5e4dc0fd347ba57bb00abcf5c03b50a8",
+      "bytes": 132662,
+      "mtime_ns": 1788505479891747827,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b5_granite3b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b8_midtrain_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "85029be78fc37c36ac890cf81d88e1fcec79286d0fcb8861b4b8284c822e7782",
+      "bytes": 713363,
+      "mtime_ns": 1788626671569857256,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b8_midtrain_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b8b_stacked_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "4a328a581e5f1fe86df987ade589f2f1a32b2fb72ca9a9b28ed27c0d6352f801",
+      "bytes": 138162,
+      "mtime_ns": 1788648302749738510,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b8b_stacked_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b9_select_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "e2f752b9424aebde995d309100544ea70f5f57562ee83d38b70b4f26ddbdaa45",
+      "bytes": 146889,
+      "mtime_ns": 1788665120715203812,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_b9_select_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_gemma4e2b_zeroshot.jsonl",
+      "exists": true,
+      "sha256": "95d8b50ee0e36f25b521a3b51a9582579a5ee897545bb2888b87b785e13f890c",
+      "bytes": 105662,
+      "mtime_ns": 1787404916387477645,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_gemma4e2b_zeroshot.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_glm53_3shot.jsonl",
+      "exists": true,
+      "sha256": "f072f88aaf8abb36dacc734c953c74e8a1ba436bcf1181859412e59214021aa4",
+      "bytes": 101055,
+      "mtime_ns": 1787413337858482640,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_glm53_3shot.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_glm53_zeroshot.jsonl",
+      "exists": true,
+      "sha256": "4430ec8a976189df65f7fa7353d23eca4ff24f8471746409fb48f12a03b7ef57",
+      "bytes": 106904,
+      "mtime_ns": 1787397469311561677,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_glm53_zeroshot.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_minicpm5-1b.jsonl",
+      "exists": true,
+      "sha256": "e5438c0eb5fd843db44ef79115d877165c84abaae373c21996cecd888810fa01",
+      "bytes": 202486,
+      "mtime_ns": 1787356159921216823,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_minicpm5-1b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_packaging_b4.jsonl",
+      "exists": true,
+      "sha256": "0cba32f43aad43efc96045102c4318507da23ece87b21352b4d33ad0c8d6cca4",
+      "bytes": 8894,
+      "mtime_ns": 1788696193714127891,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_packaging_b4.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_packaging_b4_control-Q4_K_M.jsonl",
+      "exists": true,
+      "sha256": "548a3ff39c5709353d669b31442f5cfa7449550e2c35549b3667e0a9e3dc9a1d",
+      "bytes": 9023,
+      "mtime_ns": 1788696450194067774,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_packaging_b4_control-Q4_K_M.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_packaging_b4_imatrix-Q4_K_M.jsonl",
+      "exists": true,
+      "sha256": "dbf681b55ad87be33a6eb9c9658a7735811c3a3b17bbb148e17f173c2d2051ac",
+      "bytes": 9159,
+      "mtime_ns": 1788696820153999283,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_packaging_b4_imatrix-Q4_K_M.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_pft1_fullft_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "2e5f03cd7e1be73e6ef4fab51083be98450696441ab243e02ec8cfb8aa73717c",
+      "bytes": 144575,
+      "mtime_ns": 1788681798611465480,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_pft1_fullft_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_grpo_v1.jsonl",
+      "exists": true,
+      "sha256": "4f15934ca6565b6203e6c61e2b4a307f02012e07d79fccb9d3bf3e30f9088b64",
+      "bytes": 115212,
+      "mtime_ns": 1787283373406432331,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_grpo_v1.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_grpo_v2.jsonl",
+      "exists": true,
+      "sha256": "2a6df876c565aa1b9cbf60775f080a43b6f70f7de99c3c132e94044951bbd239",
+      "bytes": 117695,
+      "mtime_ns": 1787495412797795222,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_grpo_v2.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_grpo_v2b.jsonl",
+      "exists": true,
+      "sha256": "c743ed0c89801c794ee1cd7e121d40ba5125e199d43c2e74936b0b8088c4b99b",
+      "bytes": 116575,
+      "mtime_ns": 1787502062158943040,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_grpo_v2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_grpo_v2c.jsonl",
+      "exists": true,
+      "sha256": "c1a6fc4810e3273c6e942246c32b139fad30fe9101e30aa57ebaafdf1195cb28",
+      "bytes": 116481,
+      "mtime_ns": 1787509275871882423,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_grpo_v2c.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_grpo_v2d.jsonl",
+      "exists": true,
+      "sha256": "912e1bd5062a2a4f07e85dcc169bb22308fe7bf85c53ee0153ddfda5a8d3ea00",
+      "bytes": 117991,
+      "mtime_ns": 1787516461256704258,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_grpo_v2d.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_o1_diverse16.jsonl",
+      "exists": true,
+      "sha256": "51f6b7503efd26b4a593dcba24975018d08e5e96c627c8047743642a8094bb20",
+      "bytes": 143463,
+      "mtime_ns": 1788598782334471681,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_o1_diverse16.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_o1_quota.jsonl",
+      "exists": true,
+      "sha256": "ea07246e8991e60caf625b0bd207b3749ccec772d50b343cbd6c829cfda9af67",
+      "bytes": 142779,
+      "mtime_ns": 1788607898354583620,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_o1_quota.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_rl_o1_random16.jsonl",
+      "exists": true,
+      "sha256": "2e93ff7e0b80ba4f96bfcbcc919ef4699d00ccbf20aa6e530c0161c1dd90682f",
+      "bytes": 142155,
+      "mtime_ns": 1788603035853502821,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_rl_o1_random16.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_sft_v3_minicpm5.jsonl",
+      "exists": true,
+      "sha256": "b571a8ee9c277785d5acbae651cbe61f513cc007abd5130aeb8d0354bfff2b8c",
+      "bytes": 116821,
+      "mtime_ns": 1787160582570891147,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_sft_v3_minicpm5.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_sft_v6_minicpm5.jsonl",
+      "exists": true,
+      "sha256": "0175031a6474536a5c0cb40b8efef417169efee872c9648539e9e55f4c0a509d",
+      "bytes": 120748,
+      "mtime_ns": 1787250857214731802,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_sft_v6_minicpm5.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_sft_v7_minicpm5.jsonl",
+      "exists": true,
+      "sha256": "221cc4ef4a1d3afd3c9252debd2cd3e39d5cd475e757ac92b1ba7759b9e30294",
+      "bytes": 119231,
+      "mtime_ns": 1787392604982129870,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_sft_v7_minicpm5.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_sft_v8_2_minicpm5.jsonl",
+      "exists": true,
+      "sha256": "684880ee92b62389db5de3dcdecbedeb7ad7020d04cce2200c86f53657725fb5",
+      "bytes": 117275,
+      "mtime_ns": 1787715606822880740,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_sft_v8_2_minicpm5.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_sft_v8_minicpm5.jsonl",
+      "exists": true,
+      "sha256": "66b71a8ddbc35421b738430d931d6140161fec43add3d983ef69d7e0779575e2",
+      "bytes": 117591,
+      "mtime_ns": 1787468875883730006,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_sft_v8_minicpm5.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_tu2_a624.jsonl",
+      "exists": true,
+      "sha256": "8fc007e5df529dc4dc129ed76f6f2a92a929a9e315c12c6b5035dec1b2845504",
+      "bytes": 135201,
+      "mtime_ns": 1788592814962491988,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_tu2_a624.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_tu2_b113.jsonl",
+      "exists": true,
+      "sha256": "3b397bfe5996d8934a58740447235de3d016c4bda7060fc996c6be11eec7d501",
+      "bytes": 139262,
+      "mtime_ns": 1788606618912558145,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_tu2_b113.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_tu2_b624.jsonl",
+      "exists": true,
+      "sha256": "48dff2cd239b1a3e1fafd8fd867d57823d69038cf39e3cb1fa2a3d0b364be88c",
+      "bytes": 137520,
+      "mtime_ns": 1788597697621786913,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_tu2_b624.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_tu2_c113.jsonl",
+      "exists": true,
+      "sha256": "eaa695ac0e03299a694872f24183e00a4248ba4fa38aa84de9ed6d8488127fe1",
+      "bytes": 143723,
+      "mtime_ns": 1788601070344158746,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_tu2_c113.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_zeta21_native.jsonl",
+      "exists": true,
+      "sha256": "bed1269231f6d82c9086fa6c528eed7b3b6cd3e7d1f6d1e698632314e735076b",
+      "bytes": 114275,
+      "mtime_ns": 1787399183982021148,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_scenarios_zeta21_native.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/run_eval.py",
+      "exists": true,
+      "sha256": "0d554b4208af5db559cc7033795f2cb4fcdfce32b700dbd8c6ae5475ad4f7321",
+      "bytes": 12445,
+      "mtime_ns": 1788298645782527800,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "ab0a8578729db38fc6b40cf31a4cbbfcfad4dfc6",
+      "status": "M experiments/eval/run_eval.py"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/post-processing/assemble_sft_v2.py",
+      "exists": true,
+      "sha256": "dd519c61f0684040251f5f886c6f6307a6d0a99329fc7ac5792974a23cd43f12",
+      "bytes": 14058,
+      "mtime_ns": 1787137150511322616,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "1a539dd909f500f8a8e73f366f6dc6afbfed118a",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/synthetic-data/TU2_RESULTS.md",
+      "exists": true,
+      "sha256": "ce1130ceb71f600ff0c51cf15af12e4e8cceeab4e6ece1c110022a7f8171d8ce",
+      "bytes": 17776,
+      "mtime_ns": 1788610782626371904,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "ceb6c9a7ba68d3ac0158cb71e01372eae9261a47",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/synthetic-data/scenarios.py",
+      "exists": true,
+      "sha256": "cccf8ddfff0ae1f64a0113c9612386227df66f9fff4701608c2320bd8eb0250c",
+      "bytes": 106364,
+      "mtime_ns": 1787244547293304656,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "1992bc1e8bf52bf5c642e7921a321f0f3fa4b708",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/training/base_bakeoff/RESULTS.md",
+      "exists": true,
+      "sha256": "5a55abbe038420f79b9fe47c202ae41bdc793ff567a2a2871507045bb18b2aa2",
+      "bytes": 36627,
+      "mtime_ns": 1788669589957100018,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "ae6826e497f66f95511590a758e5fd7f5a59c765",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/scripts/b8b_verdict.py",
+      "exists": true,
+      "sha256": "4e7bde25fe1ccf656bc850a03f4288c699f67494fe3c2d69f16c918b02112fde",
+      "bytes": 4258,
+      "mtime_ns": 1788629832321869456,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "a70af4ca3afa9558a847790ff9d0a07f26d33d28",
+      "status": ""
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/MANIFEST.md",
+      "exists": true,
+      "sha256": "d7388578ba7ca817ff739517b9edb3833b78cf8fe59028bff643abb3b99aad14",
+      "bytes": 5226,
+      "mtime_ns": 1788678701345004800,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/build_log.jsonl",
+      "exists": true,
+      "sha256": "6de61dce41c861442a37cabec6eb8c712082ea31d3dcd493948cc2975b2a668b",
+      "bytes": 6633,
+      "mtime_ns": 1788651380064564000,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/corpus.jsonl",
+      "exists": true,
+      "sha256": "04c0c6ba0ce6e0cfcf7225bdbddaa8da9e80daa66cd2d1a73d158b86f70f6909",
+      "bytes": 47216263,
+      "mtime_ns": 1788653218343981400,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/loc1_s0_r/set.jsonl",
+      "exists": true,
+      "sha256": "d13a5d3507c7a44f4028ce825ba131cbb60ee70d5f5013194146aa5659c5f0a5",
+      "bytes": 90397,
+      "mtime_ns": 1788653216954695200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/scenarios_v1/doc_sync.jsonl",
+      "exists": true,
+      "sha256": "be45df30b7dfcabe7c8ab8d1363e04d18ba92753e5a927487727f7137bf9e283",
+      "bytes": 1955536,
+      "mtime_ns": 1787233995430104200,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/sft_v3/eval.jsonl",
+      "exists": true,
+      "sha256": "f28b5fc54a52bd596b76e06ca41f71bc90a97941de3bef609e7096bd4cfb36af",
+      "bytes": 27778127,
+      "mtime_ns": 1787137310813809900,
+      "source_head": null
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/landscape_gemma_scenarios.py",
+      "exists": true,
+      "sha256": "ed6f3d47eccc0492408370063b7539a5c95e53c9fd861078920554e296577bc3",
+      "bytes": 8357,
+      "mtime_ns": 1787404208403866296,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "910a4da7f59ba41e0b46835ae0dbff0cfed9b8c1",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/landscape_glm_3shot.py",
+      "exists": true,
+      "sha256": "3c35b2595bdc3b58de76b97d8751f8e7c028bbaadbda3c77bd93f830e011c365",
+      "bytes": 13415,
+      "mtime_ns": 1787412779131215946,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "9649997ea26bea985347d24d68712d887e1c3482",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/landscape_glm_scenarios.py",
+      "exists": true,
+      "sha256": "2328604a91eb181daaec0ea46e9174743af6a0a5a49a1e212fe33968411292b2",
+      "bytes": 9063,
+      "mtime_ns": 1787396330197442094,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "a19c17c16202a31d44fe5755cb35c1eb47c4ffdb",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/landscape_zeta_scenarios.py",
+      "exists": true,
+      "sha256": "01591b8d20e8a2de97681e664fb4365e13fa8010ea5b3232dfe890bfdbf70a4d",
+      "bytes": 13601,
+      "mtime_ns": 1787398771784909679,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "be72e5763cb6644250c156f01465f2f196ae12db",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/packages/sepalith/src/sepalith/evaluation.py",
+      "exists": true,
+      "sha256": "83b0f56dbd797f3ca1c9b78eb838e425bd1d542954c402dd77aaa623eb2a99b9",
+      "bytes": 4374,
+      "mtime_ns": 1788699051150229836,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "38b10ca4cbb6b4287203591f0c582a404994da55",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/landscape_zeta_render.py",
+      "exists": true,
+      "sha256": "f5e39839bd0a2fbbddbfbe39a5c39e6c4cea663e693ca923ebb1a72d21e30d1c",
+      "bytes": 13373,
+      "mtime_ns": 1787396849545882444,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "4d82189943983c0cd75e1e3ee52350228214cff4",
+      "status": ""
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/eval_noop_fp.py",
+      "exists": true,
+      "sha256": "5574198e8945595412cecabef8ef212460081879e6b95efeb81d565576dec95a",
+      "bytes": 36965,
+      "mtime_ns": 1788298645855417134,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": "761c57558107a2e016e1e310da33caff2fd6b7a3",
+      "status": "M experiments/eval/eval_noop_fp.py"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_noop_fp_b4_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "f60e2176aef92f1075fdba4bd6ab1264a9ff2d32d47514105908f4f1eaac3198",
+      "bytes": 113103,
+      "mtime_ns": 1788511257665125738,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_noop_fp_b4_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_noop_fp_b8b_stacked_qwen35_2b.jsonl",
+      "exists": true,
+      "sha256": "3411707e3838218c97cb3f81fdd1d1807b069a6de8ed97eb183c3f30f0b753f8",
+      "bytes": 118889,
+      "mtime_ns": 1788648854626687049,
+      "source_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+      "head_blob": null,
+      "status": "!! experiments/eval/results_noop_fp_b8b_stacked_qwen35_2b.jsonl"
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/scenarios_v1/format_propagation.jsonl",
+      "exists": true,
+      "sha256": "2ffc940853dafc07144ed50982a7a93d1962cff461ea561e2b5e9f2669586e3f",
+      "bytes": 5649078,
+      "mtime_ns": 1787076352272031100,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/scenarios_v1/pipe_rewrite.jsonl",
+      "exists": true,
+      "sha256": "88644938fb0e22a5a0155bd560799c10c3acd54ac10f831f260a2c935c8300b0",
+      "bytes": 2739088,
+      "mtime_ns": 1787076351151489300,
+      "source_head": null
+    },
+    {
+      "path": "/mnt/h/sepalith/datasets/scenarios_v1/rename_propagation.jsonl",
+      "exists": true,
+      "sha256": "98e86160fb5f37ad933c1e4c59c90296ab1a498e608c881b118268d20e216044",
+      "bytes": 5538651,
+      "mtime_ns": 1787076350599490500,
+      "source_head": null
+    }
+  ]
+}

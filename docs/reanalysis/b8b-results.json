@@ -1,0 +1,5161 @@
+{
+  "groups": {
+    "all": {
+      "control_exact": 195,
+      "n": 255,
+      "oracle_exact": 204,
+      "paired_exact": {
+        "b_wins": 9,
+        "c_wins": 13,
+        "ci": [
+          -0.050980392156862744,
+          0.0196078431372549
+        ],
+        "mean_delta": -0.01568627450980392,
+        "n": 255,
+        "name": "B8b minus B4",
+        "p": 0.5234670639038086,
+        "rate_a": 0.7490196078431373,
+        "rate_b": 0.7647058823529411,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 7,
+        "c_wins": 12,
+        "ci": [
+          -0.054901960784313725,
+          0.011764705882352941
+        ],
+        "mean_delta": -0.0196078431372549,
+        "n": 255,
+        "name": "B8b minus B4 valid",
+        "p": 0.359283447265625,
+        "rate_a": 0.8313725490196079,
+        "rate_b": 0.8509803921568627,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 199,
+      "selector_vs_control": {
+        "b_wins": 4,
+        "c_wins": 0,
+        "ci": [
+          0.00392156862745098,
+          0.03137254901960784
+        ],
+        "mean_delta": 0.01568627450980392,
+        "n": 255,
+        "name": "selector minus B4",
+        "p": 0.125,
+        "rate_a": 0.7803921568627451,
+        "rate_b": 0.7647058823529411,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 4,
+      "treatment_exact": 191
+    },
+    "development": {
+      "control_exact": 171,
+      "n": 193,
+      "oracle_exact": 172,
+      "paired_exact": {
+        "b_wins": 1,
+        "c_wins": 9,
+        "ci": [
+          -0.07772020725388601,
+          -0.010362694300518135
+        ],
+        "mean_delta": -0.04145077720207254,
+        "n": 193,
+        "name": "B8b minus B4",
+        "p": 0.021484375,
+        "rate_a": 0.844559585492228,
+        "rate_b": 0.8860103626943006,
+        "verdict": "WINNER-B"
+      },
+      "paired_valid": {
+        "b_wins": 1,
+        "c_wins": 8,
+        "ci": [
+          -0.06735751295336788,
+          -0.010362694300518135
+        ],
+        "mean_delta": -0.03626943005181347,
+        "n": 193,
+        "name": "B8b minus B4 valid",
+        "p": 0.0390625,
+        "rate_a": 0.9067357512953368,
+        "rate_b": 0.9430051813471503,
+        "verdict": "WINNER-B"
+      },
+      "selected_exact": 172,
+      "selector_vs_control": {
+        "b_wins": 1,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.015544041450777202
+        ],
+        "mean_delta": 0.0051813471502590676,
+        "n": 193,
+        "name": "selector minus B4",
+        "p": 1.0,
+        "rate_a": 0.8911917098445595,
+        "rate_b": 0.8860103626943006,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 1,
+      "treatment_exact": 163
+    },
+    "doc_sync": {
+      "control_exact": 0,
+      "n": 15,
+      "oracle_exact": 0,
+      "paired_exact": {
+        "b_wins": 0,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "mean_delta": 0.0,
+        "n": 15,
+        "name": "B8b minus B4",
+        "p": 1.0,
+        "rate_a": 0.0,
+        "rate_b": 0.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 0,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "mean_delta": 0.0,
+        "n": 15,
+        "name": "B8b minus B4 valid",
+        "p": 1.0,
+        "rate_a": 0.0,
+        "rate_b": 0.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 0,
+      "selector_vs_control": {
+        "b_wins": 0,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "mean_delta": 0.0,
+        "n": 15,
+        "name": "selector minus B4",
+        "p": 1.0,
+        "rate_a": 0.0,
+        "rate_b": 0.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 0,
+      "treatment_exact": 0
+    },
+    "evaluation": {
+      "control_exact": 24,
+      "n": 62,
+      "oracle_exact": 32,
+      "paired_exact": {
+        "b_wins": 8,
+        "c_wins": 4,
+        "ci": [
+          -0.04838709677419355,
+          0.1774193548387097
+        ],
+        "mean_delta": 0.06451612903225806,
+        "n": 62,
+        "name": "B8b minus B4",
+        "p": 0.3876953125,
+        "rate_a": 0.45161290322580644,
+        "rate_b": 0.3870967741935484,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 6,
+        "c_wins": 4,
+        "ci": [
+          -0.06451612903225806,
+          0.12903225806451613
+        ],
+        "mean_delta": 0.03225806451612903,
+        "n": 62,
+        "name": "B8b minus B4 valid",
+        "p": 0.75390625,
+        "rate_a": 0.5967741935483871,
+        "rate_b": 0.5645161290322581,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 27,
+      "selector_vs_control": {
+        "b_wins": 3,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.11290322580645161
+        ],
+        "mean_delta": 0.04838709677419355,
+        "n": 62,
+        "name": "selector minus B4",
+        "p": 0.25,
+        "rate_a": 0.43548387096774194,
+        "rate_b": 0.3870967741935484,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 3,
+      "treatment_exact": 28
+    },
+    "format_development": {
+      "control_exact": 15,
+      "n": 24,
+      "oracle_exact": 16,
+      "paired_exact": {
+        "b_wins": 1,
+        "c_wins": 2,
+        "ci": [
+          -0.16666666666666666,
+          0.08333333333333333
+        ],
+        "mean_delta": -0.041666666666666664,
+        "n": 24,
+        "name": "B8b minus B4",
+        "p": 1.0,
+        "rate_a": 0.5833333333333334,
+        "rate_b": 0.625,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 1,
+        "c_wins": 3,
+        "ci": [
+          -0.25,
+          0.08333333333333333
+        ],
+        "mean_delta": -0.08333333333333333,
+        "n": 24,
+        "name": "B8b minus B4 valid",
+        "p": 0.625,
+        "rate_a": 0.625,
+        "rate_b": 0.7083333333333334,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 16,
+      "selector_vs_control": {
+        "b_wins": 1,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.125
+        ],
+        "mean_delta": 0.041666666666666664,
+        "n": 24,
+        "name": "selector minus B4",
+        "p": 1.0,
+        "rate_a": 0.6666666666666666,
+        "rate_b": 0.625,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 1,
+      "treatment_exact": 14
+    },
+    "format_evaluation": {
+      "control_exact": 20,
+      "n": 43,
+      "oracle_exact": 28,
+      "paired_exact": {
+        "b_wins": 8,
+        "c_wins": 4,
+        "ci": [
+          -0.06976744186046512,
+          0.2558139534883721
+        ],
+        "mean_delta": 0.09302325581395349,
+        "n": 43,
+        "name": "B8b minus B4",
+        "p": 0.3876953125,
+        "rate_a": 0.5581395348837209,
+        "rate_b": 0.46511627906976744,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 6,
+        "c_wins": 4,
+        "ci": [
+          -0.09302325581395349,
+          0.18604651162790697
+        ],
+        "mean_delta": 0.046511627906976744,
+        "n": 43,
+        "name": "B8b minus B4 valid",
+        "p": 0.75390625,
+        "rate_a": 0.7674418604651163,
+        "rate_b": 0.7209302325581395,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 23,
+      "selector_vs_control": {
+        "b_wins": 3,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.16279069767441862
+        ],
+        "mean_delta": 0.06976744186046512,
+        "n": 43,
+        "name": "selector minus B4",
+        "p": 0.25,
+        "rate_a": 0.5348837209302325,
+        "rate_b": 0.46511627906976744,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 3,
+      "treatment_exact": 24
+    },
+    "format_propagation": {
+      "control_exact": 35,
+      "n": 67,
+      "oracle_exact": 44,
+      "paired_exact": {
+        "b_wins": 9,
+        "c_wins": 6,
+        "ci": [
+          -0.07462686567164178,
+          0.16417910447761194
+        ],
+        "mean_delta": 0.04477611940298507,
+        "n": 67,
+        "name": "B8b minus B4",
+        "p": 0.60723876953125,
+        "rate_a": 0.5671641791044776,
+        "rate_b": 0.5223880597014925,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 7,
+        "c_wins": 7,
+        "ci": [
+          -0.1044776119402985,
+          0.11940298507462686
+        ],
+        "mean_delta": 0.0,
+        "n": 67,
+        "name": "B8b minus B4 valid",
+        "p": 1.0,
+        "rate_a": 0.7164179104477612,
+        "rate_b": 0.7164179104477612,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 39,
+      "selector_vs_control": {
+        "b_wins": 4,
+        "c_wins": 0,
+        "ci": [
+          0.014925373134328358,
+          0.11940298507462686
+        ],
+        "mean_delta": 0.05970149253731343,
+        "n": 67,
+        "name": "selector minus B4",
+        "p": 0.125,
+        "rate_a": 0.582089552238806,
+        "rate_b": 0.5223880597014925,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 4,
+      "treatment_exact": 38
+    },
+    "na_rm_propagation": {
+      "control_exact": 5,
+      "n": 5,
+      "oracle_exact": 5,
+      "paired_exact": {
+        "b_wins": 0,
+        "c_wins": 2,
+        "ci": [
+          -0.8,
+          0.0
+        ],
+        "mean_delta": -0.4,
+        "n": 5,
+        "name": "B8b minus B4",
+        "p": 0.5,
+        "rate_a": 0.6,
+        "rate_b": 1.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 0,
+        "c_wins": 1,
+        "ci": [
+          -0.6,
+          0.0
+        ],
+        "mean_delta": -0.2,
+        "n": 5,
+        "name": "B8b minus B4 valid",
+        "p": 1.0,
+        "rate_a": 0.8,
+        "rate_b": 1.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 5,
+      "selector_vs_control": {
+        "b_wins": 0,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "mean_delta": 0.0,
+        "n": 5,
+        "name": "selector minus B4",
+        "p": 1.0,
+        "rate_a": 1.0,
+        "rate_b": 1.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 0,
+      "treatment_exact": 3
+    },
+    "pipe_rewrite": {
+      "control_exact": 18,
+      "n": 18,
+      "oracle_exact": 18,
+      "paired_exact": {
+        "b_wins": 0,
+        "c_wins": 1,
+        "ci": [
+          -0.16666666666666666,
+          0.0
+        ],
+        "mean_delta": -0.05555555555555555,
+        "n": 18,
+        "name": "B8b minus B4",
+        "p": 1.0,
+        "rate_a": 0.9444444444444444,
+        "rate_b": 1.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 0,
+        "c_wins": 1,
+        "ci": [
+          -0.16666666666666666,
+          0.0
+        ],
+        "mean_delta": -0.05555555555555555,
+        "n": 18,
+        "name": "B8b minus B4 valid",
+        "p": 1.0,
+        "rate_a": 0.9444444444444444,
+        "rate_b": 1.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 18,
+      "selector_vs_control": {
+        "b_wins": 0,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "mean_delta": 0.0,
+        "n": 18,
+        "name": "selector minus B4",
+        "p": 1.0,
+        "rate_a": 1.0,
+        "rate_b": 1.0,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 0,
+      "treatment_exact": 17
+    },
+    "rename_propagation": {
+      "control_exact": 137,
+      "n": 150,
+      "oracle_exact": 137,
+      "paired_exact": {
+        "b_wins": 0,
+        "c_wins": 4,
+        "ci": [
+          -0.05333333333333334,
+          -0.006666666666666667
+        ],
+        "mean_delta": -0.02666666666666667,
+        "n": 150,
+        "name": "B8b minus B4",
+        "p": 0.125,
+        "rate_a": 0.8866666666666667,
+        "rate_b": 0.9133333333333333,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "paired_valid": {
+        "b_wins": 0,
+        "c_wins": 3,
+        "ci": [
+          -0.04666666666666667,
+          0.0
+        ],
+        "mean_delta": -0.02,
+        "n": 150,
+        "name": "B8b minus B4 valid",
+        "p": 0.25,
+        "rate_a": 0.9533333333333334,
+        "rate_b": 0.9733333333333334,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "selected_exact": 137,
+      "selector_vs_control": {
+        "b_wins": 0,
+        "c_wins": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "mean_delta": 0.0,
+        "n": 150,
+        "name": "selector minus B4",
+        "p": 1.0,
+        "rate_a": 0.9133333333333333,
+        "rate_b": 0.9133333333333333,
+        "verdict": "TIE-UNDERPOWERED"
+      },
+      "switches": 0,
+      "treatment_exact": 133
+    }
+  },
+  "noop": {
+    "all": {
+      "control_proposals": 174,
+      "discordant": 0,
+      "n": 258,
+      "treatment_proposals": 174
+    },
+    "scored": {
+      "control_proposals": 120,
+      "discordant": 0,
+      "n": 204,
+      "treatment_proposals": 120
+    }
+  },
+  "noop_rows": [
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "002b9ad95368",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "00815834366b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "00c92de2d631",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "00cce3a6ae0a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "046067c0243e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "07e3001daa73",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "080271420b4c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "08268f5d28a6",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "08e8ea8ba36f",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "095e52b252f7",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "0a443058f30e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "0a678ffcc00c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "0aa246d9784a",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "0ac3a8b8866c",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "0b72d810997a",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "0bfb14cb670a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "0cea8d070c8e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "0ecf03f97805",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "0f0a6fb1ef0b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "10e6b1af69ca",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "10fa9cb09651",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "1113de6f6ca1",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "113270002fef",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "138834064d3e",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "13e6433b3994",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "140ef9b8cee4",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "14722856e987",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "14f2f58bb3e0",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "163c24eaedb2",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "16747384d628",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "16f2d82bcbfa",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "179d0ddb3621",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "17acb7564467",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "18c2d85a57cd",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "1927470df373",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "19e2667a0a3b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "1a734898e89a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "1aa4f541ee79",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "1bf04cd2fbd0",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "1cefb8f20572",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "1d1977ef9270",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "1d2e455e39fa",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "1dc2a41f5d39",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "1e0c3f012f1c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "1e3de32838f5",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "1ec2231909c6",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "1f480c8831f2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "1f6086316933",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "2087002c5f68",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "2167642a04a4",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "237342cf1467",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "23805e5b19e7",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "25afe386464d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "262712edc784",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "2687924ef375",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "28a488f5f07a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "28c4380460f4",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "2a0231482fc9",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "2b786333152a",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "2bcb2997ae46",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "2f32eaf4a4bf",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "2f3ad2861337",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "3016b8c34493",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "30c928188fac",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "326940f697b8",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "32fff68fd0cb",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "36c6b34eb9a6",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "37376abf1ed8",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "37447681be43",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "38f37dc938c2",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "3b5ab3b8cb61",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "3bdadf665d78",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "3bf635d979dc",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "3cc6cb313063",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "3cc8630479ea",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "3d2ffd9ec66b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "3d32a0e24205",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "3ea216a2e9a5",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "3edaa63d127e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "40ddc86db1d4",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "43bc409b5483",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "448a6960dfc8",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "46eab0c7b137",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "4741aa05d010",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "4746fa5c7c76",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "484b074dc511",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "487d988cc81a",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "490245ddf747",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "4949d8179f5c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "4ab893de8471",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "4aeb66724a2d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "4c4224a58103",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "4c48ca4fde01",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "4d952e98998e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "4dc3bd0d99ab",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "4dcecccd7827",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "4e17302d1137",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "4e2b8c584188",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "4e92f5c41ff3",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "51d1ca33f601",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "52623f28cde6",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "526c8795e2a4",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "528b53309db4",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "52d7cce06109",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "54a242430f30",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "55c7b3c67d7c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "56160834b5b1",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "565e48a3674c",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "57474065a537",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "580e536a7868",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "588b0aa602c6",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "58a071a4b796",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "5a157c1fb562",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "5ba519b07ca6",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "5d5fe95fddd6",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "5f42f324df4c",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "5fb66bde9931",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "5feb06ad401c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "5ff826449c9c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "603191017cc3",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "63592b2a2d0d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "659003521f1a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "67408c91c3db",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "679dcd300b5e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "67ceeb8ced0e",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "67e3b60c2121",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "6975b9a8f973",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "6a29521d19f5",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "6aa3864d319a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "6ae142edb140",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "6b3e196b5f39",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "6bd84ab3305a",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "6c24fa70933d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "6c9b7f7af135",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "6e231ddc088d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "7239a89472c2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "72d3b5dbf6c0",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "72d57fcd2428",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "7401be19f732",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "76099aad5a5d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "77c12eb7e9b3",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "79b71994dc45",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "7a2662a0132c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "80a9aa7000d9",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "815c38cab9d3",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "82cc8bffe73d",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "86f18dcb6c90",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "88be65ac04cc",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "8b469ce5196d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "8b9f20722a32",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "8d114e9fe65f",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "8da5e86402e9",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "8fe17610ffff",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "907b3901f584",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "907ec17300e4",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "927a3ede94e1",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "92c0f9789f8d",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "93672dcdce8b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "93edafcf3f34",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "9624449edac5",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "96afed62c955",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "970ac1737a3a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "973ad8113916",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "9887a2502cad",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "98d9625b283b",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "990782ed13f1",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "99273c43215f",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "99a63573c00e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "9b9f5524a6a1",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "9bd39c312a26",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "9c43620b1498",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "9cc00b27c99c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "9ebd01462835",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "9eeb578a7528",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "a0a79a4f7ab5",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "a0bfc7d5ac4b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "a2f3edb23770",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "a487c0504d76",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "a6552e9b39fc",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "a6764f357bf7",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "a6786ff6ad50",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "a80a55af8c5a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "a8ad7cbf8c32",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "ab1d6bea6cf7",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "abe9b152178b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "ae4064e4f7d9",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "ae5738dddf0f",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "af67d71248b7",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "b18e17f52e44",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "b57c8b0c4604",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "b63cb78d4f34",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "b837cbc5cb00",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "b9811634a8f9",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "b9f661166e7c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "bc359237d446",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "bcb3ebed6ab2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "bdd0ff959673",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "bf610648025a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c039bb1ee89e",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c07ae27acff8",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c0a542a33416",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c103c2cd9241",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "c1ce12040cb5",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c1e7bfb0cdab",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c21e14fe34c4",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c2e678887a7a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c32e54c68b9a",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c3a0c33c9764",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c3f25931c79b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c41888d43238",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c44772d38cb0",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "c8517ac95e7c",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "c9f531134006",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "cb095072cbf9",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "cb0e96173482",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "cc635c8782e2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "cd54a92a8be2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "cd812e65f33c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "cd99b2340dbb",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "d0bd52eec999",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "d5ae6227cc66",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "dc69659de3b3",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "dcd31f5d7efe",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "dd9306bfc08f",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "e4a2ba0a6d1c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "e5f0d2a43e4b",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "e7385771a5df",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "e7d417f526b5",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "e831db882abe",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "e8a79748bfb3",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "e8fd29e6befa",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "e90b59f56f4c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "ea754d2d70a1",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "eacf6991804e",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "ebe6d7d61af2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "ee2d1e4a102c",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "ee8a133be6f2",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "eea06d05ec29",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "eeec3b44fdf1",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "ef09d6e6928f",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "f153202eb431",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "f15a84febe5a",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "f1b625112a47",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "f1dedf42299f",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "f1fc55a3dca7",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "f24b6f780200",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "f24e5f00d068",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "f3af5d73a850",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "f447c6feeabd",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "f5327ece02e8",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "f5d1d16faff4",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "f75a65f87d3e",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "f8271d2f0b5f",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "fa5afaf6ff7b",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "fbcacb0506f0",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 0,
+      "expectation": "no_proposal",
+      "id": "fc090fd3e2c6",
+      "treatment_proposal": 0
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "no_proposal",
+      "id": "fd0403dbd863",
+      "treatment_proposal": 1
+    },
+    {
+      "control_proposal": 1,
+      "expectation": "judgment",
+      "id": "ffb4ea58ade3",
+      "treatment_proposal": 1
+    }
+  ],
+  "retrospective": true,
+  "rows": [
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "008da0619ca4",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "0208ae4836bd",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "0387eb53dafc",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "03a50f0b4207",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "06d3ef87f876",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "07780a9ca000",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "0819e1bb565e",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "081d14318cc4",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "083186059feb",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "08a3f7960c14",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "0a5c13487249",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "0b3ca1918275",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "0c9334bb8dbd",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "0f1059a8a60a",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "0f1189f11c19",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "1033e5424900",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "1117e61a40b3",
+      "package": "marginaleffects",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "11207b3e0457",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "130d9dd8e6cc",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "13df75c389a5",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "143dbd2b5143",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "148e5c2f55bb",
+      "package": "rrapply",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "158e1d16fd07",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "rename_propagation",
+      "id": "19277a3e42e7",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "rename_propagation",
+      "id": "1b0c4d2a8584",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "1bf93b007335",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "1c980a751f6d",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "1d549f0c9386",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "1d76b43bf5db",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "na_rm_propagation",
+      "id": "1d8693522a8f",
+      "package": "merTools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "1da7b2a87029",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "1e1241a8d502",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "1e6cf7bb4e6a",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "1fcb1f5a4f52",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "206e829007f3",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "212b4376542c",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "2150d4a86399",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "22465f855ece",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "22d46f265781",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "23fa463cca45",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "2481eb48c1eb",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "2602ce08d0d3",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "2631baf04498",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "26718388a1a0",
+      "package": "plumber",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "26878c52639f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "27dfb601907c",
+      "package": "PASWR",
+      "selected": "treatment",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "28738795b920",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "28cf376b38b6",
+      "package": "marginaleffects",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "291e3e11cfbc",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "2979944db2b0",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "2a7fb0a77721",
+      "package": "marginaleffects",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "2af7316b48fc",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "2cc252de5650",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "na_rm_propagation",
+      "id": "2cfb9998b225",
+      "package": "fabletools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "2de13df8d104",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "2e6f128e2adb",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "322ff47606b7",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "34dea43e315a",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "352dfbae7f9f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "353b78ce1c69",
+      "package": "rcartocolor",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "365636527800",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "37f2193c51ed",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "3ae62ce1e47b",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "3bb3374dc5e1",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "3c9c702c13ae",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "3da565ead161",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "3e6de753d5a1",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "3ed2318c9533",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "3f9a39b05c6b",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "3fac93c4e931",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "411f611f098c",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "42bc79b6963f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "439b0f4fc3e6",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "43d9aad3577b",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "44386c38d8e1",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "45ada9bf3640",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "46cc028741ec",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "46e351881aa9",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "471684207032",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "4a6878715dea",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "4bbd14c1b6eb",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "4bf7ba848c9c",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "4c1b8bdfcbdd",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "4d3ed582fe4c",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "4ded0b4267e6",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "4e13cea51b14",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "4fd74b179033",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "4feff1af8e2b",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "514a5283ceb0",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "51b4bcc8d317",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "52ebdea332e2",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "5323f29662fc",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "547f0dc52ad3",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "54c9ca252ac7",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5675768ce633",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "56b8b3ecff0b",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "5804a483e3c6",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "591295d9e7c8",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "na_rm_propagation",
+      "id": "59e6a73fae32",
+      "package": "merTools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5a286bb79a44",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5ba10df5b4b3",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "5c026e31b471",
+      "package": "rcartocolor",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5c81f34647ce",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "5dc4e4ba9da6",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5dd3e421b368",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5ef81f1a7492",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "5fdabe72c377",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "60070e272ad6",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "60961696e3dd",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "61945d55313d",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "634a91eca2fc",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "6401d1bb4415",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "64416560d71a",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "666cd8c79204",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "669e60dba2e6",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "66c036245dc4",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "670c93e0d1a5",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "6723e09c61bc",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "69820d8b1a99",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "6cc89c8f8b4e",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "6d51a756c4b1",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "6d9430141aec",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "6e9b5f4199fe",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "6f80b88b2a1a",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "70052c64bd4f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "70d557ad98bf",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "71949fc66482",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "719abc97e6c4",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "7259d9ba8bdc",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "na_rm_propagation",
+      "id": "74057f4970a4",
+      "package": "merTools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "76487a42b101",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "rename_propagation",
+      "id": "76d60c48b36c",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "777a0324453f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "78140fe925c1",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "78c01b56ba9c",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "79986d9b296e",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "7a1bdf1c1d32",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "7a6531cb606d",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "7cacbf48e75f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "7cdd21be509a",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "7ea2959d8852",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "7f419c38a496",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "7ffd1ac8f831",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "80f2fd165d89",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "814a512b124d",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "8207907ef98c",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "856c1cff80d0",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "8715d65a697d",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "87f7da839434",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "8851d5826a12",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "88ec7e3be08b",
+      "package": "feasts",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "8bc6fca26865",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "8c1b68b40778",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "8ca74e0bd61e",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "8d6216cd41a0",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "8f58b3fcf796",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "8feb5a0869d1",
+      "package": "rrapply",
+      "selected": "treatment",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "9262eb2982ef",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "926a933529e0",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "rename_propagation",
+      "id": "92da0822ff78",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "9615944ffd54",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "9783a7bbf50d",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "99741b3f90dc",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "9b2258cb4a8d",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "9c552e63896d",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "9d3f29850859",
+      "package": "plumber",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "9d5198417061",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "9e71b40d68ae",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a0a3c59ace42",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a22d9b3c1088",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "a2b5ea9528d5",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a345a4d1121f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a557a2fc56cf",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a5b5873ae82f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a61df0396a2a",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "a6299f1ea976",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "aaa72984facc",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "aacd773af914",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "ab9200ade730",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "ab9d50404db9",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "abbfbb2742d1",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "ac3f14dbb451",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "aca2a8d1f12c",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "ad5f8937afb1",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "af16ef2aba53",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "b1ae8b857966",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "b2cb74c0a760",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "b46fa9b8b7fd",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "b7feed394ff3",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "b916e35e4c19",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "b9b897ca9c9e",
+      "package": "rrapply",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "bb4e99566ebd",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "bc229d9216f5",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "bce02581c3e7",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c0ce64524489",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c34888227f99",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "c43b5ca11b49",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "c59699efeaa2",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c6061c5225e4",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c8161e540e34",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c86210c8838d",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "c9264fc09531",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c9272096e115",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c95a8ad18263",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c9b6399bbc0a",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "c9f6ec405ba7",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "ce6e2e6af4e8",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "ce96d064ade4",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "cf06a98db50d",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "cf5930d1f3d2",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "cf5d8c9d6850",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d20accf391b3",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d454a36cac24",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d49244be6a11",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d50ab15af084",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d6e9ebf0daa4",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d79385dd60c8",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "d8198911ff15",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "d90f76045a09",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "d982632e8976",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "dab7d9946580",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "db5f121e06bf",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "dd33b7bb032f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "de9b83f01ed6",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "e0afe6d3a5f6",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "e0b221e80a18",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "e11c3629c08f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "e125456f5073",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "e177d068cc2f",
+      "package": "rnndescent",
+      "selected": "treatment",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "e20fceadd73a",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "e2c129e1362f",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "e406f9cbaeff",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "na_rm_propagation",
+      "id": "e54ae514a998",
+      "package": "merTools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "e6c5be2d9e7b",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "ea901c2303fe",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "ed17b85837e5",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "ed2f73625ba3",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "ee4c6fe3fc42",
+      "package": "marginaleffects",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "f0e6ebd982e4",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "f0edf2c8777e",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "f2c79060e65f",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "f2f01443bbb8",
+      "package": "geosphere",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "f339dce3ba0d",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "f54a61cdc3a8",
+      "package": "plumber",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "f5df4ee9d962",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "f5e962b9dc29",
+      "package": "PASWR",
+      "selected": "treatment",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "f6bc0d8b4b5c",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "f6e893589d07",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "f70bc2057eba",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "doc_sync",
+      "id": "fad0fbd76f1a",
+      "package": "glmmTMB",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 0,
+      "family": "format_propagation",
+      "id": "fae0c3a8c811",
+      "package": "rnndescent",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "development",
+      "treatment_exact": 0,
+      "treatment_valid": 0
+    },
+    {
+      "control_exact": 0,
+      "control_valid": 1,
+      "family": "format_propagation",
+      "id": "fbe45f450ba6",
+      "package": "PASWR",
+      "selected": "control",
+      "selected_exact": 0,
+      "split": "evaluation",
+      "treatment_exact": 0,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "fc7ce75d9bd6",
+      "package": "plumber",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "evaluation",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "rename_propagation",
+      "id": "fd5b655a5200",
+      "package": "devtools",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    },
+    {
+      "control_exact": 1,
+      "control_valid": 1,
+      "family": "pipe_rewrite",
+      "id": "ffb4a3675ad4",
+      "package": "ieugwasr",
+      "selected": "control",
+      "selected_exact": 1,
+      "split": "development",
+      "treatment_exact": 1,
+      "treatment_valid": 1
+    }
+  ]
+}

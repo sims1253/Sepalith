@@ -1,0 +1,4034 @@
+{
+  "groups": {
+    "all": {
+      "arms": {
+        "bm25": {
+          "all_gold@10": 0.7833333333333333,
+          "all_gold@5": 0.55,
+          "hit@10": 0.8833333333333333,
+          "hit@5": 0.8166666666666667,
+          "recall@10": 0.8291666666666668,
+          "recall@5": 0.6981547619047619,
+          "rr": 0.6947214080547415
+        },
+        "hybrid-large": {
+          "all_gold@10": 0.7833333333333333,
+          "all_gold@5": 0.6333333333333333,
+          "hit@10": 0.9166666666666666,
+          "hit@5": 0.8833333333333333,
+          "recall@10": 0.8618055555555556,
+          "recall@5": 0.7724603174603174,
+          "rr": 0.7669586296823139
+        },
+        "hybrid-small": {
+          "all_gold@10": 0.7333333333333333,
+          "all_gold@5": 0.5833333333333334,
+          "hit@10": 0.8833333333333333,
+          "hit@5": 0.85,
+          "recall@10": 0.8180555555555556,
+          "recall@5": 0.7419047619047618,
+          "rr": 0.7643757600087524
+        },
+        "muninn": {
+          "all_gold@10": 0.7166666666666667,
+          "all_gold@5": 0.55,
+          "hit@10": 0.85,
+          "hit@5": 0.8166666666666667,
+          "recall@10": 0.7959722222222221,
+          "recall@5": 0.6955158730158731,
+          "rr": 0.7460827047966351
+        },
+        "muninn-small": {
+          "all_gold@10": 0.6166666666666667,
+          "all_gold@5": 0.5166666666666667,
+          "hit@10": 0.8333333333333334,
+          "hit@5": 0.8,
+          "recall@10": 0.7445833333333333,
+          "recall@5": 0.6821825396825396,
+          "rr": 0.721281264355852
+        }
+      },
+      "n": 60,
+      "repos": 33
+    },
+    "development": {
+      "arms": {
+        "bm25": {
+          "all_gold@10": 0.8095238095238095,
+          "all_gold@5": 0.5714285714285714,
+          "hit@10": 0.9047619047619048,
+          "hit@5": 0.8571428571428571,
+          "recall@10": 0.8571428571428571,
+          "recall@5": 0.7444444444444445,
+          "rr": 0.7194083694083694
+        },
+        "hybrid-large": {
+          "all_gold@10": 0.8095238095238095,
+          "all_gold@5": 0.5714285714285714,
+          "hit@10": 0.9523809523809523,
+          "hit@5": 0.9523809523809523,
+          "recall@10": 0.8928571428571429,
+          "recall@5": 0.798015873015873,
+          "rr": 0.8368253968253967
+        },
+        "hybrid-small": {
+          "all_gold@10": 0.7619047619047619,
+          "all_gold@5": 0.5238095238095238,
+          "hit@10": 0.8571428571428571,
+          "hit@5": 0.8571428571428571,
+          "recall@10": 0.8095238095238095,
+          "recall@5": 0.7305555555555555,
+          "rr": 0.8053054466097945
+        },
+        "muninn": {
+          "all_gold@10": 0.7142857142857143,
+          "all_gold@5": 0.47619047619047616,
+          "hit@10": 0.9047619047619048,
+          "hit@5": 0.8095238095238095,
+          "recall@10": 0.8198412698412698,
+          "recall@5": 0.6615079365079365,
+          "rr": 0.7641792489353465
+        },
+        "muninn-small": {
+          "all_gold@10": 0.5714285714285714,
+          "all_gold@5": 0.47619047619047616,
+          "hit@10": 0.8571428571428571,
+          "hit@5": 0.8571428571428571,
+          "recall@10": 0.7484126984126984,
+          "recall@5": 0.7067460317460318,
+          "rr": 0.8233485158384264
+        }
+      },
+      "n": 21,
+      "repos": 10
+    },
+    "evaluation": {
+      "arms": {
+        "bm25": {
+          "all_gold@10": 0.7692307692307693,
+          "all_gold@5": 0.5384615384615384,
+          "hit@10": 0.8717948717948718,
+          "hit@5": 0.7948717948717948,
+          "recall@10": 0.814102564102564,
+          "recall@5": 0.6732295482295482,
+          "rr": 0.6814284288643264
+        },
+        "hybrid-large": {
+          "all_gold@10": 0.7692307692307693,
+          "all_gold@5": 0.6666666666666666,
+          "hit@10": 0.8974358974358975,
+          "hit@5": 0.8461538461538461,
+          "recall@10": 0.84508547008547,
+          "recall@5": 0.7586996336996337,
+          "rr": 0.7293380627591155
+        },
+        "hybrid-small": {
+          "all_gold@10": 0.717948717948718,
+          "all_gold@5": 0.6153846153846154,
+          "hit@10": 0.8974358974358975,
+          "hit@5": 0.8461538461538461,
+          "recall@10": 0.8226495726495725,
+          "recall@5": 0.748015873015873,
+          "rr": 0.7423366979928065
+        },
+        "muninn": {
+          "all_gold@10": 0.717948717948718,
+          "all_gold@5": 0.5897435897435898,
+          "hit@10": 0.8205128205128205,
+          "hit@5": 0.8205128205128205,
+          "recall@10": 0.7831196581196581,
+          "recall@5": 0.7138278388278388,
+          "rr": 0.7363384117988667
+        },
+        "muninn-small": {
+          "all_gold@10": 0.6410256410256411,
+          "all_gold@5": 0.5384615384615384,
+          "hit@10": 0.8205128205128205,
+          "hit@5": 0.7692307692307693,
+          "recall@10": 0.7425213675213674,
+          "recall@5": 0.668956043956044,
+          "rr": 0.6663219750960041
+        }
+      },
+      "n": 39,
+      "repos": 23
+    },
+    "multi_gold": {
+      "arms": {
+        "bm25": {
+          "all_gold@10": 0.7307692307692307,
+          "all_gold@5": 0.3076923076923077,
+          "hit@10": 0.9615384615384616,
+          "hit@5": 0.9230769230769231,
+          "recall@10": 0.8365384615384616,
+          "recall@5": 0.6495879120879121,
+          "rr": 0.8188811188811189
+        },
+        "hybrid-large": {
+          "all_gold@10": 0.6538461538461539,
+          "all_gold@5": 0.34615384615384615,
+          "hit@10": 0.9615384615384616,
+          "hit@5": 0.9230769230769231,
+          "recall@10": 0.8349358974358974,
+          "recall@5": 0.6672161172161171,
+          "rr": 0.8476923076923076
+        },
+        "hybrid-small": {
+          "all_gold@10": 0.6153846153846154,
+          "all_gold@5": 0.34615384615384615,
+          "hit@10": 0.9615384615384616,
+          "hit@5": 0.9615384615384616,
+          "recall@10": 0.8108974358974359,
+          "recall@5": 0.712087912087912,
+          "rr": 0.9151337792642139
+        },
+        "muninn": {
+          "all_gold@10": 0.6153846153846154,
+          "all_gold@5": 0.2692307692307692,
+          "hit@10": 0.9230769230769231,
+          "hit@5": 0.8846153846153846,
+          "recall@10": 0.7983974358974358,
+          "recall@5": 0.60503663003663,
+          "rr": 0.8221033578678981
+        },
+        "muninn-small": {
+          "all_gold@10": 0.46153846153846156,
+          "all_gold@5": 0.2692307692307692,
+          "hit@10": 0.9615384615384616,
+          "hit@5": 0.9230769230769231,
+          "recall@10": 0.7567307692307692,
+          "recall@5": 0.6511904761904762,
+          "rr": 0.8615404379792869
+        }
+      },
+      "n": 26,
+      "repos": 16
+    },
+    "names_target": {
+      "arms": {
+        "bm25": {
+          "all_gold@10": 0.9,
+          "all_gold@5": 0.8,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "recall@10": 0.9333333333333333,
+          "recall@5": 0.8958333333333334,
+          "rr": 0.8333333333333333
+        },
+        "hybrid-large": {
+          "all_gold@10": 0.8,
+          "all_gold@5": 0.8,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "recall@10": 0.9541666666666666,
+          "recall@5": 0.8958333333333334,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0.8,
+          "all_gold@5": 0.8,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "recall@10": 0.9416666666666667,
+          "recall@5": 0.9291666666666666,
+          "rr": 0.95
+        },
+        "muninn": {
+          "all_gold@10": 0.9,
+          "all_gold@5": 0.6,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "recall@10": 0.9875,
+          "recall@5": 0.8458333333333332,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0.7,
+          "all_gold@5": 0.5,
+          "hit@10": 0.9,
+          "hit@5": 0.9,
+          "recall@10": 0.8291666666666668,
+          "recall@5": 0.7458333333333333,
+          "rr": 0.9066666666666666
+        }
+      },
+      "n": 10,
+      "repos": 9
+    },
+    "no_target_name": {
+      "arms": {
+        "bm25": {
+          "all_gold@10": 0.76,
+          "all_gold@5": 0.5,
+          "hit@10": 0.86,
+          "hit@5": 0.78,
+          "recall@10": 0.8083333333333335,
+          "recall@5": 0.6586190476190475,
+          "rr": 0.666999022999023
+        },
+        "hybrid-large": {
+          "all_gold@10": 0.78,
+          "all_gold@5": 0.6,
+          "hit@10": 0.9,
+          "hit@5": 0.86,
+          "recall@10": 0.8433333333333334,
+          "recall@5": 0.7477857142857143,
+          "rr": 0.7203503556187766
+        },
+        "hybrid-small": {
+          "all_gold@10": 0.72,
+          "all_gold@5": 0.54,
+          "hit@10": 0.86,
+          "hit@5": 0.82,
+          "recall@10": 0.7933333333333334,
+          "recall@5": 0.7044523809523809,
+          "rr": 0.7272509120105026
+        },
+        "muninn": {
+          "all_gold@10": 0.68,
+          "all_gold@5": 0.54,
+          "hit@10": 0.82,
+          "hit@5": 0.78,
+          "recall@10": 0.7576666666666665,
+          "recall@5": 0.665452380952381,
+          "rr": 0.6952992457559617
+        },
+        "muninn-small": {
+          "all_gold@10": 0.6,
+          "all_gold@5": 0.52,
+          "hit@10": 0.82,
+          "hit@5": 0.78,
+          "recall@10": 0.7276666666666665,
+          "recall@5": 0.6694523809523809,
+          "rr": 0.6842041838936888
+        }
+      },
+      "n": 50,
+      "repos": 28
+    }
+  },
+  "parity_rows": 60,
+  "retrospective": true,
+  "rows": [
+    {
+      "bm25_nonzero_candidates": 64,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 243,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "0089db82f940",
+      "repo": "paravian__nitro",
+      "rule": "msg-func",
+      "sha": "504e7453c3b50aabf20ba4d04745172c1ddd5b66",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 63,
+      "duplicate_candidate_keys": 1,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.09090909090909091
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.2
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        }
+      },
+      "n_candidates": 65,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": true,
+      "qid": "01198c36250e",
+      "repo": "GJH060__-Fourth-Corner-Ising-Model-",
+      "rule": "msg-func",
+      "sha": "5e8f1a51ba7cf9797345efcc4f937752f7a1c65a",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 82,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.1
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 219,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "08bc6bf2e89f",
+      "repo": "dfsp-spirit__freesurferformats",
+      "rule": "msg-func",
+      "sha": "ef7d696248c3f7f5c77f2f4dbc9e5724bb38f537",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 185,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 313,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "0a31158db511",
+      "repo": "paravian__nitro",
+      "rule": "msg-func",
+      "sha": "25a3993f88c345a8fd9150e183f3d1c8613f3ffa",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 14,
+      "duplicate_candidate_keys": 7,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.875,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.75,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.875,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.625,
+          "recall@5": 0.625,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 151,
+      "n_gold": 8,
+      "n_gold_chunks": 8,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "133c5832a167",
+      "repo": "AlexDiana__occJSDM",
+      "rule": "msg-func",
+      "sha": "7eba17141d7dd2eaac15a96eb3887b887325764e",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 37,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 86,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "15b252741fd7",
+      "repo": "ouhscbbmc__redcapr",
+      "rule": "coedit-test",
+      "sha": "b5dcf07d1d1087afac0a5ff04e5461713987c486",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 72,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.07142857142857142
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.2
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.16666666666666666
+        }
+      },
+      "n_candidates": 87,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": true,
+      "qid": "1a7fab8fc4ae",
+      "repo": "chloelee0207__infectious-disease-modelling",
+      "rule": "msg-func",
+      "sha": "3e72ecc58fa54f942f1f40cfa94cbb3ab777a570",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 10,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.013513513513513514
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.009009009009009009
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.041666666666666664
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.008333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.0625
+        }
+      },
+      "n_candidates": 212,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "1d7a74cf5743",
+      "repo": "dfsp-spirit__freesurferformats",
+      "rule": "msg-func",
+      "sha": "0129b208e435e39c0ffa3c1cd4032e858957af9d",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 153,
+      "duplicate_candidate_keys": 1,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "1dfeee15950b",
+      "repo": "r-lib__roxygen2",
+      "rule": "coedit-test",
+      "sha": "0db02fd5dd17443726b3845ac7b83c889f2e0dae",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 95,
+      "duplicate_candidate_keys": 2,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 481,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "24a40e7c14fc",
+      "repo": "xia-lab__MicrobiomeAnalystR",
+      "rule": "msg-func",
+      "sha": "81020df7956b62c1dcec4df4295255214c8ad27c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 58,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.16666666666666666
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 191,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "2a3144695b19",
+      "repo": "keaven__gsdesign",
+      "rule": "coedit-test",
+      "sha": "655096816b564f0bb193d0e9cf2ba1e2dbe3bf6c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 40,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "372c492b42a1",
+      "repo": "nlmixr2__nlmixr2est",
+      "rule": "msg-func",
+      "sha": "77e25b05eb639893fe45f7dbfbe7a881e0f81eb2",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 131,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 271,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "39f3aacebe0c",
+      "repo": "guido-s__netmeta",
+      "rule": "msg-func",
+      "sha": "d02a13b558c57797375b0831f116f0c317d30102",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 80,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 181,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "3d3ddf8c8017",
+      "repo": "r-lib__pkgload",
+      "rule": "coedit-test",
+      "sha": "0a537911897da276d3138b708dc0dc9849e2078f",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 74,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.16666666666666666
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "3d56f289106f",
+      "repo": "nlmixr2__nlmixr2est",
+      "rule": "coedit-test",
+      "sha": "dde2d62bb862dad49ba62f043a663de78c51bf4d",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 23,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        }
+      },
+      "n_candidates": 134,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "416c1f53971e",
+      "repo": "r-dbi__odbc",
+      "rule": "msg-func",
+      "sha": "17ad3778a4a7a6716002def427de30a64a081886",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 46,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": true,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.2
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.125
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.125
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.047619047619047616
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.034482758620689655
+        }
+      },
+      "n_candidates": 188,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "49944459fc6a",
+      "repo": "RandomBirdLover__beescabr",
+      "rule": "msg-func",
+      "sha": "fbebb7fa28b196b89739e5db760652de3dd41b7c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 57,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 138,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "4d2b4c8246c9",
+      "repo": "stats-uoa__s20x",
+      "rule": "msg-func",
+      "sha": "436e15facb40220da049a2f736258dc336135155",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 8,
+      "duplicate_candidate_keys": 8,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 91,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "4e6d4fda6449",
+      "repo": "maciekbanas__shinyphaser",
+      "rule": "coedit-test",
+      "sha": "d6bc01b57618169207cf9d50c028d2d7fd108669",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 21,
+      "duplicate_candidate_keys": 6,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.09090909090909091
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 0.3333333333333333
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 0.25
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 0.3333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 0.25
+        }
+      },
+      "n_candidates": 78,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": true,
+      "qid": "548e816f16d7",
+      "repo": "interactivereport__Quickomics",
+      "rule": "msg-func",
+      "sha": "59fb84d4a1a5af4976754e57c62d6b07f914f288",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 7,
+      "duplicate_candidate_keys": 8,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 78,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "5628cf93d1f8",
+      "repo": "maciekbanas__shinyphaser",
+      "rule": "msg-func",
+      "sha": "700bbdbdac50dc4f033ce4e08684dc6332b8a45c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 75,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.06666666666666667
+        }
+      },
+      "n_candidates": 114,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "5ac8b027fea5",
+      "repo": "tbep-tech__tbeptools",
+      "rule": "coedit-test",
+      "sha": "5b168a2ad541bfdeef992bb3e6308ee74c0926e7",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 33,
+      "duplicate_candidate_keys": 6,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 78,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "5b4b0eda9789",
+      "repo": "interactivereport__Quickomics",
+      "rule": "msg-func",
+      "sha": "3037c5ca6057e6e4b21e728a1c15201f3f841abf",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 24,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 75,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "5feb2ccbd78f",
+      "repo": "jabenninghoff__rdev",
+      "rule": "coedit-test",
+      "sha": "37a82f089c2a601cbdbcf293184d5ef5e4853fb4",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 9,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 133,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "63553c61824c",
+      "repo": "r-dbi__odbc",
+      "rule": "coedit-test",
+      "sha": "e1fb6614b56a2f58b95000f78be3ff308302629e",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 66,
+      "duplicate_candidate_keys": 2,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.06666666666666667
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.2
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.02702702702702703
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.08333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.006097560975609756
+        }
+      },
+      "n_candidates": 361,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "64e8eb8f8590",
+      "repo": "drjoshmcgrane__rasch",
+      "rule": "msg-func",
+      "sha": "29b344d452c37244e8e890c8f1b611b8f7ac7b12",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 0,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": true,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.04
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.043478260869565216
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.006097560975609756
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.007194244604316547
+        }
+      },
+      "n_candidates": 189,
+      "n_gold": 4,
+      "n_gold_chunks": 4,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "67bc36e2951c",
+      "repo": "spatstat__spatstat.utils",
+      "rule": "msg-func",
+      "sha": "b668dc2a360be713d61774feeba5d9eb830c7023",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 323,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.037037037037037035
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.04
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.058823529411764705
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.041666666666666664
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.07692307692307693
+        }
+      },
+      "n_candidates": 572,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "68cbf703a575",
+      "repo": "easystats__performance",
+      "rule": "msg-func",
+      "sha": "66f70ee8704819c3a378776e220793869e0cfe6c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 198,
+      "duplicate_candidate_keys": 2,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 481,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "699d8cb5801a",
+      "repo": "xia-lab__MicrobiomeAnalystR",
+      "rule": "msg-func",
+      "sha": "f2a2fa50b7f365d376c899dce72dd770ae40d23b",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 154,
+      "duplicate_candidate_keys": 2,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 480,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "6eb0d6b9ccfe",
+      "repo": "xia-lab__MicrobiomeAnalystR",
+      "rule": "msg-func",
+      "sha": "c28acb418567b331f4b5da5df6549c788bbae34a",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 29,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 77,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "745d786aa183",
+      "repo": "jabenninghoff__rdev",
+      "rule": "coedit-test",
+      "sha": "f53b4d24dd7082aba545ac4bc9b9e4b18394a663",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 143,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "7c3f6abe3c16",
+      "repo": "nlmixr2__nlmixr2est",
+      "rule": "msg-func",
+      "sha": "d4062609a26b7c856a0d4519adea35cbe2b465bf",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 134,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 225,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "87fb3331a649",
+      "repo": "kvasilopoulos__exuber",
+      "rule": "coedit-test",
+      "sha": "7d4de3e285fb847312966b7e2a1791e9ee22694b",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 59,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        }
+      },
+      "n_candidates": 277,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "8cff920308c5",
+      "repo": "OCHA-DAP__hdx-signals",
+      "rule": "msg-func",
+      "sha": "80301e770ffd544d506c13238f9fc5957e58bc71",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 38,
+      "duplicate_candidate_keys": 2,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.625,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.625,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 111,
+      "n_gold": 8,
+      "n_gold_chunks": 8,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "8f9753c6e3b4",
+      "repo": "AdrianAntico__AutoPlots",
+      "rule": "coedit-test",
+      "sha": "963b2c6803cd94d52e0927ad1c8c247c46c94bba",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 34,
+      "duplicate_candidate_keys": 1,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.25
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        }
+      },
+      "n_candidates": 65,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "9032bf22d8ef",
+      "repo": "GJH060__-Fourth-Corner-Ising-Model-",
+      "rule": "msg-func",
+      "sha": "e4b638b6aba963e3af6c7208206372686f3b0e76",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 68,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.09090909090909091
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.16666666666666666
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.02702702702702703
+        }
+      },
+      "n_candidates": 132,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "96bae592ad17",
+      "repo": "r-causal__halfmoon",
+      "rule": "coedit-test",
+      "sha": "e1a1594c2c42b482915e52d520194bae16658f1a",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 9,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 0.3333333333333333
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 113,
+      "n_gold": 4,
+      "n_gold_chunks": 4,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "9e0bf214599a",
+      "repo": "oist__GenomicBreaks",
+      "rule": "msg-func",
+      "sha": "fcb4216fa3cc766a691aa8d86573e625ecc3e0c4",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 60,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 86,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "9e602b3b2ef8",
+      "repo": "ouhscbbmc__redcapr",
+      "rule": "coedit-test",
+      "sha": "174c9ddf8be251b2be82bf1bde85ede01b1a7546",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 34,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.3333333333333333,
+          "recall@5": 0.3333333333333333,
+          "rr": 0.5
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.3333333333333333,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.6666666666666666,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 191,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": true,
+      "neural_only": false,
+      "qid": "9f0654f00758",
+      "repo": "keaven__gsdesign",
+      "rule": "coedit-test",
+      "sha": "4f30cecebd869403482a7b5f276a649e46b80576",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 59,
+      "duplicate_candidate_keys": 1,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.25,
+          "recall@5": 0.25,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.25,
+          "recall@5": 0.25,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.25,
+          "recall@5": 0.25,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.25,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.25,
+          "recall@5": 0.25,
+          "rr": 0.5
+        }
+      },
+      "n_candidates": 169,
+      "n_gold": 4,
+      "n_gold_chunks": 4,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "a52851d9fa36",
+      "repo": "spatialecology__camtrapReport",
+      "rule": "msg-func",
+      "sha": "ebba0450946ecf8f0389f21f2eac611de3744e86",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 45,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.75,
+          "recall@5": 0.75,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.25,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.75,
+          "recall@5": 0.5,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 183,
+      "n_gold": 4,
+      "n_gold_chunks": 4,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "ae0d76d2e8e6",
+      "repo": "kvasilopoulos__exuber",
+      "rule": "coedit-test",
+      "sha": "651f7dd6f479e0b6ac3ca8a189e2972963d95ece",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 28,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 125,
+      "n_gold": 3,
+      "n_gold_chunks": 3,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "b04d34218cce",
+      "repo": "stats-uoa__s20x",
+      "rule": "msg-func",
+      "sha": "ae903e9a2731734374a82c5e5d4d4e80a83453f1",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 62,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 5,
+      "n_gold_chunks": 5,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "b0b879c380b0",
+      "repo": "sparklyr__sparklyr",
+      "rule": "msg-func",
+      "sha": "34dd0390469f4b83d97036c6546e2ad2f7b0213c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 19,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 66,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "c1bdaf5e4bb1",
+      "repo": "rcppcore__rcppparallel",
+      "rule": "coedit-test",
+      "sha": "a0b8876e0e098f80a80e49e7435cc30776df4c65",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 37,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 153,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "c64e21c1b2dd",
+      "repo": "drjoshmcgrane__rasch",
+      "rule": "coedit-test",
+      "sha": "18cc05725599f60b071f3a0dc4adfacc0a57b502",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 146,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": true,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.1
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.05263157894736842
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.08333333333333333
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.02857142857142857
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.043478260869565216
+        }
+      },
+      "n_candidates": 364,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "cbc23478b6d0",
+      "repo": "rstudio__rmarkdown",
+      "rule": "coedit-test",
+      "sha": "194c2a11e3d345e294906152b6f60f0439422022",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 7,
+      "duplicate_candidate_keys": 1,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.7142857142857143,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.7142857142857143,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.7142857142857143,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.7142857142857143,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.7142857142857143,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 7,
+      "n_gold_chunks": 7,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "ce7fcdf164b5",
+      "repo": "sparklyr__sparklyr",
+      "rule": "msg-func",
+      "sha": "7f87706d29b4da81b77b5c972cbadd6302a8006b",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 61,
+      "duplicate_candidate_keys": 2,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.75,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.75,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 0.25,
+          "recall@5": 0.0,
+          "rr": 0.125
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.75,
+          "recall@5": 0.75,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 364,
+      "n_gold": 4,
+      "n_gold_chunks": 4,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "d3281e37b87e",
+      "repo": "drjoshmcgrane__rasch",
+      "rule": "msg-func",
+      "sha": "0352371fb9a393ebb457cb8c07a5943f4401c032",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 18,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 65,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "d79bc5419077",
+      "repo": "rcppcore__rcppparallel",
+      "rule": "coedit-test",
+      "sha": "0a650d9f6d94495927b2a79e3aefb548bba68673",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 14,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 0.5
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        }
+      },
+      "n_candidates": 314,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "d99367a9c256",
+      "repo": "nmaggiulli__of-dollars-and-data",
+      "rule": "msg-func",
+      "sha": "d1fdb5dfb03b09a81df1cba9701c1fedc8a04547",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 342,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": true,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.5,
+          "rr": 0.2
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.16666666666666666
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.5,
+          "recall@5": 0.5,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.07692307692307693
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 0.5,
+          "recall@5": 0.0,
+          "rr": 0.14285714285714285
+        }
+      },
+      "n_candidates": 600,
+      "n_gold": 2,
+      "n_gold_chunks": 2,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "f34fa895a97c",
+      "repo": "sparklyr__sparklyr",
+      "rule": "coedit-test",
+      "sha": "91c89db857a23c8971ff72d3b0c2e85a11994668",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 34,
+      "duplicate_candidate_keys": 17,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.01282051282051282
+        },
+        "hybrid-large": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.017543859649122806
+        },
+        "hybrid-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.02564102564102564
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.014084507042253521
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.02631578947368421
+        }
+      },
+      "n_candidates": 348,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "f5275c5bc17c",
+      "repo": "stocnet__rsiena",
+      "rule": "msg-func",
+      "sha": "0d92239fcade3f3c269c966bc0e1e851a34d067c",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 12,
+      "duplicate_candidate_keys": 12,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        }
+      },
+      "n_candidates": 133,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fa0605022124",
+      "repo": "maciekbanas__shinyphaser",
+      "rule": "coedit-test",
+      "sha": "721836cd6b93b36a67920e840ed56443f083a246",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 72,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        }
+      },
+      "n_candidates": 277,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fc88e0abb8ef",
+      "repo": "OCHA-DAP__hdx-signals",
+      "rule": "msg-func",
+      "sha": "6101ef33a2d65614e45f1567f60c3caedd95e3a7",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 2,
+      "duplicate_candidate_keys": 8,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.5
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 83,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fd73af50db4a",
+      "repo": "maciekbanas__shinyphaser",
+      "rule": "coedit-test",
+      "sha": "a0ac891e76901c875caa46ae6450e1b5b44656e8",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 5,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 73,
+      "n_gold": 4,
+      "n_gold_chunks": 4,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fdd79e3cb2fc",
+      "repo": "AdrianAntico__AutoPlots",
+      "rule": "msg-func",
+      "sha": "374645c79b209d16f4a08bbc64f204aa6e1b854c",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 49,
+      "duplicate_candidate_keys": 8,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.2
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 0.3333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 89,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fe3f3feefc9d",
+      "repo": "interactivereport__Quickomics",
+      "rule": "msg-func",
+      "sha": "577804f26a8d1323547e4cba9215e9b0f24c7f5d",
+      "split": "development"
+    },
+    {
+      "bm25_nonzero_candidates": 57,
+      "duplicate_candidate_keys": 1,
+      "lexical_only": true,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 1,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 0,
+          "recall@10": 1.0,
+          "recall@5": 0.0,
+          "rr": 0.16666666666666666
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.08333333333333333
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 0,
+          "hit@5": 0,
+          "recall@10": 0.0,
+          "recall@5": 0.0,
+          "rr": 0.03333333333333333
+        }
+      },
+      "n_candidates": 169,
+      "n_gold": 1,
+      "n_gold_chunks": 1,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fe5cb5f55d01",
+      "repo": "spatialecology__camtrapReport",
+      "rule": "msg-func",
+      "sha": "757a9c1564fcd4fe147283be63a33247d4cb710b",
+      "split": "evaluation"
+    },
+    {
+      "bm25_nonzero_candidates": 28,
+      "duplicate_candidate_keys": 0,
+      "lexical_only": false,
+      "metrics": {
+        "bm25": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.8,
+          "rr": 1.0
+        },
+        "hybrid-large": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.8,
+          "rr": 1.0
+        },
+        "hybrid-small": {
+          "all_gold@10": 1,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 1.0,
+          "recall@5": 0.8,
+          "rr": 1.0
+        },
+        "muninn": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.8,
+          "recall@5": 0.6,
+          "rr": 1.0
+        },
+        "muninn-small": {
+          "all_gold@10": 0,
+          "all_gold@5": 0,
+          "hit@10": 1,
+          "hit@5": 1,
+          "recall@10": 0.8,
+          "recall@5": 0.8,
+          "rr": 1.0
+        }
+      },
+      "n_candidates": 138,
+      "n_gold": 5,
+      "n_gold_chunks": 5,
+      "names_target": false,
+      "neural_only": false,
+      "qid": "fea02c3fdf9e",
+      "repo": "stats-uoa__s20x",
+      "rule": "coedit-test",
+      "sha": "76f515a80c55baf3b43a27794290d6b8d1a9598c",
+      "split": "development"
+    }
+  ]
+}

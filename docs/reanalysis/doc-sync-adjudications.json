@@ -1,0 +1,2042 @@
+[
+  {
+    "packet": "00d480ecae8c5942",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "03b80273c42c757c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "03d1979d35b8b7d4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0439484306ebe227",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "055f69c70e5828eb",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "07361df7c124917b",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "07456226c3deaa04",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0745ee815c562120",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "08ac98c85ca1f189",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0a0bcd7640f4a280",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0a0dbc3b02541362",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0a86ce8aaac01483",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0aa8908c39301432",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0ceb545b75d8b89b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0d70d7d24515a9ee",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "0d72ca9f4b991090",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "100d78c0d027846b",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "10277ac90ec7f5a0",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "10bad873c04d868a",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "10ef5e5c2d4db0a2",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "11b27e78e830515e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "133a04cbd7791cee",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "16309c63e84804d9",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "16628bdf0a6039d8",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "174aeef0fba8228d",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "184547bbf174d667",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "18cb312cae088697",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "190696e6a0d7a9f2",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1a0a705e5b5ddfda",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1aa9ab319f05a848",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1ad6a78b12a04070",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1ada90ffbfc1585e",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1d12b3395155277d",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1d33cb274d2616bc",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1dceb65d0f52b2ab",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1dee6905bfc77733",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1ecf8d82f337a826",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1ed15bbeb37e2dcc",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "1ef30b39f93b156f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "204ed3141b9eedee",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2093e7d376b6f193",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "2251c7de32e88c4e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2255ba6ae470c942",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "232533a0f80c6682",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "236451faa2674782",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "23f5018116627172",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2403f8f95028bd62",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "254bbc91214dfb73",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "25b15c97b1f102b3",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "25c88a6275270093",
+    "target_semantic": "fail",
+    "factual": "fail",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "27605703a4233184",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "27bb25323dcf3e9e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "288f69f4ac25032f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2917f827182db72a",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "29cf03d57e46bcb3",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2ebcd8a78903f943",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2ebe5ff19ce048d0",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "2f6596fb6902a646",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "30333529c202d6b7",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "303f94b149054197",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "307f2e5c96bda528",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "33443f85714d9a10",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "334a194ac87b45eb",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "350f51e55ac057e4",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "353417d9adde42c6",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "356ef440f0598d98",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3585bff0d0ecd50f",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3677eedfa5001283",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "367cd6a7ba8c599c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "36efa2b07e8ec573",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "36f66d9b80eb4ede",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3a6925874660ed51",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3abe00e4699757ee",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3d07351edd8c0188",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3dfdf894b640d045",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "3eba662944838f3f",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "40b034cbe7f10858",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "41078e350339407f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "41ddc55c8e410610",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4299b3531cebdcfb",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "43e350023b50e99d",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "43eb7894969e6a3e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "44e24d60681affe5",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4669f79587b8b1d5",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4708e29fcd964400",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "47fae259f4e969db",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "47fd7c8a2783826b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "48824ba19567ff5c",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4a89a32f0e43440b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4d3f25f75226d0e8",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4d847389f5168c1d",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4f4a2f6f7ee7c9d7",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "4fcae2ee48743ab8",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "50ea3a93bbbb7d08",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "514a149f1ef886ec",
+    "target_semantic": "fail",
+    "factual": "fail",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5265347751fc5d5d",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "5299828da48deecb",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "53e8a4975e16744f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "54d3815ed27fe51e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "562bab7365cd83ac",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5696c5a8dcb23456",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "59ce5950f5e2af4e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5a191844af79269f",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5a6c42bc5f72f72c",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5be80cfed6923652",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5ce7c8e6fac603b0",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5e175dff774bacad",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5f1f8355dea60624",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5f6fde973018e341",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "5feb58ef5bebe2ff",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "5ff6450fa3d82d31",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6033e55058a66a55",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "60d515fafc8444fb",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "60fca5210c167946",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "610f0b44d25fb712",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "63080da41d2231d9",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "63bb2b8ee19c4a4a",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "63ce7a287382287e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "64011aa2a19207b9",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "64dc5623c4b72a77",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "655bb0fe7bd886a8",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6669313ee37a103a",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "66a9d07fad9fbcbc",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6775563f1bf697f4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "67d01db02c6e773b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "67dd9d1281cea5d1",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "68fab11be756d55f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "69c58d179661655b",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "6a56623acfb6f4af",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6ae1dfada80b7aaf",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6b6b690260c027d6",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6bed65b975175a84",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6c9df4f432ceb5f7",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6deaccf49a8a3497",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6e649f5470df75a0",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "6f7037f4316ba243",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7160117508323e52",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "72ef946372d892f6",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "731ab8a01a4d8b47",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": true
+    }
+  },
+  {
+    "packet": "73bf8dd7a396b01b",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "740f13d895a11641",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "758575e7be31c28c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "762efe98b01d3df7",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "778d8fdb3df3611b",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7c050f1b70836838",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7ce055706c3af172",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": true
+    }
+  },
+  {
+    "packet": "7d1900d8324df2a1",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7d34569bf9c1d392",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7da7e32ea96595dc",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7f64ce504063b13a",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7f70807b1bebe9ce",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "7f79bc645410893d",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "8090f85f1b1580ab",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "80a26d15591630dc",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "830ec88481ed09b1",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "83531e7d6ff0bd4e",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "839561a44ce6bf36",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "8526d593ab6c26ef",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "85668f088a5333aa",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "87e3994e7c16621e",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "88955f063b3af29f",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "891c76248746fa01",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "8a5c8c214518475f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "8b28bf08a3186253",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "8de2a68bd74e3a55",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "8f566942ab83cd5a",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9097883b33e2748d",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "92183db92ade7344",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "930056c94b65b047",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "937032c8e90f7e73",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9393d534729ee3f1",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9469c50095ca6d6d",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "94a3fa385aa4b1d4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "94f44b7db44136b4",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "951f13be020152e1",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "968aa936ef253e87",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "97c8fe21e913f5f4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "98deee56a50da5ad",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "996cea5d38f62f5d",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "99eb71329bc642b8",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "9b1dcfe91ee26f4a",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9bb28be26e941022",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9c1ae5cfc00c4719",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9e2ad53e2702c70c",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9eb170696e788ce2",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "9f7e56b132fcd328",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a00fc5e6eb265aa5",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a055a40290605fd6",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a2ee72328c5961e4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": true
+    }
+  },
+  {
+    "packet": "a306696540c63247",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a34cfb208ee27f82",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a396648cfd3e926a",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a4dba5e73baf1860",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a546962eceb7c7be",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a659e1a3a61dd568",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a81937f5c6c2ab29",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a89a38500308182f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a94729d55da398d9",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a96b7ba208d7182c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "a9f4972598ffb72c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "aaf237f51ff5bdb6",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "aaf9c1affb6510f1",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "abd8c22a68f9f4f7",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "acd7304e6928b2e9",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "adc1c2f882ab0a95",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "aea24c12ef24d117",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "aedea39d10c31ab1",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "b0a2d89931883826",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "b3438443f491f77f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "b4b4956d12c5ba9c",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "b71cc1dd68c44f88",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "b92820d990391602",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "ba94d344c2b0ddca",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bc63df5d34950939",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bce88f62a3caf342",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bd2eda74a6885a4b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bdbb421c31e2b283",
+    "target_semantic": "fail",
+    "factual": "fail",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bde5d78be6033e09",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bf72a1b8cee71133",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "bfce9e77efa5dc99",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c0505ba95a392f2e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c05e356fd3594be9",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c124c827ce71c739",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c1a0255227adbc2c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c1e3818e14691cf9",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c204c8e985184d86",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c21be16992c93ec2",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c36dbad2906d375a",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c484a551ca7b5def",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c5774789463dc02a",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c7c4f512c8a0a2ba",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Existing placeholder clarified without contradiction; new line faithfully describes progress output.",
+    "structural_overrides": {
+      "preservation": true
+    }
+  },
+  {
+    "packet": "c81ec161f6ac7011",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c92d373da5192a40",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c9afcee1c71ebe9d",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "c9b4e98740906e92",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "ca5d66dbf3a01b19",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "cbbb862d7fba572c",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "d009ff412adf385d",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "d38cf98ae6c37606",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "d685cca520c64d7b",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "d6cf68eb59221306",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "d8bbb3692debb0b7",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "d8e720e48c0bb51f",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "d9382b92f3902085",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "da384d2318d48d4b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "dd05748af21ae000",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "ddb31b7abb26330e",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "defa55f3e443abba",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "df415643d5a166f1",
+    "target_semantic": "fail",
+    "factual": "fail",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "df5b801976dd047b",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e07752d6c1d7fae9",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "e3da2b3bccc365e0",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e47154df365fcd34",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e53fdabc1f6b48ed",
+    "target_semantic": "fail",
+    "factual": "fail",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e661e57606ebaae1",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e69c6ee33af6a89a",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e87727cfd191e1f4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e8c23baa6149a7b9",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "e9951b0e0e34d437",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "ebf2a0870fdad870",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "ed71a950cfb9c84f",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "ef7c3c6b0b51472d",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "ef8249d0922da4f6",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f22f98b3b3805382",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f26ef584c601bfca",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f315084fbdc058c6",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f319833be46411d4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f3735c2572deab13",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f42896e6d479fa66",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {
+      "preservation": false
+    }
+  },
+  {
+    "packet": "f4434a47fdf642b2",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f532354f2687fe38",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f5bbf1a786352de3",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f6fb76a184b54dd4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "Description asserts a different role, output, condition or default from the target.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f848161b84b48308",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f86b65ea09a23168",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f8ab4eefbefd61f4",
+    "target_semantic": "unknown",
+    "factual": "unknown",
+    "reason": "Plausible description, but target meaning or additional behavioral detail is not established.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f97365f944035952",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "f9bcf07d204aa17a",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fa9595d8a55fc1e1",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {
+      "preservation": true
+    }
+  },
+  {
+    "packet": "facce985f05c7616",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fb7c6d03800a5309",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fc1d8f27bde814eb",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fc255bcdce4a03d6",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fc8d1d9b5f7447a4",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fd2f27026ebf83a1",
+    "target_semantic": "pass",
+    "factual": "unknown",
+    "reason": "Paraphrase of progress reporting; implementation behavior is absent from the prompt.",
+    "structural_overrides": {}
+  },
+  {
+    "packet": "fe96abaec626d2f8",
+    "target_semantic": "fail",
+    "factual": "unknown",
+    "reason": "No nonempty documentation for the introduced argument.",
+    "structural_overrides": {}
+  }
+]
