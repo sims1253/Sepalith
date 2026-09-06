@@ -110,18 +110,17 @@ def run_leg(model, tok, rows, steps, depth, carry=True, bo8=False,
         for r in rows:
             L = max(1, len(r["span_ids"]))
             g = torch.Generator(device=device).manual_seed(1273 + steps)
-            texts = set()
-            for _ in range(K_BESTOF):
-                if carry:
-                    out = sample_spans_rc(model, [r["prompt_ids"]], [L],
-                                          steps, depth=depth,
-                                          temperature=1.0, generator=g)
-                    ids = out["pred_ids"][0, :L]
-                else:
-                    out = sample_spans(model, [r["prompt_ids"]] * 1, [L],
-                                       steps, temperature=1.0, generator=g)
-                    ids = out["pred_ids"][0, :L]
-                texts.add(norm_lines(decode_span(tok, ids, model.empty_id)))
+            if carry:
+                out = sample_spans_rc(model, [r["prompt_ids"]] * K_BESTOF,
+                                      [L] * K_BESTOF, steps, depth=depth,
+                                      temperature=1.0, generator=g)
+            else:
+                out = sample_spans(model, [r["prompt_ids"]] * K_BESTOF,
+                                   [L] * K_BESTOF, steps, temperature=1.0,
+                                   generator=g)
+            texts = {norm_lines(decode_span(tok, out["pred_ids"][k, :L],
+                                            model.empty_id))
+                     for k in range(K_BESTOF)}
             bo8_rows.append(dict(
                 bo8=int(norm_lines(r["span_text"]) in texts),
                 distinct=len(texts) / K_BESTOF))
