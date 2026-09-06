@@ -59,7 +59,7 @@ cat > "$REPO_DS/dataset-metadata.json" <<EOF
 }
 EOF
 ds_files() { kaggle datasets files m0hawk/sepalith-repo --page-size 200 -v 2>/dev/null; }
-if ds_files | grep -q "REPO_SHA_$SHA"; then
+if ds_files | grep "REPO_SHA_$SHA" >/dev/null; then
   echo "repo dataset already at $SHA (no re-upload)"
 else
   if kaggle datasets files m0hawk/sepalith-repo >/dev/null 2>&1; then
@@ -74,7 +74,7 @@ else
   # min per version re-ingest of the 423-file tree — poll 45 min.
   ok=""
   for i in $(seq 1 135); do
-    if ds_files | grep -q "REPO_SHA_$SHA"; then ok=1; break; fi
+    if ds_files | grep "REPO_SHA_$SHA" >/dev/null; then ok=1; break; fi
     if [ $((i % 6)) -eq 0 ]; then echo "  ...waiting for version flip ($((i*20/60))min)"; fi
     sleep 20
   done
