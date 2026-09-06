@@ -1,0 +1,372 @@
+{
+  "b8b": {
+    "all": {
+      "selected_exact": {
+        "ci": [
+          0.0,
+          0.05660377358490566
+        ],
+        "clusters": 13,
+        "mean_delta": 0.01568627450980392,
+        "repeats": 10000,
+        "seed": 20260906
+      },
+      "treatment_exact": {
+        "ci": [
+          -0.06896551724137931,
+          0.04081632653061224
+        ],
+        "clusters": 13,
+        "mean_delta": -0.01568627450980392,
+        "repeats": 10000,
+        "seed": 20260906
+      }
+    },
+    "evaluation": {
+      "selected_exact": {
+        "ci": [
+          0.0,
+          0.125
+        ],
+        "clusters": 6,
+        "mean_delta": 0.04838709677419355,
+        "repeats": 10000,
+        "seed": 20260906
+      },
+      "treatment_exact": {
+        "ci": [
+          0.0,
+          0.125
+        ],
+        "clusters": 6,
+        "mean_delta": 0.06451612903225806,
+        "repeats": 10000,
+        "seed": 20260906
+      }
+    },
+    "format": {
+      "selected_exact": {
+        "ci": [
+          0.0273972602739726,
+          0.15
+        ],
+        "clusters": 4,
+        "mean_delta": 0.05970149253731343,
+        "repeats": 10000,
+        "seed": 20260906
+      },
+      "treatment_exact": {
+        "ci": [
+          -0.05555555555555555,
+          0.12244897959183673
+        ],
+        "clusters": 4,
+        "mean_delta": 0.04477611940298507,
+        "repeats": 10000,
+        "seed": 20260906
+      }
+    }
+  },
+  "loc1": {
+    "all": {
+      "hybrid-large": {
+        "cluster_hit": {
+          "ci": [
+            -0.04918032786885246,
+            0.1111111111111111
+          ],
+          "clusters": 33,
+          "mean_delta": 0.03333333333333333,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.04791666666666667,
+            0.11065573770491803
+          ],
+          "clusters": 33,
+          "mean_delta": 0.03263888888888889,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 4,
+          "c_wins": 2,
+          "ci": [
+            -0.05,
+            0.11666666666666667
+          ],
+          "mean_delta": 0.03333333333333333,
+          "n": 60,
+          "name": "hybrid-large minus bm25",
+          "p": 0.6875,
+          "rate_a": 0.9166666666666666,
+          "rate_b": 0.8833333333333333,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      },
+      "hybrid-small": {
+        "cluster_hit": {
+          "ci": [
+            -0.0847457627118644,
+            0.07936507936507936
+          ],
+          "clusters": 33,
+          "mean_delta": 0.0,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.09626436781609196,
+            0.0675287356321839
+          ],
+          "clusters": 33,
+          "mean_delta": -0.011111111111111112,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 3,
+          "c_wins": 3,
+          "ci": [
+            -0.08333333333333333,
+            0.08333333333333333
+          ],
+          "mean_delta": 0.0,
+          "n": 60,
+          "name": "hybrid-small minus bm25",
+          "p": 1.0,
+          "rate_a": 0.8833333333333333,
+          "rate_b": 0.8833333333333333,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      },
+      "muninn": {
+        "cluster_hit": {
+          "ci": [
+            -0.12903225806451613,
+            0.057692307692307696
+          ],
+          "clusters": 33,
+          "mean_delta": -0.03333333333333333,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.1287037037037037,
+            0.059770114942528735
+          ],
+          "clusters": 33,
+          "mean_delta": -0.03319444444444444,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 3,
+          "c_wins": 5,
+          "ci": [
+            -0.13333333333333333,
+            0.05
+          ],
+          "mean_delta": -0.03333333333333333,
+          "n": 60,
+          "name": "muninn minus bm25",
+          "p": 0.7265625,
+          "rate_a": 0.85,
+          "rate_b": 0.8833333333333333,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      },
+      "muninn-small": {
+        "cluster_hit": {
+          "ci": [
+            -0.15384615384615385,
+            0.046875
+          ],
+          "clusters": 33,
+          "mean_delta": -0.05,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.19101307189542485,
+            0.014393939393939391
+          ],
+          "clusters": 33,
+          "mean_delta": -0.08458333333333333,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 3,
+          "c_wins": 6,
+          "ci": [
+            -0.15,
+            0.05
+          ],
+          "mean_delta": -0.05,
+          "n": 60,
+          "name": "muninn-small minus bm25",
+          "p": 0.5078125,
+          "rate_a": 0.8333333333333334,
+          "rate_b": 0.8833333333333333,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      }
+    },
+    "evaluation": {
+      "hybrid-large": {
+        "cluster_hit": {
+          "ci": [
+            -0.058823529411764705,
+            0.11904761904761904
+          ],
+          "clusters": 23,
+          "mean_delta": 0.02564102564102564,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.057432432432432436,
+            0.125
+          ],
+          "clusters": 23,
+          "mean_delta": 0.030982905982905987,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 2,
+          "c_wins": 1,
+          "ci": [
+            -0.05128205128205128,
+            0.1282051282051282
+          ],
+          "mean_delta": 0.02564102564102564,
+          "n": 39,
+          "name": "hybrid-large minus bm25",
+          "p": 1.0,
+          "rate_a": 0.8974358974358975,
+          "rate_b": 0.8717948717948718,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      },
+      "hybrid-small": {
+        "cluster_hit": {
+          "ci": [
+            -0.058823529411764705,
+            0.11904761904761904
+          ],
+          "clusters": 23,
+          "mean_delta": 0.02564102564102564,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.08552631578947369,
+            0.10952380952380951
+          ],
+          "clusters": 23,
+          "mean_delta": 0.008547008547008551,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 2,
+          "c_wins": 1,
+          "ci": [
+            -0.05128205128205128,
+            0.1282051282051282
+          ],
+          "mean_delta": 0.02564102564102564,
+          "n": 39,
+          "name": "hybrid-small minus bm25",
+          "p": 1.0,
+          "rate_a": 0.8974358974358975,
+          "rate_b": 0.8717948717948718,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      },
+      "muninn": {
+        "cluster_hit": {
+          "ci": [
+            -0.175,
+            0.07317073170731707
+          ],
+          "clusters": 23,
+          "mean_delta": -0.05128205128205128,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.15598290598290598,
+            0.09325396825396826
+          ],
+          "clusters": 23,
+          "mean_delta": -0.03098290598290598,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 2,
+          "c_wins": 4,
+          "ci": [
+            -0.1794871794871795,
+            0.07692307692307693
+          ],
+          "mean_delta": -0.05128205128205128,
+          "n": 39,
+          "name": "muninn minus bm25",
+          "p": 0.6875,
+          "rate_a": 0.8205128205128205,
+          "rate_b": 0.8717948717948718,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      },
+      "muninn-small": {
+        "cluster_hit": {
+          "ci": [
+            -0.18421052631578946,
+            0.06976744186046512
+          ],
+          "clusters": 23,
+          "mean_delta": -0.05128205128205128,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "cluster_recall": {
+          "ci": [
+            -0.21296296296296294,
+            0.06531531531531533
+          ],
+          "clusters": 23,
+          "mean_delta": -0.07158119658119659,
+          "repeats": 10000,
+          "seed": 20260906
+        },
+        "paired_hit": {
+          "b_wins": 2,
+          "c_wins": 4,
+          "ci": [
+            -0.1794871794871795,
+            0.07692307692307693
+          ],
+          "mean_delta": -0.05128205128205128,
+          "n": 39,
+          "name": "muninn-small minus bm25",
+          "p": 0.6875,
+          "rate_a": 0.8205128205128205,
+          "rate_b": 0.8717948717948718,
+          "verdict": "TIE-UNDERPOWERED"
+        }
+      }
+    }
+  }
+}
