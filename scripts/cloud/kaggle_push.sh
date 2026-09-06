@@ -33,7 +33,10 @@ SLUG="${1:?slug}"; STEPS="${2:?steps}"; LR="${3:?lr}"; MODE="${4:?cpu-smoke|gpu}
 
 eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
 [ -n "${HF_TOKEN:-}" ] || { echo "FATAL: HF_TOKEN not found in ~/.zshrc"; exit 2; }
-SHA="$(git rev-parse --short HEAD)"
+# KAGGLE_REPO_SHA (optional): stage/fire at that commit instead of HEAD —
+# e.g. when only the driver changed since the dataset's version (avoids the
+# 15-20min version re-ingest), or to fire a banked tree exactly.
+SHA="${KAGGLE_REPO_SHA:-$(git rev-parse --short HEAD)}"
 PKG=/tmp/kaggle_pkg; REPO_DS="$PKG/repo"; KDIR="$PKG/kernel-$SLUG"
 rm -rf "$REPO_DS" "$KDIR"; mkdir -p "$REPO_DS" "$KDIR"
 
