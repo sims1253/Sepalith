@@ -65,9 +65,11 @@ fi
 # container is ours alone and dies with the session. PINS=audit installs
 # only the CPU-audit subset (fast smoke path).
 if [ "${PINS:-full}" = "audit" ]; then
-  ts "installing audit pins (transformers/peft/hub only)"
+  ts "installing audit pins (transformers/peft/hub/torchao only)"
+  # torchao pin required: the image ships 0.10.0 and peft 0.20's lora
+  # dispatcher hard-fails below 0.16 (cost one smoke iteration)
   pip install -q "transformers==5.5.0" "peft==0.20.0" "accelerate==1.14.0" \
-    "huggingface_hub==1.27.0" "numpy==2.2.6"
+    "huggingface_hub==1.27.0" "numpy==2.2.6" "torchao==0.18.0"
 else
   ts "installing full cloud pins (~3GB wheels; Kaggle pipe is fast)"
   pip install -q -r scripts/cloud/requirements-cloud-sft.txt
