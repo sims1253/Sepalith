@@ -2,6 +2,8 @@
 
 2026-09-06. **User-selected primary research direction; proposed, not executed.** The user prefers learned vectors or cached attention state consumed by a specially trained edit model because of their potential value. Superiority over text retrieval is unproven. This document authorizes no training, paid calls, installations or benchmarks. It complements [PROMPT-CONTEXT-RESEARCH.md](PROMPT-CONTEXT-RESEARCH.md); that document's static-analysis priorities and format findings still apply.
 
+**Implementation status (2026-09-06):** [Executable bounded gate](../experiments/latent_memory/README.md), [recipe](../experiments/latent_memory/recipe.json), and [evidence report](../experiments/latent_memory/RESULTS.md) now exist. The report distinguishes CPU plumbing checks from the pending pretrained-decoder and learnability run. The recipe records smaller-encoder, fixed-byte-tokenizer, single-module QA, and no-cache deviations before training. The proposal below remains the broader destination.
+
 ## Architecture decision
 
 Start with **module-local latent vectors projected to decoder input embeddings**. Feed those vectors through the edit model normally, then optionally cache the resulting complete hybrid prefix state. This separates reusable, independently encoded modules from order-dependent decoder state.

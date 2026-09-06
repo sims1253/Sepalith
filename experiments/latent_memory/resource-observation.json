@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-09-06T13:21:20.544438+00:00",
+  "gpu": "NVIDIA GeForce RTX 5090, 15272 MiB, 38 %",
+  "active_processes": [
+    {
+      "pid": 831052,
+      "ppid": 753199,
+      "command": ".venv/bin/python -u experiments/eval/spec_bench.py --port 18405 --ctx-classes 2k,8k --n-traces 100 --reps 3 --arms baseline,ngram-simple@2,model-draft@2"
+    },
+    {
+      "pid": 1005134,
+      "ppid": 90792,
+      "command": "bash /home/m0hawk/Documents/Sepalith/scripts/run_x5_s1_chain.sh"
+    },
+    {
+      "pid": 1117314,
+      "ppid": 1117303,
+      "command": "/home/m0hawk/Documents/Sepalith/.venv/bin/python3 -m experiments.training.poc_diff.x5_s1_eval run --ckpt /tmp/poc_diff/ckpt_x5_s1/x5_s1_b_final.pt --out experiments/training/poc_diff/results_x5_s1"
+    }
+  ],
+  "last_gpu_claim": "[2026-09-06T10:17+02] zcode-x5-s1 CLAIM X5-S1 FRM self-cond + FPF chain (queue \u00a73 X5 S1; build committed 165c691 + gate-fix commit, 11 CPU gate tests green, G1 verified on the real banked md_final.pt, replay parity vs S0 instrument bit-exact in-process): Stage A two-pass SC continuation 400 steps -> Stage B FPF 260 steps (poc_diff rig from banked md_final.pt, memfrac 0.42 <=14GB, fresh Muon per stage, lr 3e-3/1.5e-3) -> 216-row harness verbatim + recurrent depth k in {2,4,8} + post-FPF residual/AUROC/abstain replay -> pre-registered verdict. ONE workload (W37), DETACHED per B13 pattern; heartbeats q30min; trainer taskset 16-23. ETA ~3.5h train + ~1h eval, release ~15:00. Artifacts /mnt/h/sepalith/runs/x5_s1_*",
+  "resource_window_available": false,
+  "dependency": "X5-S1 complete train/eval/verdict/archive release AND S1/S2/V1c quiet benchmark owner release; honor runner migration coordinator drain.",
+  "actions": "No CUDA context, model-weight load/hash, gate training, paid infrastructure, dispatcher launch, or shared checkout edits."
+}

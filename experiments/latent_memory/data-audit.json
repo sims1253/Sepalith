@@ -1,0 +1,15 @@
+{
+  "eval_packages": 160,
+  "examples_per_arm": 1024,
+  "maxima": {
+    "encoder_bytes": 134,
+    "query_tokens": 23,
+    "retrieval_tokens": 66,
+    "target_tokens": 3
+  },
+  "order_sha256": "cfe03b4e7673912f498d84d63d5fe6de61e46b9e8297cda6a96f23b6a25da19e",
+  "scored_tokens_per_arm": 3072,
+  "split_sha256": "1477238dd23cea2d39c1d8874e473c8c720e6323bfb385f6fd3e8c9160af6a83",
+  "tokenizer_training": "none; encoder uses fixed UTF-8 byte IDs, decoder tokenizer frozen",
+  "train_packages": 512
+}

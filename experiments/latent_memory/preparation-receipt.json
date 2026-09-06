@@ -1,0 +1,50 @@
+{
+  "backend": {
+    "attention": "eager",
+    "cache_sha256": "7935a009f4131f1c21b53fb731f06813bcbaf8a34fe216cb9e83707aaafcf949",
+    "conversion_sha256": "48d8c745bd36f05bd4685864755bbedd64d92dd0acbf89ee338b174fdf5fe166",
+    "gdn_backend": "torch_chunk_gated_delta_rule",
+    "implementation_sha256": "aee59d55ee4e8ce0e50bf0e279796b85c2c66a28dfae55c3fcbb62fa9bcba048",
+    "masks_sha256": "7fd2bf34f3abc87953a500c0d53e3e633e5efba10aebcc4dc11422e5769092dd",
+    "persistent_cache": false,
+    "python": "3.10.12",
+    "recurrent_state_dtype": "float32",
+    "versions": {
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.11.0",
+      "transformers": "5.5.0"
+    }
+  },
+  "checkpoint_files": {
+    "config.json": "a5691bd989eef0d7d8469cda2e684425f47d34caa89eb33a1157cea01cb23a3a",
+    "generation_config.json": "512889808b620c17f51634d88d035cd5efc23e0eee3843432a5ed07be821d87b",
+    "tokenizer.json": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4",
+    "tokenizer_config.json": "4e5fdef23437b31196353a689e05ed86e63f668682a1c9fed628d7630cba0982"
+  },
+  "checkpoint_path": "/mnt/h/sepalith/runs/pft1_b4_merged",
+  "created_at": 1788701073.976997,
+  "data_audit_sha256": "712a5dcbb50bf4c7929493451179bfacb204c71b3fe1ac22055d7286986b34ae",
+  "dataset_sha256": "7e9e3d4707773a0c35af1f2cd4bbc251b198c01ac6e354f7366a19f9e0b5fc22",
+  "git_head": "83b43b278e72b396cb8f7ef8bf4e31935706e2fc",
+  "inspection_sha256": "0976beb7baf017514d46a6cc91f062859c653ca9553255bb2c301e9a118a03fb",
+  "recipe_sha256": "74d42f569ba52829c4b09ef74f9ff57250284ed8b325f658c1390de460bbe41a",
+  "source_files": {
+    "experiments/latent_memory/__init__.py": "6019de4f0a77186803cff7e0faa14f574258807ff774327944de21bd97b34e5e",
+    "experiments/latent_memory/audit.py": "5ce587f4b5408a5ab10776f7708b331d8b139da0e01f7604858677f9f81eb00e",
+    "experiments/latent_memory/cli.py": "1517a06046afab387123685ba205548bda3ddadaf51556e08a686354eeeace9d",
+    "experiments/latent_memory/data.py": "5a3ad8d0ededeb99b37cfc400726e6aaebc54ac9e8f350d143f6654c138f1ee5",
+    "experiments/latent_memory/entry.py": "f8f8c3cfac6a3df31859b74e1d20c6a22e5703df4b7e4ee2fcf879dc76f6cc6a",
+    "experiments/latent_memory/experiment.py": "1b99cc0abfab91354f1500ceb2683e356adc00fe233617a84e968f4f86718a05",
+    "experiments/latent_memory/make_runner_recipe.py": "570905768a834d4ecfda63e18f81527d881bca4f0c55cdf12955d9e975192ae4",
+    "experiments/latent_memory/model.py": "ab0c6ccb218e3796bc9e26fd18a28ee0809d5a018a8caefd4f166a7ffcbfb0c1",
+    "experiments/latent_memory/provenance.py": "3baf9d669e4dc99395ce66b5adbe850816f89b3960cfe96bfe205949ac5c57f8",
+    "experiments/latent_memory/recipe.json": "26ebe45d329485e7b6f275ed5746eb999482d420388d4d2125a7a00a948563a6",
+    "experiments/latent_memory/requirements.lock": "0b5edc00e2ede29cec2f25dcb063c0a163398804ff1a922921d2d3c506d5c866",
+    "experiments/latent_memory/test_contracts.py": "bab3ae077967dc417205c9eacb0de5dfc7a9eaccece624074e2fa4349476fa5f",
+    "experiments/latent_memory/verify.py": "7bdc7210ff0eb982591f0f5f415352e27697fdb5989a629e81a43c0f1230e7a9",
+    "packages/sepalith/src/sepalith/memory.py": "0eed2ba9c24daf81b7c831c0b3a453a2e603431bc941bbcba4e67edbf7814603"
+  },
+  "split_sha256": "1477238dd23cea2d39c1d8874e473c8c720e6323bfb385f6fd3e8c9160af6a83",
+  "weights_pinned": false
+}
