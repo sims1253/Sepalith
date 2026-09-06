@@ -119,6 +119,7 @@ From the repository root, prefix these with
 | `run` | Execute eligible experiments serially until a stop condition |
 | `pause` | Prevent new experiments; finish the current one |
 | `recover ATTEMPT_ID` | Mark an interrupted attempt only after its recorded process group is inactive |
+| `resolve-unknown ATTEMPT_ID --audit audit.json` | Resolve an unknown launch using an explicit operator audit, while paused |
 | `retry EXPERIMENT_ID` | Requeue a failed/interrupted experiment; start a fresh attempt on next dispatch |
 
 Keep the state directory on a local filesystem supporting SQLite and `flock`,
@@ -138,8 +139,58 @@ leaves a live group untouched. Orphaned zombies cannot execute and do not hold a
 resource forever. A crashed parent does not imply the workload stopped.
 
 A crash between process creation and recording its identity leaves an unknown
-launch. Recovery deliberately refuses to guess. This case requires a process
-audit and state repair; an operator-resolution command is not implemented yet.
+launch. `recover` refuses to guess. Use `resolve-unknown` only after an operator
+has established that all processes belonging to that attempt have stopped:
+
+1. Pause the queue and inspect `plan`, the attempt's recipe, step index, logs,
+   recorded worker/process-group IDs, and launch time.
+2. Audit the host processes against that attempt: inspect process IDs, parent and
+   group IDs, command lines, working directories, and start times as needed.
+   Include any descendants that escaped the original process group. A missing
+   recorded child ID, dead dispatcher, or absent log is not evidence that no
+   workload exists. If identity or liveness remains uncertain, keep the queue
+   paused and the attempt unresolved.
+3. Save the following JSON with the actual attempt ID, operator, current audit
+   timestamp, findings and captured evidence. `checked_at` requires an explicit
+   timezone and must fall after the attempt started and before submission.
+   Evidence must contain the relevant observations/command output, not merely
+   a path to a mutable log. Exclude credentials and unrelated private data.
+
+   ```json
+   {
+     "schema_version": 1,
+     "attempt": "REPLACE_WITH_ATTEMPT_ID",
+     "operator": "REPLACE_WITH_OPERATOR_ID",
+     "decision": "interrupted",
+     "checked_at": "REPLACE_WITH_ISO_TIMESTAMP_AND_TIMEZONE",
+     "all_processes_stopped": true,
+     "findings": "REPLACE_WITH_HOW_THIS_ATTEMPT_WAS_IDENTIFIED_AND_CLEARED",
+     "evidence": "REPLACE_WITH_CAPTURED_PROCESS_AUDIT_OBSERVATIONS"
+   }
+   ```
+
+4. Submit `resolve-unknown ATTEMPT_ID --audit audit.json`. Decisions are limited
+   to `interrupted` or `failed`; this path cannot declare success. The command
+   requires a paused queue and the dispatcher lock, and refuses a known live
+   process group even if the submitted audit claims otherwise. It never kills
+   processes. Review the resulting record in `plan` before any explicit `retry`
+   or `resume`.
+
+The audit is an operator attestation: the runner checks its structure and known
+process-group liveness, but cannot prove the absence of an unrecorded workload or
+validate the supplied observations. Submit it immediately after inspection;
+there is no automatic audit-expiry window. Do not use this path to override
+uncertainty or live work.
+
+Resolution preserves the original attempt state, original recipe and complete
+submitted audit in an append-only `operator_resolutions` table. SQLite commits
+that record and the terminal status together; a failed transaction leaves the
+claim intact. Database triggers reject changes or deletion of resolution rows.
+Existing attempt files remain unchanged. `plan` exposes these records, including
+after retries. This is a local audit trail, not protection against an operator
+who can replace the database. Resolution leaves the queue paused and does not
+retry the experiment.
+
 There is no automatic training-checkpoint resume. Explicit retry starts from the
 first step in a fresh output directory; a later recipe must explicitly consume a
 verified checkpoint if resuming training is intended.

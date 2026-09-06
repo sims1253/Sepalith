@@ -1,16 +1,18 @@
 """Small real-process tests; no models, network, NAS or training dependencies."""
 import hashlib
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
 import subprocess
+import sqlite3
 import sys
 import tempfile
 import time
 import unittest
 from unittest.mock import patch
 
-from sepalith.runner import Runner, RunnerError, _write_json, validate_recipe
+from sepalith.runner import Runner, RunnerError, _write_json, main, validate_recipe
 
 
 class RunnerTests(unittest.TestCase):
@@ -259,6 +261,117 @@ class RunnerTests(unittest.TestCase):
             validate_recipe(self.recipe(env={"": "bad"}))
         with self.assertRaises(RunnerError):
             validate_recipe(self.recipe(steps=[{"id": "bad", "argv": [""]}]))
+
+    def unknown_launch(self):
+        self.runner.enqueue(self.recipe())
+        self.runner.resume()
+        # No real child is created. Simulate losing control in the interval
+        # where the dispatcher cannot establish whether Popen launched one.
+        with patch("sepalith.runner.subprocess.Popen", side_effect=KeyboardInterrupt):
+            with self.assertRaisesRegex(RunnerError, "needs reconciliation"):
+                self.runner.run_next()
+        self.runner.pause()
+        attempt = self.runner.plan()["attempts"][0]
+        self.assertEqual("launching", attempt["phase"])
+        return attempt
+
+    def process_audit(self, receipt, **changes):
+        audit = {"schema_version": 1, "attempt": receipt["id"], "operator": "test-operator",
+                 "decision": "interrupted", "checked_at": datetime.now(timezone.utc).isoformat(),
+                 "all_processes_stopped": True,
+                 "findings": "The fixture prevented Popen from creating a child.",
+                 "evidence": "Test fixture: Popen raised KeyboardInterrupt before launch."}
+        audit.update(changes)
+        return audit
+
+    def test_operator_resolution_preserves_receipts_and_requires_explicit_retry(self):
+        before = self.unknown_launch()
+        work = self.runner.root / "attempts" / before["id"]
+        original = {p.name: p.read_bytes() for p in work.glob("*.json")}
+        audit = self.process_audit(before)
+        with patch("sepalith.runner.subprocess.Popen") as launch, patch("sepalith.runner.os.killpg") as signal:
+            record = self.runner.resolve_unknown(before["id"], audit)
+            launch.assert_not_called()
+            signal.assert_not_called()
+        self.assertEqual(before, record["attempt_before"])
+        self.assertEqual(self.recipe(), record["recipe"])
+        self.assertEqual(audit, record["audit"])
+        self.assertEqual(original, {p.name: p.read_bytes() for p in work.glob("*.json")})
+        restarted = Runner(self.runner.root)
+        self.assertEqual([record], restarted.plan()["operator_resolutions"])
+        self.assertEqual("interrupted", restarted.plan()["jobs"][0]["status"])
+        restarted.resume()
+        self.assertIsNone(restarted.run_next())
+        restarted.retry("example")
+        restarted.run_next()
+        self.assertEqual(["interrupted", "succeeded"], [a["status"] for a in restarted.plan()["attempts"]])
+        self.assertEqual([record], restarted.plan()["operator_resolutions"])
+        with self.assertRaisesRegex(RunnerError, "unknown launch"):
+            restarted.pause()
+            restarted.resolve_unknown(before["id"], audit)
+        for statement in ("UPDATE operator_resolutions SET record='{}'", "DELETE FROM operator_resolutions"):
+            with self.assertRaisesRegex(sqlite3.IntegrityError, "append-only"):
+                with restarted._db() as db:
+                    db.execute(statement)
+
+    def test_operator_resolution_rejects_incomplete_mismatched_or_unchecked_audits(self):
+        before = self.unknown_launch()
+        audits = [{}, self.process_audit(before, attempt="different"),
+                  self.process_audit(before, operator=" "), self.process_audit(before, evidence=""),
+                  self.process_audit(before, decision="succeeded"),
+                  self.process_audit(before, all_processes_stopped=False),
+                  self.process_audit(before, all_processes_stopped=1),
+                  self.process_audit(before, checked_at="2026-01-01T00:00:00"),
+                  self.process_audit(before, checked_at="2000-01-01T00:00:00Z"),
+                  self.process_audit(before, checked_at="9999-01-01T00:00:00Z")]
+        for audit in audits:
+            with self.subTest(audit=audit), self.assertRaises(RunnerError):
+                self.runner.resolve_unknown(before["id"], audit)
+        self.assertEqual(before, self.runner.plan()["attempts"][0])
+        self.assertEqual([], self.runner.plan()["operator_resolutions"])
+        with self.assertRaisesRegex(RunnerError, "manual process audit"):
+            self.runner.recover(before["id"])
+
+    def test_operator_resolution_requires_pause_lock_and_no_known_live_group(self):
+        before = self.unknown_launch()
+        audit = self.process_audit(before)
+        self.runner.resume()
+        with self.assertRaisesRegex(RunnerError, "Pause"):
+            self.runner.resolve_unknown(before["id"], audit)
+        self.runner.pause()
+        with self.runner._dispatch_lock(), self.assertRaisesRegex(RunnerError, "Another dispatcher"):
+            self.runner.resolve_unknown(before["id"], audit)
+        self.runner._update_attempt(before["id"], child_group=12345)
+        with patch("sepalith.runner._group_alive", return_value=True) as alive:
+            with self.assertRaisesRegex(RunnerError, "still alive"):
+                self.runner.resolve_unknown(before["id"], audit)
+            alive.assert_called_once_with(12345)
+        self.assertEqual("running", self.runner.plan()["attempts"][0]["status"])
+        self.assertEqual([], self.runner.plan()["operator_resolutions"])
+
+    def test_operator_resolution_transaction_rolls_back_audit_and_status_together(self):
+        before = self.unknown_launch()
+        with self.runner._db() as db:
+            db.executescript("""
+                CREATE TRIGGER test_reject_resolution BEFORE UPDATE ON attempts
+                WHEN NEW.status='interrupted' BEGIN
+                    SELECT RAISE(ABORT, 'simulated transaction failure');
+                END;
+            """)
+        with self.assertRaisesRegex(sqlite3.IntegrityError, "simulated transaction failure"):
+            self.runner.resolve_unknown(before["id"], self.process_audit(before))
+        self.assertEqual(before, self.runner.plan()["attempts"][0])
+        self.assertEqual([], self.runner.plan()["operator_resolutions"])
+
+    def test_operator_resolution_cli_records_failed_decision(self):
+        before = self.unknown_launch()
+        path = self.root / "audit.json"
+        path.write_text(json.dumps(self.process_audit(before, decision="failed")))
+        with patch("builtins.print"):
+            result = main(["--state", str(self.runner.root), "resolve-unknown", before["id"], "--audit", str(path)])
+        self.assertEqual(0, result)
+        self.assertEqual("failed", self.runner.plan()["jobs"][0]["status"])
+        self.assertEqual("failed", self.runner.plan()["operator_resolutions"][0]["audit"]["decision"])
 
 
 if __name__ == "__main__":

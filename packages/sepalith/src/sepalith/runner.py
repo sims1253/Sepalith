@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+from datetime import datetime
 import errno
 import fcntl
 import hashlib
@@ -163,6 +164,17 @@ class Runner:
                     phase TEXT NOT NULL, step INTEGER NOT NULL DEFAULT 0,
                     worker_pid INTEGER, child_pid INTEGER, child_group INTEGER,
                     started REAL NOT NULL, finished REAL, detail TEXT NOT NULL DEFAULT '');
+                CREATE TABLE IF NOT EXISTS operator_resolutions (
+                    seq INTEGER PRIMARY KEY AUTOINCREMENT,
+                    attempt TEXT UNIQUE NOT NULL, record TEXT NOT NULL);
+                CREATE TRIGGER IF NOT EXISTS operator_resolutions_no_update
+                    BEFORE UPDATE ON operator_resolutions BEGIN
+                        SELECT RAISE(ABORT, 'Operator resolution records are append-only');
+                    END;
+                CREATE TRIGGER IF NOT EXISTS operator_resolutions_no_delete
+                    BEFORE DELETE ON operator_resolutions BEGIN
+                        SELECT RAISE(ABORT, 'Operator resolution records are append-only');
+                    END;
             """)
 
     @contextlib.contextmanager
@@ -296,11 +308,13 @@ class Runner:
             paused = db.execute("SELECT value FROM settings WHERE key='paused'").fetchone()[0] == "1"
             jobs = [dict(row) for row in db.execute("SELECT * FROM jobs ORDER BY seq")]
             attempts = [dict(row) for row in db.execute("SELECT * FROM attempts ORDER BY started")]
+            resolutions = [json.loads(row[0]) for row in db.execute(
+                "SELECT record FROM operator_resolutions ORDER BY seq")]
         states = {j["id"]: j["status"] for j in jobs}
         for job in jobs:
             job["recipe"] = json.loads(job["recipe"])
             job["blocked_by"] = [d for d in job["recipe"].get("depends_on", []) if states.get(d) != "succeeded"]
-        return {"paused": paused, "jobs": jobs, "attempts": attempts,
+        return {"paused": paused, "jobs": jobs, "attempts": attempts, "operator_resolutions": resolutions,
                 "policy": "serial; external workloads are not coordinated"}
 
     def _update_attempt(self, attempt, **values):
@@ -452,6 +466,53 @@ class Runner:
             if cursor.rowcount != 1:
                 raise RunnerError("Only failed or interrupted experiments can be retried")
 
+    def resolve_unknown(self, attempt, audit):
+        """Record an operator's process audit; never infer absence or stop a process."""
+        fields = {"schema_version", "attempt", "operator", "decision", "checked_at",
+                  "all_processes_stopped", "findings", "evidence"}
+        if not isinstance(audit, dict) or set(audit) != fields:
+            raise RunnerError("Audit requires exactly: " + ", ".join(sorted(fields)))
+        if type(audit["schema_version"]) is not int or audit["schema_version"] != 1:
+            raise RunnerError("Audit requires schema_version=1")
+        if audit["attempt"] != attempt or audit["decision"] not in ("failed", "interrupted"):
+            raise RunnerError("Audit must name this attempt and decide failed or interrupted")
+        if audit["all_processes_stopped"] is not True:
+            raise RunnerError("Operator must affirm that all processes for this attempt have stopped")
+        for field in ("operator", "checked_at", "findings", "evidence"):
+            if not isinstance(audit[field], str) or not audit[field].strip():
+                raise RunnerError(f"Audit {field} must be nonempty text")
+        try:
+            checked = datetime.fromisoformat(audit["checked_at"].replace("Z", "+00:00"))
+            if checked.tzinfo is None:
+                raise ValueError("timezone required")
+            checked_at = checked.timestamp()
+        except (ValueError, OverflowError) as exc:
+            raise RunnerError("Audit checked_at must be an ISO timestamp with a timezone") from exc
+        with self._dispatch_lock(), self._db() as db:
+            db.execute("BEGIN IMMEDIATE")
+            if db.execute("SELECT value FROM settings WHERE key='paused'").fetchone()[0] != "1":
+                raise RunnerError("Pause the queue before resolving an unknown launch")
+            row = db.execute("SELECT * FROM attempts WHERE id=?", (attempt,)).fetchone()
+            if row is None or row["status"] != "running" or row["phase"] != "launching":
+                raise RunnerError("Expected an unfinished attempt with an unknown launch")
+            now = time.time()
+            if not row["started"] <= checked_at <= now:
+                raise RunnerError("Process audit must occur after the attempt started and not in the future")
+            if row["child_group"] and _group_alive(row["child_group"]):
+                raise RunnerError("The recorded process group is still alive; leaving it untouched")
+            recipe = db.execute("SELECT recipe FROM jobs WHERE id=?", (row["job"],)).fetchone()[0]
+            record = {"schema_version": 1, "recorded_at": now, "attempt_before": dict(row),
+                      "recipe": json.loads(recipe), "audit": audit}
+            # One transaction preserves the original receipt and the operator's
+            # evidence before changing status. A failed commit releases no claim.
+            db.execute("INSERT INTO operator_resolutions(attempt, record) VALUES (?, ?)",
+                       (attempt, _json(record)))
+            detail = "Operator resolved unknown launch; explicit retry required"
+            db.execute("UPDATE attempts SET status=?, phase='finished', finished=?, detail=? WHERE id=?",
+                       (audit["decision"], now, detail, attempt))
+            db.execute("UPDATE jobs SET status=? WHERE id=?", (audit["decision"], row["job"]))
+            return record
+
 
 def _group_alive(group):
     try:
@@ -494,6 +555,10 @@ def main(argv=None):
     recover.add_argument("attempt")
     retry = sub.add_parser("retry")
     retry.add_argument("job")
+    resolve = sub.add_parser("resolve-unknown")
+    resolve.add_argument("attempt")
+    resolve.add_argument("--audit", required=True, type=Path,
+                         help="JSON with operator decision and captured process-audit evidence")
     args = parser.parse_args(argv)
     try:
         runner = Runner(args.state)
@@ -518,6 +583,8 @@ def main(argv=None):
             result = runner.recover(args.attempt)
         elif args.command == "retry":
             result = runner.retry(args.job)
+        elif args.command == "resolve-unknown":
+            result = runner.resolve_unknown(args.attempt, json.loads(args.audit.read_text()))
         else:
             result = getattr(runner, args.command)()
         print(json.dumps(result, indent=2))
