@@ -70,6 +70,18 @@ def test_g1_bad_ckpt_rejected(tmp_path):
         load_md_x5(str(tmp_path / "broken.pt"), torch.device("cpu"))
 
 
+def test_g1_self_resume_with_trained_channel(tmp_path):
+    """An S1 ckpt (trained, nonzero carry_proj) must load its channel —
+    the zero-init gate binds only when the key is missing."""
+    m = tiny_model()
+    with torch.no_grad():
+        m.carry_proj.weight.normal_(0, 0.1)
+    torch.save(dict(cfg=tiny_cfg(), model=m.state_dict(), step=37),
+               tmp_path / "s1.pt")
+    m2 = load_md_x5(str(tmp_path / "s1.pt"), torch.device("cpu"))
+    assert torch.equal(m2.carry_proj.weight, m.carry_proj.weight)
+
+
 def test_g2_null_carry_never_moves_channel():
     m = tiny_model()
     x = torch.randint(0, 200, (2, 12))

@@ -172,14 +172,17 @@ def stage_loss(model, fwd_trunk, x, span_pos, valid, t, u, active_mask,
 
 
 def load_resume(model, path):
-    """G1: resume with the carry-channel load gate."""
+    """G1: resume with the carry-channel load gate. A PRE-X5 ckpt (no
+    carry key) must leave the zero-init channel untouched; an S1 ckpt
+    carries its trained channel and loads it."""
     ck = torch.load(path, map_location="cpu", weights_only=False)
     sd = {k: v.float() for k, v in ck["model"].items()}
     missing, unexpected = model.load_state_dict(sd, strict=False)
     assert not unexpected, f"unexpected keys: {unexpected}"
     assert set(missing) <= {"carry_proj.weight"}, f"missing: {missing}"
-    assert torch.count_nonzero(model.carry_proj.weight) == 0, \
-        "G1 violated: carry_proj nonzero after resume"
+    if "carry_proj.weight" in missing:
+        assert torch.count_nonzero(model.carry_proj.weight) == 0, \
+            "G1 violated: carry_proj nonzero after a pre-X5 resume"
     return ck.get("step", 0)
 
 

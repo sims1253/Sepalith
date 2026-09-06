@@ -29,7 +29,7 @@ from experiments.training.poc_diff.sample import _chunked_probs
 def load_md_x5(path, device):
     """MDGQA from a ckpt; pre-X5 ckpts (no carry_proj) load with the
     zero-init carry channel intact. Pre-registered gates: the only
-    missing key may be carry_proj.weight and it must remain zero."""
+    missing key may be carry_proj.weight, and then it must be zero."""
     ck = torch.load(path, map_location="cpu", weights_only=False)
     model = MDGQA(ck["cfg"]).to(device).eval()
     sd = {k: v.float() for k, v in ck["model"].items()}
@@ -37,8 +37,9 @@ def load_md_x5(path, device):
     assert not unexpected, f"unexpected keys in ckpt: {unexpected}"
     assert set(missing) <= {"carry_proj.weight"}, \
         f"missing keys beyond the carry channel: {missing}"
-    assert torch.count_nonzero(model.carry_proj.weight) == 0, \
-        "carry_proj must be zero-init at load (pre-X5 ckpt)"
+    if "carry_proj.weight" in missing:
+        assert torch.count_nonzero(model.carry_proj.weight) == 0, \
+            "carry_proj must be zero-init at load (pre-X5 ckpt)"
     return model
 
 
