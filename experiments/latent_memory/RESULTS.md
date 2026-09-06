@@ -35,7 +35,7 @@ Machine-readable evidence:
 - [preparation-receipt.json](preparation-receipt.json): source, dataset, recipe,
   tokenizer and backend identity. `weights_pinned: false` is deliberate and
   blocks launch; the full weight digest must be frozen inside the resource window.
-- [resource-observation.json](resource-observation.json): the observed scheduling
+- [Archived resource observation](../../docs/ARTIFACTS.md#first-archive): the observed scheduling
   dependency and relevant live process/claim evidence.
 
 The complete synthetic dataset is stored outside Git under
