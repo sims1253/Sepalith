@@ -37,7 +37,9 @@ export SFT_DATA_REPO="${SFT_DATA_REPO:-scholzmx/sepalith-sft-v7}"
 export HF_HOME="${HF_HOME:-/tmp/hf}"   # keep the 4.6GB hub cache off the saved output volume
 
 ts "node probe: $(uname -r) python$(python -V 2>&1 | cut -d' ' -f2) nproc=$(nproc) mem: $(free -g | awk '/^Mem:/{print $2}')GiB user=$(whoami)"
-ts "disk: working=$(df -h /kaggle/working | tail -1 | awk '{print $4}B free) tmp=$(df -h /tmp | tail -1 | awk '{print $4}B free)"
+WORK_FREE="$(df -h /kaggle/working 2>/dev/null | tail -1 | awk '{print $4}')"
+TMP_FREE="$(df -h /tmp 2>/dev/null | tail -1 | awk '{print $4}')"
+ts "disk: working=${WORK_FREE:-?}B free tmp=${TMP_FREE:-?}B free"
 
 # GPU gate: on GPU sessions require a T4 (sm75). P100 is sm60 — our pinned
 # torch cu130 stack cannot run on it; the push API cannot select the GPU
@@ -57,14 +59,11 @@ if [ "${SKIP_TRAIN:-0}" != "1" ]; then
   export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 fi
 
-# 1) env: venv with the cloud pins (mirror of .venv-sft; Kaggle image
-# python is 3.11 with headers — plain venv+pip suffices, no uv gymnastics).
-# PINS=audit installs only the CPU-audit subset (fast smoke path).
-VENV="${VENV:-/tmp/svenv}"
-if [ ! -x "$VENV/bin/python" ]; then
-  python3 -m venv "$VENV"
-fi
-export VIRTUAL_ENV="$VENV" PATH="$VENV/bin:$PATH"
+# 1) env: the Kaggle image (python 3.12, user root, dedicated ephemeral
+# container) has NO working ensurepip — `python3 -m venv` dies (cost one
+# smoke iteration). The Kaggle-native pattern is plain SYSTEM pip: the
+# container is ours alone and dies with the session. PINS=audit installs
+# only the CPU-audit subset (fast smoke path).
 if [ "${PINS:-full}" = "audit" ]; then
   ts "installing audit pins (transformers/peft/hub only)"
   pip install -q "transformers==5.5.0" "peft==0.20.0" "accelerate==1.14.0" \
