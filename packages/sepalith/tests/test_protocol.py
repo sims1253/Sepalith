@@ -113,7 +113,8 @@ class ProtocolTests(unittest.TestCase):
             render_context(context, tokenizer=tokenizer, max_tokens=2)
         for limit in (-1, True, 1.5):
             with self.assertRaises(ValueError):
-                render_context(context, tokenizer=tokenizer, max_tokens=limit)
+                # Deliberately invalid inputs test the runtime validation contract.
+                render_context(context, tokenizer=tokenizer, max_tokens=limit)  # ty: ignore[invalid-argument-type]
 
 
 if __name__ == "__main__":

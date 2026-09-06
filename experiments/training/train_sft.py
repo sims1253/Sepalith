@@ -368,7 +368,12 @@ trainer = SFTTrainer(
         # identical contract). Same names/convention as SFT_PD_BATCH.
         learning_rate=float(os.environ.get("SFT_LR", "2e-4")),
         warmup_ratio=0.03, lr_scheduler_type="cosine",
-        logging_steps=20, eval_strategy="steps", eval_steps=500,
+        # SFT_EVAL_STEPS knob (2026-09-06, zcode-kaggle-intel): cloud-arm
+        # readout channel — 300-step LR-sweep arms never reach the banked
+        # eval_steps=500; arms set 150 so eval_loss lands at 150/300.
+        # OFF (unset) = banked 500, byte-identical.
+        logging_steps=20, eval_strategy="steps",
+        eval_steps=int(os.environ.get("SFT_EVAL_STEPS", "500")),
         save_strategy="steps", save_steps=1000, save_total_limit=2,
         output_dir=str(OUT),
         bf16=not _FP16, fp16=False, seed=3407, report_to="none", dataset_text_field="text",

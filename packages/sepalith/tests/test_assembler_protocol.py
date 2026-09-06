@@ -15,8 +15,10 @@ ASSEMBLER = ROOT / "experiments/post-processing/assemble_sft_v5.py"
 
 class AssemblerProtocolTests(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         spec = importlib.util.spec_from_file_location("assembler_protocol_fixture", ASSEMBLER)
+        if spec is None or spec.loader is None:
+            raise RuntimeError(f"Cannot load assembler fixture: {ASSEMBLER}")
         cls.assembler = importlib.util.module_from_spec(spec)
         # Import defines paths and functions; main is not called and no corpus
         # loaders run. Restore the script's source bootstrap after the import.

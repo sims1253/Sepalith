@@ -21,19 +21,22 @@ class EvaluationTests(unittest.TestCase):
     def test_invalid_numeric_inputs_fail_clearly(self):
         for counts in ((-1, 0), (1.5, 2), (True, 1)):
             with self.subTest(counts=counts), self.assertRaises(ValueError):
-                mcnemar_exact(*counts)
+                # Deliberately invalid inputs test the runtime validation contract.
+                mcnemar_exact(*counts)  # ty: ignore[invalid-argument-type]
         for kwargs in ({"n_boot": 0}, {"n_boot": True}, {"alpha": 0},
                        {"alpha": 1}, {"alpha": float("nan")}, {"alpha": True}):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
-                paired_bootstrap_ci([0, 1], **kwargs)
+                # Deliberately invalid inputs test the runtime validation contract.
+                paired_bootstrap_ci([0, 1], **kwargs)  # ty: ignore[invalid-argument-type]
         for deltas in ([], [float("nan")], [float("inf")], ["1"]):
             with self.subTest(deltas=deltas), self.assertRaises(ValueError):
-                paired_bootstrap_ci(deltas)
+                # Deliberately invalid inputs test the runtime validation contract.
+                paired_bootstrap_ci(deltas)  # ty: ignore[invalid-argument-type]
 
     def test_confidence_level_applies_to_interval_and_test(self):
         a, b = [1] * 9 + [0], [0] * 9 + [1]
         verdict = audit_pair("alpha", a, b, alpha=0.5)
-        deltas = [float(x-y) for x, y in zip(a, b)]
+        deltas = [float(x-y) for x, y in zip(a, b, strict=True)]
         self.assertEqual(verdict.ci, paired_bootstrap_ci(deltas, alpha=0.5))
         self.assertNotEqual(verdict.ci, paired_bootstrap_ci(deltas, alpha=0.05))
         self.assertEqual(verdict.verdict, "WINNER-A")

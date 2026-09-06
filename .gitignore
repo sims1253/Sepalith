@@ -36,3 +36,7 @@ results/
 # local agent sessions and dispatcher locks
 .zcode/
 /comms/.queue-manager.lock
+
+# Static analysis caches
+.ruff_cache/
+.ty_cache/

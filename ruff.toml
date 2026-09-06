@@ -1,0 +1,19 @@
+target-version = "py310"
+# Default gate covers the maintained package. Explicit CLI paths also support research audits.
+include = ["packages/sepalith/**/*.py"]
+
+[lint]
+select = [
+  "E4", "E7", "E9", "F", # Invalid syntax, undefined names, unused code.
+  "B", "BLE001",           # Bug-prone constructs and swallowed broad exceptions.
+  "ANN",                   # Annotated function contracts; no explicit Any.
+  "SIM101", "SIM103", "SIM108", "SIM114", # Redundant branches.
+  "TRY002", "TRY201", "TRY400", # Specific exceptions and useful tracebacks.
+  "PGH003", "PGH004", "RUF100", # No blanket or stale suppressions.
+]
+
+[lint.per-file-ignores]
+# Existing runner remains dynamically typed during its separate migration.
+"packages/sepalith/src/sepalith/runner.py" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204"]
+# unittest helpers exercise malformed inputs; explicit Any is still checked.
+"packages/sepalith/tests/**" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204"]

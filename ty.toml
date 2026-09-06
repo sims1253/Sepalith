@@ -1,0 +1,15 @@
+[environment]
+python-version = "3.10"
+extra-paths = ["packages/sepalith/src", "packages/sepalith/tests"]
+
+[src]
+include = ["packages/sepalith"]
+
+[rules]
+# Keep ty's default correctness rules, and fail on these optional escape hatches.
+possibly-unresolved-reference = "error"
+redundant-cast = "error"
+unused-ignore-comment = "error"
+unused-type-ignore-comment = "error"
+ignore-comment-unknown-rule = "error"
+blanket-ignore-comment = "error"

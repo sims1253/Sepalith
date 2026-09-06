@@ -98,10 +98,10 @@ def audit_pair(
     n = len(outcomes_a)
     if n == 0:
         raise ValueError(f"{name}: no paired rows")
-    b_wins = sum(1 for a, b in zip(outcomes_a, outcomes_b) if a == 1 and b == 0)
-    c_wins = sum(1 for a, b in zip(outcomes_a, outcomes_b) if a == 0 and b == 1)
+    b_wins = sum(1 for a, b in zip(outcomes_a, outcomes_b, strict=True) if a == 1 and b == 0)
+    c_wins = sum(1 for a, b in zip(outcomes_a, outcomes_b, strict=True) if a == 0 and b == 1)
     p = mcnemar_exact(b_wins, c_wins)
-    deltas = [float(a) - float(b) for a, b in zip(outcomes_a, outcomes_b)]
+    deltas = [float(a) - float(b) for a, b in zip(outcomes_a, outcomes_b, strict=True)]
     ci = paired_bootstrap_ci(deltas, alpha=alpha)
     mean_delta = math.fsum(deltas) / n
     decisive = p < alpha and (ci[0] > 0 or ci[1] < 0)

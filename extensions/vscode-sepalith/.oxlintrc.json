@@ -1,0 +1,59 @@
+{
+  "ignorePatterns": [
+    "tools/**",
+    "dist/**",
+    "node_modules/**"
+  ],
+  "jsPlugins": [
+    {
+      "name": "anti-slop",
+      "specifier": "./tools/anti-slop/index.ts"
+    }
+  ],
+  "rules": {
+    "anti-slop/no-unknown-returns": "error",
+    "anti-slop/require-safety-comment-for-type-assertion": "error",
+    "anti-slop/no-unknown-type-aliases": "error",
+    "anti-slop/no-chained-type-assertions": "error",
+    "anti-slop/no-shape-in-symbol-names": "off",
+    "anti-slop/no-reflect-get": "error",
+    "anti-slop/no-widen-then-assert": "error",
+    "anti-slop/no-module-mocking": "error",
+    "anti-slop/no-runtime-typeof": "off",
+    "anti-slop/no-unknown-parameters": "error",
+    "anti-slop/no-reflect-apply": "error",
+    "anti-slop/no-unsafe-dictionary-type": "error",
+    "anti-slop/no-object-parameters": "error",
+    "anti-slop/no-known-value-widening": "error",
+    "anti-slop/no-conditional-empty-object-spread": "error",
+    "typescript/no-explicit-any": "error",
+    "typescript/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": true,
+        "ts-nocheck": true,
+        "ts-expect-error": "allow-with-description",
+        "minimumDescriptionLength": 10
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/runtime.ts",
+        "src/context_build.ts"
+      ],
+      "rules": {
+        "anti-slop/no-unknown-parameters": "off"
+      }
+    },
+    {
+      "files": [
+        "scripts/**"
+      ],
+      "rules": {
+        "anti-slop/no-unknown-parameters": "off"
+      }
+    }
+  ]
+}

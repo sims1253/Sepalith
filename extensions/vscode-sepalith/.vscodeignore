@@ -15,3 +15,7 @@ SPEC.md
 
 # offline test bundles
 dist/check-*.cjs
+
+# Vendored lint rules and configuration are development-only.
+tools/**
+.oxlintrc.json

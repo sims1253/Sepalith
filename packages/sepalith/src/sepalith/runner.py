@@ -22,6 +22,13 @@ import sys
 import tempfile
 import time
 import uuid
+from typing import TypedDict
+
+
+class SnapshotEntry(TypedDict):
+    path: str
+    sha256: str
+    mode: int
 
 
 class RunnerError(ValueError):
@@ -91,7 +98,7 @@ def validate_recipe(recipe):
     allowed = {"schema_version", "id", "description", "snapshot", "depends_on", "resource",
                "python", "env", "inputs", "steps", "provenance"}
     if set(recipe) - allowed:
-        raise RunnerError(f"Unknown recipe fields: {sorted(set(recipe) - allowed)}")
+        raise RunnerError(f"Unknown recipe fields: {sorted(map(str, set(recipe) - allowed))}")
     _name(recipe.get("id"))
     if not re.fullmatch(r"[0-9a-f]{64}", str(recipe.get("snapshot", ""))):
         raise RunnerError("snapshot must be a SHA-256 identifier from the snapshot command")
@@ -213,7 +220,7 @@ class Runner:
             stage = Path(tmp)
             tree = stage / "source"
             tree.mkdir()
-            entries = []
+            entries: list[SnapshotEntry] = []
             for rel in selected:
                 src = _under(repo, rel)
                 if src.is_symlink() or not src.is_file():
