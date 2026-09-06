@@ -30,7 +30,9 @@ stateDiagram-v2
 ```
 
 Execution success means commands exited zero and declared artifacts were present,
-nonempty and hashed. It is separate from a scientific adoption verdict. Make
+nonempty and hashed. Later steps must preserve previously verified artifacts;
+write a new output path for each version. The runner rechecks their hashes
+before and after later steps. It is separate from a scientific adoption verdict. Make
 scientific checks explicit steps and retain their result artifacts. The runner
 does not infer whether a model is better or interpret Markdown verdicts.
 
@@ -44,7 +46,9 @@ Do not combine unrelated experiments into one recipe if they need a drain point.
 
 `snapshot --repo PATH --include PATH ...` copies the selected Git-visible regular
 files, including current uncommitted and nonignored untracked bytes. Ignored files
-are not captured. Select import dependencies, configs and build inputs as well as
+are not captured. Every include must match at least one Git-visible file;
+a missing or ignored dependency is an error even when other includes match.
+Select import dependencies, configs and build inputs as well as
 the main script. Absolute paths and `..` in includes are rejected. This is not a
 worktree from HEAD and does not silently discard uncommitted work.
 
@@ -222,3 +226,7 @@ Markdown queue. Its lightweight tests cover captured uncommitted source,
 dependencies, explicit retries, drain behavior, child survival after dispatcher
 termination, missing outputs, invalid inputs and source tampering. Real model and
 cloud integration remain separate validation work.
+
+First migration preparation and current cutover blockers are recorded in
+[migration/rollback evidence](migrations/2026-09-06-first-runner.md). Fake-job
+validation does not establish that the legacy dispatchers have drained.

@@ -214,8 +214,10 @@ class Runner:
         visible = sorted(set(os.fsdecode(p) for p in raw.split(b"\0") if p))
         selected = [p for p in visible if any(Path(p) == prefix or prefix in Path(p).parents
                                              or str(prefix) == "." for prefix in prefixes)]
-        if not selected:
-            raise RunnerError("No Git-visible files match the requested source paths")
+        for prefix in prefixes:
+            if not any(Path(p) == prefix or prefix in Path(p).parents
+                       or str(prefix) == "." for p in selected):
+                raise RunnerError(f"No Git-visible files match requested source path: {prefix}")
         with tempfile.TemporaryDirectory(prefix="snapshot-", dir=self.root) as tmp:
             stage = Path(tmp)
             tree = stage / "source"
@@ -397,8 +399,18 @@ class Runner:
                             "cuda_visible_devices": env.get("CUDA_VISIBLE_DEVICES"),
                             "inherited_environment_captured": False})
                 executed = []
+                verified_artifacts = {}
+
+                def verify_previous_artifacts():
+                    for relative, digest in verified_artifacts.items():
+                        path = _under(work, relative)
+                        if (path.is_symlink() or not path.is_file()
+                                or _hash(path) != digest):
+                            raise RunnerError(f"Previously verified artifact changed: {relative}")
+
                 for index, step in enumerate(recipe["steps"]):
                     verify_attempt_source()
+                    verify_previous_artifacts()
                     argv = [resolve(a) for a in step["argv"]]
                     with (work / f"{index:02d}-{step['id']}.log").open("ab") as log:
                         self._update_attempt(attempt, phase="launching", step=index, child_pid=None, child_group=None)
@@ -427,12 +439,14 @@ class Runner:
                     if code != 0:
                         raise RunnerError(f"Step {step['id']} exited with code {code}")
                     verify_attempt_source()
+                    verify_previous_artifacts()
                     artifacts = []
                     for relative in step.get("artifacts", []):
                         path = _under(work, relative)
                         if not path.is_file() or path.stat().st_size == 0 or path.is_symlink():
                             raise RunnerError(f"Missing or empty artifact after {step['id']}: {relative}")
                         artifacts.append({"path": relative, "sha256": _hash(path), "bytes": path.stat().st_size})
+                        verified_artifacts[relative] = artifacts[-1]["sha256"]
                         with path.open("rb") as handle:
                             os.fsync(handle.fileno())
                         # Artifact directories may have been created by the step.

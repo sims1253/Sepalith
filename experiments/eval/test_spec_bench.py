@@ -248,22 +248,30 @@ class TestArmFlags:
         model, flags, label = arm_flags("baseline")
         assert flags == [] and label == "baseline"
 
-    def test_ngram_depth_is_size_m(self):
+    def test_ngram_depth_is_draft_n_max(self):
+        # CORRECTED 2026-09-06: depth = drafted tokens/step = --spec-draft-n-max
+        # (the binary's --spec-ngram-simple-size-m is the draft m-gram LENGTH;
+        # setting it to the depth value yields ZERO drafts — observed live).
         _, flags, label = arm_flags("ngram-simple@4")
         assert "--spec-type" in flags and "ngram-simple" in flags
-        i = flags.index("--spec-ngram-simple-size-m")
+        i = flags.index("--spec-draft-n-max")
         assert flags[i + 1] == "4"
+        assert "--spec-ngram-simple-size-m" not in flags
         assert label == "ngram-simple@4"
 
-    def test_draft_mtp_uses_mtp_model_and_n_max(self):
-        model, flags, _ = arm_flags("draft-mtp@2")
+    def test_draft_mtp_uses_mtp_model_and_n_max(self, tmp_path):
+        fixture = tmp_path / "mtp-b4_qwen35_2b-Q8_0.gguf"
+        fixture.touch()
+        model, flags, _ = arm_flags("draft-mtp@2", model_mtp=fixture)
         assert model.name == "mtp-b4_qwen35_2b-Q8_0.gguf"
         assert "--spec-draft-n-max" in flags and \
             flags[flags.index("--spec-draft-n-max") + 1] == "2"
         assert "--spec-type" in flags and "draft-mtp" in flags
 
-    def test_model_draft_single_mode(self):
-        model, flags, _ = arm_flags("model-draft@3")
+    def test_model_draft_single_mode(self, tmp_path):
+        fixture = tmp_path / "b2_qwen35_08b-Q8_0.gguf"
+        fixture.touch()
+        model, flags, _ = arm_flags("model-draft@3", model_draft=fixture)
         assert model.name == "b4_qwen35_2b-Q8_0.gguf"
         assert "draft-simple" in flags
         assert any(f.endswith("b2_qwen35_08b-Q8_0.gguf") for f in flags)

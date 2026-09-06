@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "id": "v1c-v7-runner-20260906",
+  "description": "V1c v7 serving column; full calibration remains separate",
+  "snapshot": "324236bc82a82a3a8fb2bd76bfb42155d63153b2fcc3f66bda5069666f556b6a",
+  "resource": "quiet",
+  "python": "/usr/bin/python3.10",
+  "depends_on": [],
+  "inputs": [],
+  "env": {
+    "PYTHONPATH": "{source}/experiments/eval",
+    "PYTHONNOUSERSITE": "1",
+    "OMP_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "LD_LIBRARY_PATH": "/REQUIRES-FROZEN-INPUTS/runtime",
+    "LD_PRELOAD": "",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "provenance": {
+    "queue_item": "V1c",
+    "scope": "v7 column; owner reservation required",
+    "scientific_acceptance": "100 serial + 140 sweep requests, aligned trace IDs, no errors/starvation, finite TTFT",
+    "adoption": "NOT-ASSESSED; instrument calibration and quiet review remain required",
+    "deviations": "Existing instrument levels 1,2,4 and v7-only column; design calls calibration pairs and levels 1,4,8",
+    "source_includes": [
+      "experiments/eval/latency_load.py",
+      "experiments/eval/spec_bench.py",
+      "scripts/migration/v1c_artifacts.py",
+      "packages/sepalith/src"
+    ],
+    "status": "TEMPLATE ONLY: scope ACK and frozen input digests required; do not enqueue"
+  },
+  "steps": [
+    {
+      "id": "prepare",
+      "argv": [
+        "{python}",
+        "{source}/scripts/migration/v1c_artifacts.py",
+        "prepare",
+        "--run",
+        "{run}",
+        "--traces",
+        "/REQUIRES-FROZEN-INPUTS/traces.jsonl"
+      ],
+      "artifacts": [
+        "prepared.json"
+      ]
+    },
+    {
+      "id": "measure",
+      "argv": [
+        "{python}",
+        "{source}/experiments/eval/latency_load.py",
+        "--foreground",
+        "--model",
+        "/REQUIRES-FROZEN-INPUTS/model.gguf",
+        "--server",
+        "/REQUIRES-FROZEN-INPUTS/runtime/llama-server",
+        "--traces",
+        "/REQUIRES-FROZEN-INPUTS/traces.jsonl",
+        "--out",
+        "{run}/measurement",
+        "--port",
+        "18431",
+        "--threads",
+        "8",
+        "--n-ttft",
+        "50",
+        "--n-sweep",
+        "10",
+        "--classes",
+        "2k,8k",
+        "--levels",
+        "1,2,4"
+      ],
+      "artifacts": [
+        "measurement/results_v1c_ttft.jsonl",
+        "measurement/results_v1c_sweep.jsonl",
+        "measurement/summary.json",
+        "measurement/llama-server-v1c-legA.log",
+        "measurement/llama-server-v1c-legB.log"
+      ]
+    },
+    {
+      "id": "evaluate",
+      "argv": [
+        "{python}",
+        "{source}/scripts/migration/v1c_artifacts.py",
+        "evaluate",
+        "--run",
+        "{run}"
+      ],
+      "artifacts": [
+        "evaluation.json",
+        "verdict.json",
+        "VERDICT.md"
+      ]
+    },
+    {
+      "id": "archive",
+      "argv": [
+        "{python}",
+        "{source}/scripts/migration/v1c_artifacts.py",
+        "archive",
+        "--run",
+        "{run}",
+        "--archive",
+        "/mnt/h/sepalith/runs/runner-migration"
+      ],
+      "artifacts": [
+        "archive.json"
+      ]
+    }
+  ]
+}

@@ -7,8 +7,11 @@ b10453 CPU build per the repo serving convention).
 
 Arms — SINGLE-MODE ONLY (A2 §4.5 rule: no stacked spec claims):
   baseline            no speculative flags (the reference + greedy oracle)
-  ngram-simple        --spec-type ngram-simple; depth = size_m (drafted
-                      tokens/step); sweep via ngram-simple@m
+  ngram-simple        --spec-type ngram-simple; depth = drafted tokens/step
+                      via --spec-draft-n-max (corrected 2026-09-06: the
+                      binary's --spec-ngram-simple-size-m is the draft
+                      m-gram LENGTH, not the step depth); sweep via
+                      ngram-simple@n
   draft-mtp           --spec-type draft-mtp on the MTP-preserving export
                       (experiments/models/mtp-b4_qwen35_2b-Q8_0.gguf, nextn
                       tensors embedded; produced by
@@ -295,14 +298,16 @@ class SpecServer:
     """Own one CPU llama-server child with an arm's spec flags."""
 
     def __init__(self, model, port, extra_flags, threads=8, ctx=CTX,
-                 log_path=None):
+                 log_path=None, server=None, foreground=False):
+        self.server = Path(server) if server is not None else SERVER
+        self.foreground = foreground
         self.model, self.port = str(model), port
         self.threads, self.ctx, self.extra = threads, ctx, list(extra_flags)
         self.log_path = Path(log_path or HERE / f"llama-server-spec-{port}.log")
         self.proc = None
 
     def cmd(self):
-        c = [str(SERVER), "-m", self.model, "--port", str(self.port),
+        c = [str(self.server), "-m", self.model, "--port", str(self.port),
              "--host", "127.0.0.1", "-t", str(self.threads),
              "--parallel", "1", "-c", str(self.ctx), "-ngl", "0"]
         return c + self.extra
@@ -323,7 +328,7 @@ class SpecServer:
                 log.flush()
                 self.proc = subprocess.Popen(
                     cmd, stdout=log, stderr=subprocess.STDOUT,
-                    stdin=subprocess.DEVNULL, start_new_session=True)
+                    stdin=subprocess.DEVNULL, start_new_session=not self.foreground)
         finally:
             fcntl.flock(lock_f, fcntl.LOCK_UN)
             os.close(lock_f)
@@ -393,8 +398,8 @@ def get_metrics(port):
 def arm_flags(arm, model=MODEL, model_mtp=MODEL_MTP, model_draft=MODEL_DRAFT):
     """(server_model, extra_flags, label) for one single-mode arm config.
 
-    arm grammar: name | name@depth  (depth = drafted tokens per step:
-    ngram-simple@m -> --spec-ngram-simple-size-m m; others -> n-max).
+    arm grammar: name | name@depth (depth = drafted tokens per step,
+    configured with --spec-draft-n-max for every speculative arm).
     """
     name, _, depth = arm.partition("@")
     depth = int(depth) if depth else None
@@ -404,7 +409,14 @@ def arm_flags(arm, model=MODEL, model_mtp=MODEL_MTP, model_draft=MODEL_DRAFT):
     if name == "ngram-simple":
         flags = ["--spec-type", "ngram-simple"]
         if depth is not None:
-            flags += ["--spec-ngram-simple-size-m", str(depth)]
+            # CORRECTED 2026-09-06 (flag semantics verified against the
+            # b10453 binary --help + runtime evidence): depth = drafted
+            # tokens/step is --spec-draft-n-max (applies to ALL spec types;
+            # default 3). --spec-ngram-simple-size-m is the draft M-GRAM
+            # LENGTH (default 48), NOT the step depth — setting it to 2
+            # produced ZERO drafts (run-20260905T192522's mis-flagged arm,
+            # 5 rows, kept as the no-draft-overhead datapoint).
+            flags += ["--spec-draft-n-max", str(depth)]
         return model, flags, arm
     if name == "draft-mtp":
         if not Path(model_mtp).exists():
@@ -479,6 +491,9 @@ def run_leg(arm, traces, port, out_fh, baseline_texts=None, reps=1):
                          if not res.error else False)
                 if rep == 0 and not res.error:
                     texts[tr["trace_id"]] = res.text
+                    row["gen_text"] = res.text  # persisted greedy oracle
+                    # (additive 2026-09-06: rep-0 rows carry the greedy text
+                    #  so the lossless check can span runs)
                 out_fh.write(json.dumps(row) + "\n")
                 out_fh.flush()
                 rows.append(row)
