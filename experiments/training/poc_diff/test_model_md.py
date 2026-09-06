@@ -18,7 +18,9 @@ import torch
 import torch.nn.functional as F
 
 from experiments.training.poc_twin.model import TinyGQA, model_config
-from experiments.training.poc_diff.model_md import MDGQA, model_config_md
+from experiments.training.poc_diff.model_md import (
+    MDGQA, MICRO, model_config_md, model_config_micro,
+)
 
 
 def small_cfg(**over):
@@ -77,14 +79,38 @@ def test_new_row_init_discipline():
 
 
 def test_param_audit_full_size():
-    """Exact delta vs TinyGQA and the plan's ±1% absolute band."""
+    """Exact delta vs TinyGQA and the plan's ±1% absolute band. X5-S1
+    surgery (2026-09-06): the zero-init carry channel adds d_model^2
+    params (carry_proj, no bias) on top of the 2 new vocab rows."""
     cfg_full = model_config_md()
     m = MDGQA(cfg_full)
     n_md = sum(p.numel() for p in m.parameters())
     n_base = sum(p.numel() for p in TinyGQA(model_config()).parameters())
-    assert n_md - n_base == 2 * 768
+    assert n_md - n_base == 2 * 768 + 768 * 768
     anchor = 206.5e6 + 2 * 768
     assert abs(n_md - anchor) / anchor < 0.01
+
+
+def test_micro_config_param_band():
+    """M1 micro config (micro-specialist probe plan): vocab pinned at
+    BASE_VOCAB+2, total params inside the 70-80M class, printed at prep
+    as 76,097,664 pre-X5; the X5-S1 carry channel adds d_model^2 =
+    384^2 = 147,456 (76,245,120 total, still 0.369x the anchor)."""
+    cfg = model_config_micro()
+    assert cfg["vocab"] == 130_562, "vocab pinned at BASE_VOCAB+2"
+    assert cfg["mask_id"] == 130_560 and cfg["empty_id"] == 130_561
+    assert cfg["d_model"] == 384 and cfg["n_layers"] == 12
+    assert cfg["n_q"] == 6 and cfg["n_kv"] == 2 and cfg["head_dim"] == 64
+    assert cfg["ffn_hidden"] == 1536
+    m = MDGQA(cfg)
+    n = sum(p.numel() for p in m.parameters())
+    assert 70e6 <= n <= 80e6, f"micro must sit in the 70-80M band, got {n}"
+    assert n == 76_097_664 + 384 * 384, "prep printout + carry channel"
+    # anchor defaults untouched by the MICRO dict
+    assert MICRO["d_model"] == 384
+    cfg_anchor = model_config_md()
+    assert cfg_anchor["d_model"] == 768 and cfg_anchor["n_layers"] == 12
+    assert cfg_anchor["vocab"] == 130_562
 
 
 def test_padding_mask_blocks_pad_keys():

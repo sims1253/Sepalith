@@ -100,23 +100,76 @@ class MDGQA(twin.TinyGQA):
         self.embed = new_embed
         self.mask_id = base
         self.empty_id = base + 1
+        # --- X5-S1 carry channel (2026-09-06; additive, default-off) ---
+        # Recurrent self-conditioning per FRM (arXiv 2606.29150 v2, App-A
+        # + Analog-Bits lineage): the trunk ingests the previous pass's
+        # RAW span logits as a carry. Their carry is "a previous
+        # clean-solution prediction" (the full categorical distribution);
+        # the ingestion projection is unspecified in the paper, and a
+        # raw-logit (V,d) Linear at V=130,562 would add 100.3M params
+        # (+49% model), so the port ingests the raw logits through the
+        # TIED embedding table — c = softmax(logits) @ E, a soft
+        # clean-prediction embedding (information-preserving up to the
+        # softmax row-shift) — then adds W_c(c) at the input embedding,
+        # with W_c ZERO-INIT. Zero-init + the None guard below keep every
+        # pre-X5 code path (banked ckpts, sample.py, eval_spans.py)
+        # byte-identical: loading a banked ckpt with strict=False leaves
+        # W_c at 0 and trunk(carry=None) never touches it.
+        self.carry_proj = nn.Linear(cfg["d_model"], cfg["d_model"], bias=False)
+        nn.init.zeros_(self.carry_proj.weight)
 
-    def trunk(self, idx, probe=True, attn_mask=None):
-        """Embed -> bidirectional blocks -> final norm."""
+    def trunk(self, idx, probe=True, attn_mask=None, carry=None):
+        """Embed -> bidirectional blocks -> final norm.
+
+        carry: optional (B,T,d_model) soft-embedding carry — the previous
+        pass's raw span logits ingested via softmax @ embed.weight (see
+        logits_to_carry); rows are ZERO at positions without a previous
+        prediction (their null carry). Added through the zero-init
+        carry_proj; carry=None reproduces the pre-X5 trunk exactly."""
         B, T = idx.shape
         cos = self.rope_cos[:T].to(idx.device)
         sin = self.rope_sin[:T].to(idx.device)
         x = self.embed(idx)
+        if carry is not None:
+            x = x + self.carry_proj(carry.to(x.dtype))
         for b in self.blocks:
             x = b(x, cos, sin, probe=probe, attn_mask=attn_mask)
         return self.ln_f(x)
 
-    def forward(self, idx, attn_mask=None, probe=True):
+    def forward(self, idx, attn_mask=None, probe=True, carry=None):
         """Full-vocab logits via the tied head (training computes the loss
         in objective.py against trunk() hidden states; this path is for
         sampling/eval where full logits are fine)."""
-        h = self.trunk(idx, probe=probe, attn_mask=attn_mask)
+        h = self.trunk(idx, probe=probe, attn_mask=attn_mask, carry=carry)
         return F.linear(h, self.embed.weight)
+
+
+def logits_to_carry(h, span_pos, head_w, chunk=1024):
+    """X5-S1: previous-pass RAW span logits -> dense soft-embedding carry.
+
+    For every span position (span_pos (B,T) bool), computes
+    c_i = softmax(logits_i) @ head_w over the full extended vocab (fp32,
+    `_chunked_probs` numerics: temperature-1.0 softmax, chunked so the
+    (N,V) logits never all materialize), and scatters the rows into a
+    zero (B,T,d) fp32 tensor — non-span rows stay exactly zero, the null
+    carry. Returns the (B,T,d) carry for MDGQA.trunk(carry=...).
+
+    Dtype-robust: h may arrive bf16 (from a trunk pass under autocast)
+    while head_w is fp32 — the selected rows are cast to head_w's dtype
+    so the linear runs fp32 in any context (matching eval numerics)."""
+    B, T, d = h.shape[0], h.shape[1], head_w.shape[1]
+    bidx, pidx = span_pos.nonzero(as_tuple=True)
+    out = h.new_zeros(B, T, d, dtype=torch.float32)
+    if bidx.numel() == 0:
+        return out
+    h_sel = h[bidx, pidx].to(head_w.dtype)
+    rows = []
+    for c in range(0, h_sel.size(0), chunk):
+        logits = F.linear(h_sel[c:c + chunk], head_w).float()
+        probs = F.softmax(logits, dim=-1)
+        rows.append(probs @ head_w.float())   # (chunk, d) fp32
+    out[bidx, pidx] = torch.cat(rows)
+    return out
 
 
 def model_config_md(**over):
@@ -130,6 +183,24 @@ def model_config_md(**over):
     base = cfg["vocab"]
     cfg.update(vocab=base + 2, mask_id=base, empty_id=base + 1, base_vocab=base)
     return cfg
+
+
+# --- M1 micro config (2026-09-01 micro-specialist probe plan, additive) ---
+# ~75M-class sibling of the 206M anchor for the fixed 0.5B-token budget:
+# HALF the width, SAME depth/GQA-KV/head-dim/ffn-ratio, vocab PINNED at
+# BASE_VOCAB+2 = 130,562 so tokenizer + harness are unchanged. Frozen at
+# prep (M1_PREP.md); the anchor defaults above are untouched.
+MICRO = dict(d_model=384, n_layers=12, n_q=6, n_kv=2, head_dim=64,
+             ffn_hidden=1536)
+# printed at prep: total=76,097,664 (76.10M) = embed 50.14M + hidden 25.96M
+# = 0.369x the anchor's 206,459,136; inside the plan's 70-80M band.
+
+
+def model_config_micro(**over):
+    """model_config_md with the MICRO shape merged in (vocab stays BASE)."""
+    cfg = dict(MICRO)
+    cfg.update(over)
+    return model_config_md(**cfg)
 
 
 def count_params_md(cfg=None):
@@ -147,8 +218,23 @@ if __name__ == "__main__":
           f"hidden={n_hid/1e6:.1f}M")
     print(f"TinyGQA base: total={base[0]/1e6:.1f}M  delta={n_all - base[0]} "
           f"(expected 2*768=1536)")
-    assert abs((n_all - base[0]) - 2 * cfg["d_model"]) == 0, "param audit"
+    # X5-S1: delta = 2 new vocab rows + the d^2 carry_proj (2026-09-06)
+    assert (n_all - base[0]) == 2 * cfg["d_model"] + cfg["d_model"] ** 2, \
+        "param audit (2 rows + carry channel)"
     within = abs(n_all - (206.5e6 + 2 * 768)) / (206.5e6 + 2 * 768)
     print(f"|total - (206.5M + 1536)| / total = {within:.5f} (plan band: <0.01)")
     assert within < 0.01, "plan param audit ±1% of 206.5M + 2*768"
     print("param audit OK")
+
+    # M1 micro audit (the prep param printout)
+    cfg_m = model_config_micro()
+    n_m, n_emb_m, n_hid_m = count_params_md(cfg_m)
+    print(f"MDGQA-micro: d={cfg_m['d_model']} L={cfg_m['n_layers']} "
+          f"n_q={cfg_m['n_q']} n_kv={cfg_m['n_kv']} ffn={cfg_m['ffn_hidden']} "
+          f"vocab={cfg_m['vocab']}")
+    print(f"MDGQA-micro: total={n_m:,} ({n_m/1e6:.2f}M) "
+          f"embed={n_emb_m/1e6:.2f}M hidden={n_hid_m/1e6:.2f}M "
+          f"({n_m/n_all:.3f}x anchor)")
+    assert cfg_m["vocab"] == 130_562, "micro vocab pinned at BASE_VOCAB+2"
+    assert 70e6 <= n_m <= 80e6, "micro param band 70-80M"
+    print("micro param audit OK")
