@@ -185,7 +185,10 @@ function netBraces(cleaned: string): number {
 }
 
 export function findEnclosingFunctionByScan(lines: string[], cursorLine: number): ScopePin | null {
-  const cleaned = lines.map(cleanRLine);
+  return findEnclosingCleaned(lines.map(cleanRLine), cursorLine);
+}
+
+function findEnclosingCleaned(cleaned: string[], cursorLine: number): ScopePin | null {
   for (let c = cursorLine; c >= 0; c--) {
     const sig = matchSignature(cleaned[c] ?? "");
     if (!sig) continue; // not a signature line
@@ -204,21 +207,26 @@ export function findEnclosingFunctionByScan(lines: string[], cursorLine: number)
     if (!inside) continue;
     // the block opened at c is still open at the cursor — innermost wins.
     // Find the end: scan on until the depth returns to 0.
-    for (let i = cursorLine + 1; i < lines.length; i++) {
+    for (let i = cursorLine + 1; i < cleaned.length; i++) {
       depth += netBraces(cleaned[i] ?? "");
       if (depth <= 0) return { startLine: c, endLine: i, name: sig.name };
     }
-    return { startLine: c, endLine: lines.length - 1, name: sig.name }; // unclosed — approximate
+    return { startLine: c, endLine: cleaned.length - 1, name: sig.name }; // unclosed — approximate
   }
   return null;
 }
 
 // top-level named signatures (brace depth 0) — the file's vocabulary
 export function outlineFromScan(lines: string[]): OutlineEntry[] {
+  return outlineFromScanLines(lines);
+}
+
+// Standalone scans clean on demand; scope scans reuse their local cleaned array.
+function outlineFromScanLines(lines: string[], alreadyCleaned = false): OutlineEntry[] {
   const entries: OutlineEntry[] = [];
   let depth = 0;
   for (let i = 0; i < lines.length; i++) {
-    const cleaned = cleanRLine(lines[i] ?? "");
+    const cleaned = alreadyCleaned ? (lines[i] ?? "") : cleanRLine(lines[i] ?? "");
     const sig = matchSignature(cleaned);
     if (depth === 0 && sig && sig.name !== null) entries.push({ line: i + 1, name: sig.name });
     depth = Math.max(0, depth + netBraces(cleaned)); // clamp: survive stray garbage
@@ -282,7 +290,8 @@ export function scopeFromSymbols(symbols: RawSymbol[], lines: string[], cursorLi
 }
 
 export function scopeFromScan(lines: string[], cursorLine: number): ScopeInfo {
-  return buildScope(lines, cursorLine, findEnclosingFunctionByScan(lines, cursorLine), outlineFromScan(lines));
+  const cleaned = lines.map(cleanRLine);
+  return buildScope(lines, cursorLine, findEnclosingCleaned(cleaned, cursorLine), outlineFromScanLines(cleaned, true));
 }
 
 // ---------------------------------------------------------------------------
