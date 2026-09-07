@@ -23,6 +23,8 @@ def clean_r_line(line: str) -> str:
 def match_signature(cleaned: str):
     """(is_signature, name|None). TS: null = not a signature line;
     {name: null} = an anonymous function(...) signature."""
+    if type(cleaned) is str and 'function' not in cleaned:
+        return False, None
     m = NAMED_SIG.match(cleaned)
     if m:
         return True, m.group(1)
