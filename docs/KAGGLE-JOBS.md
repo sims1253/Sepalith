@@ -92,3 +92,27 @@ python3 -m unittest discover -s scripts/cloud -p test_kaggle_job.py -v
 Tests use fake CLI responses and temporary files. CI never submits a Kaggle job.
 See the [official CLI contract](https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels.md)
 for submission timeouts and version-specific status/output commands.
+
+## Broader capability probes
+
+The [capability report](validation/2026-09-06-kaggle-capabilities.md) records actual
+T4 model training, the blocked TPU paths and model-proxy access. `kaggle_probe.py`
+uses the same explicit prepare/submit/status flow and a separate collector for
+capability reports. A completed probe can correctly report `capability: blocked`.
+The `gpu`, `tpu`, `tpu-runtime` and `tpu-v6` profiles are finite diagnostics, not
+queued scientific experiments. The latter three preserve the TPU investigation;
+they are not recommendations to repeat those unsuccessful allocations.
+
+For an authorized GPU probe, substitute a fresh external state directory:
+
+```sh
+python3 scripts/cloud/kaggle_probe.py prepare --probe gpu --state ~/.local/state/sepalith/probe-NEW
+python3 scripts/cloud/kaggle_probe.py submit --state ~/.local/state/sepalith/probe-NEW --kaggle /absolute/venv/bin/kaggle
+python3 scripts/cloud/kaggle_probe.py status --state ~/.local/state/sepalith/probe-NEW --kaggle /absolute/venv/bin/kaggle
+python3 scripts/cloud/kaggle_probe.py collect --state ~/.local/state/sepalith/probe-NEW --kaggle /absolute/venv/bin/kaggle
+```
+
+`probe_benchmark_proxy.py` runs through the authenticated Kaggle CLI environment,
+keeps credentials in memory and makes at most three short model requests. Its state
+directory is exclusive. An existing or uncertain journal cannot be rerun in place.
+The tested account currently gets HTTP 403 before any model request.

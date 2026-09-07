@@ -46,7 +46,7 @@ def locked(root):
         yield
 
 
-def prepare(root, owner):
+def prepare(root, owner, *, ready=True):
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', owner):
         raise ValueError('Invalid Kaggle owner')
     root.mkdir(parents=True, exist_ok=False)
@@ -60,7 +60,7 @@ def prepare(root, owner):
                     enable_gpu=True, enable_tpu=False, enable_internet=False,
                     dataset_sources=[], competition_sources=[], kernel_sources=[])
     (stage / 'kernel-metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
-    record = dict(job_id=job, remote_id=metadata['id'] + '/1', status='prepared',
+    record = dict(job_id=job, remote_id=metadata['id'] + '/1', status='prepared' if ready else 'preparing',
                   created_at=datetime.now(timezone.utc).isoformat(),
                   controller_sha256=digest(Path(__file__)),
                   controller_python=sys.version, controller_interpreter=sys.executable,
@@ -86,14 +86,15 @@ def submit(root, record, binary, invoke=cli):
     if digest(stage / 'kernel.py') != record['source_sha256'] or digest(stage / 'kernel-metadata.json') != record['metadata_sha256']:
         raise ValueError('Prepared source or metadata changed')
     quota = json.loads(invoke(binary, 'quota', '--format', 'json'))
-    gpu = next(row for row in quota if row['resource'] == 'GPU')
+    resource = record.get('quota_resource', 'GPU')
+    gpu = next(row for row in quota if row['resource'] == resource)
     if float(gpu['remaining'].removesuffix('h')) < 0.25:
-        raise ValueError('Need at least 0.25 GPU hours remaining for this smoke')
+        raise ValueError(f'Need at least 0.25 {resource} hours remaining for this probe')
     record.update(status='submitting', quota_before=quota,
                   submitted_at=datetime.now(timezone.utc).isoformat())
     save(root, record)  # durable before the side effect, including process interruption
     try:
-        invoke(binary, 'kernels', 'push', '-p', str(stage), '--timeout', '600', '--accelerator', record['accelerator'])
+        invoke(binary, 'kernels', 'push', '-p', str(stage), '--timeout', str(record['timeout_seconds']), '--accelerator', record['accelerator'])
     except Exception:
         record['status'] = 'unknown'
         save(root, record)
@@ -159,6 +160,16 @@ def collect(root, record, binary, invoke=cli):
     return record
 
 
+def ensure_external_state(root):
+    existing = root
+    while not existing.exists():
+        existing = existing.parent
+    result = subprocess.run(['git', '-C', str(existing), 'rev-parse', '--show-toplevel'],
+                            capture_output=True, text=True)
+    if result.returncode == 0:
+        raise ValueError('Keep job state outside Git worktrees')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['prepare', 'submit', 'status', 'collect'])
@@ -167,8 +178,7 @@ def main():
     parser.add_argument('--kaggle', default='kaggle')
     args = parser.parse_args()
     root = args.state.expanduser().resolve()
-    if any((parent / '.git').exists() for parent in (root, *root.parents)):
-        raise ValueError('Keep job state outside Git worktrees')
+    ensure_external_state(root)
     if args.action == 'prepare':
         record = prepare(root, args.owner)
     else:

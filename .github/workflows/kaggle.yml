@@ -1,9 +1,9 @@
 name: Kaggle controller contracts
 on:
   pull_request:
-    paths: ['scripts/cloud/kaggle_job.py', 'scripts/cloud/kaggle_smoke.py', 'scripts/cloud/test_kaggle_job.py', '.github/workflows/kaggle.yml']
+    paths: ['scripts/cloud/kaggle*.py', 'scripts/cloud/test_kaggle*.py', 'scripts/cloud/probe_benchmark_proxy.py', 'scripts/cloud/probes/**', '.github/workflows/kaggle.yml']
   push:
-    paths: ['scripts/cloud/kaggle_job.py', 'scripts/cloud/kaggle_smoke.py', 'scripts/cloud/test_kaggle_job.py', '.github/workflows/kaggle.yml']
+    paths: ['scripts/cloud/kaggle*.py', 'scripts/cloud/test_kaggle*.py', 'scripts/cloud/probe_benchmark_proxy.py', 'scripts/cloud/probes/**', '.github/workflows/kaggle.yml']
 permissions:
   contents: read
 jobs:
@@ -15,4 +15,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -s scripts/cloud -p test_kaggle_job.py -v
+      - run: python -m unittest discover -s scripts/cloud -p 'test_kaggle*.py' -v
