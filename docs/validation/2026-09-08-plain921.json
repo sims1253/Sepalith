@@ -1,0 +1,38 @@
+{
+  "attempt": "9c9a385b45b5460982cd565f09111633",
+  "scope": "New frozen 921-row plain split; historical W33 unresolved",
+  "rows": 921,
+  "exact_matches": 13,
+  "empty": 0,
+  "served_prompt_token_deltas": [
+    0
+  ],
+  "evaluation": {
+    "calibration_matches": 0,
+    "calibration_n": 0,
+    "repair_n": 921,
+    "generation_limit_rows": 446,
+    "repair_scores": {
+      "n": 921,
+      "exact": 0.014115092290988056,
+      "first_line": 0.04125950054288816,
+      "line_f1": 0.0863,
+      "format_fail": 0.0,
+      "p50_latency_s": 0.5701893759996892
+    }
+  },
+  "verdict": {
+    "verdict": "FRESH-PLAIN-SPLIT-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Retain historical rows separately; never infer original provenance or whole-W33 completion."
+  },
+  "archive": "/mnt/h/sepalith/runs/runner-plain921-gpu-archive-20260908/9c9a385b45b5460982cd565f09111633",
+  "closed_manifest_sha256": "37b3f5a6b0ded193f657397fd172238c73d3a3b60ac8a21f45cc8915bbf91f58",
+  "artifacts": {
+    "recipe.json": "0b290fa003e78d86f53a1a269e577c97a2eb03ecbb415561763da851fa28b4e0",
+    "predictions.jsonl": "80c6b00fdf286cdcf41db3125d487f881d1a8a5be67bb7d3e43aee76779baec3",
+    "evaluation.json": "b4e12d1a24ca957b205e2b09af53ead78f62649ec299935a570968bfac6a4f13",
+    "verdict.json": "cbfed3c32a3ac98acbc190154046fee3cb10905c372fe717023f9c5fa8464fc5",
+    "final-runner-receipt.json": "4087b62c882d5d08d504214137fb89c01f9715c7be4124410e2d05e6d884d00f"
+  }
+}
