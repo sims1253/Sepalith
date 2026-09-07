@@ -36,8 +36,13 @@ def _norm(lines: list[str]) -> list[str]:
 
 def parse_prediction(text: str, cfg: dict) -> list[str]:
     """extension.parsePrediction with the config's parse toggles."""
-    if ">>>>>>>" in text:
-        text = text.split(">>>>>>>")[0]
+    if type(text) is str:
+        end = text.find(">>>>>>>")
+        if end != -1:
+            text = text[:end]
+    else:
+        if ">>>>>>>" in text:
+            text = text.split(">>>>>>>")[0]
     text = text.replace("<|user_cursor|>", "")
     lines = [l[:-1] if l.endswith("\r") else l for l in text.split("\n")]
     if cfg["parse_marker_drop"]:
