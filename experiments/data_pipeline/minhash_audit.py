@@ -111,6 +111,29 @@ class MinHasher:
 
     def signature(self, shingles: np.ndarray) -> np.ndarray:
         h = shingles.astype(np.uint64)
+        # Keep the original expression for small/unsupported inputs and custom
+        # state, whose broadcasting, dispatch, or warning behavior may differ.
+        if (type(shingles) is np.ndarray and type(h) is np.ndarray
+                and h.ndim == 1 and h.size > 8192
+                and type(self) is MinHasher
+                and type(self.a) is np.ndarray and type(self.b) is np.ndarray
+                and self.a.ndim == 1 and self.b.ndim == 1
+                and self.a.shape == self.b.shape
+                and self.a.dtype == np.dtype(np.uint64)
+                and self.b.dtype == np.dtype(np.uint64)
+                and type(MERSENNE) is int and MERSENNE == (1 << 61) - 1):
+            minima = None
+            for start in range(0, h.size, 8192):
+                block = h[start:start + 8192]
+                # Preserve full uint64 wraparound before the modulus.
+                proj = (self.a[:, None] * block[None, :] + self.b[:, None]) % np.uint64(MERSENNE)
+                block_min = proj.min(axis=1)
+                del proj  # Do not retain this projection during the next one.
+                if minima is None:
+                    minima = block_min
+                else:
+                    np.minimum(minima, block_min, out=minima)
+            return minima
         # (a_i * h + b_i) mod (2^61-1), vectorized over perms x shingles
         proj = (self.a[:, None] * h[None, :] + self.b[:, None]) % np.uint64(MERSENNE)
         return proj.min(axis=1)
