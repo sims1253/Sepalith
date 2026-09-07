@@ -173,7 +173,8 @@ def cluster(docs, threshold):
         for x in range(len(members)):
             for y in range(x + 1, len(members)):
                 a, b = members[x], members[y]
-                pk = (a, b)
+                # Members are appended in index order, so 0 <= a <= b.
+                pk = b * b + a
                 if pk in seen_pairs:
                     continue
                 seen_pairs.add(pk)
