@@ -16,8 +16,8 @@ ANON_SIG = re.compile(r"(?:^|[(,=\s])function\s*\(")
 def clean_r_line(line: str) -> str:
     """Blank string bodies first (a '#' inside a string is not a comment),
     then drop the comment — braces inside either never count."""
-    s = re.sub(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"", '""', line)
-    return re.sub(r"#.*", "", s)
+    s = line if type(line) is str and "'" not in line and '"' not in line else re.sub(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"", '""', line)
+    return re.sub(r"#.*", "", s) if "#" in s else s
 
 
 def match_signature(cleaned: str):
