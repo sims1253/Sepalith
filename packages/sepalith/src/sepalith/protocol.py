@@ -19,8 +19,11 @@ def _json_copy(value: object) -> Any:  # noqa: ANN401
         return value
     if isinstance(value, list):
         return [_json_copy(item) for item in value]
-    if isinstance(value, dict) and all(isinstance(key, str) for key in value):
-        return {key: _json_copy(item) for key, item in value.items()}
+    if isinstance(value, dict):
+        if type(value) is dict and not value:
+            return {}
+        if all(isinstance(key, str) for key in value):
+            return {key: _json_copy(item) for key, item in value.items()}
     raise ValueError("Metadata must contain JSON values with finite numbers and string keys")
 
 
