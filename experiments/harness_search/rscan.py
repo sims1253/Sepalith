@@ -32,6 +32,10 @@ def match_signature(cleaned: str):
 
 
 def net_braces(cleaned: str) -> int:
+    if type(cleaned) is str:
+        if not cleaned:
+            return 0
+        return cleaned.count('{') - cleaned.count('}')
     n = 0
     for ch in cleaned:
         if ch == "{":
