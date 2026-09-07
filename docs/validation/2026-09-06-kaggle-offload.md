@@ -154,3 +154,23 @@ lists: these do not establish zero quota or usable GPU access. Credit balance
 and exact expiry remain unverified. Provider registration, if pursued, is a
 subscription mutation distinct from this read-only check. No resources created,
 billing upgrade or spending-limit change made.
+
+
+### Credit-only constraint after upgrade
+
+The user explicitly requires no out-of-pocket Azure spending. A fresh subscription
+API check now reports `PayAsYouGo_2014-09-01` and `spendingLimit: Off`; resource
+listing remains empty. This supersedes the earlier Free Trial/limit-On observation.
+No billable resource may be launched on the assumption that the credit is a hard
+cap. Remaining credit, expiry, covered services and lifecycle costs must be
+established first. No launch or automatic follow-on is authorized beyond credit.
+
+Azure does not offer its credit spending limit on pay-as-you-go subscriptions.
+Budgets notify; they do not stop resources. Cost reporting and budget evaluation
+are delayed. Short timeouts, independently scheduled deallocation, deletion of
+residual disks/IPs and a substantial reserve can reduce risk but cannot be
+represented as an Azure-enforced zero-overage guarantee. With an absolute
+zero-charge requirement, keep billable deployments blocked unless enforceable
+protection is established or the user explicitly accepts a bounded residual risk.
+[Spending limits](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/spending-limit),
+[budget behaviour](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets).
