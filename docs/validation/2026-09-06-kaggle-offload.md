@@ -143,3 +143,14 @@ short, specified experiment that needs the extra capacity if access is available
 Otherwise consider independent CPU preparation/evaluation within the actual CPU
 quota. Do not upgrade billing, remove spending protection or provision resources
 as a consequence of this note. No Azure spend or resource creation occurred.
+
+### Authenticated account check
+
+Checked 2026-09-07T22:59:46+02:00. Azure CLI login works. Subscription
+`Azure subscription 1` is Enabled, offer `FreeTrial_2014-09-01`, spending limit
+On. Resource listing is empty. Microsoft.Compute is NotRegistered. VM usage
+queries for Germany West Central, West Europe and North Europe returned empty
+lists: these do not establish zero quota or usable GPU access. Credit balance
+and exact expiry remain unverified. Provider registration, if pursued, is a
+subscription mutation distinct from this read-only check. No resources created,
+billing upgrade or spending-limit change made.
