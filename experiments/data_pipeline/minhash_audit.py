@@ -161,6 +161,20 @@ def cluster(docs, threshold):
     for i, (sig, _) in enumerate(docs):
         for key in lsh_buckets(sig):
             buckets[key].append(i)
+    can_skip = (
+        type(docs) is list
+        and type(threshold) in (int, float, bool)
+        and type(NUM_PERM) is int
+        and NUM_PERM > 0
+        and all(
+            type(row) is tuple
+            and len(row) == 2
+            and type(row[0]) is np.ndarray
+            and row[0].dtype == np.uint64
+            and row[0].shape == (NUM_PERM,)
+            for row in docs
+        )
+    )
     seen_pairs = set()
     for key, members in buckets.items():
         if len(members) < 2 or len(members) > 200:   # huge bucket = boilerplate; still checked below
@@ -177,6 +191,8 @@ def cluster(docs, threshold):
                 if pk in seen_pairs:
                     continue
                 seen_pairs.add(pk)
+                if can_skip and uf.find(a) == uf.find(b):
+                    continue
                 if sig_jaccard(docs[a][0], docs[b][0]) >= threshold:
                     uf.union(a, b)
     clusters = defaultdict(list)
