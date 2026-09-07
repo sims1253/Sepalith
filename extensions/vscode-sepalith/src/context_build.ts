@@ -177,10 +177,10 @@ function matchSignature(cleaned: string): SigMatch | null {
 
 function netBraces(cleaned: string): number {
   let n = 0;
-  for (const ch of cleaned) {
-    if (ch === "{") n++;
-    else if (ch === "}") n--;
-  }
+  let position = -1;
+  while ((position = cleaned.indexOf("{", position + 1)) !== -1) n++;
+  position = -1;
+  while ((position = cleaned.indexOf("}", position + 1)) !== -1) n--;
   return n;
 }
 
