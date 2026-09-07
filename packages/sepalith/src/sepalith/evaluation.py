@@ -23,7 +23,14 @@ def mcnemar_exact(b: int, c: int) -> float:
     if n == 0:
         return 1.0
     k = min(b, c)
-    tail = sum(math.comb(n, i) for i in range(0, k + 1)) / (1 << n)
+    if n <= 67 or k <= 1:
+        tail = sum(math.comb(n, i) for i in range(0, k + 1)) / (1 << n)
+    else:
+        term = total = 1
+        for i in range(1, k + 1):
+            term = term * (n - i + 1) // i
+            total += term
+        tail = total / (1 << n)
     return min(1.0, 2.0 * tail)
 
 
