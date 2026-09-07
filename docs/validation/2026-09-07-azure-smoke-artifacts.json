@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "bucket": "scholzmx/sepalith-raw",
+  "private": true,
+  "artifacts": [
+    {
+      "original_path": "azure-smoke-20260907/watchdog.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "object": "sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/watchdog.log"
+    },
+    {
+      "original_path": "azure-smoke-20260907/state.json",
+      "sha256": "ef0f4e0da29a39d6dee161f140cf7dccdb02adce80a0eb5fa37a4439e4ab7e09",
+      "bytes": 859,
+      "object": "sha256/ef0f4e0da29a39d6dee161f140cf7dccdb02adce80a0eb5fa37a4439e4ab7e09/state.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907/cleanup.json",
+      "sha256": "89fdb77327896b0646876d77f66e4003f6e2a742c38a7b14ea5bc2314ef93df6",
+      "bytes": 116,
+      "object": "sha256/89fdb77327896b0646876d77f66e4003f6e2a742c38a7b14ea5bc2314ef93df6/cleanup.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907/launch.py",
+      "sha256": "9e70dd2050731403e54b89cc746876bf2fc96bda66c9676875e5a8a21b83b94a",
+      "bytes": 4068,
+      "object": "sha256/9e70dd2050731403e54b89cc746876bf2fc96bda66c9676875e5a8a21b83b94a/launch.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907/azure_cpu.py",
+      "sha256": "9caf1d78cbdce131b918acdd94d4f450d1da49b02bb77e14034e43305bdc10d9",
+      "bytes": 2382,
+      "object": "sha256/9caf1d78cbdce131b918acdd94d4f450d1da49b02bb77e14034e43305bdc10d9/azure_cpu.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907/deployment.json",
+      "sha256": "e975a7e6111d1cb922d8004d68c5d93e1713a992443070a09a228094a8cc7020",
+      "bytes": 3970,
+      "object": "sha256/e975a7e6111d1cb922d8004d68c5d93e1713a992443070a09a228094a8cc7020/deployment.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/watchdog.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "object": "sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/watchdog.log"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/state.json",
+      "sha256": "afe95c77edb4bdf71071d00f5c2ccd544dad0716a7347ec7136e9818b3551637",
+      "bytes": 804,
+      "object": "sha256/afe95c77edb4bdf71071d00f5c2ccd544dad0716a7347ec7136e9818b3551637/state.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/submitted.json",
+      "sha256": "eb833771c10777315980ad8569622f81a9f017e5cd7748ece8286f477bc365cc",
+      "bytes": 4630,
+      "object": "sha256/eb833771c10777315980ad8569622f81a9f017e5cd7748ece8286f477bc365cc/submitted.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/cleanup.json",
+      "sha256": "eeafdd87795d358925893672c47c57c22b95a3571475e60705b5bdc98e573b9e",
+      "bytes": 116,
+      "object": "sha256/eeafdd87795d358925893672c47c57c22b95a3571475e60705b5bdc98e573b9e/cleanup.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/launch.py",
+      "sha256": "9e70dd2050731403e54b89cc746876bf2fc96bda66c9676875e5a8a21b83b94a",
+      "bytes": 4068,
+      "object": "sha256/9e70dd2050731403e54b89cc746876bf2fc96bda66c9676875e5a8a21b83b94a/launch.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/azure_cpu.py",
+      "sha256": "9caf1d78cbdce131b918acdd94d4f450d1da49b02bb77e14034e43305bdc10d9",
+      "bytes": 2382,
+      "object": "sha256/9caf1d78cbdce131b918acdd94d4f450d1da49b02bb77e14034e43305bdc10d9/azure_cpu.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope/deployment.json",
+      "sha256": "88fcc34e228b9409a5184967a0637e5f79e6057abb52f25151639533da449be8",
+      "bytes": 3971,
+      "object": "sha256/88fcc34e228b9409a5184967a0637e5f79e6057abb52f25151639533da449be8/deployment.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/tests.log",
+      "sha256": "6ed5ec09ec062e48820d84c90ef11b8cc8ac0e7efff20cf6abc2715a5a64d8a8",
+      "bytes": 116,
+      "object": "sha256/6ed5ec09ec062e48820d84c90ef11b8cc8ac0e7efff20cf6abc2715a5a64d8a8/tests.log"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/terminal.json",
+      "sha256": "6e4f4576db4602765f93b442412780527aca854b8f227732d185606e2f4d29a9",
+      "bytes": 6650,
+      "object": "sha256/6e4f4576db4602765f93b442412780527aca854b8f227732d185606e2f4d29a9/terminal.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/receipt.json",
+      "sha256": "cb3aa3e9064cf507c8fc0c69864293a65e6e2cc4c274449c3dabba68528526e0",
+      "bytes": 667,
+      "object": "sha256/cb3aa3e9064cf507c8fc0c69864293a65e6e2cc4c274449c3dabba68528526e0/receipt.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/watchdog.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "object": "sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855/watchdog.log"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/state.json",
+      "sha256": "9260e4855fa8f268b7fea5c8c7bde6fdca27360002cd4c79c968ab782d099766",
+      "bytes": 795,
+      "object": "sha256/9260e4855fa8f268b7fea5c8c7bde6fdca27360002cd4c79c968ab782d099766/state.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/submitted.json",
+      "sha256": "9a405e675281f7b6bd1f4f1ae75aac8f22573d59631654d485ace17402200c69",
+      "bytes": 4630,
+      "object": "sha256/9a405e675281f7b6bd1f4f1ae75aac8f22573d59631654d485ace17402200c69/submitted.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/logs.txt",
+      "sha256": "52a5e0f1f73369edd9bb7aec43cbc218f158fdac019c65f773a2c368b7ae84fe",
+      "bytes": 630,
+      "object": "sha256/52a5e0f1f73369edd9bb7aec43cbc218f158fdac019c65f773a2c368b7ae84fe/logs.txt"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/cleanup.json",
+      "sha256": "607b7ada9c83007dc632865b656f43b8f7ba86dc1318198c55c0f18c85751be3",
+      "bytes": 116,
+      "object": "sha256/607b7ada9c83007dc632865b656f43b8f7ba86dc1318198c55c0f18c85751be3/cleanup.json"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/azure_container_state.py",
+      "sha256": "c5d13f70cd4a28919609e0013ce7a598e2ee8cf516fffa47861fc64224737a15",
+      "bytes": 282,
+      "object": "sha256/c5d13f70cd4a28919609e0013ce7a598e2ee8cf516fffa47861fc64224737a15/azure_container_state.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/launch.py",
+      "sha256": "4b73e2d0779b12d57feb8297a9695d79d8950d8e00ec7d0f1bc17bca9d222a87",
+      "bytes": 4059,
+      "object": "sha256/4b73e2d0779b12d57feb8297a9695d79d8950d8e00ec7d0f1bc17bca9d222a87/launch.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/azure_cpu.py",
+      "sha256": "9caf1d78cbdce131b918acdd94d4f450d1da49b02bb77e14034e43305bdc10d9",
+      "bytes": 2382,
+      "object": "sha256/9caf1d78cbdce131b918acdd94d4f450d1da49b02bb77e14034e43305bdc10d9/azure_cpu.py"
+    },
+    {
+      "original_path": "azure-smoke-20260907-northeurope-v2/deployment.json",
+      "sha256": "1a828067e7f2625b40e32c2b913d7394cf34cf1923bf9c626bd01339b10cae3d",
+      "bytes": 3971,
+      "object": "sha256/1a828067e7f2625b40e32c2b913d7394cf34cf1923bf9c626bd01339b10cae3d/deployment.json"
+    }
+  ]
+}
