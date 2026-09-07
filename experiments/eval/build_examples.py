@@ -95,8 +95,9 @@ def main():
                     diff = run(repo, "diff", "-U6", f"{sha}^", sha, "--", path)
                     if not diff: continue
                     hunks = [h for h in parse_hunks(diff) if h["lines"]]
-                    usable = [h for h in hunks
-                              if 1 <= sum(hunk_stats(h)) <= MAX_CHG and hunk_stats(h)[0] >= 1]
+                    hunk_counts = [hunk_stats(h) for h in hunks]
+                    usable = [h for h, counts in zip(hunks, hunk_counts)
+                              if 1 <= sum(counts) <= MAX_CHG and counts[0] >= 1]
                     if not usable:
                         stats["no_hunk"] += 1; continue
                     h = usable[0]
@@ -124,7 +125,7 @@ def main():
                     target_added = set(l.strip() for l in region_new
                                        if l.strip() and l.strip() not in
                                        set(x.strip() for x in region_old))
-                    others = [x for x in hunks if x is not h and sum(hunk_stats(x)) >= 1]
+                    others = [x for x, counts in zip(hunks, hunk_counts) if x is not h and sum(counts) >= 1]
                     if others:
                         allf = run(repo, "show", "--format=", "--name-only", sha).splitlines()
                         for alt in allf:
