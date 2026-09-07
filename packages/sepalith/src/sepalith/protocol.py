@@ -38,6 +38,8 @@ def _record(extra: Mapping[str, Any], fields: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Extra fields must be a mapping")
     if set(extra) & set(fields):
         raise ValueError("Extra fields must not replace schema fields")
+    if type(extra) is dict and not extra:
+        return {**fields}
     return {**_json_copy(dict(extra)), **fields}
 
 
