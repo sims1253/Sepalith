@@ -119,6 +119,14 @@ class MinHasher:
 def lsh_buckets(sig: np.ndarray):
     """(band, bytes-of-rows) keys -> this doc can be bucketed by them."""
     out = []
+    if (type(sig) is np.ndarray and type(BANDS) is int and BANDS > 1
+            and type(ROWS) is int and ROWS > 0 and sig.ndim == 1
+            and sig.dtype == np.uint64 and sig.flags.c_contiguous):
+        raw = sig[:BANDS * ROWS].tobytes()
+        width = ROWS * sig.itemsize
+        for b in range(BANDS):
+            out.append((b, raw[b * width:(b + 1) * width]))
+        return out
     for b in range(BANDS):
         chunk = sig[b * ROWS:(b + 1) * ROWS]
         out.append((b, chunk.tobytes()))
