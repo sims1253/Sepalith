@@ -79,7 +79,7 @@ def outline_from_scan(lines: list[str]):
     depth = 0
     for i, line in enumerate(lines):
         cleaned = clean_r_line(line)
-        m = NAMED_SIG.match(cleaned)
+        m = NAMED_SIG.match(cleaned) if 'function' in cleaned else None
         if depth == 0 and m and m.group(1) is not None:
             entries.append((i + 1, m.group(1)))
         depth = max(0, depth + net_braces(cleaned))  # clamp: survive garbage
