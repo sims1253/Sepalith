@@ -112,10 +112,15 @@ def main():
                     # map the SAME window into the child file: hunks whose changes
                     # lie fully above the window shift everything below them;
                     # only the target hunk's changes intersect the window.
-                    def shift(line):
-                        return sum(x["new_count"] - x["old_count"] for x in hunks
-                                   if changed_span(x)[1] < line)
-                    region_new = child[rs + shift(rs): re_old + shift(re_old)]
+                    shift_start = shift_end = 0
+                    for x in hunks:
+                        last = last_chg if x is h else changed_span(x)[1]
+                        if last < rs:
+                            shift_start += x["new_count"] - x["old_count"]
+                        if last < re_old:
+                            shift_end += x["new_count"] - x["old_count"]
+                    del x
+                    region_new = child[rs + shift_start: re_old + shift_end]
                     if not (1 <= len(region_old) <= MAX_REGION and 1 <= len(region_new) <= MAX_REGION + 2):
                         stats["too_big"] += 1; continue
                     # event: a different hunk from the same commit, whose added lines
