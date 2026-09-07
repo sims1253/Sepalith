@@ -158,6 +158,7 @@ export function outlineFromSymbols(symbols: RawSymbol[]): OutlineEntry[] {
 function cleanRLine(line: string): string {
   // blank string bodies first (a '#' inside a string is not a comment),
   // then drop the comment — braces inside either never count
+  if (typeof line === "string" && !line.includes("'") && !line.includes('"') && !line.includes("#")) return line;
   return line.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g, '""').replace(/#.*/, "");
 }
 
