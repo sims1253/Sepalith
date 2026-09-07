@@ -22,6 +22,8 @@ def mcnemar_exact(b: int, c: int) -> float:
     n = b + c
     if n == 0:
         return 1.0
+    if -1 <= b - c <= 1:
+        return 1.0
     k = min(b, c)
     tail = sum(math.comb(n, i) for i in range(0, k + 1)) / (1 << n)
     return min(1.0, 2.0 * tail)
