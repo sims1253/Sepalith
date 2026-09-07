@@ -95,12 +95,23 @@ def doc_shingles(text: str):
     words = _word_re.findall(text)
     if len(words) < SHINGLE_K:
         return None
-    sh = []
+    sh = bytearray()
+    compact = True
     for i in range(len(words) - SHINGLE_K + 1):
-        sh.append(hashlib.blake2b(
+        digest = hashlib.blake2b(
             " ".join(words[i:i + SHINGLE_K]).encode("utf-8", "replace"),
-            digest_size=8).digest())
-    return np.frombuffer(b"".join(sh), dtype=np.uint64).copy()
+            digest_size=8).digest()
+        if compact:
+            if type(digest) is bytes and len(digest) == 8:
+                sh.extend(digest)
+            else:
+                sh = [bytes(sh[j:j + 8]) for j in range(0, len(sh), 8)]
+                compact = False
+                sh.append(digest)
+        else:
+            sh.append(digest)
+        del digest
+    return np.frombuffer(bytes(sh) if compact else b"".join(sh), dtype=np.uint64).copy()
 
 
 class MinHasher:
