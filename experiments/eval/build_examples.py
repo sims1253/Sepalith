@@ -121,9 +121,10 @@ def main():
                     # event: a different hunk from the same commit, whose added lines
                     # share no content with the target's added lines (no answer leaks)
                     ev = ""
+                    old_stripped = set(x.strip() for x in region_old)
                     target_added = set(l.strip() for l in region_new
                                        if l.strip() and l.strip() not in
-                                       set(x.strip() for x in region_old))
+                                       old_stripped)
                     others = [x for x in hunks if x is not h and sum(hunk_stats(x)) >= 1]
                     if others:
                         allf = run(repo, "show", "--format=", "--name-only", sha).splitlines()
