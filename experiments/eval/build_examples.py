@@ -34,7 +34,11 @@ def parse_hunks(diff_text):
         if line.startswith("@@"):
             if cur: hunks.append(cur)
             hdr = line.split("@@")[1]
-            old, new = hdr.split()[0], hdr.split()[1]
+            if type(hdr) is str:
+                parts = hdr.split()
+                old, new = parts[0], parts[1]
+            else:
+                old, new = hdr.split()[0], hdr.split()[1]
             os_, oc = old[1:].split(",") if "," in old else (old[1:], "1")
             ns_, nc = new[1:].split(",") if "," in new else (new[1:], "1")
             cur = dict(old_start=int(os_), old_count=int(oc),
