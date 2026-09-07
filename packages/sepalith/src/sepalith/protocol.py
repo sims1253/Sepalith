@@ -156,17 +156,13 @@ class EditContext:
         if not isinstance(self.evidence, (list, tuple)) or any(not isinstance(item, EvidenceRecord) for item in self.evidence):
             raise ValueError("evidence must contain EvidenceRecord objects")
         object.__setattr__(self, "evidence", tuple(self.evidence))
-        self.to_dict()
+        if type(self) is _EDIT_CONTEXT_TYPE and _EDIT_CONTEXT_TYPE.__dict__.get('to_dict') is _EDIT_CONTEXT_TO_DICT:
+            _edit_context_record(self, copy_lines=False)
+        else:
+            self.to_dict()
 
     def to_dict(self) -> dict[str, Any]:
-        return _record(self.extra, {
-            "schema_version": self.schema_version, "path": self.path,
-            "prefix": list(self.prefix), "region_old": list(self.region_old),
-            "suffix": list(self.suffix), "cursor_idx": self.cursor_idx,
-            "cursor_column": self.cursor_column, "event_diff": self.event_diff,
-            "evidence": [item.to_dict() for item in self.evidence],
-            "metadata": _metadata(self.metadata),
-        })
+        return _edit_context_record(self, copy_lines=True)
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> EditContext:
@@ -192,6 +188,23 @@ class EditContext:
         data["schema_version"] = SCHEMA_VERSION
         data["event_diff"] = data.get("event_diff") or ""
         return cls.from_dict(data)
+
+
+_EDIT_CONTEXT_TYPE = EditContext
+_EDIT_CONTEXT_TO_DICT = EditContext.to_dict
+
+
+def _edit_context_record(context: EditContext, *, copy_lines: bool) -> dict[str, Any]:
+    return _record(context.extra, {
+        "schema_version": context.schema_version, "path": context.path,
+        "prefix": list(context.prefix) if copy_lines else context.prefix,
+        "region_old": list(context.region_old) if copy_lines else context.region_old,
+        "suffix": list(context.suffix) if copy_lines else context.suffix,
+        "cursor_idx": context.cursor_idx,
+        "cursor_column": context.cursor_column, "event_diff": context.event_diff,
+        "evidence": [item.to_dict() for item in context.evidence],
+        "metadata": _metadata(context.metadata),
+    })
 
 
 class Tokenizer(Protocol):
