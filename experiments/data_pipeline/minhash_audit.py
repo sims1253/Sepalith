@@ -162,6 +162,7 @@ def cluster(docs, threshold):
         for key in lsh_buckets(sig):
             buckets[key].append(i)
     seen_pairs = set()
+    seen_members = set()
     for key, members in buckets.items():
         if len(members) < 2 or len(members) > 200:   # huge bucket = boilerplate; still checked below
             if len(members) > 200:
@@ -170,6 +171,10 @@ def cluster(docs, threshold):
                 for x, y in zip(members, members[1:]):
                     uf.union(x, y)
             continue
+        member_key = tuple(members)
+        if member_key in seen_members:
+            continue
+        seen_members.add(member_key)
         for x in range(len(members)):
             for y in range(x + 1, len(members)):
                 a, b = members[x], members[y]
