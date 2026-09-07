@@ -186,7 +186,11 @@ function netBraces(cleaned: string): number {
 
 export function findEnclosingFunctionByScan(lines: string[], cursorLine: number): ScopePin | null {
   const cleaned = lines.map(cleanRLine);
-  for (let c = cursorLine; c >= 0; c--) {
+  let candidateStart = cursorLine;
+  if (Number.isInteger(cursorLine) && cursorLine >= 0 && cursorLine < cleaned.length) {
+    while (candidateStart >= 0 && !(cleaned[candidateStart] ?? "").includes("{")) candidateStart--;
+  }
+  for (let c = candidateStart; c >= 0; c--) {
     const sig = matchSignature(cleaned[c] ?? "");
     if (!sig) continue; // not a signature line
     // brace depth from the top of the signature line through the cursor
