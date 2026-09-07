@@ -19,6 +19,26 @@ def copy_baseline(path):
     out = {}
     for lang in ("python", "r"):
         sub = [e for e in exs if e["lang"] == lang]
+        if sub and all(
+            type(e.get("region_old")) is list and type(e.get("region_new")) is list
+            and all(type(l) is str for l in e["region_old"])
+            and all(type(l) is str for l in e["region_new"])
+            and any(l.rstrip() for l in e["region_old"])
+            and any(l.rstrip() for l in e["region_new"])
+            for e in sub
+        ):
+            ex = fl = 0
+            f1s = []
+            for e in sub:
+                a, b = norm(e["region_old"]), norm(e["region_new"])
+                ex += int(a == b)
+                fl += int(a[0] == b[0])
+                sm = difflib.SequenceMatcher(a=a, b=b, autojunk=False)
+                m = sum(x.size for x in sm.get_matching_blocks())
+                f1s.append(2*m/(len(a)+len(b)) if (a or b) else 1.0)
+            out[lang] = dict(n=len(sub), exact=ex/len(sub), first_line=fl/len(sub),
+                             line_f1=sum(f1s)/len(sub))
+            continue
         ex = sum(int(norm(e["region_old"]) == norm(e["region_new"])) for e in sub)
         fl = sum(int(e["region_old"] and e["region_new"] and
                      norm(e["region_old"])[0] == norm(e["region_new"])[0]) for e in sub)
