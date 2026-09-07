@@ -118,3 +118,28 @@ and `docs/research/landscape-v7-vs-glm53.md` ablation warning were also inspecte
 these research notes and the shared-only LOC1 result are not guaranteed to exist
 in a fresh clone.
 No pending experiment was launched or marked complete by this review.
+
+
+## Azure credit added, 7 September
+
+The user reports a new Azure account showing about $200 credit. Treat the balance,
+subscription offer, expiry and GPU access as unverified account facts until an
+authenticated read-only check. No Azure CLI is installed in this environment.
+
+If this is the standard free-account offer, the $200 lasts 30 days, rather than
+renewing weekly. [Azure offer](https://azure.microsoft.com/en-us/free/).
+Free Trial subscriptions cannot request quota increases; credit does not imply
+GPU-family quota or capacity in a region.
+[Azure quota limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits).
+
+Azure could add actual memory capacity: `Standard_NC40ads_H100_v5` has one H100
+NVL with 94 GB VRAM and 320 GiB host RAM. That is a possible resource for a
+memory-constrained or H100-specific experiment, not an account entitlement.
+[Microsoft hardware specification](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/gpu-accelerated/ncadsh100v5-series).
+
+Next checks: subscription offer and credit expiry, regional/family vCPU quota,
+SKU restrictions and current hourly price including disk/storage. Prefer a
+short, specified experiment that needs the extra capacity if access is available.
+Otherwise consider independent CPU preparation/evaluation within the actual CPU
+quota. Do not upgrade billing, remove spending protection or provision resources
+as a consequence of this note. No Azure spend or resource creation occurred.
