@@ -39,11 +39,19 @@ def parse_prediction(text: str, cfg: dict) -> list[str]:
     if ">>>>>>>" in text:
         text = text.split(">>>>>>>")[0]
     text = text.replace("<|user_cursor|>", "")
+    plain_text = type(text) is str
     lines = [l[:-1] if l.endswith("\r") else l for l in text.split("\n")]
     if cfg["parse_marker_drop"]:
         lines = [l for l in lines if not MARKER_LINE.match(l)]
-    while lines and lines[0].strip() == "":
-        lines.pop(0)
+    if plain_text:
+        leading = 0
+        while leading < len(lines) and lines[leading].strip() == "":
+            leading += 1
+        if leading:
+            del lines[:leading]
+    else:
+        while lines and lines[0].strip() == "":
+            lines.pop(0)
     while lines and lines[-1].strip() == "":
         lines.pop()
     if cfg["parse_rep_cut"]:
