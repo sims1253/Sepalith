@@ -11,13 +11,15 @@ import re
 # JS \w == [A-Za-z0-9_]; keep the classes explicit so parity is exact.
 NAMED_SIG = re.compile(r"^\s*([A-Za-z._][A-Za-z0-9._]*)\s*(?:<-|=)\s*function\s*\(")
 ANON_SIG = re.compile(r"(?:^|[(,=\s])function\s*\(")
+_STRING_RE = re.compile(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"")
+_COMMENT_RE = re.compile(r"#.*")
 
 
 def clean_r_line(line: str) -> str:
     """Blank string bodies first (a '#' inside a string is not a comment),
     then drop the comment — braces inside either never count."""
-    s = re.sub(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"", '""', line)
-    return re.sub(r"#.*", "", s)
+    s = _STRING_RE.sub('""', line)
+    return _COMMENT_RE.sub('', s)
 
 
 def match_signature(cleaned: str):
