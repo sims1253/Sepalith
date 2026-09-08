@@ -341,3 +341,34 @@ timings, not equal-token throughput. Scenario and intent quality within
 1pp of Q8 remains unverified, so no format is promoted. This measures
 b1_ref24, not the production GDN model.
 [Final record](../validation/2026-09-08-s2-gpu.json).
+
+## V1a context eligibility correction
+
+Attempt `f2e092eae8314d71bda8d8cc75bd1c33` stopped at the context guard
+after 19 requests and one episode (26.97 seconds); 25 closed files were
+archived and frozen inputs verified. The next prompt had 50,011 tokens.
+No failed point was silently skipped or assigned a model outcome.
+
+A vocabulary-only b10453 CPU tokenizer matched all 19 actual served
+prompts, including 18 with proposal history. It audited all 1,287 points
+from the original seed-3 candidate sample of 60 trajectories. Five points
+across three trajectories exceeded the 32K eligibility budget; the largest
+had 407,993 tokens, above the model's native 262,144 context. Increasing
+the deployment context would not make that full cohort valid.
+
+The corrected recipe prefilters whole trajectories by base-token count +
+4,096 history reserve + 160 output + 16 margin <= 32,768. It keeps the other
+57 trajectories in original order, totaling 1,208 points, with no replacement
+or outcome-based selection. Prompt digests bind every audit row; the model,
+trajectory file, tokenizer source/binary/libraries and counts are recorded.
+A stress check with eight 60-character U+10FFFF history heads retained all
+1,208 prompts within the limit (maximum 25,020 tokens). This is a stress
+check, not a proof over all strings; runtime history/count guards remain.
+
+Both requested Pi reviewers ran at max with 180-second caps. Muse finished
+in 59.44 seconds; GLM timed out at 180.02 without a report. Six tests pass,
+including whole-episode filtering, order retention and audit-identity failures.
+The audit's 12 files are archived at
+`/mnt/h/sepalith/runs/v1a-context-audit-20260908`. The new baseline is explicitly
+32K-context-eligible; it does not complete the original 60 candidates or pair
+with historical runs that skipped points.

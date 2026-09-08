@@ -40,3 +40,23 @@ def test_complete_episode_uses_existing_simulator_scores(tmp_path,monkeypatch):
     v.evaluate(tmp_path)
     assert json.loads((tmp_path/'evaluation.json').read_text())['accepted']==1
     assert json.loads((tmp_path/'verdict.json').read_text())['adoption']=='NOT-ASSESSED'
+
+
+def test_context_filter_excludes_whole_episode_and_preserves_order():
+    import hashlib
+    chosen=[dict(key=str(i),points=[dict(prompt='x'),dict(prompt='y')]) for i in range(3)]
+    audit=dict(candidate_count=3,ctx=32768,history_reserve=4096,max_tokens=160,margin=16,points=[
+        dict(episode=i,point=j,key=str(i),variant=1,tokens=40000 if (i,j)==(1,1) else 10,
+             prompt_sha256=hashlib.sha256(p['prompt'].encode()).hexdigest())
+        for i,e in enumerate(chosen) for j,p in enumerate(e['points'])])
+    kept,excluded=v.filter_context(chosen,audit)
+    assert [e['key'] for e in kept]==['0','2']
+    assert excluded[0]['points']==2 and excluded[0]['oversized_points']==[dict(point=1,tokens=40000)]
+    audit['points'][0]['prompt_sha256']='wrong'
+    with pytest.raises(ValueError,match='identity'):v.filter_context(chosen,audit)
+
+
+def test_incomplete_context_audit_cannot_select_cohort():
+    chosen=[dict(key='x',points=[dict(prompt='x')])]
+    audit=dict(candidate_count=1,ctx=32768,history_reserve=4096,max_tokens=160,margin=16,points=[])
+    with pytest.raises(ValueError,match='Incomplete'):v.filter_context(chosen,audit)

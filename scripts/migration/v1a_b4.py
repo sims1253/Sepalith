@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Measure a complete b4 V1a baseline without silent point rejection."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -29,19 +30,50 @@ def select(path):
     return chosen
 
 
+def filter_context(chosen, audit):
+    """Exclude whole candidates using frozen, output-independent token counts."""
+    if (audit['ctx'],audit['history_reserve'],audit['max_tokens'],audit['margin']) != (32768,4096,160,16):
+        raise ValueError('Unexpected context eligibility policy')
+    if audit['candidate_count'] != len(chosen):
+        raise ValueError('Candidate count mismatch')
+    expected=[(i,j) for i,e in enumerate(chosen) for j,_ in enumerate(e['points'][:30])]
+    if [(r['episode'],r['point']) for r in audit['points']] != expected:
+        raise ValueError('Incomplete context audit')
+    excluded={}
+    for r in audit['points']:
+        e=chosen[r['episode']];prompt=e['points'][r['point']]['prompt']
+        if r['key']!=e['key'] or r['variant']!=e.get('variant',1) or hashlib.sha256(prompt.encode()).hexdigest()!=r['prompt_sha256']:
+            raise ValueError('Context audit identity mismatch')
+        if type(r['tokens']) is not int or r['tokens']<0:
+            raise ValueError('Invalid token count')
+        if r['tokens']+4272>32768:
+            excluded.setdefault(r['episode'],[]).append(dict(point=r['point'],tokens=r['tokens']))
+    kept=[e for i,e in enumerate(chosen) if i not in excluded]
+    if not kept:raise ValueError('No context-eligible trajectories')
+    records=[dict(candidate_index=i,key=chosen[i]['key'],variant=chosen[i].get('variant',1),
+        points=min(30,len(chosen[i]['points'])),oversized_points=points) for i,points in excluded.items()]
+    return kept,records
+
+
+def selection(assets):
+    chosen=select(assets/'trajectories.jsonl');path=assets/'context-audit.json'
+    return filter_context(chosen,json.loads(path.read_text())) if path.exists() else (chosen,[])
+
+
 def prepare(run, assets):
-    chosen=select(assets/'trajectories.jsonl')
+    chosen,excluded=selection(assets)
     for episode in chosen:
         for p in episode['points'][:30]:
-            if p['label'] not in ('typing','noop') or not isinstance(p['prompt'],str):
+            if p['label'] not in ('typing','noop') or not isinstance(p['prompt'],str) or not all(k in p for k in ('gt','ctx','t_ms')):
                 raise ValueError('Invalid episode point')
     write(run/'prepared.json',dict(episodes=[dict(key=r['key'],variant=r.get('variant',1),points=min(30,len(r['points']))) for r in chosen],
         expected_points=sum(min(30,len(r['points'])) for r in chosen),ctx=32768,max_tokens=160,
-        max_seconds=7170,scope='New complete b4 V1a baseline; not paired with historical skipped-point runs'))
+        candidate_count=60,excluded_episodes=excluded,eligible_count=len(chosen),
+        max_seconds=7170,scope='Complete trajectories from the 32K-context-eligible subset of 60 frozen candidates; exclusions explicit; not paired with historical skipped-point runs'))
 
 
 def measure(run, assets):
-    p=json.loads((run/'prepared.json').read_text());chosen=select(assets/'trajectories.jsonl')
+    p=json.loads((run/'prepared.json').read_text());chosen,_=selection(assets)
     server=GpuServer(Path(os.environ['V1A_MODEL']),18473,['-lv','4','--seed','20260905'],ctx=p['ctx'],
         server=Path(os.environ['S1_RUNTIME'])/'llama-server',foreground=True,log_path=run/'server.log')
     def expire(*_):raise DeadlineExceeded('V1a exceeded two-hour bound')
@@ -57,7 +89,7 @@ def measure(run, assets):
                         raise ValueError('Proposal history was not injected into prompt')
                     count=tokenize(port,prompt)
                     if count+max_tokens+16>p['ctx']:
-                        raise ValueError('History-expanded prompt exceeds context reserve')
+                        raise ValueError(f'History-expanded prompt has {count} tokens; context {p["ctx"]}, reserve {max_tokens+16}, episode {current["episode"]}, point {current["point"]}')
                     body=json.dumps(dict(prompt=prompt,max_tokens=max_tokens,temperature=0.0)).encode()
                     req=urllib.request.Request(f'http://127.0.0.1:{port}/v1/completions',data=body,headers={'Content-Type':'application/json'})
                     start=time.monotonic()
@@ -100,13 +132,15 @@ def evaluate(run):
         raise ValueError('Incomplete request coverage')
     if any(r['served_prompt_tokens']!=r['tokenized_prompt_tokens'] for r in requests):
         raise ValueError('Prompt count mismatch')
-    summary=episode_metrics.summarize('b4-complete-32k-gpu',episodes,str(run/'episodes.jsonl'))
+    summary=episode_metrics.summarize('b4-context-eligible-32k-gpu',episodes,str(run/'episodes.jsonl'))
     if summary['stats_mismatch_rows']:raise ValueError('Episode aggregate disagrees with decisions')
     summary['generation_limit_rows']=sum(r['response']['choices'][0]['finish_reason']=='length' for r in requests)
     summary['request_count']=len(requests)
+    summary['candidate_episodes']=p.get('candidate_count',len(episodes))
+    summary['excluded_episodes']=len(p.get('excluded_episodes',[]))
     write(run/'evaluation.json',summary)
     write(run/'verdict.json',dict(verdict='B4-EPISODE-BASELINE-MEASURED',adoption='NOT-ASSESSED',
-        boundary='Existing lexical acceptance heuristic and simulator clock, not human preference; complete 32K context regime differs from historical skipped-point 2K slots. No retraining or paired model comparison.'))
+        boundary='Existing lexical acceptance heuristic and simulator clock, not human preference; complete context-eligible trajectories only, with predeclared whole-episode exclusions; 32K regime differs from historical skipped-point 2K slots. No retraining or paired model comparison.'))
 
 
 if __name__=='__main__':
