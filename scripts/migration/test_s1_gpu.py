@@ -73,3 +73,25 @@ def test_serving_recount_can_differ_from_hf_metadata_without_truncation():
         s1.check_prompt_count(2057, 10240, baseline_count=2053)
     with pytest.raises(ValueError, match='context'):
         s1.check_prompt_count(10200, 10240)
+
+
+def test_ngram_diagnostic_rejects_ineffective_control(tmp_path, monkeypatch):
+    monkeypatch.setenv('S1_RUNTIME', str(tmp_path))
+    monkeypatch.setattr(s1, 'selected', lambda _: [dict(trace_id='2038817292-98c44c61-2k', prompt='x')])
+    stopped = []
+    class Server:
+        port = 1
+        def __init__(self, *args, **kwargs):
+            self.log_path = kwargs['log_path']
+        def start(self, **kwargs):
+            self.log_path.write_text('offloaded 25/25 layers')
+        def stop(self):
+            stopped.append(self.log_path)
+    monkeypatch.setattr(s1, 'GpuServer', Server)
+    monkeypatch.setattr(s1, 'validate_response', lambda _: None)
+    monkeypatch.setattr(s1.bench, 'stream_completion', lambda *a, **k: SimpleNamespace(timings={'draft_n': 95}, text='x'))
+    with pytest.raises(ValueError, match='control diagnostic failed'):
+        s1.check_ngram_control(tmp_path, tmp_path)
+    assert len(stopped) == 3
+    assert not (tmp_path / 'ngram-control.json').exists()
+    assert (tmp_path / 'control-M48.json').exists()
