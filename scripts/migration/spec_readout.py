@@ -78,6 +78,8 @@ def plot(record,path):
     fig.suptitle('S1: RTX 5090 speculative-depth sweep',x=.07,ha='left',fontsize=14)
     fig.text(.07,.015,textwrap.fill('Lines: ratio of medians. Bars: paired trace-bootstrap 95% interval. Hollow dots: cold or warm output-parity failure. Dashed: 1.4× gate.',width=110 if len(families)==1 else 200),fontsize=8)
     fig.tight_layout(rect=(0,.065,1,.93));fig.savefig(path);plt.close(fig)
+    if path.suffix == '.svg':
+        path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
 
 
 if __name__=='__main__':

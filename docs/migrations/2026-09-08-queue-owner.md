@@ -467,3 +467,28 @@ GLM 304.84 seconds). Their review reduced a naive multi-day full sweep to
 this scout. A candidate must actually draft, preserve every output and
 reach a paired median speedup of 1.15 merely to warrant full confirmation.
 No CPU adoption or inference from the negative GPU result is made.
+
+
+## Intent pipeline prepared during CPU scout
+
+The next two recipes separate 132 local generations (44 cases per export)
+from remote GLM intent judging. This releases the GPU before remote calls.
+The suite, prompt renderer, parser and judge payload remain the established
+protocol; a regression test compares the new payload with the old builder.
+An explicit greedy seed is recorded. Nine focused tests pass.
+
+Three calibration anchors must pass before any case is scored. Exact
+serialized judge bodies share a cached score across arms; context and
+assertion enter the key, arm labels do not. All 44 cases remain in each
+arm's denominator. Full responses, request hashes, cache hits, truncation
+counts and paired score gains/losses are retained. Missing scores or failed
+calibration stop the run. The one-hour judge bound includes two attempts
+per request; credentials stay in the inherited local environment and are
+excluded from recipes and request records.
+
+Both Pi agents ran at max with 120-second caps. Muse finished in 47.17
+seconds; GLM timed out at 120.02 seconds. The review supported separating
+phases and caching identical inputs. Its claim that the observed quant
+losses were merely noise is not adopted: this small suite cannot establish
+noninferiority, and one fully-satisfied case is already 2.27 percentage
+points. No intent experiment has started while the quiet CPU scout runs.
