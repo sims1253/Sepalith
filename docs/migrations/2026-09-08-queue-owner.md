@@ -560,3 +560,137 @@ with 120-second caps: Muse completed in 46.60 seconds; GLM timed out at
 120.02 seconds. Four focused tests pass. No cloud spending or automatic
 quant promotion. The detached controller waits on its real child process,
 not only a database status, and closes/archives each tier before the next.
+
+
+## B4 quantization timing completion
+
+Both tiers measured the same quality-tested exports, ten fixed 2K traces and three cold repetitions, plus a fresh Q8 bookend. [GPU record](../validation/2026-09-08-b4-timing-gpu.json); [CPU record](../validation/2026-09-08-b4-timing-cpu.json). Each record retains cycle/wall timings, output lengths, stop types and host load. No automatic quant promotion.
+
+```json
+{
+  "gpu": {
+    "rows": 120,
+    "tier": "gpu",
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 220.4605,
+        "request_wall_ms_median": 277.11624950461555,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0,
+        "paired_cycle_speedup_median": 1.0,
+        "max_load1": 0.39306640625
+      },
+      "Q4_K_M": {
+        "n": 30,
+        "cycle_ms_median": 209.076,
+        "request_wall_ms_median": 267.37210250576027,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0544514913237293,
+        "paired_cycle_speedup_median": 1.098489820811882,
+        "max_load1": 0.41259765625
+      },
+      "Q4_K_M_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 222.7635,
+        "request_wall_ms_median": 267.97765649826033,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 31.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 0.9896616815591424,
+        "paired_cycle_speedup_median": 0.9670843640269842,
+        "max_load1": 0.50341796875
+      },
+      "Q8_0-bookend": {
+        "n": 30,
+        "cycle_ms_median": 228.47750000000002,
+        "request_wall_ms_median": 276.17481850029435,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 0.9649112056985917,
+        "paired_cycle_speedup_median": 0.9515371732864901,
+        "max_load1": 0.580078125
+      }
+    }
+  },
+  "cpu": {
+    "rows": 120,
+    "tier": "cpu",
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 13521.289,
+        "request_wall_ms_median": 13579.101304501819,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 1.0,
+        "paired_cycle_speedup_median": 1.0,
+        "max_load1": 8.2822265625
+      },
+      "Q4_K_M": {
+        "n": 30,
+        "cycle_ms_median": 10362.639,
+        "request_wall_ms_median": 10404.619667999214,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.3048113516257782,
+        "paired_cycle_speedup_median": 1.299703746986821,
+        "max_load1": 8.6552734375
+      },
+      "Q4_K_M_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 10442.432,
+        "request_wall_ms_median": 10501.792906004994,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 33.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.2948409910641505,
+        "paired_cycle_speedup_median": 1.292447521724292,
+        "max_load1": 8.26416015625
+      },
+      "Q8_0-bookend": {
+        "n": 30,
+        "cycle_ms_median": 13651.7575,
+        "request_wall_ms_median": 13705.040658001963,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 0.9904430986266787,
+        "paired_cycle_speedup_median": 0.992053252309541,
+        "max_load1": 8.2470703125
+      }
+    }
+  }
+}
+```

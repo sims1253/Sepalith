@@ -1,0 +1,108 @@
+{
+  "attempt": "91bd84bbf9034dd8b781ce7a29115cc2",
+  "job": "b4-quant-timing-cpu-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 1570.5270149707794,
+  "snapshot": "4a25f7bfad9da7206833c2808c8bc4f252520ab0966da354cd60e2346174c8ca",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-quant-timing-archive-20260908/cpu/91bd84bbf9034dd8b781ce7a29115cc2",
+  "closed_manifest_sha256": "9a96debdcb17bf27b3acf7b4cd7991f62517b65c0b7396deef452a531356f0ef",
+  "files": 34,
+  "receipt": {
+    "id": "91bd84bbf9034dd8b781ce7a29115cc2",
+    "job": "b4-quant-timing-cpu-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1746325,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788885014.3759887,
+    "finished": 1788886584.9030037,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 120,
+    "tier": "cpu",
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 13521.289,
+        "request_wall_ms_median": 13579.101304501819,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 1.0,
+        "paired_cycle_speedup_median": 1.0,
+        "max_load1": 8.2822265625
+      },
+      "Q4_K_M": {
+        "n": 30,
+        "cycle_ms_median": 10362.639,
+        "request_wall_ms_median": 10404.619667999214,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.3048113516257782,
+        "paired_cycle_speedup_median": 1.299703746986821,
+        "max_load1": 8.6552734375
+      },
+      "Q4_K_M_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 10442.432,
+        "request_wall_ms_median": 10501.792906004994,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 33.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.2948409910641505,
+        "paired_cycle_speedup_median": 1.292447521724292,
+        "max_load1": 8.26416015625
+      },
+      "Q8_0-bookend": {
+        "n": 30,
+        "cycle_ms_median": 13651.7575,
+        "request_wall_ms_median": 13705.040658001963,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 0.9904430986266787,
+        "paired_cycle_speedup_median": 0.992053252309541,
+        "max_load1": 8.2470703125
+      }
+    }
+  },
+  "verdict": {
+    "verdict": "CPU-B4-TIMING-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Cycle timing of the three frozen b4 exports; varying output lengths, cold cache and ten paired traces. Review bookend drift/load and separate quality results; no automatic promotion."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "c3467abaee68cb3fed09a47c0a3238c7bd7fdef513e553c18e998591c9139828",
+    "telemetry.jsonl": "dea9eb5d31aa65ee6619f976168cd4a1687d677bcf253183e9f8aa515998650f",
+    "verdict.json": "34cf99ac406b641f1f744e02f13aea267bb1eae0186a7059dd900fc21dd1ef9e",
+    "evaluation.json": "d5b110dcaf369da94769c6f2a40e208a707cc8400081be1123be5a1f43491544",
+    "execution.json": "1b816a83219f73dffe6f79091181fb0559d5418164a1a8303a239ad5a5b92473",
+    "per_request.jsonl": "fe7e145a1acd398193819331a502554424a40e44e3148baa634bfaeef81926a7",
+    "warmups.jsonl": "65e266cf6ef33570aebedaa12b45c500731e1c1e97302adae5276e7056d8e45c",
+    "archive.json": "7cc8fc14da95de03e64e0274024c5cc5dcc8caa68397fea9557968aeaf8408d4",
+    "final-runner-receipt.json": "7fe5f1d96e15c7c606692bbac8ca63c79e5426f89568d3d403167ccb73e0d0e5",
+    "prepared.json": "586a8d8aebea856cd1a322bca17cee094abf8476f215e8d791dc41456b793299",
+    "recipe.json": "46da5e348e9b5ab5e718360a33ec668789272a677e107eb8dd2a687c3db50060",
+    "02-evaluate-artifacts.json": "af82c06bf30169efb5ab70973bde0c0f37dc64f3b7c2ff1b9ec93bcdd61b8dfa",
+    "runtime.json": "849b882f29c321fe92331a343815cd6296c291e22145991fe7c6100d7e6026bd",
+    "00-prepare-artifacts.json": "56cabd2b6e72a5ae0e154f1e9b776d670df65a02d770e4252099301cf65be038",
+    "01-measure-artifacts.json": "7378a5603e56423121d2a22cc7c7e1984955ecbe34b7f129d40316ee718293ac"
+  }
+}

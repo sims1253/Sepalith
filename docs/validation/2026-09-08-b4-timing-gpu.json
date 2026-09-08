@@ -1,0 +1,108 @@
+{
+  "attempt": "0d8b76500c724881b9c2d9e893315075",
+  "job": "b4-quant-timing-gpu-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 61.07888460159302,
+  "snapshot": "4a25f7bfad9da7206833c2808c8bc4f252520ab0966da354cd60e2346174c8ca",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-quant-timing-archive-20260908/gpu/0d8b76500c724881b9c2d9e893315075",
+  "closed_manifest_sha256": "5883a5f46539dbeba78ee83e4c580163a256ba517c28ae38b935771861abb4f1",
+  "files": 34,
+  "receipt": {
+    "id": "0d8b76500c724881b9c2d9e893315075",
+    "job": "b4-quant-timing-gpu-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1745337,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788884943.1292422,
+    "finished": 1788885004.2081268,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 120,
+    "tier": "gpu",
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 220.4605,
+        "request_wall_ms_median": 277.11624950461555,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0,
+        "paired_cycle_speedup_median": 1.0,
+        "max_load1": 0.39306640625
+      },
+      "Q4_K_M": {
+        "n": 30,
+        "cycle_ms_median": 209.076,
+        "request_wall_ms_median": 267.37210250576027,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0544514913237293,
+        "paired_cycle_speedup_median": 1.098489820811882,
+        "max_load1": 0.41259765625
+      },
+      "Q4_K_M_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 222.7635,
+        "request_wall_ms_median": 267.97765649826033,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 31.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 0.9896616815591424,
+        "paired_cycle_speedup_median": 0.9670843640269842,
+        "max_load1": 0.50341796875
+      },
+      "Q8_0-bookend": {
+        "n": 30,
+        "cycle_ms_median": 228.47750000000002,
+        "request_wall_ms_median": 276.17481850029435,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 0.9649112056985917,
+        "paired_cycle_speedup_median": 0.9515371732864901,
+        "max_load1": 0.580078125
+      }
+    }
+  },
+  "verdict": {
+    "verdict": "GPU-B4-TIMING-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Cycle timing of the three frozen b4 exports; varying output lengths, cold cache and ten paired traces. Review bookend drift/load and separate quality results; no automatic promotion."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "931515a086613470649bcf1ebf246fed4ae59196e94a8d1831200c7aff8c309d",
+    "telemetry.jsonl": "344cee524f2b60af51126d88675ce5648445fe9895f7fbdbb9ff72068e69032f",
+    "verdict.json": "37bd32174bfc1c9f832a474b00f523cda05eb3bb386088b3f92f69d222931212",
+    "evaluation.json": "b443e003515de81db48efa5023f04adb9c65753a80e3cf78c8ddd604d955ab35",
+    "execution.json": "b368e1a41adefcbae9b26b744429489ba764f47906704f557adf87f8eabafe83",
+    "per_request.jsonl": "8a695b930ece607a6b923561c4f8c5d53f197dfc4529420678f8f92e6385b7c2",
+    "warmups.jsonl": "a197eaef71890e720a84eedc015f339b5dd8770a40f441f5aef5754838735147",
+    "archive.json": "6ed2c50c52ef687c1b1e22d417f716b002ec29dbdb4b499f975e8c0c88e2f31d",
+    "final-runner-receipt.json": "3e90cd00c6f81c13a943da0215442d03f2aa270e9d3d7718bcc2c873e2ea060d",
+    "prepared.json": "53d94e51fe6bd2c4b1dc1c2df3b277ed074d7c652d97735894511ab93059929e",
+    "recipe.json": "a745b656a51ff29d43af49d87ccd1cf0c4f500c81459c1866f32b4490ce1b613",
+    "02-evaluate-artifacts.json": "45b48a0f9a4f827c022b25c49637f145a895e51be4d8648a9057008af00c051b",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "94080d3a8a5118704c2a9b33c3acd389cbe31c800f65ebd5839bd545840302c1",
+    "01-measure-artifacts.json": "10202b86a13dea880f453d737c26c97bf4378d8f82150057b767b897b1e137dc"
+  }
+}
