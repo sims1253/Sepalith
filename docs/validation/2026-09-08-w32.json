@@ -1,0 +1,117 @@
+{
+  "scope": "Saved W32 reconciliation only; no inference/training",
+  "eval_loss_curves": {
+    "muon.jsonl": {
+      "250": 1.57241,
+      "500": 1.3639,
+      "750": 1.27904,
+      "1000": 1.25524,
+      "1250": 1.18864
+    },
+    "aurora.jsonl": {
+      "250": 1.53679,
+      "500": 1.35061,
+      "750": 1.26857,
+      "1000": 1.23863,
+      "1250": 1.1753
+    },
+    "aurora-eager.jsonl": {
+      "250": 1.56829,
+      "500": 1.35238,
+      "750": 1.28763,
+      "1000": 1.26815,
+      "1250": 1.1934
+    },
+    "muon-half.jsonl": {
+      "250": 1.58983,
+      "500": 1.36295,
+      "750": 1.3212,
+      "1000": 1.31792,
+      "1250": 1.3148
+    }
+  },
+  "relative_improvement_percent": {
+    "aurora.jsonl": {
+      "250": 2.2653,
+      "500": 0.9744,
+      "750": 0.8186,
+      "1000": 1.3233,
+      "1250": 1.1223
+    },
+    "aurora-eager.jsonl": {
+      "250": 0.262,
+      "500": 0.8446,
+      "750": -0.6716,
+      "1000": -1.0285,
+      "1250": -0.4005
+    },
+    "muon-half.jsonl": {
+      "250": -1.1079,
+      "500": 0.0697,
+      "750": -3.2962,
+      "1000": -4.9935,
+      "1250": -10.6138
+    }
+  },
+  "leverage_dead_reduction": 14.584415978174185,
+  "near_dead_activation_reduction": 159.49999298155328,
+  "archive": "/mnt/h/sepalith/runs/w32-reconciliation-20260908",
+  "sources": [
+    {
+      "source": "experiments/training/poc_twin/logs/muon.jsonl",
+      "archive_file": "muon.jsonl",
+      "sha256": "cdef0f3351434711ffdab460e711fde78b1f92040791190e35c9b6f9d85c5f2c"
+    },
+    {
+      "source": "experiments/training/poc_twin/logs/aurora.jsonl",
+      "archive_file": "aurora.jsonl",
+      "sha256": "7cd992d260e6f30b09ecbefa8f601b7875bf72d6804229fd36cdbd882c325a80"
+    },
+    {
+      "source": "experiments/training/poc_twin/logs/aurora-eager.jsonl",
+      "archive_file": "aurora-eager.jsonl",
+      "sha256": "6848c1df8caabc57ceb5c247c35ecb4606700cedbbcdf290aab3241adffb6610"
+    },
+    {
+      "source": "experiments/training/poc_twin/logs/muon-half.jsonl",
+      "archive_file": "muon-half.jsonl",
+      "sha256": "1816949087dc5da537683fdb6c3912a4be82b36fe88f1f19f30d5b461fbf4ab5"
+    },
+    {
+      "source": "experiments/training/poc_twin/logs/arms_census.json",
+      "archive_file": "arms_census.json",
+      "sha256": "71faa60f2f66f5c3b379b031b5f80c941f04ccbe73395d7d36e787634bc5bda0"
+    },
+    {
+      "source": "experiments/training/poc_twin/logs/arms_regurgitation.json",
+      "archive_file": "arms_regurgitation.json",
+      "sha256": "8dca08f950eec09c31c909c61c8e73979972af66111c7f643d6b529d12db15c5"
+    },
+    {
+      "source": "experiments/training/poc_twin/RESULTS-arms.md",
+      "archive_file": "RESULTS-arms.md",
+      "sha256": "1667db2b9e75abb2a1948571e62983f24928122b6fb14b689c2ae06e515c2b76"
+    },
+    {
+      "source": "experiments/training/poc_twin/arms/neuron_census.py",
+      "archive_file": "neuron_census.py",
+      "sha256": "ea0b4b82f5e02f2f8d339bac7c220f429b15acd65f8224c368a8fe23b1243d48"
+    },
+    {
+      "source": "experiments/training/poc_twin/arms/aurora.py",
+      "archive_file": "aurora.py",
+      "sha256": "3dfd80bec994f2a766453e3130d534b2c036ed0255f328d89c34a5376520fe6c"
+    },
+    {
+      "source": "experiments/training/poc_twin/train_a2.py",
+      "archive_file": "train_a2.py",
+      "sha256": "ee567f41957a3fa9059fb959c5d7176f136c9b7d6e49346375b425a19a303a10"
+    },
+    {
+      "source": "docs/research/optimizer-sweep-2026-08.md",
+      "archive_file": "optimizer-sweep-2026-08.md",
+      "sha256": "404877a744b45f7fc9a9aad9cf1252531d0bcfd48bcfbf031f9091679ac5997d"
+    }
+  ],
+  "verdict": "Mechanism supported in saved census; historical adoption note not equivalent to registered conjunctive gate; current production optimizer unchanged"
+}
