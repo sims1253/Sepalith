@@ -1,5 +1,10 @@
 # Sepalith queue heartbeat
 
+**Disabled after user clarification:** the intended heartbeat should wake the
+original conversation. This implementation starts a separate agent and does
+not meet that requirement. Its timer and service have been stopped; retain
+the code as an unused implementation, not an active default.
+
 The user requested a check every 30 minutes on 8 September 2026. The systemd
 user timer invokes `supervisor.py --once` at minute 00 and 30. A check reads
 runner state and actual worker liveness. Healthy experiments continue without

@@ -710,3 +710,8 @@ Codex authentication was verified without exposing credentials. The user
 manager has lingering enabled. Detailed controls: `scripts/queue/README.md`.
 The old no-polling instruction is superseded for this queue only. Cloud
 reserves, parked decisions and quiet CPU windows remain binding.
+
+
+## Heartbeat clarification
+
+The user meant a scheduled wakeup of this original conversation, not a new Codex agent. The separate-agent timer was disabled and its active service stopped. No new experiment unit had launched; its draft review files were preserved. This interface exposes no same-conversation scheduled wakeup tool. The prior installation did not meet the intended requirement.

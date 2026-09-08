@@ -85,7 +85,7 @@ cleaning up its artifacts.
 
 ## Watchers
 
-Sepalith queue exception (user instruction, 2026-09-08): a systemd user heartbeat checks every 30 minutes and wakes one queue agent when review, preparation or recovery is needed. This supersedes the older polling prohibition below for this queue only. Unit: `sepalith-queue-heartbeat.timer`; status: `~/.local/state/sepalith/queue-supervisor/status.json`. Before manual queue dispatch or worktree takeover, stop its timer and active service, then inspect any independent experiment units.
+Queue clarification (user instruction, 2026-09-08): the requested heartbeat must wake the original conversation, not create a separate agent. The attempted `sepalith-queue-heartbeat.timer` and its service are DISABLED; do not re-enable them. Same-conversation scheduled wakeup is not exposed by the current tool interface. The original queue owner retains the task.
 
 Scheduled/automated polling is RETIRED (scheduler reliability issues,
 user directive 2026-08-27). The standard mechanism is session-bound:
