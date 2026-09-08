@@ -31,6 +31,7 @@ import threading
 import time
 import urllib.error
 import urllib.request
+import uuid
 
 ZAI_URL = "https://api.z.ai/api/coding/paas/v4/chat/completions"
 OPENCODE_URL = "https://opencode.ai/zen/v1/chat/completions"
@@ -172,6 +173,7 @@ class _HttpBackend(Backend):
     env_key = ""
     timeout_s = 75.0
     user_agent = "curl/8.5.0"   # plain urllib UA gets 403 on the free tiers
+    extra_headers = {}          # per-backend extras merged into every request
 
     def _api_key(self) -> str:
         key = os.environ.get(self.env_key, "")
@@ -194,6 +196,7 @@ class _HttpBackend(Backend):
                 "Authorization": f"Bearer {self._api_key()}",
                 "Content-Type": "application/json",
                 "User-Agent": self.user_agent,
+                **self.extra_headers,
             })
         try:
             with urllib.request.urlopen(req, timeout=int(self.timeout_s)) as r:
@@ -292,6 +295,11 @@ class _OpencodeResponsesBackend(OpencodeBackend):
     url = "https://opencode.ai/zen/go/v1/responses"
     model = "muse-spark-1.2-contributor"
     timeout_s = 180.0
+    # GO routing rejects requests without x-opencode-session since
+    # 2026-09-07 (400 MissingSessionID). pi sends the same header; one id
+    # per process == one per refresh cycle (backend is rebuilt per cycle).
+    extra_headers = {"x-opencode-session": str(uuid.uuid4()),
+                     "x-opencode-client": "sepalith"}
 
     def _payload(self, prompt: str) -> dict:
         return {
