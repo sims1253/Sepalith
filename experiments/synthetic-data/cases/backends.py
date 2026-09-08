@@ -286,14 +286,14 @@ class OpencodeBackend(_HttpBackend):
 
 
 class _OpencodeResponsesBackend(OpencodeBackend):
-    """muse-spark-1.2 models are REASONING models served ONLY via the
+    """muse-spark-1.3 models are REASONING models served ONLY via the
     Responses API (the chat-completions path burns tokens and returns
     null content). Contract, verified live 2026-08-21: input is a message
     array with input_text parts; reasoning burns the budget first, so
     max_output_tokens must be generous (>=2k) with effort low; the text
     lands in output[] items of type "message" (skip type "reasoning")."""
     url = "https://opencode.ai/zen/go/v1/responses"
-    model = "muse-spark-1.2-contributor"
+    model = "muse-spark-1.3-contributor"
     timeout_s = 180.0
     # GO routing rejects requests without x-opencode-session since
     # 2026-09-07 (400 MissingSessionID). pi sends the same header; one id
@@ -330,7 +330,7 @@ class OpencodeSparkFreeBackend(_OpencodeResponsesBackend):
     much harder — pace conservatively and cool down long on 429."""
     name = "opencode-spark-free"
     url = "https://opencode.ai/zen/v1/responses"
-    model = "muse-spark-1.2-contributor-free"
+    model = "muse-spark-1.3-contributor-free"
     pace_gap_s = 8.0
     cooldown_s = 900.0
 
