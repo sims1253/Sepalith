@@ -211,3 +211,22 @@ no report. Both had180s limits for estimated15–60min work. Implemented strict
 coverage, history injection checks, dynamic token counts, raw response sidecars,
 and tracked foreground cleanup. No claim of a completed GLM review. Forty targeted
 tests pass across the new wrappers and existing spec harness.
+
+### CPU sweep value gate and bounded scout
+
+Both requested Pi models reviewed the remaining CPU sweep at max with600s caps:
+Muse completed85.19s; GLM completed304.84s. Their common finding is that cold
+prefill dominates the saved ~24h/1800-pair run. A naive17-config full repeat is
+~135h; removing metrics calls cannot solve that. Muse recommends deferral; GLM
+recommends a separately labeled staged design. Reject cross-day timing-baseline
+reuse (the saved runs already show large unexplained drift), unequal candidate
+and control trace sets, and claims that GPU results close CPU questions.
+
+After the prepared GPU work, use `S1 CPU ngram scout`: twenty identical sampled
+traces per class for baseline and each ngram depth2/3/4/8/16/48, one cold request
+per trace, then a baseline bookend.320 requests total, no warm pass, five-hour
+ceiling. CPU t8, Q8 b4, b10453 and10240 context remain fixed. This is an exploratory
+sub-question, not full S1 completion. Paired speed >=1.15x with exact output
+parity nominates a full-protocol confirmation only after checking load and drift;
+it is not an adoption rule. MTP/model-draft CPU depth curves remain deferred.
+Three new tests enforce coverage and the nomination/adoption boundary.
