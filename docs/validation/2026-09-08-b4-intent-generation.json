@@ -1,0 +1,49 @@
+{
+  "attempt": "3ae0250d14e14e17b994388aa645090a",
+  "job": "b4-intent-generation-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 57.978813886642456,
+  "snapshot": "deee13c44aa489bde8b0b5af67d864698aab44f4aa57e04db88d6ebd321545cc",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-intent-generation-archive-20260908/3ae0250d14e14e17b994388aa645090a",
+  "closed_manifest_sha256": "4bd601f0847edb17e38a3be882b7d2e9505a058cd3df822e255ff1f5bcf566a1",
+  "files": 32,
+  "receipt": {
+    "id": "3ae0250d14e14e17b994388aa645090a",
+    "job": "b4-intent-generation-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1720622,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788883017.3244524,
+    "finished": 1788883075.3032663,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 132,
+    "length_rows": 20,
+    "judge_completion_truncated_rows": 1
+  },
+  "verdict": {
+    "verdict": "INTENT-GENERATION-COMPLETE",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Judge calibration and scores remain pending"
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "a2cbef09d6d8005d561478ee753cb76522c8b53846c50a8b6ad974288f11a32c",
+    "verdict.json": "cac5488b8ed1f8e5cd73a216fc3fa6122ed90d7445c12d7aafec1ad7fe45147f",
+    "evaluation.json": "65ea6f7609b64b1c1f8958a45227672b493bfa1f58ca097f8797d66cfd4c4cbd",
+    "execution.json": "8517073f9fab44303db336cac1314d7d6b623a74349ef92265fcc6aba68a49f5",
+    "02-evaluate_generation-artifacts.json": "dc2596b56382226127699d11ba86b3abf2ff69e09f079c6eca06c39a49ecff11",
+    "requests.jsonl": "8b4c06aee90ee70c59d06a7d0dc90ffecde192eb5446329e6b32eebb2ac030de",
+    "archive.json": "3a3e0746a47125c8291abe94d7bbd3692426d92cafddae68b1e5d912ce2e4136",
+    "final-runner-receipt.json": "f46f9fe11ee1b30711cf242f69c78cd0041ee9de20acc8975e1636cce7596010",
+    "prepared.json": "0d95fd9249c3858873d3c5bde141a3345511bfc78593004e9151dd6846836386",
+    "recipe.json": "e7b6aa1b3d2acce99963a0bbd23207070373ffb6bcc38e5b633571f682f630f5",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "dbdcdabd900668a0162ad9670e8668f9f464d4bb3fd05be40f6c5d4cfe6c4975",
+    "01-measure-artifacts.json": "a93b05236aa6ebb299e6a443410621adde6f984c7c8f9cddc62d4032b099e0b1"
+  }
+}

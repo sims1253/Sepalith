@@ -492,3 +492,51 @@ phases and caching identical inputs. Its claim that the observed quant
 losses were merely noise is not adopted: this small suite cannot establish
 noninferiority, and one fully-satisfied case is already 2.27 percentage
 points. No intent experiment has started while the quiet CPU scout runs.
+
+
+## CPU scout recovery and result
+
+All 160 rows completed in about 96 minutes, but the dispatcher disappeared before finalization. The monitor trusted stale database state and delayed later jobs for over three hours. Process audit confirmed the worker, child and group absent. The runner was recovered as interrupted, then the frozen evaluator scored all saved rows; no inference was repeated. All 26 closed files and input hashes verified. No confirmation candidates: paired median speedups were 1.072/0.997 for M16 and 1.004/1.022 for M48 (2K/8K). All outputs match baseline. Host load reached 18.99, so the quiet-window claim is limited. [Recovery record](../validation/2026-09-08-s1-cpu-scout.json). The recorded execution duration includes the stale-state wait.
+
+
+## Paired intent completion
+
+Generation and calibrated judging completed through separate runner jobs. [Generation record](../validation/2026-09-08-b4-intent-generation.json); [judge record](../validation/2026-09-08-b4-intent-judge.json). No quant promotion is inferred. Judge summary:
+
+```json
+{
+  "rows": 132,
+  "arms": {
+    "Q8_0": {
+      "n": 44,
+      "mean": 1.5227272727272727,
+      "normalized_mean": 0.7613636363636364,
+      "satisfied": 31
+    },
+    "Q4_K_M": {
+      "n": 44,
+      "mean": 1.6590909090909092,
+      "normalized_mean": 0.8295454545454546,
+      "satisfied": 34,
+      "normalized_mean_delta_pp": 6.818181818181824,
+      "satisfied_delta_pp": 6.818181818181818,
+      "score_gains": 5,
+      "score_losses": 0,
+      "score_ties": 39
+    },
+    "Q4_K_M_imatrix": {
+      "n": 44,
+      "mean": 1.6363636363636365,
+      "normalized_mean": 0.8181818181818182,
+      "satisfied": 34,
+      "normalized_mean_delta_pp": 5.681818181818188,
+      "satisfied_delta_pp": 6.818181818181818,
+      "score_gains": 6,
+      "score_losses": 2,
+      "score_ties": 36
+    }
+  },
+  "unique_judged_inputs": 78,
+  "cache_hits": 54
+}
+```

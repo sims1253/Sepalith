@@ -1,0 +1,148 @@
+{
+  "attempt": "83f3586ddba84604ba2435962e81eb9d",
+  "job": "s1-cpu-ngram-scout-20260908",
+  "status": "interrupted",
+  "elapsed_seconds": 17989.81064224243,
+  "snapshot": "e89b9c7de43f97c12b5903f5170f4b4c1f390d18c63d314e4ef54adf23ad53af",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-failed-attempts-20260908/83f3586ddba84604ba2435962e81eb9d",
+  "closed_manifest_sha256": "e1cf420a81bf0dfcebd475de5f331f3cf686bb6ec041a3d855851d83b67894c6",
+  "files": 26,
+  "receipt": {
+    "id": "83f3586ddba84604ba2435962e81eb9d",
+    "job": "s1-cpu-ngram-scout-20260908",
+    "status": "interrupted",
+    "phase": "finished",
+    "step": 1,
+    "worker_pid": 1455678,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788864908.4822009,
+    "finished": 1788882898.292843,
+    "detail": "Dispatcher and child absent after all 160 rows; process audit saved; explicit offline scoring follows, no inference retry"
+  },
+  "evaluation": {
+    "rows": 160,
+    "arms_summary": {
+      "baseline|2k": {
+        "n": 20,
+        "gen_tps_median": 18.86604799569887,
+        "paired_speedup_median": 1.0,
+        "paired_speedup_quartiles": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "matches_baseline": 0,
+        "max_load1": 7.6826171875
+      },
+      "baseline|8k": {
+        "n": 20,
+        "gen_tps_median": 16.56845318170786,
+        "paired_speedup_median": 1.0,
+        "paired_speedup_quartiles": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "matches_baseline": 0,
+        "max_load1": 18.98583984375
+      },
+      "ngram-simple@16|2k": {
+        "n": 20,
+        "gen_tps_median": 20.817791787597287,
+        "paired_speedup_median": 1.071792550388723,
+        "paired_speedup_quartiles": [
+          0.9130717076911296,
+          1.071792550388723,
+          1.3397438033935798
+        ],
+        "matches_baseline": 20,
+        "max_load1": 9.20654296875
+      },
+      "ngram-simple@16|8k": {
+        "n": 20,
+        "gen_tps_median": 16.595008618965046,
+        "paired_speedup_median": 0.997479460836983,
+        "paired_speedup_quartiles": [
+          0.9242165890218131,
+          0.997479460836983,
+          1.4408318779770193
+        ],
+        "matches_baseline": 20,
+        "max_load1": 9.98193359375
+      },
+      "ngram-simple@48|2k": {
+        "n": 20,
+        "gen_tps_median": 18.94954280838258,
+        "paired_speedup_median": 1.0036530890178421,
+        "paired_speedup_quartiles": [
+          0.873864642523719,
+          1.0036530890178421,
+          1.1938382497740794
+        ],
+        "matches_baseline": 20,
+        "max_load1": 7.8154296875
+      },
+      "ngram-simple@48|8k": {
+        "n": 20,
+        "gen_tps_median": 16.995395290267197,
+        "paired_speedup_median": 1.0216108716601109,
+        "paired_speedup_quartiles": [
+          0.8750974228236695,
+          1.0216108716601109,
+          1.3060449034467707
+        ],
+        "matches_baseline": 20,
+        "max_load1": 8.19580078125
+      },
+      "baseline-bookend|2k": {
+        "n": 20,
+        "gen_tps_median": 18.969598762092485,
+        "paired_speedup_median": 1.0131190280399394,
+        "paired_speedup_quartiles": [
+          1.0011896989819873,
+          1.0131190280399394,
+          1.0297088573957294
+        ],
+        "matches_baseline": 20,
+        "max_load1": 7.947265625
+      },
+      "baseline-bookend|8k": {
+        "n": 20,
+        "gen_tps_median": 16.803958683729252,
+        "paired_speedup_median": 1.0351743972658805,
+        "paired_speedup_quartiles": [
+          1.0054157174772842,
+          1.0351743972658805,
+          1.0802047663565473
+        ],
+        "matches_baseline": 20,
+        "max_load1": 8.0107421875
+      }
+    }
+  },
+  "verdict": {
+    "verdict": "CPU-NGRAM-SCOUT-MEASURED",
+    "confirmation_candidates": [],
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Exploratory small sample, cold-only; review drift/load and confirm candidates at full protocol. MTP/model-draft CPU depths remain unmeasured."
+  },
+  "artifact_hashes": {
+    "verdict.json": "8ccaff93824566430389002dcc19703733b0af3a0392ce761145e73232bf91e4",
+    "evaluation.json": "77e3382ac4cf2f11da4d75affa4a36a2e9954a55c31694ee9cd30557d22c12fd",
+    "execution.json": "b59434932eab9df6da289beffbfd727d01df3fdb11d86414e9eedf0d8929b72e",
+    "per_request.jsonl": "8fc0b1b560eae8e0ef8aafd0cfe55a6449d4d8054a40c05964b4d1466fa55b6d",
+    "final-runner-receipt.json": "bbb7b297c5a4e35bbd1b69cb422cc60046ea5ecc14a76772f99d4b9966c16720",
+    "prepared.json": "b027e4d60def21793d838e11adb1ec95d0b18d1f4a1ddca2d2c7ecd4a2416329",
+    "recipe.json": "399de25ba4a4b8981ade8bb5222355b1a271ce43cc32fafaa3ccfcdc560b9e3c",
+    "runtime.json": "849b882f29c321fe92331a343815cd6296c291e22145991fe7c6100d7e6026bd",
+    "00-prepare-artifacts.json": "c49d36bcc722bb2a2fcb4869673bef9bf5dd672dfa8c815a70990800dffe3c09"
+  },
+  "recovery_scope": {
+    "execution": "Interrupted after all 160 rows; original worker and child group absent. Offline frozen evaluator passed; no inference retry.",
+    "monitoring_failure": "Continuation checked stale database status without checking worker liveness; subsequent jobs did not start.",
+    "timing": "elapsed_seconds includes the stale-state wait and is not experiment runtime. Measurement took about 96 minutes.",
+    "host_load": "Recorded load1 reached 18.99; quiet-window quality is imperfect. No confirmation nominee even before this limitation."
+  }
+}
