@@ -1,0 +1,160 @@
+{
+  "attempt": "ac579af911a64c578632cb3ce952775d",
+  "job": "b4-other-quant-timing-gpu-20260908-pathfix",
+  "status": "succeeded",
+  "elapsed_seconds": 58.03213167190552,
+  "snapshot": "1e368307d2736db48a6ce6aeff41f64ae2c335a70dee495dc95681d825785fbf",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-other-quant-timing-archive-20260908/gpu/ac579af911a64c578632cb3ce952775d",
+  "closed_manifest_sha256": "a83c10361cb0d1b2bc6317ca7c500c2cedc67bd0aad1121f962bc3a87552bd77",
+  "files": 34,
+  "receipt": {
+    "id": "ac579af911a64c578632cb3ce952775d",
+    "job": "b4-other-quant-timing-gpu-20260908-pathfix",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1853739,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788889287.6270843,
+    "finished": 1788889345.659216,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 120,
+    "tier": "gpu",
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 219.4065,
+        "request_wall_ms_median": 264.84639199770754,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0,
+        "paired_cycle_speedup_median": 1.0,
+        "max_load1": 0.435546875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 167.84300000000002,
+          "03d9ccb7b9-e2992c7c-2k": 159.885,
+          "771901a5c9-e2992c7c-2k": 249.91899999999998,
+          "335e2def4a-0b481c2b-2k": 223.916,
+          "95652ceca5-edcb8dbf-2k": 213.216,
+          "ae915f7baf-bc6c399d-2k": 181.204,
+          "2774d6656f-75fe1b92-2k": 236.62,
+          "523ac1eaf0-c7c898c8-2k": 249.567,
+          "33f7c1f7e5-86d55d85-2k": 226.397,
+          "d87e9ebb8d-a7d30606-2k": 232.805
+        },
+        "trace_median_speedup": 1.0
+      },
+      "Q6_K_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 189.357,
+        "request_wall_ms_median": 239.00488449726254,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 29.5,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 1.1586923113484053,
+        "paired_cycle_speedup_median": 1.0187483811099582,
+        "max_load1": 0.52294921875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 168.728,
+          "03d9ccb7b9-e2992c7c-2k": 211.484,
+          "771901a5c9-e2992c7c-2k": 220.64999999999998,
+          "335e2def4a-0b481c2b-2k": 183.35399999999998,
+          "95652ceca5-edcb8dbf-2k": 283.73199999999997,
+          "ae915f7baf-bc6c399d-2k": 190.78699999999998,
+          "2774d6656f-75fe1b92-2k": 241.32,
+          "523ac1eaf0-c7c898c8-2k": 114.35199999999999,
+          "33f7c1f7e5-86d55d85-2k": 226.614,
+          "d87e9ebb8d-a7d30606-2k": 145.506
+        },
+        "trace_median_speedup": 0.9968986481547985
+      },
+      "IQ4_XS_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 200.051,
+        "request_wall_ms_median": 244.59318100707605,
+        "generation_limit_rows": 9,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 9,
+          "word": 21
+        },
+        "speedup_vs_Q8_0": 1.0967528280288528,
+        "paired_cycle_speedup_median": 1.068907195832768,
+        "max_load1": 0.5966796875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 162.899,
+          "03d9ccb7b9-e2992c7c-2k": 207.172,
+          "771901a5c9-e2992c7c-2k": 185.417,
+          "335e2def4a-0b481c2b-2k": 174.515,
+          "95652ceca5-edcb8dbf-2k": 230.71499999999997,
+          "ae915f7baf-bc6c399d-2k": 166.361,
+          "2774d6656f-75fe1b92-2k": 230.408,
+          "523ac1eaf0-c7c898c8-2k": 303.769,
+          "33f7c1f7e5-86d55d85-2k": 259.48199999999997,
+          "d87e9ebb8d-a7d30606-2k": 137.257
+        },
+        "trace_median_speedup": 1.028655481822212
+      },
+      "Q8_0-bookend": {
+        "n": 30,
+        "cycle_ms_median": 212.591,
+        "request_wall_ms_median": 259.1914399963571,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0320592122902663,
+        "paired_cycle_speedup_median": 1.0192257752680358,
+        "max_load1": 0.73291015625,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 170.27300000000002,
+          "03d9ccb7b9-e2992c7c-2k": 163.917,
+          "771901a5c9-e2992c7c-2k": 194.45499999999998,
+          "335e2def4a-0b481c2b-2k": 206.163,
+          "95652ceca5-edcb8dbf-2k": 211.094,
+          "ae915f7baf-bc6c399d-2k": 203.84199999999998,
+          "2774d6656f-75fe1b92-2k": 255.89100000000002,
+          "523ac1eaf0-c7c898c8-2k": 220.791,
+          "33f7c1f7e5-86d55d85-2k": 228.993,
+          "d87e9ebb8d-a7d30606-2k": 244.62099999999998
+        },
+        "trace_median_speedup": 0.9871961045729927
+      }
+    }
+  },
+  "verdict": {
+    "verdict": "GPU-B4-TIMING-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Cycle timing of the three frozen b4 exports; varying output lengths, cold cache and ten paired traces. Review bookend drift/load and separate quality results; no automatic promotion."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "28903bab03151a8b193e3c19e7cfe8d44c4bb58d57a9ef7f70031d2141a776c9",
+    "telemetry.jsonl": "7017a6acb0799659ae5e1bf089c8baedd66e755bd172f7003c2b4b8feb054d56",
+    "verdict.json": "37bd32174bfc1c9f832a474b00f523cda05eb3bb386088b3f92f69d222931212",
+    "evaluation.json": "4cfb58c7e1879121b1d5062e00cf455dd45cd7730028322ae7260233daa649cf",
+    "execution.json": "253d59b3d257daa961eb0674254735bb49a9b693dd861d75cc8296645d4ae061",
+    "per_request.jsonl": "e3e75c6339011c27ef247348601aff63ebf010d7c9929c56dedf4d649f0220b5",
+    "warmups.jsonl": "7dc33e18edaf929b7dafbbb035f0b674b2c7327e409801056b7056cca8e4a4e5",
+    "archive.json": "119eb0ad0be4b869e89ac1f268bc6122db64563c0374cd728eb4699c760526f3",
+    "final-runner-receipt.json": "7d2b6e82ae4c21d918a65e408d5c45831e841ceaed468f4e70729bbb14ab6f93",
+    "prepared.json": "dc6faceedab37045e38744aea96dd6a72b7525cd9127319fe8a436cf4fd1d5a0",
+    "recipe.json": "f06f5e89466e67b66bd78d93cd508398c5e70814153fc73bf66918aea2237a42",
+    "02-evaluate-artifacts.json": "727110c71fc01f1ada3e6de5459393607117580b3a36a462ec650f99b97ae059",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "be6805e0d65eeabfc07a1486bb0e8f1c4261e06dae5e6341aee6de6e48f9f630",
+    "01-measure-artifacts.json": "271d7e05315feb8d954178eadc04d4b8d2543b7a77559cf6bfdf60d2a33e3b26"
+  }
+}

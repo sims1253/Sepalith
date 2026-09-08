@@ -38,7 +38,7 @@ def main():
    if path.is_relative_to(runtime) or str(path).startswith(('/usr/','/lib/')):
     if digest(path)!=item['sha256']:raise ValueError('Frozen runtime changed')
     inputs.append(item)
-  env=dict(previous['env'],S1_RUNTIME=str(runtime),B4_TIMING_TIER=tier)
+  env=dict(previous['env'],S1_RUNTIME=str(runtime),B4_TIMING_TIER=tier,PATH='/usr/lib/wsl/lib:/usr/local/bin:/usr/bin:/bin')
   recipe=dict(schema_version=1,id='b4-other-quant-timing-'+tier+'-20260908',snapshot=snapshot,
    resource='gpu' if tier=='gpu' else 'quiet',python=previous['python'],depends_on=[],inputs=inputs,env=env,
    provenance=dict(queue_item='S2',scope='b4 Q8/imatrix Q6/imatrix IQ4 and Q8 bookend; 10 fixed 2K traces x3 reps =120 rows',

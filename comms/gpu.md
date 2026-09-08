@@ -123,3 +123,9 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-08T19:39:43+02:00] codex-queue-owner CLAIM GPU b4 Q6/IQ4 timing:120requests, Q8bookend, port18477,30minute bound. CPU follows after release.
 
 [2026-09-08T19:40:01+02:00] codex-queue-owner RELEASE b4 other quant timing gpu; attempt e68c8242e1b145acb09f2b6e90ea8c5a, failed, evidence closed.
+
+[2026-09-08T19:41:27+02:00] codex-queue-owner CLAIM GPU b4 Q6/IQ4 timing retry; previous premeasurement failure archived, WSL telemetry PATH corrected.
+
+[2026-09-08T19:42:34+02:00] codex-queue-owner RELEASE b4 other quant timing gpu; attempt ac579af911a64c578632cb3ce952775d, succeeded, evidence closed.
+
+[2026-09-08T19:42:52+02:00] codex-queue-owner CLAIM quietCPU b4 Q6/IQ4 timing,120requests,8threads, Q8bookend,90minute bound. No GPU/CPU experiment overlap; expected25–35minutes.

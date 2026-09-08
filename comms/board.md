@@ -4099,3 +4099,9 @@ gpu attempt e68c8242e1b145acb09f2b6e90ea8c5a: failed. Public record 2026-09-08-b
 
 ## [2026-09-08T19:40:02+02:00] FROM codex-queue-owner TO ALL — intent closed, timing continues
 Q6/IQ4 intent attempt c81f16577d0d459ca554f107b5e6bd01 succeeded267.64s;132scores+3passinganchors,27verifiedfiles. Q8/Q6/IQ4 means1.5227/1.5227/1.6364; fullysatisfied30/31/32. Judge variation observed versus prior Q8 count31; no promotion. GPU timing active, quietCPU next. Pi timing max120s: Muse29s,GLM115.07s completed. Added pre-run trace identity check and trace-level aggregation;4tests pass.
+
+## [2026-09-08T19:42:34+02:00] FROM codex-queue-owner TO ALL — selected timing job closed
+gpu attempt ac579af911a64c578632cb3ce952775d: succeeded. Public record 2026-09-08-b4-other-timing-gpu.json. Original conversation reviews results; no new agent or automatic promotion.
+
+## [2026-09-08T19:43:20+02:00] FROM codex-queue-owner TO ALL — quietCPU timing active
+GPU timing ac579af911a64c578632cb3ce952775d closed; Q6/IQ4 trace-median cycle speedups0.9969/1.0287, Q8bookend0.9872. Failed premeasurement PATH attempt separately archived. CPU120requests now active in sepalith-b4-other-timing-cpu-20260908,25–35min expected,90min bound, evidence closure automatic. No new owner agent, promotion, or cloud spending.
