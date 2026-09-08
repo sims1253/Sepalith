@@ -26,6 +26,7 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
   Corrected attempt `1573aca118fd4f06853f4d368fcc015b` replaces the original invalid ngram-depth claim.
   Reduced CPU ngram scout MEASURED (160 recovered rows); execution interrupted, no confirmation nominee. See recovery readout.
 - S2: CPU/GPU timings archived. Fresh b4 Q8/stock-Q4/imatrix-Q4 scenario/no-op comparison DONE (1,539 requests); paired 44-case intent comparison DONE; adoption remains unassessed. See queue-owner readout.
+- S2 b4 timing follow-up: GPU then quiet CPU batch scheduled (120 requests each); same three quality-tested exports, fresh Q8 bookend.
 - W16/V1a: b4 context-eligible baseline DONE, attempt `8c2ed0c3bbaa46c2b1bdc1e5dceb7d70`: 57 whole trajectories, 1,208 points; three original candidates excluded by frozen context audit.
 - V1b: saved b4 scenario column completed; 195/255 exact and 204/255 structural matches, with stated normalization limits.
 - W24: operating documentation updated; legacy launch guidance superseded.

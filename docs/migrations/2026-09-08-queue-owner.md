@@ -540,3 +540,23 @@ Generation and calibrated judging completed through separate runner jobs. [Gener
   "cache_hits": 54
 }
 ```
+
+
+## Next S2 batch: the quality-tested b4 exports
+
+The completed intent comparison satisfied 31/44 cases for Q8 and 34/44
+for each Q4 export. Exact serialized judge-input caching saved 54 of 132
+case calls (78 unique inputs). Three calibration anchors passed. The Q8
+tensor audit found identical weight tensors between the S1 and packaging
+exports, but metadata differs in name and padding token ID. These are
+content findings, not reconstructed training or Q4 parent provenance.
+
+The next batch measures b4 Q8, stock Q4 and imatrix Q4 on GPU, then quiet
+CPU t8. Each tier uses ten frozen 2K traces, three cold repetitions and a
+fresh Q8 bookend: 120 requests. It preserves the original 48-token cap and
+stop policy, reports output lengths as well as cycle latency, and has
+30-minute GPU / 90-minute CPU bounds. Both requested Pi models ran at max
+with 120-second caps: Muse completed in 46.60 seconds; GLM timed out at
+120.02 seconds. Four focused tests pass. No cloud spending or automatic
+quant promotion. The detached controller waits on its real child process,
+not only a database status, and closes/archives each tier before the next.
