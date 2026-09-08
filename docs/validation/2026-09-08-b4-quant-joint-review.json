@@ -1,0 +1,196 @@
+{
+  "verification": {
+    "b4-quant-quality": {
+      "attempt": "2aee6537ed5149299c51f32509fec4fb",
+      "files": 43,
+      "record_sha256": "6d0725365696b40f118df43f2fcf1605be8189eed2802db41746a41081b89300",
+      "archive": "/mnt/h/sepalith/runs/runner-b4-quant-quality-archive-20260908/2aee6537ed5149299c51f32509fec4fb"
+    },
+    "b4-intent-judge": {
+      "attempt": "09b3d25847f448f6a7c05260a2839c91",
+      "files": 27,
+      "record_sha256": "d79047f0dffb4c199268b308e73305d71f83578b0db0256d473ac2261470242c",
+      "archive": "/mnt/h/sepalith/runs/runner-b4-intent-judge-archive-20260908/09b3d25847f448f6a7c05260a2839c91"
+    },
+    "b4-timing-cpu": {
+      "attempt": "91bd84bbf9034dd8b781ce7a29115cc2",
+      "files": 34,
+      "record_sha256": "ba87bfb8c2f3305cc5fccbc62860556598d289bf9233f45a3c9c713ba451249f",
+      "archive": "/mnt/h/sepalith/runs/runner-b4-quant-timing-archive-20260908/cpu/91bd84bbf9034dd8b781ce7a29115cc2"
+    },
+    "b4-timing-gpu": {
+      "attempt": "0d8b76500c724881b9c2d9e893315075",
+      "files": 34,
+      "record_sha256": "a3efba3f072dccb12819e3d2b32f850535e8afc536e2af7a6a861d8cda3ed13c",
+      "archive": "/mnt/h/sepalith/runs/runner-b4-quant-timing-archive-20260908/gpu/0d8b76500c724881b9c2d9e893315075"
+    }
+  },
+  "paired": {
+    "Q4_K_M": {
+      "scenario_exact": {
+        "n": 255,
+        "losses": 6,
+        "gains": 3,
+        "delta_pp": -1.1764705882352942,
+        "mcnemar_exact_two_sided": 0.5078125,
+        "verdict": "NO-SIGNIFICANT-DIFFERENCE"
+      },
+      "scenario_valid": {
+        "n": 255,
+        "losses": 6,
+        "gains": 5,
+        "delta_pp": -0.39215686274509803,
+        "mcnemar_exact_two_sided": 1,
+        "verdict": "NO-SIGNIFICANT-DIFFERENCE"
+      },
+      "intent_satisfied": {
+        "n": 44,
+        "losses": 0,
+        "gains": 3,
+        "delta_pp": 6.818181818181818,
+        "mcnemar_exact_two_sided": 0.25,
+        "verdict": "NO-SIGNIFICANT-DIFFERENCE"
+      },
+      "observed_exact_intent_1pp_gate": false
+    },
+    "Q4_K_M_imatrix": {
+      "scenario_exact": {
+        "n": 255,
+        "losses": 6,
+        "gains": 5,
+        "delta_pp": -0.39215686274509803,
+        "mcnemar_exact_two_sided": 1,
+        "verdict": "NO-SIGNIFICANT-DIFFERENCE"
+      },
+      "scenario_valid": {
+        "n": 255,
+        "losses": 8,
+        "gains": 4,
+        "delta_pp": -1.5686274509803921,
+        "mcnemar_exact_two_sided": 0.3876953125,
+        "verdict": "NO-SIGNIFICANT-DIFFERENCE"
+      },
+      "intent_satisfied": {
+        "n": 44,
+        "losses": 0,
+        "gains": 3,
+        "delta_pp": 6.818181818181818,
+        "mcnemar_exact_two_sided": 0.25,
+        "verdict": "NO-SIGNIFICANT-DIFFERENCE"
+      },
+      "observed_exact_intent_1pp_gate": true
+    }
+  },
+  "timing": {
+    "cpu": {
+      "Q4_K_M": {
+        "trace_median_speedup": 1.301013677210248,
+        "faster_traces": 10,
+        "trace_speedups": {
+          "03d9ccb7b9-e2992c7c-2k": 1.2809510554997494,
+          "0fcbbfe49d-ef3a5a92-2k": 1.2951924879173768,
+          "2774d6656f-75fe1b92-2k": 1.2913765624505744,
+          "335e2def4a-0b481c2b-2k": 1.3068348665031193,
+          "33f7c1f7e5-86d55d85-2k": 1.3421215296055287,
+          "523ac1eaf0-c7c898c8-2k": 1.080906017383504,
+          "771901a5c9-e2992c7c-2k": 1.2910323792527811,
+          "95652ceca5-edcb8dbf-2k": 1.3122227513292009,
+          "ae915f7baf-bc6c399d-2k": 1.328411748431067,
+          "d87e9ebb8d-a7d30606-2k": 1.501886454696954
+        }
+      },
+      "Q4_K_M_imatrix": {
+        "trace_median_speedup": 1.2897310434536478,
+        "faster_traces": 10,
+        "trace_speedups": {
+          "03d9ccb7b9-e2992c7c-2k": 1.2861317686669254,
+          "0fcbbfe49d-ef3a5a92-2k": 1.2933303182403701,
+          "2774d6656f-75fe1b92-2k": 1.2838879735133237,
+          "335e2def4a-0b481c2b-2k": 1.2140387019775962,
+          "33f7c1f7e5-86d55d85-2k": 1.34239404594493,
+          "523ac1eaf0-c7c898c8-2k": 1.3204652953095044,
+          "771901a5c9-e2992c7c-2k": 1.2981190050797298,
+          "95652ceca5-edcb8dbf-2k": 1.2625473539485617,
+          "ae915f7baf-bc6c399d-2k": 1.2749837296115947,
+          "d87e9ebb8d-a7d30606-2k": 1.5043159338895844
+        }
+      },
+      "Q8_0-bookend": {
+        "trace_median_speedup": 0.9913203888524258,
+        "faster_traces": 3,
+        "trace_speedups": {
+          "03d9ccb7b9-e2992c7c-2k": 0.9866196585070608,
+          "0fcbbfe49d-ef3a5a92-2k": 1.0006526589211975,
+          "2774d6656f-75fe1b92-2k": 0.9812906955968278,
+          "335e2def4a-0b481c2b-2k": 0.9875300084843845,
+          "33f7c1f7e5-86d55d85-2k": 1.007592965950196,
+          "523ac1eaf0-c7c898c8-2k": 0.9921662109648185,
+          "771901a5c9-e2992c7c-2k": 0.9947882843545505,
+          "95652ceca5-edcb8dbf-2k": 0.9816701308980093,
+          "ae915f7baf-bc6c399d-2k": 1.0061116189408463,
+          "d87e9ebb8d-a7d30606-2k": 0.9904745667400332
+        }
+      }
+    },
+    "gpu": {
+      "Q4_K_M": {
+        "trace_median_speedup": 1.0724757950107175,
+        "faster_traces": 8,
+        "trace_speedups": {
+          "03d9ccb7b9-e2992c7c-2k": 1.1378898022963515,
+          "0fcbbfe49d-ef3a5a92-2k": 0.8806425532734028,
+          "2774d6656f-75fe1b92-2k": 1.1168962213943587,
+          "335e2def4a-0b481c2b-2k": 1.088194346588507,
+          "33f7c1f7e5-86d55d85-2k": 1.0567572434329282,
+          "523ac1eaf0-c7c898c8-2k": 1.152165674765518,
+          "771901a5c9-e2992c7c-2k": 1.0379499515107722,
+          "95652ceca5-edcb8dbf-2k": 0.8332030516483181,
+          "ae915f7baf-bc6c399d-2k": 1.0142875227288422,
+          "d87e9ebb8d-a7d30606-2k": 1.6759332803812546
+        }
+      },
+      "Q4_K_M_imatrix": {
+        "trace_median_speedup": 0.9124389667697208,
+        "faster_traces": 4,
+        "trace_speedups": {
+          "03d9ccb7b9-e2992c7c-2k": 0.8877945869157293,
+          "0fcbbfe49d-ef3a5a92-2k": 0.763432471558079,
+          "2774d6656f-75fe1b92-2k": 1.2664185301046615,
+          "335e2def4a-0b481c2b-2k": 0.8058116675779572,
+          "33f7c1f7e5-86d55d85-2k": 1.0365711282380463,
+          "523ac1eaf0-c7c898c8-2k": 2.439715859352203,
+          "771901a5c9-e2992c7c-2k": 0.8828055506137698,
+          "95652ceca5-edcb8dbf-2k": 0.8414673946600101,
+          "ae915f7baf-bc6c399d-2k": 0.9370833466237123,
+          "d87e9ebb8d-a7d30606-2k": 1.5776667790273644
+        }
+      },
+      "Q8_0-bookend": {
+        "trace_median_speedup": 0.9584375505727297,
+        "faster_traces": 4,
+        "trace_speedups": {
+          "03d9ccb7b9-e2992c7c-2k": 1.0836169304227428,
+          "0fcbbfe49d-ef3a5a92-2k": 1.0503314679294016,
+          "2774d6656f-75fe1b92-2k": 0.9384784350762714,
+          "335e2def4a-0b481c2b-2k": 0.9124948009226,
+          "33f7c1f7e5-86d55d85-2k": 0.8742215601496929,
+          "523ac1eaf0-c7c898c8-2k": 1.0752756019435814,
+          "771901a5c9-e2992c7c-2k": 0.9783966660691881,
+          "95652ceca5-edcb8dbf-2k": 0.8907417868430757,
+          "ae915f7baf-bc6c399d-2k": 0.8779004616832764,
+          "d87e9ebb8d-a7d30606-2k": 1.0170603156039855
+        }
+      }
+    }
+  },
+  "operational": "Four completed archives verified; original receipts unchanged.",
+  "scientific": "Stock Q4 misses observed exact gate. Imatrix Q4 passes observed exact/intent gate only; validity regression and uncertainty prevent production promotion.",
+  "adoption": "NO-PROMOTION",
+  "limits": [
+    "Ten timing traces, three repeated measurements each; not 30 independent traces.",
+    "Cold 2K cycles with variable output lengths; not equal-token throughput.",
+    "McNemar difference tests do not prove 1pp noninferiority.",
+    "Single calibrated judge; stochastic judge uncertainty unmeasured.",
+    "Historical receipts lack Q4 parent hashes; consult separate deterministic reproduction audit."
+  ]
+}

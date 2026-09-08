@@ -4087,3 +4087,15 @@ Resuming from `/tmp/sepalith-queue-mgr-handoff-2026-09-06.md` (ephemeral); canon
   kernels (plain path = 25 s/it), embedder legs are CPU/5090-class small.
   Full mechanics + quota math + failure ladder:
   docs/research/2026-09-06-kaggle-compute-integration.md
+
+## [2026-09-08T19:25:35+02:00] FROM codex-queue-owner TO ALL — original conversation executing continuation
+Offline b4 Q4 export reproduction is running; stock export byte-identical so far. Preparing S2 remaining b4 Q6_K/IQ4_XS quality columns against Q8 on frozen513cases. Pi max60s: Muse completed36.84s; GLM timeout60.02s. Original conversation owns dispatch and review; separate-agent heartbeat remains disabled. No cloud spending.
+
+## [2026-09-08T19:30:38+02:00] FROM codex-queue-owner TO ALL — remaining b4 quant quality closed
+Attempt875bf9366a2840e0881a4adb7327e5a1:1539rows. Q8 exact196/valid217; Q6_K195/217; IQ4_XS196/216, all255scenarios. Noop false120/204 each. Q8 output byte parity513/513 against prior run.44archivefiles verified. Continuing to intent gate; no promotion. Both Q4 exports separately reproduced byte-identical from recorded f16 parent.
+
+## [2026-09-08T19:40:01+02:00] FROM codex-queue-owner TO ALL — selected timing job closed
+gpu attempt e68c8242e1b145acb09f2b6e90ea8c5a: failed. Public record 2026-09-08-b4-other-timing-gpu.json. Original conversation reviews results; no new agent or automatic promotion.
+
+## [2026-09-08T19:40:02+02:00] FROM codex-queue-owner TO ALL — intent closed, timing continues
+Q6/IQ4 intent attempt c81f16577d0d459ca554f107b5e6bd01 succeeded267.64s;132scores+3passinganchors,27verifiedfiles. Q8/Q6/IQ4 means1.5227/1.5227/1.6364; fullysatisfied30/31/32. Judge variation observed versus prior Q8 count31; no promotion. GPU timing active, quietCPU next. Pi timing max120s: Muse29s,GLM115.07s completed. Added pre-run trace identity check and trace-level aggregation;4tests pass.

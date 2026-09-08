@@ -1,0 +1,49 @@
+{
+  "attempt": "cf67500d5b1a438ba8d2d24ba484b5a9",
+  "job": "b4-other-intent-generation-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 57.5923810005188,
+  "snapshot": "d03fc6ad03d0ebc74e6ec7d7c75eb90a278e7c0be6abdcae2ccba67cc8d6911c",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-other-intent-generation-archive-20260908/cf67500d5b1a438ba8d2d24ba484b5a9",
+  "closed_manifest_sha256": "4d3c17d17f5088a7664c279ace30c6139a17baa88fea2a7b39b2a5e0c4e47efa",
+  "files": 32,
+  "receipt": {
+    "id": "cf67500d5b1a438ba8d2d24ba484b5a9",
+    "job": "b4-other-intent-generation-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1841795,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788888678.6621783,
+    "finished": 1788888736.2545593,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 132,
+    "length_rows": 17,
+    "judge_completion_truncated_rows": 1
+  },
+  "verdict": {
+    "verdict": "INTENT-GENERATION-COMPLETE",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Judge calibration and scores remain pending"
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "8530be4d6ed93993dc757a6c8847900fea86376b3750f967fc66c03fe4a84f04",
+    "verdict.json": "cac5488b8ed1f8e5cd73a216fc3fa6122ed90d7445c12d7aafec1ad7fe45147f",
+    "evaluation.json": "4f320e3e25114bcabb0d3eda38c91df30854fc6dde5a3f93efe9a9f60eae4af4",
+    "execution.json": "87d077ef241ee9c2e248b2636ea9f730258456ad85327fb863c491d0462fe464",
+    "02-evaluate_generation-artifacts.json": "f3edacc454bb443172e566d5958a6da848db10959f29b3ede2d7a1ebf3878b65",
+    "requests.jsonl": "1bed1fa173394be4f779375326fb2fe350dcbcbd67779d6c10b9162a9dc806d5",
+    "archive.json": "75bca89ffa1a81b6b54c076baeb3c8fd09d71210ac3e662d9ed351c59044863c",
+    "final-runner-receipt.json": "3bb4d348638a84fa3119673e729d79ff404f6d712f28969591c2513b7e0aea6d",
+    "prepared.json": "d2ea15522fccd90646f2e39b8189940987664882c542fe96ea8f4e28321e05c0",
+    "recipe.json": "e01c0a1b86f19734d483bf3197d583156911e61c68f008f0ad9d8747b76b70b5",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "1a8ddab42f8d08e41fb0de148c539ade50eb6253deead08e064f4e3633662e3a",
+    "01-measure-artifacts.json": "0f1f523e606d7b2d9593dca5b1e9721e451624d8b89bffd913eea2ba71cef6c7"
+  }
+}

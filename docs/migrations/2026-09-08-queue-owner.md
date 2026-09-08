@@ -715,3 +715,16 @@ reserves, parked decisions and quiet CPU windows remain binding.
 ## Heartbeat clarification
 
 The user meant a scheduled wakeup of this original conversation, not a new Codex agent. The separate-agent timer was disabled and its active service stopped. No new experiment unit had launched; its draft review files were preserved. This interface exposes no same-conversation scheduled wakeup tool. The prior installation did not meet the intended requirement.
+
+
+## Original conversation continuation, 19:25
+
+Both existing Q4_K_M exports reproduced byte for byte from f16 parent `3cffd05f1663d41c074b000697a10a2896309558230a028f213cdd47c7983397` with the pinned quantizer and recorded tensor policy. This resolves parent-file identity, not training lineage or calibration adequacy. Evidence: `docs/validation/2026-09-08-b4-quant-reproduction.json`.
+
+The joint quality/timing review verifies all four closed archives and groups three timing repeats within each of ten traces before aggregation. CPU median paired cycle speedups are 1.301 stock Q4 and 1.290 imatrix Q4. Neither is promoted; difference tests do not prove noninferiority. Evidence: `docs/validation/2026-09-08-b4-quant-joint-review.json`.
+
+The original conversation launched the remaining Q6_K/IQ4_XS quality columns through the runner, attempt `875bf9366a2840e0881a4adb7327e5a1`, against Q8 on the same frozen 513 cases. Separate Pi max pre-rolls: Muse completed36.84s, GLM timed out60.02s. Five evaluator checks pass for the adapted harness. No cloud resources used.
+
+The remaining quant quality run closed successfully in219.58s: Q6_K195exact/217valid, IQ4_XS196/216, Q8control196/217. Noop false suggestions120/204 for every arm. The repeated Q8 output matches the prior run byte-for-byte on513/513cases.44files verified. Intent generation then closed in57.59s with132rows and32verified files; calibrated judging followed. Intent pre-roll: Muse43.58s completed, GLM60.02s timeout, bothmax; nine adapted evaluator checks pass.
+
+Intent judge closed in267.64s,132scores plus three passing anchors,71uniqueinputs/61cachehits,27verified files. Q8mean1.5227/30fullysatisfied; Q6mean1.5227/31; IQ4mean1.6364/32. Q8 fully-satisfied count differs from the earlier judge run(31), demonstrating judge variation; only within-run comparisons used. Q6score gains/losses1/1; IQ45/1. No promotion. Records under `docs/validation/2026-09-08-b4-other-intent-{generation,judge}.json`.

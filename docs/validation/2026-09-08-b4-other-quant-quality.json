@@ -1,0 +1,322 @@
+{
+  "attempt": "875bf9366a2840e0881a4adb7327e5a1",
+  "job": "b4-other-quant-quality-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 219.58077907562256,
+  "snapshot": "8e7574ba9482eae0fec692bbb899de9fd3cbbd89a020a7d15f91d32c010ee091",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-other-quant-quality-archive-20260908/875bf9366a2840e0881a4adb7327e5a1",
+  "closed_manifest_sha256": "3ea4ae1355a6f7ca014efa5fe3391c7adce5a3717bc01eeac7a9b8e46e9cf80c",
+  "files": 44,
+  "receipt": {
+    "id": "875bf9366a2840e0881a4adb7327e5a1",
+    "job": "b4-other-quant-quality-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1835452,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788888351.4256403,
+    "finished": 1788888571.0064194,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 1539,
+    "arms": {
+      "Q8_0": {
+        "scenarios": 255,
+        "exact": 196,
+        "valid": 217,
+        "noop_scored": 204,
+        "noop_false_suggestions": 120,
+        "generation_limit_rows": 0,
+        "scenario_by_family": {
+          "doc_sync": {
+            "n": 15,
+            "exact": 0,
+            "valid": 0
+          },
+          "format_propagation": {
+            "n": 67,
+            "exact": 36,
+            "valid": 48
+          },
+          "na_rm_propagation": {
+            "n": 5,
+            "exact": 5,
+            "valid": 5
+          },
+          "pipe_rewrite": {
+            "n": 18,
+            "exact": 18,
+            "valid": 18
+          },
+          "rename_propagation": {
+            "n": 150,
+            "exact": 137,
+            "valid": 146
+          }
+        },
+        "noop_by_class": {
+          "a_after_close_brace": {
+            "n": 54,
+            "proposals": 0
+          },
+          "a_file_end": {
+            "n": 27,
+            "proposals": 9
+          },
+          "b_mid_typing": {
+            "n": 54,
+            "proposals": 54
+          },
+          "c_blank_in_fn": {
+            "n": 16,
+            "proposals": 16
+          },
+          "c_mid_identifier": {
+            "n": 29,
+            "proposals": 29
+          },
+          "c_stmt_line_end": {
+            "n": 54,
+            "proposals": 54
+          },
+          "d_tempt_close_brace": {
+            "n": 12,
+            "proposals": 0
+          },
+          "d_tempt_stmt_end": {
+            "n": 12,
+            "proposals": 12
+          }
+        }
+      },
+      "Q6_K_imatrix": {
+        "scenarios": 255,
+        "exact": 195,
+        "valid": 217,
+        "noop_scored": 204,
+        "noop_false_suggestions": 120,
+        "generation_limit_rows": 1,
+        "scenario_by_family": {
+          "doc_sync": {
+            "n": 15,
+            "exact": 0,
+            "valid": 0
+          },
+          "format_propagation": {
+            "n": 67,
+            "exact": 35,
+            "valid": 48
+          },
+          "na_rm_propagation": {
+            "n": 5,
+            "exact": 5,
+            "valid": 5
+          },
+          "pipe_rewrite": {
+            "n": 18,
+            "exact": 18,
+            "valid": 18
+          },
+          "rename_propagation": {
+            "n": 150,
+            "exact": 137,
+            "valid": 146
+          }
+        },
+        "noop_by_class": {
+          "a_after_close_brace": {
+            "n": 54,
+            "proposals": 0
+          },
+          "a_file_end": {
+            "n": 27,
+            "proposals": 9
+          },
+          "b_mid_typing": {
+            "n": 54,
+            "proposals": 54
+          },
+          "c_blank_in_fn": {
+            "n": 16,
+            "proposals": 16
+          },
+          "c_mid_identifier": {
+            "n": 29,
+            "proposals": 29
+          },
+          "c_stmt_line_end": {
+            "n": 54,
+            "proposals": 54
+          },
+          "d_tempt_close_brace": {
+            "n": 12,
+            "proposals": 0
+          },
+          "d_tempt_stmt_end": {
+            "n": 12,
+            "proposals": 12
+          }
+        }
+      },
+      "IQ4_XS_imatrix": {
+        "scenarios": 255,
+        "exact": 196,
+        "valid": 216,
+        "noop_scored": 204,
+        "noop_false_suggestions": 120,
+        "generation_limit_rows": 0,
+        "scenario_by_family": {
+          "doc_sync": {
+            "n": 15,
+            "exact": 0,
+            "valid": 0
+          },
+          "format_propagation": {
+            "n": 67,
+            "exact": 38,
+            "valid": 47
+          },
+          "na_rm_propagation": {
+            "n": 5,
+            "exact": 5,
+            "valid": 5
+          },
+          "pipe_rewrite": {
+            "n": 18,
+            "exact": 18,
+            "valid": 18
+          },
+          "rename_propagation": {
+            "n": 150,
+            "exact": 135,
+            "valid": 146
+          }
+        },
+        "noop_by_class": {
+          "a_after_close_brace": {
+            "n": 54,
+            "proposals": 0
+          },
+          "a_file_end": {
+            "n": 27,
+            "proposals": 9
+          },
+          "b_mid_typing": {
+            "n": 54,
+            "proposals": 54
+          },
+          "c_blank_in_fn": {
+            "n": 16,
+            "proposals": 16
+          },
+          "c_mid_identifier": {
+            "n": 29,
+            "proposals": 29
+          },
+          "c_stmt_line_end": {
+            "n": 54,
+            "proposals": 54
+          },
+          "d_tempt_close_brace": {
+            "n": 12,
+            "proposals": 0
+          },
+          "d_tempt_stmt_end": {
+            "n": 12,
+            "proposals": 12
+          }
+        }
+      }
+    },
+    "paired": {
+      "Q6_K_imatrix": {
+        "exact": {
+          "n": 255,
+          "baseline_positive": 196,
+          "candidate_positive": 195,
+          "losses": 1,
+          "gains": 0,
+          "delta_pp": -0.39215686274509803,
+          "mcnemar_exact_two_sided": 1
+        },
+        "valid": {
+          "n": 255,
+          "baseline_positive": 217,
+          "candidate_positive": 217,
+          "losses": 1,
+          "gains": 1,
+          "delta_pp": 0.0,
+          "mcnemar_exact_two_sided": 1
+        },
+        "noop_restraint": {
+          "n": 204,
+          "baseline_positive": 84,
+          "candidate_positive": 84,
+          "losses": 0,
+          "gains": 0,
+          "delta_pp": 0.0,
+          "mcnemar_exact_two_sided": 1
+        },
+        "scenario_exact_within_1pp_observed": true,
+        "scenario_valid_within_1pp_observed": true
+      },
+      "IQ4_XS_imatrix": {
+        "exact": {
+          "n": 255,
+          "baseline_positive": 196,
+          "candidate_positive": 196,
+          "losses": 7,
+          "gains": 7,
+          "delta_pp": 0.0,
+          "mcnemar_exact_two_sided": 1
+        },
+        "valid": {
+          "n": 255,
+          "baseline_positive": 217,
+          "candidate_positive": 216,
+          "losses": 5,
+          "gains": 4,
+          "delta_pp": -0.39215686274509803,
+          "mcnemar_exact_two_sided": 1
+        },
+        "noop_restraint": {
+          "n": 204,
+          "baseline_positive": 84,
+          "candidate_positive": 84,
+          "losses": 0,
+          "gains": 0,
+          "delta_pp": 0.0,
+          "mcnemar_exact_two_sided": 1
+        },
+        "scenario_exact_within_1pp_observed": true,
+        "scenario_valid_within_1pp_observed": true
+      }
+    },
+    "inference_boundary": "Paired p-values are unadjusted descriptive tests, not a statistical noninferiority guarantee; package dependence remains"
+  },
+  "verdict": {
+    "verdict": "PAIRED-EXPORT-QUALITY-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Intent LLM-judge gate remains separate. Frozen export comparison; historical receipts do not hash the f16 parent. Existing imatrix coverage is only8x512chunks. No publication or calibrated-quant promotion."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "e22cadc6a0d0551032b43e9d8a697ed5c43cf3ed12c70b774fdf3fe3fb06e3af",
+    "verdict.json": "600081289532d977ae961c29eaf4911e2ec586b7cc0a76806bf5e4dc31e74dc9",
+    "evaluation.json": "97a53006d53d59f3bfea6231654dda6ac13a2da72ecae9209d7d38a531a70fda",
+    "execution.json": "e2ffa7ef4d9617db90ff853caa733ab5a641a583736ad9ceb064ae882f47e15f",
+    "token-audit.jsonl": "d60e8d244196139d08cc38ff31600757286d8555c589e48eacf20d8000bc3e4a",
+    "requests.jsonl": "2a46050a8754688a6554a34e6cc3bbbc501e73a932a8794b8df1f43a2152cf02",
+    "archive.json": "ef0cc76919fd9a2077de981a213f5ae048462ce870cf847c57ca6bb178500c2b",
+    "final-runner-receipt.json": "ab05ed08a6fc230ae3cc0349b91b3489dd8a7eaeed506639fc207f3119e526fc",
+    "prepared.json": "ad0eb31f7fce594189dceedb05b7c69d89609217910cb7e7b253e98294b6d6e6",
+    "recipe.json": "3a8a2b0cff90f801a2fd5e1f44e7f8510d01a8390d31fb91539904f715f7b5ad",
+    "02-evaluate-artifacts.json": "f3821186b58ee50fd23da6fe6fec2ed46b94f7572aa096a05341e19ead7b2cd0",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "1b955984d8291e7b7540f2a2442efbf572081cac4fe8226a84c29e05a6e730cb",
+    "01-measure-artifacts.json": "097473f3c0d907ddc49dd4cfbef5c9dec057f0a5cf38088b38d85a250612f427"
+  }
+}

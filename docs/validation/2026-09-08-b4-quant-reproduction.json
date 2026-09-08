@@ -1,0 +1,50 @@
+{
+  "inputs": {
+    "/home/m0hawk/Documents/Sepalith/experiments/models/packaging_b4-f16.gguf": "3cffd05f1663d41c074b000697a10a2896309558230a028f213cdd47c7983397",
+    "/home/m0hawk/Documents/Sepalith/experiments/models/quant-calibration/b4-smoke-imatrix.gguf": "968f64f4250464168bcbf4559498db4b43bb0be4ddac257497463aeb63393699",
+    "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize": "28cd0f04614c2ca5a6de32feb4b2196625fc792052682749da64cc5879035365"
+  },
+  "results": [
+    {
+      "arm": "control",
+      "argv": [
+        "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+        "--output-tensor-type",
+        "q8_0",
+        "--token-embedding-type",
+        "q8_0",
+        "/home/m0hawk/Documents/Sepalith/experiments/models/packaging_b4-f16.gguf",
+        "/mnt/h/sepalith/runs/b4-quant-reproduction-20260908/control.gguf",
+        "Q4_K_M",
+        "8"
+      ],
+      "seconds": 56.34776030399371,
+      "expected": "9284131e64094012eeab42320b8417febbf248a122b859e28b6a9449f0fcd13d",
+      "actual": "9284131e64094012eeab42320b8417febbf248a122b859e28b6a9449f0fcd13d",
+      "byte_identical": true
+    },
+    {
+      "arm": "imatrix",
+      "argv": [
+        "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+        "--output-tensor-type",
+        "q8_0",
+        "--token-embedding-type",
+        "q8_0",
+        "--imatrix",
+        "/home/m0hawk/Documents/Sepalith/experiments/models/quant-calibration/b4-smoke-imatrix.gguf",
+        "/home/m0hawk/Documents/Sepalith/experiments/models/packaging_b4-f16.gguf",
+        "/mnt/h/sepalith/runs/b4-quant-reproduction-20260908/imatrix.gguf",
+        "Q4_K_M",
+        "8"
+      ],
+      "seconds": 61.960813375000726,
+      "expected": "3f3e482340253814b98975c2274131c62edd993bb56675a1920fff6495e08d0f",
+      "actual": "3f3e482340253814b98975c2274131c62edd993bb56675a1920fff6495e08d0f",
+      "byte_identical": true
+    }
+  ],
+  "scope": "Deterministic export identity; does not establish training lineage or release calibration quality.",
+  "archive": "/mnt/h/sepalith/runs/b4-quant-reproduction-20260908",
+  "manifest_sha256": "3502fb47fe14cb658ed90384c804d77ad84b740f5290d8ca3ce18d31439fb8d6"
+}

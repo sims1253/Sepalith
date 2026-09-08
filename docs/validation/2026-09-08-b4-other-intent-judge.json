@@ -1,0 +1,78 @@
+{
+  "attempt": "c81f16577d0d459ca554f107b5e6bd01",
+  "job": "b4-other-intent-judge-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 267.63707876205444,
+  "snapshot": "d03fc6ad03d0ebc74e6ec7d7c75eb90a278e7c0be6abdcae2ccba67cc8d6911c",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-other-intent-judge-archive-20260908/c81f16577d0d459ca554f107b5e6bd01",
+  "closed_manifest_sha256": "7ed722a18a4aa91488e2e4ef8c8f7bf3fd2ccd7e1cd5e51ea7ae3cc17bcc213a",
+  "files": 27,
+  "receipt": {
+    "id": "c81f16577d0d459ca554f107b5e6bd01",
+    "job": "b4-other-intent-judge-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 2,
+    "worker_pid": 1844192,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788888802.3770466,
+    "finished": 1788889070.0141253,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 132,
+    "arms": {
+      "Q8_0": {
+        "n": 44,
+        "mean": 1.5227272727272727,
+        "normalized_mean": 0.7613636363636364,
+        "satisfied": 30
+      },
+      "Q6_K_imatrix": {
+        "n": 44,
+        "mean": 1.5227272727272727,
+        "normalized_mean": 0.7613636363636364,
+        "satisfied": 31,
+        "normalized_mean_delta_pp": 0.0,
+        "satisfied_delta_pp": 2.272727272727273,
+        "score_gains": 1,
+        "score_losses": 1,
+        "score_ties": 42
+      },
+      "IQ4_XS_imatrix": {
+        "n": 44,
+        "mean": 1.6363636363636365,
+        "normalized_mean": 0.8181818181818182,
+        "satisfied": 32,
+        "normalized_mean_delta_pp": 5.681818181818188,
+        "satisfied_delta_pp": 4.545454545454546,
+        "score_gains": 5,
+        "score_losses": 1,
+        "score_ties": 38
+      }
+    },
+    "unique_judged_inputs": 71,
+    "cache_hits": 61
+  },
+  "verdict": {
+    "verdict": "PAIRED-INTENT-QUALITY-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "44 cases, shared scores for byte-identical judge inputs; judge stochastic uncertainty unmeasured. No formal noninferiority or quant promotion."
+  },
+  "artifact_hashes": {
+    "judge-calls.jsonl": "f6d67622711f9142f119ff7727a7c8b564dc7ad48b5e5c2753982aa77350ab8e",
+    "verdict.json": "caf2815131eabb513a0b81906ecc1e3679f8fb1792ca90e02bd64b39ebf50db3",
+    "evaluation.json": "f2f5778be276b96f8bd87a8b3d81a97ba3d259c9dfd4d670095f27f30319bf3b",
+    "scores.jsonl": "1d3c9d801e7395e205214fefd641b25420e9e1b095056881f9e8ddd9663dc724",
+    "execution.json": "6a909c52a1576fb245296f5b777d8b43909031d487061fac135c27dd56a1af42",
+    "00-judge-artifacts.json": "fba46596751ba850ded809570e61aca1ea8cbb54245cf945641783183f0f33e1",
+    "01-evaluate_judge-artifacts.json": "7db4624187cb38843d7de7833a9b177fbf2d82fb5c5e2bc697d5a5e4870bfdb2",
+    "archive.json": "893b1244a37d1950ee5b7c119789888ed07c734a33a20f2a71f0b781255944df",
+    "02-archive-artifacts.json": "b21e49481d821600f42b67290c6804708ba6f90cbcceec2f95e95453444a20ff",
+    "final-runner-receipt.json": "fb8a5d6cc1d747c1effa07bcd2dfbcb3836773178ba45b14d3846d5f0a39bf67",
+    "recipe.json": "5260aa747b5a270322ebc820dd6e32f3b18943bf33b3e1ad62d9d8095a669e65",
+    "runtime.json": "e9bc2b44dd33f941f519abbe5902bad04ade79d8b4fe4ab708ec75d64d2341fc"
+  }
+}

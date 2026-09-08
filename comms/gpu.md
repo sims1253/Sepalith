@@ -111,3 +111,15 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-06T05:42+02] zcode-pft1 HEARTBEAT 2: arm at ~240/3000, 3.7-4.6s/it (co-running B9 CPU battery shares 16-23; pace should recover when it drains), VRAM 16.3GB FLAT (peak-watch: max 16292 — deep inside the 14-18GB pre-registration, no intervention). Losses finite: first losses ~1.28. ETA train ~09:00-09:30.
 [2026-09-06T06:03+02] zcode-pft1 HEARTBEAT 3: arm 533/3000 ~3.8s/it; eval-500 passed. VRAM: 16.3GB typical, transient peak 29,250MiB in the longest-row region (B8b-anomaly class at 32.1 — ours ~3GB lower; peak-watch threshold 30.5GB x3 NOT hit, no intervention). ETA train ~08:40.
 [2026-09-06T06:35+02] zcode-pft1 HEARTBEAT 4: arm 987/3000 ~4.2s/it avg (B9 battery contention tail), losses 1.28->~1.1 finite/monotone-class, VRAM peak still 29,250MiB (no intervention; threshold 30.5GB x3). ETA train ~08:50-09:10.
+
+[2026-09-08T19:25:51+02:00] codex-queue-owner CLAIM b4 remaining quant quality GPU: Q8/Q6_K/IQ4_XS,1539requests, port18475, 90minute bound. Original conversation owns runner.
+
+[2026-09-08T19:30:38+02:00] codex-queue-owner RELEASE b4 remaining quant quality; succeeded219.58s,44archivefiles verified.
+
+[2026-09-08T19:31:18+02:00] codex-queue-owner CLAIM b4 Q6_K/IQ4_XS intent generation vs Q8,132requests,port18476,15minute bound.
+
+[2026-09-08T19:32:45+02:00] codex-queue-owner RELEASE b4 Q6_K/IQ4_XS intent generation;132requests complete, runner succeeded, service inactive. Judge next.
+
+[2026-09-08T19:39:43+02:00] codex-queue-owner CLAIM GPU b4 Q6/IQ4 timing:120requests, Q8bookend, port18477,30minute bound. CPU follows after release.
+
+[2026-09-08T19:40:01+02:00] codex-queue-owner RELEASE b4 other quant timing gpu; attempt e68c8242e1b145acb09f2b6e90ea8c5a, failed, evidence closed.
