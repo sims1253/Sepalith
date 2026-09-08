@@ -145,3 +145,29 @@ The original pre-finalization archive remains intact; changed/final receipts are
 under `closed-receipts`, with the complete verified mapping in
 `closed-manifest.json`. The [public readout and hashes](../validation/2026-09-08-plain921.json)
 contain no raw predictions or credentials.
+
+## Continued queue execution
+
+The user corrected an unintended stop after W33-N and explicitly directed
+continued queue execution, with optimization pre-rolls where valuable. A pause
+between runner jobs is an admission boundary, not a reason to end queue ownership.
+
+S1 GPU depth sweep is next: 17 registered configurations, 100 deterministic
+traces per context class, three cold/warm repetitions; an extra baseline bookend
+measures drift. The new wrapper freezes target, grafted MTP and b2 draft models,
+trace data and the verified CUDA runtime. Full offload, complete coverage and
+prompt-token parity are required. All cold/warm raw text and timings are saved.
+Paired speed ratios supplement the registered ratio of medians; mismatching or
+non-drafting arms cannot become candidate winners. No latency improvement alone
+proves a shipping decision.
+
+Both requested Pi reviewers completed at max: Muse 42.88 s, GLM 220.40 s, capped
+at 300 s each for the projected 1–4 h sweep. Accepted: remove per-request metrics
+polling; explicit GPU flags and gates; warm-error accounting; complete raw text;
+full-length discarded warmup; final baseline; GPU/load telemetry; paired ratios.
+Rejected: smaller sample, fewer repeats or depth pruning, which would leave the
+registered sweep incomplete. Pinned b10453 `server-context.cpp` gates common-prefix
+reuse on `cache_prompt`, and served cold token counts must equal preflight counts.
+32 targeted tests pass. Attempt `7879cd302663471aa903c56ed2ca2863` is running under
+snapshot `eafb24c9f9d4b1d19f13956280e6198d9a57a6e8a1c1f590cb0f27a456f7e6fb`,
+with a four-hour bound and private archive target `runner-s1-gpu-archive-20260908`.

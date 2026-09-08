@@ -22,7 +22,8 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
 `~/.local/state/sepalith/migration-20260906/prepared-state`, one explicit
 `run-next` followed by pause. Earlier live PIDs/ETAs below are historical.
 
-- S1: saved trimmed CPU measurement reconciled and archived; broader recipe incomplete.
+- S1: GPU depth sweep RUNNING, attempt `7879cd302663471aa903c56ed2ca2863`;
+  17 registered configurations plus baseline bookend. Saved CPU results remain separate.
 - S2: saved CPU timing reconciled and archived; quality and GPU gates outstanding.
 - V1c: saved v7 column reconciled and archived; calibration/concurrency acceptance unresolved.
 - W33: historical input provenance unresolved; original row remains parked.
@@ -32,7 +33,7 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
   runner paused, GPU released. Readout: `docs/validation/2026-09-08-plain921.json`.
 - Paid cloud dispatch remains blocked. Preserve roughly USD85 Anyscale and
   remaining Azure credit for production; verify balances/expiry before admission.
-- Before every experiment: Pi `opencode/muse-spark-1.3-contributor-free` and
+- Optimization pre-rolls where valuable (user update 2026-09-08): Pi `opencode/muse-spark-1.3-contributor-free` and
   `zai/glm-5.3`, both `max`, with a runtime-appropriate review limit; retain
   failures/timeouts and review/test changes. LOC1-S1 and Benchmark publication
   decisions remain parked.
