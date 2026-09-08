@@ -69,7 +69,11 @@ def plot(record,path):
         ax.axhline(1.4,color='#777777',linewidth=1,linestyle='--')
         ax.set_xticks(range(len(depths)),[str(n) for n in depths]);ax.set_xlabel('Draft-token limit');ax.set_title(family)
         ax.grid(axis='y',alpha=.15);ax.spines[['top','right']].set_visible(False)
-    axes[0].set_ylabel('Decode speed / fresh GPU baseline');axes[0].legend(frameon=False)
+    axes[0].set_ylabel('Decode speed / fresh GPU baseline')
+    for ax in axes:
+        if ax.get_legend_handles_labels()[0]:
+            ax.legend(frameon=False)
+            break
     fig.suptitle('S1: RTX 5090 speculative-depth sweep',x=.07,ha='left',fontsize=14)
     fig.text(.07,.015,'Lines: ratio of medians. Bars: paired trace-bootstrap 95% interval. Hollow dots: cold or warm output-parity failure. Dashed: 1.4× gate.',fontsize=8)
     fig.tight_layout(rect=(0,.065,1,.93));fig.savefig(path);plt.close(fig)

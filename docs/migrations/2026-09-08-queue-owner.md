@@ -295,3 +295,27 @@ Nineteen evidence files are hash-verified at
 in [the b4 AST record](../validation/2026-09-08-b4-ast.json). This completes
 the saved b4 scenario V1b column, not all W16 adaptation or the historical
 generation runtime's provenance. The full V1a episode column is still queued.
+
+## S1 GPU completion
+
+Attempt `0ee707385c5648a2883c465ac6cc38a7` completed all 10,800 cold/warm
+pairs in 9,939.9 seconds. All response/count gates passed; 48 final files
+and every frozen input hash verified. The tracked server exited and the
+GPU claim was released.
+
+No arm qualified. Opening baseline decode medians were 330.87/319.41 tok/s
+(2K/8K); closing baseline was 323.96/310.59, with all 600 cold and warm
+outputs matching. MTP speed fell from 0.519/0.511× baseline at depth 1 to
+0.300/0.301× at depth 5, with zero accepted draft tokens from the grafted
+untrained head. The b2 draft-model stand-in improved from 0.148/0.155× to
+0.269/0.277×, but every depth/context had output mismatches. This does not
+measure a trained Matryoshka draft or establish a class-wide MTP limit.
+
+The six ngram labels are excluded from depth conclusions because they all
+used default M=48. A separately frozen M16/M48 repair remains queued.
+[Final record](../validation/2026-09-08-s1-gpu.json),
+[paired intervals](../validation/2026-09-08-s1-gpu-depth.json), and
+[depth plot](../validation/2026-09-08-s1-gpu-depth.svg) preserve that boundary.
+Intervals resample traces within this run; they do not establish between-day
+repeatability. Plotting used a private environment after GPU measurement
+finished, with matplotlib 3.10.3.
