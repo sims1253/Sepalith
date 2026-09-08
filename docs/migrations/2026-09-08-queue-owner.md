@@ -319,3 +319,25 @@ used default M=48. A separately frozen M16/M48 repair remains queued.
 Intervals resample traces within this run; they do not establish between-day
 repeatability. Plotting used a private environment after GPU measurement
 finished, with matplotlib 3.10.3.
+
+## S2 GPU timing column complete
+
+Attempt `c467679abdc146f2a92abf79572fe6a4` completed 150 requests in
+50.26 seconds. All 35 closed files and frozen input hashes verified.
+GPU layers were fully offloaded for each format and every prompt count
+matched serving-tokenizer recount. The server exited before V1a dispatch.
+
+| b1_ref24 format | Median prompt + generation cycle (ms) | Speed / Q8 |
+|---|---:|---:|
+| Q8_0 | 146.38 | 1.000 |
+| Q6_K | 134.08 | 1.092 |
+| Q5_K_M | 123.66 | 1.184 |
+| Q4_K_M | 120.33 | 1.216 |
+| Q4_0 | 130.06 | 1.125 |
+
+Each format has 30 requests (ten traces, three reps). Output lengths vary
+with quantization and the unchanged stop/max-48 policy; these are cycle
+timings, not equal-token throughput. Scenario and intent quality within
+1pp of Q8 remains unverified, so no format is promoted. This measures
+b1_ref24, not the production GDN model.
+[Final record](../validation/2026-09-08-s2-gpu.json).

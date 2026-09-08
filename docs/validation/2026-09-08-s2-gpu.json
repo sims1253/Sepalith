@@ -1,0 +1,86 @@
+{
+  "attempt": "c467679abdc146f2a92abf79572fe6a4",
+  "job": "s2-gpu-timing-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 50.261069774627686,
+  "snapshot": "76a8693a295afd20d92d44f3a1dea6a347683141f36a16d95b6e47b24cc8c7f6",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-s2-gpu-archive-20260908/c467679abdc146f2a92abf79572fe6a4",
+  "closed_manifest_sha256": "849e50e55f86724cbdf463d81bb4891defad0f842e4ff2eadc388c8b3758be25",
+  "files": 35,
+  "receipt": {
+    "id": "c467679abdc146f2a92abf79572fe6a4",
+    "job": "s2-gpu-timing-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1412935,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788861285.8309476,
+    "finished": 1788861336.0920174,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 150,
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 146.3775,
+        "request_wall_ms_median": 185.64678999973694,
+        "generation_limit_rows": 12,
+        "speedup_vs_Q8_0": 1.0
+      },
+      "Q6_K": {
+        "n": 30,
+        "cycle_ms_median": 134.0845,
+        "request_wall_ms_median": 170.8234294965223,
+        "generation_limit_rows": 12,
+        "speedup_vs_Q8_0": 1.0916809922101363
+      },
+      "Q5_K_M": {
+        "n": 30,
+        "cycle_ms_median": 123.661,
+        "request_wall_ms_median": 163.67983350210125,
+        "generation_limit_rows": 9,
+        "speedup_vs_Q8_0": 1.1836997921737653
+      },
+      "Q4_K_M": {
+        "n": 30,
+        "cycle_ms_median": 120.33,
+        "request_wall_ms_median": 157.57021399622317,
+        "generation_limit_rows": 9,
+        "speedup_vs_Q8_0": 1.2164672151583147
+      },
+      "Q4_0": {
+        "n": 30,
+        "cycle_ms_median": 130.0625,
+        "request_wall_ms_median": 168.59439850304625,
+        "generation_limit_rows": 12,
+        "speedup_vs_Q8_0": 1.12543969245555
+      }
+    }
+  },
+  "verdict": {
+    "verdict": "GPU-TIMING-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Scenario and intent quality within 1pp of Q8 required before quantization promotion; this is b1_ref24, not the production GDN winner."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "c9b865506304e24e6a70aa747ff474d68fed7d9bce3525dc16bbd6f6300e6987",
+    "telemetry.jsonl": "d17e658052bd340d38c1fe59e59ba8b9e3f1ef2fae26faab7a100b676f19839b",
+    "verdict.json": "43ae95aaf2f0dffb48b16c704fa20c2c411bbdb5b48d46a86f260c6e54245718",
+    "evaluation.json": "cf7234c6606cb417bcbc5fa40acbce3ccdf582e9be32f5c456d802944cafc8bb",
+    "execution.json": "ce30e202984050351ec752b93d58aac137bc983a7106e8ba9cc3504b41aef698",
+    "per_request.jsonl": "2ccb2cb9fc5601881f1f8fcd8cc62ae04376c6ce01704f5301c7dd8c671bd789",
+    "warmups.jsonl": "325a9de168c2464a3d16679b100034cb22cea1efec54ccee8a8523f92c1cc775",
+    "archive.json": "1d32fc9faef3eebb7d438e6d5b0eb09695354b326edbf38ead12533d89adf16e",
+    "final-runner-receipt.json": "b71821bc499fb96e304f5ba1d41681fecf250359b609b1777c735320ae68e364",
+    "prepared.json": "4cb817e727bf6ec8e3e307ed2e715b5ecf1af82e50c96f530db986db4c67279e",
+    "recipe.json": "4212dbc0d4f49215f351c1d766ec2d080a43027299824603868ec13228191736",
+    "02-evaluate-artifacts.json": "eadd8759c047b8559358acd21a28ce539d6deb78c508c6b5e878a30499458570",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "be201fc2d7bb258ce3df2bd4dadcb73f024d0cb4dea0ac9965e8179819a095fa",
+    "01-measure-artifacts.json": "6cc2a4cc9c70a69485b12677e021937785ed595aac0663b095e9ac8a4e221987"
+  }
+}
