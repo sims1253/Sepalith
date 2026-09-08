@@ -46,16 +46,18 @@ def selected(assets):
     return rows
 
 
-def prepare(run, assets):
+def prepare(run, assets, ngram_only=False):
     rows = selected(assets)
     for name in ('model.gguf', 'mtp.gguf', 'draft.gguf'):
         if not (assets / name).is_file():
             raise ValueError('Missing frozen asset: ' + name)
     if not (Path(os.environ['S1_RUNTIME']) / 'llama-server').is_file():
         raise ValueError('Missing frozen runtime')
-    write(run / 'prepared.json', dict(arms=ARMS, trace_ids=[r['trace_id'] for r in rows],
-        reps=3, expected_rows=10800, ctx=10240, max_tokens=64, max_seconds=14370,
-        scientific_scope='Registered S1 GPU sweep; CPU depth sweep remains separate',
+    arms = ['baseline', 'ngram-simple@16', 'ngram-simple@48', 'baseline-bookend'] if ngram_only else ARMS
+    write(run / 'prepared.json', dict(arms=arms, trace_ids=[r['trace_id'] for r in rows],
+        reps=3, expected_rows=len(arms) * 600, ctx=10240, max_tokens=64, max_seconds=7170 if ngram_only else 14370,
+        scientific_scope='Corrected ngram-only GPU sweep with fresh controls' if ngram_only else 'Registered S1 GPU sweep; CPU depth sweep remains separate',
+        ngram_depth_control='--spec-ngram-simple-size-m',
         draft_boundary='b2 same-family stand-in, not a trained Matryoshka draft; MTP head is grafted base head'))
 
 
@@ -87,6 +89,44 @@ def validate_response(response):
         raise ValueError('Missing or invalid response timings')
 
 
+def check_ngram_control(run, assets):
+    """Discarded diagnostic on one known drafting trace before the timed sweep."""
+    trace = next(r for r in selected(assets) if r['trace_id'] == '2038817292-98c44c61-2k')
+    records = []
+    def expire(*_):
+        raise DeadlineExceeded('Ngram control diagnostic exceeded ten minutes')
+    old = signal.signal(signal.SIGALRM, expire)
+    deadline = time.monotonic() + 600
+    signal.alarm(600)
+    try:
+        for depth in (8, 16, 48):
+            model, flags, label = bench.arm_flags(f'ngram-simple@{depth}', model=assets / 'model.gguf')
+            flags += ['-lv', '4', '--seed', '20260905']
+            server = GpuServer(model, 18471, flags, ctx=10240,
+                server=Path(os.environ['S1_RUNTIME']) / 'llama-server', foreground=True,
+                log_path=run / f'control-M{depth}.log')
+            try:
+                server.start(ready_timeout=120)
+                check_offload(server.log_path.read_text())
+                response = bench.stream_completion(server.port, trace['prompt'], timeout=120)
+                validate_response(response)
+                records.append(dict(depth=depth, trace_id=trace['trace_id'],
+                    flags=flags, timings=response.timings, text=response.text))
+                write(run / f'control-M{depth}.json', records[-1])
+            finally:
+                signal.alarm(0)
+                server.stop()
+                signal.alarm(max(1, math.ceil(deadline - time.monotonic())))
+        counts = [r['timings'].get('draft_n') or 0 for r in records]
+        if counts[0] != 0 or counts[2] <= 0 or counts[1] == counts[2]:
+            raise ValueError('Ngram depth control diagnostic failed: ' + str(counts))
+        write(run / 'ngram-control.json', dict(status='verified', draft_counts=counts,
+            scope='Discarded diagnostic only; timings excluded from the sweep'))
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old)
+
+
 def measure(run, assets):
     prepared = json.loads((run / 'prepared.json').read_text())
     traces = selected(assets)
@@ -94,7 +134,7 @@ def measure(run, assets):
     baseline_counts = {}
     server = None
     def expire(*_):
-        raise DeadlineExceeded('S1 exceeded its four-hour execution bound')
+        raise DeadlineExceeded('S1 exceeded its prepared execution bound')
     old = signal.signal(signal.SIGALRM, expire)
     deadline = time.monotonic() + prepared['max_seconds']
     signal.alarm(prepared['max_seconds'])
@@ -202,11 +242,16 @@ def evaluate(run):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['prepare', 'measure', 'evaluate'])
+    parser.add_argument('action', choices=['prepare', 'measure', 'evaluate', 'check-ngram-control'])
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--assets', type=Path)
+    parser.add_argument('--ngram-only', action='store_true')
     args = parser.parse_args()
     if args.action == 'evaluate':
         evaluate(args.run)
+    elif args.action == 'check-ngram-control':
+        check_ngram_control(args.run, args.assets)
+    elif args.action == 'prepare':
+        prepare(args.run, args.assets, args.ngram_only)
     else:
-        globals()[args.action](args.run, args.assets)
+        measure(args.run, args.assets)

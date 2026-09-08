@@ -26,17 +26,19 @@ def readout(run):
     evaluation=json.loads((run/'evaluation.json').read_text())
     rows=[json.loads(l) for l in (run/'per_request.jsonl').read_text().splitlines()]
     baseline={(r['trace_id'],r['rep']):r for r in rows if r['arm']=='baseline'}
+    invalid_ngram = run.name == '0ee707385c5648a2883c465ac6cc38a7'
     result={}
     for key,stats in evaluation['arms_summary'].items():
         arm,cc=key.split('|');rs=[r for r in rows if r['arm']==arm and r['ctx_class']==cc]
         if not rs:raise ValueError('Missing summary rows')
-        result[key]=dict(n=len(rs),speedup=stats['speedup_vs_baseline'],
+        result[key]=dict(n=len(rs),depth_valid=not (invalid_ngram and arm.startswith('ngram-simple')),speedup=stats['speedup_vs_baseline'],
             paired_trace_bootstrap_95=paired_interval(rs,baseline),
             cold_matches=stats.get('matches_baseline'),warm_matches=stats.get('warm_matches_baseline'),
             cold_warm_matches=stats.get('cold_warm_matches'),
             max_load1=max(r['host_load'][0] for r in rs),
             gen_tps=stats['gen_tps_med'],cold_ttft_ms=stats['ttft_ms_med'],warm_ttft_ms=stats['warm_ttft_ms_med'])
     return dict(attempt=run.name,interval_method='1000 paired trace-cluster resamples; ratio of request medians; seed20260908. Intervals are pointwise, not selection-adjusted; they describe this run, not between-day environment uncertainty.',
+        ngram_depth_error='Ngram labels changed draft.n_max, which does not control ngram in b10453; all six labels used default size-m=48.' if invalid_ngram else None,
         scientific_boundary='Speed alone does not establish adoption; retain output-parity failures and baseline-bookend drift.',arms=result)
 
 
@@ -45,8 +47,15 @@ def plot(record,path):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     families=[('ngram-simple',[2,3,4,8,16,48]),('draft-mtp',[1,2,3,4,5]),('model-draft',[1,2,3,4,5])]
-    fig,axes=plt.subplots(1,3,figsize=(12,4),sharey=True)
+    families = [(family, [n for n in depths if f'{family}@{n}|2k' in record['arms']]) for family, depths in families]
+    families = [(family, depths) for family, depths in families if depths]
+    fig,axes=plt.subplots(1,len(families),figsize=(4*len(families),4),sharey=True,squeeze=False)
+    axes=axes[0]
     for ax,(family,depths) in zip(axes,families):
+        if family == 'ngram-simple' and record.get('ngram_depth_error'):
+            ax.text(.5,.5,'Depth control invalid\nSix repeats at default size-m=48',ha='center',va='center',transform=ax.transAxes)
+            ax.set_title(family);ax.set_xlabel('Corrected sweep required')
+            continue
         for cc,color in [('2k','#2463A0'),('8k','#C46322')]:
             points=[record['arms'][f'{family}@{n}|{cc}'] for n in depths]
             ys=[p['speedup'] for p in points]

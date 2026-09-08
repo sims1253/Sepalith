@@ -16,8 +16,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     for name in ('state', 'assets', 'models', 'traces', 'runtime_recipe', 'archive', 'output'):
         p.add_argument('--' + name.replace('_', '-'), type=Path, required=True)
+    p.add_argument('--ngram-only', action='store_true')
     a = p.parse_args()
-    if any(not path.is_absolute() for path in vars(a).values()):
+    if any(not path.is_absolute() for path in vars(a).values() if isinstance(path, Path)):
         p.error('Use absolute paths')
     runner = Runner(a.state)
     if not runner.plan()['paused']:
@@ -47,6 +48,13 @@ def main():
                                ('evaluate', ['evaluation.json','verdict.json'])]:
         argv = ['{python}', '{source}/scripts/migration/s1_gpu.py', action, '--run', '{run}', '--assets', str(assets)]
         recipe['steps'].append(dict(id=action, argv=argv, artifacts=artifacts))
+    if a.ngram_only:
+        recipe['id'] = 's1-gpu-ngram-corrected-20260908'
+        recipe['provenance']['runtime_bound_seconds'] = 7200
+        recipe['provenance']['scope'] = 'Corrected ngram depth sweep: sizes 16/48 (smaller registered sizes cannot draft with pinned lookup N=12), fresh baseline and bookend, 100 traces/class, three cold/warm reps'
+        recipe['provenance']['pi_review'] = 'Requested models at max, 180 seconds each; private pi-ngram-correction receipts'
+        recipe['steps'][0]['argv'].append('--ngram-only')
+        recipe['steps'].insert(1, dict(id='check-ngram-control', argv=['{python}', '{source}/scripts/migration/s1_gpu.py', 'check-ngram-control', '--run', '{run}', '--assets', str(assets)], artifacts=['ngram-control.json']))
     # Runtime directory is separately content-addressed, so expose it explicitly.
     recipe['env'] = dict(recipe['env'], S1_RUNTIME=str(runtime))
     recipe['steps'].append(dict(id='archive', argv=['{python}', '{source}/scripts/migration/v1c_artifacts.py',

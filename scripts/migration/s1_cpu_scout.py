@@ -12,7 +12,7 @@ import time
 from s1_gpu import DeadlineExceeded, check_prompt_count, tokenize, validate_response, write
 import spec_bench as bench
 
-ARMS=['baseline']+[f'ngram-simple@{n}' for n in (2,3,4,8,16,48)]+['baseline-bookend']
+ARMS=['baseline']+[f'ngram-simple@{n}' for n in (16,48)]+['baseline-bookend']
 
 
 def select(assets):
@@ -26,7 +26,7 @@ def prepare(run,assets):
         raise ValueError('Expected 20 unique traces per class')
     write(run/'prepared.json',dict(arms=ARMS,trace_ids=[r['trace_id'] for r in traces],
         expected_rows=320,ctx=10240,max_seconds=17970,
-        deviations='20/class, one cold repetition, no warm pass; ngram only; baseline bookend',
+        deviations='20/class, one cold repetition, no warm pass; ngram M=16/48 only (M below pinned N=12 cannot draft); baseline bookend',
         scope='CPU ngram wall scout; not the complete registered S1 experiment',
         promotion='Exploratory paired speed >=1.15x with exact output parity; requires full confirmation before adoption'))
 

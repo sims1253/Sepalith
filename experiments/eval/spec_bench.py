@@ -8,9 +8,8 @@ b10453 CPU build per the repo serving convention).
 Arms — SINGLE-MODE ONLY (A2 §4.5 rule: no stacked spec claims):
   baseline            no speculative flags (the reference + greedy oracle)
   ngram-simple        --spec-type ngram-simple; depth = drafted tokens/step
-                      via --spec-draft-n-max (corrected 2026-09-06: the
-                      binary's --spec-ngram-simple-size-m is the draft
-                      m-gram LENGTH, not the step depth); sweep via
+                      via --spec-ngram-simple-size-m (verified against
+                      b10453 common/ngram-map.cpp on 2026-09-08); sweep via
                       ngram-simple@n
   draft-mtp           --spec-type draft-mtp on the MTP-preserving export
                       (experiments/models/mtp-b4_qwen35_2b-Q8_0.gguf, nextn
@@ -399,7 +398,7 @@ def arm_flags(arm, model=MODEL, model_mtp=MODEL_MTP, model_draft=MODEL_DRAFT):
     """(server_model, extra_flags, label) for one single-mode arm config.
 
     arm grammar: name | name@depth (depth = drafted tokens per step,
-    configured with --spec-draft-n-max for every speculative arm).
+    configured with size-m for ngram, draft-n-max for model arms).
     """
     name, _, depth = arm.partition("@")
     depth = int(depth) if depth else None
@@ -409,14 +408,10 @@ def arm_flags(arm, model=MODEL, model_mtp=MODEL_MTP, model_draft=MODEL_DRAFT):
     if name == "ngram-simple":
         flags = ["--spec-type", "ngram-simple"]
         if depth is not None:
-            # CORRECTED 2026-09-06 (flag semantics verified against the
-            # b10453 binary --help + runtime evidence): depth = drafted
-            # tokens/step is --spec-draft-n-max (applies to ALL spec types;
-            # default 3). --spec-ngram-simple-size-m is the draft M-GRAM
-            # LENGTH (default 48), NOT the step depth — setting it to 2
-            # produced ZERO drafts (run-20260905T192522's mis-flagged arm,
-            # 5 rows, kept as the no-draft-overhead datapoint).
-            flags += ["--spec-draft-n-max", str(depth)]
+            # b10453 ngram-map.cpp uses size_mgram as n_draft_max.
+            # draft.n_max is independent and does not limit ngram-simple.
+            # Values below the lookup length may legitimately yield no drafts.
+            flags += ["--spec-ngram-simple-size-m", str(depth)]
         return model, flags, arm
     if name == "draft-mtp":
         if not Path(model_mtp).exists():

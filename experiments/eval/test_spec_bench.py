@@ -248,15 +248,10 @@ class TestArmFlags:
         model, flags, label = arm_flags("baseline")
         assert flags == [] and label == "baseline"
 
-    def test_ngram_depth_is_draft_n_max(self):
-        # CORRECTED 2026-09-06: depth = drafted tokens/step = --spec-draft-n-max
-        # (the binary's --spec-ngram-simple-size-m is the draft m-gram LENGTH;
-        # setting it to the depth value yields ZERO drafts — observed live).
+    def test_ngram_depth_uses_its_own_runtime_limit(self):
         _, flags, label = arm_flags("ngram-simple@4")
-        assert "--spec-type" in flags and "ngram-simple" in flags
-        i = flags.index("--spec-draft-n-max")
-        assert flags[i + 1] == "4"
-        assert "--spec-ngram-simple-size-m" not in flags
+        assert flags == ["--spec-type", "ngram-simple",
+                         "--spec-ngram-simple-size-m", "4"]
         assert label == "ngram-simple@4"
 
     def test_draft_mtp_uses_mtp_model_and_n_max(self, tmp_path):
