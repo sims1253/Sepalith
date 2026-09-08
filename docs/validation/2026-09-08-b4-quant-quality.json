@@ -1,0 +1,325 @@
+{
+  "attempt": "2aee6537ed5149299c51f32509fec4fb",
+  "job": "b4-export-paired-quality-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 207.0218150615692,
+  "snapshot": "cb5b034f81fcc132f6c2158ca931c9f2b1624b2f1117c41c5bcd1e4e23b20884",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-quant-quality-archive-20260908/2aee6537ed5149299c51f32509fec4fb",
+  "closed_manifest_sha256": "416b991f2834616dc6dee75a4f1014d42a67821e1449ecee9d1203b2f2cfa30f",
+  "files": 43,
+  "receipt": {
+    "id": "2aee6537ed5149299c51f32509fec4fb",
+    "job": "b4-export-paired-quality-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1451804,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788864571.8249886,
+    "finished": 1788864778.8468037,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 1539,
+    "arms": {
+      "Q8_0": {
+        "scenarios": 255,
+        "exact": 196,
+        "valid": 217,
+        "noop_scored": 204,
+        "noop_false_suggestions": 120,
+        "generation_limit_rows": 0,
+        "scenario_by_family": {
+          "doc_sync": {
+            "n": 15,
+            "exact": 0,
+            "valid": 0
+          },
+          "format_propagation": {
+            "n": 67,
+            "exact": 36,
+            "valid": 48
+          },
+          "na_rm_propagation": {
+            "n": 5,
+            "exact": 5,
+            "valid": 5
+          },
+          "pipe_rewrite": {
+            "n": 18,
+            "exact": 18,
+            "valid": 18
+          },
+          "rename_propagation": {
+            "n": 150,
+            "exact": 137,
+            "valid": 146
+          }
+        },
+        "noop_by_class": {
+          "a_after_close_brace": {
+            "n": 54,
+            "proposals": 0
+          },
+          "a_file_end": {
+            "n": 27,
+            "proposals": 9
+          },
+          "b_mid_typing": {
+            "n": 54,
+            "proposals": 54
+          },
+          "c_blank_in_fn": {
+            "n": 16,
+            "proposals": 16
+          },
+          "c_mid_identifier": {
+            "n": 29,
+            "proposals": 29
+          },
+          "c_stmt_line_end": {
+            "n": 54,
+            "proposals": 54
+          },
+          "d_tempt_close_brace": {
+            "n": 12,
+            "proposals": 0
+          },
+          "d_tempt_stmt_end": {
+            "n": 12,
+            "proposals": 12
+          }
+        }
+      },
+      "Q4_K_M": {
+        "scenarios": 255,
+        "exact": 193,
+        "valid": 216,
+        "noop_scored": 204,
+        "noop_false_suggestions": 120,
+        "generation_limit_rows": 0,
+        "scenario_by_family": {
+          "doc_sync": {
+            "n": 15,
+            "exact": 0,
+            "valid": 0
+          },
+          "format_propagation": {
+            "n": 67,
+            "exact": 36,
+            "valid": 48
+          },
+          "na_rm_propagation": {
+            "n": 5,
+            "exact": 5,
+            "valid": 5
+          },
+          "pipe_rewrite": {
+            "n": 18,
+            "exact": 17,
+            "valid": 17
+          },
+          "rename_propagation": {
+            "n": 150,
+            "exact": 135,
+            "valid": 146
+          }
+        },
+        "noop_by_class": {
+          "a_after_close_brace": {
+            "n": 54,
+            "proposals": 0
+          },
+          "a_file_end": {
+            "n": 27,
+            "proposals": 9
+          },
+          "b_mid_typing": {
+            "n": 54,
+            "proposals": 54
+          },
+          "c_blank_in_fn": {
+            "n": 16,
+            "proposals": 16
+          },
+          "c_mid_identifier": {
+            "n": 29,
+            "proposals": 29
+          },
+          "c_stmt_line_end": {
+            "n": 54,
+            "proposals": 54
+          },
+          "d_tempt_close_brace": {
+            "n": 12,
+            "proposals": 0
+          },
+          "d_tempt_stmt_end": {
+            "n": 12,
+            "proposals": 12
+          }
+        }
+      },
+      "Q4_K_M_imatrix": {
+        "scenarios": 255,
+        "exact": 195,
+        "valid": 213,
+        "noop_scored": 204,
+        "noop_false_suggestions": 120,
+        "generation_limit_rows": 0,
+        "scenario_by_family": {
+          "doc_sync": {
+            "n": 15,
+            "exact": 0,
+            "valid": 0
+          },
+          "format_propagation": {
+            "n": 67,
+            "exact": 38,
+            "valid": 47
+          },
+          "na_rm_propagation": {
+            "n": 5,
+            "exact": 4,
+            "valid": 4
+          },
+          "pipe_rewrite": {
+            "n": 18,
+            "exact": 16,
+            "valid": 16
+          },
+          "rename_propagation": {
+            "n": 150,
+            "exact": 137,
+            "valid": 146
+          }
+        },
+        "noop_by_class": {
+          "a_after_close_brace": {
+            "n": 54,
+            "proposals": 0
+          },
+          "a_file_end": {
+            "n": 27,
+            "proposals": 9
+          },
+          "b_mid_typing": {
+            "n": 54,
+            "proposals": 54
+          },
+          "c_blank_in_fn": {
+            "n": 16,
+            "proposals": 16
+          },
+          "c_mid_identifier": {
+            "n": 29,
+            "proposals": 29
+          },
+          "c_stmt_line_end": {
+            "n": 54,
+            "proposals": 54
+          },
+          "d_tempt_close_brace": {
+            "n": 12,
+            "proposals": 0
+          },
+          "d_tempt_stmt_end": {
+            "n": 12,
+            "proposals": 12
+          }
+        }
+      }
+    },
+    "paired": {
+      "Q4_K_M": {
+        "exact": {
+          "n": 255,
+          "baseline_positive": 196,
+          "candidate_positive": 193,
+          "losses": 6,
+          "gains": 3,
+          "delta_pp": -1.1764705882352942,
+          "mcnemar_exact_two_sided": 0.5078125
+        },
+        "valid": {
+          "n": 255,
+          "baseline_positive": 217,
+          "candidate_positive": 216,
+          "losses": 6,
+          "gains": 5,
+          "delta_pp": -0.39215686274509803,
+          "mcnemar_exact_two_sided": 1
+        },
+        "noop_restraint": {
+          "n": 204,
+          "baseline_positive": 84,
+          "candidate_positive": 84,
+          "losses": 0,
+          "gains": 0,
+          "delta_pp": 0.0,
+          "mcnemar_exact_two_sided": 1
+        },
+        "scenario_within_1pp_observed": false
+      },
+      "Q4_K_M_imatrix": {
+        "exact": {
+          "n": 255,
+          "baseline_positive": 196,
+          "candidate_positive": 195,
+          "losses": 6,
+          "gains": 5,
+          "delta_pp": -0.39215686274509803,
+          "mcnemar_exact_two_sided": 1
+        },
+        "valid": {
+          "n": 255,
+          "baseline_positive": 217,
+          "candidate_positive": 213,
+          "losses": 8,
+          "gains": 4,
+          "delta_pp": -1.5686274509803921,
+          "mcnemar_exact_two_sided": 0.3876953125
+        },
+        "noop_restraint": {
+          "n": 204,
+          "baseline_positive": 84,
+          "candidate_positive": 84,
+          "losses": 0,
+          "gains": 0,
+          "delta_pp": 0.0,
+          "mcnemar_exact_two_sided": 1
+        },
+        "scenario_within_1pp_observed": true
+      }
+    },
+    "inference_boundary": "Paired p-values are unadjusted descriptive tests, not a statistical noninferiority guarantee; package dependence remains"
+  },
+  "verdict": {
+    "verdict": "PAIRED-EXPORT-QUALITY-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Intent LLM-judge gate remains separate. Frozen export comparison; historical receipts do not hash the f16 parent. Existing imatrix coverage is only8x512chunks. No publication or calibrated-quant promotion."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "d89d859093973f2735d9ce04bacfa2384fd9e66f506a5e8c2eed759af9b72d19",
+    "verdict.json": "600081289532d977ae961c29eaf4911e2ec586b7cc0a76806bf5e4dc31e74dc9",
+    "evaluation.json": "fa6f1e9cbed321f8354de7b0c5e3744f3924c4d379acae0f938d0591f62c777b",
+    "execution.json": "297f3d5aeaadff5e11e93c3f3920fd595c4c006eb25c51bf7dd4f44af7667050",
+    "token-audit.jsonl": "f88e3c2d5140d73c3da7f5e4370d737f49b0e0f705f3d6c92ca417cfe8dddfc4",
+    "requests.jsonl": "70539ab27171430aaf16d01238970451bb1506abe081b4c348247cb7432b531c",
+    "archive.json": "28ee1687a0bed68070ccf7dccbcdf0d9f1101b01e3488d50821f017b5623431c",
+    "final-runner-receipt.json": "f5f8c7973e3fffc85b9d8daaf6d439a396dfc1ffb14885ea18702bced801139f",
+    "prepared.json": "832e925e4a08e3ed032deee8a178f589ada55ab7e9479cc1f396cffb5a6cc2a0",
+    "recipe.json": "110736d1fa523c4b06b69ef2a2204278c23ab36f17546ffc71d8e0ed50242b14",
+    "02-evaluate-artifacts.json": "f6b1f968e42976d7493d8efea2d92aa69af3599ad968e327644a45ea409c80a1",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "d861a8ffa690d97eda95eee89b5ceca578ea6c112184ce7f91303206d4c4b9f5",
+    "01-measure-artifacts.json": "1b21dd186f4e41dc22bec43b177910e9b9a1da456c6a7301ee69eb6dc2a44739"
+  },
+  "readout_scope": {
+    "margin_label": "Archived scenario_within_1pp_observed refers only to exact matches, not structural validity. Imatrix exact delta is -0.392pp but valid delta is -1.569pp. Future evaluator labels the two separately.",
+    "noop_denominator": "All 258 no-op cases generated per arm; 204 require no proposal. The 54 mixed-expectation cases are excluded from false-suggestion scoring.",
+    "historical_boundary": "Fresh Q8 control is a different export hash from the saved S1/b4 Q8. Cohort IDs agree with saved b4 cases, but historical prompt/runtime byte identity is not established."
+  }
+}

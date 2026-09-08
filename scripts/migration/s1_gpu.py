@@ -237,7 +237,7 @@ def evaluate(run):
         drafting_observed={arm: any((r.get('draft_n') or 0) > 0 for r in rows if r['arm'] == arm)
                            for arm in p['arms'] if not arm.startswith('baseline')},
         adoption='REVIEW-REQUIRED' if winners else 'NO-QUALIFIED-GPU-WINNER',
-        boundary='Full local GPU sweep only; check environment and paired uncertainty before promotion. CPU and real Matryoshka draft remain separate.'))
+        boundary='Only the configured local GPU arms are measured; check environment and paired uncertainty before promotion. CPU and real Matryoshka draft remain separate.'))
 
 
 if __name__ == '__main__':

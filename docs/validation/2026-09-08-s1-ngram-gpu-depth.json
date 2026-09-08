@@ -1,0 +1,136 @@
+{
+  "attempt": "1573aca118fd4f06853f4d368fcc015b",
+  "interval_method": "1000 paired trace-cluster resamples; ratio of request medians; seed20260908. Intervals are pointwise, not selection-adjusted; they describe this run, not between-day environment uncertainty.",
+  "ngram_depth_error": null,
+  "scientific_boundary": "Speed alone does not establish adoption; retain output-parity failures and baseline-bookend drift.",
+  "arms": {
+    "baseline|2k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 1.0,
+      "paired_trace_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "cold_matches": null,
+      "warm_matches": 0,
+      "cold_warm_matches": 300,
+      "max_load1": 1.06298828125,
+      "gen_tps": 327.21,
+      "cold_ttft_ms": 126.92,
+      "warm_ttft_ms": 26.7
+    },
+    "baseline|8k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 1.0,
+      "paired_trace_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "cold_matches": null,
+      "warm_matches": 0,
+      "cold_warm_matches": 300,
+      "max_load1": 1.47802734375,
+      "gen_tps": 322.21,
+      "cold_ttft_ms": 413.05,
+      "warm_ttft_ms": 34.57
+    },
+    "baseline-bookend|2k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 1.011,
+      "paired_trace_bootstrap_95": [
+        0.9905465933609714,
+        1.028934500995656
+      ],
+      "cold_matches": 300,
+      "warm_matches": 300,
+      "cold_warm_matches": 300,
+      "max_load1": 1.609375,
+      "gen_tps": 330.85,
+      "cold_ttft_ms": 130.82,
+      "warm_ttft_ms": 27.55
+    },
+    "baseline-bookend|8k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 0.973,
+      "paired_trace_bootstrap_95": [
+        0.9547597799241455,
+        0.9969021596239989
+      ],
+      "cold_matches": 300,
+      "warm_matches": 300,
+      "cold_warm_matches": 300,
+      "max_load1": 1.845703125,
+      "gen_tps": 313.52,
+      "cold_ttft_ms": 415.84,
+      "warm_ttft_ms": 35.55
+    },
+    "ngram-simple@16|2k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 0.807,
+      "paired_trace_bootstrap_95": [
+        0.7635759296999536,
+        0.8530048798562897
+      ],
+      "cold_matches": 300,
+      "warm_matches": 300,
+      "cold_warm_matches": 300,
+      "max_load1": 1.68505859375,
+      "gen_tps": 264.06,
+      "cold_ttft_ms": 132.06,
+      "warm_ttft_ms": 26.18
+    },
+    "ngram-simple@16|8k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 0.834,
+      "paired_trace_bootstrap_95": [
+        0.7862720733472831,
+        0.872872919671894
+      ],
+      "cold_matches": 297,
+      "warm_matches": 297,
+      "cold_warm_matches": 300,
+      "max_load1": 1.47998046875,
+      "gen_tps": 268.71,
+      "cold_ttft_ms": 416.15,
+      "warm_ttft_ms": 35.28
+    },
+    "ngram-simple@48|2k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 0.819,
+      "paired_trace_bootstrap_95": [
+        0.7805148157318224,
+        0.8566383748250843
+      ],
+      "cold_matches": 300,
+      "warm_matches": 300,
+      "cold_warm_matches": 300,
+      "max_load1": 1.2548828125,
+      "gen_tps": 268.14,
+      "cold_ttft_ms": 123.0,
+      "warm_ttft_ms": 26.65
+    },
+    "ngram-simple@48|8k": {
+      "n": 300,
+      "depth_valid": true,
+      "speedup": 0.831,
+      "paired_trace_bootstrap_95": [
+        0.788255323340445,
+        0.8749196896875647
+      ],
+      "cold_matches": 297,
+      "warm_matches": 297,
+      "cold_warm_matches": 300,
+      "max_load1": 1.5419921875,
+      "gen_tps": 267.84,
+      "cold_ttft_ms": 409.34,
+      "warm_ttft_ms": 35.71
+    }
+  }
+}

@@ -22,10 +22,10 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
 `~/.local/state/sepalith/migration-20260906/prepared-state`, one explicit
 `run-next` followed by a review pause; ownership continues into the next eligible job. Earlier live PIDs/ETAs below are historical.
 
-- S1: GPU attempt `0ee707385c5648a2883c465ac6cc38a7` completed 10,800 rows; no qualified GPU winner;
-  ngram control invalid (six default-size-m=48 repeats); corrected sweep required;
-  17 registered configurations plus baseline bookend. Saved CPU results remain separate.
-- S2: CPU timings reconciled and archived; GPU timings completed (150 requests, 50.26 seconds). Quality gate remains unverified.
+- S1: full GPU measurement and corrected M16/M48 ngram sweep DONE; no qualified GPU winner.
+  Corrected attempt `1573aca118fd4f06853f4d368fcc015b` replaces the original invalid ngram-depth claim.
+  Reduced CPU ngram scout RUNNING (160 requests); saved CPU results remain separate.
+- S2: CPU/GPU timings archived. Fresh b4 Q8/stock-Q4/imatrix-Q4 scenario/no-op comparison DONE (1,539 requests); intent gate and adoption remain unverified.
 - W16/V1a: b4 context-eligible baseline DONE, attempt `8c2ed0c3bbaa46c2b1bdc1e5dceb7d70`: 57 whole trajectories, 1,208 points; three original candidates excluded by frozen context audit.
 - V1b: saved b4 scenario column completed; 195/255 exact and 204/255 structural matches, with stated normalization limits.
 - W24: operating documentation updated; legacy launch guidance superseded.

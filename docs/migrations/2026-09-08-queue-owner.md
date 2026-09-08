@@ -398,3 +398,72 @@ run retained the historical judge protocol without an added stop string.
 [Final baseline record](../validation/2026-09-08-v1a-b4.json). No adoption
 claim, retraining or pairing with historical partial 2K cohorts. The three
 original oversized trajectories remain excluded and explicitly accounted for.
+
+
+## Corrected S1 ngram GPU completion
+
+Attempt `1573aca118fd4f06853f4d368fcc015b` completed 2,400 cold/warm
+pairs in 1,327.27 seconds. All 43 closed files and frozen inputs verified.
+The discarded control diagnostic produced 0, 61 and 95 drafted tokens for
+M=8, 16 and 48, confirming that the corrected control changes execution.
+M values below the pinned lookup N=12 cannot draft and were omitted.
+
+| Setting | 2K speed / baseline | 8K speed / baseline | 8K cold and warm matches |
+|---|---:|---:|---:|
+| M16 | 0.807 | 0.834 | 297/300 |
+| M48 | 0.819 | 0.831 | 297/300 |
+| Baseline bookend | 1.011 | 0.973 | 300/300 |
+
+Both ngram settings matched all 300 cold and warm 2K outputs. Neither
+setting improved GPU speed. This corrects the earlier mislabeled ngram
+sweep; it does not invalidate the separately controlled MTP/model-draft
+measurements. Both Pi models ran at max with 180-second caps: Muse finished
+in 54.97 seconds; GLM timed out at 180.02 seconds without a report.
+[Final record](../validation/2026-09-08-s1-ngram-gpu.json) and
+[paired depth plot](../validation/2026-09-08-s1-ngram-gpu-depth.svg).
+
+## Fresh b4 export quality comparison
+
+Attempt `2aee6537ed5149299c51f32509fec4fb` completed 1,539 requests in
+207.02 seconds. All 43 closed files and frozen inputs verified. Three
+exported models each received the same 255 scenarios and 258 no-op cases.
+Cases were selected once, with 30 corpus functions and eight captured
+source files, then frozen with their prompts and parser dependencies.
+All IDs match the saved b4 cohorts; this does not establish historical
+prompt bytes or runtime identity. No historical predictions were resumed.
+
+| Export | Scenario exact / 255 | Scenario valid / 255 | No-op false suggestions / 204 |
+|---|---:|---:|---:|
+| Q8 | 196 | 217 | 120 |
+| Stock Q4_K_M | 193 | 216 | 120 |
+| Imatrix Q4_K_M | 195 | 213 | 120 |
+
+The other 54 no-op cases have mixed expectations and are excluded from
+false-suggestion scoring. No response reached the generation cap. Stock
+Q4 loses 1.176 percentage points exact and 0.392 valid against Q8; imatrix
+Q4 loses 0.392 exact and 1.569 valid. The archived evaluator's
+`scenario_within_1pp_observed` field refers to exact only; the source now
+labels exact and valid margins separately. These observed margins and
+unadjusted paired tests do not establish statistical noninferiority.
+
+Neither export is promoted. The separate intent judge gate remains
+untested. Export receipts share an f16 parent path but do not hash that
+parent, so this is not a controlled causal estimate of imatrix benefit.
+The existing imatrix covers only eight 512-token chunks. The fresh Q8
+export also differs from the saved S1/b4 Q8, which is why a fresh control
+was measured. Both requested Pi reviewers completed at max with 300-second
+caps (Muse 46.69 seconds; GLM 230.18 seconds). Their useful changes included
+frozen case selection, fresh output paths and strict error/coverage gates.
+[Final quality record](../validation/2026-09-08-b4-quant-quality.json).
+
+## Reduced CPU scout underway
+
+The next recipe measures 20 matched traces per context class, one cold
+repetition, M16/M48 and fresh baseline/bookend: 160 requests total. It uses
+CPU b10453 with eight threads and a quiet host window. The five-hour bound
+includes cleanup; about two hours was estimated before launch. Both Pi
+reviewers completed at max with 600-second caps (Muse 85.19 seconds;
+GLM 304.84 seconds). Their review reduced a naive multi-day full sweep to
+this scout. A candidate must actually draft, preserve every output and
+reach a paired median speedup of 1.15 merely to warrant full confirmation.
+No CPU adoption or inference from the negative GPU result is made.

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import random
 import statistics
+import textwrap
 
 
 def paired_interval(rows, baseline, seed=20260908, draws=1000):
@@ -49,7 +50,7 @@ def plot(record,path):
     families=[('ngram-simple',[2,3,4,8,16,48]),('draft-mtp',[1,2,3,4,5]),('model-draft',[1,2,3,4,5])]
     families = [(family, [n for n in depths if f'{family}@{n}|2k' in record['arms']]) for family, depths in families]
     families = [(family, depths) for family, depths in families if depths]
-    fig,axes=plt.subplots(1,len(families),figsize=(4*len(families),4),sharey=True,squeeze=False)
+    fig,axes=plt.subplots(1,len(families),figsize=(max(8,4*len(families)),4),sharey=True,squeeze=False)
     axes=axes[0]
     for ax,(family,depths) in zip(axes,families):
         if family == 'ngram-simple' and record.get('ngram_depth_error'):
@@ -75,7 +76,7 @@ def plot(record,path):
             ax.legend(frameon=False)
             break
     fig.suptitle('S1: RTX 5090 speculative-depth sweep',x=.07,ha='left',fontsize=14)
-    fig.text(.07,.015,'Lines: ratio of medians. Bars: paired trace-bootstrap 95% interval. Hollow dots: cold or warm output-parity failure. Dashed: 1.4× gate.',fontsize=8)
+    fig.text(.07,.015,textwrap.fill('Lines: ratio of medians. Bars: paired trace-bootstrap 95% interval. Hollow dots: cold or warm output-parity failure. Dashed: 1.4× gate.',width=110 if len(families)==1 else 200),fontsize=8)
     fig.tight_layout(rect=(0,.065,1,.93));fig.savefig(path);plt.close(fig)
 
 
