@@ -16,22 +16,25 @@ awaiting GO) · `PROPOSED` (new, awaiting user triage) · `INDEXED` (decided
 elsewhere; listed so this file is the single lookup) · `DONE` / `CLOSED`
 (verdict landed — linked, then pruned on the next sync).
 
-## Queue-owner sync — 2026-09-08T01:33:26+02:00
+## Queue-owner sync — 2026-09-08 (continuous ownership)
 
 Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
 `~/.local/state/sepalith/migration-20260906/prepared-state`, one explicit
-`run-next` followed by pause. Earlier live PIDs/ETAs below are historical.
+`run-next` followed by a review pause; ownership continues into the next eligible job. Earlier live PIDs/ETAs below are historical.
 
 - S1: GPU attempt `0ee707385c5648a2883c465ac6cc38a7` completed 10,800 rows; no qualified GPU winner;
   ngram control invalid (six default-size-m=48 repeats); corrected sweep required;
   17 registered configurations plus baseline bookend. Saved CPU results remain separate.
-- S2: GPU timing completed (150 requests, 50.26 seconds); quality gate unverified. Previous reconciliation:  saved CPU timing reconciled and archived; quality and GPU gates outstanding.
+- S2: CPU timings reconciled and archived; GPU timings completed (150 requests, 50.26 seconds). Quality gate remains unverified.
+- W16/V1a: b4 context-eligible baseline DONE, attempt `8c2ed0c3bbaa46c2b1bdc1e5dceb7d70`: 57 whole trajectories, 1,208 points; three original candidates excluded by frozen context audit.
+- V1b: saved b4 scenario column completed; 195/255 exact and 204/255 structural matches, with stated normalization limits.
+- W24: operating documentation updated; legacy launch guidance superseded.
 - V1c: saved v7 column reconciled and archived; calibration/concurrency acceptance unresolved.
 - W33: historical input provenance unresolved; original row remains parked.
 - W33-N: user-authorized NEW frozen 921-row plain-split evaluation DONE on
   RTX5090, attempt `9c9a385b45b5460982cd565f09111633`. Separate from historical
   W33 and the stopped partial CPU attempt. All 921 rows scored and archived;
-  runner paused, GPU released. Readout: `docs/validation/2026-09-08-plain921.json`.
+  its GPU claim released. Readout: `docs/validation/2026-09-08-plain921.json`.
 - Paid cloud dispatch remains blocked. Preserve roughly USD85 Anyscale and
   remaining Azure credit for production; verify balances/expiry before admission.
 - Optimization pre-rolls where valuable (user update 2026-09-08): Pi `opencode/muse-spark-1.3-contributor-free` and

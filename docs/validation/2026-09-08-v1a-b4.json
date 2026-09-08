@@ -1,0 +1,96 @@
+{
+  "attempt": "8c2ed0c3bbaa46c2b1bdc1e5dceb7d70",
+  "job": "v1a-b4-context-eligible-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 881.4229304790497,
+  "snapshot": "cb74015faddc2bb5480fc3f26108ef91b258b2f1dfd25ab98739ffec19112cdf",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-v1a-b4-archive-20260908/8c2ed0c3bbaa46c2b1bdc1e5dceb7d70",
+  "closed_manifest_sha256": "dc55eacddb0ca98716d2ac011e6fa78ec7dfe6458e436c8bec2cad6a87b64325",
+  "files": 33,
+  "receipt": {
+    "id": "8c2ed0c3bbaa46c2b1bdc1e5dceb7d70",
+    "job": "v1a-b4-context-eligible-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1421350,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788861979.5349567,
+    "finished": 1788862860.9578872,
+    "detail": ""
+  },
+  "evaluation": {
+    "label": "b4-context-eligible-32k-gpu",
+    "source": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/attempts/8c2ed0c3bbaa46c2b1bdc1e5dceb7d70/episodes.jsonl",
+    "n_traj": 57,
+    "stats_mismatch_rows": 0,
+    "shown": 1208,
+    "accepted": 49,
+    "dismissed": 776,
+    "false_sug": 378,
+    "correct_stop": 5,
+    "chars_saved": 2053,
+    "chars_typed": 20088,
+    "accept_rate": 0.0406,
+    "fp_rate": 0.9869,
+    "saved_ratio": 0.1022,
+    "frac_traj_with_accept": 0.3333,
+    "tte_mean_ms": 86259,
+    "tte_median_ms": 77548,
+    "tte_censored_mean_ms": 163394,
+    "think_nav_windows": 273,
+    "think_nav_interruptions": 270,
+    "interruption_rate": 0.989,
+    "noop_false_sug_by_ctx": {
+      "navigation": {
+        "points": 109,
+        "false_sug_rate": 0.9725
+      },
+      "post_task": {
+        "points": 71,
+        "false_sug_rate": 0.9859
+      },
+      "pre_task_think": {
+        "points": 164,
+        "false_sug_rate": 1.0
+      },
+      "review": {
+        "points": 39,
+        "false_sug_rate": 0.9744
+      }
+    },
+    "generation_limit_rows": 1208,
+    "request_count": 1208,
+    "candidate_episodes": 60,
+    "excluded_episodes": 3
+  },
+  "verdict": {
+    "verdict": "B4-EPISODE-BASELINE-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Existing lexical acceptance heuristic and simulator clock, not human preference; complete context-eligible trajectories only, with predeclared whole-episode exclusions; 32K regime differs from historical skipped-point 2K slots. No retraining or paired model comparison."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "b1dee015208e6fe5f42dd96d546809cff661fa603df0ed109017012c20226982",
+    "verdict.json": "b7c9d53bcc56662ecc7518edc1f5bf628a3ca96abe21d9f177ac0b4dbced2332",
+    "evaluation.json": "b91e67041e992c151fc77628446df4fe7e6c784e3219341979a994302a5f1f6d",
+    "episodes.jsonl": "a427fa2e4bc8071ed0552e0550f05346d24c2a4687a9384195a40e1f785b04b2",
+    "execution.json": "4b7a34e94623758d65eafea9c9e7846b5403e9b4ff310abb3e714c798be7d69d",
+    "requests.jsonl": "65b2b24eedce173025b1da5e63091fce2cc1b61c73985f3219078fd082fd5c8e",
+    "archive.json": "96ec680177aed0a98a7f7b5785af92b90e7edcff4b07ea89f9b85bd638a0056a",
+    "final-runner-receipt.json": "af6ffed04d71801155788cd379a63bab85fe6597bf6095bfb99eafc1e28f240c",
+    "prepared.json": "6cb8716751ac9f3df768884183060909194b0e0befb5af55fe06d7318133a3b0",
+    "recipe.json": "4c038a93b2497380d9e84287d2271132fbc5b0724bfab84f81eac1a7b68c9cc6",
+    "02-evaluate-artifacts.json": "53e47024fc8469a9f30f12fc4abeda61659a61d42c67056c12280d93968a7114",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "30f2c8708624b3fed2de5cf0969787d2516215ba20124bfae67b89efc53ee6dd",
+    "01-measure-artifacts.json": "ac3acee81ad0fb321b34ec2eba1738a88566fc1253e66db968b85e6f47a83c7f"
+  },
+  "stop_audit": {
+    "rows": 1208,
+    "raw_generation_limit_rows": 1208,
+    "parser_terminator_rows": 578,
+    "note": "Existing judge protocol has no generation stop string; parser discards text after first >>>>>>>. Generation-limit count does not imply every parsed suggestion is truncated. Candidate for a separately validated early-stop optimization in future episode batteries."
+  }
+}

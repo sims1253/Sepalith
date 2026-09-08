@@ -25,9 +25,18 @@ def main():
         p.error('Prepare while dispatch is paused')
     previous = json.loads(a.runtime_recipe.read_text())
     runtime = Path(previous['env']['LD_LIBRARY_PATH'])
-    assets, inputs = freeze(a.assets, {'model.gguf': a.models / 'b4_qwen35_2b-Q8_0.gguf',
-        'mtp.gguf': a.models / 'mtp-b4_qwen35_2b-Q8_0.gguf',
-        'draft.gguf': a.models / 'b2_qwen35_08b-Q8_0.gguf', 'traces.jsonl': a.traces})
+    if a.ngram_only:
+        inputs=[i for i in previous['inputs'] if Path(i['path']).name in ('model.gguf','mtp.gguf','draft.gguf','traces.jsonl')]
+        if len(inputs)!=4 or len({Path(i['path']).parent for i in inputs})!=1:
+            raise ValueError('Repair requires the original frozen S1 asset directory')
+        for item in inputs:
+            if digest(Path(item['path']))!=item['sha256']:
+                raise ValueError('Frozen S1 asset changed')
+        assets=Path(inputs[0]['path']).parent
+    else:
+        assets, inputs = freeze(a.assets, {'model.gguf': a.models / 'b4_qwen35_2b-Q8_0.gguf',
+            'mtp.gguf': a.models / 'mtp-b4_qwen35_2b-Q8_0.gguf',
+            'draft.gguf': a.models / 'b2_qwen35_08b-Q8_0.gguf', 'traces.jsonl': a.traces})
     # Bind the runtime by its existing content hashes; never copy or import
     # previous experimental predictions/model/input identities.
     for item in previous['inputs']:

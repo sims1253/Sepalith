@@ -372,3 +372,29 @@ The audit's 12 files are archived at
 `/mnt/h/sepalith/runs/v1a-context-audit-20260908`. The new baseline is explicitly
 32K-context-eligible; it does not complete the original 60 candidates or pair
 with historical runs that skipped points.
+
+## V1a eligible-cohort completion
+
+Attempt `8c2ed0c3bbaa46c2b1bdc1e5dceb7d70` completed all 57 retained
+trajectories and 1,208 requests in 881.42 seconds. All 33 final files and
+frozen inputs verified; no aggregate/decision mismatch or dropped point.
+The server exited and the GPU was released before the next recipe.
+
+The existing lexical heuristic accepted 49/1,208 suggestions (4.06%).
+False suggestions occurred at 378/383 no-op points (98.69%); 270/273
+think/navigation windows were interrupted (98.9%). Nineteen trajectories
+had an acceptance. Median simulator time-to-first-edit among those was
+77.548 seconds; the all-episode censored mean was 163.394 seconds. These
+are simulator-clock metrics, not measured user preference or serving latency.
+
+Every raw response reached the unchanged 160-token generation cap. In
+578 responses the parser's terminator `>>>>>>>` appeared before that cap,
+so the parser discarded the remaining generated text. The cap count does
+not mean all parsed suggestions were truncated; the remaining responses
+still have a ceiling limitation. Early stopping at the parser boundary is
+a candidate for a separately validated future pipeline optimization. This
+run retained the historical judge protocol without an added stop string.
+
+[Final baseline record](../validation/2026-09-08-v1a-b4.json). No adoption
+claim, retraining or pairing with historical partial 2K cohorts. The three
+original oversized trajectories remain excluded and explicitly accounted for.
