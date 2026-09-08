@@ -35,9 +35,9 @@ def main():
               'scripts/migration/s1_cpu_scout.py','scripts/migration/v1c_artifacts.py']
     recipe=dict(schema_version=1,id='s1-cpu-ngram-scout-20260908',snapshot=r.snapshot(ROOT,includes),resource='quiet',
         python=cpu['python'],depends_on=[],inputs=inputs,env=dict(cpu['env'],SCOUT_MODEL=str(model),SCOUT_RUNTIME=str(runtime)),
-        provenance=dict(queue_item='S1',scope='Reduced CPU ngram scout,20matched traces/class,1cold rep,6depths,baseline and bookend',
+        provenance=dict(queue_item='S1',scope='Reduced CPU ngram scout,20matched traces/class,1cold rep,M16/M48,baseline and bookend',
         source_includes=includes,runtime_bound_seconds=18000,pi_review='Muse85.19s and GLM304.84s, both max,600s caps; private pi-s1-cpu-value receipts',
-        deviation='Not full S1; no warm measurement; no MTP or model-draft CPU sweep; candidates need full confirmation'),steps=[])
+        deviation='M below pinned lookup N=12 cannot draft and is omitted; not full S1; no warm measurement; no MTP or model-draft CPU sweep; candidates need full confirmation'),steps=[])
     for action,artifacts in [('prepare',['prepared.json']),('measure',['per_request.jsonl']),('evaluate',['evaluation.json','verdict.json'])]:
         recipe['steps'].append(dict(id=action,argv=['{python}','{source}/scripts/migration/s1_cpu_scout.py',action,'--run','{run}','--assets',str(assets)],artifacts=artifacts))
     recipe['steps'].append(dict(id='archive',argv=['{python}','{source}/scripts/migration/v1c_artifacts.py','archive','--run','{run}','--archive',str(a.archive)],artifacts=['archive.json']))

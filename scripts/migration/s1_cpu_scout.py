@@ -25,7 +25,7 @@ def prepare(run,assets):
     if len(traces)!=40 or len({r['trace_id'] for r in traces})!=40:
         raise ValueError('Expected 20 unique traces per class')
     write(run/'prepared.json',dict(arms=ARMS,trace_ids=[r['trace_id'] for r in traces],
-        expected_rows=320,ctx=10240,max_seconds=17970,
+        expected_rows=len(ARMS)*len(traces),ctx=10240,max_seconds=17970,
         deviations='20/class, one cold repetition, no warm pass; ngram M=16/48 only (M below pinned N=12 cannot draft); baseline bookend',
         scope='CPU ngram wall scout; not the complete registered S1 experiment',
         promotion='Exploratory paired speed >=1.15x with exact output parity; requires full confirmation before adoption'))
@@ -86,7 +86,7 @@ def evaluate(run):
                 paired_speedup_median=statistics.median(ratios),paired_speedup_quartiles=statistics.quantiles(ratios,n=4),
                 matches_baseline=sum(r.get('matches_baseline',False) for r in rs),
                 max_load1=max(max(r['host_load_before'][0],r['host_load_after'][0]) for r in rs))
-            if arm.startswith('ngram') and summary[key]['paired_speedup_median']>=1.15 and all(r['matches_baseline'] for r in rs):candidates.append(key)
+            if arm.startswith('ngram') and any((r.get('draft_n') or 0)>0 for r in rs) and summary[key]['paired_speedup_median']>=1.15 and all(r['matches_baseline'] for r in rs):candidates.append(key)
     write(run/'evaluation.json',dict(rows=len(rows),arms_summary=summary))
     write(run/'verdict.json',dict(verdict='CPU-NGRAM-SCOUT-MEASURED',confirmation_candidates=candidates,
         adoption='NOT-ASSESSED',boundary='Exploratory small sample, cold-only; review drift/load and confirm candidates at full protocol. MTP/model-draft CPU depths remain unmeasured.'))
