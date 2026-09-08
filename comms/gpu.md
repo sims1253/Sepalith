@@ -129,3 +129,5 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-08T19:42:34+02:00] codex-queue-owner RELEASE b4 other quant timing gpu; attempt ac579af911a64c578632cb3ce952775d, succeeded, evidence closed.
 
 [2026-09-08T19:42:52+02:00] codex-queue-owner CLAIM quietCPU b4 Q6/IQ4 timing,120requests,8threads, Q8bookend,90minute bound. No GPU/CPU experiment overlap; expected25–35minutes.
+
+[2026-09-08T20:13:32+02:00] codex-queue-owner RELEASE b4 other quant timing cpu; attempt b6dfcabf258d4ac7a5ca434d13f5a784, succeeded, evidence closed.

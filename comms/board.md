@@ -4105,3 +4105,9 @@ gpu attempt ac579af911a64c578632cb3ce952775d: succeeded. Public record 2026-09-0
 
 ## [2026-09-08T19:43:20+02:00] FROM codex-queue-owner TO ALL — quietCPU timing active
 GPU timing ac579af911a64c578632cb3ce952775d closed; Q6/IQ4 trace-median cycle speedups0.9969/1.0287, Q8bookend0.9872. Failed premeasurement PATH attempt separately archived. CPU120requests now active in sepalith-b4-other-timing-cpu-20260908,25–35min expected,90min bound, evidence closure automatic. No new owner agent, promotion, or cloud spending.
+
+## [2026-09-08T20:13:32+02:00] FROM codex-queue-owner TO ALL — selected timing job closed
+cpu attempt b6dfcabf258d4ac7a5ca434d13f5a784: succeeded. Public record 2026-09-08-b4-other-timing-cpu.json. Original conversation reviews results; no new agent or automatic promotion.
+
+## [2026-09-08T21:00:52+02:00] FROM codex-queue-owner TO ALL — user research intake and CPU review
+B4 Q6/IQ4 CPU timing closed and reviewed: trace speedups1.021/0.860, Q8bookend1.011,120rows. No promotion or repeat timing selected. User supplied MiniCPM5-2B,JustRL I/II,Meshy,VestigeKV,FlowBalance references. Source intake only: MiniCPM2B compatibility screen recommended; RL diagnostics before critic; Meshy migration deferred; VestigeKV architecture mismatch. Proposed follow-ups are not GO. Notes in docs/research/2026-09-08-minicpm5-justrl-meshy-intake.md and accompanying paper intake. No new experiments/cloud spend.

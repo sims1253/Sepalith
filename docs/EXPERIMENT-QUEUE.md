@@ -27,7 +27,7 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. The separate-agent heart
   Reduced CPU ngram scout MEASURED (160 recovered rows); execution interrupted, no confirmation nominee. See recovery readout.
 - S2: CPU/GPU timings archived. Fresh b4 Q8/stock-Q4/imatrix-Q4 scenario/no-op comparison DONE (1,539 requests); paired 44-case intent comparison DONE; adoption remains unassessed. See queue-owner readout.
 - S2 b4 timing follow-up: GPU and CPU DONE (120 requests each); final records linked in queue-owner readout. Adoption remains unassessed.
-- S2 remaining b4 exports: Q6_K/IQ4_XS paired scenario/noop quality DONE (1539requests); exact195/196 vs Q8196, valid217/216 vs217. Intent generation/judging DONE132rows; Q6 matches Q8 mean, IQ4 higher descriptively, no promotion. Q4 parent reproduction DONE, both byte-identical. Q6/IQ4 GPU timing DONE; quietCPU timing RUNNING (120requests,90minute bound).
+- S2 remaining b4 exports: Q6_K/IQ4_XS paired scenario/noop quality DONE (1539requests); exact195/196 vs Q8196, valid217/216 vs217. Intent generation/judging DONE132rows; Q6 matches Q8 mean, IQ4 higher descriptively, no promotion. Q4 parent reproduction DONE, both byte-identical. Q6/IQ4 GPU timing DONE; quietCPU timing DONE (120requests,30.5minutes): Q6 trace speedup1.021, IQ4_XS0.860; no promotion.
 - W16/V1a: b4 context-eligible baseline DONE, attempt `8c2ed0c3bbaa46c2b1bdc1e5dceb7d70`: 57 whole trajectories, 1,208 points; three original candidates excluded by frozen context audit.
 - V1b: saved b4 scenario column completed; 195/255 exact and 204/255 structural matches, with stated normalization limits.
 - W24: operating documentation updated; legacy launch guidance superseded.

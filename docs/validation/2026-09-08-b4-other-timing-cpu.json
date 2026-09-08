@@ -1,0 +1,160 @@
+{
+  "attempt": "b6dfcabf258d4ac7a5ca434d13f5a784",
+  "job": "b4-other-quant-timing-cpu-20260908",
+  "status": "succeeded",
+  "elapsed_seconds": 1831.6233658790588,
+  "snapshot": "1e368307d2736db48a6ce6aeff41f64ae2c335a70dee495dc95681d825785fbf",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-b4-other-quant-timing-archive-20260908/cpu/b6dfcabf258d4ac7a5ca434d13f5a784",
+  "closed_manifest_sha256": "188b3e1af0d18c3a0674363fddd6fa2902efb5436c6ee4020355b31ee2d957a7",
+  "files": 34,
+  "receipt": {
+    "id": "b6dfcabf258d4ac7a5ca434d13f5a784",
+    "job": "b4-other-quant-timing-cpu-20260908",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 1855315,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788889372.3828776,
+    "finished": 1788891204.0062435,
+    "detail": ""
+  },
+  "evaluation": {
+    "rows": 120,
+    "tier": "cpu",
+    "formats": {
+      "Q8_0": {
+        "n": 30,
+        "cycle_ms_median": 13491.3675,
+        "request_wall_ms_median": 13544.308990494756,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 1.0,
+        "paired_cycle_speedup_median": 1.0,
+        "max_load1": 8.2998046875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 12530.594,
+          "03d9ccb7b9-e2992c7c-2k": 12288.002,
+          "771901a5c9-e2992c7c-2k": 13319.925,
+          "335e2def4a-0b481c2b-2k": 13421.984,
+          "95652ceca5-edcb8dbf-2k": 13491.997,
+          "ae915f7baf-bc6c399d-2k": 15438.177,
+          "2774d6656f-75fe1b92-2k": 16108.651999999998,
+          "523ac1eaf0-c7c898c8-2k": 10970.062,
+          "33f7c1f7e5-86d55d85-2k": 14524.049,
+          "d87e9ebb8d-a7d30606-2k": 13723.028999999999
+        },
+        "trace_median_speedup": 1.0
+      },
+      "Q6_K_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 13125.193500000001,
+        "request_wall_ms_median": 13170.441227499396,
+        "generation_limit_rows": 6,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 6,
+          "word": 24
+        },
+        "speedup_vs_Q8_0": 1.0278985601240849,
+        "paired_cycle_speedup_median": 1.021280020711215,
+        "max_load1": 8.4326171875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 12268.053,
+          "03d9ccb7b9-e2992c7c-2k": 11848.161,
+          "771901a5c9-e2992c7c-2k": 13075.377,
+          "335e2def4a-0b481c2b-2k": 13195.059000000001,
+          "95652ceca5-edcb8dbf-2k": 12994.67,
+          "ae915f7baf-bc6c399d-2k": 15210.839,
+          "2774d6656f-75fe1b92-2k": 15774.361,
+          "523ac1eaf0-c7c898c8-2k": 13225.192000000001,
+          "33f7c1f7e5-86d55d85-2k": 14190.373,
+          "d87e9ebb8d-a7d30606-2k": 11674.633
+        },
+        "trace_median_speedup": 1.0212962136698622
+      },
+      "IQ4_XS_imatrix": {
+        "n": 30,
+        "cycle_ms_median": 15645.5105,
+        "request_wall_ms_median": 15686.701302489382,
+        "generation_limit_rows": 9,
+        "predicted_tokens_median": 39.0,
+        "stop_types": {
+          "limit": 9,
+          "word": 21
+        },
+        "speedup_vs_Q8_0": 0.8623155824797152,
+        "paired_cycle_speedup_median": 0.8586977834246186,
+        "max_load1": 8.58935546875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 14959.969000000001,
+          "03d9ccb7b9-e2992c7c-2k": 15558.032,
+          "771901a5c9-e2992c7c-2k": 15364.241,
+          "335e2def4a-0b481c2b-2k": 15742.232,
+          "95652ceca5-edcb8dbf-2k": 15356.132000000001,
+          "ae915f7baf-bc6c399d-2k": 18419.857,
+          "2774d6656f-75fe1b92-2k": 18507.073,
+          "523ac1eaf0-c7c898c8-2k": 15660.664,
+          "33f7c1f7e5-86d55d85-2k": 16542.563000000002,
+          "d87e9ebb8d-a7d30606-2k": 14422.309
+        },
+        "trace_median_speedup": 0.8597766106281226
+      },
+      "Q8_0-bookend": {
+        "n": 30,
+        "cycle_ms_median": 13463.4225,
+        "request_wall_ms_median": 13517.677145995549,
+        "generation_limit_rows": 3,
+        "predicted_tokens_median": 35.0,
+        "stop_types": {
+          "limit": 3,
+          "word": 27
+        },
+        "speedup_vs_Q8_0": 1.0020756237873394,
+        "paired_cycle_speedup_median": 1.0083923327525999,
+        "max_load1": 8.52294921875,
+        "per_trace_cycle_ms_median": {
+          "0fcbbfe49d-ef3a5a92-2k": 12418.381000000001,
+          "03d9ccb7b9-e2992c7c-2k": 11938.955999999998,
+          "771901a5c9-e2992c7c-2k": 13144.431,
+          "335e2def4a-0b481c2b-2k": 13632.542,
+          "95652ceca5-edcb8dbf-2k": 13006.708999999999,
+          "ae915f7baf-bc6c399d-2k": 15496.696,
+          "2774d6656f-75fe1b92-2k": 15783.08,
+          "523ac1eaf0-c7c898c8-2k": 11008.806,
+          "33f7c1f7e5-86d55d85-2k": 14597.740000000002,
+          "d87e9ebb8d-a7d30606-2k": 13501.8
+        },
+        "trace_median_speedup": 1.0111936232757306
+      }
+    }
+  },
+  "verdict": {
+    "verdict": "CPU-B4-TIMING-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Cycle timing of the three frozen b4 exports; varying output lengths, cold cache and ten paired traces. Review bookend drift/load and separate quality results; no automatic promotion."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "fa6df91dc4e56615af9364bb04aff16550a6ec527d9b39b46d3bb07bdd0bab04",
+    "telemetry.jsonl": "ff1fcb20fd6f32143579f84804050598c18107a471db094ea8d75660f70798f1",
+    "verdict.json": "34cf99ac406b641f1f744e02f13aea267bb1eae0186a7059dd900fc21dd1ef9e",
+    "evaluation.json": "316149fa3b299b995bb5edfaeb42bf321146188ca734a1653e9bc87eb4504d08",
+    "execution.json": "50af87bd4c59c4ab045b1d64ebe8670879853dd8dde79c4d9b9d4d6ffa374c52",
+    "per_request.jsonl": "7e230f819412bc2091aed747e8b4390d270dc6582009186fd3580d0979a29be8",
+    "warmups.jsonl": "e9d68bbabd5b8c640ccf5ca32e41a60c619deccc12a68110c3edad04d7e06913",
+    "archive.json": "03a7aa784e5883da1bdadc2e8f4fbb43701fcc21359327cd045d9c4d42c569a0",
+    "final-runner-receipt.json": "dc2c7639266ddedd487582b290dc38942c18c678396fed4f53217d4f5cc9da92",
+    "prepared.json": "17a2d6d353805739a91c634b31e069ed839cb3a1f4120ca68e98adeb9fe91985",
+    "recipe.json": "bb3f5013ca698208ac423111ebda65c2c487fefe0c2c28eec6fda91f29b738b7",
+    "02-evaluate-artifacts.json": "c91dca6811f6ed895efe57a9a9b8eba0a5f9cff7b49546fbddca6c3e4298da78",
+    "runtime.json": "849b882f29c321fe92331a343815cd6296c291e22145991fe7c6100d7e6026bd",
+    "00-prepare-artifacts.json": "cf9ca60d5b1d0b2613baf15206015344103a8a838161744da8358faa8b776155",
+    "01-measure-artifacts.json": "f22c3cc6b3e1337f97672c071bf0147ee613c0b153483dbb2f5f49574ccf5a23"
+  }
+}
