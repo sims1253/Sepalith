@@ -50,8 +50,8 @@ logged scar class). The roots:
   Each provider contract is documented in its class docstring — read
   them before adding a provider; several endpoints have non-obvious
   requirements (reasoning-token budgets, /v1 mounts, User-Agent headers).
-- Everything runs DETACHED (`setsid nohup`) with supervisors: the
-  harness reaps long-lived tracked tasks (~1h), and providers flap.
+- Historical drivers used detached supervisors for provider failures.
+  Current runner steps must remain foreground and tracked (see §9).
   Rows append to `<family>_<source>.jsonl` + `.done.jsonl`/`.stats.json`
   sidecars (resume keys). Every row: parent-link (`base_sample_id`
   content hash + rule@version) + model tag (purge-safe by design).
@@ -121,6 +121,49 @@ logged scar class). The roots:
   synthetic-data landscape. Never a bare `<` in state strings; no
   inline event handlers (postplan blocks both).
 
+
+### 9. Pretraining staging and current dispatch (W24, 8 September 2026)
+
+Local experiments now run through the [Sepalith runner](docs/EXPERIMENT-RUNNER.md).
+The active state is `~/.local/state/sepalith/migration-20260906/prepared-state`.
+Freeze source and input hashes, keep step children in the tracked foreground
+process group, and retain evaluation, verdict and verified archives. The queue
+owner pauses between recipes to review results, then selects the next eligible
+job. The shared dirty checkout is not an execution source. Cloud dispatch still
+requires the separate [budget controls](docs/CLOUD-BUDGET-ADMISSION.md).
+
+Root `run.py` is the older A2 staging/training wrapper. Its commands are
+`doctor`, `verify`, `repack`, `manifest`, `train`, `gates`, `stage-list`, and
+`all`. `doctor` inspects dependencies, CUDA and disk; it does not install them.
+It creates a CUDA context, so it also needs the GPU reservation. `all` performs
+checks and then repacks, builds the manifest and launches detached training
+(default target: 13b). Even `all --dry-run` runs the CUDA doctor. These training
+launchers are retired as local dispatch entry points; port the intended payload
+into a frozen foreground recipe before execution.
+
+| Data entry point | Contract to preserve |
+|---|---|
+| `experiments/data-mining/r_repack_full.py` | `--root` defaults to `/mnt/h/sepalith`; output defaults to `<root>/a2/r`. `--mirror` enables the available contamination check; `--skip-existing` skips finished strata. `--holdout` defaults to `off` to preserve the banked astfim lineage. Turning it on defines a new render. |
+| `experiments/data-mining/pack_r_strata.py` | Default strata are `so_r_qa,bioc`; package holdout defaults to `on`. SO rows have no package identity, so that exclusion does not apply to them. Keep mode and rule in the manifest. |
+| `experiments/post-processing/push_cases.py` | Projects packed R blocks, stats/contamination records, A2 tokenizer, transfer blocks and mixture manifest under HF `pretraining/`. A downloaded tree retains that prefix: point staging checks at the actual directory containing `a2/`, `a2_transfers/` and `datasets/`. Inspect the projection before an authorized upload. |
+
+Keep each recipe's interpreter and dependencies explicit. The historical T1
+run failed in Python 3.14's dill/datasets pickling path and succeeded in the
+Python 3.10 `.venv-sft`; this is a recorded environment failure, not evidence
+that every newer Python environment fails. Do not mix environments to repair
+a run without recording the change.
+
+The September 1 Q6 correction traced `CUBLAS_INTERNAL_ERROR` to an out-of-range
+gather: the launcher set vocab 32,768 while reading MiniCPM blocks with vocab
+130,560. It supersedes the earlier context-release-race explanation. Before
+CUDA, check tokenizer identity and token bounds against the model vocabulary,
+including added special tokens. Single-workload GPU ownership still applies
+independently; verify tracked children have exited before the next claim.
+
+Evidence: the named scripts and the August 31 T1 / September 1 Q6 corrections
+in `comms/board.md`. This documentation update did not repack, upload, train,
+change a dataset split or recreate a Python environment.
+
 ## The repeat-elsewhere recipe
 
 1. Clone the repo; create `.venv` (py3.10+) and `.venv-sft`; `pip
@@ -133,13 +176,12 @@ logged scar class). The roots:
 5. Smoke: `cases.test_cases` → `cases.rules.run_rules --selftest` →
    mine a small spec pool → one mock-backend wave → assemble a small
    mixture → 200-step train → export → eval_scenarios on the GGUF.
-6. Then scale each system independently — they are deliberately
-   loosely-coupled (files + conventions, no orchestration framework).
+6. Freeze the chosen payload as a runner recipe before scaling (§9).
 
 ## Ops rules (every line is a scar)
 
 - Absolute paths everywhere; kill by PID/port, never pkill-by-name;
-  detached (setsid) supervisors for anything long-lived; sequential GPU
+  foreground tracked runner steps for experiments; sequential GPU
   (one trainer at a time; evals yield); verify trainer liveness by
   telemetry/checkpoint mtimes, never stdout tails; `timeout` wrappers
   can silently fail — verify completion yourself.

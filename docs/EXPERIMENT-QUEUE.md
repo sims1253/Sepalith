@@ -422,7 +422,7 @@ decisions, the simulator roadmap, and the 2026-08-26→09-01 sessions.
 
 | # | Work item | Size | Source / notes |
 |---|---|---|---|
-| W24 | **SYSTEMS.md update**: run.py, r_repack_full, pack_r_strata, push_cases pretraining/, the venv split (3.10 vs 3.14 dill breakage), CUBLAS/vocab scar | ~1h | 2026-08-26→09-01 sessions' scripts undocumented there |
+| W24 | **DONE 2026-09-08: script contracts, environment/vocab scars and runner cutover documented in SYSTEMS.md §9; no payload executed.** **SYSTEMS.md update**: run.py, r_repack_full, pack_r_strata, push_cases pretraining/, the venv split (3.10 vs 3.14 dill breakage), CUBLAS/vocab scar | ~1h | 2026-08-26→09-01 sessions' scripts undocumented there |
 | W25 | **HF dataset card YAML frontmatter** (silences the repo-card warning; adds license/language tags) + card sync with the adopted manifest | ~30 min | push_cases warns every run |
 | W26 | **NAS runs/ retention policy**: q6/gatednorm/e3v2 checkpoints organized or pruned (results JSONs retained) | ~1h | disk hygiene; /tmp scars say keep NAS canonical |
 | W27 | **Dashboard state refresh** (v55 → current: verdicts, queue link) — **DONE 2026-09-04 by automation** (postplan updater daemon: muse-spark editorial + build_dashboard.py rebuild + upload every ~30 min; STOP flag; see board 2026-09-04 23:xx) | automated | house pattern |
