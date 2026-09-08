@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "properties": {
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "progress",
+        "waiting",
+        "blocked",
+        "exhausted"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "retry_after_seconds": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3600
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "outcome",
+    "summary",
+    "next_action",
+    "retry_after_seconds",
+    "blockers"
+  ],
+  "additionalProperties": false
+}

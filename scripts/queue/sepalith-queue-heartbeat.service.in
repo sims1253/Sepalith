@@ -1,0 +1,12 @@
+[Unit]
+Description=Review and advance the authorized Sepalith experiment queue
+
+[Service]
+Type=oneshot
+WorkingDirectory=@REPO@
+Environment=PATH=%h/.bun/bin:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+UMask=0077
+ExecStart=/usr/bin/python3 -B %h/.local/state/sepalith/queue-supervisor/installed/supervisor.py --once --repo @REPO@ --state %h/.local/state/sepalith/migration-20260906/prepared-state --owner %h/.local/state/sepalith/queue-owner-20260908 --home %h/.local/state/sepalith/queue-supervisor --prompt %h/.local/state/sepalith/queue-supervisor/installed/owner-prompt.md --schema %h/.local/state/sepalith/queue-supervisor/installed/report.schema.json --codex %h/.bun/bin/codex --agent-seconds 2700
+TimeoutStartSec=2760
+TimeoutStopSec=30
+KillMode=control-group

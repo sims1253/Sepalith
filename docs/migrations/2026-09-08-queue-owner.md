@@ -694,3 +694,19 @@ Both tiers measured the same quality-tested exports, ten fixed 2K traces and thr
   }
 }
 ```
+
+
+## Default continuation: 30-minute heartbeat
+
+The user explicitly chose a heartbeat every 30 minutes instead of more
+finite batch scripts. `sepalith-queue-heartbeat.timer` invokes a oneshot
+check at minute 00 and 30. It uses actual worker liveness and recorded
+runtime bounds, then wakes one Codex agent for idle-queue review or recovery.
+Healthy experiments consume no extra agent call. The agent selects and
+prepares further authorized work; a completed batch is not an approval gate.
+Ten tests pass, including a real fake-agent completion-to-next-check test,
+stale running-state recovery, reused PIDs and overlap exclusion. Local
+Codex authentication was verified without exposing credentials. The user
+manager has lingering enabled. Detailed controls: `scripts/queue/README.md`.
+The old no-polling instruction is superseded for this queue only. Cloud
+reserves, parked decisions and quiet CPU windows remain binding.

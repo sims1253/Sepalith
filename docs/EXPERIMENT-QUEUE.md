@@ -18,7 +18,7 @@ elsewhere; listed so this file is the single lookup) · `DONE` / `CLOSED`
 
 ## Queue-owner sync — 2026-09-08 (continuous ownership)
 
-Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
+Owner: `codex-queue-owner`. Legacy dispatch is retired. A 30-minute heartbeat now wakes the queue agent for automatic review and continuation; see `scripts/queue/README.md`. Local execution uses
 `~/.local/state/sepalith/migration-20260906/prepared-state`, one explicit
 `run-next` followed by a review pause; ownership continues into the next eligible job. Earlier live PIDs/ETAs below are historical.
 

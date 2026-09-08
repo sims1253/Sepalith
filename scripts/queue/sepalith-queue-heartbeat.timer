@@ -1,0 +1,11 @@
+[Unit]
+Description=Check the Sepalith queue every 30 minutes
+
+[Timer]
+OnCalendar=*:0/30
+Persistent=true
+AccuracySec=10s
+Unit=sepalith-queue-heartbeat.service
+
+[Install]
+WantedBy=timers.target
