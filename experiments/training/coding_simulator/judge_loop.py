@@ -33,6 +33,28 @@ Usage:
   uv run python judge_loop.py --model experiments/models/sft_v7_minicpm5-Q8_0.gguf \
     --traj /mnt/h/sepalith/datasets/sim_trajectories_v1/trajectories.jsonl \
     --n 100 --out /mnt/h/sepalith/datasets/sim_trajectories_v1/judged_v7.jsonl
+
+V1a episode metrics (eval-strategy-v2 §3 V1a, ADDITIVE 2026-09-01): each
+output row gains an `extras` block (time-to-edit to the first
+ACCEPTABLE-class accept on the t_ms timeline + the 1500ms debounce;
+interruption score = proposals during Thinking/Navigating windows), and
+the final stdout JSON gains frac_traj_with_accept / tte_mean_ms /
+tte_median_ms / tte_censored_mean_ms / think_nav_windows /
+think_nav_interruptions / interruption_rate. Existing metrics and keys
+are untouched. Stored judged rows WITHOUT extras can be scored by the
+same functions via experiments/eval/episode_metrics.py --replay.
+
+Battery leg (CPU box — this script's own spawn path is the CUDA server;
+on CPU use the wrapper, which serves with a nice'd CPU llama-server on
+18200-18219 and points this script at it as an EXTERNAL server, so the
+CUDA spawn path never fires):
+
+  python3 experiments/eval/episode_metrics.py --live \
+    --model experiments/models/sft_v8_2_minicpm5-Q8_0.gguf --tag sft_v8_2 \
+    --n 60 --traj /mnt/h/sepalith/datasets/sim_trajectories_v1/trajectories_v2.jsonl
+
+See experiments/eval/episode_metrics.py --help for the full battery
+recipe (replay / live / compare) and the calibration verdicts.
 """
 from __future__ import annotations
 
@@ -48,11 +70,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent.parent / "eval"))
-from eval_noop_fp import parse_prediction  # noqa: E402  extension-faithful
+from prediction_parser import parse_prediction  # noqa: E402  extension-faithful
 
 CUDA_LLAMA = Path("/tmp/llamacpp-cuda-build/bin/llama-server")
 UPDATED = ">>>>>>> UPDATED"
 HIST_MARK = "#~ proposal history (this session):"
+
+# --- V1a additive episode metrics (docs/research/2026-09-02-eval-strategy-v2.md §3 V1a)
+DEBOUNCE_MS = 1500                                # extension default (simulate.py timing model)
+THINK_NAV_CTX = ("pre_task_think", "navigation")  # Thinking / Navigating windows
 
 
 def complete(port: int, prompt: str, max_tokens: int = 160) -> str:
@@ -89,6 +115,51 @@ def first_content_line(pred_lines: list[str]) -> str:
         if l.strip():
             return l
     return ""
+
+
+def episode_extras(records: list[dict]) -> dict:
+    """V1a additive episode metrics (eval-strategy-v2 §3 V1a), computed
+    from the per-point RECORDS only — so the identical function scores
+    fresh runs and stored judged rows (zero serving).
+
+    time-to-edit: simulated wall-clock to the first ACCEPTABLE-class
+    accept. A suggestion point fires only after a quiesce >= the
+    extension's 1500ms debounce, so the proposal materializes (and the
+    stage-1 prefix rule accepts it) at t_ms + DEBOUNCE_MS on the
+    trajectory's t_ms clock (session start = 0). None when the episode
+    ends without an accept (censored; aggregates penalize at the
+    observed episode end). NOTE: the clock is the SIMULATOR's, not the
+    serving wall-clock — serving latency does not distort it.
+
+    interruption score: proposals shown during Thinking/Navigating
+    windows — records with ctx in {pre_task_think, navigation}. By
+    construction (simulate.py) those are noop points, so a non-empty
+    proposal there IS a false suggestion that interrupts the user;
+    interruption_rate = interruptions / think-nav quiesces seen.
+    noop_false_sug_by_ctx is the full noop-window breakdown (additive).
+    """
+    first_acc = next((r for r in records
+                      if r.get("decision") == "accepted"), None)
+    tte = (first_acc["t_ms"] + DEBOUNCE_MS) if first_acc else None
+    session_end = max((r["t_ms"] for r in records), default=0) + DEBOUNCE_MS
+    tn = [r for r in records if r.get("ctx") in THINK_NAV_CTX]
+    interrupts = sum(1 for r in tn
+                     if r.get("decision") == "false_suggestion")
+    noop_by_ctx: dict[str, dict] = {}
+    for r in records:
+        if r.get("label") == "noop":
+            d = noop_by_ctx.setdefault(r["ctx"], dict(points=0, false_sug=0))
+            d["points"] += 1
+            d["false_sug"] += int(r.get("decision") == "false_suggestion")
+    return dict(
+        time_to_edit_ms=tte,
+        session_end_ms=session_end,
+        n_accepts=sum(1 for r in records if r.get("decision") == "accepted"),
+        think_nav_windows=len(tn),
+        think_nav_interruptions=interrupts,
+        interruption_rate=round(interrupts / max(1, len(tn)), 3),
+        noop_false_sug_by_ctx=noop_by_ctx,
+    )
 
 
 def run_trajectory(traj: dict, port: int, cap_points: int = 30) -> dict:
@@ -133,7 +204,8 @@ def run_trajectory(traj: dict, port: int, cap_points: int = 30) -> dict:
             gt=(p["gt"] or "")[:200]))
     return dict(key=traj["key"], variant=traj.get("variant", 1),
                 goal=traj.get("goal"),
-                stats=stats, points=records)
+                stats=stats, points=records,
+                extras=episode_extras(records))   # V1a additive metrics
 
 
 def main():
@@ -191,9 +263,11 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     n_done = 0
     t0 = time.time()
+    results = []
     with open(out, "w") as fh, ThreadPoolExecutor(max_workers=2) as ex:
         for res in ex.map(lambda t: run_trajectory(t, args.port), trajs):
             fh.write(json.dumps(res, ensure_ascii=False) + "\n")
+            results.append(res)
             for k in agg:
                 agg[k] += res["stats"][k]
             n_done += 1
@@ -201,6 +275,17 @@ def main():
                 print(f"[{n_done}] elapsed={time.time()-t0:.0f}s", flush=True)
     if srv:
         srv.terminate()
+
+    # --- V1a additive aggregate (existing keys above unchanged) ---
+    ex_rows = [r["extras"] for r in results if r.get("extras")]
+    ttes = [e["time_to_edit_ms"] for e in ex_rows
+            if e["time_to_edit_ms"] is not None]
+    ttes_sorted = sorted(ttes)
+    med = ttes_sorted[len(ttes_sorted) // 2] if ttes_sorted else None
+    tn_w = sum(e["think_nav_windows"] for e in ex_rows)
+    tn_i = sum(e["think_nav_interruptions"] for e in ex_rows)
+    censored = [e["time_to_edit_ms"] if e["time_to_edit_ms"] is not None
+                else e["session_end_ms"] for e in ex_rows]
     print(json.dumps(dict(n=n_done, **agg,
                           accept_rate=round(agg["accepted"] /
                                             max(1, agg["shown"]), 3),
@@ -208,7 +293,19 @@ def main():
                                         max(1, agg["false_sug"] +
                                             agg["correct_stop"]), 3),
                           saved_ratio=round(agg["chars_saved"] /
-                                            max(1, agg["chars_typed"]), 3))),
+                                            max(1, agg["chars_typed"]), 3),
+                          # V1a additive keys
+                          frac_traj_with_accept=round(len(ttes) /
+                                                      max(1, len(ex_rows)), 3),
+                          tte_mean_ms=(round(sum(ttes) / len(ttes))
+                                       if ttes else None),
+                          tte_median_ms=med,
+                          tte_censored_mean_ms=(
+                              round(sum(censored) / len(censored))
+                              if censored else None),
+                          think_nav_windows=tn_w,
+                          think_nav_interruptions=tn_i,
+                          interruption_rate=round(tn_i / max(1, tn_w), 3))),
           flush=True)
 
 

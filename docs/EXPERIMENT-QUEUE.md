@@ -22,7 +22,7 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. Local execution uses
 `~/.local/state/sepalith/migration-20260906/prepared-state`, one explicit
 `run-next` followed by pause. Earlier live PIDs/ETAs below are historical.
 
-- S1: GPU depth sweep RUNNING, attempt `7879cd302663471aa903c56ed2ca2863`;
+- S1: GPU depth sweep RUNNING, attempt `0ee707385c5648a2883c465ac6cc38a7`;
   17 registered configurations plus baseline bookend. Saved CPU results remain separate.
 - S2: saved CPU timing reconciled and archived; quality and GPU gates outstanding.
 - V1c: saved v7 column reconciled and archived; calibration/concurrency acceptance unresolved.

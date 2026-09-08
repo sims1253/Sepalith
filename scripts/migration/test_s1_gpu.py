@@ -64,3 +64,12 @@ def test_gpu_server_has_one_unambiguous_offload_flag():
     cmd = s1.GpuServer('/model', 18471, [], server='/server').cmd()
     assert cmd.count('-ngl') == 1
     assert cmd[cmd.index('-ngl')+1] == '99'
+
+
+def test_serving_recount_can_differ_from_hf_metadata_without_truncation():
+    # Actual frozen trace: HF metadata 2053; pinned llama tokenizer 2055.
+    assert s1.check_prompt_count(2055, 10240, baseline_count=2055) is None
+    with pytest.raises(ValueError, match='Cross-arm'):
+        s1.check_prompt_count(2055, 10240, baseline_count=2053)
+    with pytest.raises(ValueError, match='context'):
+        s1.check_prompt_count(10200, 10240)

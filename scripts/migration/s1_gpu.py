@@ -73,6 +73,13 @@ def tokenize(port, prompt):
         return len(json.load(response)['tokens'])
 
 
+def check_prompt_count(count, ctx, baseline_count=None):
+    if baseline_count is not None and count != baseline_count:
+        raise ValueError('Cross-arm tokenizer count mismatch')
+    if count + 64 + 16 > ctx:
+        raise ValueError('Prompt would exceed context with output reserve')
+
+
 def validate_response(response):
     if response.error or not response.stop_hit or response.ttft_ms is None:
         raise ValueError('Incomplete or failed streamed response: ' + str(response.error))
@@ -84,6 +91,7 @@ def measure(run, assets):
     prepared = json.loads((run / 'prepared.json').read_text())
     traces = selected(assets)
     baseline = {}
+    baseline_counts = {}
     server = None
     def expire(*_):
         raise DeadlineExceeded('S1 exceeded its four-hour execution bound')
@@ -114,10 +122,11 @@ def measure(run, assets):
                         warmup_file.write(json.dumps(dict(arm=arm, text=warmup.text, timings=warmup.timings, wall_ms=warmup.wall_ms)) + '\n')
                     for trace in traces:
                         token_count = tokenize(server.port, trace['prompt'])
-                        if token_count != trace['prompt_tokens']:
-                            raise ValueError('Frozen trace token count differs from serving tokenizer')
-                        if token_count + 64 + 16 > prepared['ctx']:
-                            raise ValueError('Prompt would exceed context with output reserve')
+                        check_prompt_count(token_count, prepared['ctx'], baseline_counts.get(trace['trace_id']))
+                        if arm == 'baseline':
+                            baseline_counts[trace['trace_id']] = token_count
+                        with (run / 'token-audit.jsonl').open('a') as audit:
+                            audit.write(json.dumps(dict(arm=arm, trace_id=trace['trace_id'], stored=trace['prompt_tokens'], served_tokenizer=token_count)) + '\n')
                         for rep in range(prepared['reps']):
                             res = bench.stream_completion(server.port, trace['prompt'], timeout=120)
                             warm = bench.stream_completion(server.port, trace['prompt'], cache_prompt=True, timeout=120)

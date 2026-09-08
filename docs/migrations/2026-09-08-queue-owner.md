@@ -171,3 +171,43 @@ reuse on `cache_prompt`, and served cold token counts must equal preflight count
 32 targeted tests pass. Attempt `7879cd302663471aa903c56ed2ca2863` is running under
 snapshot `eafb24c9f9d4b1d19f13956280e6198d9a57a6e8a1c1f590cb0f27a456f7e6fb`,
 with a four-hour bound and private archive target `runner-s1-gpu-archive-20260908`.
+
+### S1 token-accounting correction
+
+The first GPU attempt stopped after 210 baseline rows before spec arms. Frozen
+HF token metadata is not universally equal to pinned llama tokenization: trace
+`84df2e857f-70520ed3-2k` has HF/stored 2053 versus server 2057; the historical CPU
+baseline also recorded 2057. The CLI defaults to escape processing and gives 2055;
+`--no-escape` reproduces the server's 2057. All raw prompt bytes remain unchanged.
+Use actual serving recount for capacity and strict served-count/cross-arm parity;
+retain metadata discrepancies in `token-audit.jsonl`. A regression test covers
+this distinction. The failed attempt was closed and privately hash-archived.
+Revision `s1-gpu-depth-sweep-r2-20260908`, attempt
+`0ee707385c5648a2883c465ac6cc38a7`, snapshot
+`3838e379996f6ce630f9c35165156ea7adf7cbc86179d4b7192d5733d7693643`,
+restarts the unchanged scientific sweep from row zero.
+
+### Prepared follow-ons
+
+S2's unrun GPU timing column reuses its five b1_ref24 quantizations and ten frozen
+2K prompts, three repeats, with a 30-minute ceiling. No separate optimization
+pre-roll is justified for the expected few-minute run; the user now permits
+value-based pre-rolls, and the wrapper reuses reviewed GPU safety checks. Timing
+alone never satisfies the outstanding 1pp scenario/intent quality gate, and this
+older MiniCPM matrix does not become a GDN production result.
+
+The next production-track preparation is a complete b4 V1a episode baseline:
+60 trajectories selected with the existing seed3 rule, up to30 points each,
+32K context, unchanged history/parser/lexical scoring semantics. Strict request
+failures bypass the historical skip-on-error handler; no point may disappear.
+Full responses, history-expanded prompt counts and generation limits are saved.
+It is separate from historical partial episodes on 2K slots and does not require
+retraining. Shared completed episode-metrics additions were captured into this
+branch; the parser was extracted unchanged to remove unrelated mining imports.
+Both 40-episode historical calibration summaries replay exactly under this code.
+
+Pi pre-roll: Muse completed max review in70.46s; GLM max timed out at180.02s with
+no report. Both had180s limits for estimated15–60min work. Implemented strict
+coverage, history injection checks, dynamic token counts, raw response sidecars,
+and tracked foreground cleanup. No claim of a completed GLM review. Forty targeted
+tests pass across the new wrappers and existing spec harness.
