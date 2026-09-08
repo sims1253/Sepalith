@@ -1,0 +1,181 @@
+{
+  "scope": "Additive structural rescore of saved b4 scenario predictions; no new inference",
+  "rows": 255,
+  "ground_truth_matches": 255,
+  "families": {
+    "doc_sync": {
+      "n": 15,
+      "exact": 0,
+      "exact_rate": 0.0,
+      "ast_equiv": 0,
+      "ast_equiv_rate": 0.0,
+      "gap": 0.0,
+      "gap_rows": 0,
+      "valid_pass": null,
+      "parses": 15,
+      "fragments": 0,
+      "parse_rate_complete": 1.0,
+      "ast_computable": 15,
+      "uncomputable": 0,
+      "gt_missing": 0,
+      "truncated": 0,
+      "weak": 0
+    },
+    "format_propagation": {
+      "n": 67,
+      "exact": 35,
+      "exact_rate": 0.5224,
+      "ast_equiv": 44,
+      "ast_equiv_rate": 0.6567,
+      "gap": 0.1343,
+      "gap_rows": 9,
+      "valid_pass": 48,
+      "parses": 51,
+      "fragments": 14,
+      "parse_rate_complete": 0.9623,
+      "ast_computable": 67,
+      "uncomputable": 0,
+      "gt_missing": 0,
+      "truncated": 0,
+      "weak": 0
+    },
+    "na_rm_propagation": {
+      "n": 5,
+      "exact": 5,
+      "exact_rate": 1.0,
+      "ast_equiv": 5,
+      "ast_equiv_rate": 1.0,
+      "gap": 0.0,
+      "gap_rows": 0,
+      "valid_pass": 5,
+      "parses": 5,
+      "fragments": 0,
+      "parse_rate_complete": 1.0,
+      "ast_computable": 5,
+      "uncomputable": 0,
+      "gt_missing": 0,
+      "truncated": 0,
+      "weak": 0
+    },
+    "pipe_rewrite": {
+      "n": 18,
+      "exact": 18,
+      "exact_rate": 1.0,
+      "ast_equiv": 18,
+      "ast_equiv_rate": 1.0,
+      "gap": 0.0,
+      "gap_rows": 0,
+      "valid_pass": 18,
+      "parses": 14,
+      "fragments": 4,
+      "parse_rate_complete": 1.0,
+      "ast_computable": 18,
+      "uncomputable": 0,
+      "gt_missing": 0,
+      "truncated": 0,
+      "weak": 0
+    },
+    "rename_propagation": {
+      "n": 150,
+      "exact": 137,
+      "exact_rate": 0.9133,
+      "ast_equiv": 137,
+      "ast_equiv_rate": 0.9133,
+      "gap": 0.0,
+      "gap_rows": 0,
+      "valid_pass": 146,
+      "parses": 149,
+      "fragments": 1,
+      "parse_rate_complete": 1.0,
+      "ast_computable": 150,
+      "uncomputable": 0,
+      "gt_missing": 0,
+      "truncated": 0,
+      "weak": 0
+    }
+  },
+  "elapsed_seconds": 0.19678073899558512,
+  "versions": {
+    "tree-sitter": "0.26.0",
+    "tree-sitter-r": "1.3.0"
+  },
+  "boundary": "Existing V1b normalization ignores literal values and has fragment/truncation fallbacks; this is not semantic correctness or a model adoption gate. Historical generation input/runtime lineage is not reconstructed by rescoring.",
+  "inputs": [
+    {
+      "source": "/home/m0hawk/Documents/Sepalith/experiments/eval/ast_equiv.py",
+      "frozen": "experiments/eval/ast_equiv.py",
+      "sha256": "ce886cc0e8a49ee417dc2bb2e7973b9b7a2c09c1135a7c01d39963d145aa2e7f"
+    },
+    {
+      "source": "/home/m0hawk/Documents/Sepalith/experiments/eval/test_ast_equiv.py",
+      "frozen": "experiments/eval/test_ast_equiv.py",
+      "sha256": "06b36e21218ccc7cb4ccc83cae56bf2723c6feb7b4edea6e023e0c81473c9a58"
+    },
+    {
+      "source": "/home/m0hawk/Documents/Sepalith/experiments/eval/run_eval.py",
+      "frozen": "experiments/eval/run_eval.py",
+      "sha256": "0d554b4208af5db559cc7033795f2cb4fcdfce32b700dbd8c6ae5475ad4f7321"
+    },
+    {
+      "source": "/home/m0hawk/Documents/Sepalith/experiments/post-processing/assemble_sft_v2.py",
+      "frozen": "experiments/post-processing/assemble_sft_v2.py",
+      "sha256": "dd519c61f0684040251f5f886c6f6307a6d0a99329fc7ac5792974a23cd43f12"
+    },
+    {
+      "source": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_scenarios_b4_qwen35_2b.jsonl",
+      "frozen": "experiments/eval/results_scenarios_b4_qwen35_2b.jsonl",
+      "sha256": "22b8796a5a3b4ba162f70386ad35c4cf4856d346dd5483c83dcd722cf352566c"
+    },
+    {
+      "source": "/mnt/h/sepalith/datasets/scenarios_v1/rename_propagation.jsonl",
+      "frozen": "scenarios/rename_propagation.jsonl",
+      "sha256": "98e86160fb5f37ad933c1e4c59c90296ab1a498e608c881b118268d20e216044"
+    },
+    {
+      "source": "/mnt/h/sepalith/datasets/scenarios_v1/pipe_rewrite.jsonl",
+      "frozen": "scenarios/pipe_rewrite.jsonl",
+      "sha256": "88644938fb0e22a5a0155bd560799c10c3acd54ac10f831f260a2c935c8300b0"
+    },
+    {
+      "source": "/mnt/h/sepalith/datasets/scenarios_v1/format_propagation.jsonl",
+      "frozen": "scenarios/format_propagation.jsonl",
+      "sha256": "2ffc940853dafc07144ed50982a7a93d1962cff461ea561e2b5e9f2669586e3f"
+    },
+    {
+      "source": "/mnt/h/sepalith/datasets/scenarios_v1/doc_sync.jsonl",
+      "frozen": "scenarios/doc_sync.jsonl",
+      "sha256": "be45df30b7dfcabe7c8ab8d1363e04d18ba92753e5a927487727f7137bf9e283"
+    },
+    {
+      "source": "/mnt/h/sepalith/datasets/scenarios_v1/na_rm_propagation.jsonl",
+      "frozen": "scenarios/na_rm_propagation.jsonl",
+      "sha256": "68bb4559231a2246ab9e8b2b12acfe83e200be5e106dbdcce7a4bd291a98396b"
+    }
+  ],
+  "scorer_correction": "Recover full raw output when it agrees with capped preview; original rescore retained separately",
+  "corrected_source": [
+    {
+      "path": "experiments/eval/ast_equiv.py",
+      "sha256": "dd7f4ee883964d5ee786eb8985b031316d9219daf5016b4ec41800583a328a8a"
+    },
+    {
+      "path": "experiments/eval/run_eval.py",
+      "sha256": "0d554b4208af5db559cc7033795f2cb4fcdfce32b700dbd8c6ae5475ad4f7321"
+    },
+    {
+      "path": "experiments/post-processing/assemble_sft_v2.py",
+      "sha256": "dd519c61f0684040251f5f886c6f6307a6d0a99329fc7ac5792974a23cd43f12"
+    }
+  ],
+  "totals": {
+    "exact": 195,
+    "ast_equiv": 204,
+    "truncated": 0,
+    "weak": 0
+  },
+  "raw_recovered": 2,
+  "exact_not_structural": 0,
+  "archive": "/mnt/h/sepalith/runs/b4-ast-replay-20260908",
+  "archive_manifest_sha256": "016555c02afa7749c92645ccc702b332201c25697a75c2a3aba672f50a2814d8",
+  "archived_files": 19
+}

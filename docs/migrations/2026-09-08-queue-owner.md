@@ -268,3 +268,30 @@ remains conservative. No omitted setting is claimed as a measured speed curve.
 GLM timed out at 180.02 seconds without a report; Muse completed in 54.97
 seconds. The timeout is retained as a failed review, not a second approval.
 Corrected helper and existing regression checks: 36 passed.
+
+## b4 V1b saved-output column
+
+The existing AST scorer was captured with its renderer dependencies and the
+saved b4 scenario predictions. All 255 unique `(family,id)` rows recovered
+ground truth from the frozen scenario sources. No new inference was needed.
+The first replay exposed a capped-preview bug: a stored exact prediction had
+a 400-character `pred` and a complete `raw`, but the scorer used the preview
+and suppressed its truncation flag merely because raw existed.
+
+The corrected scorer recovers parsed raw only when it agrees with the stored
+preview; unrelated or unparsable raw cannot erase the truncation limitation.
+Both original and corrected replays are retained. The 48 scorer tests pass,
+including full-raw recovery and inconsistent-raw regression cases.
+
+Corrected totals: 195/255 exact (76.47%), 204/255 structural matches (80.0%);
+nine additional matches, all format propagation. All exact rows remain
+structural matches. Two previews were recovered from full raw. There are
+19 fragment fallbacks and no missing ground truth or residual truncation.
+Literal values are normalized away by this existing V1b metric; structural
+match is not semantic equivalence. No adoption threshold is assigned.
+
+Nineteen evidence files are hash-verified at
+`/mnt/h/sepalith/runs/b4-ast-replay-20260908`; aggregate and source hashes are
+in [the b4 AST record](../validation/2026-09-08-b4-ast.json). This completes
+the saved b4 scenario V1b column, not all W16 adaptation or the historical
+generation runtime's provenance. The full V1a episode column is still queued.
