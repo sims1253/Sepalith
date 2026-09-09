@@ -1,0 +1,28 @@
+{
+  "pack": "nextcoder_r_v1",
+  "rows": 973,
+  "split": {
+    "train": 946,
+    "eval": 27,
+    "frac": "3% by package, seed 42"
+  },
+  "classes": {
+    "tidyverse": 674,
+    "data_table": 193,
+    "fix_the_bug": 70,
+    "vectorize": 22,
+    "base_r": 14
+  },
+  "backends": {
+    "zai": 426,
+    "opencode_spark_free": 547
+  },
+  "waves": "2082/7506 tasks attempted before provider rate-quota exhaustion (two breaker stops); resume sidecars allow top-up waves",
+  "drop_summary": "no_op_text 354, idiom_tidyverse_missing 263, no_op_ast 136, dedupe_batch 80, defect_still_present 54, idiom_data_table_missing 50, statements_* 91, not_clean_r 21, fix_not_restored 5, layer2_schema 11, dedupe_corpus 9, over_25_lines 14, base_r_contaminated 1",
+  "hashes": {
+    "train": "6694ecb341d5...",
+    "eval": "9d89a22c7f04..."
+  },
+  "manifest": "/mnt/h/sepalith/datasets/nextcoder_r_v1/manifest.json",
+  "boundaries": "v1 partial (28% of task space; quota-blocked); class balance inherited from seed mix (tidyverse-heavy, base_r/vectorize thin); idiom+operator gates active; provenance per row (parent-link + model tag)"
+}
