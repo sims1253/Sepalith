@@ -1,0 +1,56 @@
+{
+  "gate": "H3-S0 K0 control arms (cache-anomaly root-cause)",
+  "k0a": {
+    "first_prompt_n": 5830,
+    "second_prompt_n": 4,
+    "cached_fraction": 0.9993,
+    "pass_95": true
+  },
+  "k0b": [
+    {
+      "depth_lines": 8,
+      "first_A": 659,
+      "divergent_B": 516,
+      "return_A": 4
+    },
+    {
+      "depth_lines": 16,
+      "first_A": 913,
+      "divergent_B": 516,
+      "return_A": 516
+    },
+    {
+      "depth_lines": 32,
+      "first_A": 1028,
+      "divergent_B": 516,
+      "return_A": 516
+    },
+    {
+      "depth_lines": 48,
+      "first_A": 1028,
+      "divergent_B": 516,
+      "return_A": 516
+    },
+    {
+      "depth_lines": 64,
+      "first_A": 1028,
+      "divergent_B": 516,
+      "return_A": 516
+    },
+    {
+      "depth_lines": 96,
+      "first_A": 1540,
+      "divergent_B": 516,
+      "return_A": 516
+    },
+    {
+      "depth_lines": 128,
+      "first_A": 1568,
+      "divergent_B": 516,
+      "return_A": 516
+    }
+  ],
+  "finding": "Reuse granularity == n_batch (~512 tokens): divergent prompts re-evaluate a constant ~516 tokens regardless of shared-prefix depth; deep prefixes DO reuse (~88% at 4k head). The prior 0%-cached prefix-first arms had sub-granularity heads. Identical repeats cache 99.4%. Serving lever: -b (n_batch) tunes the granularity floor.",
+  "implication": "H3 does NOT close: prefix-first candidates with >512-token shared heads (hybrid V10 class) are S1-eligible; sub-granularity variants die at S0. Add an n_batch arm to the S1 bench.",
+  "evidence": "/mnt/h/sepalith/runs/h3-k0-20260909"
+}
