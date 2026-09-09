@@ -1,0 +1,82 @@
+{
+  "attempt": "1495d69a9fe74a8f97fabf9856aeb977",
+  "job": "o2-prescreen-r7-20260909",
+  "status": "failed",
+  "elapsed_seconds": 22628.09833407402,
+  "snapshot": "4a38322a60b335941023cffa269660b04f0d27420caa699823a4c4a5448aea33",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-failed-attempts-20260908/1495d69a9fe74a8f97fabf9856aeb977",
+  "closed_manifest_sha256": "449d1fda20567b04d52ea5686903c03e0b18d85d31705f8b100a0bc82873fb37",
+  "files": 37,
+  "receipt": {
+    "id": "1495d69a9fe74a8f97fabf9856aeb977",
+    "job": "o2-prescreen-r7-20260909",
+    "status": "failed",
+    "phase": "finished",
+    "step": 1,
+    "worker_pid": 3017792,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788930134.355129,
+    "finished": 1788952762.453463,
+    "detail": "Missing or empty artifact after measure: requests.jsonl"
+  },
+  "evaluation": {
+    "per_family": {
+      "format_propagation": {
+        "screened": 2043,
+        "in_band": 925,
+        "never_solved": 374,
+        "unanimous": 182,
+        "quota": 1400,
+        "admitted_quota": 925,
+        "floor_guard_ok": false
+      },
+      "no_op": {
+        "screened": 510,
+        "in_band": 6,
+        "never_solved": 0,
+        "unanimous": 484,
+        "quota": 350,
+        "admitted_quota": 6,
+        "floor_guard_ok": true
+      },
+      "pipe_rewrite": {
+        "screened": 225,
+        "in_band": 10,
+        "never_solved": 2,
+        "unanimous": 169,
+        "quota": 150,
+        "admitted_quota": 10,
+        "floor_guard_ok": true
+      },
+      "rename_propagation": {
+        "screened": 2800,
+        "in_band": 651,
+        "never_solved": 105,
+        "unanimous": 1122,
+        "quota": 1400,
+        "admitted_quota": 651,
+        "floor_guard_ok": true
+      }
+    },
+    "total_screened": 5578,
+    "abort_flag": true
+  },
+  "verdict": {
+    "verdict": "O2-PRESCREEN-ABORT-FLOOR",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Admission dataset written; the two GRPO arms are separate recipes. Pass-rate estimates are k=16 binomial samples (SE<=0.125)."
+  },
+  "artifact_hashes": {
+    "verdict.json": "5b88d613bd8db851f7d434c04cebf7c545ee156c81e0431e4cd52d0424ac4ef7",
+    "evaluation.json": "50b116287b58bc85831291c4e5ec93a5ed8167f4acf94a0d76a2ab66033e6232",
+    "execution.json": "f203af7b8c7f952d50d37e188cb561e47c830b50f31df5aecced6ae028528774",
+    "completions.jsonl": "fd882ddf454373590d457c82d7a498e3f6e7b22f078e152fc68ed227e129140e",
+    "final-runner-receipt.json": "91e412e6c7abe577d31a6fda001d16fc6f9f7e3d6b911e581e940b9ac7986ba9",
+    "prepared.json": "170caecd523f71e4f770def9462a57c9670ac43864c940b5899765cc3b5c1738",
+    "recipe.json": "088000aacddc4e237ed3904965f27358cd0f80f0a7fd5e302173bc57fd2d663e",
+    "runtime.json": "65808ef4395257e031bbcb980e2f9bda67a870b38d4a51b25890789f29bed01a",
+    "00-prepare-artifacts.json": "6207c104e4d12481ecb80407bfbb5e0db2a64313e338bb8401085f965854af07"
+  }
+}

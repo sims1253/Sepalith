@@ -641,6 +641,9 @@ def main():
                          "generation-batch draws and exit (no model load, "
                          "no GPU)")
     ap.add_argument("--out", default="/mnt/h/sepalith/runs/rl_grpo_v1")
+    ap.add_argument("--prescreen", default=None,
+                    help="O2 admission ledger (prescreen_v1.jsonl): keep only "
+                         "admitted prompts; fail-closed on provenance mismatch")
     args = ap.parse_args()
 
     if args.merge:
@@ -673,13 +676,45 @@ def main():
         print(f"cuda memory fraction capped at {args.memfrac}", flush=True)
 
     # BOS parity self-check: our prompt strings must tokenize to BOS-first
-    ids = tokenizer(tokenizer.bos_token + "x", add_special_tokens=False)["input_ids"]
-    assert ids[0] == tokenizer.bos_token_id, \
-        f"BOS parity broken: {ids[:3]} vs bos_id={tokenizer.bos_token_id}"
+    # (BOS-less tokenizers like Qwen3.5 have no BOS to assert — skip)
+    if tokenizer.bos_token is None:
+        print("BOS parity check skipped: tokenizer has no BOS (Qwen3.5)", flush=True)
+    else:
+        ids = tokenizer(tokenizer.bos_token + "x", add_special_tokens=False)["input_ids"]
+        assert ids[0] == tokenizer.bos_token_id, \
+            f"BOS parity broken: {ids[:3]} vs bos_id={tokenizer.bos_token_id}"
 
     rows, dstat = build_dataset(tokenizer, quotas,
                                 data_path=Path(args.data),
                                 refine_path=args.refine_data)
+    if args.prescreen:
+        import hashlib as _h
+        ledger_path = Path(args.prescreen)
+        prov_path = ledger_path.parent / "provenance.json"
+        if not ledger_path.is_file() or not prov_path.is_file():
+            raise SystemExit("O2 fail-closed: prescreen ledger or provenance missing")
+        prov = json.loads(prov_path.read_text())
+        if prov.get("seed") != 3407 or prov.get("k") != 16 or                 tuple(prov.get("band", ())) != (3, 13):
+            raise SystemExit("O2 fail-closed: provenance seed/k/band mismatch")
+        if prov.get("data") != str(Path(args.data).resolve()):
+            raise SystemExit("O2 fail-closed: provenance data path mismatch: %s vs %s"
+                             % (prov.get("data"), Path(args.data).resolve()))
+        admitted = set()
+        for line in ledger_path.read_text().splitlines():
+            rec = json.loads(line)
+            if rec.get("admitted"):
+                admitted.add(rec["prompt_hash"])
+        kept, kept_f = [], {}
+        for r in rows:
+            ph = _h.sha1(r["prompt"].encode()).hexdigest()
+            if ph in admitted:
+                kept.append(r)
+                kept_f[r["family"]] = kept_f.get(r["family"], 0) + 1
+        print(json.dumps(dict(prescreen_filter=dict(input=len(rows), kept=len(kept),
+                                                    per_family=kept_f))), flush=True)
+        if not kept:
+            raise SystemExit("O2 fail-closed: admission filter kept zero prompts")
+        rows = kept
     print(json.dumps(dict(dataset=dstat, n_rows=len(rows),
                           bos=tokenizer.bos_token)), flush=True)
     ds = Dataset.from_list(rows)
