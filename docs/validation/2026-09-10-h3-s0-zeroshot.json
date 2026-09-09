@@ -1,0 +1,54 @@
+{
+  "results": {
+    "zeta2": {
+      "n": 100,
+      "format_fail": 0,
+      "pass_n": 100,
+      "fail_reasons": {}
+    },
+    "v10_psmtail_merge": {
+      "n": 100,
+      "format_fail": 0,
+      "pass_n": 100,
+      "fail_reasons": {}
+    },
+    "v11_psmtail_merge_empty": {
+      "n": 100,
+      "format_fail": 0,
+      "pass_n": 100,
+      "fail_reasons": {}
+    },
+    "v05_psm_merge": {
+      "n": 100,
+      "format_fail": 0,
+      "pass_n": 100,
+      "fail_reasons": {}
+    },
+    "v06_psm_merge_empty": {
+      "n": 100,
+      "format_fail": 1,
+      "pass_n": 99,
+      "fail_reasons": {
+        "no_markers": 1
+      }
+    },
+    "v14_psm_merge_nohist": {
+      "n": 100,
+      "format_fail": 0,
+      "pass_n": 100,
+      "fail_reasons": {}
+    },
+    "v13_zeta1_alpaca": {
+      "n": 100,
+      "format_fail": 100,
+      "pass_n": 0,
+      "fail_reasons": {
+        "no_markers": 87,
+        "unparseable": 13
+      }
+    }
+  },
+  "finding": "ALL MV1-marker variants are zero-shot compliant on b4 (99-100/100) despite reordered structure: the models tolerate ordering changes when the marker VOCABULARY is the trained one. The zeta1-alpaca control fails 100/100 (87 no_markers + 13 unparseable) exactly as designed - validating the format_fail instrument. Implication: the S1 adaptation cost for prefix-first/hybrid renders is LOW (format compliance is free); the S1 competition is decided by quality-after-adaptation + cache wins, not by compliance.",
+  "boundary": "Zero-shot compliance only (temp 0, b4 Q8, first 100 frozen scenario cases); no quality or cache claims",
+  "accounting_note": "bench n_fail bug fixed post-hoc (success reason \"ok\" counted as failure in the live tally); recomputed from the per-row ledger"
+}

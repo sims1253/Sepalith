@@ -216,3 +216,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-09T18:25:35+0200] codex-research-lead CLAIM V1a v7 episode baseline: 57 frozen trajectories, v7 Q8, port 18473, 32K ctx, two-hour bound. One workload; GPU free before claim.
 
 [2026-09-09T18:41:04+0200] codex-research-lead RELEASE V1a v7 baseline; succeeded, compute inventory empty.
+
+[2026-09-10T00:26:36+0200] codex-research-lead CLAIM H3-S0 zero-shot format-fail bench: 7 variants x 100 frozen scenario cases, b4 Q8, port 18478, 60-min bound.
+
+[2026-09-10T00:42:22+0200] codex-research-lead RELEASE H3-S0 zero-shot bench; complete, compute inventory empty.
