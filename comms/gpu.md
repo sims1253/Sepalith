@@ -188,3 +188,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-09T01:08:30+0200] codex-research-lead CLAIM B10 WiSE-FT battery: 5 arms (b4/base/a30/a50/a70 Q8) x frozen 513-case cohort, 2565 requests, port 18478, CUDA b10453, 90-minute bound, one server at a time. GPU/port free and compute inventory empty before claim.
 
 [2026-09-09T02:12:21+0200] codex-research-lead RELEASE B10 WiSE-FT battery; attempt f52917a8b54b4f9995fcdc06938cda06 succeeded in 889s (5 arms x 513 rows). No tracked child; compute inventory empty.
+
+[2026-09-09T02:21:13+0200] codex-research-lead CLAIM B10 BPB recovery leg: HF teacher-forced BPB probe (PFT1 machinery verbatim), 5 models (base/b4/a30/a50/a70), ~15 min bound 30. One workload; compute inventory empty before claim.
+
+[2026-09-09T02:43:57+0200] codex-research-lead RELEASE B10 BPB probe; 5 models scored, ~25 min, no tracked child, compute inventory empty.

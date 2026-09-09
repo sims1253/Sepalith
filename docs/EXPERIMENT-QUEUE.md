@@ -52,7 +52,12 @@ Owner: `codex-queue-owner`. Legacy dispatch is retired. The separate-agent heart
   WiSE-FT endpoints (base,b4) instead of blending B9's negative adapter; signed-zero canonicalization documented.
   Prep/validation: docs/validation/2026-09-08-b10-wiseft.json + r1/r2 failed-attempt records; Pi muse-spark max
   reviewed twice (4 blockers fixed), glm-5.3 timed out twice (receipts retained). RL-guardrail instrument now has
-  a measured ~5pp-exact-per-0.3-alpha sensitivity near the top. General-domain BPB recovery probe = open leg.
+  a measured ~5pp-exact-per-0.3-alpha sensitivity near the top.
+  **BPB leg DONE 2026-09-09 02:4x** (banked PFT1 probe verbatim; both Pi reviews completed): general_text BPB
+  +20.25% (b4) / +5.99% (a70, 70% recovery) / +1.25% (a50, 94%) / -0.52% (a30, full) vs base; general_r gain
+  saturates by a70 (-5.43% vs b4's -5.54%). Forgetting is concentrated in the last alpha step: an out-of-domain
+  fallback mode exists (a70 = 94% of b4 relative exact at 70% forgetting recovery). In-domain verdict stands
+  NO-ADOPT. docs/validation/2026-09-09-b10-bpb-probe.json.
 
 Evidence and scope: `docs/migrations/2026-09-08-queue-owner.md` on
 `t3code/queue-owner-handoff`. Cloud boundary: `docs/CLOUD-BUDGET-ADMISSION.md`.

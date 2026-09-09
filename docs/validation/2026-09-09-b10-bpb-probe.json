@@ -1,0 +1,97 @@
+{
+ "base": {
+  "model_dir": "experiments/models/qwen3.5-2b-base-text-hf",
+  "general_r": {
+   "bpb": 0.5598805675117747,
+   "loss_per_tok": 1.154329548297897,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.08930321893434004,
+   "loss_per_tok": 0.28989307038709405,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "b4": {
+  "model_dir": "/mnt/h/sepalith/runs/pft1_b4_merged",
+  "general_r": {
+   "bpb": 0.5288416070177885,
+   "loss_per_tok": 1.0903352049937673,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.10738641279490072,
+   "loss_per_tok": 0.34859411894053194,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "a30": {
+  "model_dir": "/mnt/h/sepalith/runs/b10-wiseft-prep-20260908/hf_blends/b10hf_a30",
+  "general_r": {
+   "bpb": 0.5415338867462134,
+   "loss_per_tok": 1.116503417244633,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.08884162957703069,
+   "loss_per_tok": 0.28839467472291547,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "a50": {
+  "model_dir": "/mnt/h/sepalith/runs/b10-wiseft-prep-20260908/hf_blends/b10hf_a50",
+  "general_r": {
+   "bpb": 0.5338812026031434,
+   "loss_per_tok": 1.1007255532809037,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.09041667882735271,
+   "loss_per_tok": 0.29350754600163664,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ },
+ "a70": {
+  "model_dir": "/mnt/h/sepalith/runs/b10-wiseft-prep-20260908/hf_blends/b10hf_a70",
+  "general_r": {
+   "bpb": 0.529475225865393,
+   "loss_per_tok": 1.0916415638863413,
+   "tokens": 431223,
+   "bytes": 1282658,
+   "docs": 500,
+   "blocks": 501
+  },
+  "general_text": {
+   "bpb": 0.0946567788442297,
+   "loss_per_tok": 0.30727161438918926,
+   "tokens": 27414,
+   "bytes": 128386,
+   "docs": 78,
+   "blocks": 82
+  }
+ }
+}
