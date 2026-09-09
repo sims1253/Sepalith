@@ -1,0 +1,33 @@
+{
+  "attempt": "90fa0f8c583446a691dfa173a4f03c4e",
+  "job": "o2-prescreen-r5-20260909",
+  "status": "failed",
+  "elapsed_seconds": 1170.7024147510529,
+  "snapshot": "b55025b440ad015870a070e26df0b011b04a93c2cc5f48bff50e90e54a482dfd",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-failed-attempts-20260908/90fa0f8c583446a691dfa173a4f03c4e",
+  "closed_manifest_sha256": "d6868cfd236b0132d604a29e2f211bbcb3bac5a5b2d878f3ffa25303e8ee5620",
+  "files": 35,
+  "receipt": {
+    "id": "90fa0f8c583446a691dfa173a4f03c4e",
+    "job": "o2-prescreen-r5-20260909",
+    "status": "failed",
+    "phase": "finished",
+    "step": 1,
+    "worker_pid": 2948798,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788922336.4408672,
+    "finished": 1788923507.143282,
+    "detail": "Step measure exited with code -2"
+  },
+  "artifact_hashes": {
+    "execution.json": "449701d4acc75fd2770957484d8e70658e926a02c41738f4dcc8bc054af8dd51",
+    "completions.jsonl": "8c66340c6fe511076b522712f243b73c10311f8b694c791e65b8a31f24602ba6",
+    "final-runner-receipt.json": "8a9ea3a9d826a36c8157c5b0f8e196e4428a1033f73ee495df2498a42bf78439",
+    "prepared.json": "170caecd523f71e4f770def9462a57c9670ac43864c940b5899765cc3b5c1738",
+    "recipe.json": "f5141a64bb52b010980fb3ad32342612188f0eb712deb374c099f15382855430",
+    "runtime.json": "65808ef4395257e031bbcb980e2f9bda67a870b38d4a51b25890789f29bed01a",
+    "00-prepare-artifacts.json": "6207c104e4d12481ecb80407bfbb5e0db2a64313e338bb8401085f965854af07"
+  }
+}
