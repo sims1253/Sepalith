@@ -111,6 +111,59 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-06T05:42+02] zcode-pft1 HEARTBEAT 2: arm at ~240/3000, 3.7-4.6s/it (co-running B9 CPU battery shares 16-23; pace should recover when it drains), VRAM 16.3GB FLAT (peak-watch: max 16292 — deep inside the 14-18GB pre-registration, no intervention). Losses finite: first losses ~1.28. ETA train ~09:00-09:30.
 [2026-09-06T06:03+02] zcode-pft1 HEARTBEAT 3: arm 533/3000 ~3.8s/it; eval-500 passed. VRAM: 16.3GB typical, transient peak 29,250MiB in the longest-row region (B8b-anomaly class at 32.1 — ours ~3GB lower; peak-watch threshold 30.5GB x3 NOT hit, no intervention). ETA train ~08:40.
 [2026-09-06T06:35+02] zcode-pft1 HEARTBEAT 4: arm 987/3000 ~4.2s/it avg (B9 battery contention tail), losses 1.28->~1.1 finite/monotone-class, VRAM peak still 29,250MiB (no intervention; threshold 30.5GB x3). ETA train ~08:50-09:10.
+[2026-09-06T06:56+02] zcode-pft1 AMEND heartbeat: PEAK-WATCH INTERVENTION fired 06:52:02 — VRAM hit 32,087MiB x3 samples (>30.5GB threshold) in the post-ckpt-1000 long-row region (B8b-anomaly class: theirs 32.1, ours bs2 full-FT 32.09); trainer killed BEFORE OOM per the pre-registered B13-pattern rule, relaunched 06:52:07 at SFT_PD_BATCH=1 x GRAD_ACCUM=16 (identical optimizer math, effective 16 unchanged) with resume=auto from checkpoint-1000 (8-bit optimizer + cosine schedule state carried). No OOM crash, no work lost past ckpt-1000. New ETA ~09:45-10:15 at bs1 pace.
+[2026-09-06T07:14+02] zcode-pft1 HEARTBEAT 5: bs1xga16 relaunch healthy — attachment 100% re-verified, resumed ckpt-1000, step ~1300/3000 at ~4.9s/it, VRAM ~18.7GB (bs1 headroom vs the 32.1 transient: peak-watch stays armed). ETA train ~09:50.
+[2026-09-06T07:45+02] zcode-pft1 HEARTBEAT 6: arm 1590/3000 (~4.5s/it steady at bs1), eval-1500 passed cleanly (eval_loss 1.181 vs b4's banked 1.1794 — tracking the anchor within 0.002), VRAM ~18.9GB stable post-relaunch (peak 32,087 remains the bs2 episode). ETA train ~09:50.
+[2026-09-06T07:58+02] zcode-pft1 CORRECTION to HB6: the "eval_loss 1.181 @1500" I quoted was mislabeled — authoritative trainer_state (ckpt-1000): eval-500 1.2128 (b4 banked 1.2243), eval-1000 1.1851 (b4 1.2018) — the FT arm tracks 0.012-0.017 BELOW the anchor's curve, train 1.621->1.031, zero non-finite. No divergence/flatness => rescue LR NOT fired (stays available per pre-registration).
+[2026-09-06T08:16+02] zcode-pft1 HEARTBEAT 7: arm 1975/3000 ~4.7s/it, VRAM 18.8GB stable (bs1; peak-watch armed), ckpt-2000 imminent. ETA train ~09:45, export+probe ~10:00, RELEASE ~10:05, CPU battery after.
+[2026-09-06T08:50+02] zcode-pft1 HEARTBEAT 8: arm 2345/3000. Eval curve (authoritative): 500 1.2128 / 1000 1.1851 / 1500 1.2155 / 2000 1.1981 vs b4 banked 1.2243/1.2018/1.1791/1.1679 — FT starts 0.012-0.017 BELOW the anchor, then a 1500-bump (bs1-relaunch discontinuity class) leaves it 0.030 above at 2000. Train losses finite/declining throughout — NOT divergent-or-flat, rescue LR stays unfired. VRAM 18.8GB stable. ETA train ~09:50.
+[2026-09-06T10:2x+02] zcode-pft1 RELEASE PFT1 train+export+probe (train 3000/3000 done 09:40 — 4h17m total incl. the 06:52 peak-watch kill+bs1xga16 resume; gate C PASS all-finite, eval 500/1000/1500/2000/2500/3000 = 1.2128/1.1851/1.2155/1.1981/[final in results]; VRAM peak 32,087MiB transient at bs2 (pre-OOM kill fired correctly), 18.7-18.9GB stable at bs1; export done 09:42 -> experiments/models/pft1_fullft_qwen35_2b-Q8_0.gguf 2.01GB; BPB probe completed post-release-marker within my window incl. one fixed-bug retry [ragged-block padding]). FORGETTING PROBE: general-R BPB 0.5356 vs b4 0.5288 = +1.287% regression — EXCEEDS the <=1% verdict gate (fail); general-text control 0.0896 = base-level (b4's LoRA had degraded it to 0.1074). Battery is CPU-only (flock, pinned 16-23) — verdict assembly follows. Card free for the next claimant.
+[2026-09-06T10:17+02] zcode-x5-s1 CLAIM X5-S1 FRM self-cond + FPF chain (queue §3 X5 S1; build committed 165c691 + gate-fix commit, 11 CPU gate tests green, G1 verified on the real banked md_final.pt, replay parity vs S0 instrument bit-exact in-process): Stage A two-pass SC continuation 400 steps -> Stage B FPF 260 steps (poc_diff rig from banked md_final.pt, memfrac 0.42 <=14GB, fresh Muon per stage, lr 3e-3/1.5e-3) -> 216-row harness verbatim + recurrent depth k in {2,4,8} + post-FPF residual/AUROC/abstain replay -> pre-registered verdict. ONE workload (W37), DETACHED per B13 pattern; heartbeats q30min; trainer taskset 16-23. ETA ~3.5h train + ~1h eval, release ~15:00. Artifacts /mnt/h/sepalith/runs/x5_s1_*
+[2026-09-06T16:21+02] zcode-x5-s1 RELEASE X5-S1 chain (all legs done 16:06: A+B trained clean, 13 eval legs + null diagnostics + residual replays + verdict computed + artifacts mirrored + committed 9bd1493; ~5h05m GPU-busy within the claim; no daemons — chain + trainer + eval processes verified exited, card draining display-class residual only). Card free for the next claimant.
+
+[2026-09-08T01:15:52+02:00] codex-queue-owner CLAIM W33 fresh921 GPU evaluation; RTX5090 single full-offload CUDA workload, frozen MiniCPM5-v7 Q8 and CUDA b10453 runtime, max90min; CPU partial attempt stopped and its server reaped. No concurrent CUDA work.
+
+[2026-09-08T01:33:26+02:00] codex-queue-owner RELEASE W33-N: attempt 9c9a385b45b5460982cd565f09111633 succeeded, 921/921 scored and archived. Model server exited; GPU compute inventory empty. Runner paused.
+
+[2026-09-08T09:00:27+02:00] codex-queue-owner CLAIM S1 full GPU depth sweep, frozen b4/MTP/b2 and CUDA b10453. One server at a time, max4h including cleanup, no concurrent CUDA work; Pi reviews complete.
+
+[2026-09-08T11:52+02:00] codex-queue-owner RELEASE S1 GPU attempt 0ee707385c5648a2883c465ac6cc38a7. All 10800 rows measured; runner succeeded, no child group and nvidia-smi compute list empty. Final archive verification in progress.
+
+[2026-09-08T11:54+02:00] codex-queue-owner CLAIM S2 GPU timing column. Frozen b1_ref24 five formats, CUDA b10453, 150 requests, port 18472. Expected minutes, hard bound 30 minutes. Compute inventory empty before claim.
+
+[2026-09-08T11:56+02:00] codex-queue-owner RELEASE S2 GPU attempt c467679abdc146f2a92abf79572fe6a4. All 150 requests succeeded, no tracked child and compute inventory empty.
+
+[2026-09-08T11:56+02:00] codex-queue-owner CLAIM V1a b4 complete episode baseline. Frozen b4 Q8 and 60 deterministic trajectories, CUDA b10453, port 18473, context 32768, hard bound two hours. One tracked server; previous S2 server exited and compute inventory empty.
+
+[2026-09-08T11:57+02:00] codex-queue-owner RELEASE V1a failed attempt f2e092eae8314d71bda8d8cc75bd1c33. Context reserve guard failed before episode 2 inference; 19 requests and one episode preserved. Server exited, compute list empty. Context audit before retry.
+
+[2026-09-08T12:06+02:00] codex-queue-owner CLAIM V1a corrected 32K-context-eligible b4 baseline. 57 complete trajectories, 1208 points; three whole candidates excluded by frozen input-only audit. Same b4 Q8, CUDA b10453, port 18473, two-hour bound. GPU and port free before claim.
+
+[2026-09-08T12:23+02:00] codex-queue-owner RELEASE V1a attempt 8c2ed0c3bbaa46c2b1bdc1e5dceb7d70. All 57 retained trajectories/1208 requests completed in 881.42 seconds; 33 files verified, no live child, compute inventory empty.
+
+[2026-09-08T12:24+02:00] codex-queue-owner CLAIM corrected S1 ngram GPU measurement. Reuse original frozen b4/traces/runtime; M16/M48 with fresh baseline and bookend, 2400 cold/warm rows, port18471. Discarded M8/16/48 diagnostic first; expected tens of minutes, two-hour measure bound. GPU/port free before claim.
+
+[2026-09-08T12:47+02:00] codex-queue-owner RELEASE corrected S1 ngram GPU attempt1573aca118fd4f06853f4d368fcc015b. All2400cold/warm rows completed; runner succeeded and compute inventory empty. Final hash verification underway. CPU case preparation only until next claim.
+
+[2026-09-08T12:49+02:00] codex-queue-owner CLAIM b4 exported-model paired quality. Frozen Q8/stockQ4/imatrixQ4, one513-case cohort (255scenario+258noop),1539requests, port18475, serial CUDA b10453. Max90minutes. GPU/port free before claim. No publication/adoption or cloud spend.
+
+[2026-09-08T12:55+02:00] codex-queue-owner RELEASE b4 quality attempt 2aee6537ed5149299c51f32509fec4fb. All 1539 requests completed in 207.02 seconds; 43 closed files and frozen inputs verified. No child or GPU compute process remains.
+
+[2026-09-08T12:55+02:00] codex-queue-owner CLAIM quiet CPU window for S1 ngram scout. CPU-only b10453, eight threads, port 18474, 160 cold requests across baseline/M16/M48/bookend. Expected about two hours, hard bound five hours. No concurrent heavy CPU or CUDA benchmark; load1 0.57 before claim.
+
+[2026-09-08T17:56:19+02:00] codex-queue-owner RELEASE quiet CPU scout. All 160 rows recovered and frozen evaluator passed; execution remains interrupted. Original worker/child/group absent; 26 files and input hashes verified.
+
+[2026-09-08T17:56:57+02:00] codex-queue-owner CLAIM b4 intent generation: 132 requests, three frozen exports, serial CUDA, port 18476; 15-minute bound. Remote judging follows with no CUDA reservation.
+
+[2026-09-08T17:58:03+02:00] codex-queue-owner RELEASE b4 intent generation; GPU compute inventory empty.
+
+[2026-09-08T18:29:03+02:00] codex-queue-owner CLAIM b4 quant timing gpu: 120 requests, three exports plus Q8 bookend, port 18477. GPU-only timing, 30-minute bound.
+
+[2026-09-08T18:30:14+02:00] codex-queue-owner RELEASE b4 quant timing gpu; runner closed, no tracked child or GPU compute process.
+
+[2026-09-08T18:30:14+02:00] codex-queue-owner CLAIM b4 quant timing cpu: 120 requests, three exports plus Q8 bookend, port 18477. Quiet CPU t8, 90-minute bound; no overlapping GPU/CPU experiment.
+
+[2026-09-08T18:56:33+02:00] codex-queue-owner RELEASE b4 quant timing cpu; runner closed, no tracked child or GPU compute process.
 
 [2026-09-08T19:25:51+02:00] codex-queue-owner CLAIM b4 remaining quant quality GPU: Q8/Q6_K/IQ4_XS,1539requests, port18475, 90minute bound. Original conversation owns runner.
 
@@ -131,3 +184,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-08T19:42:52+02:00] codex-queue-owner CLAIM quietCPU b4 Q6/IQ4 timing,120requests,8threads, Q8bookend,90minute bound. No GPU/CPU experiment overlap; expected25–35minutes.
 
 [2026-09-08T20:13:32+02:00] codex-queue-owner RELEASE b4 other quant timing cpu; attempt b6dfcabf258d4ac7a5ca434d13f5a784, succeeded, evidence closed.
+
+[2026-09-09T01:08:30+0200] codex-research-lead CLAIM B10 WiSE-FT battery: 5 arms (b4/base/a30/a50/a70 Q8) x frozen 513-case cohort, 2565 requests, port 18478, CUDA b10453, 90-minute bound, one server at a time. GPU/port free and compute inventory empty before claim.
+
+[2026-09-09T02:12:21+0200] codex-research-lead RELEASE B10 WiSE-FT battery; attempt f52917a8b54b4f9995fcdc06938cda06 succeeded in 889s (5 arms x 513 rows). No tracked child; compute inventory empty.

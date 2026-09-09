@@ -116,16 +116,26 @@ correction.)
 | zcode-micro-probe | M-series micro-specialist design (mdlARC-derived M1: ~75M MD twin, curated-vs-scale; plan `docs/research/2026-09-01-micro-specialist-probe-plan.md`, queued §3) | prior session | done 2026-09-01 (design landed §3; execution → zcode-queue-mgr) |
 | zcode-queue-mgr | primary researcher — owns `docs/EXPERIMENT-QUEUE.md`; B-series chain execution + eval-strategy v2 (user activation 2026-09-01T23:4x) | prior session | done 2026-09-04 22:3x (gates B-α/B-β landed, D-grid closed, production plan v0 open; handoff /tmp/sepalith-queue-mgr-handoff-2026-09-04.md) |
 | zcode-o3-telemetry | O3-S0 suffix-entropy + length telemetry on banked RL runs (queue §3 O3) | this session | done 2026-09-05 (verdict NOT LAND; O3-S1 closed; readout O3_S0_RESULTS.md) |
-| zcode-queue-mgr-2 | primary researcher — owns docs/EXPERIMENT-QUEUE.md; round-1 working set (P12/TU1/O3-S0/S0/E1/O1/B8-patch) | this session | active 2026-09-05 |
-| zcode-p12-roofline | P12 roofline bench (build+run, quiet window) | subagent of zcode-queue-mgr-2 | active |
+| zcode-queue-mgr-2 | primary researcher — owns docs/EXPERIMENT-QUEUE.md; round-1 working set (P12/TU1/O3-S0/S0/E1/O1/B8-patch) | this session | done 2026-09-06 16:22 (session closed; handoff /tmp/sepalith-queue-mgr-handoff-2026-09-06.md; bench chain in flight — successor collects) |
+| zcode-p12-roofline | P12 roofline bench (build+run, quiet window) | subagent of zcode-queue-mgr-2 | done 2026-09-06 |
 | zcode-tu1-sufficiency | TU1 judge-sufficiency validation (glm-5.3, CPU/API) | subagent of zcode-queue-mgr-2 | done 2026-09-05 — VERDICT: DEAD (pooled gap +56.6pp but direction 1/5; TU2 arm (d) cancelled; doc_sync suff 0.267); TU1_RESULTS.md |
-| zcode-o3-telemetry | O3-S0 suffix-entropy/advantage telemetry on banked RL runs | subagent of zcode-queue-mgr-2 | active |
-| zcode-s0-traces | S0 spec-decode trace freeze (500-2000 frozen continuations) | subagent of zcode-queue-mgr-2 | active |
-| zcode-e1-build | E1 EL-scheduler sampler patch (build only, no GPU run) | subagent of zcode-queue-mgr-2 | active |
-| zcode-o1-build | O1 diverse-16 prompt-selection script (build only) | subagent of zcode-queue-mgr-2 | active |
+| zcode-o3-telemetry | O3-S0 suffix-entropy/advantage telemetry on banked RL runs | subagent of zcode-queue-mgr-2 | done 2026-09-06 |
+| zcode-s0-traces | S0 spec-decode trace freeze (500-2000 frozen continuations) | subagent of zcode-queue-mgr-2 | done 2026-09-06 |
+| zcode-e1-build | E1 EL-scheduler sampler patch (build only, no GPU run) | subagent of zcode-queue-mgr-2 | done 2026-09-06 |
+| zcode-o1-build | O1 diverse-16 prompt-selection script (build only) | subagent of zcode-queue-mgr-2 | done 2026-09-06 |
 | zcode-b8-patch | B8 prerequisite: train_sft.py completion-only masking + packing (build only) | subagent of zcode-queue-mgr-2 | done 2026-09-05 (commit b7dd226 + train_sft.py hunk; 31 tests; NOT fired) |
 | zcode-e1-build | E1 EL-scheduler retrofit on rl_smoke.py (ordered difficulty, queue row E1; build-only 2026-09-04) | this session | done 2026-09-04 (patch + 26 tests + dry-run landed; GPU run NOT fired — queue manager arms it) |
 | zcode-s0-traces | S-series S0: spec-decode trace freeze (Q7/RT-2 trace set; miner experiments/data-mining/freeze_spec_traces.py, data /mnt/h/sepalith/datasets/spec_traces/) | this session | done 2026-09-05 (1100 traces, validation clean, board posts 2026-09-04T23:2x + 2026-09-05T02:5x) |
 | zcode-frm-intel | intel intake: FRM (X5 PROPOSED) + batch-2 Uno/Avey-B/SMELT (`2026-09-05-intel-batch-2.md`) + queue verdict-sync pass | this session | active 2026-09-05 (doc-only, no GPU) |
 | zcode-b9-select | B9 SeleKT gradient-importance masking A/B (queue §2b B9; winner track's last open item; build → validated run → battery) | subagent of zcode-queue-mgr-2 | done 2026-09-06 (VERDICT: NO-ADOPT, exact 47.1 vs b4 76.5 p=1e-15, masking family closed = PLAIN SFT; §B9 RESULTS.md, commits 27c9bc8 + 04902ea) |
-| codex-latent-memory | Isolated latent-memory implementation and bounded gate; research/latent-memory-gate worktree | user task 2026-09-06 | implementation delivered; gate awaits X5-S1 and quiet benchmark release |
+| zcode-ml-intake | ML-series intake: compute-axis Matryoshka (loop-count levels over a shared trunk) + EBT-verifier lane — plan `docs/research/2026-09-06-looped-matryoshka-plan.md`, queue §3 registration | this session | active 2026-09-06 (doc/queue/board edits only, no GPU; design intake, execution → queue manager on GO) |
+| zcode-queue-mgr-3 | primary researcher / queue supervisor; takeover, result sync, production plan v1 | current session 2026-09-06 | active |
+
+| codex-runner-migration | first real runner migration; owns separate migration/runner-first-real-20260906 worktree, recipe and runner fixes | current session 2026-09-06 | idle — editor/cloud work pushed; migration awaiting drain and scope ACK |
+
+| codex-performance | user-requested offline optimization audit with Astra + Pi GLM/Muse; isolated Sepalith-performance worktree, perf/offline-optimization-20260906 | current session 2026-09-06 | done offline pass; 17 CPU checks pass; GPU validation pending existing quiet-window ownership; no live changes |
+
+| codex-autoresearch-review | review draft PRs7-39 at pinned heads; isolated Sepalith-autoresearch-review worktree; no live code or GPU work | current session 2026-09-07 | done; 33 drafts reviewed, 31,372 differential comparisons passed; report in review worktree docs/validation/autoresearch-review-20260907/README.md; no PR mutations |
+
+| codex-queue-owner | Queue ownership, runner cutover and budget admission; isolated t3code/queue-owner-handoff worktree | prior session 2026-09-08 | done 2026-09-08 21:13 (handoff /tmp/sepalith-research-lead-handoff-2026-09-08.md; worktree clean at a19188b, pushed) |
+| codex-research-lead | primary researcher — owns docs/EXPERIMENT-QUEUE.md; continuation of the 2026-09-08 handoff; dashboard updater restarted; next: B10 on b4 | current session 2026-09-08 | active |
