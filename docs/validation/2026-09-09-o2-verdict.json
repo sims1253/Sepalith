@@ -1,0 +1,53 @@
+{
+  "attempt_screen": "1495d69a (evaluate post-hoc; artifact-name mismatch documented)",
+  "screen": {
+    "rows": 5578,
+    "admitted": 1592,
+    "per_family": {
+      "format": 925,
+      "rename": 651,
+      "no_op": 6,
+      "pipe": 10
+    },
+    "floor_guard_tripped": true,
+    "matched_budget_design": "quota-draw intersect admitted = 942 prompts"
+  },
+  "arms": {
+    "steps": 300,
+    "seed": 3407,
+    "base": "pft1_b4_merged",
+    "data": "sft_v7",
+    "only_delta": "--prescreen admission filter"
+  },
+  "readout": {
+    "filtered": {
+      "first50_psg_rate": 0.66,
+      "first50_reward": 0.7346
+    },
+    "control": {
+      "first50_psg_rate": 0.3175,
+      "first50_reward": 0.8772
+    },
+    "note": "reward delta is the easy-prompt mix effect; psg within-family: format 0.697 vs 0.500, rename 0.588 vs 0.234"
+  },
+  "battery": {
+    "control": {
+      "exact": 202,
+      "valid": 223,
+      "noop_false": 120
+    },
+    "filtered": {
+      "exact": 206,
+      "valid": 228,
+      "noop_false": 120
+    },
+    "mcnemar": {
+      "exact_p": 0.289,
+      "valid_p": 0.125,
+      "noop_p": 1.0,
+      "discords_exact": "6g/2l"
+    }
+  },
+  "verdict": "MECHANISM-CONFIRMED, PRODUCT-AXIS TIE-UNDERPOWERED at 300 steps; WINNER-FILTER NOT ESTABLISHED per pre-registration",
+  "implication": "Admission ledger banked as an instrument; filter is a design option for the longer RL phase (W17), not a default adoption"
+}

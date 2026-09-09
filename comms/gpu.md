@@ -192,3 +192,23 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-09T02:21:13+0200] codex-research-lead CLAIM B10 BPB recovery leg: HF teacher-forced BPB probe (PFT1 machinery verbatim), 5 models (base/b4/a30/a50/a70), ~15 min bound 30. One workload; compute inventory empty before claim.
 
 [2026-09-09T02:43:57+0200] codex-research-lead RELEASE B10 BPB probe; 5 models scored, ~25 min, no tracked child, compute inventory empty.
+
+[2026-09-09T03:27:05+0200] codex-research-lead CLAIM O2 pre-screen: frozen b4 pass-rate screen, calibration leg (Q8 server vs HF bf16) then full pool (up to ~57k completions, 16-way concurrent), port 18479, hard bound 8h, one workload. GPU/port free before claim.
+
+[2026-09-09T04:18:35+0200] codex-research-lead RELEASE O2 r1-r3 attempts (integration failures archived); CLAIM O2 pre-screen r4 with --no-jinja raw-completion serving; same scope/bound.
+
+[2026-09-09T04:52:16+0200] codex-research-lead RELEASE r4 (server parser vs invalid-UTF-8 rollouts, evidence archived); CLAIM O2 pre-screen r5: HF-bf16 rollout path (exact GRPO parity), 10h hard bound, resume-keyed. One workload.
+
+[2026-09-09T07:02:14+0200] codex-research-lead RELEASE r6 (scoring bug: gt kept UPDATED marker vs trainer's gt_lines; 1392 zero-solve rows voided, evidence archived); CLAIM O2 pre-screen r7, corrected scoring, 10h bound.
+
+[2026-09-09T13:28:28+0200] codex-research-lead RELEASE O2 pre-screen r7; walk complete (5,578 prompts, all pools exhausted, 6h17m). Compute inventory empty.
+
+[2026-09-09T13:36:12+0200] codex-research-lead CLAIM O2 GRPO arm 1 (filtered): 300 steps on merged b4, 942-prompt admitted pool, seed 3407, ~3-4h expected, 6h bound. One workload.
+
+[2026-09-09T15:27:49+0200] codex-research-lead RELEASE O2 arm 1 (filtered) — 300 steps, 91 min, healthy exit. CLAIM O2 GRPO arm 2 (unfiltered control): identical config minus --prescreen, ~1.5h expected.
+
+[2026-09-09T17:08:05+0200] codex-research-lead RELEASE O2 arm 2 (control) — 300 steps, healthy exit. Compute inventory empty.
+
+[2026-09-09T17:36:27+0200] codex-research-lead CLAIM O2 eval battery: 2 arms x frozen 513 cases, port 18478, 60-minute bound.
+
+[2026-09-09T17:53:10+0200] codex-research-lead RELEASE O2 eval battery; compute inventory empty.
