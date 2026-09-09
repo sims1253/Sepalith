@@ -52,6 +52,12 @@ def prepare(run, assets):
             noop_split[r['expectation']] = noop_split.get(r['expectation'], 0) + 1
     if noop_split.get('no_proposal') != 204:
         raise ValueError('Expected 204 no_proposal noop cases, got %r' % noop_split)
+    tok_ref = am.get('tokenizer_tensor_hashes')
+    if not tok_ref:
+        raise ValueError('assets manifest lacks tokenizer tensor hashes')
+    for arm in ARMS:
+        if am['quant_receipts'][arm].get('tokenizer_hashes') != tok_ref:
+            raise ValueError('Tokenizer tensor hashes differ for arm: ' + arm)
     write(run / 'prepared.json', dict(
         arms=ARMS, alphas=ALPHA, model_sha256=model_sha, cases_sha256=digest(assets / 'cases.jsonl'),
         noop_expectation_split=noop_split,
@@ -174,12 +180,13 @@ def evaluate(run):
         c = ph + z * z / (2 * n)
         hw = z * ((ph * (1 - ph) / n + z * z / (4 * n * n)) ** 0.5)
         return [round((c - hw) / d, 4), round((c + hw) / d, 4)]
-    anchor_len_rate = summary[anchor]['generation_limit_rows'] / max(1, sum(summary[a]['scenarios'] for a in [anchor]))
+    arm_rows = {a: sum(1 for r in rows if r['arm'] == a) for a in p['arms']}
     for arm in p['arms']:
         n_rows = summary[arm]['scenarios']
+        total_rows = arm_rows[arm]
         summary[arm]['exact_wilson95'] = wilson(summary[arm]['exact'], n_rows)
         summary[arm]['valid_wilson95'] = wilson(summary[arm]['valid'], n_rows)
-        summary[arm]['length_rate'] = round(summary[arm]['generation_limit_rows'] / max(1, n_rows), 4)
+        summary[arm]['length_rate'] = round(summary[arm]['generation_limit_rows'] / max(1, total_rows), 4)
     dose = [dict(alpha=p['alphas'][arm], exact=summary[arm]['exact'], valid=summary[arm]['valid'],
                  noop_false=summary[arm]['noop_false_suggestions'],
                  length_rate=summary[arm]['length_rate']) for arm in p['arms']]
