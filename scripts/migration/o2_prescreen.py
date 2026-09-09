@@ -15,7 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'experiments/eval')
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'experiments/training'))
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts/migration'))
 import rl_smoke
-from run_eval import norm, parse_pred
+from rl_smoke import gt_lines
+from run_eval import parse_pred
 from s1_gpu import GpuServer, DeadlineExceeded, check_offload, write
 
 DATA = Path('/mnt/h/sepalith/datasets/sft_v7/train.jsonl')
@@ -46,7 +47,7 @@ def digest(p):
 
 def solve_of(completion_text, target):
     pred = parse_pred('zeta2', completion_text)
-    gt = norm(target.splitlines())
+    gt = gt_lines(target)  # trainer-verbatim: UPDATED marker stripped before norm
     return pred == gt
 
 
