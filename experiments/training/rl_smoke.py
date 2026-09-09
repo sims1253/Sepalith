@@ -460,7 +460,7 @@ def build_dataset(tok, quotas=FAMILY_QUOTA, seed=3407,
     # padded generation batch (32 x L x 99.6k x 2B); with L~800 that spiked
     # 6.25GB and OOM'd against the twin-coexistence fraction cap (step 41
     # of the first full attempt); 480 keeps the spike ~3GB.
-    bos = tok.bos_token
+    bos = tok.bos_token or ""   # Qwen3.5 tokenizer has no BOS (bos_token_id null): identity prefix
     max_prompt_tok, max_target_tok = 0, 0
     dropped_len = 0
     out = []
