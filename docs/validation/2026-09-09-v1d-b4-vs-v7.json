@@ -1,0 +1,35 @@
+{
+  "pair": "b4_vs_v7",
+  "design": "V1d blind pairwise preference, both-orders, agy/gemini judge; n=147 sampled from 1,208 common V1a points (57 frozen trajectories, 32K cohort)",
+  "inputs": {
+    "b4": "runner-v1a-b4-archive-20260908/8c2ed0c3/episodes.jsonl",
+    "v7": "runner-v1a-v7-archive-20260909/9913632c/episodes.jsonl"
+  },
+  "result": {
+    "wins": {
+      "v7": 35,
+      "b4": 32
+    },
+    "ties": 61,
+    "flips": 19,
+    "n_points": 147,
+    "calls": 300,
+    "unparsed": 6,
+    "b4_win_rate": 0.2177,
+    "b4_ties_half": 0.4898,
+    "sign_p": 0.807,
+    "first_slot_pick_rate": 0.6517,
+    "per_label": {
+      "typing": {
+        "v7": 21,
+        "b4": 23
+      },
+      "noop": {
+        "v7": 14,
+        "b4": 9
+      }
+    }
+  },
+  "verdict": "TIE \u2014 no felt-preference difference detected between the production candidate (b4) and the serving incumbent (v7) at n=147; additive-axis thesis holds (b4 wins the scenario battery, not the preference axis)",
+  "implication": "Serving-decision flag (W19/2c): the production swap buys battery quality and pipeline alignment, not felt preference; noop points lean v7 (restraint profile)"
+}

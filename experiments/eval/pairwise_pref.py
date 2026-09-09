@@ -106,6 +106,11 @@ PAIR_SPECS = {
         "b": ("rl_v2c", SIMT / "judged_rl_v2c.jsonl"),
         "expected_winner": "v7",
     },
+    "b4_vs_v7": {
+        "a": ("v7", RUNS / "episode_judged_v7_traj2.jsonl"),
+        "b": ("b4", RUNS / "episode_judged_b4_traj2.jsonl"),
+        "expected_winner": "b4",
+    },
 }
 
 ANCHOR_SPEC = {

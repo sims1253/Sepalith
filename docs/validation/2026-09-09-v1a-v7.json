@@ -1,0 +1,90 @@
+{
+  "attempt": "9913632ca8d84077ac56f1985822f359",
+  "job": "v1a-v7-20260909",
+  "status": "succeeded",
+  "elapsed_seconds": 629.9616591930389,
+  "snapshot": "b3a96b063a17270cd0e01be668f791a1fbb7125cd7391a5f58d7e182acd05058",
+  "inputs_unchanged": true,
+  "archive": "/mnt/h/sepalith/runs/runner-v1a-v7-archive-20260909/9913632ca8d84077ac56f1985822f359",
+  "closed_manifest_sha256": "c1f773cb2ff101b3352535d76295f35cb66d3670a111773ef07769df7fc63760",
+  "files": 33,
+  "receipt": {
+    "id": "9913632ca8d84077ac56f1985822f359",
+    "job": "v1a-v7-20260909",
+    "status": "succeeded",
+    "phase": "finished",
+    "step": 3,
+    "worker_pid": 3784241,
+    "child_pid": null,
+    "child_group": null,
+    "started": 1788971135.9884505,
+    "finished": 1788971765.9501097,
+    "detail": ""
+  },
+  "evaluation": {
+    "label": "b4-context-eligible-32k-gpu",
+    "source": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/attempts/9913632ca8d84077ac56f1985822f359/episodes.jsonl",
+    "n_traj": 57,
+    "stats_mismatch_rows": 0,
+    "shown": 1208,
+    "accepted": 16,
+    "dismissed": 809,
+    "false_sug": 382,
+    "correct_stop": 1,
+    "chars_saved": 728,
+    "chars_typed": 20088,
+    "accept_rate": 0.0132,
+    "fp_rate": 0.9974,
+    "saved_ratio": 0.0362,
+    "frac_traj_with_accept": 0.193,
+    "tte_mean_ms": 91857,
+    "tte_median_ms": 76025,
+    "tte_censored_mean_ms": 185695,
+    "think_nav_windows": 273,
+    "think_nav_interruptions": 272,
+    "interruption_rate": 0.9963,
+    "noop_false_sug_by_ctx": {
+      "navigation": {
+        "points": 109,
+        "false_sug_rate": 0.9908
+      },
+      "post_task": {
+        "points": 71,
+        "false_sug_rate": 1.0
+      },
+      "pre_task_think": {
+        "points": 164,
+        "false_sug_rate": 1.0
+      },
+      "review": {
+        "points": 39,
+        "false_sug_rate": 1.0
+      }
+    },
+    "generation_limit_rows": 1208,
+    "request_count": 1208,
+    "candidate_episodes": 60,
+    "excluded_episodes": 3
+  },
+  "verdict": {
+    "verdict": "B4-EPISODE-BASELINE-MEASURED",
+    "adoption": "NOT-ASSESSED",
+    "boundary": "Existing lexical acceptance heuristic and simulator clock, not human preference; complete context-eligible trajectories only, with predeclared whole-episode exclusions; 32K regime differs from historical skipped-point 2K slots. No retraining or paired model comparison."
+  },
+  "artifact_hashes": {
+    "03-archive-artifacts.json": "a4b9ba3e0ac745ff1c3845f36c1e782a85c8be15da5b1e9c97638f820b8cdcc6",
+    "verdict.json": "b7c9d53bcc56662ecc7518edc1f5bf628a3ca96abe21d9f177ac0b4dbced2332",
+    "evaluation.json": "7fb353600fe30fdf185826383bcdd6e3974e3122c57c464b454a02c4328b38a3",
+    "episodes.jsonl": "0f302e3c796530edec11da97392805a0cd7ae3c51fee0bdc4b58f59f6a9e4a57",
+    "execution.json": "b1d91dc812d8937b1f151a4c6cc70068752b80fb71d8e5fe36bdc95129cc1e4b",
+    "requests.jsonl": "1119e28f18137ad65c733c48586cfbab0e2044bbeee30a27cca74090f6b13e54",
+    "archive.json": "e594793c3bc9a4c075a8e5274fbd0fb6c8f8d13771fa126aaa0b060efc55c06c",
+    "final-runner-receipt.json": "8ccefadd018390b6382c45d02052f48721ef2b3ebe7ee7519a08a06593201054",
+    "prepared.json": "6cb8716751ac9f3df768884183060909194b0e0befb5af55fe06d7318133a3b0",
+    "recipe.json": "72f26d572aa116ca0a143120e0a4e6a13c753a32d8c2e1024f44e3f6a0c61e99",
+    "02-evaluate-artifacts.json": "3ad2c54e875987ef158f6e51b5a10eb6f7b1e3c2aae3be076bfb5676d12e13d4",
+    "runtime.json": "95d164519a4599d741b71011cb03339da90dbd00654617e9407999e5d1cf78aa",
+    "00-prepare-artifacts.json": "30f2c8708624b3fed2de5cf0969787d2516215ba20124bfae67b89efc53ee6dd",
+    "01-measure-artifacts.json": "aae20cbf313abbdab41e5339237d3f4f1c4b25d5b2888a97bcb0c73fcd8fd4c7"
+  }
+}

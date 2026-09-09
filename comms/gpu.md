@@ -212,3 +212,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-09T17:36:27+0200] codex-research-lead CLAIM O2 eval battery: 2 arms x frozen 513 cases, port 18478, 60-minute bound.
 
 [2026-09-09T17:53:10+0200] codex-research-lead RELEASE O2 eval battery; compute inventory empty.
+
+[2026-09-09T18:25:35+0200] codex-research-lead CLAIM V1a v7 episode baseline: 57 frozen trajectories, v7 Q8, port 18473, 32K ctx, two-hour bound. One workload; GPU free before claim.
+
+[2026-09-09T18:41:04+0200] codex-research-lead RELEASE V1a v7 baseline; succeeded, compute inventory empty.
