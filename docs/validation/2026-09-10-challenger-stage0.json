@@ -1,0 +1,39 @@
+{
+  "stage": "challenger-screens stage-0",
+  "metadata": {
+    "minicpm": {
+      "arch": "LlamaForCausalLM",
+      "vocab": 130560,
+      "untied": true,
+      "eos": [
+        1,
+        130073
+      ],
+      "layers": 42,
+      "checks": "pass"
+    },
+    "neohorse": {
+      "arch": "Qwen3_5ForCausalLM",
+      "vocab": 248320,
+      "tied": true,
+      "eos": 248044,
+      "layers": 32,
+      "checks": "pass"
+    }
+  },
+  "conversion": {
+    "neohorse": "REQUIRES --no-nextn (config carries nextn_predict_layers; without it block_count=33 vs 32 tensor blocks -> load failure blk.32.attn_norm) \u2014 new Q6-class export scar recorded",
+    "minicpm": "routine Llama path"
+  },
+  "decode_t8": {
+    "b4": 17.82,
+    "minicpm": 15.93,
+    "neohorse": 7.87,
+    "unit": "t/s tg128, same-host within-run"
+  },
+  "verdicts": {
+    "neohorse": "KILLED at stage 0 on the CPU-tier decode bar (-56% vs incumbent); GPU-offload-only tier remains a product question, not this screen",
+    "minicpm": "PROCEEDS to stage-1 battery (borderline -10.6% decode; needs decisive quality win)"
+  },
+  "artifacts": "/mnt/h/sepalith/models-candidates/*-Q8_0.gguf"
+}
