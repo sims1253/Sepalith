@@ -12,7 +12,41 @@ DATA = '/mnt/h/sepalith/datasets/sft_v7/train.jsonl'
 TRAINER = str(Path(__file__).resolve().parents[2] / 'experiments/training/rl_smoke.py')
 
 
+def preflight():
+    """Fail-closed BEFORE any GPU work: full provenance + ledger validation."""
+    import hashlib, collections
+    prov_path = PRESCREEN.parent / 'provenance.json'
+    prov = json.loads(prov_path.read_text())
+    data_sha = hashlib.sha256(open(DATA, 'rb').read()).hexdigest()
+    if prov.get('seed') != 3407 or prov.get('k') != 16 or tuple(prov.get('band', ())) != (3, 13):
+        raise SystemExit('provenance seed/k/band mismatch')
+    if prov.get('data_sha256') != data_sha:
+        raise SystemExit('data file content changed vs provenance')
+    rows = [json.loads(l) for l in PRESCREEN.read_text().splitlines()]
+    if len(rows) != 5578 or any(r['k'] != 16 for r in rows):
+        raise SystemExit('ledger row count or k mismatch: %d' % len(rows))
+    admitted = sum(1 for r in rows if r['admitted'])
+    if admitted != 1592:
+        raise SystemExit('admitted count mismatch: %d' % admitted)
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'experiments/training'))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'experiments/eval'))
+    import rl_smoke
+    from transformers import AutoTokenizer
+    tok = AutoTokenizer.from_pretrained('/home/m0hawk/Documents/Sepalith/experiments/models/qwen3.5-2b-base-text-hf')
+    draw, _ = rl_smoke.build_dataset(tok, quotas=dict(rl_smoke.FAMILY_QUOTA), seed=3407, data_path=DATA)
+    adm = {r['prompt_hash'] for r in rows if r['admitted']}
+    kept = collections.Counter()
+    for r in draw:
+        if hashlib.sha1(r['prompt'].encode()).hexdigest() in adm:
+            kept[r['family']] += 1
+    if dict(kept) != {'rename_propagation': 322, 'format_propagation': 610, 'no_op': 4, 'pipe_rewrite': 6}:
+        raise SystemExit('quota-draw keep mismatch: %r' % dict(kept))
+    print(json.dumps(dict(preflight='ok', ledger_rows=len(rows), admitted=admitted,
+                          quota_draw=len(draw), kept=dict(kept))), flush=True)
+
+
 def train(run, arm):
+    preflight()
     out = run / ('train-' + arm)
     out.mkdir(parents=True, exist_ok=True)
     argv = [sys.executable, TRAINER, '--steps', '300', '--model', MODEL,
