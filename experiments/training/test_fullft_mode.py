@@ -74,7 +74,7 @@ def test_fullft_recipe_literals_pinned():
     assert 'optim="paged_adamw_8bit"' in ft                 # paged 8-bit AdamW
     assert "gradient_checkpointing=True" in ft
     assert '"use_reentrant": False' in ft
-    assert "bf16=True, seed=3407" in ft
+    assert "seed=3407" in ft and "bf16=(not _FP16)" in ft
     assert "max_seq_length=2048" in ft
     assert "warmup_ratio=0.03, lr_scheduler_type=\"cosine\"" in ft
     assert "eval_steps=500" in ft and "save_steps=1000" in ft
@@ -94,10 +94,14 @@ def test_fullft_data_selection_matches_legacy_discipline():
 
 def test_legacy_path_untouched_by_fullft():
     # the byte-compat canary: the legacy get_peft_model call is verbatim
+    # (r/alpha became the SFT_LORA_R/SFT_LORA_ALPHA env pair, H3-S1; their
+    # DEFAULTS are the banked 32/64 literals, so OFF stays byte-identical)
     src = TRAIN_SFT.read_text()
     legacy = ("model = FastLanguageModel.get_peft_model(\n"
-              "    model, r=32, lora_alpha=64, lora_dropout=0,")
+              "    model, r=_LORA_R, lora_alpha=_LORA_ALPHA, lora_dropout=0,")
     assert src.count(legacy) == 1
+    assert 'os.environ.get("SFT_LORA_R", "32")' in src
+    assert 'os.environ.get("SFT_LORA_ALPHA", "64")' in src
 
 
 def test_sftconfig_ft_kwargs_effective_batch_16():
@@ -116,7 +120,7 @@ def test_sftconfig_ft_kwargs_effective_batch_16():
         learning_rate=1.5e-5, warmup_ratio=0.03, lr_scheduler_type="cosine",
         logging_steps=20, eval_strategy="steps", eval_steps=500,
         save_strategy="steps", save_steps=1000, save_total_limit=2,
-        bf16=True, seed=3407, report_to="none", dataset_text_field="text",
+        bf16=False, seed=3407, report_to="none", dataset_text_field="text",
         max_length=2048,
         optim="paged_adamw_8bit",
         gradient_checkpointing=True,
@@ -126,7 +130,7 @@ def test_sftconfig_ft_kwargs_effective_batch_16():
     assert cfg.gradient_checkpointing is True
     assert cfg.gradient_checkpointing_kwargs == {"use_reentrant": False}
     assert cfg.per_device_train_batch_size * cfg.gradient_accumulation_steps == 16
-    assert cfg.seed == 3407 and cfg.bf16 is True
+    assert cfg.seed == 3407 and cfg.bf16 is False
 
 
 # ---------------------------------------------------------------------------

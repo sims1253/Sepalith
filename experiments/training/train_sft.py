@@ -195,8 +195,15 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 _SFT_TARGETS = os.environ.get(
     "SFT_TARGETS", "q_proj,k_proj,v_proj,o_proj,"
     "gate_proj,up_proj,down_proj")
+# SFT_LORA_R/SFT_LORA_ALPHA (H3-S1, 2026-09-10): adaptation-geometry knob
+# pair — r16/alpha32 is HALF the banked b4 geometry (H3-S1 render arms:
+# adaptation, not capability; trainable halves to 10,911,744 on the b4
+# target set). Default 32/64 = banked byte-identical, same OFF-contract
+# convention as SFT_LR.
+_LORA_R = int(os.environ.get("SFT_LORA_R", "32"))
+_LORA_ALPHA = int(os.environ.get("SFT_LORA_ALPHA", "64"))
 model = FastLanguageModel.get_peft_model(
-    model, r=32, lora_alpha=64, lora_dropout=0,
+    model, r=_LORA_R, lora_alpha=_LORA_ALPHA, lora_dropout=0,
     target_modules=(_SFT_TARGETS[6:] if _SFT_TARGETS.startswith("regex:")
                     else _SFT_TARGETS.split(",")),
     bias="none", use_gradient_checkpointing="unsloth", random_state=3407)
