@@ -1,0 +1,14 @@
+{
+  "experiment": "H3-S1 cache n_batch A/B (3 arms x 30 trials, CPU tier, stock llama.cpp)",
+  "results": {
+    "suffix_append": {
+      "nb256": 0.896,
+      "nb512": 0.794,
+      "nb1024": 0.793
+    },
+    "anchor_moves": "0.0% cached at ALL n_batch values (small/large, PSM and prefix-first) - head changes are structurally uncached",
+    "fresh_cold": "0% as designed"
+  },
+  "verdict": "n_batch=256 buys ~10pp cache reuse on the only cache-sensitive path (keystroke/suffix-append: 89.6% vs 79.4%). Anchor moves never reuse regardless of batch size - the K0 reuse-granularity conclusion replicates. Recommendation: set -b 256 on the CPU serving tier (free, small win); no render or architecture change warranted. H3-S1 fully closes with this leg.",
+  "evidence": "/home/m0hawk/Documents/Sepalith/experiments/eval/results_cachebench_qwen35-2b-nb*.jsonl"
+}

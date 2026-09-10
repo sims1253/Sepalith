@@ -49,7 +49,7 @@ MODEL = HERE.parent / "models" / "qwen3.5-2b-Q4_K_M.gguf"
 SERVER = HERE.parent / "bin" / "llama" / "llama-b10453" / "llama-server"
 CORPUS_SRC = Path("/mnt/h/sepalith/normalized")
 STAGE = Path("/tmp/a2gates/bench_corpus")
-OUT = HERE / "results_cachebench_qwen35-2b.jsonl"
+OUT = HERE / f"results_cachebench_qwen35-2b-{__import__('os').environ.get('CB_TAG', 'default')}.jsonl"
 
 TOK_PER_LINE = 9.3          # measured house mean
 N_TRIALS = 30
@@ -144,6 +144,8 @@ def main():
     ap.add_argument("--port", type=int, default=18097)
     ap.add_argument("--threads", type=int, default=6)
     ap.add_argument("--ctx", type=int, default=16384)
+    ap.add_argument("--n-batch", type=int, default=512)
+    ap.add_argument("--tag", default="nb512")
     args = ap.parse_args()
 
     files = stage_corpus()
@@ -160,7 +162,8 @@ def main():
     proc = subprocess.Popen(
         [str(SERVER), "-m", str(MODEL), "--port", str(args.port),
          "--host", "127.0.0.1", "-t", str(args.threads), "-ngl", "0",
-         "--parallel", "1", "-c", str(args.ctx), "--cache-reuse", "256"],
+         "--parallel", "1", "-c", str(args.ctx), "--cache-reuse", "256",
+         "-b", str(args.n_batch)],
         stdout=log, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
         start_new_session=True)
     print(f"llama-server pid {proc.pid} port {args.port}", flush=True)
