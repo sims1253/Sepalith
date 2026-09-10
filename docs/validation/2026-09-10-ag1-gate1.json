@@ -1,0 +1,23 @@
+{
+  "gate": "AG1 gate-1 (abstention bridge, logprob/entropy features on b4 Q8)",
+  "cohort": "frozen 513 cases; labels joined from the b4-other archive (drift 0)",
+  "best_gate": {
+    "feature": "mean_entropy_norm",
+    "direction": "gt",
+    "threshold": 0.07021
+  },
+  "results": {
+    "noopfp_reduction": 0.5917,
+    "correct_retention": 0.9949,
+    "sup_before": 120,
+    "keep_before": 196
+  },
+  "targets": {
+    "reduction_ge": 0.2,
+    "retention_ge": 0.99,
+    "latency_le": 0.1
+  },
+  "verdict": "GATE1-PASS",
+  "caveat": "IN-SAMPLE: threshold selected and evaluated on the same 513 rows; the locked-threshold held-out confirmation (different labeled cohort, e.g. the O2-arm battery rows) is the mandatory next leg before any serving claim",
+  "evidence": "/mnt/h/sepalith/runs/ag1-gate1-20260910"
+}
