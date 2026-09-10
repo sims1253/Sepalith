@@ -29,8 +29,8 @@
 #         (web log: kaggle.com/code/m0hawk/<slug>/...)
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-SLUG="${1:?slug}"; STEPS="${2:?steps}"; LR="${3:?lr}"; MODE="${4:?cpu-smoke|gpu}"; FIRE="${5:-}"
-[ "$MODE" = "gpu" ] && [ "$FIRE" != "--fire" ] && { echo "REFUSED: mode=gpu needs --fire (quota burn)"; exit 2; }
+SLUG="${1:?slug}"; STEPS="${2:?steps}"; LR="${3:?lr}"; MODE="${4:?cpu-smoke|gpu|bisect}"; FIRE="${5:-}"
+case "$MODE" in gpu|bisect) [ "$FIRE" != "--fire" ] && { echo "REFUSED: mode=$MODE needs --fire (quota burn)"; exit 2; };; esac
 [ "$MODE" = "cpu-smoke" ] && [ "$STEPS" != "0" ] && echo "NOTE: cpu-smoke ignores steps (no train)"
 
 eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
@@ -90,6 +90,7 @@ echo "repo staged: m0hawk/sepalith-repo @ $SHA (auto-extracted tree + REPO_SHA s
 SKIP=0; GPU=false
 [ "$MODE" = "cpu-smoke" ] && { SKIP=1; GPU=false; }
 [ "$MODE" = "gpu" ] && { SKIP=0; GPU=true; }
+[ "$MODE" = "bisect" ] && { SKIP=0; GPU=true; }   # BISECT=1: 3x10-step no-bf16 probes (diagnostic-only)
 RUN_NAME="${RUN_NAME:-kaggle-${SLUG#sepalith-}-s${STEPS}}"
 # b4 banked target regex (single-quoted: NO escape processing; the heredoc
 # ${B4_REGEX} expansion passes it through verbatim). Source of truth:
@@ -123,6 +124,7 @@ ENV = {
     # (train_sft SFT_FP16 loads fp32; this env completes the sanctioned path)
     "SFT_FP16": "$([ "$MODE" = "gpu" ] && echo 1 || echo 0)",
     "UNSLOTH_FORCE_FLOAT32": "$([ "$MODE" = "gpu" ] && echo 1 || echo 0)",
+    "BISECT": "$([ "$MODE" = "bisect" ] && echo 1 || echo 0)",
 }
 os.environ.update(ENV)
 # Kaggle auto-extracted the repo tarball into the dataset mount. THREE

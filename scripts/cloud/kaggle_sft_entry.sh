@@ -97,6 +97,22 @@ if [ -n "${EXPECT_TRAINABLE:-}" ]; then
   ts "audit pass"
 fi
 
+# 3b-bisect: no-bf16 gradient-offload bisect (BISECT=1). Runs the three
+# 10-step probes INSTEAD of the single train flow — same pins/data/audit
+# above (proven), then exits: 10-step adapters are diagnostic-only (never
+# pushed; the decision rule in bisect_probes.py --help says when a winner
+# earns a 300-step confirmation arm). Purge the 5090-compiled cache first
+# (ladder #4: compile-disable does not prevent cache USE).
+if [ "${BISECT:-0}" = "1" ]; then
+  rm -rf "$REPO_ROOT/unsloth_compiled_cache" \
+         "$REPO_ROOT/experiments/training/unsloth_compiled_cache"
+  ts "BISECT=1: no-bf16 bisect (3x${BISECT_STEPS:-10}-step probes) instead of single train flow"
+  python scripts/cloud/bisect_probes.py 2>&1 | tee "$TRAIN_LOG"
+  ts "bisect result: $(cat /kaggle/working/bisect_result.json 2>/dev/null || echo '(no result file — see train log)')"
+  ts "BISECT COMPLETE (diagnostic-only: no push; decision rule: bisect_probes.py --help)"
+  exit 0
+fi
+
 # 3b) train: the repo's own trainer, verbatim (SKIP_TRAIN=1 = CPU smoke stops here).
 if [ "${SKIP_TRAIN:-0}" = "1" ]; then
   ts "SMOKE COMPLETE (SKIP_TRAIN=1): packaging + egress + data + audit proven, no GPU burn"
