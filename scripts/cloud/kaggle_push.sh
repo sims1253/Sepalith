@@ -125,6 +125,8 @@ ENV = {
     "SFT_FP16": "$([ "$MODE" = "gpu" -o "$MODE" = "bisect" ] && echo 1 || echo 0)",
     "UNSLOTH_FORCE_FLOAT32": "$([ "$MODE" = "gpu" ] && echo 1 || echo 0)",
     "BISECT": "$([ "$MODE" = "bisect" ] && echo 1 || echo 0)",
+    "BISECT_PROBES": "${BISECT_PROBES:-}",
+    "BISECT_STEPS": "${BISECT_STEPS:-}",
 }
 os.environ.update(ENV)
 # Kaggle auto-extracted the repo tarball into the dataset mount. THREE
