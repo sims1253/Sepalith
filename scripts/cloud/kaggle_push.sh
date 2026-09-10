@@ -91,6 +91,7 @@ SKIP=0; GPU=false
 [ "$MODE" = "cpu-smoke" ] && { SKIP=1; GPU=false; }
 [ "$MODE" = "gpu" ] && { SKIP=0; GPU=true; }
 [ "$MODE" = "bisect" ] && { SKIP=0; GPU=true; }   # BISECT=1: 3x10-step no-bf16 probes (diagnostic-only)
+[ "$MODE" = "train" ] && { SKIP=0; GPU=true; }    # full SFT arm (LR sweep class)
 RUN_NAME="${RUN_NAME:-kaggle-${SLUG#sepalith-}-s${STEPS}}"
 # b4 banked target regex (single-quoted: NO escape processing; the heredoc
 # ${B4_REGEX} expansion passes it through verbatim). Source of truth:
