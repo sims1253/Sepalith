@@ -1,0 +1,10 @@
+{
+  "experiment": "W17 episode column (O2 control/filtered vs banked b4 on the V1a 1,208-point cohort)",
+  "results": {
+    "restraint": "NO CHANGE: proposal rate ~99.5% on all three (b4 99.6%, control 99.5%, filtered 99.3%); the 58.8% noopFP defect persists identically in the RL arms",
+    "content": "arm proposals deviate from b4 surface on most typing points (median difflib sim 0.56 control / 0.40 filtered; only ~17-22% near-identical); direction unknown without labels",
+    "caveat": "per-proposal correctness is not derivable from episode labels (gt = user typing; accept/dismiss are reactions to b4-specific proposals); the both-order preference column (quota-gated) is the arbiter"
+  },
+  "verdict": "INTERIM: RL arms show NO episode-restraint improvement; content shifts are unjudged. Intent/forgetting columns and the preference arbiter remain before any RL adoption recommendation - per the EV doc stop rule, an RL arm worse on restraint or felt acceptance halts the recommendation; restraint is already confirmed NOT improved, so adoption hinges entirely on the preference/intent columns.",
+  "evidence": "/mnt/h/sepalith/runs/w17-20260910"
+}

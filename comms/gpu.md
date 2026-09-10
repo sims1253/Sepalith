@@ -280,3 +280,11 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T20:04:15+0200] codex-research-lead CLAIM H3-S1 quality leg (3 adapted arms x 569-case battery): port 18478, 2h bound.
 
 [2026-09-10T20:35:57+0200] codex-research-lead RELEASE H3-S1 quality battery; compute inventory empty (Kaggle 3000-step arm still running there).
+
+[2026-09-10T21:23:57+0200] codex-research-lead CLAIM W17 episode leg arm1 (o2_control on the V1a 1,208 cohort): port 18478, 90-min bound.
+
+[2026-09-10T22:15:29+0200] codex-research-lead CLAIM W17 episode leg arm2 (o2_filtered): port 18478, 90-min bound. (arm1 released.)
+
+[2026-09-10T22:30:58+0200] codex-research-lead CLAIM W17 episode re-serve with text capture (2 arms): port 18478, 90-min bound.
+
+[2026-09-10T23:01:26+0200] codex-research-lead RELEASE W17 episode leg; compute inventory empty (Kaggle 3000-step arm running there).
