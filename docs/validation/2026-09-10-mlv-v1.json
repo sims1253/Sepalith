@@ -1,0 +1,16 @@
+{
+  "experiment": "MLV EBT verifier v1 (scratch two-tower, byte-level, d=256, MRL 512)",
+  "data": "V1a episode pairs (1,203; 49 pos/1,154 neg), episode-disjoint 80/20 split (956/247)",
+  "results": {
+    "auroc": 0.588,
+    "pairwise_accuracy": 0.364,
+    "ece": 0.139,
+    "gate": {
+      "retention": 0.909,
+      "fp_suppression": 0.169,
+      "threshold": -12.18
+    }
+  },
+  "verdict": "KILLED per pre-registration (AUROC < 0.65). The AG1->MLV conditional chain closes: neither entropy gates (overlap diagnostic) nor a scratch verifier at this data scale separates the episode-regime accept/reject signal. Revival paths (not scheduled): (a) positives augmentation from the labeled battery cohorts (scenario-exact as accepted-class), (b) a pretrained encoder instead of scratch. The X5 MD-residual instrument remains the only working abstain signal.",
+  "evidence": "/mnt/h/sepalith/runs/mlv-v1-20260910"
+}
