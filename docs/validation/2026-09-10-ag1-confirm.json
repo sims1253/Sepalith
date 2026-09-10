@@ -1,0 +1,11 @@
+{
+  "gate": "AG1 held-out confirmation (frozen threshold 0.07021 on mean_entropy_norm, V1a 1,208-point cohort)",
+  "results": {
+    "fp_suppression": 0.7566,
+    "accepted_retention": 0.3673,
+    "dismissed_suppression": 0.7139
+  },
+  "verdict": "TRANSFER FAIL: in-sample gate-1 PASS does not transfer as a locked global threshold; the V1a episode regime (midtyping renders, 32K ctx) has a higher baseline entropy, so the calibrated cut suppresses 63% of accepted-useful proposals. AG1 returns to per-regime calibration / feature-combination work (dev/cal/test structure per the original design).",
+  "lesson": "the mandatory held-out leg caught an in-sample artifact; no serving claim",
+  "evidence": "/mnt/h/sepalith/runs/ag1-confirm-20260910"
+}
