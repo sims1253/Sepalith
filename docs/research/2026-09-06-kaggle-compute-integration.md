@@ -190,3 +190,50 @@ likely repeat on TPU with less community precedent to lean on.)
 - Concurrent-GPU-session cap unmeasured (irrelevant while GDN-blocked).
 - Benchmarks inference credits: unspent, unusable for training; flagged for
   a future LLM-judge eval leg.
+
+## APPENDIX (2026-09-06 15:41) — LR sweep FIRED on Anyscale: DONE, 4/4 SUCCESS
+
+Executed the queue FIRE (~15:00 local): 4 arms, g5.xlarge, package @83b43b2
+(includes the SFT_EVAL_STEPS=150 readout knob). Jobs: prodjob_ttgi…(5e-5),
+y44u…(1e-4), 2w4m…(2e-4), qckk…(4e-4). All four: audit exact 21,823,488,
+train to 300 clean, adapters pushed + hub-verified at
+`scholzmx/sepalith-lora/{lr_sweep_5e5,lr_sweep_1e4,lr_sweep_2e4,lr_sweep_4e4}/final_lora`.
+
+| arm | eval@150 | eval@300 | train@300 | wall (entry) |
+|-----|----------|----------|-----------|--------------|
+| 5e-5  | 1.255 | 1.249 | 1.114 | T+1904s |
+| 1e-4  | 1.244 | 1.237 | 1.098 | T+1880s |
+| 2e-4  | 1.238 | 1.226 | 1.084 | T+1877s |
+| 4e-4  | 1.244 | 1.222 | 1.076 | T+1902s |
+
+No divergence anywhere (kill rule never fired). Cost $2.26 total (~$0.57/arm
+— above the $1.6 estimate: 2 eval passes + setup; ~$2.8 of the $10 trial
+cap now used). Verdict sketch: banked 2e-4 anchor confirmed (4e-4 eval-ties
+it at this horizon, 5e-5 clearly under-learns); production LR unchanged.
+Ops traps hit + fixed: zsh no-word-split in the monitor loop (use ${=var} or
+python); YAML double-quoted scalars eat `\b`/`\d` — single-quote regex env
+values in anyscale yamls.
+
+## GPU blocker — RESOLVED 2026-09-10 (confirmed at 300 steps)
+
+The prime suspect was correct. Bisect r5 (10-step probes) isolated the culprit:
+**unsloth_zoo's low-VRAM "smart gradient offload" patch** (fires on the 16GB
+T4, never on 24/32GB cards) casts LoRA/base leaves to half while GDN blocks
+stay fp32 → the mixed-dtype crash. Neutering it (probe P1: force plain
+torch.utils.checkpoint offload) → clean train.
+
+- r5 (10 steps): `offload_disable: passed`. P2 (float_post_attach) and P3
+  (unsloth_upgrade) both still crash — not needed.
+- P1@300 confirmation (`sepalith-bisect-p1-300b`, 2026-09-10): **train
+  completed 300 steps, DONE marker, no dtype error** (~98 min wall on T4×2
+  at fp32; first attempt died only to the 2700s wrapper guard — raised to
+  9000s, committed).
+- Iterations to root cause: 5 kernels total (r2 runpy path, r3 P1 import
+  order, r4 trainer-wrap + SFT_FP16 bootstrap wiring, r5 bisect pass,
+  300b confirmation) — each failure was wrapper/setup-layer, root-caused
+  and fixed before the next push.
+- **The lane is OPEN**: ~30 GPU-h/week available for fp32 (no-bf16) SFT
+  arms at ~98 min/300-step arm ≈ up to ~18 arms/week if quota persists.
+  P100 still entry-gated (2.x hard-check); T4×2 is the working shape.
+- LR sweep: **retarget back to Kaggle** (the Anyscale retarget is
+  obsolete; do not spend user-gated credits on what free T4s now cover).
