@@ -44,6 +44,16 @@ FULL_FT and MIDTRAIN are both refused on this path (one masking/training
 mechanism per arm). OFF = the legacy pipeline VERBATIM (same contract as
 B8; regression-pinned in experiments/training/test_selekt_data.py).
 """
+# P1 offload-disable shim (bisect r5, confirmed 300 steps on T4): neuter unsloth_zoo's
+# low-VRAM smart gradient-offload BEFORE unsloth imports — the mixed BFloat16/Half
+# culprit on 16GB cards. No-op where the patch never fires (Ampere+ / >=24GB).
+try:
+    import sys as _sys
+    _sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[2] / "scripts/cloud"))
+    import offload_disable  # noqa: F401  (installs shims at import)
+except Exception:  # shim failure must not break Ampere+ runs
+    print("offload-disable shim skipped", flush=True)
+
 import json, os, subprocess, sys
 from pathlib import Path
 
