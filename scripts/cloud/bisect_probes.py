@@ -86,6 +86,7 @@ P1_PREAMBLE = (
     "    except Exception:\n"
     "        pass\n"
     "    return None\n"
+    "import unsloth  # establish the guarded import chain first\n"
     "import unsloth_zoo.gradient_checkpointing as _gc\n"
     "_gc.patch_unsloth_smart_gradient_checkpointing = _disable_offload\n"
     "_gc.unpatch_unsloth_smart_gradient_checkpointing = _disable_offload\n"
@@ -159,6 +160,7 @@ PREAMBLES = {
 RUNPY_TAIL = (
     "import os, runpy, sys\n"
     "_train = os.path.join(os.environ['BISECT_TRAIN_DIR'], 'train_sft.py')\n"
+    "sys.path.insert(0, os.environ['BISECT_TRAIN_DIR'])\n"
     "sys.argv = [_train, os.environ['BISECT_MODEL'], os.environ['BISECT_STEPS'],\n"
     "            os.environ['BISECT_DATA_DIR'], os.environ['BISECT_OUT_DIR'], '']\n"
     "runpy.run_path(_train, run_name='__main__')\n"
