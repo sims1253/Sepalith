@@ -127,6 +127,7 @@ ENV = {
     "BISECT": "$([ "$MODE" = "bisect" ] && echo 1 || echo 0)",
     "BISECT_PROBES": "${BISECT_PROBES:-}",
     "BISECT_STEPS": "${BISECT_STEPS:-}",
+    "BISECT_TIMEOUT": "${BISECT_TIMEOUT:-}",
 }
 os.environ.update(ENV)
 # Kaggle auto-extracted the repo tarball into the dataset mount. THREE
