@@ -220,3 +220,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T00:26:36+0200] codex-research-lead CLAIM H3-S0 zero-shot format-fail bench: 7 variants x 100 frozen scenario cases, b4 Q8, port 18478, 60-min bound.
 
 [2026-09-10T00:42:22+0200] codex-research-lead RELEASE H3-S0 zero-shot bench; complete, compute inventory empty.
+
+[2026-09-10T02:03:20+0200] codex-research-lead CLAIM challenger stage-1 battery: b4 anchor + MiniCPM5-2B, frozen 513 cases, port 18478, 90-min bound.
+
+[2026-09-10T02:53:32+0200] codex-research-lead RELEASE challenger stage-1 battery; complete, compute inventory empty.

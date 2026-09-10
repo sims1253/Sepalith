@@ -1,0 +1,33 @@
+{
+  "stage": "challenger-screens stage-1 (MiniCPM5-2B)",
+  "battery": {
+    "b4_anchor": {
+      "exact": 196,
+      "valid": 217,
+      "noop_false": 120,
+      "length_rate": 0.0
+    },
+    "minicpm": {
+      "exact": 0,
+      "valid": 13,
+      "noop_false": 161,
+      "length_rate": 0.4854
+    }
+  },
+  "paired_vs_b4": {
+    "exact": {
+      "delta": -76.86,
+      "p": 1.99e-59
+    },
+    "valid": {
+      "delta": -80.0,
+      "p": 1.88e-57
+    },
+    "noop_restraint": {
+      "delta": -20.1,
+      "p": 0.000125
+    }
+  },
+  "verdict": "KILLED: the released RL+OPD final checkpoint behaves like an unadapted base on zeta2 R-edits (0/255 exact, 48.5% length-rate, worse restraint); combined with the -10.6% t8 decode deficit, no case for the matched-SFT spend. Both challenger screens closed: NeoHorse (stage-0 decode), MiniCPM (stage-1 battery). b4 stands.",
+  "evidence": "/mnt/h/sepalith/runs/challenger-stage1-20260910"
+}
