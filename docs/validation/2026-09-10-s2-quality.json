@@ -1,0 +1,31 @@
+{
+  "experiment": "S2 imatrix-Q4 confirmation, quality leg (full 307-row authority + 262 fresh noop, banked receipt-verified pair)",
+  "preregistration": "docs/validation/2026-09-10-s2-preregistration.json (-2pp fallback + point >= -0.5pp, lead-registered)",
+  "results": {
+    "exact": {
+      "point_pp": -0.326,
+      "lb_pp": -2.26,
+      "losses": 7,
+      "gains": 6
+    },
+    "valid": {
+      "point_pp": -1.303,
+      "losses": 8,
+      "gains": 4
+    },
+    "noop_fresh": {
+      "q8": 136,
+      "q4": 137,
+      "gate": "losses<=gains FAILED"
+    },
+    "replication": "1:1 both arms, zero flips",
+    "fresh52": {
+      "delta_pp": 0.0,
+      "n": 52,
+      "note": "rename-degenerate as disclosed"
+    }
+  },
+  "verdict": "RETAIN Q8_0; S2 CLOSED per pre-registration (exact LB -2.26pp misses the -2pp band; noop fresh losses>gains). Intent and cycle legs not run: the conjunctive gates are already failed. The 1.29x CPU-cycle point estimate does not override a failed quality bound; inconclusive != parity.",
+  "note": "replication integrity 1:1 on all 255 pilot rows confirms greedy determinism and no runtime drift",
+  "evidence": "/mnt/h/sepalith/runs/s2-quality-20260910"
+}

@@ -232,3 +232,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T05:10:26+0200] codex-research-lead CLAIM AG1 held-out confirmation: 1,208 V1a episode points with logprobs on b4 Q8, port 18478, 90-min bound.
 
 [2026-09-10T05:27:56+0200] codex-research-lead RELEASE AG1 confirm; complete, compute inventory empty.
+
+[2026-09-10T07:35:15+0200] codex-research-lead CLAIM S2-quality confirmation: 569 cases x 2 arms on the banked Q8/Q4_imatrix pair, port 18478, 90-min bound.
+
+[2026-09-10T07:52:08+0200] codex-research-lead RELEASE S2-quality; complete, compute inventory empty.
