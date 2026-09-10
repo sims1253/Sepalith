@@ -1,0 +1,46 @@
+{
+  "diagnostic": "AG1 per-regime distribution comparison (CPU-only, extracted data)",
+  "five13": {
+    "scenario_exact": {
+      "median": 0.0131,
+      "iqr": [
+        0.0059,
+        0.0239
+      ]
+    },
+    "noop_FP": {
+      "median": 0.1301,
+      "iqr": [
+        0.0519,
+        0.2274
+      ]
+    },
+    "separation": "clean ~15x medians"
+  },
+  "v1a": {
+    "accepted": {
+      "median": 0.0883,
+      "iqr": [
+        0.058,
+        0.1812
+      ]
+    },
+    "false_suggestion": {
+      "median": 0.127,
+      "iqr": [
+        0.0707,
+        0.2288
+      ]
+    },
+    "dismissed": {
+      "median": 0.1193,
+      "iqr": [
+        0.0639,
+        0.2542
+      ]
+    },
+    "overlap": "heavy; accepted sits ~7x above the battery exact class"
+  },
+  "conclusion": "Single normalized-entropy is insufficient for the episode regime (real-time proposals are genuinely less certain). Per-regime recalibration cannot recover >=99% retention with useful suppression. The learned-verifier lane (MLV) is now the evidence-justified next lever, per the AG1 conditional design. Feature combinations (min_lp/frac_lp_below/pred_len) remain a cheap secondary check.",
+  "evidence": "/mnt/h/sepalith/runs/ag1-{gate1,confirm}-20260910"
+}
