@@ -17,6 +17,18 @@ elsewhere; listed so this file is the single lookup) · `DONE` / `CLOSED`
 (verdict landed — linked, then pruned on the next sync).
 
 
+## Lead-scientist sync — 2026-09-10
+
+Owner: `codex-research-lead` (promotion authority per user directive 2026-09-10; Anyscale/Azure stay user-gated; Kaggle free-tier active).
+- Challenger screens CLOSED: NeoHorse-1-4B killed stage-0 (t8 decode 7.87 vs b4 17.82 t/s; --no-nextn export scar); MiniCPM5-2B killed stage-1 (0/255 exact, 48.5% length-rate, worse restraint; -10.6% decode). b4 stands. docs/validation/2026-09-10-challenger-stage{0,1}*.json.
+- H3-S0: K0 (reuse granularity = n_batch ~512; deep heads reuse ~88%) + zero-shot (ALL marker-reusing variants 99-100/100 compliant — S1 adaptation cheap; zeta1 control fails 100/100 as designed). H3 verdict now hinges on S1 quality+cache.
+- O2 CLOSED (mechanism 2x psg confirmed; product axis underpowered; admission instrument banked in rl_smoke --prescreen).
+- B10 CLOSED (NO-ADOPT product axis; out-of-domain knob + RL-guardrail calibration banked).
+- V1d b4-vs-v7 TIE; winner-arm v2 battery complete (V1a/b/c/d).
+- B11 nextcoder_r v1: 973 rows assembled (quota-blocked partial; resume-safe).
+- Kaggle: no-bf16 bisect kernel in flight (T4x2); usage plan banked (battery line + W8 CPU render next).
+- Awaiting review: MLV final design (weigh vs AG1 cheap-gates-first per the EV ranking).
+
 ## Queue-owner sync — 2026-09-08 (continuous ownership)
 
 Owner: `codex-queue-owner`. Legacy dispatch is retired. The separate-agent heartbeat is disabled: the user requested wakeups of the original conversation, not another agent. Local execution uses
