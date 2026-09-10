@@ -276,3 +276,7 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T19:29:44+0200] codex-research-lead CLAIM decomposition battery (local+v7+regex): 569 cases, port 18478, 45-min bound.
 
 [2026-09-10T19:45:05+0200] codex-research-lead RELEASE decomposition battery; compute inventory empty.
+
+[2026-09-10T20:04:15+0200] codex-research-lead CLAIM H3-S1 quality leg (3 adapted arms x 569-case battery): port 18478, 2h bound.
+
+[2026-09-10T20:35:57+0200] codex-research-lead RELEASE H3-S1 quality battery; compute inventory empty (Kaggle 3000-step arm still running there).

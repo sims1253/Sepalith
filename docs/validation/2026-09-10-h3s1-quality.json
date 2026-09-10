@@ -1,0 +1,32 @@
+{
+  "experiment": "H3-S1 quality leg (3 adapted arms on the frozen 569-case battery, paired vs banked b4 Q8)",
+  "results": {
+    "h3s1_v10": {
+      "exact": 243,
+      "paired": {
+        "losses": 9,
+        "gains": 10
+      }
+    },
+    "h3s1_v05": {
+      "exact": 246,
+      "paired": {
+        "losses": 6,
+        "gains": 10
+      }
+    },
+    "h3s1_v14": {
+      "exact": 205,
+      "paired": {
+        "losses": 46,
+        "gains": 9
+      }
+    },
+    "bank": {
+      "exact": 242
+    }
+  },
+  "verdict": "RENDER ADAPTATION IS QUALITY-NEUTRAL for v10 (+1 net) and v05 (+4 net): the extension can change render regime with a 150-step r16 touch-up at no battery cost. v14 (drops the edit-history slot) pays 37 points - the history slot carries real signal; do not adopt v14 as a product render. Combined with the compliance leg: H3-S1 PASS for v10/v05 class renders, v14 rejected.",
+  "note": "noopFP paired reads (my-read field) show v10 +7/-0, v05 +12/-0, v14 +16/-0 extra proposals - all three arms grow slightly more proposal-happy after adaptation; worth a restraint calibration in any product use",
+  "evidence": "/mnt/h/sepalith/runs/h3s1-quality-20260910"
+}
