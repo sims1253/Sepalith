@@ -1,0 +1,7 @@
+{
+  "decision": "S2 fallback band pre-registration (lead, promotion authority)",
+  "registered": "exact one-sided 95% LB >= -2pp AND point estimate >= -0.5pp (in place of the unpowerable -1pp band; the 1pp band required n~2,667 vs 307 available \u2014 21% power per the design doc)",
+  "rationale": "a 1.29x paired CPU-cycle speedup against a bounded <=2pp exact dip is the product-relevant trade for the CPU serving tier; the pilot point estimate (-0.39pp) sits inside the band; all other gates (valid >=-2pp, noop <= Q8, intent >= 0, cycle >= 1.15x both ctx, drift <=3%) unchanged from the design",
+  "consequence": "any gate miss retains Q8_0 and closes S2; inconclusive != parity",
+  "design_doc": "docs/research/2026-09-10-s2-noninferiority-design.md"
+}
