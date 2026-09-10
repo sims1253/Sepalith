@@ -15,5 +15,28 @@
     "/mnt/h/sepalith/runs/lr2e4-battery-20260910",
     "/mnt/h/sepalith/runs/lr4e4-battery-20260910",
     "/mnt/h/sepalith/runs/lr-sweep-20260910"
-  ]
+  ],
+  "platform_decomposition": {
+    "kaggle_2e4_300": {
+      "stack": "T4x2 fp32 offload-disable",
+      "data": "sft_v7",
+      "targets": "422-mod regex",
+      "exact": 66
+    },
+    "local_2e4_300_v7regex": {
+      "stack": "5090 bf16",
+      "data": "sft_v7",
+      "targets": "422-mod regex",
+      "exact": 161
+    },
+    "local_2e4_300_v3default": {
+      "stack": "5090 bf16",
+      "data": "sft_v3",
+      "targets": "320 default",
+      "exact": 199
+    },
+    "attribution": "config-matched pair (v7+regex): Kaggle 66 vs local 161 \u2014 the fp32/no-bf16 Kaggle stack yields adapters ~2.4x weaker at identical budget+config; remaining local-vs-Kaggle gap is NOT data/targets. The v3-default local arm (199) additionally benefits from the default attachment + v3 data.",
+    "revised_conclusion": "(1) LR is not the lever at 300 steps (unchanged). (2) NEW: the Kaggle fp32 lane is a 2.4x-weaker trainer at matched budget \u2014 use it for full-length arms where step count can compensate (3000 steps ~ 16h, 1-2/week) and for diagnostics, not as an adapter source without a correction factor. (3) The local bf16 stack reaches 66-82% of bank in 300 steps \u2014 short-run local arms are viable iteration tools; final quality needs the full 3000.",
+    "evidence_add": "/mnt/h/sepalith/runs/lr2e4-local-v7-300"
+  }
 }

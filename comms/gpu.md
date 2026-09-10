@@ -268,3 +268,11 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T18:08:35+0200] codex-research-lead CLAIM H3-S1 bench (GDN-correct exports staged): port 18478, 2h bound.
 
 [2026-09-10T18:40:53+0200] codex-research-lead RELEASE H3-S1 bench; compute inventory empty.
+
+[2026-09-10T18:45:14+0200] codex-research-lead CLAIM local 2e-4@300 reference battery: 569 cases, port 18478, 45-min bound.
+
+[2026-09-10T19:02:52+0200] codex-research-lead CLAIM decomposition arm (local stack, Kaggle config: B4_REGEX + sft_v7, 300 steps): 5090, 30-min bound. Prior battery released.
+
+[2026-09-10T19:29:44+0200] codex-research-lead CLAIM decomposition battery (local+v7+regex): 569 cases, port 18478, 45-min bound.
+
+[2026-09-10T19:45:05+0200] codex-research-lead RELEASE decomposition battery; compute inventory empty.
