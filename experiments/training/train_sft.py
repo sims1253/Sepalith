@@ -129,7 +129,7 @@ if ("--full-ft" in _ARGV) or (os.environ.get("FULL_FT", "") == "1"):
             logging_steps=20, eval_strategy="steps", eval_steps=500,
             save_strategy="steps", save_steps=1000, save_total_limit=2,
             output_dir=str(OUT),
-            bf16=True, seed=3407, report_to="none", dataset_text_field="text",
+            bf16=(not _FP16), seed=3407, report_to="none", dataset_text_field="text",  # SFT_FP16=1: both precision flags OFF (no-bf16 GPU channel, per the documented ladder)
             max_seq_length=2048,
             optim="paged_adamw_8bit",
             gradient_checkpointing=True,
