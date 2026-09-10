@@ -123,7 +123,7 @@ ENV = {
     "UNSLOTH_DISABLE_AUTO_PADDING_FREE": "1",
     # T4 (Turing) has no bf16 — pure-fp32 unsloth flow on GPU arms
     # (train_sft SFT_FP16 loads fp32; this env completes the sanctioned path)
-    "SFT_FP16": "$([ "$MODE" = "gpu" -o "$MODE" = "bisect" ] && echo 1 || echo 0)",
+    "SFT_FP16": "$([ "$GPU" = "true" ] && echo 1 || echo 0)",
     "UNSLOTH_FORCE_FLOAT32": "$([ "$MODE" = "gpu" ] && echo 1 || echo 0)",
     "BISECT": "$([ "$MODE" = "bisect" ] && echo 1 || echo 0)",
     "BISECT_PROBES": "${BISECT_PROBES:-}",
