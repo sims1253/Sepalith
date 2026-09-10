@@ -1,0 +1,12 @@
+{
+  "experiment": "H3-S1 render adaptation (3 arms x 150 steps, r16/alpha32 on the b4 anchor merge)",
+  "question": "can the extension render regime change without full retraining?",
+  "results": {
+    "compliance": "ALL arms: 100/100 own variant; 98-100/100 all other marker-reusing variants; zeta2 100/100 (backward compat)",
+    "control": "zeta1 0/100 on every model (as designed)",
+    "adaptation_gain": "diagonal_minus_s0 = 0: zero-shot was already at 100 - the S0 finding holds and adaptation adds nothing needed at THIS probe scale",
+    "b4_recheck": "fresh baseline re-serve reproduces S0 zero-shot exactly"
+  },
+  "verdict": "H3-S1 compliance leg PASS: renders are interchangeable and backward-compatible both zero-shot and post-adaptation. The render-regime question closes - the marker protocol is robust; no retraining needed for render changes at v1 scale. Remaining H3-S1 legs (quality exact/validator, noopFP, cache/n_batch A/B) stay queued separately.",
+  "evidence": "/mnt/h/sepalith/runs/h3s1"
+}

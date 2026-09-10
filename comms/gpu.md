@@ -258,3 +258,13 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T15:01:12+0200] codex-research-lead CLAIM LR 4e-4 battery: 569 cases, port 18478, 45-min bound.
 
 [2026-09-10T15:17:11+0200] codex-research-lead RELEASE 4e-4 battery; CLAIM local 2e-4@300 platform-reference arm (300 steps, 5090, 30-min bound).
+
+[2026-09-10T15:20:31+0200] codex-research-lead CLAIM local 2e-4@300 reference arm retry (data-dir arg fixed): 5090, 30-min bound.
+
+[2026-09-10T16:08:45+0200] codex-research-lead CLAIM H3-S1 bench (b4 + 3 arms, 7 variants x 100 cases each): port 18478, 2h bound. (local-ref train released; export on CPU.)
+
+[2026-09-10T16:25:06+0200] codex-research-lead CLAIM H3-S1 bench retry (cohort staged): port 18478, 2h bound.
+
+[2026-09-10T18:08:35+0200] codex-research-lead CLAIM H3-S1 bench (GDN-correct exports staged): port 18478, 2h bound.
+
+[2026-09-10T18:40:53+0200] codex-research-lead RELEASE H3-S1 bench; compute inventory empty.
