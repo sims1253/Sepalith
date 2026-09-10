@@ -21,7 +21,8 @@ import eval_scenarios as scenario
 import eval_noop_fp as noop
 from s1_gpu import GpuServer, DeadlineExceeded, check_offload, tokenize, write
 
-ARMS = ['Q8_0', 'Q4_K_M_imatrix']
+ARMS = os.environ.get('S2_ARMS', 'Q8_0,Q4_K_M_imatrix').split(',')
+ARM_GGUF = dict(zip(ARMS, os.environ.get('S2_ARMS_PATHS', '').split('|'))) if os.environ.get('S2_ARMS_PATHS') else {}
 PORT = 18478
 SCENARIO_CAP = 250          # cap raise: rename contributes all 202 rows
 CORPUS_SEED = 20260910      # NEW corpus seed (!= pilot 20260820)
@@ -38,6 +39,11 @@ COHORT_SHAPE = dict(scenario_total=307, rename_total=202, fresh_scenario_ids=52,
 
 def read_rows(path):
     return [json.loads(line) for line in Path(path).read_text().splitlines()]
+
+
+def sha1_id(prompt):
+    import hashlib
+    return hashlib.sha1(prompt if isinstance(prompt, bytes) else prompt.encode()).hexdigest()[:12]
 
 
 def sha256_bytes(value):
@@ -262,7 +268,7 @@ def measure(run, assets):
     try:
         with (run / 'requests.jsonl').open('x') as out:
             for arm in p['arms']:
-                server = GpuServer(assets / (arm + '.gguf'), PORT, ['-lv', '4', '--seed', '20260905'],
+                server = GpuServer(Path(ARM_GGUF.get(arm, str(assets / (arm + '.gguf')))), PORT, ['-lv', '4', '--seed', '20260905'],
                     ctx=p['ctx'], server=Path(os.environ['S1_RUNTIME']) / 'llama-server',
                     foreground=True, log_path=run / ('server-' + arm + '.log'))
                 try:
@@ -442,7 +448,7 @@ def smoke(run, assets):
                 dict(rel_path='synthetic/two.R', lines=['two <- function(x) {', '  x', '  y', '}'],
                      fn='two', r0=0, r1=3, package='synthetic')][:want]
 
-    smoke_ids = [sha256_bytes(r['_prompt'].encode())[:12] for r in heldout]
+    smoke_ids = [sha1_id(r['_prompt'].encode()) for r in heldout]
     for arm in ARMS:
         (assets / (arm + '.gguf')).write_bytes(b'smoke')
     pilot_cases = [dict(kind='scenario', id=smoke_ids[0], prompt='P:' + na['family'], scenario=na),

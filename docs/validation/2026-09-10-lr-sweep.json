@@ -1,0 +1,19 @@
+{
+  "experiment": "LR sweep (4-point, 300 steps, Kaggle T4x2 fp32, offload-disable path)",
+  "arms": {
+    "lr5e5": 83,
+    "lr1e4": 43,
+    "lr2e4_anchor": 66,
+    "lr4e4": 82
+  },
+  "banked_reference": "2e-4@3000 steps (b4): 242/307 exact",
+  "cohort": "frozen 569-case battery (307 scenario + 262 noop), paired vs bank",
+  "verdict": "NEGATIVE: all four LRs land in a flat 43-83/307 band - severely under-trained regardless of LR; LR is not the lever at 300 steps, step count is. The Kaggle lane is best used for full-length arms (~16h/3000-step arm, 1-2/week within 30h) or step-budget studies, not cheap LR probing. Platform normalization (local 5090 2e-4@300 reference) pending; completes the secondary goal.",
+  "evidence": [
+    "/mnt/h/sepalith/runs/lr5e5-battery-20260910",
+    "/mnt/h/sepalith/runs/lr1e4-battery-20260910",
+    "/mnt/h/sepalith/runs/lr2e4-battery-20260910",
+    "/mnt/h/sepalith/runs/lr4e4-battery-20260910",
+    "/mnt/h/sepalith/runs/lr-sweep-20260910"
+  ]
+}

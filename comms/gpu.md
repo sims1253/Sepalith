@@ -236,3 +236,25 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T07:35:15+0200] codex-research-lead CLAIM S2-quality confirmation: 569 cases x 2 arms on the banked Q8/Q4_imatrix pair, port 18478, 90-min bound.
 
 [2026-09-10T07:52:08+0200] codex-research-lead RELEASE S2-quality; complete, compute inventory empty.
+
+[2026-09-10T11:59:19+0200] codex-research-lead CLAIM LR-sweep arm1 (5e-5) battery: 569 cases, port 18478, 45-min bound.
+
+[2026-09-10T12:13:56+0200] codex-research-lead RELEASE LR arm1 battery; complete.
+
+[2026-09-10T12:30:24+0200] codex-research-lead CLAIM LR arm2 (1e-4) battery: 569 cases, port 18478, 45-min bound.
+
+[2026-09-10T12:46:00+0200] codex-research-lead RELEASE LR arm2 battery; complete.
+
+[2026-09-10T12:57:18+0200] codex-research-lead CLAIM H3-S1 arm v10 (render adaptation, 150 steps, r16): local 5090, ~45-min bound.
+
+[2026-09-10T13:06:36+0200] codex-research-lead CLAIM H3-S1 arm v05 (render adaptation, 150 steps): local 5090, ~45-min bound. (v10 COMPLETE, released.)
+
+[2026-09-10T13:33:07+0200] codex-research-lead CLAIM H3-S1 arm v14 (render adaptation, 150 steps): local 5090, ~45-min bound. (v05 COMPLETE, released.)
+
+[2026-09-10T14:27:58+0200] codex-research-lead CLAIM LR ANCHOR (2e-4) battery: 569 cases, port 18478, 45-min bound.
+
+[2026-09-10T14:44:05+0200] codex-research-lead RELEASE anchor battery; claiming H3-S1 bench (4 serves: b4 + v10 + v05 + v14, port 18478, 2h bound).
+
+[2026-09-10T15:01:12+0200] codex-research-lead CLAIM LR 4e-4 battery: 569 cases, port 18478, 45-min bound.
+
+[2026-09-10T15:17:11+0200] codex-research-lead RELEASE 4e-4 battery; CLAIM local 2e-4@300 platform-reference arm (300 steps, 5090, 30-min bound).

@@ -132,7 +132,7 @@ def frozen_assets(tmp_path, pilot_fns=('pilot',), pilot_noop=('after_close_brace
     for fam in ('rename_propagation', 'pipe_rewrite', 'format_propagation', 'doc_sync', 'na_rm_propagation'):
         (sources / (fam + '.jsonl')).write_text('{}\n')
     pilot_cases = [
-        dict(kind='scenario', id=q.sha256_bytes(b'P:rename')[:12], prompt='P:rename', scenario=rename_ex()),
+        dict(kind='scenario', id=q.sha1_id(b'P:rename'), prompt='P:rename', scenario=rename_ex()),
         dict(kind='noop', case_kind=pilot_noop[0], id=pilot_noop[1], prompt='PN', cls='a_after_close_brace',
              expectation='no_proposal')]
     (assets / 'cases.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in pilot_cases))
@@ -164,7 +164,7 @@ def test_prepare_freezes_a_disjoint_cohort(tmp_path, monkeypatch):
     scenario_rows = [r for r in rows if r['kind'] == 'scenario']
     noop_rows = [r for r in rows if r['kind'] == 'noop']
     assert len(scenario_rows) == 3
-    assert {r['id'] for r in scenario_rows} >= {q.sha256_bytes(b'P:rename')[:12]}
+    assert {r['id'] for r in scenario_rows} >= {q.sha1_id(b'P:rename')}
     assert all(not r['rel_path'].startswith('authored/') for r in noop_rows)
     assert ('after_close_brace', 'pilotnoop') not in {(r['case_kind'], r['id']) for r in noop_rows}
     assert len(noop_rows) >= 2
@@ -174,7 +174,7 @@ def test_prepare_freezes_a_disjoint_cohort(tmp_path, monkeypatch):
     assert [f['fn'] for f in selection['corpus_functions']] == ['one', 'two']
     prepared = json.loads((run / 'prepared.json').read_text())
     assert prepared['expected_rows'] == 2 * len(rows)
-    assert prepared['replication_ids'] == [q.sha256_bytes(b'P:rename')[:12]] and len(prepared['fresh_ids']) == 2
+    assert prepared['replication_ids'] == [q.sha1_id(b'P:rename')] and len(prepared['fresh_ids']) == 2
 
 
 def test_prepare_rejects_pilot_seed_reuse(tmp_path):
