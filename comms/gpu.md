@@ -288,3 +288,11 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-10T22:30:58+0200] codex-research-lead CLAIM W17 episode re-serve with text capture (2 arms): port 18478, 90-min bound.
 
 [2026-09-10T23:01:26+0200] codex-research-lead RELEASE W17 episode leg; compute inventory empty (Kaggle 3000-step arm running there).
+
+[2026-09-11T00:18:40+0200] codex-research-lead CLAIM W17 intent leg (b4 + 2 O2 arms on intent_suite_v1): port 18478, 1h bound.
+
+[2026-09-11T01:10:11+0200] codex-research-lead CLAIM O2-filtered SCALED arm (GRPO 1800 steps, ~10h overnight): local 5090.
+
+[2026-09-11T12:16:57+0200] codex-research-lead GRPO 1800 done (reward 0.91, exact 0.75); CLAIM export+battery chain (CPU export then 569-battery, port 18478).
+
+[2026-09-11T12:45:41+0200] codex-research-lead RELEASE 1800-battery; compute inventory empty.

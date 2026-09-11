@@ -1,0 +1,27 @@
+{
+  "experiment": "O2-filtered GRPO at 1800 steps (6x the 300-step probe budget, prescreen admission filter, single-delta)",
+  "headline": "FIRST ARM TO BEAT THE BANK ON THE PRODUCT AXIS WITH A CLEAN PAIRED MARGIN",
+  "results": {
+    "exact": 255,
+    "bank_exact": 242,
+    "gains": 15,
+    "losses": 2,
+    "mcnemar_p": 0.00235,
+    "noop_fp": 192,
+    "bank_noop_fp": 194,
+    "per_family": {
+      "format_propagation": "36->46/67 (+10)",
+      "rename": "183->186/202 (+3)",
+      "na_rm": "5/5 =",
+      "pipe": "18/18 =",
+      "doc_sync": "0/15 ="
+    }
+  },
+  "context": {
+    "steps_300_probes": "202/206 exact vs bank 196-242 (TIE-UNDERPOWERED)",
+    "intent_300": "RL arms slightly ahead (38/37 vs 36 of 44)",
+    "episode_restraint": "flat across all arms"
+  },
+  "verdict": "The 6x step budget + admission filter breaks the product-axis tie: +4.2pp exact (255/307) at p=0.0024 paired, driven by format_propagation (+10) and rename (+3), with restraint flat-to-better. Per the W17 stop rule (restraint/felt acceptance), restraint does NOT regress. Remaining before an adoption recommendation: felt-quality preference column (episode/judge) on THIS arm + forgetting BPB.",
+  "evidence": "/mnt/h/sepalith/runs/o2-filtered-1800-20260911 + o2f1800-battery-20260911"
+}
