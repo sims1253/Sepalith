@@ -23,5 +23,20 @@
     "episode_restraint": "flat across all arms"
   },
   "verdict": "The 6x step budget + admission filter breaks the product-axis tie: +4.2pp exact (255/307) at p=0.0024 paired, driven by format_propagation (+10) and rename (+3), with restraint flat-to-better. Per the W17 stop rule (restraint/felt acceptance), restraint does NOT regress. Remaining before an adoption recommendation: felt-quality preference column (episode/judge) on THIS arm + forgetting BPB.",
-  "evidence": "/mnt/h/sepalith/runs/o2-filtered-1800-20260911 + o2f1800-battery-20260911"
+  "evidence": "/mnt/h/sepalith/runs/o2-filtered-1800-20260911 + o2f1800-battery-20260911",
+  "forgetting_column": {
+    "general_r_bpb": {
+      "base": 0.5599,
+      "b4": 0.5288,
+      "o2f1800": 0.5333,
+      "regression_pct": 0.85
+    },
+    "general_text_bpb": {
+      "base": 0.0893,
+      "b4": 0.1074,
+      "o2f1800": 0.1076,
+      "regression_pct": 0.19
+    },
+    "verdict": "PASS: within the 1% gate vs the b4 anchor on both probes; RL at 1800 steps does not add forgetting"
+  }
 }

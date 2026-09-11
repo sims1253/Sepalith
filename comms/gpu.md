@@ -296,3 +296,9 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-11T12:16:57+0200] codex-research-lead GRPO 1800 done (reward 0.91, exact 0.75); CLAIM export+battery chain (CPU export then 569-battery, port 18478).
 
 [2026-09-11T12:45:41+0200] codex-research-lead RELEASE 1800-battery; compute inventory empty.
+
+[2026-09-11T13:40:56+0200] codex-research-lead CLAIM o2f1800 episode serve (1,208 points, preference-column prerequisite): port 18478, 90-min bound.
+
+[2026-09-11T14:09:08+0200] codex-research-lead CLAIM forgetting BPB probe (base + b4 anchor + o2f1800): ~30-min bound. (episode serve released.)
+
+[2026-09-11T14:23:26+0200] codex-research-lead RELEASE BPB probe; compute inventory empty.
