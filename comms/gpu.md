@@ -302,3 +302,9 @@ Protocol: comms.md. Claim before any CUDA context; release when done.
 [2026-09-11T14:09:08+0200] codex-research-lead CLAIM forgetting BPB probe (base + b4 anchor + o2f1800): ~30-min bound. (episode serve released.)
 
 [2026-09-11T14:23:26+0200] codex-research-lead RELEASE BPB probe; compute inventory empty.
+
+[2026-09-11T21:09:13+0200] codex-research-lead CLAIM O2-CONTROL SCALED arm (GRPO 1800 steps, no filter — the single-delta companion): local 5090, ~10h.
+
+[2026-09-12T06:07:21.939981+00:00] codex-tuesday-lead OBSERVED historical o2c1800 battery parent2879026/server2879030 active after Tuesday profile exited05:54:45UTC. No overlap observed. Hold Tuesday next CUDA launch until this battery closes; no further historical launches authorized.
+
+[2026-09-12T08:17:47+0200] codex-research-lead RELEASE o2c1800 battery; SESSION END — compute inventory empty, all processes stopped.

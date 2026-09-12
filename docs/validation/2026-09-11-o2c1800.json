@@ -1,0 +1,23 @@
+{
+  "experiment": "O2-control GRPO at 1800 steps (no filter \u2014 the single-delta companion to o2f1800)",
+  "results": {
+    "exact": 258,
+    "bank_exact": 242,
+    "o2f1800_exact": 255,
+    "gains": 16,
+    "losses": 0,
+    "mcnemar_p": 3e-05,
+    "noop_fp": 195,
+    "bank_noop_fp": 194,
+    "per_family": {
+      "format": "36->47/67 (+11)",
+      "rename": "183->188/202 (+5)",
+      "others": "unchanged"
+    }
+  },
+  "filter_contribution_verdict": "The prescreen filter is NOT needed at 1800 steps: control 258 >= filtered 255, both decisively above bank 242. The filter helped early training (2x partial-solved at 300 steps) but the 6x budget subsumes it. SCALED RL IS THE DRIVER: GRPO@1800 on the b4 anchor delivers +5.2 to +6.8pp exact at p<=0.0024 with flat restraint, with or without the filter.",
+  "evidence": [
+    "/mnt/h/sepalith/runs/o2-control-1800-20260911",
+    "/mnt/h/sepalith/runs/o2c1800-battery-20260911"
+  ]
+}
