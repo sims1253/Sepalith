@@ -1,0 +1,161 @@
+{
+  "task": "RL-03",
+  "packet": "RL-03-entry-preparation",
+  "schema_version": "sepalith.campaign.rl03.entry-preparation.v1",
+  "status": "verified_cpu_live_training_pending",
+  "owner": "worker-runtime",
+  "observed_at": "2026-09-12",
+  "execution_root": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912",
+  "plan_root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb",
+  "canonical_environment": "/home/m0hawk/Documents/Sepalith/.venv-sft",
+  "scope": {
+    "changed_files": [
+      "experiments/training/campaign_rl_entry.py",
+      "experiments/training/campaign_rl_launch.py",
+      "experiments/training/test_campaign_rl_entry.py",
+      "docs/campaign/work/rl_entry/RL03-entry-preparation.md",
+      "docs/campaign/receipts/RL-03-entry-preparation.json"
+    ],
+    "protected_existing_execution": [
+      "experiments/training/campaign_rl_train.py",
+      "experiments/training/campaign_rl_data.py",
+      "experiments/training/campaign_sft.py",
+      "experiments/training/campaign_launch.py",
+      "experiments/training/campaign_checkpoint.py",
+      "experiments/training/campaign_control.py",
+      "experiments/training/campaign_tokenizer_contract.py",
+      "experiments/training/campaign_rl_profile.py",
+      "packages/sepalith/src/sepalith/campaign_protocol.py"
+    ],
+    "resource_boundary": "CPU-only implementation and tests; no model load, CUDA training, cloud, install, registry, admission, or final-set access"
+  },
+  "inputs_reviewed": {
+    "receipts": [
+      "docs/campaign/receipts/RL-01-integration-review.json",
+      "docs/campaign/receipts/RL-01-training-design.json",
+      "docs/campaign/receipts/PRM-08-frozen-prompt-contract.json",
+      "docs/campaign/receipts/RL-02-context-sidecar-preparation.json",
+      "docs/campaign/receipts/RL-02-contexts-materialized.json",
+      "docs/campaign/receipts/RL-02-lead-order-review.json"
+    ],
+    "rl02_order_note": "A future admitted recipe must bind the lead ordered selected-ID file and its SHA256; no ordering is discovered inside the entry.",
+    "rl02_materialization": {
+      "sidecar_status": "prepared_candidate_only; root admission still required",
+      "sidecar_receipt_sha256": "ee251cfd17ce9cb62f08b857699c4fbfc7fae533c1e6d23d7854b168b6c7143c",
+      "lead_order_receipt_sha256": "e3b9f46716652f818673c39e6369ae508d23c3757fada430845b6c68f511f78e",
+      "selected_ids_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/selected-train-ids-lead-order-v1.json",
+      "selected_ids_sha256": "24ec16f5ce5343539d31a44aaa843fb4be0de7c6831ec977432affc53fa77a9d"
+    },
+    "framework": {
+      "trl_version": "0.24.0",
+      "grpo_config_sha256": "e71900f3a0590cceb1ad67f07e9845fc3b517eae85f3d16300a32a4b652a00bb",
+      "grpo_trainer_sha256": "bb6905182acf2ec426f1dc9ffc37e5210d58ee47d2764f7cf12dbb90a4a28954",
+      "trainer_utils_sha256": "7096881df3fd78411be857e79b82f7c0eb8f3b5d9b0771de06275bacc9af98e3"
+    }
+  },
+  "implementation": {
+    "entry": {
+      "path": "experiments/training/campaign_rl_entry.py",
+      "schema": "sepalith.prm07.rl-entry.v1",
+      "import_boundary": "campaign_rl_entry imports without torch, transformers, trl, unsloth, or datasets; live imports occur after CPU/data/parent/output/resource gates",
+      "parent_gate": "requires an explicit parent_manifest wrapper, accepted merged_sft manifest, complete sorted weight inventory, tokenizer file hashes/IDs, base revision, and SFT identity; identity.parent repeats all four parent bindings",
+      "model_load": "FastLanguageModel.from_pretrained on the verified merged_model_path with dtype=torch.bfloat16, load_in_4bit=False, trust_remote_code=False",
+      "adapter": "r16/a16, seven target modules, 294 attachments, and 25116672 trainable parameters",
+      "tokenizer": "loads a separate pinned local reference and checks every stored selected prompt after load; asserts again after trainer construction and after generation; train-begin invokes restore_trainer_eog_alignment",
+      "runtime": "single nvidia-smi device at <=4096 MiB before framework/model import; fresh output/archive/telemetry paths on native ext4; full checkpoint identity required on resume and terminal",
+      "persistence": "existing build_live_trainer wires control/full-state callbacks; entry adds fsynced reward JSONL and terminal/load/tokenizer/parent audits",
+      "stop_classification": "first non-None callback stop_reason is selected across trainer and callback_handler; absent explicit stop is schedule_complete only when terminal_step equals admitted max_steps",
+      "supervised_deadline_binding": "entry derives a shallow live recipe with launcher soft UTC deadline in supervised_deadline so the trainer control callback and GNU timeout share the same graceful checkpoint boundary"
+    },
+    "launcher": {
+      "path": "experiments/training/campaign_rl_launch.py",
+      "behavior": "repeats CPU preflight, computes absolute soft/hard UTC deadlines, writes an immutable supervision receipt, and execs /usr/bin/timeout with TERM and kill-after grace; entry result/failure uses a distinct sibling receipt",
+      "environment": [
+        "SEPALITH_CAMPAIGN_SOFT_DEADLINE",
+        "SEPALITH_CAMPAIGN_HARD_DEADLINE",
+        "SEPALITH_CAMPAIGN_CHECKPOINT_RESERVE_SECONDS",
+        "SEPALITH_CAMPAIGN_LAUNCH_RECEIPT"
+      ]
+    },
+    "parent_manifest_contract": {
+      "wrapper": "{path, sha256}",
+      "manifest_schema": "sepalith.merged-sft.parent-manifest.v1",
+      "required_status_kind": "status=accepted, kind=merged_sft",
+      "required_files": [
+        "config.json",
+        "generation_config.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "config_bindings": "manifest.config_sha256 and manifest.generation_config_sha256 must equal the exact local config.json and generation_config.json bytes",
+      "weight_entry": "{path: relative sorted path, bytes: positive integer, sha256: lowercase SHA256}",
+      "weight_digest": "SHA256 of canonical sorted inventory entries; must equal weight_inventory_sha256; merged_weights_sha256 binds the single-file content hash or the sharded aggregate"
+    },
+    "policy_logprob_review": {
+      "status": "conditional_match_with_padding_difference",
+      "profile": "campaign_rl_profile recompute_policy_logprob calls labels=None, selects the boolean response mask from causal logits, then converts only selected response rows to FP32 before log_softmax; the rejected full FP32 [batch, context, vocab] conversion is absent",
+      "trl_0_24_0": "GRPOTrainer._compute_loss sets logits_to_keep=completion_ids.size(1); _get_per_token_logps_and_entropies passes logits_to_keep+1 only when model_kwarg_keys contains logits_to_keep, slices trailing completion width after the forward, and calls selective_log_softmax",
+      "mismatch": "TRL computes the padded completion width, including right-padding columns later masked by completion_mask, rather than profile boolean-selecting only actual response rows before the dtype conversion",
+      "dtype": "selective_log_softmax uses row-wise FP32 logsumexp only for FP32/FP64 sliced logits; BF16 sliced logits use row-wise BF16 F.log_softmax",
+      "live_gate": "MiniCPM forward support for logits_to_keep and actual peak memory remain lead-owned; unsupported keyword means full BF16 model output may exist before trailing completion slicing"
+    }
+  },
+  "verification": [
+    {
+      "command": "PYTHONPATH=packages/sepalith/src:experiments/training python3 -m unittest -q experiments/training/test_campaign_rl_entry.py",
+      "result": "PASS: 13 tests; CPU-only parent/inventory/config binding, ext4/v9fs, occupancy/deadline/resume rejection, stop classification, receipt preservation, mocked train flow"
+    },
+    {
+      "command": "PYTHONPATH=packages/sepalith/src:experiments/training /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -m unittest -q experiments/training/test_campaign_rl_entry.py",
+      "result": "PASS: 13 tests; canonical environment; no model weights or CUDA launch"
+    },
+    {
+      "command": "PYTHONPATH=packages/sepalith/src:experiments/training /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -m unittest -q experiments/training/test_campaign_rl_entry.py experiments/training/test_campaign_rl_train.py experiments/training/test_campaign_rl_profile.py experiments/training/test_campaign_checkpoint.py",
+      "result": "PASS: entry plus existing trainer/profile/checkpoint suites after the entry changes (60 tests total)"
+    },
+    {
+      "command": "PYTHONPATH=packages/sepalith/src:experiments/training env -u PYTHONPATH /usr/bin/python3 -c 'import sys; sys.path.insert(0, \"experiments/training\"); import campaign_rl_entry, campaign_rl_launch; print(...)'",
+      "result": "PASS: fresh import reported torch, transformers, trl, unsloth, and datasets absent from sys.modules"
+    },
+    {
+      "command": "ruff check experiments/training/campaign_rl_entry.py experiments/training/campaign_rl_launch.py",
+      "result": "PASS"
+    },
+    {
+      "command": "python3 -m py_compile experiments/training/campaign_rl_entry.py experiments/training/campaign_rl_launch.py experiments/training/test_campaign_rl_entry.py",
+      "result": "PASS"
+    }
+  ],
+  "source_hashes": {
+    "owned_execution": {
+      "experiments/training/campaign_rl_entry.py": "793a282570be4c90f1804ab43bd7320519fbc6f91f5eaaa4b87ce41bb99096ee",
+      "experiments/training/campaign_rl_launch.py": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a",
+      "experiments/training/test_campaign_rl_entry.py": "b0601a9c9172a123948438ed316512ba3b1601f8734b3e0233579989373524ad"
+    },
+    "read_only_dependencies": {
+      "experiments/training/campaign_rl_train.py": "1b3da283395b05f0e0c0b283fef455a6e95543767b07c993914e417d8a9146aa",
+      "experiments/training/campaign_rl_data.py": "86ebc3fe80a976e3c35a29057234b341c9e06060135a87382bbf8c915b1db91b",
+      "experiments/training/campaign_sft.py": "671a1da97939b21962cfaedda0dc7c2c6f2f01369cb2834ef351fd26c38541f9",
+      "experiments/training/campaign_checkpoint.py": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "experiments/training/campaign_tokenizer_contract.py": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    }
+  },
+  "acceptance": {
+    "entry_cpu_preparation": "PASS",
+    "actual_parent_load_and_training": "PENDING lead-owned merged-SFT parent, admitted RL-02 sidecar, CUDA lease, and transition gate",
+    "actual_resume_comparison": "PENDING lead-owned full-state interruption/resume run",
+    "promotion_authority": "lead"
+  },
+  "limitations": [
+    "No merged-SFT parent manifest or model weights existed for a live load in this worker packet.",
+    "No CUDA/model/framework training was run; adapter counts, FastLanguageModel loading, Unsloth transition, reward trajectory, finite gradients, throughput, memory, and quality remain unverified live gates.",
+    "The parent manifest contract is new and must be produced by the lead from the accepted SFT merge; raw Midtrain cannot satisfy it.",
+    "The existing GRPO policy path uses labels=None, computes logits_to_keep from padded completion width, slices response logits before selective log-softmax, and does not materialize a full FP32 [batch, context, vocab] tensor; live MiniCPM verification remains lead-owned.",
+    "The supervisor receipt is immutable and entry success/failure is written to its distinct sibling result receipt; live process termination and receipt handoff remain lead-owned operational checks."
+  ],
+  "artifacts": {
+    "memo": "docs/campaign/work/rl_entry/RL03-entry-preparation.md",
+    "memo_sha256": "0c82384a584fb870c66d8dd3d5e5f12b8e7e11504dd609b24aa0c1cf25c51020",
+    "receipt": "docs/campaign/receipts/RL-03-entry-preparation.json"
+  }
+}
