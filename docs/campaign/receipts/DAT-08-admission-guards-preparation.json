@@ -1,0 +1,64 @@
+{
+  "task": "DAT-08",
+  "owner": "rl_entry",
+  "at": "2026-09-12T22:09:52Z",
+  "status": "preparation_complete_pending_freeze",
+  "scope": "Synthetic-only caller-side admission guard for the DAT-08 raw-source constructor component.",
+  "input_hashes_verified": {
+    "docs/campaign/work/final-constructor-preparation/raw_source_case_builder.py": "2e617f5c14b04a3a329362665d12f18ff836f88a4f029719a9a5d0ab0e93999b",
+    "docs/campaign/work/final-constructor-preparation/raw_source_tokenization.py": "81821054e3c22a9d8f80cdc07d95b7350b4e35eefa3713fd69ac368aa1304c39",
+    "docs/campaign/receipts/DAT-08-raw-component-lead-review.json": "eaee025195cd18a97d5921a3379dd071cc141af850bd6ee15fc5ec67bab7d118",
+    "docs/campaign/work/final-constructor-preparation/final_constructor.py": "de9e7303ebcd572b50015f9a90d352de31a3379f75f7b6540e58757e51173d97",
+    "docs/campaign/work/final-constructor-preparation/test_final_constructor.py": "9587ab04802f0de7138748564145d8262b04c9d236d8f22c4370fad0ce53a701"
+  },
+  "outputs": {
+    "docs/campaign/work/final-admission-guards/admission_guard.py": "b630dd65e90aa129c2d136cf165f096157fa08826a5652d768fa5494518ab2be",
+    "docs/campaign/work/final-admission-guards/test_admission_guard.py": "71a66ebf734fc5cec09530f6aa1f4a45c96365d8303f8b8d14628e001e7fd2bb",
+    "docs/campaign/work/final-admission-guards/README.md": "832b502ff6448282d2662d637678a520a25d14fcd6ea3e4361f7ea37ee013be6"
+  },
+  "proposed_contract": {
+    "guard_schema": "dat08.final-admission-guard.v1",
+    "freeze_gate": "observed_at >= 2026-09-14T10:00:00Z plus explicit status=frozen weight and harness receipt",
+    "semantic_receipt_extension": "case_bindings keyed by the exact requested row IDs, with split_identity, source_sha256, context_sha256, and target_sha256 for every case",
+    "source_allowlist": "one or more caller-supplied absolute real directories; every source must be a regular non-symlink file below one selected root",
+    "disjointness": "duplicate final row/split identities and row/package/group/split intersections with TRAIN or DEV memberships reject before source byte reads",
+    "source_read": "root-relative O_NOFOLLOW directory walk, regular-file and inode identity check, then expected source SHA-256 check",
+    "output": "temporary O_EXCL write, file fsync, exclusive hard-link, parent-directory fsync, cleanup; existing outputs and filesystem errors reject without replacement"
+  },
+  "tests": {
+    "command": "python3 -m unittest -v test_admission_guard.py",
+    "result": "pass",
+    "cases": 8,
+    "coverage": [
+      "valid synthetic byte handoff and manifest binding",
+      "freeze time and explicit authorization before source reads",
+      "positive allowlist and symlink escape rejection",
+      "TRAIN/DEV and duplicate final identity rejection",
+      "stale or forged semantic source/context/target binding rejection",
+      "source replacement after metadata gate rejection",
+      "existing output preservation and no-overwrite behavior",
+      "CLI JSON contract"
+    ],
+    "synthetic_only": true,
+    "real_final_dev_train_or_package_paths_opened": false
+  },
+  "static_checks": {
+    "python3_-m_py_compile": "pass",
+    "ruff_check_admission_guard_py_test_admission_guard_py": "pass",
+    "git_diff_check": "pass"
+  },
+  "acceptance": {
+    "preflight_before_source_bytes": true,
+    "source_context_target_hashes_bound_per_case": true,
+    "immutable_fsync_output": true,
+    "final_content_opened": false,
+    "local_receipt_is_external_attestation": false
+  },
+  "unresolved": [
+    "The existing DAT-08 raw component receipt lists verified IDs but has no per-case case_bindings map; a post-freeze semantic verifier must issue the proposed extension before this guard can admit a final case.",
+    "No production caller was changed. Root must review the contract and invoke the guard before passing returned source_bytes to build_raw_source_case.",
+    "The guard checks context_sha256 and target_sha256 against the semantic receipt; it does not derive those hashes from bytes because the context and target are not opened here.",
+    "The current date is before the freeze gate, so this preparation receipt does not claim a live final admission.",
+    "Durability depends on the output filesystem supporting fsync and hard-links. OSError, including EIO, is surfaced to the caller and is never treated as success."
+  ]
+}
