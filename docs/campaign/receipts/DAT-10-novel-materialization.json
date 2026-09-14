@@ -4,7 +4,7 @@
     "reason": "All outputs are review-only candidate materializations. Root quality, license, provenance, duplicate, source and split admission gates remain mandatory.",
     "training_admitted_rows": 0
   },
-  "at": "2026-09-14T09:23:17.101127+00:00",
+  "at": "2026-09-14T09:31:01.811827+00:00",
   "constraints": {
     "active_schedule_modified": false,
     "cuda_started": false,
@@ -59,7 +59,7 @@
       "sha256": "c6182d66f9c9a1706ee18741d0b99f785667552eef5b754f4d09793baba6ebfc"
     }
   },
-  "next": "Continue source-walk shards 0004-0040; source-walk candidates remain review-only and the 136 na_rm increment is duplicate of the reviewed 11505 parent.",
+  "next": "Continue source-walk shards 0005-0040; source-walk candidates remain review-only and the 136 na_rm increment is duplicate of the reviewed 11505 parent.",
   "outside_roster_increment": {
     "cpt_validation_heldout_rows": 1,
     "duplicate_against_expanded_parent_rows": 136,
@@ -160,7 +160,7 @@
       "sha256": "e60adb1c0bd91ce13b3aeaf9f1895c1fe047c8b3b7d6d10593d5ea27646be501"
     }
   },
-  "schema": "DAT-10-novel-materialization-v6",
+  "schema": "DAT-10-novel-materialization-v7",
   "scope": {
     "all_metadata_inventory": {
       "bytes": 636736542,
@@ -213,25 +213,26 @@
     "unattempted_supported_global_train_rows": 200753
   },
   "source_walk": {
-    "active_shard": 4,
+    "active_shard": 5,
     "active_shard_progress": {
       "bytes": 482,
       "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/structured-materialization-v1/progress.json",
       "sha256": "8c3279723ca7f465a536bed01ad175e1f40648f165fce98bdc449ad8a6403d9b"
     },
     "admission": "none; root quality/license/provenance/duplicate/CPT review remains mandatory",
-    "completed_input_rows": 20000,
+    "completed_input_rows": 25000,
     "completed_shards": [
       0,
       1,
       2,
-      3
+      3,
+      4
     ],
     "family_counts": {
       "no_op": 8612,
       "roxygen_drafting": 192141
     },
-    "frozen_review_candidate_rows": 8003,
+    "frozen_review_candidate_rows": 10071,
     "global_progress_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/source-walk-progress-v1.json",
     "input_manifest": {
       "bytes": 97770,
@@ -251,8 +252,8 @@
     },
     "prepared_rows": 200753,
     "prepared_shards": 40,
-    "remaining_prepared_rows": 180753,
-    "remaining_shards": 37,
+    "remaining_prepared_rows": 175753,
+    "remaining_shards": 36,
     "shard_0000_token_audited_review_increment": {
       "bytes": 26752240,
       "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
@@ -325,8 +326,30 @@
       "rows": 2118,
       "sha256": "265c45b272dd61066272df73d7684b6f36af1f75d3a4d5ee32d1b802b7645426"
     },
+    "shard_0004_material_manifest": {
+      "bytes": 2138,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/manifest.json",
+      "sha256": "b82994035a107b9058c8127bac0f06c4ae6aefa403d403fd52b017409d924633"
+    },
+    "shard_0004_review_packet": {
+      "bytes": 32504715,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/root-review-packet-v6-shard0004.jsonl",
+      "rows": 2068,
+      "sha256": "98dd758aad38a3148e4325d2c866b9310364cadf4f9b21d56cb0072feb0536a9"
+    },
+    "shard_0004_token_manifest": {
+      "bytes": 2689,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/token-audit-manifest.json",
+      "sha256": "5110749999511fa1d368b0e7e0aa1c31eeafee49f1ac110efc62b3cbc2380f40"
+    },
+    "shard_0004_token_rows": {
+      "bytes": 32504715,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+      "rows": 2068,
+      "sha256": "6910b42ad8a8252f80680e4a5d8ca837fc50a75d02620541b27b2fbe1ba145ff"
+    },
     "shards": "0000-0040",
-    "status": "shards_0000_to_0003_frozen_shards_0004_to_0040_running",
+    "status": "shards_0000_to_0004_frozen_shards_0005_to_0040_running",
     "total_prepared_rows": 200753
   },
   "source_walk_shard_0": {
