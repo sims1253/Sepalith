@@ -1,0 +1,8 @@
+{
+  "candidate_rows": 10018,
+  "elapsed_seconds": 474.5027869429905,
+  "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-source-walk-independent-review.json",
+  "receipt_sha256": "741f7ca58b2afdf9e8be2c5da7b2d33b2da04f8f33688b1818b02b3540ed1b30",
+  "schema": "DAT-10-source-walk-independent-review-complete-v1",
+  "status": "independent_review_complete_root_admission_pending"
+}

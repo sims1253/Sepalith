@@ -1,0 +1,136 @@
+{
+  "admission": "none",
+  "artifacts": {
+    "audit-ledger.jsonl": {
+      "bytes": 12999051,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/audit-ledger.jsonl",
+      "rows": 10071,
+      "sha256": "e315166036001b72979d10183082430b91e6e5abd4e75b63673b4de984ccf967"
+    },
+    "candidate-ids.jsonl": {
+      "bytes": 7335263,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/candidate-ids.jsonl",
+      "rows": 10018,
+      "sha256": "572c888fbf7ec084d5b2a41e5a6196c8384a85cb63d7382d6e4e633a7fa0e662"
+    },
+    "long-context-queue.jsonl": {
+      "bytes": 2958,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/long-context-queue.jsonl",
+      "rows": 17,
+      "sha256": "797288e0af3a742ab063c157116585a47c0873b30fd719baddbd7aa3a5c1301a"
+    },
+    "repair-queues.json": {
+      "bytes": 2630,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/repair-queues.json",
+      "rows": null,
+      "sha256": "b1156c07044fffef5e87b56ba201f4336ce0524c5a4302ef17363ba47f0e6a05"
+    },
+    "source-line-replay.json": {
+      "bytes": 775,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/source-line-replay.json",
+      "rows": null,
+      "sha256": "cc8dd6bb0049107fa0d8eb3db8403a25f3c099600e72d5e7ce175d619709bcc9"
+    }
+  },
+  "checks": {
+    "all_candidate_global_train": true,
+    "cpt_validation_reserved_count": 0,
+    "dat03_hash_pinned": true,
+    "global_registry_hash_pinned": true,
+    "heldout_payload_opened": false,
+    "license_direct_evidence_join": true,
+    "model_or_gpu_started": false,
+    "no_target_truncation": true,
+    "prompt_target_disjoint_candidate_output": true,
+    "r_executed": false,
+    "source_line_replay_pass": true
+  },
+  "decision_rows": {
+    "candidate_pending_root_admission": 10018,
+    "exclude_duplicate": 20,
+    "repair_required": 33
+  },
+  "denominators": {
+    "accepted_comparison_rows": 11505,
+    "candidate_ids_unique": 10071,
+    "candidate_pending_root_admission": 10018,
+    "comparison_pool_rows": 15008,
+    "exclude_duplicate": 20,
+    "frozen_candidate_rows": 10071,
+    "repair_required": 33,
+    "root_verified_increment_rows": 3503
+  },
+  "elapsed_seconds": 474.43873608193826,
+  "family_rows": {
+    "roxygen_drafting": 10071
+  },
+  "length_buckets": {
+    "response_193_512": 2099,
+    "response_513_1024": 211,
+    "response_gt_1024": 17,
+    "response_le_192": 7744,
+    "sequence_2049_4096": 15,
+    "sequence_le_2048": 10056
+  },
+  "license": {
+    "candidate_rows_with_direct_evidence": 10071,
+    "file_status_rows": {
+      "pass": 2867
+    },
+    "unique_evidence_files": 2867
+  },
+  "reason_rows": {
+    "comparison_pool_prompt_duplicate": 1,
+    "comparison_pool_prompt_target_duplicate": 1,
+    "target_text_in_prompt": 31,
+    "within_candidate_prompt_conflicting_target": 2,
+    "within_candidate_prompt_target_duplicate": 19
+  },
+  "review_flag_rows": {
+    "context_history_not_replayed_review_only": 10071,
+    "context_snapshot_simulated_review_only": 10071,
+    "context_support_status_structural_conversion_pending_source_validator": 10071,
+    "cpt_train": 10071,
+    "global_flags_present_review_only": 9916,
+    "long_target_gt_1024_review_only": 17,
+    "metadata_license_missing_recovered_by_packet_evidence": 10071,
+    "within_candidate_exact_prompt_group_first_retained": 6
+  },
+  "schema": "sepalith.dat10.source-walk-independent-review-summary.v2",
+  "source_replay": {
+    "constraints": {
+      "heldout_payload_opened": false,
+      "r_executed": false,
+      "source_content_written": false
+    },
+    "matched_rows": 10071,
+    "requested_rows": 10071,
+    "schema": "sepalith.dat10.source-walk-independent-source-replay.v1",
+    "source_files": [
+      {
+        "bytes": 707257318,
+        "expected_sha256": [
+          "0d70ccc40a716a8a27cb508e39a16c9a5119a9bc9d0b5b8ee8362aa4b67f6193"
+        ],
+        "file_hash_match": true,
+        "found_lines": 10071,
+        "mismatches": 0,
+        "path": "/mnt/h/sepalith/datasets/scenarios_v1/roxygen_drafting.jsonl",
+        "requested_lines": 10071,
+        "requested_rows": 10071,
+        "sha256": "0d70ccc40a716a8a27cb508e39a16c9a5119a9bc9d0b5b8ee8362aa4b67f6193",
+        "stat_stable": true
+      }
+    ],
+    "status": "pass"
+  },
+  "source_rows": {
+    "scenario_roxygen_drafting": 10071
+  },
+  "source_walk_input_family_rows": {
+    "no_op": 627,
+    "roxygen_drafting": 24373
+  },
+  "source_walk_input_rows": 25000,
+  "status": "independent_review_complete_root_admission_pending"
+}

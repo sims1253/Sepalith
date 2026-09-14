@@ -1,0 +1,26 @@
+{
+  "comparison_pool_rows": 15008,
+  "owner": "/root/data_expansion",
+  "policy": {
+    "admission": "none",
+    "candidate_only": true,
+    "cpu_threads": 2,
+    "disjoint_from_dat10_expanded_15008": true,
+    "heldout_payload_opened": false,
+    "ionice": "idle",
+    "long_targets": "retain_and_queue; never_truncate",
+    "nice": 10,
+    "recoverable_evidence": "named review or repair queue",
+    "source_content_use": "TRAIN source-line hash replay only",
+    "training_or_model": false
+  },
+  "review_rows": 10071,
+  "schema": "DAT-10-source-walk-independent-review-status-v2",
+  "status": "independent_review_complete_root_admission_pending",
+  "completed_at": "2026-09-14T10:11:43.905237+00:00",
+  "candidate_pending_root_admission": 10018,
+  "repair_required": 33,
+  "exclude_duplicate": 20,
+  "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-source-walk-independent-review.json",
+  "receipt_sha256": "741f7ca58b2afdf9e8be2c5da7b2d33b2da04f8f33688b1818b02b3540ed1b30"
+}

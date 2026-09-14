@@ -1,0 +1,27 @@
+{
+  "constraints": {
+    "heldout_payload_opened": false,
+    "r_executed": false,
+    "source_content_written": false
+  },
+  "matched_rows": 10071,
+  "requested_rows": 10071,
+  "schema": "sepalith.dat10.source-walk-independent-source-replay.v1",
+  "source_files": [
+    {
+      "bytes": 707257318,
+      "expected_sha256": [
+        "0d70ccc40a716a8a27cb508e39a16c9a5119a9bc9d0b5b8ee8362aa4b67f6193"
+      ],
+      "file_hash_match": true,
+      "found_lines": 10071,
+      "mismatches": 0,
+      "path": "/mnt/h/sepalith/datasets/scenarios_v1/roxygen_drafting.jsonl",
+      "requested_lines": 10071,
+      "requested_rows": 10071,
+      "sha256": "0d70ccc40a716a8a27cb508e39a16c9a5119a9bc9d0b5b8ee8362aa4b67f6193",
+      "stat_stable": true
+    }
+  ],
+  "status": "pass"
+}

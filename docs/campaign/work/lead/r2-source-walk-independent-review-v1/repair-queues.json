@@ -1,0 +1,86 @@
+{
+  "denominator": 10071,
+  "permanent_exclusion_policy": "exact duplicate identity only; conflicts remain repairable",
+  "queues": {
+    "comparison_pool_prompt_duplicate": {
+      "row_ids": [
+        "1864369ce8e7e4574a200763"
+      ],
+      "rows": 1
+    },
+    "comparison_pool_prompt_target_duplicate": {
+      "row_ids": [
+        "1864369ce8e7e4574a200763"
+      ],
+      "rows": 1
+    },
+    "target_text_in_prompt": {
+      "row_ids": [
+        "04276d9e4c81f29c6ef35a29",
+        "04524d3f7cec119770d712f6",
+        "0530f9b452caa1b1d6ed230a",
+        "053798e30b2e394284068bd8",
+        "0644596cb1107472fc84a72a",
+        "067eed404e04cca988b74213",
+        "0862797dc4ae7e219d709f53",
+        "093466521851a2a6a2b8509f",
+        "0a039d6cd379720e76bdd8fe",
+        "0a7d966dbdda45bba24c8f49",
+        "0c92b892991835a3ffc76354",
+        "0cd0f2d040830fd2fb39716f",
+        "0e2023154ed9094272561b75",
+        "0e50d02930377e203dbc47a9",
+        "108af26e0639f042d1690d62",
+        "10e22b8cf0eabaa17391e346",
+        "11df36f809606eb30efa9689",
+        "134beebfd928c16813fd9e4e",
+        "15797a8220905e42b67fd0c8",
+        "18353b1970336e10d9c04442",
+        "18c2941ded77679ac6376a40",
+        "19288345ec398c45dd868c59",
+        "195b2d9cd326a79bad5622da",
+        "1a0fb055ba9546078a17ad21",
+        "1ab4597422f4e397286c1fe5",
+        "1acf23bb95862ca66043a527",
+        "1c398bd4659d08d56accbb7f",
+        "1e8d54ab25a9a8b85a80408b",
+        "20e8141ed6702b7129647ff4",
+        "21db55a59de949657d5c88dc",
+        "21f4a70ae0a48aa61deadb4f"
+      ],
+      "rows": 31
+    },
+    "within_candidate_prompt_conflicting_target": {
+      "row_ids": [
+        "1531e9ec6ec4361bbe6b3797",
+        "1bf446d8035a7fdf3d8574cf"
+      ],
+      "rows": 2
+    },
+    "within_candidate_prompt_target_duplicate": {
+      "row_ids": [
+        "0b666ed2785d0cbbc4952acf",
+        "0baea0f39a48cec18e63ae31",
+        "0ddc99f1d485277857a1fd3d",
+        "0f8d5e654030741b9b6e1df7",
+        "10733bf8ee6daef2f1f725aa",
+        "13201ce19180036fa787b938",
+        "15a6f73b8dcf63d27d0b8c6c",
+        "1605e43136c779b8531e2161",
+        "163a78eb39bda80d02728c75",
+        "193001e4804921beae8920e9",
+        "19b21850cdf4f4f0465278a8",
+        "19bf65e7336e0eb015fac610",
+        "1a88b333e636be57e0b579df",
+        "1c6e0dd1541a36a0ad1f462a",
+        "1dc73ed69ce23f758115dedd",
+        "1dd0429ce103b8de86edf2fc",
+        "1e9672352805af19dbd6a56d",
+        "1f0ef68c9412fae435f73db6",
+        "20db6482a0160385bec40303"
+      ],
+      "rows": 19
+    }
+  },
+  "schema": "sepalith.dat10.source-walk-independent-repair-queues.v1"
+}

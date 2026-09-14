@@ -1,0 +1,393 @@
+{
+  "admission": "none; root retains source/license/quality/duplicate/CPT admission",
+  "artifacts": {
+    "audit-ledger.jsonl": {
+      "bytes": 12999051,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/audit-ledger.jsonl",
+      "rows": 10071,
+      "sha256": "e315166036001b72979d10183082430b91e6e5abd4e75b63673b4de984ccf967"
+    },
+    "candidate-ids.jsonl": {
+      "bytes": 7335263,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/candidate-ids.jsonl",
+      "rows": 10018,
+      "sha256": "572c888fbf7ec084d5b2a41e5a6196c8384a85cb63d7382d6e4e633a7fa0e662"
+    },
+    "long-context-queue.jsonl": {
+      "bytes": 2958,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/long-context-queue.jsonl",
+      "rows": 17,
+      "sha256": "797288e0af3a742ab063c157116585a47c0873b30fd719baddbd7aa3a5c1301a"
+    },
+    "receipt": {
+      "note": "filled after atomic receipt write",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-source-walk-independent-review.json"
+    },
+    "repair-queues.json": {
+      "bytes": 2630,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/repair-queues.json",
+      "rows": null,
+      "sha256": "b1156c07044fffef5e87b56ba201f4336ce0524c5a4302ef17363ba47f0e6a05"
+    },
+    "source-line-replay.json": {
+      "bytes": 775,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/source-line-replay.json",
+      "rows": null,
+      "sha256": "cc8dd6bb0049107fa0d8eb3db8403a25f3c099600e72d5e7ce175d619709bcc9"
+    },
+    "summary.json": {
+      "bytes": 4836,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-source-walk-independent-review-v1/summary.json",
+      "rows": null,
+      "sha256": "5b5017641f69ad554c43b970035d4d97f89900d8e640d0cd34bf5319ccb993b6"
+    }
+  },
+  "checks": {
+    "candidate_output_id_prompt_pair_disjoint": true,
+    "candidate_packet_source_ref_join": true,
+    "cpt_validation_reserved": true,
+    "dat03_hash_and_metadata_join": true,
+    "direct_license_evidence_and_file_hash": true,
+    "frozen_shard_hashes_and_counts": true,
+    "global_train_join": true,
+    "heldout_payload_opened": false,
+    "no_target_truncation": true,
+    "shard_audit_metadata_join": true,
+    "source_file_and_line_replay": true,
+    "token_text_hash_and_geometry": true,
+    "training_launched": false
+  },
+  "created_at": "2026-09-14T10:08:28.923435+00:00",
+  "elapsed_seconds": 474.4761180919595,
+  "inputs": {
+    "accepted_provenance_rows": 11505,
+    "dat03_rows": 376830,
+    "pinned_files": {
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-data-expansion-audit-v1/expanded-corrected-short-provenance.jsonl": {
+        "bytes": 16575234,
+        "sha256": "317077b17afc38602309361396bb86d8897a6b823c5d7539f10b9733a0ad9a48"
+      },
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-data-expansion-audit-v1/expanded-corrected-short-token-rows.jsonl": {
+        "bytes": 116440244,
+        "sha256": "fa247ae7dbbf0b5a66538e8993d9fdd70624ce1c81ae54ae4d6f3d62b2368889"
+      },
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json": {
+        "bytes": 464000,
+        "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+      },
+      "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json": {
+        "bytes": 49108497,
+        "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+      },
+      "/mnt/e/sepalith/campaign-20260915/data-work/DAT-03-row-audit.jsonl": {
+        "bytes": 772685806,
+        "sha256": "9878a70d5d822f1192ccfc2956346738d668dc38175871556d1af1e16dbccadd"
+      },
+      "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-expanded-15008-v1/candidate-context-provenance.jsonl": {
+        "bytes": 34400244,
+        "sha256": "e499c07d6da2ef325f7d9f3156b6c2e70361d3b1bc140198b6c3563b4471e7a0"
+      },
+      "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-expanded-15008-v1/candidate-token-rows.jsonl": {
+        "bytes": 17874964,
+        "sha256": "7887686e022e520e746c04c6197a9a3c2484fba2668d09a650d0627ff267187b"
+      },
+      "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-expanded-15008-v1/manifest.json": {
+        "bytes": 6365,
+        "sha256": "5334757c07d705289e6616d1f79890d008b7837914f7ca61a257aa9efdbc02c9"
+      }
+    },
+    "shard_audit_files": [
+      {
+        "bytes": 9221031,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/audit-rows.jsonl",
+        "rows": 5000,
+        "sha256": "2cc001a0705e14093f72a83f5fbbdf1c216d4f227c7b6b582ab98220ee2dc6ac"
+      },
+      {
+        "bytes": 9222576,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/audit-rows.jsonl",
+        "rows": 5000,
+        "sha256": "7f652c8d844eaa46bf6f30bb51595adde75dc1e9070e24e9644edf027bbc4d04"
+      },
+      {
+        "bytes": 9222401,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/audit-rows.jsonl",
+        "rows": 5000,
+        "sha256": "d4d5cc49a259e6212790bd1dee67b46b2a6680bd99ef7012d452655e007bba75"
+      },
+      {
+        "bytes": 9222136,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/audit-rows.jsonl",
+        "rows": 5000,
+        "sha256": "3550cd9b1cba8e2ce039abf48654d2f14e81d92629b1aa347a258852ad51c88b"
+      },
+      {
+        "bytes": 9221394,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/audit-rows.jsonl",
+        "rows": 5000,
+        "sha256": "99b38a04ec991e9b1b1d86ff46d33c2f9fbfd4c5aecafc26e1b10870786c4583"
+      }
+    ],
+    "source_walk_shards": [
+      {
+        "candidate_packets": {
+          "bytes": 13946239,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/structured-materialization-v1/candidate-packets.jsonl",
+          "rows": 1685,
+          "sha256": "9ec885cfbc18f9b5c365fc2f9434f9f676412058ddbda64537ff05babc3ead56"
+        },
+        "input_family_counts": {
+          "no_op": 148,
+          "roxygen_drafting": 4852
+        },
+        "input_manifest": {
+          "bytes": 2181,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/manifest.json",
+          "sha256": "560d3537a9f483acf52cf8b0351aa7ee3308d09145cfd726f57a2be355b76769"
+        },
+        "input_rows": 5000,
+        "material_manifest": {
+          "bytes": 2138,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/structured-materialization-v1/manifest.json",
+          "sha256": "3f52be27d9e06fd8b09c31a6be9898aa4883655153767af923db41639dcf2abc"
+        },
+        "shard": 0,
+        "token_manifest": {
+          "bytes": 2375,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/structured-materialization-v1/token-audit-manifest.json",
+          "sha256": "5b88ab22350472a243f4b5b70ca3abe9a032dc2d56ff8994b31093848327fee5"
+        },
+        "token_rows": {
+          "bytes": 26752240,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+          "rows": 1685,
+          "sha256": "90a08460ca7001ea05bbf1755f3baca2c9ed17b35c1bd3dda1d62e28d4fcd9e9"
+        }
+      },
+      {
+        "candidate_packets": {
+          "bytes": 17036408,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/structured-materialization-v1/candidate-packets.jsonl",
+          "rows": 2111,
+          "sha256": "7b3496931e597b3b1f41fff0044a62830cfee9867b3a1c33ae3c1ddb184eea23"
+        },
+        "input_family_counts": {
+          "no_op": 119,
+          "roxygen_drafting": 4881
+        },
+        "input_manifest": {
+          "bytes": 2181,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/manifest.json",
+          "sha256": "3ce08edd5f4c38f34fafae770c2cac993b5a2631d905f20c43385ff7dcfde5ea"
+        },
+        "input_rows": 5000,
+        "material_manifest": {
+          "bytes": 2138,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/structured-materialization-v1/manifest.json",
+          "sha256": "bab64f82d062408118efe159b1f41e892cd6b3f37b1a3e393e3192b4e1af9ca6"
+        },
+        "shard": 1,
+        "token_manifest": {
+          "bytes": 2689,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/structured-materialization-v1/token-audit-manifest.json",
+          "sha256": "50b4ad124b73e260a9444a35401aad540a21139891d489762e6b040dadec45e7"
+        },
+        "token_rows": {
+          "bytes": 32516217,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+          "rows": 2111,
+          "sha256": "9c6ad8ad0cb9b1a71ad41898ceab84da444a16d9ff8c2ddbf273f0f2135985e2"
+        }
+      },
+      {
+        "candidate_packets": {
+          "bytes": 17046801,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/structured-materialization-v1/candidate-packets.jsonl",
+          "rows": 2089,
+          "sha256": "49da98a2f55f3381b7a577226c4dae5a894ef99ecc2983e5c81958cd0646ecb2"
+        },
+        "input_family_counts": {
+          "no_op": 109,
+          "roxygen_drafting": 4891
+        },
+        "input_manifest": {
+          "bytes": 2181,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/manifest.json",
+          "sha256": "e27a71f9f416e60494dcd9e04433bd46f69436175cc3c7576db8aef6639cd35d"
+        },
+        "input_rows": 5000,
+        "material_manifest": {
+          "bytes": 2138,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/structured-materialization-v1/manifest.json",
+          "sha256": "81a7907bbe65ada9d26635de79e291bdf06c0e35fb5de8c9ae62b98872f2c1cd"
+        },
+        "shard": 2,
+        "token_manifest": {
+          "bytes": 2689,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/structured-materialization-v1/token-audit-manifest.json",
+          "sha256": "6aabfc3a2b247f398845961d4e56f89af4190b7057c09284b776ec15c634c763"
+        },
+        "token_rows": {
+          "bytes": 32628647,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+          "rows": 2089,
+          "sha256": "20fe541319ff75d7ea374776339515a337da68da332a0847206c15c022c8a695"
+        }
+      },
+      {
+        "candidate_packets": {
+          "bytes": 17167812,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/candidate-packets.jsonl",
+          "rows": 2118,
+          "sha256": "c96938d20aa4b5cf6d5d259eb59537d9dfcc3cc507d142c4408aec17df31f03e"
+        },
+        "input_family_counts": {
+          "no_op": 119,
+          "roxygen_drafting": 4881
+        },
+        "input_manifest": {
+          "bytes": 2181,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/manifest.json",
+          "sha256": "45ef5afe840f2a1d949b399ce05a24e62fa9d6770a21fe342dd623355e15a199"
+        },
+        "input_rows": 5000,
+        "material_manifest": {
+          "bytes": 2138,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/manifest.json",
+          "sha256": "208a3d530dedf7a3c50bb8ff865c9006dcdc7f472cf1399aa8f8ac03a46531a8"
+        },
+        "shard": 3,
+        "token_manifest": {
+          "bytes": 2689,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/token-audit-manifest.json",
+          "sha256": "f42124b3ec1f5029ea6a59b83063ea63fb1c54716a8eb20b1c912fbe57798964"
+        },
+        "token_rows": {
+          "bytes": 32689312,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+          "rows": 2118,
+          "sha256": "265c45b272dd61066272df73d7684b6f36af1f75d3a4d5ee32d1b802b7645426"
+        }
+      },
+      {
+        "candidate_packets": {
+          "bytes": 16980681,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/candidate-packets.jsonl",
+          "rows": 2068,
+          "sha256": "82475200aeacde0c952e7efbd2909b72e88cee5d6231f27c466bb0ace307bcd2"
+        },
+        "input_family_counts": {
+          "no_op": 132,
+          "roxygen_drafting": 4868
+        },
+        "input_manifest": {
+          "bytes": 2181,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/manifest.json",
+          "sha256": "4074a8dbefad28f8358c87de2a6ecc3d6b9eca1b03200e19fc87fe15fc8229aa"
+        },
+        "input_rows": 5000,
+        "material_manifest": {
+          "bytes": 2138,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/manifest.json",
+          "sha256": "b82994035a107b9058c8127bac0f06c4ae6aefa403d403fd52b017409d924633"
+        },
+        "shard": 4,
+        "token_manifest": {
+          "bytes": 2689,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/token-audit-manifest.json",
+          "sha256": "5110749999511fa1d368b0e7e0aa1c31eeafee49f1ac110efc62b3cbc2380f40"
+        },
+        "token_rows": {
+          "bytes": 32504715,
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+          "rows": 2068,
+          "sha256": "6910b42ad8a8252f80680e4a5d8ca837fc50a75d02620541b27b2fbe1ba145ff"
+        }
+      }
+    ]
+  },
+  "owner": "/root/data_expansion",
+  "policy": {
+    "candidate_only": true,
+    "cpu_threads": 2,
+    "dev_or_final_content_opened": false,
+    "heldout_payload_opened": false,
+    "ionice": "idle",
+    "license_content_use": "hash verification of direct DESCRIPTION evidence only",
+    "long_targets": "retained; measured; queued for longer-context review; never truncated",
+    "model_or_gpu_started": false,
+    "nice": 10,
+    "permanent_exclusions": "exact prompt/prompt-target/source identity duplicates only",
+    "r_executed": false,
+    "recoverable_license_or_context": "named reason/flag; no blanket permanent exclusion",
+    "source_content_use": "raw TRAIN source-line/file hash replay only; no source content written",
+    "train_content_only": true
+  },
+  "results": {
+    "decisions": {
+      "candidate_pending_root_admission": 10018,
+      "exclude_duplicate": 20,
+      "repair_required": 33
+    },
+    "length_buckets": {
+      "response_193_512": 2099,
+      "response_513_1024": 211,
+      "response_gt_1024": 17,
+      "response_le_192": 7744,
+      "sequence_2049_4096": 15,
+      "sequence_le_2048": 10056
+    },
+    "license_evidence": {
+      "candidate_rows": 10071,
+      "direct_evidence_rows": 10071,
+      "file_status": {
+        "pass": 2867
+      },
+      "unique_files": 2867
+    },
+    "long_context_rows": 17,
+    "reasons": {
+      "comparison_pool_prompt_duplicate": 1,
+      "comparison_pool_prompt_target_duplicate": 1,
+      "target_text_in_prompt": 31,
+      "within_candidate_prompt_conflicting_target": 2,
+      "within_candidate_prompt_target_duplicate": 19
+    },
+    "review_flags": {
+      "context_history_not_replayed_review_only": 10071,
+      "context_snapshot_simulated_review_only": 10071,
+      "context_support_status_structural_conversion_pending_source_validator": 10071,
+      "cpt_train": 10071,
+      "global_flags_present_review_only": 9916,
+      "long_target_gt_1024_review_only": 17,
+      "metadata_license_missing_recovered_by_packet_evidence": 10071,
+      "within_candidate_exact_prompt_group_first_retained": 6
+    }
+  },
+  "schema": "DAT-10-source-walk-independent-review-v1",
+  "scope": {
+    "candidate_family_scope": {
+      "roxygen_drafting": 10071
+    },
+    "candidate_outputs_disjoint_from_comparison_pool": true,
+    "comparison_pool": {
+      "accepted_rows": 11505,
+      "combined_rows": 15008,
+      "root_verified_increment_rows": 3503
+    },
+    "frozen_candidate_rows": 10071,
+    "frozen_shards": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "source_walk_input_family_rows": {
+      "no_op": 627,
+      "roxygen_drafting": 24373
+    },
+    "source_walk_input_rows": 25000
+  },
+  "status": "independent_review_complete_root_admission_pending"
+}
