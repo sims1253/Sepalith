@@ -1,0 +1,79 @@
+{
+  "admission": "none; root quality/source/license/duplicate review required",
+  "artifacts": {
+    "documentation_support_queue": {
+      "bytes": 1154635,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/support-review-documentation-579-or-more.jsonl",
+      "sha256": "63099aea79bde97d4db50e7494e275be06025e0230b39cc6f2b0d4465e68cc69"
+    },
+    "gate_ledger_v3": {
+      "bytes": 6540111,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/candidate-gate-ledger-v3.jsonl",
+      "sha256": "dd03d8cbb6499d540dca65720309b7ee32571bcc5cbcce90cbb645a545975574"
+    },
+    "gate_manifest_v3": {
+      "bytes": 1541,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/candidate-gate-manifest-v3.json",
+      "sha256": "29843a3421ba6c0de66580393d62eaa82b27f61a286fd63c7a21b9293a86b1fd"
+    },
+    "gate_summary_v3": {
+      "bytes": 3520,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/candidate-gate-summary-v3.json",
+      "sha256": "cfb83c96167e6b2cd140692d9fee92e9d877d18928d3d11a5fd6e4903e2ec8f3"
+    },
+    "inventory": {
+      "bytes": 636736542,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/all-metadata-inventory-v1.jsonl",
+      "sha256": "e17e501b6742374ffd5d441cbd0fe644f4b7e1e61aeafe45b515281a201b5e72"
+    },
+    "mechanical_v3": {
+      "bytes": 79897778,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/mechanical-global-train-token-rows-v3.jsonl",
+      "sha256": "8f90250e64f6a87252896ed06ffaf2f4a5cd4f98bf2d0466f65586c80113f5a7"
+    },
+    "noop_support_queue": {
+      "bytes": 853253,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/support-review-noop-450-or-more.jsonl",
+      "sha256": "51926f95ee5bc49c8e60cbcc9589f722c089dc776a8343706bbae0b1c1e583a5"
+    },
+    "repair_manifest": {
+      "bytes": 1576,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/completion-mixed-eol-repair-v1/repair-manifest.json",
+      "sha256": "9cba0a113f1482f97e6d32919fe3e4e71ca0a67df4cf0da1ea265ed261f9a982"
+    },
+    "repair_token_report": {
+      "bytes": 19118,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/completion-mixed-eol-repair-v1/token-audit/report.json",
+      "sha256": "c6182d66f9c9a1706ee18741d0b99f785667552eef5b754f4d09793baba6ebfc"
+    },
+    "review_packet_v3": {
+      "bytes": 82340094,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/root-review-packet-v3-all-global-train.jsonl",
+      "sha256": "26e5e101a7995a32e3aec1e5d5cf545b1fb270c637d6ec49876c70bd43cf72fd"
+    },
+    "source_walk_plan": {
+      "bytes": 19259,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-plan-v1.json",
+      "sha256": "8fdeb8549abda0b06e8c45ffe4a70f047ba929a645ce71960c6780418a14404e"
+    },
+    "source_walk_shards": {
+      "bytes": 8927,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-shards-v1.jsonl",
+      "sha256": "bc4b673e2c3f761457ff08037586993c1f7adff023e411f19bcade7dff8dc039"
+    }
+  },
+  "counts": {
+    "documentation_support_rows": 579,
+    "full_metadata_rows": 376830,
+    "mechanical_v3_rows": 4931,
+    "noop_support_rows": 450,
+    "repair_rows_converted": 976,
+    "review_packet_v3_rows": 5109,
+    "unattempted_supported_global_train_rows": 200753
+  },
+  "created_at": "2026-09-14T08:10:16.334659+00:00",
+  "heldout_content_included": false,
+  "policy": "all_global_train_retained;_cpt_validation_reserved;missing_cpt_global_train_retained",
+  "schema": "DAT-10-root-review-increment-v3",
+  "status": "review_only_unadmitted"
+}

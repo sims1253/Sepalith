@@ -1,0 +1,9 @@
+{
+  "input_sha256": "9878a70d5d822f1192ccfc2956346738d668dc38175871556d1af1e16dbccadd",
+  "inventory_sha256": "e17e501b6742374ffd5d441cbd0fe644f4b7e1e61aeafe45b515281a201b5e72",
+  "milestone_policy": "complete scan; no rows dropped by timebox",
+  "plan": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-plan-v1.json",
+  "rows_scanned": 376830,
+  "status": "complete",
+  "updated_at": "2026-09-14T08:09:07.733078+00:00"
+}

@@ -1,0 +1,60 @@
+{
+  "artifacts": {
+    "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-novel-materialization.json",
+    "receipt_sha256": "14cc3ad494ec980c8e8987d17e26e03f579cd94d2de6779e36950b9374c6201f",
+    "root_review_v4": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/expansion-increment-na-rm-v1/root-review-packet-v4-na-rm.jsonl",
+    "source_walk_plan": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-plan-v1.json"
+  },
+  "at": "2026-09-14T08:22:11.960317+00:00",
+  "complete_metadata_rows": 376830,
+  "constraints": {
+    "active_schedule_modified": false,
+    "cuda_started": false,
+    "dev_or_final_content_opened": false,
+    "heldout_content_included": false,
+    "ssh_or_cloud_used": false
+  },
+  "global_train_supported_rows": 249474,
+  "historical_roster_rows": 6690,
+  "initial_global_train_review_rows": 5109,
+  "mechanical_review_rows": 4931,
+  "mixed_eol_repaired_rows": 976,
+  "next": "Root reviews and admits candidate increments; execute source-walk shards from all-data inventory without dropping remaining rows.",
+  "outside_roster_na_rm_cpt_validation_heldout": 1,
+  "outside_roster_na_rm_global_train_rows": 136,
+  "outside_roster_na_rm_source_excluded": 2,
+  "owner": "/root/data_expansion",
+  "receipt_sha256": "eb44db4b8dc3e3a67ce5d2b98f9d7b9142c058462116b60232b323ac145f15f9",
+  "schema": "DAT-10-novel-materialization-status-v2",
+  "source_attempt_status": {
+    "existing_parent": 11094,
+    "heldout_metadata_only": 20422,
+    "metadata_gate_not_source_attempted": 69485,
+    "source_checked": 1163,
+    "unattempted": 68804,
+    "unattempted_source_walk": 200753,
+    "verified_source_materialized": 5109
+  },
+  "source_categories": {
+    "existing_parent_materialized": 11094,
+    "genuine_metadata_exclusion_pending_review": 69485,
+    "heldout_global_or_cpt_validation": 20422,
+    "source_checked_excluded_or_repair_queue": 1163,
+    "unattempted_supported_global_train": 200753,
+    "unsupported_or_unrouted_metadata": 68804,
+    "verified_eligible_materialized_candidate": 5109
+  },
+  "status": "all_metadata_inventory_and_incremental_materialization_complete_root_admission_pending",
+  "support_queues": {
+    "documentation_external_facts": 579,
+    "no_op": 450
+  },
+  "training_admitted_rows": 0,
+  "unattempted_source_walk_rows": 200753,
+  "validation": {
+    "bytes": 1558,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/dat10-validation-result.json",
+    "sha256": "8705d93a9fca949a3dac96d676b9edea589b77727c64619626030dd59ac3195e",
+    "status": "pass"
+  }
+}

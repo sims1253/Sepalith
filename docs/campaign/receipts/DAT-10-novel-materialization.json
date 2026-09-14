@@ -1,0 +1,214 @@
+{
+  "admission": {
+    "admission_owner": "/root",
+    "reason": "All outputs are review-only candidate materializations. Root quality, license, provenance, duplicate, source and split admission gates remain mandatory.",
+    "training_admitted_rows": 0
+  },
+  "at": "2026-09-14T08:22:11.960317+00:00",
+  "constraints": {
+    "active_schedule_modified": false,
+    "cuda_started": false,
+    "dev_or_final_content_opened": false,
+    "heldout_content_included": false,
+    "ssh_or_cloud_used": false
+  },
+  "initial_review_increment": {
+    "candidate_total_after_repair": 5466,
+    "cpt_partition_missing_rows_retained": 112,
+    "cpt_validation_rows_excluded": 357,
+    "gate_ledger": {
+      "bytes": 6540111,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/candidate-gate-ledger-v3.jsonl",
+      "rows": 5466,
+      "sha256": "dd03d8cbb6499d540dca65720309b7ee32571bcc5cbcce90cbb645a545975574"
+    },
+    "gate_summary": {
+      "bytes": 3520,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/candidate-gate-summary-v3.json",
+      "sha256": "cfb83c96167e6b2cd140692d9fee92e9d877d18928d3d11a5fd6e4903e2ec8f3"
+    },
+    "global_train_review_rows": 5109,
+    "mechanical_packet": {
+      "bytes": 79897778,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-v3/mechanical-global-train-token-rows-v3.jsonl",
+      "rows": 4931,
+      "sha256": "8f90250e64f6a87252896ed06ffaf2f4a5cd4f98bf2d0466f65586c80113f5a7"
+    },
+    "mechanical_review_rows": 4931,
+    "review_packet": {
+      "bytes": 82340094,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/root-review-packet-v3-all-global-train.jsonl",
+      "rows": 5109,
+      "sha256": "26e5e101a7995a32e3aec1e5d5cf545b1fb270c637d6ec49876c70bd43cf72fd"
+    }
+  },
+  "mixed_eol_repair": {
+    "converted_rows": 976,
+    "excluded_rows": 0,
+    "geometry_preserved": true,
+    "queue_rows": 976,
+    "repair_manifest": {
+      "bytes": 1576,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/completion-mixed-eol-repair-v1/repair-manifest.json",
+      "sha256": "9cba0a113f1482f97e6d32919fe3e4e71ca0a67df4cf0da1ea265ed261f9a982"
+    },
+    "repair_policy": "normalize_crlf_to_lf_in_source_derived_pre_edit_window",
+    "repair_token_report": {
+      "bytes": 19118,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/completion-mixed-eol-repair-v1/token-audit/report.json",
+      "sha256": "c6182d66f9c9a1706ee18741d0b99f785667552eef5b754f4d09793baba6ebfc"
+    }
+  },
+  "next": "Root reviews and admits candidate increments; execute source-walk shards from all-data inventory without dropping remaining rows.",
+  "outside_roster_increment": {
+    "cpt_validation_heldout_rows": 1,
+    "family": "na_rm_propagation",
+    "family_metadata_total": 139,
+    "global_train_token_rows": 136,
+    "increment_manifest": {
+      "bytes": 2658,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/expansion-increment-na-rm-v1/increment-manifest.json",
+      "sha256": "08a5a2464882ddb75fd086b1985e0465b02a310de2faa20700e1e8b12580de24"
+    },
+    "increment_summary": {
+      "bytes": 2643,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/expansion-increment-na-rm-v1/increment-summary.json",
+      "sha256": "ae66980579d996acbb42616415dae7c9dc739f82a1ca6d429926ff825209c21d"
+    },
+    "review_packet": {
+      "bytes": 87181665,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/expansion-increment-na-rm-v1/root-review-packet-v4-na-rm.jsonl",
+      "rows": 5245,
+      "sha256": "f4ee5e76a4c47f83c99137b64e4e2c95fd1e19a0c619d79cdc583f2918ba633a"
+    },
+    "source_converted_total": 137,
+    "source_excluded_rows": 2,
+    "source_exclusion_reasons": {
+      "adapter:ambiguous_source_geometry": 2
+    }
+  },
+  "owner": "/root/data_expansion",
+  "policy": {
+    "all_eligible_data_inventory": true,
+    "complete_targets_preserved": true,
+    "cpt_partition_missing_global_train": "retained_pending_global_train",
+    "cpt_validation_reserved": true,
+    "dev_final_content_opened": false,
+    "document": "docs/campaign/TRAINING-DATA-POLICY.md",
+    "family_row_time_quotas": false,
+    "target_truncation": false,
+    "timeboxes_are_progress_milestones": true,
+    "train_content_only": true
+  },
+  "reproducible_scripts": {
+    "build_repaired_gate_v3.py": {
+      "bytes": 13205,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/build_repaired_gate_v3.py",
+      "sha256": "0b0bf14e46decc919d738daa44c1d0cdbb3688b0d9e1d2db6f585372a6870130"
+    },
+    "inventory_all_metadata.py": {
+      "bytes": 21801,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/inventory_all_metadata.py",
+      "sha256": "7f85cb5c33646dbd817b0e8a700205c0e9f8dc6124399ae4429fff95030e9f90"
+    },
+    "materialize_increment_na_rm.py": {
+      "bytes": 11032,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/materialize_increment_na_rm.py",
+      "sha256": "58cf2f297b41af1f202a9772d3d7fcb4b37ef99137365f5c4fa29bb4e7d31985"
+    },
+    "prepare_source_walk_shard.py": {
+      "bytes": 6480,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/prepare_source_walk_shard.py",
+      "sha256": "5fc8b5f168c579baf201e83e35b4ffa772e3ea657b597a8c8d5a7b0a35227d1b"
+    },
+    "repair_mixed_eol.py": {
+      "bytes": 14792,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/repair_mixed_eol.py",
+      "sha256": "a7dda2cddfb95414c277f52e234cedec17f5433d7696c4b0ac6c018d63a22e29"
+    },
+    "validate_dat10_artifacts.py": {
+      "bytes": 6825,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/validate_dat10_artifacts.py",
+      "sha256": "e60adb1c0bd91ce13b3aeaf9f1895c1fe047c8b3b7d6d10593d5ea27646be501"
+    }
+  },
+  "schema": "DAT-10-novel-materialization-v2",
+  "scope": {
+    "all_metadata_inventory": {
+      "bytes": 636736542,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/all-metadata-inventory-v1.jsonl",
+      "rows": 376830,
+      "sha256": "e17e501b6742374ffd5d441cbd0fe644f4b7e1e61aeafe45b515281a201b5e72"
+    },
+    "complete_metadata_rows": 376830,
+    "cpt_partition_counts": {
+      "cpt_partition_missing": 36232,
+      "cpt_train": 323022,
+      "cpt_validation": 17576
+    },
+    "global_split_counts": {
+      "dev_group": 2846,
+      "train_group": 373984
+    },
+    "global_train_supported_rows": 249474,
+    "historical_roster_rows": 6690,
+    "historical_roster_status": "metadata selection context, not admission",
+    "materialization_rows_after_cpt_and_metadata_gates": 204609,
+    "source_attempt_status_counts": {
+      "existing_parent": 11094,
+      "heldout_metadata_only": 20422,
+      "metadata_gate_not_source_attempted": 69485,
+      "source_checked": 1163,
+      "unattempted": 68804,
+      "unattempted_source_walk": 200753,
+      "verified_source_materialized": 5109
+    },
+    "source_category_counts": {
+      "existing_parent_materialized": 11094,
+      "genuine_metadata_exclusion_pending_review": 69485,
+      "heldout_global_or_cpt_validation": 20422,
+      "source_checked_excluded_or_repair_queue": 1163,
+      "unattempted_supported_global_train": 200753,
+      "unsupported_or_unrouted_metadata": 68804,
+      "verified_eligible_materialized_candidate": 5109
+    },
+    "source_walk_plan": {
+      "bytes": 19259,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-plan-v1.json",
+      "sha256": "8fdeb8549abda0b06e8c45ffe4a70f047ba929a645ce71960c6780418a14404e"
+    },
+    "source_walk_shards": {
+      "bytes": 8927,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-shards-v1.jsonl",
+      "sha256": "bc4b673e2c3f761457ff08037586993c1f7adff023e411f19bcade7dff8dc039"
+    },
+    "unattempted_supported_global_train_rows": 200753
+  },
+  "source_walk_shard_0": {
+    "bytes": 2181,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/manifest.json",
+    "sha256": "560d3537a9f483acf52cf8b0351aa7ee3308d09145cfd726f57a2be355b76769"
+  },
+  "status": "all_metadata_inventory_and_incremental_materialization_complete_root_admission_pending",
+  "support_review_queues": {
+    "documentation_external_facts": {
+      "bytes": 1154635,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/support-review-documentation-579-or-more.jsonl",
+      "rows": 579,
+      "sha256": "63099aea79bde97d4db50e7494e275be06025e0230b39cc6f2b0d4465e68cc69"
+    },
+    "no_op": {
+      "bytes": 853253,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/support-review-noop-450-or-more.jsonl",
+      "rows": 450,
+      "sha256": "51926f95ee5bc49c8e60cbcc9589f722c089dc776a8343706bbae0b1c1e583a5"
+    }
+  },
+  "task": "DAT-10",
+  "validation": {
+    "bytes": 1558,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/dat10-validation-result.json",
+    "sha256": "8705d93a9fca949a3dac96d676b9edea589b77727c64619626030dd59ac3195e",
+    "status": "pass"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "metadata_rows": 376830,
+    "mixed_eol_repaired": 976,
+    "na_rm_cpt_validation_heldout": 1,
+    "na_rm_global_train": 136,
+    "source_categories": {
+      "existing_parent_materialized": 11094,
+      "genuine_metadata_exclusion_pending_review": 69485,
+      "heldout_global_or_cpt_validation": 20422,
+      "source_checked_excluded_or_repair_queue": 1163,
+      "unattempted_supported_global_train": 200753,
+      "unsupported_or_unrouted_metadata": 68804,
+      "verified_eligible_materialized_candidate": 5109
+    },
+    "support_documentation": 579,
+    "support_noop": 450,
+    "v3_review_rows": 5109,
+    "v4_review_rows": 5245
+  },
+  "hashes": {
+    "inventory": "e17e501b6742374ffd5d441cbd0fe644f4b7e1e61aeafe45b515281a201b5e72",
+    "shard0": "560d3537a9f483acf52cf8b0351aa7ee3308d09145cfd726f57a2be355b76769",
+    "v3_gate": "cfb83c96167e6b2cd140692d9fee92e9d877d18928d3d11a5fd6e4903e2ec8f3",
+    "v4_review": "f4ee5e76a4c47f83c99137b64e4e2c95fd1e19a0c619d79cdc583f2918ba633a"
+  },
+  "policy": {
+    "cuda_used": false,
+    "family_row_time_quotas": false,
+    "heldout_content_included": false,
+    "target_truncation": false
+  },
+  "schema": "DAT-10-materialization-validation-v1",
+  "script": {
+    "bytes": 6825,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/validate_dat10_artifacts.py",
+    "sha256": "e60adb1c0bd91ce13b3aeaf9f1895c1fe047c8b3b7d6d10593d5ea27646be501"
+  },
+  "status": "pass",
+  "validated_at": "2026-09-14T08:22:09.523468+00:00"
+}
