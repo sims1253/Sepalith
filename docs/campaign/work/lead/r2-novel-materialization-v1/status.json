@@ -5,7 +5,7 @@
     "root_review_v4": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/expansion-increment-na-rm-v1/root-review-packet-v4-na-rm.jsonl",
     "source_walk_plan": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-plan-v1.json"
   },
-  "at": "2026-09-14T09:11:09.964482+00:00",
+  "at": "2026-09-14T09:20:06.760634+00:00",
   "complete_metadata_rows": 376830,
   "constraints": {
     "active_schedule_modified": false,
@@ -19,7 +19,7 @@
   "initial_global_train_review_rows": 5109,
   "mechanical_review_rows": 4931,
   "mixed_eol_repaired_rows": 976,
-  "next": "Continue source-walk shards 0003-0040; source-walk candidates remain review-only and the 136 na_rm increment is duplicate of the reviewed 11505 parent.",
+  "next": "Continue source-walk shards 0004-0040; source-walk candidates remain review-only and the 136 na_rm increment is duplicate of the reviewed 11505 parent.",
   "outside_roster_na_rm_cpt_validation_heldout": 1,
   "outside_roster_na_rm_duplicate_against_expanded_parent_rows": 136,
   "outside_roster_na_rm_duplicate_audit": {
@@ -32,8 +32,8 @@
   "outside_roster_na_rm_source_excluded": 2,
   "owner": "/root/data_expansion",
   "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-novel-materialization.json",
-  "receipt_sha256": "9eccb0e47fa5cdd023d091b866b987ee709cf82cd243a073e8c76f47270c8c16",
-  "schema": "DAT-10-novel-materialization-status-v4",
+  "receipt_sha256": "0229a87f3f983a6c81b4cd0768ab4ec4aac9ebdc199d8ce2a55f3c9047569669",
+  "schema": "DAT-10-novel-materialization-status-v5",
   "source_attempt_status": {
     "existing_parent": 11094,
     "heldout_metadata_only": 20422,
@@ -58,18 +58,19 @@
       "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/structured-materialization-v1/progress.json",
       "sha256": "8c3279723ca7f465a536bed01ad175e1f40648f165fce98bdc449ad8a6403d9b"
     },
-    "active_shard": 3,
-    "completed_input_rows": 15000,
+    "active_shard": 4,
+    "completed_input_rows": 20000,
     "completed_shards": [
       0,
       1,
-      2
+      2,
+      3
     ],
     "family_counts": {
       "no_op": 8612,
       "roxygen_drafting": 192141
     },
-    "frozen_review_candidate_rows": 5885,
+    "frozen_review_candidate_rows": 8003,
     "policy": "no family/row/time omission; explicit exclusions and support queues; full targets; long context measured and queued; train content only",
     "preparation_manifest": {
       "bytes": 97770,
@@ -83,8 +84,8 @@
     },
     "prepared_rows": 200753,
     "prepared_shards": 40,
-    "remaining_prepared_rows": 185753,
-    "remaining_shards": 38,
+    "remaining_prepared_rows": 180753,
+    "remaining_shards": 37,
     "shard_0000_token_manifest": {
       "bytes": 2375,
       "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/structured-materialization-v1/token-audit-manifest.json",
@@ -135,12 +136,34 @@
       "rows": 2089,
       "sha256": "20fe541319ff75d7ea374776339515a337da68da332a0847206c15c022c8a695"
     },
+    "shard_0003_material_manifest": {
+      "bytes": 2138,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/manifest.json",
+      "sha256": "208a3d530dedf7a3c50bb8ff865c9006dcdc7f472cf1399aa8f8ac03a46531a8"
+    },
+    "shard_0003_review_packet": {
+      "bytes": 32689312,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/root-review-packet-v6-shard0003.jsonl",
+      "rows": 2118,
+      "sha256": "a96da113d4d7c7cf5cac4718ed4bbdd746d60be64c19b2d8ac62d8514f0e2444"
+    },
+    "shard_0003_token_manifest": {
+      "bytes": 2689,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/token-audit-manifest.json",
+      "sha256": "f42124b3ec1f5029ea6a59b83063ea63fb1c54716a8eb20b1c912fbe57798964"
+    },
+    "shard_0003_token_rows": {
+      "bytes": 32689312,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/structured-materialization-v1/token-audit/candidate-token-rows.jsonl",
+      "rows": 2118,
+      "sha256": "265c45b272dd61066272df73d7684b6f36af1f75d3a4d5ee32d1b802b7645426"
+    },
     "shards": "0000-0040",
     "source_walk_progress": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/source-walk-progress-v1.json",
-    "status": "shards_0000_to_0002_frozen_shards_0003_to_0040_running",
+    "status": "shards_0000_to_0003_frozen_shards_0004_to_0040_running",
     "total_prepared_rows": 200753
   },
-  "status": "source_walk_shards_0000_to_0002_frozen_running_root_admission_pending",
+  "status": "source_walk_shards_0000_to_0003_frozen_running_root_admission_pending",
   "support_queues": {
     "documentation_external_facts": 579,
     "no_op": 450
