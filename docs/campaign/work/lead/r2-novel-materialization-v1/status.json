@@ -5,7 +5,7 @@
     "root_review_v4": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/expansion-increment-na-rm-v1/root-review-packet-v4-na-rm.jsonl",
     "source_walk_plan": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-plan-v1.json"
   },
-  "at": "2026-09-14T09:20:06.760634+00:00",
+  "at": "2026-09-14T09:23:17.101127+00:00",
   "complete_metadata_rows": 376830,
   "constraints": {
     "active_schedule_modified": false,
@@ -32,7 +32,7 @@
   "outside_roster_na_rm_source_excluded": 2,
   "owner": "/root/data_expansion",
   "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-novel-materialization.json",
-  "receipt_sha256": "0229a87f3f983a6c81b4cd0768ab4ec4aac9ebdc199d8ce2a55f3c9047569669",
+  "receipt_sha256": "0660b0eaf15f8ebeb9dd506fc05d57ca6a883c9eba55a3ab2468ff8cfac5f1fd",
   "schema": "DAT-10-novel-materialization-status-v5",
   "source_attempt_status": {
     "existing_parent": 11094,
@@ -71,6 +71,11 @@
       "roxygen_drafting": 192141
     },
     "frozen_review_candidate_rows": 8003,
+    "input_validation": {
+      "bytes": 11626,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/source-walk-input-validation-v1.json",
+      "sha256": "4da6b0b6b09900f562530bf5caf5cf62725ee03155b7ca98998814f624c52c58"
+    },
     "policy": "no family/row/time omission; explicit exclusions and support queues; full targets; long context measured and queued; train content only",
     "preparation_manifest": {
       "bytes": 97770,

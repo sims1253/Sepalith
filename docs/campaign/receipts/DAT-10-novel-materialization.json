@@ -4,7 +4,7 @@
     "reason": "All outputs are review-only candidate materializations. Root quality, license, provenance, duplicate, source and split admission gates remain mandatory.",
     "training_admitted_rows": 0
   },
-  "at": "2026-09-14T09:20:06.760634+00:00",
+  "at": "2026-09-14T09:23:17.101127+00:00",
   "constraints": {
     "active_schedule_modified": false,
     "cuda_started": false,
@@ -237,6 +237,11 @@
       "bytes": 97770,
       "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/all-shard-inputs-manifest-v1.json",
       "sha256": "ba109adace32c537c52ddf141f0041733bc999e309427a12b449e6c52d6cf85c"
+    },
+    "input_validation": {
+      "bytes": 11626,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-novel-materialization-v1/source-walk-input-validation-v1.json",
+      "sha256": "4da6b0b6b09900f562530bf5caf5cf62725ee03155b7ca98998814f624c52c58"
     },
     "policy": "all prepared rows attempted; no family/row/time quotas; no truncation; source/support exclusions explicit; long-context queue review-only",
     "preparation_progress": {

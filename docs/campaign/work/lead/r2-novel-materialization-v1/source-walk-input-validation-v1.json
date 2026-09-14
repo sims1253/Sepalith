@@ -1,0 +1,269 @@
+{
+  "created_at": "2026-09-14T09:23:05.542839+00:00",
+  "family_counts": {
+    "no_op": 8612,
+    "roxygen_drafting": 192141
+  },
+  "manifest_count": 41,
+  "manifests": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0000/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "560d3537a9f483acf52cf8b0351aa7ee3308d09145cfd726f57a2be355b76769",
+      "shard": 0
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0001/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "3ce08edd5f4c38f34fafae770c2cac993b5a2631d905f20c43385ff7dcfde5ea",
+      "shard": 1
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0002/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "e27a71f9f416e60494dcd9e04433bd46f69436175cc3c7576db8aef6639cd35d",
+      "shard": 2
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0003/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "45ef5afe840f2a1d949b399ce05a24e62fa9d6770a21fe342dd623355e15a199",
+      "shard": 3
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0004/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "4074a8dbefad28f8358c87de2a6ecc3d6b9eca1b03200e19fc87fe15fc8229aa",
+      "shard": 4
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0005/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "f1d4b6a4ced3c824c56685471ac10fdb0c4b1c1828f6ddfe5065513ebd61cf6b",
+      "shard": 5
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0006/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "5770c6662101aab0b4a07ca352e6f6f933a834ef0dc9eb18d51933add3c110b9",
+      "shard": 6
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0007/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "8e747089c840174863179503472c56bbc983f3f0d94739c767ef1943a5c035b8",
+      "shard": 7
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0008/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "8883c42b0af46e8c6bc934b75a85aa5098e866000e307e98f5b3c24af0290275",
+      "shard": 8
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0009/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "5fcaf7174fe8dd78bb3a5ffa0cfd1efe9623674a9ece5601c94b48dd9b5adf3d",
+      "shard": 9
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0010/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "58c4fb3effdbb622c649f649f9df53134026c884ac4a370e10da53ad2d13ae27",
+      "shard": 10
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0011/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "65ac6c6c3c59fa84eb37ded60776a119384f47d16c6a2da4f6059ba3a88bbd27",
+      "shard": 11
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0012/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "87cc632aa0a767afcc8f0cada4323066d4b0514f217b60bad84fb181a98c3579",
+      "shard": 12
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0013/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "fb24d2eea9d85e6c33830f379af2dee7065bca24b69b8cddc4b418481f0d3d99",
+      "shard": 13
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0014/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "b82e8235981d3e23cd59f3f086e726fcc9c5e6ca976443616dde4a5ddeaa31af",
+      "shard": 14
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0015/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "582ec52bfc2b2e22428c1cf65348ccf3aba56d11881d1aba8bbcb8a95435189e",
+      "shard": 15
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0016/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "92d9e50adf0f7d7ddcb3d6a3ce3402eb73124383a558c58fdf63e2f3222ead42",
+      "shard": 16
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0017/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "be6e9a2d836bd76a21f3c75ed5049386809a54633dc28e5fe5da6c1b65ec0f29",
+      "shard": 17
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0018/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "c959fa4c26c8272555b4562d0d5e336360bf5b2176e4eae4744d199526bb44c8",
+      "shard": 18
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0019/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "a3f39827c052935d3304e972db6c5c29d2583998f3693c51f6a77fb6bed35b53",
+      "shard": 19
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0020/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "d9a672a19a5f6cb9b49605cf456abcf4178b395f90df9a6cb75c11a811943705",
+      "shard": 20
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0021/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "8a99ad83819f2a6202990e6f47d25cd9cea0c7b717901afffe10556218661e58",
+      "shard": 21
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0022/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "7854befc3ddfcd552b2ae30b8ec95b56154992fbf4b0986c93bd4bed039a4035",
+      "shard": 22
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0023/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "f9b60357f1c1b579ddde17d833f74d3f52c773ab1a7e8ae21dd97795ab4cb656",
+      "shard": 23
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0024/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "ccf87f01529bc479621e0d7cfbdbf3cbd634a9d440e1d1350592c291be76f356",
+      "shard": 24
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0025/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "bfad78191a4da133e701e530ece10d57c8dd27d66504cf28ca713f12efdf49ce",
+      "shard": 25
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0026/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "fe41ff022fc6471e1d44bedc6ff3dae20b2c5a8441d364af505cfa78ddec129c",
+      "shard": 26
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0027/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "74f4922586b3e6703927a0157db1e76dc9bd713d7ac8f963ba7b90b02625a27d",
+      "shard": 27
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0028/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "009876c66ccf9a76e4f2efb26daa24fa55db33bf7aae6071fa5fed6c3aa4826b",
+      "shard": 28
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0029/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "0a709a9de951440ee1756ed254e5a7e8a39eeafed245efdf47ffef8fc562d6a5",
+      "shard": 29
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0030/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "1bc577479bda8195fb8621f0497ed14e39b64718b16bcc2c36264bd7635e174c",
+      "shard": 30
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0031/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "4170133cc5935d1cc27be4b89ddf9f4bbe46f614add40f611e9b57ebfc9507c5",
+      "shard": 31
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0032/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "cc4d8904703509d249cf8aa8fca9ab702467a74682fbed2a4d940cf10a6a9a76",
+      "shard": 32
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0033/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "6cf969c42e6a8f08c3b1ed24769e3e594a1288346efcfc25c100f68f9b581e96",
+      "shard": 33
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0034/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "391a6aef38a32e16b8f0ea88580d58dd25cf90f416cd2295444b5e49215e19f3",
+      "shard": 34
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0035/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "d3b56426461331b8c23d49bce2e42c4a70bb7fc2dc02a08fb9dacb61273beec6",
+      "shard": 35
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0036/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "d61b3d444ccc3e2ae15be19f7f85a608c536afb3e99e548459e735598549c8d9",
+      "shard": 36
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0037/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "25dbaa8092ddf613db6b5a5185d6d03bffeb0f1aee9eb0b4f966532d1af011a1",
+      "shard": 37
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0038/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "bba885ef30883a233ce8137cd3f7a57fa2be255aee97e1faab3a9b324c70cbbd",
+      "shard": 38
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0039/manifest.json",
+      "planned_rows": 5000,
+      "sha256": "6e61404dcdb424a366eef9d3145b146a816310d2e7f5164048769c438e512fda",
+      "shard": 39
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1/shard-0040/manifest.json",
+      "planned_rows": 753,
+      "sha256": "296a150f6c452bc30d59845850e6154a470a3deee17826d1d705fb303b9473f6",
+      "shard": 40
+    }
+  ],
+  "planned_rows": 200753,
+  "policy": "complete prepared source-walk denominator; no row/family/time omission; train-only; CPT validation/dev/final excluded",
+  "policy_errors": [],
+  "route_counts": {
+    "completion": 0,
+    "structured": 200753
+  },
+  "schema": "DAT-10-source-walk-input-validation-v1",
+  "shard_plan": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/all-data-inventory-v1/source-walk-shards-v1.jsonl",
+    "sha256": "bc4b673e2c3f761457ff08037586993c1f7adff023e411f19bcade7dff8dc039"
+  },
+  "status": "pass"
+}
