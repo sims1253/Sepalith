@@ -1,0 +1,7 @@
+# sm120 variable-length attention dispatch audit
+
+The checkpoint-322 canary shows that the current xFormers packed arm is 8.05% slower than the ordinary arm. Static dispatch plus the successful sm120 run identifies the current operator as xFormers FlashAttention-2 forward/backward; the run did not emit the operator names, so the proposed probe captures them directly before comparing another backend.
+
+The leading defect candidate is the installed Unsloth training-time GQA route. MiniCPM has 16 query heads and 2 KV heads. For xFormers with gradients, `run_attention` expands and reshapes both KV tensors to 16 heads because xFormers FlashAttention-2 backward does not accept BMGHK. This creates eight times the KV-head elements at every attention layer. The installed Torch 2.11 `torch.nn.attention.varlen.varlen_attn` interface passes three-dimensional Q/K/V and cumulative sequence boundaries to native `aten::_flash_attention_forward` and has a registered backward. The isolated candidate retains 16 query heads and 2 KV heads.
+
+The candidate is not admitted. Its actual sm120 GQA support, loss/gradient agreement, speed, and memory require the root-admitted probe. The probe uses three exact canary pack geometries, compares outputs and Q/K/V gradients, records selected xFormers operators, alternates seven synchronized forward/backward trials per backend (two warmups, five samples), and loads no model. A later full-model canary is justified only if this attention-only probe passes numerics and materially improves median time without greater peak memory.

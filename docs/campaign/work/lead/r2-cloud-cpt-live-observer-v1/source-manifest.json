@@ -1,0 +1,20 @@
+{
+  "schema": "sepalith.cloud-cpt.live-observer-source-manifest.v1",
+  "status": "prepared_cpu_only_frozen",
+  "job_id": "prodjob_neqwkumat4i3rii5yl8af241ks",
+  "run_id": "4f899bbc6e9d46c0a88985d64e6d40e2",
+  "files": [
+    {
+      "path": "live_observer.py",
+      "bytes": 8895,
+      "mode": "0o444",
+      "sha256": "2af3f5e13ea54c14707b6cc531a58e1b874011680c1a381bdafac08de409aef8"
+    },
+    {
+      "path": "test_live_observer.py",
+      "bytes": 2469,
+      "mode": "0o444",
+      "sha256": "8433de10ccd70ba94b866278836d651652b1cc512a70e84606d1760839738e8e"
+    }
+  ]
+}

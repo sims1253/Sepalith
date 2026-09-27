@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "candidate_only": true,
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v2/deadline_watchdog.py",
+      "bytes": 4261,
+      "sha256": "0e1a2d8a02cd4ed5807dc9cc0ddcc90d64e5c4dda4b9d28a211b9ed67ca65721"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v2/root_arm_watchdog.py",
+      "bytes": 1233,
+      "sha256": "056926f4eaf5994812cb90b3396f6daf73b4fdc9f136c7ddfeead32f787a0c7a"
+    }
+  ],
+  "accepted_watchdog_parent": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/deadline_watchdog_delayed_submission.py",
+    "bytes": 4230,
+    "sha256": "16d3e01bdb0f73bfa92574804a3af7feaad1e722bd87782a1a61c408c5b29514"
+  },
+  "root_arm_parent": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v1/root_arm_watchdog.py",
+    "bytes": 1233,
+    "sha256": "780b8a55de70e33bfc171e9b0373f9db0f3cc1afec409000f329fc5d69d1cbc2"
+  },
+  "external_unchanged_import_dependencies": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v1/cloud_entry.py",
+      "bytes": 15967,
+      "sha256": "66ce1d192913f61070e9e1675de59440be71ed2e805668109a9c1c117b99ebae"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v1/entry_observer.py",
+      "bytes": 5091,
+      "sha256": "017b7cb1a1f725b7e70cfae79e99602d8a369e801d24858ca4bdbe353506b5f6"
+    }
+  ],
+  "exact_diffs": {
+    "deadline_watchdog.py": "--- /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/deadline_watchdog_delayed_submission.py\n+++ /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v2/deadline_watchdog.py\n@@ -15,7 +15,8 @@\n \n def cli(operation,name):\n  selector='--id' if name.startswith('prodjob_') else '--name'\n- argv=[CLI,'job',operation,selector,name,'--cloud','Anyscale Cloud']\n+ argv=[CLI,'job',operation,selector,name]\n+ if selector=='--name':argv+=['--cloud','Anyscale Cloud']\n  if operation=='status':argv+=['-o','json']\n  try:\n   p=subprocess.run(argv,capture_output=True,text=True,timeout=20)\n",
+    "root_arm_watchdog.py": "--- /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v1/root_arm_watchdog.py\n+++ /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-bootstrap-recovery-v2/root_arm_watchdog.py\n@@ -3,7 +3,7 @@\n from pathlib import Path\n from cloud_entry import validate_binding,sha,require\n WATCHDOG=Path(__file__).with_name('deadline_watchdog.py')\n-EXPECTED='a55f0fc7b205d2056358d48ee868997776c8b789c4fd8e9be64bec15c4f8a89a'\n+EXPECTED='0e1a2d8a02cd4ed5807dc9cc0ddcc90d64e5c4dda4b9d28a211b9ed67ca65721'\n def main():\n  p=argparse.ArgumentParser();p.add_argument('binding',type=Path);p.add_argument('--output',type=Path,required=True);a=p.parse_args()\n  b=json.loads(a.binding.read_text())\n"
+  },
+  "integration": "Root uses the v1 cloud entry and observer with this v2 watchdog and root-arm. Stage the two v2 files beside cloud_entry.py and entry_observer.py, or set PYTHONPATH to the frozen v1 recovery directory. Do not run the old v1 watchdog."
+}

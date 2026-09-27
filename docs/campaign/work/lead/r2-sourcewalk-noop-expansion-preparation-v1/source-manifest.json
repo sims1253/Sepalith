@@ -1,0 +1,33 @@
+{
+  "entrypoints": [
+    "source/prepare_noop_inputs.py",
+    "source/materialize_noops.py"
+  ],
+  "external_provider_source_manifest_sha256": "7546d5457c299edfbf69bc0681327f08bad5041e2a146fe60fd66278dd58c770",
+  "files": [
+    {
+      "bytes": 22710,
+      "path": "source/audit_authoritative_stream.py",
+      "sha256": "7f042596a67ec9983f6f409a8913f4bc8df3361548a1e91fb77c9f914dafcf37"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 8301,
+      "path": "source/materialize_noops.py",
+      "sha256": "b3e111d3e7184e7d8d8dce401e71807522f15da1a4f4108548e01ac1648da69d"
+    },
+    {
+      "bytes": 8612,
+      "path": "source/prepare_noop_inputs.py",
+      "sha256": "eb8216dadf7c47f0da345d6db6819972a2e850483c4f9dfd4c8675fc710f1232"
+    }
+  ],
+  "files_count": 4,
+  "schema": "sepalith.dat10.sourcewalk-noop-expansion-source.v1",
+  "source_identity_sha256": "a2a5f57348fc12c45d511651f09096ac9182876db64f5a988646aa3fca5edb53",
+  "status": "prepared_no_launch"
+}

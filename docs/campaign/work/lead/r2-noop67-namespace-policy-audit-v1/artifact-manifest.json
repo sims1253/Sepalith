@@ -1,0 +1,192 @@
+{
+  "files": [
+    {
+      "bytes": 1054,
+      "path": "README.md",
+      "sha256": "2205f92cbbc0d98444ce5be7b6c285d93da613ad891a4e42a8fde0847c85a34f"
+    },
+    {
+      "bytes": 53223,
+      "path": "classification.json",
+      "sha256": "9a5aaacee2ea430dbae37b5d34878d21263c09528406a45ccdded16f6b947dad"
+    },
+    {
+      "bytes": 2213,
+      "path": "commands.json",
+      "sha256": "3f2b701ec44adfb93fa28e58c51d297f467a2a636f88ef383f56aba4d5f8a396"
+    },
+    {
+      "bytes": 2059,
+      "path": "evidence.json",
+      "sha256": "690ef634c7fdfe0bbdc43703d8254746c645efdb3dd9c98402214e582ae41c4e"
+    },
+    {
+      "bytes": 6045,
+      "path": "fixtures/NAMESPACE.semantic_unavailable_ambiguous_explicit_origin.txt",
+      "sha256": "0f1ff035d14537361d741ea72ce4dd25c3345d13f5f0c2f9d18536955a0db445"
+    },
+    {
+      "bytes": 2867,
+      "path": "fixtures/NAMESPACE.semantic_unavailable_conditional.txt",
+      "sha256": "c2fafe36bfc63e6d1d78eec5adf2c3d9819b21242a11dd82e74484515806cbbc"
+    },
+    {
+      "bytes": 904,
+      "path": "fixtures/NAMESPACE.semantic_unavailable_malformed_directive.txt",
+      "sha256": "16722baa315317abd7456993cfdf97b95fe02fe44e17ec811cc83acd30d10439"
+    },
+    {
+      "bytes": 663,
+      "path": "fixtures/NAMESPACE.semantic_unavailable_syntax_or_encoding_parse_error.txt",
+      "sha256": "bbbc8777405fa52507d1a214df029fe3262141c72dd4e5b0a8321678ddee1dcc"
+    },
+    {
+      "bytes": 2330,
+      "path": "fixtures/edit-positive-control.json",
+      "sha256": "e8751872292affd69227a6faf88d8302b0281adbc104c9547339bf969ece615a"
+    },
+    {
+      "bytes": 2443,
+      "path": "fixtures/manifest.json",
+      "sha256": "a795957df910fab8356149e92bfbaa2415a8bafe41023ee3ab4d52d65525f827"
+    },
+    {
+      "bytes": 72562,
+      "path": "fixtures/noop-train-inputs.jsonl",
+      "sha256": "1787fffa9fae0a961abdb08f8ea69d6e683233ff625c3e6ec1d190a0796e7389"
+    },
+    {
+      "bytes": 1120,
+      "path": "integration-contract.json",
+      "sha256": "641b00d8fb554d63f3d491d0e8ba7ff402c884558457ef0e630f0181bb2dd5ab"
+    },
+    {
+      "bytes": 76566,
+      "path": "namespace-parse-output.jsonl",
+      "sha256": "80d85d5e85ebf01e284cf33592ec8d581ae2a39397e3430de559a0b67afa0860"
+    },
+    {
+      "bytes": 8495,
+      "path": "namespace-request.json",
+      "sha256": "c5b18924cce00d5954790162afabf6310fd0a62b67486636ed7e94912c243ed5"
+    },
+    {
+      "bytes": 3530,
+      "path": "policy-decision.json",
+      "sha256": "e4bed318b98d72a6c36e6cef82167cc96f1c7fa501b30892e31b4ec6b8f6e06d"
+    },
+    {
+      "bytes": 2576,
+      "path": "prepare67_inputs.py",
+      "sha256": "a95a8240106978e2f6f2cf54b3c73697a26a1d0cabebf66d762e9106bc67c31d"
+    },
+    {
+      "bytes": 6380,
+      "path": "render_shard.ts",
+      "sha256": "92aa54e41c7178b27b724edcc19324928402ffc14f5310fedf6fb8b9f83afe88"
+    },
+    {
+      "bytes": 4195,
+      "path": "run_policy_ladder.py",
+      "sha256": "11e14b55a679a7eb4942ab59d839fc1017af700b215c6ba54cffb411243fea6e"
+    },
+    {
+      "bytes": 34464,
+      "path": "source/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 25008,
+      "path": "source/campaign_selection.ts",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 14528,
+      "path": "source/context_build.ts",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "path": "source/context_select.ts",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 7947,
+      "path": "source/full_document_policy.ts",
+      "sha256": "dd671fa12a839d00e6446bd07d36c02e33518290b6e95faf8187163aa08f0a95"
+    },
+    {
+      "bytes": 23912,
+      "path": "source/history_provider.ts",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 4604,
+      "path": "source/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 4225,
+      "path": "source/namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 10394,
+      "path": "source/namespace_runtime.ts",
+      "sha256": "1c2b8060feb7c591e4c8e55fcc10fdf84de3ab9b0ddc6191bfdf2484b1f75758"
+    },
+    {
+      "bytes": 1620,
+      "path": "source/namespace_unavailable_policy.ts",
+      "sha256": "f8f9d1c91a85d35abbea415dd28f1990259ab336ac7539f150197b3dd76a3401"
+    },
+    {
+      "bytes": 1518,
+      "path": "source/primary_context.ts",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 23571,
+      "path": "source/r_base_bindings.generated.ts",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 22035,
+      "path": "source/semantic_provider.ts",
+      "sha256": "df0cb3646645cbcb7b2a9f15580f4cdedeab7438f0bb34e34263cf2f18c34fde"
+    },
+    {
+      "bytes": 3289,
+      "path": "source/source_imports.R",
+      "sha256": "cb0822dd3d9d50018ec20c2992b017506d232ca56169570d0751256e69456250"
+    },
+    {
+      "bytes": 4259,
+      "path": "source-manifest.json",
+      "sha256": "595d2fb16b3e4dbb18b82d65b16838b7bd5c6b3ff1e545b2fbfba3d526bc2b7b"
+    },
+    {
+      "bytes": 525,
+      "path": "test-results.log",
+      "sha256": "a72781570e031c156bd787ae1c6e192e8316826bdc8359b0d7288644e6bef17e"
+    },
+    {
+      "bytes": 4807,
+      "path": "tests/run_tests.ts",
+      "sha256": "30ffdbe51a50b90b22ff5da061ce9bdcb648712fa527872664363294e9d39aa0"
+    },
+    {
+      "bytes": 2433,
+      "path": "tests/test_audit.py",
+      "sha256": "91925cabc7e0aaae3e7265d75921adaeff3738f69d541cb40f1f1712d41bea10"
+    },
+    {
+      "bytes": 484,
+      "path": "tokenize_bridge.py",
+      "sha256": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+    }
+  ],
+  "files_count": 37,
+  "schema": "sepalith.dat10.noop67.namespace_policy_artifacts.v1",
+  "status": "frozen_candidate_not_admitted"
+}

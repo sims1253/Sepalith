@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "bytes": 1209,
+      "path": "README.md",
+      "sha256": "de2cea0f321c878dd5ce052de847e8257b156712178722e9ea2303cc731d56bf"
+    },
+    {
+      "bytes": 646,
+      "path": "account-probe.json",
+      "sha256": "d6be3eb404245f9e3523aea8cce1a390e82becdbe62ac3ddb315e00ece81b7b7"
+    },
+    {
+      "bytes": 4492,
+      "path": "cost-review.json",
+      "sha256": "6dd7e63fa9ed288fb494b4ea385d634fdecad3bed8f7798c49158265a8c7258b"
+    },
+    {
+      "bytes": 2172,
+      "path": "official-evidence.json",
+      "sha256": "06339ffcd20651fd1d95fd719c42f3a18408b96317c330de9b52c6883768c5dc"
+    },
+    {
+      "bytes": 2126,
+      "path": "probe_p4d_readonly.py",
+      "sha256": "74f699cc45ca0878c3485181645d687bf25cc29581e9d6a21b49ebe07d846bb1"
+    },
+    {
+      "bytes": 343,
+      "path": "test-results.log",
+      "sha256": "0c9d33cafa3afb964bbfe5183771af63cabbf4946cb436d2c4ffb661c7746740"
+    },
+    {
+      "bytes": 1388,
+      "path": "test_review.py",
+      "sha256": "477da340f8fa06c4abddc5c065245937dda43ebfb9087ef11f135271f2a69c5f"
+    }
+  ],
+  "schema": "sepalith.pre04.priced-gpu-alternatives-artifacts.v1",
+  "status": "read_only_complete_no_admissible_paid_route"
+}

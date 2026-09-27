@@ -1,0 +1,72 @@
+{
+  "artifacts": {
+    "repair-ledger.jsonl": {
+      "bytes": 301,
+      "sha256": "42c444aee50991faaee392bb9bc77c19c809b3c7e5f74a402793a24e4d9e17aa"
+    },
+    "source-inventory.jsonl": {
+      "bytes": 11389,
+      "sha256": "6a8d2bc131a0f5a89d41fede96d0bb07980cb46def33bbba8f242d9ee6591a78"
+    }
+  },
+  "cpt_partition": "cpt_train",
+  "global_split": "train_group",
+  "group_id": "g-1037a9f3b52fac791d3d",
+  "guards": {
+    "cpt_partition": {
+      "partition": "cpt_train",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    "global_split": {
+      "group_id": "g-1037a9f3b52fac791d3d",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09",
+      "split": "train_group"
+    },
+    "protected_parent_hashes": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/known-nontrain-parent-hashes.json",
+      "sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0"
+    },
+    "raw_chunks": {
+      "chunk_size": 2048,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "tokenizer": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  },
+  "materialization": null,
+  "metadata": {
+    "description_exists": false,
+    "description_path": "/mnt/h/sepalith/normalized/tfprobability/0.15.2/tfprobability/DESCRIPTION",
+    "description_sha256": null,
+    "license": null,
+    "license_file_paths": [],
+    "license_file_sha256": {},
+    "license_status": "unresolved_no_description_or_license_metadata",
+    "md5_mentions_description": true,
+    "md5_path": "/mnt/h/sepalith/normalized/tfprobability/0.15.2/tfprobability/MD5",
+    "md5_sha256": "41d937583fd88e3191711cdb3f855521966c725e9359d354aa067bd037826073",
+    "package": null,
+    "status": "missing_description"
+  },
+  "package": "tfprobability",
+  "repair_records": 1,
+  "schema": "sepalith.dat10.cpt_tfprobability_recovery_summary.v1",
+  "seeded_index": 6866,
+  "source_bytes": 693518,
+  "source_counts": {
+    "regular_R": 21
+  },
+  "source_files_examined": 21,
+  "source_text_written": false,
+  "status": "metadata_repair_pending",
+  "target_text_written": false,
+  "tokenizable_files": 0,
+  "training_admission": false,
+  "truncation": false,
+  "version": "0.15.2"
+}

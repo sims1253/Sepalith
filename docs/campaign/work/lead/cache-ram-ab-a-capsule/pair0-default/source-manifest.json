@@ -1,0 +1,49 @@
+{
+  "schema": "RUN-04-prewarm-native-recovery/source-manifest/v1",
+  "generated_at_utc": "2026-09-13T04:20:00.441775Z",
+  "source_capsule_manifest_sha256": "df11ef121d5fb7f5d642060b26978711147cdcf02e3b5637e73480bb893680a9",
+  "files": {
+    "campaign_client.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/campaign_client.ts",
+      "sha256": "8b332331707bea5f2abf56c1230ed7e3a3eccc5d292daee6a8ba37f93d070a7b",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/campaign_client.ts",
+      "origin_sha256": "8b332331707bea5f2abf56c1230ed7e3a3eccc5d292daee6a8ba37f93d070a7b"
+    },
+    "campaign_protocol.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/campaign_protocol.ts",
+      "sha256": "cebb38ba92da49c408a9a3c96cb52c749f508687cb53a8eb7aaf655bd738254e",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/campaign_protocol.ts",
+      "origin_sha256": "cebb38ba92da49c408a9a3c96cb52c749f508687cb53a8eb7aaf655bd738254e"
+    },
+    "campaign_requests.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/campaign_requests.ts",
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/campaign_requests.ts",
+      "origin_sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    "exact_prewarm_contract.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/exact_prewarm_contract.ts",
+      "sha256": "5c1b5b10f9035348650a011b66c7cbe0fcc6c717e16e55f13b0d1e259d30ad99",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/exact_prewarm_contract.ts",
+      "origin_sha256": "5c1b5b10f9035348650a011b66c7cbe0fcc6c717e16e55f13b0d1e259d30ad99"
+    },
+    "exact_prewarm_scheduler.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/exact_prewarm_scheduler.ts",
+      "sha256": "4e88145e63aec5d5e193b162ae34d756399b0e0d14af34dd91a8816d571223b5",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/exact_prewarm_scheduler.ts",
+      "origin_sha256": "4e88145e63aec5d5e193b162ae34d756399b0e0d14af34dd91a8816d571223b5"
+    },
+    "fixture_loader.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/fixture_loader.ts",
+      "sha256": "adf569cec6b09b6481ea74051865eef1cf1d8ee3d35367c9c1b73ab86a18dd76",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/fixture_loader.ts",
+      "origin_sha256": "adf569cec6b09b6481ea74051865eef1cf1d8ee3d35367c9c1b73ab86a18dd76"
+    },
+    "native_exact_adapter.ts": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/prewarm-native-recovery-preparation/src/native_exact_adapter.ts",
+      "sha256": "b050c2b6694827af062c9deda73ca37490646d72aa75237708664151911aa52d",
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/prewarm-v3-pilot-a-capsule/src/native_exact_adapter.ts",
+      "origin_sha256": "b050c2b6694827af062c9deda73ca37490646d72aa75237708664151911aa52d"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "materializer_v2": {
+    "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-materialization-v2/materialize_semantic.py",
+    "sha256": "f05708b5bc94819ed9545956774c1ef1899be8e7d6c7fdf36667d7173a8aa8dc"
+  },
+  "materializer_v2_geometry": {
+    "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-materialization-v2/semantic_context_geometry.py",
+    "sha256": "f38c3a96b5a8b34b420b289c00cf5de3f0c4fb51fba09ea3e634a61299339b6d"
+  },
+  "production_source_modified": false,
+  "schema": "sepalith.run06.semantic_serving_geometry_source_manifest.v1",
+  "source_files": [
+    {
+      "bytes": 34464,
+      "modified": false,
+      "path": "source/campaign_protocol.ts",
+      "predecessor_path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/campaign_protocol.ts",
+      "predecessor_sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 25008,
+      "modified": false,
+      "path": "source/campaign_selection.ts",
+      "predecessor_path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/campaign_selection.ts",
+      "predecessor_sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 14528,
+      "modified": false,
+      "path": "source/context_build.ts",
+      "predecessor_path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/context_build.ts",
+      "predecessor_sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "modified": true,
+      "path": "source/context_select.ts",
+      "predecessor_path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/context_select.ts",
+      "predecessor_sha256": "a72edaf733395d7b4839f2ca9ed0c2092e4051359279f6839c93e2d5d04b9d59",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 23912,
+      "modified": false,
+      "path": "source/history_provider.ts",
+      "predecessor_path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/history_provider.ts",
+      "predecessor_sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    }
+  ],
+  "status": "review_only_patch"
+}

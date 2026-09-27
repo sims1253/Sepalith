@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "stage": "task_sft_prm03_v1",
+  "status": "template_not_launchable_bind_all_inputs",
+  "launch_authorized": false,
+  "identity": {
+    "parent": {
+      "kind": "cpt_merged",
+      "revision": "ROOT_TO_BIND",
+      "weights_sha256": "ROOT_TO_BIND"
+    },
+    "tokenizer": {
+      "revision": "ROOT_TO_BIND",
+      "tokenizer_json_sha256": "ROOT_TO_BIND",
+      "BOS": 0,
+      "EOS_PAD": 1,
+      "native_EOG": [
+        1,
+        130073
+      ]
+    },
+    "renderer": {
+      "id": "zeta2-prm03-v1",
+      "contract_sha256": "ROOT_TO_BIND"
+    },
+    "data": {
+      "train_rows_sha256": "ROOT_TO_BIND",
+      "draw_schedule_sha256": "ROOT_TO_BIND",
+      "development_panel_sha256": "ROOT_TO_BIND",
+      "split_id": "ROOT_TO_BIND"
+    },
+    "source": "ROOT_TO_BIND",
+    "policy": {
+      "stage": "task_sft_prm03_v1",
+      "initialization": "new_lora_on_cpt_merged_parent",
+      "full_text_labels": false,
+      "optimizer": "adamw_torch_fused",
+      "dtype": "bfloat16",
+      "target_learning_rate": 0.0002,
+      "weight_decay": 0.0,
+      "lr_schedule": "cosine",
+      "warmup_ratio": 0.03,
+      "seed": 3407,
+      "loss_objective": "prm03_target_only_next_token_v1",
+      "gradient_checkpointing": "gpu_standard_v1",
+      "logging_steps": 1
+    },
+    "schedule": {
+      "max_steps": 1000,
+      "per_device_batch": 4,
+      "gradient_accumulation": 4,
+      "learning_rate": 0.0002,
+      "lora_rank": 32,
+      "lora_alpha": 64,
+      "max_sequence_tokens": 4096
+    }
+  },
+  "parameters": {
+    "max_steps": 1000,
+    "per_device_batch": 4,
+    "gradient_accumulation": 4,
+    "learning_rate": 0.0002,
+    "lora_rank": 32,
+    "lora_alpha": 64,
+    "max_sequence_tokens": 4096
+  },
+  "renderer_id": "zeta2-prm03-v1",
+  "model_path": "/ROOT_TO_BIND",
+  "token_rows": {
+    "path": "/ROOT_TO_BIND",
+    "sha256": "ROOT_TO_BIND"
+  },
+  "draw_schedule": {
+    "path": "/ROOT_TO_BIND",
+    "sha256": "ROOT_TO_BIND"
+  },
+  "development_panel": {
+    "path": "/ROOT_TO_BIND",
+    "sha256": "ROOT_TO_BIND"
+  },
+  "development_case_ids": [],
+  "development_max_new_tokens": 192,
+  "development_evaluation_route": "native_final_dev_v1",
+  "native_acceptance_required": true,
+  "hf_evaluation_is_acceptance": false,
+  "evaluator_factory": "ROOT_TO_BIND",
+  "milestones": [
+    250,
+    500,
+    1000
+  ],
+  "target_gate_start_steps": [
+    0,
+    250,
+    500
+  ],
+  "target_resume_steps": [
+    250,
+    500
+  ],
+  "mandatory_stop_steps": [],
+  "checkpoint": {
+    "light_every": 250,
+    "full_every": 250,
+    "evaluation_steps": [
+      250,
+      500,
+      1000
+    ]
+  },
+  "decision_steps": [],
+  "deadline": "ROOT_TO_BIND",
+  "max_attempt_seconds": 3600,
+  "termination_grace_seconds": 30,
+  "checkpoint_reserve_seconds": 300,
+  "output_dir": "/ROOT_TO_BIND",
+  "archive_dir": "/ROOT_TO_BIND",
+  "inputs": []
+}

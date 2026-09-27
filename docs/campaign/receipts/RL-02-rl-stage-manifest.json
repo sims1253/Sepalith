@@ -1,0 +1,64 @@
+{
+  "owner": "lead",
+  "at": "2026-09-12T17:38:43.796376+00:00",
+  "status": "accepted",
+  "parent_manifest_sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12",
+  "parent_step": 1000,
+  "renderer": "zeta2-prm03-v1",
+  "tokenizer_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+  "admission": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-02-data-and-gates-admission.json",
+    "sha256": "59efb6dc5361569c247101292c875017913b9cca5d13eb05fe1e52e0f1be3abb"
+  },
+  "scope": "Data and parameterization acceptance; sustained RL remains gated by live update/resume and root continuation decision.",
+  "task": "RL-02",
+  "inputs": {
+    "rows_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/eligible-train-rows.jsonl",
+    "rows_sha256": "e54bca71d96cf29f3a75d3e084b601e25edce8fa513cdb2bb61c730a7385f602",
+    "rows_count": 8440,
+    "sidecar_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/context-sidecar.jsonl",
+    "sidecar_sha256": "6996f89d399e5e4dd5a5dafa49e92e8a49178fbecf15b2d6e769532f1afe703f",
+    "sidecar_count": 8440,
+    "selected_ids_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/selected-train-ids-lead-order-v1.json",
+    "selected_ids_sha256": "24ec16f5ce5343539d31a44aaa843fb4be0de7c6831ec977432affc53fa77a9d",
+    "ordered_ids_sha256": "7e994a3e74a642c149908b0737dfd2befed055e336f7b94400ee9773a6a88d2d",
+    "row_identity_sha256": "d3187195f0ebe401b69df244bbbff0f2a28fb0500185428701f933e31e8eab60"
+  },
+  "source_draws": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-pool/source-row-draw-sequence-v4.json",
+    "sha256": "892991f89d063544d85902eba04c7607f3867897749d3eee4f4e2ac6f407ee48",
+    "sequence_sha256": "d44a076d0b850fd607e7c613caa096d04ed352292ceeeb2e17f736dc20a089f2"
+  },
+  "quota": {
+    "source_draws": 24000,
+    "distinct_drawn_rows": 8365,
+    "row_max_replay": 6,
+    "family_mix": "roxygen600/no_op4800/finish3825/rename6000/format6000/pipe2400/na_rm375",
+    "all_train_members": true
+  },
+  "lengths": {
+    "prompt_max": 2048,
+    "completion_max": 192,
+    "context_max": 2240,
+    "model_load": 4096
+  },
+  "profile_evidence": {
+    "prior_PRM07_actual_prompt_lengths": [
+      2024,
+      2030
+    ],
+    "prior_policy_batch": 8,
+    "prior_G": 4,
+    "prior_max_allocated_bytes": 14983458304,
+    "prior_max_reserved_bytes": 21550333952,
+    "current_theta0_canonical_generation": 20,
+    "current_first_update_finite_gradient": true,
+    "current_first_update_peak_allocated_bytes": 8675454464,
+    "current_first_update_peak_reserved_bytes": 9361686528,
+    "batched_generation_change_pending_new_identity": true
+  },
+  "actual_recipe_preparation": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-03-live-recipe-preparation.json",
+    "sha256": "c08a18d99e0d42219029f5658ccb65d0211efaeb1e84cffd7baec0f322a5e89c"
+  }
+}

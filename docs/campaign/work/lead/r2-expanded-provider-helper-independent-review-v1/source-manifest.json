@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "bytes": 3859,
+      "path": "review.md",
+      "sha256": "1791c90c3597a0003f06467cf92bfedbcd359971f40c8efc160864c89153fbbb"
+    },
+    {
+      "bytes": 1034,
+      "path": "test-results-final.log",
+      "sha256": "c298322eb56988575fe146042ac20bfa2bf924b75153aaeee4c4e3134c8c9d24"
+    },
+    {
+      "bytes": 341,
+      "path": "test-results.log",
+      "sha256": "34e8925424fcc0611591c3051d01745317c90e4d7099c20fac9d55111d705971"
+    },
+    {
+      "bytes": 194,
+      "path": "tests/fixtures/delay.mjs",
+      "sha256": "692b699229709db3873c6182b7ffb2ef638fc2376ffccf16148e7ac3c2f82207"
+    },
+    {
+      "bytes": 301,
+      "path": "tests/fixtures/leader_exit.mjs",
+      "sha256": "37c4602c71171cead3f1dada6bd60a9a61fd6d5f527157adf0cf8bae5dfa3e31"
+    },
+    {
+      "bytes": 1334,
+      "path": "tests/test_budget_2000.ts",
+      "sha256": "90bc060757b433bf1c3a0561912d3c8364b24cbd37a3870258f885ec1e8ccdba"
+    },
+    {
+      "bytes": 1228,
+      "path": "tests/test_descendant_scope.ts",
+      "sha256": "2792c49e2baad30fe6464ecd89ea19cc53e99db13d59e7adcfe8f3f9f58cb117"
+    },
+    {
+      "bytes": 984,
+      "path": "verify_inputs.py",
+      "sha256": "f6059fcb8f297fc9909102f88debd6e4f8f250d6df8a980c708356b90ff43b19"
+    }
+  ],
+  "inputs": {
+    "helper_artifact_manifest_sha256": "a13293dd08714d61a5f3ca328fef1956e344138c1d4399753ab1099cf7e51310",
+    "serving_parity_source_manifest_sha256": "b76c998e4f027bc5c7da9c62a53df6573dd862009901e3805300b2417f28ade5"
+  },
+  "schema": "sepalith.run06.expanded-provider-helper-independent-review.source.v1",
+  "status": "review_complete_integration_blocked"
+}

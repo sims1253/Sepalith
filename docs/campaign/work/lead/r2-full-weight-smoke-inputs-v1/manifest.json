@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-14T13:15:12.348583+00:00",
+  "source": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/cpt_train.jsonl",
+  "source_sha256": "836b61c5b7d5545063aeaa3054c62915b8a4d24574908cade4c2d3eed1537a87",
+  "rows": 8,
+  "groups": 8,
+  "sequence_tokens": 2048,
+  "output": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-smoke-inputs-v1/train8.jsonl",
+  "output_sha256": "e86c50a00d9a50f0c5d287eb419f622cc4eec5c607838304b2d49caa957ebf0e",
+  "row_ids": [
+    "b68fa47d63c5d267972222c0c973e35232a0698142446956207fca64abeecba4:0",
+    "101123100fb23fd1121f921512003cff14b63552b7803f515456579ab8af4522:0",
+    "946e93a5964977a5b1ff8a3b90f98285280bda2b12e32b800955326d090ec35d:0",
+    "6b96f3ab091642e01b84df3a774d076ea329916c20bf27754efa48e53beafeb9:0",
+    "0fef2a53dd93d7858a6114b4dcf377c6da27927f057c8510edf38fb127fad4dd:0",
+    "996200450d4d3c7c5d1bb8d5f8e04cbac08d47947ae932b45bf3ff427d4e5ab6:0",
+    "540853a7ba9e46ff8fac08dcb0c06cc93d17a594933f5671a8ddda414b653cfb:0",
+    "ae2bcc34050e6b625a208f5d3b99c3d13c8318ae609b36744b121cd0df4625d3:0"
+  ],
+  "semantics": "Exact original2048token TRAIN CPT rows from8distinctgroups; no target truncation or new data rendering. Resource smoke only, no quality ranking. Source corpus row chunks preserve existing labels.",
+  "cuda_launched": false
+}

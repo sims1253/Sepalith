@@ -1,0 +1,107 @@
+{
+  "base_source_manifest": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-prefix-extension-v1/source-manifest.json",
+    "sha256": "3abeef32a68349054d73c075ff1b877f9dc5e582fd98499a56e164a826af543e"
+  },
+  "changes": [
+    "execute each fixed 16-draw optimizer window as one logical Trainer step",
+    "pack only consecutive rows within that window under the complete-row token cap",
+    "backward physical packs sequentially with one explicit original supervised-token denominator",
+    "bind a root-proven xformers or flash_varlen backend and refuse sdpa",
+    "record physical pack count and denominator in telemetry"
+  ],
+  "files": [
+    {
+      "bytes": 7299,
+      "path": "source/experiments/training/bind_stage_transition.py",
+      "sha256": "4c35256e5770c488649455979f58a5cb9edeb87ae33c735151c0e515b7505e3d"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 29909,
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 4667,
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "cf982c2600a62b7e628f0cc0fc20dbb5270e0c1b01c75bd9a62a6aef2126e1a2"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 12263,
+      "path": "source/experiments/training/cpt_streaming_cache.py",
+      "sha256": "0729f5a3f8a5363bc6ac5c2fc59c7ad2e22c125f0e39e5b43756e1eb5b940976"
+    },
+    {
+      "bytes": 33443,
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "03c86d2411cd392bf75dcdcd518edca4e58d3849a74c5c9b165ebb580cf698b6"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 9616,
+      "path": "source/experiments/training/prefix_extension_contract.py",
+      "sha256": "25e17aa5a17fbbe63d33ef1dbc6b935788116f77710f1ae13ca5b3f5fc1209f6"
+    },
+    {
+      "bytes": 1397,
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 12989,
+      "path": "source/experiments/training/stage_transition_contract.py",
+      "sha256": "188c92fabc96028071cb6064986658606e7198ef8b7f2b68a4e07c68ab8d3dfa"
+    },
+    {
+      "bytes": 2995,
+      "path": "source/experiments/training/streaming_trainer_adapter.py",
+      "sha256": "611b2ad82ada65a96fda22136e11fbcda4f92655376f2abb2a6b233794aa5a7d"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 7591,
+      "path": "source/experiments/training/varlen_update_adapter.py",
+      "sha256": "fa223a576cebd7cb372e513b3053e0239e60d81f11468fda467ccd9208137291"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "schema": "sepalith.full-weight-cpt-stage-transition-source.v1",
+  "status": "frozen_preparation"
+}

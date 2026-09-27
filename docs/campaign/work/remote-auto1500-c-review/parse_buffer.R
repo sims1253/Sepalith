@@ -1,0 +1,1 @@
+p <- commandArgs(trailingOnly=TRUE)[1]; con <- file(p,"rb"); buffer <- readChar(con,file.info(p)$size,useBytes=TRUE); close(con); tryCatch({x <- parse(text=buffer); cat("PASS\t",length(x),"expressions\n",sep="")},error=function(e){cat("FAIL\t",conditionMessage(e),"\n",sep="")})

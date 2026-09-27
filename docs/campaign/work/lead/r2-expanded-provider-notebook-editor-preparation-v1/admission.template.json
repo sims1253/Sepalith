@@ -1,0 +1,15 @@
+{
+  "schema": "sepalith.run06.notebook-editor-root-admission.v1",
+  "status": "pending_root_review",
+  "task": "RUN-06",
+  "packet_sha256": null,
+  "candidate_bundle_sha256": "336d03ef0c61fdc510c3843a19a729562f43f6d340f3d9925d994a9d6abc59f4",
+  "host": "m0hawk@192.168.178.40",
+  "cpu_affinity": "0",
+  "maximum_threads": 1,
+  "maximum_seconds": 240,
+  "port": 18631,
+  "run_root": null,
+  "mock_only": true,
+  "authorizer": "root"
+}

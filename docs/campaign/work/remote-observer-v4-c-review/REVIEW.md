@@ -1,0 +1,9 @@
+V4-c startup passes. Actual installed URL, verified URL and advertised target all match the SHA-pinned workbench URL; readyState is complete and startup identity is c3d9a3cf-2d58-4ae8-a721-320bbd6af31a. The real frame stream has501frames, zero drops, focused/visible frames and bounded coverage for all3control windows.
+
+Visible and delayed cancellation controls pass. Multiline control fails: no scored continuation rows survive. In7diagnostic frames, all14retained sentinel-range decisions reach the exact canonical-container path and reject only outlineWidth=3px. The other recorded image/shadow/filter/blend/border/mask/style fields meet the current predicate. The PNG visibly shows all3sentinels. This proves the current width-only rule rejects this painted control; it does not prove actual outline paint covers the text. Outline style/color/offset are not recorded, and pseudo contents are absent because the decision returns early.
+
+Accepted decision frames are0. The denominator14is the retained diagnostic decision sample, not every internal predicate execution. The exact first decision and all14rows are preserved. No ordinary document text was promoted to ghost evidence, and the unchanged analyzer remains fail-closed.
+
+All21namedfiles totaling541,050bytes were copied with matching remote/local hashes. Guard terminal is15:30:33.989999Z after19.9452seconds, child0 and no survivors. Observer stops after a bounded Runtime.evaluate timeout; this does not admit later unseen frames. Root owns resource release.
+
+No1500-c/350-c integration request follows while multiline control fails. No source change, scoring relaxation or extra capture was performed. A next outline-policy decision requires the missing actual paint properties or a narrowly justified renderer-specific geometric rule plus negative controls; this review does not invent those values.

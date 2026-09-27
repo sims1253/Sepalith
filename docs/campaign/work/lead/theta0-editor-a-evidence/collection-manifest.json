@@ -1,0 +1,109 @@
+{
+  "at": "2026-09-13T05:09:45.920340+00:00",
+  "files": {
+    "theta0-editor-managed-a/asset-inventory.json": {
+      "bytes": 5103,
+      "sha256": "3714f3ad9cb1b8d1ef023fb2af2ba66047d55c1d37c86880207331690751089a"
+    },
+    "theta0-editor-managed-a/settings.json": {
+      "bytes": 659,
+      "sha256": "1d178a72845fd7a586e255aa49f45ff04a2e029d0d2357405362f9df6bc62794"
+    },
+    "theta0-editor-managed-a/vsix-install.stdout.log": {
+      "bytes": 78,
+      "sha256": "c02d79af266a933ec8df39663adb31862fcd6b00f5a867cd9808d630ba2b1523"
+    },
+    "theta0-editor-managed-a/vscode-host.json": {
+      "bytes": 97,
+      "sha256": "c1f618b86965b7a1ca1497d27032b2df80cfeb4303b70bb39d7255cf7933deae"
+    },
+    "theta0-editor-managed-a/vscode-host.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "theta0-editor-managed-a/launch.json": {
+      "bytes": 1169,
+      "sha256": "d0f0f8dee2ec0d673d9d911a8e76882ad44e49eb022d56d626a773bfce2cca1e"
+    },
+    "theta0-editor-managed-a/primary-manifest.json": {
+      "bytes": 5756,
+      "sha256": "84281145985ce7918c1a584de3536719ea48e0d74c2cdfb7d10d52f06258551e"
+    },
+    "theta0-editor-managed-a/vsix-install.json": {
+      "bytes": 97,
+      "sha256": "70ad0320289d8b3017d23058c863159954e0441d2844e7fca467c1c907dcb7be"
+    },
+    "theta0-editor-managed-a/host-result.json": {
+      "bytes": 22830,
+      "sha256": "8854a07ab5cd6b71b7d3b071db52a4c0670aa575ea3690f0c3c1194a74ebd1a2"
+    },
+    "theta0-editor-managed-a/manifest-requests.json": {
+      "bytes": 1641,
+      "sha256": "debd7fb73e5a84fde9a6f922ccc7906640bf19e377c691cf6e71ce95f8135e3a"
+    },
+    "theta0-editor-managed-a/preflight.json": {
+      "bytes": 5877,
+      "sha256": "6d6c4bfc170b4b9ab65af1528f4638f85b82eed05b18e19f264403692cc929cb"
+    },
+    "theta0-editor-managed-a/vsix-install.stderr.log": {
+      "bytes": 302,
+      "sha256": "0e5eb9b16353a02123a0e83a03f6c30040637aa3757e782bc77a2d6a82e3b7ff"
+    },
+    "theta0-editor-managed-a/retained-evidence.json": {
+      "bytes": 183,
+      "sha256": "989a11ffbca77c314a2303d73842d76fbeecdb3b820d968acc99618f8731a8a7"
+    },
+    "theta0-editor-managed-a/vscode-host.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "theta0-editor-managed-a/inline-acceptance-evidence.json": {
+      "bytes": 671,
+      "sha256": "1ccbfc020656b7637d5cefe37950c5986a2e0b7678f6c9efba247c9347371fcc"
+    },
+    "theta0-editor-managed-a/run-result.json": {
+      "bytes": 5612,
+      "sha256": "c5bf7b768697a80e169a76af16b7bda929c9addcaf35103e253d468dc1037f39"
+    },
+    "theta0-editor-managed-a/workspace/primary-accept.R": {
+      "bytes": 67,
+      "sha256": "a03eb5265c1d19e46699e5dfb57e809cd7e346579e01703a237b5a0e66aa76df"
+    },
+    "theta0-editor-managed-a/workspace/primary-b.R": {
+      "bytes": 92,
+      "sha256": "5f8443bf2ae8e68cc18125b3c36f94a2a419d2e2a26581cb564b8e2c049c2d95"
+    },
+    "theta0-editor-managed-a/workspace/primary-a.R": {
+      "bytes": 67,
+      "sha256": "a03eb5265c1d19e46699e5dfb57e809cd7e346579e01703a237b5a0e66aa76df"
+    },
+    "theta0-editor-managed-a/user-data/logs/20260913T070606/window1/exthost/output_logging_20260913T070607/1-Sepalith.log": {
+      "bytes": 1542,
+      "sha256": "c1e30ff4f00181206066511cdb2a05382c6d5dc8e5c9361768d5fc15058c57d0"
+    },
+    "theta0-editor-managed-a-supervision/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "theta0-editor-managed-a-supervision/terminal.json": {
+      "bytes": 308,
+      "sha256": "f1637bbd723750ddac8ef4f10c739ec16dff5ca51f3fb1acb104eff0bfb1886d"
+    },
+    "theta0-editor-managed-a-supervision/owned-process-history.json": {
+      "bytes": 15025,
+      "sha256": "0dd69ad21ed949d172c82d2ec31a128ff5e17c1bf19d70958176c4ed93c2565d"
+    },
+    "theta0-editor-managed-a-supervision/launch.json": {
+      "bytes": 887,
+      "sha256": "14fdb8eae4e7570ac761f1c15b6267c67e80ad1e35e645844f777751553361fd"
+    },
+    "theta0-editor-managed-a-supervision/owned-processes.json": {
+      "bytes": 14573,
+      "sha256": "0f5a63c9b9f496592324a3dd0cd48e846bfc6e8f1b0cd58bc516f3b81a64e7a8"
+    },
+    "theta0-editor-managed-a-supervision/stdout.log": {
+      "bytes": 201,
+      "sha256": "8ebb94d66fbfdadba2da94a8a7e3d09ee7b5f2ae75e005ae66afdb62d5818273"
+    }
+  }
+}

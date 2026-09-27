@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "id": "sft11-cpt-broad-a-to250-20260913",
+  "snapshot": "5149a4065285c681c2230352e5847b861e2ad2e416c8c263131a557e48bd23ca",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+      "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/manifest.json",
+      "sha256": "f54e1c24eb44dfc18bfc944e575d3569247b671932b3259a6f48cee9ad593a7c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/broader-shard-v1-2k/cpt_train.jsonl",
+      "sha256": "c0ef25c474dda17b464c3f412b12cc1b64f1538085dae8c8603c44293ced4b35"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-long-stage-review-v1/draws-1714.json",
+      "sha256": "39e02ec24cd51d27d8eb42bb4bbc4bd5c1bbf3a72b82a6d502f9a71dc4a9ae48"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/broader-shard-v1-2k/manifest.json",
+      "sha256": "f5b615daead1438b8c85aa36c9c672296d90670c87b340441154875f22e72b10"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    }
+  ],
+  "provenance": {
+    "task": "SFT-11",
+    "owner": "lead",
+    "budget_source": "User12h initial18h conditional; entire CPT stage ceiling4h including smoke/continuations. This attempt2400s max, stage wall cutoff23:32UTC. No paid spend.",
+    "acceptance": "Full250, finite per-step optimization, same661360-token package holdout, host/GPU health and throughput. Root reviews before resume750. Fresh Midtrain; no profile checkpoint reused.",
+    "coverage_limit": "Current39M candidate covers1296/10163 CPT-TRAIN groups (12.75%), lexical A-M. This is a partial corpus, not a representative whole-corpus sample. Global seeded next shard is being prepared independently."
+  },
+  "steps": [
+    {
+      "id": "prepare-cpt-host-command",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-a/prepare_guard_command.py",
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-a/recipe.json",
+        "{run}/supervision.json",
+        "{run}/guard-command.json"
+      ],
+      "artifacts": [
+        "guard-command.json"
+      ]
+    },
+    {
+      "id": "guarded-cpt-broad-to250",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-a/cuda_host_guard.py",
+        "--command-json",
+        "{run}/guard-command.json",
+        "--output",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-broad-a-host-supervision",
+        "--seconds",
+        "2460",
+        "--minimum-free-mib",
+        "8192",
+        "--release-cache-file",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/model.safetensors"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ]
+    }
+  ]
+}

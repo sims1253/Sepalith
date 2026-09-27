@@ -1,0 +1,384 @@
+{
+  "cpu_preflight": {
+    "artifacts": [
+      {
+        "exit_code": 0,
+        "framework_imports": {
+          "datasets": false,
+          "torch": false,
+          "transformers": false,
+          "trl": false,
+          "unsloth": false
+        },
+        "name": "uninterrupted",
+        "real_seconds": 30.36,
+        "receipt": {
+          "bytes": 145307212,
+          "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/preflight-uninterrupted.json",
+          "sha256": "f50a89b83b341f2eb881b8e77993882eb46da33fd5c6ba9cc23244eb617dfc86"
+        },
+        "records": 8440,
+        "runtime_cuda_memory_fraction": 0.75,
+        "schedule": {
+          "checkpoint_reserve_seconds": 120.0,
+          "decision_steps": [],
+          "evaluation_steps": [
+            1,
+            2
+          ],
+          "full_save_steps": 1,
+          "light_save_steps": 1,
+          "max_steps": 2
+        },
+        "status": "preflight_pass"
+      },
+      {
+        "exit_code": 0,
+        "framework_imports": {
+          "datasets": false,
+          "torch": false,
+          "transformers": false,
+          "trl": false,
+          "unsloth": false
+        },
+        "name": "split-first",
+        "real_seconds": 31.55,
+        "receipt": {
+          "bytes": 145307225,
+          "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/preflight-split-first.json",
+          "sha256": "f699bc31eb9c6999dceb11555e112160103308b5dffbba43c783fe5d6d6fce6e"
+        },
+        "records": 8440,
+        "runtime_cuda_memory_fraction": 0.75,
+        "schedule": {
+          "checkpoint_reserve_seconds": 120.0,
+          "decision_steps": [
+            1
+          ],
+          "evaluation_steps": [
+            1,
+            2
+          ],
+          "full_save_steps": 1,
+          "light_save_steps": 1,
+          "max_steps": 2
+        },
+        "status": "preflight_pass"
+      },
+      {
+        "exit_code": 2,
+        "expected_conditional_failure": "RLEntryError: resume_from must be an existing directory: /home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-03-two-update-a/split-first/archive/full/checkpoint-1",
+        "name": "split-resume",
+        "real_seconds": 27.53,
+        "receipt": {
+          "bytes": 221,
+          "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/preflight-split-resume.json",
+          "sha256": "cabeb0c543952eb7b2886daf63658326547d1dc29e3d6a1e3f6bc28f1124af0b"
+        },
+        "status": "entry_failed"
+      }
+    ],
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "HF_HUB_OFFLINE": "1",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "model_or_cuda_load": false
+    },
+    "interpretation": {
+      "split-first": "pass",
+      "split-resume": "conditional rejection until split-first full checkpoint-1 exists",
+      "uninterrupted": "pass"
+    },
+    "summary_artifact": {
+      "bytes": 113,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/preflight-run-summary.tsv",
+      "sha256": "ce84caee43646572c07e08a37513fb3d915c8fb4ec63e6155ae7f77136c0ecd0"
+    }
+  },
+  "data": {
+    "admission_status": "admitted",
+    "ordered_ids_sha256": "7e994a3e74a642c149908b0737dfd2befed055e336f7b94400ee9773a6a88d2d",
+    "row_identity_sha256": "d3187195f0ebe401b69df244bbbff0f2a28fb0500185428701f933e31e8eab60",
+    "rows": 8440,
+    "rows_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/eligible-train-rows.jsonl",
+    "rows_sha256": "e54bca71d96cf29f3a75d3e084b601e25edce8fa513cdb2bb61c730a7385f602",
+    "selected_ids_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/selected-train-ids-lead-order-v1.json",
+    "selected_ids_sha256": "24ec16f5ce5343539d31a44aaa843fb4be0de7c6831ec977432affc53fa77a9d",
+    "sidecar_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/context-sidecar.jsonl",
+    "sidecar_rows": 8440,
+    "sidecar_sha256": "6996f89d399e5e4dd5a5dafa49e92e8a49178fbecf15b2d6e769532f1afe703f",
+    "split": "train"
+  },
+  "development": {
+    "audit_artifact": {
+      "bytes": 5781,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/development-panel-audit.json",
+      "sha256": "4bb6d417014574ce0a7dac38d95e8582bd97d103a48c852db03aa2fb5b8e4096"
+    },
+    "max_prompt_case_id": "dat07-existing-719cd49683667d0fb86fb2fa",
+    "max_prompt_plus_target_tokens": 2631,
+    "max_prompt_tokens": 2619,
+    "panel_14_path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-smoke-dev-14-v1.jsonl",
+    "panel_14_rows": 14,
+    "panel_14_sha256": "9192bd278c0342ce94d029ee5b1b9964b3fce0048ed6b99e4bcc0d97aaf06b59",
+    "panel_75_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-final-evaluator-cases.jsonl",
+    "panel_75_rows": 75,
+    "panel_75_sha256": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21",
+    "small_panel_artifact": {
+      "bytes": 186844,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/development-panel-small.jsonl",
+      "sha256": "9192bd278c0342ce94d029ee5b1b9964b3fce0048ed6b99e4bcc0d97aaf06b59"
+    },
+    "target_used_for_prompt_or_request": false
+  },
+  "launch_status": {
+    "launched": false,
+    "launcher_command": "root-owned campaign_rl_launch.py after receipt review; no command executed here",
+    "next_action": "Root reviews this receipt, then may launch bounded uninterrupted and split-first smoke under RL-03-two-update-a; resume is conditional on split-first checkpoint-1.",
+    "quality_claim": false
+  },
+  "live_caps": {
+    "absolute_deadline": "2026-09-12T18:20:00Z",
+    "attempts": 3,
+    "checkpoint_reserve_seconds": 120,
+    "cuda_memory_fraction": 0.75,
+    "max_attempt_seconds_each": 600,
+    "paid_spend": 0,
+    "termination_grace_seconds": 60
+  },
+  "observed_at": "2026-09-12T17:26:40.637704Z",
+  "owner": "worker-rl_contexts",
+  "packet": "RL-03-live-recipe-preparation",
+  "parent": {
+    "base_model_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "kind": "merged_sft",
+    "manifest_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/parent-manifest.json",
+    "manifest_sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12",
+    "merged_weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+    "status": "accepted",
+    "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "weight_inventory_sha256": "819fc3957293ddc66ef0297a16da4cc7e2957181aceeed0d91b0e5d3bfb79d18"
+  },
+  "recipes": {
+    "artifacts": [
+      {
+        "bytes": 74011209,
+        "decision_steps": [],
+        "id": "rl03-two-update-uninterrupted-v1",
+        "identity_sha256": "8a6ed503ec19a3bceef1ab0cb89a2d604d020360491336e253ae131043be60a4",
+        "name": "uninterrupted",
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/rl-two-update-uninterrupted.recipe.json",
+        "resume_from": null,
+        "sha256": "bbe33e575d6ff8e30138dbefeb9d28949ec1bf90749b631cc5878775480c2e93"
+      },
+      {
+        "bytes": 74011210,
+        "decision_steps": [
+          1
+        ],
+        "id": "rl03-two-update-split-first-v1",
+        "identity_sha256": "8a6ed503ec19a3bceef1ab0cb89a2d604d020360491336e253ae131043be60a4",
+        "name": "split-first",
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/rl-two-update-split-first.recipe.json",
+        "resume_from": null,
+        "sha256": "fe3e91d18e24c891ba99c6f9f31785e3f55642f771ddda06823143f70412b5c0"
+      },
+      {
+        "bytes": 74011321,
+        "decision_steps": [],
+        "id": "rl03-two-update-split-resume-v1",
+        "identity_sha256": "8a6ed503ec19a3bceef1ab0cb89a2d604d020360491336e253ae131043be60a4",
+        "name": "split-resume",
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/rl-two-update-split-resume.recipe.json",
+        "resume_from": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-03-two-update-a/split-first/archive/full/checkpoint-1",
+        "sha256": "82c95b47adfe687e753fc0bb9d9cd6c572f1600138b3def759f8dab61c639991"
+      }
+    ],
+    "evaluation_and_saves": {
+      "development_smoke_rows": 14,
+      "evaluation_steps": [
+        1,
+        2
+      ],
+      "full_save_steps": 1,
+      "light_save_steps": 1,
+      "main_development_rows_required": 75,
+      "max_steps": 2
+    },
+    "geometry": {
+      "beta": 0,
+      "candidate_count": 4,
+      "completion_max_tokens": 192,
+      "generation_batch_size": 32,
+      "gradient_accumulation_steps": 4,
+      "loss_type": "bnpo",
+      "managed_context_max_tokens": 2240,
+      "model_load_max_seq_length": 4096,
+      "num_iterations": 1,
+      "per_device_train_batch_size": 8,
+      "prompt_max_tokens": 2048,
+      "scale_rewards": "group",
+      "steps_per_generation": 4
+    },
+    "identity_sha256": "8a6ed503ec19a3bceef1ab0cb89a2d604d020360491336e253ae131043be60a4",
+    "output_root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000",
+    "run_root": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-03-two-update-a",
+    "same_identity_across_continuous_split_resume": true,
+    "shared_identity": true
+  },
+  "rejection_conditions": [
+    "Reject if parent manifest bytes/hash, accepted status, tokenizer, or complete weight inventory changes.",
+    "Reject if RL-02 receipt is not explicitly admitted or any rows/sidecar/selected/schedule hash changes.",
+    "Reject if recipe.cuda_memory_fraction and identity.policy.cuda_memory_fraction are missing or differ from 0.75.",
+    "Reject if any live attempt exceeds 600 seconds, the shared UTC deadline, or the required reserve.",
+    "Reject split-resume until the split-first run produces the exact identity-matched full checkpoint-1.",
+    "Reject continuation or promotion without root review of finite nonzero adapter update and full optimizer/scheduler/RNG/sampler resume evidence."
+  ],
+  "root_gates": {
+    "note": "These gates authorize bounded preparation/smoke only; root owns live launch and continuation.",
+    "rl02_admission": {
+      "launch_admitted": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-02-data-and-gates-admission.json",
+      "sha256": "59efb6dc5361569c247101292c875017913b9cca5d13eb05fe1e52e0f1be3abb",
+      "status": "rl_data_admitted"
+    },
+    "theta0_lead_review": {
+      "gate_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-01-theta0-a/gate.json",
+      "gate_sha256": "82e9c17b7a0a16279556ebdcbd17bd2b1838c86d0408e77c60462a105a801369",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-01-theta0-lead-review.json",
+      "sha256": "3af118fc3ee86006f5baf5dd04ba69ee1e9b0c3ea80efd1d51691a165cd30fbe",
+      "status": "accepted_live_theta0_gate"
+    }
+  },
+  "schedule": {
+    "buffer_reuse": 4,
+    "candidate_count": 4,
+    "completions_per_update": 32,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-pool/source-row-draw-sequence-v4.json",
+    "prefix_artifact": {
+      "bytes": 2195,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/source-prefix-audit.json",
+      "sha256": "95cbfa441fdf766badfdcc371dfdbd206d1f25713cd2a55cb45e4ed5793a32ab"
+    },
+    "prefix_audit_draws": 16,
+    "sequence_sha256": "d44a076d0b850fd607e7c613caa096d04ed352292ceeeb2e17f736dc20a089f2",
+    "sha256": "892991f89d063544d85902eba04c7607f3867897749d3eee4f4e2ac6f407ee48",
+    "source_draws": 24000,
+    "source_draws_per_update": 8
+  },
+  "schema_version": "sepalith.campaign.rl03.live-recipe-preparation.v1",
+  "scope": {
+    "campaign_state_or_lease_touched": false,
+    "cloud_or_ssh_used": false,
+    "cpu_only": true,
+    "cpu_threads_requested": 1,
+    "cuda_started": false,
+    "frozen_source_root": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source",
+    "large_reads": "Only explicitly admitted parent/data/schedule/tokenizer inputs; no whole-drive scan",
+    "launcher_started": false,
+    "model_loaded": false,
+    "owned_paths": [
+      "docs/campaign/work/rl-smoke-live-preparation/*",
+      "docs/campaign/receipts/RL-03-live-recipe-preparation.json"
+    ],
+    "plan_root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb",
+    "server_started": false
+  },
+  "source_inputs": {
+    "derived_generator": {
+      "changes": [
+        "bind cuda_memory_fraction=0.75 at recipe and identity.policy levels",
+        "bind max_attempt_seconds=600 and fixed UTC deadline 2026-09-12T18:20:00Z",
+        "record three-attempt live cap and frozen source root"
+      ],
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/prepare_rl03_live_recipes.py",
+      "sha256": "913b9e01a2d42ebdcbd610aa2c374121aebc56463b011fa1b057ab863bd95584"
+    },
+    "frozen_source_files": [
+      {
+        "bytes": 40337,
+        "name": "campaign_protocol.py",
+        "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+        "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+      },
+      {
+        "bytes": 95258,
+        "name": "campaign_rl_train.py",
+        "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source/experiments/training/campaign_rl_train.py",
+        "sha256": "77bcc7fbe4ef6b6a8ba497d22f6948215f3849b23806dfa6a64f6d3a7b1e1e5f"
+      },
+      {
+        "bytes": 58617,
+        "name": "campaign_rl_entry.py",
+        "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source/experiments/training/campaign_rl_entry.py",
+        "sha256": "786356e4c325c1445327c12c5ff27b3a23c6736d2d1475e338d03b84ef7e60af"
+      },
+      {
+        "bytes": 5384,
+        "name": "campaign_rl_launch.py",
+        "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source/experiments/training/campaign_rl_launch.py",
+        "sha256": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a"
+      },
+      {
+        "bytes": 32259,
+        "name": "campaign_rl_data.py",
+        "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source/experiments/training/campaign_rl_data.py",
+        "sha256": "86ebc3fe80a976e3c35a29057234b341c9e06060135a87382bbf8c915b1db91b"
+      },
+      {
+        "bytes": 11665,
+        "name": "campaign_checkpoint.py",
+        "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/f051ebb9c51a5039ec5b3a81852a5f4c32b3284c066afd30c7baf1066e703c97/source/experiments/training/campaign_checkpoint.py",
+        "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+      }
+    ],
+    "reviewed_generator": {
+      "expected_sha256": "eda26a1027c074c70c73a6755369ea4b88d8fa0944d4b5870d1f8f2b5eec614e",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-preparation/prepare_rl_two_update_smoke.py",
+      "preserved_unchanged": true,
+      "sha256": "eda26a1027c074c70c73a6755369ea4b88d8fa0944d4b5870d1f8f2b5eec614e"
+    }
+  },
+  "status": "cpu_preparation_complete_pending_root_live_smoke",
+  "task": "RL-03",
+  "tokenizer": {
+    "bos_id": 0,
+    "eos_id": 1,
+    "inspection": "tokenizer-only DEV inspection; no model load",
+    "native_eog_ids": [
+      1,
+      130073
+    ],
+    "pad_id": 1,
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native",
+    "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "vocab_size": 130560
+  },
+  "verification": {
+    "checks": [
+      "reviewed input SHA unchanged",
+      "exact caps and fixed deadline in both recipe and identity policy",
+      "shared identity and G4/batch8/acc4/full v4 schedule binding",
+      "parent/admission/data/tokenizer/schedule hashes",
+      "passing non-resume preflights and expected resume rejection"
+    ],
+    "command": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -m unittest discover -s docs/campaign/work/rl-smoke-live-preparation -p 'test_*.py' -v",
+    "preparation_result_artifact": {
+      "bytes": 74014634,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/generated-rl03-step1000/preparation-result.json",
+      "sha256": "110d0b3b8afb5bb56403327d4921c0f9629a5dca8a67989605041c0ef2c2257c"
+    },
+    "result": "PASS: 5 tests",
+    "test_artifact": {
+      "bytes": 6735,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/test_rl03_live_recipe_preparation.py",
+      "sha256": "7ca3d302c48cd7fd0e5ecfa59d96df895cc9aff2eee1d054ef2037ce5c0734f5"
+    },
+    "test_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/rl-smoke-live-preparation/test_rl03_live_recipe_preparation.py"
+  }
+}

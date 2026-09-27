@@ -1,0 +1,84 @@
+{
+  "schema": "sepalith.sft.full-coverage-schedule-packet-manifest.v1",
+  "status": "prepared_not_admitted",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1759,
+      "mode": "0o444",
+      "sha256": "0a8363875ec8300f7f2a159230e766fcbf15729b211156078b42a588d9631a83"
+    },
+    {
+      "path": "audit-e.log",
+      "bytes": 233,
+      "mode": "0o444",
+      "sha256": "3869e3a35753cafa9d0fc82cbc8bcde22e76f2c756a0fb668cbbf76241d5af2c"
+    },
+    {
+      "path": "audit_e_schedule.py",
+      "bytes": 4448,
+      "mode": "0o444",
+      "sha256": "d614f8e7f203a06d6ad4eb654c996d90f40ea0f9ce4c7294a5b83c16a4d68bab"
+    },
+    {
+      "path": "e-actual-schedule-audit.json",
+      "bytes": 2697,
+      "mode": "0o444",
+      "sha256": "b90a5df2c781358fcd636c1e47e61b3c983aa47abcfeb871325ee0c214f15b96"
+    },
+    {
+      "path": "full-coverage-15008-draw-manifest.json",
+      "bytes": 9516258,
+      "mode": "0o444",
+      "sha256": "cd082ce03fad07e1031c5fdf0e6eb650fa7121a5ddb61b52e9e80324f5b0200c"
+    },
+    {
+      "path": "full_coverage_schedule.py",
+      "bytes": 9648,
+      "mode": "0o444",
+      "sha256": "4de8eeb323a8c8829f12557f2203a8d3faa99b65779445ef4a8a342ca8db6a52"
+    },
+    {
+      "path": "generate-15008.log",
+      "bytes": 879,
+      "mode": "0o444",
+      "sha256": "6359ad74cd21b0c900cac2ee33dbe2d5801befd0db0bf9ae102c73788488ab5f"
+    },
+    {
+      "path": "generate-15008.time",
+      "bytes": 1173,
+      "mode": "0o444",
+      "sha256": "3a124d6c3649252d92b5f6a1d58dd0709a776e4c7ed38465c7d353141b66fa64"
+    },
+    {
+      "path": "schedule-summary.json",
+      "bytes": 2639,
+      "mode": "0o444",
+      "sha256": "68e8ed35523923a33130d6b8c957f5cb109752689d537c102850c8de575cb8b9"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 678,
+      "mode": "0o444",
+      "sha256": "48f6d21433096758d1f89458f518914f7a42cfffd46feb7d09d8842af811267f"
+    },
+    {
+      "path": "test_full_coverage_schedule.py",
+      "bytes": 5002,
+      "mode": "0o444",
+      "sha256": "363d5951628567c32165509d1d80c5cbea1fc75c231790cc104e46d59813c57b"
+    },
+    {
+      "path": "tests.log",
+      "bytes": 797,
+      "mode": "0o444",
+      "sha256": "69cf37feaee43e75b41346f2ae5c5ee54468f4b48aff1649db9ad086333b9f6f"
+    },
+    {
+      "path": "tests.time",
+      "bytes": 760,
+      "mode": "0o444",
+      "sha256": "885b24297dfada3a21bd10cc5b10b6034e84933b6108164a2aa321e9695cb2c2"
+    }
+  ]
+}

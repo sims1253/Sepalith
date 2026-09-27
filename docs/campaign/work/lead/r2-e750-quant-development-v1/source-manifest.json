@@ -1,0 +1,51 @@
+{
+  "status": "prepared_native_quality_not_launched",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-quant-development-v1/run.py",
+      "sha256": "9fef6cc46fc7e8fa5c44c1cd5f52206e14e214bde19743b4752bb54985c7609b",
+      "bytes": 1941
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-quant-development-v1/client.py",
+      "sha256": "6da212ff97f8c4d9a5e46d90322a6bdea77e633bf70134f5ef71eac478c1c7aa",
+      "bytes": 1693
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-quant-development-v1/probe.py",
+      "sha256": "fc4d348fa0341d007bce862f877ff1140c0515de785137b1d2c8004d1db98920",
+      "bytes": 29163
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-quant-development-v1/dev-cases.json",
+      "sha256": "45e21974580ff78b1f94b8a6d8e6e05dd7c99bcd9c05048f7e68844b452aab47",
+      "bytes": 1908439
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-quant-development-v1/panel.jsonl",
+      "sha256": "6739323b8a8d5d94dd0e386f8fdedc35a6e09595907908d04a43d0851ac1c197",
+      "bytes": 724987
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-quant-development-v1/manifest.json",
+      "sha256": "4be5ff91890173fdfb6567a4ce39c4d96e32fc0a10fad774bc0a89d961d3e7d2",
+      "bytes": 28639
+    }
+  ],
+  "dev_rows": 75,
+  "dev_prompt_identity_matches_E750_Q8": true,
+  "purpose": "E750 calibrated Q4/IQ3 development quality and45TRAIN latency screen; not final qualification",
+  "target_binding": {
+    "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+    "changed_finish_ids": [
+      "e623a61b5a4c066358a477f2",
+      "4f08633513b5c525240d2540",
+      "d11581e9cfa4e3971aa1466e",
+      "157517ba47dbab157f7c361a",
+      "f43de3e77f2d92ed7b223464",
+      "04834fef4fe59742f13677a9"
+    ],
+    "full_target_text_and_tokens_rebuilt": true,
+    "no_op_wire_semantics": "[NO_EDIT] label, expectedregion remains context.region_old"
+  }
+}

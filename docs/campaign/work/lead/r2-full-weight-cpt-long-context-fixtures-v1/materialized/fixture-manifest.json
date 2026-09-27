@@ -1,0 +1,152 @@
+{
+  "accepted_rechunker": {
+    "artifact_manifest_sha256": "8bcc7a776c0861de579db8326b758e4148b4bf214b0b8d672b9b829975f4d90a",
+    "raw_chunks_sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+    "source_sha256": "6a9b72704b124ec0ecfd715de883f5faf4c8269a16c07d4810bc0e77338c7eea",
+    "validator_sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+  },
+  "fabricated_tokens": false,
+  "fixtures": {
+    "16384": {
+      "bytes": 354496,
+      "exact_sequence_tokens_each": 16384,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/fixtures/cpt-smoke-ctx16384-2rows.jsonl",
+      "proofs": [
+        {
+          "document_id": "ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea",
+          "overlap_context_tokens": 1,
+          "padding_tokens": 0,
+          "row_id": "ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea:ctx16384:1",
+          "source_token_end": 32763,
+          "source_token_start": 16382,
+          "supervised_tokens": 16381,
+          "terminal_eos_supervised": false,
+          "tokens": 16384
+        },
+        {
+          "document_id": "5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6",
+          "overlap_context_tokens": 1,
+          "padding_tokens": 0,
+          "row_id": "5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6:ctx16384:1",
+          "source_token_end": 32763,
+          "source_token_start": 16382,
+          "supervised_tokens": 16381,
+          "terminal_eos_supervised": false,
+          "tokens": 16384
+        }
+      ],
+      "rows": 2,
+      "sha256": "d00aa045629d6244b63066c76102b1d061be846d8cf28787873020b7e9c9ad8d",
+      "supervised_tokens": 32762
+    },
+    "8192": {
+      "bytes": 178786,
+      "exact_sequence_tokens_each": 8192,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/fixtures/cpt-smoke-ctx8192-2rows.jsonl",
+      "proofs": [
+        {
+          "document_id": "ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea",
+          "overlap_context_tokens": 1,
+          "padding_tokens": 0,
+          "row_id": "ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea:ctx8192:1",
+          "source_token_end": 16379,
+          "source_token_start": 8190,
+          "supervised_tokens": 8189,
+          "terminal_eos_supervised": false,
+          "tokens": 8192
+        },
+        {
+          "document_id": "5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6",
+          "overlap_context_tokens": 1,
+          "padding_tokens": 0,
+          "row_id": "5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6:ctx8192:1",
+          "source_token_end": 16379,
+          "source_token_start": 8190,
+          "supervised_tokens": 8189,
+          "terminal_eos_supervised": false,
+          "tokens": 8192
+        }
+      ],
+      "rows": 2,
+      "sha256": "b73f7f47c53eff2d70a0f9509dda47d08510a8b47256b4f6b0c3d447ae8de292",
+      "supervised_tokens": 16378
+    }
+  },
+  "padding": "none",
+  "root_smoke": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v4/full_weight_smoke.py",
+    "sha256": "08281c5303ebe48b656fc38f19b7494f62876859bda695995558a027154e19ba"
+  },
+  "schema": "sepalith.sft11.cpt-long-context-fixtures.v1",
+  "selection": "chunk_index=1 from each complete document; exact full-length continuation rows exercise masked carry and masked nonterminal EOS",
+  "source_documents": [
+    {
+      "committed_documents": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000781-g-ddd90c45c26f72079f15/documents.jsonl",
+        "sha256": "f8c61ef5fccee25316e98c88c204aa29e81aa114fc754e1b53cfeb5a7e884ad0"
+      },
+      "committed_group_rows": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000781-g-ddd90c45c26f72079f15/cpt_train.jsonl",
+        "sha256": "f17a6db5816a6c79c470c6a3a66e02091332cbf1538895fecf9168276d45f6c5"
+      },
+      "committed_receipt": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000781-g-ddd90c45c26f72079f15/receipt.json",
+        "sha256": "07cc4c1f7896fbff8f6a05a8e7d4fda112812dbd3052cba8d2a7243373e427cd"
+      },
+      "document_id": "ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea",
+      "document_tokens": 37154,
+      "group_id": "g-ddd90c45c26f72079f15",
+      "package": "geospatialsuite",
+      "selected_original": {
+        "path": "docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/original/ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea.jsonl",
+        "rows": 19,
+        "sha256": "119abc014a3f33ee291f0387d85445433e44ad7cb37f9a3f8fe7320cf42316fd"
+      },
+      "source_path": "/mnt/h/sepalith/normalized/geospatialsuite/0.2.0/geospatialsuite/R/02-vegetation-indices.R",
+      "source_sha256": "ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea"
+    },
+    {
+      "committed_documents": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000805-g-d75bc793b3a68ab86f69/documents.jsonl",
+        "sha256": "b3d8166ccf95a4dd96d8dc69510ecacb496d6259e79ec044963bb2292d51c25f"
+      },
+      "committed_group_rows": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000805-g-d75bc793b3a68ab86f69/cpt_train.jsonl",
+        "sha256": "54d6b1c124180ff38257561721d1b4dec2adfe2a46d71aabf8a2f2af218af2a1"
+      },
+      "committed_receipt": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000805-g-d75bc793b3a68ab86f69/receipt.json",
+        "sha256": "db34963f2787b8a1e084e3bba023255a1281d1e4a61706c4a6acab9b57fab8bd"
+      },
+      "document_id": "5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6",
+      "document_tokens": 33063,
+      "group_id": "g-d75bc793b3a68ab86f69",
+      "package": "binGroup",
+      "selected_original": {
+        "path": "docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/original/5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6.jsonl",
+        "rows": 17,
+        "sha256": "522d291831fe2d13846a7c63a360047f3ef3f96a77d06de371911da2a1abfcb0"
+      },
+      "source_path": "/mnt/h/sepalith/normalized/binGroup/2.2-3/binGroup/R/Hierarchical.Functions.R",
+      "source_sha256": "5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6"
+    }
+  ],
+  "status": "prepared_no_cuda_no_launch",
+  "token_conservation": {
+    "all_source_tokens_once_per_context": true,
+    "per_context_payload_tokens": {
+      "16384": 70217,
+      "32768": 70217,
+      "8192": 70217
+    },
+    "per_context_terminal_eos": {
+      "16384": 2,
+      "32768": 2,
+      "8192": 2
+    },
+    "rechunk_result_sha256": "94b446d7a49ab36e56188e02d2aeb9ac8ada4b0cb1dbafcde5afb21649b9230c",
+    "source_documents": 2,
+    "source_payload_tokens": 70217
+  },
+  "truncation": false
+}

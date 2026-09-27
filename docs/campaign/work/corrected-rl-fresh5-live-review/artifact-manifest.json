@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "scope": "Worker-owned review artifacts; no model or checkpoint tensor hashes",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/REVIEW.md",
+      "bytes": 4495,
+      "sha256": "63c946d8cf80e2cff032dad8bf3df7ffa9a1af1de0149a5b4be4b37d1f7340db"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/latest-summary.txt",
+      "bytes": 4057,
+      "sha256": "cbf6d9300c7ec688de79c2bfb8dcd21787f308b94bbd8b252b1fd19e92fa347c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/latest.json",
+      "bytes": 28638,
+      "sha256": "5444e2c5e0cdb7585150ade9e685037d9b68b8def44eee3bc7526e9471c38951"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/observation-2026-09-13T140913.006707_0000.json",
+      "bytes": 25101,
+      "sha256": "ea049d0e4b0c351a05988bc9c9642895bbbea796b9bf49fba1137338a3c0e72f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/observation-2026-09-13T141054.813294_0000.json",
+      "bytes": 29339,
+      "sha256": "d7a04d4e420cbdc4272213af5227e45dee9963f1e9a09903f15a37f8e6ab0156"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/observation-2026-09-13T141229.660419_0000.json",
+      "bytes": 29339,
+      "sha256": "0b700dc8835b31823c817f89252965d24ff94ef8e963bf22f099c222d08982c6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/observation-2026-09-13T142243.080208_0000.json",
+      "bytes": 28638,
+      "sha256": "5444e2c5e0cdb7585150ade9e685037d9b68b8def44eee3bc7526e9471c38951"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/pair_dev.py",
+      "bytes": 6150,
+      "sha256": "3e86e2f480d3fb23bdae487ac55b3be1fb90ea782ddac1788340a683801ce520"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/paired-case-changes.json",
+      "bytes": 8424,
+      "sha256": "84e5f7c59ef8b1610cd933168d9efbabc8304ec65d599c60dd88b96283064d7c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/paired-dev.json",
+      "bytes": 68324,
+      "sha256": "6a538ebff24f6d490d341c9222b9ea43dd1b2e8aad2d920d24869192fb16bb5e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/review_live.py",
+      "bytes": 9815,
+      "sha256": "3f6f19d53291b72ea371d666d1617708e22cc5ae56b750e280f464d799d5fbcd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/source-and-admission-pins.json",
+      "bytes": 2083,
+      "sha256": "6f4d3836d8efb578ebb29d78ec917caab33ad5b2d6876702ed0edb450dddb7ef"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/terminal-timing.json",
+      "bytes": 2078,
+      "sha256": "06cbc794fbb07f513a1d9bc14a39e9bc1896c470c9263ac494826f7a1f393755"
+    }
+  ]
+}

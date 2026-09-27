@@ -1,0 +1,353 @@
+{
+  "schema": "RUN-01.daily-editor-smoke-independent-review.input-manifest.v1",
+  "report": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-a-independent-review/review-report.json",
+    "label": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-a-independent-review/review-report.json",
+    "bytes": 91350,
+    "sha256": "e5ee2a62dd5d95daff2a18f0a3826f06e6be353364d9a13115c9e2bed4c00375"
+  },
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-preparation-v1/README.md",
+      "label": "work/daily-editor-smoke-preparation-v1/README.md",
+      "bytes": 2751,
+      "sha256": "edfdacbdf7ff68d49f7b1950c1debea031a3d040ca516e2785dcf6f2050e63fd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-preparation-v1/expected-daily-settings.json",
+      "label": "work/daily-editor-smoke-preparation-v1/expected-daily-settings.json",
+      "bytes": 556,
+      "sha256": "2c8dcf15b46ac74d92df82b3b4cbaa484a8cbb7f548908106dc43d474c5c03df"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-preparation-v1/installed-payload-pins.json",
+      "label": "work/daily-editor-smoke-preparation-v1/installed-payload-pins.json",
+      "bytes": 9246,
+      "sha256": "3c14ad52ecab28ab0cd0956ad99811d77c176613c7768a43adcef43b88b77d54"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-preparation-v1/capsule-manifest.json",
+      "label": "work/daily-editor-smoke-preparation-v1/capsule-manifest.json",
+      "bytes": 1013,
+      "sha256": "df665a39f08f3c853a7d39ef3c7cfa4b90786df4cdd0ec47b5befaeea1b04982"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-lan-launch-preparation-v2/source-manifest.json",
+      "label": "work/daily-lan-launch-preparation-v2/source-manifest.json",
+      "bytes": 847,
+      "sha256": "8a5fba042446deb5fd15f6e8abcb3e6cea656be9cbc16105d1986993802ff4ed"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RUN-01-daily-editor-smoke-a-admission.json",
+      "label": "receipts/RUN-01-daily-editor-smoke-a-admission.json",
+      "bytes": 2717,
+      "sha256": "a636964467597b46f55aca0e1df51533e87870cb57b5c7287707d943131d35cd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RUN-01-daily-editor-smoke-b-admission.json",
+      "label": "receipts/RUN-01-daily-editor-smoke-b-admission.json",
+      "bytes": 3359,
+      "sha256": "8a917dd8a823673fdcb18dcc291c389bb1bdbb57806f51a7be4fafef575d8ad3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RUN-01-daily-editor-smoke-a-resource-release.json",
+      "label": "receipts/RUN-01-daily-editor-smoke-a-resource-release.json",
+      "bytes": 3350,
+      "sha256": "72f220e9e00d91db726a43f8d381e26b496266b07401226f8d00fd0b7af7ab1a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RUN-01-daily-editor-smoke-b-resource-release.json",
+      "label": "receipts/RUN-01-daily-editor-smoke-b-resource-release.json",
+      "bytes": 3255,
+      "sha256": "9de2e01ce3043ffa3a017aee1c9e48473ab95c7ceba66f2a4328a7daabe80567"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/preflight.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/preflight.json",
+      "bytes": 1423,
+      "sha256": "d0ddb6977c175125eb85338bd760ad6bd49065cff39db255e2e733f56c648ce4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/daily-profile-clone.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/daily-profile-clone.json",
+      "bytes": 709,
+      "sha256": "39159e2f9aec8c06af83a45488dacc365fb97109c640269a42954560524bf7d7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/daily-smoke-result.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/daily-smoke-result.json",
+      "bytes": 1682,
+      "sha256": "ea8825f7ab88d858422129ba1a12fea0e62d26c14d659987f5ae6f0218586230"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/acceptance-v2-buffers.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/acceptance-v2-buffers.json",
+      "bytes": 501,
+      "sha256": "cee747b2d9a7b81a7201d0f7240627292822b8f1ac9e1ff694b147f0f780a5af"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/r-parse.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/r-parse.json",
+      "bytes": 369,
+      "sha256": "ef385dcacd49e79d4c16df47ddde0bcab13403acd2bd4e778051fe372a1e08ce"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/r-parse.stdout.log",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/r-parse.stdout.log",
+      "bytes": 16,
+      "sha256": "7791269f1b9270e3f5d0348215932b8ff66946ed93c5961b0fb84be42b111e62"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/r-parse.stderr.log",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/r-parse.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/host-result.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/host-result.json",
+      "bytes": 25636,
+      "sha256": "19b975e7ccc1cf86b762c3fd9f2698bbab7753170830e7240107d4988662d3d8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-analysis.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-analysis.json",
+      "bytes": 3694,
+      "sha256": "cd434896441443a87e54d431f09e05b9aa94475bab6e660b3054494370825bc3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-observer.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-observer.json",
+      "bytes": 1359,
+      "sha256": "7072ea4fc0d371a421441c7b54307698f5acdb40617811dc0f55c4d9400a8085"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-result.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-result.json",
+      "bytes": 1183,
+      "sha256": "9f83b49acef43a2f52f443b3e9706f48d906d77263ce6dfd40ab6a9cf86bda97"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-frames.jsonl",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-frames.jsonl",
+      "bytes": 1571229,
+      "sha256": "3a8aea2887db5e50003da74be5c632e074ae005bb00fe123a9b6b1a53acb59ef"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-ready.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/renderer-ready.json",
+      "bytes": 980,
+      "sha256": "7910c27fb2c3946c9af2f2cdd5091901100a07203f0bcc9ad41a699f74772095"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/run-result.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/run-result.json",
+      "bytes": 280,
+      "sha256": "1ac9c2e2b2fd422fe4898108a73fd58f7d50143833e7f4e9ea2815691fbda407"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/run/runtime-status.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/run/runtime-status.json",
+      "bytes": 130,
+      "sha256": "3f22876849be4ef79feb09779d2d200923867fd174a3ca22eaae7f6fdd519aaa"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/supervision/owned-process-history.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/supervision/owned-process-history.json",
+      "bytes": 15462,
+      "sha256": "8e322c837c87ea941a04520eff771f024d4b343c8f19b9544d049d467a48fb39"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-a/notebook-evidence/supervision/terminal.json",
+      "label": "work/lead/daily-editor-smoke-a/notebook-evidence/supervision/terminal.json",
+      "bytes": 307,
+      "sha256": "ad7e702651030e830d71ec933359dd19a154104c67ef88d3ee1f1e27b2520ab2"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/gateway-events.jsonl",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/gateway-events.jsonl",
+      "bytes": 30073,
+      "sha256": "e16f0823922aba64bfbe77d034fa8d8f970756ba4a09aea7251fcd1ad3dcc93e"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/native.log",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/native.log",
+      "bytes": 20447,
+      "sha256": "9b04e10645bfe2e35f406374a6a5d1fa804c0fe376ae8932bb2ecd3a08666c54"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/terminal.json",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/terminal.json",
+      "bytes": 1222,
+      "sha256": "a0cce1bfe0f81a3e3dfe6bec78f9e0119ce73e21e82131bef8f56e8830122009"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/ready.json",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/ready.json",
+      "bytes": 578,
+      "sha256": "f831e819879e36fe7018352bd067de121d1de7fac6f04e2477dbc13690646c90"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/binding.json",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/binding.json",
+      "bytes": 6202,
+      "sha256": "8d399c7cb79e8627003144bd042d0408f643a3d485109485647952aba3106411"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/binding-upload.log",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-a/03584fe3-2d3e-4fa6-b0e3-49e23c6ea94d/binding-upload.log",
+      "bytes": 140,
+      "sha256": "a1a3cdd21cf8b5b7eb13fbe928f8698072a6c69b4141406745356c6f654d3265"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/preflight.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/preflight.json",
+      "bytes": 1423,
+      "sha256": "fb34dd9ab168c173dfd418c580df291ecd2835ab029914101a7916c4c924c5bf"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/daily-profile-clone.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/daily-profile-clone.json",
+      "bytes": 709,
+      "sha256": "39159e2f9aec8c06af83a45488dacc365fb97109c640269a42954560524bf7d7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/daily-smoke-result.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/daily-smoke-result.json",
+      "bytes": 1682,
+      "sha256": "6f5806bee8c8889367babc9d444eb0aeead17f0f64da3e3bfce70aaec050661e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/acceptance-v2-buffers.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/acceptance-v2-buffers.json",
+      "bytes": 501,
+      "sha256": "cee747b2d9a7b81a7201d0f7240627292822b8f1ac9e1ff694b147f0f780a5af"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/r-parse.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/r-parse.json",
+      "bytes": 369,
+      "sha256": "bde3dd3506b5b52a71b396411224c3397f2363a2a781c38e49586616059be78d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/r-parse.stdout.log",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/r-parse.stdout.log",
+      "bytes": 16,
+      "sha256": "7791269f1b9270e3f5d0348215932b8ff66946ed93c5961b0fb84be42b111e62"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/r-parse.stderr.log",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/r-parse.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/host-result.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/host-result.json",
+      "bytes": 25632,
+      "sha256": "ce79f8e90eaf89959057802e32afa45c7e90f52b91eefee755a689bb8904e9a5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-analysis.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-analysis.json",
+      "bytes": 3724,
+      "sha256": "c2bddb741041b78925076d9d073ee2836c4011e154ba96dcd89761d44f7b5b15"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-observer.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-observer.json",
+      "bytes": 1359,
+      "sha256": "e4ec9c80c2c00ae7277a0e8b294106d20e7133eaf45a013022a5256cc716260e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-result.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-result.json",
+      "bytes": 1183,
+      "sha256": "1ec387372015b985d8e51b14ce0c56bfc3fae6594fd30738022469bae41277af"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-frames.jsonl",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-frames.jsonl",
+      "bytes": 1574282,
+      "sha256": "38461075ce20c269671004bea85d7e20f62ee06c0e246e7e26a695dfb688fee3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-ready.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/renderer-ready.json",
+      "bytes": 977,
+      "sha256": "4414f09bcef1d58c208be759c43bb36f244365e9140cb5cee4be05216086a74f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/run-result.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/run-result.json",
+      "bytes": 280,
+      "sha256": "97dca27f298c348fd8e7539d3817ba487d608dacdf7037ef3917ba24d22d0518"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/run/runtime-status.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/run/runtime-status.json",
+      "bytes": 130,
+      "sha256": "bb6d947114127f8a1652443a4949cba162eb9678bd713aeb55765f1d0d683726"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/supervision/owned-process-history.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/supervision/owned-process-history.json",
+      "bytes": 15795,
+      "sha256": "eb81697180c6e137f83dacac328b05ee2703eae4734f4e3d2ca7d55f0c8cf6a8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/supervision/terminal.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/supervision/terminal.json",
+      "bytes": 307,
+      "sha256": "3e4db34f2491a8e2436e35f2c0370d6dc999c0515218f5c0c802efbcb297cafc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/daily-editor-smoke-b/notebook-evidence/source-hashes.json",
+      "label": "work/lead/daily-editor-smoke-b/notebook-evidence/source-hashes.json",
+      "bytes": 3627,
+      "sha256": "640a3213ebd6883e138d20d90fac0e93e42de4fba8a82f98092839dc868fde12"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/gateway-events.jsonl",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/gateway-events.jsonl",
+      "bytes": 30581,
+      "sha256": "e979b54bb90b32bbf4cc177194e3092ada11acc5dc5185aff80c3d8dc0f1260b"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/native.log",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/native.log",
+      "bytes": 20447,
+      "sha256": "a0edb9872b2ddc3545e38e281294ae262fef034faac57c8d3b41e29f0c95fb51"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/terminal.json",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/terminal.json",
+      "bytes": 1220,
+      "sha256": "05ad09176e385c512fa28a6d0c4bbea1f78c4bc59f88fbacb7bf60e17a3fff4e"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/ready.json",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/ready.json",
+      "bytes": 578,
+      "sha256": "278a03eb8bab34de718374a31fd946b4b7619046e00a3d488481ba931fc2f74e"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/binding.json",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/binding.json",
+      "bytes": 6202,
+      "sha256": "f1db90ce954d0cfb36e2ca3255731e96df160871f19b9b6fdf6744c69889f0c8"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/binding-upload.log",
+      "label": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-01-daily-editor-smoke-b/2fb82684-910e-410c-a0cf-ffbb916c2e63/binding-upload.log",
+      "bytes": 140,
+      "sha256": "8c3197674666a71f4d2e5f81aa6fcf33f22a04ab91d58ed51850a694c151fc3d"
+    }
+  ],
+  "readme": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-a-independent-review/README.md",
+    "label": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/daily-editor-smoke-a-independent-review/README.md",
+    "bytes": 634,
+    "sha256": "dd8b2a2d2691614ddf73cb309411f1d29d81ad751d6b1d07f0728609045db749"
+  }
+}

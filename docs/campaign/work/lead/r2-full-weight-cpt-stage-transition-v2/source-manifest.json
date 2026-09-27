@@ -1,0 +1,91 @@
+{
+  "schema": "sepalith.full-weight-cpt-stage-transition-source.v1",
+  "packet_revision": "v2-recursive-source-transition",
+  "files": [
+    {
+      "path": "source/experiments/training/bind_stage_transition.py",
+      "bytes": 6579,
+      "sha256": "d7ca3743658ce985cecf4890a592349dac7c09b1b3cbe14ed04771cf276e81cc"
+    },
+    {
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "bytes": 13663,
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "bytes": 29909,
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "bytes": 4667,
+      "sha256": "cf982c2600a62b7e628f0cc0fc20dbb5270e0c1b01c75bd9a62a6aef2126e1a2"
+    },
+    {
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "bytes": 15257,
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "path": "source/experiments/training/cpt_streaming_cache.py",
+      "bytes": 12263,
+      "sha256": "0729f5a3f8a5363bc6ac5c2fc59c7ad2e22c125f0e39e5b43756e1eb5b940976"
+    },
+    {
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "bytes": 30566,
+      "sha256": "775f5110b0f5afb9a483df1e80f37957e863192a87a84f7063750b57f670d8b2"
+    },
+    {
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "bytes": 19826,
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "path": "source/experiments/training/model_layout.py",
+      "bytes": 2680,
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "bytes": 1397,
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "path": "source/experiments/training/saved_precision.py",
+      "bytes": 1783,
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "path": "source/experiments/training/stage_transition_contract.py",
+      "bytes": 11699,
+      "sha256": "5368088983d1fd0c209980ec32a8b389aec69ccf6dc51bbdbfdce76f3694f209"
+    },
+    {
+      "path": "source/experiments/training/streaming_trainer_adapter.py",
+      "bytes": 2995,
+      "sha256": "611b2ad82ada65a96fda22136e11fbcda4f92655376f2abb2a6b233794aa5a7d"
+    },
+    {
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "bytes": 7843,
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "bytes": 67,
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "changes": [
+    "admit an exact prior stage-transition full checkpoint as a new transition source",
+    "verify prior stage-local offset/cursor/schedule/global-step identity and small checkpoint metadata hashes",
+    "preserve optimizer LR scheduler RNG and reset only destination stage cursor"
+  ]
+}

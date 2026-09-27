@@ -1,0 +1,16 @@
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) != 2L) stop("usage: roxygen_parse_only.R DOC PARAMS", call. = FALSE)
+lines <- readLines(args[[1L]], warn = FALSE, encoding = "UTF-8")
+params <- readLines(args[[2L]], warn = FALSE, encoding = "UTF-8")
+if (any(!grepl("^\\s*#'", lines[nzchar(trimws(lines))]))) quit(status = 1L, save = "no")
+tags <- sub("^\\s*#'\\s*", "", lines)
+tags <- sub("^@([A-Za-z][A-Za-z0-9]*).*$", "\\1", tags[grepl("^@", tags)])
+allowed <- c("param", "return", "returns", "description", "details", "title", "noRd", "export", "keywords")
+if (any(!tags %in% allowed)) quit(status = 2L, save = "no")
+formal_text <- paste(params, collapse = ", ")
+probe <- c(lines, sprintf(".__sepalith_roxy_probe__ <- function(%s) NULL", formal_text))
+status <- tryCatch({
+  roxygen2::roc_proc_text(roxygen2::rd_roclet(), probe)
+  0L
+}, error = function(condition) 1L, warning = function(condition) 1L)
+quit(status = status, save = "no")

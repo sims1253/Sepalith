@@ -1,0 +1,39 @@
+{
+  "schema": "dat08.native-dev-root-launch.v1",
+  "status": "ROOT_MUST_ADMIT",
+  "run_id": null,
+  "lease_id": null,
+  "created_at": null,
+  "expires_at": null,
+  "source_policy_reviewed": true,
+  "exclusive_gpu_owner": true,
+  "no_other_clients": true,
+  "native_loading_trust_accepted": true,
+  "dev_only": true,
+  "output_cap": 768,
+  "profile_sha256": "48ec9fc41b7b56653f313c9302295bcfc0609c409afc23a6f31fbb79927af158",
+  "port": 18423,
+  "client_seconds": 600,
+  "host_seconds": 780,
+  "client_rss_bytes": 1610612736,
+  "server_rss_bytes": 8589934592,
+  "input_files": {
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/root_controller.py": "2dc30865272039aa22b9494e27fa2de00810328ddfe54f41e61771673375452b",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/source-closure.prepared.json": "de363cd0b156c5c6c6d8594e37e1e7d31681dc303b3d625effdc85fe6dc10b31",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/native-mapped-code-allowlist.json": "1bd57fd1b144063c0a9fcbadf1f13902b17d9eff77f540f9bcd050ee27899ef3",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/guarded_dev_client.py": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/client_source_policy.py": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/origin_snapshot.py": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_controller/elf-loader-metadata.json": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_evaluator/profile.json": "0b8c58f464393ce235bf147a5567a9691d0b87409444a37c46202959e26796c0",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_evaluator/selection_binding.py": "2f862edae838d0cf4d3448e7a0451f879318d8ab8632cdbdd4e0e1c4ca1b7189",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_evaluator/cap_contract.py": "e67245e7d80e1aea155520522b9ff4ce78e457a1656607bd22bf6b954239cc7e",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-e750-output-cap-overlay-v1/arms/cap-768/native_evaluator/native_transport.py": "a4f06fd250d35047ceb917c1104cef59d266f5f8ace05be28b4c452ec819ff7f"
+  },
+  "data_files": {
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "arm": "ROOT_FILL_ordinary_reference_OR_varlen_candidate",
+  "bound_recipe_sha256": "ROOT_FILL_FINAL_ARM_RECIPE_SHA256",
+  "launch_authorized": false,
+  "logical_rows": 16,
+  "production_packing_admitted": false,
+  "schema": "sepalith.sft11.native-varlen-canary-admission.v1",
+  "source_checkpoint": "ROOT_FILL_REVIEWED_CHECKPOINT_322_PREFERRED_OR_194_FALLBACK",
+  "source_checkpoint_manifest_sha256": "ROOT_FILL_REVIEWED_MANIFEST_SHA256",
+  "source_cursor": "ROOT_FILL_STAGE_CURSOR",
+  "source_global_step": "ROOT_FILL_322_OR_194",
+  "status": "preparation_only",
+  "target_cursor": "ROOT_FILL_SOURCE_CURSOR_PLUS_16_TIMES_UPDATES",
+  "target_global_step": "ROOT_FILL_SOURCE_PLUS_UPDATES",
+  "updates": "ROOT_FILL_1_OR_8"
+}

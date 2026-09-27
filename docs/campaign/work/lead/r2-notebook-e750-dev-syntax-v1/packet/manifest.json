@@ -1,0 +1,12 @@
+{
+  "decoded_body_text_used": false,
+  "generated_r_executed": false,
+  "old_reviewed_packet_manifest_sha256": "d3695131bfe62003526777b275fc91cc49a330352990286fd149189086fe56b1",
+  "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+  "protocol_invalid": 5,
+  "protocol_valid": 70,
+  "raw_wire_parsed_context_aware": true,
+  "result_sha256": "aaff0befb2926c0c6ff4b5279300af7426eb9ac69105e64dbe8748db6775fd8c",
+  "rows": 75,
+  "schema": "sepalith.notebook-e750-dev-syntax-input.v1"
+}

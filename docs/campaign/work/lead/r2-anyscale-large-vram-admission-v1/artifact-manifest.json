@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "bytes": 1991,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v1/account-evidence.json",
+      "sha256": "0644b03826c2d36f5b45f4e49eb4619117ea8646b66a57c96d225299f21d9ce0"
+    },
+    {
+      "bytes": 5536,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v1/feasibility.json",
+      "sha256": "52783a683c5a8264d578f769e2e116b88ee1b00b417a17cdea0b7f3b381d273a"
+    },
+    {
+      "bytes": 3377,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v1/read_only_probe.py",
+      "sha256": "4ff91a520f6215610fdb8de92ec7424ca15470a5f778f0fe39b329da707d1215"
+    },
+    {
+      "bytes": 246,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v1/test-results.log",
+      "sha256": "dd21022f44c59354bada8349976dd2b58bb1efd37204398b79b996854a7e6c36"
+    },
+    {
+      "bytes": 2029,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v1/test_read_only_probe.py",
+      "sha256": "2fb53630f2c4a6cda9a91911323e46d274a361819058a67145d1765657c5a422"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

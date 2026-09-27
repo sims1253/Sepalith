@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-14T09:02:32.618321+00:00",
+  "task": "SFT-11 / PAR-01",
+  "status": "root_admitted_single_CPT_cloud_attempt",
+  "admitted": true,
+  "paid_launch_authorized": true,
+  "recipe_sha256": "254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538",
+  "source_snapshot": "7e4e80059416b3783c783a532d95b40af6067076e7a0a23d64e3b571f478c9df",
+  "input_revision": "1e4df9c9db3cee1a7df5bbcc7caa62920d2ab2db",
+  "payload_manifest_sha256": "9571d35502e5efcb2867e5d85efb31cded552b55fc6464de6395476c6064dc61",
+  "input_readback_sha256": "72f5cd999a0cd5b70c4e48ca100e140582c2ed61bf499bc346b5e8ce3b910f40",
+  "root_lifecycle_review_sha256": "bc60ce4701eb09b21ba9d55641f8ef7c655256d5f939adc5b2b6c91137174d6a",
+  "resource": {
+    "provider": "Anyscale Hosted",
+    "instance": "g5.2xlarge",
+    "head_nodes": 1,
+    "workers": 0,
+    "provider_seconds": 28800,
+    "watchdog_seconds": 29100,
+    "max_retries": 0
+  },
+  "budget": {
+    "incremental_reservation_usd": 28,
+    "campaign_ceiling_usd": 60,
+    "account_spent_before_usd": 5.905478882,
+    "balance_before_usd": 94.094521118,
+    "account_spent_plus_reservation_usd": 33.905478882,
+    "basis": "Official Hosted compute table instance containing A10G1.3635AC/hour;8h listed10.908AC with17.092reservation margin. Single exact instance/no workers. Final invoice can differ; not a provider hard-dollar cap.",
+    "source": "https://www.anyscale.com/pricing",
+    "source_observed_utc": "2026-09-14T09:02:32.618532+00:00",
+    "coverage": "User confirmed broad credit coverage; expiry2126 and current funded balance verified."
+  },
+  "displaced_work": "Uses28USD of existing60USD allocation for remaining admitted CPT coverage; optional cloud draft/consolidation cannot spend this reservation. No local CUDA displacement.",
+  "acceptance": "Runtime gates, intermediate full317 cadence with persisted optimizer/RNG/sampler, final1902/cursor30432 exact identity and independent remote artifact verification. No model promotion from provider success. Broader all-eligible CPT remains required followup.",
+  "pre_submit_conditions": [
+    "Root validates fresh binding and live owned watchdog before SDK submission",
+    "SDK rechecks funded balance and ceiling immediately before submission",
+    "No automatic retries or parallel paid jobs admitted"
+  ],
+  "final_access": false
+}

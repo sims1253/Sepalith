@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "bytes": 1062,
+      "mode": "0444",
+      "path": "README.md",
+      "sha256": "f1198a858066d2b1b6ea9a9960cf1927ac0a895847b159724b957049b676a245"
+    },
+    {
+      "bytes": 9498,
+      "mode": "0444",
+      "path": "review.json",
+      "sha256": "182ce3aa8fd643c9928fc059ca76068dd6e5952e7588e43c4e4bcf2134e7ad76"
+    },
+    {
+      "bytes": 527,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "6d36a973ba7b13cdf146b7f0ca62efa1dc22120dbe392b36b116a73f12b2adbb"
+    },
+    {
+      "bytes": 5491,
+      "mode": "0444",
+      "path": "test_review.py",
+      "sha256": "b4a5b78fdc4a119e6789ae28f9492d56f9de037f3017da9a6ea1148f0fa800ed"
+    }
+  ],
+  "identity_sha256": "eb54f9d1e2e67489727f853fe3b6ef3ad27e572fa56b51724cdf24bbd35dce0e",
+  "schema": "sepalith.run06.final-target-serving-refresh-review-source.v1"
+}

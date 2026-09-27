@@ -1,0 +1,121 @@
+{
+  "artifact_identity_sha256": "7e6f8aef7bb800c3dc2f2bcd53d9acfe00afccc2e56f7d89f05d6a89f0dab0c1",
+  "files": [
+    {
+      "bytes": 2079,
+      "path": "README.md",
+      "sha256": "8bb746404d6e55dbb7c5e5db559a6cff6426d61608f233c75f1b7bdfe3e62f81"
+    },
+    {
+      "bytes": 2038,
+      "path": "data-queue.json",
+      "sha256": "b471bc54f6940857cadf4e36494132380e2b80eadaf4e04a041f78a92fc41bcb"
+    },
+    {
+      "bytes": 1095,
+      "path": "length-profile.json",
+      "sha256": "33ef2275bf593c229ed9e01e292f0946b1632a2c1c70777ed0f23880db931cc5"
+    },
+    {
+      "bytes": 5064,
+      "path": "recipe.template.json",
+      "sha256": "352bc092423c0edf29d25d030f8b8cfec1edc1474231cabfe0248c984019fd4c"
+    },
+    {
+      "bytes": 10379495,
+      "path": "repaired15006-draw-schedule.json",
+      "sha256": "287eafcb4ed14989e1b2819de885b5febfbe2b633b5ea07df63d1763811f73e9"
+    },
+    {
+      "bytes": 1566,
+      "path": "root-admission.template.json",
+      "sha256": "06d02d559f1bf7bd26b4e290c057d9ecae1d17e37900afc3a53669fbe44289c3"
+    },
+    {
+      "bytes": 1921,
+      "path": "root-commands.json",
+      "sha256": "44686f74f39618e8b6ffc95a6f110981b1f26fc88c00d97fd49afd3e7866f436"
+    },
+    {
+      "bytes": 4789,
+      "path": "source/experiments/training/bind_full_weight_edit_sft.py",
+      "sha256": "1750a0c732a177f025d9c8da8f47890f1dc89ac15b33d1e5abb1961e1a1bd35f"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 5508,
+      "path": "source/experiments/training/campaign_edit_data.py",
+      "sha256": "a4c4b36b117dd8c4b0da668ba32f55d1752deb837b4b7bc311eca0a9e3190cc4"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 11493,
+      "path": "source/experiments/training/full_coverage_schedule.py",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "bytes": 26957,
+      "path": "source/experiments/training/full_weight_edit_sft.py",
+      "sha256": "af86b1ce04171d1bd7545a11254837cdcb5ea029ee614f7aff93168f5cfb8387"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 1397,
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 2417,
+      "path": "source-manifest.json",
+      "sha256": "306502d3e3db173806c0e5e83407c3601acd5a99093c5a21dd8b2350ec18a323"
+    },
+    {
+      "bytes": 191,
+      "path": "template-preflight.log",
+      "sha256": "be04dd683cd57b12d6923a54554e1cab0d500221432bb1bc7c4a8fb4734e0fb2"
+    },
+    {
+      "bytes": 1254,
+      "path": "test-results.log",
+      "sha256": "f5023187d5124692923104e37951d86fdf4d1d0fa9cb19da343b4f4df28aab5e"
+    },
+    {
+      "bytes": 8388,
+      "path": "tests/test_packet.py",
+      "sha256": "81994545c64d000e8513d2cfecf2b4b5b481c61502f65d61dc00b7a89e3ff353"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

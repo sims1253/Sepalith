@@ -1,0 +1,27 @@
+{
+  "task": "RUN-05/RUN-09",
+  "owner": "lead",
+  "at": "2026-09-12T15:57:44.441234+00:00",
+  "status": "test_harness_and_unapplied_kernel_candidate",
+  "source_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+  "matmul_cases": 97,
+  "op_id": 29,
+  "types": {
+    "f32": 0,
+    "q8_0": 8,
+    "q6_K": 14,
+    "q5_K": 13,
+    "q4_K": 12
+  },
+  "cpu_test_threads": 2,
+  "source_test_sha256": "e3575b45f3595d964e743e224551ed9cde3abd0cd51249b7efa72a7c8393f294",
+  "q6_source_sha256": "bc785a2457aa5b04d416e18f5ae2304da267e35cea7b54ac67b5d20987e450af",
+  "q6_candidate_status": "Unapplied. Onlyguardemptytailwhenworkgroupuniformnbr_par_th0. Sharedsccache usedonlycalc, reductiontmpsh distinct; actualbitwiseoutput/perfgatepending.",
+  "quality_scope": "Backendops genericMUL_MAT thresholdNMSE5e-4 isbackendnumericalscreen, notbitwiseproof ormodelquantquality. FinalDEVrequired.",
+  "artifacts": {
+    "test-backend-ops.cpp": "024e31b65a8dc84a7f8fc9d45295c6c9f4851e7c6aaff199374d7edbe34f26da",
+    "model-matmul-shapes.txt": "2a0f41e1f21365f0460f3096206843a449f8c1fa4962d9f9d667d2caed5907f4",
+    "q6-empty-tail-candidate.patch": "09606b760c8bcad371d78c464fa5fbe749d8b654feccd8b367cff4f13bcddcbb",
+    "bounded-test-threads.patch": "c1a6de63c4ddc73cff8c6c3360ef7382e28e57b1b40d152eba93a8fdfa7e8be5"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-09-15T01:08:57.807707+00:00",
+  "final_manifest_sha256": "59729bae81cc45c67f57bf8b953a0c7832b05d54e652636e29152d99c15215b8",
+  "hold_categories_sha256": "02d9ca7b2a0e1067ef97e9a77840049d6e89bb61e9fd9510bc112666f7e0d2c1",
+  "outputs": {
+    "candidate-provenance.jsonl": {
+      "bytes": 1340,
+      "rows": 1,
+      "sha256": "a6929e93055659bd0f5d37b14e19c3e5ba5e6fd972689ca5a1850c856584a6cf"
+    },
+    "candidate-tokenrows.jsonl": {
+      "bytes": 30089,
+      "rows": 1,
+      "sha256": "6f2c2d76e0acfb70b1dc374da4e48c965303cc0f5e1cbdd3aed707806b754a06"
+    }
+  },
+  "prediction_input": {
+    "rows": 1,
+    "sha256": "2d7fe0508568a9c27bb0e9ac26112dd308b87f3f1051b1b25e6d982ca7b98228"
+  },
+  "provider_binding_sha256": "250496af4e46f758095a8a532b3499352ac3e94307e1eefeebc57cff54025260",
+  "render": {
+    "rows": 1,
+    "sha256": "e8cb5030d2b7d8e6f9746aad7f129d8fe7a0a55069a7a48fa29dfd2a7aa63e60"
+  },
+  "schema": "sepalith.dat10.semantic4551.hold_recovery.artifact_manifest.v1",
+  "source_manifest_sha256": "875cccf46c6db06c5a32d1c0a194673025c24228c7271658fa05d16c13c9281a",
+  "status": "complete_review_only_root_admission_required",
+  "test_results_sha256": "5c48faa94d407d3bbd4bb964089d07f9c1c59ca58e52b70a95f47bb16a8326e2",
+  "training_admission": false
+}

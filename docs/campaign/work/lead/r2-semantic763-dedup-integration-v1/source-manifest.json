@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "bytes": 21092,
+      "path": "integrate.py",
+      "sha256": "5f15ea1aa3f83890b812ddb9a564936c51bb4607f855fd1db5130a724209cce6"
+    },
+    {
+      "bytes": 3054,
+      "path": "verify_outputs.py",
+      "sha256": "1a5b6e54a09ab9bbabc4e2689d6b6d8b54a9f39cdc5472abfbc483476a0b585c"
+    },
+    {
+      "bytes": 1607,
+      "path": "test_integrate.py",
+      "sha256": "4070f5eea2a2aac7ff5c521edabcbec1ccee80fa9683273a1e35e7a20f3ac96c"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic763.dedup_source.v1",
+  "status": "frozen"
+}

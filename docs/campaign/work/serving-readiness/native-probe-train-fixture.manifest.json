@@ -1,0 +1,204 @@
+{
+  "constraints": {
+    "accepted_split": "train",
+    "eight_k_stress": "unsupported_pending; no >2048-token or fabricated prompt is included",
+    "final_set_used": false,
+    "model_or_server_used": false,
+    "native_bos_id": 0,
+    "native_canonical_eos_id": 1,
+    "native_noncanonical_eog_ids": [
+      130073
+    ],
+    "probe_completion_cap": 192,
+    "rl_context_prompt_max_tokens": 2048,
+    "training_context_max_tokens": 4096,
+    "vocab_size": 130560
+  },
+  "fixture_bytes": 38525,
+  "fixture_path": "native-probe-train-fixture.jsonl",
+  "fixture_row_count": 4,
+  "fixture_sha256": "4081472e1e19457ab4b9e186858e837fbf37f9011d7f8d576a6298f3e6ddb008",
+  "input_files": [
+    {
+      "bytes": 118875166,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/train-token-rows.jsonl",
+      "role": "accepted SFT TRAIN token rows",
+      "sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6",
+      "split": "train"
+    },
+    {
+      "bytes": 83927520,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/context-sidecar.jsonl",
+      "role": "RL-02 context-only sidecar membership",
+      "sha256": "6996f89d399e5e4dd5a5dafa49e92e8a49178fbecf15b2d6e769532f1afe703f",
+      "split": "train"
+    }
+  ],
+  "schema_version": "run-01.native-prm03-train-fixture.v1",
+  "selected_rows": [
+    {
+      "context_has_target_or_reward_keys": false,
+      "family": "no_op",
+      "offline_static_source": true,
+      "ordinal": 0,
+      "package_id": "wnominate",
+      "prompt_band": "short",
+      "prompt_sha256": "5c08ad690b01d6cf03f9ec54de44bcbcb4c12d552cd521b31f942b86ac8d1f8a",
+      "prompt_token_count": 345,
+      "row_id": "0003ea6fc6a4d0b3b354efba",
+      "row_sha256": "739d291fa2eb9e83b6c897e1e8be9f0d41593b2782f98d5c228fe1e6a1178553",
+      "sidecar_context_keys": [
+        "cursor",
+        "diagnostics",
+        "document_eol",
+        "history",
+        "path",
+        "prefix",
+        "region_old",
+        "replacement_range",
+        "retrieval",
+        "schema_version",
+        "scope_lines",
+        "scope_mode",
+        "selected_references",
+        "suffix_lines"
+      ],
+      "sidecar_prompt_sha256": "5c08ad690b01d6cf03f9ec54de44bcbcb4c12d552cd521b31f942b86ac8d1f8a",
+      "sidecar_row_id": "0003ea6fc6a4d0b3b354efba",
+      "sidecar_source_identity_sha256": "7c3a9452b9a4c823c9ab985e15d99ae162c422c6dec783d3e34a4976c412c10d",
+      "sidecar_split": "train",
+      "split": "train",
+      "target_operation": "no_op",
+      "target_token_count": 11
+    },
+    {
+      "context_has_target_or_reward_keys": false,
+      "family": "rename_propagation",
+      "offline_static_source": true,
+      "ordinal": 1,
+      "package_id": "heplots",
+      "prompt_band": "short",
+      "prompt_sha256": "4837faf50d9fe4b5d98814fd4903b4b3257d52a5adb2e55edf0b365b894a1f02",
+      "prompt_token_count": 886,
+      "row_id": "000a6aaa48aee4291dbcb0cb",
+      "row_sha256": "d683f66f3c03dc6513938ebc4715711476d23b074b40413f9d136b8af2a00658",
+      "sidecar_context_keys": [
+        "cursor",
+        "diagnostics",
+        "document_eol",
+        "history",
+        "path",
+        "prefix",
+        "region_old",
+        "replacement_range",
+        "retrieval",
+        "schema_version",
+        "scope_lines",
+        "scope_mode",
+        "selected_references",
+        "suffix_lines"
+      ],
+      "sidecar_prompt_sha256": "4837faf50d9fe4b5d98814fd4903b4b3257d52a5adb2e55edf0b365b894a1f02",
+      "sidecar_row_id": "000a6aaa48aee4291dbcb0cb",
+      "sidecar_source_identity_sha256": "ff0b8b527571939a26d38474d06fdd973192ba906fff527de10c84f2e69af7e7",
+      "sidecar_split": "train",
+      "split": "train",
+      "target_operation": "replace",
+      "target_token_count": 30
+    },
+    {
+      "context_has_target_or_reward_keys": false,
+      "family": "format_propagation",
+      "offline_static_source": true,
+      "ordinal": 2,
+      "package_id": "rempsyc",
+      "prompt_band": "long",
+      "prompt_sha256": "80f454949d462a9ad97916d54b3c829c054597a0b90ea6d1fec7b4b58438d320",
+      "prompt_token_count": 1216,
+      "row_id": "000d2bf789b999f887d12308",
+      "row_sha256": "e61895a272e844bee6a8035a9b742e9a18f19f55ba3c7a4934020a16958b6342",
+      "sidecar_context_keys": [
+        "cursor",
+        "diagnostics",
+        "document_eol",
+        "history",
+        "path",
+        "prefix",
+        "region_old",
+        "replacement_range",
+        "retrieval",
+        "schema_version",
+        "scope_lines",
+        "scope_mode",
+        "selected_references",
+        "suffix_lines"
+      ],
+      "sidecar_prompt_sha256": "80f454949d462a9ad97916d54b3c829c054597a0b90ea6d1fec7b4b58438d320",
+      "sidecar_row_id": "000d2bf789b999f887d12308",
+      "sidecar_source_identity_sha256": "938ccb1486824fb6c22684d9e4b4256df43017895c5a3ec7a68fdaaeb5cf56e1",
+      "sidecar_split": "train",
+      "split": "train",
+      "target_operation": "replace",
+      "target_token_count": 19
+    },
+    {
+      "context_has_target_or_reward_keys": false,
+      "family": "na_rm_propagation",
+      "offline_static_source": true,
+      "ordinal": 3,
+      "package_id": "lares",
+      "prompt_band": "long",
+      "prompt_sha256": "8574f7d139161502ab3e1c63248f42f93be12d2dbadfe3d05b16458ec9bc689a",
+      "prompt_token_count": 1902,
+      "row_id": "00ef45e53aea030d3465f860",
+      "row_sha256": "74eb62b3cb331355cc3facf230f549a763f010d7d23cf094fd033ceaa722560b",
+      "sidecar_context_keys": [
+        "cursor",
+        "diagnostics",
+        "document_eol",
+        "history",
+        "path",
+        "prefix",
+        "region_old",
+        "replacement_range",
+        "retrieval",
+        "schema_version",
+        "scope_lines",
+        "scope_mode",
+        "selected_references",
+        "suffix_lines"
+      ],
+      "sidecar_prompt_sha256": "8574f7d139161502ab3e1c63248f42f93be12d2dbadfe3d05b16458ec9bc689a",
+      "sidecar_row_id": "00ef45e53aea030d3465f860",
+      "sidecar_source_identity_sha256": "aed99122a3c02eb2ca6082b981470400d916b2db1e9837f78b0b4dfe2a968daf",
+      "sidecar_split": "train",
+      "split": "train",
+      "target_operation": "replace",
+      "target_token_count": 19
+    }
+  ],
+  "selection": {
+    "matrix": {
+      "long": {
+        "edit": 2,
+        "no_op": 0
+      },
+      "short": {
+        "edit": 1,
+        "no_op": 1
+      }
+    },
+    "method": "first deterministic rows found in accepted TRAIN rows joined by id to RL-02 TRAIN sidecar",
+    "prompt_bands": {
+      "long": "1025..2048 tokens",
+      "short": "1..1024 tokens"
+    },
+    "row_order": [
+      "0003ea6fc6a4d0b3b354efba",
+      "000a6aaa48aee4291dbcb0cb",
+      "000d2bf789b999f887d12308",
+      "00ef45e53aea030d3465f860"
+    ],
+    "target_array_policy": "full accepted input_ids, target_body_tokens, target_terminal_tokens and target text remain out-of-band; only prompt_text and prompt IDs are sent"
+  }
+}

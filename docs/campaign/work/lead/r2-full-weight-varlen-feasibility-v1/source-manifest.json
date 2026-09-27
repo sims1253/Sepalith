@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "bytes": 10564,
+      "path": "actual_model_varlen_probe.py",
+      "sha256": "0c64cad5360e55f10b0abd0dddaf03c227a7859db0ac5a3b27dac372f106797a"
+    },
+    {
+      "bytes": 4918,
+      "path": "varlen_contract.py",
+      "sha256": "148ab2c60c1342dc24114d9db05a0df53394da42998a8177cf9ba9ae91f526be"
+    },
+    {
+      "bytes": 2411,
+      "path": "verify_environment.py",
+      "sha256": "4fd82cfd1186b3b560a3c45cd8736065d4b1932ff8d98ec64146b6e3a57359cd"
+    },
+    {
+      "bytes": 2566,
+      "path": "tests/test_varlen_contract.py",
+      "sha256": "5fa5ca0534a29a2bc3d256cdfd3f7a59d6640aef4c8b1e2a9d82df7851ab8144"
+    }
+  ],
+  "installed_sources": "environment-audit.json",
+  "production_source_changed": false,
+  "schema": "sepalith.source-manifest.v1",
+  "status": "frozen_preparation"
+}

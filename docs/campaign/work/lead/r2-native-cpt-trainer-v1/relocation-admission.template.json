@@ -1,0 +1,12 @@
+{
+  "schema": "sepalith.sft11.native-relocation-admission.v1",
+  "status": "root_fields_pending",
+  "bound_recipe_sha256": "579269f0f203ae1eed9cdb96af0f535f19c5953e2cf3e19c52615b7545e10f70",
+  "stage_receipt_sha256": null,
+  "object_roles": {
+    "streaming_cache": "cache",
+    "rows": "rows",
+    "draw_schedule": "schedule"
+  },
+  "launch_authorized": false
+}

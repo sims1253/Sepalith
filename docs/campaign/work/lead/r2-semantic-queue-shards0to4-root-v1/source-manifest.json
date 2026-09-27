@@ -1,0 +1,35 @@
+{
+  "schema": "sepalith.root-semantic-queue-source.v3",
+  "files": [
+    {
+      "path": "source/analyze_semantics.py",
+      "bytes": 15997,
+      "sha256": "4e62dbc7568594501a04da395006f9227c1de94db6ee99685a6213853460265f"
+    },
+    {
+      "path": "source/namespace_scope.R",
+      "bytes": 2287,
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "path": "source/reviewed_scope_reference.R",
+      "bytes": 11404,
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "path": "source/run_streaming_semantic_queue.py",
+      "bytes": 18133,
+      "sha256": "69d999cd0b7309775435126bf8fdd5f54e24bf793b9ad200fb1b3efbb2379e77"
+    },
+    {
+      "path": "source/semantic_scope.R",
+      "bytes": 4594,
+      "sha256": "f4e530fd2260e025127c5a4ecef973128c0fdba18574bc5f71806950bd1b642b"
+    }
+  ],
+  "changes": [
+    "All R hold/error results retain exact parsed byte hash",
+    "Exact submitted row ID and hash closure required"
+  ],
+  "worker_receipt": "DAT-10-semantic-bytehash-diagnosis.json"
+}

@@ -1,0 +1,43 @@
+BNPdens <- function(
+  density = NULL,
+  data = NULL,
+  grideval = NULL,
+  grid_x = NULL,
+  grid_y = NULL,
+  clust = NULL,
+  mean = NULL,
+  beta = NULL,
+  sigma2 = NULL,
+  probs = NULL,
+  niter = NULL,
+  nburn = NULL,
+  tot_time = NULL,
+  univariate = TRUE,
+  regression = FALSE,
+  dep = FALSE,
+  group_log = NULL,
+  group = NULL,
+  wvals = NULL
+){
+  value <- list(density = density,
+                data = data,
+                grideval = grideval,
+                grid_x = grid_x,
+                grid_y = grid_y,
+                clust = clust,
+                mean = mean,
+                beta = beta,
+                sigma2 = sigma2,
+                probs = probs,
+                niter = niter,
+                nburn = nburn,
+                tot_time = tot_time,
+                univariate = univariate,
+                regression = regression,
+                dep = dep,
+                group_log = group_log,
+                group = group,
+                wvals = wvals)
+  attr(value, "class") <- "BNPdens"
+  value
+}

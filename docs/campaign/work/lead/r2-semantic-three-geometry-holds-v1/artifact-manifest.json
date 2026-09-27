@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "bytes": 1005,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/README.md",
+      "sha256": "12ffaf53ff9dfdbaba21780c2f67ffde7416c776f6c2cba5be62c8c31cc7405d"
+    },
+    {
+      "bytes": 14428,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/repair_geometry.py",
+      "sha256": "584f70c4cb5f6825fd8302d1ac60baf0856841ba9ffc0c3e03fad6c4a0158ccd"
+    },
+    {
+      "bytes": 3550,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/tests/test_geometry.py",
+      "sha256": "9723098c7ffc25e5285843b7285dc942d7310e763e0ad173a1e6f1c9f8689d6b"
+    },
+    {
+      "bytes": 1514,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/run.sh",
+      "sha256": "dd28abceb30202d02ec68e6087e76028300ed31bd566fd114f9fc0c1f1c26dce"
+    },
+    {
+      "bytes": 459,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/test-results.log",
+      "sha256": "f6d8e673574813faf0f542643505fde0e591e64d24efcd4a35c3cd5f3ebaf1d9"
+    },
+    {
+      "bytes": 555,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/test-results.json",
+      "sha256": "354ee21d17211c3a4df339f4c2ef5c3e335b25bfce8e74936cbb8942f3d6190a"
+    },
+    {
+      "bytes": 3085,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/source-manifest.json",
+      "sha256": "0fddce835ccc8237579d74bbf170069e40e404cc2bbd44acfcd44c136974e945"
+    },
+    {
+      "bytes": 2568,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-three-geometry-holds-v1/review-01/manifest.json",
+      "sha256": "39cff323431f02bdb824881456290ee061cd0af9b629fc97165f758d4e118729"
+    },
+    {
+      "bytes": 10357,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-three-geometry-holds-v1/review-01/prediction-inputs.review-only.jsonl",
+      "sha256": "281205c964e4d545e219ac08b16974b37a4d2f9d361989a7aa66d5ee0ba70f57"
+    },
+    {
+      "bytes": 8988,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-three-geometry-holds-v1/review-01/training-sidecar.review-only.jsonl",
+      "sha256": "6e59fa3ac313fd59f76facfdd0a5e8684f114b18927eff181ba88975f0d64fb6"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic_three_geometry_artifacts.v1",
+  "status": "prepared_review_only"
+}

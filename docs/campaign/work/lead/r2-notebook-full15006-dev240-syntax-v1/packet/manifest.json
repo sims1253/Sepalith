@@ -1,0 +1,16 @@
+{
+  "baseline_content_hash_exact": 75,
+  "decoded_body_text_used": false,
+  "generated_r_executed": false,
+  "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+  "prompt_render_hash_exact": 75,
+  "protocol_invalid": 5,
+  "protocol_valid": 70,
+  "raw_wire_parsed_context_aware": true,
+  "remote_root": "/home/m0hawk/.local/state/sepalith/campaign-20260915/notebook-full15006-dev240-syntax-v1-attempt2",
+  "result_sha256": "ba052bf649a56143e01dcddd8800a1090542c15907c92cb3057602cae2785bbc",
+  "reviewed_prior_packet_manifest_sha256": "d3695131bfe62003526777b275fc91cc49a330352990286fd149189086fe56b1",
+  "rows": 75,
+  "schema": "sepalith.notebook-full15006-dev240-syntax-input.v1",
+  "status": "materialized_not_parsed"
+}

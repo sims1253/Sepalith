@@ -1,0 +1,129 @@
+{
+  "schema_version": "sepalith.sft11.full_weight_smoke_recipe.v1",
+  "status": "prepared_for_lead_cuda_launch",
+  "purpose": "Resource feasibility only: fresh full-weight load, finite forward/backward, and a fresh optimizer step. No checkpoint, generation, or quality decision.",
+  "constraints": {
+    "launch_owner": "root",
+    "worker_cuda_launch": false,
+    "cloud_or_ssh": false,
+    "resume_from": null,
+    "checkpoint_saved": false,
+    "data_payload_exposure": false,
+    "target_truncation": false
+  },
+  "parent": {
+    "kind": "sft_merged",
+    "stage": "task_global_b_sft500",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+    "weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+    "parent_manifest_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/parent-manifest.preparation.json",
+    "parent_manifest_sha256": "92157a4a52a4ed928f76df9f1f77a6aa39235eefd6a859eb9c2b3d4118ee18db",
+    "config_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/config.json",
+    "config_sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+    "previous_checkpoint_step": 500,
+    "previous_checkpoint_manifest_sha256": "5eb05924adcfb047d8ae9fcc296b0da5099ce4b95b1bd09b72d46401de99d596",
+    "initialization": "new full-weight optimizer/scheduler/RNG from merged weights"
+  },
+  "loader": {
+    "path": "unsloth.FastLanguageModel.from_pretrained",
+    "arguments": {
+      "max_seq_length": 4096,
+      "dtype": "torch.bfloat16",
+      "load_in_4bit": false,
+      "full_finetuning": true,
+      "float32_mixed_precision": false,
+      "fast_inference": false,
+      "trust_remote_code": false,
+      "use_gradient_checkpointing": true
+    },
+    "post_load": [
+      "set model.config.use_cache = False",
+      "call FastLanguageModel.for_training(model, use_gradient_checkpointing=True)",
+      "skip FastLanguageModel.get_peft_model",
+      "assert all trainable parameters = 2,516,756,480"
+    ]
+  },
+  "inputs": {
+    "manifest_path": "docs/campaign/work/lead/r2-full-weight-smoke-inputs-v1/manifest.json",
+    "manifest_sha256": "fe8a75cbdfd18d929fff70d49d1969fadcc8e156c1264aca0f2eee7f26270dda",
+    "rows_path": "docs/campaign/work/lead/r2-full-weight-smoke-inputs-v1/train8.jsonl",
+    "rows_sha256": "e86c50a00d9a50f0c5d287eb419f622cc4eec5c607838304b2d49caa957ebf0e",
+    "rows": 8,
+    "groups": 8,
+    "sequence_tokens": 2048,
+    "source_sha256": "836b61c5b7d5545063aeaa3054c62915b8a4d24574908cade4c2d3eed1537a87",
+    "semantics": "Existing exact TRAIN CPT rows used for resource probing only; no new rendering or quality ranking."
+  },
+  "optimizers": {
+    "recommended_first": {
+      "name": "paged_adamw_8bit",
+      "smoke_script_choice": "paged_adamw_8bit",
+      "reason": "Lowest persistent state estimate while retaining full BF16 weights and gradients; BNB state layout remains a measured gate."
+    },
+    "comparison": [
+      {
+        "name": "torch_adamw_bf16",
+        "smoke_script_choice": "torch_adamw_bf16",
+        "persistent_core_GiB": 18.751296997070312,
+        "state_assumption": "two BF16 moments, as observed in CPU PyTorch probe; CUDA fused/foreach implementation must be measured"
+      },
+      {
+        "name": "paged_adamw_8bit",
+        "persistent_core_GiB_range": [14.06805070489645, 14.072628654539585],
+        "state_assumption": "two uint8 moments plus two FP32 scales per 4096/2048 block; estimate only until CUDA smoke"
+      },
+      {
+        "name": "muon_or_aurora_hybrid",
+        "persistent_core_GiB": 15.059890747070312,
+        "persistent_core_fp32_side_GiB": 17.05272674560547,
+        "state_assumption": "one BF16 hidden-matrix momentum; side embedding/lm_head/norm AdamW moments; custom integration is a separate implementation gate"
+      }
+    ],
+    "not_a_smoke_default": "Muon/Aurora is not selected by this resource script because vendored POC dispatch/checkpoint integration is not production-ready."
+  },
+  "command": {
+    "working_directory": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb",
+    "argv": [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+      "docs/campaign/work/lead/r2-full-weight-feasibility-v1/full_weight_smoke.py",
+      "--model",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+      "--rows",
+      "docs/campaign/work/lead/r2-full-weight-smoke-inputs-v1/train8.jsonl",
+      "--report",
+      "/mnt/e/sepalith/campaign-20260915/data-work/SFT11-full-weight-smoke-v1/paged-adamw8bit-report.json",
+      "--optimizer",
+      "paged_adamw_8bit",
+      "--steps",
+      "2",
+      "--max-sequence-tokens",
+      "4096"
+    ],
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "0",
+      "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+      "UNSLOTH_RETURN_LOGITS": "0"
+    },
+    "alternative_optimizer_argv_suffix": [
+      "--optimizer",
+      "torch_adamw_bf16"
+    ],
+    "output_is_new": true
+  },
+  "acceptance": {
+    "required": [
+      "model load completes from exactly the merged SFT500 parent",
+      "all and trainable parameter counts equal 2,516,756,480",
+      "each loss is finite",
+      "each observed gradient tensor is finite and nonzero",
+      "peak allocated and reserved CUDA bytes are recorded",
+      "optimizer state bytes and dtypes are recorded after step one",
+      "no checkpoint or generation side effect"
+    ],
+    "failure_handling": "Do not launch long training on a failed or unmeasured optimizer. Preserve the report and diagnose loader, state, or peak-memory failure separately."
+  },
+  "artifact": {
+    "script_path": "docs/campaign/work/lead/r2-full-weight-feasibility-v1/full_weight_smoke.py",
+    "script_sha256": "747de24a83438a4a72b8ec27743c86f63d23198b245108a0c7b9622f33aac432"
+  }
+}

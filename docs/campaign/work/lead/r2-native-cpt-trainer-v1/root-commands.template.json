@@ -1,0 +1,59 @@
+{
+  "schema": "sepalith.sft11.native-cpt-trainer-root-commands.v1",
+  "status": "prepared_no_copy_or_launch",
+  "source_manifest_sha256": "754fe6e551e8a7e97f172169bd4301806ddbf5a1cd039cb04d479fad2c049978",
+  "canonical_bound_recipe_sha256": "579269f0f203ae1eed9cdb96af0f535f19c5953e2cf3e19c52615b7545e10f70",
+  "commands": {
+    "regenerate_reusable_base_spec_small_metadata_only": [
+      "python3", "-B", "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/prepare_native_stage_spec.py",
+      "--recipe", "docs/campaign/work/lead/r2-cpt90-prefix-extension-root-v2/bound-recipe.json",
+      "--recipe-sha256", "579269f0f203ae1eed9cdb96af0f535f19c5953e2cf3e19c52615b7545e10f70",
+      "--native-root", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1",
+      "--output", "ROOT_FRESH_BASE_STAGE_SPEC"
+    ],
+    "stage_reusable_base_once": [
+      "python3", "-B", "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/native_stage.py", "build",
+      "--spec", "docs/campaign/work/lead/r2-native-cpt-trainer-v1/base-stage-spec.prepared.json",
+      "--receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json"
+    ],
+    "make_runtime_recipe_after_root_admissions": [
+      "python3", "-B", "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/native_runtime_overlay.py",
+      "--recipe", "docs/campaign/work/lead/r2-cpt90-prefix-extension-root-v2/bound-recipe.json",
+      "--stage-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--stage-receipt-sha256", "ROOT_FILL",
+      "--admission", "ROOT_FRESH_RELOCATION_ADMISSION",
+      "--runtime-source-manifest", "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source-manifest.json",
+      "--migration-admission", "ROOT_FRESH_RUNTIME_SOURCE_MIGRATION_ADMISSION",
+      "--trainer-root", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v1/runtime",
+      "--archive-root", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1",
+      "--output", "ROOT_FRESH_RUNTIME_RECIPE"
+    ],
+    "cpu_frontdoor": [
+      "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1",
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/native_launch_attestation.py",
+      "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--base-receipt-sha256", "ROOT_FILL",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--resume-manifest-sha256", "ROOT_FILL",
+      "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py", "preflight-resume",
+      "--recipe", "ROOT_FRESH_RUNTIME_RECIPE",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--continuation-admission", "ROOT_FRESH_CONTINUATION_194_ADMISSION"
+    ],
+    "root_guard_child_after_cpu_preflight": [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/native_launch_attestation.py",
+      "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--base-receipt-sha256", "ROOT_FILL",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--resume-manifest-sha256", "ROOT_FILL",
+      "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py", "run",
+      "--recipe", "ROOT_FRESH_RUNTIME_RECIPE",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--continuation-admission", "ROOT_FRESH_CONTINUATION_194_ADMISSION"
+    ]
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "files": [
+    {
+      "path": "experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "bytes": 11665
+    },
+    {
+      "path": "experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+      "bytes": 5024
+    },
+    {
+      "path": "experiments/training/campaign_eval.py",
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+      "bytes": 11831
+    },
+    {
+      "path": "experiments/training/campaign_launch.py",
+      "sha256": "043d8d5025b2fa1807972baca6e8eafe5540dcf9bb376e9404e6ecb1eb371e81",
+      "bytes": 2962
+    },
+    {
+      "path": "experiments/training/campaign_profile.py",
+      "sha256": "03081f1fa6ebe1b67e517be4366b809df69c84f2a183046a52b40cda7c23f4d7",
+      "bytes": 41476
+    },
+    {
+      "path": "experiments/training/campaign_rl_data.py",
+      "sha256": "86ebc3fe80a976e3c35a29057234b341c9e06060135a87382bbf8c915b1db91b",
+      "bytes": 32259
+    },
+    {
+      "path": "experiments/training/campaign_rl_entry.py",
+      "sha256": "34f37d0255df48d0cd1b3cf00bfec567d5a48a67c04d564f0ee793e243debdce",
+      "bytes": 59174
+    },
+    {
+      "path": "experiments/training/campaign_rl_launch.py",
+      "sha256": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a",
+      "bytes": 5384
+    },
+    {
+      "path": "experiments/training/campaign_rl_profile.py",
+      "sha256": "6c7e041a3cf82890146aab9927f0cc5cf7cede92154e069f9cb6f6bd6323763b",
+      "bytes": 40465
+    },
+    {
+      "path": "experiments/training/campaign_rl_train.py",
+      "sha256": "95e88ee22f5b8636cd6ffb8e2c21fadcb74a4f58e9e5c267217a8a47bda35c83",
+      "bytes": 100843
+    },
+    {
+      "path": "experiments/training/campaign_sampling.py",
+      "sha256": "60e4e4d60b99a4b9851b3e35194f81fb2d0a2a3c47d0cac931c2091819c03dd0",
+      "bytes": 41066
+    },
+    {
+      "path": "experiments/training/campaign_sft.py",
+      "sha256": "671a1da97939b21962cfaedda0dc7c2c6f2f01369cb2834ef351fd26c38541f9",
+      "bytes": 21813
+    },
+    {
+      "path": "experiments/training/campaign_sft_data.py",
+      "sha256": "31e34c5a3a662724cf50dce1ea9e6a0d248c5f44bc0f5eb6b0a5b45894433104",
+      "bytes": 5026
+    },
+    {
+      "path": "experiments/training/campaign_sft_inputs.py",
+      "sha256": "b89457804aa66c69214bdcb5dd31b6db6fe3877103990280126e169086451185",
+      "bytes": 4704
+    },
+    {
+      "path": "experiments/training/campaign_theta0_gate.py",
+      "sha256": "bf7ec53d912b4285585ace4a87ce3df1732e49756e242ea08d1f236a58d25a95",
+      "bytes": 47510
+    },
+    {
+      "path": "experiments/training/campaign_token_audit.py",
+      "sha256": "9915f867894a0fc7b21679cebc6c0f0c87317f31acdab3a647a0fbb5033a23a3",
+      "bytes": 11720
+    },
+    {
+      "path": "experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+      "bytes": 15257
+    },
+    {
+      "path": "experiments/training/test_campaign_checkpoint.py",
+      "sha256": "e2856a9c622acd17b460b414d4352fed5c363fbfffdec9c617214385a4396fa6",
+      "bytes": 11179
+    },
+    {
+      "path": "experiments/training/test_campaign_eval.py",
+      "sha256": "03ab0fbcb2a2e034f8d3b873665974cbd9c7aa9ab675abd34c39e53c70ad33f3",
+      "bytes": 5695
+    },
+    {
+      "path": "experiments/training/test_campaign_launch.py",
+      "sha256": "85d93d03f1fb425acdaeeeab3fdab4e51bfd02617cbc7a31cc1010a39e5a5af4",
+      "bytes": 2262
+    },
+    {
+      "path": "experiments/training/test_campaign_profile.py",
+      "sha256": "18074d9add19913a3df405d460fe6b4f667f599b6f16e0458d3415bcdfb232fe",
+      "bytes": 13430
+    },
+    {
+      "path": "experiments/training/test_campaign_rl_entry.py",
+      "sha256": "997b2ec747ef673c0d7f017f61eb096262c945d22778e3c8c91b501e73ed340c",
+      "bytes": 35257
+    },
+    {
+      "path": "experiments/training/test_campaign_rl_profile.py",
+      "sha256": "9df7d160fb1c4057a66a76543b453e99d0babd8355c2003a479b10450e2ae88b",
+      "bytes": 15665
+    },
+    {
+      "path": "experiments/training/test_campaign_rl_telemetry.py",
+      "sha256": "97e70f115bec944b9cf7506d5f2f44966890f36279f4e42b09e80fea8c888496",
+      "bytes": 6493
+    },
+    {
+      "path": "experiments/training/test_campaign_rl_train.py",
+      "sha256": "3f8677ce65a976f64d9bc21ad01b9509ba17378941b7545a972dbfb926802db4",
+      "bytes": 45752
+    },
+    {
+      "path": "experiments/training/test_campaign_sampling.py",
+      "sha256": "d066318febf11c4caaa870e4ef46736456b2d5dc6050d384057ca978126a25e9",
+      "bytes": 13886
+    },
+    {
+      "path": "experiments/training/test_campaign_sft.py",
+      "sha256": "8057fd17a2108576e0f7842eef6ce2f389ece3b092327ed9de537691031c0f7b",
+      "bytes": 6989
+    },
+    {
+      "path": "experiments/training/test_campaign_sft_data.py",
+      "sha256": "9c37b8695415757f950ac44db7cebac4539963a253894c3f6894ab479a8d98f1",
+      "bytes": 8302
+    },
+    {
+      "path": "experiments/training/test_campaign_sft_post_trainer.py",
+      "sha256": "14d1ef5d1fb4b393a6ae3f35a98c7c57e8c11d8c9b975ebca47e56c63c17f859",
+      "bytes": 2617
+    },
+    {
+      "path": "experiments/training/test_campaign_theta0_gate.py",
+      "sha256": "cc86fc159dc7be71e59a81548d21b9e1e321cc9a63e3c493091fb5a72c0dc797",
+      "bytes": 7917
+    },
+    {
+      "path": "experiments/training/test_campaign_token_audit.py",
+      "sha256": "8bec338e6b1316537f3b80f6dd284667676f4419668d817457672e4ca90524bb",
+      "bytes": 5589
+    },
+    {
+      "path": "experiments/training/test_campaign_tokenizer_contract.py",
+      "sha256": "f2a9ad0cea205c4d96a2a744b6e8541c9ccaca802374899c6120a6a9a82da420",
+      "bytes": 7719
+    },
+    {
+      "path": "extensions/vscode-sepalith/scripts/check-campaign-protocol.ts",
+      "sha256": "f500f65d716c84de474b26f2171d0e293d42ed407d9108532b39465bc092f178",
+      "bytes": 10180
+    },
+    {
+      "path": "extensions/vscode-sepalith/src/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+      "bytes": 34464
+    },
+    {
+      "path": "packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+      "bytes": 67
+    },
+    {
+      "path": "packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "bytes": 40337
+    },
+    {
+      "path": "packages/sepalith/src/sepalith/campaign_selection.py",
+      "sha256": "354a31c8f1f88cd9f1680c5e1e8dd917be3212776716a7481c80c367a545729e",
+      "bytes": 23130
+    },
+    {
+      "path": "packages/sepalith/src/sepalith/runner.py",
+      "sha256": "d02237e71449b1d828712e4fae7e6f5c0aa0d54b87019db88af0dc86eed2e33d",
+      "bytes": 32895
+    },
+    {
+      "path": "packages/sepalith/tests/test_campaign_protocol.py",
+      "sha256": "6fc894e748af55c3a51790e0a85de0947eb6c9f5eade21999a5e89a5cb666d3e",
+      "bytes": 17231
+    },
+    {
+      "path": "packages/sepalith/tests/test_campaign_selection.py",
+      "sha256": "e9be62e0606628227841841011ec102dbeb064febdc692c6a982d69a44156777",
+      "bytes": 11414
+    }
+  ]
+}

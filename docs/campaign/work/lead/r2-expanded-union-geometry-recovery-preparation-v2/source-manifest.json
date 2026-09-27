@@ -1,0 +1,45 @@
+{
+  "external_runtime_pins": {
+    "audit_expanded_union_v2": {
+      "path": "docs/campaign/work/lead/r2-expanded-union-audit-preparation-v2/audit_expanded_union_v1.py",
+      "sha256": "ae6f0e2ec2fd0e9010d4289754ce152222730b6d2801bad2076953c1df0c0155"
+    },
+    "original_context_sidecar_sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a",
+    "semantic_candidate_provenance_sha256": "b8d54654bc35d3166ef6b96cfe7cd4f78bcc0bd03b42d6eeaf5dcebe4f92a329",
+    "semantic_selected_context_sha256": "89ad831243e16a9b789a6cce2a71f398a6314dcceea7e0b4bcb0be94c30c35ae"
+  },
+  "files": [
+    {
+      "bytes": 1862,
+      "path": "README.md",
+      "sha256": "f4d4b278e903db7bb5532ff8ca991fbc28129f38b3d5170c3aaa8d93ac832c83"
+    },
+    {
+      "bytes": 2114,
+      "path": "commands.json",
+      "sha256": "f883cfbf6425b94d0f18ed5803a0d14801dfad4cf0671314e9c3dfe3d1dc2ca1"
+    },
+    {
+      "bytes": 1738,
+      "path": "input-registry.json",
+      "sha256": "f9482701d8e16603e252bdb7fe8c56ed9c2e502cd393d43f3277e5a036830419"
+    },
+    {
+      "bytes": 8888,
+      "path": "recover_geometry_v2.py",
+      "sha256": "404fbb30c63961e8746137712974df297ce14bf17b8931510aec4e7278d8dbcd"
+    },
+    {
+      "bytes": 103,
+      "path": "test-results.log",
+      "sha256": "22d87b30f5f15fd27ec20179828b77d16967ff3a5f323b46e9d37b7e0538bf59"
+    },
+    {
+      "bytes": 3754,
+      "path": "tests/test_geometry_v2.py",
+      "sha256": "111f94fd31095a42f509d35ee77b8b4ca82204918328cbcf3fa06d4e014c065d"
+    }
+  ],
+  "schema": "sepalith.sft11.expanded-union-geometry-recovery-source.v2",
+  "status": "review_only"
+}

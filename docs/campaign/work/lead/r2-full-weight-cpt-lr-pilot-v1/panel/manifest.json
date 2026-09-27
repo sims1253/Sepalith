@@ -1,0 +1,60 @@
+{
+  "artifacts": {
+    "draw_schedule": {
+      "bytes": 31758,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/panel/draws384.json",
+      "sha256": "4ef5eccc9b63917aef08ca9589b731188185305199c7d4c13b9ebc79919b03d3"
+    },
+    "provenance": {
+      "bytes": 632774,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/panel/provenance.jsonl",
+      "sha256": "30ab2dc3a9423dd7ab7c5e64d310de3d7d05ad61818d118e18d16d1936963cc2"
+    },
+    "rows": {
+      "bytes": 35177777,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/panel/train384-ctx8192.jsonl",
+      "sha256": "89aa340dbba314c86275b9db15f0baf214ab15df2518a228e41cccff1d902a14"
+    }
+  },
+  "complete_original_rows_verified": 3303,
+  "complete_source_document_tokens_verified": 6338791,
+  "documents": 384,
+  "draws": 384,
+  "effective_batch": 16,
+  "exact_sequence_tokens_each": 8192,
+  "guarantees": {
+    "all_complete_source_documents_reassembled_before_chunk_selection": true,
+    "all_new_raw_code_labels_supervised": true,
+    "no_padding": true,
+    "no_training_row_truncation": true,
+    "nonterminal_eos_masked": true
+  },
+  "input_tokens": 3145728,
+  "loss_tokens": 3144960,
+  "max_sequence_tokens": 8192,
+  "named_replays": 0,
+  "packages": 384,
+  "pins": {
+    "lossless_rechunk_sha256": "6a9b72704b124ec0ecfd715de883f5faf4c8269a16c07d4810bc0e77338c7eea",
+    "raw_chunks_sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+    "validation_sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  },
+  "rows": 384,
+  "schema": "sepalith.sft11.cpt-lr-pilot-panel.v1",
+  "selected_source_tokens": 3144960,
+  "selection": {
+    "distinct_package_required": true,
+    "metadata_files_scanned": 1161,
+    "minimum_document_tokens": 8191,
+    "scope": "short LR signal experiment only; unselected eligible data remains queued for production"
+  },
+  "status": "short_lr_experiment_panel_not_production_dataset_cap",
+  "updates": 24,
+  "validation": {
+    "document_overlap": 0,
+    "package_overlap": 0,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "rows": 499,
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  }
+}

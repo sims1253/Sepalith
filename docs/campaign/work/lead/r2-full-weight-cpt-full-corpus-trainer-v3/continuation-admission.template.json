@@ -1,0 +1,9 @@
+{
+  "schema": "sepalith.sft11.cpt-full-corpus-continuation-admission.v1",
+  "status": "pending",
+  "decision": null,
+  "bound_recipe_sha256": null,
+  "checkpoint": null,
+  "checkpoint_manifest_sha256": null,
+  "step": null
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "sepalith.cloud-cpt.tar-persistence-root-authorization.v1",
+  "authorized": false,
+  "job_id": "prodjob_neqwkumat4i3rii5yl8af241ks",
+  "run_id": "4f899bbc6e9d46c0a88985d64e6d40e2",
+  "action": "upload_checkpoint317_tar_once"
+}

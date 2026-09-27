@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "path": "packet/merge_expanded_sft_cpu.py",
+      "bytes": 10268,
+      "sha256": "26929141d4cc75a7461f00d8b39877f1f575926ad437d0ee48bf4a56fbf6d7c5"
+    },
+    {
+      "path": "packet/selection_contract.py",
+      "bytes": 3911,
+      "sha256": "0bc17a1a4f242a725de842f2027604dbf8c95aa2314f45a1e50785788c47c1a9"
+    }
+  ],
+  "changes": "Selectedcheckpoint750/cursor12000/role only. Erecipe horizon1000 and exact source unchanged."
+}

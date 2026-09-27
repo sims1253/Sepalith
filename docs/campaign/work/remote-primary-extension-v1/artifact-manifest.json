@@ -1,0 +1,216 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5678,
+      "sha256": "89cf2c3876fe694337703233d8772e54d42864a6843a9d9ced085405576212df"
+    },
+    {
+      "path": "cpu-validation.json",
+      "bytes": 3746,
+      "sha256": "6ed0b1b0921690f19c9d7f8110917b1026756df143c3f2ecc98d2a51c163702d"
+    },
+    {
+      "path": "extension/dist/check-prm05.cjs",
+      "bytes": 79355,
+      "sha256": "1f3443c0ae9f9075661580443a13c544b2ca6011ae7849c26091a263640b5b65"
+    },
+    {
+      "path": "extension/dist/check-remote-primary.cjs",
+      "bytes": 66148,
+      "sha256": "4b6976fe547f8ba1d613f34566f1239ec499135b7259cd4039f5a48595bb727a"
+    },
+    {
+      "path": "extension/dist/check-runtime-profile.cjs",
+      "bytes": 20466,
+      "sha256": "8f81c17b9369cea1e752f03e5aef85dc23badcdbe02bcffa70c20dce7eb25560"
+    },
+    {
+      "path": "extension/dist/extension.js",
+      "bytes": 139807,
+      "sha256": "a77b3dddd08ce3119a85b694ee9281b0292a0046dae83ee514cfb952dd5e12bc"
+    },
+    {
+      "path": "extension/dist/remote-test-fixture.cjs",
+      "bytes": 4379,
+      "sha256": "91f66b7773f106d6ca5a4fab2d567abe57a7d38be247c93151efcae1227b9e9f"
+    },
+    {
+      "path": "extension/package-lock.json",
+      "bytes": 29052,
+      "sha256": "ef1daabf3f81aea2cdc6e7a00248745d898eeed7caca5df1269f4bc846218880"
+    },
+    {
+      "path": "extension/package.json",
+      "bytes": 7329,
+      "sha256": "a0c89e6ee758cb4024ffa22213c6faaa26d911aeadb840ee7950efa875003091"
+    },
+    {
+      "path": "extension/scripts/check-acceptance-identity.cjs",
+      "bytes": 14566,
+      "sha256": "cf2e133ef1c79d949b890065943aeb74be21fecda22f6c9bb3a328ac90017005"
+    },
+    {
+      "path": "extension/scripts/check-campaign-protocol.ts",
+      "bytes": 10180,
+      "sha256": "f500f65d716c84de474b26f2171d0e293d42ed407d9108532b39465bc092f178"
+    },
+    {
+      "path": "extension/scripts/check-campaign-requests.ts",
+      "bytes": 4885,
+      "sha256": "67ceacf0177bf15d6bc69a0b21691d2518fa51323dbf265fbf39a586992d7541"
+    },
+    {
+      "path": "extension/scripts/check-campaign-selection.ts",
+      "bytes": 9599,
+      "sha256": "57d00e1919b4ffe90199ca7d8d9f41b4307ca81c127d942cf6e6a7033bd43a51"
+    },
+    {
+      "path": "extension/scripts/check-completion.ts",
+      "bytes": 789,
+      "sha256": "61df9cbaac2cdb50b851e5884f1ba215d4ea1e9aaff5d781d28262406858728c"
+    },
+    {
+      "path": "extension/scripts/check-context.ts",
+      "bytes": 18243,
+      "sha256": "4c96f27bf3f495902634b69d24b22487ce116769296958fcbd9e7709ea4134b1"
+    },
+    {
+      "path": "extension/scripts/check-history.ts",
+      "bytes": 13096,
+      "sha256": "8f410e8036002aaa4d5c4256ce7d6bfa7bb2d8c61a6e3c63e3def627c71b568e"
+    },
+    {
+      "path": "extension/scripts/check-prm05.ts",
+      "bytes": 17252,
+      "sha256": "342231d979aa5cd88f2c0f3c2302a1d888eab45f19f33ab432bd1d6f4075e130"
+    },
+    {
+      "path": "extension/scripts/check-process.ts",
+      "bytes": 1223,
+      "sha256": "481acf8ff2e39ec3566d94d9b71d7b5c4431c33c0d104acfc04c6ccbab72bce6"
+    },
+    {
+      "path": "extension/scripts/check-provider-requests.cjs",
+      "bytes": 17324,
+      "sha256": "cb40d75d2c6415738b0830cd5f3abddde24acf818ec672efbc6ed6b8ac465764"
+    },
+    {
+      "path": "extension/scripts/check-remote-lifecycle.cjs",
+      "bytes": 14663,
+      "sha256": "ffa98c786016ac4bddda6304817d02a4568529245ac67a4c24b46d420a6238ec"
+    },
+    {
+      "path": "extension/scripts/check-remote-primary.ts",
+      "bytes": 8381,
+      "sha256": "82cc6d8d78cfe4c8dc7936c33aca118b7c6cf464f4217c5808ffd14bda8ce0b3"
+    },
+    {
+      "path": "extension/scripts/check-runtime-profile.ts",
+      "bytes": 8297,
+      "sha256": "696918abc091112500f5998e0e6ba53cb8d3a6c895bc59f6874825265d294dcf"
+    },
+    {
+      "path": "extension/scripts/check-runtime.ts",
+      "bytes": 8425,
+      "sha256": "bd0aa703e65368b2c16774be3c066477d1000bbb18d6591d00137a9edfccd399"
+    },
+    {
+      "path": "extension/scripts/remote-test-fixture.ts",
+      "bytes": 3415,
+      "sha256": "e5ef9351128c3d17a386e6bb29d1efd0a309950a3120dc13a0bc98e583990356"
+    },
+    {
+      "path": "extension/scripts/smoke.ts",
+      "bytes": 5908,
+      "sha256": "dff90b22829efc27482d8bf402f0c752a356c1b729557b176fbd5f924f5f4d26"
+    },
+    {
+      "path": "extension/src/campaign_client.ts",
+      "bytes": 10023,
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "path": "extension/src/campaign_protocol.ts",
+      "bytes": 34464,
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "path": "extension/src/campaign_requests.ts",
+      "bytes": 4642,
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "path": "extension/src/campaign_selection.ts",
+      "bytes": 25008,
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "path": "extension/src/completion.ts",
+      "bytes": 1485,
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "path": "extension/src/context_build.ts",
+      "bytes": 14528,
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "path": "extension/src/context_select.ts",
+      "bytes": 6428,
+      "sha256": "a72edaf733395d7b4839f2ca9ed0c2092e4051359279f6839c93e2d5d04b9d59"
+    },
+    {
+      "path": "extension/src/extension.ts",
+      "bytes": 57815,
+      "sha256": "9eb84a70474dcf55cf9ae3fc1103ea5e62b595d128cf22e1cf04a22576d27985"
+    },
+    {
+      "path": "extension/src/history_provider.ts",
+      "bytes": 23912,
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "path": "extension/src/next_edit.ts",
+      "bytes": 2816,
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "path": "extension/src/process_lifecycle.ts",
+      "bytes": 1352,
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "path": "extension/src/remote_primary.ts",
+      "bytes": 7347,
+      "sha256": "1004fb6102284bdd6278452e30ae619f0752676866aa3b7f83d5aad38a5d1940"
+    },
+    {
+      "path": "extension/src/runtime.ts",
+      "bytes": 24460,
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "path": "extension/tsconfig.json",
+      "bytes": 297,
+      "sha256": "3808f18c63ffdbb05117e33967f5d50bf48ee0032b27f965ea0556791a95be90"
+    },
+    {
+      "path": "run_cpu_checks.py",
+      "bytes": 853,
+      "sha256": "0d06fd72ec16139845d8d47d7baebe360c1983558d5846fae6dba18d2274a992"
+    },
+    {
+      "path": "source-baseline.json",
+      "bytes": 3886,
+      "sha256": "5abeac19be537431ea2d75bc6c750594cd1b3fac4244def82a5376aab69ccfaf"
+    },
+    {
+      "path": "source.diff",
+      "bytes": 14857,
+      "sha256": "1b88b79d27cc1ca0d308be6c6cdd259b00d9d90d99650b67ef0f41b2413b81d1"
+    }
+  ],
+  "dependency_directory_read_only": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-primary-extension-v1/extension/node_modules",
+  "production_source_unchanged": true
+}

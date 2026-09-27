@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "bytes": 1609,
+      "path": "source/native_attestation.py",
+      "sha256": "39651283e19bc265a4247c717db5d9f3525812552ff5a34e3321016937cbc8d0"
+    },
+    {
+      "bytes": 1856,
+      "path": "source/native_capacity.py",
+      "sha256": "61dc8a543350f9c15526c8af8b21d058b64c058aac1c7553ea0dbb2a3b764866"
+    },
+    {
+      "bytes": 5232,
+      "path": "source/native_checkpoint_publish.py",
+      "sha256": "220115bef24c240b2425fb222a7e6435787f352fcd08e3ae0ec9022c773baa1e"
+    },
+    {
+      "bytes": 6063,
+      "path": "source/native_runtime_overlay.py",
+      "sha256": "878649c8a79dcf114c58da1b20effb35bb8ae25be4ff67300fb4e892365d18a1"
+    },
+    {
+      "bytes": 12693,
+      "path": "source/native_stage.py",
+      "sha256": "f8d1ed323500964f60d9c954373eb714bf66552288f2a14069b66c6456d45459"
+    }
+  ],
+  "schema": "sepalith.sft11.native-storage-staging-source.v1",
+  "status": "frozen_preparation"
+}

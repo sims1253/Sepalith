@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "bytes": 2235,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "609d2ccc009bebf9d35d3fe0839429720d3f46723658f10b4d16b22739a0d8d7"
+    },
+    {
+      "bytes": 2260,
+      "mode": "0o644",
+      "path": "actual-source-evidence.json",
+      "sha256": "1c7c6074ffa2a60c038a187111fef7a45bc3addbff6e835547d9ba2d11bb11aa"
+    },
+    {
+      "bytes": 1271,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "ec771bec487b465f829626f5c59047681f603555d7ef1015c1b766a583a6e7ec"
+    },
+    {
+      "bytes": 1932,
+      "mode": "0o644",
+      "path": "input-contract.json",
+      "sha256": "c1c8b030cbc987e7599a5834413709d7669a97dc7da4a60ab0f2f3deb9cdf783"
+    },
+    {
+      "bytes": 23004,
+      "mode": "0o644",
+      "path": "materialize_semantic.py",
+      "sha256": "f05708b5bc94819ed9545956774c1ef1899be8e7d6c7fdf36667d7173a8aa8dc"
+    },
+    {
+      "bytes": 4193,
+      "mode": "0o644",
+      "path": "semantic_context_geometry.py",
+      "sha256": "f38c3a96b5a8b34b420b289c00cf5de3f0c4fb51fba09ea3e634a61299339b6d"
+    },
+    {
+      "bytes": 992,
+      "mode": "0o644",
+      "path": "synthetic-evidence.json",
+      "sha256": "45097ffd46e0eb279b9b1214a1d6b70c7b57ef2bc4abef230d298768d8abf537"
+    },
+    {
+      "bytes": 903,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "e4ce93dc1e968cb26064ee475d6d16f85a6b9da14331b3925f8799898625ddad"
+    },
+    {
+      "bytes": 12319,
+      "mode": "0o644",
+      "path": "test_materialize.py",
+      "sha256": "7612eb0c5a9e6a62e4c0a06c0d430515f0683d3de072a84f47c585e18a0bb22e"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v2",
+  "status": "complete_preparation_template_root_bindings_pending"
+}

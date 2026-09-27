@@ -1,0 +1,41 @@
+{
+  "accepted_rechunker": {
+    "artifact_manifest_sha256": "8bcc7a776c0861de579db8326b758e4148b4bf214b0b8d672b9b829975f4d90a",
+    "lossless_rechunk_sha256": "6a9b72704b124ec0ecfd715de883f5faf4c8269a16c07d4810bc0e77338c7eea",
+    "packet": "docs/campaign/work/lead/r2-cpt-lossless-rechunk-v2",
+    "raw_chunks_sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+    "validator_sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+  },
+  "created_at": "2026-09-14T15:13:52.077860+00:00",
+  "files": [
+    {
+      "bytes": 29909,
+      "mode": "0o444",
+      "path": "source/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 11662,
+      "mode": "0o444",
+      "path": "source/lossless_rechunk.py",
+      "sha256": "6a9b72704b124ec0ecfd715de883f5faf4c8269a16c07d4810bc0e77338c7eea"
+    },
+    {
+      "bytes": 10041,
+      "mode": "0o444",
+      "path": "source/prepare_fixtures.py",
+      "sha256": "ae12b3c26d206e57579ed3f6cb58e4354c5a963c35b3b256f75fbaddcb0e18a0"
+    },
+    {
+      "bytes": 11920,
+      "mode": "0o444",
+      "path": "source/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    }
+  ],
+  "schema": "sepalith.sft11.cpt-long-context-fixture-source.v1",
+  "smoke_harness": {
+    "path": "docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v4/full_weight_smoke.py",
+    "sha256": "08281c5303ebe48b656fc38f19b7494f62876859bda695995558a027154e19ba"
+  }
+}

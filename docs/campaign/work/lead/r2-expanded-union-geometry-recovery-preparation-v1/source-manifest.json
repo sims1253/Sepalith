@@ -1,0 +1,37 @@
+{
+  "schema": "sepalith.sft11.expanded-union-geometry-recovery-source.v1",
+  "status": "frozen_preparation_no_full_run",
+  "files_count": 6,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 964,
+      "sha256": "a658d930259db2a35d2213ebf12101adb2c9a7c7dd7e5bcc0cb4d4bc0e2c61a9"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1549,
+      "sha256": "d3e9a10d0c6fe5aae44d3748eb8c7d02b07b19770c4410c69b3eedfa3077d4c6"
+    },
+    {
+      "path": "input-registry.json",
+      "bytes": 2043,
+      "sha256": "7e4c15e385dcc3eb53b788787e8d7bd56b92de793891789a6af31e29b8335208"
+    },
+    {
+      "path": "recover_geometry.py",
+      "bytes": 5374,
+      "sha256": "263a7e5ea06cf233ee9deed36ae164ec193ea3d35b4217ac4f996ae0dc512e83"
+    },
+    {
+      "path": "test-results.log",
+      "bytes": 438,
+      "sha256": "9f8275f80d578d3899370f17246c158a1d96517495f7f202841bc169f0473888"
+    },
+    {
+      "path": "tests/test_geometry.py",
+      "bytes": 2158,
+      "sha256": "b573177447db035a8c282c2950f3a39f1d439a6006ce0dcd0b9b3eca81d3d7c0"
+    }
+  ]
+}

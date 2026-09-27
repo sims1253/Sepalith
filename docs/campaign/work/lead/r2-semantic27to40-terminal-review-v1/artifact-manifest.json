@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-09-15T03:05:39.036665+00:00",
+  "files": [
+    {
+      "bytes": 1017,
+      "path": "README.md",
+      "sha256": "de6b888d1eb83eb123726de238e19c53232a7c0fa45cd448703db56f90937e0c"
+    },
+    {
+      "bytes": 10673,
+      "path": "review_terminal.py",
+      "sha256": "5fef34b60e7874ac2c1a74c89e863a204c4cdb0cb8c8faa52440a1ad515e2f46"
+    },
+    {
+      "bytes": 1123074,
+      "path": "review-result.json",
+      "sha256": "8bbb1e9c635deebe370ad638c642b5aca1db1dc2a280502a299e605ab7183b1a"
+    },
+    {
+      "bytes": 300,
+      "path": "review.log",
+      "sha256": "a484a0e8e48cda09477db5e2a92311470c52c658873d95c6dbcef342f1f32bdf"
+    },
+    {
+      "bytes": 1040,
+      "path": "review.time",
+      "sha256": "6d09a96735ba9adc59fa91282997fc4e7bd452e2c774c3528c37799658869b66"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic27to40_terminal_review_artifacts.v1"
+}

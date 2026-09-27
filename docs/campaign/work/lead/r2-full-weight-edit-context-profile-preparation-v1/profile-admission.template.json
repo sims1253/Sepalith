@@ -1,0 +1,14 @@
+{
+  "schema": "sepalith.sft11.full-weight-edit-context-profile-admission.v1",
+  "status": "preparation_only",
+  "launch_authorized": false,
+  "cap": "ROOT_FILL_ONE_OF_2048_4096_8192_16384_32768",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v3-from194/runtime/checkpoint-322",
+  "checkpoint_manifest_sha256": "ROOT_FILL_AFTER_COMPLETE_CHECKPOINT322_REVIEW",
+  "fixture": "ROOT_FILL_EXACT_FIXTURE_FOR_CAP",
+  "fixture_sha256": "ROOT_FILL_EXACT_FIXTURE_SHA256",
+  "source_manifest_sha256": "ROOT_FILL_FROZEN_PROFILE_SOURCE_MANIFEST_SHA256",
+  "purpose": "one no-update full-state editing forward/backward memory profile",
+  "training_data_admitted": false,
+  "quality_decision": false
+}

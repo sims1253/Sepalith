@@ -1,0 +1,43 @@
+{
+  "large_payloads_included": false,
+  "records": [
+    {
+      "bytes": 4220,
+      "exact_copy_of_original": true,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-varlen-canary-322-varlen_candidate-v1/runtime/checkpoint-330/campaign-manifest.json",
+      "path": "selected-source/campaign-manifest.json",
+      "sha256": "2b35854537588499fb703af2127029ff649e410cbab65374948723273b520951"
+    },
+    {
+      "bytes": 2967,
+      "exact_copy_of_original": true,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-varlen-canary-322-varlen_candidate-v1/runtime/checkpoint-330/campaign-state.json",
+      "path": "selected-source/campaign-state.json",
+      "sha256": "fb6d4d456e2318c70301a8b39f21e54069570c48c9c90de80e3f09155361a8e8"
+    },
+    {
+      "bytes": 12028,
+      "exact_copy_of_original": true,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-varlen322-root-v1/varlen_candidate/recipe.json",
+      "path": "selected-source/canary-runtime-recipe.json",
+      "sha256": "12d09ed0158070b256b0976e6f80fc0e46e1f552c1556b44dbc7a6cf360d5997"
+    },
+    {
+      "bytes": 2799,
+      "exact_copy_of_original": true,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-varlen330-metric-root-review-v1/result.json",
+      "path": "selected-source/metric-selection-result.json",
+      "sha256": "b9368a6d6ec1ebf30cd1e59669ce3b66f065fb3c04dc77f6f97a4d4f27b93a21"
+    },
+    {
+      "bytes": 7738,
+      "exact_copy_of_original": true,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-varlen330-evaluation-preparation-v2/payload-review.json",
+      "path": "selected-source/payload-review.json",
+      "sha256": "fc42ebb45d9cddbded49c9c356cdc371b630b5e7c42f35e7bf804c5b0c6f287b"
+    }
+  ],
+  "records_count": 5,
+  "schema": "sepalith.sft11.selected-packed330-source-evidence-manifest.v1",
+  "status": "frozen_exact_small_metadata_copies"
+}

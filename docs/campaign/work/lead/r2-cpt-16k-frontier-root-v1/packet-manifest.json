@@ -1,0 +1,93 @@
+{
+  "files": {
+    "frontier-audit.json": {
+      "bytes": 20996,
+      "sha256": "14c03bcbb96790ed1e09f04f13b383ac53b949ce25aa5c74c601f069877e56a2"
+    },
+    "frontier-progress.json": {
+      "bytes": 753,
+      "sha256": "280501b47d4cd6992bf396b8a6d11902334b03249e33026bfe0ed2693d05423d"
+    },
+    "input-manifest.json": {
+      "bytes": 5096081,
+      "sha256": "74036edd6f43085486a81b43531abf314e686d41dac264c025a173fc04e4e4f9"
+    },
+    "launch-binding.json": {
+      "bytes": 3009,
+      "sha256": "41c7cac424e846fece9aac5f08495cd40c26aaccdc6e9a8a015c1ca8e13b4ee6"
+    },
+    "launch.json": {
+      "bytes": 304,
+      "sha256": "6b0e33f1683a58ba381209bd096cf6d35324227f1531f64b9548977315f5d6c8"
+    },
+    "output-validation.json": {
+      "bytes": 861,
+      "sha256": "f238d0527c5702a7ac566a4535b3c8e7ade76403c9025c7c9e54770dfa0c0cf6"
+    },
+    "prepare_frontier.py": {
+      "bytes": 7787,
+      "sha256": "9ab79ae0ca718f943aab2935f01aa389785e661ebb4f2de05659f54bc8254e79"
+    },
+    "producer.log": {
+      "bytes": 4477540,
+      "sha256": "6ed9de441c3906f516cc611bafda76d51eb2108495a9af969ade704fd393ee5d"
+    },
+    "receipt-bindings.jsonl": {
+      "bytes": 4093266,
+      "sha256": "751ae9638e55e10ad230f1bfe556adc001d6d96d1b5b3897e65b8318390c0c4d"
+    },
+    "repair-ledger.jsonl": {
+      "bytes": 1158,
+      "sha256": "d842d4df00cab74c452cd1a23d5c3f67ccba62f5b91533125ddfecf601e46edd"
+    },
+    "run_frontier.sh": {
+      "bytes": 385,
+      "sha256": "83ca06eda1c1563fdbe1e122157afd60aca97a3e761fbb406ac86cfc4d1aa536"
+    },
+    "run_owned.py": {
+      "bytes": 1067,
+      "sha256": "4226976b453b162092d4449796879b48ebc5ff96bd683d709d0024e1a58fd6a6"
+    },
+    "source/campaign_cpt_data.py": {
+      "bytes": 29909,
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    "source/lossless_rechunk.py": {
+      "bytes": 11812,
+      "sha256": "0530b93885e4db9f4c8f87acc6e5efd9bd735f82b5b2c24b8006d145acb5fa13"
+    },
+    "source/raw_cpt_broader.py": {
+      "bytes": 11920,
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "terminal.json": {
+      "bytes": 373,
+      "sha256": "1f9d208f3f31f225e12590a96cd02d940ca19e3e72e4ea6502c3cf13cf5e1a8b"
+    },
+    "validate_output.py": {
+      "bytes": 3256,
+      "sha256": "aa88fc694a11eb528a5b033dcd4bd02b1b35d3b98400e8ce5b13d55c874200a9"
+    }
+  },
+  "output": {
+    "cpt_train_ctx16384": {
+      "bytes": 3247792502,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-16k-frontier-v1/cpt_train_ctx16384.jsonl",
+      "sha256": "16980ad018bcc6a0213e13e1a07849f9df044538e18cfcea8b0d8eaa9de2807e"
+    },
+    "directory": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-16k-frontier-v1",
+    "document_provenance": {
+      "bytes": 91847727,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-16k-frontier-v1/document-provenance.jsonl",
+      "sha256": "be3aba370a0adf50b4dad6819c5009171286e8b70dcffbfe2ebec7bf8053512c"
+    },
+    "result": {
+      "bytes": 5235779,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-16k-frontier-v1/result.json",
+      "sha256": "7e90b54667d3d37032067329a1d4605e56e0e51b09d0e69f9e149f060363b26d"
+    }
+  },
+  "schema": "sepalith.cpt.16k-frontier-packet.v1",
+  "status": "complete_worker_verified_root_review_required",
+  "training_admission": false
+}

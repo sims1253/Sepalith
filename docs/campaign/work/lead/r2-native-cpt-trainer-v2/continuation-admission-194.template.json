@@ -1,0 +1,10 @@
+{
+  "bound_recipe_sha256": null,
+  "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+  "checkpoint_manifest_sha256": null,
+  "decision": "continue",
+  "launch_authorized": false,
+  "schema": "sepalith.sft11.cpt-stage-transition-continuation-admission.v1",
+  "status": "root_fields_pending",
+  "step": 194
+}

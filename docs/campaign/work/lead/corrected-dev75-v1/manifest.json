@@ -1,0 +1,113 @@
+{
+  "status": "prepared_versioned_dev_target_correction_pending_independent_review",
+  "input_pins": {
+    "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-final-evaluator-cases.jsonl": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/packages/sepalith/src/sepalith/campaign_protocol.py": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/finish-boundary-repair-v2/finish_boundary_repair_v2.py": "7fabe102485241a33e2af1178a6e2f05d8c06e1ef832f852c44e4d58faa08b5b",
+    "/home/m0hawk/Documents/Sepalith/experiments/synthetic-data/scenarios.py": "cccf8ddfff0ae1f64a0113c9612386227df66f9fff4701608c2320bd8eb0250c"
+  },
+  "output": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+    "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+    "bytes": 994124
+  },
+  "counts": {
+    "rows": 75,
+    "changed_finish": 6,
+    "other_lines_byte_identical": 69,
+    "edit_rows": 43,
+    "noop_rows": 32
+  },
+  "changes": [
+    {
+      "id": "e623a61b5a4c066358a477f2",
+      "parent_line_sha256": "3dc89c9bc3b9305b94a2b2fcf5b2cfbac9bdc1346fdc3a6581ae4e380d31aa84",
+      "old_target_body_sha256": "afff721cc9b5181152c1012d86df5ac1f38c81d8a269e5243ba9dd6f14820491",
+      "new_target_body_sha256": "7f75e8a97dcd04a49bade7e5492d8f9bf9b88d0747f504a6a0ecaf50590cfb92",
+      "old_target_sha256": "bcc95269ddf675d8e1bd48feb2ab056d0431b31d2efd6ab249d78360badb2685",
+      "new_target_sha256": "4aa8f911a0fb1e1d5dcd0990957c2c15cd2e76fc33cc00f4afc5818d7d238e81",
+      "new_post_document_sha256": "25d153088cd2c94ea67771fe55c246b6ea2beef62cde91099645acbef78bbf9d",
+      "target_body_tokens_before": 131,
+      "target_body_tokens_after": 131,
+      "new_document_parse_ok": true,
+      "original_target_final_lf": true,
+      "trailing_horizontal_whitespace_preserved": ""
+    },
+    {
+      "id": "4f08633513b5c525240d2540",
+      "parent_line_sha256": "9d3ca844bc434f41d2dc11ef90507c5a25a32294eb9715dcbfb3258ff58e300e",
+      "old_target_body_sha256": "cf1a9ce4461b829b6562074cfa5ac59d4a3e1519489dcbe0d755da345bf74d2d",
+      "new_target_body_sha256": "350c5b2d16fae3bc8c6688564f2c5aabc2682a3f7c4fb49b9f26a05b62c3eae9",
+      "old_target_sha256": "d7fb8a97bc3d69008decf85abc202bf073a981b65f1b0e3d19bf2618e1e30166",
+      "new_target_sha256": "bafc7e592be0041482da494383df35b2969f60633abb34d9e4cdbb6ea5d26622",
+      "new_post_document_sha256": "0c5fea04c8e08cd0fd7eacf8c729b3e784129b6a3451c704c9ccd02f4ce2ffbe",
+      "target_body_tokens_before": 159,
+      "target_body_tokens_after": 159,
+      "new_document_parse_ok": true,
+      "original_target_final_lf": true,
+      "trailing_horizontal_whitespace_preserved": ""
+    },
+    {
+      "id": "d11581e9cfa4e3971aa1466e",
+      "parent_line_sha256": "d5ba88e8ec8470917652c1ef8985346d135807e1511a09a0d7e8e0d866333980",
+      "old_target_body_sha256": "4fc932a4518e4fd804baa5126868bc0c35db119c66c83cbb8b42d55bfc6cafb4",
+      "new_target_body_sha256": "3f57f35fa9d8c1bc895065dac9594bcb020786bd9346d577442d5105124d1f1a",
+      "old_target_sha256": "9dd7595aa142d31bde8e965e9c4bfdb21de546cd056f40a7e1348be48063c8a4",
+      "new_target_sha256": "46d441cee1b1168455e5ab981e286348c468a3c9f5d5946a9b72e8359c402409",
+      "new_post_document_sha256": "917b00add6826356d7c0344c5f8989945678d9dc9a170ae55a29f82f52068fc3",
+      "target_body_tokens_before": 242,
+      "target_body_tokens_after": 242,
+      "new_document_parse_ok": true,
+      "original_target_final_lf": true,
+      "trailing_horizontal_whitespace_preserved": ""
+    },
+    {
+      "id": "157517ba47dbab157f7c361a",
+      "parent_line_sha256": "f857b2fc26b5ce7e5bfe342a3649832dc5a53de66f9c47327b355c57396b2840",
+      "old_target_body_sha256": "48bb56f9155524638908b4aeeb0ce57ff1daf471d212fe49f30ec8058d11dcff",
+      "new_target_body_sha256": "712a192c13be6d2a683bc054d3825c51ab0abe30ed348e508c590cd307b41f6e",
+      "old_target_sha256": "c0f3943d1206885b1580761a1318fff05853ca2dfa33c49ab46fb5c24d8a091e",
+      "new_target_sha256": "100f1ef2d05b2801e6eaa5b29d097d8acbf64547ef8753478015ceb09f2cf96b",
+      "new_post_document_sha256": "fe17348230ccc22d8eb7d17d0b0b794cae681a073eeca3ce2331b83f85888dc3",
+      "target_body_tokens_before": 41,
+      "target_body_tokens_after": 41,
+      "new_document_parse_ok": true,
+      "original_target_final_lf": true,
+      "trailing_horizontal_whitespace_preserved": ""
+    },
+    {
+      "id": "f43de3e77f2d92ed7b223464",
+      "parent_line_sha256": "93d8c2140372987a00c238ad75a0604b5c98e31adda6a63c2c54021eb21dc470",
+      "old_target_body_sha256": "cd69ed3d9eec83f5bced6b4d8bd51e6c6c56152685d9ab4ee5507805a05a83de",
+      "new_target_body_sha256": "074ad690dc7144a01cbd74a5f59c089134367bd6aed4340ac601be76851d1661",
+      "old_target_sha256": "1110f137e7aa8bca11f46f0547ef55c1e709b00c05c63512ba399079a1092469",
+      "new_target_sha256": "a2caa066b16198a3f0a69e06e469e0e61ac3cb1f6959c0888b7b8d305da716b2",
+      "new_post_document_sha256": "dbbbdacf4bb345efcda5fb89666948bba0fa0414e89ca49333f164810ffbb5c3",
+      "target_body_tokens_before": 68,
+      "target_body_tokens_after": 68,
+      "new_document_parse_ok": true,
+      "original_target_final_lf": true,
+      "trailing_horizontal_whitespace_preserved": ""
+    },
+    {
+      "id": "04834fef4fe59742f13677a9",
+      "parent_line_sha256": "978b10317c07eace2bdc04b4ca200e8e322774e685c059e69807b3c2f08006a8",
+      "old_target_body_sha256": "baf13f55cb5f9a0b9ed839a583d7be195cda4b2f8d79e2d7f3de5171b6e19855",
+      "new_target_body_sha256": "e1d0c53de5ffb704fa1a48cc9e05fe288f3823650636a8483bcbb17a331cbd52",
+      "old_target_sha256": "b4d1704161d8abb1c747df599e53f9f11f31ba873dd3e3ca9f19c2f465eb2b33",
+      "new_target_sha256": "c819c3fa1f7fff5feac16f6de28ef368da28347304fab072f98e6613f685d01a",
+      "new_post_document_sha256": "60a953755546ab10c93e01c8d01f9f924986066f3e5c0a51d9ec23288ba6b324",
+      "target_body_tokens_before": 149,
+      "target_body_tokens_after": 149,
+      "new_document_parse_ok": true,
+      "original_target_final_lf": false,
+      "trailing_horizontal_whitespace_preserved": " "
+    }
+  ],
+  "rule": "Only six previously audited finish targets gain their known outer brace; all inputs and predictions remain unchanged.",
+  "training_use": false,
+  "final_content_read": false,
+  "official_historical_scores_overwritten": false
+}

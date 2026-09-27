@@ -1,0 +1,15 @@
+{
+  "schema": "sepalith.root.cloud1902-readback-source.v1",
+  "changes": "Exact1902revision/tarhash/size/step/cursor pins substituted in reviewed1585verifier; same archive checks and fullidentity comparison",
+  "files": [
+    {
+      "path": "readback.py",
+      "sha256": "58ea9dd3bbef6f19ef9c8c27c654938f7fff87464cff7160a6837c36323e647e"
+    },
+    {
+      "path": "test_readback.py",
+      "sha256": "d79de1f0979bdae327fe848e655a3d6c9d2ded207cb3e85139a1a736513ff0fd"
+    }
+  ],
+  "metadata_receipt_sha256": "7cb571a2ae5660b9c28bec6e2a894e3d25ce8dd59933c50b7ec4c0248ec4ddbc"
+}

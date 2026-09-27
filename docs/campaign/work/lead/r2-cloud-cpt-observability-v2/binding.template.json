@@ -1,0 +1,21 @@
+{
+  "absolute_deadline_utc": "ROOT_BIND_WITHIN_900_SECONDS",
+  "admitted": false,
+  "artifact_prefix": "ROOT_BIND_r2-cpt-bootstrap-diagnostic/UUID32",
+  "artifact_repo": "scholzmx/sepalith-lora",
+  "image_uri": "docker.io/anyscale/ray@sha256:3b904e7cbb1736a8a17359708197d62333daa0bc8285d7de66f1d22aa78754f9",
+  "input_staging_authorized": false,
+  "instance_type": "g5.2xlarge",
+  "max_retries": 0,
+  "payload_manifest_sha256": "ROOT_BIND_FROZEN_DIAGNOSTIC_PACKET",
+  "provider_timeout_seconds": 600,
+  "root_admission_relative_path": "root-diagnostic-admission.json",
+  "root_admission_sha256": "ROOT_BIND_AFTER_DIAGNOSTIC_ADMISSION",
+  "run_id": "ROOT_BIND_UUID32",
+  "schema": "sepalith.cloud-cpt.bootstrap-diagnostic.v2",
+  "training_authorized": false,
+  "watchdog_armed_at_utc": "ROOT_BIND",
+  "watchdog_armed_receipt_relative_path": "watchdog-armed.json",
+  "watchdog_armed_receipt_sha256": "ROOT_BIND_AFTER_ARMING",
+  "watchdog_timeout_seconds": 900
+}

@@ -1,0 +1,122 @@
+{
+  "checkpoint_storage": {
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-edit-post-CPT-eval-gate-v1",
+    "c_hot_stage": "not_admitted",
+    "mode": "e_same_filesystem_atomic",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-edit-post-CPT-eval-gate-v1/runtime"
+  },
+  "cohort": {
+    "body_tokens": 1487442,
+    "draw_schedule": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/repaired15006-draw-schedule.json",
+      "sha256": "287eafcb4ed14989e1b2819de885b5febfbe2b633b5ea07df63d1763811f73e9"
+    },
+    "id": "DAT10-finish-source-repair-v3-full15006",
+    "input_tokens": 13755681,
+    "length_profile": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/length-profile.json",
+      "sha256": "33ef2275bf593c229ed9e01e292f0946b1632a2c1c70777ed0f23880db931cc5"
+    },
+    "loss_tokens": 1577478,
+    "manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/materialization.json",
+      "sha256": "8b90202ae438b7c048f4a80ed5cf13fd2cd635d719799e13959f8cf92641f47c"
+    },
+    "max_sequence_tokens": 16384,
+    "named_replays": 3554,
+    "observed_max_sequence_tokens": 3064,
+    "observed_max_target_tokens_including_eos": 933,
+    "rows": {
+      "bytes": 134311661,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+      "sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+    },
+    "schedule_semantics": {
+      "base_coverage": "all 15006 eligible rows receive at least one supervised exposure",
+      "edit_batch_completion_replays": 8,
+      "interpretation": "one complete eligible-row coverage pass plus explicit class-alignment replays, not one statistical epoch",
+      "noop_alignment_replays": 3546,
+      "reason": "retain the previously reviewed 12-edit + 4-noop batch contract (25% no-op exposure) while preserving all 13912 edits and all 1094 no-ops; each pool exhausts unique IDs before its own replays",
+      "replays": 3554
+    },
+    "scope": "accepted_repaired_15006_only_additional_roxy_pending",
+    "target_truncation": false,
+    "unique_rows": 15006,
+    "updates": 1160
+  },
+  "data_queue": {
+    "additional_roxy_rows": 10017,
+    "additional_roxy_status": "pending_root_admission",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/data-queue.json",
+    "sha256": "b471bc54f6940857cadf4e36494132380e2b80eadaf4e04a041f78a92fc41bcb"
+  },
+  "development": {
+    "cases": 75,
+    "final_set_access": false,
+    "generation_budget": {
+      "default_candidate": 1024,
+      "direct_comparison_candidate": 192,
+      "policy": "no silent truncation; report cap hit, response completeness, stop token, all-case metrics, and complete-case metrics",
+      "prepared_max_new_tokens_bound": 8192,
+      "root_selected": true
+    },
+    "generation_evaluation": "required_for_edit_and_noop_quality",
+    "in_callback_policy": "mandatory optimizer-boundary stop; root runs generation in a separate exclusive-CUDA process before continuation",
+    "panel": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "teacher_forced_diagnostic": "separate_metric_not_edit_accuracy"
+  },
+  "expected_model": {
+    "dtype": "bfloat16",
+    "parameter_tensors": 381,
+    "parameters": 2516756480,
+    "peft": false
+  },
+  "launch_authorized": false,
+  "optimizer_dispatch": {
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-edit-post-CPT-eval-gate-v1",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-edit-post-CPT-eval-gate-v1-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-edit-post-CPT-eval-gate-v1/runtime"
+  },
+  "parent": null,
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true
+  },
+  "schedule_alternatives": {
+    "one_pass_15008": {
+      "draws": 15008,
+      "no_op_fraction": "natural cohort frequency; no 25% replay enrichment",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/one-pass-15008-draw-schedule.alternative.json",
+      "sha256": "4b2862d8817ca6accc36a511b421ddbd1458c8270261bd19b7f5d7deb0236d83",
+      "status": "prepared_not_root_selected",
+      "terminal_batch_padding_replays": 2,
+      "unique_rows": 15006,
+      "updates": 938
+    },
+    "selected": "noop25_full_coverage_18560"
+  },
+  "schema": "sepalith.sft11.full-weight-edit-sft-eval-gate-template.v1",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source-manifest.json",
+    "manifest_sha256": "e429cfdf103da18c5201811c32157b05a4d1b3674fa41363e3c25685378991f2"
+  },
+  "status": "preparation_parent_lr_schedule_gate_cadence_pending",
+  "unresolved": [
+    "root-selected merged CPT1902 parent bytes/manifest",
+    "editing learning rate and scheduler",
+    "microbatch/accumulation after resource benchmark",
+    "mandatory checkpoint/DEV gate cadence and generation budget",
+    "root selection between noop25 schedule and separate one-pass15008 alternative",
+    "10017 additional roxygen rows remain pending; admission requires fresh cohort/schedule/recipe"
+  ]
+}

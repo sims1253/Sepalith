@@ -1,0 +1,9 @@
+# E750 native DEV preparation
+
+This packet starts after root's separate E750 CPU merge. It prepares the F16/Q8 export and corrected native DEV75 run for full checkpoint 750, sampler cursor 12,000, and checkpoint-manifest SHA-256 `37d48d9118922bcb55ddf7ce0af1ef46456eafe7a01497a193e56744a7f3e0ab`. It retains the unchanged E recipe `2e8038f81c8fee2112b7164e4e0c92c11474459dd1e810f8a86c2bf224ca2316`, frozen source `bb2f9fdc1d016679533beab7d9906c9b996c9ce59d36e54ff98101adbaeed384`, 1,000-step horizon, 16,000-draw schedule, and its evaluation cadence. A step-500 or step-1000 candidate, another source, another recipe, or another checkpoint-manifest hash is rejected.
+
+Root first completes and reviews `/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/parent-manifest.preparation.json`. It then runs the arrays in `root-commands.json`: `prepare_export`, `export_guard`, `review_export`, and `bind_profile`. The binding helper calculates completed metadata hashes itself. Root then runs the three `observation_sequence` arrays exactly as written: the first `observe_client.py` takes no argument, `build_closure.py` follows, and only the last invocation uses `--check-policy-only`. Root completes a fresh native approval before `native-command-v1.json` under its CUDA lease.
+
+After a complete E750 native DEV75 result exists, root runs `comparison`. The comparator pins the incumbent, C250, and D500 result bytes and checks that all four runs use the same corrected DEV75 cases, prompts, targets, families, operations, packages, and no-op labels. The result is development evidence and makes no promotion decision.
+
+No checkpoint, model, GGUF, or DEV output was read during preparation. The copied D500 harness remains byte-identical except for explicit E lineage checks and removal of stale generated observation/profile artifacts.

@@ -1,0 +1,22 @@
+{
+  "binding_config_sha256": null,
+  "dev_or_final_access": false,
+  "launch_authorized": false,
+  "merged_weights_sha256": null,
+  "model_manifest_sha256": null,
+  "model_stage": "selected_full_weight_edit_sft",
+  "optimizer_updates": 0,
+  "output_path": null,
+  "pilot_spec_sha256": "4b999be5ac51bcf9612bf420908cb6ff08b545803efb459f8fb6acef18a73bb3",
+  "reward_buffer_sha256": "dca94ce5c24e2c3842940b23ab6f4be6f967f8e83f99276b150f107703d0c22d",
+  "rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+  "schema": "sepalith.rl11.expanded-signal-driver-root-admission.v1",
+  "selected_model_evidence": {
+    "path": null,
+    "sha256": null
+  },
+  "source_manifest_sha256": "c6bf22f24e6187fb4a80e68fa9edc00f2bdd0f45ecc03725c042ebbf22a1b4e0",
+  "status": "pending",
+  "tokenizer_json_sha256": null,
+  "train_only_rewards": true
+}

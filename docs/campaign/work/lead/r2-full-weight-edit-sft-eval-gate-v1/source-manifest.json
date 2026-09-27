@@ -1,0 +1,96 @@
+{
+  "files": [
+    {
+      "bytes": 5744,
+      "path": "source/experiments/training/bind_full_weight_edit_sft.py",
+      "sha256": "c157e79e700c455f92a618daebc8f00266b2c72d0cdaacee0537e3b59185c94b"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 5508,
+      "path": "source/experiments/training/campaign_edit_data.py",
+      "sha256": "a4c4b36b117dd8c4b0da668ba32f55d1752deb837b4b7bc311eca0a9e3190cc4"
+    },
+    {
+      "bytes": 13906,
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "6e5bd413d9f71b0d8dcfdb6f98feae4f9ea0a43ac7d60c19c43cf11c43a2987c"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 1435,
+      "path": "source/experiments/training/dev_model_state.py",
+      "sha256": "7b251e43886e90886cc4ef37858105d72b015ed40cbcf4b28785f998497d0bb7"
+    },
+    {
+      "bytes": 11493,
+      "path": "source/experiments/training/full_coverage_schedule.py",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "bytes": 28452,
+      "path": "source/experiments/training/full_weight_edit_sft.py",
+      "sha256": "86c0a65ec427559bc4d8664f90bc797f3245383296bb3995641c491427d6037f"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 4565,
+      "path": "source/experiments/training/milestone_gate.py",
+      "sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 5949,
+      "path": "source/experiments/training/one_pass_schedule.py",
+      "sha256": "a1ee01d5b10262b83c0a7f49024c99c15072077f14e4bffab8db8b234168cb60"
+    },
+    {
+      "bytes": 3461,
+      "path": "source/experiments/training/prepare_dev_gate.py",
+      "sha256": "7cf3b7f12f37bcb907219647860486beaeb2726aca5d6bbe94955f7fc15bb2d0"
+    },
+    {
+      "bytes": 1397,
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 5524,
+      "path": "source/experiments/training/run_dev_generation.py",
+      "sha256": "98aa378c0a856993b6f5d26507d335e1d1610be4f85af13e6a5949f571911ef0"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "identity_sha256": "3e16379a4bb4aff20c196dbcfc188409950089cdb126335528d1e75d1bdf16da",
+  "schema": "sepalith.full-weight-edit-sft-eval-gate-source.v1"
+}

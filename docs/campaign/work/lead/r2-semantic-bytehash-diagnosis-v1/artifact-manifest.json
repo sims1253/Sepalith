@@ -1,0 +1,114 @@
+{
+  "files": [
+    {
+      "bytes": 1937,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "c5691cfd3d3d48dd503a089e557557a110a40f08a23a16616096fb58ea74ab10"
+    },
+    {
+      "bytes": 2900,
+      "mode": "0o644",
+      "path": "__pycache__/reproduce_exact.cpython-310.pyc",
+      "sha256": "e23b4cd81055abae34c58a5ce10af108859f8d0bc242ef02b10a91e6aac8f990"
+    },
+    {
+      "bytes": 613,
+      "mode": "0o644",
+      "path": "exact-pipeline-result.json",
+      "sha256": "f92d792e5fed50b927829bfdf9d8d4e6de22557ebd9559643baa9d74394fdf8e"
+    },
+    {
+      "bytes": 1612,
+      "mode": "0o644",
+      "path": "exact-row-original-reproduction.json",
+      "sha256": "a34f024abfd099f510427858802e05a50bceb0b8a12dc127412efe858b0f2fe1"
+    },
+    {
+      "bytes": 1711,
+      "mode": "0o644",
+      "path": "exact-row-reproduction.json",
+      "sha256": "7a435e6bb0f93218928ea49f13af8d683866c0748014a5e35f8bd52a6209f0b3"
+    },
+    {
+      "bytes": 4942,
+      "mode": "0o644",
+      "path": "fix.patch",
+      "sha256": "22e79bb6eed60c5a9a8282633d643bc68dc6a1077f041d8a1225a0d98bee8b14"
+    },
+    {
+      "bytes": 2672,
+      "mode": "0o755",
+      "path": "reproduce_exact.py",
+      "sha256": "a70619c1eed5b862e6420439ab28ece6db75f00d856b6ef35fac375193943ad2"
+    },
+    {
+      "bytes": 1939,
+      "mode": "0o755",
+      "path": "run_exact_pipeline.py",
+      "sha256": "dc4e2ec5087a83804d89ef717582d22ef9af50968f6bc45a120bec2fd814b6d4"
+    },
+    {
+      "bytes": 462,
+      "mode": "0o755",
+      "path": "run_tests.sh",
+      "sha256": "09b745d3549c2f8b8d4dfbb795a11e501dc5a66cd16ae6499ab01a042efe6b9d"
+    },
+    {
+      "bytes": 17132,
+      "mode": "0o644",
+      "path": "source/__pycache__/analyze_semantics.cpython-310.pyc",
+      "sha256": "d2f74ae313246a4146aa79866e85ed70f79fbabbb1253be59b00105e89a0cf0d"
+    },
+    {
+      "bytes": 15997,
+      "mode": "0o644",
+      "path": "source/analyze_semantics.py",
+      "sha256": "4e62dbc7568594501a04da395006f9227c1de94db6ee99685a6213853460265f"
+    },
+    {
+      "bytes": 2287,
+      "mode": "0o644",
+      "path": "source/namespace_scope.R",
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "bytes": 11404,
+      "mode": "0o644",
+      "path": "source/reviewed_scope_reference.R",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 4594,
+      "mode": "0o644",
+      "path": "source/semantic_scope.R",
+      "sha256": "f4e530fd2260e025127c5a4ecef973128c0fdba18574bc5f71806950bd1b642b"
+    },
+    {
+      "bytes": 1852,
+      "mode": "0o644",
+      "path": "source-manifest.json",
+      "sha256": "ab909127d5139f3ff630c0299e52e6a3055713576339c16ed61745f04a77c608"
+    },
+    {
+      "bytes": 1471,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "66736b0f31c655d258fb3bfa1b3ec819f2ba768aa7f423e444e19f413f3cce58"
+    },
+    {
+      "bytes": 1376,
+      "mode": "0o644",
+      "path": "tests/test_parse_variants.py",
+      "sha256": "c75c35b0e417f2cc1d971b3064b778fb0bd43403aa8de9d3a6c7bf29c95d6e24"
+    },
+    {
+      "bytes": 3294,
+      "mode": "0o644",
+      "path": "tests/test_r_hash_contract.py",
+      "sha256": "5d3271a90571defe420616dfb693fd05a9f6269f2b5b0e6085d33f5225add270"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v1",
+  "status": "complete_preparation_root_review_required"
+}

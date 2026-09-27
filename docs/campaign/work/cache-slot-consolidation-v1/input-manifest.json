@@ -1,0 +1,95 @@
+{
+  "schema": "RUN-04.cache-slot-consolidation-v1.input-manifest",
+  "candidate": {
+    "path": "work/cache-slot-consolidation-v1/cache-slot-profile-candidate.json",
+    "sha256": "b845ea4f0f57ebaf8c2c080607ccc170adccd7b30896b706436a59bc05d833ec",
+    "bytes": 21223
+  },
+  "readme": {
+    "path": "work/cache-slot-consolidation-v1/README.md",
+    "sha256": "00219f70d74df81ac04eb5a449aa3738d05393b7d25fa201940254f910636e96",
+    "bytes": 912
+  },
+  "inputs": [
+    {
+      "path": "work/cache-event-live-a-independent-review/review-report.json",
+      "bytes": 66483,
+      "sha256": "e7992984227bedd39617b15c093ae183dafa4e66254ead0cb463e12e9437cac4"
+    },
+    {
+      "path": "receipts/RUN-04-cache-event-live-a-independent-review.json",
+      "bytes": 55393,
+      "sha256": "73ceedf30b70677d7e6a0383174418daee2ac5a5e767e9231ce52f949b98e346"
+    },
+    {
+      "path": "work/lead/cache-event-live-a/root-cache-hit-link.json",
+      "bytes": 727,
+      "sha256": "0da21f639b1d67b4ee7d677b4b45267c7b108bc3b9ac0d5a1a921b1da4413478"
+    },
+    {
+      "path": "receipts/RUN-04-cache-event-coverage-lead-review.json",
+      "bytes": 2699,
+      "sha256": "5de3b8c4cfca3fe55fc0538ed41641581ce5cbc4a80d5640a6f87c0b9d557ae6"
+    },
+    {
+      "path": "receipts/RUN-04-cache-event-coverage-preparation-v1.json",
+      "bytes": 17944,
+      "sha256": "aceee780e08922fd4bbab39a815422e293e061b7e59505b3ccbbd54c4d18a3ea"
+    },
+    {
+      "path": "receipts/RUN-04-cache-ram-ab-a-lead-decision.json",
+      "bytes": 2901,
+      "sha256": "c327c655ce228727ca428d6a18500e50c98d25638c59538b3bf84a7f3f63d5b8"
+    },
+    {
+      "path": "receipts/RUN-04-cache-ram-ab-a-independent-review.json",
+      "bytes": 16703,
+      "sha256": "a628ace9c35c30214272bbec03ada4ba927cb3ea1f204b0a89c935395e59b6a6"
+    },
+    {
+      "path": "receipts/RUN-04-prewarm-v3-native-pilot-lead-review.json",
+      "bytes": 1744,
+      "sha256": "556836e822a30839cc388b1cdb547d9511f1eea375a9e47d2e3bec96462bbac3"
+    },
+    {
+      "path": "receipts/RUN-04-prewarm-v3-native-pilot-independent-review.json",
+      "bytes": 10109,
+      "sha256": "cf860964fe5b57fd1d8bb5d8246afa98a8be5c3a78a2e7f5fc21ae76832f35e0"
+    },
+    {
+      "path": "receipts/RUN-04-long-transition-q8-lead-readout.json",
+      "bytes": 3809,
+      "sha256": "af9c6917faff76eca9a29e45da156c463247c85af2dd762818d8b28aaa388868"
+    },
+    {
+      "path": "receipts/RUN-04-transition-panel-lead-review.json",
+      "bytes": 1335,
+      "sha256": "871d5bc9a116f27c786085706a9a341d968f33317d0253f6e3fca7b278771ad4"
+    },
+    {
+      "path": "receipts/RUN-04-transition-panel-independent-review.json",
+      "bytes": 6834,
+      "sha256": "fa69fc4a41055dc2316c92023aedb39f7a78836aa8af886b21025d1b0b73b269"
+    },
+    {
+      "path": "receipts/RUN-04-lan-c-paired-lead-decision.json",
+      "bytes": 3468,
+      "sha256": "8f727ac53219856c25a94bf7aecb79511fe097616f1c23537d2165298d52982a"
+    },
+    {
+      "path": "receipts/RUN-04-remote-auto1500-c-review.json",
+      "bytes": 3870,
+      "sha256": "c4ecaf0d81601b8771a86db4b7195a65c03ce68ea25cac444cd7cd633811642a"
+    },
+    {
+      "path": "receipts/RUN-04-remote-auto350-c-review.json",
+      "bytes": 8108,
+      "sha256": "3b07b59cfa7d7bed5e4d3afbffd674912b1112feb0774677b6a942d5f9814b01"
+    },
+    {
+      "path": "tasks.json",
+      "bytes": 133388,
+      "sha256": "98d089f2f892eea2b669d686a3fdae078bb45013b744564c71012389449da235"
+    }
+  ]
+}

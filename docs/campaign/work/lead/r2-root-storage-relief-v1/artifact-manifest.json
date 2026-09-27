@@ -1,0 +1,43 @@
+{
+  "artifacts": [
+    {
+      "bytes": 2778,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/README.md",
+      "sha256": "e598a7001090145ceb4c1977a89b25d8cfa8f70d910034d971d50017ab01249b"
+    },
+    {
+      "bytes": 11090,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/audit_candidate.py",
+      "sha256": "5c8049b8c991b42a7b3ff650469048b94ae5f9b01acfc29be29d2060dd58ae3b"
+    },
+    {
+      "bytes": 8936,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/candidate-audit.json",
+      "sha256": "5adafd73e28ecca00ddbf501fd79b4059191233bd0f7f5b784eac0acc1bf32b0"
+    },
+    {
+      "bytes": 5767,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/relocation-plan.json",
+      "sha256": "65b17905538c38c520fcc626059797aa1722a396331ffad5938f5ca7562080cb"
+    },
+    {
+      "bytes": 1228,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/status.json",
+      "sha256": "0533c223dd348bcd427ae96aec8c13044f69192839465428902791398c406232"
+    },
+    {
+      "bytes": 3139,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/test_relocation_semantics.py",
+      "sha256": "be64b908a97b50f55fbca68bcbd65f377abb1a5c22456d83869838d4e3068070"
+    },
+    {
+      "bytes": 423,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1/test-results.txt",
+      "sha256": "dd242459b625d032ee19ed34e9c9b6fbdbd3c0358f65cb9d1d0d9e1f3644e896"
+    }
+  ],
+  "generated_at": "2026-09-14T19:26:26.322712+00:00",
+  "packet": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-root-storage-relief-v1",
+  "schema": "sepalith.pre03-root-storage-relief-artifact-manifest.v1",
+  "scope": "small audit/plan/code/receipt inputs only; no model payload copied"
+}

@@ -1,0 +1,71 @@
+{
+  "created_at": "2026-09-14T13:47:23.029880+00:00",
+  "files": [
+    {
+      "bytes": 1486,
+      "path": "README.md",
+      "sha256": "5887b2a2d7a1b4f49935a89179748a7a567145134bcda800c0009a8b52bc2737"
+    },
+    {
+      "bytes": 97,
+      "path": "preflight.log",
+      "sha256": "5e2ef4eb4b75d9278e0f40395723d9c873574ebf3235def73be9a00536607507"
+    },
+    {
+      "bytes": 3506,
+      "path": "recipe.json",
+      "sha256": "1c1ead25161e32c60ef079c06174b54b4f4965bfcaf193e0f690f03328bc9ddc"
+    },
+    {
+      "bytes": 2335,
+      "path": "root-commands.json",
+      "sha256": "22e6300962bc558fa58e6b44ab8df4fb27fc6a0ae203ccac43334439b3e1d6ca"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 17087,
+      "path": "source/full_weight_resume_proof.py",
+      "sha256": "816741b875cd2cb9fae5e97f92efba5fc0a06440853cc15a6b37b2dea8743039"
+    },
+    {
+      "bytes": 12447,
+      "path": "source/full_weight_smoke.py",
+      "sha256": "2409ada7e76a08658c41e41360086c7761cbcec5dd480b9d8e32f2db3035063f"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 1727,
+      "path": "source-manifest.json",
+      "sha256": "bf56d435be1f2f567fb6ab0fab3ebc12c8409c3a5a607fa0b8d3ed9b4d45c171"
+    },
+    {
+      "bytes": 802,
+      "path": "test-results.log",
+      "sha256": "053177c0203dd2cbeb2da2213afde4f6e1eba91dfdb8d89875cb9087def454ce"
+    },
+    {
+      "bytes": 4906,
+      "path": "tests/test_resume_proof.py",
+      "sha256": "2ba5396067bf4f6adad658453a81d8defddd6118a9e1173e267ca49e1efbef2a"
+    }
+  ],
+  "schema": "sepalith.full-weight-resume-proof-artifacts.v1"
+}

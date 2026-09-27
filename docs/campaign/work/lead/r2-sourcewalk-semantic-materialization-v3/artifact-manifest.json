@@ -1,0 +1,84 @@
+{
+  "files": [
+    {
+      "bytes": 2413,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "65315526996481485523430ac72d4e71c7c7f4412f60e37c8382c1c4084a034a"
+    },
+    {
+      "bytes": 124408,
+      "mode": "0o644",
+      "path": "actual-parity-fixture.json",
+      "sha256": "0c542c383c216bb734cadb367c2aec77d7ec5126a5f4c839b7d8862ff972e941"
+    },
+    {
+      "bytes": 702,
+      "mode": "0o644",
+      "path": "actual-parity-result.json",
+      "sha256": "fd6072ede04d5b942ed96152a77609e51fce9905c1d6cf7bec89a888015304aa"
+    },
+    {
+      "bytes": 2099,
+      "mode": "0o644",
+      "path": "build_actual_parity_fixture.py",
+      "sha256": "3657f010f163b318ef4b5739605ba4cfd402b53bf9cc0a212c2d56370b134645"
+    },
+    {
+      "bytes": 23130,
+      "mode": "0o444",
+      "path": "campaign_selection.py",
+      "sha256": "354a31c8f1f88cd9f1680c5e1e8dd917be3212776716a7481c80c367a545729e"
+    },
+    {
+      "bytes": 2489,
+      "mode": "0o644",
+      "path": "check_actual_parity.ts",
+      "sha256": "7e49f55cafbffe2c90f6ef607e9738bff0b46ef11ffa16cf2c34e206f053ec18"
+    },
+    {
+      "bytes": 1360,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "e97d77ac54618dc234c1ced818f48a573f5216c899367c2d0168919ab2f29956"
+    },
+    {
+      "bytes": 2367,
+      "mode": "0o644",
+      "path": "input-contract.json",
+      "sha256": "0833e41e74194025fbd8d1bd0b2225424ebfb138e4535eb705d964241be8f046"
+    },
+    {
+      "bytes": 23696,
+      "mode": "0o644",
+      "path": "materialize_semantic.py",
+      "sha256": "252337fc8e9a6d921cd80cf71264e5e7603c13a3402fe099a0ee6f82666a2838"
+    },
+    {
+      "bytes": 1228,
+      "mode": "0o755",
+      "path": "run_tests.sh",
+      "sha256": "9953727dc0ab8ddcf42ce71b7b7e973f84d9f2dca5a1cd9877750877183b6675"
+    },
+    {
+      "bytes": 4193,
+      "mode": "0o644",
+      "path": "semantic_context_geometry_v2.py",
+      "sha256": "f38c3a96b5a8b34b420b289c00cf5de3f0c4fb51fba09ea3e634a61299339b6d"
+    },
+    {
+      "bytes": 972,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "462544da4dd8267707eb98c76ad7ece5d5b26be3b2725742a4fbf0747d0712b8"
+    },
+    {
+      "bytes": 11092,
+      "mode": "0o644",
+      "path": "test_materialize.py",
+      "sha256": "85afa3b425daf5987c895b79d24c26f861fd288a4a7224410b5008fb23bb0467"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v3",
+  "status": "complete_preparation_template_root_bindings_pending"
+}

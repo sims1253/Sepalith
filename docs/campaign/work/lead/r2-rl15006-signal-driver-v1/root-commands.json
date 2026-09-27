@@ -1,0 +1,41 @@
+{
+  "binding": [
+    "nice",
+    "-n",
+    "10",
+    "env",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "python3",
+    "source/experiments/training/bind_signal_driver.py",
+    "--template",
+    "driver-config.template.json",
+    "--model-path",
+    "<ROOT_ACCEPTED_MERGED_MODEL_PATH>",
+    "--model-manifest",
+    "<ROOT_ACCEPTED_MODEL_MANIFEST>",
+    "--expected-manifest-sha256",
+    "<ROOT_PIN>",
+    "--expected-merged-weights-sha256",
+    "<ROOT_PIN>",
+    "--expected-tokenizer-json-sha256",
+    "<ROOT_PIN>",
+    "--pilot-output",
+    "<FRESH_ABSOLUTE_OUTPUT>",
+    "--output",
+    "root-bound-config.json"
+  ],
+  "live_after_root_admission_and_gpu_lease": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=<LEASED_DEVICE>",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "nice",
+    "-n",
+    "10",
+    "python3",
+    "source/experiments/training/signal_pilot_driver.py",
+    "run",
+    "--config",
+    "root-bound-config.json"
+  ],
+  "performed": false
+}

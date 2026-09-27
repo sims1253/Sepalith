@@ -1,0 +1,17 @@
+{
+  "prepare_manual_after_terminal": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "PYTHONNOUSERSITE=1",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "OMP_NUM_THREADS=2",
+    "python3",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-recovery-review-preparation-v2/prepare.py",
+    "--runtime-handles",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-recovery-review-preparation-v2/runtime-handles.template.json"
+  ],
+  "prepared_external_evaluation": "prepare.py emits command.json and binding.review.json only after full terminal verification; root must separately admit binding.admitted.json and use an exclusive CUDA guard",
+  "schema": "sepalith.sft11.cpt354-review-commands.v1",
+  "status": "manual_cpu_only_no_launch"
+}

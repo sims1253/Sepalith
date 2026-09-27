@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "bytes": 8852,
+      "mode": "0444",
+      "path": "analyze_refresh_v4.py",
+      "sha256": "562e74a6994bf0d628ee241b39524699693581acd886ebf52010ddb12cef2393"
+    },
+    {
+      "bytes": 3130,
+      "mode": "0444",
+      "path": "audit_gguf_norms.py",
+      "sha256": "b0650f162219e1a05ba50c9b0730736509c73e28afc2ff9e2abfbc80ad735571"
+    },
+    {
+      "bytes": 4908,
+      "mode": "0444",
+      "path": "build_spec_panels.py",
+      "sha256": "ba536d171c86d0d4a033ad8cca507ac356875d8379a3ce0e8277a1973bce74e8"
+    },
+    {
+      "bytes": 29219,
+      "mode": "0444",
+      "path": "paired_panel_probe_v4.py",
+      "sha256": "4b300264a6ce401df80a0dab7dca87243d432ad50ae269dc828560d19999c95b"
+    },
+    {
+      "bytes": 12822,
+      "mode": "0444",
+      "path": "prepare_refresh_v4.py",
+      "sha256": "86f1d1ecf74b55bd03db96611a7414ffac7ccfaf028a9e63f6ac12a493f91f94"
+    },
+    {
+      "bytes": 3087,
+      "mode": "0444",
+      "path": "probe_bound_v4.py",
+      "sha256": "4bf9d7f6bea5033793b6696061f34d0f66b6dae8d0d6e1d741c63a68505e2e15"
+    },
+    {
+      "bytes": 4380,
+      "mode": "0444",
+      "path": "record_imatrix_completion.py",
+      "sha256": "3631ba26878ccd59c5105672f86eb91d73f3c591eba83e5f590e0050fb150f73"
+    },
+    {
+      "bytes": 4448,
+      "mode": "0444",
+      "path": "record_prelaunch_verification.py",
+      "sha256": "6957c3fd4e9c7f418a0ee54280cb690b8132f0dd1031be77c9fece3d146c7f3d"
+    },
+    {
+      "bytes": 8427,
+      "mode": "0444",
+      "path": "server_lifecycle_v4.py",
+      "sha256": "415ca0cd2c2cd5425c7944b989568b73592769f0e78606658be034d96360e8f3"
+    }
+  ],
+  "identity_sha256": "78ffad60e894ea58d73af14fe6a47501aa7a94b711220c4f19fd314e492d12b9",
+  "schema": "sepalith.r2.final-target-serving-refresh-source.v4"
+}

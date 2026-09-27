@@ -1,0 +1,135 @@
+{
+  "captured_at": "2026-09-13T18:53:09.918816+00:00",
+  "files": {
+    "evidence/training/load-audit.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/load-audit.json",
+      "sha256": "9f11f934f2d4a1d3f4a54bbedfca38cb052918557c0f0dce216ed39b163f25d5",
+      "bytes": 18187
+    },
+    "evidence/training/first-step-supervision-check.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/first-step-supervision-check.json",
+      "sha256": "ca463ba88fe2278eaf2736d32eb7bf1fd2158dc70e3e2622b17767b44c810b2f",
+      "bytes": 290
+    },
+    "evidence/training/post-trainer-contract.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/post-trainer-contract.json",
+      "sha256": "49917ba1761b431c6e517b8d340f891b61cc5f1ac3f7d4a64ca2172f37dbbee1",
+      "bytes": 541
+    },
+    "evidence/training/train-begin-tokenizer-contract.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/train-begin-tokenizer-contract.json",
+      "sha256": "d31bce31252005c306809acec5837d4cb4b78100d1d5086d3b01d0a5c08f50a6",
+      "bytes": 2544
+    },
+    "evidence/training/step-0-cpt-validation-baseline.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/step-0-cpt-validation-baseline.json",
+      "sha256": "f2d1b658410bf199bf46924fa238a72aba16e371302f1c632c8dd2e483fc6d39",
+      "bytes": 22584
+    },
+    "evidence/training/declared-token-exposure.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/declared-token-exposure.json",
+      "sha256": "acb7ebfc427ee45939191a7c4918abf1fb41ccf04dc089cf101a3f3d5c18909a",
+      "bytes": 15536
+    },
+    "evidence/training/admitted-recipe.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/admitted-recipe.json",
+      "sha256": "981158ed12e3e3cb835d46ce12608ab030fff2ef2909ec3e3db00076e41d3d2e",
+      "bytes": 22805
+    },
+    "evidence/training/telemetry.jsonl": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a/telemetry.jsonl",
+      "sha256": "e3e4722e39a6d5306dfdf5f6118a811f4acebcda35772f3a7db4fe49bb7ef463",
+      "bytes": 18326
+    },
+    "evidence/guard/terminal.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/terminal.json",
+      "sha256": "011da23a891e3be3024dd23b8e9893fbc82a625b4e0e59aedb2887c3b82894af",
+      "bytes": 198
+    },
+    "evidence/guard/launch.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/launch.json",
+      "sha256": "8ba397c15aba78b327b52073eed6ce5d3f6365f1730a7afa02784e4ccc359fcb",
+      "bytes": 624
+    },
+    "evidence/guard/preflight.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/preflight.json",
+      "sha256": "ba2ee8f4a3fb0d72fb38b625223a23c92a3c9890141de40439a157f1dfeb88ec",
+      "bytes": 1301
+    },
+    "evidence/guard/host-memory.jsonl": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/host-memory.jsonl",
+      "sha256": "eed99a0a6de96db85a8bbbbc9fcde6076c21f5de420d4a62d327a4879c6061fd",
+      "bytes": 2761
+    },
+    "evidence/guard/low-memory-details.jsonl": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/low-memory-details.jsonl",
+      "sha256": "4ebab1077ae4257672e9afb7f9f20f99dfb60e234221bccf6ea8b5c625e31255",
+      "bytes": 4848
+    },
+    "evidence/guard/post-load-cache-release.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/post-load-cache-release.json",
+      "sha256": "248f74dfe69c339575dc33cd8080b95a5928b6e9e3cf01a7c0c014c916412825",
+      "bytes": 511
+    },
+    "evidence/guard/process.log": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/process.log",
+      "sha256": "e5d448e3ff5fccdbc835320e2c0417e6e93ecb3815665263419272d8f290ac69",
+      "bytes": 3279
+    },
+    "evidence/guard/cuda-lease.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/cuda-lease.json",
+      "sha256": "14be4de110571cc2c56f6878685a97bb54c6bda887e147bf9da1a6528a63d67a",
+      "bytes": 182
+    },
+    "evidence/attempt/execution.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-r2-cpt-v1/attempts/8de4e4e2031241e4b84e8a658d8822b8/execution.json",
+      "sha256": "d079578c87726edd4de6d1b02a2146d0e5de6b1687a05dca7b6f169debcc807c",
+      "bytes": 1482
+    },
+    "evidence/attempt/supervision.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-r2-cpt-v1/attempts/8de4e4e2031241e4b84e8a658d8822b8/supervision.json",
+      "sha256": "9c6eb9c6677248681af529c68fcc9d0b42cd2b50c455d494db5dc6eb8c4f1b7c",
+      "bytes": 1002
+    },
+    "evidence/attempt/runtime.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-r2-cpt-v1/attempts/8de4e4e2031241e4b84e8a658d8822b8/runtime.json",
+      "sha256": "dd0876f4282142fae0f4d4e9e980dcfdb8dbd83e8c9103e5ef6cdfa46d2a61d1",
+      "bytes": 332
+    },
+    "evidence/attempt/recipe.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-r2-cpt-v1/attempts/8de4e4e2031241e4b84e8a658d8822b8/recipe.json",
+      "sha256": "69ee365b6b4c55e62b8ffadb0c96c354b583720df0080170a434a1dc0eb7033f",
+      "bytes": 4936
+    },
+    "evidence/attempt/01-guarded-cpt-smoke25.log": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-r2-cpt-v1/attempts/8de4e4e2031241e4b84e8a658d8822b8/01-guarded-cpt-smoke25.log",
+      "sha256": "8421f5c646321a59244f7463b36747fa53c0baf78c1dc5af37cd0206ea22395c",
+      "bytes": 237
+    },
+    "evidence/root/recipe.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/recipe.json",
+      "sha256": "e8a26325d03e0ca663bc4df9159032c04f7d5d24175e0545f57fa915032734cd",
+      "bytes": 22805
+    },
+    "evidence/root/runner-recipe.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/runner-recipe.json",
+      "sha256": "a08208679a6be935b59b1bbeb6d86798430c02a72ded8f65af384eb70a41391a",
+      "bytes": 5766
+    },
+    "evidence/root/supervisor-launch.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/supervisor-launch.json",
+      "sha256": "ecddd32f0907187c5d957e694ed8af916f7ac25e0df79c6fc5aa73b50b1cd584",
+      "bytes": 119
+    },
+    "evidence/root/snapshot.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/snapshot.json",
+      "sha256": "bec0567ba77aaf2d7637ebc937a4ba90c0dcc9691d936e3385c7ba194db8a9e3",
+      "bytes": 2433
+    },
+    "evidence/root/raw-shard-root-audit.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/raw-shard-root-audit.json",
+      "sha256": "79d8430df40c06c18cade71f8676518fc9212c69b243e30381d5c110014639cd",
+      "bytes": 1381
+    }
+  }
+}

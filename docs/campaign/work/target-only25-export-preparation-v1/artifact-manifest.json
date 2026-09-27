@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "deferred_unadmitted_after_root_DEV_rejection",
+  "files": [
+    {
+      "path": "work/target-only25-export-preparation-v1/README.md",
+      "bytes": 3357,
+      "sha256": "9334db2f5f23282d88be63398cbdbdca416638a46a1d400bd7f78570c510305d"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/cpu-syntax.json",
+      "bytes": 365,
+      "sha256": "a26c403a6eb446082bb4ca32919ace2c6c72831c114add371282078f4e84e5d7"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/dependency-pins.json",
+      "bytes": 43064,
+      "sha256": "a862d5e66609e76241b65bd8bb356cf5a430282f9177c45add3b19e5eaa9424f"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/export-recipe.json",
+      "bytes": 6402,
+      "sha256": "2fd73937acd412308bdaf9f03eed8949fc4873edb284a67e26f7e80e58edf985"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/export_identity.py",
+      "bytes": 3050,
+      "sha256": "650b01a111c8ba1302d7a431cc3655c8e644cc1a00df64a456bfbdb59d8f1a4e"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/merge.diff",
+      "bytes": 3641,
+      "sha256": "21f0ecd0866b2c502f930fa301ab25fcca497eee6a0f944a697cf2acaba5b295"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/merge_target_only25_cpu.py",
+      "bytes": 10054,
+      "sha256": "4029bab62715588d783ce56fbef8a4220054bbb22ee64f5fbc791ea4b120bc9d"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/python-library-metadata.json",
+      "bytes": 1823,
+      "sha256": "ced9ffad78911504e59a3739871cd62306f3d642902f371e299c47e0486a464d"
+    },
+    {
+      "path": "work/target-only25-export-preparation-v1/selection.template.json",
+      "bytes": 2448,
+      "sha256": "2744254d376346bebd7464121156c8a8b586bc839fe04e55bbf6716ecbed7ef8"
+    }
+  ]
+}

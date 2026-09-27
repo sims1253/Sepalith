@@ -1,0 +1,174 @@
+{
+  "depends_on": [],
+  "description": "Fresh LoRA on verified merged E750; reset optimizer; one complete mixed full15006 coverage pass through step1160",
+  "env": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HF_HUB_OFFLINE": "1",
+    "MAX_JOBS": "2",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "TOKENIZERS_PARALLELISM": "false",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "id": "sft11-expanded-full15006-a-fresh-e750-20260914",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-expanded-15008-root-admission.json",
+      "sha256": "1f1d4df682915f68216cf95ccb6817a3210d88b29d591df4aa74be235577f248"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-two-pipe-contradictions-root-decision.json",
+      "sha256": "ff2cde297a9845671d0acfb68674c7d60ae3a8b4c2caedb518398d7fa55e7ffc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-full-coverage-batchmix-root-review.json",
+      "sha256": "aab380332de983b204cbec4bded7664fda9892f634dbdd63884ea07025d6c56e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+      "sha256": "25f85d1da5bfee8da085a209982617e39e176b89dda11febc851c248a75240e0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/host_memory_policy.py",
+      "sha256": "ed39464f8981b562dd4f91ef8ad069edae03e53da999c274507973ff0df3831a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/post_load_cache.py",
+      "sha256": "7204fc46c412d0285b6bfc931bb774b938bf5bfef87220346149e285d6f5f8a4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/root-policy-tests.json",
+      "sha256": "ca4c42fe22bcb92cbcdccb769f91747932231fce337fc162c1f5aa9afa5e1319"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+      "sha256": "de8d32f644b73312d38631e8427338f1a2884e5f4899391141a0154515db31c3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-e/recipe.json",
+      "sha256": "2e8038f81c8fee2112b7164e4e0c92c11474459dd1e810f8a86c2bf224ca2316"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-full15008-v1/full-coverage-15006-batchmix-draw-manifest.json",
+      "sha256": "d135b7ad9a1a903c0beead7ef4cd6bd8e93125634d6e8cc55f3425c41f552056"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-full15008-v1/full15006-exclusion-ledger.json",
+      "sha256": "f9602e96128981c62e654d5917ae0744a0fa25cd121045435464d80c96a5011b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-full15008-v1/full_coverage_schedule.py",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-full15008-v1/recipe.json",
+      "sha256": "a839121502dd78d15a9a825c5c6f29d24276806a5bfc4214825917f3f0daeaef"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-full15008-v1/source-manifest.json",
+      "sha256": "8389c8266f1f831fd3b2166011ec02094ee591074ded2df0b28b61d3fa905105"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-e/full/checkpoint-750/campaign-manifest.json",
+      "sha256": "37d48d9118922bcb55ddf7ce0af1ef46456eafe7a01497a193e56744a7f3e0ab"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-expanded-15006-v1/combined-token-rows.jsonl",
+      "sha256": "65b2feb2e53970f02e7cfbe8947d628d584c204f741dad3a5a8b3254af5c1cd7"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-expanded-15008-v1/manifest.json",
+      "sha256": "5334757c07d705289e6616d1f79890d008b7837914f7ca61a257aa9efdbc02c9"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/chat_template.jinja",
+      "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/config.json",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/generation_config.json",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/model.safetensors",
+      "sha256": "51232c1c491a4857c55c61669e383e72770b9d1ca49c021b4c7d69bd11ac3c21"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/parent-manifest.preparation.json",
+      "sha256": "d18dcd5cc6ce2a5089bb00b8d2afbea6366c1d312f233120c59dfa8fa3154a1c"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    }
+  ],
+  "provenance": {
+    "coverage": "all15006 eligible rows after exactly two named contradiction exclusions, including all3503 finish additions, first complete at terminal1160",
+    "later_continuation": "requires evidence and a separate recipe; this packet declares one pass",
+    "optimizer": "fresh reset at step0; no E checkpoint resume",
+    "owner": "lead",
+    "parent": "merged E750 weights 51232c1c491a4857c55c61669e383e72770b9d1ca49c021b4c7d69bd11ac3c21",
+    "status": "prepared_root_review_snapshot_enqueue_launch_required",
+    "task": "SFT-11-expanded-full15006"
+  },
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "resource": "gpu",
+  "schema_version": 1,
+  "snapshot": "28e224b22497ea9881aba29fdea1c9dd5725681da19099a54bfb800ae2f4bbde",
+  "steps": [
+    {
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-full15008-v1/recipe.json",
+        "{run}/supervision.json",
+        "{run}/guard-command.json"
+      ],
+      "artifacts": [
+        "guard-command.json"
+      ],
+      "id": "prepare-task-host-command"
+    },
+    {
+      "argv": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+        "--command-json",
+        "{run}/guard-command.json",
+        "--output",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-expanded-full15006-a-host-supervision",
+        "--seconds",
+        "15000",
+        "--minimum-free-mib",
+        "6144",
+        "--admission-free-mib",
+        "14336",
+        "--release-cache-file",
+        "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/model.safetensors"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ],
+      "id": "guarded-expanded-full15006-one-pass"
+    }
+  ]
+}

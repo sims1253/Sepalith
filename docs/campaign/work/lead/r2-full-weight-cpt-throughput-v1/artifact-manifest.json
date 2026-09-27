@@ -1,0 +1,81 @@
+{
+  "artifact_identity_sha256": "34371a8d9a69ff7b891a22d65c1ad0dbe06d5ec73f7605a83904befaed469670",
+  "files": [
+    {
+      "bytes": 2262,
+      "path": "README.md",
+      "sha256": "95924f322ad90c4b2ef5cd2fd426122b34471f6f2555da2009c3a25957085a4b"
+    },
+    {
+      "bytes": 168487,
+      "path": "benchmark-fixture/rows32.jsonl",
+      "sha256": "96c5e875e473e53f941318bfd8ba1b2dff8196590e87eb1bfb9c35ae0dc77c4b"
+    },
+    {
+      "bytes": 2259,
+      "path": "frozen-30421-analysis.json",
+      "sha256": "651f0cf3a987acd8a5c1493bdc69d1b69d12be120fedde696365e653305ebf44"
+    },
+    {
+      "bytes": 2253939,
+      "path": "frozen-30421-micro2-schedule.json",
+      "sha256": "00bfb31bcd63121a6a98f0dac0a93077fef0b18bec6e4aa110230768f4493d53"
+    },
+    {
+      "bytes": 2053,
+      "path": "root-benchmark-commands.json",
+      "sha256": "862b86fcfb4bf56f28307879a4bdb7fe1d9ced9adba8b68378f5778060781f58"
+    },
+    {
+      "bytes": 90229,
+      "path": "source/expected-aurora-mix-manifest.json",
+      "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+    },
+    {
+      "bytes": 1252,
+      "path": "source/extract_fixture.py",
+      "sha256": "2bc19030ad05cbcade805114a6782cc1aa375f99abecf6c3d0b94c7be7733d9b"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 17101,
+      "path": "source/microbatch_benchmark.py",
+      "sha256": "a5c8d81c9cb3c26609253d001ba9faa320d37c2ac5cb5a98a775ea1bcceec79e"
+    },
+    {
+      "bytes": 1679,
+      "path": "source/smoke-configs.json",
+      "sha256": "91830e68559c694195779fc642e78ef5d1317bb171c74aaa77a2167362c8d1ac"
+    },
+    {
+      "bytes": 7948,
+      "path": "source/throughput_candidate.py",
+      "sha256": "fea729615f39dff7793ba41b0ac926dfc9f1e74a62cc229e6609ba6a378067d9"
+    },
+    {
+      "bytes": 1065,
+      "path": "test-results.txt",
+      "sha256": "a1acfe3fabb63a60f4768fef5dadedef9ce94e6a786e6f5defc16d18cf5b5b16"
+    },
+    {
+      "bytes": 3784,
+      "path": "tests/test_throughput.py",
+      "sha256": "147e687b63644516fb16a92806666b7ef7f20b48fa974bd8a495f58954c9ab33"
+    },
+    {
+      "bytes": 0,
+      "path": "tests/test_throughput.py.tmp",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1146,
+      "path": "source-manifest.json",
+      "sha256": "4b5eb630d4219777c2dea69c60126cf495e17c01c01cc4a6677054da3a9070b1"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

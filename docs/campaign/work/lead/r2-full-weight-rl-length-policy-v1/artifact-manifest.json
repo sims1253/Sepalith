@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "bytes": 2442,
+      "path": "README.md",
+      "sha256": "deaf9420c5b3122c377c247380684ed109278ea04ddc2550a105e46088f77565"
+    },
+    {
+      "bytes": 2007,
+      "path": "integration-review.json",
+      "sha256": "ac7ba486ef731a550c25ea85ffb48ec37b9957cd31c0675915ea57f2d450e27b"
+    },
+    {
+      "bytes": 2347,
+      "path": "length-census.json",
+      "sha256": "5b2be9888840d3826ac91ffc8bdaa9f326b634239a6eb0116f98d65b599db57c"
+    },
+    {
+      "bytes": 851,
+      "path": "length-policies.json",
+      "sha256": "0dcfe5d44ac45e6bcfee793acfac77ccaec55b358028820f8deb9337b2712426"
+    },
+    {
+      "bytes": 9618,
+      "path": "rl_length_policy.py",
+      "sha256": "6ea7015b923fe3fbb1559e48359a3e757354790caa2c63695ab2d7d3e2240ccb"
+    },
+    {
+      "bytes": 642,
+      "path": "test-results.log",
+      "sha256": "7a9a74913e7c0ee35fda29c4f4d951fbaf2a9828b26918de192d30a6997648ff"
+    },
+    {
+      "bytes": 3944,
+      "path": "tests/test_length_policy.py",
+      "sha256": "29ba7c5ab854618f25627bfeafcc78084714f7891fe8ee3a92c510ab86d9dfef"
+    }
+  ],
+  "schema": "sepalith.campaign.artifact-manifest.v1"
+}

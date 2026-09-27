@@ -1,0 +1,32 @@
+{
+  "failure_classification": {
+    "candidate_status_must_equal_ledger_status": true,
+    "infrastructure_exceptions_propagate": true,
+    "row_hold_exception": "RowValidationError"
+  },
+  "files": [
+    {
+      "bytes": 22710,
+      "path": "source/audit_authoritative_stream.py",
+      "sha256": "7f042596a67ec9983f6f409a8913f4bc8df3361548a1e91fb77c9f914dafcf37"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 8301,
+      "path": "source/materialize_noops.py",
+      "sha256": "b3e111d3e7184e7d8d8dce401e71807522f15da1a4f4108548e01ac1648da69d"
+    },
+    {
+      "bytes": 9129,
+      "path": "source/prepare_noop_inputs.py",
+      "sha256": "498954af57ff704fe99008d8d8643aa4a6a326786e8b4bb2050bc3f663ddaffb"
+    }
+  ],
+  "parent_source_manifest_sha256": "adf0c56f9c472e3b758099223792c4eaa22de0f62230115ce7a3eb6ad0e6988e",
+  "schema": "sepalith.dat10.sourcewalk-noop-expansion-source.v2",
+  "status": "frozen"
+}

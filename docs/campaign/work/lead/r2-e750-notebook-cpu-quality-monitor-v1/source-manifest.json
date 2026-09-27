@@ -1,0 +1,140 @@
+{
+  "schema": "sepalith.run06.e750-notebook-monitor-source.v1",
+  "status": "terminal",
+  "files": [
+    {
+      "path": "evidence/cap-192-results.json",
+      "bytes": 1292438,
+      "sha256": "5a2a7a7b6e6180e1bd053d16db41dbae40fad3da8e8b58b8d535c800e10f477e",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/cap-192-terminal.json",
+      "bytes": 108,
+      "sha256": "6f011e5f471978114fe7a8a7e78d1300232968781b326f3130bc58fe15707d06",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/failure-terminal.txt",
+      "bytes": 2967,
+      "sha256": "3baf9b8f8de9e110c9f1ede1121a3ffdf85f5d1ff9211afe0b14c7bbf4e1bc40",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/final-small-hashes-and-log.txt",
+      "bytes": 6122,
+      "sha256": "3f385fc724adb679156df1c8a2e1a9514fddc56608d5ba71105df74714e263ff",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-00.txt",
+      "bytes": 4476,
+      "sha256": "43e935be8b08f87b89d336f4e9e211206c92fadd130cd94ddf4c9fdf212efdfe",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-01.txt",
+      "bytes": 446,
+      "sha256": "085678bb4e0be404c4f674ff56cd355306e4d57e826e8b770061d8b97f0e5b12",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-02.txt",
+      "bytes": 388,
+      "sha256": "856c6815f36b143a85535f9e3a8287dc18bd86b6aeecf49f696df6c120af721f",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-03.txt",
+      "bytes": 388,
+      "sha256": "183f847963879f523167e1d1f92e6d824008f4f07f34e87f726e0cac710d9b84",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-04.txt",
+      "bytes": 391,
+      "sha256": "71ec05b21cb74fd5176e9eb7e5c39089bff16107f4f42790c432122d8e60f84e",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-05.txt",
+      "bytes": 391,
+      "sha256": "be946a8838f2168077d4b7be93b22cde885c7b8b22092627d87943268afd4c01",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-06.txt",
+      "bytes": 391,
+      "sha256": "66fceb062c598ec8a02710c0939cf3430f83437a062c54fa8bb4010ee2b6e571",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-07.txt",
+      "bytes": 391,
+      "sha256": "c7198c19fd84f812f410f4611639d13b07907c420cde1d184815a39db663c014",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-08.txt",
+      "bytes": 391,
+      "sha256": "42914cfa2cdcb458273a679e7425be1c906cd00d158839638c980ca59eb466c7",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-09.txt",
+      "bytes": 391,
+      "sha256": "eabbb7ae5e5456a6fe8a76f6d766e5f6a4bf51425573d107ed410759c10f35ba",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-10.txt",
+      "bytes": 392,
+      "sha256": "4a9489110c0e6c31352c5a95b1a8e086ebee3c72bb5941c72a321f4a0a7d650e",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-11.txt",
+      "bytes": 393,
+      "sha256": "a561fcb82d3104564ec6de8a287cdbee608468d157514488c6e03fa02a9bc332",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-12.txt",
+      "bytes": 392,
+      "sha256": "ed87c66cdd983576f972c1ceddf4adfaf2fb8ecb31897feaa3d951c0a2b1b79d",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-13.txt",
+      "bytes": 392,
+      "sha256": "786b2516448115f2d530143e4f7947608a0f8690a3f19c1e92107d1098669240",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-14.txt",
+      "bytes": 406,
+      "sha256": "fe7ff3bb83f8e98946e42413c37731e7e631c519ee373320abe22d31415ccfc1",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/suite-terminal.json",
+      "bytes": 237,
+      "sha256": "0491691e2a8beaecc450d51bb0271602d74accc162a87a12e8a3147ba4f3835e",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/watchdog-terminal.json",
+      "bytes": 346,
+      "sha256": "0d38240eeff0a666a1eeda7df1f0c5a53bac439b5c348290b6f59b92442187a7",
+      "mode": "0o644"
+    },
+    {
+      "path": "monitor-summary.json",
+      "bytes": 4094,
+      "sha256": "253d74459847ea62ba046434099982fd88f2e9a805e2615d48bc02dac02aff00",
+      "mode": "0o644"
+    }
+  ],
+  "file_count": 22,
+  "total_bytes": 1316331
+}

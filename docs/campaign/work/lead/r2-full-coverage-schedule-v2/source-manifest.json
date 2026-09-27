@@ -1,0 +1,30 @@
+{
+  "schema": "sepalith.sft.full-coverage-batchmix-source-manifest.v1",
+  "status": "prepared_cpu_only_frozen",
+  "files": [
+    {
+      "path": "full_coverage_schedule.py",
+      "bytes": 11493,
+      "mode": "0o444",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "path": "audit_batchmix.py",
+      "bytes": 6089,
+      "mode": "0o444",
+      "sha256": "3e90759a2cc9d5a244e74448b65b1d2aac25700cf1a97e284ca07785db737a1b"
+    },
+    {
+      "path": "audit_e_schedule.py",
+      "bytes": 4448,
+      "mode": "0o444",
+      "sha256": "d614f8e7f203a06d6ad4eb654c996d90f40ea0f9ce4c7294a5b83c16a4d68bab"
+    },
+    {
+      "path": "test_full_coverage_schedule.py",
+      "bytes": 6097,
+      "mode": "0o444",
+      "sha256": "9bfc235711c5bda4a74c55caac6d6a1ab374f0ff4d3086fe7fbaec1fe2eaa712"
+    }
+  ]
+}

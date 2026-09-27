@@ -1,0 +1,9 @@
+[
+  "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "-B",
+  "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-varlen-numerics-probe-v2/source/verify_probe_report.py",
+  "--report",
+  "/mnt/e/sepalith/campaign-20260915/training/SFT11-sm120-varlen-v1/xformers-numerics-probe-v2.json",
+  "--output",
+  "/mnt/e/sepalith/campaign-20260915/training/SFT11-sm120-varlen-v1/xformers-numerics-probe-v2-decision.json"
+]

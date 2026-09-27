@@ -1,0 +1,10 @@
+{
+  "bound_recipe_sha256": "ROOT_BINDS_FRESH_RUNTIME_RECIPE",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-varlen-canary-322-varlen_candidate-v1/runtime/checkpoint-330",
+  "checkpoint_manifest_sha256": "2b35854537588499fb703af2127029ff649e410cbab65374948723273b520951",
+  "decision": "continue",
+  "launch_authorized": false,
+  "schema": "sepalith.sft11.cpt-stage-transition-continuation-admission.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "step": 330
+}

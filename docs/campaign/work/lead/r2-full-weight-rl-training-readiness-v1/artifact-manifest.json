@@ -1,0 +1,41 @@
+{
+  "schema": "sepalith.rl11.full-weight-training-readiness-artifacts.v1",
+  "status": "preparation_only_no_launch",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2054,
+      "sha256": "823675e250657e78ff88ac5fc0defda5c297e63df3696eae696c2b0cd267b58a"
+    },
+    {
+      "path": "full_weight_rl_update_contract.py",
+      "bytes": 7619,
+      "sha256": "ff20ff2636a3201331aa2727d436c099ec5bba0a23457a1868a0e179ac31e9dc"
+    },
+    {
+      "path": "readiness-review.json",
+      "bytes": 7715,
+      "sha256": "d014193b158a84737a786b9d0ffeaed12e9c9d75ffb20c575e969653d9a383c2"
+    },
+    {
+      "path": "source-pins.json",
+      "bytes": 3511,
+      "sha256": "94ca663e2b5cd17a7b5ed6d7263053519fa976424b00f86d99576baca13da085"
+    },
+    {
+      "path": "test-results.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/test_update_contract.py",
+      "bytes": 5131,
+      "sha256": "8ac8c581770ddf1ba2b27e3541294cb26bc3e22c5b49d9667e093f3d82848424"
+    },
+    {
+      "path": "update-binding.template.json",
+      "bytes": 725,
+      "sha256": "fa2861f33195aaf8ca75e5253626101f0812f705591b58679ce77cbdc232d274"
+    }
+  ]
+}

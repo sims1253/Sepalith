@@ -1,0 +1,16 @@
+{
+  "schema": "sepalith.sft11.cpt450-from354-review-commands.v1",
+  "status": "manual_cpu_prepare_then_root_admitted_cuda_evaluation",
+  "prepare_manual_after_terminal": [
+    "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+    "python3", "-B", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-from354-review-preparation-v1/prepare.py",
+    "--runtime-handles", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-from354-review-preparation-v1/runtime-handles.template.json"
+  ],
+  "evaluate_after_root_binding_admission": "command.json (must be wrapped by a fresh exclusive CUDA guard)",
+  "review_eval_manual_after_evaluation": [
+    "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+    "python3", "-B", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-from354-review-preparation-v1/review_eval.py",
+    "--binding", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-from354-review-preparation-v1/binding.admitted.json",
+    "--output", "/mnt/e/sepalith/campaign-20260915/evaluations/SFT11-cpt450-from354-matched-root-v1"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "created_at": "2026-09-14T14:54:38.384223+00:00",
+  "files": [
+    {
+      "bytes": 1267,
+      "path": "audit-result.json",
+      "sha256": "499ba7eb242081eb3266325c3dacd771877867e8f3b4e47a8bd1b7b027168cce"
+    },
+    {
+      "bytes": 2664,
+      "path": "audit_metadata.py",
+      "sha256": "d01e4cc47599a6aad73f023d89a7c06a1d5e20ac6a7bb38d4e8636eab851cf49"
+    },
+    {
+      "bytes": 3272,
+      "path": "review.json",
+      "sha256": "1e7e9023224c5314d110ee1a5a2b7f9e3e6a400b966b06ac66b8ffa95530f1e4"
+    },
+    {
+      "bytes": 1373,
+      "path": "root-commands.json",
+      "sha256": "4de08a68d71dda43450e78b3c05e02e3a386949ceda1b91952858f6c2bb2d162"
+    },
+    {
+      "bytes": 1172,
+      "path": "shared_replay_compare.py",
+      "sha256": "0bfffb6ea46b8846748a4b3e8602daa1c48b957d59264d8c7492d422a60eeb4c"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 18233,
+      "path": "source/full_weight_resume_proof.py",
+      "sha256": "cbd4018ed547b01f360ed025f5640d0ac642f3c52282485bce888509db41060b"
+    },
+    {
+      "bytes": 12447,
+      "path": "source/full_weight_smoke.py",
+      "sha256": "2409ada7e76a08658c41e41360086c7761cbcec5dd480b9d8e32f2db3035063f"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "3e26bce7ffdd405c40f3a78b8d0b1c1ea8a78ec3e26caae3c294e21c24c97bee"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 19301,
+      "path": "source/shared_checkpoint_replay.py",
+      "sha256": "c2903e18fcda160b71e7a82d9b2399a3f0b7c7bef300cbc2e59c5f2b72ba7b6b"
+    },
+    {
+      "bytes": 1985,
+      "path": "source-manifest.json",
+      "sha256": "6b8da3e47dde92e98169a1a5a9ace8f8a51771e3a154af260f063fe8ebdcef3b"
+    },
+    {
+      "bytes": 441,
+      "path": "test-results.log",
+      "sha256": "1f0f52a04d45aa41139c6916d135c639b84f0adb82eb9838fa5bf79ac38b76a3"
+    },
+    {
+      "bytes": 2111,
+      "path": "tests/test_determinism_review.py",
+      "sha256": "90ee2017e7b74c2cd70e49be93095dbe5c60d76cbaffef699820c4be104e854f"
+    },
+    {
+      "bytes": 1185,
+      "path": "tiny-state-readout.json",
+      "sha256": "77943713faeffe372cd239f80156aa65154a7c9ddfec720b00a2e9cadd5561de"
+    },
+    {
+      "bytes": 5943,
+      "path": "verify_restoration.py",
+      "sha256": "b46121e520126cd7484c5190952c5b83e19e3087b8d8979fe673735cad9f99fc"
+    }
+  ],
+  "schema": "sepalith.resume-determinism-review-artifacts.v1"
+}

@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "id": "SFT-06-finish-correction-200-template",
+  "status": "template_not_admitted",
+  "launch_authorized": false,
+  "overlay_preparation": {
+    "status": "shadow_only_tokenization_pending",
+    "receipt_path": "docs/campaign/receipts/DAT-04-finish-target-overlay-v1-preparation.json",
+    "receipt_sha256": "c88e79f55d0841da56a56d115a5e024756666ab9bd171ee73b2897b099d8c45f",
+    "overlay_path": "docs/campaign/work/finish-target-overlay-v1/finish-target-overlay.jsonl",
+    "overlay_sha256": "03cff340de0c2b0e641a0399ddc8de727c39c9aa5e51aeed984c6420117054cf",
+    "packet_rows": 5000,
+    "lineage_matched_rows": 4289,
+    "eligible_strict_v2_rows": 4051,
+    "rejected_rows": 949,
+    "rejected_reason_counts": {
+      "registry_or_sft_lineage_missing": 711,
+      "target_not_lf_terminated": 238
+    },
+    "nonfinish_rows_untouched": 7475,
+    "semantic_noop_rows_preserved": 1140,
+    "tokenization_performed": false,
+    "original_inputs_mutated": false
+  },
+  "required_input_materialization": {
+    "base_train_rows": 11764,
+    "corrected_train_rows": 11764,
+    "changed_rows_pending_tokenization": 4051,
+    "rejected_finish_ids_excluded_from_schedule": 238,
+    "absent_finish_ids_not_reconstructed": 711,
+    "required_schedule_draws": 3200,
+    "required_effective_batch": 16,
+    "corrected_dev_candidate": {
+      "path": "docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+      "records": 75,
+      "changed_targets": 6,
+      "unchanged_records": 69,
+      "status": "candidate_independent_review_pending"
+    },
+    "must_emit": [
+      "complete corrected train-token-rows.jsonl",
+      "correction manifest with changed and excluded IDs",
+      "new draw schedule bound to corrected row-file SHA",
+      "new corrected DEV panel or explicit original-panel-only decision"
+    ]
+  },
+  "identity": {
+    "parent": {
+      "revision": "SFT-primary-step1000-theta0",
+      "weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+      "parent_manifest_sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12"
+    },
+    "tokenizer": {
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "BOS": 0,
+      "EOS_PAD": 1,
+      "native_EOG": [1, 130073]
+    },
+    "renderer": {
+      "id": "zeta2-prm03-v1",
+      "contract_sha256": "173577c7df85d6e51e22ff9a556062737b311382f58a029b6a177e9a418e57d1"
+    },
+    "data": {
+      "base_train_rows_sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6",
+      "train_rows_sha256": "REQUIRED_CORRECTED_TRAIN_ROWS_SHA256",
+      "draw_schedule_sha256": "REQUIRED_3200_DRAW_SCHEDULE_SHA256",
+      "development_panel_sha256": "REQUIRED_CORRECTED_DEV_PANEL_SHA256",
+      "original_development_panel_sha256": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21",
+      "correction_manifest_sha256": "REQUIRED_CORRECTION_MANIFEST_SHA256",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df"
+    },
+    "source": "26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f",
+    "policy": {
+      "stage": "finish_correction_fresh_lora",
+      "initialization": "new_lora_on_merged_sft1000_theta0",
+      "full_text_labels": true,
+      "optimizer": "adamw_torch_fused",
+      "weight_decay": 0.0,
+      "lr_schedule": "cosine",
+      "warmup_ratio": 0.03,
+      "seed": 3407
+    },
+    "schedule": {
+      "max_steps": 200,
+      "per_device_batch": 4,
+      "gradient_accumulation": 4,
+      "learning_rate": 0.0002,
+      "lora_rank": 32,
+      "lora_alpha": 64,
+      "max_sequence_tokens": 4096
+    }
+  },
+  "parameters": {
+    "max_steps": 200,
+    "per_device_batch": 4,
+    "gradient_accumulation": 4,
+    "learning_rate": 0.0002,
+    "lora_rank": 32,
+    "lora_alpha": 64,
+    "max_sequence_tokens": 4096
+  },
+  "renderer_id": "zeta2-prm03-v1",
+  "model_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0",
+  "token_rows": {
+    "path": "REQUIRED_CORRECTED_TRAIN_ROWS_PATH",
+    "sha256": "REQUIRED_CORRECTED_TRAIN_ROWS_SHA256"
+  },
+  "draw_schedule": {
+    "path": "REQUIRED_3200_DRAW_SCHEDULE_PATH",
+    "sha256": "REQUIRED_3200_DRAW_SCHEDULE_SHA256"
+  },
+  "development_panel": {
+    "path": "REQUIRED_CORRECTED_DEV_PANEL_PATH",
+    "sha256": "REQUIRED_CORRECTED_DEV_PANEL_SHA256"
+  },
+  "development_case_ids": "COPY_EXACTLY_THE_75_IDS_FROM_THE_SELECTED_PANEL",
+  "development_max_new_tokens": 512,
+  "evaluator_factory": "campaign_eval:development_evaluator",
+  "checkpoint": {
+    "light_every": 50,
+    "full_every": 50,
+    "evaluation_steps": [50, 100, 200]
+  },
+  "decision_steps": [50],
+  "deadline": "REQUIRED_EXPLICIT_UTC_DEADLINE",
+  "max_attempt_seconds": 1800,
+  "termination_grace_seconds": 30,
+  "checkpoint_reserve_seconds": 180,
+  "output_dir": "REQUIRED_FRESH_ATTEMPT_OUTPUT_DIR",
+  "archive_dir": "REQUIRED_FRESH_ATTEMPT_ARCHIVE_DIR",
+  "resume_from": null,
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/model.safetensors",
+      "sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/config.json",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/generation_config.json",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/parent-manifest.json",
+      "sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12"
+    },
+    {
+      "path": "REQUIRED_CORRECTED_TRAIN_ROWS_PATH",
+      "sha256": "REQUIRED_CORRECTED_TRAIN_ROWS_SHA256"
+    },
+    {
+      "path": "REQUIRED_3200_DRAW_SCHEDULE_PATH",
+      "sha256": "REQUIRED_3200_DRAW_SCHEDULE_SHA256"
+    },
+    {
+      "path": "REQUIRED_CORRECTED_DEV_PANEL_PATH",
+      "sha256": "REQUIRED_CORRECTED_DEV_PANEL_SHA256"
+    }
+  ],
+  "milestone_plan": {
+    "stage_identity_max_steps": 200,
+    "attempts": [
+      {"label": "fresh_to_50", "decision_steps": [50], "resume_from": null},
+      {"label": "resume_50_to_100", "decision_steps": [100], "resume_from": "FULL_CHECKPOINT_50"},
+      {"label": "resume_100_to_200", "decision_steps": [200], "resume_from": "FULL_CHECKPOINT_100"}
+    ],
+    "draws": 3200,
+    "effective_batch": 16
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "files": [
+    {
+      "bytes": 8718,
+      "mode": "0o644",
+      "path": "add-reward-v2.patch",
+      "sha256": "3cc7eb0385e84ecf54b833eec13d1068a99a9b9daed6d8b4acb4149a367b6c19"
+    },
+    {
+      "bytes": 2689,
+      "mode": "0o644",
+      "path": "audit_train_sidecar.py",
+      "sha256": "1800a6faa392154302f9e0a08e556ef67a3fe13b3fa3d769e9d293abbfca34df"
+    },
+    {
+      "bytes": 8444,
+      "mode": "0o644",
+      "path": "campaign_reward_v2.py",
+      "sha256": "3c81a4889ef6ac679c5b610b506a1f9899e7755c00fc0f94efc07d96e62633c7"
+    },
+    {
+      "bytes": 3233,
+      "mode": "0o644",
+      "path": "code-path-audit.json",
+      "sha256": "bdaf930e60f740d2413c595edc29d1b39b160a13e5cd0e77861dec23e7377e30"
+    },
+    {
+      "bytes": 1046,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "93008bab4f010a47559988d452501e888e87ea35dc76d27173c96ece4239ffae"
+    },
+    {
+      "bytes": 23470,
+      "mode": "0o644",
+      "path": "fixtures/train-fixtures.json",
+      "sha256": "fae1c9807f9867f27387d57d81afdaf4dff4d112764a14e1371fa4ebc0587849"
+    },
+    {
+      "bytes": 3583,
+      "mode": "0o644",
+      "path": "integration-plan.json",
+      "sha256": "7821a926659ab48d92b6e0015a4f49e67252604d20ce233615c7d8400b7d7659"
+    },
+    {
+      "bytes": 4822,
+      "mode": "0o644",
+      "path": "materialize_train_fixtures.py",
+      "sha256": "f206b58c390e72203ab9f515259d5beb08ef30fa2ec850808711570d17dcfc35"
+    },
+    {
+      "bytes": 1407,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "4c4c1cb2b259ced046f0597db28d30c0f3cfc7ca51a6e8ba364b00d41c1ad92b"
+    },
+    {
+      "bytes": 7969,
+      "mode": "0o644",
+      "path": "test_campaign_reward_v2.py",
+      "sha256": "0f807dab4948c749e171d9f8b0e5368a2290b915bcc86300efe94bbd3e021383"
+    },
+    {
+      "bytes": 1158,
+      "mode": "0o644",
+      "path": "train-sidecar-census.json",
+      "sha256": "859e10d59bd163960201c0c7ce0ec70791d6f0f2f118119cbf06c1f38c45a80d"
+    }
+  ],
+  "schema": "sepalith.rl11.reward-review-artifacts.v1"
+}

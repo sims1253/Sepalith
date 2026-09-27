@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "id": "prm07-minicpm-rl-profile-20260912-a",
+  "snapshot": "381a65f7787df59696b0d6353789d411ecf06478df855ba22c22d73d82b88a2c",
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+  },
+  "inputs": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-04-structured-pilot-token-audit/candidate-token-rows.jsonl",
+      "sha256": "bfb1071e8c86bee02902e317c14b8f00408aa69f0c5e174dc6067c98a0fa83cb"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/PRM-07-lead-profile-selected.json",
+      "sha256": "bfb548019e95f3dd4c9c4b75167ddf3211f836e8816ab1ffb78bfa84c95e108a"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    }
+  ],
+  "provenance": {
+    "task": "PRM-07/RL-01",
+    "owner": "lead",
+    "disposable_weights": true,
+    "admitted_training_registry": false,
+    "source_receipt": "docs/campaign/receipts/PRM-07-RL-probe-source.json",
+    "max_command_seconds_including_kill": 915,
+    "remaining_profile_seconds_before_attempt": 1372.7607469558716,
+    "total_PRM07_GPU_ceiling_seconds": 1800,
+    "displaced_work": "Uses existing PRM07 ceiling; no more optional SFT batch-size probes",
+    "acceptance": "Exact stored train prompt IDs, native token contract, r16a16 294 attachments/25116672 params, finite differentiable policy on actual generations; arms2 then4. No training quality claim."
+  },
+  "steps": [
+    {
+      "id": "rl-profile",
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=15",
+        "900",
+        "{python}",
+        "{source}/experiments/training/campaign_rl_profile.py",
+        "--profile",
+        "--candidate-file",
+        "/mnt/e/sepalith/campaign-20260915/data-work/DAT-04-structured-pilot-token-audit/candidate-token-rows.jsonl",
+        "--candidate-sha256",
+        "bfb1071e8c86bee02902e317c14b8f00408aa69f0c5e174dc6067c98a0fa83cb",
+        "--selected-train-ids",
+        "/mnt/e/sepalith/campaign-20260915/data-work/PRM-07-lead-profile-selected.json",
+        "--selected-ids-sha256",
+        "bfb548019e95f3dd4c9c4b75167ddf3211f836e8816ab1ffb78bfa84c95e108a",
+        "--receipt",
+        "{run}/prm07-rl-profile.json",
+        "--prompt-count",
+        "2",
+        "--prompt-ids",
+        "02baa5f53444e0b6860c2630,01318e674923e7d008165d64",
+        "--generation-candidates",
+        "2,4",
+        "--wall-timeout-seconds",
+        "870",
+        "--max-existing-vram-mib",
+        "4096"
+      ],
+      "artifacts": [
+        "prm07-rl-profile.json",
+        "prm07-rl-profile.partial.json"
+      ]
+    }
+  ]
+}

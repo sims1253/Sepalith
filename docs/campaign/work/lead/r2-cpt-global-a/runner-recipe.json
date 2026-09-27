@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "id": "sft11-cpt-global-a-to250-20260913",
+  "snapshot": "aaacb632811c5a4639fefe52023e72b72e2b960523dbffe10d0187fd6cef8da8",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+      "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/manifest.json",
+      "sha256": "f54e1c24eb44dfc18bfc944e575d3569247b671932b3259a6f48cee9ad593a7c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/broader-shard-v1-2k/manifest.json",
+      "sha256": "f5b615daead1438b8c85aa36c9c672296d90670c87b340441154875f22e72b10"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/cpt_train.jsonl",
+      "sha256": "aac7e1b6140b011043f25a22970c0e8c300fde65316f7e5fbcbda7d747d4f703"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-stage-preparation-v1/draws-1187.json",
+      "sha256": "b8a756534875ebb629db03213fa6155140ac9aaeaf75fa4bf3b9f63c33df88e0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/manifest.json",
+      "sha256": "951b1193f147854f87bf24c1a8f178a3b78ffbb65f150058bab12bdd8770e507"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/model.safetensors",
+      "sha256": "0c26080cd19ff9134b7550b9158f72a46a19a7592a0e7d3882492eb03f81ffdd"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/config.json",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/generation_config.json",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/parent-manifest.preparation.json",
+      "sha256": "91b55cfa788782beb51fd3d1079a44a692e75b9f8ed0ee6eb3f5f999cd86950f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-b/recipe.json",
+      "sha256": "1406083f2536620b905f723ed0dabcb51300df779ca07189efff9975cf867abb"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT11-CPT-broad-b/full/checkpoint-750/campaign-manifest.json",
+      "sha256": "e1ed558c40cc064bb442e3834d114268f7ebab8b4ea466f7e07c879b1855d79c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-global-a/recipe.json",
+      "sha256": "9e895d9ee07660312818411d08915fc9636ad4372aa1fcc0a44d3f3d5de69bad"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/cuda_host_guard.py",
+      "sha256": "8d64b96da755e7d2b710f423078fe2ba1ffa55a904c79be78e23a3ab40628f2b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/host_memory_policy.py",
+      "sha256": "ed39464f8981b562dd4f91ef8ad069edae03e53da999c274507973ff0df3831a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/post_load_cache.py",
+      "sha256": "7204fc46c412d0285b6bfc931bb774b938bf5bfef87220346149e285d6f5f8a4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+      "sha256": "de8d32f644b73312d38631e8427338f1a2884e5f4899391141a0154515db31c3"
+    }
+  ],
+  "provenance": {
+    "owner": "lead",
+    "task": "SFT-11",
+    "budget_source": "Completed7124.91/14400s CPT inclmerge;1500sattempt/1560guard; hard23:32UTC. No extension.",
+    "acceptance": "FreshLoRAonverifiedCPT750merged; seeded750newTRAINgroups A-Z; new1187horizon notexactcontinuation; stop250 plus same661360holdout.",
+    "operational_change": "full/light every50 saves tobound interruptionloss; sameacceptedv2guard8GiBsoft4GiBhard. Rootidlecacheclear+compaction afterpriorstop withsettledWindowsheadroom beforelaunch."
+  },
+  "steps": [
+    {
+      "id": "prepare-cpt-host-command",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-global-a/recipe.json",
+        "{run}/supervision.json",
+        "{run}/guard-command.json"
+      ],
+      "artifacts": [
+        "guard-command.json"
+      ]
+    },
+    {
+      "id": "guarded-global-cpt-to250",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/cuda_host_guard.py",
+        "--command-json",
+        "{run}/guard-command.json",
+        "--output",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-global-a-host-supervision",
+        "--seconds",
+        "1560",
+        "--minimum-free-mib",
+        "8192",
+        "--release-cache-file",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-broad-b-750-merged/model.safetensors"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ]
+    }
+  ]
+}

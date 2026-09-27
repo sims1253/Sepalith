@@ -1,0 +1,56 @@
+{
+  "authorization": "Preparation only. Root must provide the exclusive CUDA lease and resource guard for each run-lane command.",
+  "compare": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/source/full_weight_resume_proof.py",
+    "compare",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/recipe.json"
+  ],
+  "execution_order": [
+    "preflight",
+    "uninterrupted",
+    "interrupted",
+    "resumed",
+    "compare"
+  ],
+  "interrupted": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/source/full_weight_resume_proof.py",
+    "run-lane",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/recipe.json",
+    "--lane",
+    "interrupted"
+  ],
+  "preflight": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/source/full_weight_resume_proof.py",
+    "preflight",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/recipe.json"
+  ],
+  "resumed": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/source/full_weight_resume_proof.py",
+    "run-lane",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/recipe.json",
+    "--lane",
+    "resumed"
+  ],
+  "uninterrupted": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/source/full_weight_resume_proof.py",
+    "run-lane",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v1/recipe.json",
+    "--lane",
+    "uninterrupted"
+  ]
+}

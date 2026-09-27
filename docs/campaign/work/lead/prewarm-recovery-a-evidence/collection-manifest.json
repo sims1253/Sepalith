@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-13T04:34:51.604719+00:00",
+  "remote": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/prewarm-recovery-a/",
+  "files": {
+    "terminal.json": {
+      "bytes": 383,
+      "sha256": "165a915b1cd9e5b378a87015e2af4dc65366a091156ec1baea538645d2df159f"
+    },
+    "client.log": {
+      "bytes": 248,
+      "sha256": "a866f5628767076546ad6fc9e482ef9b3215f202e10f5e0ff6d45297e5c28750"
+    },
+    "server.log": {
+      "bytes": 22990,
+      "sha256": "23f6b65b042b995ca8d30750f6b236c479184ec09d81fc55e58f379ead9a18c1"
+    },
+    "recovery-a-recovery.json": {
+      "bytes": 10613,
+      "sha256": "320ba6cf7a39d79f20d887e6122ad8d382fd8defee71df3794902023986c5d33"
+    },
+    "launch.json": {
+      "bytes": 932,
+      "sha256": "eee65effaeac7d4cee8a6ba38b67aee13b1c0b198393572071ef1e64aeb571f8"
+    },
+    "client-launch.json": {
+      "bytes": 897,
+      "sha256": "9468680ec0e9703ff3c9eb88fc61471a3c26f652b0cb93513e25107809dcfb90"
+    },
+    "server-maps.txt": {
+      "bytes": 32940,
+      "sha256": "6cf4f469441c1c7077fc2cc6c3823f95acc0393f9ca2d015f93434c2867e02f0"
+    },
+    "health.json": {
+      "bytes": 12135,
+      "sha256": "545b18cabead8207cd33929dd23d63a2bc8cd7888a1a76b631f00c08217b627b"
+    }
+  }
+}

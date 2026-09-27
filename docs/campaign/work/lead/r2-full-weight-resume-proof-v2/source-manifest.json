@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "bytes": 13663,
+      "mode": "0o644",
+      "path": "source/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 15257,
+      "mode": "0o644",
+      "path": "source/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 19826,
+      "mode": "0o644",
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 18177,
+      "mode": "0o644",
+      "path": "source/full_weight_resume_proof.py",
+      "sha256": "f6b02f441e25cc0a2eb70215a0cef30686c5ca8d0e6b2fed862570dbf1d5826a"
+    },
+    {
+      "bytes": 12447,
+      "mode": "0o644",
+      "path": "source/full_weight_smoke.py",
+      "sha256": "2409ada7e76a08658c41e41360086c7761cbcec5dd480b9d8e32f2db3035063f"
+    },
+    {
+      "bytes": 2680,
+      "mode": "0o644",
+      "path": "source/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    }
+  ],
+  "schema": "sepalith.full-weight-resume-proof-source.v2",
+  "upstream": {
+    "checkpoint_v2": {
+      "campaign_checkpoint.py": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5",
+      "model_layout.py": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    "optimizer_v1": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13",
+    "smoke_loader_v1": "2409ada7e76a08658c41e41360086c7761cbcec5dd480b9d8e32f2db3035063f",
+    "tokenizer_contract": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+  }
+}

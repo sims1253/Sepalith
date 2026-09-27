@@ -1,0 +1,5 @@
+V4-a is blocked before any renderer measurement. The ready receipt reports installed.url=about:blank, while the advertised CDP target is the pinned vscode-file workbench URL. First batch Runtime.evaluate fails because __sepalithGhostObserver is undefined. This supports a startup context/navigation race. No v4 predicate decision was evaluated in retained evidence.
+
+There are0frames,0diagnostics and no PNG; accepted-decision denominator is0, not a failed-visibility rate. The unchanged analyzer cannot run because renderer-frames.jsonl is missing. All3fixture routines ran; exact multiline insertion mechanics passed and the delayed provider was cancelled, but rendered visibility/nonpublication remains unmeasured.
+
+The guard terminates after13.8257seconds with child0 and no survivors.15namedfiles totaling33,552bytes were copied and hashed;6expected renderer/image files are absent. The root admission pins observercd1090 and capsulec5ef193. No source edits or additional captures were performed. No1500-c/350-c integration is requested. Root owns resource release and any startup repair/recapture admission.

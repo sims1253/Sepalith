@@ -1,0 +1,25 @@
+{
+  "authorization": "Preparation only. Root must verify hashes, acquire the CUDA lease, wrap the command in the reviewed host guard, and own the fresh report path.",
+  "model_binding": {
+    "kind": "proposed_cpt_parent_for_resource_measurement",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged"
+  },
+  "resource_smoke_8192": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v4/full_weight_smoke.py",
+    "--model", "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged",
+    "--rows", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/fixtures/cpt-smoke-ctx8192-2rows.jsonl",
+    "--report", "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-resource-8k-v1/report.json",
+    "--optimizer", "aurora_mix", "--steps", "2", "--max-sequence-tokens", "8192"
+  ],
+  "resource_smoke_16384": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v4/full_weight_smoke.py",
+    "--model", "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged",
+    "--rows", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/fixtures/cpt-smoke-ctx16384-2rows.jsonl",
+    "--report", "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-resource-16k-v1/report.json",
+    "--optimizer", "aurora_mix", "--steps", "2", "--max-sequence-tokens", "16384"
+  ],
+  "schema": "sepalith.sft11.cpt-long-context-fixture-commands.v1",
+  "status": "prepared_not_launch_authorized"
+}

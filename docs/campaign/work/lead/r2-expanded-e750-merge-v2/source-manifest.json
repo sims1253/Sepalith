@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "path": "packet/merge_expanded_sft_cpu.py",
+      "bytes": 10410,
+      "sha256": "ea443c9b7c279f691f3c886e4ff482f92d017147624e0803af6f2ddc5b034129"
+    },
+    {
+      "path": "packet/selection_contract.py",
+      "bytes": 3911,
+      "sha256": "0bc17a1a4f242a725de842f2027604dbf8c95aa2314f45a1e50785788c47c1a9"
+    }
+  ],
+  "test": {
+    "at": "2026-09-14T10:58:17.869527+00:00",
+    "status": "PASS_real_PEFT_streaming_vs_full_FP32_reference",
+    "merged_modules": 4,
+    "all_state_tensors_exact": 21,
+    "original_tensor_storage_unchanged": true,
+    "nonzero_random_adapters": true,
+    "cuda_used": false
+  }
+}

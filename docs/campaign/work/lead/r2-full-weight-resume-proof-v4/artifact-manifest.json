@@ -1,0 +1,91 @@
+{
+  "created_at": "2026-09-14T14:22:18.067305+00:00",
+  "files": [
+    {
+      "bytes": 1227,
+      "path": "README.md",
+      "sha256": "02abe03b771921d28d5c5ae84468d35b9e2e7d405eced55ce1475fc30fff78c7"
+    },
+    {
+      "bytes": 97,
+      "path": "preflight.log",
+      "sha256": "5e2ef4eb4b75d9278e0f40395723d9c873574ebf3235def73be9a00536607507"
+    },
+    {
+      "bytes": 3635,
+      "path": "recipe.json",
+      "sha256": "2fee5deca8132455a86b904a32120d399b38459c884e4e03c675d943f941b93b"
+    },
+    {
+      "bytes": 2335,
+      "path": "root-commands.json",
+      "sha256": "dc755e620aecba9dfa4a58601a33601f3fe032a20c7a94957f6536375ec8e3b6"
+    },
+    {
+      "bytes": 503,
+      "path": "root-import-fix.json",
+      "sha256": "ae9df342b9acfc33a1279faee0b8c1bda54b643109dcce8d1f26eb24334edfd8"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 15387,
+      "path": "source/campaign_tokenizer_contract.py",
+      "sha256": "723c554c2ae5ff0dd381b142d2bdfdafc83102c6f8e5b12aba07271503dcceed"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 23763,
+      "path": "source/full_weight_resume_proof.py",
+      "sha256": "4624e6ad6fbcbc1352f4c293b69888c5bfde73e6248743f2093b8d5fea9a6f39"
+    },
+    {
+      "bytes": 12447,
+      "path": "source/full_weight_smoke.py",
+      "sha256": "2409ada7e76a08658c41e41360086c7761cbcec5dd480b9d8e32f2db3035063f"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "3e26bce7ffdd405c40f3a78b8d0b1c1ea8a78ec3e26caae3c294e21c24c97bee"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 1716,
+      "path": "source/trainer_tokenizer_alignment.py",
+      "sha256": "0b71b3581b0424e4d2b4a1df5b4126707f7cc0954cd383675fcd439dc81c513d"
+    },
+    {
+      "bytes": 3158,
+      "path": "source-manifest.json",
+      "sha256": "692bede46fbb678b0c0def98540a64ffc342cfc8baf6a73494636a55d6ecd081"
+    },
+    {
+      "bytes": 1703,
+      "path": "test-results.log",
+      "sha256": "e19feb10d162989dc2d42cff851c8a13ced36a9e85382a700c439fd0ca44820f"
+    },
+    {
+      "bytes": 10488,
+      "path": "tests/test_resume_proof.py",
+      "sha256": "0073ec8e0e19a9a5f6cf253c8a97d5cd66f63eba51c2140ae7deb14a89717cb5"
+    }
+  ],
+  "schema": "sepalith.full-weight-resume-proof-artifacts.v4"
+}

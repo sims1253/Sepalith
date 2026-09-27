@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "path": "actual_model_varlen_probe.py",
+      "bytes": 11445,
+      "sha256": "df8b1df14313c3104de4ab6d1f0d138ae54c94ae13074ad37476330b39a07390"
+    },
+    {
+      "path": "saved_precision.py",
+      "bytes": 1783,
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "path": "varlen_contract.py",
+      "bytes": 4918,
+      "sha256": "148ab2c60c1342dc24114d9db05a0df53394da42998a8177cf9ba9ae91f526be"
+    }
+  ],
+  "worker_artifact_sha256": "f2e88584e1df83e457d1c76cd2ece0289bc3543112e96fb782ecdd5e3e73d459",
+  "scope": "diagnostic actual-model isolation/global-token-weighted loss, not production Trainer objective equivalence or throughput acceptance"
+}

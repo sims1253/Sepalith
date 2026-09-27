@@ -1,0 +1,208 @@
+{
+  "effective_identity": "expanded_task_sft_full15006_v1",
+  "external_artifacts": [
+    {
+      "bytes": 134292808,
+      "mode": "0o555",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-expanded-15006-v1/combined-token-rows.jsonl",
+      "sha256": "65b2feb2e53970f02e7cfbe8947d628d584c204f741dad3a5a8b3254af5c1cd7"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 3261,
+      "mode": "0o444",
+      "path": "README.md",
+      "sha256": "5636c6582ee2ec6633af4350dcfa29fbaece42229e2e568147a12cc0e2e685f1"
+    },
+    {
+      "bytes": 6713,
+      "mode": "0o444",
+      "path": "build_launch_packet.py",
+      "sha256": "4da23eaab484c97f0eccc34a88c45ff6e1b84a7f64de2c9ae8cfabb51a676a30"
+    },
+    {
+      "bytes": 3778,
+      "mode": "0o444",
+      "path": "commands.json",
+      "sha256": "c757064af1933c63d487517dec9a355e5a22dd6275d4bcc3bd4f1646c6670755"
+    },
+    {
+      "bytes": 806,
+      "mode": "0o444",
+      "path": "compatibility-audit.log",
+      "sha256": "7db02a9d1a8f86cd5427fe0644fde460645e512237d6902731e7e2da8c5fcb89"
+    },
+    {
+      "bytes": 32,
+      "mode": "0o444",
+      "path": "compatibility-audit.time",
+      "sha256": "507bffded172cd7c2f7bab7bd6f78c8a42fcd04e7821394751dc1a9c1949a4b2"
+    },
+    {
+      "bytes": 10379460,
+      "mode": "0o444",
+      "path": "full-coverage-15006-batchmix-draw-manifest.json",
+      "sha256": "d135b7ad9a1a903c0beead7ef4cd6bd8e93125634d6e8cc55f3425c41f552056"
+    },
+    {
+      "bytes": 1265,
+      "mode": "0o444",
+      "path": "full15006-exclusion-ledger.json",
+      "sha256": "f9602e96128981c62e654d5917ae0744a0fa25cd121045435464d80c96a5011b"
+    },
+    {
+      "bytes": 11493,
+      "mode": "0o444",
+      "path": "full_coverage_schedule.py",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "bytes": 1131,
+      "mode": "0o444",
+      "path": "generate-15006.log",
+      "sha256": "dbdf2c04dce87e1db908f5ec0e91f6215553733f61b42630529b672a9f61d3f2"
+    },
+    {
+      "bytes": 506,
+      "mode": "0o444",
+      "path": "launch-path-audit.log",
+      "sha256": "31c4a745f787ce3051021e2584a60c101bb4f811d9a676489609aef1dd9f8820"
+    },
+    {
+      "bytes": 1547,
+      "mode": "0o444",
+      "path": "launch_path_audit.py",
+      "sha256": "21d3ea128e4c24fbace38c647bbbceb6edc5f2a18fb7e4248aebcbc545ec4f25"
+    },
+    {
+      "bytes": 2228,
+      "mode": "0o444",
+      "path": "materialize_15006.py",
+      "sha256": "9443205339b4e25450822c6cfebde8aeb5920582b52784b47c7be2438a54749f"
+    },
+    {
+      "bytes": 17599,
+      "mode": "0o444",
+      "path": "recipe.json",
+      "sha256": "a839121502dd78d15a9a825c5c6f29d24276806a5bfc4214825917f3f0daeaef"
+    },
+    {
+      "bytes": 2296,
+      "mode": "0o444",
+      "path": "run_owned.py",
+      "sha256": "fac7fccce53ce5c2aaead19548c414ab581774cc504297f48ea1361d4b4d0b1a"
+    },
+    {
+      "bytes": 8570,
+      "mode": "0o444",
+      "path": "runner-recipe.json",
+      "sha256": "23c6d298b2dfb95803d919ecc510527c834831cc397d1b6b790599bbbaaa3c42"
+    },
+    {
+      "bytes": 1692,
+      "mode": "0o444",
+      "path": "runtime-estimate.json",
+      "sha256": "5714c01d285239f6189d6c5989225fe976b9f45ac75fb47be8f1ed9656628808"
+    },
+    {
+      "bytes": 11665,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "bytes": 5024,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "bytes": 12114,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "2e3ff36cc34921ebd8f3ab12bb03110298cb2eb80e76db388373ed627c8105cf"
+    },
+    {
+      "bytes": 20497,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_expanded_sft.py",
+      "sha256": "222e592999f64c4bd6a848ca75afeffcc4b53370b034bbe87e6ccfac63202ac1"
+    },
+    {
+      "bytes": 3689,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_launch.py",
+      "sha256": "c0d09578ba10881466e598b1bb114a0b42704731227419afe78a7f817f9ebf30"
+    },
+    {
+      "bytes": 29251,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_sft.py",
+      "sha256": "2e457d03fccf74714ef8d920b08eb124e54104e1bd2fbdb5c1580ec3ea1d32bb"
+    },
+    {
+      "bytes": 10176,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_sft_data.py",
+      "sha256": "2d89c6bc9b42571b0a87b2fbca10ab455ad5daea942c47a96ec704f250658773"
+    },
+    {
+      "bytes": 14053,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_task_sft.py",
+      "sha256": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280"
+    },
+    {
+      "bytes": 15257,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 10118,
+      "mode": "0o444",
+      "path": "source/experiments/training/target_only_gate.py",
+      "sha256": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de"
+    },
+    {
+      "bytes": 67,
+      "mode": "0o444",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "mode": "0o444",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 2007,
+      "mode": "0o444",
+      "path": "source-manifest.json",
+      "sha256": "8389c8266f1f831fd3b2166011ec02094ee591074ded2df0b28b61d3fa905105"
+    },
+    {
+      "bytes": 67,
+      "mode": "0o444",
+      "path": "source-replay.log",
+      "sha256": "32cf4315d02ec40785f4ffb1c7191d58e599d126333a159fecb3d4e86a723edf"
+    },
+    {
+      "bytes": 6234,
+      "mode": "0o444",
+      "path": "tests/test_full15008_packet.py",
+      "sha256": "d2c099e71605cd000f5fe5eda574e8fb5a5aea94d575c941e29dfd1e93b246a9"
+    },
+    {
+      "bytes": 666,
+      "mode": "0o444",
+      "path": "tests.log",
+      "sha256": "256228218584bb9c517662158cbcce27abc5245cd4df5d36f58e46595f9b74b8"
+    }
+  ],
+  "historical_directory_name": "r2-expanded-sft-full15008-v1",
+  "schema": "sepalith.sft11.expanded-full15006-launch-packet.v1",
+  "status": "prepared_not_launched_root_admission_required"
+}

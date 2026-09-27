@@ -1,0 +1,7 @@
+Frozen latency observer variant. Integrate only observe_renderer.mjs and startup_gate.mjs into the fresh root-owned A/B capsules. No launcher, analyzer, provider, VSIX or binding code is changed by this packet. Root regenerates capsule/source manifests and controls arm identities.
+
+The exact changes from the live-passing v5 source are removal of the collectDiagnostic import, its two counters, and the entire additive CDP diagnostic/special-PNG block. The complete SELECTOR and installCollector closure are byte-identical, including all style/ownership/outline checks, hit_test_decision records, keyboard listener and bounded sibling metadata. Startup gate bytes are identical. Existing input dispatch, main frame polling, regular ghost PNG capture and500msstop remain.
+
+All30predicate/source checks and5startup scenarios pass. Export surfaces, complete installCollector.toString() equality, startup exported function equality and exact whole-source subtraction pass. The complete scored-collector SHA256 is9d51feaa3a3c1be5e417019eed6888923797aacd1b07ce1727cb8411fa5145fe. Tests read frozen prior fixtures and sources; they do not launch an editor or network service.
+
+Actual v5-a3controls and PNG passed in receiptRUN-04-remote-observer-v5-review.json. Latency A/B controls must still pass in each fresh arm. No transfer, SSH, launch or binding/controller edits occurred here. Historical check_merged predates startup changes and is provenance; use the35current checks plus exact collector/startup equality rather than claiming that old check passed unchanged.

@@ -1,0 +1,46 @@
+{
+  "schema": "sepalith.r2-dspark.local-profile-target-manifest.v1",
+  "status": "selected_step500_metadata_only_profile_input",
+  "source_manifest": {
+    "alias": "NATIVE/models/SFT11-task-global-b-500-merged",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/parent-manifest.preparation.json",
+    "sha256": "92157a4a52a4ed928f76df9f1f77a6aa39235eefd6a859eb9c2b3d4118ee18db",
+    "kind": "merged_task_sft",
+    "status": "prepared; root selection and load/generation admission required",
+    "source_cursor": 8000,
+    "base_model_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3"
+  },
+  "model_dir": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+  "config_file": "config.json",
+  "config_sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+  "weights_file": "model.safetensors",
+  "weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+  "merged_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+  "weight_bytes": 5033557128,
+  "generation_config_file": "generation_config.json",
+  "generation_config_sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+  "tokenizer_file": "tokenizer.json",
+  "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+  "tokenizer_config_file": "tokenizer_config.json",
+  "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+  "tokenizer_contract": {
+    "vocab_size": 130560,
+    "bos_token_id": 0,
+    "eos_token_id": 1,
+    "pad_token_id": 1,
+    "native_eog_ids": [1, 130073]
+  },
+  "deepspec_revision": "005e03b81cec38b7da6399833d609ee89a2587f2",
+  "expected_target_cache_identity": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+  "profile_binding": {
+    "rows": 8,
+    "steps": 8,
+    "block_size": 7,
+    "num_draft_layers": 5,
+    "target_layer_ids": [1, 10, 20, 30, 39],
+    "num_anchors": 32,
+    "precision": "bf16",
+    "max_context_tokens": 4096,
+    "resume": false
+  }
+}

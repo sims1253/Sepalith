@@ -1,0 +1,84 @@
+{
+  "schema": "sepalith.target-only-pre-update-gates.v1",
+  "at": "2026-09-13T13:17:47.513598Z",
+  "source_inputs": [
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/transformers/trainer.py",
+      "bytes": 215477,
+      "sha256": "17e212935057f58b52efe79c3f952bf044bbada8afd4f13c8e905142b1d2ef0a"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/trl/trainer/sft_trainer.py",
+      "bytes": 65950,
+      "sha256": "570e544086f013195207c3c35dcc706e9bfae91d3f1ba67dfd2a279200c1b120"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/unsloth/models/llama.py",
+      "bytes": 168359,
+      "sha256": "8a79d94ab5f7f76c241d49da9bb1af9a90a9491977d3d08bbf356334dd007f2d"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/unsloth/models/_utils.py",
+      "bytes": 180880,
+      "sha256": "a297eb31e25dea0ae06aa3b7d6c9108f67f469010969f196e69fc9acb84e3ef7"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/unsloth_zoo/loss_utils.py",
+      "bytes": 16432,
+      "sha256": "c49e8623999d2410f2bccb5b15236aae73daabd91cd62eb6b7705d3f264f0c71"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/unsloth_zoo/fused_losses/cross_entropy_loss.py",
+      "bytes": 27625,
+      "sha256": "6aa52e6884547a7820ccd160940dfd1694224c531ebd90032385cd93ab5ff73c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/candidate/campaign_sft.py",
+      "bytes": 22757,
+      "sha256": "3770f70e234d66ff549fa9f2d3b1f515f124d61bd825ffb973aa44d4aac5ee18"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/candidate/campaign_sft_data.py",
+      "bytes": 7931,
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-gates-v1/target_only_gate.py",
+      "bytes": 9398,
+      "sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-gates-v1/campaign_sft-gated-candidate.py",
+      "bytes": 23701,
+      "sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-gates-v1/pre-update-gate.patch",
+      "bytes": 11850,
+      "sha256": "4e661a74580b8bc42c0579ada6e045e7bffe1d40b505ce15c26eaa9378b27be5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-gates-v1/test_gate.py",
+      "bytes": 8061,
+      "sha256": "b37dcbdadcdf19972ad726384efd711bc01732832c51ea53d9b10b4fcbcf18a5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-gates-v1/test.log",
+      "bytes": 708,
+      "sha256": "6d9e55c6c974c11373b1211b720594b1ce95177bd85369bba59c44130997796f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-gates-v1/REVIEW.md",
+      "bytes": 4977,
+      "sha256": "8c08b334462bf2e98a456bdda2c9989b32ebffec077042868cd7179f7c28a00b"
+    }
+  ],
+  "cpu_tests_passed": 8,
+  "cpu_tests_failed": 0,
+  "patch_check": "git apply --check passed against root private work/lead/target-only25-a/reviewed-source",
+  "actual_gpu_fused_gate": "not_run_root_runtime_required",
+  "initial25_requires_continuation_replay_proof": false,
+  "continuation_replay_experiment": "designed_not_executed"
+}

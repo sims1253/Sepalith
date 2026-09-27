@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "bytes": 7316,
+      "path": "verify_registry.py",
+      "sha256": "80ae754b634c4c1bd5706968d737817ee6b521f4c443f726bc77678e64c32d32"
+    },
+    {
+      "bytes": 2476,
+      "path": "tests/test_registry.py",
+      "sha256": "f750316b2af669186e3d8121052b3ea11ff62a2947edced57d9ec467fdce768b"
+    }
+  ],
+  "schema": "sepalith.dat10.original5185.geometry_registry_source.v1",
+  "status": "frozen_preparation"
+}

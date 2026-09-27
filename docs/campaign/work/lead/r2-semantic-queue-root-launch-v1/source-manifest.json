@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "path": "source/analyze_semantics.py",
+      "bytes": 14623,
+      "sha256": "54965cb3af14a125d945d94f24975eddff040b0706ab934b5a04543a12a99a57"
+    },
+    {
+      "path": "source/namespace_scope.R",
+      "bytes": 2287,
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "path": "source/reviewed_scope_reference.R",
+      "bytes": 11404,
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "path": "source/run_streaming_semantic_queue.py",
+      "bytes": 18133,
+      "sha256": "69d999cd0b7309775435126bf8fdd5f54e24bf793b9ad200fb1b3efbb2379e77"
+    },
+    {
+      "path": "source/semantic_scope.R",
+      "bytes": 4360,
+      "sha256": "64d984139c2e5baf289f4caf8070903ff278f652a5a205f8141bc43627e84f61"
+    },
+    {
+      "path": "tests/test_streaming_queue.py",
+      "bytes": 9348,
+      "sha256": "20490003d04a9a99ca54269b182c19acc3e209aca91dac82fd74dcaefcdebd42"
+    }
+  ],
+  "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2",
+  "origin_manifest_sha256": "6c061b4d4d79a8027f9239f0462cdfc34510e6101fae2661e80d73ab6cd78c10"
+}

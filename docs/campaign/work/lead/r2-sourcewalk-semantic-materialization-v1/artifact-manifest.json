@@ -1,0 +1,48 @@
+{
+  "files": [
+    {
+      "bytes": 2020,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "cb9bef1f2519b15f48e77f8f6449bcafc3d5883f803423d9e522db94fb271f65"
+    },
+    {
+      "bytes": 1121,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "12a3b6d435c498adec50d5d6e61b546cdd36fa827b3b09e4147dba67da4e8163"
+    },
+    {
+      "bytes": 1372,
+      "mode": "0o644",
+      "path": "input-contract.json",
+      "sha256": "41e99f04d5741ce83b774c9ae4965f8cd7379405214d78dbf44ad5e746df6e6b"
+    },
+    {
+      "bytes": 18568,
+      "mode": "0o644",
+      "path": "materialize_semantic.py",
+      "sha256": "eb610980b53abd94768e8ad65aa937874a1b7f0e0176f523a7e726719d79096f"
+    },
+    {
+      "bytes": 1308,
+      "mode": "0o644",
+      "path": "synthetic-evidence.json",
+      "sha256": "8c43cbd7e5373b73888f8be7acceda7bd7fa0a1c4a9b4df4c23b20d047dd2e68"
+    },
+    {
+      "bytes": 2168,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "08f421b2039e8e1eab402e1f877c18786a37ab9a956c83e4f57fb1696eac2e63"
+    },
+    {
+      "bytes": 10226,
+      "mode": "0o644",
+      "path": "test_materialize.py",
+      "sha256": "e9fcc460ba20c40ad5ef9a7484b6b66edb0a38e4df415a529f605789e95d7907"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v1",
+  "status": "complete_preparation_template_root_bindings_pending"
+}

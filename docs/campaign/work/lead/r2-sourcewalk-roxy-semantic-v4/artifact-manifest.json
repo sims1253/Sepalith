@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "bytes": 1678,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "eb2ce2ac4c2fe298dae710afa21e276691c9e352a3776b038ede21748faf9403"
+    },
+    {
+      "bytes": 12345,
+      "mode": "0o644",
+      "path": "analyze_semantics.py",
+      "sha256": "6f642998f04ca2f228e6fdd0fb96ec3b542ab3668286cdc493d25cbe03db0f75"
+    },
+    {
+      "bytes": 586,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "dcaadec0da8474c90c245d330dd8c6c9b4b678871d4e68acbed581c14bc00815"
+    },
+    {
+      "bytes": 11404,
+      "mode": "0o755",
+      "path": "reviewed_scope_reference.R",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 5639,
+      "mode": "0o644",
+      "path": "run_semantic_queue.py",
+      "sha256": "2b62f4c4c2663e3b7c033763b2fde56504aed2dbc43a7b06e99006ae1a4b5bba"
+    },
+    {
+      "bytes": 4204,
+      "mode": "0o644",
+      "path": "semantic_scope.R",
+      "sha256": "f6153d52527225ed6c3993ae878688d3680f6df3d112e94f85cf2f9ba1735659"
+    },
+    {
+      "bytes": 1973,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "2d4ce2b53511a6a252d12c1b906704864d1144d474139a51d6ec38692178b2dd"
+    },
+    {
+      "bytes": 5168,
+      "mode": "0o644",
+      "path": "test_semantics.py",
+      "sha256": "7da45d21a5b714843bb1adcc19027222b5fd320af2e16346c3647f27d95fb50e"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v1",
+  "status": "complete_preparation_root_review_required"
+}

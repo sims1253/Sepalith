@@ -1,0 +1,308 @@
+{
+  "schema": "sepalith.rl08.corrected-rl-fresh5-independent-review-inputs.v1",
+  "task": "RL-08",
+  "review_started_at": "2026-09-13T14:17:35.304074+00:00",
+  "candidate_artifacts": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/AUDIT.md",
+      "expected_bytes": 6730,
+      "actual_bytes": 6730,
+      "expected_sha256": "401e85c4a4a3ad4349691f5bf3dad527a843024a4bf7dc81bd337e2f90d5a406",
+      "actual_sha256": "401e85c4a4a3ad4349691f5bf3dad527a843024a4bf7dc81bd337e2f90d5a406",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/audit_data.py",
+      "expected_bytes": 10708,
+      "actual_bytes": 10708,
+      "expected_sha256": "38db7d0015fcbad89c08a2376174b1baeccd3493c6293f70d745d319905ca01c",
+      "actual_sha256": "38db7d0015fcbad89c08a2376174b1baeccd3493c6293f70d745d319905ca01c",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-cpu-preflight.json",
+      "expected_bytes": 2509,
+      "actual_bytes": 2509,
+      "expected_sha256": "9b231415aaa354c9b68ef13253f81294d30a161d9a7686f92c4a756d7411ed8d",
+      "actual_sha256": "9b231415aaa354c9b68ef13253f81294d30a161d9a7686f92c4a756d7411ed8d",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/allocation-policy.json",
+      "expected_bytes": 377637,
+      "actual_bytes": 377637,
+      "expected_sha256": "b563a573a8eb01dee078d6be3936723b720c4a5567ac28ccd80816399fe7e751",
+      "actual_sha256": "b563a573a8eb01dee078d6be3936723b720c4a5567ac28ccd80816399fe7e751",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/context-sidecar.jsonl",
+      "expected_bytes": 82236821,
+      "actual_bytes": 82236821,
+      "expected_sha256": "265b80762efc9544230f1aba09e492906760e98a34431593fdeb4813d6e169ac",
+      "actual_sha256": "265b80762efc9544230f1aba09e492906760e98a34431593fdeb4813d6e169ac",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/eligible-train-rows.jsonl",
+      "expected_bytes": 76614021,
+      "actual_bytes": 76614021,
+      "expected_sha256": "7e9cf35e8ecbf1af151df78bfc42c07d7b1d24f6ab82ec47770463d967fe9465",
+      "actual_sha256": "7e9cf35e8ecbf1af151df78bfc42c07d7b1d24f6ab82ec47770463d967fe9465",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/selected-train-ids.json",
+      "expected_bytes": 263974,
+      "actual_bytes": 263974,
+      "expected_sha256": "8f6083193dd4d5e3ffbb084fe9df31ddde8e9f3d9326d29c1cb9d113b2ba3c09",
+      "actual_sha256": "8f6083193dd4d5e3ffbb084fe9df31ddde8e9f3d9326d29c1cb9d113b2ba3c09",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/source-row-draw-sequence.json",
+      "expected_bytes": 769484,
+      "actual_bytes": 769484,
+      "expected_sha256": "7e82f42eafa97bbb07a410ff2e4078cc96744cc45933f1167f7ebc3fbd558e98",
+      "actual_sha256": "7e82f42eafa97bbb07a410ff2e4078cc96744cc45933f1167f7ebc3fbd558e98",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/check_candidate.py",
+      "expected_bytes": 3513,
+      "actual_bytes": 3513,
+      "expected_sha256": "cd617e116644f24a9f71bbcb017c02293728da0bf8c2306f8677127c9cabf3c2",
+      "actual_sha256": "cd617e116644f24a9f71bbcb017c02293728da0bf8c2306f8677127c9cabf3c2",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/data-audit.json",
+      "expected_bytes": 18362,
+      "actual_bytes": 18362,
+      "expected_sha256": "8f4705498085b7d1076ebffc48d8618fa335ad0b5e833421e158addcda738618",
+      "actual_sha256": "8f4705498085b7d1076ebffc48d8618fa335ad0b5e833421e158addcda738618",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/data-preparation.json",
+      "expected_bytes": 68815878,
+      "actual_bytes": 68815878,
+      "expected_sha256": "d08b8bdb2430fcc640a551adc69e8de77fc3ccd3f40a8789e67fd880438ec9d3",
+      "actual_sha256": "d08b8bdb2430fcc640a551adc69e8de77fc3ccd3f40a8789e67fd880438ec9d3",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/fresh5.recipe.json",
+      "expected_bytes": 71710017,
+      "actual_bytes": 71710017,
+      "expected_sha256": "6661af89eb83fd95070f939290a3e74ff2c1e0b09c561d2d16a1704f32bbabee",
+      "actual_sha256": "6661af89eb83fd95070f939290a3e74ff2c1e0b09c561d2d16a1704f32bbabee",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/independent-byte-retention.json",
+      "expected_bytes": 413,
+      "actual_bytes": 413,
+      "expected_sha256": "b34440ee30d4a2848d7e9cb4dcac0b972fcdf3aa5ba5ec4f2581c24c910a1f18",
+      "actual_sha256": "b34440ee30d4a2848d7e9cb4dcac0b972fcdf3aa5ba5ec4f2581c24c910a1f18",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/independent-candidate-cpu-preflight.json",
+      "expected_bytes": 1034,
+      "actual_bytes": 1034,
+      "expected_sha256": "57ab10012bb8d1f51f1d725c347c77bfb31658ff21c8f7ce8263ce4f95ee585a",
+      "actual_sha256": "57ab10012bb8d1f51f1d725c347c77bfb31658ff21c8f7ce8263ce4f95ee585a",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/launch-command.json",
+      "expected_bytes": 1862,
+      "actual_bytes": 1862,
+      "expected_sha256": "55ffd36f246086d1362bbb845319955464c9b2c988a91723d30bd158727c0493",
+      "actual_sha256": "55ffd36f246086d1362bbb845319955464c9b2c988a91723d30bd158727c0493",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/prepare_candidate.py",
+      "expected_bytes": 12069,
+      "actual_bytes": 12069,
+      "expected_sha256": "815dec75cf1f98cb2ddc6a74ed76ec2af4e5c232bd1001bbb3a2d978f423b842",
+      "actual_sha256": "815dec75cf1f98cb2ddc6a74ed76ec2af4e5c232bd1001bbb3a2d978f423b842",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/production-cpu-tests.json",
+      "expected_bytes": 1455,
+      "actual_bytes": 1455,
+      "expected_sha256": "97e79938a09f907773b311a2c49c2afe2aa1fe0de828ec9368630ef876c44595",
+      "actual_sha256": "97e79938a09f907773b311a2c49c2afe2aa1fe0de828ec9368630ef876c44595",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/production-cpu-tests.txt",
+      "expected_bytes": 1568,
+      "actual_bytes": 1568,
+      "expected_sha256": "dda97e2177d4b573d5e0c72cf762f2d269153afd991a7cf0101c9941ef3da648",
+      "actual_sha256": "dda97e2177d4b573d5e0c72cf762f2d269153afd991a7cf0101c9941ef3da648",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/source-pins.json",
+      "expected_bytes": 4053,
+      "actual_bytes": 4053,
+      "expected_sha256": "184b676a32844c6bc69f9771fb5a6a7a8bcc83eeb0acce4e916794209f39178d",
+      "actual_sha256": "184b676a32844c6bc69f9771fb5a6a7a8bcc83eeb0acce4e916794209f39178d",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/timing-and-budget.json",
+      "expected_bytes": 1979,
+      "actual_bytes": 1979,
+      "expected_sha256": "e5f242ae503a0ab42f0dea810ce082b5b47dd56de11fc2e169d2b4952659493e",
+      "actual_sha256": "e5f242ae503a0ab42f0dea810ce082b5b47dd56de11fc2e169d2b4952659493e",
+      "match": true
+    }
+  ],
+  "frozen_source_pins": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_train.py",
+      "expected_bytes": 100780,
+      "actual_bytes": 100780,
+      "expected_sha256": "78d27aa98cebc80292d1871a39821eee5a1a705b5a8f412ce270d1707d724443",
+      "actual_sha256": "78d27aa98cebc80292d1871a39821eee5a1a705b5a8f412ce270d1707d724443",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_data.py",
+      "expected_bytes": 32259,
+      "actual_bytes": 32259,
+      "expected_sha256": "86ebc3fe80a976e3c35a29057234b341c9e06060135a87382bbf8c915b1db91b",
+      "actual_sha256": "86ebc3fe80a976e3c35a29057234b341c9e06060135a87382bbf8c915b1db91b",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_profile.py",
+      "expected_bytes": 40465,
+      "actual_bytes": 40465,
+      "expected_sha256": "6c7e041a3cf82890146aab9927f0cc5cf7cede92154e069f9cb6f6bd6323763b",
+      "actual_sha256": "6c7e041a3cf82890146aab9927f0cc5cf7cede92154e069f9cb6f6bd6323763b",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_entry.py",
+      "expected_bytes": 59174,
+      "actual_bytes": 59174,
+      "expected_sha256": "3d3a5626a9fbe19ccbe7d9614497dfd2e58d52431f811489d072852015f9230d",
+      "actual_sha256": "3d3a5626a9fbe19ccbe7d9614497dfd2e58d52431f811489d072852015f9230d",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_launch.py",
+      "expected_bytes": 5384,
+      "actual_bytes": 5384,
+      "expected_sha256": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a",
+      "actual_sha256": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_checkpoint.py",
+      "expected_bytes": 11665,
+      "actual_bytes": 11665,
+      "expected_sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "actual_sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_control.py",
+      "expected_bytes": 5024,
+      "actual_bytes": 5024,
+      "expected_sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+      "actual_sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_eval.py",
+      "expected_bytes": 11831,
+      "actual_bytes": 11831,
+      "expected_sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+      "actual_sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/test_campaign_rl_train.py",
+      "expected_bytes": 45752,
+      "actual_bytes": 45752,
+      "expected_sha256": "54d5dc4ebf67afbd58f8bcfc041e84015e451a0bc5b40878b9c0c1145e22106f",
+      "actual_sha256": "54d5dc4ebf67afbd58f8bcfc041e84015e451a0bc5b40878b9c0c1145e22106f",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "expected_bytes": 40337,
+      "actual_bytes": 40337,
+      "expected_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "actual_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/experiments/training/campaign_rl_pool.py",
+      "expected_bytes": 83509,
+      "actual_bytes": 83509,
+      "expected_sha256": "394dfa84f7a2293cdce67b03857351e3c0d66d93ee715c016763c5ce592f4f70",
+      "actual_sha256": "394dfa84f7a2293cdce67b03857351e3c0d66d93ee715c016763c5ce592f4f70",
+      "match": true
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/trl/trainer/grpo_trainer.py",
+      "expected_bytes": 100875,
+      "actual_bytes": 100875,
+      "expected_sha256": "bb6905182acf2ec426f1dc9ffc37e5210d58ee47d2764f7cf12dbb90a4a28954",
+      "actual_sha256": "bb6905182acf2ec426f1dc9ffc37e5210d58ee47d2764f7cf12dbb90a4a28954",
+      "match": true
+    }
+  ],
+  "lead_metadata": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/recipe.json",
+      "bytes": 71710013,
+      "sha256": "9042c8e1ad3f5c9580551360678a65fbe66d8f9fc980fa2c68eb94825bd7e281"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-08-corrected-fresh5-root-admission.json",
+      "bytes": 3230,
+      "sha256": "2f3333525387caef57f64086cf7630259aba51837aa6ae041cde3a6868b16473"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/root-full-preflight.json",
+      "bytes": 140794172,
+      "sha256": "9f4edaa5e8046af0cb768e1481ec56b142812959cffecc69ffde18d9f877f674"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/root-verification.json",
+      "bytes": 896,
+      "sha256": "9cd2e509a30523a1bc97dbbec95615b415982a26038be8a1d82c9b0b61c006cb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/supervisor-launch.json",
+      "bytes": 791,
+      "sha256": "04247a398f660c63616789fd4d9657bb228c1c5e0e50b4569481640f1979c8a5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/guard-process.json",
+      "bytes": 90,
+      "sha256": "984189a8d19a9ae2fdc7eaa64d27dc525c81a62fbad9d86f1087a58722bbbe56"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/command.json",
+      "bytes": 747,
+      "sha256": "48b76f8a6eb4fb26c913add0f6766c38af61221e239ab9842a3f06a90f9c4b6b"
+    }
+  ],
+  "forbidden_reads": [
+    "parent model/merged weight bytes",
+    "framework/model imports",
+    "live process/state/lease files",
+    "fresh5 checkpoints/final outputs/sealed evaluation"
+  ]
+}

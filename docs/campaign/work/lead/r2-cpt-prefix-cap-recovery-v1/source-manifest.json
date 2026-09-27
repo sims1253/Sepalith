@@ -1,0 +1,106 @@
+{
+  "audit": {
+    "bytes": 54693,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/omitted-frontier-audit.json",
+    "sha256": "09fbc6b708856314c2af67ac1485e2e0fe8a832c94c25ae721971c958c35125c"
+  },
+  "builder": {
+    "bytes": 39725,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/materialize_prefix_cap_recovery.py",
+    "sha256": "1e5251a26b0022807ea45bf3f6b5fe14e02fdfb065252909234bd1e23d8d082d"
+  },
+  "checks": {
+    "preflight_frontier_documents": 1999,
+    "preflight_frontier_groups": 79,
+    "preflight_payload_opened": false,
+    "preflight_source_stat": {
+      "regular": 1999
+    },
+    "preflight_status": "PASS",
+    "synthetic_command": "python3 -B docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/test_materialize_prefix_cap_recovery.py",
+    "synthetic_status": "PASS"
+  },
+  "created_at": "2026-09-14T20:31:31.642022+00:00",
+  "inputs": {
+    "cpt_partition": {
+      "bytes": 464000,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    "frontier": {
+      "bytes": 1194656,
+      "path": "docs/campaign/work/lead/r2-final-union-terminal-accounting-v1/global-cap-exclusion-frontier.jsonl",
+      "sha256": "acf86ba87bf833b6bd69cf732f2cb4a7d5356bcbd9e38ba2676b385af2b37560"
+    },
+    "global_split": {
+      "bytes": 49108497,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    "profile_validation_documents": {
+      "bytes": 1118092,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v1/documents.jsonl",
+      "sha256": "674d3bf6e2da08b53a0d0fa6d7ae1977c5bc6940938ebe2aaf6c7c1643ff6d68"
+    },
+    "protected_parent_hashes": {
+      "bytes": 883961,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/known-nontrain-parent-hashes.json",
+      "sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0"
+    },
+    "raw_chunk_contract": {
+      "bytes": 11920,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "terminal_document_provenance": {
+      "bytes": 79025155,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1/document-provenance.jsonl",
+      "sha256": "a731974ee8581b9fa571aae9672f6b933743779c24f4253843bff268065c305f"
+    },
+    "tokenizer": {
+      "bytes": 9894271,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  },
+  "packet": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1",
+  "planned_output": {
+    "files_per_group": [
+      "documents.jsonl",
+      "cpt_train.jsonl",
+      "exclusions.jsonl",
+      "repair-queue.jsonl",
+      "manifest.json"
+    ],
+    "frontier_documents": 1999,
+    "groups": 79,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-cap-recovery-v1",
+    "preflight_artifact": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/preflight.json",
+    "schema": 1
+  },
+  "policy": {
+    "cloud": false,
+    "cpu_threads": 2,
+    "cuda": false,
+    "empty_sources": "named_exclusion",
+    "oversized_sources": "retain_and_measure",
+    "package_group_token_caps": null,
+    "source_file_caps": null,
+    "source_max_bytes": null,
+    "target_truncation": false,
+    "training_admission": false,
+    "unreadable_or_changed_sources": "named_repair_queue"
+  },
+  "preflight": {
+    "bytes": 1455,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/preflight.json",
+    "sha256": "ef96c3df1d17ce8ef70abcb0d4ab9e363fb3ef26e795d33923c5d413ac495abc"
+  },
+  "schema": "sepalith.dat10.cpt-prefix-cap-recovery-source-manifest.v1",
+  "status": "prepared_not_executed_full_source_walk",
+  "tests": {
+    "bytes": 4948,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/test_materialize_prefix_cap_recovery.py",
+    "sha256": "9ee94bbb1c81f2ff8ad9578c2f4e68eadbf12c6d0974d7418079827dbfd264b0"
+  }
+}

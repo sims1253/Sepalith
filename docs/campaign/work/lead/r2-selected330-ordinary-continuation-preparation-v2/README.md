@@ -1,0 +1,13 @@
+# Selected packed checkpoint 330 to ordinary production continuation
+
+This packet implements the selected checkpoint/runtime split. Root’s matched development review found lower causal NLL for the packed checkpoint 330 on the 2K, 8K, and 16K panels. The packed xformers runtime was about 8% slower and failed its throughput gate. The packet therefore selects the packed arm’s learned weights and full optimizer state as the source while continuing with the ordinary SDPA, unpacked production runtime.
+
+The selected checkpoint remains immutable at `/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-varlen-canary-322-varlen_candidate-v1/runtime/checkpoint-330`. Its manifest SHA-256 is `2b35854537588499fb703af2127029ff649e410cbab65374948723273b520951`; its campaign-state SHA-256 is `fb6d4d456e2318c70301a8b39f21e54069570c48c9c90de80e3f09155361a8e8`; its canary recipe SHA-256 is `12d09ed0158070b256b0976e6f80fc0e46e1f552c1556b44dbc7a6cf360d5997`. Exact copies of these small metadata files and the two root review artifacts are frozen under `selected-source/`. Model and optimizer payloads are not copied.
+
+`ordinary_canary_resume.py` requires the exact packed arm identity `6d5a7a2dff56d74e1d31662e60a2dff6bd81b46827bbf4760bf16d530fd1f0cf`, exact source path and metadata hashes, step 330, cursor 4224, offset 66, effective batch 16, and draw schedule. It rejects the ordinary arm, a different packed checkpoint, changed draws, missing optimizer state, altered canary recipe, or changed selection evidence. A root transition admission is mandatory.
+
+After validation, the trainer passes the original checkpoint directly to `Trainer.train(resume_from_checkpoint=...)`. Optimizer, scheduler, RNG, trainer state, and sampler are restored; no fresh optimizer or schedule is created. Future checkpoints use the unchanged ordinary production identity `730c2aba916ae9ab8a97a1584207e7c1d7095e23ce1988cdd968df7fd17844b6` and store source-arm, manifest, canary-recipe, selection-evidence, destination-execution, and transition-admission lineage.
+
+Root must admit the new runtime source, build a fresh runtime recipe, admit the selected packed330 transition plus continuation and stop records, and run the CPU front door. The CPU command masks CUDA. The guarded training child explicitly selects CUDA device 0; a regression test prevents the GPU command from inheriting the CPU mask.
+
+`fallback-options.json` preserves two separate alternatives: the frozen v1 ordinary330 transition packet and the same-production-identity checkpoint322 path. Each fallback needs a fresh root decision. This packet never enables packed production execution. The proposed next full checkpoint is step 450, the next 128-update stage-local cadence after step 330.

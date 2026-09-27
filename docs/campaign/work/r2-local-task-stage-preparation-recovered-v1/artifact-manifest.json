@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-local-task-stage-preparation-recovered-v1/ROOT-LAUNCH.md",
+      "sha256": "d75415cd6015932a339f7703c7a732f5d416a945e6352b5a954d684423682da4",
+      "bytes": 4743
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-local-task-stage-preparation-recovered-v1/bind_task_parent.py",
+      "sha256": "4aed4ac6cb15a905c7d0093e91e0bd65a2f85fe8aeb0e5cc3a26dc97d3d48402",
+      "bytes": 5697
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-local-task-stage-preparation-recovered-v1/make_runner_recipe.py",
+      "sha256": "ead8109582754c4097241fd67ff72df8bddde066a9e0a7bec4984b5180cbbcf6",
+      "bytes": 2104
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-local-task-stage-preparation-recovered-v1/task-recipe.template.json",
+      "sha256": "1558646dd43445ad273de01e8c3af3baa9159775d47626b624b286552dad717a",
+      "bytes": 7877
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-local-task-stage-preparation-recovered-v1/test_binding.py",
+      "sha256": "5ccd90fe8b02907a33743941deffaa59892036d6127265df26b45d8d75d7e991",
+      "bytes": 2060
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "d_full500_manifest_sha256": "6a4fe603566af95a09c3fd3bdadea37dac2717db55b08063a0bc9a1d93a1223b",
+  "files": [
+    {
+      "bytes": 3209,
+      "path": "README.md",
+      "sha256": "f3a5cf54b8b88cac96afcbb3e1bb641a1fa78addfcdc0812afe3d958e03cdd63"
+    },
+    {
+      "bytes": 1343,
+      "path": "build_packet_manifest.py",
+      "sha256": "89a97dd7087c9a7a5df8b56d9ea3aef2834705edd7c272ded037325f99736b2a"
+    },
+    {
+      "bytes": 2674,
+      "path": "commands.json",
+      "sha256": "e593db937d98231d7826e9022fee09cf63c4ad0aaacadbcadd829da486c25b8f"
+    },
+    {
+      "bytes": 1592,
+      "path": "cpu-metadata-tests.log",
+      "sha256": "fb14077943631efa15285a1a23f9395efa83fe3b94180bb8dfdeff955bc5d7f8"
+    },
+    {
+      "bytes": 289,
+      "path": "preflight.stdout",
+      "sha256": "090f2ee732eef118ed5a44a8e3cb090963d947a76ced0245960d4ca8866b0ddb"
+    },
+    {
+      "bytes": 1430,
+      "path": "preflight.time",
+      "sha256": "feffc7f2b6162688e77ae440f575a19e9b3a39489f4847b7c4d0a7c80e20d7f6"
+    },
+    {
+      "bytes": 9999,
+      "path": "prepare_packet.py",
+      "sha256": "7dd6efb27b2a52145a2f4798f1bf9e6d70c07033cbe25b8b4f96cafac1c0109f"
+    },
+    {
+      "bytes": 23109,
+      "path": "recipe.json",
+      "sha256": "2e8038f81c8fee2112b7164e4e0c92c11474459dd1e810f8a86c2bf224ca2316"
+    },
+    {
+      "bytes": 2454,
+      "path": "run_owned.py",
+      "sha256": "bc8180e365e09f0c5abb54f69c5f71579429c5f90e2532cb76457fbde4164dd4"
+    },
+    {
+      "bytes": 13612,
+      "path": "runner-recipe.json",
+      "sha256": "93284074b4ae2185bdbac540c2102280bed5a9093c7dc7a2ece2eba71891136a"
+    },
+    {
+      "bytes": 6354,
+      "path": "tests/test_resume500_e_packet.py",
+      "sha256": "b13400f1c9c9f9af3b300138b95ab99714b297e9ce7f17edd91a273a8ef16693"
+    },
+    {
+      "bytes": 1543,
+      "path": "tests/test_runner_snapshot_replay.py",
+      "sha256": "53fae84a89b977c8ba70f2fa13ce86a250d696a0d9bb1db1ab0dadc07ceae2f6"
+    }
+  ],
+  "schema": "sepalith.sft11.expanded-e-packet-manifest.v1",
+  "source_identity": "bb2f9fdc1d016679533beab7d9906c9b996c9ce59d36e54ff98101adbaeed384",
+  "status": "prepared_not_admitted_not_launched"
+}

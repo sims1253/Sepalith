@@ -1,0 +1,39 @@
+{
+  "active_cohort": {
+    "finish_repaired_rows": 3503,
+    "root_review": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-train-finish-source-repair-v3-root-review.json",
+      "sha256": "6aaeb0d3b1d0412bcd432ab32e2b9adaa7a04ceba49269107e51dc0f5b848801"
+    },
+    "rows": 15006,
+    "rows_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+    "rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+    "status": "accepted_root_reviewed"
+  },
+  "additional_roxy_rows": 10017,
+  "additional_roxy_status": "pending_root_admission",
+  "pending_cohorts": [
+    {
+      "admission_review": {
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-roxy-context-admission-review.json",
+        "sha256": "6d14b7c9ab13c657e8fb8006b916d21991dcf47c136ce7915d56a14e7a69bc4e"
+      },
+      "admitted_rows": 0,
+      "constraint": "Requires separate root semantic/license/dedup admission and a fresh cohort, schedule, recipe, and resource bound; never append to this 15006-row run.",
+      "context_manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-supported-context-v1/manifest.json",
+        "sha256": "02a3ba8296451f0d3951ecb9f709d4155f3b8a2ce8c67d26efe84b130af78392"
+      },
+      "id": "roxygen-supported-context-10017-v1",
+      "long_context_queue_rows": 112,
+      "rows": 10017,
+      "status": "review_complete_training_admission_pending",
+      "token_rows": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-supported-context-v1/selected-context-token-rows.jsonl",
+        "sha256": "f31377348fcefe948bf5fd3d31e8289a9f79528289ebf9281fa09ec8d6f753c1"
+      }
+    }
+  ],
+  "policy": "No pending row is silently included or permanently excluded. A fresh cohort/schedule/recipe is required after root admission.",
+  "schema": "sepalith.sft11.full-weight-edit-data-queue.v2"
+}

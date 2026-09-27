@@ -1,0 +1,55 @@
+{
+  "behavior": {
+    "abort_signal": true,
+    "document_version_invalidation": true,
+    "fallback_to_e750_selector": false,
+    "one_total_helper_budget": true,
+    "pid_start_tick_scoped_cleanup": true,
+    "rscript_vanilla": true
+  },
+  "integration_status": "not_integrated_into_extension",
+  "predecessor": {
+    "path": "docs/campaign/work/lead/r2-expanded-provider-serving-parity-preparation-v1/source-manifest.json",
+    "sha256": "b76c998e4f027bc5c7da9c62a53df6573dd862009901e3805300b2417f28ade5"
+  },
+  "schema": "sepalith.run06.expanded-provider-abortable-helper.source-manifest.v1",
+  "source_files": [
+    {
+      "bytes": 3343,
+      "mode": "0o644",
+      "path": "source/abortable_namespace_adapter.ts",
+      "sha256": "caeda4727dd6e853be3c1f96916f0db0026b5553c93e8492431f57ce4abe19e4"
+    },
+    {
+      "bytes": 4604,
+      "mode": "0o444",
+      "path": "source/provider/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 4225,
+      "mode": "0o444",
+      "path": "source/provider/namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 10430,
+      "mode": "0o644",
+      "path": "source/provider/namespace_runtime.ts",
+      "sha256": "d6d52063de932714551ae21509bd62d51f0ea00ed8c1bdbc7dbeca9981d91b9c"
+    },
+    {
+      "bytes": 7532,
+      "mode": "0o644",
+      "path": "source/provider/owned_helper.ts",
+      "sha256": "f03e232d931af6c3e0f8d56b1f1dfdb81bbd74f917e3ed5eb9308c4a349919d3"
+    },
+    {
+      "bytes": 3289,
+      "mode": "0o444",
+      "path": "source/provider/source_imports.R",
+      "sha256": "cb0822dd3d9d50018ec20c2992b017506d232ca56169570d0751256e69456250"
+    }
+  ],
+  "status": "prepared_source_candidate_root_review_required"
+}

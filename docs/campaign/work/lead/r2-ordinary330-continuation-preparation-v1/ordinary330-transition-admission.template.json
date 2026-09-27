@@ -1,0 +1,22 @@
+{
+  "allowed_policy_delta": {
+    "attention_backend": "sdpa_ordinary",
+    "attention_packing": "ordinary_padded_rows_v1",
+    "execution_arm": "ordinary_reference",
+    "execution_experiment": "native_full_optimizer_varlen_canary_v1",
+    "logical_effective_batch": 16,
+    "loss_reduction": "global_supervised_token_mean",
+    "physical_gradient_accumulation": 16
+  },
+  "bound_recipe_sha256": "ROOT_BINDS_FRESH_RUNTIME_RECIPE",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-varlen-canary-322-ordinary_reference-v1/runtime/checkpoint-330",
+  "checkpoint_manifest_sha256": "f7bd7b819584a8abeadc37c677914bd8775f350bd097479d326425292ba8e943",
+  "checkpoint_step": 330,
+  "decision": "ordinary_canary_to_production",
+  "destination_identity_sha256": "730c2aba916ae9ab8a97a1584207e7c1d7095e23ce1988cdd968df7fd17844b6",
+  "launch_authorized": false,
+  "payload_action": "load_original_full_state_without_rewrite_or_copy",
+  "schema": "sepalith.sft11.ordinary-canary-resume-transition-admission.v1",
+  "source_identity_sha256": "759714fa7e57b4168029ed3e7bb43867bbc79b4b07020a01a2b03f906adc3e3e",
+  "status": "ROOT_MUST_SET_admitted"
+}

@@ -1,0 +1,65 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 1143,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/README.md",
+      "sha256": "f6c544237a66976b3bf5baaf0471576fbcf9b2805152343c91cdc1f3d5d8f6a9"
+    },
+    "evidence-correction.json": {
+      "bytes": 1110,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/evidence-correction.json",
+      "sha256": "42874d1a270bba768e1a398443a23a44fe062fd28bb9330dcb7782f897bd7852"
+    },
+    "evidence-schema.json": {
+      "bytes": 1736,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/evidence-schema.json",
+      "sha256": "fcc2dfe321725fa8ea48aa390449c3b8f3cf82943540583b09e331ee0ac8ce57"
+    },
+    "metadata-profile.json": {
+      "bytes": 71326,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/metadata-profile.json",
+      "sha256": "b2da170d1483141ce2369c048d2b22e26cb07f10f3e2f23b620731c809d5282a"
+    },
+    "profile.stdout": {
+      "bytes": 218,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/profile.stdout",
+      "sha256": "95458770947389661cae89ac9c047982c9ecf74ab8e884d47d6c64179bdc1d04"
+    },
+    "profile_existing.py": {
+      "bytes": 2208,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/profile_existing.py",
+      "sha256": "799815d3ff9c516d7fd78c08f5fa3e55dc889ef5d121a0b299191a6bf217847b"
+    },
+    "semantic_gate.py": {
+      "bytes": 5030,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/semantic_gate.py",
+      "sha256": "86695563d73362d8ddbfa90a670eb70fa77861140cb720b5c343d4c3532eb887"
+    },
+    "streaming-plan.json": {
+      "bytes": 3279,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/streaming-plan.json",
+      "sha256": "1c369da9d685e48d35f3fa06c7aec10b3aeab4dfc46108e0c987e6f6bdff6be3"
+    },
+    "test-results.log": {
+      "bytes": 942,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/test-results.log",
+      "sha256": "88c6bab9e3f27e0bc4b9038df5e93f167a18d0283ffd1138390eccab923ca378"
+    },
+    "test_semantic_gate.py": {
+      "bytes": 3409,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-roxy-semantic-preparation-v1/test_semantic_gate.py",
+      "sha256": "ac1e938013063b48c12e38f4720a6e97c54e7d757bd051bdb27aaf4356188cf5"
+    }
+  },
+  "schema": "sepalith.dat10.sourcewalk_roxy_semantic_preparation_manifest.v1"
+}

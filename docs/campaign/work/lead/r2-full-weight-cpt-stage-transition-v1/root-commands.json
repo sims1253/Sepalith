@@ -1,0 +1,47 @@
+{
+  "bind": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v1/source/experiments/training/bind_stage_transition.py",
+    "--template",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v1/recipe.template.json",
+    "--admission",
+    "$ROOT_ADMISSION",
+    "--output",
+    "$BOUND_RECIPE"
+  ],
+  "execution_authorized": false,
+  "initial_transition_root_guard_required": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE",
+    "--resume",
+    "$SOURCE_CHECKPOINT",
+    "--stage-transition-admission",
+    "$ROOT_ADMISSION"
+  ],
+  "preflight": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "resume_destination_after_root_decision": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE",
+    "--resume",
+    "$DESTINATION_CHECKPOINT",
+    "--continuation-admission",
+    "$CONTINUATION_ADMISSION"
+  ],
+  "schema": "sepalith.sft11.full-weight-cpt-stage-transition-root-commands.v1"
+}

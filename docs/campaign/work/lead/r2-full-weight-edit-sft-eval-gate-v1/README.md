@@ -1,0 +1,9 @@
+# Full-weight editing SFT milestone evaluation gate
+
+This fresh packet adds a fail-closed development gate to the frozen full-weight editing trainer. Every admitted development milestone is an optimizer-boundary save-and-stop. The process cannot take another optimizer step after that milestone. A resume checks the exact full-weight checkpoint, sequential draw cursor, bound recipe, corrected 75-case panel, actual generation result, and an explicit root continuation decision. Missing, incomplete, stale, or mismatched evidence rejects before model loading.
+
+The root-owned evaluator loads the exact dense full checkpoint in a separate exclusive-CUDA process and runs the reviewed PRM03 renderer/scorer on corrected DEV75 SHA `7c144bcd...`. Teacher-forced loss remains diagnostic. Continuation depends on actual generation evidence. The generation budget is root-selected per bound recipe; `1024` is the prepared default, `192` remains available for direct historical comparison, and values through the prepared `8192` interface bound are accepted when prompt plus budget fits 16K. Each case records cap hit, response completeness, and stop token for both native EOG IDs. Summaries retain all-case metrics and add complete-case metrics. Final data is never read.
+
+The current training template prepares the reviewed 18,560-draw no-op-aligned schedule. A separate one-pass alternative contains 15,008 draws: all 15,006 eligible rows exactly once, followed by only two terminal batch-padding replays. It has 938 updates, keeps complete targets, uses deterministic mixed whole length-bucket batches, and is unselected. Selecting that alternative requires a fresh template because the two schedules have different horizons and checkpoint gate steps.
+
+Parent, LR, scheduler, batching, schedule, gate cadence, generation budget, and continuation decisions remain root-owned. This preparation performs no model load, CUDA work, training, evaluation, or launch.

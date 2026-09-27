@@ -1,0 +1,254 @@
+{
+  "at": "2026-09-13T04:43:56.292482+00:00",
+  "remote": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-ram-ab-a",
+  "files": {
+    "terminal.json": {
+      "bytes": 1269,
+      "sha256": "a5a81391a95c514c24d062e47c6851c4b7bc11d84f12813551571e281c83ee6b"
+    },
+    "pair1-zero-controller.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pair2-zero-controller-launch.json": {
+      "bytes": 20,
+      "sha256": "9a1c5ce13de3d35be82882055accf9b0ad8c20659935d0b0f785fdad13a477b9"
+    },
+    "pair0-default-controller-launch.json": {
+      "bytes": 20,
+      "sha256": "3c0923f41b07f6335d2459cfd6fed2389b41c2c2b9ae94dedffcb180e08da70b"
+    },
+    "pair0-zero-controller-launch.json": {
+      "bytes": 20,
+      "sha256": "5f1f6ccbe001840efe4132b16fab3b0bde0851e83c03346a0a74f0e2fbfcff9a"
+    },
+    "launch.json": {
+      "bytes": 357,
+      "sha256": "a3defa8e75cf42d1f3a7c141108fec5d9d514582c705a252597aaeff713b0617"
+    },
+    "pair2-default-controller.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pair0-default-controller.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pair1-default-controller-launch.json": {
+      "bytes": 20,
+      "sha256": "d18e8b02c1067c8d4cb7165feaea6e7064ecd8bfa08b125e4d11dface6d0f44d"
+    },
+    "pair0-zero-controller.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pair2-zero-controller.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pair1-default-controller.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pair2-default-controller-launch.json": {
+      "bytes": 20,
+      "sha256": "2f82d6cd2f7e24d9b4f5fd64d26692bfe1c05f46e230de67ccaa880204328222"
+    },
+    "pair1-zero-controller-launch.json": {
+      "bytes": 20,
+      "sha256": "d7b8a1abba0d26d5cb4b881b9cf8c52dee252838c8798d4d978ce825c377d9b8"
+    },
+    "pair0-default/terminal.json": {
+      "bytes": 384,
+      "sha256": "82d27fde5416a5d0655d1e806708beba825852e712a3aa838fa7926c37504219"
+    },
+    "pair0-default/client.log": {
+      "bytes": 258,
+      "sha256": "ea4802d153fc3060b4ea2623bd03a0d3cdb13e11594b3a0cce3b932310f87936"
+    },
+    "pair0-default/server.log": {
+      "bytes": 22989,
+      "sha256": "00c1ba0d522ee851fe6990e31057587882e258878873a0932812c442029a342f"
+    },
+    "pair0-default/recovery-a-recovery.json": {
+      "bytes": 10591,
+      "sha256": "e6e799f711c9bc1d03fd9fd5ef482432fef95fec9523263acaecb31cabd443a1"
+    },
+    "pair0-default/launch.json": {
+      "bytes": 963,
+      "sha256": "d64c69cf1c827ca6d57ae887e45dc76f9a9dfd99dc999140e60f997ff707105a"
+    },
+    "pair0-default/client-launch.json": {
+      "bytes": 917,
+      "sha256": "b019f6bf07cb349b3761156423b6385eb32a69a36993ee150090122199dcc9b7"
+    },
+    "pair0-default/server-maps.txt": {
+      "bytes": 32940,
+      "sha256": "a6517a8f63a4906e8a448831b66269087461260e456a4c5c77fe935dbd3d205b"
+    },
+    "pair0-default/health.json": {
+      "bytes": 12135,
+      "sha256": "e88d3745ffbfbd6c7fc517eb778a2f358ef7789319197ae020aa67745187ec58"
+    },
+    "pair2-zero/terminal.json": {
+      "bytes": 384,
+      "sha256": "a3e05e718e96dae7293435f85dee1735d0c25089653655627e67f85e2e95215b"
+    },
+    "pair2-zero/client.log": {
+      "bytes": 255,
+      "sha256": "f3ae994feda06bcff1ca3c1d96fa11dd063deb81bd36f3ecb5ee53127533ba08"
+    },
+    "pair2-zero/server.log": {
+      "bytes": 21876,
+      "sha256": "4b5ff37218cfdcec24490d02e99fdfc5cece86cbd64d18969b29c5fa036e536f"
+    },
+    "pair2-zero/recovery-a-recovery.json": {
+      "bytes": 10599,
+      "sha256": "2f91be5729c747125178629e879cbf930119be0f65800be770fe9d3c1cf12f92"
+    },
+    "pair2-zero/launch.json": {
+      "bytes": 960,
+      "sha256": "446d0a56344edff44bdd37769a89485edafa91596ac66914f2100c29a9405466"
+    },
+    "pair2-zero/client-launch.json": {
+      "bytes": 911,
+      "sha256": "b5dba2634e26625cc351a1d85c2a1d5a9f8d616a2de391f8afd1553debba7e42"
+    },
+    "pair2-zero/server-maps.txt": {
+      "bytes": 33185,
+      "sha256": "9ec5a82b135e4e83d7ff19df180a2a82dc0d533fb40b801425d3df4840bec04e"
+    },
+    "pair2-zero/health.json": {
+      "bytes": 12135,
+      "sha256": "a978c6f2394b6e730470285de71398d9c46d8c84c1faa70f40a6406728824744"
+    },
+    "pair2-default/terminal.json": {
+      "bytes": 384,
+      "sha256": "307f5950ff3cdfba8d802c818d585190c2ef4fc1f3e75a9cae3721a12a6463d6"
+    },
+    "pair2-default/client.log": {
+      "bytes": 258,
+      "sha256": "80881b6ae4e3febc8f3b767b749ad00d7133c5f4baec68b48248bc277c8d1ab9"
+    },
+    "pair2-default/server.log": {
+      "bytes": 22989,
+      "sha256": "bfc315de80ff2a4aba5edd2c8e8ca42410f3ca32bd10193e6703648d204879b1"
+    },
+    "pair2-default/recovery-a-recovery.json": {
+      "bytes": 10590,
+      "sha256": "0c171d0024b70eec35b47ae6021114657cac44972fec2ff742ed18c2d45b11ab"
+    },
+    "pair2-default/launch.json": {
+      "bytes": 963,
+      "sha256": "d425f63cdedbce068a25e2b3c9fc353b3da13e186efe4ff431f276ca9d126134"
+    },
+    "pair2-default/client-launch.json": {
+      "bytes": 917,
+      "sha256": "34fec940dc26bdcd9592f7d92243d1f53ec77bfa3cdccdf9af569c80f8d1518f"
+    },
+    "pair2-default/server-maps.txt": {
+      "bytes": 33038,
+      "sha256": "340c19968557d62b7a4edc61b342e5911e24bbc5add1abca7efc210910279d87"
+    },
+    "pair2-default/health.json": {
+      "bytes": 12135,
+      "sha256": "921e7e204514886b714ec7ae8495b267e9be73f90b4810a34cd77ccacfa0859e"
+    },
+    "pair1-default/terminal.json": {
+      "bytes": 384,
+      "sha256": "4f35290e0212cda4312efcdc9becd43cc7a9281a0012f575bfe7d5f7e9ace411"
+    },
+    "pair1-default/client.log": {
+      "bytes": 258,
+      "sha256": "dd1e874a118807e664b13ca1bf4a8fd8fd40525680b713162b781625742020e9"
+    },
+    "pair1-default/server.log": {
+      "bytes": 22989,
+      "sha256": "d6879e4e6c2e82c2b9bbff3d1ae4738ff78dd8165619894002fcb16a39e9186e"
+    },
+    "pair1-default/recovery-a-recovery.json": {
+      "bytes": 10594,
+      "sha256": "e37bd5c850efe8c340e9a742d6efc2f78289ad379fe9e12f1758c4e171dbf22b"
+    },
+    "pair1-default/launch.json": {
+      "bytes": 963,
+      "sha256": "462228d9a3abd26450ffd276310bc33ae64505837c896d410508670c586d7571"
+    },
+    "pair1-default/client-launch.json": {
+      "bytes": 917,
+      "sha256": "5bd020bb99552b20607c9b54bdbcd3b283e8b7a4662d87d59fe49f69f21c0ba6"
+    },
+    "pair1-default/server-maps.txt": {
+      "bytes": 33185,
+      "sha256": "8445df9fc9ab79c1697de46536074c2058ea0fc9ac107b8fdf4aeb7e71f1fb16"
+    },
+    "pair1-default/health.json": {
+      "bytes": 12135,
+      "sha256": "2fa3ead20bb2f10012dbefbb9f86d04a46bc4f078048c6c8202de29ff9b114ea"
+    },
+    "pair0-zero/terminal.json": {
+      "bytes": 384,
+      "sha256": "9d2bea2e7a9fb76ab6ec7bf214c2c49f32a49cbb59edf81ecb0cb46b8fdf40a6"
+    },
+    "pair0-zero/client.log": {
+      "bytes": 255,
+      "sha256": "f8f901e2a8e31e7b42f8331d1baaadbcbb58a4c26939c9f5e021ec8d2b6e442c"
+    },
+    "pair0-zero/server.log": {
+      "bytes": 22090,
+      "sha256": "aecb1c9146b7a20b915fff194d3337349e48623530c100ad950664c14eeebff6"
+    },
+    "pair0-zero/recovery-a-recovery.json": {
+      "bytes": 10586,
+      "sha256": "ef4687c8ddde1504f95edc998be239d8e40586519afb93e24739371a7bd41622"
+    },
+    "pair0-zero/launch.json": {
+      "bytes": 960,
+      "sha256": "7ae68604179511bc28bbc06c04f66dcc22fe2a1f4c771d3e3b6c0210a040e44e"
+    },
+    "pair0-zero/client-launch.json": {
+      "bytes": 911,
+      "sha256": "cc238c156983fa0f0b823d4e39a7f8ffdc022a10048144af7366c290236963cd"
+    },
+    "pair0-zero/server-maps.txt": {
+      "bytes": 32891,
+      "sha256": "a37169607a63eca2f8282d37385c63d9631e8706b2391d3fac647aa9a9327f9f"
+    },
+    "pair0-zero/health.json": {
+      "bytes": 12135,
+      "sha256": "b184ce80cb09fe1642564e4a29a07aefebda8bcf310fac9d474d005e33f59d95"
+    },
+    "pair1-zero/terminal.json": {
+      "bytes": 384,
+      "sha256": "645e1a48337f51f5a2026a1c1a5a8545433f2a6dbe0778f67db2e6370cf7219f"
+    },
+    "pair1-zero/client.log": {
+      "bytes": 255,
+      "sha256": "ce47f3b23202534f4f10d46402a0bacaafe8df3ec074d8c64caa8889a7458c45"
+    },
+    "pair1-zero/server.log": {
+      "bytes": 21876,
+      "sha256": "a4742de979b567b62daff684e768199472ee1161839787329814c88dc2a55806"
+    },
+    "pair1-zero/recovery-a-recovery.json": {
+      "bytes": 10606,
+      "sha256": "8bc97b45acc38a99bfd33a96e1bfa778fdb2a335ffeec035a3433cd072f07b72"
+    },
+    "pair1-zero/launch.json": {
+      "bytes": 960,
+      "sha256": "26f90b05cb6ccfa6b1f2286ed2cd9e7ee9e30402d695e5b680d7ed6bf1f18ced"
+    },
+    "pair1-zero/client-launch.json": {
+      "bytes": 911,
+      "sha256": "c3fa61948baee8022aa98731a31923e3302e99a21e8c70df9e34f6b2372d4c59"
+    },
+    "pair1-zero/server-maps.txt": {
+      "bytes": 33038,
+      "sha256": "7db112ba644dae0ea1665bd5596e027286a5adfa6d45e89f9c3066e45c36f8d8"
+    },
+    "pair1-zero/health.json": {
+      "bytes": 12135,
+      "sha256": "08a992cc3a60a02df98efa4882cc1524b716c0eaf41b9489623eb56316092ce9"
+    }
+  }
+}

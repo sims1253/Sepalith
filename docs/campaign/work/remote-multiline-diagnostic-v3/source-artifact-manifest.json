@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/README.md",
+      "bytes": 2058,
+      "sha256": "8786f79e2f1196b5d563b21d182570d060cd0d943919828911a3cddbc94e5765"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/analyze_renderer.mjs",
+      "bytes": 10464,
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/capsule-manifest.json",
+      "bytes": 791,
+      "sha256": "04a6802ed21aa5a7173bc5ed18b49a0c7d2c966c0df59c71602efee530c462eb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/capture-command.json",
+      "bytes": 1589,
+      "sha256": "7a7eab7a98d729b5e3f77bf579a3361ce632afd373ce920d33a18df0f4e9b61b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/check_diagnostic.mjs",
+      "bytes": 3669,
+      "sha256": "d5d3c6b305cacb4d32f60f8fc944ae5782dc4d7f0a94b2ceac5f1cdb60737f9c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/collect_diagnostic.mjs",
+      "bytes": 2555,
+      "sha256": "92cf2d8ca6acabe4530b06076bdced4f8ef430e30d8205cec24900ccd822bce9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/control-fixture.patch",
+      "bytes": 8735,
+      "sha256": "4221dab8ad4418e255064535989f8810b9e60f7ca8c3ba14c59f241a55827df7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/control-harness/controls.js",
+      "bytes": 4485,
+      "sha256": "616637f85344a8ebd9e269b8b5107c428951be1351c33ee1c8d17d6a46d541b7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/control-harness/extension.js",
+      "bytes": 1325,
+      "sha256": "6e44eca454d1a05cb88f010db3b65c0db071e7c9e3859047337a2d2659a6882d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/control-harness/package.json",
+      "bytes": 281,
+      "sha256": "606eb7ddf57e04054fea102b8da88f0d45dbe1a6b814f347969501104510451a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/cpu-validation.json",
+      "bytes": 1513,
+      "sha256": "f4bf48c9b72d4885654c816c95dbfde064fc348766f860d4c91dd1c6fc37c9e3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/guard.patch",
+      "bytes": 3992,
+      "sha256": "04582fb9b9b51719cde13665ba10acbafc373c2435a25b573d03b14b6bf302a0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/input-pins.json",
+      "bytes": 1307,
+      "sha256": "3086f502eaf2c1c480f7eaa6dab015fb05655776dd643033e82cfebc3fb179ad"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/notebook_diagnostic_supervisor.py",
+      "bytes": 5023,
+      "sha256": "8799b64e9a1c59b42af1f3b05bb893b92bd237b9d144b60d5adad8e6a23891de"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/observe_renderer.mjs",
+      "bytes": 15462,
+      "sha256": "ecb645207dcc509e82b98abbd3d178d5936b96108391264300eec97b70e390f3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/observer-additive.patch",
+      "bytes": 2187,
+      "sha256": "f6eb7cd32e500e992cd5984dd9a174d657deb2c968f75b86923306b0a67985b8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/remote-multiline-diagnostic-v3-capsule.tar",
+      "bytes": 51200,
+      "sha256": "9e53bd5e82177050299728fe8c2d15b16bbbc1feeb52a9a6854c3583e1d6f98f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3/run_diagnostic.mjs",
+      "bytes": 3326,
+      "sha256": "e97c275b899944b1666f15769c5458a939bf4ce306efe8601627eb4ecf5e95b6"
+    }
+  ]
+}

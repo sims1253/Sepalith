@@ -1,0 +1,50 @@
+{
+  "binding_config": null,
+  "geometry": {
+    "candidates_per_group": 4,
+    "context_max_tokens": 4096,
+    "groups": 112,
+    "max_new_tokens": 1024,
+    "prompt_max_tokens": 3072
+  },
+  "loader": {
+    "dtype": "bfloat16",
+    "import_order": [
+      "unsloth",
+      "torch"
+    ],
+    "load_in_4bit": false,
+    "prompt_parity_rows": 112,
+    "repair_non_none_wrong_pad": true,
+    "tokenizer_contract": "vocab130560_bos0_eos1_pad1",
+    "trust_remote_code": false
+  },
+  "model": null,
+  "optimizer_updates": 0,
+  "output_path": null,
+  "parser": {
+    "generated_r_executed": false,
+    "operation": "base::parse_only",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/source/experiments/training/reward_parse_only.R",
+    "sha256": "07f05d402274bbb2fdc5fdabd8a9713ba33b0b8e8005187b52f251846496d9fa",
+    "timeout_seconds": 5.0
+  },
+  "pilot_spec": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-train-finish-reward-rebind-v1/pilot/pilot-spec.json",
+    "sha256": "4b999be5ac51bcf9612bf420908cb6ff08b545803efb459f8fb6acef18a73bb3"
+  },
+  "root_admission": null,
+  "schema": "sepalith.rl11.expanded-signal-driver-config.v1",
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-rl-expanded-readiness-v1/source-manifest.json",
+    "manifest_sha256": "c6bf22f24e6187fb4a80e68fa9edc00f2bdd0f45ecc03725c042ebbf22a1b4e0"
+  },
+  "status": "prepared_model_binding_and_root_admission_required",
+  "training_data_binding": {
+    "candidates": 448,
+    "eligible_rows": 15006,
+    "pilot_groups": 112,
+    "reward_buffer_sha256": "dca94ce5c24e2c3842940b23ab6f4be6f967f8e83f99276b150f107703d0c22d",
+    "rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+  }
+}

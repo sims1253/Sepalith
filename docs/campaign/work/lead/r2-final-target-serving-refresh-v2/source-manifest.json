@@ -1,0 +1,42 @@
+{
+  "files": [
+    {
+      "bytes": 7465,
+      "mode": "0444",
+      "path": "analyze_refresh_v2.py",
+      "sha256": "e17d207e5e39f86d8e3122e486226bbe48ef74997f9a49796f747309216b893a"
+    },
+    {
+      "bytes": 3130,
+      "mode": "0444",
+      "path": "audit_gguf_norms.py",
+      "sha256": "f9f5e9471a610ff6e452670c802de893a48b8ddb7bb21639fda69bf80a70174c"
+    },
+    {
+      "bytes": 4908,
+      "mode": "0444",
+      "path": "build_spec_panels.py",
+      "sha256": "ba536d171c86d0d4a033ad8cca507ac356875d8379a3ce0e8277a1973bce74e8"
+    },
+    {
+      "bytes": 29219,
+      "mode": "0444",
+      "path": "paired_panel_probe_v2.py",
+      "sha256": "4b300264a6ce401df80a0dab7dca87243d432ad50ae269dc828560d19999c95b"
+    },
+    {
+      "bytes": 10480,
+      "mode": "0444",
+      "path": "prepare_refresh_v2.py",
+      "sha256": "be5599ed75635575aa54d65808f7450a298f1e8747ce58ceb00e82a0b2747d7e"
+    },
+    {
+      "bytes": 2349,
+      "mode": "0444",
+      "path": "probe_bound_v2.py",
+      "sha256": "ec2a13ee9c6495e213b131495c499aedda94e8c18fddcb7ac1ec25cd7787ef08"
+    }
+  ],
+  "identity_sha256": "0653dc0562f06575a36696e2408b7f50826a17bd84780d8b71cf85f1d194faa3",
+  "schema": "sepalith.r2.final-target-serving-refresh-source.v2"
+}

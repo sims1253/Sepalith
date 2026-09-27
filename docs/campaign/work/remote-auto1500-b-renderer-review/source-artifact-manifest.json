@@ -1,0 +1,240 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/REVIEW.md",
+      "bytes": 2932,
+      "sha256": "8bf648df88e67bb7b8ccd84b4360becea1428109b9ef14e42058b695c42f3b86"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/analyze_auto.mjs",
+      "bytes": 7989,
+      "sha256": "b40367cbd5bae372dee0cad4487f7425fcedfdc0a06153f4dbd9b883ad86ac4e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/analyze_renderer.mjs",
+      "bytes": 10464,
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/analyzer-stdout.json",
+      "bytes": 14910,
+      "sha256": "2d917cad3b387f0fc53690edfa926103c7e3389b7344e191daf2301979fb4c7e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/inspect_actual.py",
+      "bytes": 5158,
+      "sha256": "993e3bd35dd37f46295f8ec55340060fedd5ef44ddf8a2a4d39d804fc420f600"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/pinned-renderer-pointer-source.json",
+      "bytes": 13887,
+      "sha256": "9e40deb1284dc7502fce368e8d1a55f50b5ca719d32dd0174ff2781222c08f65"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/pinned-renderer-zone-source.json",
+      "bytes": 33870,
+      "sha256": "21fa4f921972a3b10c1defb181f587baf0c8ddbbc63bd44e3aa0ddc08a4b74bc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/pull-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/pull_evidence.py",
+      "bytes": 3851,
+      "sha256": "09dd15f172682c5d0854a511db989ae080a7959f04594d37e2f8c5cd3444bc1b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/auto-analysis.json",
+      "bytes": 14910,
+      "sha256": "2d917cad3b387f0fc53690edfa926103c7e3389b7344e191daf2301979fb4c7e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/gateway-observations.jsonl",
+      "bytes": 283566,
+      "sha256": "5509b60c1d4c9d4000f7c1c6bb78e53c10030be01348b8ea8518856294f31ab4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/ghost-01.png",
+      "bytes": 62092,
+      "sha256": "001cd38004a063e64d33e3aab08a89c794ba7cd9c6fbb12d81e44eb830de77dc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/ghost-02.png",
+      "bytes": 75065,
+      "sha256": "f457fecf59791123f37d2102567261e0f0b80bb78e11b14bda543c823cb64437"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/ghost-03.png",
+      "bytes": 76627,
+      "sha256": "ce348fd7efc7b74a3ee83e875f90da23ba4bb8292e50dc4308d76cc70a607494"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/ghost-04.png",
+      "bytes": 80930,
+      "sha256": "66f8598f8ec56d15ef85205405d25c127aeb7013055b7f813343f917ccd44bc4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/harness-events.jsonl",
+      "bytes": 29590,
+      "sha256": "3646f60cfa1a1f333bbb14b57b452be18b079c9e3e224c98e0a3d6cc1779fae1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/host-process.json",
+      "bytes": 97,
+      "sha256": "7289a055b9b92c96eea9e27264d14e8d2e224147eb1d4a9049cbe867aa3ae992"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/host-result.json",
+      "bytes": 62041,
+      "sha256": "4667180c38286d89c807a214810da9053c38987768b41290ebf89870c65b5c32"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/host.stderr.log",
+      "bytes": 221,
+      "sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/host.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/input-request.json",
+      "bytes": 40,
+      "sha256": "00919a7cb94f70ec3735d0e9dd3ef52b756bf8233445c9a3c6f406ae5a389fe4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/input-result.json",
+      "bytes": 99,
+      "sha256": "f3625de00ed7216b50ce6c6960bcb022f07c0b923e4f13c5a07ac20caff71fbc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/install.json",
+      "bytes": 97,
+      "sha256": "7ca7683603f97cf503fdd33da24772967b061e18366ddc0b317ad7e020af9863"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/install.stderr.log",
+      "bytes": 302,
+      "sha256": "74276d1b7c9c0c6c7c2b9e3061c9528342ea54832769db47a498784e7314f16e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/install.stdout.log",
+      "bytes": 80,
+      "sha256": "c7747a63358f0767a5547497a9ed26ac0310f30c36ef55a150a79b62f8dc08fd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/launch.json",
+      "bytes": 892,
+      "sha256": "e19e83b1802d235e8a527c76b2a629880a511c96ea36edb43923b1f8ef522940"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/preflight.json",
+      "bytes": 1437,
+      "sha256": "1becc2651f72141a9a8c6c5716488c6cc6340876efee756f6ae9386b09471499"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/renderer-frames.jsonl",
+      "bytes": 1947360,
+      "sha256": "18f54eec8d44a507e43c8e21ab899c50be3d13ae3190f1d7a388a703b37cf51d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/renderer-inputs.jsonl",
+      "bytes": 1821,
+      "sha256": "2d76360ab4cc21723af74991f3841d3846bb2cbca47bd8e2d2e59afc2b83858b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/renderer-observer.json",
+      "bytes": 1626,
+      "sha256": "7a951415346c77271b432492b76efb86b0f3c9b94f0844589750587502b9ebcc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/renderer-ready.json",
+      "bytes": 753,
+      "sha256": "734f3ceb1d788d1ee7b9264f417706820a010a80c708d749572fbf9f8e8dafd3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/renderer-result.json",
+      "bytes": 1450,
+      "sha256": "6b05255957a479775598a76786fd0bd227912b0c4317d76b3be4a1bbce40b9eb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/retained-evidence.json",
+      "bytes": 140,
+      "sha256": "1e6a339390a7c1dc619b081ef8a98720d81a8f96d0b35be8d19f3f6a24db1896"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/run-result.json",
+      "bytes": 271,
+      "sha256": "97a5e357334266e1a83f16e68a7994e474b3d681a2edbc147127d44f5a44ae53"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote/runtime-status.json",
+      "bytes": 130,
+      "sha256": "7c682016ad2f23e185560ce8e7937c5e02f594ef2ed6bcc11628792fc05dbb20"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/remote-capsule-verification.json",
+      "bytes": 3859,
+      "sha256": "7fe02d3ec6f65840834a3edc930eeca361af250055710f394c10ba4cef60ddac"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/renderer-analysis.json",
+      "bytes": 2897,
+      "sha256": "6cfbcdd9f56fae163c50b459332c9c87e5df79a278d30f200c47a4ac900f1512"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/renderer-analyzer-stdout.json",
+      "bytes": 2897,
+      "sha256": "6cfbcdd9f56fae163c50b459332c9c87e5df79a278d30f200c47a4ac900f1512"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/review.json",
+      "bytes": 28742,
+      "sha256": "1405f05a252546485d7c41a2887e4db82fe5b122869e0f03450cc9f8ef56c558"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/source-manifest.json",
+      "bytes": 9343,
+      "sha256": "4da536ec3c6d9eac73f30e2c3dc9a7aa38fb706a1abf01861b31cbc0d12742d5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/supervision/launch.json",
+      "bytes": 1378,
+      "sha256": "ac3899075cbb19d59f0d1702ad724f32547076e6ba40e3feff4bc55616d72b47"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/supervision/owned-process-history.json",
+      "bytes": 14975,
+      "sha256": "93f7465eb833b5cbed50eb3dad3686776dab48c2a3f17ebab34594a1b59056cd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/supervision/owned-processes.json",
+      "bytes": 2231,
+      "sha256": "80ae20c83dc32bb979ee0f9f84429d3ed04068c4e3a064c54daecacaa4f5cc11"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/supervision/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/supervision/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/supervision/terminal.json",
+      "bytes": 307,
+      "sha256": "b9b1575abcc86b635699d715f0e45f0a4a0aef01cd8a76ada43975984ca7d172"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto1500-b-renderer-review/verify_deployed.py",
+      "bytes": 1360,
+      "sha256": "da2f66194c0bf010cc0bbaa02180ba520248fdfa3cb8d92507105e006dc07b0e"
+    }
+  ]
+}

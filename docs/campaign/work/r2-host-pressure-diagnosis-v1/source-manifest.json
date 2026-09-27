@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "files": {
+    "README.md": {
+      "sha256": "e7246c8547a12876c1373fe33dd5cc1730a54417792c2234160b64cb4af03850",
+      "bytes": 2871
+    },
+    "diagnose.py": {
+      "sha256": "6213e4c2bb2a3478358236078b22d9f0aba9448e9008036735a157456a89865d",
+      "bytes": 6059
+    },
+    "sample_host_memory.py": {
+      "sha256": "b7315b459ce19fe77c126a20fbfe0e64df99ad5a2536e5a41a8b0de26a4c020b",
+      "bytes": 10897
+    },
+    "test_sampler.py": {
+      "sha256": "ab8c68bee64b787a29747a71d30fac5941f0ea87f3bbd77681ab3918231b837b",
+      "bytes": 4780
+    }
+  }
+}

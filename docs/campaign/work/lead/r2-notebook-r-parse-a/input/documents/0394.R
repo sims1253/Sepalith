@@ -1,0 +1,73 @@
+GetIbovStocks <- function(
+  do.cache = TRUE,
+  cache.folder = file.path(tempdir(), 'BGS_Cache'),
+  max.tries = 10
+) {
+  # warning note:
+  # https://github.com/msperlin/BatchGetSymbols/issues/25
+
+  warning(paste0(
+    "IBOV data is no longer available from the exchange site. ',
+                 ' if you know a different and RELIABLE source of Ibov composition, let me know at <https://github.com/msperlin/BatchGetSymbols/issues/25>.",
+    "Also, you can manually download a csv file with the current composition from B3 in <https://www.b3.com.br/pt_br/market-data-e-indices/indices/indices-amplos/indice-ibovespa-ibovespa-composicao-da-carteira.htm>"
+  ))
+
+  cache.file <- file.path(
+    cache.folder,
+    paste0('Ibov_Composition_', Sys.Date(), '.rds')
+  )
+
+  # get list of ibovespa's tickers from wbsite
+
+  if (do.cache) {
+    # check if file exists
+    flag <- file.exists(cache.file)
+
+    if (flag) {
+      df.ibov.comp <- readRDS(cache.file)
+      return(df.ibov.comp)
+    }
+  }
+
+  for (i.try in seq(max.tries)) {
+    myUrl <- 'http://bvmf.bmfbovespa.com.br/indices/ResumoCarteiraTeorica.aspx?Indice=IBOV&idioma=pt-br'
+    #df.ibov.comp <- XML::readHTMLTable(myUrl)[[1]]
+    df.ibov.comp <- as.data.frame(XML::readHTMLTable(myUrl))
+
+    Sys.sleep(0.5)
+
+    if (nrow(df.ibov.comp) > 0) break()
+  }
+
+  names(df.ibov.comp) <- c(
+    'tickers',
+    'ticker.desc',
+    'type.stock',
+    'quantity',
+    'percentage.participation'
+  )
+
+  df.ibov.comp$quantity <- as.numeric(stringr::str_replace_all(
+    df.ibov.comp$quantity,
+    stringr::fixed('.'),
+    ''
+  ))
+  df.ibov.comp$percentage.participation <- as.numeric(stringr::str_replace_all(
+    df.ibov.comp$percentage.participation,
+    stringr::fixed(','),
+    '.'
+  ))
+
+  df.ibov.comp$ref.date <- Sys.Date()
+  df.ibov.comp$tickers <- as.character(df.ibov.comp$tickers)
+
+  if (do.cache) {
+    if (!dir.exists(cache.folder)) {
+      dir.create(cache.folder)
+    }
+
+    saveRDS(df.ibov.comp, cache.file)
+  }
+
+  return(df.ibov.comp)
+}

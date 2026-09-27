@@ -1,0 +1,153 @@
+{
+  "checkpoint_storage": {
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-lr3e-6-v1",
+    "c_hot_stage": "not_admitted",
+    "mode": "e_same_filesystem_atomic",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-representative-lr3e-6-v1/runtime"
+  },
+  "cohort": {
+    "documents": 1024,
+    "draw_schedule": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-representative-full-doc-pilot-v1/draw-schedule.json",
+      "sha256": "5649b14a58213ddf95d25b6068999a48fbcdb51f01acaf67303682b3fdfbc212"
+    },
+    "id": "CPT-representative-full-doc-pilot-v1",
+    "input_tokens": 2578086,
+    "loss_tokens": 2576996,
+    "manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-representative-full-doc-pilot-v1/selection-manifest.json",
+      "sha256": "202fbc8632415b156096f19180eb3922241c5d1617d723083473653af8583e41"
+    },
+    "max_sequence_tokens": 16384,
+    "named_replays": 10,
+    "packages": 814,
+    "payload_tokens": 2575972,
+    "rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-representative-full-doc-pilot-v1/cpt_train_ctx16384.jsonl",
+      "sha256": "0d71f1b7b519281c6d063c64083505b1c730d30edda7cbd86dc0124e7fb1caaf"
+    },
+    "scope": "representative_complete_documents_diagnostic_not_all_eligible_corpus",
+    "unique_rows": 1046,
+    "updates": 66
+  },
+  "data_admission": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-representative-diagnostic-data-admission.json",
+    "sha256": "12617952b47c6ca41a7e8fadf84825c840c826b98e192e099cb37633fb561794"
+  },
+  "dtype_audit": {
+    "helper_source_sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-full-weight-dtype-audit.json",
+    "sha256": "8961dfb937256c11f0d9d71a4827f5b284b0dfa700afcbf236a260e2047349f1"
+  },
+  "launch_authorized": true,
+  "optimizer_dispatch": {
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-lr3e-6-v1",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-CPT-representative-lr3e-6-v1-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-representative-lr3e-6-v1/runtime"
+  },
+  "parent": {
+    "available": true,
+    "candidate_evidence": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-cloud1902-CPU-merge-root-readout.json",
+      "sha256": "b0b20aabe9142d62941c4e665e840ed3fea55233291b0bf9f7a6a4ad02fa719d"
+    },
+    "candidate_id": "cloud_cpt1902_merged",
+    "diagnostic_parent_decision": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-cloud1902-parent-root-decision.json",
+      "sha256": "221bfb9c8e070a2bd671c3d76bacbab65b9ce8adee805a9c3fc76417b8d1b9a7"
+    },
+    "files": {
+      "chat_template.jinja": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c",
+      "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+      "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+      "model.safetensors": "91dea1c099102ec743a4bdf940bbf9ece85f253d3998913fefb0f2bae830aa27",
+      "parent-manifest.preparation.json": "247885394a95804c348dd82fa7883c04b2952cf5f667537c937d50177fbe0f8d",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    "kind": "merged_cpt_parent",
+    "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-CPT-cloud-1902-merged-candidate-v1",
+    "quality_selected": false,
+    "saved_precision": {
+      "bf16_tensors": 381,
+      "fp32_elements": 0,
+      "fp32_tensors": 0,
+      "identity_source": "SFT-11-cloud1902-CPU-merge-root-readout.json sha256 b0b20aabe9142d62941c4e665e840ed3fea55233291b0bf9f7a6a4ad02fa719d"
+    }
+  },
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true,
+    "trainer_save_total_limit": 2
+  },
+  "root_admission": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-representative-lr3e-6-root-v1/root-admission.json",
+    "sha256": "fd33b1fa12553971f297ffac2f01d2ecc7c7c29ce165040e1af4e0edfe725f40"
+  },
+  "runtime": {
+    "checkpoint_every": 24,
+    "effective_batch": 16,
+    "evaluation_steps": [
+      24,
+      66
+    ],
+    "gradient_accumulation": 16,
+    "learning_rate": 3e-06,
+    "mandatory_stop_step": 24,
+    "max_steps": 66,
+    "micro_batch": 1,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 3e-06,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 3e-07,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "parent_candidate_id": "cloud_cpt1902_merged",
+    "scheduler": "constant_with_warmup",
+    "selected_milestones": [
+      24,
+      48,
+      66
+    ],
+    "telemetry_every": 1,
+    "warmup_ratio": 0.030303030303030304
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-representative-bound.v3",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source-manifest.json",
+    "manifest_sha256": "e4962fbbc9cc7e99d7168a7632db7e0094415db1cdb3e5651b01d50535755efc"
+  },
+  "source_quality": {
+    "note": "The inherited full-weight CPT source path preserves reviewed mechanics. Prior source/pilot results do not constitute a target-quality promotion.",
+    "status": "reviewed_mechanics_not_model_quality_promoted"
+  },
+  "status": "root_admitted_not_launched",
+  "validation": {
+    "edit_dev_or_final": false,
+    "max_sequence_tokens": 2048,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "role": "fixed_package_heldout_train_causal_comparator",
+    "rows": 499,
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  }
+}

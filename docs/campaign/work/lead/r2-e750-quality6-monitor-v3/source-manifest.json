@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "bytes": 5175,
+      "path": "monitor-summary.json",
+      "sha256": "3b49c29efa92ee144c26ab028b1ef4e584066fffcce690af7ad71fffd64f2812"
+    }
+  ],
+  "schema": "sepalith.run06.e750-quality6-monitor-v3.source-manifest.v1",
+  "status": "monitor_window_complete_run_active_cap768"
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "sepalith.cloud-cpt.tar-persistence-monitor-root-authorization.v2",
+  "authorized": false,
+  "job_id": "prodjob_neqwkumat4i3rii5yl8af241ks",
+  "run_id": "4f899bbc6e9d46c0a88985d64e6d40e2",
+  "parent_pid": 4588,
+  "parent_start_tick": 7757,
+  "action": "launch_bounded_tar_monitor_v2"
+}

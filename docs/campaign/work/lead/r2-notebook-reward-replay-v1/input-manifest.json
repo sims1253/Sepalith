@@ -1,0 +1,71 @@
+{
+  "artifacts": {
+    "contexts.jsonl": {
+      "bytes": 387195,
+      "sha256": "b825ddc525f142c270fc10da94a476e176c3eb25687e7f95e0ca59d8b0945c4a"
+    },
+    "outputs.jsonl": {
+      "bytes": 125967,
+      "sha256": "32f4e883283e5b6f7e23a5148ecf13c8d50662d9e269302f94dfb443fc0980d5"
+    },
+    "recorded-rewards.jsonl": {
+      "bytes": 156208,
+      "sha256": "cfd2377254fc523fda18f8f0e0f93ac16d3eac95e38af36f1eb533ab3acadd0f"
+    },
+    "tokenizer.json": {
+      "bytes": 9894271,
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  },
+  "constraints": {
+    "full_context_dump_staged": false,
+    "generated_r_execution": false,
+    "model_generation": false
+  },
+  "rows": {
+    "candidates_per_context": 4,
+    "contexts": 80,
+    "outputs": 320,
+    "recorded_rewards": 320
+  },
+  "schema": "sepalith.rl08.reward-replay-inputs.v1",
+  "source_pins": {
+    "campaign_protocol.py": {
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    "campaign_rl_train.py": {
+      "bytes": 100843,
+      "sha256": "95e88ee22f5b8636cd6ffb8e2c21fadcb74a4f58e9e5c267217a8a47bda35c83"
+    },
+    "context-sidecar.jsonl": {
+      "bytes": 82236821,
+      "sha256": "265b80762efc9544230f1aba09e492906760e98a34431593fdeb4813d6e169ac"
+    },
+    "eligible-train-rows.jsonl": {
+      "bytes": 76614021,
+      "sha256": "7e9cf35e8ecbf1af151df78bfc42c07d7b1d24f6ab82ec47770463d967fe9465"
+    },
+    "generation-records.jsonl": {
+      "bytes": 2178327,
+      "sha256": "dc69a6cdf30881f488b9e774f1799dc6815a6107d51ca5c9569fbd2fb484b742"
+    },
+    "recipe.json": {
+      "bytes": 71710846,
+      "sha256": "13ae035d539e974b4fc2dfd4d17b2069d3d90f2b57666d9ad71e2f410d336dd0"
+    },
+    "reward-records.jsonl": {
+      "bytes": 167374,
+      "sha256": "9e4d1c3146ae9a9b7b14b5c02ab190a3cb47911a0a425cabcc326a401d98f857"
+    },
+    "source-row-draw-sequence.json": {
+      "bytes": 769484,
+      "sha256": "7e82f42eafa97bbb07a410ff2e4078cc96744cc45933f1167f7ebc3fbd558e98"
+    },
+    "tokenizer.json": {
+      "bytes": 9894271,
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  },
+  "status": "materialized_from_pinned_existing_rollouts"
+}

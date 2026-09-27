@@ -1,0 +1,125 @@
+{
+  "schema": "sepalith.r2.notebook-quant-eval-packet.v1",
+  "status": "root_hash_binding_required",
+  "task": "RUN-10/REL-07",
+  "host": "m0hawk@192.168.178.40",
+  "resource": {
+    "backend": "cpu",
+    "cpu_list": [0, 2],
+    "maximum_threads": 2,
+    "per_arm_max_seconds": 330,
+    "suite_max_seconds": 1320
+  },
+  "remote": {
+    "binary": "/home/m0hawk/.local/share/sepalith-campaign-20260915/build-b10453-avx2/bin/llama-server",
+    "binary_sha256": "e68d96b6dbc7f4ef3bed329f4f7cf146283cb10f443747e7fa5208078f2d69f6",
+    "model_root": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/models",
+    "packet_root": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/work/r2-notebook-quant-eval-v1-final",
+    "run_root_prefix": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/runs",
+    "host_address": "127.0.0.1",
+    "port": 18407
+  },
+  "models": {
+    "q8": {
+      "path": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/models/model-Q8_0.gguf",
+      "bytes": 2679710496,
+      "sha256": "__ROOT_BIND_Q8_SHA256__"
+    },
+    "q4_calibrated": {
+      "path": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/models/model-Q4_K_M-imatrix.gguf",
+      "bytes": 1561318560,
+      "sha256": "__ROOT_BIND_Q4_CALIBRATED_SHA256__"
+    },
+    "iq3": {
+      "path": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/models/model-IQ3_M-imatrix.gguf",
+      "bytes": 1226310816,
+      "sha256": "__ROOT_BIND_IQ3_SHA256__"
+    },
+    "iq2": {
+      "path": "/home/m0hawk/.local/share/sepalith-quant-eval-v1/models/model-IQ2_M-imatrix.gguf",
+      "bytes": 970843296,
+      "sha256": "__ROOT_BIND_IQ2_SHA256__"
+    }
+  },
+  "launch": {
+    "environment": {
+      "OMP_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "BLIS_NUM_THREADS": "2"
+    },
+    "argv_template": [
+      "/usr/bin/taskset", "--cpu-list", "0,2",
+      "{binary}", "-m", "{model_path}",
+      "--host", "127.0.0.1", "--port", "18407",
+      "-t", "2", "-tb", "2", "--threads-http", "1",
+      "--parallel", "1", "-c", "4096", "-b", "256", "-ub", "256",
+      "-ngl", "0", "-lv", "4", "--metrics"
+    ],
+    "health_path": "/health",
+    "metrics_path": "/metrics",
+    "ready_timeout_seconds": 120
+  },
+  "panel": {
+    "path": "../r2-q4-pair-v1/panel.jsonl",
+    "manifest": "../r2-q4-pair-v1/manifest.json",
+    "probe": "../r2-q4-pair-v1/probe.py",
+    "panel_sha256": "6739323b8a8d5d94dd0e386f8fdedc35a6e09595907908d04a43d0851ac1c197",
+    "manifest_sha256": "9480ab4946d636a9b6e430afb3532220c9152ac8eec8a44cd375e47dc14bf6ae",
+    "probe_sha256": "fc4d348fa0341d007bce862f877ff1140c0515de785137b1d2c8004d1db98920",
+    "split": "train",
+    "contains_dev_or_final": false
+  },
+  "v1": {
+    "rows": 8,
+    "quality_phase": "cold",
+    "phases": ["cold", "warm"],
+    "deadline_ms": 5000,
+    "diagnostic_deadline_ms": 60000,
+    "diagnostic_max_failed_rows": 1,
+    "context": 4096,
+    "cap": 192,
+    "greedy": true,
+    "requests_per_arm": 16,
+    "quality_denominator_per_arm": 8
+  },
+  "v2_later": {
+    "authorized_now": false,
+    "rows": 45,
+    "arms": ["q8", "v1_winner"],
+    "purpose": "broader TRAIN confirmation of the V1 winner against Q8 at the ordinary six-thread notebook profile",
+    "cpu_list": [0, 2, 4, 6, 8, 10],
+    "maximum_threads": 6,
+    "argv_template": [
+      "/usr/bin/taskset", "--cpu-list", "0,2,4,6,8,10",
+      "{binary}", "-m", "{model_path}",
+      "--host", "127.0.0.1", "--port", "18407",
+      "-t", "6", "-tb", "6", "--threads-http", "2",
+      "--parallel", "1", "-c", "4096", "-b", "256", "-ub", "256",
+      "-ngl", "0", "-lv", "4", "--metrics"
+    ],
+    "interpretation": "The two-thread V1 is a bounded independent screen, not the notebook performance ceiling.",
+    "requires_new_root_admission": true
+  },
+  "preserve": {
+    "b4_recovery_settings": {
+      "path": "/home/m0hawk/.local/share/sepalith-b4-rollback/user-data/User/settings.json",
+      "sha256": "d61ebc8558b05a3310a0473210ee68384e3fc55159403663d2d1af6fe9f34250"
+    },
+    "ordinary_r2_editor_binding": {
+      "path": "/home/m0hawk/.local/share/sepalith-r2-step500-checks/current-binding.json",
+      "sha256": "48282617c3eaf2775887d8df66c98c4751bbdff646a6ec3cb0bd0fb4ddf9e084"
+    },
+    "editor_port": 18403,
+    "policy": "read and hash only; do not write profiles, user-data, extensions, editor runs, or port 18403"
+  },
+  "result_contract": {
+    "five_second_results": "deadline-5000.json",
+    "diagnostic_results": "diagnostic-60000.json",
+    "telemetry": "telemetry.jsonl",
+    "launch_identity": "launch.json",
+    "terminal_identity": "terminal.json",
+    "quality": "cold strict target text and target-operation agreement; warm is latency only; no context-aware false-suggestion claim",
+    "timing": "server prompt_ms/predicted_ms plus client TTFT/completion/end-to-end; never substitute diagnostic latency into 5-second results"
+  }
+}

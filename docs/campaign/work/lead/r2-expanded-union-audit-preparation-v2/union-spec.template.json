@@ -1,0 +1,12 @@
+{
+  "schema": "sepalith.sft11.expanded-union-audit.v2",
+  "status": "template_partial_fail_closed",
+  "training_admission": false,
+  "cohorts": [
+    {"name":"accepted_current_20191","input_rows":20191,"candidate_rows":20191,"terminal_manifest":null,"token_rows":null,"provenance_rows":null,"decision_ledger":null,"decision_status_classes":null,"partition_counts":null,"unbound_reason":"root must bind all stable token and provenance files to reviewed manifests"},
+    {"name":"finalized_semantic10948","input_rows":10948,"candidate_rows":10682,"terminal_manifest":{"path":"/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/final-01/manifest.json","sha256":"c86e3bc3a402f4f568295a0dcd15fca6dfe6046ce6e7fb60844e25d505eb370f","rows":1},"token_rows":null,"provenance_rows":null,"decision_ledger":null,"decision_status_classes":{"candidate":["new_candidate"],"hold":["provider_or_policy_hold"],"exact_duplicate":[]},"partition_counts":{"candidate":10682,"hold":266,"exact_duplicate":0},"unbound_reason":"root must fill exact manifest-derived file pins"},
+    {"name":"eventual_semantic9534","input_rows":9534,"candidate_rows":null,"terminal_manifest":null,"token_rows":null,"provenance_rows":null,"decision_ledger":null,"decision_status_classes":null,"partition_counts":null,"unbound_reason":"terminal materializer candidate and decision counts unknown"},
+    {"name":"noop4100","input_rows":4100,"candidate_rows":null,"terminal_manifest":null,"token_rows":null,"provenance_rows":null,"decision_ledger":null,"decision_status_classes":null,"partition_counts":null,"unbound_reason":"terminal materializer candidate and decision counts unknown"}
+  ],
+  "geometry_policy":"missing geometry remains named unresolved and is not silently excluded"
+}

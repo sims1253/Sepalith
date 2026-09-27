@@ -1,0 +1,69 @@
+{
+  "captured_at": 1789326105.478237,
+  "files": [
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt.py",
+      "sha256": "a7b854c493a41421100fbd2c8a40c2f15315c6001e5af3901fb1e6f480d80eb0"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt_data.py",
+      "sha256": "428fc5d6983f7ae9351857501b8c4ac6e0e85935a5e5d37c0b424f3ff35e975e"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt_eval.py",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_launch.py",
+      "sha256": "c54e97c8f31f61eaba8781c757fe5bfbcbbe8891ed8c9c4c583db19b37265905"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_sft.py",
+      "sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/target_only_gate.py",
+      "sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "git_head": "d7f2aa94981d57cd51f5dfd6573e4407e083ff94",
+  "id": "5149a4065285c681c2230352e5847b861e2ad2e416c8c263131a557e48bd23ca",
+  "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-b/reviewed-source",
+  "schema_version": 1
+}

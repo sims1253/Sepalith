@@ -1,0 +1,33 @@
+{
+  "status": "DEV_only_cap_experiment_preparation",
+  "source_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+  "recorded_native_prompts_sha256": "a68190b6d87e175f01073021b16c1c8e16d57226b2d95977f2ad908e5a2fd2e3",
+  "rows": 75,
+  "caps": [
+    192,
+    384,
+    512
+  ],
+  "context": 4096,
+  "deadline_ms": 5000,
+  "expected_requests": 225,
+  "all_cases_retained": true,
+  "over_reference_cap": {
+    "192": [
+      "dat07-existing-2838b904f1e44b7440e6da9f",
+      "dat07-existing-06847c759fd32bdf16f2e598",
+      "d11581e9cfa4e3971aa1466e"
+    ],
+    "384": [
+      "dat07-existing-2838b904f1e44b7440e6da9f",
+      "dat07-existing-06847c759fd32bdf16f2e598"
+    ],
+    "512": []
+  },
+  "context_budget_failures": {
+    "192": [],
+    "384": [],
+    "512": []
+  },
+  "scope": "All75DEVcases; eachsamepromptids, ordinaryQ8weights; fixed5s combineddeadline. Larger caps diagnostic, not serving promotion."
+}

@@ -1,0 +1,56 @@
+{
+  "output_files": {
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/r-scope-output.jsonl": {
+      "bytes": 3533235,
+      "sha256": "577f95f7b9de06b5e562ce208ae316ad13eefd25f89abecd3cf426ba4f37c79d"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/r-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/recoverable-ids.json": {
+      "bytes": 31625,
+      "sha256": "01637d4c5341d25bb8994470eec7621c506dc1d0b403119355e2897bb13ddb18"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/representative-evidence.json": {
+      "bytes": 51319,
+      "sha256": "be2bce9118f00f19eefb9c30b8adca2cff2d0edd81f4bb52eecf6df5671a53ab"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/retained-hold-ids.json": {
+      "bytes": 41377,
+      "sha256": "bda355d7026e0bc23e5446646af8ecbdb004265928fd56459341382a3c9236f2"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/scope-ledger.jsonl": {
+      "bytes": 3533235,
+      "sha256": "dfbb2b90f8c2976fda9e257dad326cb96d6aa18dca92ca438d20f7576ab8ee56"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-loop-scope-review-v1/summary.json": {
+      "bytes": 3115,
+      "sha256": "139070c25ca7263281483b2cddf77085f5ea60f381ce3af76dbe2e4381436489"
+    }
+  },
+  "schema": "sepalith.dat10.roxy-loop-scope-artifact-manifest.v1",
+  "source_files": {
+    "docs/campaign/work/lead/r2-roxy-loop-scope-review-v1/loop_scope_audit.R": {
+      "bytes": 5827,
+      "sha256": "a7ed671b2cfc493885a2dc613cb02817d46075705e9617c5777f18e8150b3f4e"
+    },
+    "docs/campaign/work/lead/r2-roxy-loop-scope-review-v1/review-conclusions.json": {
+      "bytes": 2227,
+      "sha256": "6493cbe3b7ecf23aaebef04198b433fad226bcfeb0a7fc44f3599fb79bb8e11a"
+    },
+    "docs/campaign/work/lead/r2-roxy-loop-scope-review-v1/run_review.py": {
+      "bytes": 5155,
+      "sha256": "7aa17462a189d016087535719ceb5a5eecc9b26d5deea04f4adae3c1277e70cd"
+    },
+    "docs/campaign/work/lead/r2-roxy-loop-scope-review-v1/test-evidence.json": {
+      "bytes": 385,
+      "sha256": "9e05803aed765062db0bc70b2099bc452a52f8cce983ddcd65824c210a4842e8"
+    },
+    "docs/campaign/work/lead/r2-roxy-loop-scope-review-v1/test_loop_scope_audit.py": {
+      "bytes": 1331,
+      "sha256": "65e066793a7bc40f3241c590d2ac43d75d96660ae1154c7bf5d84bebb8a95e8c"
+    }
+  },
+  "status": "frozen_review_packet"
+}

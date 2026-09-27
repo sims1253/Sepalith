@@ -1,0 +1,9 @@
+{
+  "bound_recipe_sha256": null,
+  "checkpoint": null,
+  "checkpoint_manifest_sha256": null,
+  "decision": null,
+  "schema": "sepalith.sft11.cpt-stage-transition-continuation-admission.v1",
+  "status": "pending",
+  "step": null
+}

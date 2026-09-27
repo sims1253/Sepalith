@@ -1,0 +1,74 @@
+[
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/terminal.json",
+    "path": "desktop/terminal.json",
+    "bytes": 940,
+    "sha256": "0554fe530ba11da298d39cece383fd34a8160d48f86ddcd4c520a9e1c7164806"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/remote-command-terminal.json",
+    "path": "desktop/remote-command-terminal.json",
+    "bytes": 103,
+    "sha256": "1585c288a5ffb35867edc310262f02f95e4cd6a713c6955a82b3834d6b3a3a09"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/native-maps.txt",
+    "path": "desktop/native-maps.txt",
+    "bytes": 28363,
+    "sha256": "cbb7893fa727a898f59615fcb5718854c19ecbec12651e15af838144b8e933aa"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/native.log",
+    "path": "desktop/native.log",
+    "bytes": 40675,
+    "sha256": "3ccb060e27ae1e767920a80568f4476c2ed7c8474b5194f2593d911237e36eaa"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/gateway-events.jsonl",
+    "path": "desktop/gateway-events.jsonl",
+    "bytes": 1463649,
+    "sha256": "bc49a54e73b49315c0932c1f449efe12fba0634b35c4d1552ad1ea60cb99a983"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/native-identity.json",
+    "path": "desktop/native-identity.json",
+    "bytes": 195,
+    "sha256": "9a89555113b9d13fa96ddb2f1de0479c805a947bfc7006da14c6e3011d32afe5"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/gateway-launch.json",
+    "path": "desktop/gateway-launch.json",
+    "bytes": 501,
+    "sha256": "bac503602bbe31102ac923c544bf10018530cc7dd9e20f753bc19837a43e6095"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/gateway-ready.json",
+    "path": "desktop/gateway-ready.json",
+    "bytes": 377,
+    "sha256": "ef986895c8adef06ff848526970c08acd58b8d1549c875d152cf260a1a3962df"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/native-launch.json",
+    "path": "desktop/native-launch.json",
+    "bytes": 712,
+    "sha256": "af882471112577145b4ac4ed7554cab3e2a85283949fcd16fc313c4afa354c78"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/props.json",
+    "path": "desktop/props.json",
+    "bytes": 11795,
+    "sha256": "7e1eb08c2227f985a59bf2960af89f1bb8a6bbbfaab0c9d7a6edcbdc6d2897f0"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/gateway-config.json",
+    "path": "desktop/gateway-config.json",
+    "bytes": 6931,
+    "sha256": "ac936166256a43b8ca27f39e69fd1b3e2a0d416a0a957d0c2ed24fbdf5c0629f"
+  },
+  {
+    "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-04-remote-auto350-c/launch.json",
+    "path": "desktop/launch.json",
+    "bytes": 322,
+    "sha256": "1faa8621fb47705243a621b0b4c9b175384737fe0e00521a91211060248fb10c"
+  }
+]
