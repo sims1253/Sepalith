@@ -14,6 +14,20 @@ The [selection receipt](SFT-11-editing-parent-selected-11586.json) binds the
 checkpoint, model and tokenizer hashes. Both retained full checkpoints passed
 payload-hash and sampler-cursor verification during the comparison.
 
+## Model
+
+The checkpoint is a dense `LlamaForCausalLM` from the MiniCPM5-2B lineage. It
+is not the Qwen3.5 gated-DeltaNet hybrid used in the earlier LoRA experiments.
+Its `config.json` lists 42 layers, hidden size 2048, 16 attention heads with 2
+key-value heads, a 130,560-token vocabulary, untied embeddings and
+end-of-generation ids 1 and 130073. Training updates all 2,516,756,480
+parameters, and the full-weight optimizer state takes 12.2 GB.
+
+The Qwen3.5-specific dtype failures in the
+[Kaggle notes](../../research/2026-09-06-kaggle-compute-integration.md) do not
+apply to this model. Kaggle's 16 GB T4 GPUs still cannot hold its full-weight
+training state.
+
 ## Checkpoint comparison
 
 Lower held-out causal loss is better. Both checkpoints used identical cases,
@@ -36,6 +50,10 @@ See the [paired comparison](comparison.json),
 The sealed final editing evaluation was not accessed.
 
 ## Next stage
+
+The [post-CPT plan](../plan-20260927/README.md) supersedes the preparation
+notes below where they conflict. It audits these packets, fixes their known
+problems and splits the remaining work into hand-off cards.
 
 The prepared full-weight editing-SFT packet needs its parent and training recipe
 bound to this selection. The reviewed baseline contains 15,006 examples with

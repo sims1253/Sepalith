@@ -6,6 +6,10 @@ evaluation. The prompt format is Zeta-2 (background:
 [edit prediction at Zed](https://zed.dev/blog/edit-prediction)); the trained
 model is scored with `../eval/run_eval.py --model zeta2`.
 
+This README covers the LoRA research pipeline. The production model is trained
+full-weight by a separate campaign runtime; see the
+[production training handoff](../../docs/training/production-20260927/README.md).
+
 Products: checkpoints and the final LoRA under
 `/mnt/h/sepalith/runs/sft_v1_<model>/`, and `<stem>-Q8_0.gguf` under
 `experiments/models/`.
