@@ -1,0 +1,9 @@
+{
+  "at": "2026-09-26T06:06:11.063423+00:00",
+  "state": "stopped_at_safe_boundary",
+  "supervisor_pid": 671518,
+  "step": 11649,
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-cpt450-cadence64-to706-v1/runtime/checkpoint-11649",
+  "reason": "cpt_schedule_complete",
+  "deadline": 1790419866.1723258
+}

@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-24T10:51:06.174654+00:00",
+  "authorization": "User authorized another 48 hours on 2026-09-24",
+  "deadline_epoch": 1790419866.1723258,
+  "deadline_local": "2026-09-26T12:51:06.172326+02:00",
+  "resume_step": 5954,
+  "max_steps": 11649,
+  "changes": [
+    "extend availability by48h",
+    "allow planned max_steps as explicit final save boundary; all other admission checks retained"
+  ],
+  "unchanged": [
+    "training recipe",
+    "optimizer and scheduler",
+    "data schedule",
+    "memory guards",
+    "checkpoint cadence64",
+    "evaluation cadence512"
+  ],
+  "tests": "Terminal boundary and regular cadence accepted; off-cadence nonterminal, out-of-range, nonadvancing and denied admissions rejected; final save and stop confirmed",
+  "files": {
+    "supervise_extension48.py": "a8d28f20012f5471c19f30aab377f7636e5965aff8f85b71a7d0c8355533f214",
+    "terminal_entry.py": "37b30f93628891980f46450d7f0c4404248807b3ac271b49be20130bfed055e4",
+    "run_extension_allocator.py": "1c82139552b3b290f30bd8a080b88c01ec3f104645755ff468f3c4fa923a8439",
+    "cache_maintenance.py": "aecf332e318d91e3c299370d80c95d1b1f7a18b87ef02b000a69e7ff246f3052",
+    "recipe.json": "91ec0444f288afad77ad834d0156e76d3483fb0953400556cfa2abde9e1d6387"
+  }
+}

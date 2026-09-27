@@ -1,0 +1,79 @@
+{
+  "scope": "CPT held-out causal loss, not editing or sealed final evaluation",
+  "panels": {
+    "anchor2k": {
+      "loss11586": 0.9419698406022244,
+      "loss11649": 0.9443496028509104,
+      "delta_final_minus_earlier": 0.002379762248685968,
+      "relative_increase_percent": 0.2526367773265997,
+      "row_wins": {
+        "11649": 135,
+        "11586": 364
+      },
+      "packages": 50,
+      "package_bootstrap95_delta": [
+        0.0017903961510192315,
+        0.003044322698704821
+      ],
+      "denominators": {
+        "validation_rows": 499,
+        "validation_loss_tokens": 661360,
+        "validation_batches": 499
+      }
+    },
+    "8k": {
+      "loss11586": 0.7111039427066644,
+      "loss11649": 0.7116869823245505,
+      "delta_final_minus_earlier": 0.000583039617886083,
+      "relative_increase_percent": 0.08199077277885256,
+      "row_wins": {
+        "11586": 12,
+        "11649": 8
+      },
+      "packages": 8,
+      "package_bootstrap95_delta": [
+        -0.00012220672355838728,
+        0.0012038954253279419
+      ],
+      "denominators": {
+        "validation_rows": 20,
+        "validation_loss_tokens": 126464,
+        "validation_batches": 20
+      }
+    },
+    "16k": {
+      "loss11586": 0.7601667469246176,
+      "loss11649": 0.7610343184361399,
+      "delta_final_minus_earlier": 0.0008675715115222804,
+      "relative_increase_percent": 0.11412910588791036,
+      "row_wins": {
+        "11586": 6
+      },
+      "packages": 3,
+      "package_bootstrap95_delta": [
+        0.0005977888470025568,
+        0.0014791538745830947
+      ],
+      "denominators": {
+        "validation_rows": 6,
+        "validation_loss_tokens": 69137,
+        "validation_batches": 6
+      }
+    }
+  },
+  "checkpoints": {
+    "11586": {
+      "all_payload_hashes_verified": true,
+      "manifest_sha256": "30527935a15d3a158f5aaf6f8759183f1e9c2bb23fde7ed3df38feaa41991ab8",
+      "cursor": 184320,
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586"
+    },
+    "11649": {
+      "all_payload_hashes_verified": true,
+      "manifest_sha256": "121ada3f2b737394edfecae2337efb025eaceaf1b3295f78abdab9758687d54c",
+      "cursor": 185328,
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11649"
+    }
+  },
+  "recommendation": "11586 as provisional editing-SFT parent based on lower held-out loss on all panels; preserve11649 as completed-CPT alternate. Editing superiority untested."
+}
