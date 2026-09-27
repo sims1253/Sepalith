@@ -7,8 +7,8 @@
   "outputs": {
     "git_snapshot": {
       "path": "docs/campaign/",
-      "files": 7546,
-      "note": "Verbatim code and small manifests from the planning worktree plus state-dir supervisors; see docs/campaign/SNAPSHOT.md"
+      "files": 5455,
+      "note": "Code, notes and small manifests only; DEV-case/model-output R files and vendored third-party code (2,091 files) were removed from git and remain in the HF provenance tarball. See docs/campaign/SNAPSHOT.md"
     },
     "model_repo": {
       "id": "scholzmx/sepalith-2b-cpt",

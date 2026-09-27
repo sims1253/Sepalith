@@ -14,7 +14,7 @@ not be uploaded.
 ## Done in the planning session
 
 - A verbatim snapshot of the planning worktree's code and small manifests is in
-  `docs/campaign/`: 7,545 files, including the state-dir supervisors under
+  `docs/campaign/`: 5,455 files after removing DEV-case data and vendored code, including the state-dir supervisors under
   `docs/campaign/state-snapshot/resume-20260921/`. The snapshot excludes
   row-level data, vendored libraries, checkpoints and every path tied to the
   final set. One test file with a token-shaped fixture was left out.

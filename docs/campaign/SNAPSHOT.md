@@ -12,8 +12,11 @@ never been committed.
   the supervisor scripts from `~/.local/state/sepalith/resume-20260921/`
   (under `state-snapshot/`).
 - **Excluded:** row-level data (`*.jsonl`), large JSON (above 256 KB), logs,
-  checkpoints, vendored libraries and caches. Also excluded is every path
-  tied to the sealed final evaluation set.
+  checkpoints, vendored libraries and caches. Also excluded are R files that
+  hold DEV case inputs or model generations used by syntax checks, the
+  vendored CPython and `deepspec` copies, and every path tied to the sealed
+  final evaluation set. Only code, notes and small manifests remain: 5,455
+  files.
 - **Removed:** one test file with a token-shaped fixture was left out.
 - **Where the rest is:** receipts, logs and full manifests are in the public
   dataset `scholzmx/sepalith` at
