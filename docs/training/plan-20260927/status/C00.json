@@ -27,10 +27,11 @@
       "files": 27,
       "bytes": 5930000000,
       "forbidden_paths_found": [],
-      "readme_updated": true
+      "readme_updated": true,
+      "provenance_tarball_sha256": "1a524e78b833f126 (prefix; verified equal to the local build before cleanup)"
     },
-    "upload_script": "/mnt/e/sepalith/hf-staging/upload_secure_20260927.py",
-    "upload_log": "/mnt/e/sepalith/hf-staging/upload-20260927.log"
+    "upload_script": "docs/training/plan-20260927/receipts/upload_secure_20260927.py",
+    "upload_log": "removed with /mnt/e/sepalith/hf-staging after verification; receipt kept at receipts/C00-upload-receipt.json"
   },
   "rule_decisions": [],
   "question_for_user": null,

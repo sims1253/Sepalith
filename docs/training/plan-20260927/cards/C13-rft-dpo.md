@@ -35,9 +35,10 @@ use DPO.
    otherwise the SFT model, in bf16 on the PC. Store and hash them.
 5. **DPO training.** One night, one pass over the pairs, LR a tenth of the SFT
    LR, with automatic gates on DEV75 and DEV250. Apply R5.
-6. Publish each adopted model to `scholzmx/sepalith-2b-edit-sft` under a new
-   folder: `rft-1/` or `dpo-1/`. Include weights, GGUF Q8_0 and a card. Record
-   R5 outcomes in `status/C13.json`.
+6. Publish each adopted model under R8, as that night's single upload, to
+   `scholzmx/sepalith-2b-edit-sft` in a new folder: `rft-1/` or `dpo-1/`.
+   Include weights, GGUF Q8_0 and a card. Record R5 outcomes in
+   `status/C13.json`.
 7. Run R4 step 2: re-run C12's census on the latest adopted model, reusing
    the harness, then apply R4 step 3.
 

@@ -38,8 +38,10 @@
 
 - Write the R6 outcomes to `status/C15.json`.
 - If R6 says continue, re-enqueue.
-- Publish a candidate after every 300 updates that pass R1 against the
-  starting model, to `scholzmx/sepalith-2b-edit-sft/grpo-<n>/`.
+- Publish under R8: at most one upload per night. The night's last
+  checkpoint that passes R1 against the starting model goes to the rolling
+  `nightly/` folder. Only a checkpoint the pilot's final summary adopts gets
+  a stable `grpo-<n>/` folder.
 - Stop the pilot when R6 stops it, or after 1,500 updates. Then summarize the
   results against the starting model on DEV75 and DEV250.
 

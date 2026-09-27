@@ -27,11 +27,12 @@ saves and the next night resumes. The runner re-enqueues the job for that.
    and both end-of-generation ids. Smoke-test both files with llama.cpp on
    DEV75: counts must be within 2 of the bf16 run for Q8_0. Record Q4_K_M
    drift without gating on it.
-3. **Publish.** Create a public model repository
+3. **Publish (R8).** Create a public model repository
    `scholzmx/sepalith-2b-edit-sft` with a folder `arm-a/`. Put the final
    weights, config, tokenizer, GGUF files and a model card in it, plus a
-   results table and the lineage: CPT 11,586, schedule v2 hash, LR. Do not
-   upload optimizer state.
+   results table and the lineage: CPT 11,586, schedule v2 hash, LR. This is
+   the night's single model upload. Do not upload optimizer state, the
+   intermediate gate checkpoints, or the pilot arms R2 did not select.
 4. **Notebook latency (optional).** If the user's notebook is reachable, run
    the llama.cpp latency check there on Q4_K_M. Otherwise leave a note.
 5. Write `status/C09.json`. C12 can start once the weights are public and

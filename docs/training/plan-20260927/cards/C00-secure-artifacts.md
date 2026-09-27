@@ -21,10 +21,10 @@ not be uploaded.
 - Secret scan: none of the ten secrets in `~/.zshrc`, the old Hermes key or the
   Kaggle key occurs in the snapshot. Pattern scans for HF, GitHub, AWS, Kaggle
   and private keys found no live token.
-- Upload script: `/mnt/e/sepalith/hf-staging/upload_secure_20260927.py`. It
-  uses an allow-list and refuses sealed-final paths. Its log is
-  `/mnt/e/sepalith/hf-staging/upload-20260927.log`, and it writes
-  `upload-receipt.json` next to the script. Targets:
+- Upload script: `docs/training/plan-20260927/receipts/upload_secure_20260927.py`.
+  It uses an allow-list and refuses sealed-final paths. It ran from
+  `/mnt/e/sepalith/hf-staging/`, which was cleaned up afterwards. Its receipt
+  is `receipts/C00-upload-receipt.json`. Targets:
   - `scholzmx/sepalith-2b-cpt` (public model): `checkpoint-11586/` and
     `checkpoint-11649/`, holding weights, config, tokenizer, chat template,
     campaign manifest and trainer state, plus a model card. No optimizer
@@ -35,21 +35,12 @@ not be uploaded.
 
 ## Remaining steps
 
-1. Read `upload-20260927.log` and `upload-receipt.json`. If the run did not
-   finish, run it again: `uv run --no-project --with huggingface_hub python
-   upload_secure_20260927.py all` from `/mnt/e/sepalith/hf-staging/`, with
-   `HF_TOKEN` loaded. Uploads deduplicate, so a rerun is cheap.
-2. Verify both `model.safetensors` sha256 values against CONTEXT.md. The
-   script's `verify` stage does this.
-3. List `campaign-20260915/` in the dataset and compare it with the upload
-   list in the script. Check that no path contains `final` except
-   `combined-draw-schedule-final-v1.json`, which is a CPT schedule and not
-   evaluation data.
-4. Update the dataset README. It still says "Private" at the top. Mark it
-   public and add a short `campaign-20260915/` section listing the folders
-   above, with a note that the sealed final set is intentionally absent.
-5. Write `status/C00.json` with the repository URLs, file counts and
-   verification results.
+All steps were completed on September 27; see `status/C00.json`. Both weight
+hashes were verified. The dataset holds 27 files (5.93 GB) under
+`campaign-20260915/`, with no forbidden paths. The dataset README now says the
+repository is public and documents the folder. To repeat or extend an upload,
+reuse the script with `HF_TOKEN` loaded. Uploads deduplicate, so reruns are
+cheap.
 
 ## Acceptance
 

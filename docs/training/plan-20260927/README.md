@@ -19,7 +19,14 @@ without waiting for the user. Borderline results stop and ask.
   results stop for the user.
 - All code is tracked in the public GitHub repository. Data and weights go to
   public Hugging Face repositories. The sealed final set is never uploaded.
+  At most one model upload per night (R8).
 - Claude Code agents execute the cards.
+- The PC trains every night, 01:00 to 09:00.
+- SFT schedule v2 uses 18.75% no-op cases, with each no-op row seen at most
+  3 times. The learning-rate pilot compares 3e-6, 1e-5 and 3e-5.
+- Roxygen admission and arm B run in parallel with arm A (C10).
+- Post-training goes offline first (RFT, then DPO). Online GRPO runs only if
+  R4 finds enough signal. KLPO is out of scope for this cycle.
 
 ## What runs where
 
@@ -106,6 +113,7 @@ one agent-day per preparation card:
    never tune on DEV beyond the decisions these rules define.
 6. **Uploads.** Upload only TRAIN- or DEV-derived data and weights, through
    explicit allow-lists, to the public repositories named in CONTEXT.md.
+   Follow R8: at most one model upload per night, and batched data commits.
    Record what you uploaded.
 7. **Secrets.** Read secrets from the environment only.
 8. **Resources.** Daytime CPU work on the PC uses at most 8 threads at

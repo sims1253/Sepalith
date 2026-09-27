@@ -117,3 +117,21 @@ Evaluate DEV75 every 50 updates and DEV250 every 150 updates.
 - If `/mnt/e` drops below 150 GB free, stop-for-user before writing checkpoints.
 - Deleting any checkpoint, dataset or published artifact is always
   stop-for-user.
+
+## R8. Publishing to Hugging Face
+
+Keep uploads few and deliberate:
+
+- At most one model upload per night. Upload weights, config and tokenizer
+  only, never optimizer state.
+- If a rule adopted a model that night (the end of an SFT arm, or an adopted
+  RFT, DPO or GRPO step), upload that model. It goes to its stable folder in
+  `scholzmx/sepalith-2b-edit-sft` (`arm-a/`, `arm-b/`, `rft-1/`, `dpo-1/`,
+  `grpo-<n>/`), with GGUF Q8_0 and Q4_K_M files and a model card.
+- Otherwise, upload the night's last gate-passing checkpoint to the rolling
+  folder `nightly/`, replacing the previous one in a single commit. Hugging
+  Face keeps the history.
+- Pilot arms that R2 did not select, rolled-back checkpoints and intermediate
+  gate checkpoints stay local on `/mnt/e`.
+- Batch data uploads such as census outputs, pairs and panels as one commit
+  per card run, not one per file.
