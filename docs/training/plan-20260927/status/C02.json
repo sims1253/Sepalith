@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-09-28T23:10:00+02:00",
   "branch": "plan/C02-night-window",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/43",
   "outputs": {
     "code": [
       "packages/sepalith/src/sepalith/ops/night_queue.py",
