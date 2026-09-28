@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-09-28T12:00:00+02:00",
   "branch": "plan/C05-evaluation",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
     "dev_supply_audit": {
       "split_manifest": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json (sha256 c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09); dev_group groups only, no final_candidate_group record opened",
