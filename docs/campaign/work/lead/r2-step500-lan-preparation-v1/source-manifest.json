@@ -1,0 +1,11 @@
+{
+  "daily_lan.py": "d653c733832c4980724bba3bf76d38d0c4ffac2e935926d286403e449432299c",
+  "notebook_setup.py": "7b2e60446ebd274080ad861f96751c784376872a3ac1f41bce423fcdc015e97e",
+  "primary-manifest.json": "9459f19a8a29e1158b4e91169da6a4d26c91f6e625f61c5d954a3d2b68201a92",
+  "candidate.vsix": "b8268083aabc72c02623ee07f8b75bb932fd4aaec15e6972724bca9330be74b1",
+  "gateway/gateway.mjs": "8c26f0dd2eb1471f47417b166947e38d45cba3c7df06d6adb5d6b4ef3716a12e",
+  "gateway/vendor/runtime.ts": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616",
+  "gateway/vendor/campaign_protocol.ts": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+  "gateway/package.json": "ca5e8c329cee610258aa25ec2f94d113d4e3eb1c9873135a6c2e7627a422f796",
+  "lease_ledger.py": "702369af5993d480acc76e925b7569909819b5ddcbb23ce738301f254d8a2c8e"
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "sepalith.cloud-cpt.binding.v1",
+  "admitted": false,
+  "run_id": "ROOT_BIND_UUID32",
+  "image_uri": "docker.io/anyscale/ray@sha256:3b904e7cbb1736a8a17359708197d62333daa0bc8285d7de66f1d22aa78754f9",
+  "instance_type": "g5.2xlarge",
+  "input_repo": "scholzmx/sepalith-lora",
+  "input_manifest_sha256": "a9afe5d58034b56e36abf83a0c1d169ec578b79cc215daa32603ccd210e7045b",
+  "input_revision": "1e4df9c9db3cee1a7df5bbcc7caa62920d2ab2db",
+  "recipe_sha256": "254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538",
+  "root_recipe_admission_sha256": "ROOT_BIND_AFTER_INDEPENDENT_REVIEW",
+  "root_recipe_admission_relative_path": "root-recipe-admission.json",
+  "artifact_repo": "scholzmx/sepalith-lora",
+  "artifact_prefix": "ROOT_BIND_r2-cpt/UUID32",
+  "provider_timeout_seconds": 28800,
+  "watchdog_timeout_seconds": 29100,
+  "watchdog_armed_at_utc": "ROOT_BIND",
+  "watchdog_armed_receipt_sha256": "ROOT_BIND_AFTER_ARMING",
+  "watchdog_armed_receipt_relative_path": "watchdog-armed.json",
+  "payload_manifest_sha256": "ROOT_BIND_FROZEN_CLOUD_PACKET",
+  "absolute_deadline_utc": "ROOT_BIND",
+  "max_incremental_charge_usd": 28.0,
+  "phase_seconds": {
+    "bootstrap": 1800,
+    "staging": 3600,
+    "training": 19800,
+    "upload": 3000,
+    "cleanup": 300
+  },
+  "resume": null
+}

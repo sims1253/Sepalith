@@ -1,0 +1,91 @@
+{
+  "files": [
+    {
+      "bytes": 1266,
+      "mode": "0444",
+      "path": "commands.json",
+      "sha256": "5449aaf73c7c9e6cb51415da005b7be4e8d83ee3b47a168b3f27c8504ede9b9f"
+    },
+    {
+      "bytes": 2976,
+      "mode": "0444",
+      "path": "design.json",
+      "sha256": "ee6c249ee55dffb58ba73c194d49afc802b8d2c2fdc04dff943327bbf90e75e7"
+    },
+    {
+      "bytes": 93749,
+      "mode": "0444",
+      "path": "sample/input-cpt_train.jsonl",
+      "sha256": "74f4cb54cdbbd7f1e1265b0e3229fce360d7bcc61b0972d865f6c9c8e8a48699"
+    },
+    {
+      "bytes": 1258,
+      "mode": "0444",
+      "path": "sample/input-manifest.json",
+      "sha256": "b96c428a73ac50071599161df3a5f5b156944e6d56d0649b767561297ddbdade"
+    },
+    {
+      "bytes": 93007,
+      "mode": "0444",
+      "path": "sample/output/cpt_train_ctx16384.jsonl",
+      "sha256": "e81fcf0ee56b8234a98a00e565c192144c5b3a3af3a3d3cbe87fc294316207ee"
+    },
+    {
+      "bytes": 93007,
+      "mode": "0444",
+      "path": "sample/output/cpt_train_ctx32768.jsonl",
+      "sha256": "9c3e47198c32a3782ee17e287c89ed3b81116d0e133187c4948c67b1aa305f97"
+    },
+    {
+      "bytes": 93001,
+      "mode": "0444",
+      "path": "sample/output/cpt_train_ctx8192.jsonl",
+      "sha256": "0e38ddbe0df33d61f0eb4201ef549b6e404568231e26557a51b45293fa824c05"
+    },
+    {
+      "bytes": 2150,
+      "mode": "0444",
+      "path": "sample/output/document-provenance.jsonl",
+      "sha256": "eec6e0935e22cf274008e79bcfe5b6d9925ef0eab6a087d7828cff1b157db380"
+    },
+    {
+      "bytes": 2516,
+      "mode": "0444",
+      "path": "sample/output/result.json",
+      "sha256": "89c3abdb3b019d7ec2582bece1087416b0313eeba0ccda6427e0d48bcffc47e2"
+    },
+    {
+      "bytes": 2045,
+      "mode": "0444",
+      "path": "sample/run-stdout.json",
+      "sha256": "84767d68c86b41fbed88cd890aeddcfd9e33033516da913bb2379cf666df0a71"
+    },
+    {
+      "bytes": 10755,
+      "mode": "0555",
+      "path": "source/lossless_rechunk.py",
+      "sha256": "35eceb97a3cf2057f14d229f783697f4d4d4117eb34cda81c88852a69fb8aa32"
+    },
+    {
+      "bytes": 11920,
+      "mode": "0444",
+      "path": "source/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    {
+      "bytes": 841,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "5a5393f88c7831587139bd4645820aa874b8323c1dfe2d194cd81f5d6788a9c6"
+    },
+    {
+      "bytes": 5473,
+      "mode": "0444",
+      "path": "test_lossless_rechunk.py",
+      "sha256": "c26c1ed7f4d8699ae0d3747946574864a9500b9f4427e20111f807b7a639940a"
+    }
+  ],
+  "root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-lossless-rechunk-v1",
+  "schema": "sepalith.artifact-manifest.v1",
+  "task": "DAT-10-cpt-lossless-rechunk"
+}

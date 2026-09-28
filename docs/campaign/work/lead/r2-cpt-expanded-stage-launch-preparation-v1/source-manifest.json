@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "bytes": 12092,
+      "path": "assemble_root_admission.py",
+      "sha256": "4cbfa43068391947e96a976c2e2eca113309a6ad9376330a1f60860f6eff9b03"
+    }
+  ],
+  "schema": "sepalith.source-manifest.v1"
+}

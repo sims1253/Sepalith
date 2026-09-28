@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "bytes": 2876,
+      "path": "README.md",
+      "sha256": "09f1f2eeba74745653d0ee60b72a0107bbda9bfdcdb8421dba8a7b60038e818d"
+    },
+    {
+      "bytes": 2756,
+      "path": "commands.json",
+      "sha256": "62227564fca5834f8b27999f606f5026fd768926dce671ecd3032e9b92606b66"
+    },
+    {
+      "bytes": 2216,
+      "path": "environment-audit.json",
+      "sha256": "08007d84e0a9a1cf031d38fe9e6a4af25e8be4bce148a087c86fe4554987ae41"
+    },
+    {
+      "bytes": 3982,
+      "path": "findings.json",
+      "sha256": "fd2860624f609e96bc4ce3b6f3106402397dfb3d4a477788acdab4e5f0f0ec71"
+    },
+    {
+      "bytes": 15345,
+      "path": "overlay-manifest.json",
+      "sha256": "08c4a3f72132046bc0d08e25bb8ea3f3cfd4f1bf7039a11a0d12718c346fa289"
+    },
+    {
+      "bytes": 800,
+      "path": "source-manifest.json",
+      "sha256": "816562026a96b5f893293b0ec3a1621632c59ec262bd99b373e56a08356a378b"
+    },
+    {
+      "bytes": 2191,
+      "path": "static-audit-output.json",
+      "sha256": "9a2386341c602cead4c3dd632876c6f771914d586515bdae4f5d91505800a42e"
+    },
+    {
+      "bytes": 499,
+      "path": "test-results.log",
+      "sha256": "a1a26ff1fdf92c695ed61711b5ddd000f7507b84a411f288ef0b45a92a6f6fe0"
+    },
+    {
+      "bytes": 4946,
+      "path": "backend_contract.py",
+      "sha256": "b9532661f9389a82b28895855de844239712199084de88279a3cb36539cd9bb6"
+    },
+    {
+      "bytes": 3598,
+      "path": "probe_xformers_sm120.py",
+      "sha256": "9da519d8b1e0291a264cdadf7c84a3d586aaf66b49689f9814c30bc37a228ac9"
+    },
+    {
+      "bytes": 3140,
+      "path": "probe_flex_sm120.py",
+      "sha256": "e1e44ac3eeb59f09f85363fba2f49f1b599c6c33022bada920146e4fa6910753"
+    },
+    {
+      "bytes": 1909,
+      "path": "tests/test_contract.py",
+      "sha256": "f8f7fc87d82e00cf8045904d953889c56581dfd6a254df7813a4f5a4373bc5e9"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1",
+  "status": "frozen_preparation"
+}

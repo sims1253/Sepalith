@@ -1,0 +1,203 @@
+{
+  "guard_terminal": {
+    "at": "2026-09-13T16:03:58.094814+00:00",
+    "reason": null,
+    "child_exit_code": 0,
+    "seconds": 85.31818861899956,
+    "survivors": [],
+    "status": "completed_process_cleanup_verified",
+    "experiment_acceptance": "Root must inspect run-result, host-result and native logs; process exit is not a pass."
+  },
+  "files": [
+    {
+      "archive_name": "remote/preflight.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/preflight.json",
+      "bytes": 1433,
+      "sha256": "e1f9471217e991e70985e510efb34f74cf085698a3c857ef7f01e13ce68dfe24"
+    },
+    {
+      "archive_name": "remote/install.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/install.json",
+      "bytes": 97,
+      "sha256": "1624af3a1b618340a94a36be18422d7e25d7d04ddb0126c00aa9d81cf1f5768b"
+    },
+    {
+      "archive_name": "remote/launch.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/launch.json",
+      "bytes": 888,
+      "sha256": "21bc49ffac51616e95ebfc88692c66163eb0190e0672d7823be4accec0ea9d2a"
+    },
+    {
+      "archive_name": "remote/renderer-ready.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/renderer-ready.json",
+      "bytes": 977,
+      "sha256": "1cbf8879b674b6bea4ffe1a6e3bb4279b2073d5b6616fd866c8c91460f74f7a7"
+    },
+    {
+      "archive_name": "remote/renderer-frames.jsonl",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/renderer-frames.jsonl",
+      "bytes": 2895632,
+      "sha256": "f90da03e946619b816558b6525b8871bfcdc2f5e0c5f6bc32397e9199e5911ec"
+    },
+    {
+      "archive_name": "remote/renderer-inputs.jsonl",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/renderer-inputs.jsonl",
+      "bytes": 1779,
+      "sha256": "e6f761b3a7777390e17341a8d2e1a5e98d9198ae30a9307db4465d584b20acdc"
+    },
+    {
+      "archive_name": "remote/harness-events.jsonl",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/harness-events.jsonl",
+      "bytes": 29576,
+      "sha256": "a857e716b40ccd77be4939aa06d3d384fc654991b959ad168e97c06579342653"
+    },
+    {
+      "archive_name": "remote/gateway-observations.jsonl",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/gateway-observations.jsonl",
+      "bytes": 287804,
+      "sha256": "ea21a8bbc9f8d162d724216d4218b00db5eddcd3fd16bf22dca33851cd33e1f3"
+    },
+    {
+      "archive_name": "remote/renderer-observer.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/renderer-observer.json",
+      "bytes": 1626,
+      "sha256": "3a75710771bd610db985a8580f0f021b2bcc3f5e2383c45d5259053ccfd0a3ed"
+    },
+    {
+      "archive_name": "remote/renderer-result.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/renderer-result.json",
+      "bytes": 1450,
+      "sha256": "e56183d545bc97ac7900dccf68e7d46299c10308947310d9eb7e6a576e32f97b"
+    },
+    {
+      "archive_name": "remote/host-result.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/host-result.json",
+      "bytes": 62024,
+      "sha256": "6c42385d0edebeb2d183d7c13560b31684d1544dce89665feaa6662c5a5a5392"
+    },
+    {
+      "archive_name": "remote/host-process.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/host-process.json",
+      "bytes": 97,
+      "sha256": "96ba44f8d3096808a8caaf082490df0dd31e1842e6016a91d783df185d691407"
+    },
+    {
+      "archive_name": "remote/run-result.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/run-result.json",
+      "bytes": 271,
+      "sha256": "2c6052f5fc6b1cbe553136786810a02dd44251c5bee36cee8d99c5361a3fb6ea"
+    },
+    {
+      "archive_name": "remote/retained-evidence.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/retained-evidence.json",
+      "bytes": 140,
+      "sha256": "1e6a339390a7c1dc619b081ef8a98720d81a8f96d0b35be8d19f3f6a24db1896"
+    },
+    {
+      "archive_name": "remote/input-request.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/input-request.json",
+      "bytes": 40,
+      "sha256": "00919a7cb94f70ec3735d0e9dd3ef52b756bf8233445c9a3c6f406ae5a389fe4"
+    },
+    {
+      "archive_name": "remote/input-result.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/input-result.json",
+      "bytes": 99,
+      "sha256": "1621f9226a448f8cfee1e93ed33cd701dcedcfe1c9db3227678904167c0fb3e0"
+    },
+    {
+      "archive_name": "remote/runtime-status.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/runtime-status.json",
+      "bytes": 130,
+      "sha256": "0bfabcc8fcc0ba4281ff7b846db55ad39cd06773d5314d3124574f8d3739a33d"
+    },
+    {
+      "archive_name": "remote/host.stdout.log",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/host.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "archive_name": "remote/host.stderr.log",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/host.stderr.log",
+      "bytes": 221,
+      "sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d"
+    },
+    {
+      "archive_name": "remote/install.stdout.log",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/install.stdout.log",
+      "bytes": 80,
+      "sha256": "c7747a63358f0767a5547497a9ed26ac0310f30c36ef55a150a79b62f8dc08fd"
+    },
+    {
+      "archive_name": "remote/install.stderr.log",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/install.stderr.log",
+      "bytes": 302,
+      "sha256": "661854ee034d105f3cc5c5f6282f2429d1a7c993fa2487035ad556833e695d5d"
+    },
+    {
+      "archive_name": "remote/ghost-01.png",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/ghost-01.png",
+      "bytes": 62092,
+      "sha256": "001cd38004a063e64d33e3aab08a89c794ba7cd9c6fbb12d81e44eb830de77dc"
+    },
+    {
+      "archive_name": "remote/ghost-02.png",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/ghost-02.png",
+      "bytes": 75027,
+      "sha256": "b5d2597d18963002b60c353181cb9518591501659743263488443ad5bf9d51d1"
+    },
+    {
+      "archive_name": "remote/ghost-03.png",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/ghost-03.png",
+      "bytes": 76635,
+      "sha256": "56541dcb3cbab4ceb16173bbb1081c8bcb0f35c9c058866d2309c7edef2a3779"
+    },
+    {
+      "archive_name": "remote/ghost-04.png",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c/ghost-04.png",
+      "bytes": 80925,
+      "sha256": "3b7c603062fc28345100fd672f56ae34634d6ba3a5e7e3848b0d51c41d1ea289"
+    },
+    {
+      "archive_name": "supervision/terminal.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c-supervision/terminal.json",
+      "bytes": 307,
+      "sha256": "35e4a9148018e765de0d12148365533af804031cfbb0f5679fe08470ac24db4a"
+    },
+    {
+      "archive_name": "supervision/launch.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c-supervision/launch.json",
+      "bytes": 1373,
+      "sha256": "93d0a8d5812562a69b6ae8fc74217305526f9acd59278cfeadbe6685c84d021e"
+    },
+    {
+      "archive_name": "supervision/owned-processes.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c-supervision/owned-processes.json",
+      "bytes": 2221,
+      "sha256": "766d51833aa16dc4ceb1081070a96815feb11aa77ea1352ccf3043fb10a5b6fa"
+    },
+    {
+      "archive_name": "supervision/owned-process-history.json",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c-supervision/owned-process-history.json",
+      "bytes": 14951,
+      "sha256": "8a6a043713481911fab20b1da5e24141aeb305633fdda19a7ba454117e4b8da6"
+    },
+    {
+      "archive_name": "supervision/stdout.log",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c-supervision/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "archive_name": "supervision/stderr.log",
+      "source_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/remote-auto350-c-supervision/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "missing_named_files": [
+    "remote/ghost-05.png"
+  ],
+  "remote_writes": false
+}

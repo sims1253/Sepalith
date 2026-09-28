@@ -1,0 +1,47 @@
+{
+  "files": [
+    {
+      "bytes": 1289,
+      "path": "README.md",
+      "sha256": "fb3445f2dd9f3726ca87c03f511f6a3369377ae742f83135a637e0c08fe2a6be"
+    },
+    {
+      "bytes": 788,
+      "path": "root-integration.template.json",
+      "sha256": "a85e3718ac604b3c7e916890f090ffe6d00bdd2cee595c3561827da771c03ef8"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 6052,
+      "path": "source/mmap_optimizer_resume.py",
+      "sha256": "ce0b58cefd7e1c99f91429e512490a5ded4b68a0408100b4dfccdd530b508d83"
+    },
+    {
+      "bytes": 2031,
+      "path": "source-audit.json",
+      "sha256": "d6b863b55576775eb0f78b912e60f5a7f1b30b55f3092a909fced6ff1d98fcdc"
+    },
+    {
+      "bytes": 931,
+      "path": "source-manifest.json",
+      "sha256": "f49c0f6b2138abed122f081da8ec6ff2238854d8dc2ccb965bc2abcd482f01a3"
+    },
+    {
+      "bytes": 1001,
+      "path": "test-results.log",
+      "sha256": "66304b0b76c360fc76a637c3d87818f1f05c03ace10945408aae4af31fa32d93"
+    },
+    {
+      "bytes": 7827,
+      "path": "tests/test_mmap_resume.py",
+      "sha256": "eadaf1936554113878c74d290aaee80b2875be9a74613f3b519fabbca659b991"
+    }
+  ],
+  "files_count": 8,
+  "schema": "sepalith.sft11.native-optimizer-mmap-artifacts.v1",
+  "status": "frozen_preparation_no_launch"
+}

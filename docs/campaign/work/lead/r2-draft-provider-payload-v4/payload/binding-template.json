@@ -1,0 +1,75 @@
+{
+  "schema": 2,
+  "admitted": false,
+  "run_id": "ROOT_TO_BIND_FRESH_UUID32",
+  "image_uri": "docker.io/anyscale/ray@sha256:3b904e7cbb1736a8a17359708197d62333daa0bc8285d7de66f1d22aa78754f9",
+  "instance_type": "g5.2xlarge",
+  "max_retries": 0,
+  "provider_timeout_seconds": 6900,
+  "watchdog_timeout_seconds": 7200,
+  "watchdog_armed_at_utc": "ROOT_TO_BIND",
+  "watchdog_armed_receipt_sha256": "ROOT_TO_BIND",
+  "absolute_deadline_utc": "ROOT_TO_BIND",
+  "artifact_repo": "scholzmx/sepalith-lora",
+  "artifact_prefix": "r2-draft-profile/ROOT_TO_BIND_FRESH_UUID32",
+  "budget": {
+    "setup_seconds": 1800,
+    "profile_seconds": 3600,
+    "upload_seconds": 600,
+    "final_refresh_reserve_seconds": 900,
+    "watchdog_tail_seconds": 300
+  },
+  "install_dependencies": true,
+  "run_root": "ROOT_TO_BIND_FRESH_RUN_ROOT",
+  "bootstrap": {
+    "uv_version": "0.11.23",
+    "uv_tools_root": "runtime/bootstrap-tools",
+    "managed_python_root": "runtime/python",
+    "venv_root": "runtime/venv",
+    "uv_cache_root": "runtime/uv-cache"
+  },
+  "downloads": {
+    "manifest_destination": "inputs/target-manifest.json",
+    "target": {
+      "repo_id": "scholzmx/sepalith-lora",
+      "revision": "257487b64044600fee8c27cbcb1ceb19e424a9ac",
+      "prefix": "r2-draft-target/b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+      "destination": "inputs/target-model",
+      "files": {
+        "model.safetensors": "b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+        "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+        "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+        "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+      }
+    },
+    "public": {
+      "repo_id": "openbmb/MiniCPM5-2B-DSpark",
+      "revision": "114a20fdbf53220712c7fbdd7dccddbf1dedebb4",
+      "destination": "inputs/public-draft",
+      "files": {
+        "model.safetensors": "ae9ff4a8c944e2f88f266cc9452f6b8908a6d2bfce57cd4cf12cfb5cb979bc97",
+        "config.json": "bfbcab77ce2b466928deeb23109e7ff7738639c499d45f2c15941743b475d14b"
+      }
+    }
+  },
+  "staging": {
+    "root": "ROOT_TO_BIND_STAGED_PAYLOAD",
+    "requirements_candidate": "requirements-cloud-candidate.txt",
+    "requirements_resolved": "requirements-cloud-resolved.txt",
+    "source_root": "source",
+    "target_manifest": "inputs/target-manifest.json",
+    "target_model_dir": "inputs/target-model",
+    "train_data": "inputs/train.jsonl",
+    "public_draft_weights": "inputs/public-draft/model.safetensors",
+    "public_draft_config": "inputs/public-draft/config.json"
+  },
+  "pins": {
+    "deepspec_revision": "005e03b81cec38b7da6399833d609ee89a2587f2",
+    "train_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e",
+    "public_draft_weights_sha256": "ae9ff4a8c944e2f88f266cc9452f6b8908a6d2bfce57cd4cf12cfb5cb979bc97",
+    "public_draft_config_sha256": "bfbcab77ce2b466928deeb23109e7ff7738639c499d45f2c15941743b475d14b",
+    "target_candidate_merged_weights_sha256": "b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+    "target_manifest_sha256": "ROOT_TO_BIND"
+  }
+}

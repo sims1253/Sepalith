@@ -1,0 +1,108 @@
+{
+  "cuda_used": false,
+  "file_count": 16,
+  "files": [
+    {
+      "bytes": 3421,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "5b811b3c7b88ca3b8b939cb507c7bce79feaa8766e675306ceed3133c3ad258c"
+    },
+    {
+      "bytes": 838,
+      "mode": "0o755",
+      "path": "commands/finalize_context_policy_9534.sh",
+      "sha256": "c55a8de2dce88fbcab1225325ec0ffd824c92b929c846d7cf464341b10027e14"
+    },
+    {
+      "bytes": 867,
+      "mode": "0o755",
+      "path": "commands/materialize_review_only_9534.sh",
+      "sha256": "3b530e0896f5d528945ed43bc4d200b976b8df146432eefddf81a230ab398795"
+    },
+    {
+      "bytes": 826,
+      "mode": "0o755",
+      "path": "commands/prepare_fallback_9534.sh",
+      "sha256": "6d4f686a5803fa05eed2aafb40349c0e81aecb6fb715fe90a06c3fb5d1b543f7"
+    },
+    {
+      "bytes": 2575,
+      "mode": "0o755",
+      "path": "commands/run_fallback32_lanes.sh",
+      "sha256": "f4b987498282cb41dc44b0ea30f6ac5a99aeef1715af51f3c6acfe1738fc6924"
+    },
+    {
+      "bytes": 663,
+      "mode": "0o755",
+      "path": "commands/verify_render16.sh",
+      "sha256": "d35eb9f457111cb5c4dc50d048464521f4c3aaffc8e2ce88670d2a64fd96ada0"
+    },
+    {
+      "bytes": 2729,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "894e226de75a8c52cae5832cd98a7661f579e0c02e66b8c63d441eec8cea04d1"
+    },
+    {
+      "bytes": 995,
+      "mode": "0o644",
+      "path": "dedup-binding.template.json",
+      "sha256": "779c93a30e3c7a832e1259fb3d56e8841ff723729882d3e00081ae373df3fbcf"
+    },
+    {
+      "bytes": 3015,
+      "mode": "0o644",
+      "path": "metadata/expected-inputs.json",
+      "sha256": "134435ea011fdc51f9904db4d432d7c568f8d7b7626ea35c117d5cb746094840"
+    },
+    {
+      "bytes": 15822,
+      "mode": "0o755",
+      "path": "source/finalize_policy_9534.py",
+      "sha256": "fd54eae04e2540035b1e1854bc535994aa64327a658be1fb6d698544902b518c"
+    },
+    {
+      "bytes": 12789,
+      "mode": "0o755",
+      "path": "source/materialize9534.py",
+      "sha256": "f93783989acfc0648b768a0783bcfd77263f7c5474928ab0fe5d3425f87578c9"
+    },
+    {
+      "bytes": 9404,
+      "mode": "0o755",
+      "path": "source/prepare_fallback_9534.py",
+      "sha256": "502d37bdd86dbbe5acfa76532882ced3d644e5040d8a9a95195a1dac63855907"
+    },
+    {
+      "bytes": 14123,
+      "mode": "0o755",
+      "path": "source/verify_render16.py",
+      "sha256": "52a64441243fd6a95435eb625fa3f94cdec4717879af10f0a1665a92de4cd91a"
+    },
+    {
+      "bytes": 6163,
+      "mode": "0o644",
+      "path": "source-manifest.json",
+      "sha256": "e26458635913fe149611ab3db87a3ac73ad9f96125d34099429cebacb3043795"
+    },
+    {
+      "bytes": 609,
+      "mode": "0o644",
+      "path": "tests/test-results.log",
+      "sha256": "3f653422ee0ee70e6aa9c1d41b1937970c2008c6aa790541cd8022e15e6dfe61"
+    },
+    {
+      "bytes": 6651,
+      "mode": "0o644",
+      "path": "tests/test_postrender_contract.py",
+      "sha256": "8fefb64447b1ae975176835df74ca52eb36465bd4ce11dc980d4768cdab54c95"
+    }
+  ],
+  "packet": "r2-semantic9534-postrender-preparation-v2",
+  "provider_launch_performed": false,
+  "schema": "sepalith.dat10.semantic9534.postrender_artifact_manifest.v2",
+  "source_manifest_sha256": "e26458635913fe149611ab3db87a3ac73ad9f96125d34099429cebacb3043795",
+  "status": "complete_review_only_preparation",
+  "training_admission": false
+}

@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-14T00:58:59.109505+00:00",
+  "kind": "frozen_intermediate_draft_target_not_release",
+  "files": [
+    {
+      "path": "model.safetensors",
+      "bytes": 5033557128,
+      "sha256": "b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4"
+    },
+    {
+      "path": "config.json",
+      "bytes": 748,
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "generation_config.json",
+      "bytes": 213,
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 9894271,
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 94391,
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    }
+  ],
+  "training_sources_only": true
+}

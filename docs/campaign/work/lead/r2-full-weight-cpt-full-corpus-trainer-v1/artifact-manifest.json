@@ -1,0 +1,131 @@
+{
+  "schema": "sepalith.sft11.full-corpus-trainer-artifacts.v1",
+  "source_identity": "3efe785260f4db4e0faafd97643f3f0c8d518242beb5d3a1c838f84b087e184c",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/README.md",
+      "sha256": "e534a560458a7417860b44ba45c990c1b3a863a1469c9080743d94d5a50e1311",
+      "bytes": 1854
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/continuation-admission.template.json",
+      "sha256": "2ea410ca7fb1ba4089d6b188080b7a5dec8e8dd38c4d1e087f2ff69e0e0da057",
+      "bytes": 225
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/recipe.template.json",
+      "sha256": "fac304a83450250ed865ea9fb5b2b468c027fcebbfb4afb6392b9db58f4e3784",
+      "bytes": 2739
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/root-admission.template.json",
+      "sha256": "55aabced87c5ca1589fb1727280bdee41860dc607c415d8562f899ba79c0874f",
+      "bytes": 1294
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/root-commands.json",
+      "sha256": "bb7247a70755794d54383d05a56ec9f64bb7e835eac204bfb4cd17277e060213",
+      "bytes": 2349
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source-manifest.json",
+      "sha256": "30d9081c03305369efac3350159beca7f28224d9a04f6d200bf9e8ffba288a31",
+      "bytes": 3445
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/test-results.json",
+      "sha256": "4b411c61abbcf9b96cfa3074c3b9fea16c9498f846c8a1fb7047b4d1c3ac32b5",
+      "bytes": 1164
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/test-results.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/test-time.log",
+      "sha256": "8b96ab8c5413d274f0eda73e4021e2979677e3cd9ed929fbfe9764fdfd9f7dc8",
+      "bytes": 1482
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/tests/test_full_corpus.py",
+      "sha256": "36fce7819af9136d9e17af9057be4ae4c4a0fc15f7fdd43fb319bcc9cb260192",
+      "bytes": 6754
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/bind_full_corpus_cpt.py",
+      "sha256": "64ea38127eb7306702c90a8b5a8e470661e76366de386f8f9341ede1eaaabed6",
+      "bytes": 6652
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5",
+      "bytes": 13663
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa",
+      "bytes": 29909
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1",
+      "bytes": 3447
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+      "bytes": 15257
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/cpt_streaming_cache.py",
+      "sha256": "0729f5a3f8a5363bc6ac5c2fc59c7ad2e22c125f0e39e5b43756e1eb5b940976",
+      "bytes": 12263
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "f2608463092216feeadcbb3ec2371b105f36d4e39453aef0352c160d440709ec",
+      "bytes": 27689
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13",
+      "bytes": 19826
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25",
+      "bytes": 2680
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf",
+      "bytes": 1397
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629",
+      "bytes": 1783
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/streaming_trainer_adapter.py",
+      "sha256": "e6f62044e70aa19089c97210f8b476f6c5d21ab11c008d49446ef2e5daf6a479",
+      "bytes": 2295
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d",
+      "bytes": 7843
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+      "bytes": 67
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "bytes": 40337
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "sepalith.rl11.full-weight-update-binding.v1",
+  "optimizer_updates": true,
+  "objective": "trl-0.24-grpo-bnpo-group-beta0",
+  "candidate_count": 4,
+  "policy_step": null,
+  "optimizer_global_step": null,
+  "rollout_cursor": null,
+  "rollout_complete": false,
+  "same_process_live_policy_logprobs": true,
+  "full_weight_checkpoint_kind": "full_weights",
+  "sampler_boundary": "one_generation_buffer_per_optimizer_update",
+  "source_manifest_sha256": null,
+  "model_manifest_sha256": null,
+  "model_weights_sha256": null,
+  "tokenizer_json_sha256": null,
+  "reward_buffer_manifest_sha256": null,
+  "prompt_context_manifest_sha256": null,
+  "generation_policy_sha256": null,
+  "optimizer_dispatch_sha256": null
+}

@@ -1,0 +1,144 @@
+{
+  "cohorts": [
+    {
+      "bytes": 191029,
+      "cap": 8192,
+      "maximum_sequence_tokens": 8189,
+      "minimum_sequence_tokens": 8183,
+      "path": "docs/campaign/work/lead/r2-full-weight-long-context-fixtures-v1/train-long-8192.jsonl",
+      "rows": [
+        {
+          "family": "roxygen_drafting",
+          "input_ids_sha256": "a7b00b76714f0292363693a080e2edd52039b1f2afcbeefa714fb2308a5f4c32",
+          "labels_sha256": "c3f3651bb24cf1efb7d306eafe68e71a6cf84e706b58f38b4731f7f3e5cfa72a",
+          "package_id": "rmarkdown",
+          "prompt_plus_bos_tokens": 8069,
+          "row_id": "1e5a0085e06c276308c15a70",
+          "sequence_tokens": 8189,
+          "source_admission": "review_only_unadmitted",
+          "source_line": 195794,
+          "source_path": "/mnt/h/sepalith/normalized/rmarkdown/2.31/rmarkdown/R/pandoc.R",
+          "split": "train",
+          "supervised_tokens_including_eos": 120,
+          "target_body_tokens": 114,
+          "target_terminal_tokens": 5
+        },
+        {
+          "family": "roxygen_drafting",
+          "input_ids_sha256": "fa5be069321c9850ba257d95c5d7fddce47f38c8b25d28e74eb6d40643a3c466",
+          "labels_sha256": "84b698b3e0bd6ee07f540820e9d5c2aedaa02c769ca38dba51acbf3ac6b0a8d0",
+          "package_id": "hahmmr",
+          "prompt_plus_bos_tokens": 8057,
+          "row_id": "1db44de20ae09cc8b020fbf8",
+          "sequence_tokens": 8183,
+          "source_admission": "review_only_unadmitted",
+          "source_line": 116546,
+          "source_path": "/mnt/h/sepalith/normalized/hahmmr/1.0.0/hahmmr/R/hahmmr.R",
+          "split": "train",
+          "supervised_tokens_including_eos": 126,
+          "target_body_tokens": 120,
+          "target_terminal_tokens": 5
+        }
+      ],
+      "sha256": "8379d528ed4efa3367eb6e294b8a0f4c6453e99f85acbd0e470dbd87f1231f2f"
+    },
+    {
+      "bytes": 385038,
+      "cap": 16384,
+      "maximum_sequence_tokens": 16322,
+      "minimum_sequence_tokens": 16283,
+      "path": "docs/campaign/work/lead/r2-full-weight-long-context-fixtures-v1/train-long-16384.jsonl",
+      "rows": [
+        {
+          "family": "roxygen_drafting",
+          "input_ids_sha256": "3b42d90e36b87a5064a9700489426c347be78cb7b9e4e301203e30f5f38119e3",
+          "labels_sha256": "ba7538a2a5ea94c64e760163c13d20c26b7bf8bfa887e7f8e9ee397e7e04a704",
+          "package_id": "refund",
+          "prompt_plus_bos_tokens": 16253,
+          "row_id": "1a18a8535d1c5d86f4e55ee5",
+          "sequence_tokens": 16322,
+          "source_admission": "review_only_unadmitted",
+          "source_line": 190875,
+          "source_path": "/mnt/h/sepalith/normalized/refund/0.1-40/refund/R/pffr-methods.R",
+          "split": "train",
+          "supervised_tokens_including_eos": 69,
+          "target_body_tokens": 63,
+          "target_terminal_tokens": 5
+        },
+        {
+          "family": "roxygen_drafting",
+          "input_ids_sha256": "11418cb5f4c58df09be751b6f100d90e78671ef322d74646a47c304dfa7151a4",
+          "labels_sha256": "6afda6f9da5b459f846753f38a29ce0b07e091f3459719f25cf2ea0343ca72ae",
+          "package_id": "paws.analytics",
+          "prompt_plus_bos_tokens": 16142,
+          "row_id": "1bd7e939e07b4618e7ff23c7",
+          "sequence_tokens": 16283,
+          "source_admission": "review_only_unadmitted",
+          "source_line": 169571,
+          "source_path": "/mnt/h/sepalith/normalized/paws.analytics/0.10.0/paws.analytics/R/entityresolution_operations.R",
+          "split": "train",
+          "supervised_tokens_including_eos": 141,
+          "target_body_tokens": 135,
+          "target_terminal_tokens": 5
+        }
+      ],
+      "sha256": "5d180dca8016281d961ac5368579f789c981c5cc5d9afd5dd52f0f334bde4187"
+    },
+    {
+      "bytes": 760514,
+      "cap": 32768,
+      "maximum_sequence_tokens": 32442,
+      "minimum_sequence_tokens": 32394,
+      "path": "docs/campaign/work/lead/r2-full-weight-long-context-fixtures-v1/train-long-32768.jsonl",
+      "rows": [
+        {
+          "family": "roxygen_drafting",
+          "input_ids_sha256": "270c0ed4381edce0c501990ac5522396d745aab7c51b67e530d088d5306f1b10",
+          "labels_sha256": "a3a84c41923dd015a154dc159f648d2274c726ed72f7d839c82bfef5aef904c9",
+          "package_id": "BayesTools",
+          "prompt_plus_bos_tokens": 32394,
+          "row_id": "06f074c4b3db8213a6e23cad",
+          "sequence_tokens": 32442,
+          "source_admission": "review_only_unadmitted",
+          "source_line": 4586,
+          "source_path": "/mnt/h/sepalith/normalized/BayesTools/0.3.0/BayesTools/R/priors.R",
+          "split": "train",
+          "supervised_tokens_including_eos": 48,
+          "target_body_tokens": 42,
+          "target_terminal_tokens": 5
+        },
+        {
+          "family": "roxygen_drafting",
+          "input_ids_sha256": "bf2e35f401feb1cf53a5e9280e67d0a6c9e172d96c64c8e29698c6125cc9b852",
+          "labels_sha256": "91b845f51c2dc4f359709404067ed4f8934d90b613cb07c337eaad9dfe0861b1",
+          "package_id": "whitebox",
+          "prompt_plus_bos_tokens": 32019,
+          "row_id": "2232d76b5ba95a36a756c329",
+          "sequence_tokens": 32394,
+          "source_admission": "review_only_unadmitted",
+          "source_line": 241910,
+          "source_path": "/mnt/h/sepalith/normalized/whitebox/2.4.3/whitebox/R/hydro_analysis.R",
+          "split": "train",
+          "supervised_tokens_including_eos": 375,
+          "target_body_tokens": 369,
+          "target_terminal_tokens": 5
+        }
+      ],
+      "sha256": "c8173d24f521975ab84e3fb1a7a2191ca51372ceef6ba4f7e11a2a9377040fa2"
+    }
+  ],
+  "invariants": [
+    "input_ids copied intact from full-file token row",
+    "labels mask only tokens before target_start",
+    "target body and wire terminal copied intact",
+    "final EOS retained and supervised",
+    "no padding and no truncation"
+  ],
+  "schema": "sepalith.sft11.full-weight-long-context-fixtures.v1",
+  "selection": "two longest intact TRAIN rows fitting each cap, with different packages per cohort",
+  "source": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-repair-materialization-v2-10017/repaired-full-file-token-rows.jsonl",
+    "sha256": "752131a0ade6c1bd30248b9663046e027cd8ac9bdb38170a2b680f9dbae6d897"
+  },
+  "status": "resource_probe_only_not_training_admission"
+}

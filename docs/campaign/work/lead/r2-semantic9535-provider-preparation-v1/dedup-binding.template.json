@@ -1,0 +1,12 @@
+{
+  "schema": "sepalith.dat10.semantic9535.dedup_binding.v1",
+  "status": "unbound_waiting_for_semantic10948_finalized",
+  "current_rows": 20191,
+  "combined_rows": null,
+  "pending_semantic10948": {
+    "manifest": {"path": null, "sha256": null},
+    "tokenrows": {"path": null, "sha256": null, "rows": null},
+    "provenance": {"path": null, "sha256": null, "rows": null}
+  },
+  "training_admission": false
+}

@@ -1,0 +1,137 @@
+{
+  "files": [
+    {
+      "bytes": 3506,
+      "path": "README.md",
+      "sha256": "c9b77e3c51c638e031cc2358b95e4d601740e228c28c1bc064ffbbe6a3f3c2c9"
+    },
+    {
+      "bytes": 50596,
+      "path": "actual-train-fixture.json",
+      "sha256": "a41568e696c6acf3ea09103277e431781ba11c7336a8597d6809ff5e542c842e"
+    },
+    {
+      "bytes": 1805,
+      "path": "build_actual_train_fixture.py",
+      "sha256": "95aa4db8036816df5f1a7504ee69c99fbb06827e93a543ec4cd41aeae9286098"
+    },
+    {
+      "bytes": 576,
+      "path": "commands.json",
+      "sha256": "db30e176098ba11db326e2a1dd0171435b8d6bce7d01d8e042a71b34fe262eba"
+    },
+    {
+      "bytes": 1875,
+      "path": "integration-contract.json",
+      "sha256": "639cad5f453780a63fdf851a557fec04e2c27491b498e49d1c22e0c218eb4124"
+    },
+    {
+      "bytes": 7000,
+      "path": "package.json",
+      "sha256": "2a9edf2996852a37057008d8255cf61352407d8aecf98a59635e3f0a505b94a2"
+    },
+    {
+      "bytes": 28058,
+      "path": "production-integration.patch",
+      "sha256": "965903c04cda955067180faee1c9d2c64590722400672e31454638e23073a10b"
+    },
+    {
+      "bytes": 921,
+      "path": "run_tests.sh",
+      "sha256": "f3658cec6366a36f3689bd886c489e1c9dae71de12b356e5688b7c87375e7452"
+    },
+    {
+      "bytes": 10023,
+      "path": "source/campaign_client.ts",
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "bytes": 34464,
+      "path": "source/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 4642,
+      "path": "source/campaign_requests.ts",
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "bytes": 25008,
+      "path": "source/campaign_selection.ts",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 1485,
+      "path": "source/completion.ts",
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "bytes": 14528,
+      "path": "source/context_build.ts",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "path": "source/context_select.ts",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 55897,
+      "path": "source/extension.ts",
+      "sha256": "fb8faf6ea2778828f4078685918a3e78ebfe03fae0ac371a01d75578f877e109"
+    },
+    {
+      "bytes": 23912,
+      "path": "source/history_provider.ts",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 2816,
+      "path": "source/next_edit.ts",
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "bytes": 1518,
+      "path": "source/primary_context.ts",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 1352,
+      "path": "source/process_lifecycle.ts",
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "bytes": 24460,
+      "path": "source/runtime.ts",
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "bytes": 20487,
+      "path": "source/semantic_provider.ts",
+      "sha256": "96e239d80967b584a0444f2ea5c8982220af21c39cc5047d90027736b2adb633"
+    },
+    {
+      "bytes": 5945,
+      "path": "source-manifest.json",
+      "sha256": "b662ba2e4ae12c0d0ed319dee077a438e511131c87b551b01c4f317a0157e089"
+    },
+    {
+      "bytes": 1423,
+      "path": "test-results.json",
+      "sha256": "1d005d102126adda9a2c7632b686ce72d3d719b13297c4af2153a17244aad29a"
+    },
+    {
+      "bytes": 13720,
+      "path": "test_provider.ts",
+      "sha256": "8fced7ca9f02365e7e28e9bf06c2c9f1dead76f0e44d42bdcfbdd573526e90ee"
+    },
+    {
+      "bytes": 289,
+      "path": "tsconfig.json",
+      "sha256": "bb430a7729bc1b8eb7d5f8b454341ee84a59aed254fea7ef4197ae316c8510c5"
+    }
+  ],
+  "packet": "docs/campaign/work/lead/r2-serving-semantic-provider-v2",
+  "schema": "sepalith.run06.serving_semantic_provider_artifacts.v2",
+  "status": "frozen_preparation"
+}

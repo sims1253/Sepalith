@@ -1,0 +1,11 @@
+{
+  "schema": "sepalith.sft11.native-runtime-source-migration-admission.v1",
+  "status": "root_fields_pending",
+  "canonical_bound_recipe_sha256": "579269f0f203ae1eed9cdb96af0f535f19c5953e2cf3e19c52615b7545e10f70",
+  "scientific_source_manifest_sha256": "8dd7ecf617e37e1778dabee6721857e1b79074e0314f17e0e3f55b57a809a98c",
+  "runtime_source_manifest_sha256": null,
+  "stage_receipt_sha256": null,
+  "allowed_change": "physical input relocation and native-hot-to-durable-E checkpoint lifecycle only",
+  "optimizer_scheduler_rng_sampler_identity_must_remain_unchanged": true,
+  "launch_authorized": false
+}

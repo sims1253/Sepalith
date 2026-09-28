@@ -1,0 +1,111 @@
+{
+  "artifacts": {
+    "README": {
+      "bytes": 2475,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-cap-recovery-integration-v1/README.md",
+      "sha256": "193f0d3394952a94cfd2411953ad7bbe22c8bf3b6b4a536859c7e019b357642c"
+    },
+    "accounting": {
+      "bytes": 695569,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-cap-recovery-integration-v1/integration-accounting.json",
+      "sha256": "57908619a743e48bdca25561f741f987a2be30040ec6591f7221ddf2c7120c22"
+    },
+    "synthetic_tests": {
+      "bytes": 3298,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-cap-recovery-integration-v1/test_integrate_recovery.py",
+      "sha256": "91a5cc19a237f3af656ff531a8fc2dba4f87cf5a6397fae3d4c73eb524f20c50"
+    },
+    "verifier": {
+      "bytes": 41013,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-cap-recovery-integration-v1/integrate_recovery.py",
+      "sha256": "cf26e265d49841540366121a4ee31be0818cf1c351932e8d7372dcaf7a7de8c2"
+    }
+  },
+  "immutable_output_not_rewritten": [
+    "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1",
+    "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-cap-recovery-v3"
+  ],
+  "inputs": {
+    "cpt_partition": {
+      "bytes": 464000,
+      "expected_sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    "frontier": {
+      "bytes": 1301005,
+      "expected_sha256": "4708d69f53e04c48754e48095497eb1c281acac998dd099620b8fae293a1019d",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/combined-frontier.jsonl",
+      "sha256": "4708d69f53e04c48754e48095497eb1c281acac998dd099620b8fae293a1019d"
+    },
+    "frontier_manifest": {
+      "bytes": 2981,
+      "expected_sha256": "26f4799d85d72300f52a733c0cd9c42e9d6fb5b220d56a985538b7efb0bf879c",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/combined-frontier-manifest.json",
+      "sha256": "26f4799d85d72300f52a733c0cd9c42e9d6fb5b220d56a985538b7efb0bf879c"
+    },
+    "global_split": {
+      "bytes": 49108497,
+      "expected_sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    "profile_documents": {
+      "bytes": 1118092,
+      "expected_sha256": "674d3bf6e2da08b53a0d0fa6d7ae1977c5bc6940938ebe2aaf6c7c1643ff6d68",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v1/documents.jsonl",
+      "sha256": "674d3bf6e2da08b53a0d0fa6d7ae1977c5bc6940938ebe2aaf6c7c1643ff6d68"
+    },
+    "protected_parent_hashes": {
+      "bytes": 883961,
+      "expected_sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/known-nontrain-parent-hashes.json",
+      "sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0"
+    },
+    "raw_chunk_contract": {
+      "bytes": 11920,
+      "expected_sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "recovery_manifest": {
+      "bytes": 23592,
+      "expected_sha256": "07934ed6e2182ff7925873ea9ffbd1d592087f0151ea7fbf0276e0d1286f55c9",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-cap-recovery-v3/manifest.json",
+      "sha256": "07934ed6e2182ff7925873ea9ffbd1d592087f0151ea7fbf0276e0d1286f55c9"
+    },
+    "recovery_progress": {
+      "bytes": 747,
+      "expected_sha256": "4d95943f214ab8d6d9e5c385c68897ad2064431d6c7dc31a3bd60f4b1e3c9995",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-cap-recovery-v3/progress.json",
+      "sha256": "4d95943f214ab8d6d9e5c385c68897ad2064431d6c7dc31a3bd60f4b1e3c9995"
+    },
+    "recovery_v3_receipt": {
+      "bytes": 5179,
+      "expected_sha256": "23201d40ead26ee50f9bab919f38159675553f0a47cbf6bbc80ba08ba2dabefd",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-cpt-prefix-cap-recovery-v3.json",
+      "sha256": "23201d40ead26ee50f9bab919f38159675553f0a47cbf6bbc80ba08ba2dabefd"
+    },
+    "root_terminal": {
+      "bytes": 80,
+      "expected_sha256": "0ae343d8bf9b95a3e54c840b92bd39f82cbdaac7d4935956aa9e9f0e933112b1",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-cap-recovery-v3-root.terminal.json",
+      "sha256": "0ae343d8bf9b95a3e54c840b92bd39f82cbdaac7d4935956aa9e9f0e933112b1"
+    },
+    "terminal_document_provenance": {
+      "bytes": 79025155,
+      "expected_sha256": "a731974ee8581b9fa571aae9672f6b933743779c24f4253843bff268065c305f",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1/document-provenance.jsonl",
+      "sha256": "a731974ee8581b9fa571aae9672f6b933743779c24f4253843bff268065c305f"
+    },
+    "tokenizer": {
+      "bytes": 9894271,
+      "expected_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  },
+  "packet": "docs/campaign/work/lead/r2-cpt-cap-recovery-integration-v1",
+  "purpose": "metadata-first verification and explicit-checkpoint append-only augmentation preparation; no training admission",
+  "schema": "sepalith.dat10.cpt-cap-recovery-integration-source-manifest.v1"
+}

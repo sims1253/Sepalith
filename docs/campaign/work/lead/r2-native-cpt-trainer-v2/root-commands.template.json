@@ -1,0 +1,55 @@
+{
+  "schema": "sepalith.sft11.native-cpt-trainer-root-commands.v2",
+  "status": "prepared_no_launch",
+  "source_manifest_sha256": "c79bf87277485ef749ffce08290f5b5df064f70dcfe3e5627f68ec683dc30e5a",
+  "staged_data_receipt_sha256": "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+  "commands": {
+    "cpu_proof": [
+      "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v2/native_resume_proof.py",
+      "--output", "ROOT_FRESH_E_PROOF_OUTPUT"
+    ],
+    "make_runtime_recipe_after_root_admissions": [
+      "python3", "-B", "docs/campaign/work/lead/r2-native-cpt-trainer-v2/source/experiments/training/native_runtime_overlay.py",
+      "--recipe", "docs/campaign/work/lead/r2-cpt90-prefix-extension-root-v2/bound-recipe.json",
+      "--stage-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--stage-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+      "--admission", "ROOT_FRESH_RELOCATION_ADMISSION",
+      "--runtime-source-manifest", "docs/campaign/work/lead/r2-native-cpt-trainer-v2/source-manifest.json",
+      "--migration-admission", "ROOT_FRESH_V2_RUNTIME_SOURCE_MIGRATION_ADMISSION",
+      "--trainer-root", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v2/runtime",
+      "--archive-root", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1",
+      "--output", "ROOT_FRESH_V2_RUNTIME_RECIPE"
+    ],
+    "cpu_frontdoor": [
+      "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1",
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v2/source/experiments/training/native_launch_attestation.py",
+      "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--base-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--resume-manifest-sha256", "ROOT_FILL_CHECKPOINT194_MANIFEST_SHA256",
+      "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v2/source/experiments/training/full_weight_cpt_trainer.py", "preflight-resume",
+      "--recipe", "ROOT_FRESH_V2_RUNTIME_RECIPE",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--continuation-admission", "ROOT_FRESH_CONTINUATION_194_ADMISSION",
+      "--execution-stop-admission", "ROOT_FRESH_EXECUTION_STOP_322_ADMISSION"
+    ],
+    "guard_child_after_cpu_preflight": [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v2/source/experiments/training/native_launch_attestation.py",
+      "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--base-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--resume-manifest-sha256", "ROOT_FILL_CHECKPOINT194_MANIFEST_SHA256",
+      "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt-trainer-v2/source/experiments/training/full_weight_cpt_trainer.py", "run",
+      "--recipe", "ROOT_FRESH_V2_RUNTIME_RECIPE",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--continuation-admission", "ROOT_FRESH_CONTINUATION_194_ADMISSION",
+      "--execution-stop-admission", "ROOT_FRESH_EXECUTION_STOP_322_ADMISSION"
+    ]
+  }
+}

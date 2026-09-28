@@ -1,0 +1,10 @@
+{
+  "attestation_pid": 2630218,
+  "controller_pid": 2630015,
+  "controller_terminal": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-supervisor-root-v1/terminal.json",
+  "guard_pid": 2630027,
+  "guard_terminal": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-selected330-recovery-cadence24-v2-host-supervision/terminal.json",
+  "model_child_pid": 2634519,
+  "schema": "sepalith.sft11.cpt354-runtime-handles.v1",
+  "status": "terminal_success"
+}

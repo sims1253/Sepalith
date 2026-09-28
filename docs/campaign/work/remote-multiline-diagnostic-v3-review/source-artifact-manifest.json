@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/REVIEW.md",
+      "bytes": 2648,
+      "sha256": "1712bdc4b4755fbf77c4f3729e437e584c98c7197f1cf9481cc019b325e1f828"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/analyze_renderer.mjs",
+      "bytes": 10464,
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/analyzer-stdout.json",
+      "bytes": 2894,
+      "sha256": "c14cc58dbe9d67767d3e4585f86a26ed24a36d60f5c3d39118768d28283e5e5f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/exact-first-diagnostic-row.json",
+      "bytes": 24908,
+      "sha256": "e236bbbd8829560ac30100880a4e973eee8412ffad35b0a3688fca9bb03605a6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/pull-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/pull_evidence.py",
+      "bytes": 3732,
+      "sha256": "45f87e2eb29884662686024b36c2c9ed1e63801cb67a28f3107c8b6f7015b3ce"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/ghost-01.png",
+      "bytes": 58915,
+      "sha256": "96804451956d950c5495b8799148d37161f6b5132bb515f9dae2e67252cf4edb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/ghost-02.png",
+      "bytes": 71825,
+      "sha256": "ee10364b5b507b316798fac87c987fc174c90193d70e8b46c2f5a4010165a9c1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/harness-events.jsonl",
+      "bytes": 2530,
+      "sha256": "2ad8be165f1b12acb9b157b16b6664baa212ccf36481a0c9853f8749835967c9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/host-process.json",
+      "bytes": 25,
+      "sha256": "bcebd13d238a77ac126cc4e2019b18ca63df4a97ac56ee163379a4c768d3acd3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/host-result.json",
+      "bytes": 69,
+      "sha256": "989833811358fea07c5274efc16f8f2f09c739265b7b5039e61ae65e84c849ab"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/host.stderr.log",
+      "bytes": 221,
+      "sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/host.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/launch.json",
+      "bytes": 1110,
+      "sha256": "faca0c34267bfa5d0e20e8f688ae0d5e1460cc7e6847bdf0a7117608ec9e8f2b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/multiline-diagnostic-screenshot.json",
+      "bytes": 141,
+      "sha256": "913423639d610211d7e22830cac19f22d7bcaebb628f9a8689fb4e057ff841c6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/multiline-diagnostic.png",
+      "bytes": 71863,
+      "sha256": "745df30975f8ec14b96974339324298833f6b68457f34ac63ed17342c720fd72"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/multiline-diagnostics.jsonl",
+      "bytes": 154539,
+      "sha256": "6a7967e32f7706d592664dca490d6afca14c64b3b8502763033fdac1d0310765"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/renderer-frames.jsonl",
+      "bytes": 152437,
+      "sha256": "a3b462fdf20c2a44ec028e812934ff22ca4c4ee13d44dcc6f92552c1939992b3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/renderer-observer.json",
+      "bytes": 1091,
+      "sha256": "0be3b88ad38f3510db3b5c4f0a89fef2142d41157a1c89dbdc83ca01d55200b3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/renderer-ready.json",
+      "bytes": 753,
+      "sha256": "79bd38c9e75ae652336b51652f99805465f089d46004a9d96a1835d64087ceb0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/remote/renderer-result.json",
+      "bytes": 915,
+      "sha256": "1d19e69a673a236a301e47de55b4ab269d003180aad19d60a117608ae20c3b9c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/renderer-analysis.json",
+      "bytes": 2894,
+      "sha256": "c14cc58dbe9d67767d3e4585f86a26ed24a36d60f5c3d39118768d28283e5e5f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/review.json",
+      "bytes": 26730,
+      "sha256": "f02d58f6b15060eab125e37579448143a29b9cbef184be6b3dd7d55c76bf0484"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/source-manifest.json",
+      "bytes": 6842,
+      "sha256": "ac8673643a39d4f4279c35b16c4d1490e98e44deedb0701558a3f72cd432e0d9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/supervision/launch.json",
+      "bytes": 495,
+      "sha256": "3ee1d43601f5bc1d33ac79fb34cdf35fd6cb91a0cbc631c011b59b4c64e12af7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/supervision/owned-process-history.json",
+      "bytes": 13700,
+      "sha256": "2151ac560e6e546da633a7f1b396d8b76980f0178d283dc834526bc4e2fa2e66"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/supervision/owned-processes.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/supervision/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/supervision/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-multiline-diagnostic-v3-review/supervision/terminal.json",
+      "bytes": 303,
+      "sha256": "ceebf6ca1cc02172c3d7f69239a4a869c9298e1944a0be8f5d4dd354882edbaf"
+    }
+  ]
+}

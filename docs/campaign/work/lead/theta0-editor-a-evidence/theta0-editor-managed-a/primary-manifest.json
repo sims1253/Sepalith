@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "build": "b10453-prm03-q8_0",
+  "model": {
+    "name": "model-Q8_0.gguf",
+    "url": "https://127.0.0.1:39411/model/model-Q8_0.gguf",
+    "sha256": "22401b9f6203cfcb8daa0f5a2919ba74e5e862889050cfb3059ceaf923fb4559",
+    "bytes": 2679710496
+  },
+  "bundles": [
+    {
+      "platform": "linux",
+      "arch": "x64",
+      "backend": "vulkan",
+      "server": "llama-server",
+      "files": [
+        {
+          "name": "llama-server",
+          "url": "https://127.0.0.1:39411/asset/vulkan/llama-server",
+          "sha256": "92a39a4fe4972653d096c26587e5f7f903f5ff5f38504f46ca1e7e5c0207095f",
+          "bytes": 16000,
+          "executable": true
+        },
+        {
+          "name": "libggml-base.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libggml-base.so.0",
+          "sha256": "4ffa2aefa2657ac24e9d7625dfa290c0aeb716a5884f4e88c00152eda9e32641",
+          "bytes": 952528
+        },
+        {
+          "name": "libggml-cpu.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libggml-cpu.so.0",
+          "sha256": "f82aaf3e360f95d08cd24a5bebbf4a2dd3ade05d1f40ac758c46b81fe664ee6f",
+          "bytes": 1164392
+        },
+        {
+          "name": "libggml-vulkan.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libggml-vulkan.so.0",
+          "sha256": "d77b579e80002f2ac25446255ea6f5b6920cd50753fd44fc56b9372b4564a694",
+          "bytes": 55818488
+        },
+        {
+          "name": "libggml.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libggml.so.0",
+          "sha256": "e09be1ddf0dbbfb4b5872795b303efe4f6077f2f9c46a73df6b9760112933f0f",
+          "bytes": 55208
+        },
+        {
+          "name": "libllama-cli-impl.so",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libllama-cli-impl.so",
+          "sha256": "4a825e419a8d44c9810476b8a1fa702d186bb2b3291b67b9b06a826a27fc4bd5",
+          "bytes": 446192
+        },
+        {
+          "name": "libllama-common.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libllama-common.so.0",
+          "sha256": "f53d946de43f736970b378a9261d9c5d8c8e1a232703d476a180c0b4250b2079",
+          "bytes": 6439832
+        },
+        {
+          "name": "libllama-server-impl.so",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libllama-server-impl.so",
+          "sha256": "c03980e8d5a2d744d57321e8109350b4c448e579d2e402e55781aae74849968b",
+          "bytes": 4522640
+        },
+        {
+          "name": "libllama.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libllama.so.0",
+          "sha256": "977e07774f8cd62aa185eb793cfd8620a50ffbb249f9669ba7b760671ed8a4ee",
+          "bytes": 4426208
+        },
+        {
+          "name": "libmtmd.so.0",
+          "url": "https://127.0.0.1:39411/asset/vulkan/libmtmd.so.0",
+          "sha256": "543ad059e92d50fe60e9c6b77130831eb8ab0ed38f9829292e3666631ef9d4f8",
+          "bytes": 2020216
+        }
+      ],
+      "launchProfile": {
+        "contextSize": 4096,
+        "batchSize": 256,
+        "ubatchSize": 256,
+        "parallel": 1,
+        "threads": 6,
+        "threadsBatch": 6,
+        "httpThreads": 2,
+        "gpuLayers": 99,
+        "cudaGraphOptimization": 0,
+        "vulkanGraphOptimization": true,
+        "sourceCommit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+        "sourceTree": "f9a9f82f92eb23b6dbc05494e542ddb1f907a0c4",
+        "serverSha256": "92a39a4fe4972653d096c26587e5f7f903f5ff5f38504f46ca1e7e5c0207095f",
+        "requiredLibraries": [
+          {
+            "name": "libggml-base.so.0",
+            "sha256": "4ffa2aefa2657ac24e9d7625dfa290c0aeb716a5884f4e88c00152eda9e32641"
+          },
+          {
+            "name": "libggml-cpu.so.0",
+            "sha256": "f82aaf3e360f95d08cd24a5bebbf4a2dd3ade05d1f40ac758c46b81fe664ee6f"
+          },
+          {
+            "name": "libggml-vulkan.so.0",
+            "sha256": "d77b579e80002f2ac25446255ea6f5b6920cd50753fd44fc56b9372b4564a694"
+          },
+          {
+            "name": "libggml.so.0",
+            "sha256": "e09be1ddf0dbbfb4b5872795b303efe4f6077f2f9c46a73df6b9760112933f0f"
+          },
+          {
+            "name": "libllama-cli-impl.so",
+            "sha256": "4a825e419a8d44c9810476b8a1fa702d186bb2b3291b67b9b06a826a27fc4bd5"
+          },
+          {
+            "name": "libllama-common.so.0",
+            "sha256": "f53d946de43f736970b378a9261d9c5d8c8e1a232703d476a180c0b4250b2079"
+          },
+          {
+            "name": "libllama-server-impl.so",
+            "sha256": "c03980e8d5a2d744d57321e8109350b4c448e579d2e402e55781aae74849968b"
+          },
+          {
+            "name": "libllama.so.0",
+            "sha256": "977e07774f8cd62aa185eb793cfd8620a50ffbb249f9669ba7b760671ed8a4ee"
+          },
+          {
+            "name": "libmtmd.so.0",
+            "sha256": "543ad059e92d50fe60e9c6b77130831eb8ab0ed38f9829292e3666631ef9d4f8"
+          }
+        ]
+      }
+    }
+  ],
+  "modelProfile": {
+    "renderer": "zeta2-prm03-v1",
+    "task": "r-next-edit",
+    "tokenizerRevision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "modelRevision": "theta0-step1000-q8_0",
+    "schemaVersion": "sepalith.prompt.prm03.v1",
+    "tokenizerJsonSha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "tokenizerConfigSha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "tokenizationPolicy": "hf_split_special_tokens_true_native_no_bos_no_parse_special_manual_bos0_terminal_eos1_final_lf_v1",
+    "bosTokenId": 0,
+    "canonicalEosTokenId": 1,
+    "vocabSize": 130560,
+    "nativeEogTokenIds": [
+      1,
+      130073
+    ],
+    "contextSize": 4096,
+    "maxOutputTokens": 192,
+    "modelSha256": "22401b9f6203cfcb8daa0f5a2919ba74e5e862889050cfb3059ceaf923fb4559"
+  }
+}

@@ -1,0 +1,7 @@
+1500-c supports bounded renderer measurements. All three deterministic controls pass. The 4,438 retained frames have zero drops; 95 multiline frames show all three sentinels, and the four PNGs corroborate the controls and both product ghosts. All 13 trusted CDP inputs match document version and content-hash changes.
+
+The two product first-visible intervals are 285.8–303.5 ms and 389.8–405.8 ms after the final key. Both precede the configured 1500 ms timer. The accepted expression buffer contains `result <- value + value` and passes exact-buffer R parsing. The incomplete typing and switch buffers were not committed model outputs.
+
+Gateway completion dispatch counts are 5/2/0/3 across the four cases: 10 total, four requester cancellations, six completed responses. The explicit edit occurs 15 ms after notebook observation of dispatch. Its gateway cancellation releases transport in 0.438 ms. Native logs record 10 processing tasks and 10 normal releases, without explicit cancellation or UUID/task mapping; native cancellation savings are not established.
+
+All pinned startup/runtime/binding checks pass. The collector ends gracefully on bounded CDP timeout, with its last frame 81 ms after the final case. Four initial long gaps precede controls. Measurements remain renderer observations under this synthetic workload, not representative latency, semantic quality, physical-keyboard latency, or a default-delay recommendation. Root retains admission and resource release.

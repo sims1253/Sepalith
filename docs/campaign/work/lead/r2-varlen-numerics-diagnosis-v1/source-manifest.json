@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "bytes": 3490,
+      "path": "source/analyze_varlen_reports.py",
+      "sha256": "f27245fa871dcac61d7ecd5dcf8a4081abe941fc0639d83f7b69ad37d41f4286"
+    },
+    {
+      "bytes": 2399,
+      "path": "source/numerics_probe_helpers.py",
+      "sha256": "e110592e75b539ca97fe47e39389e3b87aecbb60b8f616ebe287f487d2b639f5"
+    }
+  ],
+  "schema": "sepalith.sft11.varlen-numerics-source.v1",
+  "status": "frozen_preparation"
+}

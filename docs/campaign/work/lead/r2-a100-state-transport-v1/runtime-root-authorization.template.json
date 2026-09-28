@@ -1,0 +1,12 @@
+{
+  "action": "upload_full_weight_runtime_bundle_private",
+  "authorized": false,
+  "cache_manifest_sha256": "ac17fe1ced73efe37767bf28619b47c120f57be121c4648a1bf5fb0c426084ec",
+  "maximum_bytes": 8880462456,
+  "parent_manifest_sha256": "6ae1d9cef615d179d4e55b7da7f68cc67b92239ffce5daeb8852c547c6dfc15d",
+  "prefix": "full-weight-runtime/ac17fe1ced73efe37767bf2861",
+  "repo": "scholzmx/sepalith-lora",
+  "schema": "sepalith.pre04.full_weight_runtime_transport_authorization.v1",
+  "source_manifest_sha256": "5b66cab643b55259814c2dbfb9252dec391c563cc29099d5ce578c2c14483698",
+  "status": "not_admitted"
+}

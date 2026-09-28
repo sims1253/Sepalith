@@ -1,0 +1,10 @@
+{
+  "bound_recipe_sha256": "6e27ffd75187999fa02168124bf7e6d7deb1b4c4158ad7ff1ca4320e930a3fa7",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-recovery354-to450-cadence24-v1/runtime/checkpoint-450",
+  "checkpoint_manifest_sha256": "266d6ef90a736e5047ce3c0e4ce17a55718f981856cb52eafad6bc9bb2457f72",
+  "decision": "continue",
+  "launch_authorized": false,
+  "schema": "sepalith.sft11.cpt-stage-transition-continuation-admission.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "step": 450
+}

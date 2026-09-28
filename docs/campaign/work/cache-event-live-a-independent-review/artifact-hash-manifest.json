@@ -1,0 +1,264 @@
+{
+  "schema": 1,
+  "artifact_count": 32,
+  "missing_destination": [],
+  "mismatch_count": 0,
+  "artifacts": [
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a-supervision/launch.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/supervision/launch.json",
+      "bytes": 1382,
+      "source_sha256": "2c5d14a7685d41f4a24d66a4606debe20c5d70bb54a253f826a1e1e43f20c956",
+      "destination_sha256": "2c5d14a7685d41f4a24d66a4606debe20c5d70bb54a253f826a1e1e43f20c956",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a-supervision/owned-process-history.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/supervision/owned-process-history.json",
+      "bytes": 14997,
+      "source_sha256": "cc1d0d94adf67e6a180b9143dd427a4d9992b1a6d6df068ff3622c542252388d",
+      "destination_sha256": "cc1d0d94adf67e6a180b9143dd427a4d9992b1a6d6df068ff3622c542252388d",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a-supervision/owned-processes.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/supervision/owned-processes.json",
+      "bytes": 2239,
+      "source_sha256": "e64f692cb8dae2b692665e8578235702311eeeece67813b3d32faaed62afa1cb",
+      "destination_sha256": "e64f692cb8dae2b692665e8578235702311eeeece67813b3d32faaed62afa1cb",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a-supervision/stderr.log",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/supervision/stderr.log",
+      "bytes": 0,
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "destination_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a-supervision/stdout.log",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/supervision/stdout.log",
+      "bytes": 0,
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "destination_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a-supervision/terminal.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/supervision/terminal.json",
+      "bytes": 308,
+      "source_sha256": "c93f5dde65a29080e91c130d1fb719ab8d1ee30789b974bda79d388becb4be2a",
+      "destination_sha256": "c93f5dde65a29080e91c130d1fb719ab8d1ee30789b974bda79d388becb4be2a",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/event-control.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/event-control.json",
+      "bytes": 34,
+      "source_sha256": "426e41fb648a13ed497b69dde22db0a2b36999393325a18a6422fc3d9fe91a2f",
+      "destination_sha256": "426e41fb648a13ed497b69dde22db0a2b36999393325a18a6422fc3d9fe91a2f",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/ghost-01.png",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/ghost-01.png",
+      "bytes": 62092,
+      "source_sha256": "001cd38004a063e64d33e3aab08a89c794ba7cd9c6fbb12d81e44eb830de77dc",
+      "destination_sha256": "001cd38004a063e64d33e3aab08a89c794ba7cd9c6fbb12d81e44eb830de77dc",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/ghost-02.png",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/ghost-02.png",
+      "bytes": 75032,
+      "source_sha256": "407f84eae7579da05374b3e808afe0a043120f5befbc9afc9ede9a1b1087c365",
+      "destination_sha256": "407f84eae7579da05374b3e808afe0a043120f5befbc9afc9ede9a1b1087c365",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/ghost-03.png",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/ghost-03.png",
+      "bytes": 295061,
+      "source_sha256": "275df4bda39192fa4b25c1f3b01c3adb782327f72dc92155c919c89a78a62b74",
+      "destination_sha256": "275df4bda39192fa4b25c1f3b01c3adb782327f72dc92155c919c89a78a62b74",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/ghost-04.png",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/ghost-04.png",
+      "bytes": 297290,
+      "source_sha256": "b63da3f71f8171c899fdb2abf38ee9c32ed8a2aa726a1467ff5f49ed72a0106b",
+      "destination_sha256": "b63da3f71f8171c899fdb2abf38ee9c32ed8a2aa726a1467ff5f49ed72a0106b",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/harness-events.jsonl",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/harness-events.jsonl",
+      "bytes": 45326,
+      "source_sha256": "7e9cb97f5e4ebb087c3ac8802c0e3cbac406e49c63c6b3cb880531935b2f183a",
+      "destination_sha256": "7e9cb97f5e4ebb087c3ac8802c0e3cbac406e49c63c6b3cb880531935b2f183a",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/host-process.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/host-process.json",
+      "bytes": 97,
+      "source_sha256": "d29b0ea7232a24089baa0374baa4b8f3d5dbb2aded98a14299bb9e2385e7de73",
+      "destination_sha256": "d29b0ea7232a24089baa0374baa4b8f3d5dbb2aded98a14299bb9e2385e7de73",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/host-result.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/host-result.json",
+      "bytes": 76654,
+      "source_sha256": "2c5050134f88b21a1a6160fa1d1990d50901657ca95cd24223c836e987c4cf76",
+      "destination_sha256": "2c5050134f88b21a1a6160fa1d1990d50901657ca95cd24223c836e987c4cf76",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/host.stderr.log",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/host.stderr.log",
+      "bytes": 221,
+      "source_sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d",
+      "destination_sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/host.stdout.log",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/host.stdout.log",
+      "bytes": 0,
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "destination_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/install.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/install.json",
+      "bytes": 97,
+      "source_sha256": "00b0100e19fc427eac08bde068a92e55f76a9c69ba70c1ac0f1aed9de6fd002e",
+      "destination_sha256": "00b0100e19fc427eac08bde068a92e55f76a9c69ba70c1ac0f1aed9de6fd002e",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/install.stderr.log",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/install.stderr.log",
+      "bytes": 302,
+      "source_sha256": "8aff9df82fef4c738e5266d633ceb39a37b1ee0294dab9ad3a9e0b420b45557d",
+      "destination_sha256": "8aff9df82fef4c738e5266d633ceb39a37b1ee0294dab9ad3a9e0b420b45557d",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/install.stdout.log",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/install.stdout.log",
+      "bytes": 80,
+      "source_sha256": "c7747a63358f0767a5547497a9ed26ac0310f30c36ef55a150a79b62f8dc08fd",
+      "destination_sha256": "c7747a63358f0767a5547497a9ed26ac0310f30c36ef55a150a79b62f8dc08fd",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/launch.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/launch.json",
+      "bytes": 896,
+      "source_sha256": "cc58e20bc708babc37d8ca10eb8d0587d53f1a23a6e66c48a2eb783caf9bc6a2",
+      "destination_sha256": "cc58e20bc708babc37d8ca10eb8d0587d53f1a23a6e66c48a2eb783caf9bc6a2",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/preflight.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/preflight.json",
+      "bytes": 1440,
+      "source_sha256": "2de98d4814cca928d8b84b2530b3e1776b15738ebe96a4bbdb12e0bfc52bc147",
+      "destination_sha256": "2de98d4814cca928d8b84b2530b3e1776b15738ebe96a4bbdb12e0bfc52bc147",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/provider-trace.jsonl",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/provider-trace.jsonl",
+      "bytes": 138223,
+      "source_sha256": "678f22c86e56c5219f1f58b686447bea9daf1eabcde2a64de750b44cb3b1daa3",
+      "destination_sha256": "678f22c86e56c5219f1f58b686447bea9daf1eabcde2a64de750b44cb3b1daa3",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/renderer-frames.jsonl",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/renderer-frames.jsonl",
+      "bytes": 1287869,
+      "source_sha256": "ac4cc5136912a75682aba1a5ace5ca2cca3aac70e3303e3fa9ac9779380ffe6d",
+      "destination_sha256": "ac4cc5136912a75682aba1a5ace5ca2cca3aac70e3303e3fa9ac9779380ffe6d",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/renderer-observer.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/renderer-observer.json",
+      "bytes": 1625,
+      "source_sha256": "de9f59483a7ca44575fb10e070c74ff9b27b435c93cb48ad0d809b9f00397f89",
+      "destination_sha256": "de9f59483a7ca44575fb10e070c74ff9b27b435c93cb48ad0d809b9f00397f89",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/renderer-ready.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/renderer-ready.json",
+      "bytes": 977,
+      "source_sha256": "df530dee49a7030939dad4fc2b160bf1e80505d0be1e0cce6f4b0f94c12df11a",
+      "destination_sha256": "df530dee49a7030939dad4fc2b160bf1e80505d0be1e0cce6f4b0f94c12df11a",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/renderer-result.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/renderer-result.json",
+      "bytes": 1449,
+      "source_sha256": "e1e4703ab16758337f1f7d831a1f5b7de0c914071d3d71bf305f65106841b0fd",
+      "destination_sha256": "e1e4703ab16758337f1f7d831a1f5b7de0c914071d3d71bf305f65106841b0fd",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/retained-evidence.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/retained-evidence.json",
+      "bytes": 140,
+      "source_sha256": "1e6a339390a7c1dc619b081ef8a98720d81a8f96d0b35be8d19f3f6a24db1896",
+      "destination_sha256": "1e6a339390a7c1dc619b081ef8a98720d81a8f96d0b35be8d19f3f6a24db1896",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/run-result.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/run-result.json",
+      "bytes": 282,
+      "source_sha256": "5244604445d25f2e708a57cbcb2e2e340f5a564c421336efc67381cb287537d0",
+      "destination_sha256": "5244604445d25f2e708a57cbcb2e2e340f5a564c421336efc67381cb287537d0",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/runtime-status.json",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/runtime-status.json",
+      "bytes": 130,
+      "source_sha256": "3dbdf3da4488ef4ddd9c297f357da1ac3bf45c39e78813bbe6c06b9c02fc9248",
+      "destination_sha256": "3dbdf3da4488ef4ddd9c297f357da1ac3bf45c39e78813bbe6c06b9c02fc9248",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/workspace/observer-control-cancel.txt",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/workspace/observer-control-cancel.txt",
+      "bytes": 10,
+      "source_sha256": "d151bf7b8c9b5404f154d7234c6c79c2e2b4548fc220f33172876f07cefac9c6",
+      "destination_sha256": "d151bf7b8c9b5404f154d7234c6c79c2e2b4548fc220f33172876f07cefac9c6",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/workspace/observer-control-multiline.txt",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/workspace/observer-control-multiline.txt",
+      "bytes": 10,
+      "source_sha256": "d151bf7b8c9b5404f154d7234c6c79c2e2b4548fc220f33172876f07cefac9c6",
+      "destination_sha256": "d151bf7b8c9b5404f154d7234c6c79c2e2b4548fc220f33172876f07cefac9c6",
+      "match": true
+    },
+    {
+      "remote_path": "/home/m0hawk/.local/share/sepalith-campaign-20260915/runs/cache-event-live-a/workspace/observer-control-visible.txt",
+      "local_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/cache-event-live-a-independent-review/workspace/observer-control-visible.txt",
+      "bytes": 10,
+      "source_sha256": "d151bf7b8c9b5404f154d7234c6c79c2e2b4548fc220f33172876f07cefac9c6",
+      "destination_sha256": "d151bf7b8c9b5404f154d7234c6c79c2e2b4548fc220f33172876f07cefac9c6",
+      "match": true
+    }
+  ]
+}

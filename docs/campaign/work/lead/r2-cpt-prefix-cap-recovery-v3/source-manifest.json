@@ -1,0 +1,114 @@
+{
+  "builder": {
+    "bytes": 52716,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/materialize_prefix_cap_recovery.py",
+    "sha256": "b37ae0fe27015a6596e1e7b8750c0ab77daed4b8375e10603603407258393fc2"
+  },
+  "combined_frontier": {
+    "bytes": 1301005,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/combined-frontier.jsonl",
+    "sha256": "4708d69f53e04c48754e48095497eb1c281acac998dd099620b8fae293a1019d"
+  },
+  "combined_frontier_manifest": {
+    "bytes": 2981,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/combined-frontier-manifest.json",
+    "sha256": "26f4799d85d72300f52a733c0cd9c42e9d6fb5b220d56a985538b7efb0bf879c"
+  },
+  "created_at": "2026-09-14T20:55:14.075252+00:00",
+  "inputs": {
+    "cpt_partition": {
+      "bytes": 464000,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    "global_split": {
+      "bytes": 49108497,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    "profile_documents": {
+      "bytes": 1118092,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v1/documents.jsonl",
+      "sha256": "674d3bf6e2da08b53a0d0fa6d7ae1977c5bc6940938ebe2aaf6c7c1643ff6d68"
+    },
+    "protected_parent_hashes": {
+      "bytes": 883961,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/known-nontrain-parent-hashes.json",
+      "sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0"
+    },
+    "raw_chunk_contract": {
+      "bytes": 11920,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "terminal_document_provenance": {
+      "bytes": 79025155,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1/document-provenance.jsonl",
+      "sha256": "a731974ee8581b9fa571aae9672f6b933743779c24f4253843bff268065c305f"
+    },
+    "tokenizer": {
+      "bytes": 9894271,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  },
+  "packet": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3",
+  "policy": {
+    "cpu_threads": 2,
+    "frozen_v2_unchanged": true,
+    "max_source_bytes": null,
+    "no_cloud": true,
+    "no_cuda": true,
+    "no_full_recovery_executed": true,
+    "no_training_launch": true,
+    "target_truncation": false
+  },
+  "readme": {
+    "bytes": 5270,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/README.md",
+    "sha256": "061a700d4413d3ae3a2f6931bc00a165543a971c9016640b0bd4e2c5342c8993"
+  },
+  "resume_counters": {
+    "explicit_zero_keys": [
+      "documents",
+      "rows",
+      "input_tokens",
+      "supervised_tokens",
+      "raw_bytes",
+      "code_tokens"
+    ],
+    "manifest_hash_and_identity_validation": true,
+    "valid_zero_document_group_states": [
+      "all_excluded",
+      "duplicate_only",
+      "repair_only"
+    ]
+  },
+  "schema": "sepalith.dat10.cpt-prefix-cap-recovery-v3-source-manifest.v1",
+  "scope": {
+    "base_broader_package_cap": 4,
+    "groups": 81,
+    "prefix_global_cap": 1999,
+    "rows": 2003
+  },
+  "status": "prepared_tests_pass_no_full_recovery",
+  "tests": {
+    "command": "CANON=/home/m0hawk/Documents/Sepalith; PYTHONNOUSERSITE=1 \"$CANON/.venv-sft/bin/python\" -B docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/test_materialize_prefix_cap_recovery.py",
+    "coverage": [
+      "emitted positive resume",
+      "empty/all-excluded positive resume",
+      "duplicate-only positive resume",
+      "repair-only positive resume",
+      "tampered payload rejection",
+      "alternate frontier identity rejection",
+      "no-cap source retention",
+      "named license exclusion"
+    ],
+    "status": "PASS"
+  },
+  "tests_artifact": {
+    "bytes": 7989,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v3/test_materialize_prefix_cap_recovery.py",
+    "sha256": "365c0e447554d7e18c21826773d57ff4e93200d87e40461ebbd8117acdca3198"
+  }
+}

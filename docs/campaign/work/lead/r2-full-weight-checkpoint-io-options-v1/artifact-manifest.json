@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "bytes": 10749,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-full-weight-checkpoint-io-options-v1/audit.json",
+      "sha256": "e741738a4a23340c12eb44e4ee237e89016597c3ab4c808136563f584e73efa1"
+    },
+    {
+      "bytes": 3768,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-full-weight-checkpoint-io-options-v1/collect_read_only.py",
+      "sha256": "3d56d93511c418819a01bbd92eef3fd6170bda7cf79ca78fe8eca1ee596fd57f"
+    },
+    {
+      "bytes": 6473,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-full-weight-checkpoint-io-options-v1/read-only-evidence.json",
+      "sha256": "643985b42c5745fd7bbc12dd567193e7d3f9d2c948d4dc677820da8465938a98"
+    },
+    {
+      "bytes": 581,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-full-weight-checkpoint-io-options-v1/test-results.log",
+      "sha256": "7eb8a212839d86b773ac49f5dcb01939de476a40e0fcb37ce3c8048c5298e51d"
+    },
+    {
+      "bytes": 2175,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-full-weight-checkpoint-io-options-v1/test_call_chain.py",
+      "sha256": "e7053d1c64b87307b329efc677bd73c635084236e401b97abdaac5bb20341225"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

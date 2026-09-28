@@ -1,0 +1,26 @@
+{
+  "schema": "sepalith.root.resource-accumulation-source.v1",
+  "difference": "16 repeated full-length microbatches averaged before each optimizer update; resource only, no saved model or quality claim",
+  "files": [
+    {
+      "path": "expected-aurora-mix-manifest.json",
+      "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7",
+      "bytes": 90229
+    },
+    {
+      "path": "full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13",
+      "bytes": 19826
+    },
+    {
+      "path": "full_weight_smoke.py",
+      "sha256": "9f105626b04a422b20904e14bfe07cf60e8ebdbe2ce1b0d1bd5ddc5ca7447b18",
+      "bytes": 15506
+    },
+    {
+      "path": "smoke-configs.json",
+      "sha256": "91830e68559c694195779fc642e78ef5d1317bb171c74aaa77a2167362c8d1ac",
+      "bytes": 1679
+    }
+  ]
+}

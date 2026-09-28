@@ -1,0 +1,148 @@
+{
+  "files": [
+    {
+      "bytes": 10023,
+      "mode": "0o644",
+      "path": "source/campaign_client.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/campaign_client.ts",
+      "provider_v3_sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "bytes": 34464,
+      "mode": "0o644",
+      "path": "source/campaign_protocol.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/campaign_protocol.ts",
+      "provider_v3_sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 4642,
+      "mode": "0o644",
+      "path": "source/campaign_requests.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/campaign_requests.ts",
+      "provider_v3_sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "bytes": 25008,
+      "mode": "0o644",
+      "path": "source/campaign_selection.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/campaign_selection.ts",
+      "provider_v3_sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 1485,
+      "mode": "0o644",
+      "path": "source/completion.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/completion.ts",
+      "provider_v3_sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "bytes": 14528,
+      "mode": "0o644",
+      "path": "source/context_build.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/context_build.ts",
+      "provider_v3_sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "mode": "0o644",
+      "path": "source/context_select.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/context_select.ts",
+      "provider_v3_sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 56128,
+      "mode": "0o644",
+      "path": "source/extension.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/extension.ts",
+      "provider_v3_sha256": "fb8faf6ea2778828f4078685918a3e78ebfe03fae0ac371a01d75578f877e109",
+      "relation": "modified_from_provider_v3",
+      "sha256": "3910dc8e194db7324921487c5a13c0b6eb94b5ca22b0bfdc9de152a2ec793c46"
+    },
+    {
+      "bytes": 4570,
+      "mode": "0o644",
+      "path": "source/full_document_policy.ts",
+      "relation": "new_policy_module",
+      "sha256": "521c3d4491c154789aa4e3a57266f62a54ddafa3f4fcb875dbdb0cab095d05bb"
+    },
+    {
+      "bytes": 23912,
+      "mode": "0o644",
+      "path": "source/history_provider.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/history_provider.ts",
+      "provider_v3_sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 2816,
+      "mode": "0o644",
+      "path": "source/next_edit.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/next_edit.ts",
+      "provider_v3_sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "bytes": 1518,
+      "mode": "0o644",
+      "path": "source/primary_context.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/primary_context.ts",
+      "provider_v3_sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 1352,
+      "mode": "0o644",
+      "path": "source/process_lifecycle.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/process_lifecycle.ts",
+      "provider_v3_sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "bytes": 23571,
+      "mode": "0o644",
+      "path": "source/r_base_bindings.generated.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/r_base_bindings.generated.ts",
+      "provider_v3_sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 24460,
+      "mode": "0o644",
+      "path": "source/runtime.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/runtime.ts",
+      "provider_v3_sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "bytes": 21655,
+      "mode": "0o644",
+      "path": "source/semantic_provider.ts",
+      "provider_v3_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/semantic_provider.ts",
+      "provider_v3_sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b",
+      "relation": "byte_identical_to_provider_v3",
+      "sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b"
+    }
+  ],
+  "schema": "sepalith.run06.full_document_policy_source_manifest.v1",
+  "status": "review_only_frozen_source"
+}

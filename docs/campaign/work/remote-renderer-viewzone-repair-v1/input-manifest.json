@@ -1,0 +1,92 @@
+{
+  "files": [
+    {
+      "bytes": 4999,
+      "path": "docs/campaign/DELEGATION.md",
+      "sha256": "cbd0365d9edc3a3b015e95382d8b39da1232a76e74f4b067e593e871ad5e1625"
+    },
+    {
+      "bytes": 7417,
+      "path": "docs/campaign/work/remote-editor-harness-v1/observe_renderer.mjs",
+      "sha256": "34b2f847098489e748a52d57682088c5e9a974e4b70475f300717cbc89659c06"
+    },
+    {
+      "bytes": 6531,
+      "path": "docs/campaign/work/remote-editor-harness-v1/analyze_renderer.mjs",
+      "sha256": "007e9065af75f4da686d4393f92b5b5e369ad029f8b025f0a6be09f7f13a8539"
+    },
+    {
+      "bytes": 9971,
+      "path": "docs/campaign/work/remote-editor-harness-v1/run_remote_editor.mjs",
+      "sha256": "12797fb6dc2df437d8b1c50833c7299c018d7d4706b9ca5288fdd2e4c9403011"
+    },
+    {
+      "bytes": 9396,
+      "path": "docs/campaign/work/remote-renderer-viewzone-repair-v1/observe_renderer-viewzone-repair.patch",
+      "sha256": "c713ffb25e3057a27005b506fc697985a024137ac21b4f5ae6b1ff553eabeddb"
+    },
+    {
+      "bytes": 8916,
+      "path": "docs/campaign/work/remote-auto-debounce-ab-v1/observe_renderer.mjs",
+      "sha256": "835dc6e465c0808a88c6a4df71fa7703318fd5962968cefde22344cf1df1ecd8"
+    },
+    {
+      "bytes": 9715,
+      "path": "docs/campaign/work/remote-renderer-viewzone-repair-v1/observe_renderer-viewzone-repair-on-ab.patch",
+      "sha256": "a83f22e4d9fe803e822d5f28a86c086b2b3f0ea278ac34c8849757d0d8065d04"
+    },
+    {
+      "bytes": 9939,
+      "path": "docs/campaign/work/remote-renderer-viewzone-repair-v1/analyze_renderer_viewzone.mjs",
+      "sha256": "fd201de8ef47e3176a7a101596e01d2736b99af1b5f030faaf9e4ed8047559bc"
+    },
+    {
+      "bytes": 38246,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/review-report.json",
+      "sha256": "73c9473ae16958b493e6383f6ccdffcf298c3e5fa482182308d3652f869b49fe"
+    },
+    {
+      "bytes": 786516,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/renderer-frames.jsonl",
+      "sha256": "770a2110a9525df86765856208b5a81481e766bc4a2637e852fe641811e2dc3f"
+    },
+    {
+      "bytes": 1180,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/renderer-observer.json",
+      "sha256": "3069f204690b9030d24a633f59f98d60c13c96784a0b5a664226367ab8849f72"
+    },
+    {
+      "bytes": 85,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/renderer-result.json",
+      "sha256": "a7ecee09ea5f5f0f6934ba1c274c584d4174cf8e166f1b6bc15657dad0b04408"
+    },
+    {
+      "bytes": 38936,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/host-result.json",
+      "sha256": "baa145dff74a50bc96b05520202b0894e0408167efa909b6fff963e76366e321"
+    },
+    {
+      "bytes": 671,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/renderer-ready.json",
+      "sha256": "8851d12474c70e83511316845c55ace7d2126eeb2fb6b16c9db8efb23553448f"
+    },
+    {
+      "bytes": 62092,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/ghost-01.png",
+      "sha256": "001cd38004a063e64d33e3aab08a89c794ba7cd9c6fbb12d81e44eb830de77dc"
+    },
+    {
+      "bytes": 75015,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/ghost-02.png",
+      "sha256": "2704cc9701f504a751806840aa877756a9c2968bff5e113511ea00e0980f9fb1"
+    },
+    {
+      "bytes": 76361,
+      "path": "docs/campaign/work/remote-editor-a-independent-review/remote/ghost-03.png",
+      "sha256": "56e0ee020e95d398aea6476841451a441ec5a3b86d9dcead512f8122eebb21df"
+    }
+  ],
+  "read_policy": "Only retained campaign evidence and source files listed above were read; no SSH, editor, process control, GPU, model or state access.",
+  "retained_run": "RUN-04-remote-editor-a",
+  "schema": "sepalith.run04.remote-renderer-viewzone-repair.inputs.v1"
+}

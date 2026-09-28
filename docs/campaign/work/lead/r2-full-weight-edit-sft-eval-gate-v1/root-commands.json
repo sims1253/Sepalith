@@ -1,0 +1,21 @@
+{
+  "schema": "sepalith.sft11.full-weight-edit-sft-eval-gate.commands.v1",
+  "status": "root_review_and_admission_required",
+  "sequence": [
+    "Run CPU template preflight and bind a root admission with one selected schedule, parent, LR, batching, milestone list, and generation budget.",
+    "Run training under root CUDA guard. The process saves and exits at the next mandatory milestone.",
+    "Create a fresh root DEV-generation admission bound to the bound recipe, checkpoint manifest, corrected panel, output, and deadline.",
+    "Run actual DEV generation under an exclusive root CUDA guard while no trainer is active.",
+    "Review generation evidence, write a root continuation decision, and materialize the exact dev-gate-step-N.json.",
+    "Resume from the same full checkpoint. Missing or mismatched gate evidence fails before model loading."
+  ],
+  "commands": {
+    "template_preflight": "CUDA_VISIBLE_DEVICES='' PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B source/experiments/training/full_weight_edit_sft.py preflight-template --recipe recipe.template.json",
+    "bind": "PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B source/experiments/training/bind_full_weight_edit_sft.py --template recipe.template.json --admission /ABSOLUTE/ROOT-ADMISSION.json --output /ABSOLUTE/FRESH-BOUND.json",
+    "train_or_resume": "PYTHONPATH=source/experiments/training CUDA_VISIBLE_DEVICES=0 PYTHONNOUSERSITE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B source/experiments/training/full_weight_edit_sft.py run --recipe /ABSOLUTE/BOUND.json [--resume /ABSOLUTE/DURABLE/full/checkpoint-N]",
+    "dev_generation": "PYTHONPATH=source/experiments/training CUDA_VISIBLE_DEVICES=0 PYTHONNOUSERSITE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B source/experiments/training/run_dev_generation.py --bound-recipe /ABSOLUTE/BOUND.json --checkpoint /ABSOLUTE/DURABLE/full/checkpoint-N --dev-admission /ABSOLUTE/ROOT-DEV-ADMISSION.json --output /ABSOLUTE/FRESH-DEV-RESULT.json",
+    "materialize_gate_after_root_decision": "PYTHONPATH=source/experiments/training PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B source/experiments/training/prepare_dev_gate.py --bound-recipe /ABSOLUTE/BOUND.json --checkpoint /ABSOLUTE/DURABLE/full/checkpoint-N --result /ABSOLUTE/DEV-RESULT.json --root-decision /ABSOLUTE/ROOT-DECISION.json --output /EXACT/BOUND/GATE-DIR/dev-gate-step-N.json"
+  },
+  "launch_authorized": false,
+  "final_access_authorized": false
+}

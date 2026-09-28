@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "status": "prepared_not_selected_not_launched",
+  "training_recipe": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/recipe.json",
+    "sha256": "d9fcd250546338040e553e65e353c75bce0e16849a35ef88ff68fa651a8cc0ac"
+  },
+  "expected_identity": {
+    "parent": {
+      "revision": "SFT-primary-step1000-theta0",
+      "weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+      "parent_manifest_sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12"
+    },
+    "tokenizer": {
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "BOS": 0,
+      "EOS_PAD": 1,
+      "native_EOG": [
+        1,
+        130073
+      ]
+    },
+    "renderer": {
+      "id": "zeta2-prm03-v1",
+      "contract_sha256": "173577c7df85d6e51e22ff9a556062737b311382f58a029b6a177e9a418e57d1"
+    },
+    "data": {
+      "train_rows_sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe",
+      "draw_schedule_sha256": "017fc74ccb6fad43d2bf263d0b3d892fa13bd3fce37bff9ae6a6572fde912d31",
+      "development_panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df",
+      "correction_manifest_sha256": "7ed300ca3ae69a601d74b9eaf83841bd597ef2723e3968e4b976ae87027086e0",
+      "original_development_panel_sha256": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21"
+    },
+    "source": "dcccf3ed2de98386223a0d06c994747e025363ebed80d6adc9d96bfee21a3e43",
+    "policy": {
+      "stage": "finish_correction_target_only_pilot50_v1",
+      "initialization": "new_lora_on_merged_sft1000_theta0",
+      "full_text_labels": false,
+      "optimizer": "adamw_torch_fused",
+      "weight_decay": 0.0,
+      "lr_schedule": "cosine",
+      "warmup_ratio": 0.03,
+      "seed": 3407,
+      "loss_objective": "exact_target_and_eos_v1"
+    },
+    "schedule": {
+      "max_steps": 200,
+      "per_device_batch": 4,
+      "gradient_accumulation": 4,
+      "learning_rate": 5e-05,
+      "lora_rank": 32,
+      "lora_alpha": 64,
+      "max_sequence_tokens": 4096
+    }
+  },
+  "base": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT-target-only25-a/full/checkpoint-25",
+  "merged_output": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-merged",
+  "runtime_output": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-runtime-gguf",
+  "training_source_root": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-target-only-v1/snapshots/dcccf3ed2de98386223a0d06c994747e025363ebed80d6adc9d96bfee21a3e43/source",
+  "tokenizer_byte_pins": {
+    "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+  },
+  "dependency_pins_sha256": "a862d5e66609e76241b65bd8bb356cf5a430282f9177c45add3b19e5eaa9424f",
+  "python_library_metadata_sha256": "ced9ffad78911504e59a3739871cd62306f3d642902f371e299c47e0486a464d",
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "NUMEXPR_NUM_THREADS": "2",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "PYTHONPATH": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-target-only-v1/snapshots/dcccf3ed2de98386223a0d06c994747e025363ebed80d6adc9d96bfee21a3e43/source/packages/sepalith/src:/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-target-only-v1/snapshots/dcccf3ed2de98386223a0d06c994747e025363ebed80d6adc9d96bfee21a3e43/source/experiments/training"
+  },
+  "unset_environment": [
+    "NO_LOCAL_GGUF",
+    "LD_PRELOAD",
+    "LD_LIBRARY_PATH",
+    "PYTHONOPTIMIZE"
+  ],
+  "resource_proposal": {
+    "cpu_threads": 2,
+    "root_guard_seconds": 900,
+    "command_seconds": [
+      240,
+      240,
+      240
+    ],
+    "root_host_free_admission_gib": 24,
+    "root_host_free_stop_gib": 12,
+    "wsl_available_admission_gib": 16,
+    "disk_free_required_gib": 120,
+    "peak_new_artifact_reserve_gib": 20,
+    "hash_and_cleanup_reserve_seconds": 180,
+    "note": "Proposal requires root live memory/resource admission; timeouts may leave partial private artifacts. No runtime or quality promotion."
+  },
+  "commands": [
+    [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python3.10",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-export-preparation-v1/merge_target_only25_cpu.py",
+      "--recipe",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/recipe.json",
+      "--checkpoint",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT-target-only25-a/full/checkpoint-25",
+      "--output",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-merged",
+      "--export-spec",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-export-preparation-v1/export-recipe.json",
+      "--selection",
+      "{selection_path}",
+      "--selection-sha256",
+      "{selection_sha256}"
+    ],
+    [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python3.10",
+      "/home/m0hawk/Documents/Sepalith/experiments/bin/src/llamacpp-b10453/convert_hf_to_gguf.py",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-merged",
+      "--outfile",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-runtime-gguf/model-F16.gguf",
+      "--outtype",
+      "f16"
+    ],
+    [
+      "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+      "--output-tensor-type",
+      "q8_0",
+      "--token-embedding-type",
+      "q8_0",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-runtime-gguf/model-F16.gguf",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-target-only25-a-runtime-gguf/model-Q8_0.gguf",
+      "Q8_0",
+      "2"
+    ]
+  ]
+}

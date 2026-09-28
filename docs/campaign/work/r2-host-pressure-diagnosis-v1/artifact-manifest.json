@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "files": {
+    "README.md": {
+      "sha256": "e7246c8547a12876c1373fe33dd5cc1730a54417792c2234160b64cb4af03850",
+      "bytes": 2871
+    },
+    "current-linux-memory.json": {
+      "sha256": "a2ee3dba4f93a65d1a341889e5598159ae6a3ea477100295ab1581395fe390d7",
+      "bytes": 1727
+    },
+    "diagnose.py": {
+      "sha256": "6213e4c2bb2a3478358236078b22d9f0aba9448e9008036735a157456a89865d",
+      "bytes": 6059
+    },
+    "diagnosis-stdout.json": {
+      "sha256": "bfffe0bb7031cf19d042ea92e165d5d717cfe348ab1955ab4c19a32655a734b9",
+      "bytes": 420
+    },
+    "diagnosis.json": {
+      "sha256": "e10c6fa031fe697095076f2ee7060b47ebcf295c82c09300884c7c34c2fc1589",
+      "bytes": 10657
+    },
+    "input-evidence-manifest.json": {
+      "sha256": "08e06ebe011f35e6393edd671d296734654334b622fa75253cdc904d39d7d146",
+      "bytes": 1798
+    },
+    "retry-b-guard-preflight.json": {
+      "sha256": "5a1ea2067050080064740ff70054504108687359c9a1003664e93f4c7c307d08",
+      "bytes": 1341
+    },
+    "retry-b-guard-terminal.json": {
+      "sha256": "e29b183e31e6b42acc77956cffbefeee1c8679ce07ff41073a79824cfc3bd15e",
+      "bytes": 85
+    },
+    "retry-b-model-cache-inventory.json": {
+      "sha256": "95eb03d63a17649f8c30149ef3cb1dedae907f8fddc387a197644cfa53bfd3ab",
+      "bytes": 157
+    },
+    "retry-b-owned-model-cache-release.json": {
+      "sha256": "47ea1232028efeb0673a67070d442dadbdbcd53123b6191f5ddf24607993339b",
+      "bytes": 353
+    },
+    "root-host-after-reclaim.json": {
+      "sha256": "cccac21004e04a9b9c4d7d1eebb4b853de974245f20191e5119058b777edf0a7",
+      "bytes": 1755
+    },
+    "root-post-stop-reclaim.json": {
+      "sha256": "92e8b4aa52262cf087a7bc7e5a741e68e8f85819cd538d58a9d50b243d818a3f",
+      "bytes": 260
+    },
+    "sample_host_memory.py": {
+      "sha256": "b7315b459ce19fe77c126a20fbfe0e64df99ad5a2536e5a41a8b0de26a4c020b",
+      "bytes": 10897
+    },
+    "sampler-tests.txt": {
+      "sha256": "970e14b4931ec0b85a3fba34679842d375af9eb84f8c3f7a5dd308340a9c7f9f",
+      "bytes": 750
+    },
+    "smoke-guard-terminal.json": {
+      "sha256": "011da23a891e3be3024dd23b8e9893fbc82a625b4e0e59aedb2887c3b82894af",
+      "bytes": 198
+    },
+    "smoke-host-memory.jsonl": {
+      "sha256": "eed99a0a6de96db85a8bbbbc9fcde6076c21f5de420d4a62d327a4879c6061fd",
+      "bytes": 2761
+    },
+    "smoke-low-memory-details.jsonl": {
+      "sha256": "4ebab1077ae4257672e9afb7f9f20f99dfb60e234221bccf6ea8b5c625e31255",
+      "bytes": 4848
+    },
+    "smoke-post-load-cache-release.json": {
+      "sha256": "248f74dfe69c339575dc33cd8080b95a5928b6e9e3cf01a7c0c014c916412825",
+      "bytes": 511
+    },
+    "test_sampler.py": {
+      "sha256": "ab8c68bee64b787a29747a71d30fac5941f0ea87f3bbd77681ab3918231b837b",
+      "bytes": 4780
+    },
+    "source-manifest.json": {
+      "sha256": "8366ef6d064bb92a4f2e0c685a5c47f6da3be458775740e3d5801496aa3e1484",
+      "bytes": 576
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "campaign_manifest_sha256": "FILL",
+  "converter_identity_sha256": "706a876c4d7257aaa4519048323d243876f841467e930d16a1777832ebb41017",
+  "cuda_owner": "root",
+  "final_set_access": false,
+  "launch_authorized": false,
+  "packet_source_manifest_sha256": "48af7fb8dba1e695da8edbc4c2f818c4d7a9c9d82fd36f9d2aee3cf743326b44",
+  "schema": "sepalith.run06.final-target-serving-refresh-admission.v2",
+  "scope": [
+    "export",
+    "norm_audit",
+    "imatrix",
+    "quantize",
+    "spec_serving"
+  ],
+  "status": "prepared_not_admitted",
+  "target_identity": "FILL"
+}

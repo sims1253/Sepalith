@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "files": {
+    "README.md": {
+      "sha256": "edfdacbdf7ff68d49f7b1950c1debea031a3d040ca516e2785dcf6f2050e63fd",
+      "bytes": 2751
+    },
+    "ROOT-COMMAND.txt": {
+      "sha256": "5a99d3e44b4c11b1c765ed39ed678e5fc621a35cbf71a489dccf3993f3bcc7aa",
+      "bytes": 1081
+    },
+    "analyze_renderer.mjs": {
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0",
+      "bytes": 10464
+    },
+    "capsule-manifest.json": {
+      "sha256": "df665a39f08f3c853a7d39ef3c7cfa4b90786df4cdd0ec47b5befaeea1b04982",
+      "bytes": 1013
+    },
+    "check_smoke.mjs": {
+      "sha256": "e0fc7f4c635b8ae1eafdea2546e2b8862fb2273fa67f6de5c09206eef54d33d7",
+      "bytes": 4506
+    },
+    "cpu-checks.json": {
+      "sha256": "f46a737d9acefe336d86e2cd38774970e2584c20a9d059f4ae3b652404602735",
+      "bytes": 772
+    },
+    "daily-editor-smoke-capsule.tar": {
+      "sha256": "159d026b359c733da3aa54484ecc4637e337b5f3ae672eef46212e5f6658c00c",
+      "bytes": 122880
+    },
+    "expected-daily-settings.json": {
+      "sha256": "2c8dcf15b46ac74d92df82b3b4cbaa484a8cbb7f548908106dc43d474c5c03df",
+      "bytes": 556
+    },
+    "input-pins.json": {
+      "sha256": "66c4f7933db6a45f9a7bc769ff5b47046fc51864f92aa9724059ce6897217904",
+      "bytes": 2701
+    },
+    "installed-payload-pins.json": {
+      "sha256": "3c14ad52ecab28ab0cd0956ad99811d77c176613c7768a43adcef43b88b77d54",
+      "bytes": 9246
+    },
+    "launcher.patch": {
+      "sha256": "ccf8545c5d532962a2a4cb88e04491c41a6ba6c5d97f1f84cf1f2d6e2ca88507",
+      "bytes": 11000
+    },
+    "notebook_editor_supervisor.py": {
+      "sha256": "81f9cd7cbee0883899cfa3a96f335fd8e2010b06e729a8ab40deb2efce84082a",
+      "bytes": 5953
+    },
+    "observe_renderer.mjs": {
+      "sha256": "6aad057fecf81b5cb1870e7192bda60f6102a0b8f77c3547182effe03ba851ca",
+      "bytes": 19245
+    },
+    "primary-editor-harness/acceptance-v2.js": {
+      "sha256": "05270ea01cc30d9ba1472098208a5964d8a0417ae9f7a1936482ccf46bfa71c4",
+      "bytes": 7537
+    },
+    "primary-editor-harness/extension.js": {
+      "sha256": "0b7f1be8159d2195d69385d6120e7544f570a90a5f29a1bed56596d06b8c1607",
+      "bytes": 23691
+    },
+    "primary-editor-harness/package.json": {
+      "sha256": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8",
+      "bytes": 279
+    },
+    "run_remote_editor.mjs": {
+      "sha256": "c7d2288ee8dcc3bc1e8908dc0233ee3e5f579d33c6c75374b7c18f4d05ee9a94",
+      "bytes": 12889
+    },
+    "started.json": {
+      "sha256": "29088d397263873cca9ab5e4a926816015b5de609723a7909f04ef98d6bb6ff8",
+      "bytes": 43
+    },
+    "startup_gate.mjs": {
+      "sha256": "aea146d1af6fa9739c46b003dc0f91b7e70e059b84ffa9b62c296160bae50f2d",
+      "bytes": 2509
+    }
+  },
+  "status": "cpu_preparation_only"
+}

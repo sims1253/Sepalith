@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "bytes": 11447,
+      "path": "tar_persistence_once_v3.py",
+      "sha256": "fc47085b0280f683929035f33be384c1cd85276ec113e20395526ebccba973b9"
+    },
+    {
+      "bytes": 8388,
+      "path": "root_tar_persistence_once_v3.py",
+      "sha256": "b4b2bbb1c42385fc3106dd9337e855a073210948d01829381794f25e96774589"
+    },
+    {
+      "bytes": 295,
+      "path": "root-authorization-once.template.json",
+      "sha256": "bb6edcac18d4271381d3f5970ef42b7a62003c272d0dc962ee3512a3e80f629f"
+    },
+    {
+      "bytes": 571,
+      "path": "root-path-observation.json",
+      "sha256": "c1931a40afcf559be77aabe84b4f6073359cecbeffcac742f23dbee3d6ed12d5"
+    },
+    {
+      "bytes": 1577,
+      "path": "test_once_controller_v3.py",
+      "sha256": "9310c74fd6129e41dff9ad817a0c69e9dfd14f32cbe4fc86d91b9442456722f0"
+    },
+    {
+      "bytes": 587,
+      "path": "tests.txt",
+      "sha256": "45822a8526061f7ef47f0d32af2a44cd6372df80539d622c9f27f5c3232e8b22"
+    },
+    {
+      "bytes": 1268,
+      "path": "README.md",
+      "sha256": "28e5ce7efc50502f7a1466fd384ab271534a222f309275311780d7418c4b01a1"
+    }
+  ],
+  "job_id": "prodjob_neqwkumat4i3rii5yl8af241ks",
+  "run_id": "4f899bbc6e9d46c0a88985d64e6d40e2",
+  "schema": "sepalith.cloud-cpt.tar-persistence-once-source-manifest.v3",
+  "status": "prepared_cpu_only_root_execution_required"
+}

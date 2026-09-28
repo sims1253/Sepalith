@@ -1,0 +1,78 @@
+{
+  "files": [
+    {
+      "bytes": 2046,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "1321edaa49e2ccd1c5cf123b079d225bbf875511c7a8dd73d4af2a74d11a9ea4"
+    },
+    {
+      "bytes": 3654,
+      "mode": "0o644",
+      "path": "analysis.json",
+      "sha256": "35b2ca9f580cd9cf3e575114a85ffce40cbd539b6213836b0081f9a487b9220a"
+    },
+    {
+      "bytes": 7237,
+      "mode": "0o644",
+      "path": "audit_external.py",
+      "sha256": "c79c0ffe6bc5c5bae26a3da021550b35f125645dc1ce7a7abc8dfa5b15fd806c"
+    },
+    {
+      "bytes": 2129,
+      "mode": "0o644",
+      "path": "build_representative_controls.py",
+      "sha256": "0f40754b35c52672097a372976448fb0e9de7a269ac075fe1e3bdb1d96424796"
+    },
+    {
+      "bytes": 949,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "c3722fea15057d994f5799e01d58016d981ee92395e2fb2f0e53e5e0a878209e"
+    },
+    {
+      "bytes": 2516,
+      "mode": "0o644",
+      "path": "namespace_evidence.R",
+      "sha256": "52e6643d2581944301164b4e6335e720746b4f21ac1f48f2c5cab529ddb0f68b"
+    },
+    {
+      "bytes": 4225,
+      "mode": "0o644",
+      "path": "namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 2962,
+      "mode": "0o644",
+      "path": "representative-controls.json",
+      "sha256": "e6b005be719d931e7113273b10685c82505fc1654ebdbdef59a7d26324b2d917"
+    },
+    {
+      "bytes": 541,
+      "mode": "0o644",
+      "path": "test-results.json",
+      "sha256": "bb01bbc4c8d4e3be853058e3d0f6a46f524758e865b29ecc3dee4cc9ab4b73be"
+    },
+    {
+      "bytes": 984,
+      "mode": "0o644",
+      "path": "test_external.py",
+      "sha256": "3a8c85719c6a5568bfe66e0e5ea638d38178c53732d5b95d54acb0883c6ec8cf"
+    },
+    {
+      "bytes": 2169,
+      "mode": "0o644",
+      "path": "test_namespace_evidence.py",
+      "sha256": "60feb84ae838079c4593f23de75efcb04210d2dfc9569da636bf3472233ab84e"
+    },
+    {
+      "bytes": 1737,
+      "mode": "0o644",
+      "path": "test_namespace_provider.ts",
+      "sha256": "d5bf9ce1950c0d1b9c78f06a25e66c9f003760ea4b3d308c562c6a870cc02351"
+    }
+  ],
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_review_only"
+}

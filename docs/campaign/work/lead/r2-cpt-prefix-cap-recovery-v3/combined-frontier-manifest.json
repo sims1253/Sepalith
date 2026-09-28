@@ -1,0 +1,61 @@
+{
+  "broader_source_rows": [
+    {
+      "bytes": 1696876,
+      "description_sha256": "01ef0623dfb1d1d4c22b4282149dd3e43ac41c72bd7739b5ea61df7c234be525",
+      "git_blob_sha1": "f5c51223a968e0b226026bbbe4a57c7e6c488da1",
+      "group_id": "g-b6374b1fbb65716da4d3",
+      "package": "AutoPlots",
+      "path": "/mnt/h/sepalith/normalized/AutoPlots/1.5.0/AutoPlots/R/PlotFunctions_NEW.R",
+      "source_sha1": "15633b96d058b877080973c4c5a71c3a7694d2b4",
+      "source_sha256": "b7bdbb87c9e0269f1aee58d8cf9e6610197f96aadc9b2f3895dae8cf9e094f7b"
+    },
+    {
+      "bytes": 293614,
+      "description_sha256": "0888361684342ad02e5033c8335b0ca1bdb9bf30f0fd448536799189e271014c",
+      "git_blob_sha1": "44785f39bce4aab1bc1c1be2b2d5eb622c773a63",
+      "group_id": "g-d9c731ea7b8581cc111b",
+      "package": "AICcmodavg",
+      "path": "/mnt/h/sepalith/normalized/AICcmodavg/2.3-4/AICcmodavg/R/modavgShrink.R",
+      "source_sha1": "8013eae3e40040b8d09955a5e3e3e90ef0016d79",
+      "source_sha256": "ecfedcc7067a769e36a5a0b3bf925d791c2a47307a86c957b9bc88a1b183206b"
+    },
+    {
+      "bytes": 524703,
+      "description_sha256": "0888361684342ad02e5033c8335b0ca1bdb9bf30f0fd448536799189e271014c",
+      "git_blob_sha1": "12433400b55a4461ef5376da3301afe655e9ef7f",
+      "group_id": "g-d9c731ea7b8581cc111b",
+      "package": "AICcmodavg",
+      "path": "/mnt/h/sepalith/normalized/AICcmodavg/2.3-4/AICcmodavg/R/modavg.R",
+      "source_sha1": "deeb68015bc8d1c86e9957003c4d39481da767b1",
+      "source_sha256": "1acf0ea83c1c71ae58b3a3b175060af75143bad7f000e536edd9f02c9dcadb67"
+    },
+    {
+      "bytes": 146704,
+      "description_sha256": "0888361684342ad02e5033c8335b0ca1bdb9bf30f0fd448536799189e271014c",
+      "git_blob_sha1": "aba24437ef09e0c6729080e2a192dbacb1e35540",
+      "group_id": "g-d9c731ea7b8581cc111b",
+      "package": "AICcmodavg",
+      "path": "/mnt/h/sepalith/normalized/AICcmodavg/2.3-4/AICcmodavg/R/aictab.R",
+      "source_sha1": "dd8305808945d0fa66b02aac54d2ce843b207831",
+      "source_sha256": "72916d9fa1149f4d3420f8fda94372e30d4fc1642f921e6f9a7726b2ed255c2d"
+    }
+  ],
+  "bytes": 1301005,
+  "created_at": "2026-09-14T20:38:46.386439+00:00",
+  "groups": 81,
+  "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/combined-frontier.jsonl",
+  "policy": "same source stat, source rehash, TRAIN/CPT/license, protected/heldout and terminal exact-dedup gates apply to every row; no cap or truncation",
+  "prefix_original_input_sha256": "acf86ba87bf833b6bd69cf732f2cb4a7d5356bcbd9e38ba2676b385af2b37560",
+  "prefix_source_hashes_in_input": 0,
+  "rows": 2003,
+  "schema": "sepalith.dat10.cpt-prefix-cap-recovery-v2-frontier.v1",
+  "scope_counts": {
+    "base_broader_package_cap": 4,
+    "prefix_global_cap": 1999
+  },
+  "sha256": "4708d69f53e04c48754e48095497eb1c281acac998dd099620b8fae293a1019d",
+  "source_hashes_computed_only_for_broader_cap_rows": true,
+  "source_payload_opened": true,
+  "status": "frozen_input_metadata_and_four_source_hashes"
+}

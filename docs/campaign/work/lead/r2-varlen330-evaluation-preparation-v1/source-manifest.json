@@ -1,0 +1,72 @@
+{
+  "files": [
+    {
+      "bytes": 1604,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "32c80aafb2f48986c7e2ecdd2168ba64dde2d8e69ab0bd0403c1f708a35eb68f"
+    },
+    {
+      "bytes": 471,
+      "mode": "0o644",
+      "path": "admission-negative.log",
+      "sha256": "100c345cd512a07dabde7d71a3399c575cd3fcc2b652053d309ac8646b4a29a7"
+    },
+    {
+      "bytes": 1768,
+      "mode": "0o755",
+      "path": "admit.py",
+      "sha256": "6e93d9654ae534645f2d83421d8a6e3be6876646bed439cf841151f807cc7f80"
+    },
+    {
+      "bytes": 1910,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "db7cf2637168ab770bb98b2e3f0554861fe512d5c588f55f9e11802312c3d109"
+    },
+    {
+      "bytes": 772,
+      "mode": "0o644",
+      "path": "environment.json",
+      "sha256": "1041d51da1633d97e21ee12440840b1851e6d171864dec8595a2819ca580faa8"
+    },
+    {
+      "bytes": 863,
+      "mode": "0o644",
+      "path": "matched-panels.json",
+      "sha256": "03ac0a57b4b65780422bed223590c1d8863d42cdb4278d9828ba3ec23d950ebb"
+    },
+    {
+      "bytes": 10839,
+      "mode": "0o755",
+      "path": "prepare.py",
+      "sha256": "4279278ec53f94062543d5489752d0d4528772639c4bddadf9af6722e83ae79e"
+    },
+    {
+      "bytes": 512,
+      "mode": "0o644",
+      "path": "preterminal-negative.log",
+      "sha256": "90caee3df4a664cb49c7c808d03f30a0a1ea9446c8a33a7742a0ba738cb5f9dd"
+    },
+    {
+      "bytes": 463,
+      "mode": "0o644",
+      "path": "root-admission.template.json",
+      "sha256": "6a656f1488d3fd325dced1a1fd18af31b441b1d99ca6c622976434353112819b"
+    },
+    {
+      "bytes": 94,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "2185d3824a30259ff20e82aee1903476b7bf5c1d8bb94d9f10d86c561f5bc4b1"
+    },
+    {
+      "bytes": 3403,
+      "mode": "0o755",
+      "path": "test_prepare.py",
+      "sha256": "591bb2851da5bdd5870d972690cbf7544e24ab158f3755095d8b907d87239ad5"
+    }
+  ],
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_preparation_waiting_for_both_canary_terminals"
+}

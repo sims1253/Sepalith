@@ -1,0 +1,26 @@
+{
+  "task": "RL-04/RL-05",
+  "owner": "lead",
+  "status": "prepared_not_admitted",
+  "recipe": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/main-rl-preparation/primary-a.recipe.json",
+  "recipe_sha256": "af5739c8233db982e7dc1ea2a2906a89af5bf27c102d98dfb8f057d59241fe12",
+  "identity_sha256": "3b0b2455a83345e88ee2a9c821817718725d2620bef9ccdac31dadf7e3a9af2a",
+  "stage_id": "primary-grpo-p2-2048x192-v1",
+  "first_stop_step": 25,
+  "full_every": 25,
+  "light_every": 5,
+  "DEV_cases": 75,
+  "DEV_edits": 43,
+  "DEV_noops": 32,
+  "initial_attempt_seconds": 5400,
+  "host_guard_seconds": 5460,
+  "main_all_in_hours_ceiling": 26,
+  "fresh_theta0_start": true,
+  "reason_for_fresh_start": "Main-stage identity binds the full75 DEV panel and new checkpoint cadence. Two smoke updates are mechanism validation and are not promoted into the main trajectory.",
+  "main_launch_admitted": false,
+  "remaining_gates": [
+    "Same-P full-state resume proof",
+    "Longest TRAIN P2 memory gate",
+    "Root stage contract and budget admission"
+  ]
+}

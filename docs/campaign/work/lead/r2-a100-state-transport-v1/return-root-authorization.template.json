@@ -1,0 +1,12 @@
+{
+  "schema": "sepalith.pre04.full_weight_return_transport_authorization.v1",
+  "status": "not_admitted",
+  "authorized": false,
+  "action": "upload_full_weight_return_checkpoint_private",
+  "repo": "scholzmx/sepalith-lora",
+  "prefix": "ROOT_BOUND_UNIQUE_RETURN_PREFIX",
+  "campaign_manifest_sha256": "ROOT_ACCEPTED_FUTURE_MANIFEST_SHA256",
+  "checkpoint_path": "ROOT_ACCEPTED_FUTURE_CHECKPOINT_PATH",
+  "step": 0,
+  "maximum_bytes": 0
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "sepalith.run06.e750-notebook-timeout-recovery-monitor-source.v1",
+  "status": "terminal",
+  "files": [
+    {
+      "path": "evidence/final-hashes-and-cleanup.txt",
+      "bytes": 1612,
+      "sha256": "5e18807a78fdf55c341a9595e7045daae354d0da07b624d53a34a1087e0aa933",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/pilot-terminal.json",
+      "bytes": 736,
+      "sha256": "77604d877a8152094cde4aeda0c917595d8da26220af0b4658b555f384082944",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-00.txt",
+      "bytes": 1875,
+      "sha256": "1195756f5a1c42a503d34391d39789cec31724bcbe1f82336faf78b55aba2b11",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-01.txt",
+      "bytes": 994,
+      "sha256": "7ace05a47c66ffab60a72e690a29e408fabb71b98f8f6c8a2a11678413ba20ae",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-02.txt",
+      "bytes": 1357,
+      "sha256": "d67924d8d645ba76113c162c0e24b5f8480ba2a23a9255b3aedab5983dbe1950",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/sample-terminal.txt",
+      "bytes": 4098,
+      "sha256": "e0cee6111f180b13a84caeb5e5a330119e594a9b273afb376afa8545a162da3c",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/threads-4-result.json",
+      "bytes": 97870,
+      "sha256": "a0db03eafa484834c8768057c96f2fd3ac0d18bb4d0d2ad3e27043ac907be170",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/threads-4-terminal.json",
+      "bytes": 108,
+      "sha256": "79118075a9a2c3bcaf4cc9df03d42b93c41b8358c85f30afbd6fdf5ddcdacf35",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/threads-6-result.json",
+      "bytes": 97868,
+      "sha256": "ed9270a1ab7f9a4902226a11525466e18e3ba4e5461c5cda27a6a7a193f2d369",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/threads-6-terminal.json",
+      "bytes": 108,
+      "sha256": "068d3089121d56f652bd366fa1b939ba216920fb222e7b1fb65f3951ecc4e49c",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/threads-8-result.json",
+      "bytes": 97868,
+      "sha256": "cce0d71dafd75f326131cc9aa34867ecbb2b4201aef51fe0c2af5a146d4911e4",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/threads-8-terminal.json",
+      "bytes": 108,
+      "sha256": "dad3e047d227210c67948bcec237aa12d8b98895c499926d05182e00845ded72",
+      "mode": "0o644"
+    },
+    {
+      "path": "monitor-summary.json",
+      "bytes": 4302,
+      "sha256": "6a1ff456b340dab71f7bfdc4853a6800e755a5282550323166e10f24b33ae7b1",
+      "mode": "0o644"
+    }
+  ],
+  "file_count": 13,
+  "total_bytes": 308904
+}

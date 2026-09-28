@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 21554,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/prepare_recovery_audit.py",
+      "sha256": "c59848e8008f06c87a7f21474af73bcde0f98cdbd5b59881cabe11342fe8bd6e"
+    },
+    {
+      "bytes": 1210,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/test_recovery_rules.py",
+      "sha256": "c9699ebd8d7acaf3027ae1ab7f4ffb8cdea875dccabc5850d848faec6ac10b90"
+    }
+  ],
+  "immutable_inputs": {
+    "candidate_packet_root": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/source-walk-shards-v1",
+    "replay_index": {
+      "bytes": 39059,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-independent-replay-v3/full-01/index/manifest.json",
+      "sha256": "65637a9e05c66647de042d46f42bf9afa197a0b068f63680ec9f3ac0dfe922a1"
+    },
+    "replay_root": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-independent-replay-v3/full-01",
+    "v3_manifest": {
+      "bytes": 12890,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop-expansion-v3/inputs-full41/manifest.json",
+      "sha256": "b2edf67c9a4df6a358aed86aa9c31fa788d8b2d8b28c5ccce42d11f23a70b5e8"
+    }
+  },
+  "policy": {
+    "dev_final_payloads_read": false,
+    "provider_inputs_emitted": false,
+    "source_content_train_only": true,
+    "source_or_target_text_written": false
+  },
+  "schema": "sepalith.dat10.noop_recovery_preparation_source.v4",
+  "training_admission": false
+}

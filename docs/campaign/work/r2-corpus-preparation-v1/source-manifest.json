@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "files": {
+    "CPT-PLAN.md": {
+      "sha256": "22d3075f8c3d172ae8926caf1cb4ff2c9cbcf3a06d4904fd9fe53727f1f4bc36",
+      "bytes": 6762
+    },
+    "derive_profile_v2.py": {
+      "sha256": "ce5a2ed7fb87b835b9b6ca90572c08530557995793a3cd3ec44c140db99db918",
+      "bytes": 3606
+    },
+    "finalize_broader.py": {
+      "sha256": "325d8bea58c3f2f9b5d8130ba47b89b41d0af175055bac3688c46427f3bee316",
+      "bytes": 3884
+    },
+    "freeze_packet.py": {
+      "sha256": "f45eab01eef586d4e7735105ffecf8c1e16caee40591416bc1c3f81dc956b861",
+      "bytes": 7944
+    },
+    "inventory_raw_train.py": {
+      "sha256": "041af49416efdea0d35e61cd1bb36b60b92b8d2dc30efed6499320079613c15a",
+      "bytes": 5259
+    },
+    "inventory_raw_train_v2.py": {
+      "sha256": "7271bfaaa01eb0da485c221581e60a4e91ed91555c3fa8f4d4ee74da0367fce2",
+      "bytes": 5414
+    },
+    "materialize_candidates.py": {
+      "sha256": "ffb5ee175503af51fcc6614b0721a17a49d03e1d737734fe7162982cfedfa08d",
+      "bytes": 3053
+    },
+    "prepare_options.py": {
+      "sha256": "a0d43bcf9d59bd44f551fb13cf5bc0ae3851945d818a9c00857dc81ab9c10540",
+      "bytes": 5788
+    },
+    "raw_cpt.py": {
+      "sha256": "e02d588ac77d3a8bf8710217c8d1c678e730681de998932219afe75a2709dd80",
+      "bytes": 10801
+    },
+    "raw_cpt_broader.py": {
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+      "bytes": 11920
+    },
+    "raw_cpt_v2.py": {
+      "sha256": "d2a3c590f2e5b4f9bad8b02924fc27b683a9dcad45a8d9a7cfb4cdfb43b8c7c8",
+      "bytes": 10609
+    },
+    "test_cpt_validation_negative.py": {
+      "sha256": "17b3106465a3554066e0fcfb0b5ef5c983b58b341bd9d1d2b60ef77d710b453b",
+      "bytes": 2921
+    },
+    "test_raw_cpt.py": {
+      "sha256": "d8df6aab83ac521fd5b55a40196fc78c66d1776f5ca073062750e05547d23d55",
+      "bytes": 4600
+    },
+    "test_raw_cpt_v2.py": {
+      "sha256": "260e936e6c4762679f9c93f1c0cce0a29a5546da2c05cde20fadbc3cfc823db7",
+      "bytes": 4670
+    },
+    "validate_cpt_shard.py": {
+      "sha256": "10b6e35dd2579688abb9ee8b49791096db18e0cb4613a996c9eb607648fab636",
+      "bytes": 4474
+    }
+  }
+}

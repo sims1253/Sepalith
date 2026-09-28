@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "CPU-reviewed source closure; CUDA runtime admission remains lead-owned",
+  "created_at": "2026-09-14T07:02:47Z",
+  "reviewed_source_snapshot": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-review-v2/source",
+    "source_manifest_sha256": "c7c9d344442f5903cfae4f7d40e0b173f642f8970f7ec4e5e301790c4aeb0e8f",
+    "review_sha256": "9964f85246262dbabb151b7979b5a2a0e27359552a95524eb75d7a0e245fffa0"
+  },
+  "changed_from_reviewed_source": [
+    "source/experiments/training/campaign_expanded_sft.py",
+    "source/experiments/training/campaign_launch.py",
+    "source/experiments/training/campaign_sft.py"
+  ],
+  "source_files": {
+    "source/experiments/training/campaign_checkpoint.py": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+    "source/experiments/training/campaign_control.py": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+    "source/experiments/training/campaign_eval.py": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+    "source/experiments/training/campaign_expanded_sft.py": "716a0343b09237c9e52f5606ed56bf184b24e21db6a9159b0b7ed3df5ab06004",
+    "source/experiments/training/campaign_launch.py": "44fa334d91af14f3c17efc8d20e6200a818a3d2bdd5394504d7755c6675a4189",
+    "source/experiments/training/campaign_sft.py": "927c0368c1049a2f5974a5e4e32b411a23a4d63a3bc12d47fe0921fec934a318",
+    "source/experiments/training/campaign_sft_data.py": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f",
+    "source/experiments/training/campaign_task_sft.py": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280",
+    "source/experiments/training/campaign_tokenizer_contract.py": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+    "source/experiments/training/target_only_gate.py": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de",
+    "source/packages/sepalith/src/sepalith/__init__.py": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+    "source/packages/sepalith/src/sepalith/campaign_protocol.py": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+  },
+  "test_files": {
+    "tests/fixtures/task-target-unit-v1.jsonl": "846b78b5f27f169a3fdade416db455ac7c3b3be153a5178ce4f0233d8970d158",
+    "tests/test_campaign_expanded_sft.py": "c8753319f312feb6eafdd59f9d93c8a99d9b97962fc47839bbff2d6b04f80021",
+    "tests/test_campaign_task_sft.py": "2302265a24749221ee5a545bf5e9fe31396799319a61ce3422fb9c03a67b6a98",
+    "tests/test_gate_integration.py": "6034d0c3098a0e86983cc824e827cb9722404372ca009a2ed08f2cb2636522be",
+    "tests/test_real_trainer.py": "4639835d7af6be5de54da0a193b2535a847ce9daa7e30291019253254b37d363",
+    "tests/test_task_binding.py": "37e8cefc1b4239d2f9c09c09725a1a35d9039309c500767b5c6fd64ba4088aac"
+  },
+  "stage_contract": {
+    "stage": "expanded_task_sft_v1",
+    "initialization": "new_lora_on_sft_merged_parent",
+    "parent_kind": "sft_merged",
+    "selected_parent_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+    "train_max_target_tokens": 1024,
+    "development_max_new_tokens": 192,
+    "max_sequence_tokens": 4096,
+    "effective_batch": 16,
+    "milestones": [250, 500, 1000],
+    "gradient_checkpointing": "gpu_standard_v1"
+  }
+}

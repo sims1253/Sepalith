@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "bytes": 9618,
+      "path": "rl_length_policy.py",
+      "sha256": "6ea7015b923fe3fbb1559e48359a3e757354790caa2c63695ab2d7d3e2240ccb"
+    },
+    {
+      "bytes": 3944,
+      "path": "tests/test_length_policy.py",
+      "sha256": "29ba7c5ab854618f25627bfeafcc78084714f7891fe8ee3a92c510ab86d9dfef"
+    }
+  ],
+  "schema": "sepalith.campaign.source-manifest.v1"
+}

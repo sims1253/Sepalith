@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+  },
+  "id": "sft02-minicpm-smoke-a2-20260912",
+  "snapshot": "26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f",
+  "inputs": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/train-token-rows.jsonl",
+      "sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/draws-50.json",
+      "sha256": "bc6366887e806c99b6d2e314056d426b10f166d408bbcf36070a848c2f5e76bc"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-smoke-dev-14-v1.jsonl",
+      "sha256": "9192bd278c0342ce94d029ee5b1b9964b3fce0048ed6b99e4bcc0d97aaf06b59"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/SFT-smoke-a2-recipe.json",
+      "sha256": "699036643ef09728c82e63f212485bb1ec27f6a490b5958a44a347c21988e258"
+    }
+  ],
+  "provenance": {
+    "task": "SFT-02/SFT-04",
+    "owner": "lead",
+    "parent": {
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "weights_sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    "smoke_total_GPU_ceiling_seconds": 1800,
+    "max_attempt_seconds": 720,
+    "next_decision": "Actual finite optimizer updates then verified step25 checkpoint and development14; resume to50 only after review.",
+    "acceptance": "No launch/quality claim from enqueue; verify actual updates, full checkpoint, terminal token contract and development denominator.",
+    "prior_failed_wall_seconds": 295.67560029029846,
+    "storage": "Native ext4 supports file+directory fsync; NAS secondary copy only."
+  },
+  "steps": [
+    {
+      "id": "sft-smoke-a2",
+      "argv": [
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/SFT-smoke-a2-recipe.json",
+        "--receipt",
+        "{run}/supervision.json"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ]
+    }
+  ]
+}

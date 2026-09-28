@@ -1,0 +1,486 @@
+{
+  "files": [
+    {
+      "bytes": 23592288,
+      "mode": "0o555",
+      "path": "xformers/_C.so",
+      "sha256": "bb2a59af5ed03aa28ea0e1ed705384fcb6d5d0e6ab8bd825b004ffbb3af9d669"
+    },
+    {
+      "bytes": 1710,
+      "mode": "0o555",
+      "path": "xformers/__init__.py",
+      "sha256": "4ca0c0dbc80e010740cf056f53d204a465b3ebbed044a8151669eabe7800836c"
+    },
+    {
+      "bytes": 4958,
+      "mode": "0o555",
+      "path": "xformers/_cpp_lib.py",
+      "sha256": "7622cf6e8af54e9f34a992af24b7a889829845f05ff149ec3b651b68c46e40b2"
+    },
+    {
+      "bytes": 456,
+      "mode": "0o555",
+      "path": "xformers/_deprecation_warning.py",
+      "sha256": "6b6f897cdb13ec418b1b96456abcfb19376731ee840377258b804d7ebdd6b688"
+    },
+    {
+      "bytes": 19787,
+      "mode": "0o555",
+      "path": "xformers/attn_bias_utils.py",
+      "sha256": "3ead4b411868009772f3441093d8d1eed2c96edcc068a8bee579c72d4a7c3ec1"
+    },
+    {
+      "bytes": 198,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/__init__.py",
+      "sha256": "041a0fbcc7c98d9d058b6e490914bcb0f6147cb6c79de2e7715dc97860c81878"
+    },
+    {
+      "bytes": 14403,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_attn_decoding.py",
+      "sha256": "e833a9b9b397f0a415590f7dfddf0df456e647a7b368feb4e849f1c9d142c70a"
+    },
+    {
+      "bytes": 5288,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_indexing.py",
+      "sha256": "021753692231693dab5ffc835ccd64303ebf3e78ac61adbc5815430a9fd37850"
+    },
+    {
+      "bytes": 10101,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_mem_eff_attention.py",
+      "sha256": "734964452b0c95d6941c096a02b1aedfd9a29588e2ec3333b8a8c6bb031156bf"
+    },
+    {
+      "bytes": 3042,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_merge_attentions.py",
+      "sha256": "ffa892121246a1e9634ab55b39d8beb677181cf40d13b963d70ad3425b9b48ba"
+    },
+    {
+      "bytes": 14454,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_sequence_parallel_fused.py",
+      "sha256": "f8e6f71b7734c5326cfbe6f0e72650db4dd4a98d6668eb4a3372b96420c1eadc"
+    },
+    {
+      "bytes": 4861,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_sp24.py",
+      "sha256": "52fea836f6a4c59a942dea544f93b07625000cedcf769649955c291eecf79c3a"
+    },
+    {
+      "bytes": 3446,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/benchmark_tiled_matmul.py",
+      "sha256": "265718322867801622161588499290aaaee9844b64e024ea7bab81cebf15ed08"
+    },
+    {
+      "bytes": 24509,
+      "mode": "0o555",
+      "path": "xformers/benchmarks/utils.py",
+      "sha256": "574239b8a644398aaf486728d0b2e52e1882c0a02d0bac937cf6941140d622f2"
+    },
+    {
+      "bytes": 20337,
+      "mode": "0o555",
+      "path": "xformers/checkpoint.py",
+      "sha256": "3d462d2acd5013edd92a805f5a1213f9a147303fee609ab864135e3c4f9483aa"
+    },
+    {
+      "bytes": 363,
+      "mode": "0o555",
+      "path": "xformers/cpp_lib.json",
+      "sha256": "3efb0696b824d4c899ae363c56c5e8337e10c9ceb96234c75e145d69aa7eb75f"
+    },
+    {
+      "bytes": 198,
+      "mode": "0o555",
+      "path": "xformers/flash_attn_3/__init__.py",
+      "sha256": "041a0fbcc7c98d9d058b6e490914bcb0f6147cb6c79de2e7715dc97860c81878"
+    },
+    {
+      "bytes": 17886,
+      "mode": "0o555",
+      "path": "xformers/fwbw_overlap.py",
+      "sha256": "e71acb807467163dcfdae4c1b53d64e5073384bbe7d7ef0f26f0c4f81873df45"
+    },
+    {
+      "bytes": 2584,
+      "mode": "0o555",
+      "path": "xformers/info.py",
+      "sha256": "b09d58dec4e762aea84bf0c764677d2c00add2d8b70d56d0157a244d0c4fc806"
+    },
+    {
+      "bytes": 3333,
+      "mode": "0o555",
+      "path": "xformers/ops/__init__.py",
+      "sha256": "9b73653a86f697067fb4f9683428d9bcd8f2a6ec6cde3e39d5cfb4e6a3c4c409"
+    },
+    {
+      "bytes": 741,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/__init__.py",
+      "sha256": "1bbbbe1d0d4d11ffa6951dcb379aaea433150871c0f781f54bf697a12b5f28e2"
+    },
+    {
+      "bytes": 6194,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/k_index_select_cat.py",
+      "sha256": "fe0140bae51b29dfc21f403091cfecb29c44d2599de18fa02e774bbb71b76eb0"
+    },
+    {
+      "bytes": 12802,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/k_scaled_index_add.py",
+      "sha256": "2821202bef6cfc0d6374456f067f381a5038a72ed906b412bb15b261a246fe37"
+    },
+    {
+      "bytes": 8385,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/matmul_perf_model.py",
+      "sha256": "169ba8158a94b26d330a7d06ea1b5dd6402b8be1a14a10ae8ff3193ef7475e9e"
+    },
+    {
+      "bytes": 5124,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/rmsnorm_kernels.py",
+      "sha256": "d9a2effd61ef55e6e7d8732f2cb7c8c4b7072127205ac32dcfd3ed7635192c35"
+    },
+    {
+      "bytes": 7300,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/rope_padded_kernels.py",
+      "sha256": "56addfae37aae202b200729e1793014ce59b89f844a3b2c5afe8d76b0d7adac9"
+    },
+    {
+      "bytes": 13864,
+      "mode": "0o555",
+      "path": "xformers/ops/_triton/tiled_matmul_kernels.py",
+      "sha256": "fd604924cfbff4e65d9d411298804629f8f7ac85b9314362ab321459f2f55658"
+    },
+    {
+      "bytes": 1911,
+      "mode": "0o555",
+      "path": "xformers/ops/common.py",
+      "sha256": "6e07903fb0f14e45a18ffc6233e19467b401a3147383e558dcd7c43a7b39861b"
+    },
+    {
+      "bytes": 5584,
+      "mode": "0o555",
+      "path": "xformers/ops/differentiable_collectives.py",
+      "sha256": "fd8896ce3e26a338dd47dca0adf9e4540350f2823a4daac98fc6a9d822098998"
+    },
+    {
+      "bytes": 28828,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/__init__.py",
+      "sha256": "6342f12d0db048ce6ab002f1fa1e0f3bb375f7efa0a692880e4b4c8852c742b3"
+    },
+    {
+      "bytes": 198,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/_triton/__init__.py",
+      "sha256": "041a0fbcc7c98d9d058b6e490914bcb0f6147cb6c79de2e7715dc97860c81878"
+    },
+    {
+      "bytes": 46242,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/_triton/splitk_kernels.py",
+      "sha256": "4fefba33ca63905c5cea8f2580dfef1b29be89bcf59a4f97fc1d1fbcea66c1e3"
+    },
+    {
+      "bytes": 70793,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/attn_bias.py",
+      "sha256": "275492c53f0ed83d42707cd9546d983469e9198571b663aead45594003bcdeeb"
+    },
+    {
+      "bytes": 17971,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/ck.py",
+      "sha256": "3fe86d2e029e8730af6120c4cd9e44391b144608396ecbbf0238260660b75fa0"
+    },
+    {
+      "bytes": 6411,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/ck_splitk.py",
+      "sha256": "78e971e00241809e61e1a755de71af8c28d04b6d0b93a244e7ff17e340c32685"
+    },
+    {
+      "bytes": 22455,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/common.py",
+      "sha256": "05f2ed2c1073ef6fd640cfca5c82a0ac2f0109fe2a8d3427dc2999b7b588c1c7"
+    },
+    {
+      "bytes": 17171,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/cutlass.py",
+      "sha256": "aa8a5ddd43879732d13ea6a19a94b7cf2fcca809f4abc465db5cfe98637437a5"
+    },
+    {
+      "bytes": 15913,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/cutlass_blackwell.py",
+      "sha256": "cb9f37dc27c99e6a23cdb074d396a7e5e6f6bb83d95a31a379008769d7c9d83b"
+    },
+    {
+      "bytes": 6463,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/dispatch.py",
+      "sha256": "b99fd512a242b7f48d916646b8c6b47dde587afa2d7884580cc69f9f8ce6d9ae"
+    },
+    {
+      "bytes": 27784,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/flash.py",
+      "sha256": "bdf8f93ef6b9d4456ed7f265f3da5fed3114625f8ad438ebe49003a7e35376af"
+    },
+    {
+      "bytes": 33416,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/flash3.py",
+      "sha256": "a86c0f009ac0ba3fdfbfe6164983ba3b62959a753877f459a1836f7f65be2a8b"
+    },
+    {
+      "bytes": 6579,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/merge_training.py",
+      "sha256": "574e389346801b92263c0786911b0fce8ebac85502d3f31263eedb4ffe776937"
+    },
+    {
+      "bytes": 5220,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/torch_attention_compat.py",
+      "sha256": "998f091098053c06a4b1dada32f34f4bc862e7d2797a2e3ac278afdcef3eb721"
+    },
+    {
+      "bytes": 48277,
+      "mode": "0o555",
+      "path": "xformers/ops/fmha/triton_splitk.py",
+      "sha256": "f9c13d9ad863e1deb8f98a958324c96a2ac2227f00acca69adc240ed0465233b"
+    },
+    {
+      "bytes": 6927,
+      "mode": "0o555",
+      "path": "xformers/ops/indexing.py",
+      "sha256": "b900d4d6baa087e86e0ef39db4c7a481241231756776b0b49f7be7f0214736b2"
+    },
+    {
+      "bytes": 5795,
+      "mode": "0o555",
+      "path": "xformers/ops/modpar_layers.py",
+      "sha256": "d9a5f63be5817d0643e3e14c129ceef958f283de63f6544a9fb0f61980dd9b2b"
+    },
+    {
+      "bytes": 3358,
+      "mode": "0o555",
+      "path": "xformers/ops/rmsnorm.py",
+      "sha256": "a1f342aab68e25906dff3d56a1332e5b91e07c2af6c2927fce42ff6f47be9f6b"
+    },
+    {
+      "bytes": 12100,
+      "mode": "0o555",
+      "path": "xformers/ops/rope_padded.py",
+      "sha256": "6c8e8908d1ced11820a7da185b6dca57838db283ea938b464f71067a3a9166f6"
+    },
+    {
+      "bytes": 12166,
+      "mode": "0o555",
+      "path": "xformers/ops/seqpar.py",
+      "sha256": "325ab3e39bd094a086990670eb72285bf13f242297bbcdf9ecaa2e47a99344d7"
+    },
+    {
+      "bytes": 33600,
+      "mode": "0o555",
+      "path": "xformers/ops/sequence_parallel_fused_ops.py",
+      "sha256": "d4710d92279f673e8de32f917786cd97fc1ca36fe9436a3431bb5a43c5ae42e4"
+    },
+    {
+      "bytes": 27276,
+      "mode": "0o555",
+      "path": "xformers/ops/sp24.py",
+      "sha256": "7c0e38d618f8e6e3ac516b5bc9ee96d9c19f8093ba272077445494288f97326d"
+    },
+    {
+      "bytes": 12941,
+      "mode": "0o555",
+      "path": "xformers/ops/swiglu_op.py",
+      "sha256": "17d8c57b9c1d9fa60713ff765f0ff8e3fdd9d64d81b249a75c580df802e2637d"
+    },
+    {
+      "bytes": 12792,
+      "mode": "0o555",
+      "path": "xformers/ops/tiled_matmul.py",
+      "sha256": "9b319d3d80ca201c20c22b4e3a8d11ea577f439c2d9b89876b0125c776cc3ea6"
+    },
+    {
+      "bytes": 28452,
+      "mode": "0o555",
+      "path": "xformers/ops/tree_attention.py",
+      "sha256": "d5f15da5e5aa17cc34666ff527ef71ec6716dd857f3e3f27193878fbd8bb98d9"
+    },
+    {
+      "bytes": 3925,
+      "mode": "0o555",
+      "path": "xformers/ops/unbind.py",
+      "sha256": "2961227f6f1db9559bce3d786cbf8ede3253c4cb9364fbee1aa0a465086c8184"
+    },
+    {
+      "bytes": 421,
+      "mode": "0o555",
+      "path": "xformers/profiler/__init__.py",
+      "sha256": "e234e3fcc189f87902907c24c7a4277819b6edd30c3f1bcd6ba90bc2ba3ce9b9"
+    },
+    {
+      "bytes": 2685,
+      "mode": "0o555",
+      "path": "xformers/profiler/api.py",
+      "sha256": "70b724ec8dfa10ca955b78eb2b9f2ad681526d2fe4e072186a756160cb22394e"
+    },
+    {
+      "bytes": 3588,
+      "mode": "0o555",
+      "path": "xformers/profiler/device_limits.py",
+      "sha256": "1f33d33ba6c7324ec7c477a54a1dc0d0193cab2bb12f7f92b056060577634fa7"
+    },
+    {
+      "bytes": 5549,
+      "mode": "0o555",
+      "path": "xformers/profiler/find_slowest.py",
+      "sha256": "e9097a461571dc6931b440efb8a9212054cd81d94fd7dd2c21c03f2ba456ffdf"
+    },
+    {
+      "bytes": 8719,
+      "mode": "0o555",
+      "path": "xformers/profiler/profile_analyzer.py",
+      "sha256": "aac6b6f4f0f7858ed599d6fc2466b1e793a69980f23df01a72d68bd53c2db43a"
+    },
+    {
+      "bytes": 14021,
+      "mode": "0o555",
+      "path": "xformers/profiler/profiler.py",
+      "sha256": "c9997c0dc2360eba934f94960bca235333bb03d871a3f9b00725b32b0089f155"
+    },
+    {
+      "bytes": 1153,
+      "mode": "0o555",
+      "path": "xformers/profiler/profiler_dcgm.py",
+      "sha256": "d4d58c113ee856d52805884416843e175eecd41f319aa72b2f71e375daf2f87d"
+    },
+    {
+      "bytes": 8472,
+      "mode": "0o555",
+      "path": "xformers/profiler/profiler_dcgm_impl.py",
+      "sha256": "ba62d1250098388c981f016cc970e4f5e3666ece03526baf0307bab546a137a9"
+    },
+    {
+      "bytes": 263,
+      "mode": "0o555",
+      "path": "xformers/sparse/__init__.py",
+      "sha256": "f3600fbf09fa1bb0dcd936931acb5b413d75963d3de9863f8de3a8d1084ee7ae"
+    },
+    {
+      "bytes": 8894,
+      "mode": "0o555",
+      "path": "xformers/sparse/blocksparse_tensor.py",
+      "sha256": "e5fd6222aacafd1d1ccdad5a9ce209a380a468c214a3559b3252742e33db77cb"
+    },
+    {
+      "bytes": 4274,
+      "mode": "0o555",
+      "path": "xformers/sparse/utils.py",
+      "sha256": "cb1ba09d6d052caec9e27737c533e544c732555404ef1c14720b78ee49a33fea"
+    },
+    {
+      "bytes": 198,
+      "mode": "0o555",
+      "path": "xformers/test.py",
+      "sha256": "041a0fbcc7c98d9d058b6e490914bcb0f6147cb6c79de2e7715dc97860c81878"
+    },
+    {
+      "bytes": 198,
+      "mode": "0o555",
+      "path": "xformers/triton/__init__.py",
+      "sha256": "041a0fbcc7c98d9d058b6e490914bcb0f6147cb6c79de2e7715dc97860c81878"
+    },
+    {
+      "bytes": 908,
+      "mode": "0o555",
+      "path": "xformers/triton/importing.py",
+      "sha256": "fa01d01ba7abec93f867cf260390c92f98fa093da6b5d48577df3d64e5a25819"
+    },
+    {
+      "bytes": 9434,
+      "mode": "0o555",
+      "path": "xformers/triton/vararg_kernel.py",
+      "sha256": "e171cdb463bf7af9244d798e9602852d8912d4252c0fde2913af868a56a90827"
+    },
+    {
+      "bytes": 5064,
+      "mode": "0o555",
+      "path": "xformers/utils.py",
+      "sha256": "7825fe1032d7b5bd293af4007905700bc2e232a781897d8d1326fcf63a8455ab"
+    },
+    {
+      "bytes": 36,
+      "mode": "0o555",
+      "path": "xformers/version.py",
+      "sha256": "37606a326d12e8b7ebd1ccc0cc2e500ba88876ca6b10959011c9992c12162c30"
+    },
+    {
+      "bytes": 4,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/INSTALLER",
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "bytes": 1226,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/METADATA",
+      "sha256": "05ab6ca4659834e9559f2943e794cd18eefaa66263da275acd3e5a3467ba09d7"
+    },
+    {
+      "bytes": 11359,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/RECORD",
+      "sha256": "f68e6b654096bc97e483b6984df60277b38f73843bcd5b51adf09e42d72834fa"
+    },
+    {
+      "bytes": 0,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/REQUESTED",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 111,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/WHEEL",
+      "sha256": "712236b14afa9ec15d30a65fc98b415b5629e0c8a501c13a1824a498b2dfeaea"
+    },
+    {
+      "bytes": 333,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/direct_url.json",
+      "sha256": "d3226693dd5feb6469d15cc8f9f9406e7523375ad2b3a0db843f75a6a586aa76"
+    },
+    {
+      "bytes": 1610,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/licenses/LICENSE",
+      "sha256": "8b069586d1dddf031cd469244f663f1b39a74e1235782e6255c24943e002b7ea"
+    },
+    {
+      "bytes": 9,
+      "mode": "0o555",
+      "path": "xformers-0.0.35.dist-info/top_level.txt",
+      "sha256": "e0fc7555c1a12a4d23dd784a5e303c1ed4e6e8440e6f485acde2799d0b0d94a9"
+    }
+  ],
+  "root": "/mnt/e/sepalith/campaign-20260915/build-work/sm120-varlen-v1/cu130-overlay",
+  "schema": "sepalith.sft11.xformers_overlay_manifest.v1"
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "sepalith.sft11.full-weight-cpt-representative-template.v2",
+  "status": "data_parent_lr_and_cadence_pending_root_admission",
+  "launch_authorized": false,
+  "seed": 3407,
+  "cohort": null,
+  "source_quality": {
+    "status": "reviewed_mechanics_not_model_quality_promoted",
+    "note": "The inherited full-weight CPT source path preserves reviewed mechanics. Prior source/pilot results do not constitute a target-quality promotion."
+  },
+  "parent_candidates": {
+    "global_cpt250_merged": {
+      "candidate_id": "global_cpt250_merged",
+      "kind": "merged_cpt_parent",
+      "available": true,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged",
+      "files": {
+        "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+        "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+        "model.safetensors": "5f12810692a90ebb32f589a25e5adcedac53d9fb6edd9166b8245fdec6e3dd1c",
+        "parent-manifest.preparation.json": "c5ddf086518e66a6709d8e4a16b88f7399d4e87ea477e24f3988ffcdecb1366e",
+        "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+      },
+      "saved_precision": {
+        "fp32_tensors": 0,
+        "fp32_elements": 0,
+        "identity_source": "all-BF16 parent control in SFT-11-full-weight-dtype-audit.json"
+      }
+    },
+    "cloud_cpt1902_merged": {
+      "candidate_id": "cloud_cpt1902_merged",
+      "kind": "merged_cpt_parent",
+      "available": false,
+      "path": null,
+      "files": null,
+      "reason": "merge/parent admission and header-derived saved_precision are pending; no FP32 count is assumed",
+      "saved_precision": null
+    }
+  },
+  "optimizer_dispatch": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7",
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365"
+  },
+  "validation": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8",
+    "rows": 499,
+    "max_sequence_tokens": 2048,
+    "role": "fixed_package_heldout_train_causal_comparator",
+    "edit_dev_or_final": false
+  },
+  "outputs": {
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-representative-v2/runtime",
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-v2",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-CPT-representative-v2-save-stop.json"
+  },
+  "checkpoint_storage": {
+    "mode": "e_same_filesystem_atomic",
+    "c_hot_stage": "not_admitted",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-representative-v2/runtime",
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-v2"
+  },
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true,
+    "trainer_save_total_limit": 2
+  },
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v2/source-manifest.json",
+    "manifest_sha256": "ed72094d023e6cb1d3bd0d8afd3ca79c20a4f6bb2e40a1d2d9fd0cc65379e94b"
+  },
+  "dtype_audit": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-full-weight-dtype-audit.json",
+    "sha256": "8961dfb937256c11f0d9d71a4827f5b284b0dfa700afcbf236a260e2047349f1",
+    "helper_source_sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+  }
+}

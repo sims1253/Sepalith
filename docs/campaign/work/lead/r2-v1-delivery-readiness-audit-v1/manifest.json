@@ -1,0 +1,16 @@
+{
+  "created_at": "2026-09-15T02:57:19.988974+00:00",
+  "files": [
+    {
+      "bytes": 948,
+      "path": "README.md",
+      "sha256": "3d491b6cc9d6e13093e24ad3437732b6da00da952b82b7a1e285adaf12e54014"
+    },
+    {
+      "bytes": 12234,
+      "path": "audit-result.json",
+      "sha256": "c3cb11a6050148685ba910bb4c861c5492f2f7696e75ecb3db2a2a26e3dc7f2b"
+    }
+  ],
+  "schema": "sepalith.rel00.v1-delivery-readiness-audit-manifest.v1"
+}

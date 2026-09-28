@@ -1,0 +1,61 @@
+{
+  "schema": "sepalith.sft11.native-cpt194-root-commands.v1",
+  "status": "prepared_no_admission_no_launch",
+  "dependency_order": [
+    "Root copies the relocation and runtime-source-migration prepared JSON files to fresh admission files, binds the checkpoint194 decision, and changes status to admitted and launch_authorized to true.",
+    "Run make_runtime_recipe_after_root_admissions and record its printed runtime_recipe_sha256.",
+    "Root copies continuation and execution-stop prepared JSON to fresh admission files; replace ROOT_BIND_RUNTIME_RECIPE_SHA256, set continuation decision=continue, status=admitted, and launch_authorized=true.",
+    "Run cpu_frontdoor; only a PASS permits construction of the host-memory guard command.",
+    "Root alone may run guard_child_after_cpu_preflight under a fresh stable CUDA lease and host-memory guard."
+  ],
+  "commands": {
+    "make_runtime_recipe_after_root_admissions": [
+      "python3", "-B", "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/native_runtime_overlay.py",
+      "--recipe", "docs/campaign/work/lead/r2-cpt90-prefix-extension-root-v2/bound-recipe.json",
+      "--stage-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--stage-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+      "--admission", "ROOT_FRESH_RELOCATION_ADMISSION",
+      "--runtime-source-manifest", "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source-manifest.json",
+      "--migration-admission", "ROOT_FRESH_RUNTIME_SOURCE_MIGRATION_ADMISSION",
+      "--trainer-root", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v3-from194/runtime",
+      "--archive-root", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-native-v3-from194",
+      "--output", "ROOT_FRESH_RUNTIME_RECIPE"
+    ],
+    "cpu_frontdoor": [
+      "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/native_launch_attestation.py",
+      "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--base-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--resume-manifest-sha256", "2ad012580f0a7dccfdfd7f546ad5431893ee56c3df2e4adf01ddc4bab8e4b072",
+      "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/full_weight_cpt_trainer.py", "preflight-resume",
+      "--recipe", "ROOT_FRESH_RUNTIME_RECIPE",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--continuation-admission", "ROOT_FRESH_CONTINUATION_194_ADMISSION",
+      "--execution-stop-admission", "ROOT_FRESH_EXECUTION_STOP_322_ADMISSION"
+    ],
+    "guard_child_after_cpu_preflight": [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/native_launch_attestation.py",
+      "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+      "--base-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--resume-manifest-sha256", "2ad012580f0a7dccfdfd7f546ad5431893ee56c3df2e4adf01ddc4bab8e4b072",
+      "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+      "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/full_weight_cpt_trainer.py", "run",
+      "--recipe", "ROOT_FRESH_RUNTIME_RECIPE",
+      "--resume", "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/full/checkpoint-194",
+      "--continuation-admission", "ROOT_FRESH_CONTINUATION_194_ADMISSION",
+      "--execution-stop-admission", "ROOT_FRESH_EXECUTION_STOP_322_ADMISSION"
+    ]
+  },
+  "fresh_path_guards": {
+    "trainer_root": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v3-from194/runtime",
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-native-v3-from194",
+    "must_not_exist_before_launch": true,
+    "protected_prior_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1",
+    "protected_prior_run_result": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-prefix-extension-v1/run-result.json"
+  }
+}

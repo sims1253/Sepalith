@@ -1,0 +1,85 @@
+{
+  "task": "SFT-09",
+  "owner": "lead",
+  "at": "2026-09-12T17:19:07.447816+00:00",
+  "status": "accepted",
+  "parent_manifest": {
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/parent-manifest.json",
+    "sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12"
+  },
+  "merged_weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+  "selected_checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT-primary-3000-a/full/checkpoint-1000",
+  "base_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+  "tokenizer": {
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "vocab_size": 130560,
+    "bos_id": 0,
+    "eos_id": 1,
+    "pad_id": 1,
+    "native_eog_ids": [
+      1,
+      130073
+    ]
+  },
+  "renderer_id": "zeta2-prm03-v1",
+  "protocol_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+  "canonical_environment_receipt": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/PRE-05-environment-lock.json",
+    "sha256": "43a28bfc735dfe9f4c94cc5fb1c292a9c45722c4516a3864351197104a1ff51c"
+  },
+  "merge_verification": {
+    "device": "cpu",
+    "dtype": "bfloat16",
+    "adapter_tensors_exact": 588,
+    "accumulation_dtype": "float32",
+    "rounding": "one final BF16 cast",
+    "independent_lora_matrix_merges_exact": 294,
+    "tokenizer_contract": {
+      "status": "verified",
+      "tokenizer_identity": {
+        "vocab_size": 130560,
+        "bos_token_id": 0,
+        "eos_token_id": 1,
+        "pad_token_id": 1
+      },
+      "vocab_mapping_equal_reference": true,
+      "configs": {
+        "model": {
+          "bos_token_id": 0,
+          "eos_token_id": [
+            1,
+            130073
+          ],
+          "pad_token_id": 1
+        },
+        "generation": {
+          "bos_token_id": 0,
+          "eos_token_id": [
+            1,
+            130073
+          ],
+          "pad_token_id": 1
+        }
+      },
+      "prompt_parity": {
+        "checked_rows": 0,
+        "rows": []
+      }
+    },
+    "cuda_started": false
+  },
+  "live_fixture": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-01-theta0-lead-review.json",
+    "sha256": "3af118fc3ee86006f5baf5dd04ba69ee1e9b0c3ea80efd1d51691a165cd30fbe",
+    "canonical_generation_and_protocol": 20,
+    "KV_control_pairs_exact": 4,
+    "training_mode_restored": true
+  },
+  "durability": "native ext4; files, output directory and parent directory fsynced",
+  "original_adapter_preserved": true,
+  "original_framework_normalized_tokenizer_preserved_in_preparation": true,
+  "canonical_tokenizer_bytes_restored_in_new_package": true,
+  "fallback": "Matched b4 artifact and renderer remain separate",
+  "promotion": "Common theta0 parent only; no final release decision."
+}

@@ -74,6 +74,10 @@ logged scar class). The roots:
   ~15 min from cold NAS read.
 
 ### 4. Training
+- Production (full-weight CPT → editing SFT → RL): run by the campaign
+  runtime outside this tree; state, checkpoints and next steps are in
+  `docs/training/production-20260927/README.md`. The bullets below are
+  the LoRA research pipeline.
 - SFT: `experiments/training/train_sft.py MODEL STEPS DATA [OUT]
   [RESUME]` in `.venv-sft` (unsloth LoRA; RESUME="auto" globs newest
   checkpoint). bs4×ga4, `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:

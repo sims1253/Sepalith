@@ -1,0 +1,17 @@
+{
+  "loopback-test-result.json": "ee3fec36bb70746321c6d5b16d3f21d00997bf83787db5e45726474a41765460",
+  "source-manifest.json": "318feed21785d8dd8275cf8521c1ef682574e2e505dee7704bbc95d400fd28a3",
+  "package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+  "recovery-profile.json": "72d8020fcdd8c3fa7fdccc387aa38155ba8d158418aa6705262dc15d56f0d0bb",
+  "run_recovery.py": "34ec73cd6e2a2c5c41309b4388d0950225765a4885ec5207c30f693e01238f1d",
+  "recovery_native_harness.ts": "330372bd4f428de327b3e98a0e34772f4470c7901ad22207fd309d5ea53c68cc",
+  "pilot_control.py": "9d0b2473c7a163c1344e1a04f47e9553505ac344a81367518c3a212b6aa9d4d7",
+  "test_recovery_native_harness.ts": "51a3900bfe375d09aa7344e3dd7ce401aa86e07306038feac77787cb2939a8bb",
+  "src/exact_prewarm_contract.ts": "5c1b5b10f9035348650a011b66c7cbe0fcc6c717e16e55f13b0d1e259d30ad99",
+  "src/campaign_requests.ts": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535",
+  "src/native_exact_adapter.ts": "b050c2b6694827af062c9deda73ca37490646d72aa75237708664151911aa52d",
+  "src/exact_prewarm_scheduler.ts": "4e88145e63aec5d5e193b162ae34d756399b0e0d14af34dd91a8816d571223b5",
+  "src/campaign_client.ts": "8b332331707bea5f2abf56c1230ed7e3a3eccc5d292daee6a8ba37f93d070a7b",
+  "src/fixture_loader.ts": "adf569cec6b09b6481ea74051865eef1cf1d8ee3d35367c9c1b73ab86a18dd76",
+  "src/campaign_protocol.ts": "cebb38ba92da49c408a9a3c96cb52c749f508687cb53a8eb7aaf655bd738254e"
+}

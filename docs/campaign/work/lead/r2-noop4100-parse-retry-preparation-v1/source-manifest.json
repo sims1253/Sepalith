@@ -1,0 +1,109 @@
+{
+  "behavioral_gate": "source_imports parse-success and no-following branches plus full_document_policy closure are pinned; valid-control exact parity is required before any reuse. This packet selects fresh all-4100 rerender because whole-shard equivalence is not claimed.",
+  "context_size": 16384,
+  "files": [
+    {
+      "bytes": 6380,
+      "path": "render_shard.ts",
+      "sha256": "92aa54e41c7178b27b724edcc19324928402ffc14f5310fedf6fb8b9f83afe88"
+    },
+    {
+      "bytes": 4218,
+      "path": "run_shard.sh",
+      "sha256": "f5a91a66159a0eec881c216ec9295444635d080bf83167517eff4ff12be4223b"
+    },
+    {
+      "bytes": 484,
+      "path": "tokenize_bridge.py",
+      "sha256": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+    },
+    {
+      "bytes": 3289,
+      "path": "source/source_imports.R",
+      "sha256": "cb0822dd3d9d50018ec20c2992b017506d232ca56169570d0751256e69456250"
+    },
+    {
+      "bytes": 9573,
+      "path": "source/namespace_runtime.ts",
+      "sha256": "47c7109eb5d81968cbbb69c1a6b694fd73be6241cc93b3fbae39005cc4897817"
+    },
+    {
+      "bytes": 4604,
+      "path": "source/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 4225,
+      "path": "source/namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 34464,
+      "path": "source/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 25008,
+      "path": "source/campaign_selection.ts",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 14528,
+      "path": "source/context_build.ts",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "path": "source/context_select.ts",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 7947,
+      "path": "source/full_document_policy.ts",
+      "sha256": "dd671fa12a839d00e6446bd07d36c02e33518290b6e95faf8187163aa08f0a95"
+    },
+    {
+      "bytes": 23912,
+      "path": "source/history_provider.ts",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 1518,
+      "path": "source/primary_context.ts",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 23571,
+      "path": "source/r_base_bindings.generated.ts",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 22035,
+      "path": "source/semantic_provider.ts",
+      "sha256": "df0cb3646645cbcb7b2a9f15580f4cdedeab7438f0bb34e34263cf2f18c34fde"
+    }
+  ],
+  "fresh_output_root": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop4100-provider-v1/render16-parse-retry-v1",
+  "frozen_plan16_expected_sha256": "093fd437f6cc4a364b7273e7936459c836a18a31bc06fd84ec39ec88faacd725",
+  "frozen_plan16_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-parse-retry-preparation-v1/inputs/frozen-plan16.json",
+  "frozen_plan16_sha256": "093fd437f6cc4a364b7273e7936459c836a18a31bc06fd84ec39ec88faacd725",
+  "generation_reserve": 2048,
+  "input_root": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop4100-reconstruction-v1/inputs-full41",
+  "nonempty_shards": 31,
+  "old_complete_rows": 3502,
+  "old_complete_shards": 26,
+  "old_failed_shard_36_partial_rows": 8,
+  "original_provider_hashes": {
+    "render_shard.ts": "f5c5e57e9f33cb6503586ee51c9aa0fd1e38d017f6f74edef8b4e45423e9c2a6",
+    "source/namespace_runtime.ts": "e11868caa0d96a216f399d7772098d89ac415fe4db36ba69ea9e3c0d96140b12",
+    "source/source_imports.R": "3f140b69f9ff75d48d3305a5f27d6d2b8d8a49a4f97eaa9b0a2effe963801925"
+  },
+  "preserved_old_output_root": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop4100-provider-v1/render16",
+  "preserved_output_manifest": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-parse-retry-preparation-v1/preserved-old-output/manifest.json",
+  "preserved_output_manifest_sha256": "12a28dfbd74c1a8576adc5fd798fe4811894e55c84e38246e590088efacf33e1",
+  "provider_rows": 4100,
+  "schema": "sepalith.dat10.noop4100.parse_retry.source_manifest.v1",
+  "shards": 41,
+  "source_policy": "r2-provider-parse-unavailable-preparation-v1 reviewed copy",
+  "status": "prepared_no_launch"
+}

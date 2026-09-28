@@ -1,0 +1,11 @@
+# Full-weight CPT throughput preparation v1
+
+The first candidate to benchmark is **microbatch 2 with accumulation 8 and adjacent-length pairs at effective batch 16**. It retains every original sequence, token, label, BOS/EOS boundary, standalone causal attention graph, and heldout separation. On the frozen 30,421-row cohort, the prepared order has all unique IDs before 11 terminal replays and only 3,073 padding tokens (0.00743% of input tokens).
+
+The frozen cohort has 41,386,614 input tokens across 30,421 rows and 19,122 documents: median length 1,661; 6,375 rows below 512; 11,139 below 1,024; 13,434 exactly 2,048. Whole optimizer blocks are seed-shuffled to avoid a long-to-short curriculum while adjacent rows inside each physical pair minimize padding.
+
+Document packing is implemented here as an experimental conservation reference, but it is not the first recommendation. Best-fit packing would reduce this cohort to 5,053 8K sequences (316 updates) or 2,527 16K sequences (158 updates) at nearly 100% token occupancy. It also permits causal attention across member boundaries and increases the sum of sequence-length squared by 4.64x at 8K or 9.29x at 16K relative to standalone rows. Those pair counts are a compute proxy, not a speed measurement. Packing requires an identical-token controlled training comparison on the fixed 499-row heldout NLL panel before admission.
+
+The supplied runtime observations favor 8K over 16K for token throughput: about 50 seconds per 131,072-token update versus 147 seconds per 262,144-token update. The current optimizer consumes about six seconds per update, giving an upper bound of roughly 12% of the 8K update and 4% of the 16K update to eliminate. Changing Newton-Schulz precision or fusion therefore has a smaller plausible gain than physical batching and would alter a separately reviewed numerical path. This packet leaves FP32 momentum/state and BF16 stochastic updates unchanged.
+
+`root-benchmark-commands.json` provides a root-only A/B benchmark on exactly the same 32 short rows. No benchmark was launched here. The final all-eligible corpus is still being materialized; rerun `throughput_candidate.py` only against its frozen row file and exact heldout hashes before a production schedule is bound.

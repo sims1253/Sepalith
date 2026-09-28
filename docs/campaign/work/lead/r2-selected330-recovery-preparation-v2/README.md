@@ -1,0 +1,15 @@
+# Selected checkpoint 330 recovery
+
+This v2 packet preserves the failed v1 preparation and closes the validator found by the real CUDA-hidden front door. `native_runtime_contract.py` now accepts the schedule change only when the root migration admission binds the canonical identity `730c2aba...`, the recovery identity `46a5a1ac...`, and the exact four-item allowed-change list. All other identity fields must compare equal.
+
+The host guard stopped the ordinary continuation at step 421 before its next full checkpoint at 450. The last intact full optimizer, scheduler, RNG, and sampler state remains the selected packed checkpoint 330. This packet prepares an ordinary SDPA restart from that immutable checkpoint and does not read model, optimizer, or dataset payloads.
+
+The existing trainer can save on a stage-local cadence and stop at a root-admitted optimizer boundary. The old recipe used cadence 128, so its next checkpoint after 330 was 450. This packet changes the operational schedule to cadence 24 and makes step 354 the first mandatory stop. The later scheduled boundaries are 378, 402, 426, and 450. The first restart therefore risks 24 replayed updates instead of another 120-update interval.
+
+Cadence and mandatory stop are fields in the trainer's identity. The packet creates a new destination identity and modifies `ordinary_canary_resume.py` narrowly: it accepts only the exact frozen packed330 identity and only a destination that differs from the prior ordinary identity at `checkpoint_every=24` and `mandatory_stop_step=354`. Model, optimizer, LR, scheduler, warmup, effective batch, corpus, tokenizer, source, horizon, and draw order must match. A new root transition admission binds both identity hashes.
+
+Native capacity is bounded. With staged data, packed330, hot322, and checkpoint354 present, estimated native use is about 61.1 GB. After checkpoint354 is independently durable, root must retire one verified old hot checkpoint before a later checkpoint is serialized; retaining both old hot checkpoints plus the new current and next current would exceed the 70 GiB packet budget. The packet recommends retiring hot322 and preserving packed330. The trainer already keeps only one checkpoint in its fresh native output after durable publication and keeps two latest durable archives plus selected milestones.
+
+`root-commands.json` gives the dependency order. Root must first admit the runtime source migration, run `prepare_recovery.py`, admit the generated transition/continuation/stop records, create the two fresh empty output directories, and run the CUDA-hidden front door. The directory creation is required because the inherited trainer writes startup telemetry before its own `mkdir` call. Root alone may run the host guard.
+
+Unresolved admission items are the runtime source migration, the new destination identity transition, checkpoint330 continuation, the step354 execution stop, current host/native capacity, and the CPU front-door result. This preparation grants none of them.

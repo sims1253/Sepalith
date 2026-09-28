@@ -1,0 +1,6 @@
+{
+  "schema":"sepalith.sft11.full-weight-cpt-representative-root-admission.v1",
+  "status":"pending", "launch_authorized":false, "template_sha256":null,
+  "data_admission":{"path":null,"sha256":null}, "cohort":null,
+  "selected":{"parent_candidate_id":null,"optimizer":null,"micro_batch":null,"gradient_accumulation":null,"learning_rate":null,"scheduler":null,"warmup_ratio":null,"checkpoint_every":null,"mandatory_stop_step":null,"evaluation_steps":null,"selected_milestones":null,"telemetry_every":null}
+}

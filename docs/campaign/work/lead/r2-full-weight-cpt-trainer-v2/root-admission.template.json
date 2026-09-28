@@ -1,0 +1,19 @@
+{
+  "launch_authorized": false,
+  "schema": "sepalith.sft11.full-weight-cpt-root-admission.v2",
+  "selected": {
+    "checkpoint_every": null,
+    "evaluation_steps": null,
+    "gradient_accumulation": null,
+    "learning_rate": null,
+    "micro_batch": null,
+    "optimizer": null,
+    "parent_candidate_id": "global_cpt250_merged",
+    "scheduler": null,
+    "selected_milestones": null,
+    "telemetry_every": null,
+    "warmup_ratio": null
+  },
+  "status": "pending",
+  "template_sha256": "2d336f220225596a3634ccbde57156f49cb6d9c933cd47c2f9ee4ee142f7f14f"
+}

@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "bytes": 10139,
+      "path": "source/__pycache__/merge_cloud_cpt_parent.cpython-310.pyc",
+      "sha256": "9c25b8335ce426f30b1765575df4d8690158667e967b6d1b78c241bf812f9305"
+    },
+    {
+      "bytes": 11372,
+      "path": "source/merge_cloud_cpt_parent.py",
+      "sha256": "2cb874da78b9cbe95c14a7c6801d6bed690cc396a941d3fd4f0c766fcf46ea0b"
+    },
+    {
+      "bytes": 4300,
+      "path": "source/prepare_binding.py",
+      "sha256": "17cdf2f31385a9e252dab53ace72dfa9d846c9d28e6d3fd0188621836d40ed2e"
+    }
+  ],
+  "identity_sha256": "32ac0b8bb3c3c5a4b09d2999bbb21cb1d6af47df15ab63bd61ce3bab6ceec4c1",
+  "schema": "sepalith.source-manifest.v1"
+}

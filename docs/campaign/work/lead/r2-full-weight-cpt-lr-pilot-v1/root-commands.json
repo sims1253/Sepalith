@@ -1,0 +1,102 @@
+{
+  "arms": {
+    "lr1e-4": {
+      "bind_after_root_admission": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/bind_full_weight_cpt.py",
+        "--template",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/recipe.lr1e-4.template.json",
+        "--admission",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/root-admission.lr1e-4.json",
+        "--output",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr1e-4.root.json"
+      ],
+      "preflight_bound": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "preflight",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr1e-4.root.json"
+      ],
+      "preflight_template": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "preflight-template",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/recipe.lr1e-4.template.json"
+      ],
+      "resume_under_root_guard": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "run",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr1e-4.root.json",
+        "--resume",
+        "<durable-full-checkpoint-path>"
+      ],
+      "run_under_root_guard": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "run",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr1e-4.root.json"
+      ]
+    },
+    "lr3e-4": {
+      "bind_after_root_admission": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/bind_full_weight_cpt.py",
+        "--template",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/recipe.lr3e-4.template.json",
+        "--admission",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/root-admission.lr3e-4.json",
+        "--output",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr3e-4.root.json"
+      ],
+      "preflight_bound": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "preflight",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr3e-4.root.json"
+      ],
+      "preflight_template": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "preflight-template",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/recipe.lr3e-4.template.json"
+      ],
+      "resume_under_root_guard": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "run",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr3e-4.root.json",
+        "--resume",
+        "<durable-full-checkpoint-path>"
+      ],
+      "run_under_root_guard": [
+        "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+        "-B",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/source/experiments/training/full_weight_cpt_trainer.py",
+        "run",
+        "--recipe",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/bound-recipe.lr3e-4.root.json"
+      ]
+    }
+  },
+  "authorization": "Root must independently review, turn each fresh admission copy to admitted/launch_authorized, acquire the CUDA lease, and wrap run/resume in the reviewed guard. Never run both arms concurrently.",
+  "baseline": "Each run computes and persists the fixed 499-row parent baseline before Trainer/optimizer construction, then evaluates the same panel at terminal step24.",
+  "schema": "sepalith.sft11.cpt-lr-pilot-root-commands.v1",
+  "status": "prepared_not_launch_authorized"
+}

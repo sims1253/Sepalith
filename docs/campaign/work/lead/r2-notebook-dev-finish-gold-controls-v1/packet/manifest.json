@@ -1,0 +1,16 @@
+{
+  "DEV240_candidate_valid": 3,
+  "E750_candidate_valid": 3,
+  "candidate_invalid_retained_separately": 6,
+  "control_rows": 24,
+  "finish_cases": 6,
+  "frame_bytes_hex": "0a7d",
+  "frame_role": "symmetric_negative_control_only",
+  "frame_source_justified": false,
+  "generated_r_executed": false,
+  "gold_framed_rows": 6,
+  "gold_raw_rows": 6,
+  "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+  "remote_root": "/home/m0hawk/.local/state/sepalith/campaign-20260915/notebook-dev-finish-gold-controls-v1-attempt1",
+  "schema": "sepalith.run10.dev-finish-gold-controls.input.v1"
+}

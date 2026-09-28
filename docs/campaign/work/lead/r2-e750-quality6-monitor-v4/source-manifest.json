@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "bytes": 4507,
+      "path": "monitor-summary.json",
+      "sha256": "99e4068d333307b175a2f5959f2af02ef1ed3d2ce96ffb2d5f0aee7194143e7c"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/campaign/receipts/RUN-06-e750-quality6-monitor-v3.json",
+      "sha256": "001a49a6993e9d61b51acb69f9907ab6bc1ef1836f0103b7eed338cacc51c2e4"
+    }
+  ],
+  "remote_observation": {
+    "at": "2026-09-15T06:15:37Z",
+    "cap768_results_bytes": 2817773,
+    "cap768_results_sha256": "6d58eab67c02ddfff1443c46709bb4d07cfa74d9d336f2434e906e78b8102ded",
+    "completed": 44,
+    "expected": 75,
+    "order_exact_prefix": true
+  },
+  "schema": "sepalith.run06.e750-quality6-monitor.source-manifest.v4",
+  "status": "frozen_read_only_observation"
+}

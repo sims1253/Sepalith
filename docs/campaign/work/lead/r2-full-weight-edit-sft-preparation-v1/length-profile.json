@@ -1,0 +1,46 @@
+{
+  "family_counts": {
+    "finish_block": 7785,
+    "format_propagation": 1615,
+    "na_rm_propagation": 136,
+    "no_op": 1094,
+    "pipe_rewrite": 1983,
+    "rename_propagation": 1578,
+    "roxygen_drafting": 815
+  },
+  "observed_fit_without_truncation": true,
+  "rows": 15006,
+  "rows_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+  "rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+  "schema": "sepalith.full-weight-edit-sft-length-profile.v1",
+  "sequence_tokens": {
+    "bucket_counts": {
+      "1024": 3711,
+      "2048": 3450,
+      "4096": 1453,
+      "512": 6392
+    },
+    "max": 3064,
+    "min": 138,
+    "over_threshold_counts": {
+      "16384": 0,
+      "2048": 1453,
+      "4096": 0,
+      "8192": 0
+    },
+    "p50": 598,
+    "p95": 2144,
+    "p99": 2386,
+    "sum": 13755681
+  },
+  "supervised_target_tokens_including_eos": {
+    "max": 933,
+    "min": 7,
+    "over_1024": 0,
+    "p50": 45,
+    "p95": 388,
+    "p99": 536,
+    "sum": 1577478
+  },
+  "training_context_bound": 16384
+}

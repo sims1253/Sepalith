@@ -1,0 +1,85 @@
+{
+  "status": "frozen independent review and separate guard candidate",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/REVIEW.md",
+      "sha256": "5357ce06a27df4188fc05d24554a5bc600189ba62f89db123a4a2f26e0f05726",
+      "bytes": 5072
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/deadline_watchdog_delayed_submission.py",
+      "sha256": "16d3e01bdb0f73bfa92574804a3af7feaad1e722bd87782a1a61c408c5b29514",
+      "bytes": 4230
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/frozen-pins-replay.json",
+      "sha256": "cf04f6e62cc08992d391d0ff1a696cac5ad1ad936d5afb57b9831fd5a1fe346c",
+      "bytes": 8048
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/independent-tests.log",
+      "sha256": "1301ce202d1931372945393ac28c55ee599077b6a41f0bacdd0e07d0b5771149",
+      "bytes": 440
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/original-watchdog-tests.log",
+      "sha256": "134e19fc519ac4fff84c8112e5b85a972bfd62f08ae217eba1931006bd2b106b",
+      "bytes": 599
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/prepare_guard_delta.py",
+      "sha256": "23145729509158cce6d933dfd14a605e3230cce19b306891cf829edba6891371",
+      "bytes": 1071
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/replay_cpu_tests.py",
+      "sha256": "0f514a2bfdb56f625ed96d143fd709f73f7e4a7a6a6c650c98a4eb371d7b9fc5",
+      "bytes": 1139
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/root-watchdog-tests.log",
+      "sha256": "bb2c73a67094db2244624bb576792669db2dba0e7402a6e1d602a9774b984467",
+      "bytes": 373
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/source-observation-initial.json",
+      "sha256": "7e689a45342c0a5747c6ecf7b151faf8a1efc59de6b4f5d912a18ab19388f059",
+      "bytes": 4254
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/source_observation.py",
+      "sha256": "171eddf8953ff4950d1fa3d44745e9f17259e5532eda2ea6ceca479392a49112",
+      "bytes": 1096
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/test_independent.py",
+      "sha256": "f951121c054e5385d5b1f0204f1fecff1f789b3b03eb396774d0fb71f1403cd8",
+      "bytes": 6879
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/test_root_watchdog.py",
+      "sha256": "70073e7ee0c97d236d79f003b33446d6361da1053eac7fd7201bbb579e1599a1",
+      "bytes": 2133
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/test_watchdog_delayed_submission.py",
+      "sha256": "baaca1fd7bdc303142fadfbde1b0ac0cdcf657fdc3da52148d5c132dfae558d2",
+      "bytes": 2872
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/watchdog-delayed-submission.patch",
+      "sha256": "8cdbc8fbd705a6bad24a624cf7f058a64e39e77bf6df1b242815ef9352c9fb78",
+      "bytes": 760
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/watchdog-delayed-tests.log",
+      "sha256": "ec907cef60caabde9818c7a51f52e371571efdaffc6bd38b8170a2bda7808642",
+      "bytes": 963
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-control-independent-review-v1/worker-cpu-test-replay.log",
+      "sha256": "ef00797271d67691e86d1c49466c60ee0c229a3e8e9d2663f1afd428ac3ddce7",
+      "bytes": 1115
+    }
+  ]
+}

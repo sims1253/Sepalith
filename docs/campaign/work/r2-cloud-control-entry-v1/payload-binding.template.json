@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "admitted": false,
+  "run_id": "ROOT_TO_BIND_FRESH_UUID32",
+  "image_uri": "docker.io/anyscale/ray@sha256:3b904e7cbb1736a8a17359708197d62333daa0bc8285d7de66f1d22aa78754f9",
+  "instance_type": "g5.2xlarge",
+  "provider_timeout_seconds": 6900,
+  "watchdog_timeout_seconds": 7200,
+  "watchdog_armed_at_utc": "ROOT_TO_BIND",
+  "watchdog_armed_receipt_sha256": "ROOT_TO_BIND",
+  "absolute_deadline_utc": "ROOT_TO_BIND_NO_LATER_THAN_2026-09-14T06:15:00Z",
+  "artifact_repo": "scholzmx/sepalith-lora",
+  "artifact_prefix": "ROOT_TO_BIND_r2-control/UUID32",
+  "setup_seconds": 1800,
+  "training_seconds": 4200,
+  "upload_seconds": 600,
+  "cleanup_seconds": 60,
+  "trainer_source_manifest_sha256": "c7c9d344442f5903cfae4f7d40e0b173f642f8970f7ec4e5e301790c4aeb0e8f",
+  "recipe": {
+    "relative_path": "task-recipe.json",
+    "sha256": "ROOT_TO_BIND"
+  },
+  "payload_files": [
+    {
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-token-rows.jsonl",
+      "relative_path": "payload/token-rows.jsonl",
+      "sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+    },
+    {
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-draw-manifest-noop25.json",
+      "relative_path": "payload/draw-manifest.json",
+      "sha256": "00efb66e1b37a44d99a0767f777bb37fc8efa9084e06a7994b921ab19291722c"
+    },
+    {
+      "original_path": "ROOT_TO_BIND_DEV_PANEL_ABSOLUTE_PATH",
+      "relative_path": "payload/development-panel.json",
+      "sha256": "ROOT_TO_BIND"
+    }
+  ]
+}

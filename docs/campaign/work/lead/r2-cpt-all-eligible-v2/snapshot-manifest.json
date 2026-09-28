@@ -1,0 +1,102 @@
+{
+  "created_at": "2026-09-14T09:42:51.998683+00:00",
+  "historical_output_pins": {
+    "progress.json": {
+      "bytes": 744,
+      "sha256": "c3e3b295debe0f1d951c6a67df8fa2c9433aee5fb54cecb8e6afd4e92d61a423"
+    },
+    "run-manifest.json": {
+      "bytes": 2486,
+      "sha256": "942bc305c2787309be5cc527345e7fa9e424b341b3455ac507535bade0aded7a"
+    },
+    "terminal.json": {
+      "bytes": 812,
+      "sha256": "966bfbdfce6911047b701626b7447cd84dec6e17e18a28fe9ff483f7c8bed60d"
+    }
+  },
+  "launch_admission": "not_admitted_preparation_only",
+  "predecessor_source_identity": "efc5e090e73f8e26723ac73a5a4cc3bdb7ddd5fcc61e49cec409a78762771ad8",
+  "resume_output": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1",
+  "resume_state": {
+    "committed_groups": 1376,
+    "first_uncommitted_seeded_index": 2151,
+    "groups_remaining": 6716,
+    "payload_tokens": 77981502,
+    "rows": 53619
+  },
+  "schema": "sepalith.dat10.cpt-all-eligible-v2-snapshot.v1",
+  "source_files": {
+    "commands.json": {
+      "bytes": 1105,
+      "mode": "0o644",
+      "sha256": "1073efc4f37235df376f5a846e2cd90c86bb24dac6b9f8f063f394736a8f32f6"
+    },
+    "equivalence-test.log": {
+      "bytes": 440,
+      "mode": "0o644",
+      "sha256": "186cd93dcb85b85fd41b33d2ef36ad354f94050ce4da88cf0d3e4343b15a6f8e"
+    },
+    "full-resume-smoke.log": {
+      "bytes": 395,
+      "mode": "0o644",
+      "sha256": "b0d5be2c03398eb12e873f68315c0fbc32fc7b022c9b548456f90a2928f50635"
+    },
+    "materialize_all_eligible.py": {
+      "bytes": 30771,
+      "mode": "0o755",
+      "sha256": "03a1a01d55dd86d12d897ec3a47892f432c7a6b1388a4a1dd5f4d5f226fbd404"
+    },
+    "memory-diagnosis.json": {
+      "bytes": 1977,
+      "mode": "0o644",
+      "sha256": "043566e8da63af18eb1ba6af2e6886927d9e4f994c5b7ad4227d6a026d80626c"
+    },
+    "preflight.log": {
+      "bytes": 2392,
+      "mode": "0o644",
+      "sha256": "37055ba6874421c14c14ef678ec95bb3fa1de5d03809e63d940c4d08e768957c"
+    },
+    "resume-validation.log": {
+      "bytes": 659,
+      "mode": "0o644",
+      "sha256": "298713a48c147a337a76999c30641e581e422a55ffebe5258e96e2718a989a93"
+    },
+    "run_materialization.sh": {
+      "bytes": 455,
+      "mode": "0o755",
+      "sha256": "b8434c5f592076cbc4ea344ee801fb48e503231523306bf332ab4c1ea6f37815"
+    },
+    "source-manifest.json": {
+      "bytes": 180,
+      "mode": "0o644",
+      "sha256": "b7d99c44042093c9a5780c78234fe41d78f4cd70bc63c194e6fa1f734b74c580"
+    },
+    "source-migration.json": {
+      "bytes": 429,
+      "mode": "0o644",
+      "sha256": "c5c88924fbaa12d8965ab4cf5a3841851959d5f456e76dae439399fbdd180db0"
+    },
+    "test_full_resume_smoke.py": {
+      "bytes": 2415,
+      "mode": "0o755",
+      "sha256": "de52c16906d84f743048b7e074f31a7b8d49c9fdc64ee68214529802bb2ecdb9"
+    },
+    "test_materializer_contract.py": {
+      "bytes": 5571,
+      "mode": "0o644",
+      "sha256": "379b98a4c5cfc3c7ba7a865bc11c8fb50386db995f8621c37cfe01323edbce7f"
+    },
+    "test_recycling_equivalence.py": {
+      "bytes": 3991,
+      "mode": "0o755",
+      "sha256": "8064d9cb803a56ca4d26c35b5c3cf6534f34dd734a5f853dec68be2e1e912abf"
+    },
+    "unit-tests.log": {
+      "bytes": 1023,
+      "mode": "0o644",
+      "sha256": "f0fc1ddd83762c53b44ee6e58375a21fb6f0dabdffe192187e0fc7744990773d"
+    }
+  },
+  "source_identity": "03a1a01d55dd86d12d897ec3a47892f432c7a6b1388a4a1dd5f4d5f226fbd404",
+  "status": "prepared_root_review_required"
+}

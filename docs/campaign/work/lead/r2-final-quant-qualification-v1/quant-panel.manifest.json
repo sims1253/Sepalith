@@ -1,0 +1,189 @@
+{
+  "panel": {
+    "contains_authored_padding_or_eos": false,
+    "contains_final_or_dev": false,
+    "path": "docs/campaign/work/lead/r2-final-quant-qualification-v1/quant-panel.jsonl",
+    "records": [
+      {
+        "family": "no_op",
+        "ordinal": 0,
+        "package_id": "dataquieR",
+        "prompt_token_count": 463,
+        "row_id": "149ec501b6ab4ceac153865a",
+        "row_sha256": "e1cd9ff99ed4c66815b2c32a7ecfc8c11c9bf166043751f0957c97ca997634ae",
+        "source_line": 3503,
+        "split": "train",
+        "stable_selection_key": "0021f3cce4ff577e90279e31b75adcaa109a28f575c6fc57118926ab222999e5",
+        "target_operation": "no_op",
+        "target_token_count": 11
+      },
+      {
+        "family": "no_op",
+        "ordinal": 1,
+        "package_id": "gsw",
+        "prompt_token_count": 343,
+        "row_id": "22f869183c8cf31e2e240d70",
+        "row_sha256": "27ec8cb443e8fbcf5e272e0f7978a97db2618291591b89d8f7b2449c4127df9c",
+        "source_line": 5951,
+        "split": "train",
+        "stable_selection_key": "003ab93a5086aa06ac1f054caac31f9973917c43c7d8e4df0c326305ef53653f",
+        "target_operation": "no_op",
+        "target_token_count": 11
+      },
+      {
+        "family": "no_op",
+        "ordinal": 2,
+        "package_id": "seriation",
+        "prompt_token_count": 273,
+        "row_id": "15245ab7e3bc0d8485cff884",
+        "row_sha256": "35d6d843935ac061c909cf8d5c28e3d401be8859e48a6de3e784cd7cfee35567",
+        "source_line": 3583,
+        "split": "train",
+        "stable_selection_key": "007f57c7c6546cd5bd08592f9ea9cbbf9831999c5d89eb7bd4e961247a761d61",
+        "target_operation": "no_op",
+        "target_token_count": 11
+      },
+      {
+        "family": "no_op",
+        "ordinal": 3,
+        "package_id": "cheddar",
+        "prompt_token_count": 283,
+        "row_id": "062000d2f6a648b194d63e9e",
+        "row_sha256": "316dda32f773a40d461b7c9ab2282c11148167e5c371ca30367ae464435b0a4e",
+        "source_line": 1161,
+        "split": "train",
+        "stable_selection_key": "009e27ec43063438bb4aa199bb8dc233486ee5575cef21a382b08edcae5f69cc",
+        "target_operation": "no_op",
+        "target_token_count": 11
+      },
+      {
+        "family": "format_propagation",
+        "ordinal": 4,
+        "package_id": "relaimpo",
+        "prompt_token_count": 1952,
+        "row_id": "094461e1eb9a45df8d25f3aa",
+        "row_sha256": "0478e153eec3c14e9b929f824d38316576d1269b45000e59e7672bd1b1d1fb3c",
+        "source_line": 542,
+        "split": "train",
+        "stable_selection_key": "002c270a8c479a35e662a556b8eb314908054cb2ce8ae7b152d3106fc8d95f82",
+        "target_operation": "replace",
+        "target_token_count": 36
+      },
+      {
+        "family": "na_rm_propagation",
+        "ordinal": 5,
+        "package_id": "flexsurv",
+        "prompt_token_count": 1915,
+        "row_id": "b2a1959c14ff1b42605080d1",
+        "row_sha256": "88f4f30cdb0b9762341c19958b9834d0fccd790477f52727178b804a5c3b5a93",
+        "source_line": 425,
+        "split": "train",
+        "stable_selection_key": "0030191dd0006788f644458b481eb42312562edd3457b86d8b7da9b736fe367e",
+        "target_operation": "replace",
+        "target_token_count": 24
+      },
+      {
+        "family": "pipe_rewrite",
+        "ordinal": 6,
+        "package_id": "tidybayes",
+        "prompt_token_count": 1513,
+        "row_id": "2a62dda7beaaed05e0767f93",
+        "row_sha256": "9e32093278efdf4156f22af56c6449596a60e64353b5fd4e3072254786b3e805",
+        "source_line": 1657,
+        "split": "train",
+        "stable_selection_key": "00003aa7ee311dfc138d0fcdd654d45bbc0de7334d169f719aa4d120b707ec55",
+        "target_operation": "replace",
+        "target_token_count": 9
+      },
+      {
+        "family": "rename_propagation",
+        "ordinal": 7,
+        "package_id": "cardx",
+        "prompt_token_count": 1792,
+        "row_id": "1aa25c9b518a4e470e75cdd7",
+        "row_sha256": "6c8b5997d9c15754fa561a28ad2f40ba6c7f896afccef0911570e19ebbfaf934",
+        "source_line": 1908,
+        "split": "train",
+        "stable_selection_key": "00010814a9fd22e7a6c832773abfbfb6fd615f5d2622494d73b6b0edab6d9294",
+        "target_operation": "replace",
+        "target_token_count": 22
+      }
+    ],
+    "row_count": 8
+  },
+  "runtime_contract": {
+    "completion_cap": 192,
+    "context_size": 4096,
+    "no_authored_target_tail": true,
+    "ordinary_decoding": {
+      "greedy": true,
+      "seed": 0,
+      "temperature": 0
+    },
+    "score_each_row_once_on_cold_response": true,
+    "server_args_same_for_both": [
+      "-c",
+      "4096",
+      "-b",
+      "256",
+      "-ub",
+      "256",
+      "--parallel",
+      "1",
+      "-ngl",
+      "99",
+      "-ngld",
+      "99"
+    ]
+  },
+  "schema_version": "sepalith.r2.serving.train-panel.v1",
+  "selected_r2_identity": {
+    "bos_id": 0,
+    "eos_id": 1,
+    "f16_bytes": 5039006496,
+    "f16_path": "/mnt/e/sepalith/campaign-20260915/intermediate-f16/SFT11-task-global-b-500-quant/model-F16.gguf",
+    "f16_relocation_receipt": "docs/campaign/work/lead/r2-storage-reserve-step500-v1/SFT11-task-global-b-500-quant-relocation.json",
+    "f16_sha256": "fe1c38a2b53519fb15eeb4ac36efdd7b6f60ad5a58451475b51308a93cb8a8ee",
+    "hf_alias": "NATIVE/models/SFT11-task-global-b-500-merged",
+    "hf_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+    "integrity_receipt": "docs/campaign/work/lead/r2-task-global500-native-selection/q8-integrity.json",
+    "native_eog_ids": [
+      1,
+      130073
+    ],
+    "pad_id": 1,
+    "parent_manifest_sha256": "92157a4a52a4ed928f76df9f1f77a6aa39235eefd6a859eb9c2b3d4118ee18db",
+    "q8_bytes": 2679710496,
+    "q8_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-quant/model-Q8_0.gguf",
+    "q8_sha256": "d269a9fb85cd19efa05c6bf0dc11ccaa0f931fc50b826d893d58ae65043e02db",
+    "renderer_id": "zeta2-prm03-v1",
+    "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "vocab_size": 130560
+  },
+  "selection": {
+    "contains_authored_padding_or_eos": false,
+    "contains_dev_or_final": false,
+    "edit_family_order": [
+      "format_propagation",
+      "na_rm_propagation",
+      "pipe_rewrite",
+      "rename_propagation"
+    ],
+    "edit_rows": 4,
+    "method": "stable row-id SHA-256",
+    "no_op_rows": 4
+  },
+  "source": {
+    "eligible_rows_after_limits": 8257,
+    "expected_sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/finish-corrected-train-v1/train-token-rows.jsonl",
+    "prompt_limit": 2048,
+    "rejected_rows": 3269,
+    "rows_seen": 11526,
+    "sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe",
+    "split_required": "train",
+    "target_plus_protocol_eos_limit": 192
+  },
+  "status": "pass"
+}

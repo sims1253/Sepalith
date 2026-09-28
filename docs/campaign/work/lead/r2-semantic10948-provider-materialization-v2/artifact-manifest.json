@@ -1,0 +1,78 @@
+{
+  "artifacts": [
+    {
+      "bytes": 39741,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/smoke-01/input.jsonl",
+      "rows": 40,
+      "sha256": "b446ae3a90fd171bbd57f3c9d9686b815266bdf3ced5bd646f2449b338842a10"
+    },
+    {
+      "bytes": 56118,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/smoke-01/output.jsonl",
+      "rows": 40,
+      "sha256": "dd86f2f4aea2b58f44dfe699027bb02939931f4b18a2345f123f0e382e85eb45"
+    },
+    {
+      "bytes": 108,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/smoke-01/run.log",
+      "rows": null,
+      "sha256": "8fd6733335ef7a49dc96e27aced94cc5772aa1807358d543d5b053a68fa2bd6b"
+    },
+    {
+      "bytes": 1826,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/smoke-01/manifest.json",
+      "rows": null,
+      "sha256": "a37680c6ac4a7f97c28854edda8889e00fb5c559c2c128dbc9c2bb6b01365ed3"
+    },
+    {
+      "bytes": 50775,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/input.jsonl",
+      "rows": 1,
+      "sha256": "4cb27a582c7d6bff7726ce99fa92593571242195b348779665388f493898ef20"
+    },
+    {
+      "bytes": 0,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/missing_helper.output.jsonl",
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 5082,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/missing_helper.log",
+      "rows": null,
+      "sha256": "8ad88505f091fe92b16dd4a675309993258a9daf780b4fc63419d0565ea82d87"
+    },
+    {
+      "bytes": 0,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/failing_helper.output.jsonl",
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 5082,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/failing_helper.log",
+      "rows": null,
+      "sha256": "8ad88505f091fe92b16dd4a675309993258a9daf780b4fc63419d0565ea82d87"
+    },
+    {
+      "bytes": 0,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/missing_tokenizer_bridge.output.jsonl",
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 258,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/missing_tokenizer_bridge.log",
+      "rows": null,
+      "sha256": "0a7595e654539ed6041c8ba291a0b1ad9952269a87ac8ec56f0bbec6854e534a"
+    },
+    {
+      "bytes": 1280,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/fail-controls-01/manifest.json",
+      "rows": null,
+      "sha256": "a4e0f3acab93c5d0e95339fda505b55af9d97824cd025d3749a640bd7a5eb91f"
+    }
+  ],
+  "schema": "sepalith.artifact_manifest.v1",
+  "status": "v2_preparation_complete_long_render_not_started"
+}

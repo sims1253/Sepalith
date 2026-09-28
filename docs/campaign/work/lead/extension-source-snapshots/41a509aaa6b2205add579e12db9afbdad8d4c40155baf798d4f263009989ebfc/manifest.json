@@ -1,0 +1,109 @@
+{
+  "task": "RUN-01",
+  "owner": "lead",
+  "at": "2026-09-12T21:59:09.512906+00:00",
+  "status": "reviewed_delta_and_source_closure_preserved",
+  "source_root": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith",
+  "source_git_head": "a7345e35219ceb624957115c39b869101026a817",
+  "manifest_identity_sha256": "41a509aaa6b2205add579e12db9afbdad8d4c40155baf798d4f263009989ebfc",
+  "files": [
+    {
+      "path": "package-lock.json",
+      "bytes": 29052,
+      "sha256": "ef1daabf3f81aea2cdc6e7a00248745d898eeed7caca5df1269f4bc846218880"
+    },
+    {
+      "path": "package.json",
+      "bytes": 7000,
+      "sha256": "2a9edf2996852a37057008d8255cf61352407d8aecf98a59635e3f0a505b94a2"
+    },
+    {
+      "path": "scripts/check-acceptance-identity.cjs",
+      "bytes": 14566,
+      "sha256": "cf2e133ef1c79d949b890065943aeb74be21fecda22f6c9bb3a328ac90017005"
+    },
+    {
+      "path": "scripts/check-provider-requests.cjs",
+      "bytes": 17324,
+      "sha256": "cb40d75d2c6415738b0830cd5f3abddde24acf818ec672efbc6ed6b8ac465764"
+    },
+    {
+      "path": "src/campaign_client.ts",
+      "bytes": 10023,
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "path": "src/campaign_protocol.ts",
+      "bytes": 34464,
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "path": "src/campaign_requests.ts",
+      "bytes": 4642,
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "path": "src/campaign_selection.ts",
+      "bytes": 25008,
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "path": "src/completion.ts",
+      "bytes": 1485,
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "path": "src/context_build.ts",
+      "bytes": 14231,
+      "sha256": "3bc148464dde243d6d4edca49ba2a3536de541f035afb1c5a68d756e36ef1047"
+    },
+    {
+      "path": "src/context_select.ts",
+      "bytes": 6428,
+      "sha256": "a72edaf733395d7b4839f2ca9ed0c2092e4051359279f6839c93e2d5d04b9d59"
+    },
+    {
+      "path": "src/extension.ts",
+      "bytes": 55566,
+      "sha256": "798a53049f44751b030bd190351d655d6e586c8fbaa958eaed9c0a37dc305d53"
+    },
+    {
+      "path": "src/history_provider.ts",
+      "bytes": 23912,
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "path": "src/next_edit.ts",
+      "bytes": 2816,
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "path": "src/process_lifecycle.ts",
+      "bytes": 1352,
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "path": "src/runtime.ts",
+      "bytes": 24460,
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 297,
+      "sha256": "3808f18c63ffdbb05117e33967f5d50bf48ee0032b27f965ea0556791a95be90"
+    }
+  ],
+  "snapshot": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/extension-source-snapshots/41a509aaa6b2205add579e12db9afbdad8d4c40155baf798d4f263009989ebfc",
+  "review_basis": [
+    "RUN-01-vsix-lead-review.json",
+    "RUN-01-stable-api-compatibility-fix.json",
+    "RUN-01-acceptance-identity-lead-integration.json"
+  ],
+  "new_reviewed_delta": "Stable public API full acceptance with document/version/hash/runtime and timer ownership; repository-relative tests. Required inherited runtime and renderer source copied with exact hashes.",
+  "VSIX": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/vscode-sepalith-primary-acceptance-v2-0.0.7.vsix",
+    "sha256": "f415801f6bbd88319c89164fa5bb9d29bd40c60f179a03196c3d5fec1103d276",
+    "bytes": 38833
+  },
+  "live_acceptance": "Pending; source preservation is not final release acceptance."
+}

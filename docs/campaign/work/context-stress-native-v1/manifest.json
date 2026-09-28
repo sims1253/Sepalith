@@ -1,0 +1,17 @@
+{
+  "schema": "sepalith.serving.context-stress-native.manifest.v1",
+  "fixturePath": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/context-stress-fixture-v1/context-stress-fixture.json",
+  "fixtureSha256": "016cf26a5a7923b35d298749c30e01bb1ec0ad3defcdc2e06157f1e9b1c1d2c7",
+  "tokenReportPath": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/context-stress-fixture-v1/token-report.json",
+  "tokenReportSha256": "653b01887059aa0668e675a38183f157a938ff6a38acc84887cda10044a93567",
+  "robustReplayPath": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-context-b/replay-context-trace.ts",
+  "robustReplaySha256": "413cf1a5c23724434bfe84482fbdfd35e746f37f94798d099bb743093dd82073",
+  "wrapperPath": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/context-stress-native-v1/replay-context-stress.ts",
+  "wrapperSha256": "c4225a21eed2c6e5c4a0b515f1df845f685259e66f69ca7b562c0f0f2c9d6ea3",
+  "immutableInputs": true,
+  "profileExpectations": {
+    "2048": {"supportClass": "native_diagnostic_2048", "acceptedCases": ["near-2k"], "contextOverflowCases": ["near-4k", "near-8k"]},
+    "4096": {"supportClass": "primary_editor_4096", "acceptedCases": ["near-2k", "near-4k"], "contextOverflowCases": ["near-8k"]},
+    "8192": {"supportClass": "stress_only_8192", "acceptedCases": ["near-2k", "near-4k", "near-8k"], "contextOverflowCases": []}
+  }
+}

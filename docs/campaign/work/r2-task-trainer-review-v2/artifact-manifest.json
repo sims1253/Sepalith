@@ -1,0 +1,110 @@
+{
+  "files": {
+    "cpu-resume-evidence.json": {
+      "bytes": 1255,
+      "sha256": "062cb2f7651fd7fffa292eaf1dbafaf56a7ca158dc6f1145123dc1243a15f95c"
+    },
+    "cpu-tests.log": {
+      "bytes": 3340,
+      "sha256": "2d0ff3a511496a5dafaf20fbaf0cd65b3ba1a24f5606ac84314624692e5cc149"
+    },
+    "input-manifest-verified.json": {
+      "bytes": 4154,
+      "sha256": "0e3d59825a515f137a63140a9e4188178bf04eb1530b4c5b8d266e6536b9b764"
+    },
+    "installed-stack.json": {
+      "bytes": 1425,
+      "sha256": "b161a72431f0b980099fb2eebe02a57f818804e66d659fb6815e684377c6225d"
+    },
+    "original-gate-reproduction.json": {
+      "bytes": 425,
+      "sha256": "ff985ead8e38e7905f45de093b56a909cbbe99cb2e2fbe51dcd6ae608fa1bba7"
+    },
+    "recipe-template.json": {
+      "bytes": 2859,
+      "sha256": "b370bb2bd1ac48313764459e5757c72369df72da6f2b5ba0bb61926364ad6390"
+    },
+    "review.json": {
+      "bytes": 7363,
+      "sha256": "9964f85246262dbabb151b7979b5a2a0e27359552a95524eb75d7a0e245fffa0"
+    },
+    "source-manifest.json": {
+      "bytes": 6791,
+      "sha256": "c7c9d344442f5903cfae4f7d40e0b173f642f8970f7ec4e5e301790c4aeb0e8f"
+    },
+    "source.patch": {
+      "bytes": 10494,
+      "sha256": "72aaab6f37318d584b5f371ea053a363b6a764383d71d8487150699b4bbdd13a"
+    },
+    "source/experiments/training/campaign_checkpoint.py": {
+      "bytes": 11665,
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    "source/experiments/training/campaign_control.py": {
+      "bytes": 5024,
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    "source/experiments/training/campaign_eval.py": {
+      "bytes": 11831,
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    "source/experiments/training/campaign_launch.py": {
+      "bytes": 3545,
+      "sha256": "52f72a711fccf64efd8733a107d08b466b21305b53bc04c28473ef1befd31164"
+    },
+    "source/experiments/training/campaign_sft.py": {
+      "bytes": 25401,
+      "sha256": "38cbdab5a693fd1abf88adba62fa42fed7f680ceee053dfd701c488c31eb83ca"
+    },
+    "source/experiments/training/campaign_sft_data.py": {
+      "bytes": 7931,
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    "source/experiments/training/campaign_task_sft.py": {
+      "bytes": 14053,
+      "sha256": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280"
+    },
+    "source/experiments/training/campaign_tokenizer_contract.py": {
+      "bytes": 15257,
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    "source/experiments/training/target_only_gate.py": {
+      "bytes": 10118,
+      "sha256": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de"
+    },
+    "source/packages/sepalith/src/sepalith/__init__.py": {
+      "bytes": 67,
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    "source/packages/sepalith/src/sepalith/campaign_protocol.py": {
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    "task-sft-schema.json": {
+      "bytes": 3486,
+      "sha256": "aa9372b369d57a638ff5d2ec39dde6741e9022c9dfaeaf366a6f1a43d6c7067a"
+    },
+    "tests/fixtures/task-target-unit-v1.jsonl": {
+      "bytes": 616,
+      "sha256": "846b78b5f27f169a3fdade416db455ac7c3b3be153a5178ce4f0233d8970d158"
+    },
+    "tests/test_campaign_task_sft.py": {
+      "bytes": 7336,
+      "sha256": "8940998e1e48f3837b2888996b550d09c1fa700f05804cc130cc3b4274f003b5"
+    },
+    "tests/test_gate_integration.py": {
+      "bytes": 8876,
+      "sha256": "6034d0c3098a0e86983cc824e827cb9722404372ca009a2ed08f2cb2636522be"
+    },
+    "tests/test_real_trainer.py": {
+      "bytes": 10917,
+      "sha256": "4639835d7af6be5de54da0a193b2535a847ce9daa7e30291019253254b37d363"
+    },
+    "tests/test_task_binding.py": {
+      "bytes": 3508,
+      "sha256": "37e8cefc1b4239d2f9c09c09725a1a35d9039309c500767b5c6fd64ba4088aac"
+    }
+  },
+  "schema": 1,
+  "scope": "Private CPU candidate/test packet; no launch or model admission"
+}

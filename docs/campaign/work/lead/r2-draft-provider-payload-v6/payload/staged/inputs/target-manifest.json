@@ -1,0 +1,11 @@
+{
+  "model_dir": "target-model",
+  "config_file": "config.json",
+  "config_sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+  "weights_file": "model.safetensors",
+  "weights_sha256": "b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+  "merged_weights_sha256": "b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+  "deepspec_revision": "005e03b81cec38b7da6399833d609ee89a2587f2",
+  "status": "frozen_intermediate_target_for_profile_not_release_promoted",
+  "at": "2026-09-14T00:53:42.643286+00:00"
+}

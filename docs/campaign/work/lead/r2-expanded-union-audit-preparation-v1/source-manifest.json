@@ -1,0 +1,59 @@
+{
+  "execution": {
+    "cpu_threads_max": 2,
+    "full_data_scan_performed": false,
+    "training_admission": false
+  },
+  "expected_union": {
+    "accepted_current_20191": 20191,
+    "eventual_semantic9534": 9534,
+    "finalized_semantic10948": 10682,
+    "noop4100": 4100,
+    "total": 44507
+  },
+  "files": [
+    {
+      "bytes": 1629,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "c0a7369150cb11ede93232c6502afad29d0912b40fd3c1c74fa4838a808557f1"
+    },
+    {
+      "bytes": 14771,
+      "mode": "0o644",
+      "path": "audit_expanded_union.py",
+      "sha256": "ae6f0e2ec2fd0e9010d4289754ce152222730b6d2801bad2076953c1df0c0155"
+    },
+    {
+      "bytes": 685,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "e98c08e44b9ae1b75059a56cbbc7b3d15634b122bd84bba20ab88fd80b7c188c"
+    },
+    {
+      "bytes": 2411,
+      "mode": "0o644",
+      "path": "evidence/schema-readout.json",
+      "sha256": "b20bc4c8e61497f03d9af2a29c412b61b0cd3d4e3a84e0c33e35a161e810ce86"
+    },
+    {
+      "bytes": 4498,
+      "mode": "0o644",
+      "path": "tests/test_expanded_union_audit.py",
+      "sha256": "d7c3b6d4850ba6a1e28f98e41f30e96392107385d6828df740d797a71f6e4288"
+    },
+    {
+      "bytes": 5433,
+      "mode": "0o644",
+      "path": "union-spec.template.json",
+      "sha256": "aa192b44e6a148d346414acaa61a50dd68d3d61c9e32f719c1dabf178bbf651c"
+    }
+  ],
+  "geometry_status": "recovery_inputs_named; canonical per-row sidecars not yet materialized",
+  "known_unbound": [
+    "eventual_semantic9534",
+    "noop4100"
+  ],
+  "schema": "sepalith.sft11.expanded-union-audit.source-manifest.v1",
+  "status": "prepared_root_review_required"
+}

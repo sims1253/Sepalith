@@ -1,0 +1,177 @@
+{
+  "schema": "sepalith.dat10.semantic9534.postrender_source_manifest.v3",
+  "packet": "r2-semantic9534-postrender-preparation-v3",
+  "status": "complete_review_only_preparation",
+  "cuda_used": false,
+  "provider_launch_performed": false,
+  "full_render_verification_performed": false,
+  "full_cohort_scan_performed": false,
+  "training_admission": false,
+  "input_mutation_performed": false,
+  "external_reviewed_sources": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-inputs-v1/manifest.json",
+      "role": "immutable actual provider input manifest; v3 schema binding and bounded manifest test",
+      "sha256": "db1dd374d1d029695c9b8daef59151272d0db0a912276f8073b24b0df4f8e9a0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-provider-parse-unavailable-preparation-v1/semantic9534-retry/source-manifest.json",
+      "role": "active rich 16K retry source closure",
+      "sha256": "9725d968382c98fe5313985f5407fd6aa01a3e34063393b88c3bfb45193572e8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic9535-provider-preparation-v1/materialize9535.py",
+      "role": "reviewed Semantic10948-compatible materializer base",
+      "sha256": "b3a05e4f2b0bda42e7ca083cd0975bd286134125d12f145926a7d2dfe429c99f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/base_materializer.py",
+      "role": "pinned base protocol source",
+      "sha256": "2edfe6c4761271889e2b2f008fcccd00b8bf2adaf712c18cc2d588eb9840136f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-dedup-integration-v1/integrate.py",
+      "role": "pinned dedup source",
+      "sha256": "5f15ea1aa3f83890b812ddb9a564936c51bb4607f855fd1db5130a724209cce6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic4551-provider-materialization-v1/materialize4551.py",
+      "role": "pinned prior materializer source",
+      "sha256": "af4a095daff1441d074c8fe74f3a6c58a1ff2defe9d923444375c2d29622bb7e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-noop-expansion-preparation-v3/existing-union-manifest.json",
+      "role": "accepted current dedup union",
+      "rows": 20191,
+      "sha256": "c44dadde27b2ace8908a505d1d3f691ec0e7bcb464c8411ee875d036b0b8fc60"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/final-01/manifest.json",
+      "role": "finalized Semantic10948 dedup source",
+      "rows": 10682,
+      "sha256": "c86e3bc3a402f4f568295a0dcd15fca6dfe6046ce6e7fb60844e25d505eb370f"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/final-01/candidate-tokenrows.jsonl",
+      "role": "finalized Semantic10948 token rows",
+      "rows": 10682,
+      "sha256": "17d02115590ea61921b8ee9cee3b9c0de044cea065330fd9a35a266b3db03069"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-noop4100-materializer-preparation.json",
+      "role": "dedup counts and materialization review contract",
+      "sha256": "0d7cc219d4e107c8e9eca49802557e08fc79ea9a0ac925705808972d35110c01"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-inputs-v1/shard-0027.jsonl",
+      "role": "bounded first real provider shard used by v3 contract test",
+      "sha256": "9a06fee5c6edb8378bc8908bf3ebc63f6ba8b7023055e2131503940f99ab963f",
+      "rows": 746
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-16k-retry-rich-v1/shard-0027.terminal.json",
+      "role": "bounded first real retry terminal used by v3 contract test",
+      "sha256": "9893e2e86ef9c146627e9156f90dce3062fb8a947c93d5a0f093fdf77f53d015",
+      "rows": 746
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-16k-retry-rich-v1/shard-0027.jsonl",
+      "role": "bounded first real retry output used by v3 contract test",
+      "sha256": "6c144fd3fa1b16c990dcd6aebbdb184c19c9c093a74e77b484b3fc9d4db56828",
+      "rows": 746
+    }
+  ],
+  "file_count": 15,
+  "files": [
+    {
+      "bytes": 2122,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "a27702cd285af5f0ba4c789790468d48e9b298643decdd48a89a456d80e6be37"
+    },
+    {
+      "bytes": 838,
+      "mode": "0o755",
+      "path": "commands/finalize_context_policy_9534.sh",
+      "sha256": "3293c2c4991439e0ed561b223c91da1f304c5c8e9b44fe467ef5f768fb19b8d0"
+    },
+    {
+      "bytes": 867,
+      "mode": "0o755",
+      "path": "commands/materialize_review_only_9534.sh",
+      "sha256": "3cbe94f40199171e9172ceb64eec75695e3d1a362a19e3292c4f04583d63c45f"
+    },
+    {
+      "bytes": 826,
+      "mode": "0o755",
+      "path": "commands/prepare_fallback_9534.sh",
+      "sha256": "d238f830e46e9601c2c4eb435ce488793447b03fa1066ed1503b73764236e5b1"
+    },
+    {
+      "bytes": 2575,
+      "mode": "0o755",
+      "path": "commands/run_fallback32_lanes.sh",
+      "sha256": "f4b987498282cb41dc44b0ea30f6ac5a99aeef1715af51f3c6acfe1738fc6924"
+    },
+    {
+      "bytes": 663,
+      "mode": "0o755",
+      "path": "commands/verify_render16.sh",
+      "sha256": "ea2772d411cb18ad744ef4036ae2ae9a10f028fc476560a48c0d11e54c2e5817"
+    },
+    {
+      "bytes": 2729,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "d877e1f68ebec03098635f1e492f1c564caa61b867e76e74e0b8574f0edf72b6"
+    },
+    {
+      "bytes": 995,
+      "mode": "0o644",
+      "path": "dedup-binding.template.json",
+      "sha256": "779c93a30e3c7a832e1259fb3d56e8841ff723729882d3e00081ae373df3fbcf"
+    },
+    {
+      "bytes": 3174,
+      "mode": "0o644",
+      "path": "metadata/expected-inputs.json",
+      "sha256": "7524939b23d9a59e7af9cb7ba4a2c701ab32ae65586dc4bd277282b96b17446f"
+    },
+    {
+      "bytes": 15163,
+      "mode": "0o755",
+      "path": "source/finalize_policy_9534.py",
+      "sha256": "a265d0f5cdf6cb3f8c4b928dc52dabcfa2988e9a0946242e6e8dc5e5b9ad96a8"
+    },
+    {
+      "bytes": 13146,
+      "mode": "0o755",
+      "path": "source/materialize9534.py",
+      "sha256": "13bd34937af371a20136b5af4c779dc05f9aeb2d8d8acaa4c5dd8a327b42d89f"
+    },
+    {
+      "bytes": 9404,
+      "mode": "0o755",
+      "path": "source/prepare_fallback_9534.py",
+      "sha256": "502d37bdd86dbbe5acfa76532882ced3d644e5040d8a9a95195a1dac63855907"
+    },
+    {
+      "bytes": 15090,
+      "mode": "0o755",
+      "path": "source/verify_render16.py",
+      "sha256": "21671ed9598ca4a3a9ff31d40c1a6ffa5c0b75a5e157100cb1d6b87d474a295d"
+    },
+    {
+      "bytes": 559,
+      "mode": "0o644",
+      "path": "tests/test-results.log",
+      "sha256": "c8f3005eee5e51994d2edf7ead11aacf3d669a7e4ee7819e748f5e9ac76446c2"
+    },
+    {
+      "bytes": 8930,
+      "mode": "0o644",
+      "path": "tests/test_postrender_contract.py",
+      "sha256": "9cae0a629eb216c443a3f8d42d3702ac441a1245e892f3ea25e6c84131b60b73"
+    }
+  ]
+}

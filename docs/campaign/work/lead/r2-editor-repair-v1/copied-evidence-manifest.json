@@ -1,0 +1,87 @@
+[
+  {
+    "path": "preflight.json",
+    "bytes": 1419,
+    "sha256": "568a8987be07995957efe21efea0e28d5930e67d3212e16da05b2c7633da8511"
+  },
+  {
+    "path": "launch.json",
+    "bytes": 931,
+    "sha256": "9b6ea2c0882f13806537e3f22da9b3f628c56bcbb18381bed2c745f9944eb244"
+  },
+  {
+    "path": "install.json",
+    "bytes": 97,
+    "sha256": "1fab5fd24d7c27291d1d53c13060cac454ef5cdf4cc1e116e675701d1c543504"
+  },
+  {
+    "path": "install.stdout.log",
+    "bytes": 80,
+    "sha256": "c7747a63358f0767a5547497a9ed26ac0310f30c36ef55a150a79b62f8dc08fd"
+  },
+  {
+    "path": "install.stderr.log",
+    "bytes": 302,
+    "sha256": "e7b41cb86a8fe91a16f17775c38bfe28b595616cccf17270c28dd487d5f509a6"
+  },
+  {
+    "path": "host.stderr.log",
+    "bytes": 221,
+    "sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d"
+  },
+  {
+    "path": "renderer-ready.json",
+    "bytes": 657,
+    "sha256": "b613ffd48c9f4bebb7075c66898d1ecfe4053ddf08375f4606da9f10e1007896"
+  },
+  {
+    "path": "renderer-observer.json",
+    "bytes": 523,
+    "sha256": "85702f48a70bac68ab27515cbb47f1e9707f118240df11d0319a8dc3b0da2909"
+  },
+  {
+    "path": "harness-events.jsonl",
+    "bytes": 154,
+    "sha256": "b726848e8dfb9f3748d3f5b15cc718fbcf1cf88c9cffe1fa1e06de37426c05fb"
+  },
+  {
+    "path": "renderer-result.json",
+    "bytes": 419,
+    "sha256": "3c9b3088f6a615142a2f84a88b167044db3c2cc3c52386d8a700b643efc4c33f"
+  },
+  {
+    "path": "host-process.json",
+    "bytes": 97,
+    "sha256": "b22b7e3c78770c66fb8e7aa9eaef4092167657e5ef3a95f8b1fd970521b67843"
+  },
+  {
+    "path": "run-result.json",
+    "bytes": 273,
+    "sha256": "ba840435e4ecaa353e91d658df6f53bc5cd9ff84edbecf511ad5af1b450035c9"
+  },
+  {
+    "path": "retained-evidence.json",
+    "bytes": 140,
+    "sha256": "1e6a339390a7c1dc619b081ef8a98720d81a8f96d0b35be8d19f3f6a24db1896"
+  },
+  {
+    "path": "user-data/logs/20260914T060439/main.log",
+    "bytes": 1255,
+    "sha256": "7adb88a572ea4797cde64f4fbd7827cfd47fedcbb23e025839b329bca9e4c496"
+  },
+  {
+    "path": "user-data/logs/20260914T060439/window1/renderer.log",
+    "bytes": 9008,
+    "sha256": "8e67fb1c90a0e573803910214f82393b491c829f67b5627077d389eacb0a6a7a"
+  },
+  {
+    "path": "user-data/logs/20260914T060439/window1/exthost/exthost.log",
+    "bytes": 3265,
+    "sha256": "faecde90ce85054a10832745a9ea61b0db12a6118fad02a80735935cbda3a213"
+  },
+  {
+    "path": "user-data/logs/20260914T060439/window1/exthost/output_logging_20260914T060441/1-Sepalith.log",
+    "bytes": 141,
+    "sha256": "d6274814ea51d59e32b689e0d0a9dac03f7fc2f2ac45fef2bfa968289c476869"
+  }
+]

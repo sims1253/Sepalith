@@ -1,0 +1,198 @@
+{
+  "checks": {
+    "candidate_data_read": false,
+    "command": "PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES= HF_HUB_OFFLINE=1 WANDB_DISABLED=true python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "compile_command": "PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile source/experiments/training/campaign_task_sft.py source/experiments/training/campaign_sft.py source/experiments/training/target_only_gate.py source/experiments/training/campaign_launch.py",
+    "cuda_started": false,
+    "model_loaded": false,
+    "result": "5 tests passed"
+  },
+  "files": [
+    {
+      "adaptation": "task-stage contract/template documentation",
+      "bytes": 2566,
+      "origin_path": null,
+      "path": "README.md",
+      "sha256": "5948f61efacc3d51ae7fbceed2117fc9c266fcae3887450ab0625d791d8b26fb"
+    },
+    {
+      "adaptation": "task-stage contract/template documentation",
+      "bytes": 2638,
+      "origin_path": null,
+      "path": "recipe-template.json",
+      "sha256": "ffafa99fc88ea1623c8376312d5831cfa065705aace737bfc6a4737cfa1e5fd7"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 11665,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_checkpoint.py",
+      "origin_sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 5024,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_control.py",
+      "origin_sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+      "path": "source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 11831,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_eval.py",
+      "origin_sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    {
+      "adaptation": "stage dispatch via training_entrypoint(task_sft_prm03_v1, cpt_raw_r_v1, legacy SFT)",
+      "bytes": 3545,
+      "origin_match": false,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_launch.py",
+      "origin_sha256": "043d8d5025b2fa1807972baca6e8eafe5540dcf9bb376e9404e6ecb1eb371e81",
+      "path": "source/experiments/training/campaign_launch.py",
+      "sha256": "52f72a711fccf64efd8733a107d08b466b21305b53bc04c28473ef1befd31164"
+    },
+    {
+      "adaptation": "parameterized policy, row validator, task target learning rate/objective, milestone stops/resume gates",
+      "bytes": 24618,
+      "origin_match": false,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_sft.py",
+      "origin_sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4",
+      "path": "source/experiments/training/campaign_sft.py",
+      "sha256": "4f347675c050edf9492b24e5fbb2298a25ae71c1dfe478546a539390cecd6ea0"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 7931,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_sft_data.py",
+      "origin_sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f",
+      "path": "source/experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "adaptation": "new task-stage policy/data adapter around reviewed campaign_sft seams",
+      "bytes": 11195,
+      "origin_path": null,
+      "path": "source/experiments/training/campaign_task_sft.py",
+      "sha256": "1d74e9f6e8310eac3a8d0922848fc892c200d048c0ecf290fb74ce3758ba5965"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 15257,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_tokenizer_contract.py",
+      "origin_sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "adaptation": "parameterized allowed gate steps and gradient accumulation; legacy defaults preserved",
+      "bytes": 10035,
+      "origin_match": false,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/target_only_gate.py",
+      "origin_sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91",
+      "path": "source/experiments/training/target_only_gate.py",
+      "sha256": "68a600ddb0fb26ce2ae4c19f763245d88ca2aa42d770e2355aac036d42ce00d4"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 67,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/packages/sepalith/src/sepalith/__init__.py",
+      "origin_sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "adaptation": "copied byte-for-byte from reviewed SFT closure",
+      "bytes": 40337,
+      "origin_match": true,
+      "origin_path": "docs/campaign/work/lead/target-only25-a/reviewed-source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "origin_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "adaptation": "task-stage contract/template documentation",
+      "bytes": 3159,
+      "origin_path": null,
+      "path": "task-sft-schema.json",
+      "sha256": "8add77abb138ca971e1a461f2f78130c2c842df8cc0dc02d154c419fc65e341a"
+    },
+    {
+      "adaptation": "synthetic unit fixture only; never an admitted training input",
+      "bytes": 616,
+      "origin_path": null,
+      "path": "tests/fixtures/task-target-unit-v1.jsonl",
+      "sha256": "846b78b5f27f169a3fdade416db455ac7c3b3be153a5178ce4f0233d8970d158"
+    },
+    {
+      "adaptation": "new task-stage policy/data adapter around reviewed campaign_sft seams",
+      "bytes": 6893,
+      "origin_path": null,
+      "path": "tests/test_campaign_task_sft.py",
+      "sha256": "94126d66873022352d41c08e6bc8b0bae05f9be175716db5fa52f1ce730b73d4"
+    }
+  ],
+  "purpose": "Source and contract snapshot for explicit PRM03 target-only task SFT preparation; no launch was performed.",
+  "root_binding_required": [
+    "fresh merged CPT parent or fresh Midtrain control revision and weight/config/tokenizer hashes",
+    "actual PRM03 train rows, immutable draw schedule, package/source split identity, and development panel/case IDs",
+    "renderer contract, evaluator factory, deadline, fresh output/archive paths, and launch authorization",
+    "post-merge native DEV authority and complete checkpoint/resume evidence"
+  ],
+  "runtime_contract": {
+    "development_max_new_tokens": 192,
+    "effective_batch": 16,
+    "hf_evaluation_is_acceptance": false,
+    "initializations": [
+      "new_lora_on_cpt_merged_parent",
+      "new_lora_on_midtrain_control"
+    ],
+    "learning_rate": 0.0002,
+    "lora_alpha": 64,
+    "lora_rank": 32,
+    "loss_objective": "prm03_target_only_next_token_v1",
+    "max_sequence_tokens": 4096,
+    "milestones": [
+      250,
+      500,
+      1000
+    ],
+    "native_acceptance_required": true,
+    "resume_milestones": [
+      250,
+      500
+    ],
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "schema_version": 1,
+  "source_origin": {
+    "note": "The capsule working tree is the byte source; each copied file has an origin SHA256. Adapted files retain the reviewed implementation and only expose task-stage parameters.",
+    "reviewed_capsule": "docs/campaign/work/lead/target-only25-a/reviewed-source",
+    "reviewed_capsule_commit": "b1279250d4f6ed377a133d8571e7b3392e59175c"
+  },
+  "stage": "task_sft_prm03_v1",
+  "status": "cpu_candidate_ready;data_and_model_root_admission_pending",
+  "synthetic_fixture_policy": {
+    "path": "tests/fixtures/task-target-unit-v1.jsonl",
+    "reason": "The fixture exists only to exercise target tail/EOS/padding checks; no candidate source or package data was selected.",
+    "rows": 2,
+    "status": "unit_only_not_admitted"
+  }
+}

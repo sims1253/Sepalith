@@ -1,0 +1,183 @@
+{
+  "acceptance": {
+    "bootstrap_iterations": 5000,
+    "bootstrap_seed": 260914,
+    "bootstrap_speedup_lower_95_min": 1.4,
+    "candidate_p95_must_not_exceed_baseline": true,
+    "exact_output_parity": true,
+    "honest_no_winner": true
+  },
+  "calibration": {
+    "chunks": 64,
+    "contains_dev_or_final": false,
+    "families": 7,
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-imatrix-v1/corpus-manifest.json",
+    "manifest_sha256": "b89046d1733d6038e46059e01ce30ccc514d0bb889c0cd9adefc5caf64414c4f",
+    "packages": 80,
+    "rows": 84,
+    "split": "train",
+    "text_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-imatrix-v1/calibration.txt",
+    "text_sha256": "425d7ed07b926cb667e90dc1bc74c8f21f9ba5b407a40dcdf93ae886758209c0"
+  },
+  "converter_source": {
+    "git_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+    "identity_sha256": "706a876c4d7257aaa4519048323d243876f841467e930d16a1777832ebb41017",
+    "manifest": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v2/converter-source-closure.json",
+      "sha256": "fbb541504eb9f71af515534cbf7dd480dbd935c67d849dcc0a8883ba94eb3a0a"
+    },
+    "root": "/home/m0hawk/Documents/Sepalith/experiments/bin/src/llamacpp-b10453"
+  },
+  "drafts": {
+    "existing_trained_dspark": {
+      "available": true,
+      "header_receipt_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-draft-native-conversion-v1/q8-audit.json",
+      "header_receipt_sha256": "5c25381981004c448883e7ac0b217034c6a9f40ec019471dca78e8f15cb193a0",
+      "kind": "trained_for_old_step500_target",
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/R2-step500-dspark-step8-gguf/model-Q8_0.gguf",
+      "sha256": "cabbffd48439d29f332ec3f75f9d44b57e9304b6bbdfab2b44052c2976af6a4b",
+      "target_relation": "cross_target_trial_only_until_retrained",
+      "trained_target_identity": "SFT11-task-global-b-500"
+    },
+    "model_free_ngram": {
+      "available": true,
+      "kind": "model_free"
+    },
+    "released_dspark": {
+      "available": true,
+      "header_receipt_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-released-draft-q8-v1/header-hash-audit.json",
+      "header_receipt_sha256": "7c7b874105f8e6aaeea6f26d2672055b44f1cb24c3782ea243bc43bea50ce14e",
+      "kind": "released",
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/released-dspark-bf16/model-Q8_0.gguf",
+      "sha256": "bf41fb677274a3021e5a573adbefa41deaf6f8e1d3b1f479fecdbd8632903afb",
+      "target_relation": "released_not_target_trained"
+    }
+  },
+  "launch_authorized": false,
+  "outputs": {
+    "f16": null,
+    "imatrix": null,
+    "iq3_m": null,
+    "q4_k_m": null,
+    "q8": null,
+    "root": "/mnt/e/sepalith/campaign-20260915/final-target-serving-refresh-v2"
+  },
+  "packet_source_manifest_sha256": "48af7fb8dba1e695da8edbc4c2f818c4d7a9c9d82fd36f9d2aee3cf743326b44",
+  "root_admission": null,
+  "runtime": {
+    "common_server_argv": [
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "$PORT",
+      "--temp",
+      "0",
+      "--seed",
+      "0",
+      "-t",
+      "6",
+      "-tb",
+      "6",
+      "--threads-http",
+      "2",
+      "--parallel",
+      "1",
+      "-c",
+      "10240",
+      "-b",
+      "256",
+      "-ub",
+      "256",
+      "-ngl",
+      "99",
+      "-ngld",
+      "99",
+      "-lv",
+      "4"
+    ],
+    "dspark_argv": [
+      "--spec-type",
+      "draft-dspark",
+      "--spec-draft-n-max",
+      "7"
+    ],
+    "ngram_argv": [
+      "--spec-type",
+      "ngram-mod",
+      "--spec-draft-n-max",
+      "64",
+      "--spec-ngram-mod-n-match",
+      "24",
+      "--spec-ngram-mod-n-min",
+      "48",
+      "--spec-ngram-mod-n-max",
+      "64"
+    ]
+  },
+  "schema": "sepalith.r2.final-target-serving-refresh.v2",
+  "spec_profiles": {
+    "draft": {
+      "cap": 64,
+      "context": 10240,
+      "expected_requests": 48,
+      "id": "SPEC-DRAFT-PAIR",
+      "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v2/draft-panel.manifest.json",
+      "manifest_sha256": "fc3634790fe53a26e66906f5b94cd61ed4ece266925ba5c59f05f0f3f88922bb",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v2/draft-panel.jsonl",
+      "repetitions": 2,
+      "sha256": "a8e411f89ea17d651536b1432e1cfc395a54e5d89f909514d54e0d419292d4df"
+    },
+    "ngram": {
+      "cap": 64,
+      "context": 10240,
+      "expected_requests": 40,
+      "id": "SPEC-CPU-NGRAM",
+      "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v2/ngram-panel.manifest.json",
+      "manifest_sha256": "edee52d0fc8e36e26f7930e18205899199d8b185dda12fbe4bc54bf8cd80aa9e",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v2/ngram-panel.jsonl",
+      "repetitions": 1,
+      "sha256": "a1d1b7c8c4b4043490d59f62a1d11e9c816f7ae4a0f4b3a3e61cb35c2dfcc7f8"
+    }
+  },
+  "status": "prepared_target_unselected",
+  "target": null,
+  "tokenizer_contract": {
+    "bos_id": 0,
+    "canonical_eos_id": 1,
+    "native_eog_ids": [
+      1,
+      130073
+    ],
+    "pad_id": 1,
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "vocab_size": 130560
+  },
+  "tools": {
+    "convert": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/src/llamacpp-b10453/convert_hf_to_gguf.py",
+      "sha256": "e38975e1c68d98ac1664dfd530616eb35c72294382a4dd873d4746b23f27779f"
+    },
+    "cuda_backend": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/libggml-cuda.so.0",
+      "sha256": "3c96a25c15a70fbd568ce77599fe628fdc50c7ce27bc9ebcac297692537e9a78"
+    },
+    "imatrix": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-imatrix",
+      "sha256": "dc6d6a2a42aa636f7ecd2fc6acab6d975dcc6bb7a64ac640b478ecfbee43d759"
+    },
+    "probe": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v2/paired_panel_probe_v2.py",
+      "sha256": "4b300264a6ce401df80a0dab7dca87243d432ad50ae269dc828560d19999c95b"
+    },
+    "quantize": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-quantize",
+      "sha256": "9367d87e54b0c4c88de803248532ef9ad2dde804dd22b88042bd4d5449b11022"
+    },
+    "server": {
+      "build": "b10453",
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-server",
+      "sha256": "e42d5362c31f9149e36a94677e46c31b7b56ee0e4128d67e6a32383d4cc1c0ee",
+      "source_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70"
+    }
+  }
+}

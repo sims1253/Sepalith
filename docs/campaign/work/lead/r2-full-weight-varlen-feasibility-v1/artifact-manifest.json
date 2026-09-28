@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "bytes": 2402,
+      "path": "README.md",
+      "sha256": "3c367ae3876d7810ae68b9f364c8658e9d7392fc14f4e50698911095eee15304"
+    },
+    {
+      "bytes": 1072,
+      "path": "actual-model-command.json",
+      "sha256": "d69f2771c7a7a0aae6d6b69f645d9c8e64455a3c5d1f30afc8ceef4b1446b8fa"
+    },
+    {
+      "bytes": 1339,
+      "path": "environment-audit.json",
+      "sha256": "6dee8bbff44d0f3c130fadb31cd17bce8ebea5bf76af87d411c190000abc9011"
+    },
+    {
+      "bytes": 8052,
+      "path": "findings.json",
+      "sha256": "e1dc4350f8ed234e98e54f525b5424832a5b0fa44b2af044ea7df77926e8502c"
+    },
+    {
+      "bytes": 821,
+      "path": "source-manifest.json",
+      "sha256": "c39ea9b6de5f4b8b53f107bb18f5e0ec5ee8cb58952314a801c47b5248272c65"
+    },
+    {
+      "bytes": 623,
+      "path": "test-results.log",
+      "sha256": "6e162121b901eba1a4cefaba776ca4974bb71c86615feff551f7330ae0f6ade5"
+    },
+    {
+      "bytes": 10564,
+      "path": "actual_model_varlen_probe.py",
+      "sha256": "0c64cad5360e55f10b0abd0dddaf03c227a7859db0ac5a3b27dac372f106797a"
+    },
+    {
+      "bytes": 4918,
+      "path": "varlen_contract.py",
+      "sha256": "148ab2c60c1342dc24114d9db05a0df53394da42998a8177cf9ba9ae91f526be"
+    },
+    {
+      "bytes": 2411,
+      "path": "verify_environment.py",
+      "sha256": "4fd82cfd1186b3b560a3c45cd8736065d4b1932ff8d98ec64146b6e3a57359cd"
+    },
+    {
+      "bytes": 2566,
+      "path": "tests/test_varlen_contract.py",
+      "sha256": "5fa5ca0534a29a2bc3d256cdfd3f7a59d6640aef4c8b1e2a9d82df7851ab8144"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1",
+  "status": "frozen_preparation"
+}

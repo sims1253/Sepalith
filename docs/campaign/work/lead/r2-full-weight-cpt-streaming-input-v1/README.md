@@ -1,0 +1,11 @@
+# Bounded-memory CPT streaming input preparation
+
+This fresh packet converts an immutable schema-1 TRAIN token-row JSONL into two signed little-endian int32 streams, a disk-backed SQLite identity index, and an int64 draw-ordinal stream. Only one token row, one document's incremental hash state, package names, and the schedule row-ID list are resident while building. At the expected roughly 130,000-document scale, schedule identities are small compared with hundreds of millions of Python token integers. Runtime memory maps the token and draw files and queries one row record at a time; it never materializes all corpus token lists as Python integers.
+
+The builder validates every row with the frozen CPT contract, rejects truncation, non-TRAIN rows, bad BOS/EOS/labels/carry masks, duplicate row IDs, noncontiguous or incomplete document chunks, document reappearance, changed source spans, schedules that replay before every unique row, and any input hash mismatch. Attention masks are stored implicitly only after proving every source value is one. The cache manifest binds all source and cache bytes. Publication uses a hidden same-filesystem E staging directory, fsync, and atomic rename.
+
+`StreamingCptDataset` returns the same `input_ids`, `labels`, `attention_mask`, and absolute `_draw_position` fields as the v3 trainer dataset. Sequential Trainer skipping therefore retains the exact `checkpoint_step * effective_batch` resume cursor. Integration must replace only `FrozenTokenRowDataset`; v3 optimizer, tokenizer repair, checkpoint, mandatory evaluation stop, and heldout validation stay unchanged. Root must bind a fresh all-corpus rows manifest and schedule before building or training. This preparation does not admit a dataset or launch training.
+
+## Trainer integration
+
+`streaming_trainer_adapter.dataset_from_bound_recipe` requires a `cohort.streaming_cache` object with `path` and `manifest_sha256`. It cross-checks the cache source hashes and every cohort denominator, streams the fixed 499-row validation panel, and scans document metadata from SQLite to reject package or source-hash overlap. The returned dataset is a drop-in replacement for `FrozenTokenRowDataset`. A production trainer revision must call this adapter before model load; this packet does not modify the active v3 source.

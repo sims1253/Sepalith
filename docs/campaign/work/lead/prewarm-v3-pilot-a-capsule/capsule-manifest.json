@@ -1,0 +1,16 @@
+{
+  "fixture.jsonl": "4081472e1e19457ab4b9e186858e837fbf37f9011d7f8d576a6298f3e6ddb008",
+  "context-capsule.json": "eda08da64985e0547e4357588593b31db927eeca1d1de3a617353df859859ee0",
+  "package.json": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae",
+  "run_pilot.py": "6f70eac06ade6ef8e9ea201767e65caf3b649eef13df3d637754c62b1d0055c5",
+  "fixture-manifest.json": "0b2195b87b5f6eabc892164124c25b876833a00ba6add0d79af6826413f5d0b3",
+  "src/exact_prewarm_contract.ts": "5c1b5b10f9035348650a011b66c7cbe0fcc6c717e16e55f13b0d1e259d30ad99",
+  "src/campaign_requests.ts": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535",
+  "src/native_exact_adapter.ts": "b050c2b6694827af062c9deda73ca37490646d72aa75237708664151911aa52d",
+  "src/campaign_client.ts.orig-v1": "a95e205c1d378e0e30e40d6a903a87a353ca82b6671f5a2d8d8bccb4b28f726b",
+  "src/exact_prewarm_scheduler.ts": "4e88145e63aec5d5e193b162ae34d756399b0e0d14af34dd91a8816d571223b5",
+  "src/campaign_client.ts": "8b332331707bea5f2abf56c1230ed7e3a3eccc5d292daee6a8ba37f93d070a7b",
+  "src/fixture_loader.ts": "adf569cec6b09b6481ea74051865eef1cf1d8ee3d35367c9c1b73ab86a18dd76",
+  "src/campaign_protocol.ts": "cebb38ba92da49c408a9a3c96cb52c749f508687cb53a8eb7aaf655bd738254e",
+  "harness/native_live_ab_harness.ts": "fcd6fcb11179c2fff44e61f79d024761ed2a6ba9811f7d20ee5b9b7e80c678ad"
+}

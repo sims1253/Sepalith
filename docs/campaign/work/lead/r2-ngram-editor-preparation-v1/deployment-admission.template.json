@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "status": "pending_root_admission",
+  "purpose": "daily-lan-deployment",
+  "sourceManifestSha256": "d97c97d878ada8f04af70179a4932e79818753bf8778067b959e30aeac1ceac8",
+  "cudaLockPath": "/home/m0hawk/.local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock",
+  "initialLeaseLedgerSha256": "ROOT_FILL_FROM_RELEASED_LEDGER_AFTER_NGRAM_LAN_SMOKE",
+  "scope": "One selected500 ngram-mod qualification editor run. Explicit native session300s, notebook editor180s, remote timeout230s+15s grace, hostguard420s. No release promotion."
+}

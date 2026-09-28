@@ -1,0 +1,12 @@
+{
+  "schema": "sepalith.cloud-cpt-parent-merge.root-admission.v1",
+  "status": "DO_NOT_USE_TEMPLATE",
+  "action": "merge_cloud_cpt_parent_candidate",
+  "selected_checkpoint_step": 1585,
+  "binding_review_sha256": "FILL_FROM_BINDING_REVIEW",
+  "candidate_selection_evidence": "FILL_WITH_ROOT_COMPARISON_RECEIPT",
+  "authorized_output": "/mnt/e/sepalith/campaign-20260915/models/SFT11-CPT-cloud-1585-merged-candidate-v1",
+  "candidate_remains_unselected_after_merge": true,
+  "cuda_authorized": false,
+  "final_promotion_authorized": false
+}

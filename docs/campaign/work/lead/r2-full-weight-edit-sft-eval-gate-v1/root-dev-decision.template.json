@@ -1,0 +1,11 @@
+{
+  "bound_recipe_sha256": "FILL",
+  "checkpoint_manifest_sha256": "FILL",
+  "continue_training": false,
+  "generation_result_sha256": "FILL",
+  "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+  "review_note": "Root records actual DEV generation decision; no threshold is invented by this preparation.",
+  "schema": "sepalith.sft11.full-weight-edit-dev-decision.v1",
+  "status": "DO_NOT_USE_TEMPLATE",
+  "step": "FILL"
+}

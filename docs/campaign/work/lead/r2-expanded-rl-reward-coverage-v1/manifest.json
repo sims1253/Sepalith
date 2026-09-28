@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "bytes": 3810,
+      "path": "design.json",
+      "sha256": "46ec8134f1a7b0448a7bb195255d92b0a6c9c9b320ab6d41d58de0e4ea52cd04"
+    },
+    {
+      "bytes": 15152,
+      "path": "parse-failure-review.json",
+      "sha256": "7be5eb08cb7081a6945228fa77bd13924f0f17196c15cbe9c1d2196ddd9e33b2"
+    },
+    {
+      "bytes": 1709,
+      "path": "reward_coverage.py",
+      "sha256": "043801d182e572512ee5c95882918ffaa5d3828357059c13d0aab202dd35e826"
+    },
+    {
+      "bytes": 703,
+      "path": "test-results.log",
+      "sha256": "edb6bb0689b1c10d56b39a897687b585a80a9e3b9e05031edd730cc83f1f83fe"
+    },
+    {
+      "bytes": 1996,
+      "path": "test_reward_coverage.py",
+      "sha256": "8995803eb31928f85878201cc4f375f93ad52b8ca967c3258e4d8d7308fa502c"
+    }
+  ],
+  "schema": "sepalith.rl11.reward-coverage-design-closure.v1"
+}

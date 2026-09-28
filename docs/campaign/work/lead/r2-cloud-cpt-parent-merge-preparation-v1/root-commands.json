@@ -1,0 +1,27 @@
+{
+  "schema": "sepalith.cloud-cpt-parent-merge.root-commands.v1",
+  "preparation_only": true,
+  "steps": [
+    {
+      "name": "create_review_for_1585",
+      "command": "PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python source/prepare_binding.py --registry candidates.json --candidate 1585 --review-output root-binding-review.json"
+    },
+    {
+      "name": "root_writes_admission",
+      "command": "Root copies root-admission.template.json to a root-owned receipt, changes status to admitted, and binds the exact review SHA only after same-panel 1585/1902 selection."
+    },
+    {
+      "name": "create_admitted_binding",
+      "command": "PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python source/prepare_binding.py --registry candidates.json --candidate 1585 --review-output root-binding-review.final.json --root-admission /ABSOLUTE/ROOT/ADMISSION.json --binding-output merge.binding.json"
+    },
+    {
+      "name": "cpu_merge_candidate",
+      "command": "ionice -c3 nice -n10 taskset -c 0,2 env CUDA_VISIBLE_DEVICES='' PYTHONNOUSERSITE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python source/merge_cloud_cpt_parent.py --binding merge.binding.json"
+    }
+  ],
+  "notes": [
+    "Do not use the template admission as authorization.",
+    "The 1902 registry entry is intentionally non-runnable until an immutable local readback and root receipt exist.",
+    "The merge produces an unselected candidate; it does not authorize training, evaluation, promotion, or final access."
+  ]
+}

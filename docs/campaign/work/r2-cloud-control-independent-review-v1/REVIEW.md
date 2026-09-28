@@ -1,0 +1,25 @@
+The cloud entry passes this CPU/source review with one required root integration correction: use `deadline_watchdog_delayed_submission.py` instead of the original generic watchdog. Rebind the root arming wrapper's `WATCHDOG` path and `EXPECTED` hash to the new file. Keep the arming wrapper's two-hour check and confirm the actual live watchdog PID/armed receipt before submission. The original frozen cloud packet remains unchanged.
+
+The original monitor abandoned a not-yet-created job after approximately 140 seconds of failed status checks. A private working-directory upload can still be in progress, so submission could create the job after that guard exits. The new six-line branch records `pending_submission` and keeps monitoring the unique name until the absolute deadline while no exact job ID exists. Once an ID is observed, the existing status-error termination policy remains. At the deadline it requests termination by the observed ID or unique name; failure stays `termination_unconfirmed`, never a false release claim. Existing bounded confirmation behavior remains unchanged. The independent API call can itself take up to 20 seconds and provider termination can lag; root still verifies node release.
+
+Frozen entry source manifest: `6d7b6ca6cfa0a849d03ff52c91689cb051cd86eccca1b0b02a650ccf9bb1c453`.
+Frozen entry artifact manifest: `b973405aadc86941d15ebdc1b45314687ba1f4a355e15a8986efb3920dc7b9db`.
+New guard: `16d3e01bdb0f73bfa92574804a3af7feaad1e722bd87782a1a61c408c5b29514`.
+
+All 30 frozen artifact files were stream-hashed (109,049,064 bytes), including the root-supplied TRAIN and draw payloads. All 11 trainer files and the copied trainer manifest match accepted task trainer v2 exactly. No core wrapper bytes changed during review.
+
+CPU evidence:
+
+- Eight worker tests independently replayed, with their temporary writes relocated into this review directory.
+- Four independent tests exercised entry success, training failure, final upload failure, and an actual synthetic CPU backward that consumes Python/NumPy/Torch randomness. RNG, optimizer state, parameter values, mode/use_cache and gradients were restored. CUDA was not initialized.
+- Four arming tests exercised actual argv construction and rejected a 7,201-second deadline. This wrapper addresses the generic watchdog's six-hour validator by enforcing the task-specific 7,200-second binding.
+- Eight original watchdog tests still pass on the immutable original.
+- Eleven candidate guard tests pass: seven original tests unchanged, the old no-ID-error expectation revised to test errors after ID observation, and three delayed/no-job deadline tests. The one changed expectation is exactly the requested behavior change, not a hidden regression.
+
+The entry requires the fixed image, one g5.2xlarge head, no workers/retries, provider timeout 6,900 seconds, and a root-armed 7,200-second absolute limit. It caps its own work at the earlier of armed time plus 6,900 seconds or the absolute deadline. Setup has a 1,800-second phase cap; training 4,200; upload 600; cleanup reserve 60. Training cannot consume the upload reserve. Every subprocess phase checks 8 GiB Linux MemAvailable before creation and while running and cleans its owned process group. The entry preserves the 1,000-step scheduler horizon, microbatch 2/accumulation 8, fresh Midtrain parent and mandatory full-250 decision stop.
+
+The longest-row profile is an explicit wrapper around the original startup gate. It chooses the two longest rows in the actual admitted training dataset, runs real loss/backward, observes finite gradients, performs no optimizer step, clears gradients, checks trainable parameter versions, and restores RNG and mode/cache configuration. It warms CUDA allocator/JIT state intentionally; it is not an exact cold-start latency measurement or proof of real A10 fit. The first optimizer-state allocation remains inside the guarded first update.
+
+Only uploader processes receive HF_TOKEN. The setup/train environment removes both HF token variables. The code does not dump environment variables or token values; uploader exceptions emit their type, and phase logs are bounded. The private repository check, nonce readback, per-file SHA/LFS or Git-object comparison and receipt readback are concrete uploader-client checks. Upload failure forces a failing entry exit; training failure cannot be promoted by a successful upload. Root's separate-client sentinel and post-exit artifact readback remain distinct evidence.
+
+Root can proceed with its already planned one bounded allocation after rebinding the new watchdog and completing the existing source/data/DEV/recipe/token/price admission. Actual image/bootstrap/CUDA13 driver support, A10 memory fit and complete private upload are first-allocation outcomes, not reasons to demand capacity proof before allocating. No additional infrastructure is requested. Core package versions are pinned, but full transitive wheel/interpreter hashes are not established by this packet. No model artifact, GPU, cloud API, SSH, DEV or final content was read here.

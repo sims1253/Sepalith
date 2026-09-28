@@ -1,0 +1,61 @@
+{
+  "assemble_after_terminal_cache_and_root_data_admission": [
+    "python3",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-expanded-stage-launch-preparation-v1/assemble_root_admission.py",
+    "--inputs",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-expanded-stage-launch-preparation-v1/launch-inputs.json",
+    "--data-admission",
+    "$ROOT_DATA_ADMISSION",
+    "--output",
+    "$ROOT_STAGE_ADMISSION"
+  ],
+  "bind_after_root_stage_admission": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v2/source/experiments/training/bind_stage_transition.py",
+    "--template",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v2/recipe.template.json",
+    "--admission",
+    "$ROOT_STAGE_ADMISSION",
+    "--output",
+    "$BOUND_RECIPE"
+  ],
+  "execution_authorized": false,
+  "guard_after_root_launch_decision": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+    "--command-json",
+    "$TRAIN_COMMAND_JSON",
+    "--output",
+    "$FRESH_GUARD_OUTPUT",
+    "--seconds",
+    "10800",
+    "--minimum-free-mib",
+    "6144",
+    "--admission-free-mib",
+    "14336"
+  ],
+  "preflight_after_binding": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v2/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "schema": "sepalith.sft11.cpt-expanded-stage-launch-root-commands.v1",
+  "trainer_command_json_contents": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v2/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE",
+    "--resume",
+    "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-lr3e-6-v1/full/checkpoint-66",
+    "--stage-transition-admission",
+    "$ROOT_STAGE_ADMISSION"
+  ]
+}

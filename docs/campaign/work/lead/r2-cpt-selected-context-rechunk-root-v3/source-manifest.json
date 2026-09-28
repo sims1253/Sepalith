@@ -1,0 +1,25 @@
+{
+  "schema": "sepalith.root.selected-context-rechunk-source.v1",
+  "change": "Allow nonempty unique subset of already tested8K16K32K outputs; token reconstruction and validation unchanged",
+  "tests": {
+    "actual_frozen_sample16384": "pass8082payloadtokens3terminalEOS",
+    "invalid_context_selections_rejected": 5
+  },
+  "files": [
+    {
+      "path": "source/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa",
+      "bytes": 29909
+    },
+    {
+      "path": "source/lossless_rechunk.py",
+      "sha256": "0530b93885e4db9f4c8f87acc6e5efd9bd735f82b5b2c24b8006d145acb5fa13",
+      "bytes": 11812
+    },
+    {
+      "path": "source/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+      "bytes": 11920
+    }
+  ]
+}

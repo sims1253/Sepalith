@@ -1,0 +1,8 @@
+{
+  "bound_recipe_sha256": null,
+  "launch_authorized": false,
+  "resume_global_step": 194,
+  "schema": "sepalith.sft11.native-cpt-execution-stop.v1",
+  "status": "preparation_only",
+  "stop_at_global_step": 322
+}

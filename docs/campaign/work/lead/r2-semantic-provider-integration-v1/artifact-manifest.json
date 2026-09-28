@@ -1,0 +1,41 @@
+{
+  "artifacts": [
+    {
+      "bytes": 2615376,
+      "path": "docs/campaign/work/lead/r2-semantic-provider-integration-v1/prediction-batch.jsonl",
+      "rows": 133,
+      "sha256": "ca5f58db94fd586b7eb56079a06d4a4a14441d2f8b018024bddb56ebea9ae7c3"
+    },
+    {
+      "bytes": 2638176,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1-rendered-final.jsonl",
+      "rows": 133,
+      "sha256": "dcc4c06e48df17c1f5369915d907e67ed3e9405009616fc582960e35dd31e73c"
+    },
+    {
+      "bytes": 2129,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1/final-01/manifest.json",
+      "sha256": "e02a4e557a73226be68829622bccbc923859ca7c3f1243f1a7b5c1f74aac008d"
+    },
+    {
+      "bytes": 6202493,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1/final-01/candidate-tokenrows.jsonl",
+      "rows": 133,
+      "sha256": "2fbfbcb96849289dd65105cee708cb6f07a7f1c5b02c2d9fd57fb8402082f822"
+    },
+    {
+      "bytes": 207407,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1/final-01/candidate-provenance.jsonl",
+      "rows": 133,
+      "sha256": "9a974db879b8d42c99e6b09b3caebb51f9bad650096858927537527b74b22b5c"
+    },
+    {
+      "bytes": 14364,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1/final-01/exclusion-ledger.jsonl",
+      "rows": 133,
+      "sha256": "12d52dd038a18b43a519ea80f1c62dfd49172cb10a0d39320d862ed534cbfb0c"
+    }
+  ],
+  "schema": "sepalith.artifact_manifest.v1",
+  "status": "complete_review_only"
+}

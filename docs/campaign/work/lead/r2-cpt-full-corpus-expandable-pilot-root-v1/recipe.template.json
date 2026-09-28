@@ -1,0 +1,54 @@
+{
+  "checkpoint_storage": {
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-expandable-pilot-v1",
+    "c_hot_stage": "not_admitted",
+    "mode": "e_same_filesystem_atomic",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-expandable-pilot-v1/runtime"
+  },
+  "cohort": null,
+  "corpus_manifest": null,
+  "data_admission": null,
+  "dtype_audit": {
+    "helper_source_sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-full-weight-dtype-audit.json",
+    "sha256": "8961dfb937256c11f0d9d71a4827f5b284b0dfa700afcbf236a260e2047349f1"
+  },
+  "launch_authorized": false,
+  "optimizer_dispatch": {
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-expandable-pilot-v1",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-CPT-expandable-pilot-v1-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-expandable-pilot-v1/runtime"
+  },
+  "parent": null,
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true,
+    "trainer_save_total_limit": 2
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-stage-transition-template.v1",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v3/source-manifest.json",
+    "manifest_sha256": "dc15129466cab39507ff20e1f71a05c786d30e230b8e606c7924f452732c17c0"
+  },
+  "source_quality": {
+    "note": "The inherited full-weight CPT source path preserves reviewed mechanics. Prior source/pilot results do not constitute a target-quality promotion.",
+    "status": "reviewed_mechanics_not_model_quality_promoted"
+  },
+  "status": "recursive_source_checkpoint_destination_corpus_lr_and_gates_pending",
+  "transition": null,
+  "validation": {
+    "edit_dev_or_final": false,
+    "max_sequence_tokens": 2048,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "role": "fixed_package_heldout_train_causal_comparator",
+    "rows": 499,
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  }
+}

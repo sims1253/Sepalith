@@ -1,0 +1,133 @@
+{
+  "files": [
+    {
+      "bytes": 2679,
+      "mode": "0444",
+      "path": "README.md",
+      "sha256": "e23d4d81e58912bb119374bfa9732b828bd44bbc0c7007199a204dbb42eaa7d5"
+    },
+    {
+      "bytes": 8515,
+      "mode": "0444",
+      "path": "analyze_refresh_v3.py",
+      "sha256": "02713f9d2aa5722a165133b1e2bfc794f73a25071f33649cb5e46653e72111fa"
+    },
+    {
+      "bytes": 3130,
+      "mode": "0444",
+      "path": "audit_gguf_norms.py",
+      "sha256": "ce8aaead710d6f967508e23ed7b9361a3b1185c462c5e74b4d9a0ad4434187f8"
+    },
+    {
+      "bytes": 7556,
+      "mode": "0444",
+      "path": "binding.template.json",
+      "sha256": "399823900ea8e648bf14954f9e734223e93b9b1a0998b39b428f318c80def497"
+    },
+    {
+      "bytes": 4908,
+      "mode": "0444",
+      "path": "build_spec_panels.py",
+      "sha256": "ba536d171c86d0d4a033ad8cca507ac356875d8379a3ce0e8277a1973bce74e8"
+    },
+    {
+      "bytes": 17803,
+      "mode": "0444",
+      "path": "converter-source-closure.json",
+      "sha256": "fbb541504eb9f71af515534cbf7dd480dbd935c67d849dcc0a8883ba94eb3a0a"
+    },
+    {
+      "bytes": 859490,
+      "mode": "0444",
+      "path": "draft-panel.jsonl",
+      "sha256": "a8e411f89ea17d651536b1432e1cfc395a54e5d89f909514d54e0d419292d4df"
+    },
+    {
+      "bytes": 16198,
+      "mode": "0444",
+      "path": "draft-panel.manifest.json",
+      "sha256": "fc3634790fe53a26e66906f5b94cd61ed4ece266925ba5c59f05f0f3f88922bb"
+    },
+    {
+      "bytes": 1338497,
+      "mode": "0444",
+      "path": "ngram-panel.jsonl",
+      "sha256": "a1d1b7c8c4b4043490d59f62a1d11e9c816f7ae4a0f4b3a3e61cb35c2dfcc7f8"
+    },
+    {
+      "bytes": 26048,
+      "mode": "0444",
+      "path": "ngram-panel.manifest.json",
+      "sha256": "edee52d0fc8e36e26f7930e18205899199d8b185dda12fbe4bc54bf8cd80aa9e"
+    },
+    {
+      "bytes": 29219,
+      "mode": "0444",
+      "path": "paired_panel_probe_v3.py",
+      "sha256": "4b300264a6ce401df80a0dab7dca87243d432ad50ae269dc828560d19999c95b"
+    },
+    {
+      "bytes": 12387,
+      "mode": "0444",
+      "path": "prepare_refresh_v3.py",
+      "sha256": "a841a3d225e01a417620de7392aae6368490b23dd581148b5f8fdd1d225f154b"
+    },
+    {
+      "bytes": 2382,
+      "mode": "0444",
+      "path": "probe_bound_v3.py",
+      "sha256": "81eec992c9854a73eef96b16d1ae1d9de4e165d9aa96623bd7640807bf3fb14f"
+    },
+    {
+      "bytes": 1894,
+      "mode": "0444",
+      "path": "record_imatrix_completion.py",
+      "sha256": "4621e57266ce7dc811453d8f8b38c5eb6338bcf202bb3b4bab9a6aa90caa09e6"
+    },
+    {
+      "bytes": 605,
+      "mode": "0444",
+      "path": "root-admission.template.json",
+      "sha256": "dc49b6f37261188a5d3c48c369ea0cd5591c553e1b8a2136b1b70e2ea7c98437"
+    },
+    {
+      "bytes": 2084,
+      "mode": "0444",
+      "path": "root-commands.template.json",
+      "sha256": "88c643b19d88ad8e1d5b792714b761f1fbc88cf214171e7959579b4706c6be9f"
+    },
+    {
+      "bytes": 6737,
+      "mode": "0444",
+      "path": "server_lifecycle_v3.py",
+      "sha256": "ccac3d31a17c5962e80e41ccf4550758bfad6a1f872f75d6f48f940e02dad792"
+    },
+    {
+      "bytes": 1605,
+      "mode": "0444",
+      "path": "source-manifest.json",
+      "sha256": "760d347996e3be75a699959db4ea31fea36bab2beb1b44f924a03f81cdf0264b"
+    },
+    {
+      "bytes": 1106,
+      "mode": "0444",
+      "path": "template-preflight.json",
+      "sha256": "aa07db435d3d62cda0ff27302a0c2737c59399dd30fa351553a2528a634531b5"
+    },
+    {
+      "bytes": 99,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "442ef012cda2244e6663e8b8479c3e9dfa3758f9a2c8338f0f2b2bb262268507"
+    },
+    {
+      "bytes": 11523,
+      "mode": "0444",
+      "path": "test_v3.py",
+      "sha256": "5b86c0755cc314fd249c9d2d3abff2f1e115f2e4346fce404de9264425e17647"
+    }
+  ],
+  "identity_sha256": "195475a55b4ab9f2e31354a3552c0280996ffdfaaf994f2d252f202238a32b93",
+  "schema": "sepalith.r2.final-target-serving-refresh-artifacts.v3",
+  "status": "frozen_preparation"
+}

@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "task": "DAT10-SHORT-SPANS",
+  "status": "candidate_not_training_admitted",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/build_short_candidates.py",
+      "bytes": 15317,
+      "sha256": "d5739b99fb6e654fae9bb35fa2df3d90c3d5f925017f6fa7462f6313850e30d2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/audit_saved_candidates.py",
+      "bytes": 6017,
+      "sha256": "b0d15dc8531c692956e8a423a852f0afcb82f9487a3c88f2c6cc4f8ce7b4b2f7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/test_short_candidates.py",
+      "bytes": 4659,
+      "sha256": "ab43699f25f8d346b02154b043a20487d3cc208e8de5524e60bbe4c7ce98327d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/candidate-packets.jsonl",
+      "bytes": 6469611,
+      "sha256": "a301ba4ed8d0355f4a2d3a83404c3bef41ee31b4820b60980af8afe201ebc7d7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/source-observations.json",
+      "bytes": 277392,
+      "sha256": "5f72fb15babaa27750cd0f98f5284d438edce45b25b3588f0e0e9bf62465fa6a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/summary.json",
+      "bytes": 2010,
+      "sha256": "68b0dd2c20d2db2728988b63282180c3a453daa7c9024600bc1096618177d716"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/saved-packet-audit.json",
+      "bytes": 905,
+      "sha256": "cd2c446d553e512b5db46886178557b8e6568189c6ce545a9bce7d4a6a0d6699"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/source-pins.json",
+      "bytes": 7992,
+      "sha256": "a7054fc85013919d1bc012495d426e22a19ecf873af65035bb0d005ab00ecff0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/tests.log",
+      "bytes": 1061,
+      "sha256": "04c45f380e88db196227336a718e2d272b5a4ae86b0790c6c56644cf819603ba"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/build.log",
+      "bytes": 1860,
+      "sha256": "c597a605f3d40adcdc2c012035d6c09ec81fd1c5387d0237eec8c68e1b716e79"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/audit.log",
+      "bytes": 823,
+      "sha256": "c8caf2246065e3643fb643880eb6eb36239f9fd55950b8b411d464b784af8ba4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/REVIEW.md",
+      "bytes": 5113,
+      "sha256": "ffd1c5b01d1ca387fcaa0e0fdd91d671ff2538c6bac661c2c1d6bb6a7d3b89b2"
+    }
+  ]
+}

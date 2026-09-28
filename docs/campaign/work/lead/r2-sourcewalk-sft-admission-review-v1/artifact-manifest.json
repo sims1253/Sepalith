@@ -1,0 +1,85 @@
+{
+  "bulk_files": {
+    "audit.stdout": {
+      "bytes": 583,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/audit.stdout",
+      "sha256": "f96bb7cd19580a738daf3c7c7cca3a489f826bbb8524fc46e86bc5e4a421c16c"
+    },
+    "audit.time": {
+      "bytes": 942,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/audit.time",
+      "sha256": "cadaa4e6914a52e283af8834930df2577a7cd88d3617c7c37767e069ff58ad37"
+    },
+    "duplicate-groups.jsonl": {
+      "bytes": 17014,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/duplicate-groups.jsonl",
+      "sha256": "188a6caf3e216453aa1883077bd790e2d7d11e1d1a803aa42e4284c7cd50cedb"
+    },
+    "family-hold-summary.json": {
+      "bytes": 3746,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/family-hold-summary.json",
+      "sha256": "82fd240bc717afdbd8c61a1bd7eb3730a90bfc31a69dd7929ffcee951e406a0f"
+    },
+    "mechanical-hold-ledger.jsonl": {
+      "bytes": 966793,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/mechanical-hold-ledger.jsonl",
+      "sha256": "6a626df3c55b6bc1907eb3b64f8e8fec50095f07db47db0d796f17e658dda751"
+    },
+    "review.json": {
+      "bytes": 20530,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/review.json",
+      "sha256": "b325bd41c8c7e9313bd10d94be76162c6e27c4c991a2c4339ede2bf09d3dc678"
+    },
+    "semantic-review-queues.json": {
+      "bytes": 408,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-SFT-admission-review-v1/semantic-review-queues.json",
+      "sha256": "af086ee8a58b8b3d42449657e68870c8c2e400a0e497c996b1b2cda332af875a"
+    }
+  },
+  "packet_files": {
+    "README.md": {
+      "bytes": 1556,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-sft-admission-review-v1/README.md",
+      "sha256": "1bf718823372b98ea9a85b1c77b6e4e799acc9fa44d9ddb2458f93b9acf8c9f4"
+    },
+    "audit_union.py": {
+      "bytes": 19826,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-sft-admission-review-v1/audit_union.py",
+      "sha256": "31f506709dae133a5f64982a951fd655623d7febd38df8bda700b058bfa387ae"
+    },
+    "evidence-matrix.json": {
+      "bytes": 3260,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-sft-admission-review-v1/evidence-matrix.json",
+      "sha256": "7d3113bf186b8985d79868fb4fec6f927de57ef194d7e0cb77073ba58684190e"
+    },
+    "summarize_holds.py": {
+      "bytes": 2088,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-sft-admission-review-v1/summarize_holds.py",
+      "sha256": "f5a249e463cd7c29fdd567214f33d6e835a38ef181c93ac38f2d4f785c9a45fd"
+    },
+    "test-results.log": {
+      "bytes": 670,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-sft-admission-review-v1/test-results.log",
+      "sha256": "fd9944fac001bb7b1eada00b45b1835de1b9f07f370720ece6be292b7d38f494"
+    },
+    "test_audit_union.py": {
+      "bytes": 2551,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-sft-admission-review-v1/test_audit_union.py",
+      "sha256": "1b2aca5097321883e5688697bfb2c12f04275a03a89ef771dbc7b00ebdfb5786"
+    }
+  },
+  "schema": "sepalith.dat10.sourcewalk_sft_admission_artifact_manifest.v1"
+}

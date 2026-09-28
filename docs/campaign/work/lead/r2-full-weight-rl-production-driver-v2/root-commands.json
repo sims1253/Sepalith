@@ -1,0 +1,8 @@
+{
+  "schema": "sepalith.rl11.full-weight-production-root-commands.v1",
+  "status": "template_only_no_launch",
+  "preflight_after_binding": "TMPDIR=/mnt/e/sepalith/campaign-20260915/tmp/rl-production-preflight PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=<PACKET>/source/experiments/training /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B <PACKET>/source/experiments/training/preflight_full_weight_rl.py --recipe <ROOT_BOUND_RECIPE> --binding <ROOT_ADMITTED_BINDING> --receipt <FRESH_E_PREFLIGHT_RECEIPT>",
+  "live_builder": "full_weight_rl_production.build_production_trainer",
+  "launch": null,
+  "reason": "Selected full-weight edit-SFT target, signal evidence, production recipe, GPU resource proof, and launch admission are absent."
+}

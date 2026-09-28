@@ -1,0 +1,93 @@
+{
+  "catalog_query": {
+    "exact_catalog_matches": [],
+    "registered_nearest": [
+      {
+        "contextWindow": 1000000,
+        "kind": "anthropic",
+        "maxOutputTokens": 128000,
+        "model": "glm-5.3",
+        "provider": "zai"
+      },
+      {
+        "contextWindow": 1000000,
+        "kind": "anthropic",
+        "maxOutputTokens": 128000,
+        "model": "glm-5.3",
+        "provider": "bigmodel"
+      },
+      {
+        "contextWindow": 1000000,
+        "kind": "anthropic",
+        "maxOutputTokens": 128000,
+        "model": "glm-5.3",
+        "provider": "zai-coding-plan"
+      },
+      {
+        "contextWindow": 1000000,
+        "kind": "anthropic",
+        "maxOutputTokens": 128000,
+        "model": "glm-5.3",
+        "provider": "bigmodel-coding-plan"
+      }
+    ],
+    "requested": "glm-5.3-flash"
+  },
+  "excluded_from_reading": [
+    "user auth/configuration",
+    "credentials",
+    "full application logs",
+    "training/final data",
+    "model weights",
+    "browser/editor state"
+  ],
+  "files": {
+    "browser_manifest": {
+      "bytes": 382,
+      "path": "/opt/ZCode/resources/glm/packages/browser-use-plugin/.zcode-plugin/plugin.json",
+      "sha256": "f963969e765472c89a586d95f825857f0a1acbba05bb3cc0a1038a726f87ad84"
+    },
+    "browser_readme": {
+      "bytes": 1497,
+      "path": "/opt/ZCode/resources/glm/packages/browser-use-plugin/README.md",
+      "sha256": "d515dc7e2e9073bc5abe9a0f799e4a2ad45bfe67d4c4cef0a008bfa44f07794d"
+    },
+    "browser_server": {
+      "bytes": 7387218,
+      "path": "/opt/ZCode/resources/glm/packages/browser-use-plugin/dist/mcp/server.js",
+      "sha256": "c457252f29af94b332c743293a069db3afc018bfb2b3961a32578544a03b64d0"
+    },
+    "cli_entry": {
+      "bytes": 12615227,
+      "path": "/opt/ZCode/resources/glm/zcode.cjs",
+      "sha256": "e9f1868c0fdb863537ed910ee3828b9be96b8c2fd805473f63b439e1113266b8"
+    },
+    "cua_manifest": {
+      "bytes": 410,
+      "path": "/opt/ZCode/resources/glm/packages/zcode-cua-plugin/.zcode-plugin/plugin.json",
+      "sha256": "898ae8a24f53241734012f93c29641fcd58254fee5ca48a9c04d8a814d4d7ffd"
+    },
+    "cua_server": {
+      "bytes": 3210961,
+      "path": "/opt/ZCode/resources/glm/packages/zcode-cua-plugin/dist/mcp/server.js",
+      "sha256": "f24349d2fad0a246b5c4a4f387c14a208baa434495a7786ae692b57c9e118db6"
+    },
+    "cua_skill": {
+      "bytes": 8720,
+      "path": "/opt/ZCode/resources/glm/packages/zcode-cua-plugin/skills/computer-use/SKILL.md",
+      "sha256": "9bd5a7790e3c8b4e38a926dc0f4f8520eafc3b1a91883bc8a34736bdf79f7ff3"
+    },
+    "model_catalog": {
+      "bytes": 136854,
+      "path": "/opt/ZCode/resources/model-providers/models_catalog_china_llm_zcode_2026-06-03.json",
+      "sha256": "d8ab38c6e903dd56ad4be183cc342939be85a44793c5d5d8b61bbad302d555e9"
+    },
+    "pinned_help": {
+      "bytes": 3463,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-admission/zcode-cli-help.txt",
+      "sha256": "82f970f9144e69a9ec999205d91faa9da010adc207fbaa505b4ce825349ff723"
+    }
+  },
+  "purpose": "Bounded source identities used for CLI/model/tool capability inspection; no runtime launch.",
+  "schema": "sepalith.r2.glm_capability.source-manifest.v1"
+}

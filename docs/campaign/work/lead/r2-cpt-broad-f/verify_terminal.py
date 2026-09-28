@@ -1,0 +1,12 @@
+import json,pathlib,sys,math,datetime,fcntl,os,hashlib
+W=pathlib.Path(__file__).resolve().parent;N=pathlib.Path('/home/m0hawk/.local/state/sepalith/campaign-20260915')
+sys.path.insert(0,str(N/'runner-r2-cpt-v1/snapshots/5149a4065285c681c2230352e5847b861e2ad2e416c8c263131a557e48bd23ca/source/experiments/training'))
+from campaign_checkpoint import verify_checkpoint
+recipe=json.loads((W/'recipe.json').read_text());g=N/'training/SFT11-CPT-broad-f-host-supervision';terminal=json.loads((g/'terminal.json').read_text());assert terminal['status']=='completed' and terminal['child_exit_code']==0
+fd=os.open(N/'resource-locks/cuda0.lock',os.O_RDWR|os.O_NOFOLLOW);fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
+checkpoint=N/'checkpoints/SFT11-CPT-broad-f/full/checkpoint-1250';manifest=verify_checkpoint(checkpoint,recipe['identity'],require_full=True);assert manifest['step']==1250
+state=json.loads((checkpoint/'campaign-state.json').read_text());assert state['sampler']['consumed_draws']==20000
+telemetry=[json.loads(l) for l in (N/'training/SFT11-CPT-broad-f/telemetry.jsonl').read_text().splitlines()];metrics=[x for x in telemetry if x['event']=='trainer_metrics'];steps=[x for x in telemetry if x['event']=='optimizer_step'];assert [x['step'] for x in metrics]==list(range(1001,1251));assert [x['step'] for x in steps]==list(range(1001,1251));assert all(math.isfinite(x['metrics'][k]) for x in metrics for k in ['loss','grad_norm'])
+ev=json.loads((N/'checkpoints/SFT11-CPT-broad-f/evaluations/step-1250.json').read_text())['result'];prev=json.loads((N/'checkpoints/SFT11-CPT-broad-b/evaluations/step-750.json').read_text())['result'];assert ev['case_ids']==prev['case_ids'] and ev['denominators']==prev['denominators'];assert ev['denominators']['validation_loss_tokens']==661360
+result={'at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'terminal_checkpoint_and_holdout_verified_selection_pending','task':'SFT-11','checkpoint':str(checkpoint),'checkpoint_manifest_sha256':hashlib.sha256((checkpoint/'campaign-manifest.json').read_bytes()).hexdigest(),'guard':terminal,'cumulative_cpt_guard_seconds':6127.719617272029+terminal['seconds'],'metric_records':len(metrics),'optimizer_records':len(steps),'consumed_draws':20000,'same_case_count':len(ev['case_ids']),'denominators':ev['denominators'],'metrics1250':ev['metrics'],'metrics750':prev['metrics'],'global_cuda_lock_free':True}
+(W/'terminal-readout.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result));fcntl.flock(fd,fcntl.LOCK_UN);os.close(fd)

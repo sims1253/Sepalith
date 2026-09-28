@@ -1,0 +1,61 @@
+{
+  "files": [
+    {
+      "bytes": 1429,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/README.md",
+      "sha256": "0c6376458db99b6d61817dc9f5731df571a6d5f9ccb0085014ddc862b06afa0c"
+    },
+    {
+      "bytes": 9732,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/native_resume_proof.py",
+      "sha256": "37d53a27dfe2f86ae216030244e462fe5eaf2d1e68724b4a8dd3427403fd270b"
+    },
+    {
+      "bytes": 5200,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/source-manifest.json",
+      "sha256": "c79bf87277485ef749ffce08290f5b5df064f70dcfe3e5627f68ec683dc30e5a"
+    },
+    {
+      "bytes": 1138,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/test-results.log",
+      "sha256": "ce92e935fa649e1e3fd4f0d57029c333fdf8007fcbef969214fb37d812f98638"
+    },
+    {
+      "bytes": 1222,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/test-results.json",
+      "sha256": "b35bd0ff3e625c63ab150b07ca58ab4739a382fe15c8d092baebdf897c3f85fd"
+    },
+    {
+      "bytes": 4226,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/root-commands.template.json",
+      "sha256": "cbf347e3d3c8b028a148e66df13f54ce228d69997a23579828c0f3900cc41c27"
+    },
+    {
+      "bytes": 1021,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/runtime-source-migration-admission.template.json",
+      "sha256": "e0a7e9d5f08560182bc300ec1b0e979501c56fe910660dae5e000a851ccf917b"
+    },
+    {
+      "bytes": 382,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/continuation-admission-194.template.json",
+      "sha256": "ace62326d18a672ae12664b3db5494b395b49f3389f9f3887e591cf4d3e4e29e"
+    },
+    {
+      "bytes": 214,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/execution-stop-322.template.json",
+      "sha256": "fada321225ac2b1ee2a37502ac8750f314c16f145798bafcc81a1bfcd53d0072"
+    },
+    {
+      "bytes": 4504,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-native-cpt-trainer-v2/tests/test_native_resume_proof.py",
+      "sha256": "46155a74bbcd9e23af525e6dec7f28a389122b9946def789e52d9398c04b61a2"
+    },
+    {
+      "bytes": 2789,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Native-cpt-trainer-v2-proof/run-02/proof-result.json",
+      "sha256": "6ce8310e7258ce568afd5c15db4d898e9e75289ee50ff49f4a588df0ec35d993"
+    }
+  ],
+  "schema": "sepalith.sft11.native-cpt-trainer-artifacts.v2",
+  "status": "prepared_not_launch_admitted"
+}

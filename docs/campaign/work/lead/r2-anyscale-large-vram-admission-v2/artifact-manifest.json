@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "bytes": 1849,
+      "mode": "0444",
+      "path": "account-evidence.json",
+      "sha256": "6a64d0abeea12a3dcd5284694ea9d7081f0cbeb60f5a9c52655610617d18d98c"
+    },
+    {
+      "bytes": 3660,
+      "mode": "0555",
+      "path": "account_probe.py",
+      "sha256": "3ade50462d5b3e22f9434a1d29a98d0664cb30d57291855c541c8df0fce3171a"
+    },
+    {
+      "bytes": 7294,
+      "mode": "0444",
+      "path": "feasibility.json",
+      "sha256": "4b801191a326bbf7afb42121d93c447a1fd0ca9e09658298e20fc804121ff00c"
+    },
+    {
+      "bytes": 931,
+      "mode": "0444",
+      "path": "sdk-surface.json",
+      "sha256": "61f4279033e68ac9a965bdb7dc9ca02c5657329e9f94856c5cd0c10f5c42e258"
+    },
+    {
+      "bytes": 408,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "a5788e32deb2a76e0233d7dfca266eb7feb4116c34aae2fca56914e36c6cc3ad"
+    },
+    {
+      "bytes": 1163,
+      "mode": "0444",
+      "path": "test_account_probe.py",
+      "sha256": "3a5f941795180c71caa57a05b133a5725484dfca47553c600d8921917931e481"
+    }
+  ],
+  "root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-anyscale-large-vram-admission-v2",
+  "schema": "sepalith.artifact-manifest.v1",
+  "task": "PAR-01-anyscale-large-vram-admission-v2"
+}

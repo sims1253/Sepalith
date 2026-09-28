@@ -1,0 +1,92 @@
+{
+  "changes": [
+    "parent baseline package-holdout evaluation before Trainer construction/training",
+    "fail-closed two-pair/24-update/terminal-only pilot policy",
+    "pilot-specific checkpoint identity and cohort scope",
+    "384-package exact-8K panel materializer"
+  ],
+  "created_at": "2026-09-14T15:26:47.358054+00:00",
+  "files": [
+    {
+      "bytes": 5630,
+      "mode": "0o444",
+      "path": "source/experiments/training/bind_full_weight_cpt.py",
+      "sha256": "2cb9161360b17281a862faaf823421406b653fa01763a06e555dc39e207052ee"
+    },
+    {
+      "bytes": 13663,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 29909,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 3447,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1"
+    },
+    {
+      "bytes": 15257,
+      "mode": "0o444",
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 27863,
+      "mode": "0o444",
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "cfb37b42a13ac27d37b8e0cf0f515861848a49cb6427ee8c85836ab4d3920c5b"
+    },
+    {
+      "bytes": 19826,
+      "mode": "0o444",
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 2680,
+      "mode": "0o444",
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 1397,
+      "mode": "0o444",
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 7843,
+      "mode": "0o444",
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "mode": "0o444",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "mode": "0o444",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 7748,
+      "mode": "0o444",
+      "path": "source/prepare_panel.py",
+      "sha256": "ac2989ad1a9869b3124f2c4eb82f6206c8238438361c6329cc9f6d71d48b1773"
+    }
+  ],
+  "schema": "sepalith.full-weight-cpt-trainer-source.v2",
+  "stage": "full_weight_cpt_lr_pilot_v1",
+  "upstream_trainer_v2_manifest_sha256": "d16d7922114d4b2387f9db9f2549cd34ff5c101610fdac73051da54b83f923d3"
+}

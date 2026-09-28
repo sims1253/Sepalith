@@ -1,0 +1,48 @@
+{
+  "context_sizes": [
+    8192,
+    16384,
+    32768
+  ],
+  "expected_totals": {
+    "documents": 2,
+    "payload_tokens": 70217,
+    "rows": 36
+  },
+  "inputs": [
+    {
+      "bytes": 427331,
+      "committed_receipt": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000781-g-ddd90c45c26f72079f15/receipt.json",
+      "cpt_partition": "cpt_train",
+      "documents": 1,
+      "group_id": "g-ddd90c45c26f72079f15",
+      "package": "geospatialsuite",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/original/ac3fbdfa0440227a9e7ab1a6ba6cd35aafc9d7ffdab7438331af843e9bd27fea.jsonl",
+      "payload_tokens": 37154,
+      "rows": 19,
+      "sha256": "119abc014a3f33ee291f0387d85445433e44ad7cb37f9a3f8fe7320cf42316fd",
+      "source_path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000781-g-ddd90c45c26f72079f15/cpt_train.jsonl"
+    },
+    {
+      "bytes": 357350,
+      "committed_receipt": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000805-g-d75bc793b3a68ab86f69/receipt.json",
+      "cpt_partition": "cpt_train",
+      "documents": 1,
+      "group_id": "g-d75bc793b3a68ab86f69",
+      "package": "binGroup",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/materialized/original/5bfa39b16126efa998db0d51fb380f00fd71129e50718ecd4e2dbd554f1fcbc6.jsonl",
+      "payload_tokens": 33063,
+      "rows": 17,
+      "sha256": "522d291831fe2d13846a7c63a360047f3ef3f96a77d06de371911da2a1abfcb0",
+      "source_path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000805-g-d75bc793b3a68ab86f69/cpt_train.jsonl"
+    }
+  ],
+  "raw_chunks": {
+    "bos": 0,
+    "eos": 1,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-long-context-fixtures-v1/source/raw_cpt_broader.py",
+    "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+    "source_chunk_size": 2048
+  },
+  "schema": "sepalith.cpt.lossless-rechunk-input.v1"
+}

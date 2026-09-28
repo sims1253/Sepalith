@@ -1,0 +1,179 @@
+{
+  "schema": "sepalith.corrective-target-only-preparation.v1",
+  "created_at": "2026-09-13T12:50:05.318390Z",
+  "source_inputs_read_only": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_sft.py",
+      "bytes": 21813,
+      "sha256": "671a1da97939b21962cfaedda0dc7c2c6f2f01369cb2834ef351fd26c38541f9"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_sft_data.py",
+      "bytes": 5026,
+      "sha256": "31e34c5a3a662724cf50dce1ea9e6a0d248c5f44bc0f5eb6b0a5b45894433104"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_sampling.py",
+      "bytes": 41066,
+      "sha256": "60e4e4d60b99a4b9851b3e35194f81fb2d0a2a3c47d0cac931c2091819c03dd0"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_checkpoint.py",
+      "bytes": 11665,
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_control.py",
+      "bytes": 5024,
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_launch.py",
+      "bytes": 2962,
+      "sha256": "043d8d5025b2fa1807972baca6e8eafe5540dcf9bb376e9404e6ecb1eb371e81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_tokenizer_contract.py",
+      "bytes": 15257,
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f/source/experiments/training/campaign_eval.py",
+      "bytes": 11831,
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-postmortem-lead-review.json",
+      "bytes": 1496,
+      "sha256": "df63d20297f9c3e0255df5e5f6220445cd8d480d819cc34b75c937d452c7c792"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-postmortem-preparation.json",
+      "bytes": 8355,
+      "sha256": "9e7228e7e6877a3e02da71d11344e9e2a01673e4a445c2cbad4ffe828fa05e31"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-finish-correction-a-admission.json",
+      "bytes": 1844,
+      "sha256": "4bc14358ce0a7534bd146ecf4df3cfb76e66fe0cf6dfec4dfd83b542efe5fa4b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-finish-correction-b-admission.json",
+      "bytes": 1720,
+      "sha256": "4d63239ea89c14c8f6b9df1bc91276e168eafa674ec3f256706dfb54b9c309a9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-step100-lead-milestone-decision.json",
+      "bytes": 3218,
+      "sha256": "fd5e8dbd9b63a1c9b29ae4fe5d5e38b1caa4b7c60ec29ed8ef25dea3620ba18b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-04-corrected-train-independent-review.json",
+      "bytes": 6547,
+      "sha256": "55c3d5b9904e1de688a9c152737d2fefed24291ccba917211b978d53a351aef5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-06-finish-corrected-schedule-v1.json",
+      "bytes": 9469,
+      "sha256": "462ca6885f8369813bbf5b7d3f925dcbc404ec8906e679751bacff8582f7228f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-10-step1000-review.json",
+      "bytes": 3988,
+      "sha256": "f76d9b6d60af3edc2fbfc29aba6eb68bc778ca4794650bd2a7c8834fd1372b69"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RUN-04-editor-v2-independent-review.json",
+      "bytes": 12608,
+      "sha256": "efd4bace47fa5bb432b5324c13ee4b00576926b85440cec585b8934357a44ed8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/finish-corrected-train-v1/manifest.json",
+      "bytes": 2606999,
+      "sha256": "7ed300ca3ae69a601d74b9eaf83841bd597ef2723e3968e4b976ae87027086e0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/finish-corrected-schedule-v1/finish-corrected-draws-200.json",
+      "bytes": 11103655,
+      "sha256": "017fc74ccb6fad43d2bf263d0b3d892fa13bd3fce37bff9ae6a6572fde912d31"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/finish-corrected-train-v1/train-token-rows.jsonl",
+      "bytes": 117900118,
+      "sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe",
+      "verification": "streamed all TRAIN bytes in audit_training.py"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv-sft/lib/python3.10/site-packages/transformers/trainer.py",
+      "bytes": 215477,
+      "sha256": "17e212935057f58b52efe79c3f952bf044bbada8afd4f13c8e905142b1d2ef0a"
+    }
+  ],
+  "candidate_artifacts": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/candidate/campaign_sft.py",
+      "bytes": 22757,
+      "sha256": "3770f70e234d66ff549fa9f2d3b1f515f124d61bd825ffb973aa44d4aac5ee18"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/candidate/campaign_sft_data.py",
+      "bytes": 7931,
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/target-only.patch",
+      "bytes": 9959,
+      "sha256": "4e101581dec13b5cd73752637d68807bce93580ba06a3eb47b94ef58c4a9b6bb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/recipe-candidate.json",
+      "bytes": 9588,
+      "sha256": "8bfb5be871fd24234b770818fc0b4fb780f9c4b08b24b2cb47aecd91af318ec2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/test_target_only.py",
+      "bytes": 6930,
+      "sha256": "428fdd9dbdc1229484bee81fdea1a87587bd11e4fa38b5577d3cf7d3f6f7bc89"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/test.log",
+      "bytes": 1065,
+      "sha256": "d83bbd622572f48d6ff70398a6498c75e2a307142340b51c03ee7f961284f103"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/audit_training.py",
+      "bytes": 6717,
+      "sha256": "4663e2f4d3e127ee6dae8016ac35f04fa99c39f98b077156a3a76cb052d40271"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/audit.log",
+      "bytes": 1647,
+      "sha256": "a3d1fb02650708ab2b7b1c9598874ef52df9fcef12634dc904d725e977386b7a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/training-audit.json",
+      "bytes": 7201,
+      "sha256": "69624f4ca559b20cd2a4a3384e6c8f33cdf42779daf34247401a7b902ac2398d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrective-target-only-preparation-v1/REVIEW.md",
+      "bytes": 8489,
+      "sha256": "a0c85f75e911a2c0e523e7b262d1e2f316995e769cecf87cfdae4f79103789c6"
+    }
+  ],
+  "test_command": "CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B test_target_only.py",
+  "tests_passed": 8,
+  "train_mask_rows_checked": 11526,
+  "actual_tokenizer_roundtrips": 14,
+  "patch_check": "git apply --check target-only.patch against pinned original source passed",
+  "production_preflight_run": false,
+  "models_or_weights_accessed": false,
+  "training_or_optimizer_updates": false,
+  "gpu": false,
+  "final_access": false
+}

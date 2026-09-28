@@ -1,0 +1,98 @@
+{
+  "derived": {
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-draw-manifest-noop25.json": {
+      "bytes": 15589881,
+      "draws": 16000,
+      "role": "separate no-op sensitivity proposal",
+      "sha256": "00efb66e1b37a44d99a0767f777bb37fc8efa9084e06a7994b921ab19291722c"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-draw-manifest.json": {
+      "bytes": 11177985,
+      "draws": 8000,
+      "sha256": "e364dee0af4d16be8618378165e0e88647feb48e1db90cf4946879e586bb7d35"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-exclusions.jsonl": {
+      "bytes": 578470,
+      "rows": 3411,
+      "sha256": "855418cf5becf89319ecea80e78bd88c630bf51e39be56328fc4ab70bd7db280"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-provenance.jsonl": {
+      "bytes": 8483351,
+      "rows": 8526,
+      "sha256": "8e9c155cd2e04ab49224bbbf4dcff682e566223b0705d4a7a8dcf93a432c9cff"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-token-rows.jsonl": {
+      "bytes": 93256763,
+      "rows": 8526,
+      "sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+    }
+  },
+  "inputs": {
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json": {
+      "bytes": 9894271,
+      "role": "pinned tokenizer identity",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/finish-corrected-train-v1/train-token-rows.jsonl": {
+      "bytes": 117900118,
+      "rows": 11526,
+      "sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json": {
+      "bytes": 464000,
+      "cpt_train_groups": 10163,
+      "cpt_validation_groups": 556,
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-short-task-preparation-v1/candidate-packets.jsonl": {
+      "bytes": 6469611,
+      "rows": 411,
+      "sha256": "a301ba4ed8d0355f4a2d3a83404c3bef41ee31b4820b60980af8afe201ebc7d7"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/candidate-provenance.jsonl": {
+      "bytes": 13360214,
+      "role": "upstream extended provenance ledger",
+      "sha256": "aa6e928d33bce5347074d3284d459486cd3b39f6f3c7254b12d1c2b6a6441bad"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/candidate-token-rows.jsonl": {
+      "bytes": 106315638,
+      "role": "upstream extended registry from which primary prefix is derived",
+      "sha256": "524d72a4c5d5367e408c2fa3bad3cf406278ed4de52f3cd7fbc14d8cb9df94b8"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/freeze_verified_subset.py": {
+      "bytes": 22772,
+      "role": "reproducible primary extraction/checks",
+      "sha256": "c48675b1913df1a769059929f169abd7fe289631d430b03ec985821d38cdd2ca"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/propose_noop25_schedule.py": {
+      "bytes": 2871,
+      "role": "reproducible sensitivity schedule builder",
+      "sha256": "5ec5ed08feed88d57a85d795b242d43c8b012bd4e25cb3977ce8dac80d05fa69"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/experiments/training/campaign_sampling.py": {
+      "bytes": 41066,
+      "sha256": "60e4e4d60b99a4b9851b3e35194f81fb2d0a2a3c47d0cac931c2091819c03dd0"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/experiments/training/campaign_sft_data.py": {
+      "bytes": 5026,
+      "sha256": "31e34c5a3a662724cf50dce1ea9e6a0d248c5f44bc0f5eb6b0a5b45894433104"
+    },
+    "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/packages/sepalith/src/sepalith/campaign_protocol.py": {
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json": {
+      "bytes": 49108497,
+      "groups": 56275,
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/DAT-05-registry-v1/provenance.jsonl": {
+      "bytes": 127566701,
+      "role": "exact corrected-row provenance join upstream",
+      "sha256": "6883f0691301e79180164920414e4752f53edcfe555c73b1ea0b02dd599d2123"
+    }
+  },
+  "policy": "exact row/group IDs; corrected and short only; no authored package-name joins; all CPT validation groups excluded",
+  "schema": "dat10.r2.task_mixture_source_manifest.v1"
+}

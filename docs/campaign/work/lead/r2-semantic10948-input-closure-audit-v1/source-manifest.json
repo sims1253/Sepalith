@@ -1,0 +1,42 @@
+{
+  "files": [
+    {
+      "bytes": 727,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "2ff4274fc94ef6623f7a90e0cf6a988d2ab672c6be9fd4e07a40589e2a3da138"
+    },
+    {
+      "bytes": 4485,
+      "mode": "0o644",
+      "path": "actual-audit.json",
+      "sha256": "f21c1469f1f16ef56d40057c1b021538e836cc354fcc770c94e38876467306e7"
+    },
+    {
+      "bytes": 3717,
+      "mode": "0o644",
+      "path": "audit.log",
+      "sha256": "46c7e6a89305f1a017fed1b23c6dad57e7c7e1e4f42183bfd2be36732e698d63"
+    },
+    {
+      "bytes": 7670,
+      "mode": "0o755",
+      "path": "audit_input_closure.py",
+      "sha256": "fadac3998d8163e12e94d6da56e818420d874999678507eed638c218a98cca1f"
+    },
+    {
+      "bytes": 163,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "4320a31cc565023451aee71ad82d34e994ee2972683d73f6f7b187a823eacaba"
+    },
+    {
+      "bytes": 2102,
+      "mode": "0o644",
+      "path": "test_audit.py",
+      "sha256": "7615c026998f7c6c523a1aa5b328c67a8f0c21b7f921a5c3f814135afff972af"
+    }
+  ],
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_complete"
+}

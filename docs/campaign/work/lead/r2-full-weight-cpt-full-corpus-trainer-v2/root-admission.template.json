@@ -1,0 +1,57 @@
+{
+  "schema": "sepalith.sft11.full-weight-cpt-full-corpus-root-admission.v1",
+  "status": "pending",
+  "launch_authorized": false,
+  "template_sha256": "fac304a83450250ed865ea9fb5b2b468c027fcebbfb4afb6392b9db58f4e3784",
+  "data_admission": {
+    "path": null,
+    "sha256": null
+  },
+  "corpus_manifest": {
+    "path": null,
+    "sha256": null
+  },
+  "cohort": {
+    "id": null,
+    "scope": "complete_admitted_train_corpus",
+    "rows": {
+      "path": null,
+      "sha256": null
+    },
+    "draw_schedule": {
+      "path": null,
+      "sha256": null
+    },
+    "manifest": {
+      "path": null,
+      "sha256": null
+    },
+    "streaming_cache": {
+      "path": null,
+      "manifest_sha256": null
+    },
+    "unique_rows": null,
+    "documents": null,
+    "packages": null,
+    "input_tokens": null,
+    "payload_tokens": null,
+    "loss_tokens": null,
+    "max_sequence_tokens": null,
+    "named_replays": null,
+    "updates": null
+  },
+  "parent": null,
+  "selected": {
+    "optimizer": null,
+    "micro_batch": null,
+    "gradient_accumulation": null,
+    "learning_rate": null,
+    "scheduler": null,
+    "warmup_steps": null,
+    "checkpoint_every": null,
+    "mandatory_stop_step": null,
+    "evaluation_steps": null,
+    "selected_milestones": null,
+    "telemetry_every": null
+  }
+}

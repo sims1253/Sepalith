@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "bytes": 1715,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v2/README.md",
+      "sha256": "cfe28807f11b49b691281411d24cc0a9e43da11c343928f7b17d0d4487a36fac"
+    },
+    {
+      "bytes": 11744,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v2/correct_live_dtype_audit.py",
+      "sha256": "388d457aed869ded80041a80cb0135ea4d2244b4cdf39d46c49d7401cb51d72d"
+    },
+    {
+      "bytes": 6609,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v2/live-dtype-analysis.json",
+      "sha256": "5f115897008e25c60c6eb4f59a6d6a556240e69c8015d517e49f267cd1e92452"
+    },
+    {
+      "bytes": 73,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v2/test-output.txt",
+      "sha256": "c67da873017a53e6597bdc12919178a7c53b6d52c687a6345eb1aeb8868a22f1"
+    },
+    {
+      "bytes": 1384,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v2/test_correction.py",
+      "sha256": "b27596234630f1842ab41f66331cf909df6fee7935352d0854270432b4f11a13"
+    }
+  ],
+  "schema": "sepalith.sft11.hybrid-optimizer-live-dtype-correction-artifacts.v1",
+  "status": "frozen_header_only_correction"
+}

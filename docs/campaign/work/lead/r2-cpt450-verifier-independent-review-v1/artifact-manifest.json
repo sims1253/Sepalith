@@ -1,0 +1,85 @@
+{
+  "artifacts": [
+    {
+      "bytes": 1100,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-verifier-independent-review-v1/README.md",
+      "sha256": "fc90d4f3b028423400e4e3748d96f1afe66f77cf27ead6aa5e63b56b47cf4885"
+    },
+    {
+      "bytes": 18031,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-verifier-independent-review-v1/review.py",
+      "sha256": "48394d7bd981ffa345c8ad35022d56ce62e481a385687afd2050776302219344"
+    },
+    {
+      "bytes": 2718,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-verifier-independent-review-v1/test_review.py",
+      "sha256": "da24848b39d0a0656f12ac5de507bb37ab57982a0f9d79e997fd7c1c5c9c99d8"
+    },
+    {
+      "bytes": 14047,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-verifier-independent-review-v1/review.json",
+      "sha256": "eae7f1f24cc8e8949da745f62813b2cbff3f91d77081ccc071488b73f17f06e6"
+    }
+  ],
+  "checkpoint_payloads_loaded": false,
+  "cuda_launched": false,
+  "external_metadata_only": {
+    "bound_recipe": {
+      "bytes": 10275,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-ordinary-root-v1/runtime-recipe.json",
+      "sha256": "eff266cdb287e8b099990f265760539e024bc20c14dd0707b6e225abce1a6981"
+    },
+    "continuation": {
+      "bytes": 522,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-ordinary-root-v1/continuation.json",
+      "sha256": "5a91bfdc95031652b529fc7409a1e05b941a5700af75e3e1f6f0660b0178e85f"
+    },
+    "evaluation_config": {
+      "bytes": 1491,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-long-holdout-preparation-v1/evaluator-configs.json",
+      "sha256": "c20e6261515451b5e6f4dbd84c06117a9b946cb80d7c874dff869a70d978863f"
+    },
+    "execution_stop": {
+      "bytes": 267,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-ordinary-root-v1/execution-stop.json",
+      "sha256": "b9ef0295be3c2862c439d91af89d9cfc87c633e66ef4d2cdabbaac5624b2e9b5"
+    },
+    "retry_launch": {
+      "bytes": 458,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-ordinary-retry-root-v1/launch.json",
+      "sha256": "b374dfd4300a99a6527f8f18c1a94d8f549d178e68754d71607b194497e31616"
+    },
+    "root_prepare": {
+      "bytes": 6905,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-review-root-v1/prepare.py",
+      "sha256": "be2f2f66f8d09f783896caeba83f6cd0565cae3cb158c29bf34294b1a4ecc65f"
+    },
+    "source_trainer": {
+      "bytes": 40631,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-ordinary-continuation-preparation-v2/source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "5184354d974cc9bedfbc055f1d6b4c7091582e50a6d2b68c677c6a43ddfc79ee"
+    },
+    "transition": {
+      "bytes": 2062,
+      "exists": true,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-ordinary-root-v1/transition.json",
+      "sha256": "819cf69b19ae4458e038d33cdeeaf0514cd28a48b5008a2bdc1a70a8eb461092"
+    }
+  },
+  "future_artifacts_fabricated": false,
+  "packet_root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-verifier-independent-review-v1",
+  "schema": "sepalith.sft11.cpt450_verifier_independent_review_artifact_manifest.v1",
+  "status": "frozen_preterminal_review_only",
+  "training_admission": false
+}

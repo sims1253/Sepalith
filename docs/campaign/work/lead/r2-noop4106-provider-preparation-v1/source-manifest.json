@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "bytes": 8336,
+      "path": "build_plan.py",
+      "sha256": "8bfa0d50894444c596d8dbac6afaf141e4d3df1e357fcbe24ce9d07bbc0908c9"
+    },
+    {
+      "bytes": 2032,
+      "path": "bind_commands.py",
+      "sha256": "98f099db139610b51a9176a09dfde27b173f30777a08ac088a64e7f2f7bd6de5"
+    },
+    {
+      "bytes": 4059,
+      "path": "run_lane.py",
+      "sha256": "3bc3a0a88a045a1e4e1c5f1029a70cad6753469b885a98fade199a80a1cf069b"
+    },
+    {
+      "bytes": 3732,
+      "path": "prepare_fallback.py",
+      "sha256": "8892d0a3cc31d411a7aacde3e619f01425c4c5bae1cad4687c2a2e9cd489f3de"
+    },
+    {
+      "bytes": 4336,
+      "path": "finalize_policy.py",
+      "sha256": "cc36eb768c915de37e73ab39b05da961c696656c03ecbbc9f71ff3b017534e18"
+    }
+  ],
+  "provider_runtime": {
+    "render_shard.ts": "352a2976b235d5604af9fe2a931208fda53728a53d3cf027583aa4e237d2fcd5",
+    "run_shard.sh": "2d9dcf249571ae66c75b10bec732162e99b6d53cc5c969186f0e52292593f309",
+    "source/namespace_evidence.R": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847",
+    "tokenize_bridge.py": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+  },
+  "provider_source_manifest_sha256": "7546d5457c299edfbf69bc0681327f08bad5041e2a146fe60fd66278dd58c770",
+  "reconstruction_source_manifest_sha256": "b7b03e63f533c8035d896352dc1416d4304b56744d8683a53b2b443fb734a842",
+  "schema": "sepalith.dat10.noop4106.provider-preparation-source.v1",
+  "status": "frozen",
+  "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+}

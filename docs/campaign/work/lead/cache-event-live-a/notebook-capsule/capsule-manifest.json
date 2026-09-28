@@ -1,0 +1,13 @@
+{
+  "analyze_cache_events.mjs": "c4b860c7955de47789a7bd4347d9ca6b02248b7b45845bbc002bb9a93fef8ac7",
+  "analyze_renderer.mjs": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0",
+  "binding.json": "e3bdcf0f82cd780d4481bf4216d0fec054572d648826784e7a9d2c35190d5344",
+  "candidate.vsix": "04ac37a578cf5bba2a0de4637d3f220414510b6fef96332220bde055ac745ba0",
+  "notebook_editor_supervisor.py": "2d65de0df52c5050748adae37576892f055adaf425943d9c7a9d3c71d25c93f3",
+  "observe_renderer.mjs": "6aad057fecf81b5cb1870e7192bda60f6102a0b8f77c3547182effe03ba851ca",
+  "primary-editor-harness/acceptance-v2.js": "bd7016128ed3e7022cf79959d1da4e37215ea125bb992b871fdd87bdca09eef2",
+  "primary-editor-harness/extension.js": "c4465782ec12d47462f6f3ee9d2389253f64d441b4ed78c8a7f0596869c01eea",
+  "primary-editor-harness/package.json": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8",
+  "run_remote_editor.mjs": "dfd068ea44611743eaf30fab7991d023ca189c4a8c336ad1ad3e68c1b4d9e744",
+  "startup_gate.mjs": "aea146d1af6fa9739c46b003dc0f91b7e70e059b84ffa9b62c296160bae50f2d"
+}

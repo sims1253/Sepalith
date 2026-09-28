@@ -1,0 +1,802 @@
+{
+  "schema": "sepalith.run06.e750-output-cap-overlay-source.v1",
+  "status": "prepared_immutable_no_launch",
+  "predecessor_extension_identity": "41a509aaa6b2205add579e12db9afbdad8d4c40155baf798d4f263009989ebfc",
+  "predecessor_native_source_manifest_sha256": "7a83644819b88ec8c9565635946dcfdf7f29745209bb7de3e1e0b2ccab628712",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1643,
+      "sha256": "ca0a034d9296d2f1d2b6b73bc7ec79d26257f0a3bf7446f21b0f0e4478faa8b7",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/arm-source-manifest.json",
+      "bytes": 5320,
+      "sha256": "25b885ff2933a3c762a87d4b6b31733cef67c48d38876dd71f6b66b9becdc97a",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/build_closure.py",
+      "bytes": 6863,
+      "sha256": "6fa32c1d60e7b176ce6f0f6c9afa46a826c2b6605801fe7728e75227c2b3065e",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_controller/client-observation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/client-origins.json",
+      "bytes": 1876466,
+      "sha256": "c5f78b06826363510a3ac52a79c9491132e001a489a923bee388df0789ef6802",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/client_source_policy.py",
+      "bytes": 2164,
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_controller/elf-loader-metadata.json",
+      "bytes": 28301,
+      "sha256": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/guarded_dev_client.py",
+      "bytes": 3234,
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_controller/independent-origin-comparison.json",
+      "bytes": 312,
+      "sha256": "c9e9f16fac0a806ff6ad6c17dcccee1c361c74b1a896c467bbce92b75acd4321",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/native-mapped-code-allowlist.json",
+      "bytes": 5757,
+      "sha256": "1bd57fd1b144063c0a9fcbadf1f13902b17d9eff77f540f9bcd050ee27899ef3",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/observation-terminal.json",
+      "bytes": 250,
+      "sha256": "cecf5e5cf203823f960135cbec794f62daf2e905e963e03a82c1b6d44b814b73",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/observe_client.py",
+      "bytes": 2433,
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_controller/origin_snapshot.py",
+      "bytes": 4060,
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_controller/policy-check-terminal.json",
+      "bytes": 255,
+      "sha256": "206443920f980349381211310283755db6c4f7cd007b666dad89f4a7d320ffc4",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/policy-check.log",
+      "bytes": 40,
+      "sha256": "ce026531d73c780c4ad3fdacc95d8e9985cca4b088560e0022cc77b584488806",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_controller/root_controller.py",
+      "bytes": 17130,
+      "sha256": "2dc30865272039aa22b9494e27fa2de00810328ddfe54f41e61771673375452b",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_controller/source-closure.prepared.json",
+      "bytes": 4937584,
+      "sha256": "ec5d99b9fe8e2bba82cdc37a9a6da1de4cd1dd6c6a6d2338a1cfee467d70431c",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/cap_contract.py",
+      "bytes": 976,
+      "sha256": "e67245e7d80e1aea155520522b9ff4ce78e457a1656607bd22bf6b954239cc7e",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/final_binding.py",
+      "bytes": 9373,
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/final_row_gate.py",
+      "bytes": 19015,
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/native_evaluator.py",
+      "bytes": 8020,
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/native_identity.py",
+      "bytes": 9956,
+      "sha256": "e23b2d48bdc48bdf16fd525f744f06a351dca96348d30ceffb04ac4a7b97c77c",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/native_transport.py",
+      "bytes": 56219,
+      "sha256": "a4f06fd250d35047ceb917c1104cef59d266f5f8ace05be28b4c452ec819ff7f",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/profile.json",
+      "bytes": 6778,
+      "sha256": "af58c968008e5720d3eb5fd256f351509bf4bf0869c139f2414d860841f9f72d",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/rehearse_dev.py",
+      "bytes": 2268,
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/native_evaluator/selection_binding.py",
+      "bytes": 2227,
+      "sha256": "2f862edae838d0cf4d3448e7a0451f879318d8ab8632cdbdd4e0e1c4ca1b7189",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-192/root-admission.template.json",
+      "bytes": 3890,
+      "sha256": "25d7397c96cd416462cc0812c4fa36a32d6e3ecf4821bb311f0f53b95e21dea0",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/arm-source-manifest.json",
+      "bytes": 5320,
+      "sha256": "36e49aee6c9bda0c9efded212dde924c6dd95b6792803406c7f560fb67905855",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/build_closure.py",
+      "bytes": 6863,
+      "sha256": "6fa32c1d60e7b176ce6f0f6c9afa46a826c2b6605801fe7728e75227c2b3065e",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_controller/client-observation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/client-origins.json",
+      "bytes": 1876466,
+      "sha256": "401330c76681639a0777e8931044bae7c4921f6c35e977734c3c133c80e23923",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/client_source_policy.py",
+      "bytes": 2164,
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_controller/elf-loader-metadata.json",
+      "bytes": 28301,
+      "sha256": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/guarded_dev_client.py",
+      "bytes": 3234,
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_controller/independent-origin-comparison.json",
+      "bytes": 312,
+      "sha256": "c9e9f16fac0a806ff6ad6c17dcccee1c361c74b1a896c467bbce92b75acd4321",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/native-mapped-code-allowlist.json",
+      "bytes": 5757,
+      "sha256": "1bd57fd1b144063c0a9fcbadf1f13902b17d9eff77f540f9bcd050ee27899ef3",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/observation-terminal.json",
+      "bytes": 250,
+      "sha256": "3e7b12a9fce024ed9c4863febd5b1a0e7cbdc96e1f16842276878ac733e893b3",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/observe_client.py",
+      "bytes": 2433,
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_controller/origin_snapshot.py",
+      "bytes": 4060,
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_controller/policy-check-terminal.json",
+      "bytes": 254,
+      "sha256": "aee53fda103dd8939eda21b373707984e534eb450343b404b222e900a6e53323",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/policy-check.log",
+      "bytes": 40,
+      "sha256": "ce026531d73c780c4ad3fdacc95d8e9985cca4b088560e0022cc77b584488806",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_controller/root_controller.py",
+      "bytes": 17130,
+      "sha256": "2dc30865272039aa22b9494e27fa2de00810328ddfe54f41e61771673375452b",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_controller/source-closure.prepared.json",
+      "bytes": 4937584,
+      "sha256": "bd48ab52989efd4215fdf4cd0ceb81166c4ccdb00da65f7b0d4663bb281af55b",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/cap_contract.py",
+      "bytes": 976,
+      "sha256": "e67245e7d80e1aea155520522b9ff4ce78e457a1656607bd22bf6b954239cc7e",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/final_binding.py",
+      "bytes": 9373,
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/final_row_gate.py",
+      "bytes": 19015,
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/native_evaluator.py",
+      "bytes": 8020,
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/native_identity.py",
+      "bytes": 9956,
+      "sha256": "e23b2d48bdc48bdf16fd525f744f06a351dca96348d30ceffb04ac4a7b97c77c",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/native_transport.py",
+      "bytes": 56219,
+      "sha256": "a4f06fd250d35047ceb917c1104cef59d266f5f8ace05be28b4c452ec819ff7f",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/profile.json",
+      "bytes": 6778,
+      "sha256": "bd230b7e99627b2301e8d8390dcc64a8601289b97284a96c17df420455ad6bc2",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/rehearse_dev.py",
+      "bytes": 2268,
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/native_evaluator/selection_binding.py",
+      "bytes": 2227,
+      "sha256": "2f862edae838d0cf4d3448e7a0451f879318d8ab8632cdbdd4e0e1c4ca1b7189",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-384/root-admission.template.json",
+      "bytes": 3890,
+      "sha256": "d66fe223a46666e6887f9f2e7d875d5dd45db51102aef7b5c407a872451f29a3",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/arm-source-manifest.json",
+      "bytes": 5320,
+      "sha256": "df56ce98fcac2355651e1bc2b62610d1ff993a77266a234c4748f0fc8ea8b723",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/build_closure.py",
+      "bytes": 6863,
+      "sha256": "6fa32c1d60e7b176ce6f0f6c9afa46a826c2b6605801fe7728e75227c2b3065e",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_controller/client-observation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/client-origins.json",
+      "bytes": 1876466,
+      "sha256": "7926502d72bf955a25678bd70a114982f3fde72dfab842252fdb87ad6441dc69",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/client_source_policy.py",
+      "bytes": 2164,
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_controller/elf-loader-metadata.json",
+      "bytes": 28301,
+      "sha256": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/guarded_dev_client.py",
+      "bytes": 3234,
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_controller/independent-origin-comparison.json",
+      "bytes": 312,
+      "sha256": "c9e9f16fac0a806ff6ad6c17dcccee1c361c74b1a896c467bbce92b75acd4321",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/native-mapped-code-allowlist.json",
+      "bytes": 5757,
+      "sha256": "1bd57fd1b144063c0a9fcbadf1f13902b17d9eff77f540f9bcd050ee27899ef3",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/observation-terminal.json",
+      "bytes": 249,
+      "sha256": "e29aa62f833d3aaeede361b7483ed4ddfbc280ef68d1f2faefedfc3a98ad2ef3",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/observe_client.py",
+      "bytes": 2433,
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_controller/origin_snapshot.py",
+      "bytes": 4060,
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_controller/policy-check-terminal.json",
+      "bytes": 255,
+      "sha256": "e5f2bc6df2d9d225ccdc6a82f4a6dcc1cc9db04bafc599d180cbc178897ca05c",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/policy-check.log",
+      "bytes": 40,
+      "sha256": "ce026531d73c780c4ad3fdacc95d8e9985cca4b088560e0022cc77b584488806",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_controller/root_controller.py",
+      "bytes": 17130,
+      "sha256": "2dc30865272039aa22b9494e27fa2de00810328ddfe54f41e61771673375452b",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_controller/source-closure.prepared.json",
+      "bytes": 4937584,
+      "sha256": "de363cd0b156c5c6c6d8594e37e1e7d31681dc303b3d625effdc85fe6dc10b31",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/cap_contract.py",
+      "bytes": 976,
+      "sha256": "e67245e7d80e1aea155520522b9ff4ce78e457a1656607bd22bf6b954239cc7e",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/final_binding.py",
+      "bytes": 9373,
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/final_row_gate.py",
+      "bytes": 19015,
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/native_evaluator.py",
+      "bytes": 8020,
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/native_identity.py",
+      "bytes": 9956,
+      "sha256": "e23b2d48bdc48bdf16fd525f744f06a351dca96348d30ceffb04ac4a7b97c77c",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/native_transport.py",
+      "bytes": 56219,
+      "sha256": "a4f06fd250d35047ceb917c1104cef59d266f5f8ace05be28b4c452ec819ff7f",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/profile.json",
+      "bytes": 6778,
+      "sha256": "0b8c58f464393ce235bf147a5567a9691d0b87409444a37c46202959e26796c0",
+      "mode": "0o444"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/rehearse_dev.py",
+      "bytes": 2268,
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/native_evaluator/selection_binding.py",
+      "bytes": 2227,
+      "sha256": "2f862edae838d0cf4d3448e7a0451f879318d8ab8632cdbdd4e0e1c4ca1b7189",
+      "mode": "0o555"
+    },
+    {
+      "path": "arms/cap-768/root-admission.template.json",
+      "bytes": 3890,
+      "sha256": "d5fb9ab600b775bdbdaa81772f50dfa97ee73c561768b5c7020eca02d28f68a2",
+      "mode": "0o444"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 6884,
+      "sha256": "054a25a866c7bab349422e2a095a473c162e3b4ad9f1100ddd598ea6a5286574",
+      "mode": "0o444"
+    },
+    {
+      "path": "delta.json",
+      "bytes": 2325,
+      "sha256": "3cc6b974b4cdaeb467c3bcfbf6f4e8e950b1c43957a3b33634e358cb23dd8da2",
+      "mode": "0o444"
+    },
+    {
+      "path": "evidence/test-results-final.log",
+      "bytes": 1110,
+      "sha256": "6e6213bc7f32574f3867bb62fe269f817e4db8b0cac8eae9e4d4535ce4f86822",
+      "mode": "0o444"
+    },
+    {
+      "path": "evidence/tests-attempt-2.log",
+      "bytes": 1275,
+      "sha256": "73e9c801c2846556785fc5a3da74189ceec309ab7945769cf556abdcc653a3c9",
+      "mode": "0o444"
+    },
+    {
+      "path": "evidence/tests-attempt.log",
+      "bytes": 3728,
+      "sha256": "5cff72f2f57385a5664822bcd7cd0cc5af789d1c4f816d3e0b2b356684596a80",
+      "mode": "0o444"
+    },
+    {
+      "path": "manifests/e750-q8-cap-192.manifest.json",
+      "bytes": 5828,
+      "sha256": "b758fe4715db98dd2d9fb8f15d5477747201de92b336f6ac9880ce771b38a0ef",
+      "mode": "0o444"
+    },
+    {
+      "path": "manifests/e750-q8-cap-384.manifest.json",
+      "bytes": 5828,
+      "sha256": "837dfd74797d5606d341c50169f93de61da66e91a6467025c7957f0eeeafd19b",
+      "mode": "0o444"
+    },
+    {
+      "path": "manifests/e750-q8-cap-768.manifest.json",
+      "bytes": 5828,
+      "sha256": "ceacd3666918a9ba94b460d2856f041f7a432f7eba9602642667cea5c0ae3c60",
+      "mode": "0o444"
+    },
+    {
+      "path": "ownership.json",
+      "bytes": 839,
+      "sha256": "62cf723d3158c9da3e909dec2dd3c264765849a1506c2efaef951845d90c4b0d",
+      "mode": "0o444"
+    },
+    {
+      "path": "prepare_arms.py",
+      "bytes": 1503,
+      "sha256": "b475ee9c3fd3ead25181fe58b7086d88c9be2671a222b046085a8dae98143f2a",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/extension/.vscodeignore",
+      "bytes": 88,
+      "sha256": "3074ef9903a74e0945db11f92d1e735f573a07447cb847c01385f485077eb2b4",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/README.md",
+      "bytes": 186,
+      "sha256": "66ba435e1675b37fb946b86e25e6beaab4ec168fdc8d21b7af11baeefe4c3d32",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/dist/check-cap-flex.mjs",
+      "bytes": 36400,
+      "sha256": "0ff92c15456762079ca6b10a928d13c411721130fb1e6e00207f3c3a9d3c7988",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/dist/extension.js",
+      "bytes": 131735,
+      "sha256": "3f2536c7cbe14a9ac346e7b4eccfd1d93eaaadeefd7ff579b108e863ea2791e1",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/package-lock.json",
+      "bytes": 29052,
+      "sha256": "91fca63cc763c62f46a7d0754a0e5aa1631cddc08936728de150176106a23cdd",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/package.json",
+      "bytes": 7000,
+      "sha256": "897517215fa3a56470ebe63bb5723ed5ff0a4af3aafefd326531e9e9649adb3b",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/scripts/check-acceptance-identity.cjs",
+      "bytes": 14566,
+      "sha256": "cf2e133ef1c79d949b890065943aeb74be21fecda22f6c9bb3a328ac90017005",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/scripts/check-cap-flex.ts",
+      "bytes": 4198,
+      "sha256": "137282e4221cd17e5a634eb1abf3ea2b6cbf2c30c29ec5c26e362920db1e22da",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/scripts/check-provider-requests.cjs",
+      "bytes": 17324,
+      "sha256": "cb40d75d2c6415738b0830cd5f3abddde24acf818ec672efbc6ed6b8ac465764",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/campaign_client.ts",
+      "bytes": 10023,
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/campaign_protocol.ts",
+      "bytes": 34464,
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/campaign_requests.ts",
+      "bytes": 4642,
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/campaign_selection.ts",
+      "bytes": 25008,
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/completion.ts",
+      "bytes": 1485,
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/context_build.ts",
+      "bytes": 14231,
+      "sha256": "3bc148464dde243d6d4edca49ba2a3536de541f035afb1c5a68d756e36ef1047",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/context_select.ts",
+      "bytes": 6428,
+      "sha256": "a72edaf733395d7b4839f2ca9ed0c2092e4051359279f6839c93e2d5d04b9d59",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/extension.ts",
+      "bytes": 55566,
+      "sha256": "798a53049f44751b030bd190351d655d6e586c8fbaa958eaed9c0a37dc305d53",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/history_provider.ts",
+      "bytes": 23912,
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/next_edit.ts",
+      "bytes": 2816,
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/process_lifecycle.ts",
+      "bytes": 1352,
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/src/runtime.ts",
+      "bytes": 24794,
+      "sha256": "4349725f6c550d3820d6ad506ccc4f373a9d7c5a51eb1a61e581a02afd12035f",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/extension/tsconfig.json",
+      "bytes": 326,
+      "sha256": "58d6204e1fc7efa359379148f4cb594d609cf2d1462bc28f5358bd288a8b4e1c",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/native/native_controller/build_closure.py",
+      "bytes": 6863,
+      "sha256": "6fa32c1d60e7b176ce6f0f6c9afa46a826c2b6605801fe7728e75227c2b3065e",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_controller/client_source_policy.py",
+      "bytes": 2164,
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_controller/elf-loader-metadata.json",
+      "bytes": 28301,
+      "sha256": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/native/native_controller/guarded_dev_client.py",
+      "bytes": 3234,
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_controller/native-mapped-code-allowlist.json",
+      "bytes": 5757,
+      "sha256": "1bd57fd1b144063c0a9fcbadf1f13902b17d9eff77f540f9bcd050ee27899ef3",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/native/native_controller/observe_client.py",
+      "bytes": 2433,
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_controller/origin_snapshot.py",
+      "bytes": 4060,
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_controller/root_controller.py",
+      "bytes": 17130,
+      "sha256": "2dc30865272039aa22b9494e27fa2de00810328ddfe54f41e61771673375452b",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/cap_contract.py",
+      "bytes": 976,
+      "sha256": "e67245e7d80e1aea155520522b9ff4ce78e457a1656607bd22bf6b954239cc7e",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/final_binding.py",
+      "bytes": 9373,
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/final_row_gate.py",
+      "bytes": 19015,
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/native_evaluator.py",
+      "bytes": 8020,
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/native_identity.py",
+      "bytes": 9956,
+      "sha256": "e23b2d48bdc48bdf16fd525f744f06a351dca96348d30ceffb04ac4a7b97c77c",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/native_transport.py",
+      "bytes": 56219,
+      "sha256": "a4f06fd250d35047ceb917c1104cef59d266f5f8ace05be28b4c452ec819ff7f",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/profile.json",
+      "bytes": 6778,
+      "sha256": "af58c968008e5720d3eb5fd256f351509bf4bf0869c139f2414d860841f9f72d",
+      "mode": "0o444"
+    },
+    {
+      "path": "source/native/native_evaluator/rehearse_dev.py",
+      "bytes": 2268,
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a",
+      "mode": "0o555"
+    },
+    {
+      "path": "source/native/native_evaluator/selection_binding.py",
+      "bytes": 2227,
+      "sha256": "2f862edae838d0cf4d3448e7a0451f879318d8ab8632cdbdd4e0e1c4ca1b7189",
+      "mode": "0o555"
+    },
+    {
+      "path": "test_controller_binding.py",
+      "bytes": 1318,
+      "sha256": "16a89c056c6b4ccaf16c997bdd678ebc8ac2c164d6bdd7e78bd1aff83d7c1279",
+      "mode": "0o555"
+    },
+    {
+      "path": "test_native_cap.py",
+      "bytes": 3137,
+      "sha256": "9951baa9fc2f88a4b0a8dae8c1fdafa8521e4d61ebead217b372f87e14fcb604",
+      "mode": "0o555"
+    },
+    {
+      "path": "test_packet.py",
+      "bytes": 3727,
+      "sha256": "b46837ea26d5d387332a777d7da87649162a0d57fae12962b509c3560adf9f19",
+      "mode": "0o555"
+    },
+    {
+      "path": "vscode-sepalith-e750-cap-flex-v1-0.0.8.vsix",
+      "bytes": 36815,
+      "sha256": "f634633a583dd4be3201880b4c64818ebaed3f4e5a9ceb417c9a7adfd9a1e778",
+      "mode": "0o444"
+    }
+  ],
+  "file_count": 132,
+  "total_bytes": 21738829
+}

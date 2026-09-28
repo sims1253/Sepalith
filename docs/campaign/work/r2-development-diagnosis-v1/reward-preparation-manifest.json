@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "scope": "unadmitted TRAIN reward/validation and synthetic notebook preparation",
+  "input_pins": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_train.py",
+      "sha256": "78d27aa98cebc80292d1871a39821eee5a1a705b5a8f412ce270d1707d724443",
+      "bytes": 100780
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_data.py",
+      "sha256": "86ebc3fe80a976e3c35a29057234b341c9e06060135a87382bbf8c915b1db91b",
+      "bytes": 32259
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_profile.py",
+      "sha256": "6c7e041a3cf82890146aab9927f0cc5cf7cede92154e069f9cb6f6bd6323763b",
+      "bytes": 40465
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "bytes": 11665
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "bytes": 40337
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-admission/r2-opus-reward-b-review.json",
+      "sha256": "e263f5a8aae19f3e08f85fc2d25e1e2ebc7de59ba38a89c16cace0d75ec816a1",
+      "bytes": 18007
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-admission/r2-opus-cpt-b-review.json",
+      "sha256": "46eef8aedd175c28ac645353632c6c7f93689a91455836927654d709ec47712e",
+      "bytes": 17973
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/eligible-train-rows.jsonl",
+      "sha256": "7e9cf35e8ecbf1af151df78bfc42c07d7b1d24f6ab82ec47770463d967fe9465",
+      "bytes": 76614021
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/context-sidecar.jsonl",
+      "sha256": "265b80762efc9544230f1aba09e492906760e98a34431593fdeb4813d6e169ac",
+      "bytes": 82236821
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter/__init__.py",
+      "sha256": "0754ef728b311cfb8eb64de361390cbe1344f280c7f40fded08161a6e650268f",
+      "bytes": 1504
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter/_binding.cpython-310-x86_64-linux-gnu.so",
+      "sha256": "f900ba170dfc937845fec8994bfb10809f4ad164180f1f1a016a5138aac81212",
+      "bytes": 2036664
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter_r/__init__.py",
+      "sha256": "9614021d75ff0ccee59f05dfa11aaceade25fe812011c9e3d3fe91a12bed1e2d",
+      "bytes": 1132
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter_r/_binding.abi3.so",
+      "sha256": "788d2871015496fcdefa990517ff44dd7d6482c65074a76719c98f205554ff2a",
+      "bytes": 560856
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/INTEGRATION.md",
+      "sha256": "975af89ca50538eeb30b0bc038e11fa1f22ac65e1b8bad89f684504bc3d54585",
+      "bytes": 7562
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/applied_r_reward.py",
+      "sha256": "cc6c9cf17815f9f48868adeb5fae08d9955cca7704893a92216d4b7cb50529f8",
+      "bytes": 10939
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/audit_train_bindings.py",
+      "sha256": "9f222a7bc54f512ae693acd268567eed25e75795fe65766f84f3c08b2535ca9b",
+      "bytes": 4418
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/factory-patch-check.json",
+      "sha256": "e86701fe37a7f7f89a6ebab93ad2b8b16716b97f77e2f18ad6c19f2696ccfe37",
+      "bytes": 428
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/pinned_r_parser.py",
+      "sha256": "ac0ec3138ddb2e133bed09fd980a28bd748f91ccbefb0c6f40ccf880286cb664",
+      "bytes": 2366
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/test_applied_r_reward.py",
+      "sha256": "d7e35fb0507c2f9256a14a5ef9b2efb3d4ccaabcde93702b295e799b9b07e3ae",
+      "bytes": 11147
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/tests.log",
+      "sha256": "ae3cdfbe60a0386e0ac7c6e081069ae7170b3cdde5bd29ffcb335a99f9479d24",
+      "bytes": 1973
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/train-binding-audit.json",
+      "sha256": "5f98ff9656c86b0c5092d82a29bdf928bfc75c9c0c1011142123327232ad83ca",
+      "bytes": 8604
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/reward-candidate/trainer-factory.patch",
+      "sha256": "5ca6ee27f0bd0320384a17b438aeec87e76d7da31ffb9a0b0cfc42938ef2978c",
+      "bytes": 1001
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/READ-ME.md",
+      "sha256": "b95290f2c6cf82821e8b52d9c861147cdad8a0a1f208682965978c3bc4ff2cec",
+      "bytes": 2199
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/already_complete.R",
+      "sha256": "95d45d79f05e8afa7ef4273d462e24b01476158617b4b713a158e0238c6db0d6",
+      "bytes": 79
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/clamp_unit.R",
+      "sha256": "14d0e8ebbe1bf20646ca9d3b9c991df7231377308df57069a1202261dde81ff0",
+      "bytes": 133
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/count_positive.R",
+      "sha256": "3639ec8cb4a14917b82689e4704affcd3541320279fe3018f6dddd6f661e5804",
+      "bytes": 146
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/cpu-check.json",
+      "sha256": "6c8f916cbf8029cd0a6922269a6d700b90e270c75db5bc887d1c2b234e1df7cb",
+      "bytes": 861
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/exercise.json",
+      "sha256": "bd295a68fd598af2b76d018a63259f989f33a2a0b70d53383844861f9f9fc41b",
+      "bytes": 5440
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/finite_mean.R",
+      "sha256": "36ff037494292a51510fdeb486ad3507a65bc801a6cc46fd49fc97e25749219f",
+      "bytes": 118
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/notebook-synthetic-exercise/preserve_missing.R",
+      "sha256": "24ad49847198af4c0e96e77dfc1406e4f4abb89a62497f93ee897f14d8eaa8ae",
+      "bytes": 135
+    }
+  ],
+  "old_diagnostic_packet_retained": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/opus-review-packet-v2.md",
+    "sha256": "a0176360d819cd95ae913ce97e47f7e51a025ab29a41d12db4c464408b7412bf",
+    "bytes": 11676
+  },
+  "base_reward_excerpt_sha256": "c3f55dc6061a700ab8ac788c6bd0ea6c13af2ce97240813360582804ef016101",
+  "model_weights_read_or_hashed": false
+}

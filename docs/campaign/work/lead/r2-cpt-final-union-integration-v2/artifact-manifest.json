@@ -1,0 +1,49 @@
+{
+  "files": [
+    {
+      "bytes": 1380,
+      "mode": "0444",
+      "path": "README.md",
+      "sha256": "efb1293e0ef1f4472a15aa9ef5be165c31073f28c8398a10136aaf25b6f7e757"
+    },
+    {
+      "bytes": 46664,
+      "mode": "0444",
+      "path": "build_final_union.py",
+      "sha256": "094b8f1c209c70db4f2f99113544a2168813c7ee24c8e361c102a616ef7fa333"
+    },
+    {
+      "bytes": 1829,
+      "mode": "0444",
+      "path": "commands.json",
+      "sha256": "9eec8f59567af527e230a804f9bd79f4ea1a0ef2ce0ba29efa27cb0de90053ab"
+    },
+    {
+      "bytes": 365,
+      "mode": "0444",
+      "path": "source-manifest.json",
+      "sha256": "eb28883423aa792490d116a7fcb489d660c4929bf0569a2a5a451d1761458adf"
+    },
+    {
+      "bytes": 638,
+      "mode": "0444",
+      "path": "status.json",
+      "sha256": "3595fa20b5217e515d8dba6820df4470bf98145650f4f7751449109b91c0c5b8"
+    },
+    {
+      "bytes": 1043,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "bb2b9ebdd310d557864c91033b740af7a1cc7bfa20c1511214dcd7b67b133cb8"
+    },
+    {
+      "bytes": 9074,
+      "mode": "0444",
+      "path": "test_build_final_union.py",
+      "sha256": "9bc9d58ba71c066c9c30bc977a8411958ea79137cd775f11cd71fbfc0c0b80d6"
+    }
+  ],
+  "identity_sha256": "9dfbc785c20d22987088dce954b214fd607790169cdbf760582345a4d1c59744",
+  "schema": "sepalith.dat10.cpt_final_union_artifacts.v2",
+  "status": "frozen_preparation"
+}

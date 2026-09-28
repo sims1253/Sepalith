@@ -1,0 +1,31 @@
+{
+  "dedup": "content hash deferred to reviewed regular-R payload pass; no dedup claim in this metadata pass",
+  "groups": 8867,
+  "heldout_payload_read": false,
+  "inventory_script_sha256": "7a0044577a7f7fc8742e29e13237b908f49a0420f293778b8d144f9266283f58",
+  "license_gate": "metadata-only frozen recognized-license classification; unresolved licenses remain named review status",
+  "no_caps": {
+    "bytes": null,
+    "families": null,
+    "files": null,
+    "groups": null,
+    "wall_time": null
+  },
+  "payload_read": false,
+  "payload_written": false,
+  "pins": {
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-long-stage-review-v1/next-global-package-order.json": "c7255cbbb664b7a12322b7bb9acf40c1b23c73dc9e1869531443205dbc9335b8",
+    "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+  },
+  "schema": "DAT-10-cpt-supplemental-source-preflight-v1",
+  "scope": "all frozen eligible global TRAIN groups (initial 775 plus remaining 8092)",
+  "separate_literate_categories": [
+    ".Rmd",
+    ".qmd",
+    ".Rnw",
+    "Rd"
+  ],
+  "status": "pass",
+  "supplemental_regular_category": "case-insensitive regular .R/.r outside normalized package/version/package/R"
+}

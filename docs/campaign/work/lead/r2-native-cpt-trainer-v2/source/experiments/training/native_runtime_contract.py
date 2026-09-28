@@ -1,0 +1,47 @@
+"""Fail-closed validation for a root-admitted native physical-path overlay."""
+import hashlib,json
+from pathlib import Path
+from native_attestation import require_attested,require_attested_identity
+
+def require(v,m):
+ if not v:raise ValueError(m)
+def sha256(path):
+ h=hashlib.sha256()
+ with Path(path).open('rb') as f:
+  for b in iter(lambda:f.read(8<<20),b''):h.update(b)
+ return h.hexdigest()
+
+def validate(recipe,identity_function):
+ relocation=recipe.get('storage_relocation',{});bundle=relocation.get('bundle_id')
+ require(relocation.get('schema')=='sepalith.sft11.native-runtime-overlay.v1' and isinstance(bundle,str),'native relocation missing')
+ canonical_path=Path(relocation['canonical_bound_recipe']);require(canonical_path.is_file() and sha256(canonical_path)==relocation['canonical_bound_recipe_sha256'],'canonical bound recipe differs')
+ canonical=json.loads(canonical_path.read_text());require(identity_function(canonical)==identity_function(recipe),'native paths changed scientific identity')
+ receipt_path=Path(relocation['stage_receipt']);require(receipt_path.is_file() and sha256(receipt_path)==relocation['stage_receipt_sha256'],'stage receipt differs')
+ receipt=json.loads(receipt_path.read_text());require(receipt.get('bundle_id')==bundle and receipt.get('status')=='staged_immutable_verified','stage bundle differs')
+ admission_path=Path(relocation['admission']);require(admission_path.is_file() and sha256(admission_path)==relocation['admission_sha256'],'relocation admission differs')
+ admission=json.loads(admission_path.read_text());require(admission.get('schema')=='sepalith.sft11.native-relocation-admission.v1' and admission.get('status')=='admitted' and admission.get('launch_authorized')is True,'relocation not admitted')
+ require(admission.get('bound_recipe_sha256')==relocation['canonical_bound_recipe_sha256'] and admission.get('stage_receipt_sha256')==relocation['stage_receipt_sha256'],'relocation admission identity differs')
+ migration=recipe.get('runtime_source_migration',{});mp=Path(migration.get('admission',''))
+ require(mp.is_file() and sha256(mp)==migration.get('admission_sha256'),'runtime source migration admission differs')
+ mv=json.loads(mp.read_text());require(mv.get('schema')=='sepalith.sft11.native-runtime-source-migration-admission.v1' and mv.get('status')=='admitted' and mv.get('launch_authorized')is True,'runtime source migration not admitted')
+ require(mv.get('scientific_source_manifest_sha256')==recipe['source']['manifest_sha256'],'scientific source identity changed')
+ require(mv.get('runtime_source_manifest_sha256')==recipe['runtime_source']['manifest_sha256'],'runtime source admission differs')
+ require(mv.get('canonical_bound_recipe_sha256')==relocation['canonical_bound_recipe_sha256'],'runtime source admission recipe differs')
+ require(mv.get('stage_receipt_sha256')==relocation['stage_receipt_sha256'],'runtime source admission stage differs')
+ cache=Path(recipe['cohort']['streaming_cache']['path']);require(require_attested_identity(cache/'manifest.json',bundle)['sha256']==recipe['cohort']['streaming_cache']['manifest_sha256'],'staged cache manifest identity differs');cm=json.loads((cache/'manifest.json').read_text())
+ for name,item in cm['files'].items():require_attested(cache/name,item['sha256'],item['bytes'],bundle)
+ require(require_attested_identity(recipe['cohort']['rows']['path'],bundle)['sha256']==recipe['cohort']['rows']['sha256'],'staged rows identity differs')
+ require(require_attested_identity(recipe['cohort']['draw_schedule']['path'],bundle)['sha256']==recipe['cohort']['draw_schedule']['sha256'],'staged schedule identity differs')
+ if 'source_checkpoint' in relocation.get('canonical_paths',{}):
+  parent=Path(recipe['parent']['path']);require(require_attested_identity(parent/'campaign-manifest.json',bundle)['sha256']==recipe['transition']['source_checkpoint']['manifest_sha256'],'staged parent manifest identity differs');pm=json.loads((parent/'campaign-manifest.json').read_text())
+  for name,expected_sha in recipe['parent']['files'].items():
+   require(name in pm['files'],'parent file absent from checkpoint manifest');require_attested(parent/name,expected_sha,pm['files'][name]['bytes'],bundle)
+ os=__import__('os');resume_bytes=int(os.environ.get('SEPALITH_NATIVE_RESUME_BYTES','0'));resume_path=Path(os.environ.get('SEPALITH_NATIVE_RESUME_PATH','/nonexistent'))
+ if str(resume_path.resolve()).startswith(str(Path(recipe['outputs']['trainer']).resolve())+'/'):resume_bytes=0
+ require(resume_bytes>=0,'native resume bytes differ')
+ return {'bundle_id':bundle,'stage_receipt_sha256':relocation['stage_receipt_sha256'],'total_bytes':receipt['total_bytes']+resume_bytes,'canonical_bound_recipe_sha256':relocation['canonical_bound_recipe_sha256']}
+
+def canonical_source_checkpoint(recipe,physical):
+ relocation=recipe.get('storage_relocation',{});canonical=relocation.get('canonical_paths',{}).get('source_checkpoint')
+ if canonical and Path(physical).resolve()==Path(recipe['transition']['source_checkpoint']['path']).resolve():return str(Path(canonical).resolve())
+ return str(Path(physical).resolve())

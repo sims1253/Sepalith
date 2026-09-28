@@ -1,0 +1,125 @@
+{
+  "changed_source_files": [
+    "source/experiments/training/campaign_sft.py",
+    "source/experiments/training/campaign_task_sft.py",
+    "source/experiments/training/target_only_gate.py"
+  ],
+  "files": [
+    {
+      "bytes": 11665,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_checkpoint.py",
+      "origin_sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "bytes": 5024,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_control.py",
+      "origin_sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+      "path": "source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "bytes": 11831,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_eval.py",
+      "origin_sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    {
+      "bytes": 3545,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_launch.py",
+      "origin_sha256": "52f72a711fccf64efd8733a107d08b466b21305b53bc04c28473ef1befd31164",
+      "path": "source/experiments/training/campaign_launch.py",
+      "sha256": "52f72a711fccf64efd8733a107d08b466b21305b53bc04c28473ef1befd31164"
+    },
+    {
+      "bytes": 25401,
+      "origin_match": false,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_sft.py",
+      "origin_sha256": "4f347675c050edf9492b24e5fbb2298a25ae71c1dfe478546a539390cecd6ea0",
+      "path": "source/experiments/training/campaign_sft.py",
+      "sha256": "38cbdab5a693fd1abf88adba62fa42fed7f680ceee053dfd701c488c31eb83ca"
+    },
+    {
+      "bytes": 7931,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_sft_data.py",
+      "origin_sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f",
+      "path": "source/experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "bytes": 14053,
+      "origin_match": false,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_task_sft.py",
+      "origin_sha256": "1d74e9f6e8310eac3a8d0922848fc892c200d048c0ecf290fb74ce3758ba5965",
+      "path": "source/experiments/training/campaign_task_sft.py",
+      "sha256": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280"
+    },
+    {
+      "bytes": 15257,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_tokenizer_contract.py",
+      "origin_sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 10118,
+      "origin_match": false,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/target_only_gate.py",
+      "origin_sha256": "68a600ddb0fb26ce2ae4c19f763245d88ca2aa42d770e2355aac036d42ce00d4",
+      "path": "source/experiments/training/target_only_gate.py",
+      "sha256": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de"
+    },
+    {
+      "bytes": 67,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/packages/sepalith/src/sepalith/__init__.py",
+      "origin_sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "origin_match": true,
+      "origin_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "origin_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "recipe_template": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-review-v2/recipe-template.json",
+    "sha256": "b370bb2bd1ac48313764459e5757c72369df72da6f2b5ba0bb61926364ad6390"
+  },
+  "schema": 1,
+  "source_patch": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-review-v2/source.patch",
+    "sha256": "72aaab6f37318d584b5f371ea053a363b6a764383d71d8487150699b4bbdd13a"
+  },
+  "status": "CPU-reviewed private candidate; root snapshot/data/model admission pending",
+  "tests": {
+    "CPU_threads": 1,
+    "CUDA_initialized": false,
+    "actual_installed_libraries": {
+      "accelerate": "1.14.0",
+      "datasets": "4.3.0",
+      "torch": "2.11.0",
+      "transformers": "5.5.0",
+      "trl": "0.24.0",
+      "unsloth": "2026.8.18",
+      "unsloth_zoo": "2026.8.12"
+    },
+    "log": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-review-v2/cpu-tests.log",
+    "seconds": 7.961,
+    "status": "PASS",
+    "toy_model_scope": "Fresh in-memory synthetic CPU model, no external/pretrained/model artifact reads. CPU resume uses adamw_torch and no gradient checkpointing; it does not certify CUDA fusedAdamW/LoRA equivalence.",
+    "unit_tests": 21
+  }
+}

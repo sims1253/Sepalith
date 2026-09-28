@@ -1,0 +1,47 @@
+{
+  "files": [
+    {
+      "bytes": 1436,
+      "path": "README.md",
+      "sha256": "89409d32d0dc8528916fd3c4624600a590444670d820e5f38d5d601e9a766a39"
+    },
+    {
+      "bytes": 5951,
+      "path": "evaluate_long_only.py",
+      "sha256": "cd05ab78b9a5fa490206016f0eb43b1f3c553581da930e629c19c24bc91f83dd"
+    },
+    {
+      "bytes": 9753,
+      "path": "prepare.py",
+      "sha256": "d5891c635c842a01ed9111b65fe025b25b06c16962e0d0ce74ea59ecf0566393"
+    },
+    {
+      "bytes": 815,
+      "path": "root-commands.json",
+      "sha256": "7ceb9b0d0d360caa554d9172255ac066b42f356df00c14362632900f554dbd06"
+    },
+    {
+      "bytes": 521,
+      "path": "runtime-handles.template.json",
+      "sha256": "23b7fb52239766295a22759dc10c5cda94808bbcb608a951c6034d956483b046"
+    },
+    {
+      "bytes": 1783,
+      "path": "saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 601,
+      "path": "test-results.log",
+      "sha256": "0335b2e0833d9d2cc24ac6b8eb160c113ed1a7e327bcad416d162a049b82b4f8"
+    },
+    {
+      "bytes": 3715,
+      "path": "tests/test_review_contract.py",
+      "sha256": "a3451a21c3bbff8742fbba20f7291b00c8a71d92408f9548c241faafb2fb6f7a"
+    }
+  ],
+  "files_count": 8,
+  "schema": "sepalith.sft11.cpt354-review-artifacts.v2",
+  "status": "frozen_preparation_manual_cpu_only"
+}

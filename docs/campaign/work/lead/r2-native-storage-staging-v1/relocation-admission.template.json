@@ -1,0 +1,16 @@
+{
+  "schema": "sepalith.sft11.native-relocation-admission.v1",
+  "status": "root_fields_pending",
+  "bound_recipe_sha256": null,
+  "stage_receipt_sha256": null,
+  "object_roles": {
+    "source_checkpoint": "checkpoint",
+    "streaming_cache": "cache",
+    "rows": "rows",
+    "draw_schedule": "schedule"
+  },
+  "native_usage_cap_bytes": 75161927680,
+  "native_free_floor_bytes": 75161927680,
+  "checkpoint_policy": "input_bundle_plus_at_most_two_native_hot_full_checkpoints_then_durable_E_publication",
+  "launch_authorized": false
+}

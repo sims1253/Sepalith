@@ -1,0 +1,10 @@
+{
+  "schema": "sepalith.cloud-cpt1902-merge-review.commands.v1",
+  "preparation_only": true,
+  "review_existing": "PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python prepare_binding_v2.py --registry candidates-1902.json --merge-source /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cloud-cpt-parent-merge-preparation-v1/source/merge_cloud_cpt_parent.py --candidate 1902 --review-output /ABSOLUTE/FRESH-REVIEW.json",
+  "notes": [
+    "The checked-in candidate-1902-binding-review.json is already reviewable; use a fresh output only to reproduce it.",
+    "Root must create a separate admission and external host-memory guard before any merge.",
+    "This packet deliberately contains no admission or executable binding."
+  ]
+}

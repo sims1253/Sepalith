@@ -1,0 +1,37 @@
+{
+  "files": [
+    {
+      "bytes": 829,
+      "path": "README.md",
+      "sha256": "0d69057709c8f307a5de5d931fd3880fa7971c0e70cfcae1744ebea89f2602a2"
+    },
+    {
+      "bytes": 7687,
+      "path": "analysis.json",
+      "sha256": "f21ab8fa013df3ce2fd318ccbf94887e01edfef64d9b3db7b59067674fa1cc9a"
+    },
+    {
+      "bytes": 6410,
+      "path": "sample_weight_deltas.py",
+      "sha256": "df250389b846c9366c5ffe2ff800dcdda967dc5f0a995d96b684fee70caffd60"
+    },
+    {
+      "bytes": 26919,
+      "path": "slice-results.json",
+      "sha256": "f10df86e9571dce2690d46a4a85b6918fc5464a454bbb2dc37f216ad5adf71c8"
+    },
+    {
+      "bytes": 194,
+      "path": "test-results.txt",
+      "sha256": "fa2ce7faedc4905812370143a2aec13958eed2461b83c13dae5c83051db7b21f"
+    },
+    {
+      "bytes": 3040,
+      "path": "test_sample_weight_deltas.py",
+      "sha256": "988704f08142c961a43ffa802e3aa64cbd636bd54011f97cd8b7ba2cdb621ea9"
+    }
+  ],
+  "packet": "r2-full-weight-update-scale-audit-v1",
+  "schema": "sepalith.artifact-manifest.v1",
+  "source_identity_sha256": "c287cea4e914aed594fb0096cd93a43c15409b57dda38eaf10ae83cd46548228"
+}

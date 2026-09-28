@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "id": "sft11-task-global-b-to500-20260914",
+  "snapshot": "306b50daf21a1c1daa31d849f2f1d64b43dbe4c1349afba1d3793366ab0d4fbb",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-token-rows.jsonl",
+      "sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-draw-manifest-noop25.json",
+      "sha256": "00efb66e1b37a44d99a0767f777bb37fc8efa9084e06a7994b921ab19291722c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/model.safetensors",
+      "sha256": "5f12810692a90ebb32f589a25e5adcedac53d9fb6edd9166b8245fdec6e3dd1c"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/config.json",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/generation_config.json",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/parent-manifest.preparation.json",
+      "sha256": "c5ddf086518e66a6709d8e4a16b88f7399d4e87ea477e24f3988ffcdecb1366e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-global-a/recipe.json",
+      "sha256": "9e895d9ee07660312818411d08915fc9636ad4372aa1fcc0a44d3f3d5de69bad"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT11-CPT-global-a/full/checkpoint-250/campaign-manifest.json",
+      "sha256": "96fd78159c3415331bb53234efe404706e7cc8980a7e5658c96b086c5db2d8f6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-task-global-b/recipe.json",
+      "sha256": "a9a6d87ee66578e02d4ffbe6dd9856f1c98af9316cf7dbaa225d2b7acab03b8b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/cuda_host_guard.py",
+      "sha256": "8d64b96da755e7d2b710f423078fe2ba1ffa55a904c79be78e23a3ab40628f2b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/host_memory_policy.py",
+      "sha256": "ed39464f8981b562dd4f91ef8ad069edae03e53da999c274507973ff0df3831a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/post_load_cache.py",
+      "sha256": "7204fc46c412d0285b6bfc931bb774b938bf5bfef87220346149e285d6f5f8a4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+      "sha256": "de8d32f644b73312d38631e8427338f1a2884e5f4899391141a0154515db31c3"
+    }
+  ],
+  "provenance": {
+    "task": "SFT-11",
+    "owner": "lead_required",
+    "status": "prepared_not_dispatched",
+    "acceptance": "Exact full250 resume, same source and 1000 horizon; mandatory full500 plus native DEV stop.",
+    "budget_source": "Existing task SFT plus DEV4h ceiling. Root recalculates remaining time and absolute deadline before dispatch."
+  },
+  "steps": [
+    {
+      "id": "prepare-task-host-command",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-task-global-b/recipe.json",
+        "{run}/supervision.json",
+        "{run}/guard-command.json"
+      ],
+      "artifacts": [
+        "guard-command.json"
+      ]
+    },
+    {
+      "id": "guarded-task-to250",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/cuda_host_guard.py",
+        "--command-json",
+        "{run}/guard-command.json",
+        "--output",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-task-global-b-host-supervision",
+        "--seconds",
+        "3360",
+        "--minimum-free-mib",
+        "8192",
+        "--release-cache-file",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/model.safetensors"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ]
+    }
+  ]
+}

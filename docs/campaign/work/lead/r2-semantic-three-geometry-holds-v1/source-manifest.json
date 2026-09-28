@@ -1,0 +1,59 @@
+{
+  "entrypoint": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/repair_geometry.py",
+  "external_frozen_dependencies": [
+    {
+      "bytes": 23662,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/base_materializer.py",
+      "sha256": "2edfe6c4761271889e2b2f008fcccd00b8bf2adaf712c18cc2d588eb9840136f"
+    },
+    {
+      "bytes": 15997,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/analyze_semantics.py",
+      "sha256": "4e62dbc7568594501a04da395006f9227c1de94db6ee99685a6213853460265f"
+    },
+    {
+      "bytes": 4193,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/semantic_context_geometry_v2.py",
+      "sha256": "f38c3a96b5a8b34b420b289c00cf5de3f0c4fb51fba09ea3e634a61299339b6d"
+    },
+    {
+      "bytes": 23130,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/campaign_selection.py",
+      "sha256": "354a31c8f1f88cd9f1680c5e1e8dd917be3212776716a7481c80c367a545729e"
+    },
+    {
+      "bytes": 40337,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 22710,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-roxy8597-root-fixes-v1/audit_authoritative_stream.py",
+      "sha256": "7f042596a67ec9983f6f409a8913f4bc8df3361548a1e91fb77c9f914dafcf37"
+    },
+    {
+      "bytes": 9894271,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 14428,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/repair_geometry.py",
+      "sha256": "584f70c4cb5f6825fd8302d1ac60baf0856841ba9ffc0c3e03fad6c4a0158ccd"
+    },
+    {
+      "bytes": 3550,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/tests/test_geometry.py",
+      "sha256": "9723098c7ffc25e5285843b7285dc942d7310e763e0ad173a1e6f1c9f8689d6b"
+    },
+    {
+      "bytes": 1514,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic-three-geometry-holds-v1/run.sh",
+      "sha256": "dd28abceb30202d02ec68e6087e76028300ed31bd566fd114f9fc0c1f1c26dce"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic_three_geometry_source.v1",
+  "source_identity_sha256": "7bb56e544167008cbcdb5b6de96ea87dfb573ce256b2dbf25793e48ea5aa34fe"
+}

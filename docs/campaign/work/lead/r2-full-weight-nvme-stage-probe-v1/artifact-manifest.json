@@ -1,0 +1,37 @@
+{
+  "files": [
+    {
+      "bytes": 1531,
+      "mode": "0644",
+      "path": "probe-result.json",
+      "sha256": "1d4339eb24d2a979edc888586d960ffb698495d02d9bce1b2b3bf1894dbdb598"
+    },
+    {
+      "bytes": 3631,
+      "mode": "0644",
+      "path": "proposal.json",
+      "sha256": "765b2f0b28d58265704ae3a34a396a1e482afa54db29773936477c80dfaba71a"
+    },
+    {
+      "bytes": 5219,
+      "mode": "0644",
+      "path": "run_probe.py",
+      "sha256": "2edc1482111845d953e98a5a3ba6b8277290e083c473b37b9ce34f1102cc66ae"
+    },
+    {
+      "bytes": 248,
+      "mode": "0644",
+      "path": "test-results.log",
+      "sha256": "36e20ca89aab121424f4e164bee995d36408f92f9f5982ce7dde15f67cf58a0f"
+    },
+    {
+      "bytes": 1194,
+      "mode": "0644",
+      "path": "test_probe_result.py",
+      "sha256": "5d0d7d25bee74901281b6d5161687448d42702499fdb52410251e800a015de26"
+    }
+  ],
+  "root": "docs/campaign/work/lead/r2-full-weight-nvme-stage-probe-v1",
+  "schema": "sepalith.artifact-manifest.v1",
+  "task": "SFT-11-nvme-stage-probe"
+}
