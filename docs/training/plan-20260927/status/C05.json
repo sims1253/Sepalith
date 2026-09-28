@@ -1,0 +1,53 @@
+{
+  "card": "C05",
+  "state": "needs_user",
+  "updated": "2026-09-28T12:00:00+02:00",
+  "branch": "plan/C05-evaluation",
+  "pull_request": null,
+  "outputs": {
+    "dev_supply_audit": {
+      "split_manifest": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json (sha256 c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09); dev_group groups only, no final_candidate_group record opened",
+      "dev_groups": 169,
+      "dev_candidate_rows": 2846,
+      "native_dev_groups_by_train_family": {
+        "finish_block": 12,
+        "roxygen (roxygen_drafting + mid_roxygen)": 127,
+        "no_op": 6,
+        "pipe_rewrite": 0,
+        "format_propagation": 0,
+        "rename_propagation": 0,
+        "na_rm_propagation": 0
+      },
+      "native_dev_rows_by_train_family": {
+        "finish_block": 1702,
+        "roxygen": 612,
+        "no_op": 8,
+        "pipe_rewrite": 0,
+        "format_propagation": 0,
+        "rename_propagation": 0,
+        "na_rm_propagation": 0,
+        "non_train_families (rewrite_lint_fix_*, rewrite_fixissue_*, edit_pairs)": 524
+      },
+      "card_targets_at_250_approx": {
+        "no_op": 50,
+        "finish_block": 112,
+        "pipe_rewrite": 28,
+        "format_propagation": 24,
+        "rename_propagation": 24,
+        "roxygen_drafting": 12,
+        "na_rm_propagation": 4,
+        "max_cases_per_group": 3
+      },
+      "max_native_supply_under_cap_3": {
+        "finish_block": 36,
+        "no_op": "at most 8 rows in 6 groups, and DEV75 already uses these plus 26 derived no-ops (32 no-op cases)",
+        "pipe_format_rename_na_rm": 0
+      },
+      "existing_dev_candidate_artifacts": "DAT-07-dev-panel-candidates.json (118 packets, from which DEV75 was drawn; only 8 per derived propagation family and 32 no-ops in total) and DAT-07-dev-completion-candidates-v1.jsonl (6 finish packets, all 6 are DEV75's finish cases). The DAT-07 finish derivation reports 131 allowlisted finish rows -> 67 converted -> 10 groups after dedup.",
+      "dev75_build_input": "prepare_corrected_dev75_v1.py read /mnt/e/.../DAT-07-final-evaluator-cases.jsonl (a finalized DEV panel, asserts split == dev). Its filename contains 'final', so DEV75's exact build route hits the card's stop condition; this agent did not open it."
+    }
+  },
+  "rule_decisions": [],
+  "question_for_user": "The DEV split cannot supply the DEV250 composition natively: under the 3-cases-per-group cap it yields at most 36 finish_block cases (12 groups; 112 wanted), no new no-ops (8 native rows, all already in DEV75; 50 wanted), and zero pipe/format/rename/na_rm rows (80 wanted). Only roxygen (127 groups) is plentiful. May I build the missing cases by source-derived construction over the dev_group parent sources, using the same constructors TRAIN and DAT-07 used (finish_block_v5_prefix windows for finish_block, DAT-07's derived already-applied-state no-ops, and DAT-07's rename/pipe/format/na_rm companions), keeping the card's 250-case mix and the 3-per-group cap? Recommended: yes. It keeps DEV250 TRAIN-like and group-disjoint, and it avoids every DAT-07-final-* file. The alternatives are a natively-sourced panel that is about 55% roxygen with no propagation families, or a looser cap (about 10 per group for finish_block), which leaves the finish_block score dominated by 12 packages.",
+  "notes": "Stopped at step 1 before building anything. Step 3 (the evaluator) also depends on C01: packages/sepalith/src/sepalith/training/ does not exist on origin/main yet (the plan/C01-consolidate-runtime worktree has no commits), so the evaluator change should land on top of C01. Steps 2 (CPT-overlap check) and 4 (PROMPT-CONTRACT note) are not blocked and will be done in this PR once the question is answered. Also: DAT-02-global-split-v2.json is not under docs/campaign/receipts in git; it exists only in the planning worktree (t3code-a8153bbb) and at /mnt/e/.../data-work/."
+}
