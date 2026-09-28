@@ -13,3 +13,225 @@ unused-ignore-comment = "error"
 unused-type-ignore-comment = "error"
 ignore-comment-unknown-rule = "error"
 blanket-ignore-comment = "error"
+
+
+[analysis]
+# The training runtime imports these; the quality environment does not install them.
+allowed-unresolved-imports = ["torch", "torch.**", "transformers", "transformers.**", "trl", "trl.**", "unsloth", "unsloth.**", "datasets", "datasets.**", "safetensors", "safetensors.**", "numpy", "numpy.**"]
+
+# Frozen campaign modules and packet tests ported with import-only changes
+# (training/PROVENANCE.json). They are dynamically typed, so each override lists only
+# the inference rules that file trips as ported. New training modules get every rule.
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/campaign_protocol.py"]
+
+[overrides.rules]
+invalid-return-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/campaign_selection.py"]
+
+[overrides.rules]
+invalid-return-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/checkpoint/model_layout.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/checkpoint/native_attestation.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/contracts/runtime_update_contract.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+not-iterable = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/cpt/campaign_cpt_data.py"]
+
+[overrides.rules]
+invalid-return-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/cpt/cpt_streaming_cache.py"]
+
+[overrides.rules]
+possibly-unresolved-reference = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/cpt/full_weight_cpt_trainer.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/cpt/ordinary_canary_resume.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/eval/campaign_eval.py"]
+
+[overrides.rules]
+not-subscriptable = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/eval/milestone_gate.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/guards/cuda_host_guard.py"]
+
+[overrides.rules]
+possibly-unresolved-reference = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/optim/full_weight_optimizer.py"]
+
+[overrides.rules]
+no-matching-overload = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_profile.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+no-matching-overload = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_reward_v2.py"]
+
+[overrides.rules]
+call-non-callable = "ignore"
+invalid-argument-type = "ignore"
+not-subscriptable = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_rl_buffer.py"]
+
+[overrides.rules]
+unsupported-operator = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_rl_data.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+not-subscriptable = "ignore"
+unresolved-attribute = "ignore"
+unsupported-operator = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_rl_profile.py"]
+
+[overrides.rules]
+no-matching-overload = "ignore"
+unsupported-operator = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_rl_train.py"]
+
+[overrides.rules]
+call-non-callable = "ignore"
+invalid-argument-type = "ignore"
+invalid-return-type = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_sampling.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+unsupported-operator = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/campaign_theta0_gate.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+invalid-return-type = "ignore"
+unresolved-import = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/rl/full_weight_rl_production.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+invalid-return-type = "ignore"
+not-iterable = "ignore"
+not-subscriptable = "ignore"
+unresolved-attribute = "ignore"
+unsupported-operator = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/sft/campaign_edit_data.py"]
+
+[overrides.rules]
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/sft/full_coverage_schedule.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+unsupported-operator = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py"]
+
+[overrides.rules]
+possibly-unresolved-reference = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/src/sepalith/training/sft/one_pass_schedule.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/tests/training/test_cpt_cadence64.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/tests/training/test_eval_gate.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/tests/training/test_rl_production_driver.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+invalid-method-override = "ignore"
+not-subscriptable = "ignore"
+unresolved-attribute = "ignore"
+
+[[overrides]]
+include = ["packages/sepalith/tests/training/test_sft_preparation.py"]
+
+[overrides.rules]
+invalid-argument-type = "ignore"
