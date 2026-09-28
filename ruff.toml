@@ -15,5 +15,10 @@ select = [
 [lint.per-file-ignores]
 # Existing runner remains dynamically typed during its separate migration.
 "packages/sepalith/src/sepalith/runner.py" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204"]
+# The training runtime is the reviewed campaign code ported with import-only changes
+# (see training/PROVENANCE.json). Keep its layout and dynamic typing; broad excepts
+# there record failures into receipts or clean up before re-raising.
+"packages/sepalith/src/sepalith/training/**" = ["ANN", "E401", "E701", "E702", "E703", "E731", "SIM108", "BLE001"]
+"packages/sepalith/tests/training/**" = ["ANN", "E401", "E701", "E702", "E703", "E731"]
 # unittest helpers exercise malformed inputs; explicit Any is still checked.
 "packages/sepalith/tests/**" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204"]

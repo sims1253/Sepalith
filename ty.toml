@@ -13,3 +13,28 @@ unused-ignore-comment = "error"
 unused-type-ignore-comment = "error"
 ignore-comment-unknown-rule = "error"
 blanket-ignore-comment = "error"
+
+# Campaign code ported with import-only changes (training/PROVENANCE.json). It is
+# dynamically typed and imports torch/transformers/trl/unsloth, which the quality
+# environment does not install. Keep ty's other rules (e.g. unresolved names) on.
+[[overrides]]
+include = [
+  "packages/sepalith/src/sepalith/training/**",
+  "packages/sepalith/src/sepalith/campaign_protocol.py",
+  "packages/sepalith/src/sepalith/campaign_selection.py",
+  "packages/sepalith/tests/training/**",
+]
+
+[overrides.rules]
+unresolved-import = "ignore"
+unresolved-attribute = "ignore"
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+invalid-return-type = "ignore"
+not-subscriptable = "ignore"
+not-iterable = "ignore"
+unsupported-operator = "ignore"
+no-matching-overload = "ignore"
+call-non-callable = "ignore"
+invalid-method-override = "ignore"
+possibly-unresolved-reference = "ignore"
