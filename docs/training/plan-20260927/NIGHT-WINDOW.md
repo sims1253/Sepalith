@@ -132,7 +132,36 @@ The 09:05 check adds a `post_window_check` section and appends a line to
    09:05). `-EnableWakeTimers` sets "Allow wake timers" to Enable on AC power
    in the current plan. Leave it out to set it by hand.
 
-3. **Power settings that must be on.**
+3. **Page-cache trimmer (Linux, sudo once).**
+
+   ```bash
+   sudo scripts/night/install_cache_trim.sh
+   ```
+
+   Windows counts the WSL VM's Linux page cache as used memory. On
+   2026-09-28 the cache held 38 to 41 GB while Linux had 43 GB available, so
+   Windows free memory fell to 7 to 10 GB. That is below the runner's 16 GB
+   start threshold and the guard's 8 GB soft floor, and it blocked the CUDA
+   dry run's phase B.
+
+   `autoMemoryReclaim` cannot fix this under load. WSL 2.7.11 reclaims only
+   when user CPU stays below 0.5% of all cores for 10 minutes (`dropCache`)
+   or 3 minutes (`gradual`). The agent sessions measured 16 times that, and
+   a training job keeps the CPU busy all night.
+
+   `sepalith-cache-trim` is a root system service that does what `gradual`
+   does, without waiting for idle:
+   - every 10 seconds it caps the file cache at 8 GiB through the root
+     cgroup's `memory.reclaim`, evicting the coldest pages first;
+   - after a large reclaim it compacts memory, so free-page reporting returns
+     the freed blocks to Windows.
+
+   The install copies the script to `/usr/local/sbin`. Change the cap in
+   `/etc/systemd/system/sepalith-cache-trim.service`. Remove it with
+   `sudo scripts/night/install_cache_trim.sh --uninstall`. Check it with
+   `journalctl -u sepalith-cache-trim` and `sepalith-cache-trim --status`.
+
+4. **Power settings that must be on.**
    - Control Panel > Power Options > Change plan settings > Change advanced
      power settings > Sleep > Allow wake timers: **Enable** (on AC). Check
      with `powercfg /waketimers` after 01:00 or `powercfg /q SCHEME_CURRENT SUB_SLEEP RTCWAKE`.
@@ -177,7 +206,7 @@ the window. A CPU-only run of the mechanics passed on 2026-09-28. See
 | A job is in `failed/` with `hard_stop_killed` | Read the log in `night-queue/attempts/<night>/<id>-<n>/`. Check that its last checkpoint is complete, then run `night_queue retry <id>`. |
 | A job is in `failed/` with `runner_lost` | The runner died, for example because the PC lost power. Check the checkpoint and retry. |
 | The runner reports a stale `running/` job with live processes | Inspect the processes (`ps -o pid,pgid,cmd -g <pgid>`) and stop them by hand. The runner starts nothing until they are gone. |
-| Preflight never passed | The report lists the failing check. GPU memory held by Windows apps counts as used, so close GPU-heavy apps before bed or raise `--max-gpu-used-mib` in the service's `ExecStart`. |
+| Preflight never passed | The report lists the failing check. For `host_memory`, check that `sepalith-cache-trim` is running. GPU memory held by Windows apps counts as used, so close GPU-heavy apps before bed or raise `--max-gpu-used-mib` in the service's `ExecStart`. |
 | The report is missing in the morning | Look at `%LOCALAPPDATA%\Sepalith\night\night.log` to see whether WSL woke, then `systemctl --user status sepalith-night-runner` and `journalctl --user -u sepalith-night-runner --since yesterday`. |
 | Stop tonight's run now | `systemctl --user stop sepalith-night-runner`. The runner asks the job to save, waits 45 seconds, then kills it and writes the report. |
 | Pause the nights | `systemctl --user disable --now sepalith-night-runner.timer`, and disable the two Windows tasks in Task Scheduler. |
