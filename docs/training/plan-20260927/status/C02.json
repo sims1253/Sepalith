@@ -1,0 +1,33 @@
+{
+  "card": "C02",
+  "state": "needs_user",
+  "updated": "2026-09-28T23:10:00+02:00",
+  "branch": "plan/C02-night-window",
+  "pull_request": null,
+  "outputs": {
+    "code": [
+      "packages/sepalith/src/sepalith/ops/night_queue.py",
+      "packages/sepalith/src/sepalith/ops/night_runner.py",
+      "packages/sepalith/tests/test_night_window.py"
+    ],
+    "scheduler": [
+      "scripts/night/night-runner.sh",
+      "scripts/night/sepalith-night-runner.service.in",
+      "scripts/night/sepalith-night-runner.timer.in",
+      "scripts/night/install_systemd_units.sh",
+      "scripts/night/windows/SepalithNightWake.xml",
+      "scripts/night/windows/SepalithNightCheck.xml",
+      "scripts/night/windows/import-night-tasks.ps1"
+    ],
+    "docs": "docs/training/plan-20260927/NIGHT-WINDOW.md",
+    "unit_tests": "scripts/check_core.py: 69 tests OK (18 new night-window tests); ruff and ty clean",
+    "windows_validation": "All .ps1 files parse; both task XMLs accepted by the Task Scheduler COM API (not registered)",
+    "systemd_validation": "systemd-analyze --user verify clean; units not installed yet",
+    "cpu_dry_run": "docs/training/plan-20260927/receipts/C02-cpu-dry-run.json",
+    "cuda_dry_run": null,
+    "first_real_night": null
+  },
+  "rule_decisions": [],
+  "question_for_user": "May I run the 21-minute CUDA dry run (scripts/night/dry_run.sh cuda: phase A tests the deadline stop, 6 min; phase B tests the hard kill, 15 min) now or in a daytime slot you name, and should the GPU admission limit rise from the card's 2,048 MiB to 6,144 MiB? The Windows desktop alone held 4,762 to 5,133 MiB of GPU memory today, so at 2,048 MiB the runner would refuse to start every night unless GPU-heavy apps are closed. Recommended: yes to the dry run, and 6,144 MiB.",
+  "notes": "Steps 1 to 3 are done, and a CPU-only dry run passed with real probes: the honouring job saved at the deadline and exited 75; the ignoring job was killed 1 s after the hard stop. Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request until the runner finishes, instead of running `-- true`, because WSL stops an idle distribution seconds after its last client exits (see NIGHT-WINDOW.md). Remaining: the CUDA dry run (step 4); after merge, installing the units from a stable checkout and importing the Windows tasks (user action); then one real night (step 5)."
+}
