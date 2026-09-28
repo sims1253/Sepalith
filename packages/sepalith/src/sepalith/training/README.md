@@ -19,10 +19,18 @@ finished CPT trainer and its native staging and attestation. `rl` holds the
 GRPO production driver, reward v2, rollout data and the profiling and theta0
 gates. `guards` holds the WSL host-memory and GPU-reset supervisor. `supervisors`
 holds the graceful-stop request and the page-cache helper. `paths` defines the
-configurable roots: `CHECKPOINT_ROOT` (default `/mnt/e/`, env
+configurable roots: `CHECKPOINT_ROOT` (default `/mnt/e`, env
 `SEPALITH_CHECKPOINT_ROOT`) and `CAMPAIGN_ROOT` (default `docs/campaign`, env
-`SEPALITH_CAMPAIGN_ROOT`). The shared prompt contract stays at
+`SEPALITH_CAMPAIGN_ROOT`). The checkpoint root must be an absolute directory
+below `/`. Trainer, archive and bulk-cache outputs must lie strictly inside it:
+`under_checkpoint_root` compares normalized path components, so a sibling such
+as `/mnt/e-other` is refused. The shared prompt contract stays at
 `sepalith.campaign_protocol`.
+
+**Lint scope.** `ruff.toml` and `ty.toml` exempt the ported modules and packet
+tests file by file, listing only the rules each file violates as ported. New
+modules under `training/` get the full rule set, and so do the files written
+for C01 (`paths`, `request_graceful_stop`, the test fixtures).
 
 **Entry points for later cards.** Run them as modules with `packages/sepalith/src`
 on `PYTHONPATH` and the training interpreter

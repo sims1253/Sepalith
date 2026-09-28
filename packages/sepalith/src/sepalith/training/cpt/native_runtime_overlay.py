@@ -9,7 +9,7 @@ from __future__ import annotations
 import argparse, copy, hashlib, json, os
 from pathlib import Path
 import tempfile
-from sepalith.training.paths import CHECKPOINT_ROOT
+from sepalith.training.paths import under_checkpoint_root
 
 def require(v,m):
     if not v:raise ValueError(m)
@@ -70,7 +70,7 @@ def make_overlay(recipe_path,receipt_path,receipt_sha256,admission_path,output_p
     recipe['runtime_source']={'manifest_path':str(runtime_source_manifest.resolve()),'manifest_sha256':digest(runtime_source_manifest)}
     recipe['runtime_source_migration']={'admission':str(migration_admission.resolve()),'admission_sha256':digest(migration_admission)}
     trainer_root=Path(trainer_root);archive_root=Path(archive_root)
-    require(str(trainer_root).startswith('/home/m0hawk/.local/state/sepalith/campaign-20260915/') and str(archive_root).startswith(CHECKPOINT_ROOT),'native/E output roots differ')
+    require(str(trainer_root).startswith('/home/m0hawk/.local/state/sepalith/campaign-20260915/') and under_checkpoint_root(archive_root),'native/E output roots differ')
     recipe['outputs']['trainer']=str(trainer_root);recipe['outputs']['archive']=str(archive_root)
     recipe['checkpoint_storage']={'mode':'native_hot_to_e_durable_atomic','c_hot_stage':'root_admitted','required_same_filesystem':False,'trainer_root':str(trainer_root),'archive_root':str(archive_root),'native_capacity_root':'/home/m0hawk/.local/state/sepalith/campaign-20260915','expected_full_checkpoint_bytes':18*1024**3,'trainer_transient_save_total_limit':2,'native_retained_after_durable_publication':1}
     recipe['retention']['trainer_save_total_limit']=1

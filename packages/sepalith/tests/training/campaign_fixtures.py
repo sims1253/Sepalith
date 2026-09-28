@@ -28,7 +28,7 @@ def resolve(relative: str) -> Path:
     return CAMPAIGN_ROOT / relative
 
 
-def rebase(value: Any) -> Any:
+def rebase(value: object) -> object:
     if isinstance(value, str):
         match = _PREFIX.match(value)
         return str(resolve(match.group(1))) if match else value
@@ -39,8 +39,11 @@ def rebase(value: Any) -> Any:
     return value
 
 
-def load(path: Path) -> Any:
-    return rebase(json.loads(Path(path).read_text()))
+def load(path: Path) -> dict[str, Any]:
+    raw = json.loads(Path(path).read_text())
+    if not isinstance(raw, dict):
+        raise TypeError(f"expected a JSON object: {path}")
+    return {str(key): rebase(item) for key, item in raw.items()}
 
 
 def rebased_copy(path: Path, directory: Path) -> Path:

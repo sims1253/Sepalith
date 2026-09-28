@@ -70,7 +70,7 @@
    "selected_from": "state-snapshot",
    "selection": "resume-20260921 supervisor helper",
    "changes": [
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": []
   },
@@ -173,7 +173,7 @@
    "selection": "single version",
    "changes": [
     "rewrote 1 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -192,7 +192,7 @@
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "identical in both SFT packets",
    "changes": [
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -271,7 +271,6 @@
     "EXECUTION_ROOT now comes from sepalith.training.paths.REPO_ROOT (repository root); removed the sys.path insertion for packages/sepalith/src",
     "rewrote 2 local import statement(s) to sepalith.training package paths",
     "dropped `# noqa: E402` markers that became stale once the sys.path insertion was removed",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal",
     "EXECUTION_ROOT imported directly as sepalith.training.paths.REPO_ROOT"
    ],
    "bound_by": [
@@ -397,8 +396,7 @@
    "changes": [
     "removed the sys.path insertion for packages/sepalith/src (the module now lives inside the package)",
     "rewrote 12 local import statement(s) to sepalith.training package paths",
-    "dropped `# noqa: E402` markers that became stale once the sys.path insertion was removed",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "dropped `# noqa: E402` markers that became stale once the sys.path insertion was removed"
    ],
    "bound_by": [
     {
@@ -437,8 +435,7 @@
    "selection": "single version",
    "changes": [
     "rewrote 5 local import statement(s) to sepalith.training package paths",
-    "dropped `# noqa: E402` markers that became stale once the sys.path insertion was removed",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "dropped `# noqa: E402` markers that became stale once the sys.path insertion was removed"
    ],
    "bound_by": [
     {
@@ -566,16 +563,16 @@
   {
    "module": "sepalith.training.cpt.cpt_streaming_cache",
    "path": "packages/sepalith/src/sepalith/training/cpt/cpt_streaming_cache.py",
-   "sha256": "e7ebbbec0de5c01568edd830d4554c929ea41aaba3c7962481145fef3006e777",
+   "sha256": "cfbd2b3373c3609dc1440bd00420932ec899d2e729fe4ade8895da2d4d677055",
    "source": "docs/campaign/work/lead/r2-cpt450-cadence64-continuation-preparation-v2/source/experiments/training/cpt_streaming_cache.py",
    "source_sha256": "890a01d72a6a20d2be5383fcf8442d6971f1d84f8fa1aed513034d3ee621664d",
    "selected_from": "r2-cpt450-cadence64-continuation-preparation-v2",
    "selection": "single version",
    "changes": [
-    "the /mnt/e/ bulk-cache requirement reads sepalith.training.paths.CHECKPOINT_ROOT (default /mnt/e/)",
-    "imports CHECKPOINT_ROOT",
+    "the /mnt/e/ bulk-cache requirement uses sepalith.training.paths.under_checkpoint_root: directory containment under CHECKPOINT_ROOT (default /mnt/e, env SEPALITH_CHECKPOINT_ROOT) instead of a string prefix",
+    "imports under_checkpoint_root",
     "rewrote 2 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -652,18 +649,17 @@
   {
    "module": "sepalith.training.cpt.full_weight_cpt_trainer",
    "path": "packages/sepalith/src/sepalith/training/cpt/full_weight_cpt_trainer.py",
-   "sha256": "3c022bfee05136761376ee4fe0051a2d4888e701db1b07be219b7cf96b24ffb2",
+   "sha256": "7313ecdd3683b842e4f26a366a563631ab08b99cb3a8cc2622b42aa300e6f58c",
    "source": "docs/campaign/work/lead/r2-cpt450-cadence64-continuation-preparation-v2/source/experiments/training/full_weight_cpt_trainer.py",
    "source_sha256": "5184354d974cc9bedfbc055f1d6b4c7091582e50a6d2b68c677c6a43ddfc79ee",
    "selected_from": "r2-cpt450-cadence64-continuation-preparation-v2",
    "selection": "single version",
    "changes": [
     "removed HERE/SOURCE/PROTOCOL sys.path insertion (the module now lives inside the package)",
-    "the /mnt/e/ archive root requirement reads sepalith.training.paths.CHECKPOINT_ROOT (default /mnt/e/)",
-    "imports CHECKPOINT_ROOT",
+    "the /mnt/e/ archive root requirement uses sepalith.training.paths.under_checkpoint_root: directory containment under CHECKPOINT_ROOT (default /mnt/e, env SEPALITH_CHECKPOINT_ROOT) instead of a string prefix",
+    "imports under_checkpoint_root",
     "rewrote 20 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal",
-    "CHECKPOINT_ROOT import placed in the import block"
+    "removed imports left unused (ruff F401), including sys after the sys.path removal"
    ],
    "bound_by": [
     {
@@ -676,15 +672,15 @@
   {
    "module": "sepalith.training.sft.full_weight_edit_sft",
    "path": "packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py",
-   "sha256": "5b2ec51503557d7b79abf95acf1c2b44415cbc62fd55cac85893226d9a3f5efb",
+   "sha256": "7efb5d534a7095343aa2e7dc052077e3d78bf7d0b0a24d28275a3758627dc518",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/full_weight_edit_sft.py",
    "source_sha256": "86c0a65ec427559bc4d8664f90bc797f3245383296bb3995641c491427d6037f",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "eval-gate version supersedes the preparation packet (adds mandatory DEV gate stops)",
    "changes": [
     "removed HERE/SOURCE/PROTOCOL sys.path insertion (the module now lives inside the package)",
-    "the /mnt/e/ trainer/archive root requirement reads sepalith.training.paths.CHECKPOINT_ROOT (default /mnt/e/, env SEPALITH_CHECKPOINT_ROOT)",
-    "imports CHECKPOINT_ROOT",
+    "the /mnt/e/ trainer/archive root requirement uses sepalith.training.paths.under_checkpoint_root: directory containment under CHECKPOINT_ROOT (default /mnt/e, env SEPALITH_CHECKPOINT_ROOT) instead of a string prefix",
+    "imports under_checkpoint_root",
     "rewrote 10 local import statement(s) to sepalith.training package paths",
     "removed imports left unused (ruff F401), including sys after the sys.path removal"
    ],
@@ -718,7 +714,7 @@
    "selection": "identical in all four packets",
    "changes": [
     "zip(..., strict=False) made explicit (ruff B905; same behaviour)",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -754,7 +750,7 @@
    "changes": [
     "rewrote 4 local import statement(s) to sepalith.training package paths",
     "zip(..., strict=False) made explicit (ruff B905; same behaviour)",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -942,14 +938,14 @@
   {
    "module": "sepalith.training.cpt.native_runtime_overlay",
    "path": "packages/sepalith/src/sepalith/training/cpt/native_runtime_overlay.py",
-   "sha256": "33a59765e4501e7e02fa3243406ce49a6e11c3d3039b8dc3663137160881b736",
+   "sha256": "c279439a4d55cb4d059774e2b4cd1e830abccce477201c72a16c384b2cac32db",
    "source": "docs/campaign/work/lead/r2-cpt450-cadence64-continuation-preparation-v2/source/experiments/training/native_runtime_overlay.py",
    "source_sha256": "75a4598b979503ab6916bf780c69c9491d1885ef646ee005cfd9bf140af3950b",
    "selected_from": "r2-cpt450-cadence64-continuation-preparation-v2",
    "selection": "single version",
    "changes": [
-    "the /mnt/e/ archive root requirement reads sepalith.training.paths.CHECKPOINT_ROOT (default /mnt/e/)",
-    "imports CHECKPOINT_ROOT"
+    "the /mnt/e/ archive root requirement uses sepalith.training.paths.under_checkpoint_root: directory containment under CHECKPOINT_ROOT (default /mnt/e, env SEPALITH_CHECKPOINT_ROOT) instead of a string prefix",
+    "imports under_checkpoint_root"
    ],
    "bound_by": [
     {
@@ -988,7 +984,7 @@
    "selection": "single version",
    "changes": [
     "rewrote 1 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -1121,7 +1117,7 @@
   {
    "module": "sepalith.training.supervisors.request_graceful_stop",
    "path": "packages/sepalith/src/sepalith/training/supervisors/request_graceful_stop.py",
-   "sha256": "eea238e181acf48da397ba4fd935a31e07d2aeceb0f7d54c115dc95dfc174bbb",
+   "sha256": "6a63034900ac5830f3e2fcf682d59226f5db1e20c19609430c7195954916500c",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/request_graceful_stop.py",
    "source_sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
@@ -1157,7 +1153,7 @@
    "selection": "single version",
    "changes": [
     "rewrote 6 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -1234,7 +1230,7 @@
    "selection": "single version",
    "changes": [
     "rewrote 2 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401)"
    ],
    "bound_by": [
     {
@@ -1478,6 +1474,13 @@
    "source": null,
    "changes": [
     "new in C01 (step 5)"
+   ]
+  },
+  {
+   "path": "packages/sepalith/tests/training/test_training_paths.py",
+   "source": null,
+   "changes": [
+    "new in C01: checkpoint-root validation and directory containment (review of PR #42)"
    ]
   }
  ],

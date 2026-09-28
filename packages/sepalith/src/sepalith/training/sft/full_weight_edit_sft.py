@@ -14,7 +14,7 @@ import time
 from typing import Sequence
 
 
-from sepalith.training.paths import CHECKPOINT_ROOT
+from sepalith.training.paths import under_checkpoint_root
 
 EXPECTED_PARAMETERS = 2_516_756_480
 EXPECTED_PARAMETER_TENSORS = 381
@@ -114,7 +114,7 @@ def validate_context_and_storage(recipe):
     require(storage.get("mode") == "e_same_filesystem_atomic" and storage.get("c_hot_stage") == "not_admitted", "checkpoint storage policy differs")
     require(storage.get("required_same_filesystem") is True, "checkpoint publication must require one filesystem")
     trainer_path, archive_path = Path(recipe["outputs"]["trainer"]), Path(recipe["outputs"]["archive"])
-    require(str(trainer_path).startswith(CHECKPOINT_ROOT) and str(archive_path).startswith(CHECKPOINT_ROOT), "v2 permits only E trainer/archive paths")
+    require(under_checkpoint_root(trainer_path) and under_checkpoint_root(archive_path), "v2 permits only E trainer/archive paths")
     require(Path(storage.get("trainer_root", "")) == trainer_path and Path(storage.get("archive_root", "")) == archive_path, "checkpoint storage paths differ from outputs")
 
 

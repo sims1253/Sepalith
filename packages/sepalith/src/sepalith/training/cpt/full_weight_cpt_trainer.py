@@ -14,7 +14,7 @@ import time
 import fcntl
 from typing import Sequence
 
-from sepalith.training.paths import CHECKPOINT_ROOT
+from sepalith.training.paths import under_checkpoint_root
 
 
 EXPECTED_PARAMETERS = 2_516_756_480
@@ -135,7 +135,7 @@ def validate_context_and_storage(recipe):
     require(storage.get("mode") == "native_hot_to_e_durable_atomic" and storage.get("c_hot_stage") == "root_admitted", "checkpoint storage policy differs")
     require(storage.get("required_same_filesystem") is False, "native-to-E publication must be cross-filesystem")
     trainer_path, archive_path = Path(recipe["outputs"]["trainer"]), Path(recipe["outputs"]["archive"])
-    require(str(trainer_path).startswith("/home/m0hawk/.local/state/sepalith/campaign-20260915/") and str(archive_path).startswith(CHECKPOINT_ROOT), "native trainer/E archive paths differ")
+    require(str(trainer_path).startswith("/home/m0hawk/.local/state/sepalith/campaign-20260915/") and under_checkpoint_root(archive_path), "native trainer/E archive paths differ")
     require(Path(storage.get("trainer_root", "")) == trainer_path and Path(storage.get("archive_root", "")) == archive_path, "checkpoint storage paths differ from outputs")
     require(recipe.get('retention',{}).get('trainer_save_total_limit')==1 and recipe['retention'].get('durable_archive_latest')==2,'native hot/durable retention differs')
     require(storage.get('trainer_transient_save_total_limit')==2 and storage.get('native_retained_after_durable_publication')==1,'native transient/durable retention metadata differs')

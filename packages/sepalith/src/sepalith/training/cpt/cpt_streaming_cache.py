@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse, array, hashlib, json, mmap, os, shutil, sqlite3, struct, sys
 from pathlib import Path
 from sepalith.training.cpt.campaign_cpt_data import validate_materialized_row
-from sepalith.training.paths import CHECKPOINT_ROOT
+from sepalith.training.paths import under_checkpoint_root
 
 SCHEMA="sepalith.sft11.cpt-streaming-cache.v1"
 
@@ -47,7 +47,7 @@ def _doc_finish(db,state):
  except sqlite3.IntegrityError as exc:raise ValueError('document reappears after its contiguous group') from exc
 
 def build(rows_path,schedule_path,output,max_sequence_tokens,expected_rows_sha256,expected_schedule_sha256):
- rows_path,schedule_path,output=map(Path,(rows_path,schedule_path,output));require(str(output.resolve()).startswith(CHECKPOINT_ROOT),'bulk cache must be on E');require(not output.exists(),'cache output must be fresh')
+ rows_path,schedule_path,output=map(Path,(rows_path,schedule_path,output));require(under_checkpoint_root(output.resolve()),'bulk cache must be on E');require(not output.exists(),'cache output must be fresh')
  stage=output.with_name('.'+output.name+f'.building-{os.getpid()}');require(not stage.exists(),'staging path exists');stage.mkdir(parents=True)
  db=sqlite3.connect(stage/'index.sqlite3');db.execute('pragma journal_mode=DELETE');db.execute('pragma synchronous=FULL');db.executescript('create table rows(ordinal integer primary key,row_id text not null unique,token_offset integer not null,length integer not null,document_id text not null,package text not null,source_sha256 text not null,row_sha256 text not null);create table documents(document_id text primary key,package text not null,source_sha256 text not null unique,chunks integer not null,tokens integer not null,token_stream_sha256 text not null);')
  counts={'rows':0,'documents':0,'input_tokens':0,'payload_tokens':0,'loss_tokens':0};packages=set();token_offset=0;doc=None

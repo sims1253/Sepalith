@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Create one recipe-bound save-and-stop request for the SFT or CPT trainer."""
+from __future__ import annotations
+
 import argparse
 import importlib
 import json
 import os
 from pathlib import Path
+from types import ModuleType
 
 # Bound-recipe schema -> trainer module whose load_bound/sha256 validate it.
 TRAINERS = {
@@ -13,14 +16,14 @@ TRAINERS = {
 }
 
 
-def trainer_for(recipe_path):
+def trainer_for(recipe_path: str | os.PathLike[str]) -> ModuleType:
     schema = json.loads(Path(recipe_path).read_text()).get("schema")
     if schema not in TRAINERS:
         raise ValueError(f"no trainer accepts bound recipe schema: {schema}")
     return importlib.import_module(TRAINERS[schema])
 
 
-def request(recipe_path):
+def request(recipe_path: str | os.PathLike[str]) -> dict[str, str]:
     recipe_path = Path(recipe_path).resolve()
     trainer = trainer_for(recipe_path)
     recipe = trainer.load_bound(recipe_path)
@@ -32,15 +35,19 @@ def request(recipe_path):
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
             json.dump(payload, stream, sort_keys=True, allow_nan=False)
-            stream.write("\n"); stream.flush(); os.fsync(stream.fileno())
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
     except Exception:
-        try: destination.unlink()
-        except FileNotFoundError: pass
+        try:
+            destination.unlink()
+        except FileNotFoundError:
+            pass
         raise
     return {"status": "save_and_stop_requested", "path": str(destination), "recipe_sha256": payload["bound_recipe_sha256"]}
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--recipe", type=Path, required=True)
     args = parser.parse_args()

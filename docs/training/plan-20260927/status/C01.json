@@ -1,14 +1,14 @@
 {
   "card": "C01",
   "state": "done",
-  "updated": "2026-09-28T18:30:00+02:00",
+  "updated": "2026-09-28T21:00:00+02:00",
   "branch": "plan/C01-consolidate-runtime",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/42",
   "outputs": {
     "package": "packages/sepalith/src/sepalith/training/",
     "provenance": {
       "path": "packages/sepalith/src/sepalith/training/PROVENANCE.json",
-      "sha256": "e7ad6803db086db54d1d79f7022f8bd2cbafcb8fa12ced015d66bc6dd04e6240",
+      "sha256": "4452eb74c55a40c8b5f5bc061e4092d5e690fb6f67f97bba83dbb83b8392e673",
       "modules": 60,
       "verbatim": 22,
       "intentionally_dropped": 9
@@ -16,14 +16,14 @@
     "tests": {
       "command": "python3 scripts/check_training.py",
       "ported": 43,
-      "new": 3,
-      "passed": 46,
+      "new": 8,
+      "passed": 51,
       "interpreter": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
       "cuda": false
     },
     "checks": {
       "check_core": "pass (51 tests; py3.10 and py3.12)",
-      "check_quality": "pass (ruff, ty)"
+      "check_quality": "pass (ruff, ty); exemptions are per ported file and per rule"
     },
     "planning_worktree_references_in_package": 0,
     "local_test_overlay": {
@@ -35,5 +35,5 @@
   },
   "rule_decisions": [],
   "question_for_user": null,
-  "notes": "Five packets consolidated with import/path-only changes. Version conflicts were resolved by the card's newest-binder rule, and each is recorded in PROVENANCE.json: eval-gate SFT trainer/binder, eval-gate campaign_eval (EOG 1 and 130073), the production model_layout over the RL proof stub, and the cadence-64 campaign_checkpoint, a superset that is identical on the default path. request_graceful_stop now handles SFT recipes. Style lint rules are scoped off for the ported code in ruff.toml/ty.toml instead of reformatting it. Later cards must bind a source manifest of the package files and use package module names in recipe factory strings (see training/README.md)."
+  "notes": "Five packets consolidated with import/path-only changes. Version conflicts were resolved by the card's newest-binder rule, and each is recorded in PROVENANCE.json: eval-gate SFT trainer/binder, eval-gate campaign_eval (EOG 1 and 130073), the production model_layout over the RL proof stub, and the cadence-64 campaign_checkpoint, a superset that is identical on the default path. request_graceful_stop now handles SFT recipes. Style lint rules are scoped off for the ported code in ruff.toml/ty.toml instead of reformatting it. Later cards must bind a source manifest of the package files and use package module names in recipe factory strings (see training/README.md). Review of PR #42: the checkpoint root is validated (absolute, not /) and checked by path containment in all four validators; lint and type exemptions are now per ported file and per rule, so new training code gets the full rule set."
 }
