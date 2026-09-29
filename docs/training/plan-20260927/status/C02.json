@@ -1,7 +1,7 @@
 {
   "card": "C02",
-  "state": "needs_user",
-  "updated": "2026-09-29T12:05:00+02:00",
+  "state": "blocked",
+  "updated": "2026-09-29T12:20:00+02:00",
   "branch": "plan/C02-night-window",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/43",
   "outputs": {
@@ -33,7 +33,19 @@
     ],
     "cache_trim_installed": "2026-09-29 00:45 by the user; Windows available memory 33.7 to 34.4 GB afterwards"
   },
-  "rule_decisions": [],
-  "question_for_user": "Before the first real night: should the GPU start limit be 6,144 MiB instead of the card's 2,048 MiB? The Windows desktop alone held 4,762 to 5,317 MiB with no compute processes, so at 2,048 MiB every night is refused unless GPU-heavy apps are closed. Both dry-run phases used 6,144. Recommended: 6,144. After merging, run scripts/night/install_systemd_units.sh --enable from /home/m0hawk/Documents/Sepalith and import-night-tasks.ps1 -EnableWakeTimers as administrator. I then check the first night's report (step 5).",
-  "notes": "Steps 1 to 4 are done. The acceptance checks pass: unit tests pass, the honouring job stopped cleanly and the ignoring job was killed on time. Added sepalith-cache-trim because autoMemoryReclaim never fires while WSL is busy; the user installed it. Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request instead of running `-- true` (see NIGHT-WINDOW.md). Remaining: the GPU-limit decision, merge, installing the units and importing the tasks, then one real night (step 5)."
+  "rule_decisions": [
+    {
+      "rule": "user decision",
+      "inputs": {
+        "desktop_gpu_mib_daytime": [
+          4762,
+          5317
+        ],
+        "proposed_mib": 6144
+      },
+      "outcome": "keep the card's 2,048 MiB GPU start limit; the desktop is expected to hold less overnight, and the runner retries every 5 minutes and reports if it never passes"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "Steps 1 to 4 are done. The acceptance checks pass: unit tests pass, the honouring job stopped cleanly and the ignoring job was killed on time. Added sepalith-cache-trim because autoMemoryReclaim never fires while WSL is busy; the user installed it. The GPU start limit stays at 2,048 MiB (user decision 2026-09-29). Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request instead of running `-- true` (see NIGHT-WINDOW.md). Blocked on user actions: merge PR #43, run scripts/night/install_systemd_units.sh --enable from /home/m0hawk/Documents/Sepalith, and run import-night-tasks.ps1 -EnableWakeTimers as administrator. Then check the first night's report (step 5)."
 }
