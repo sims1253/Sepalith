@@ -196,8 +196,9 @@ only the import and wake timers.
   memory must drop back to where it started.
 
 The CUDA variant is GPU work, so run it only with the user's OK or inside
-the window. A CPU-only run of the mechanics passed on 2026-09-28. See
-[receipts/C02-cpu-dry-run.json](receipts/C02-cpu-dry-run.json).
+the window. A CPU-only run of the mechanics passed on 2026-09-28, and the CUDA run passed on
+2026-09-28/29. See [receipts/C02-cpu-dry-run.json](receipts/C02-cpu-dry-run.json)
+and [receipts/C02-cuda-dry-run.json](receipts/C02-cuda-dry-run.json).
 
 ## Recovery
 

@@ -1,7 +1,7 @@
 {
   "card": "C02",
   "state": "needs_user",
-  "updated": "2026-09-29T00:40:00+02:00",
+  "updated": "2026-09-29T12:05:00+02:00",
   "branch": "plan/C02-night-window",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/43",
   "outputs": {
@@ -24,15 +24,16 @@
     "windows_validation": "All .ps1 files parse; both task XMLs accepted by the Task Scheduler COM API (not registered)",
     "systemd_validation": "systemd-analyze --user verify clean; units not installed yet",
     "cpu_dry_run": "docs/training/plan-20260927/receipts/C02-cpu-dry-run.json",
-    "cuda_dry_run": "docs/training/plan-20260927/receipts/C02-cuda-dry-run.json (phase A pass; phase B blocked by the host-memory preflight)",
+    "cuda_dry_run": "docs/training/plan-20260927/receipts/C02-cuda-dry-run.json (pass: phase A saved at the deadline and exited 75; phase B was killed 1 s after the hard stop)",
     "first_real_night": null,
     "cache_trim": [
       "packages/sepalith/src/sepalith/ops/cache_trim.py",
       "scripts/night/sepalith-cache-trim.service",
       "scripts/night/install_cache_trim.sh"
-    ]
+    ],
+    "cache_trim_installed": "2026-09-29 00:45 by the user; Windows available memory 33.7 to 34.4 GB afterwards"
   },
   "rule_decisions": [],
-  "question_for_user": "Will you run `sudo scripts/night/install_cache_trim.sh` once, after which I rerun the CUDA dry run's phase B? Phase B was blocked because Windows free memory was 7.2 to 9.8 GB: the WSL VM holds about 40 GB of Linux page cache, and autoMemoryReclaim never fires while WSL is busy. WSL 2.7.11 requires user CPU below 0.5% of all cores for 10 minutes; the agent sessions measured 5,978 against a threshold of 360 ticks per 30 s. The service caps the page cache at 8 GiB via the root cgroup's memory.reclaim and compacts memory so Windows gets the pages back. It also protects the training guard's 8 GiB floor during real nights. Recommended: yes, and raise the GPU start limit from 2,048 to 6,144 MiB, since the Windows desktop alone holds 5.1 to 5.3 GB.",
-  "notes": "Steps 1 to 3 are done. CPU dry run: pass. CUDA dry run phase A: pass (saved at the deadline, exit code 75, GPU memory back to its starting level). Phase B (hard kill) was blocked twice by the host-memory preflight; the runner behaved as designed and left nothing running. Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request instead of running `-- true` (see NIGHT-WINDOW.md). Added sepalith-cache-trim, which is not installed yet because it needs root. Remaining: installing it, phase B, installing the units and importing the tasks after merge, and one real night (step 5)."
+  "question_for_user": "Before the first real night: should the GPU start limit be 6,144 MiB instead of the card's 2,048 MiB? The Windows desktop alone held 4,762 to 5,317 MiB with no compute processes, so at 2,048 MiB every night is refused unless GPU-heavy apps are closed. Both dry-run phases used 6,144. Recommended: 6,144. After merging, run scripts/night/install_systemd_units.sh --enable from /home/m0hawk/Documents/Sepalith and import-night-tasks.ps1 -EnableWakeTimers as administrator. I then check the first night's report (step 5).",
+  "notes": "Steps 1 to 4 are done. The acceptance checks pass: unit tests pass, the honouring job stopped cleanly and the ignoring job was killed on time. Added sepalith-cache-trim because autoMemoryReclaim never fires while WSL is busy; the user installed it. Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request instead of running `-- true` (see NIGHT-WINDOW.md). Remaining: the GPU-limit decision, merge, installing the units and importing the tasks, then one real night (step 5)."
 }

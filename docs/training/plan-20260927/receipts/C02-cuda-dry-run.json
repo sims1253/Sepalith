@@ -82,9 +82,45 @@
         ]
       }
     ],
-    "result": "not run: host-memory preflight blocked the job both times",
+    "result": "pass on the rerun (2026-09-29, after installing sepalith-cache-trim); the first two attempts were blocked by the host-memory preflight",
     "gpu_mib_after": 5266,
-    "synthetic_processes_left": 0
+    "synthetic_processes_left": 0,
+    "rerun_after_cache_trim": {
+      "window": {
+        "start": "2026-09-29T11:43:46+02:00",
+        "deadline": "2026-09-29T11:53:46+02:00",
+        "graceful": "2026-09-29T11:56:16+02:00",
+        "hard": "2026-09-29T11:58:46+02:00"
+      },
+      "host_admission_mib": 16384,
+      "preflight": {
+        "gpu_idle": true,
+        "host_memory": true,
+        "disk_free": true,
+        "cuda_lock_free": true
+      },
+      "windows_available_mib": 34435,
+      "job": {
+        "outcome": "failed",
+        "reason": "hard_stop_killed",
+        "exit_code": -9,
+        "started": "2026-09-29T11:43:47+02:00",
+        "ended": "2026-09-29T11:58:48+02:00",
+        "graceful_stop_at": "2026-09-29T11:56:16+02:00",
+        "hard_kill_at": "2026-09-29T11:58:47+02:00",
+        "killed_pids": [
+          1073118
+        ],
+        "leftover_pids": []
+      },
+      "gpu_mib_before_after": [
+        4882,
+        4969
+      ],
+      "synthetic_processes_left": 0,
+      "result": "pass"
+    }
   },
-  "finding": "Windows-available memory fell from 23,069 MiB (before phase A) to 7,215 MiB while Linux MemAvailable stayed about 43 GB. The WSL VM (vmmemWSL 34.8 GB) holds about 38 to 41.5 GB of Linux page cache that Windows counts as used, and it grew with no dry-run job running. autoMemoryReclaim=dropCache did not return it. The same Windows-available floors are used by cuda_host_guard during training (soft 8,192 MiB, hard 4,096 MiB), so nightly jobs can be refused or stopped for cache alone."
+  "finding": "Windows-available memory fell from 23,069 MiB (before phase A) to 7,215 MiB while Linux MemAvailable stayed about 43 GB. The WSL VM (vmmemWSL 34.8 GB) holds about 38 to 41.5 GB of Linux page cache that Windows counts as used, and it grew with no dry-run job running. autoMemoryReclaim=dropCache did not return it. The same Windows-available floors are used by cuda_host_guard during training (soft 8,192 MiB, hard 4,096 MiB), so nightly jobs can be refused or stopped for cache alone.",
+  "fix": "sepalith-cache-trim (root system service, installed by the user 2026-09-29 00:45) caps Linux file cache at 8 GiB via /sys/fs/cgroup/memory.reclaim; Windows available memory rose from 7,215 to 33,751-34,435 MiB"
 }
