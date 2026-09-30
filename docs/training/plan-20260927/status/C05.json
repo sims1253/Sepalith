@@ -1,7 +1,7 @@
 {
   "card": "C05",
-  "state": "needs_user",
-  "updated": "2026-09-30T12:00:00+02:00",
+  "state": "in_progress",
+  "updated": "2026-09-30T12:30:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -62,9 +62,10 @@
       },
       "existing_dev_candidate_artifacts": "DAT-07-dev-panel-candidates.json (118 packets, from which DEV75 was drawn; only 8 per derived propagation family and 32 no-ops in total) and DAT-07-dev-completion-candidates-v1.jsonl (6 finish packets, all 6 are DEV75's finish cases). The DAT-07 finish derivation reports 131 allowlisted finish rows -> 67 converted -> 10 groups after dedup.",
       "dev75_build_input": "prepare_corrected_dev75_v1.py read /mnt/e/.../DAT-07-final-evaluator-cases.jsonl (a finalized DEV panel, asserts split == dev). Its filename contains 'final', so DEV75's exact build route hits the card's stop condition; this agent did not open it."
-    }
+    },
+    "user_answer_2026-09-30": "Construct, check first. Dry-run the TRAIN/DAT-07 constructors over the eligible dev_group pool (groups not used by DEV75 and not excluded by the CPT-overlap check). Build DEV250 only if every family meets feasibility_requirements_under_cap_3. If any family falls short, stop and report the supply per family."
   },
   "rule_decisions": [],
-  "question_for_user": "The DEV split cannot supply the DEV250 composition natively. The exact quotas are 50 no-op, 110 finish_block, 28 pipe_rewrite, 24 format, 23 rename, 11 roxygen and 4 na_rm (250 cases, 200 edits). Under the 3-cases-per-group cap the native split yields at most 36 finish_block cases (12 groups), no new no-ops (8 native rows, all already in DEV75) and zero pipe/format/rename/na_rm rows (79 wanted). Only roxygen (127 groups) is plentiful. May I try source-derived construction over the dev_group parent sources, using the constructors TRAIN and DAT-07 used (finish_block_v5_prefix windows for finish_block, DAT-07's derived already-applied-state no-ops, and DAT-07's rename/pipe/format/na_rm companions), keeping these quotas and the 3-per-group cap? Recommended: yes, but only if a feasibility check passes first. Before building any targets, I would run the constructors in dry-run mode over the eligible pool (dev_group groups not used by DEV75 and not excluded by the CPT-overlap check) and count constructible groups per family. The check passes if each family meets its minimum group count (finish_block 37, no_op 17, pipe 10, format 8, rename 8, roxygen 4, na_rm 2) with at least 84 distinct groups overall. Passing keeps DEV250 TRAIN-like and group-disjoint, and it avoids every DAT-07-final-* file. If the check fails, I will stop and report the per-family supply. The fallbacks are then (a) a smaller panel at the same mix, (b) lower quotas for the short families, with the gap recorded, or (c) a looser cap for finish_block only, which lets a few packages dominate the finish_block score. A natively-sourced panel (about 55% roxygen, no propagation families) remains the last resort.",
-  "notes": "Stopped at step 1 before building anything. Step 3 (the evaluator) also depends on C01: packages/sepalith/src/sepalith/training/ does not exist on origin/main yet (the plan/C01-consolidate-runtime worktree has no commits), so the evaluator change should land on top of C01. Steps 2 (CPT-overlap check) and 4 (PROMPT-CONTRACT note) are not blocked and will be done in this PR once the question is answered. Also: DAT-02-global-split-v2.json is not under docs/campaign/receipts in git; it exists only in the planning worktree (t3code-a8153bbb) and at /mnt/e/.../data-work/."
+  "question_for_user": null,
+  "notes": "The user approved conditional source-derived construction on 2026-09-30. Next: step 2 (CPT-overlap check, which defines the eligible pool), then the constructor dry run with per-family group counts, then the build if the check passes. Step 3 (evaluator) builds on C01, now on main (#42). Step 4 (PROMPT-CONTRACT note) is not blocked. DAT-02-global-split-v2.json is not under docs/campaign/receipts in git; it exists only at /mnt/e/.../data-work/ and in the planning worktree."
 }
