@@ -1,7 +1,7 @@
 {
   "card": "C05",
-  "state": "in_progress",
-  "updated": "2026-09-30T12:30:00+02:00",
+  "state": "needs_user",
+  "updated": "2026-09-30T14:00:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -63,9 +63,22 @@
       "existing_dev_candidate_artifacts": "DAT-07-dev-panel-candidates.json (118 packets, from which DEV75 was drawn; only 8 per derived propagation family and 32 no-ops in total) and DAT-07-dev-completion-candidates-v1.jsonl (6 finish packets, all 6 are DEV75's finish cases). The DAT-07 finish derivation reports 131 allowlisted finish rows -> 67 converted -> 10 groups after dedup.",
       "dev75_build_input": "prepare_corrected_dev75_v1.py read /mnt/e/.../DAT-07-final-evaluator-cases.jsonl (a finalized DEV panel, asserts split == dev). Its filename contains 'final', so DEV75's exact build route hits the card's stop condition; this agent did not open it."
     },
-    "user_answer_2026-09-30": "Construct, check first. Dry-run the TRAIN/DAT-07 constructors over the eligible dev_group pool (groups not used by DEV75 and not excluded by the CPT-overlap check). Build DEV250 only if every family meets feasibility_requirements_under_cap_3. If any family falls short, stop and report the supply per family."
+    "user_answer_2026-09-30": "Construct, check first. Dry-run the TRAIN/DAT-07 constructors over the eligible dev_group pool (groups not used by DEV75 and not excluded by the CPT-overlap check). Build DEV250 only if every family meets feasibility_requirements_under_cap_3. If any family falls short, stop and report the supply per family.",
+    "cpt_overlap_receipt": {
+      "path": "docs/training/plan-20260927/receipts/C05-cpt-overlap.json",
+      "script": "docs/training/plan-20260927/receipts/C05_cpt_overlap.py",
+      "result": "CPT contains only train_group groups (10,046). 0 of 169 dev groups overlap CPT by group or package; 0 of 75 DEV75 cases have their document in CPT. One DAT-07 dev snapshot (dat07-derived-c3a87f6c, spatialreg.hp R file, not in DEV75) is byte-identical to a CPT document from glmm.hp, a TRAIN package by the same author that the split did not merge. DEV250 construction must also exclude any source whose sha256 is a CPT document.",
+      "eligible_construction_groups": 105
+    },
+    "feasibility_check_2026-09-30": {
+      "result": "fail",
+      "finish_block": "finish_block_v5_prefix only converts existing authored or compound finish rows; it cannot derive new finish cases from parent sources. Native finish rows sit in 12 dev groups (24, 2, 19, 1, 4, 1, 23, 1004, 35, 567, 20 and 2 rows). At cap 3 that is at most 30 cases, not 36. 8 of the 12 groups are DEV75 groups; the 4 others (nflverse 23, authoreconometrics-forecasting 1004, authorfinance 567, thermindex 2) give at most 11 group-disjoint cases. Required: 110 cases from at least 37 groups.",
+      "no_op": "All 6 native no-op groups are DEV75 groups. Derived no-ops need the parent sources under /mnt/h/sepalith/normalized, which is not mounted in WSL; not counted.",
+      "pipe_format_rename_na_rm": "DAT-07's constructor run (quota 8 per family) converted pipe 8 of 39 parents tried, format 8 of 12, rename 8 of 8, and na_rm 6 of all 165. The minimums (10, 8, 8, 2) look reachable but were not re-run, for the same /mnt/h reason.",
+      "roxygen": "Native supply is ample (127 groups)."
+    }
   },
   "rule_decisions": [],
-  "question_for_user": null,
-  "notes": "The user approved conditional source-derived construction on 2026-09-30. Next: step 2 (CPT-overlap check, which defines the eligible pool), then the constructor dry run with per-family group counts, then the build if the check passes. Step 3 (evaluator) builds on C01, now on main (#42). Step 4 (PROMPT-CONTRACT note) is not blocked. DAT-02-global-split-v2.json is not under docs/campaign/receipts in git; it exists only at /mnt/e/.../data-work/ and in the planning worktree."
+  "question_for_user": "The feasibility check failed on finish_block. The existing constructor cannot make new finish cases: DEV has authored finish rows in 12 groups only, at most 30 cases at 3 per group, and 11 if DEV250 must avoid DEV75's groups. The quota is 110. Options: (A) author new finish targets for eligible DEV parents the way TRAIN did (zai was one of TRAIN's authors and runs on free compute). This needs /mnt/h mounted and a review pass. (B) Take finish cases mostly from the two synthetic author groups (1,571 rows), with no per-group cap for finish, and report the finish score per group. (C) Cut finish to what exists (about 30 cases, only case-disjoint from DEV75) and shrink the panel to keep the mix. Recommended: A.",
+  "notes": "Step 2 (CPT-overlap check) is done; its receipt is in this PR. Step 1 is blocked on the finish_block question above. Steps 3 (evaluator, on top of C01 now on main) and 4 (PROMPT-CONTRACT note) are not blocked. /mnt/h is not mounted in WSL, so the construction dry run for no-op and propagation cannot run yet."
 }
