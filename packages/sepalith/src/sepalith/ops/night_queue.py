@@ -2,7 +2,8 @@
 
 Each job is one JSON file named ``<id>.json`` in exactly one state directory:
 ``pending/``, ``running/``, ``done/``, ``failed/`` or ``deferred/``. The runner
-moves files between them with atomic renames. Jobs carry an environment
+moves files between them with atomic renames under ``queue.lock``, so a
+cancel cannot race the runner's claim. Jobs carry an environment
 allow-list of variable names only; values are copied from the runner's
 environment at launch and are never written to disk.
 
@@ -19,8 +20,10 @@ Usage::
 from __future__ import annotations
 
 import argparse
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
+from contextlib import contextmanager
 from datetime import datetime, timezone
+import fcntl
 import json
 import os
 from pathlib import Path
@@ -141,6 +144,14 @@ class Queue:
         for state in STATES:
             (self.root / state).mkdir(parents=True, exist_ok=True)
 
+    @contextmanager
+    def locked(self) -> Iterator[None]:
+        """Serialize state changes. Not reentrant: take it once per operation."""
+        self.ensure()
+        with open(self.root / "queue.lock", "a") as handle:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            yield
+
     def path(self, state: str, identifier: str) -> Path:
         return self.root / state / f"{job_id(identifier)}.json"
 
@@ -165,45 +176,68 @@ class Queue:
             raise QueueError("New jobs cannot carry attempts or an outcome")
         if leaks := secret_leaks(record, os.environ if environ is None else environ):
             raise QueueError(f"The job contains the value of {leaks}; list the names in env instead")
-        self.ensure()
         identifier = str(record["id"])
-        if (state := self.locate(identifier)) is not None:
-            raise QueueError(f"Job {identifier} already exists in {state}/")
-        record["created"] = record.get("created") or utc_now()
-        target = self.path("pending", identifier)
-        _write_json(target, record)
+        with self.locked():
+            if (state := self.locate(identifier)) is not None:
+                raise QueueError(f"Job {identifier} already exists in {state}/")
+            record["created"] = record.get("created") or utc_now()
+            _write_json(self.path("pending", identifier), record)
         return record
 
     def move(self, identifier: str, source: str, target: str, record: Job | None = None) -> Job:
-        """Rewrite the record in place, then rename it into the target state."""
+        """Rewrite the record in place, then rename it into the target state.
+
+        Raises QueueError if the job is no longer in ``source``, for example
+        because it was cancelled after the caller read it.
+        """
+        with self.locked():
+            return self._move(identifier, source, target, record)
+
+    def claim(self, identifier: str, source: str, prepare: Callable[[Job], object]) -> Job | None:
+        """Move a job to running/ if it is still in ``source``, else return None.
+
+        ``prepare`` edits the record as it is on disk now, not as it was when
+        the caller selected it.
+        """
+        with self.locked():
+            if not self.path(source, identifier).exists():
+                return None
+            record = self.load(source, identifier)
+            prepare(record)
+            return self._move(identifier, source, "running", record)
+
+    def _move(self, identifier: str, source: str, target: str, record: Job | None) -> Job:
         if source not in STATES or target not in STATES:
             raise QueueError(f"Unknown state {source!r} or {target!r}")
         path = self.path(source, identifier)
-        if record is None:
-            record = self.load(source, identifier)
-        _write_json(path, validate_job(record))
-        self.ensure()
+        if not path.exists():
+            raise QueueError(f"Job {identifier} is no longer in {source}/")
         destination = self.path(target, identifier)
         if destination.exists():
             raise QueueError(f"Job {identifier} already exists in {target}/")
+        if record is None:
+            record = self.load(source, identifier)
+        _write_json(path, validate_job(record))
         os.replace(path, destination)
         return record
 
     def cancel(self, identifier: str) -> Job:
-        state = self.locate(identifier)
-        if state not in ("pending", "deferred"):
-            raise QueueError(f"Only pending or deferred jobs can be cancelled; {identifier} is {state}")
-        record = self.load(state, identifier)
-        record["outcome"] = {"state": "failed", "reason": "cancelled", "at": utc_now()}
-        return self.move(identifier, state, "failed", record)
+        with self.locked():
+            state = self.locate(identifier)
+            if state not in ("pending", "deferred"):
+                raise QueueError(f"Only pending or deferred jobs can be cancelled; {identifier} is {state}")
+            record = self.load(state, identifier)
+            record["outcome"] = {"state": "failed", "reason": "cancelled", "at": utc_now()}
+            return self._move(identifier, state, "failed", record)
 
     def retry(self, identifier: str) -> Job:
-        state = self.locate(identifier)
-        if state not in ("failed", "deferred"):
-            raise QueueError(f"Only failed or deferred jobs can be retried; {identifier} is {state}")
-        record = self.load(state, identifier)
-        record.pop("outcome", None)
-        return self.move(identifier, state, "pending", record)
+        with self.locked():
+            state = self.locate(identifier)
+            if state not in ("failed", "deferred"):
+                raise QueueError(f"Only failed or deferred jobs can be retried; {identifier} is {state}")
+            record = self.load(state, identifier)
+            record.pop("outcome", None)
+            return self._move(identifier, state, "pending", record)
 
     def summary(self) -> dict[str, list[str]]:
         return {state: [str(job["id"]) for job in self.jobs(state)] for state in STATES}

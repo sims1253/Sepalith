@@ -1,7 +1,7 @@
 {
   "card": "C02",
   "state": "blocked",
-  "updated": "2026-09-29T12:20:00+02:00",
+  "updated": "2026-09-30T12:00:00+02:00",
   "branch": "plan/C02-night-window",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/43",
   "outputs": {
@@ -20,8 +20,8 @@
       "scripts/night/windows/import-night-tasks.ps1"
     ],
     "docs": "docs/training/plan-20260927/NIGHT-WINDOW.md",
-    "unit_tests": "scripts/check_core.py: 69 tests OK (18 new night-window tests); ruff and ty clean",
-    "windows_validation": "All .ps1 files parse; both task XMLs accepted by the Task Scheduler COM API (not registered)",
+    "unit_tests": "scripts/check_core.py: 78 tests OK (23 night-window tests); ruff and ty clean",
+    "windows_validation": "All .ps1 files parse; both task XMLs accepted by the Task Scheduler COM API (not registered). After review 2026-09-30: NightCheck WakeToRun=true, NightWake limit PT10H and night-check.ps1 holds a no-sleep request; not yet re-validated on Windows",
     "systemd_validation": "systemd-analyze --user verify clean; units not installed yet",
     "cpu_dry_run": "docs/training/plan-20260927/receipts/C02-cpu-dry-run.json",
     "cuda_dry_run": "docs/training/plan-20260927/receipts/C02-cuda-dry-run.json (pass: phase A saved at the deadline and exited 75; phase B was killed 1 s after the hard stop)",
@@ -47,5 +47,5 @@
     }
   ],
   "question_for_user": null,
-  "notes": "Steps 1 to 4 are done. The acceptance checks pass: unit tests pass, the honouring job stopped cleanly and the ignoring job was killed on time. Added sepalith-cache-trim because autoMemoryReclaim never fires while WSL is busy; the user installed it. The GPU start limit stays at 2,048 MiB (user decision 2026-09-29). Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request instead of running `-- true` (see NIGHT-WINDOW.md). Blocked on user actions: merge PR #43, run scripts/night/install_systemd_units.sh --enable from /home/m0hawk/Documents/Sepalith, and run import-night-tasks.ps1 -EnableWakeTimers as administrator. Then check the first night's report (step 5)."
+  "notes": "Steps 1 to 4 are done. The acceptance checks pass: unit tests pass, the honouring job stopped cleanly and the ignoring job was killed on time. Added sepalith-cache-trim because autoMemoryReclaim never fires while WSL is busy; the user installed it. The GPU start limit stays at 2,048 MiB (user decision 2026-09-29). Deviation: the 00:55 Windows task holds a wsl.exe session and a no-sleep request instead of running `-- true` (see NIGHT-WINDOW.md). Blocked on user actions: merge PR #43, run scripts/night/install_systemd_units.sh --enable from /home/m0hawk/Documents/Sepalith, and run import-night-tasks.ps1 -EnableWakeTimers as administrator. Then check the first night's report (step 5). Review fixes 2026-09-30: queue changes take queue.lock and the runner claims a job only if it is still pending or deferred; a launch error fails that job and the night continues; the 09:05 check is clean only if every observation succeeded."
 }

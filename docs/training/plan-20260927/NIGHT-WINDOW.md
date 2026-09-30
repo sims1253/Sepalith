@@ -101,7 +101,8 @@ so a crash still leaves a partial report. Each report lists:
 - the queue afterwards;
 - a **Needs the user** list.
 
-The 09:05 check adds a `post_window_check` section and appends a line to
+The 09:05 check is clean only if every observation (queue, runner service,
+`nvidia-smi`) succeeded and none shows activity. It adds a `post_window_check` section and appends a line to
 `night-reports/checks.jsonl`. The Windows tasks log to
 `%LOCALAPPDATA%\Sepalith\night\night.log`.
 
@@ -129,7 +130,9 @@ The 09:05 check adds a `post_window_check` section and appends a line to
    This copies `night-wake.ps1` and `night-check.ps1` to
    `%LOCALAPPDATA%\Sepalith\night\` and registers `\Sepalith\NightWake`
    (daily at 00:55, wakes the computer) and `\Sepalith\NightCheck` (daily at
-   09:05). `-EnableWakeTimers` sets "Allow wake timers" to Enable on AC power
+   09:05, also wakes the computer, because the PC may sleep again once the
+   runner finishes early). The wake task may run for 10 hours: on the night
+   the clocks go back, 00:55 to 09:05 is 9 h 10 min. `-EnableWakeTimers` sets "Allow wake timers" to Enable on AC power
    in the current plan. Leave it out to set it by hand.
 
 3. **Page-cache trimmer (Linux, sudo once).**

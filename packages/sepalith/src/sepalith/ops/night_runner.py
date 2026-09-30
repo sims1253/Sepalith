@@ -41,7 +41,7 @@ import subprocess
 import sys
 import time
 from types import FrameType
-from typing import Any
+from typing import Any, TypeVar
 from zoneinfo import ZoneInfo
 
 from sepalith.ops.night_queue import (DEFAULT_STATE_ROOT, EXIT_DEFERRED, Job, Queue, QueueError, _write_json,
@@ -56,6 +56,9 @@ REPORT_SCHEMA = "sepalith.night-report.v1"
 POWERSHELL = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
 CUDA_LOCK = Path.home() / ".local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock"
 SERVICE = "sepalith-night-runner.service"
+# `systemctl is-active` states that mean the runner is not running. "failed" is
+# normal: the runner exits 1 whenever the report needs the user.
+STOPPED_SERVICE_STATES = ("inactive", "failed")
 # Passed to every job in addition to its allow-list. None of these are secrets.
 BASE_ENV = ("PATH", "HOME", "USER", "LOGNAME", "SHELL", "LANG", "LC_ALL", "LC_CTYPE", "TZ", "TMPDIR",
             "XDG_RUNTIME_DIR", "WSL_DISTRO_NAME", "WSL_INTEROP")
@@ -64,6 +67,7 @@ _MEMORY_QUERY = ("$m=Get-CimInstance Win32_PerfFormattedData_PerfOS_Memory -Erro
                  "CommitLimit=$m.CommitLimit} | ConvertTo-Json")
 
 Record = dict[str, Any]
+T = TypeVar("T")
 
 
 @dataclass(frozen=True)
@@ -145,6 +149,10 @@ class Probes:
                  if line.startswith("MemAvailable:")}
         return {"windows_available_mib": value["AvailableMBytes"], "committed_bytes": value["CommittedBytes"],
                 "commit_limit_bytes": value["CommitLimit"], "linux_available_mib": linux["MemAvailable"] // 1024}
+
+    def runner_service(self) -> str:
+        return subprocess.run(["systemctl", "--user", "is-active", SERVICE], capture_output=True, text=True,
+                              timeout=30, check=False).stdout.strip()
 
     def disk_free(self, path: Path) -> int:
         return shutil.disk_usage(path).free
@@ -393,28 +401,38 @@ class NightRunner:
             return []
         for pid in leftovers:
             _signal(pid, signal.SIGTERM)
-        limit = time.monotonic() + 10
-        while time.monotonic() < limit and self._tree(leader):
-            self._reap(leader)
-            time.sleep(0.1)
+        self._wait_gone(leader, 10)
         self._kill_tree(leader)
-        limit = time.monotonic() + 10
-        while time.monotonic() < limit and self._tree(leader):
-            self._reap(leader)
-            time.sleep(0.1)
+        self._wait_gone(leader, 10)
         return leftovers
 
-    def execute(self, job: Job) -> JobRun:
+    def _wait_gone(self, leader: int, seconds: float) -> None:
+        limit = time.monotonic() + seconds
+        while time.monotonic() < limit and self._tree(leader):
+            self._reap(leader)
+            time.sleep(0.1)
+
+    def execute(self, job: Job) -> JobRun | None:
+        """Run one job. None if it left its queue state (cancelled) after selection."""
         identifier = str(job["id"])
-        state = str(job.pop("_state"))
-        attempts = attempts_of(job)
-        run = JobRun(identifier, len(attempts) + 1)
-        directory = self.queue.root / "attempts" / self.window.label / f"{identifier}-{run.attempt}"
-        directory.mkdir(parents=True, exist_ok=False)
+        started = local_iso(self.clock.now())
+        attempt: Record = {"window": self.window.label, "started": started}
+
+        def prepare(record: Job) -> None:
+            number = len(attempts_of(record)) + 1
+            attempt.update(attempt=number, directory=str(
+                self.queue.root / "attempts" / self.window.label / f"{identifier}-{number}"))
+            record["attempts"] = [*attempts_of(record), attempt]
+
+        claimed = self.queue.claim(identifier, str(job.pop("_state")), prepare)
+        if claimed is None:
+            return None
+        job, state = claimed, "running"
+        run = JobRun(identifier, int(attempt["attempt"]), started=started)
+        directory = Path(str(attempt["directory"]))
         run.log = str(directory / "output.log")
         result_path = directory / "result.json"
         stop_path = directory / "stop-request.json"
-        run.started = local_iso(self.clock.now())
         env = {name: self.environ[name] for name in BASE_ENV if name in self.environ}
         names = [str(name) for name in job["env"]]
         missing = [name for name in names if name not in self.environ]
@@ -428,19 +446,20 @@ class NightRunner:
             "SEPALITH_STOP_REQUEST_FILE": str(stop_path),
             "SEPALITH_JOB_RESULT": str(result_path),
         })
-        attempt: Record = {"attempt": run.attempt, "window": self.window.label, "started": run.started,
-                           "directory": str(directory)}
-        job["attempts"] = [*attempts, attempt]
         if missing or not Path(str(job["cwd"])).is_dir():
             run.outcome, run.reason = "failed", ("missing_env:" + ",".join(missing)) if missing else "missing_cwd"
             run.ended = run.started
             return self._finish(job, state, run, attempt)
-        self.queue.move(identifier, state, "running", job)
-        state = "running"
-        with open(run.log, "ab") as log:
-            process = subprocess.Popen([str(part) for part in job["command"]],
-                                       cwd=str(job["cwd"]), env=env, stdin=subprocess.DEVNULL, stdout=log,
-                                       stderr=subprocess.STDOUT, start_new_session=True)
+        try:
+            directory.mkdir(parents=True, exist_ok=True)
+            with open(run.log, "ab") as log:
+                process = subprocess.Popen([str(part) for part in job["command"]],
+                                           cwd=str(job["cwd"]), env=env, stdin=subprocess.DEVNULL, stdout=log,
+                                           stderr=subprocess.STDOUT, start_new_session=True)
+        except (OSError, ValueError, subprocess.SubprocessError) as error:
+            run.outcome, run.reason = "failed", f"launch_failed:{type(error).__name__}: {error}"
+            run.ended = local_iso(self.clock.now())
+            return self._finish(job, state, run, attempt)
         attempt.update(pid=process.pid, pgid=process.pid)
         _write_json(self.queue.path("running", identifier), job)
         print(f"started {identifier} attempt {run.attempt} pid {process.pid}", flush=True)
@@ -519,7 +538,8 @@ class NightRunner:
         self.run_record = {"run_id": f"{os.getpid()}-{started:.0f}", "host": socket.gethostname(),
                            "runner_pid": os.getpid(), "started": local_iso(started), "ended": None,
                            "stop_reason": None, "subreaper": self.subreaper, "limits": _limits(self.limits),
-                           "preflight": [], "jobs": [], "skipped": [], "needs_user": [], "queue": {}}
+                           "preflight": [], "jobs": [], "skipped": [], "withdrawn": [], "needs_user": [],
+                           "queue": {}}
         needs: list[str] = self.run_record["needs_user"]
         needs.extend(self._recover_stale())
         blocked = bool(self.queue.jobs("running"))
@@ -559,6 +579,9 @@ class NightRunner:
                 continue
             tried.add(str(job["id"]))
             run = self.execute(job)
+            if run is None:
+                self.run_record["withdrawn"].append(str(job["id"]))
+                continue
             self.run_record["jobs"].append(asdict(run))
             if run.outcome == "failed":
                 needs.append(f"{run.id} failed ({run.reason}); see {run.log}")
@@ -614,6 +637,8 @@ def render_markdown(report: Mapping[str, Any]) -> str:
                   if not check["ok"]]
         if failed:
             lines += ["Failed preflight checks:", "", *[f"- `{json.dumps(check)}`" for check in failed[-4:]], ""]
+        if run.get("withdrawn"):
+            lines += ["Withdrawn before start: " + ", ".join(run["withdrawn"]), ""]
         if run["skipped"]:
             lines += ["Not started:", "", *[f"- {item['id']}: {item['reason']}" for item in run["skipped"]], ""]
         queue = run.get("queue") or {}
@@ -627,22 +652,33 @@ def render_markdown(report: Mapping[str, Any]) -> str:
 
 
 def post_window_check(state_root: Path, now: float, probes: Probes | None = None) -> Record:
-    """Log whether anything is still running after the window closed."""
+    """Log whether anything is still running after the window closed.
+
+    Clean means every observation succeeded and showed nothing running; an
+    observation that fails makes the check not clean.
+    """
     probes = probes or Probes()
     queue = Queue(state_root / "night-queue")
-    running = [str(job["id"]) for job in queue.jobs("running")]
-    try:
-        service = subprocess.run(["systemctl", "--user", "is-active", SERVICE], capture_output=True, text=True,
-                                 timeout=30, check=False).stdout.strip()
-    except (OSError, subprocess.SubprocessError) as error:
-        service = f"unknown: {error}"
-    try:
-        gpu: Record = probes.gpu()
-    except Exception as error:  # noqa: BLE001 - recorded, not fatal
-        gpu = {"error": f"{type(error).__name__}: {error}"}
+    problems: list[str] = []
+
+    def observe(name: str, probe: Callable[[], T]) -> T | None:
+        try:
+            return probe()
+        except Exception as error:  # noqa: BLE001 - recorded, and the check is not clean
+            problems.append(f"{name}: {type(error).__name__}: {error}")
+            return None
+
+    running = observe("queue", lambda: [str(job["id"]) for job in queue.jobs("running")])
+    service = observe("runner_service", probes.runner_service)
+    gpu = observe("gpu", probes.gpu)
+    if service is not None and service not in STOPPED_SERVICE_STATES:
+        problems.append(f"runner_service: {service or 'no state'}")
+    if gpu is not None and not isinstance(gpu.get("compute_pids"), list):
+        problems.append("gpu: no compute process list")
     today = datetime.fromtimestamp(now, BERLIN).date().isoformat()
+    ok = not problems and not running and gpu is not None and not gpu["compute_pids"]
     check: Record = {"at": local_iso(now), "night": today, "running_jobs": running, "runner_service": service,
-                     "gpu": gpu, "ok": not running and service != "active" and not gpu.get("compute_pids")}
+                     "gpu": gpu, "problems": problems, "ok": ok}
     reports = state_root / "night-reports"
     reports.mkdir(parents=True, exist_ok=True)
     with (reports / "checks.jsonl").open("a") as handle:

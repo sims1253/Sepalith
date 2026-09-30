@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>Log at 09:05 whether anything from the Sepalith night window is still running.</Description>
+    <Description>Wake the PC if needed and log at 09:05 whether anything from the Sepalith night window is still running.</Description>
     <URI>\Sepalith\NightCheck</URI>
   </RegistrationInfo>
   <Triggers>
@@ -35,7 +35,7 @@
     <Enabled>true</Enabled>
     <Hidden>false</Hidden>
     <RunOnlyIfIdle>false</RunOnlyIfIdle>
-    <WakeToRun>false</WakeToRun>
+    <WakeToRun>true</WakeToRun>
     <ExecutionTimeLimit>PT15M</ExecutionTimeLimit>
     <Priority>7</Priority>
   </Settings>

@@ -1,5 +1,5 @@
 """Night queue and runner tests with fake jobs, a fake clock and fake probes."""
-from datetime import datetime
+from datetime import datetime, timedelta
 import io
 import json
 import os
@@ -10,6 +10,7 @@ import textwrap
 import time
 import unittest
 from contextlib import redirect_stdout
+import xml.etree.ElementTree as ElementTree
 
 from sepalith.ops import night_queue, night_runner
 from sepalith.ops.night_queue import Queue, QueueError, validate_job
@@ -30,9 +31,15 @@ class FakeClock(Clock):
 
 
 class FakeProbes(Probes):
-    def __init__(self, gpu_used=500, compute=(), windows_free=30000, disk=10**12, lock_free=True, fail=None):
+    def __init__(self, gpu_used=500, compute=(), windows_free=30000, disk=10**12, lock_free=True, fail=None,
+                 service="inactive"):
         self.gpu_used, self.compute, self.windows_free = gpu_used, list(compute), windows_free
-        self.disk, self.lock_free, self.fail = disk, lock_free, fail
+        self.disk, self.lock_free, self.fail, self.service = disk, lock_free, fail, service
+
+    def runner_service(self):
+        if self.fail == "service":
+            raise FileNotFoundError("systemctl")
+        return self.service
 
     def gpu(self):
         if self.fail == "gpu":
@@ -160,6 +167,16 @@ class NightTests(unittest.TestCase):
             night_queue.main(["--root", root, "retry", "job1"])
         self.assertEqual(self.queue.locate("job1"), "pending")
         self.assertNotIn("outcome", self.queue.load("pending", "job1"))
+
+    def test_move_refuses_a_job_that_left_its_state(self):
+        self.add("a", ["true"])
+        stale = self.queue.load("pending", "a")
+        self.queue.cancel("a")
+        with self.assertRaisesRegex(QueueError, "no longer in pending"):
+            self.queue.move("a", "pending", "running", stale)
+        self.assertEqual(self.queue.locate("a"), "failed")
+        self.assertIsNone(self.queue.claim("a", "pending", lambda record: None))
+        self.assertEqual(self.queue.locate("a"), "failed")
 
     # Window and checks -----------------------------------------------------
     def test_night_window_uses_berlin_time_across_dst(self):
@@ -339,6 +356,79 @@ class NightTests(unittest.TestCase):
         self.assertTrue(report["post_window_check"]["ok"])
         self.assertIn("Post-window check", (self.root / "night-reports/2026-10-01.md").read_text())
         self.assertEqual(len((self.root / "night-reports/checks.jsonl").read_text().splitlines()), 1)
+
+    def test_job_cancelled_during_preflight_does_not_run(self):
+        marker = self.root / "ran"
+        self.add("victim", ["touch", str(marker)])
+        queue = self.queue
+
+        class CancelDuringPreflight(FakeProbes):
+            def gpu(inner):
+                if queue.locate("victim") == "pending":
+                    queue.cancel("victim")
+                return super().gpu()
+
+        record = self.run_quietly(self.runner(probes=CancelDuringPreflight()))
+        self.assertFalse(marker.exists())
+        self.assertEqual((record["jobs"], record["withdrawn"]), ([], ["victim"]))
+        self.assertEqual(self.queue.summary()["failed"], ["victim"])
+        self.assertEqual(self.queue.load("failed", "victim")["outcome"]["reason"], "cancelled")
+        self.assertEqual(self.queue.load("failed", "victim")["attempts"], [])
+
+    def test_launch_error_fails_the_job_and_the_night_continues(self):
+        self.add("broken", [str(self.root / "no-such-program")], priority=0)
+        self.add("dependent", ["true"], priority=5, requires=["broken"])
+        self.add("healthy", ["true"], priority=10)
+        record = self.run_quietly(self.runner())
+        jobs = {job["id"]: job for job in record["jobs"]}
+        self.assertEqual(list(jobs), ["broken", "healthy"])
+        self.assertEqual(jobs["broken"]["outcome"], "failed")
+        self.assertTrue(jobs["broken"]["reason"].startswith("launch_failed:FileNotFoundError"))
+        self.assertIsNone(jobs["broken"]["exit_code"])
+        self.assertEqual(jobs["healthy"]["outcome"], "done")
+        self.assertEqual(self.queue.locate("broken"), "failed")
+        self.assertEqual(self.queue.jobs("running"), [])
+        self.assertEqual(record["skipped"], [{"id": "dependent", "reason": "requires_failed_job"}])
+        self.assertTrue(any("broken failed (launch_failed" in item for item in record["needs_user"]))
+
+    def test_post_window_check_is_not_clean_when_an_observation_fails(self):
+        now = datetime(2026, 10, 1, 9, 5, tzinfo=BERLIN).timestamp()
+        for probes, problem in ((FakeProbes(fail="gpu"), "gpu: RuntimeError"),
+                                (FakeProbes(fail="service"), "runner_service: FileNotFoundError"),
+                                (FakeProbes(service="active"), "runner_service: active"),
+                                (FakeProbes(service="deactivating"), "runner_service: deactivating"),
+                                (FakeProbes(service=""), "runner_service: no state")):
+            with self.subTest(problem=problem):
+                check = post_window_check(self.root, now, probes=probes)
+                self.assertFalse(check["ok"])
+                self.assertTrue(check["problems"][0].startswith(problem), check["problems"])
+        self.assertFalse(post_window_check(self.root, now, probes=FakeProbes(compute=["7"]))["ok"])
+        self.assertTrue(post_window_check(self.root, now, probes=FakeProbes(service="failed"))["ok"])
+        (self.root / "night-queue/running").mkdir(parents=True, exist_ok=True)
+        (self.root / "night-queue/running/bad.json").write_text("{")
+        check = post_window_check(self.root, now, probes=FakeProbes())
+        self.assertFalse(check["ok"])
+        self.assertTrue(check["problems"][0].startswith("queue: JSONDecodeError"))
+
+    def test_windows_tasks_wake_and_outlast_the_clock_change_night(self):
+        tasks = Path(__file__).resolve().parents[3] / "scripts/night/windows"
+
+        def setting(name, key):
+            # The files declare UTF-16 for Task Scheduler but are stored as ASCII, so parse the text.
+            text = (tasks / f"{name}.xml").read_text()
+            root = ElementTree.fromstring(text.split("?>", 1)[1])
+            namespace = {"t": "http://schemas.microsoft.com/windows/2004/02/mit/task"}
+            return root.findtext(f"t:Settings/t:{key}", namespaces=namespace)
+
+        self.assertEqual(setting("SepalithNightWake", "WakeToRun"), "true")
+        self.assertEqual(setting("SepalithNightCheck", "WakeToRun"), "true")
+        limit = setting("SepalithNightWake", "ExecutionTimeLimit")
+        self.assertRegex(limit, r"^PT\d+H$")
+        # The hold ends at 09:05; on 2026-10-25 the clocks go back, so that is 9 h 10 min after 00:55.
+        wake = datetime(2026, 10, 25, 0, 55, tzinfo=BERLIN).timestamp()
+        hold_end = night_window(wake).hard + 300
+        self.assertEqual(hold_end - wake, 9 * 3600 + 600)
+        self.assertGreater(timedelta(hours=int(limit[2:-1])).total_seconds(), hold_end - wake)
 
     def test_runner_cli_prints_window(self):
         out = io.StringIO()
