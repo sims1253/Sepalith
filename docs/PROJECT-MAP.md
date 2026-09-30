@@ -93,3 +93,6 @@ These workflow families retain their existing tracked entry points and environme
 ## Remaining work
 
 [Cleanup delivery and migration](CLEANUP-PLAN.md) separates four next steps: operational cutover, migration of recurring callers, latent-memory experiments, and product release validation/publication. None is silently completed by the existence of a package or specification. The current usable boundary is shared tests/contracts, a documented local runner for explicit recipes, existing research entry points, and reviewed editor/runtime packaging tools. Release validation and other concurrent research work remain separate.
+
+[Reports and raw evidence](ARTIFACTS.md) explains which records belong in Git
+and how to retrieve verified raw artifacts from the private archive.
