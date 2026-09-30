@@ -1,7 +1,7 @@
 {
   "card": "C05",
   "state": "needs_user",
-  "updated": "2026-09-28T12:00:00+02:00",
+  "updated": "2026-09-30T12:00:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -28,15 +28,32 @@
         "na_rm_propagation": 0,
         "non_train_families (rewrite_lint_fix_*, rewrite_fixissue_*, edit_pairs)": 524
       },
-      "card_targets_at_250_approx": {
+      "card_quotas_250": {
         "no_op": 50,
-        "finish_block": 112,
+        "finish_block": 110,
         "pipe_rewrite": 28,
         "format_propagation": 24,
-        "rename_propagation": 24,
-        "roxygen_drafting": 12,
+        "rename_propagation": 23,
+        "roxygen_drafting": 11,
         "na_rm_propagation": 4,
-        "max_cases_per_group": 3
+        "total": 250,
+        "edits": 200,
+        "max_cases_per_group": 3,
+        "allocation_rule": "TRAIN proportions of 200 give 112/28/24/24/12/2 (finish/pipe/format/rename/roxygen/na_rm). Raising na_rm to the card's floor of 4 makes 204, so 4 cases come off the largest rounded-up shares: finish -2, rename -1, roxygen -1."
+      },
+      "feasibility_requirements_under_cap_3": {
+        "min_groups_per_family": {
+          "no_op": 17,
+          "finish_block": 37,
+          "pipe_rewrite": 10,
+          "format_propagation": 8,
+          "rename_propagation": 8,
+          "roxygen_drafting": 4,
+          "na_rm_propagation": 2
+        },
+        "min_distinct_groups_total": 84,
+        "finish_block_shortfall": "12 native groups give at most 36 of 110 finish cases; the other 74 need at least 25 more dev_group groups with constructible finish windows.",
+        "eligible_pool": "169 dev_group groups, minus the groups DEV75 uses, minus groups excluded by the step-2 CPT-overlap check. Not yet counted; construction supply per family is unverified."
       },
       "max_native_supply_under_cap_3": {
         "finish_block": 36,
@@ -48,6 +65,6 @@
     }
   },
   "rule_decisions": [],
-  "question_for_user": "The DEV split cannot supply the DEV250 composition natively: under the 3-cases-per-group cap it yields at most 36 finish_block cases (12 groups; 112 wanted), no new no-ops (8 native rows, all already in DEV75; 50 wanted), and zero pipe/format/rename/na_rm rows (80 wanted). Only roxygen (127 groups) is plentiful. May I build the missing cases by source-derived construction over the dev_group parent sources, using the same constructors TRAIN and DAT-07 used (finish_block_v5_prefix windows for finish_block, DAT-07's derived already-applied-state no-ops, and DAT-07's rename/pipe/format/na_rm companions), keeping the card's 250-case mix and the 3-per-group cap? Recommended: yes. It keeps DEV250 TRAIN-like and group-disjoint, and it avoids every DAT-07-final-* file. The alternatives are a natively-sourced panel that is about 55% roxygen with no propagation families, or a looser cap (about 10 per group for finish_block), which leaves the finish_block score dominated by 12 packages.",
+  "question_for_user": "The DEV split cannot supply the DEV250 composition natively. The exact quotas are 50 no-op, 110 finish_block, 28 pipe_rewrite, 24 format, 23 rename, 11 roxygen and 4 na_rm (250 cases, 200 edits). Under the 3-cases-per-group cap the native split yields at most 36 finish_block cases (12 groups), no new no-ops (8 native rows, all already in DEV75) and zero pipe/format/rename/na_rm rows (79 wanted). Only roxygen (127 groups) is plentiful. May I try source-derived construction over the dev_group parent sources, using the constructors TRAIN and DAT-07 used (finish_block_v5_prefix windows for finish_block, DAT-07's derived already-applied-state no-ops, and DAT-07's rename/pipe/format/na_rm companions), keeping these quotas and the 3-per-group cap? Recommended: yes, but only if a feasibility check passes first. Before building any targets, I would run the constructors in dry-run mode over the eligible pool (dev_group groups not used by DEV75 and not excluded by the CPT-overlap check) and count constructible groups per family. The check passes if each family meets its minimum group count (finish_block 37, no_op 17, pipe 10, format 8, rename 8, roxygen 4, na_rm 2) with at least 84 distinct groups overall. Passing keeps DEV250 TRAIN-like and group-disjoint, and it avoids every DAT-07-final-* file. If the check fails, I will stop and report the per-family supply. The fallbacks are then (a) a smaller panel at the same mix, (b) lower quotas for the short families, with the gap recorded, or (c) a looser cap for finish_block only, which lets a few packages dominate the finish_block score. A natively-sourced panel (about 55% roxygen, no propagation families) remains the last resort.",
   "notes": "Stopped at step 1 before building anything. Step 3 (the evaluator) also depends on C01: packages/sepalith/src/sepalith/training/ does not exist on origin/main yet (the plan/C01-consolidate-runtime worktree has no commits), so the evaluator change should land on top of C01. Steps 2 (CPT-overlap check) and 4 (PROMPT-CONTRACT note) are not blocked and will be done in this PR once the question is answered. Also: DAT-02-global-split-v2.json is not under docs/campaign/receipts in git; it exists only in the planning worktree (t3code-a8153bbb) and at /mnt/e/.../data-work/."
 }
