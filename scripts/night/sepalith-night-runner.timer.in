@@ -1,0 +1,13 @@
+[Unit]
+Description=Start the Sepalith night runner at 01:00 Europe/Berlin
+
+[Timer]
+OnCalendar=*-*-* 01:00:00 Europe/Berlin
+# If WSL came up late (for example at 03:00), start as soon as it is up. The
+# runner itself refuses to start jobs outside the window.
+Persistent=true
+AccuracySec=1s
+Unit=sepalith-night-runner.service
+
+[Install]
+WantedBy=timers.target

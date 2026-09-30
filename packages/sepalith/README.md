@@ -34,6 +34,7 @@ The public modules are:
 | `sepalith.protocol` | Versioned edit/evidence records and baseline `zeta2-v1` rendering |
 | `sepalith.evaluation` | Paired binary-outcome tests and deterministic bootstrap intervals |
 | `sepalith.memory` | Latent payload identity, compatibility and source freshness checks |
+| `sepalith.ops.night_queue`, `sepalith.ops.night_runner` | Nightly GPU window queue, runner and morning report ([setup](../../docs/training/plan-20260927/NIGHT-WINDOW.md)) |
 | `sepalith.campaign_protocol` | The `zeta2-prm03-v1` editing prompt and output contract used by the campaign |
 | `sepalith.training` | Full-weight SFT, DEV gate, CPT and RL runtime (training interpreter only) |
 
