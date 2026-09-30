@@ -40,3 +40,6 @@ results/
 # Static analysis caches
 .ruff_cache/
 .ty_cache/
+
+# Downloaded extension test host
+.vscode-test/

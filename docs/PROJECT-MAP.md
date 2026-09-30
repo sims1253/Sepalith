@@ -11,7 +11,7 @@ Updated 2026-09-06. Sepalith develops local R edit suggestions through product i
 | Run or interpret research | [`experiments`](../experiments/README.md), [queue](EXPERIMENT-QUEUE.md) | Per-workflow research environment and external data/model stores | Frozen recipe/data/model identities → checkpoints, predictions, result summaries | Family-specific RESULTS and manifests; [research audit](RESEARCH-AUDIT.md) limits broader claims |
 | Develop learned workspace memory | [latent-memory specification](LATENT-WORKSPACE-MEMORY.md) | Proposed encoder/decoder training and runner integration, not installed by core | Parent-workspace evidence → proposed trained slots and adapted decoder | Executable module-memory gate and CPU contracts in `experiments/latent_memory`; pretrained learnability run awaits a released resource window |
 
-This cleanup delivers the core package, core CI/checks, audit and prompt/context documentation, and the V1d accounting correction. The reviewed product batch also includes managed runtimes, packaging and Zed launcher tooling. These have offline fixture checks; native-platform tests and public release remain separate.
+This cleanup delivers the core package, core CI/checks, audit and prompt/context documentation, and the V1d accounting correction. The reviewed product batch also includes managed runtimes, packaging and Zed launcher tooling. These have offline fixture checks and VS Code extension-host tests. Native runtime validation and public release remain separate.
 
 ## Shared code: independent and lightweight
 
@@ -93,3 +93,6 @@ These workflow families retain their existing tracked entry points and environme
 ## Remaining work
 
 [Cleanup delivery and migration](CLEANUP-PLAN.md) separates four next steps: operational cutover, migration of recurring callers, latent-memory experiments, and product release validation/publication. None is silently completed by the existence of a package or specification. The current usable boundary is shared tests/contracts, a documented local runner for explicit recipes, existing research entry points, and reviewed editor/runtime packaging tools. Release validation and other concurrent research work remain separate.
+
+Editor acceptance: [test coverage and native release matrix](EDITOR-ACCEPTANCE.md).
+Remote smoke preparation: [Kaggle jobs](KAGGLE-JOBS.md), separate from local runner dispatch.
