@@ -1,7 +1,7 @@
 {
   "card": "C05",
   "state": "blocked",
-  "updated": "2026-09-30T15:00:00+02:00",
+  "updated": "2026-10-03T10:00:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -77,9 +77,25 @@
       "pipe_format_rename_na_rm": "DAT-07's constructor run (quota 8 per family) converted pipe 8 of 39 parents tried, format 8 of 12, rename 8 of 8, and na_rm 6 of all 165. The minimums (10, 8, 8, 2) look reachable but were not re-run, for the same /mnt/h reason.",
       "roxygen": "Native supply is ample (127 groups)."
     },
-    "user_answer_finish_2026-09-30": "Author new finish cases, mixing sources: zai glm-5.3, space-bunny-free, muse-spark-1.3-contributor, longcat-2.5-preview-free and mimo-v2.6-pro; the opencode ones may run in parallel."
+    "user_answer_finish_2026-09-30": "Author new finish cases, mixing sources: zai glm-5.3, space-bunny-free, muse-spark-1.3-contributor, longcat-2.5-preview-free and mimo-v2.6-pro; the opencode ones may run in parallel.",
+    "authored_finish_half": {
+      "driver": "docs/training/plan-20260927/c05/author_dev_finish.py",
+      "selector": "docs/training/plan-20260927/c05/select_authored_finish.py",
+      "run_dir": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev-finish-authored-v1",
+      "rows_sha256": "ae5a72f1d81be9a4b310832bc201c83b0ba380f770bae962178ce08110011be3",
+      "jobs": "160 (8 per domain over 20 new DEV-only author domains); 102 accepted by TRAIN's checklist gates, 55 rejected, 2 backend errors, 1 unfinished when the 4-hour run limit hit",
+      "accepted_by_backend": {
+        "zai-glm-5.3": 23,
+        "go-muse-spark-1.3-contributor": 24,
+        "go-longcat-2.5-preview-free": 21,
+        "go-mimo-v2.6-pro": 20,
+        "go-space-bunny-free": 14
+      },
+      "selected": "selected-55.jsonl: 55 cases from 20 groups (15 with 3, 5 with 2); backends 10 to 12 each; plain cut transforms only (fb_ctx_outline and fb_ctx_diag excluded because they add synthetic comments to the file)",
+      "next": "convert through the DAT-04B finish adapter (finish_block_v5_prefix) with a source_ref to rows.jsonl, apply DEV75's brace correction, render PRM03"
+    }
   },
   "rule_decisions": [],
   "question_for_user": null,
-  "notes": "Step 2 (CPT-overlap check) is done. Step 1 is blocked: /mnt/h (parent sources and the cases pipeline datasets) is not mounted in WSL. It is needed for compound finish derivation, derived no-ops and the propagation dry run. Authoring models smoke-tested OK on 2026-09-30: zai-coding-plan/glm-5.3, opencode/space-bunny-free, opencode/muse-spark-1.3-contributor-free, opencode/longcat-2.5-preview-free, opencode/mimo-v2.6-flash-free (mimo-v2.6-pro is only on OpenRouter). Steps 3 and 4 are not blocked."
+  "notes": "Step 2 is done. Step 1: the authored half of finish_block (55) is selected and not yet converted. The code-cut half (55), derived no-ops and the propagation dry run need /mnt/h, which is now a systemd automount that fails with 'No such device'. Steps 3 and 4 are not blocked."
 }
