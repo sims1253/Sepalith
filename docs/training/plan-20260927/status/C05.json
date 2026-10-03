@@ -1,7 +1,7 @@
 {
   "card": "C05",
-  "state": "blocked",
-  "updated": "2026-10-03T10:00:00+02:00",
+  "state": "needs_user",
+  "updated": "2026-10-03T12:00:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -93,9 +93,20 @@
       },
       "selected": "selected-55.jsonl: 55 cases from 20 groups (15 with 3, 5 with 2); backends 10 to 12 each; plain cut transforms only (fb_ctx_outline and fb_ctx_diag excluded because they add synthetic comments to the file)",
       "next": "convert through the DAT-04B finish adapter (finish_block_v5_prefix) with a source_ref to rows.jsonl, apply DEV75's brace correction, render PRM03"
+    },
+    "code_cut_finish_half": {
+      "driver": "docs/training/plan-20260927/c05/cut_dev_finish.py",
+      "run_dir": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev-finish-cut-v1",
+      "rows_sha256": "196736fec3a088858aa29f39b2e5f15cfe667237ef814345af0037b312672729",
+      "result": "279 base functions from 99 of 105 eligible groups; selected-55.jsonl takes 1 case from each of 55 groups. 15 source files skipped as byte-identical to CPT documents."
+    },
+    "supply_dry_run": {
+      "receipt": "docs/training/plan-20260927/receipts/C05-supply-dry-run.json",
+      "script": "docs/training/plan-20260927/c05/dry_run_supply.py",
+      "result": "finish_block, no_op, pipe, format, rename and roxygen pass, and a joint allocation under the shared 3-per-group cap exists (max-flow 191 of 191). na_rm fails: 0 eligible groups, because extract_na_rm only fires in the 6 groups DEV75 already uses."
     }
   },
   "rule_decisions": [],
-  "question_for_user": null,
-  "notes": "Step 2 is done. Step 1: the authored half of finish_block (55) is selected and not yet converted. The code-cut half (55), derived no-ops and the propagation dry run need /mnt/h, which is now a systemd automount that fails with 'No such device'. Steps 3 and 4 are not blocked."
+  "question_for_user": "Every family passes the feasibility check except na_rm (quota 4, at least 2 groups). TRAIN's na_rm constructor only fires in 6 dev groups, and DEV75 uses all 6. Options: (A) take the 4 na_rm cases from 2 of DEV75's groups, with different files or lines from DEV75's cases, so DEV250 stays case-disjoint from DEV75 but shares those 2 groups; (B) build na_rm with DAT-07's simpler line constructor (insert na.rm = TRUE into a call) over eligible groups, which TRAIN did not use; (C) drop na_rm to 0 and move its 4 cases to finish_block. Recommended: A.",
+  "notes": "/mnt/h is reachable from this session through a symlink to the terminal's mount namespace (/mnt/h/sepalith -> /proc/1130/root/mnt/h/sepalith)."
 }
