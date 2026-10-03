@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """RL pipeline trial: GRPO with validator rewards on zeta2 edit scenarios.
 
+Historical: this is the MiniCPM LoRA RL track. The campaign full-weight RL
+driver in `sepalith.training.rl` (packages/sepalith) supersedes it; see
+docs/training/plan-20260927/.
+
 First real RL run on our own model (night 2026-08-20). Thesis under test:
 environments-as-data — single-model GRPO where the reward is the SAME
 exact/validator score the eval harness uses, on TRAIN-split rows only.

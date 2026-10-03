@@ -1,0 +1,17 @@
+[Unit]
+Description=Keep the WSL page cache below a cap so Windows keeps free memory
+Documentation=https://github.com/sims1253/Sepalith/blob/main/docs/training/plan-20260927/NIGHT-WINDOW.md
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/python3 -B -s -I /usr/local/sbin/sepalith-cache-trim --cap-gib 8
+Restart=on-failure
+RestartSec=30
+Nice=10
+IOSchedulingClass=idle
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

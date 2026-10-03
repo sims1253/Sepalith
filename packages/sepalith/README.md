@@ -1,14 +1,24 @@
 **Sepalith core**
 
 This independent Python package contains the local experiment runner, versioned
-edit-context records and latent-memory manifests. It uses only the standard
-library. It does not import the training stack or modify the root environment.
+edit-context records, latent-memory manifests and the full-weight training
+runtime. The core modules use only the standard library. `sepalith.training`
+needs the training stack (torch, transformers, trl, unsloth) and runs with the
+training interpreter; see [its README](src/sepalith/training/README.md). The
+package does not modify the root environment.
 The runner currently supports Linux, including WSL2.
 
 From the repository root, run the lightweight checks:
 
 ```bash
 python3 scripts/check_core.py
+```
+
+The training runtime has its own CPU suite, which uses the training interpreter
+and the campaign data on `/mnt/e`:
+
+```bash
+python3 scripts/check_training.py
 ```
 
 For use from another working directory, set `PYTHONPATH` to the absolute
@@ -24,6 +34,9 @@ The public modules are:
 | `sepalith.protocol` | Versioned edit/evidence records and baseline `zeta2-v1` rendering |
 | `sepalith.evaluation` | Paired binary-outcome tests and deterministic bootstrap intervals |
 | `sepalith.memory` | Latent payload identity, compatibility and source freshness checks |
+| `sepalith.ops.night_queue`, `sepalith.ops.night_runner` | Nightly GPU window queue, runner and morning report ([setup](../../docs/training/plan-20260927/NIGHT-WINDOW.md)) |
+| `sepalith.campaign_protocol` | The `zeta2-prm03-v1` editing prompt and output contract used by the campaign |
+| `sepalith.training` | Full-weight SFT, DEV gate, CPT and RL runtime (training interpreter only) |
 
 See [runner operations](../../docs/EXPERIMENT-RUNNER.md),
 [prompt contract](../../docs/PROMPT-CONTRACT.md), and

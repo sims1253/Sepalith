@@ -1,0 +1,15 @@
+[Unit]
+Description=Sepalith nightly GPU window runner (01:00-09:00 Europe/Berlin)
+Documentation=file://@REPO@/docs/training/plan-20260927/NIGHT-WINDOW.md
+
+[Service]
+Type=exec
+ExecStart=@REPO@/scripts/night/night-runner.sh run
+WorkingDirectory=%h
+UMask=0077
+# SIGTERM goes to the runner only; it asks the job to save and stop, waits up
+# to 45 s, then kills the job's processes and writes the report.
+KillMode=mixed
+TimeoutStopSec=120
+# Backstop: the runner itself kills its job at 09:00.
+RuntimeMaxSec=9h
