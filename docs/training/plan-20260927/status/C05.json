@@ -1,7 +1,7 @@
 {
   "card": "C05",
-  "state": "needs_user",
-  "updated": "2026-10-03T12:00:00+02:00",
+  "state": "in_progress",
+  "updated": "2026-10-03T12:30:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -30,16 +30,17 @@
       },
       "card_quotas_250": {
         "no_op": 50,
-        "finish_block": 110,
+        "finish_block": 111,
         "pipe_rewrite": 28,
         "format_propagation": 24,
         "rename_propagation": 23,
         "roxygen_drafting": 11,
-        "na_rm_propagation": 4,
+        "na_rm_propagation": 3,
         "total": 250,
         "edits": 200,
         "max_cases_per_group": 3,
-        "allocation_rule": "TRAIN proportions of 200 give 112/28/24/24/12/2 (finish/pipe/format/rename/roxygen/na_rm). Raising na_rm to the card's floor of 4 makes 204, so 4 cases come off the largest rounded-up shares: finish -2, rename -1, roxygen -1."
+        "allocation_rule": "TRAIN proportions of 200 give 112/28/24/24/12/2 (finish/pipe/format/rename/roxygen/na_rm). Raising na_rm to the card's floor of 4 makes 204, so 4 cases come off the largest rounded-up shares: finish -2, rename -1, roxygen -1.",
+        "deviation_2026-10-03": "User-approved: na_rm is 3, below the card's floor of 4, and finish_block takes the freed slot (111 = 55 authored + 56 code-cut). TRAIN's extract_na_rm fires only in DEV75's 6 groups; across 40 seeds only 3 of them yield a case DEV75 does not use (gWQS, quantreg, STDistance, one each). These 3 groups are the only groups DEV250 shares with DEV75; the cases stay disjoint."
       },
       "feasibility_requirements_under_cap_3": {
         "min_groups_per_family": {
@@ -104,9 +105,13 @@
       "receipt": "docs/training/plan-20260927/receipts/C05-supply-dry-run.json",
       "script": "docs/training/plan-20260927/c05/dry_run_supply.py",
       "result": "finish_block, no_op, pipe, format, rename and roxygen pass, and a joint allocation under the shared 3-per-group cap exists (max-flow 191 of 191). na_rm fails: 0 eligible groups, because extract_na_rm only fires in the 6 groups DEV75 already uses."
-    }
+    },
+    "user_answers_2026-10-03": [
+      "na_rm: reuse DEV75 groups with case-disjoint cases",
+      "na_rm has only 3 such cases: use 3 and move the 4th slot to finish_block"
+    ]
   },
   "rule_decisions": [],
-  "question_for_user": "Every family passes the feasibility check except na_rm (quota 4, at least 2 groups). TRAIN's na_rm constructor only fires in 6 dev groups, and DEV75 uses all 6. Options: (A) take the 4 na_rm cases from 2 of DEV75's groups, with different files or lines from DEV75's cases, so DEV250 stays case-disjoint from DEV75 but shares those 2 groups; (B) build na_rm with DAT-07's simpler line constructor (insert na.rm = TRUE into a call) over eligible groups, which TRAIN did not use; (C) drop na_rm to 0 and move its 4 cases to finish_block. Recommended: A.",
-  "notes": "/mnt/h is reachable from this session through a symlink to the terminal's mount namespace (/mnt/h/sepalith -> /proc/1130/root/mnt/h/sepalith)."
+  "question_for_user": null,
+  "notes": "Next: build DEV250. Allocate cases per group by max-flow under the 3-per-group cap, convert every case through the DEV75 path (finish adapter with brace correction, propagation converter, existing-row converter for roxygen), render PRM03, hash, and write the manifest. /mnt/h is reachable from this session through a symlink to the terminal's mount namespace (/mnt/h/sepalith -> /proc/1130/root/mnt/h/sepalith)."
 }
