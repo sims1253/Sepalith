@@ -1,7 +1,7 @@
 {
   "card": "C05",
   "state": "in_progress",
-  "updated": "2026-10-03T12:30:00+02:00",
+  "updated": "2026-10-04T12:00:00+02:00",
   "branch": "plan/C05-evaluation",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
   "outputs": {
@@ -109,9 +109,23 @@
     "user_answers_2026-10-03": [
       "na_rm: reuse DEV75 groups with case-disjoint cases",
       "na_rm has only 3 such cases: use 3 and move the 4th slot to finish_block"
-    ]
+    ],
+    "dev250_v1": {
+      "phase1_script": "docs/training/plan-20260927/c05/build_dev250_packets.py",
+      "phase2_script": "docs/training/plan-20260927/c05/build_dev250.py",
+      "phase1_dir": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3-phase1",
+      "phase1_receipt": "docs/training/plan-20260927/receipts/C05-dev250-v1-phase1.json",
+      "phase1_packets_sha256": "c4612e52ad0b341a6e0c64f4d55db42145d5ee4e66133ee4cf93b0b16de24702",
+      "panel": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "panel_sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22",
+      "manifest_receipt": "docs/training/plan-20260927/receipts/C05-dev250-v1-manifest.json",
+      "result": "250 cases, all quotas met (finish 111 = 55 authored + 56 code-cut, no_op 50, pipe 28, format 24, rename 23, roxygen 11, na_rm 3). 95 groups, at most 3 cases each; 0 case ids, 0 prompts and 0 TRAIN groups shared with DEV75/TRAIN; 0 rendered-prompt collisions. Every case re-renders through build_training_row to its recorded prompt and target hashes. Target body tokens: median 30, p95 447, max 794.",
+      "filters": "959 phase-1 candidates -> 952 after filters (2 format over 4096 tokens, 5 roxygen references over the 1024-token generation cap), then max-flow allocation under the 3-per-group cap.",
+      "fix_2026-10-04": "campaign_dev_panel contexts (no_op, roxygen) predate the versioned PromptContext and lack schema_version; phase 1 now adds schema_version sepalith.prompt.prm03.v1, matching DEV75's roxygen cases. The first run (C05-dev250-v1, 189 cases) and an interrupted rerun (C05-dev250-v1r2*) are superseded and left on E: unused.",
+      "not_done": "HF upload (awaiting user confirmation before publishing)"
+    }
   },
   "rule_decisions": [],
   "question_for_user": null,
-  "notes": "Next: build DEV250. Allocate cases per group by max-flow under the 3-per-group cap, convert every case through the DEV75 path (finish adapter with brace correction, propagation converter, existing-row converter for roxygen), render PRM03, hash, and write the manifest. /mnt/h is reachable from this session through a symlink to the terminal's mount namespace (/mnt/h/sepalith -> /proc/1130/root/mnt/h/sepalith)."
+  "notes": "DEV250 v1 built (outputs.dev250_v1). Next: upload the panel to HF once confirmed; then evaluator dtype/device options on top of C01 and the PROMPT-CONTRACT note."
 }
