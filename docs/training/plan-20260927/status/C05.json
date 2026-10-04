@@ -121,11 +121,19 @@
       "manifest_receipt": "docs/training/plan-20260927/receipts/C05-dev250-v1-manifest.json",
       "result": "250 cases, all quotas met (finish 111 = 55 authored + 56 code-cut, no_op 50, pipe 28, format 24, rename 23, roxygen 11, na_rm 3). 95 groups, at most 3 cases each; 0 case ids, 0 prompts and 0 TRAIN groups shared with DEV75/TRAIN; 0 rendered-prompt collisions. Every case re-renders through build_training_row to its recorded prompt and target hashes. Target body tokens: median 30, p95 447, max 794.",
       "filters": "959 phase-1 candidates -> 952 after filters (2 format over 4096 tokens, 5 roxygen references over the 1024-token generation cap), then max-flow allocation under the 3-per-group cap.",
-      "fix_2026-10-04": "campaign_dev_panel contexts (no_op, roxygen) predate the versioned PromptContext and lack schema_version; phase 1 now adds schema_version sepalith.prompt.prm03.v1, matching DEV75's roxygen cases. The first run (C05-dev250-v1, 189 cases) and an interrupted rerun (C05-dev250-v1r2*) are superseded and left on E: unused.",
-      "not_done": "HF upload (awaiting user confirmation before publishing)"
+      "fix_2026-10-04": "campaign_dev_panel contexts (no_op, roxygen) predate the versioned PromptContext and lack schema_version; phase 1 now adds schema_version sepalith.prompt.prm03.v1, matching DEV75's roxygen cases. The first run (C05-dev250-v1, 189 cases) and an interrupted rerun (C05-dev250-v1r2*) were deleted.",
+      "hf": {
+        "repo": "datasets/scholzmx/sepalith",
+        "path": "campaign-20260915/dev/dev250-v1/",
+        "commit": "26b4bb33c9821e475f3934d8960faa3d95623c7b",
+        "files": {
+          "dev250-v1.jsonl": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22",
+          "manifest.json": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+        }
+      }
     }
   },
   "rule_decisions": [],
   "question_for_user": null,
-  "notes": "DEV250 v1 built (outputs.dev250_v1). Next: upload the panel to HF once confirmed; then evaluator dtype/device options on top of C01 and the PROMPT-CONTRACT note."
+  "notes": "DEV250 v1 built and on HF (outputs.dev250_v1). Next: step 3, evaluator dtype/device options on top of C01; step 4, the PROMPT-CONTRACT note."
 }
