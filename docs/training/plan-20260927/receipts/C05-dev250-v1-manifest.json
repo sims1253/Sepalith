@@ -1,0 +1,178 @@
+{
+  "panel": "DEV250 v1",
+  "card": "C05",
+  "renderer_id": "zeta2-prm03-v1",
+  "file": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+    "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22",
+    "cases": 250
+  },
+  "case_ids_sha256": "3968013821c8c36633a734fb87ff09fe6d1fe29bb86583b1ad655c873901d007",
+  "quotas": {
+    "finish_authored": 55,
+    "finish_cut": 56,
+    "no_op": 50,
+    "pipe_rewrite": 28,
+    "format_propagation": 24,
+    "rename_propagation": 23,
+    "roxygen_drafting": 11,
+    "na_rm_propagation": 3
+  },
+  "shortfall": {},
+  "counts": {
+    "by_family": {
+      "finish_block": 111,
+      "format_propagation": 24,
+      "na_rm_propagation": 3,
+      "no_op": 50,
+      "pipe_rewrite": 28,
+      "rename_propagation": 23,
+      "roxygen_drafting": 11
+    },
+    "by_slot": {
+      "finish_authored": 55,
+      "finish_cut": 56,
+      "no_op": 50,
+      "format_propagation": 24,
+      "rename_propagation": 23,
+      "pipe_rewrite": 28,
+      "na_rm_propagation": 3,
+      "roxygen_drafting": 11
+    },
+    "by_operation": {
+      "replace": 200,
+      "no_op": 50
+    },
+    "authored_by_backend": {
+      "go-longcat-2.5-preview-free": 12,
+      "go-mimo-v2.6-pro": 10,
+      "zai-glm-5.3": 11,
+      "go-muse-spark-1.3-contributor": 12,
+      "go-space-bunny-free": 10
+    }
+  },
+  "groups": {
+    "distinct": 95,
+    "max_cases_per_group": 3,
+    "cases_per_group_hist": {
+      "2": 11,
+      "3": 72,
+      "1": 12
+    },
+    "split_of_groups": {
+      "c05_authored_dev_only": 20,
+      "dev_group": 75
+    },
+    "shared_with_dev75": [
+      "g-3eb0e69125cfb68fc9ed",
+      "g-8993f5ecdb48edeef3e0",
+      "g-bbd4ebc786222ade9d1c"
+    ]
+  },
+  "disjointness": {
+    "case_ids_shared_with_dev75": 0,
+    "prompts_shared_with_dev75": 0,
+    "groups_in_train_split": 0,
+    "rendered_prompt_collisions": 0
+  },
+  "target_body_tokens": {
+    "all": {
+      "n": 250,
+      "min": 2,
+      "p25": 9,
+      "median": 30.0,
+      "p75": 134,
+      "p95": 447,
+      "max": 794
+    },
+    "by_family": {
+      "finish_block": {
+        "n": 111,
+        "min": 16,
+        "p25": 65,
+        "median": 128,
+        "p75": 314,
+        "p95": 497,
+        "max": 794
+      },
+      "format_propagation": {
+        "n": 24,
+        "min": 2,
+        "p25": 16,
+        "median": 28.5,
+        "p75": 44,
+        "p95": 116,
+        "max": 135
+      },
+      "na_rm_propagation": {
+        "n": 3,
+        "min": 12,
+        "p25": 12,
+        "median": 14,
+        "p75": 23,
+        "p95": 23,
+        "max": 23
+      },
+      "no_op": {
+        "n": 50,
+        "min": 6,
+        "p25": 6,
+        "median": 6.0,
+        "p75": 6,
+        "p95": 6,
+        "max": 6
+      },
+      "pipe_rewrite": {
+        "n": 28,
+        "min": 4,
+        "p25": 10,
+        "median": 14.5,
+        "p75": 19,
+        "p95": 24,
+        "max": 26
+      },
+      "rename_propagation": {
+        "n": 23,
+        "min": 5,
+        "p25": 9,
+        "median": 14,
+        "p75": 21,
+        "p95": 28,
+        "max": 53
+      },
+      "roxygen_drafting": {
+        "n": 11,
+        "min": 44,
+        "p25": 141,
+        "median": 248,
+        "p75": 309,
+        "p95": 456,
+        "max": 456
+      }
+    }
+  },
+  "inputs": {
+    "phase1_packets": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3-phase1/packets.jsonl",
+      "sha256": "c4612e52ad0b341a6e0c64f4d55db42145d5ee4e66133ee4cf93b0b16de24702",
+      "packets": 959
+    },
+    "dev75": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+  },
+  "filters": {
+    "generation_cap": 1024,
+    "max_sequence": 4096,
+    "group_cap": 3,
+    "one_case_per_rendered_prompt": true
+  },
+  "excluded_candidates": {
+    "format_propagation:sequence_over_4096": 2,
+    "roxygen_drafting:reference_exceeds_generation_cap": 5
+  },
+  "candidates_after_filters": 952,
+  "final_files_opened": false
+}

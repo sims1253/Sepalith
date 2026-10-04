@@ -1,0 +1,139 @@
+{
+  "card": "C05",
+  "state": "in_progress",
+  "updated": "2026-10-04T12:00:00+02:00",
+  "branch": "plan/C05-evaluation",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/41",
+  "outputs": {
+    "dev_supply_audit": {
+      "split_manifest": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json (sha256 c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09); dev_group groups only, no final_candidate_group record opened",
+      "dev_groups": 169,
+      "dev_candidate_rows": 2846,
+      "native_dev_groups_by_train_family": {
+        "finish_block": 12,
+        "roxygen (roxygen_drafting + mid_roxygen)": 127,
+        "no_op": 6,
+        "pipe_rewrite": 0,
+        "format_propagation": 0,
+        "rename_propagation": 0,
+        "na_rm_propagation": 0
+      },
+      "native_dev_rows_by_train_family": {
+        "finish_block": 1702,
+        "roxygen": 612,
+        "no_op": 8,
+        "pipe_rewrite": 0,
+        "format_propagation": 0,
+        "rename_propagation": 0,
+        "na_rm_propagation": 0,
+        "non_train_families (rewrite_lint_fix_*, rewrite_fixissue_*, edit_pairs)": 524
+      },
+      "card_quotas_250": {
+        "no_op": 50,
+        "finish_block": 111,
+        "pipe_rewrite": 28,
+        "format_propagation": 24,
+        "rename_propagation": 23,
+        "roxygen_drafting": 11,
+        "na_rm_propagation": 3,
+        "total": 250,
+        "edits": 200,
+        "max_cases_per_group": 3,
+        "allocation_rule": "TRAIN proportions of 200 give 112/28/24/24/12/2 (finish/pipe/format/rename/roxygen/na_rm). Raising na_rm to the card's floor of 4 makes 204, so 4 cases come off the largest rounded-up shares: finish -2, rename -1, roxygen -1.",
+        "deviation_2026-10-03": "User-approved: na_rm is 3, below the card's floor of 4, and finish_block takes the freed slot (111 = 55 authored + 56 code-cut). TRAIN's extract_na_rm fires only in DEV75's 6 groups; across 40 seeds only 3 of them yield a case DEV75 does not use (gWQS, quantreg, STDistance, one each). These 3 groups are the only groups DEV250 shares with DEV75; the cases stay disjoint."
+      },
+      "feasibility_requirements_under_cap_3": {
+        "min_groups_per_family": {
+          "no_op": 17,
+          "finish_block": 37,
+          "pipe_rewrite": 10,
+          "format_propagation": 8,
+          "rename_propagation": 8,
+          "roxygen_drafting": 4,
+          "na_rm_propagation": 2
+        },
+        "min_distinct_groups_total": 84,
+        "finish_block_shortfall": "12 native groups give at most 36 of 110 finish cases; the other 74 need at least 25 more dev_group groups with constructible finish windows.",
+        "eligible_pool": "169 dev_group groups, minus the groups DEV75 uses, minus groups excluded by the step-2 CPT-overlap check. Not yet counted; construction supply per family is unverified."
+      },
+      "max_native_supply_under_cap_3": {
+        "finish_block": 36,
+        "no_op": "at most 8 rows in 6 groups, and DEV75 already uses these plus 26 derived no-ops (32 no-op cases)",
+        "pipe_format_rename_na_rm": 0
+      },
+      "existing_dev_candidate_artifacts": "DAT-07-dev-panel-candidates.json (118 packets, from which DEV75 was drawn; only 8 per derived propagation family and 32 no-ops in total) and DAT-07-dev-completion-candidates-v1.jsonl (6 finish packets, all 6 are DEV75's finish cases). The DAT-07 finish derivation reports 131 allowlisted finish rows -> 67 converted -> 10 groups after dedup.",
+      "dev75_build_input": "prepare_corrected_dev75_v1.py read /mnt/e/.../DAT-07-final-evaluator-cases.jsonl (a finalized DEV panel, asserts split == dev). Its filename contains 'final', so DEV75's exact build route hits the card's stop condition; this agent did not open it."
+    },
+    "user_answer_2026-09-30": "Construct, check first. Dry-run the TRAIN/DAT-07 constructors over the eligible dev_group pool (groups not used by DEV75 and not excluded by the CPT-overlap check). Build DEV250 only if every family meets feasibility_requirements_under_cap_3. If any family falls short, stop and report the supply per family.",
+    "cpt_overlap_receipt": {
+      "path": "docs/training/plan-20260927/receipts/C05-cpt-overlap.json",
+      "script": "docs/training/plan-20260927/receipts/C05_cpt_overlap.py",
+      "result": "CPT contains only train_group groups (10,046). 0 of 169 dev groups overlap CPT by group or package; 0 of 75 DEV75 cases have their document in CPT. One DAT-07 dev snapshot (dat07-derived-c3a87f6c, spatialreg.hp R file, not in DEV75) is byte-identical to a CPT document from glmm.hp, a TRAIN package by the same author that the split did not merge. DEV250 construction must also exclude any source whose sha256 is a CPT document.",
+      "eligible_construction_groups": 105
+    },
+    "feasibility_check_2026-09-30": {
+      "result": "fail",
+      "finish_block": "finish_block_v5_prefix only adapts existing finish rows, so the native supply is 12 dev groups (24, 2, 19, 1, 4, 1, 23, 1004, 35, 567, 20 and 2 rows): at most 30 cases at cap 3, and at most 11 outside DEV75's groups. Required: 110 cases from at least 37 groups. Correction: the upstream rule cases/rules/rules_finish_block.derive_all (which produced TRAIN's finish_block_compound rows) can derive new compound rows from any parent's R functions, so native supply is not the ceiling. TRAIN's authored rows come from experiments/synthetic-data/finish_block_author.py and are grouped by synthetic author domain.",
+      "no_op": "All 6 native no-op groups are DEV75 groups. Derived no-ops need the parent sources under /mnt/h/sepalith/normalized, which is not mounted in WSL; not counted.",
+      "pipe_format_rename_na_rm": "DAT-07's constructor run (quota 8 per family) converted pipe 8 of 39 parents tried, format 8 of 12, rename 8 of 8, and na_rm 6 of all 165. The minimums (10, 8, 8, 2) look reachable but were not re-run, for the same /mnt/h reason.",
+      "roxygen": "Native supply is ample (127 groups)."
+    },
+    "user_answer_finish_2026-09-30": "Author new finish cases, mixing sources: zai glm-5.3, space-bunny-free, muse-spark-1.3-contributor, longcat-2.5-preview-free and mimo-v2.6-pro; the opencode ones may run in parallel.",
+    "authored_finish_half": {
+      "driver": "docs/training/plan-20260927/c05/author_dev_finish.py",
+      "selector": "docs/training/plan-20260927/c05/select_authored_finish.py",
+      "run_dir": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev-finish-authored-v1",
+      "rows_sha256": "ae5a72f1d81be9a4b310832bc201c83b0ba380f770bae962178ce08110011be3",
+      "jobs": "160 (8 per domain over 20 new DEV-only author domains); 102 accepted by TRAIN's checklist gates, 55 rejected, 2 backend errors, 1 unfinished when the 4-hour run limit hit",
+      "accepted_by_backend": {
+        "zai-glm-5.3": 23,
+        "go-muse-spark-1.3-contributor": 24,
+        "go-longcat-2.5-preview-free": 21,
+        "go-mimo-v2.6-pro": 20,
+        "go-space-bunny-free": 14
+      },
+      "selected": "selected-55.jsonl: 55 cases from 20 groups (15 with 3, 5 with 2); backends 10 to 12 each; plain cut transforms only (fb_ctx_outline and fb_ctx_diag excluded because they add synthetic comments to the file)",
+      "next": "convert through the DAT-04B finish adapter (finish_block_v5_prefix) with a source_ref to rows.jsonl, apply DEV75's brace correction, render PRM03"
+    },
+    "code_cut_finish_half": {
+      "driver": "docs/training/plan-20260927/c05/cut_dev_finish.py",
+      "run_dir": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev-finish-cut-v1",
+      "rows_sha256": "196736fec3a088858aa29f39b2e5f15cfe667237ef814345af0037b312672729",
+      "result": "279 base functions from 99 of 105 eligible groups; selected-55.jsonl takes 1 case from each of 55 groups. 15 source files skipped as byte-identical to CPT documents."
+    },
+    "supply_dry_run": {
+      "receipt": "docs/training/plan-20260927/receipts/C05-supply-dry-run.json",
+      "script": "docs/training/plan-20260927/c05/dry_run_supply.py",
+      "result": "finish_block, no_op, pipe, format, rename and roxygen pass, and a joint allocation under the shared 3-per-group cap exists (max-flow 191 of 191). na_rm fails: 0 eligible groups, because extract_na_rm only fires in the 6 groups DEV75 already uses."
+    },
+    "user_answers_2026-10-03": [
+      "na_rm: reuse DEV75 groups with case-disjoint cases",
+      "na_rm has only 3 such cases: use 3 and move the 4th slot to finish_block"
+    ],
+    "dev250_v1": {
+      "phase1_script": "docs/training/plan-20260927/c05/build_dev250_packets.py",
+      "phase2_script": "docs/training/plan-20260927/c05/build_dev250.py",
+      "phase1_dir": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3-phase1",
+      "phase1_receipt": "docs/training/plan-20260927/receipts/C05-dev250-v1-phase1.json",
+      "phase1_packets_sha256": "c4612e52ad0b341a6e0c64f4d55db42145d5ee4e66133ee4cf93b0b16de24702",
+      "panel": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "panel_sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22",
+      "manifest_receipt": "docs/training/plan-20260927/receipts/C05-dev250-v1-manifest.json",
+      "result": "250 cases, all quotas met (finish 111 = 55 authored + 56 code-cut, no_op 50, pipe 28, format 24, rename 23, roxygen 11, na_rm 3). 95 groups, at most 3 cases each; 0 case ids, 0 prompts and 0 TRAIN groups shared with DEV75/TRAIN; 0 rendered-prompt collisions. Every case re-renders through build_training_row to its recorded prompt and target hashes. Target body tokens: median 30, p95 447, max 794.",
+      "filters": "959 phase-1 candidates -> 952 after filters (2 format over 4096 tokens, 5 roxygen references over the 1024-token generation cap), then max-flow allocation under the 3-per-group cap.",
+      "fix_2026-10-04": "campaign_dev_panel contexts (no_op, roxygen) predate the versioned PromptContext and lack schema_version; phase 1 now adds schema_version sepalith.prompt.prm03.v1, matching DEV75's roxygen cases. The first run (C05-dev250-v1, 189 cases) and an interrupted rerun (C05-dev250-v1r2*) were deleted.",
+      "hf": {
+        "repo": "datasets/scholzmx/sepalith",
+        "path": "campaign-20260915/dev/dev250-v1/",
+        "commit": "26b4bb33c9821e475f3934d8960faa3d95623c7b",
+        "files": {
+          "dev250-v1.jsonl": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22",
+          "manifest.json": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+        }
+      }
+    }
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "DEV250 v1 built and on HF (outputs.dev250_v1). Next: step 3, evaluator dtype/device options on top of C01; step 4, the PROMPT-CONTRACT note."
+}
