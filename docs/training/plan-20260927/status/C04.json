@@ -1,0 +1,80 @@
+{
+  "card": "C04",
+  "state": "done",
+  "updated": "2026-10-11T19:25:00+02:00",
+  "branch": "plan/C04-sft-recipe-v2",
+  "pull_request": null,
+  "outputs": {
+    "schedule": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2/draw-schedule-v2.json",
+      "sha256": "e147b63a4e7f1c75ba9b480a0e29f0e09324649a8b88dc4ddde1b3c2df4d8712",
+      "seed": 3407,
+      "updates": 1071,
+      "draws": 17136,
+      "batch": "13 edit + 3 no-op in every update",
+      "noop_share": 0.1875,
+      "noop_draws": 3213,
+      "exposure_histogram_by_pool": {"edit": {"1": 13901, "2": 11}, "noop": {"2": 69, "3": 1025}},
+      "edit_replays": 11,
+      "noop_passes": [1094, 1094, 1025],
+      "gates": [268, 536, 803, 1071],
+      "checks": "all eligible ids drawn, no target truncation, unique-before-replay per pool, edits once except the 11 last-update replays, no-op cap 3, constant composition"
+    },
+    "hf_paths": [
+      "campaign-20260915/C04/draw-schedule-v2.json",
+      "campaign-20260915/C04/draw-schedule-v2.summary.json"
+    ],
+    "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/060005c3d1027da687e27fa78e01e8ecb7692220",
+    "template": {"path": "docs/training/plan-20260927/c04/sft-v2-recipe.template.json", "sha256": "e9ea4fbdf6e7e8af8d1d05a7cce587c14ef48b9c3f636a55a50f72d08e6bb6af"},
+    "admission_template_example_only": {"path": "docs/training/plan-20260927/c04/admissions/arm-admission.template.json", "sha256": "5d55c5595f69326b96903bea5060e82af14e30596fdc36656c52b622ffe51999"},
+    "admissions": {
+      "lr3e-6": "4453e8d890a703e587171a47629989f2044ee8bf4876574a3731f898031c75ef",
+      "lr1e-5": "733be0fc2aa989c705c8585ec24993ec114948505f31003b0f52a3ef3fa4cbc0",
+      "lr3e-5": "1406daecc1fca0e952c6036d8138b7c021a360867e9813b30565b0e58bbba51b",
+      "smoke-lr1e-5": "d919270a30eac8fbe1280c98866b9226394ae1c61c2c49db6047a2a1f1a85c41"
+    },
+    "source_manifest": {"path": "docs/training/plan-20260927/c04/bound/source-manifest.json", "sha256": "aeddd62f5da6062e6e087e8ee6de1ff4dc39bc43e092fb92296e573bb17cb3c8"},
+    "bound_recipes": {
+      "lr3e-6": {"path": "docs/training/plan-20260927/c04/bound/sft-v2-lr3e-6.json", "sha256": "be58c3206c373c1025d0116fe55018aa1dc1770b5a067932d7896fc146fa60fe"},
+      "lr1e-5": {"path": "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json", "sha256": "85e2627ed958c00c831ed0f586383d49cf85fc577ab27544dc510579b05fe9b3"},
+      "lr3e-5": {"path": "docs/training/plan-20260927/c04/bound/sft-v2-lr3e-5.json", "sha256": "fb448c84fda4c69cdfcd95d9d3ce4719ae72b11285799405726e49aea0526c47"},
+      "smoke-lr1e-5": {"path": "docs/training/plan-20260927/c04/bound/sft-v2-smoke-lr1e-5.json", "sha256": "a9c24660e72eb3018a674092c51804c3f773ee0b50bd87d6e783d963215aa854"}
+    },
+    "bound_recipe_verification": "recipe_v2 verify passed for all four with the real parent (model.safetensors 4bf617f9...3c51), rows, schedule, DEV75, DEV250 (75f3a5ee...7f22, manifest 07e370a8...230a), data queue, optimizer dispatch and source manifest",
+    "job_files_not_enqueued": {
+      "C07-baseline": {"path": "docs/training/plan-20260927/c04/jobs/C07-baseline.json", "sha256": "2d77c71c044661fac145577788547889761155a3185d1a2528aaf69457870147"},
+      "C07-sft-smoke": {"path": "docs/training/plan-20260927/c04/jobs/C07-sft-smoke.json", "sha256": "7dd014463ae3446184a6d34efbcc181e372592f314a55c524dac731b79f19e04"},
+      "C08-arm-lr1e-5": {"path": "docs/training/plan-20260927/c04/jobs/C08-arm-lr1e-5.json", "sha256": "5a1fa7735648d3c55dd24bce28b24dbf5d5cbb587a45c5ccd7b2c3ad602d5181"},
+      "C08-arm-lr3e-6": {"path": "docs/training/plan-20260927/c04/jobs/C08-arm-lr3e-6.json", "sha256": "12c1ea64ae5908bc911ca1d3b5bbf8c06254e18b103b870c140c3b4653bfc729"},
+      "C08-arm-lr3e-5": {"path": "docs/training/plan-20260927/c04/jobs/C08-arm-lr3e-5.json", "sha256": "b798c5549489c00b2d2817771d887db9c0c09af23b73fb3b6023b15aef04667e"}
+    },
+    "pre_registered": {
+      "optimizer": "aurora_mix with the CPT mechanics; hidden LR = arm LR, side LR = LR / 10",
+      "schedule": "32 warmup updates, cosine to 10% of peak at update 1,071 (cosine_with_min_lr, min_lr_rate 0.1)",
+      "weight_decay": 0.0,
+      "lr_upper_bound": "3e-5 = 10 x the CPT hidden LR of 3e-6 (rationale in recipe_v2.py and the template)"
+    },
+    "code": [
+      "packages/sepalith/src/sepalith/training/sft/schedule_v2.py",
+      "packages/sepalith/src/sepalith/training/sft/recipe_v2.py",
+      "packages/sepalith/src/sepalith/training/sft/gate_rule.py",
+      "packages/sepalith/src/sepalith/training/sft/night_controls.py",
+      "packages/sepalith/src/sepalith/training/sft/night_arm.py",
+      "packages/sepalith/src/sepalith/training/sft/parent_baseline.py",
+      "packages/sepalith/src/sepalith/training/sft/c04_jobs.py",
+      "packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py (v2 dispatch, deadline, masking gate)",
+      "packages/sepalith/src/sepalith/training/supervisors/request_graceful_stop.py (v2 schema)",
+      "docs/training/plan-20260927/c04/build_c04.sh"
+    ],
+    "tests": {
+      "check_training": "83 tests OK on CPU (51 existing + 32 new: test_sft_v2_recipe, test_sft_v2_gates, test_sft_v2_trainer)",
+      "check_core": "78 tests OK",
+      "check_quality": "ruff and ty clean",
+      "interpreter": "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+      "cuda": false
+    }
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "Schedule v2, the R1 gate driver, deadline stop and masking gate are in place; tiny-CPU-model tests show exact resume (weights, optimizer moments, LR, losses, cursor) and the masking gate needed an RNG restore to leave training bit-identical. Before C07 enqueues: merge PR #41 (the gate's DEV250 call uses run_dev_generation --panel dev250) and this PR, the bound source manifest leaves out training/eval (hashed per gate decision instead), so #41 needs no rebind, but any later change to a bound sft/optim/checkpoint/contracts/guards file needs build_c04.sh bind; the training rows are bound as-is (C06's 486 misindented braces undecided) and a corrected row file needs only a new schedule, length profile, data queue and build_c04.sh all, no code change."
+}

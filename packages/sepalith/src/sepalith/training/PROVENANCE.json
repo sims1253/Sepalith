@@ -672,7 +672,7 @@
   {
    "module": "sepalith.training.sft.full_weight_edit_sft",
    "path": "packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py",
-   "sha256": "7efb5d534a7095343aa2e7dc052077e3d78bf7d0b0a24d28275a3758627dc518",
+   "sha256": "7fb81a219ee0e200529c64407330400aa754f69463be0a600226152a7eb16f00",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/full_weight_edit_sft.py",
    "source_sha256": "86c0a65ec427559bc4d8664f90bc797f3245383296bb3995641c491427d6037f",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
@@ -682,7 +682,8 @@
     "the /mnt/e/ trainer/archive root requirement uses sepalith.training.paths.under_checkpoint_root: directory containment under CHECKPOINT_ROOT (default /mnt/e, env SEPALITH_CHECKPOINT_ROOT) instead of a string prefix",
     "imports under_checkpoint_root",
     "rewrote 10 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401), including sys after the sys.path removal",
+    "card C04: load_bound and identity dispatch v2 bound recipes to sft/recipe_v2.py; training_arguments_kwargs accepts warmup_steps and lr_scheduler_kwargs; run() honours SEPALITH_DEADLINE_EPOCH and --stop-after-step through night_controls.DeadlineStop, runs the pre-update masking gate before update 1, and logs peak CUDA memory; v1 behaviour unchanged"
    ],
    "bound_by": [
     {
@@ -1117,13 +1118,14 @@
   {
    "module": "sepalith.training.supervisors.request_graceful_stop",
    "path": "packages/sepalith/src/sepalith/training/supervisors/request_graceful_stop.py",
-   "sha256": "6a63034900ac5830f3e2fcf682d59226f5db1e20c19609430c7195954916500c",
+   "sha256": "c372f403ec86d408d6a65292eb691f9ee0cc74368dbe786eca59f0b08c2da138",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/request_graceful_stop.py",
    "source_sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "identical in the three packets that bind it; fixed for the SFT trainer (C01 step 5)",
    "changes": [
-    "C01 step 5: dispatches on the bound recipe schema to the SFT trainer (sepalith.training.sft.full_weight_edit_sft) or the CPT trainer; previously it always imported the CPT trainer, whose load_bound rejects SFT recipes. The written payload is unchanged. Test: tests/training/test_request_graceful_stop.py"
+    "C01 step 5: dispatches on the bound recipe schema to the SFT trainer (sepalith.training.sft.full_weight_edit_sft) or the CPT trainer; previously it always imported the CPT trainer, whose load_bound rejects SFT recipes. The written payload is unchanged. Test: tests/training/test_request_graceful_stop.py",
+    "card C04: maps the v2 bound-recipe schema to the SFT trainer"
    ],
    "bound_by": [
     {

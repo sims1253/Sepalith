@@ -55,6 +55,25 @@ Before new recipes can use this code, three things change:
 - The theta0 gate's default model loader imports `campaign_rl_entry`, which
   no packet bound. Pass your own loader.
 
+**Editing SFT v2 (card C04).** `sft/schedule_v2` builds the 13-edit plus
+3-no-op schedule. `sft/recipe_v2` holds the pre-registered template, the
+arm admission and the binder; it binds a source manifest of the trainer-path
+package files. `sft/night_arm` is the night-queue driver. It trains to the
+next gate, runs DEV75 and DEV250 generation in separate processes, applies R1
+(`sft/gate_rule`), writes the decision and the gate evidence, and resumes.
+`sft/night_controls` holds the deadline stop and the pre-update masking gate,
+and `sft/parent_baseline` evaluates the parent at step 0. The bound recipes,
+the job files and the rebuild script are in
+`docs/training/plan-20260927/c04/`.
+
+| Step | Command |
+|---|---|
+| Arm (night job) | `python -m sepalith.training.sft.night_arm arm --recipe BOUND [--stop-after-gate 268]` |
+| Parent baseline | `python -m sepalith.training.sft.night_arm baseline --recipe BOUND` |
+| Smoke | `python -m sepalith.training.sft.night_arm smoke --recipe BOUND --first-stop 10 --second-stop 20` |
+| Override a gate | write `<evidence_directory>/override-step-N.json` (`sepalith.sft-v2.gate-override.v1`: `step`, `outcome`, `bound_recipe_sha256`, `reason`, optional `author` and `checkpoint_manifest_sha256`), then `night_queue retry ID` |
+| Rebind after a code change | `docs/training/plan-20260927/c04/build_c04.sh bind` |
+
 **Tests.** `python3 scripts/check_training.py` runs `packages/sepalith/tests/training/`
 on CPU with the training interpreter. The tests read the frozen packet templates
 through `campaign_fixtures.py`. It rebases their planning-worktree paths onto

@@ -12,6 +12,7 @@ from types import ModuleType
 # Bound-recipe schema -> trainer module whose load_bound/sha256 validate it.
 TRAINERS = {
     "sepalith.sft11.full-weight-edit-sft-eval-gate-bound.v1": "sepalith.training.sft.full_weight_edit_sft",
+    "sepalith.sft-v2.full-weight-edit-sft-bound.v1": "sepalith.training.sft.full_weight_edit_sft",
     "sepalith.sft11.full-weight-cpt-stage-transition-bound.v1": "sepalith.training.cpt.full_weight_cpt_trainer",
 }
 
