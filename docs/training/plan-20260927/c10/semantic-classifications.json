@@ -1,0 +1,251 @@
+{
+  "classes": {
+    "correct": "documentation is accurate for the documented object",
+    "cosmetic": "accurate overall, with an upstream typo, artifact or incomplete internal coverage",
+    "defective": "target is wrong or not supported by the visible context"
+  },
+  "reviewer": "C10 agent (Claude), hand review of review.md: decoded target, the code after it, R parse, roxygen @param vs formals, air checks, and the full-file lines above the target",
+  "rows": {
+    "04878f60376a72bac6dc53fe": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "04c50322b54f6ea788652cd2": {
+      "class": "cosmetic",
+      "reason": "upstream formula slip: says 2^(n-1) non-empty subsets, should be 2^n - 1; rest of the block matches the function"
+    },
+    "04f3f1ff6814ff094965350f": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0562f90979050a92061e0ea7": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "06271129cc837eec9763cd34": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0740470a6b682399df23bc3e": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "08270a23fdfc3add5e61aa81": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "084f64a050d9559081162b96": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "087513c4c73ddba388b0b522": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "088946c25371c258f484aea9": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "08c2c5118310b667b3470109": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0910bc647ad34bf3e177a447": {
+      "class": "cosmetic",
+      "reason": "internal @noRd block leaves formals angles and n_grey undocumented"
+    },
+    "095d8b6709f9bc8e212f279e": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0aaaf33cadb2c82517a99fdd": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0bf1f2f3baa48a75f709672e": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0c7ae282571515a63d504871": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0cd9fe58e0610b80335825a1": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0d16c98fa11c167eca89d48a": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0d192571b91914c5997c84cb": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0dce27b827ccb7ea2696b418": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0e212aa9c8b00337f13b9809": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0ee123a0c5d56c10e7794cf1": {
+      "class": "cosmetic",
+      "reason": "upstream copy-paste: @param N repeats the description of burn; other 13 params correct"
+    },
+    "0f53cd8313fe412c8165fd79": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0f783882bb86c8c52d7edf65": {
+      "class": "cosmetic",
+      "reason": "upstream typo 'buildilng' and informal @param ... note; params match formals"
+    },
+    "0f8528aee94d5f1681b42e0b": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "0fcd55b053d05a1762d20555": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "10049465ff255975587fab71": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "108949c95884ce7341245e88": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "10999d9338d8c20957bc0d86": {
+      "class": "cosmetic",
+      "reason": "Rcpp comment artifact \"//'\" and trailing spaces in two lines; content correct"
+    },
+    "111598f014d8341413a4cd32": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "11a181bc87bd3eae14f861a5": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "11b3f5d77115808efde86486": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "12ab170511b8049d7315ed5b": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1363f6fbaff5f9d069e4cfff": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "13a96e6dfb7d6a2343c2d585": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "14a1003c519a763e3d84fd89": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "14bbaa78059f116d27843e7b": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1551906635c95615dfd66ef6": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "172a764d3590aa5198de6eb4": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1792dc8f59d9a38e9fcd3872": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "17d89a5a532402e0e3086687": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "181b893d4ff0f3b521feb85b": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "18f33b604d1e59e91521855a": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "194cb2728292029203119fac": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "19bc1921d18d15a0fe953c34": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1ad14ad6c637fcc3de198245": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1b332bc25f9f49ccad09c7db": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1b6d2cdeee75f88497822661": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1b92d3a1cf25246c658a5e86": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1bc164395555b7ef1edd5c3a": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1c0be4207729085e7d273b29": {
+      "class": "defective",
+      "reason": "target is only the tail of a roxygen block (starts with a bare #' and @param lines); the title and description sit above a plain '#' line in the full file and are outside the selected context, so the visible prompt asks for a title-less block"
+    },
+    "1c7ded119f39f0d0789824f9": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1c9cf605e650aadb5a34bfa6": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1ca28d1872780abb32dbbe0f": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "1d1050e91335ed6924911fc7": {
+      "class": "cosmetic",
+      "reason": "upstream duplicated words ('and and', 'which which'); params match formals"
+    },
+    "1f097dd3a746e959022ffa9e": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "2024f08daa7111f14a681fa4": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "208e44c3c665367c8e1b0b57": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "219018cac5aadbbaace08f20": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    },
+    "21be20dd98ab1989fd9a6b7f": {
+      "class": "correct",
+      "reason": "roxygen block matches the documented function: @param names and descriptions fit the formals and body; shared-topic tags (@rdname/@describeIn/@inheritParams) explain any undocumented formals"
+    }
+  },
+  "schema": "sepalith.c10.semantic-classifications.v1"
+}

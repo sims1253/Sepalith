@@ -1,0 +1,94 @@
+{
+  "card": "C10",
+  "state": "needs_user",
+  "updated": "2026-10-12T10:00:00+02:00",
+  "branch": "plan/C10-roxygen-admission",
+  "pull_request": null,
+  "outputs": {
+    "admission_receipt": {
+      "path": "docs/training/plan-20260927/receipts/C10-roxygen-admission.json",
+      "sha256": "39863075571e6cf834430400ce9844910b8bad7d639b5948a860cb74e9aee673"
+    },
+    "schedule_proposal_receipt": "docs/training/plan-20260927/receipts/C10-arm-b-schedule-proposal.json",
+    "code": [
+      "docs/training/plan-20260927/c10/admit_roxygen.py",
+      "docs/training/plan-20260927/c10/check_roxygen.R",
+      "docs/training/plan-20260927/c10/build_c10.sh",
+      "docs/training/plan-20260927/c10/semantic-classifications.json"
+    ],
+    "recommended_ids_ledger": {
+      "note": "full/recommended-context-ids.json was lost with the planning worktree; rebuilt byte-identically from the DAT10-roxy8597 union ledger and the selected-context profiles",
+      "sha256": "f88607c31ad60bb4b13eb50946ab2db6bfd7daf0f300bd9d9809a2c06b631e62",
+      "matches_review_receipt": true
+    },
+    "admission": {
+      "recommended": 3903,
+      "admitted": 3861,
+      "held": 42,
+      "held_by_reason": {
+        "licence: family not in the standing rule (Artistic-2.0 7, MPL-2.0 5, file LICENSE only 3, Unlimited 2, EUPL 1)": 18,
+        "licence: no provenance ledger entry (testflow)": 3,
+        "dedup: exact payload duplicate within the set": 2,
+        "dedup: same documented function within the set": 1,
+        "dedup: same documented function as a TRAIN row": 1,
+        "census: target is the tail of a roxygen block whose head is outside the selected context": 17
+      },
+      "licence_rule": "SYSTEMS.md section 7 standing rule (MIT/Apache/BSD/GPL-family/CC-BY/CC0; NC/ND/unspecified excluded) checked against /mnt/nas/home/sepalith/provenance/<pkg>.json with package and version equal to the row's source path",
+      "licence_families_admitted": {"GPL-family": 1881, "MIT": 1650, "Apache": 202, "BSD": 95, "CC0": 17, "CC-BY": 16},
+      "split_check": "all 3,861 admitted rows have a train_group identity group in DAT-02-global-split-v2.json and a package name that appears in no dev, final or quarantine group",
+      "dedup_check": "0 exact payload or same-prompt overlaps with the 15,006 TRAIN rows; 1 same-function near duplicate of TRAIN held; 3 admitted rows share target text with a TRAIN row but document a different function (golem app_sys boilerplate, a copied helper)",
+      "semantic_spot_check": {
+        "n": 60,
+        "seed": 3407,
+        "strata": {"le512": 39, "513-1024": 13, "1025-4096": 7, "gt4096": 1},
+        "counts": {"correct": 53, "cosmetic": 6, "defective": 1},
+        "defect_rate_wilson95": [0.0029, 0.0886],
+        "automatic": "60/60 parse in R, 60/60 air idempotent, 0 documented params missing from formals",
+        "defect_census": "the defect kind found (split roxygen block) was censused over all 3,878 rows that passed the mechanical checks: 17 hits, all held"
+      },
+      "length": "no truncation; admitted rows use the selected source-span context: max 5,066 tokens, 1 row over 4,096 (kept, 8,192 bucket), 9 over 2,048, none over the recipe's 16,384 context. The 4,989 rows over 4,096 in the card refer to full-file context, which these rows do not use."
+    },
+    "cohort": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/arm-b-cohort-rows.jsonl",
+      "sha256": "a43d775b950d1cdd1a598a6c585589dc294e3eb8dacf4a54becc4bb7b0190949",
+      "rows": 18867,
+      "composition": "15,006 TRAIN rows verbatim, then 3,861 admitted roxygen rows in id order",
+      "length_profile": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b/length-profile.json",
+        "sha256": "9fe5f608f3d47170d3d7f46335fd32c355b321cb08d6f158d5b3456c3f6b62b3"
+      }
+    },
+    "proposed_schedule": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b/draw-schedule-v2-armb-proposed.json",
+      "sha256": "e7a0d1aa654be1a15198b71e034755866934db7a656ececcfd3d248285cc6b92",
+      "status": "proposed, pending the question below; built with the unchanged C04 schedule_v2 (PR #45)",
+      "updates": 1368,
+      "gates": [342, 684, 1026, 1368],
+      "noop_share": 0.1875,
+      "exposure_histogram_by_pool": {"edit": {"1": 17762, "2": 11}, "noop": {"3": 272, "4": 822}}
+    },
+    "night_cost_estimate": {
+      "arm_b_vs_arm_a_scheduled_tokens": 1.135,
+      "arm_b_vs_arm_a_updates": 1.277,
+      "provisional_training_hours": {"arm_a": 2.31, "arm_b": 2.63},
+      "nights": "one night expected, two at most; C07 has not run, so rescale with C07's measured arm-A time"
+    },
+    "not_done_yet": "arm-B data-queue file, recipe template, admission and bind (need the R2 learning rate after C08), training, R3",
+    "hf_paths": [],
+    "hf_upload": "deferred until the schedule question is answered, then one batched commit of TRAIN-derived artifacts only (admitted/held ID ledgers, cohort rows, length profile, schedule) to campaign-20260915/C10/"
+  },
+  "rule_decisions": [
+    {
+      "rule": "C10 stop condition (fewer than 1,000 rows survive admission)",
+      "inputs": {"admitted": 3861},
+      "outcome": "continue"
+    },
+    {
+      "rule": "semantic spot-check, C06 bands (<=5% continue, 5-10% list kinds, >10% stop-for-user)",
+      "inputs": {"defective": 1, "n": 60, "defect_rate": 0.0167},
+      "outcome": "continue"
+    }
+  ],
+  "question_for_user": "The card's arm-B schedule rules conflict with the admitted data. Schedule v2 rules are 13 edit + 3 no-op per update (18.75% no-ops), every edit once, and each no-op row seen at most 3 times. With only 1,094 no-op rows, a cap of 3 allows 3,282 no-op draws, enough for at most 14,222 edits at 13:3. Arm B has 17,773 edits (13,912 TRAIN + 3,861 roxygen). Option (a): keep 13:3 and 18.75%. That gives 1,368 updates with gates at 342/684/1,026/1,368, and 822 no-op rows are seen 4 times (272 seen 3 times). It is already built with the unchanged C04 code. Option (b): keep the cap at 3. The no-op share then falls to 15.6% and needs mixed 13:3/14:2 updates, a schedule_v2 code change. Which do you want? Recommended: (a). With the same no-op share as arm A, R3's nofp comparison measures the roxygen rows rather than a composition change, and 4 exposures stays below the 4-5 the audit flagged.",
+  "notes": "Branched from origin/plan/C04-sft-recipe-v2 (PR #45) for schedule_v2/recipe_v2; merge after #45. Context drift: the card's DAT-10 receipts and the recommended-ID ledger were not in the git snapshot (receipts came from the HF provenance tarball, sha256 1a524e78... verified). The licence ledger is /mnt/nas/home/sepalith/provenance. Out of scope but relevant to the all-eligible policy: later DAT-10 reviews recovered 4,694 more roxygen rows (full-context 3,669, loop-scope 1,024, NSE 1; DAT10-roxy8597 union, dedup-accepted). They still need semantic/split/licence admission and mostly use full-file context (2,677 over 4,096 tokens), so they are a possible later cohort. The 18 licence holds (Artistic-2.0, MPL-2.0, EUPL, Unlimited, file-only) could be admitted if the user extends the standing rule."
+}
