@@ -31,7 +31,7 @@ Usage (system python3 from experiments/synthetic-data):
   python3 rewrite_author_zai.py author --arms buinject
   python3 rewrite_author_zai.py stats          # print current stats files
 
-ZAI_API_KEY comes from the environment (exported from ~/.zshrc).
+ZAI_API_KEY comes from the environment (exported from ~/.config/sepalith/secrets.env).
 """
 from __future__ import annotations
 

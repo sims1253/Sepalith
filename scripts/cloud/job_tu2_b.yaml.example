@@ -7,7 +7,7 @@
 # RE-CUT 2026-09-05: train = arm_b_solve_gated_624/train.jsonl (624-row primary, b'); eval = the staged shared 307-row slice. (c)@113 stays the paired secondary; b@113 stays its pair.
 #
 # FIRE (from repo root, tree committed):
-#   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
+#   eval "$(grep -E '^export HF_TOKEN=' ~/.config/sepalith/secrets.env)"
 #   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
 #     && git archive HEAD | tar -x -C /tmp/anyscale_sft/pkg
 #   sed -e "s|<HF_TOKEN>|$HF_TOKEN|" -e "s|<STEPS>|SET_BY_FIRE_ORDER|" \

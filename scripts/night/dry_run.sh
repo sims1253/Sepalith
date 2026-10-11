@@ -11,7 +11,7 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo="$(cd "$here/../.." && pwd)"
 state="$HOME/.local/state/sepalith/night-dryrun-$(date +%Y%m%d-%H%M%S)-$device"
 python=/usr/bin/python3
-[[ "$device" == cuda ]] && python=/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python
+[[ "$device" == cuda ]] && python="$repo/.venv-sft/bin/python"
 if [[ "$device" == cuda ]]; then windows=("4 5 6" "10 12.5 15"); else windows=("1 1.5 2" "1 1.5 2"); fi
 export PYTHONPATH="$repo/packages/sepalith/src"
 queue() { /usr/bin/python3 -B -m sepalith.ops.night_queue --root "$state/night-queue" "$@"; }
