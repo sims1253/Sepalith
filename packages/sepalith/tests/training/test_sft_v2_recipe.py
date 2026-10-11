@@ -17,8 +17,12 @@ from sepalith.training.supervisors import request_graceful_stop
 REPO = Path(__file__).resolve().parents[4]
 DEPLOY = Path("/home/m0hawk/sandbox/Sepalith")
 C04 = REPO / "docs/training/plan-20260927/c04"
-ROWS = Path("/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl")
-ROWS_SHA = "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+# The bound TRAIN rows: since 2026-10-12 the C06 brace fix (DAT10-finish-source-repair-v4-braceindent).
+_TEMPLATE_ROWS = json.loads((Path(__file__).resolve().parents[4] / "docs/training/plan-20260927/c04/sft-v2-recipe.template.json")
+                            .read_text())["cohort"]["rows"]
+ROWS = Path(_TEMPLATE_ROWS["path"])
+ROWS_SHA = _TEMPLATE_ROWS["sha256"]
+V3_ROWS_SHA = "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
 ARMS = {"lr3e-6": 3e-6, "lr1e-5": 1e-5, "lr3e-5": 3e-5, "smoke-lr1e-5": 1e-5}
 OLD_COVERAGE_FIELDS = {"eligible_rows", "eligible_edit_rows", "eligible_noop_rows", "distinct_rows_drawn", "first_all_rows_step",
                        "min_row_exposures", "max_row_exposures", "last_unique_draw_by_pool", "first_replay_draw_by_pool",
@@ -109,6 +113,17 @@ def localized(path):
 
 
 class BoundArtifactTests(unittest.TestCase):
+    def test_template_binds_the_brace_fixed_rows(self):
+        template = json.loads((C04 / "sft-v2-recipe.template.json").read_text())
+        cohort = template["cohort"]
+        self.assertNotEqual(cohort["rows"]["sha256"], V3_ROWS_SHA)
+        self.assertIn("v4-braceindent", cohort["rows"]["path"])
+        self.assertEqual((cohort["unique_rows"], cohort["updates"]), (15006, 1071))
+        self.assertEqual(template["pre_registered"]["gate_updates"], [268, 536, 803, 1071])
+        # A new output tag keeps these arms away from directories written under the v3 binding.
+        self.assertTrue(template.get("output_tag"))
+        self.assertNotEqual(recipe_v2.arm_outputs("smoke-lr1e-5", template["output_tag"]), recipe_v2.arm_outputs("smoke-lr1e-5"))
+
     def test_template_pre_registers_card_values(self):
         template = json.loads((C04 / "sft-v2-recipe.template.json").read_text())
         registered = template["pre_registered"]
@@ -148,6 +163,9 @@ class BoundArtifactTests(unittest.TestCase):
                              "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51")
             self.assertEqual(recipe["arm"]["name"], arm)
             outputs.add(recipe["outputs"]["archive"])
+            expected = recipe_v2.arm_outputs(arm, json.loads((C04 / "sft-v2-recipe.template.json").read_text()).get("output_tag", ""))
+            self.assertEqual(recipe["dev_gate"]["evidence_directory"], expected.pop("evidence_directory"))
+            self.assertEqual(recipe["outputs"], expected)
             kwargs = trainer.training_arguments_kwargs(recipe, Path("/tmp/x"))
             self.assertEqual((kwargs["warmup_steps"], kwargs["lr_scheduler_type"], kwargs["lr_scheduler_kwargs"], kwargs["max_steps"]),
                              (32, "cosine_with_min_lr", {"min_lr_rate": 0.1}, 1071))

@@ -336,7 +336,7 @@ class Arm:
             self.evaluations.append({"step": step, "panel": name, "result": str(output), "sha256": sha256(output)})
         return results
 
-    def result_problems(self, name: str, path: Path, step: int, manifest_sha: str) -> list[str]:
+    def result_problems(self, name: str, path: Path, step: int, manifest_sha: str, *, check_recipe: bool = True) -> list[str]:
         value = read_json(path)
         panel = _object(_object(self.gate["panels"], "panels")[name], name)
         summary = _object(value.get("summary"), "summary")
@@ -350,6 +350,8 @@ class Arm:
             "cases": denominators.get("cases") == panel["cases"],
             "final_set": value.get("final_set_access") is False,
         }
+        if not check_recipe:
+            checks.pop("recipe")
         return [f"{name} result {key} binding differs" for key, ok in checks.items() if not ok]
 
     def gate_loss(self, step: int) -> float | None:
@@ -378,9 +380,11 @@ class Arm:
             result = Path(_str(entry["result"], "baseline result"))
             if not result.is_file() or sha256(result) != entry["sha256"]:
                 raise DriverError(f"baseline {name} result differs")
-            problems = self.result_problems(name, result, 0, _str(record["parent_manifest_sha256"], "manifest"))
-            # The baseline was produced under one arm's recipe; only that binding may differ.
-            problems = [p for p in problems if "recipe binding" not in p]
+            # The baseline belongs to the parent and the panels, not to the recipe it ran under
+            # (any arm, any TRAIN row file): its result binds the parent manifest, step 0 and the
+            # panel hashes and case counts, which are checked; the recipe hash is not.
+            problems = self.result_problems(name, result, 0, _str(record["parent_manifest_sha256"], "manifest"),
+                                            check_recipe=False)
             if problems:
                 raise DriverError(f"baseline {name}: {problems}")
             summaries[name] = _object(read_json(result)["summary"], "summary")

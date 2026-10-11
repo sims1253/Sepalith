@@ -4,7 +4,7 @@
     "name": "lr1e-5",
     "purpose": "C08 learning-rate pilot arm (stops at the first gate; the R2 winner resumes in C09)"
   },
-  "decided_by": "user decisions of 2026-09-27 in docs/training/plan-20260927/README.md (parent 11,586; pilot LRs 3e-6, 1e-5, 3e-5)",
+  "decided_by": "user decisions of 2026-09-27 in docs/training/plan-20260927/README.md (parent 11,586; pilot LRs 3e-6, 1e-5, 3e-5) and of 2026-10-12 (fix the 486 C06 braces: v4-braceindent rows)",
   "launch_authorized": true,
   "parent": {
     "candidate_id": "CPT-11586",
@@ -24,5 +24,5 @@
   },
   "schema": "sepalith.sft-v2.full-weight-edit-sft-arm-admission.v1",
   "status": "admitted",
-  "template_sha256": "e9ea4fbdf6e7e8af8d1d05a7cce587c14ef48b9c3f636a55a50f72d08e6bb6af"
+  "template_sha256": "0242ecb9f069eeaca320ef007161f50d35370e29a6dfab1969379890103256f3"
 }

@@ -28,7 +28,9 @@ DEV75=/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev
 DEV250=/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl
 DEV250_MANIFEST=/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/manifest.json
 PARENT=/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586
-DECIDED="user decisions of 2026-09-27 in docs/training/plan-20260927/README.md (parent 11,586; pilot LRs 3e-6, 1e-5, 3e-5)"
+COHORT_ID=${COHORT_ID:-DAT10-finish-source-repair-v3-full15006}
+OUTPUT_TAG=${OUTPUT_TAG:-}
+DECIDED=${DECIDED:-"user decisions of 2026-09-27 in docs/training/plan-20260927/README.md (parent 11,586; pilot LRs 3e-6, 1e-5, 3e-5)"}
 
 export PYTHONPATH=$LOCAL_ROOT/packages/sepalith/src PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8
 recipe() { nice -n 10 "$PYTHON" -m sepalith.training.sft.recipe_v2 --deploy-root "$DEPLOY_ROOT" --local-root "$LOCAL_ROOT" "$@"; }
@@ -41,7 +43,7 @@ if [[ ${1:-all} == all ]]; then
   recipe template --rows "$ROWS" --rows-sha256 "$ROWS_SHA256" --schedule "$WORK/draw-schedule-v2.json" \
     --materialization "$MATERIALIZATION" --length-profile "$LENGTH_PROFILE" --data-queue "$DATA_QUEUE" \
     --optimizer-dispatch "$DISPATCH" --dev75 "$DEV75" --dev250 "$DEV250" --dev250-manifest "$DEV250_MANIFEST" \
-    --output "$OUT/sft-v2-recipe.template.json"
+    --cohort-id "$COHORT_ID" --output-tag "$OUTPUT_TAG" --output "$OUT/sft-v2-recipe.template.json"
   recipe admission-template --template "$OUT/sft-v2-recipe.template.json" --output "$OUT/admissions/arm-admission.template.json"
   for arm in "${ARMS[@]}"; do
     name=${arm%%:*}; lr=${arm##*:}

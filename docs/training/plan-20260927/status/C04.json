@@ -1,13 +1,13 @@
 {
   "card": "C04",
   "state": "done",
-  "updated": "2026-10-11T20:30:00+02:00",
+  "updated": "2026-10-12T01:55:00+02:00",
   "branch": "plan/C04-sft-recipe-v2",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/45",
   "outputs": {
     "schedule": {
-      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2/draw-schedule-v2.json",
-      "sha256": "e147b63a4e7f1c75ba9b480a0e29f0e09324649a8b88dc4ddde1b3c2df4d8712",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2-r4/draw-schedule-v2.json",
+      "sha256": "6820a84738ba2131911146f1541aaa525b41b08300b924261a287f6a404cc7bc",
       "seed": 3407,
       "updates": 1071,
       "draws": 17136,
@@ -36,50 +36,52 @@
         803,
         1071
       ],
-      "checks": "all eligible ids drawn, no target truncation, unique-before-replay per pool, edits once except the 11 last-update replays, no-op cap 3, constant composition"
+      "checks": "all eligible ids drawn, no target truncation, unique-before-replay per pool, edits once except the 11 last-update replays, no-op cap 3, constant composition",
+      "rows": "DAT10-finish-source-repair-v4-braceindent (ed1c7b4e...3aef)"
     },
     "hf_paths": [
       "campaign-20260915/C04/draw-schedule-v2.json",
-      "campaign-20260915/C04/draw-schedule-v2.summary.json"
+      "campaign-20260915/C04/draw-schedule-v2.summary.json",
+      "campaign-20260915/sft/DAT10-finish-source-repair-v4-braceindent/ (rows, sidecar, ledger, materialization, verification, schedule-v2/)"
     ],
     "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/060005c3d1027da687e27fa78e01e8ecb7692220",
     "template": {
       "path": "docs/training/plan-20260927/c04/sft-v2-recipe.template.json",
-      "sha256": "e9ea4fbdf6e7e8af8d1d05a7cce587c14ef48b9c3f636a55a50f72d08e6bb6af"
+      "sha256": "0242ecb9f069eeaca320ef007161f50d35370e29a6dfab1969379890103256f3"
     },
     "admission_template_example_only": {
       "path": "docs/training/plan-20260927/c04/admissions/arm-admission.template.json",
-      "sha256": "5d55c5595f69326b96903bea5060e82af14e30596fdc36656c52b622ffe51999"
+      "sha256": "76f614a576e1e2ecfc4c069b402b1f69255753fb0c6a260d41d1020f57216e04"
     },
     "admissions": {
-      "lr3e-6": "4453e8d890a703e587171a47629989f2044ee8bf4876574a3731f898031c75ef",
-      "lr1e-5": "733be0fc2aa989c705c8585ec24993ec114948505f31003b0f52a3ef3fa4cbc0",
-      "lr3e-5": "1406daecc1fca0e952c6036d8138b7c021a360867e9813b30565b0e58bbba51b",
-      "smoke-lr1e-5": "d919270a30eac8fbe1280c98866b9226394ae1c61c2c49db6047a2a1f1a85c41"
+      "lr3e-6": "18b29f8834d0e935886bb40b74595ef129a44952bc2b18880d39c376fc67d512",
+      "lr1e-5": "fdf4b221f6927cb8a3db46eda1435d6e4c015c4617fec92c4c899316faae9bef",
+      "lr3e-5": "88aac957d401fae66ff932096f1988a4e6a46c14e832936e14d4d5e41a6aa90f",
+      "smoke-lr1e-5": "feddbe7422e7a9b7dab087071c3b84648607178940b548087aac823fb50bdc8a"
     },
     "source_manifest": {
       "path": "docs/training/plan-20260927/c04/bound/source-manifest.json",
-      "sha256": "a3b688749626289893d8bb431b276b0699e88025022d6374cdfeaff22c88274d"
+      "sha256": "fbb9d55a73b7facfc075f5cafdaccb3272cf440592f13d401a9ce953de6102ad"
     },
     "bound_recipes": {
       "lr3e-6": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr3e-6.json",
-        "sha256": "5537b896cc603d97b1570b7d28aa6d842d890bac3057128a9333da33508a2159"
+        "sha256": "df36b96af7a4307fbcc0485b2ef59505f4ad756b9a119b201bd118aca910a3f6"
       },
       "lr1e-5": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
-        "sha256": "feeb850433c78300a86e71288f294ac92ed774f02b9ed648f59c202f5706454e"
+        "sha256": "1a4db1006944a4ceadc697b0476434b02420b46055f26970b8028ead95d9759b"
       },
       "lr3e-5": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr3e-5.json",
-        "sha256": "5a485af9cb2c2969d70d24617401cf0900a307b1d7683ed2cc9c98d5c5d50513"
+        "sha256": "a9c6c3336b02b06ef0f18883b7d91004a71c1b195dcb548d5798a6f9df0688a3"
       },
       "smoke-lr1e-5": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-smoke-lr1e-5.json",
-        "sha256": "17ece1ddc9696235fa01947702b031ec807766acd0dc6e029ea7784a48aa9f2f"
+        "sha256": "57b343e1191fc77136754d07bb41ff6b6aa9338b2cfab3b441b70390aace6c61"
       }
     },
-    "bound_recipe_verification": "recipe_v2 verify passed for all four with the real parent (model.safetensors 4bf617f9...3c51), rows, schedule, DEV75, DEV250 (75f3a5ee...7f22, manifest 07e370a8...230a), data queue, optimizer dispatch and source manifest",
+    "bound_recipe_verification": "recipe_v2 verify passed for all four with the real parent (model.safetensors 4bf617f9...3c51), v4 rows, schedule, DEV75, DEV250 (75f3a5ee...7f22, manifest 07e370a8...230a), data queue, optimizer dispatch and source manifest",
     "job_files_not_enqueued": {
       "C07-baseline": {
         "path": "docs/training/plan-20260927/c04/jobs/C07-baseline.json",
@@ -121,15 +123,44 @@
       "docs/training/plan-20260927/c04/build_c04.sh"
     ],
     "tests": {
-      "check_training": "84 tests OK on CPU (51 existing + 33 new: test_sft_v2_recipe, test_sft_v2_gates, test_sft_v2_trainer)",
+      "check_training": "86 tests OK on CPU (51 existing + 35 new)",
       "check_core": "78 tests OK",
       "check_quality": "ruff and ty clean",
       "interpreter": "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
       "cuda": false
     },
-    "checkpoint_retention": "retain_all (R7): the bound recipes carry retention.policy = retain_all and the trainer default keeps every gate checkpoint and every deadline save; nothing is deleted automatically. Job files are unchanged (they name recipe paths, not hashes)."
+    "checkpoint_retention": "retain_all (R7): the bound recipes carry retention.policy = retain_all and the trainer default keeps every gate checkpoint and every deadline save; nothing is deleted automatically. Job files are unchanged (they name recipe paths, not hashes).",
+    "schedule_v3_rows_superseded": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2/draw-schedule-v2.json",
+      "sha256": "e147b63a4e7f1c75ba9b480a0e29f0e09324649a8b88dc4ddde1b3c2df4d8712",
+      "note": "used by the 2026-10-12 C07 night under the earlier binding; kept"
+    },
+    "train_rows": {
+      "dir": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent",
+      "train-token-rows.jsonl": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef",
+      "context-sidecar.jsonl": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a (unchanged copy of v3)",
+      "repair-ledger.jsonl": "db6639e76c8f0a4ee3c61050101389589d75c30a3f3b983f2600cdc2f1269930 (v3 ledger + 486 entries)",
+      "materialization.json": "a341164f3f167d1e7cec8fbae1448b458aba8c0a3865d095ce8d6780157a89c5",
+      "brace-reindent-verification.json": "4f750db2b94e4541b4d0a18604bbf572222789055576a9740211c0348c04641b",
+      "receipt": {
+        "path": "docs/training/plan-20260927/receipts/C04-brace-reindent-v4.json",
+        "sha256": "f733bb1329aadad913c52293303d47ee43ff6a1a8d4d75a55f7d7230da1a1dc9"
+      },
+      "verification": "486/486: decoded target equals intended, R parses, final brace column equals header column, air ok and idempotent and keeps the fixed brace line, prompt unchanged, within limits (max sequence 3064, max target 933); 14,520 other rows byte-identical; encoder reproduces all 15,006 v3 targets; C06 census on v4: 0 of 7,785 finish rows with a misindented final brace",
+      "length_profile": {
+        "path": "docs/training/plan-20260927/c04/v4/length-profile.json",
+        "sha256": "392a1af33288a48436541ee80391bc9ebd203faf985a673fdc1c4c844999fe77"
+      },
+      "data_queue": {
+        "path": "docs/training/plan-20260927/c04/v4/data-queue.json",
+        "sha256": "0024483b488eb5f4b6e3a8c8328486f2a8fe7a3763e99b979452606c0e2e27ee"
+      }
+    },
+    "hf_commit_v4": "https://huggingface.co/datasets/scholzmx/sepalith/commit/2029f1360d74cad67a9ab02dd00f284ff4782699",
+    "bound_recipe_outputs": "output tag r4: SFT-v2-r4-<arm> directories, apart from the SFT-v2-<arm> directories the 2026-10-12 night writes under the earlier binding",
+    "parent_baseline_compatibility": "accepted: the baseline check compares parent weights and manifest, step 0, panel hashes and case counts, not the recipe hash (now an explicit check_recipe=False); the baseline path is unchanged; tested with a baseline made under another binding"
   },
   "rule_decisions": [],
   "question_for_user": null,
-  "notes": "Schedule v2, the R1 gate driver, deadline stop and masking gate are in place; tiny-CPU-model tests show exact resume (weights, optimizer moments, LR, losses, cursor) and the masking gate needed an RNG restore to leave training bit-identical. Before C07 enqueues: merge PR #41 (the gate's DEV250 call uses run_dev_generation --panel dev250) and this PR, the bound source manifest leaves out training/eval (hashed per gate decision instead), so #41 needs no rebind, but any later change to a bound sft/optim/checkpoint/contracts/guards file needs build_c04.sh bind; the training rows are bound as-is (C06's 486 misindented braces undecided) and a corrected row file needs only a new schedule, length profile, data queue and build_c04.sh all, no code change."
+  "notes": "Recipe v2 is rebound on the C06 brace fix (v4-braceindent rows, user decision 2026-10-12): 1,071 updates and the same gates, retain-all checkpoints, outputs tagged r4. A parent baseline from the earlier lr1e-5 binding is accepted. Before C08 enqueues: merge PR #41 (the DEV250 call uses run_dev_generation --panel dev250) and this PR; a later change to a bound sft/optim/checkpoint/contracts/guards file needs build_c04.sh bind."
 }

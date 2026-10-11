@@ -352,6 +352,28 @@ class DriverTests(unittest.TestCase):
         self.assertEqual(self.arm().run(), night_arm.EXIT_NEEDS_USER)
         self.assertIn("parent baseline missing", self.decision(2)["rule"]["problems"][0])
 
+    def test_a_baseline_from_another_binding_is_accepted_if_parent_and_panels_match(self):
+        # Tonight's C07 baseline runs under the earlier sft-v2-lr1e-5 binding (v3 rows); the
+        # rebound recipes (v4 rows) differ in their own hash but share the parent and the panels.
+        self.baseline(edit=10)
+        base = json.loads(self.recipe_path.read_text())
+        rebound = dict(base, cohort={"rows": {"sha256": "c" * 64}}, arm={"name": "lr3e-6", "learning_rate": 3e-6})
+        self.recipe_path.write_text(json.dumps(rebound))
+        self.assertEqual(self.arm().baseline_metrics()["edit"], 10)
+        for change, message in (({"parent": {"path": base["parent"]["path"], "files": {"model.safetensors": "b" * 64}}},
+                                 "another parent"),
+                                ({"dev_gate": dict(base["dev_gate"], panels=dict(
+                                    base["dev_gate"]["panels"],
+                                    dev250=dict(base["dev_gate"]["panels"]["dev250"], sha256="0" * 64)))},
+                                 "panel binding differs"),
+                                ({"dev_gate": dict(base["dev_gate"], panels=dict(
+                                    base["dev_gate"]["panels"],
+                                    dev75=dict(base["dev_gate"]["panels"]["dev75"], cases=74)))},
+                                 "cases binding differs")):
+            self.recipe_path.write_text(json.dumps(dict(rebound, **change)))
+            with self.assertRaisesRegex(night_arm.DriverError, message):
+                self.arm().baseline_metrics()
+
     def test_sigterm_during_training_writes_the_recipe_bound_stop_file(self):
         arm = self.arm()
         arm.request_trainer_stop(None)

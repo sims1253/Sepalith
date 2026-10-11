@@ -1,31 +1,31 @@
 {
   "cohort": {
-    "body_tokens": 1487442,
+    "body_tokens": 1486961,
     "draw_schedule": {
-      "bytes": 9582516,
-      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2/draw-schedule-v2.json",
-      "sha256": "e147b63a4e7f1c75ba9b480a0e29f0e09324649a8b88dc4ddde1b3c2df4d8712"
+      "bytes": 9582526,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2-r4/draw-schedule-v2.json",
+      "sha256": "6820a84738ba2131911146f1541aaa525b41b08300b924261a287f6a404cc7bc"
     },
-    "id": "DAT10-finish-source-repair-v3-full15006",
-    "input_tokens": 13755681,
+    "id": "DAT10-finish-source-repair-v4-braceindent-full15006",
+    "input_tokens": 13755200,
     "length_profile": {
-      "bytes": 1095,
-      "path": "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/length-profile.json",
-      "sha256": "33ef2275bf593c229ed9e01e292f0946b1632a2c1c70777ed0f23880db931cc5"
+      "bytes": 471,
+      "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/v4/length-profile.json",
+      "sha256": "392a1af33288a48436541ee80391bc9ebd203faf985a673fdc1c4c844999fe77"
     },
-    "loss_tokens": 1577478,
+    "loss_tokens": 1576997,
     "manifest": {
-      "bytes": 7132,
-      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/materialization.json",
-      "sha256": "8b90202ae438b7c048f4a80ed5cf13fd2cd635d719799e13959f8cf92641f47c"
+      "bytes": 2314,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/materialization.json",
+      "sha256": "a341164f3f167d1e7cec8fbae1448b458aba8c0a3865d095ce8d6780157a89c5"
     },
     "max_sequence_tokens": 16384,
     "observed_max_sequence_tokens": 3064,
     "observed_max_target_tokens_including_eos": 933,
     "rows": {
-      "bytes": 134311661,
-      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
-      "sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+      "bytes": 134305148,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
     },
     "schedule_semantics": {
       "edit_per_batch": 13,
@@ -61,9 +61,9 @@
   "data_queue": {
     "additional_roxy_rows": 10017,
     "additional_roxy_status": "pending_root_admission",
-    "bytes": 2038,
-    "path": "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/data-queue.json",
-    "sha256": "b471bc54f6940857cadf4e36494132380e2b80eadaf4e04a041f78a92fc41bcb"
+    "bytes": 2521,
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/v4/data-queue.json",
+    "sha256": "0024483b488eb5f4b6e3a8c8328486f2a8fe7a3763e99b979452606c0e2e27ee"
   },
   "dev_panels": {
     "dev250": {
@@ -111,6 +111,7 @@
     "path": "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
     "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
   },
+  "output_tag": "r4",
   "parent": null,
   "pre_registered": {
     "arms_differ_only_in": "learning_rate (hidden LR) and side LR = LR / 10",

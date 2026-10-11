@@ -259,7 +259,7 @@ def verify_data_queue_v2(record: Mapping[str, object], cohort: Mapping[str, obje
 
 def build_template(*, rows: Path, rows_sha256: str, schedule: Path, materialization: Path, length_profile: Path,
                    data_queue: Path, optimizer_dispatch: Path, dev75: Path, dev250: Path, dev250_manifest: Path,
-                   paths: PathMap, cohort_id: str = "DAT10-finish-source-repair-v3-full15006") -> Json:
+                   paths: PathMap, cohort_id: str = "DAT10-finish-source-repair-v3-full15006", output_tag: str = "") -> Json:
     """Assemble the pre-registered template from the cohort, schedule and panels."""
     require(sha256(rows) == rows_sha256, "TRAIN rows differ from the expected hash")
     plan = _object(json.loads(schedule.read_text()), "schedule")
@@ -279,7 +279,9 @@ def build_template(*, rows: Path, rows_sha256: str, schedule: Path, materializat
     dev75_cases = sum(1 for line in dev75.read_text().splitlines() if line.strip())
     record = paths.to_deploy
     dev75_record = {"path": str(dev75), "sha256": sha256(dev75)}
+    tagged = {"output_tag": output_tag} if output_tag else {}
     return {
+        **tagged,
         "schema": TEMPLATE_SCHEMA,
         "status": "template_parent_and_learning_rate_unbound",
         "launch_authorized": False,
@@ -390,12 +392,14 @@ def _markers(value: object, where: str = "admission") -> list[str]:
 
 # Binding ---------------------------------------------------------------------------------
 
-def arm_outputs(arm: str) -> Json:
+def arm_outputs(arm: str, tag: str = "") -> Json:
+    """Output locations; a template ``output_tag`` keeps a rebinding's outputs apart from earlier runs."""
+    stem = f"SFT-v2-{tag}-{arm}" if tag else f"SFT-v2-{arm}"
     return {
-        "trainer": f"{CHECKPOINT_BASE}/training/SFT-v2-{arm}/runtime",
-        "archive": f"{CHECKPOINT_BASE}/checkpoints/SFT-v2-{arm}",
-        "graceful_stop": f"{STATE_ROOT}/control/SFT-v2-{arm}-save-stop.json",
-        "evidence_directory": f"{GATE_ROOT}/SFT-v2-{arm}",
+        "trainer": f"{CHECKPOINT_BASE}/training/{stem}/runtime",
+        "archive": f"{CHECKPOINT_BASE}/checkpoints/{stem}",
+        "graceful_stop": f"{STATE_ROOT}/control/{stem}-save-stop.json",
+        "evidence_directory": f"{GATE_ROOT}/{stem}",
     }
 
 
@@ -440,7 +444,9 @@ def bind(template_path: Path, admission_path: Path, output: Path, *, source_mani
     updates = _object(template["cohort"], "cohort")["updates"]
     require(type(updates) is int, "template horizon missing")
     assert isinstance(updates, int)
-    outputs = arm_outputs(name)
+    tag = template.get("output_tag", "")
+    require(isinstance(tag, str) and (tag == "" or _ARM.fullmatch(tag)), "output tag differs")
+    outputs = arm_outputs(name, str(tag))
     evidence = str(outputs.pop("evidence_directory"))
     bound = copy.deepcopy(template)
     bound.update({
@@ -574,6 +580,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         template.add_argument(f"--{name}", type=Path, required=True)
     template.add_argument("--rows-sha256", required=True)
     template.add_argument("--cohort-id", default="DAT10-finish-source-repair-v3-full15006")
+    template.add_argument("--output-tag", default="", help="keeps the arms' output directories apart from earlier bindings")
     profile = sub.add_parser("length-profile")
     profile.add_argument("--rows", type=Path, required=True)
     profile.add_argument("--rows-sha256", required=True)
@@ -606,7 +613,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                                materialization=args.materialization, length_profile=args.length_profile,
                                data_queue=args.data_queue, optimizer_dispatch=args.optimizer_dispatch, dev75=args.dev75,
                                dev250=args.dev250, dev250_manifest=args.dev250_manifest, paths=paths,
-                               cohort_id=args.cohort_id)
+                               cohort_id=args.cohort_id, output_tag=args.output_tag)
         write_new(args.output, value)
     elif args.command == "length-profile":
         write_new(args.output, build_length_profile(args.rows, args.rows_sha256))
