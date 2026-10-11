@@ -223,8 +223,9 @@
     "weight_decay": 0.0
   },
   "retention": {
-    "durable_archive_latest": 2,
-    "preserve_selected_milestones": true
+    "policy": "retain_all",
+    "preserve_selected_milestones": true,
+    "reason": "R7: deleting any checkpoint is stop-for-user; every gate checkpoint and every deadline save is kept"
   },
   "root_admission": {
     "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/admissions/lr1e-5.json",
@@ -288,7 +289,7 @@
   "seed": 3407,
   "source": {
     "manifest_path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/source-manifest.json",
-    "manifest_sha256": "aeddd62f5da6062e6e087e8ee6de1ff4dc39bc43e092fb92296e573bb17cb3c8",
+    "manifest_sha256": "a3b688749626289893d8bb431b276b0699e88025022d6374cdfeaff22c88274d",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "status": "bound_not_launched",

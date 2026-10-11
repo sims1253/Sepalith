@@ -182,6 +182,25 @@ def identity_v2(recipe):
     return value
 
 
+RETAIN_ALL = "retain_all"
+RETIRE_OLDER = "retain_milestones_and_latest"
+
+
+def apply_retention(recipe, archive_root):
+    """Checkpoint retention after each durable save.
+
+    The default keeps every checkpoint: rule R7 makes any deletion
+    stop-for-user. Older non-milestone saves are retired only when a recipe
+    explicitly opts in with retention.policy = "retain_milestones_and_latest".
+    """
+    policy = recipe.get("retention", {}).get("policy", RETAIN_ALL)
+    require(policy in (RETAIN_ALL, RETIRE_OLDER), "checkpoint retention policy differs")
+    if policy == RETAIN_ALL:
+        return {"policy": RETAIN_ALL, "retired": []}
+    return {"policy": RETIRE_OLDER, **retain_archives(archive_root, set(recipe["runtime"]["selected_milestones"]),
+                                                      latest=recipe["retention"]["durable_archive_latest"])}
+
+
 def retain_archives(archive_root, milestones, latest=2):
     full = Path(archive_root) / "full"; checkpoints = []
     for path in full.glob("checkpoint-*"):
@@ -292,7 +311,6 @@ def run(recipe_path, resume=None, stop_after_step=None):
     require(not any("lora_" in n.lower() or "modules_to_save" in n.lower() for n, _ in named), "PEFT parameter entered full-weight run")
 
     expected_dispatch = json.loads(Path(recipe["optimizer_dispatch"]["path"]).read_text())
-    selected_milestones = set(runtime["selected_milestones"])
     observed_positions = []
 
     def collate(items):
@@ -355,7 +373,7 @@ def run(recipe_path, resume=None, stop_after_step=None):
             if step in set(runtime["evaluation_steps"]):
                 request=build_evaluation_request(recipe,step,destination)
                 write_json(archive / "evaluations" / f"request-step-{step}.json",request)
-            retention = retain_archives(archive, selected_milestones, latest=2)
+            retention = apply_retention(recipe, archive)
             append_jsonl(telemetry, {"event": "checkpoint_durable", "step": step, "path": str(destination), "retention": retention, "at": time.time()})
             return control
 

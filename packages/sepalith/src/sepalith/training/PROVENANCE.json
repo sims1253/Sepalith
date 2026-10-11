@@ -672,7 +672,7 @@
   {
    "module": "sepalith.training.sft.full_weight_edit_sft",
    "path": "packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py",
-   "sha256": "7fb81a219ee0e200529c64407330400aa754f69463be0a600226152a7eb16f00",
+   "sha256": "7144b2ed0a28cc8e0d4d05c1e0225e69b326e76303570296a92607e66b38a607",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/full_weight_edit_sft.py",
    "source_sha256": "86c0a65ec427559bc4d8664f90bc797f3245383296bb3995641c491427d6037f",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
@@ -683,7 +683,8 @@
     "imports under_checkpoint_root",
     "rewrote 10 local import statement(s) to sepalith.training package paths",
     "removed imports left unused (ruff F401), including sys after the sys.path removal",
-    "card C04: load_bound and identity dispatch v2 bound recipes to sft/recipe_v2.py; training_arguments_kwargs accepts warmup_steps and lr_scheduler_kwargs; run() honours SEPALITH_DEADLINE_EPOCH and --stop-after-step through night_controls.DeadlineStop, runs the pre-update masking gate before update 1, and logs peak CUDA memory; v1 behaviour unchanged"
+    "card C04: load_bound and identity dispatch v2 bound recipes to sft/recipe_v2.py; training_arguments_kwargs accepts warmup_steps and lr_scheduler_kwargs; run() honours SEPALITH_DEADLINE_EPOCH and --stop-after-step through night_controls.DeadlineStop, runs the pre-update masking gate before update 1, and logs peak CUDA memory; v1 behaviour unchanged",
+    "card C04 (R7): checkpoint retention goes through apply_retention; the default keeps every checkpoint, and older saves are retired only when a recipe sets retention.policy = retain_milestones_and_latest"
    ],
    "bound_by": [
     {

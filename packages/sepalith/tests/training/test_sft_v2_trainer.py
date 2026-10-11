@@ -6,7 +6,9 @@ warmup then cosine to 10%), the target-only collator, a sequential frozen draw
 order with a cursor check, ``DeadlineStop`` at the optimizer boundary and the
 masking gate at train begin.
 """
+import json
 import math
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -65,12 +67,13 @@ def model():
     return LlamaForCausalLM(config).to(torch.bfloat16)
 
 
-def run(output, *, resume=None, night=None, collate_mutation=None, gate=True):
+def run(output, *, resume=None, night=None, collate_mutation=None, gate=True, archive=None, retention_recipe=None):
     dataset = Draws(rows())
     net = model()
     observed, gates, losses, lrs = [], [], [], []
     initial = 0 if resume is None else int(Path(resume).name.removeprefix("checkpoint-"))
     holder = {}
+    retained = []
 
     def collate(items):
         positions = [item.pop("_draw_position") for item in items]
@@ -87,6 +90,14 @@ def run(output, *, resume=None, night=None, collate_mutation=None, gate=True):
                 expected = [dataset.rows[i] for i in range(ACCUMULATION)]
                 gates.append(pre_update_masking_gate(holder["trainer"], kwargs["train_dataloader"], expected,
                                                      accumulation=ACCUMULATION, global_step=state.global_step))
+
+        def on_save(self, args, state, control, **kwargs):
+            # Production publishes each sealed save into archive/full, then applies retention.
+            if archive is not None:
+                source = Path(args.output_dir) / f"checkpoint-{state.global_step}"
+                (archive / "full").mkdir(parents=True, exist_ok=True)
+                os.rename(source, archive / "full" / source.name)
+                retained.append(trainer_module.apply_retention(retention_recipe, archive))
 
         def on_step_end(self, args, state, control, **kwargs):
             lrs.append(holder["trainer"].lr_scheduler.get_last_lr()[0])
@@ -118,7 +129,7 @@ def run(output, *, resume=None, night=None, collate_mutation=None, gate=True):
     trainer.train(resume_from_checkpoint=str(resume) if resume else None)
     params = {name: p.detach().clone() for name, p in net.named_parameters()}
     return {"params": params, "observed": observed, "gates": gates, "losses": losses, "lrs": lrs,
-            "step": trainer.state.global_step, "optimizer": trainer.optimizer}
+            "step": trainer.state.global_step, "optimizer": trainer.optimizer, "retention": retained}
 
 
 class DeadlineResumeTests(unittest.TestCase):
@@ -168,6 +179,29 @@ class DeadlineResumeTests(unittest.TestCase):
                 if torch.is_tensor(value):
                     self.assertTrue(torch.equal(value, resumed_state[key][field]), (key, field))
         self.assertEqual(second["gates"], [])  # the masking gate runs only before update 1
+
+    def test_no_checkpoint_is_removed_across_two_deadline_resumes(self):
+        bound = json.loads((Path(__file__).resolve().parents[4]
+                            / "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json").read_text())
+        self.assertEqual(bound["retention"]["policy"], "retain_all")
+        recipe = {"retention": bound["retention"], "runtime": {"selected_milestones": [MAX_STEPS]}}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            archive = root / "archive"
+            first = run(root / "runtime", night=DeadlineStop(stop_after_step=2), archive=archive, retention_recipe=recipe)
+            second = run(root / "runtime", resume=archive / "full/checkpoint-2", night=DeadlineStop(stop_after_step=4),
+                         archive=archive, retention_recipe=recipe)
+            third = run(root / "runtime", resume=archive / "full/checkpoint-4", archive=archive, retention_recipe=recipe)
+            self.assertEqual((first["step"], second["step"], third["step"]), (2, 4, MAX_STEPS))
+            self.assertEqual(sorted(p.name for p in (archive / "full").iterdir()),
+                             ["checkpoint-2", "checkpoint-4", f"checkpoint-{MAX_STEPS}"])
+            for record in first["retention"] + second["retention"] + third["retention"]:
+                self.assertEqual(record, {"policy": "retain_all", "retired": []})
+            # The default with no retention field also keeps everything; only an explicit opt-in retires.
+            self.assertEqual(trainer_module.apply_retention({}, archive)["retired"], [])
+            opt_in = {"retention": {"policy": "retain_milestones_and_latest", "durable_archive_latest": 1},
+                      "runtime": {"selected_milestones": [MAX_STEPS]}}
+            self.assertEqual(trainer_module.apply_retention(opt_in, archive)["retired"], [2, 4])
 
     def test_masking_gate_passes_on_the_live_first_batch_without_changing_training(self):
         gate = self.full["gates"][0]

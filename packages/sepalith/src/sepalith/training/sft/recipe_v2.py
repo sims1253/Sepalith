@@ -60,6 +60,8 @@ CPT_HIDDEN_LR = 3e-6
 PILOT_LEARNING_RATES = (3e-6, 1e-5, 3e-5)
 SEED = 3407
 GENERATION_MAX_NEW_TOKENS = 1024
+RETENTION = {"policy": "retain_all", "preserve_selected_milestones": True,
+             "reason": "R7: deleting any checkpoint is stop-for-user; every gate checkpoint and every deadline save is kept"}
 LR_UPPER_BOUND_RATIONALE = (
     "3e-5 is ten times the CPT hidden LR of 3e-6. Aurora/Muon updates have a fixed RMS of rms_scale x LR, so the LR "
     "directly sets how far each update moves the weights, and a 268-update pilot cannot reveal slow forgetting of CPT "
@@ -467,6 +469,8 @@ def bind(template_path: Path, admission_path: Path, output: Path, *, source_mani
                    "repository_root": str(paths.deploy)},
         "root_admission": {"path": paths.to_deploy(admission_path), "sha256": sha256(admission_path)},
         "template": {"path": paths.to_deploy(template_path), "sha256": sha256(template_path)},
+        # Replaces the template's v1-style "latest 2" entry: R7 makes any checkpoint deletion stop-for-user.
+        "retention": dict(RETENTION),
     })
     validate_pre_registered(bound)
     write_new(output, bound)
@@ -497,6 +501,7 @@ def validate_pre_registered(recipe: Mapping[str, object]) -> None:
     require(runtime.get("evaluation_steps") == gate_updates(updates) == runtime.get("mandatory_dev_gate_steps")
             == runtime.get("selected_milestones"), "gate updates are not the quarters of the horizon")
     require(recipe.get("seed") == SEED, "seed differs")
+    require(recipe.get("retention") == RETENTION, "checkpoint retention must keep every checkpoint")
     require(_object(cohort.get("schedule_semantics"), "semantics").get("version") == SCHEDULE_VERSION,
             "cohort is not bound to schedule v2")
     gate = _object(recipe.get("dev_gate"), "dev_gate")
