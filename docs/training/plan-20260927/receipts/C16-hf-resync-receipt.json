@@ -1,0 +1,185 @@
+{
+ "card": "C16",
+ "date": "2026-10-11",
+ "repo": "datasets/scholzmx/sepalith",
+ "script": "experiments/post-processing/push_cases.py",
+ "root": "/mnt/nas/home/sepalith",
+ "base_revision": "060005c3d1027da687e27fa78e01e8ecb7692220",
+ "dry_run_before": {
+  "projection_files": 14387,
+  "new": 14292,
+  "changed": 0,
+  "unchanged": 95,
+  "upload_bytes": 8961318,
+  "unchanged_spot_hashes": [
+   {
+    "repo": "corpus/cran/licenses.jsonl",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "corpus/cran/manifest.jsonl",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "corpus/pwc/license_ledger.jsonl",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "corpus/stack_v3/acceptance_report.json",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "mixtures/sft_v8_2/stats.json",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "mixtures/sft_v8_2/eval.jsonl",
+    "kind": "sha256",
+    "match": true
+   },
+   {
+    "repo": "mixtures/sft_v4/eval.jsonl",
+    "kind": "sha256",
+    "match": true
+   },
+   {
+    "repo": "pretraining/a2/r/contamination.json",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "pretraining/a2_mixture_manifest.json",
+    "kind": "git-sha1",
+    "match": true
+   },
+   {
+    "repo": "families/synthetic_analyst/analyst_gemini.jsonl",
+    "kind": "git-sha1",
+    "match": true
+   }
+  ]
+ },
+ "commits": [
+  {
+   "oid": "131082961ab979f45522b8e6a5a4af9ec09f7a74",
+   "message": "C16: re-sync dataset projection: corpus/ (5000 files, batch 1/3)",
+   "files": 5000,
+   "bytes": 3134481
+  },
+  {
+   "oid": "e92d2a01d07ca0b5d76b440cfcf6def4159a71d3",
+   "message": "C16: re-sync dataset projection: corpus/ (5000 files, batch 2/3)",
+   "files": 5000,
+   "bytes": 3094382
+  },
+  {
+   "oid": "32ee84a24dc6e260b23121e2399052ec3dd4054e",
+   "message": "C16: re-sync dataset projection: corpus/ (4292 files, batch 3/3)",
+   "files": 4293,
+   "bytes": 2732455
+  }
+ ],
+ "uploaded": {
+  "corpus/cran/provenance/<shard>/": {
+   "files": 14292,
+   "json": 14193,
+   "license_txt": 99,
+   "bytes": 8961318,
+   "shards": 26,
+   "largest_shard": 1474
+  },
+  "README.md": "layout rows for corpus/cran/, mixtures/, provenance/ and datasets/ corrected"
+ },
+ "verification": {
+  "after_revision": "32ee84a24dc6e260b23121e2399052ec3dd4054e",
+  "hub_files_after": 26517,
+  "added": 14292,
+  "removed": 0,
+  "changed": [
+   "README.md"
+  ],
+  "provenance_complete": true,
+  "spot_git_sha1": "47/47",
+  "readme_matches": true,
+  "dry_run_after": {
+   "new": 0,
+   "changed": 0,
+   "unchanged": 14387
+  }
+ },
+ "eval_protection": {
+  "guard": "push_cases.guard(): C00 forbidden tokens + dat-08; path components cases_v1, edit_pairs_v1, edit_pairs, edit-pairs, git, a2_code_mirror, packages, campaign-20260915; any final-named file; repo paths only under corpus/ families/ mixtures/ pretraining/ README.md",
+  "guard_hits_first_run": [
+   "provenance/finalfit.json",
+   "provenance/finalsize.json"
+  ],
+  "guard_resolution": "CRAN package metadata records (package names finalfit, finalsize); exempted by exact path",
+  "guard_violations_at_upload": 0,
+  "removed_from_projection": {
+   "datasets/cases_v1/ -> families/": "sealed-final source pool (docs/campaign/work/lead/seal_final_metadata.py takes final rows only from cases_v1/*.jsonl and edit_pairs_v1/examples.jsonl)",
+   "edit pairs -> corpus/edit-pairs/": "same; mined from repos",
+   "datasets/packages/ (CRAN shards)": "source snapshots that predate the split (CONTEXT.md)"
+  },
+  "sealed_final_paths_opened": 0,
+  "uploaded_paths_touching_forbidden_tokens": 0
+ },
+ "pre_existing_exposure": {
+  "families_files_projected_from_cases_v1": 104,
+  "size_identical_to_nas": 99,
+  "bytes": 459828975,
+  "families": [
+   "astfim_partial",
+   "astfim_partial_eval",
+   "base_samples",
+   "comment_styles",
+   "comment_to_code_styles",
+   "compound",
+   "doc_sync",
+   "expectation_completion",
+   "finish_block_authored",
+   "finish_block_authored_bases",
+   "finish_block_authored_gpt56sol",
+   "finish_block_authored_gpt56sol_bases",
+   "finish_block_authored_oxalpha-nous",
+   "finish_block_authored_oxalpha-nous_bases",
+   "finish_block_compound",
+   "finish_block_compound_random",
+   "fix_issue_inject",
+   "mid_body_edit",
+   "namespace_qualify_propagation",
+   "pipe_chain_link",
+   "pkg_metadata_sync",
+   "removed_block_comment",
+   "rewrite_fixissue",
+   "rewrite_lint_fix",
+   "rewrite_lint_fix_oxalpha",
+   "tidyselect_completion",
+   "trycatch_handler_completion"
+  ],
+  "mixtures": "all 7 sft_v* folders include edit_pairs train rows (~15.5k each); sft_v8_1/v8_2 add finish_block cases_v1 waves",
+  "uploaded": "2026-08-21 to 2026-09-01, before the DAT-02 split; also present in Hub history (incl. earlier synthetic/cases_v1 and edit-pairs/ roots)",
+  "action": "none; awaiting the user (status/C16.json)"
+ },
+ "since_sep1": {
+  "families": "no change (scenarios_v1, synthetic_analyst_v1 identical to the Sep 1 push)",
+  "mixtures": "no change; sft_v4 has no stats.json; sft_v3/eval.jsonl == sft_v4/eval.jsonl (sha256 f28b5fc54a52bd596b76e06ca41f71bc90a97941de3bef609e7096bd4cfb36af)",
+  "corpus_ledgers": "no change (cran, bioc, stack_v2, stack_v3, pwc)",
+  "pretraining": "no change",
+  "new_nas_datasets_not_projected": [
+   "datasets/a2",
+   "h4_whale_v1",
+   "loc1_s0_r",
+   "m1_pools",
+   "nextcoder_r_v1",
+   "nextcoder_r2_cross_v1",
+   "rl_diverse_select",
+   "rl_o2_prescreen",
+   "spec_traces"
+  ]
+ }
+}

@@ -16,7 +16,7 @@ license texts under `provenance/`, the HF dataset repo, and
 - Every script reads datasets that earlier stages wrote to the NAS store.
   Without `/mnt/h/sepalith`, no script in this stage can run. To run the
   stage, first run data mining and synthetic generation against that store.
-  No script here honors `SEPALITH_ROOT`.
+  Only `push_cases.py` honors `SEPALITH_ROOT` (or `--root`).
 - `format_sft_types.py` needs the `ry` binary at
   `/home/m0hawk/Documents/ry-worktrees/dump-types/target/release/ry`. That
   path is outside this repo.
@@ -84,6 +84,24 @@ Run the steps in order. Each one consumes the outputs of the step before it.
    mirror lives at
    [huggingface.co/datasets/scholzmx/sepalith](https://huggingface.co/datasets/scholzmx/sepalith).
 
+   To re-sync the public dataset's projection (`corpus/`, `families/`,
+   `mixtures/`, `pretraining/`), use `push_cases.py` instead. Always run the
+   dry run first:
+
+   ```bash
+   nice -n 10 uv run python experiments/post-processing/push_cases.py \
+     --dry-run --root /mnt/nas/home/sepalith --plan-out /tmp/plan.json
+   nice -n 10 uv run python experiments/post-processing/push_cases.py \
+     --apply --root /mnt/nas/home/sepalith --receipt /tmp/receipt.json
+   ```
+
+   The script diffs against the Hub and uploads only new or changed files,
+   in a few batched commits. Its eval-protection guard aborts if a path
+   touches the sealed final set, its source pools (`cases_v1/`,
+   `edit_pairs_v1/`), the git mirror, raw package shards, or a `final`-named
+   file. It deletes nothing unless you pass `--delete-legacy`, and it changes
+   the README only when you pass `--readme`.
+
 6. Estimate the token budget.
 
    ```bash
@@ -122,6 +140,7 @@ Run the steps in order. Each one consumes the outputs of the step before it.
 | `style_tag.py` | Tags each record tidyverse, base, or neutral. A TOSEM study found mixed-style training hurts; the tag lets mixtures stratify. |
 | `pull_licenses.py` | Extracts each package's LICENSE file from its tarball into provenance. |
 | `push_hf.py` | Pushes shards, manifest, and provenance to a private HF dataset repo. |
+| `push_cases.py` | Diffs the NAS projection against the public dataset and uploads changes in batched commits, behind an eval-protection guard. |
 | `estimate_tokens.py` | Token-budget estimate for pretraining: stratified sample, exact tokenizer counts, per-area ratios. |
 | `format_sft_v1.py` | Renders finish-block records into the Zeta-2 prompt format. |
 | `format_sft_types.py` | Builds the type-conditioning ablation pair: same records, with and without a `<filename>types` section from `ry dump-types`. |
