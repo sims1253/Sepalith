@@ -110,3 +110,97 @@ Not pursued this cycle:
 - Self-distillation (SDPO; weak below about 1.5B).
 - On-policy distillation (no R-capable teacher shares our tokenizer).
 - Critic-based methods (no memory budget for a critic).
+
+## Addendum 2026-10-12: quantization for shipping (C09, C17)
+
+Sources: the user's wiki (`concepts/statistically-lossless-quantization.md`,
+`entities/why-ptq-works.md`, `concepts/token-identity-gate.md`,
+`entities/starling.md`), Unsloth's Dynamic 2.0/3.0 and QAT docs, HF Optimum,
+NVIDIA Model Optimizer, AMD Ryzen AI and Quark, llama.cpp's quantizer source,
+and arXiv 2610.09346 (OnlineQAT).
+
+- NVIDIA Model Optimizer, AMD Quark/Ryzen AI and HF Optimum export to
+  TensorRT, vLLM, ONNX or NPU formats. Only their workflow (calibrate,
+  evaluate held out, protect sensitive layers) carries over to GGUF.
+- The Unsloth library is open source (Apache-2.0). `save_pretrained_gguf`
+  wraps llama.cpp convert/quantize and accepts an imatrix and tensor-type
+  overrides. The per-model layer maps and calibration data behind Unsloth's
+  own Dynamic uploads are not published, so we build our own imatrix and
+  test a single override arm.
+- OnlineQAT targets 2 to 3-bit weights on a 1.7B model, with no 4-bit
+  results. Not needed at the tiers we ship.
+
+**Proposed (C09, C17):**
+
+1. Convert to a bf16 GGUF, not f16. Use it as both the quantization source
+   and the reference.
+2. Build an importance matrix from TRAIN prompts plus gold completions in
+   the PRM03 render:
+   - family-balanced, about 0.3 to 1M tokens;
+   - context 2,048 to 4,096;
+   - DEV75, DEV250 and the sealed set excluded by id and near-duplicate
+     hash.
+3. Produce these tiers:
+   - Q8_0, Q6_K, Q5_K_M and Q4_K_M with the imatrix;
+   - an uncalibrated Q4_K_M as a control;
+   - IQ4_XS only if it passes the gate and is not slower on Vulkan.
+4. Embedding and head precision:
+   - keep `token_embd` at Q8_0 (disk cost only);
+   - A/B the output head at Q8_0 against Q6_K.
+5. Try one "Q4_K_M+" arm: `attn_k`/`attn_v` at Q8_0 and the first and last
+   two `ffn_down` at Q6_K. Keep it only if it beats Q4_K_M on the gate.
+6. No QAT unless Q4_K_M and Q5_K_M both fail and a smaller file is still
+   needed.
+7. Gate every tier against the bf16 GGUF in the same build, greedy on CPU:
+
+| Metric | Q8_0 | Q6_K, Q5_K_M | Q4_K_M |
+| --- | --- | --- | --- |
+| DEV250 exact-match change | ≥ −0.4 pp | ≥ −1.0 pp | ≥ −2.0 pp |
+| Paired McNemar on exact match | p > 0.05 | p > 0.05 | p > 0.05 |
+| `nofp` and `valid` | no worse | at most +1 pp | at most +1 pp |
+| Whole-output token identity vs bf16 | ≥ 97% | ≥ 90% | recorded |
+| Mean KLD on held-out TRAIN text | ≤ 0.002 | ≤ 0.01 | ≤ 0.03 |
+| Top token agrees with bf16 | ≥ 99.5% | ≥ 98.5% | ≥ 97% |
+
+   Every shipped tier must also have a one-sided 95% upper bound of at most
+   3 pp on net exact-match loss.
+8. Measure prefill and decode latency on the target laptop, on CPU and
+   Vulkan, with prompt-cache reuse. Ship Q8_0 plus the smallest tier that
+   passes.
+
+Thresholds are proposals for the user's sign-off.
+
+**Exporter prerequisites:** rebuild the pinned llama.cpp (lost in the
+reinstall), add bf16 conversion, Q5_K_M and `--tensor-type` passthrough to
+`experiments/training/export_gguf.py`.
+
+## Addendum 2026-10-12: no-op restraint threshold (proposed new card after C09)
+
+The user asked whether a decision model (for example
+`vllm-sr/Decision-2.0-Kai-0.6B`) could decide no-op cases. That model is a
+Qwen3-0.6B classifier with a custom head, built for routing and filtering:
+
+- it needs `trust_remote_code` and transformers ≥ 5.17;
+- it has no llama.cpp path;
+- it knows nothing about R edits.
+
+Wiki: `concepts/decision-models.md`, `concepts/calibrated-relevance-filtering.md`.
+
+The cheaper equivalent uses our own model: suppress an edit when
+log P(`[NO_EDIT]`) − log P(edit) > τ. That is one prefill per case
+(teacher-forced) and one knob that can become an extension setting.
+
+**Proposed experiment:** daytime, CPU or Kaggle, arm-A checkpoint and its
+Q4_K_M.
+
+1. Pre-register the method and the rule for choosing τ.
+2. Fit τ on DEV groups not used by DEV75 or DEV250, or by k-fold on DEV250
+   if that pool is too small. Never fit on TRAIN: the model saw those no-op
+   rows 2 to 3 times.
+3. Report on DEV75 and DEV250: `nofp` against exact-edit recall, and AUROC.
+4. Compare with Decision-2.0-Kai zero-shot, and optionally a hidden-state
+   probe.
+5. Adopt τ if it removes at least 3 `nofp` on DEV75 for at most 1 lost edit,
+   without lowering `score250`.
+
+The sealed set stays untouched.
