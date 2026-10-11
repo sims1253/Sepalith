@@ -16,8 +16,9 @@ RL update contracts. `sft` holds the editing-SFT trainer, its binder, the
 target-only collator and the draw-schedule builders. `eval` holds the DEV
 generation evaluator, the gate files, and CPT holdout loss. `cpt` holds the
 finished CPT trainer and its native staging and attestation. `rl` holds the
-GRPO production driver, reward v2, rollout data and the profiling and theta0
-gates. `guards` holds the WSL host-memory and GPU-reset supervisor. `supervisors`
+GRPO production driver, reward v2, reward v2.1 (`reward_v21`, card C11), the
+reviewed RL length policy (`length_policy`), rollout data and the profiling and
+theta0 gates. `guards` holds the WSL host-memory and GPU-reset supervisor. `supervisors`
 holds the graceful-stop request and the page-cache helper. `paths` defines the
 configurable roots: `CHECKPOINT_ROOT` (default `/mnt/e`, env
 `SEPALITH_CHECKPOINT_ROOT`) and `CAMPAIGN_ROOT` (default `docs/campaign`, env
@@ -44,6 +45,8 @@ on `PYTHONPATH` and the training interpreter
 | Gate check | `python -m sepalith.training.eval.prepare_dev_gate ...` writes `dev-gate-step-N.json`; `sepalith.training.eval.milestone_gate.continuation_plan` checks it before a resume |
 | Save and stop | `python -m sepalith.training.supervisors.request_graceful_stop --recipe BOUND` (SFT or CPT recipe) |
 | RL driver | `python -m sepalith.training.rl.preflight_full_weight_rl --recipe R --binding B --receipt OUT`; the trainer is built by `sepalith.training.rl.full_weight_rl_production.build_production_trainer` |
+| Reward v2.1 scoring (C11) | `python -m sepalith.training.rl.reward_v21 --tokenizer TOKENIZER_JSON {self-check,score --samples S --output O}`; needs `Rscript` and `air`. Rules use the `exact` field only |
+| RL length census (C11) | `python -m sepalith.training.rl.length_policy --rows TRAIN_ROWS --output CENSUS` |
 
 Before new recipes can use this code, three things change:
 

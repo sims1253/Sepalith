@@ -1,0 +1,51 @@
+{
+  "card": "C11",
+  "state": "done",
+  "updated": "2026-10-12T00:30:00+02:00",
+  "branch": "plan/C11-reward-v21",
+  "pull_request": null,
+  "outputs": {
+    "code": [
+      "packages/sepalith/src/sepalith/training/rl/reward_v21.py",
+      "packages/sepalith/src/sepalith/training/rl/air_canonical.py",
+      "packages/sepalith/src/sepalith/training/rl/campaign_r_parse_probe.py",
+      "packages/sepalith/src/sepalith/training/rl/reward_parse_only.R",
+      "packages/sepalith/src/sepalith/training/rl/length_policy.py",
+      "packages/sepalith/src/sepalith/training/rl/campaign_rl_data.py"
+    ],
+    "tests": [
+      "packages/sepalith/tests/training/test_reward_v21.py (18 tests)",
+      "packages/sepalith/tests/training/test_length_policy.py (8 tests)"
+    ],
+    "test_results": "check_training 77 OK (51 before C11), check_core 78 OK, check_quality ruff and ty clean",
+    "parser": "R 4.6.1 (2026-06-24), Rscript --vanilla, base::parse(file=...,keep.source=FALSE); syntax error = exit 3, anything else raises ParseInfrastructureError",
+    "formatter": "air 0.12.0, format --no-configuration --stdin-file-path",
+    "self_check_receipt": "docs/training/plan-20260927/receipts/C11-reward-v21-self-check.json",
+    "self_check": {
+      "rows": 15006,
+      "exact": 15006,
+      "non_exact": 0,
+      "comparison": {"air": 11961, "no_op_operation": 1094, "raw_formatting_only_reference": 981, "raw_fallback_window_unparsable": 970},
+      "reindented_correct_edit_probe": {"samples": 1000, "exact": 848, "air_compared_exact": "848 of 851"},
+      "near_miss_probe": {"samples": 1000, "exact": 0, "mean_reward": 0.2217}
+    },
+    "throughput_8_workers_nice10": {
+      "seconds_per_1000_samples_exact_path": 2.284,
+      "seconds_per_1000_samples_near_miss_and_reindented_mix": 2.684,
+      "seconds_per_1000_rows_reference_build": 5.54,
+      "data_load_seconds": "101 to 317 (reads 15,006 rows, the sidecar and 12,265 baseline blobs from /mnt/e; once per run)",
+      "c12_estimate": "15,006 references about 1.4 min plus 120,048 samples (k=8) about 4.6 to 5.4 min, plus the load"
+    },
+    "length_policy": {
+      "policy": "current-15006-complete-4096-candidate: 3,072 prompt tokens incl. BOS, 1,024 completion tokens incl. EOS, 4,096 context",
+      "census_receipt": "docs/training/plan-20260927/receipts/C11-length-census.json",
+      "accepted_rows": 15006,
+      "legacy_2048_192_rejected_rows": 4106,
+      "loader_accepts_all_rows": true
+    },
+    "rl12_note": "docs/campaign/RL-12-SUPERSEDED.md"
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "Reward v2.1 scores exact (canonical air equality; rules use only this field) and a graded reward (1.0 exact or correct no-op, 0.5 x baseline-relative line-F1 gain for parseable near misses, 0 for parse failures and missed edits, -0.5 for no-op false positives, protocol-invalid outputs and cap hits). Partial credit is switchable (gain, plain, off). Formatting-only references (format_propagation) and rows whose context window does not parse are compared raw and flagged. Driver selection of v2.1 and the GRPO memory probe at 4,096 tokens remain for C14/C15."
+}
