@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-10-12T10:00:00+02:00",
   "branch": "plan/C10-roxygen-admission",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/50",
   "outputs": {
     "admission_receipt": {
       "path": "docs/training/plan-20260927/receipts/C10-roxygen-admission.json",
