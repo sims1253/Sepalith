@@ -1,7 +1,7 @@
 {
   "card": "C16",
-  "state": "needs_user",
-  "updated": "2026-10-11T21:55:00+02:00",
+  "state": "done",
+  "updated": "2026-10-12T01:40:00+02:00",
   "branch": "plan/C16-hf-dataset-resync",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/47",
   "outputs": {
@@ -10,32 +10,59 @@
     "hf_commits": [
       "131082961ab979f45522b8e6a5a4af9ec09f7a74",
       "e92d2a01d07ca0b5d76b440cfcf6def4159a71d3",
-      "32ee84a24dc6e260b23121e2399052ec3dd4054e"
+      "32ee84a24dc6e260b23121e2399052ec3dd4054e",
+      "995ab0ff6b281f692d2e908aeda7c92896d21002"
     ],
     "hf_paths": [
       "corpus/cran/provenance/<shard>/ (14,292 files, 8,961,318 bytes)",
-      "README.md (layout table)"
+      "README.md (layout table)",
+      "deleted: 99 families/ files from cases_v1 and mixtures/sft_v*/ (20 files); 119 files, 7147664514 bytes"
     ],
     "provenance_complete": true,
-    "verification": "Hub tree after: 26,517 files; 14,292 added, 0 removed, only README.md changed; 47/47 spot git-sha1 match; re-run dry run: 0 new, 0 changed"
+    "verification": "Hub tree after: 26,517 files; 14,292 added, 0 removed, only README.md changed; 47/47 spot git-sha1 match; re-run dry run: 0 new, 0 changed",
+    "verification_delete": "Hub files 26517 -> 26398; removed set equals plan; 0 added; only README.md changed; no mixtures/ left; 30 families/ files remain"
   },
   "rule_decisions": [
     {
       "rule": "R8 batched data commits",
-      "inputs": {"files": 14292, "commits": 3},
+      "inputs": {
+        "files": 14292,
+        "commits": 3
+      },
       "outcome": "3 commits in one run"
     },
     {
       "rule": "C16 stop condition: > 50 GB or outside documented folders",
-      "inputs": {"upload_bytes": 8961318, "folders": ["corpus/cran/provenance/", "README.md"]},
+      "inputs": {
+        "upload_bytes": 8961318,
+        "folders": [
+          "corpus/cran/provenance/",
+          "README.md"
+        ]
+      },
       "outcome": "continue"
     },
     {
       "rule": "C16 stop condition: push_cases.py no longer matches the NAS layout",
-      "inputs": {"packages": "flat datasets/packages/*.jsonl, script expected packages/*/*.jsonl", "provenance": "at the NAS root, script expected datasets/provenance/", "hidden-r and edit-pairs": "local paths gone after the reinstall"},
+      "inputs": {
+        "packages": "flat datasets/packages/*.jsonl, script expected packages/*/*.jsonl",
+        "provenance": "at the NAS root, script expected datasets/provenance/",
+        "hidden-r and edit-pairs": "local paths gone after the reinstall"
+      },
       "outcome": "fixed in the script instead of stopping, as the user asked; provenance goes to sharded corpus/cran/provenance/ because the Hub caps a folder at 10,000 entries"
+    },
+    {
+      "rule": "user decision 2026-10-12",
+      "inputs": {
+        "families_files": 99,
+        "mixture_files": 20,
+        "bytes": 7147664514,
+        "nas_copies_confirmed": 119,
+        "skipped": 0
+      },
+      "outcome": "deleted in one commit 995ab0ff6b281f692d2e908aeda7c92896d21002 with the README update; Hub history not rewritten"
     }
   ],
-  "question_for_user": "The public dataset already holds sealed-final source rows. 104 files (459.8 MB, 27 families) under families/ are projections of NAS datasets/cases_v1/, 99 of them byte-size-identical to today's NAS files. All 7 mixtures/sft_v*/ folders (20 files, 6.70 GB) include edit-pair train rows (about 15.5k each), and sft_v8_1/v8_2 add cases_v1 finish_block waves. cases_v1/*.jsonl and edit_pairs_v1/examples.jsonl are exactly where the 706 sealed final rows (49 groups) were drawn from (seal_final_metadata.py). These were uploaded Aug 21 to Sep 1, before the split, and older copies are also in the Hub history (synthetic/cases_v1/, edit-pairs/). The README still says the sealed final set is absent. May I delete those 104 families/ files and the 7 mixtures/ folders in one commit, then run super_squash_history so they leave the history too? Recommended: yes. Training data stays split-disjoint, so internal evaluation remains valid, but a public release should not claim an unseen final set unless this is removed. Note that the squash also erases the commit history of campaign-20260915/ (files stay).",
-  "notes": "Re-synced on 2026-10-11 from /mnt/nas/home/sepalith. Since Sep 1 nothing in families/, mixtures/, corpus ledgers or pretraining/ changed (10/10 spot hashes match). The only upload was the complete CRAN provenance (14,292 files) under corpus/cran/provenance/<first char>/, plus README layout fixes. The flat provenance/ stays capped at 10,000 by the Hub. datasets/packages/ holds 1,997 of 14,193 shards, and raw shards are not projected (source snapshots). sft_v4 has no stats.json, and its eval.jsonl equals sft_v3's. Nothing was deleted. Not projected: NAS datasets new since Sep 1 (a2, h4_whale_v1, loc1_s0_r, m1_pools, nextcoder_r_v1, nextcoder_r2_cross_v1, rl_diverse_select, rl_o2_prescreen, spec_traces), and hidden_r_instruction_v1 (never uploaded; needs a license review)."
+  "question_for_user": null,
+  "notes": "Re-synced 2026-10-11 from /mnt/nas/home/sepalith: nothing in families/, mixtures/, corpus ledgers or pretraining/ had changed since Sep 1; uploaded the complete CRAN provenance (14,292 files) to corpus/cran/provenance/<first char>/ and fixed the README layout table. On 2026-10-12, by user decision, removed the 99 cases_v1-derived families/ files and all 20 mixtures/sft_v* files (7.15 GB) in one commit; history kept; push_cases.py no longer projects them. Still open, not blocking: datasets/packages/ holds 1,997 of 14,193 shards; flat provenance/ stays capped at 10,000; NAS datasets new since Sep 1 and hidden_r_instruction_v1 are not projected."
 }

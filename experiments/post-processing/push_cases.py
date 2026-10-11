@@ -14,9 +14,12 @@ repository structure without moving local files:
     bioc/, stack_v2/, stack_v3/, pwc/
                                ledgers, manifests and reports only
   families/<family>/<source>.jsonl[.stats.json|.done.jsonl]
-                               synthetic families, one file per author source
-  mixtures/sft_vX/...          assembled train/eval (derived data)
+                               scenario and analyst families, one file per
+                               author source
   pretraining/                 the A2 training package
+
+The LoRA-era `mixtures/sft_vX/` and the cases_v1 families were removed from
+the Hub on 2026-10-12 (they remain in its history) and are not projected.
 
 Eval protection (plan card C16). The projection never includes:
 
@@ -70,14 +73,15 @@ STATE = Path(__file__).parent / ".push_cases_state.json"
 
 # Documented top-level folders. `provenance/` and `datasets/` hold the era-1
 # CRAN upload; this script no longer writes there but the guard allows them.
-ALLOWED_TOP = {"corpus", "families", "mixtures", "pretraining", "provenance",
+ALLOWED_TOP = {"corpus", "families", "pretraining", "provenance",
                "datasets", "README.md"}
 # C00's forbidden tokens (docs/training/plan-20260927/receipts/upload_secure_20260927.py)
 FORBIDDEN_TOKENS = ("dat-07-final", "dat-08", "sealed-final", "sealed_final",
                     "final-evaluator", "final_eval")
 # Sealed-final source pools and eval-protected mirrors (path components).
 FORBIDDEN_DIRS = ("cases_v1", "edit_pairs_v1", "edit_pairs", "edit-pairs",
-                  "git", "a2_code_mirror", "packages", "campaign-20260915")
+                  "git", "a2_code_mirror", "packages", "campaign-20260915",
+                  "sft_v3", "sft_v4", "sft_v5", "sft_v6", "sft_v7", "sft_v8", "sft_v8_1", "sft_v8_2")
 # CRAN packages whose names contain "final": license metadata records, not
 # evaluation files. Exact root-relative paths only.
 FINAL_NAME_EXEMPT = {"provenance/finalfit.json", "provenance/finalsize.json"}
@@ -165,14 +169,8 @@ def projection(root: Path) -> list[tuple[Path, str]]:
         for f in sorted(sa.glob("*.jsonl")):
             out.append((f, f"families/synthetic_analyst/{f.name}"))
 
-    # -- mixtures --
-    for v in ("sft_v3", "sft_v4", "sft_v5", "sft_v6", "sft_v7",
-              "sft_v8_1", "sft_v8_2"):
-        d = nas / v
-        if not d.exists():
-            continue
-        for f in sorted(d.glob("*.jsonl")) + sorted(d.glob("stats.json")):
-            out.append((f, f"mixtures/{v}/{f.name}"))
+    # mixtures/sft_vX were removed from the Hub on 2026-10-12 (user decision,
+    # C16): they contain edit-pair and cases_v1 rows. Never project them again.
 
     # -- ledgers/manifests for the other acquired corpora --
     for src_rel, dst in [

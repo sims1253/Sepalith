@@ -129,9 +129,9 @@
   "uploaded_paths_touching_forbidden_tokens": 0
  },
  "pre_existing_exposure": {
-  "families_files_projected_from_cases_v1": 104,
+  "families_files_projected_from_cases_v1": 99,
   "size_identical_to_nas": 99,
-  "bytes": 459828975,
+  "bytes": 449946022,
   "families": [
    "astfim_partial",
    "astfim_partial_eval",
@@ -163,7 +163,8 @@
   ],
   "mixtures": "all 7 sft_v* folders include edit_pairs train rows (~15.5k each); sft_v8_1/v8_2 add finish_block cases_v1 waves",
   "uploaded": "2026-08-21 to 2026-09-01, before the DAT-02 split; also present in Hub history (incl. earlier synthetic/cases_v1 and edit-pairs/ roots)",
-  "action": "none; awaiting the user (status/C16.json)"
+  "action": "removed 2026-10-12, see deletion_20261012",
+  "count_note": "the first estimate of 104 double-counted 5 Hub paths that several cases_v1 files mapped to (last write won)"
  },
  "since_sep1": {
   "families": "no change (scenarios_v1, synthetic_analyst_v1 identical to the Sep 1 push)",
@@ -181,5 +182,82 @@
    "rl_o2_prescreen",
    "spec_traces"
   ]
+ },
+ "deletion_20261012": {
+  "decision": "user decision 2026-10-12: clean up; do not rewrite history",
+  "script": "docs/training/plan-20260927/receipts/delete_presplit_20261012.py",
+  "commit": "995ab0ff6b281f692d2e908aeda7c92896d21002",
+  "base_revision": "32ee84a24dc6e260b23121e2399052ec3dd4054e",
+  "deleted": {
+   "families_from_cases_v1": {
+    "files": 99,
+    "bytes": 449946022,
+    "families": [
+     "astfim_partial",
+     "astfim_partial_eval",
+     "base_samples",
+     "comment_styles",
+     "comment_to_code_styles",
+     "compound",
+     "doc_sync",
+     "expectation_completion",
+     "finish_block_authored",
+     "finish_block_authored_bases",
+     "finish_block_authored_gpt56sol",
+     "finish_block_authored_gpt56sol_bases",
+     "finish_block_authored_oxalpha-nous",
+     "finish_block_authored_oxalpha-nous_bases",
+     "finish_block_compound",
+     "finish_block_compound_random",
+     "fix_issue_inject",
+     "mid_body_edit",
+     "namespace_qualify_propagation",
+     "pipe_chain_link",
+     "pkg_metadata_sync",
+     "removed_block_comment",
+     "rewrite_fixissue",
+     "rewrite_lint_fix",
+     "rewrite_lint_fix_oxalpha",
+     "tidyselect_completion",
+     "trycatch_handler_completion"
+    ]
+   },
+   "mixtures": {
+    "files": 20,
+    "bytes": 6697718492,
+    "folders": [
+     "sft_v3",
+     "sft_v4",
+     "sft_v5",
+     "sft_v6",
+     "sft_v7",
+     "sft_v8_1",
+     "sft_v8_2"
+    ]
+   },
+   "total_files": 119,
+   "total_bytes": 7147664514
+  },
+  "nas_copy_check": "all 119 sources present on /mnt/nas/home/sepalith/datasets and size-identical to the Hub copy; 0 skipped",
+  "readme": "mixtures row removed, families row narrowed to scenario and analyst families, removal line added",
+  "history_rewritten": false,
+  "verification": {
+   "before_revision": "32ee84a24dc6e260b23121e2399052ec3dd4054e",
+   "after_revision": "995ab0ff6b281f692d2e908aeda7c92896d21002",
+   "files_before": 26517,
+   "files_after": 26398,
+   "bytes_before": 44303494829,
+   "bytes_after": 37155830208,
+   "removed": 119,
+   "removed_equals_plan": true,
+   "added": [],
+   "changed": [
+    "README.md"
+   ],
+   "readme_matches": true,
+   "mixtures_left": [],
+   "families_left": 30
+  },
+  "projection_change": "push_cases.py no longer projects mixtures/; guard refuses mixtures/ repo paths and sft_v* source dirs; dry run after: 14,367 unchanged, 0 to upload"
  }
 }

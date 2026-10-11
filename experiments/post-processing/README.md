@@ -85,8 +85,9 @@ Run the steps in order. Each one consumes the outputs of the step before it.
    [huggingface.co/datasets/scholzmx/sepalith](https://huggingface.co/datasets/scholzmx/sepalith).
 
    To re-sync the public dataset's projection (`corpus/`, `families/`,
-   `mixtures/`, `pretraining/`), use `push_cases.py` instead. Always run the
-   dry run first:
+   `pretraining/`), use `push_cases.py` instead. The LoRA-era `mixtures/`
+   and the `cases_v1` families were removed from the Hub on 2026-10-12 and
+   are no longer projected. Always run the dry run first:
 
    ```bash
    nice -n 10 uv run python experiments/post-processing/push_cases.py \

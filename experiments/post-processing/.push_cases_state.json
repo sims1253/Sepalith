@@ -57215,34 +57215,6 @@
   "size": 990,
   "mtime": 1787419031.0730476
  },
- "families/astfim_partial/corpus.done.jsonl": {
-  "size": 371190,
-  "mtime": 1787450369.228105
- },
- "families/astfim_partial/corpus.jsonl": {
-  "size": 33223737,
-  "mtime": 1787450369.1623454
- },
- "families/astfim_partial/corpus.stats.json": {
-  "size": 710,
-  "mtime": 1787450369.275134
- },
- "families/astfim_partial_eval/corpus.done.jsonl": {
-  "size": 12226,
-  "mtime": 1787450369.392673
- },
- "families/astfim_partial_eval/corpus.jsonl": {
-  "size": 1073548,
-  "mtime": 1787450369.3396282
- },
- "families/astfim_partial_eval/corpus.stats.json": {
-  "size": 712,
-  "mtime": 1787450369.4416966
- },
- "families/base_samples/muse-spark-1.2.jsonl": {
-  "size": 1882398,
-  "mtime": 1787335777.1691878
- },
  "families/comment_drafting/corpus.jsonl": {
   "size": 5948451,
   "mtime": 1787179973.1636114
@@ -57250,18 +57222,6 @@
  "families/comment_insert/corpus.jsonl": {
   "size": 1057439,
   "mtime": 1787184066.5718606
- },
- "families/comment_styles/glm-5.3.done.jsonl": {
-  "size": 54914,
-  "mtime": 1787217286.7295973
- },
- "families/comment_styles/glm-5.3.jsonl": {
-  "size": 640233,
-  "mtime": 1787217286.7633953
- },
- "families/comment_styles/glm-5.3.stats.json": {
-  "size": 678,
-  "mtime": 1787217286.7792351
  },
  "families/comment_to_code_gemini/gemini-3.7-flash.jsonl": {
   "size": 446067,
@@ -57271,185 +57231,21 @@
   "size": 2533913,
   "mtime": 1787707484.1593485
  },
- "families/comment_to_code_styles/corpus.done.jsonl": {
-  "size": 2258,
-  "mtime": 1787185070.353999
- },
- "families/comment_to_code_styles/corpus.jsonl": {
-  "size": 31339,
-  "mtime": 1787185070.374622
- },
- "families/comment_to_code_styles/corpus.stats.json": {
-  "size": 684,
-  "mtime": 1787185070.3844278
- },
  "families/comment_to_code_synthetic/corpus.jsonl": {
   "size": 3142901,
   "mtime": 1787707418.7246156
- },
- "families/compound/muse-spark-1.2.done.jsonl": {
-  "size": 200277,
-  "mtime": 1787335777.491275
- },
- "families/compound/muse-spark-1.2.jsonl": {
-  "size": 17958623,
-  "mtime": 1787335777.4539187
- },
- "families/compound/muse-spark-1.2.stats.json": {
-  "size": 17197,
-  "mtime": 1787335830.7893705
  },
  "families/doc_sync/corpus.jsonl": {
   "size": 1955536,
   "mtime": 1787233995.4301043
  },
- "families/doc_sync/muse-spark-1.2.done.jsonl": {
-  "size": 453651,
-  "mtime": 1787490777.7913327
- },
- "families/doc_sync/muse-spark-1.2.jsonl": {
-  "size": 18330507,
-  "mtime": 1787490777.7650237
- },
- "families/doc_sync/muse-spark-1.2.stats.json": {
-  "size": 1033,
-  "mtime": 1787490777.8200245
- },
  "families/doc_sync_v2_partial/corpus.jsonl": {
   "size": 649386,
   "mtime": 1787233995.1782084
  },
- "families/expectation_completion/corpus.done.jsonl": {
-  "size": 288285,
-  "mtime": 1787267941.0743432
- },
- "families/expectation_completion/corpus.jsonl": {
-  "size": 1037910,
-  "mtime": 1787267941.1095417
- },
- "families/expectation_completion/corpus.stats.json": {
-  "size": 707,
-  "mtime": 1787267941.1301916
- },
- "families/expectation_completion/glm-5.3.done.jsonl": {
-  "size": 140598,
-  "mtime": 1787218068.6925077
- },
- "families/expectation_completion/glm-5.3.jsonl": {
-  "size": 769710,
-  "mtime": 1787218068.741974
- },
- "families/expectation_completion/glm-5.3.stats.json": {
-  "size": 688,
-  "mtime": 1787218068.759531
- },
- "families/finish_block_authored/corpus.done.jsonl": {
-  "size": 361,
-  "mtime": 1787415892.416278
- },
- "families/finish_block_authored/corpus.jsonl": {
-  "size": 45389,
-  "mtime": 1787415892.3907645
- },
- "families/finish_block_authored/corpus.stats.json": {
-  "size": 1460,
-  "mtime": 1787416828.7879555
- },
- "families/finish_block_authored/gemini-3.7-flash.done.jsonl": {
-  "size": 226847,
-  "mtime": 1787461722.1607294
- },
- "families/finish_block_authored/gemini-3.7-flash.jsonl": {
-  "size": 60544054,
-  "mtime": 1787461722.1213937
- },
- "families/finish_block_authored/gemini-3.7-flash.stats.json": {
-  "size": 2219,
-  "mtime": 1787461722.1968184
- },
- "families/finish_block_authored/glm-5.3.done.jsonl": {
-  "size": 61982,
-  "mtime": 1787509200.9491193
- },
- "families/finish_block_authored/glm-5.3.jsonl": {
-  "size": 15111679,
-  "mtime": 1787509200.8946662
- },
- "families/finish_block_authored/glm-5.3.stats.json": {
-  "size": 2232,
-  "mtime": 1787509202.019628
- },
- "families/finish_block_authored_bases/corpus.jsonl": {
-  "size": 921735,
-  "mtime": 1787509200.2930381
- },
- "families/finish_block_authored_gpt56sol/corpus.done.jsonl": {
-  "size": 101363,
-  "mtime": 1787502189.2806058
- },
- "families/finish_block_authored_gpt56sol/corpus.jsonl": {
-  "size": 27976793,
-  "mtime": 1787502189.2547767
- },
- "families/finish_block_authored_gpt56sol/corpus.stats.json": {
-  "size": 2200,
-  "mtime": 1787503269.5415125
- },
- "families/finish_block_authored_gpt56sol_bases/corpus.jsonl": {
-  "size": 1621674,
-  "mtime": 1787502188.9780712
- },
- "families/finish_block_authored_oxalpha-nous/corpus.done.jsonl": {
-  "size": 1106,
-  "mtime": 1787455788.1783216
- },
- "families/finish_block_authored_oxalpha-nous/corpus.jsonl": {
-  "size": 101195,
-  "mtime": 1787452078.8510904
- },
- "families/finish_block_authored_oxalpha-nous/corpus.stats.json": {
-  "size": 1656,
-  "mtime": 1787456077.4066947
- },
- "families/finish_block_authored_oxalpha-nous_bases/corpus.jsonl": {
-  "size": 5689,
-  "mtime": 1787452078.6949763
- },
- "families/finish_block_compound/corpus.jsonl": {
-  "size": 38745246,
-  "mtime": 1787447954.924351
- },
- "families/finish_block_compound_random/corpus.jsonl": {
-  "size": 7208161,
-  "mtime": 1787448138.1220765
- },
- "families/fix_issue_inject/glm-5.3.done.jsonl": {
-  "size": 458828,
-  "mtime": 1787274212.9521325
- },
- "families/fix_issue_inject/glm-5.3.jsonl": {
-  "size": 12391555,
-  "mtime": 1787274212.9014132
- },
- "families/fix_issue_inject/glm-5.3.stats.json": {
-  "size": 944,
-  "mtime": 1787274212.9941092
- },
  "families/format_propagation/corpus.jsonl": {
   "size": 5649078,
   "mtime": 1787076352.272031
- },
- "families/mid_body_edit/corpus.done.jsonl": {
-  "size": 294146,
-  "mtime": 1787238276.5969827
- },
- "families/mid_body_edit/corpus.jsonl": {
-  "size": 8830906,
-  "mtime": 1787238276.6489806
- },
- "families/mid_body_edit/corpus.stats.json": {
-  "size": 671,
-  "mtime": 1787238276.6907728
  },
  "families/mid_roxygen/corpus.jsonl": {
   "size": 30869596,
@@ -57459,173 +57255,17 @@
   "size": 188737,
   "mtime": 1787076352.6903124
  },
- "families/namespace_qualify_propagation/corpus.done.jsonl": {
-  "size": 51490,
-  "mtime": 1787188070.294552
- },
- "families/namespace_qualify_propagation/corpus.jsonl": {
-  "size": 1174828,
-  "mtime": 1787188070.3382628
- },
- "families/namespace_qualify_propagation/corpus.stats.json": {
-  "size": 692,
-  "mtime": 1787188070.355578
- },
  "families/no_op/corpus.jsonl": {
   "size": 14003586,
   "mtime": 1787448904.4238918
- },
- "families/pipe_chain_link/corpus.done.jsonl": {
-  "size": 203837,
-  "mtime": 1787264798.726201
- },
- "families/pipe_chain_link/corpus.jsonl": {
-  "size": 194367,
-  "mtime": 1787256964.1031606
- },
- "families/pipe_chain_link/corpus.stats.json": {
-  "size": 693,
-  "mtime": 1787264798.7581823
  },
  "families/pipe_rewrite/corpus.jsonl": {
   "size": 2739088,
   "mtime": 1787076351.1514893
  },
- "families/pkg_metadata_sync/corpus.done.jsonl": {
-  "size": 48292,
-  "mtime": 1787188285.5705302
- },
- "families/pkg_metadata_sync/corpus.jsonl": {
-  "size": 1510750,
-  "mtime": 1787188285.59596
- },
- "families/pkg_metadata_sync/corpus.stats.json": {
-  "size": 668,
-  "mtime": 1787188285.6117644
- },
- "families/removed_block_comment/corpus.done.jsonl": {
-  "size": 133910,
-  "mtime": 1787244175.8690226
- },
- "families/removed_block_comment/corpus.jsonl": {
-  "size": 2151774,
-  "mtime": 1787244175.8960435
- },
- "families/removed_block_comment/corpus.stats.json": {
-  "size": 686,
-  "mtime": 1787244175.9087253
- },
  "families/rename_propagation/corpus.jsonl": {
   "size": 5538651,
   "mtime": 1787076350.5994904
- },
- "families/rewrite_fixissue/glm-5.3.done.jsonl": {
-  "size": 437297,
-  "mtime": 1787300580.219382
- },
- "families/rewrite_fixissue/glm-5.3.jsonl": {
-  "size": 11548509,
-  "mtime": 1787300580.1592138
- },
- "families/rewrite_fixissue/glm-5.3.stats.json": {
-  "size": 987,
-  "mtime": 1787301222.6200297
- },
- "families/rewrite_fixissue/muse-spark-1.2.done.jsonl": {
-  "size": 2554704,
-  "mtime": 1787496982.044289
- },
- "families/rewrite_fixissue/muse-spark-1.2.jsonl": {
-  "size": 70862501,
-  "mtime": 1787496982.0178652
- },
- "families/rewrite_fixissue/muse-spark-1.2.stats.json": {
-  "size": 958,
-  "mtime": 1787496982.0742753
- },
- "families/rewrite_fixissue/x-preview.done.jsonl": {
-  "size": 474508,
-  "mtime": 1787560824.518281
- },
- "families/rewrite_fixissue/x-preview.jsonl": {
-  "size": 9181166,
-  "mtime": 1787560824.4774153
- },
- "families/rewrite_fixissue/x-preview.stats.json": {
-  "size": 997,
-  "mtime": 1787560856.5580509
- },
- "families/rewrite_lint_fix/dots-studio-dots-3-note-preview.done.jsonl": {
-  "size": 20834,
-  "mtime": 1787307449.7391944
- },
- "families/rewrite_lint_fix/dots-studio-dots-3-note-preview.jsonl": {
-  "size": 518491,
-  "mtime": 1787307236.2258556
- },
- "families/rewrite_lint_fix/dots-studio-dots-3-note-preview.stats.json": {
-  "size": 1078,
-  "mtime": 1787308191.733377
- },
- "families/rewrite_lint_fix/glm-5.3.done.jsonl": {
-  "size": 756875,
-  "mtime": 1787269599.7116385
- },
- "families/rewrite_lint_fix/glm-5.3.jsonl": {
-  "size": 25570676,
-  "mtime": 1787269599.6286826
- },
- "families/rewrite_lint_fix/glm-5.3.stats.json": {
-  "size": 1033,
-  "mtime": 1787269599.7636666
- },
- "families/rewrite_lint_fix/google-gemma-4-31b-it.done.jsonl": {
-  "size": 1482692,
-  "mtime": 1787552394.5043542
- },
- "families/rewrite_lint_fix/google-gemma-4-31b-it.jsonl": {
-  "size": 48390827,
-  "mtime": 1787552394.4669228
- },
- "families/rewrite_lint_fix/google-gemma-4-31b-it.stats.json": {
-  "size": 893,
-  "mtime": 1787552394.5456345
- },
- "families/rewrite_lint_fix/muse-spark-1.2.done.jsonl": {
-  "size": 245714,
-  "mtime": 1787456614.6083539
- },
- "families/rewrite_lint_fix/muse-spark-1.2.jsonl": {
-  "size": 7792727,
-  "mtime": 1787456614.5283144
- },
- "families/rewrite_lint_fix/muse-spark-1.2.stats.json": {
-  "size": 1042,
-  "mtime": 1787457091.5114596
- },
- "families/rewrite_lint_fix/x-preview.done.jsonl": {
-  "size": 619081,
-  "mtime": 1787527227.0342247
- },
- "families/rewrite_lint_fix/x-preview.jsonl": {
-  "size": 8794435,
-  "mtime": 1787526355.6996982
- },
- "families/rewrite_lint_fix/x-preview.stats.json": {
-  "size": 970,
-  "mtime": 1787527338.2282643
- },
- "families/rewrite_lint_fix_oxalpha/corpus.done.jsonl": {
-  "size": 644134,
-  "mtime": 1787588082.2954004
- },
- "families/rewrite_lint_fix_oxalpha/corpus.jsonl": {
-  "size": 3153789,
-  "mtime": 1787588010.132149
- },
- "families/rewrite_lint_fix_oxalpha/corpus.stats.json": {
-  "size": 952,
-  "mtime": 1787588082.3185785
  },
  "families/roxygen_drafting/corpus.jsonl": {
   "size": 707257318,
@@ -57694,122 +57334,6 @@
  "families/synthetic_analyst/rejects.jsonl": {
   "size": 556267,
   "mtime": 1787078127.8282287
- },
- "families/tidyselect_completion/corpus.done.jsonl": {
-  "size": 3668,
-  "mtime": 1787185998.1373549
- },
- "families/tidyselect_completion/corpus.jsonl": {
-  "size": 34437,
-  "mtime": 1787185998.1660776
- },
- "families/tidyselect_completion/corpus.stats.json": {
-  "size": 684,
-  "mtime": 1787185998.1784825
- },
- "families/trycatch_handler_completion/corpus.done.jsonl": {
-  "size": 47820,
-  "mtime": 1787224943.0705109
- },
- "families/trycatch_handler_completion/corpus.jsonl": {
-  "size": 74983,
-  "mtime": 1787217567.2963846
- },
- "families/trycatch_handler_completion/corpus.stats.json": {
-  "size": 707,
-  "mtime": 1787224943.1062658
- },
- "families/trycatch_handler_completion/glm-5.3.done.jsonl": {
-  "size": 36682,
-  "mtime": 1787218808.8843288
- },
- "families/trycatch_handler_completion/glm-5.3.jsonl": {
-  "size": 62582,
-  "mtime": 1787218799.7768729
- },
- "families/trycatch_handler_completion/glm-5.3.stats.json": {
-  "size": 698,
-  "mtime": 1787218808.9007728
- },
- "mixtures/sft_v3/eval.jsonl": {
-  "size": 27778127,
-  "mtime": 1787137310.8138099
- },
- "mixtures/sft_v3/stats.json": {
-  "size": 3913,
-  "mtime": 1787137312.0977662
- },
- "mixtures/sft_v3/train.jsonl": {
-  "size": 783065297,
-  "mtime": 1787137309.8780751
- },
- "mixtures/sft_v4/eval.jsonl": {
-  "size": 27778127,
-  "mtime": 1787152968.736447
- },
- "mixtures/sft_v4/train.jsonl": {
-  "size": 990183170,
-  "mtime": 1787152966.9109128
- },
- "mixtures/sft_v5/eval.jsonl": {
-  "size": 27124091,
-  "mtime": 1787179442.0976713
- },
- "mixtures/sft_v5/stats.json": {
-  "size": 8560,
-  "mtime": 1787179443.5046055
- },
- "mixtures/sft_v5/train.jsonl": {
-  "size": 813455396,
-  "mtime": 1787179441.5614045
- },
- "mixtures/sft_v6/eval.jsonl": {
-  "size": 29360239,
-  "mtime": 1787239120.450874
- },
- "mixtures/sft_v6/stats.json": {
-  "size": 12995,
-  "mtime": 1787239130.2169738
- },
- "mixtures/sft_v6/train.jsonl": {
-  "size": 853338537,
-  "mtime": 1787239119.2694862
- },
- "mixtures/sft_v7/eval.jsonl": {
-  "size": 32913557,
-  "mtime": 1787380805.3435729
- },
- "mixtures/sft_v7/stats.json": {
-  "size": 14322,
-  "mtime": 1787380808.881652
- },
- "mixtures/sft_v7/train.jsonl": {
-  "size": 941550070,
-  "mtime": 1787380804.6310306
- },
- "mixtures/sft_v8_1/eval.jsonl": {
-  "size": 37308406,
-  "mtime": 1787502162.7888632
- },
- "mixtures/sft_v8_1/stats.json": {
-  "size": 14957,
-  "mtime": 1787502167.07865
- },
- "mixtures/sft_v8_1/train.jsonl": {
-  "size": 1033373647,
-  "mtime": 1787502162.2557888
- },
- "mixtures/sft_v8_2/eval.jsonl": {
-  "size": 37170770,
-  "mtime": 1787704036.4542818
- },
- "mixtures/sft_v8_2/stats.json": {
-  "size": 14993,
-  "mtime": 1787704040.442048
- },
- "mixtures/sft_v8_2/train.jsonl": {
-  "size": 1063249318,
-  "mtime": 1787704849.1378818
  },
  "pretraining/a2/r/bioc.npy": {
   "size": 368897628,
