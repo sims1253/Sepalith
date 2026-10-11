@@ -25,7 +25,7 @@ tries again every 5 minutes until the deadline.
 
 | Check | Limit |
 | --- | --- |
-| GPU | no compute processes, and less than 2,048 MiB used (`--max-gpu-used-mib`) |
+| GPU | no compute processes, and less than 3,072 MiB used (`--max-gpu-used-mib`; the service passes 3,072 since 2026-10-12 because the desktop idles at about 2.2 GB; the code default stays 2,048) |
 | Host memory | Windows: at least 16,384 MiB available and commit at most 90%. Linux: at least 6 GiB `MemAvailable`. These are the thresholds of the campaign guard. |
 | Disk | at least 150 GB free on `/mnt/e` (R7) |
 | CUDA lock | `~/.local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock` is not held |

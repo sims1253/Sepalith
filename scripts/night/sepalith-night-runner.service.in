@@ -4,7 +4,7 @@ Documentation=file://@REPO@/docs/training/plan-20260927/NIGHT-WINDOW.md
 
 [Service]
 Type=exec
-ExecStart=@REPO@/scripts/night/night-runner.sh run
+ExecStart=@REPO@/scripts/night/night-runner.sh run --max-gpu-used-mib 3072
 WorkingDirectory=%h
 UMask=0077
 # SIGTERM goes to the runner only; it asks the job to save and stop, waits up
