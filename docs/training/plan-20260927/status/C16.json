@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-10-11T21:55:00+02:00",
   "branch": "plan/C16-hf-dataset-resync",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/47",
   "outputs": {
     "code": "experiments/post-processing/push_cases.py (--dry-run/--apply, --root/SEPALITH_ROOT, Hub diff, eval-protection guard, batched create_commit, deletion only with --delete-legacy)",
     "receipt": "docs/training/plan-20260927/receipts/C16-hf-resync-receipt.json",
