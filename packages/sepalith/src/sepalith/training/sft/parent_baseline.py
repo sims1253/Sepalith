@@ -8,6 +8,13 @@ evaluator (``campaign_eval.development_evaluator``), the same bf16 model load,
 the same admission file and the same result schema. It lives outside
 ``training/eval`` so the evaluator modules card C05 changes stay untouched;
 fold it into ``run_dev_generation`` once that interface settles.
+
+``--generation-batch-size`` and ``--generation-kv-cache`` select batched greedy
+generation exactly as in ``run_dev_generation``; the defaults come from the
+recipe's ``dev_gate.generation_batching`` (else 1 and dynamic, the per-case
+path). Rule R1 compares every gate with this baseline, so the night driver
+passes the same settings to both and refuses a gate whose generation runtime
+differs from the baseline's.
 """
 from __future__ import annotations
 
@@ -36,6 +43,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--dev-admission", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--panel", choices=("dev75", "dev250"), default="dev75")
+    parser.add_argument("--generation-batch-size", type=int,
+                        help="cases per greedy generate call (default: the recipe's dev_gate.generation_batching, else 1)")
+    parser.add_argument("--generation-kv-cache", choices=("dynamic", "static"),
+                        help="KV cache for generation (default: the recipe's, else dynamic)")
     args = parser.parse_args(argv)
     recipe_path, checkpoint, output = args.bound_recipe.resolve(), args.checkpoint.resolve(), args.output.resolve()
     recipe = load_bound_v2(recipe_path)
@@ -53,6 +64,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     require(admission["bound_recipe_sha256"] == sha256(recipe_path) and admission["checkpoint_manifest_sha256"] == manifest_sha
             and admission["panel_sha256"] == panel["sha256"] and Path(admission["output"]) == output, "DEV admission identity differs")
     require(os.environ.get("CUDA_VISIBLE_DEVICES") not in (None, ""), "root CUDA lease must expose one device")
+    bound = _object(recipe["dev_gate"], "dev_gate").get("generation_batching")
+    bound_batching = {} if bound is None else _object(bound, "dev_gate.generation_batching")
+    batch_size = args.generation_batch_size if args.generation_batch_size is not None else bound_batching.get("batch_size", 1)
+    kv_cache = args.generation_kv_cache or bound_batching.get("kv_cache", "dynamic")
+    from sepalith.training.eval.campaign_eval import generation_batching
+
+    batching = generation_batching(batch_size, kv_cache)
     started = time.monotonic()
     os.environ["UNSLOTH_RETURN_LOGITS"] = "1"
     import torch
@@ -86,7 +104,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                                       "development_case_ids": sorted(row["id"] for row in rows),
                                       "development_max_new_tokens": gate["generation_max_new_tokens"],
                                       "parameters": {"max_sequence_tokens": cohort["max_sequence_tokens"]},
-                                      "evaluation_output_directory": str(case_dir)})
+                                      "evaluation_output_directory": str(case_dir),
+                                      "generation_batch_size": batch_size, "generation_kv_cache": kv_cache})
     summary = evaluate(model, tokenizer, checkpoint, 0)
     require(summary["denominators"]["cases"] == cases and summary["panel_sha256"] == panel["sha256"], "DEV denominator differs")
     cases_path = case_dir / "cases.json"
@@ -96,6 +115,9 @@ def main(argv: Sequence[str] | None = None) -> int:
               "panel": panel, "panel_name": args.panel, "summary": summary,
               "cases": {"path": str(cases_path), "sha256": sha256(cases_path)}, "tokenizer_contract": audit,
               "tokenizer_repair": repair, "elapsed_seconds": time.monotonic() - started, "final_set_access": False}
+    if batching is not None:
+        result["generation_runtime"] = {"dtype": "bf16", "cuda_visible_devices": os.environ["CUDA_VISIBLE_DEVICES"],
+                                        **_object(summary["generation_runtime"], "summary generation_runtime")}
     write_new(output, result)
     print(json.dumps({"status": "complete", "step": 0, "output": str(output), "sha256": sha256(output)}))
     return 0

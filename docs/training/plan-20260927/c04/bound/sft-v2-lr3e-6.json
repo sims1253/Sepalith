@@ -80,6 +80,13 @@
   "dev_gate": {
     "continuation_policy": "automatic_rule_R1_with_human_override_file",
     "evidence_directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr3e-6",
+    "generation_batching": {
+      "batch_size": 32,
+      "kv_cache": "dynamic",
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "padding_side": "left",
+      "policy": "the parent baseline and every gate use these settings; a result whose generation runtime differs from its R1 reference is stop-for-user"
+    },
     "generation_max_new_tokens": 1024,
     "mandatory_steps": [
       268,
@@ -290,7 +297,7 @@
   "seed": 3407,
   "source": {
     "manifest_path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/source-manifest.json",
-    "manifest_sha256": "fbb9d55a73b7facfc075f5cafdaccb3272cf440592f13d401a9ce953de6102ad",
+    "manifest_sha256": "619c380826c652be4be71aaff257340fc82438fac6424143787af4745b86eb9f",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "status": "bound_not_launched",

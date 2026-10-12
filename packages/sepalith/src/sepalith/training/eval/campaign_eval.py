@@ -19,6 +19,101 @@ from sepalith.training.checkpoint.campaign_checkpoint import write_json
 GENERATION_DTYPES = {"bf16": "bfloat16", "fp16": "float16", "fp32": "float32"}
 DEFAULT_GENERATION_DTYPE = "bf16"
 
+# Batched greedy generation (C07 follow-up).  Batch size 1 with the dynamic
+# cache is the original per-case path, unchanged.  Anything else batches cases
+# in a fixed order that depends only on the panel (prompt token counts and
+# case ids), never on the checkpoint, so the baseline and every gate put the
+# same cases in the same batches with the same padding.
+GENERATION_BATCH_ORDERING = "prompt_tokens_descending_then_case_id_ascending"
+GENERATION_PADDING_SIDE = "left"
+GENERATION_PAD_TOKEN_ID = 1
+GENERATION_BOS_TOKEN_ID = 0
+GENERATION_KV_CACHES = ("dynamic", "static")
+DEFAULT_GENERATION_KV_CACHE = "dynamic"
+MAX_GENERATION_BATCH_SIZE = 256
+
+
+def generation_batching(batch_size=1, kv_cache=DEFAULT_GENERATION_KV_CACHE):
+    """Return the ``generation_runtime`` batching record, or None for the original per-case path."""
+    if type(batch_size) is not int or not 1 <= batch_size <= MAX_GENERATION_BATCH_SIZE:
+        raise ValueError(f"Development generation batch size must be an integer in [1, {MAX_GENERATION_BATCH_SIZE}]")
+    if kv_cache not in GENERATION_KV_CACHES:
+        raise ValueError(f"Unsupported development generation KV cache: {kv_cache!r}")
+    if batch_size == 1 and kv_cache == DEFAULT_GENERATION_KV_CACHE:
+        return None
+    return {"batch_size": batch_size, "ordering": GENERATION_BATCH_ORDERING, "padding_side": GENERATION_PADDING_SIDE,
+            "pad_token_id": GENERATION_PAD_TOKEN_ID, "kv_cache": kv_cache,
+            "teacher_forced_forward": "per_case_unpadded_use_cache_false",
+            "generation_seconds": "batch_wall_seconds_split_evenly_across_its_cases"}
+
+
+def generation_batches(cases, batch_size):
+    """Split ``cases`` (``(case_id, prompt_tokens)`` pairs) into batches of indexes.
+
+    Longest prompts first, so the most memory-hungry batch runs first; ties are
+    broken by case id.  The result depends only on the panel.
+    """
+    if type(batch_size) is not int or batch_size < 1:
+        raise ValueError("A positive generation batch size is required")
+    ids = [case_id for case_id, _ in cases]
+    if len(set(ids)) != len(ids):
+        raise ValueError("Generation batching needs unique case ids")
+    order = sorted(range(len(cases)), key=lambda index: (-cases[index][1], cases[index][0]))
+    return [order[start:start + batch_size] for start in range(0, len(order), batch_size)]
+
+
+def truncate_at_stop(generated, stop_ids, cap):
+    """Cut one batched row after its first stop token, as batch-1 ``generate`` stops there.
+
+    Rows that finish early are filled with the pad id (1, itself a stop id)
+    while the rest of the batch runs on; the cut removes that fill.  A row that
+    never stops ran to the cap.
+    """
+    for index, token in enumerate(generated):
+        if token in stop_ids:
+            return generated[:index + 1]
+    if len(generated) != cap:
+        raise ValueError("A batched row ended without a stop token before the generation cap")
+    return generated
+
+
+def greedy_generate_kwargs(cap, stop_ids):
+    """The greedy ``generate`` arguments every DEV path shares (RULES.md metrics)."""
+    return {"max_new_tokens": cap, "do_sample": False, "num_beams": 1, "eos_token_id": list(stop_ids),
+            "pad_token_id": GENERATION_PAD_TOKEN_ID, "bos_token_id": GENERATION_BOS_TOKEN_ID, "repetition_penalty": 1.0,
+            "return_dict_in_generate": False, "use_cache": True}
+
+
+def batched_greedy_generate(model, prompts, *, cap, stop_ids, kv_cache=DEFAULT_GENERATION_KV_CACHE, device=None):
+    """Greedy-generate a batch of prompts (lists of token ids); return each row's generated ids.
+
+    Prompts are left-padded with the pad id and masked out; ``generate`` derives
+    the position ids from the mask, so each row sees the positions it would see
+    alone.  Each row stops at its first stop id; finished rows stay in the batch
+    as padding and do not change the other rows' inputs.
+    """
+    import torch
+
+    if not prompts or any(not prompt for prompt in prompts):
+        raise ValueError("Batched generation needs non-empty prompts")
+    if kv_cache not in GENERATION_KV_CACHES:
+        raise ValueError(f"Unsupported development generation KV cache: {kv_cache!r}")
+    device = next(model.parameters()).device if device is None else device
+    width = max(len(prompt) for prompt in prompts)
+    input_ids = torch.full((len(prompts), width), GENERATION_PAD_TOKEN_ID, dtype=torch.long, device=device)
+    attention_mask = torch.zeros_like(input_ids)
+    for row, prompt in enumerate(prompts):
+        input_ids[row, width - len(prompt):] = torch.tensor(prompt, dtype=torch.long, device=device)
+        attention_mask[row, width - len(prompt):] = 1
+    extra = {} if kv_cache == DEFAULT_GENERATION_KV_CACHE else {"cache_implementation": kv_cache}
+    sequence = model.generate(input_ids=input_ids, attention_mask=attention_mask,
+                              **greedy_generate_kwargs(cap, stop_ids), **extra)
+    if sequence.shape[0] != len(prompts) or not 0 < sequence.shape[1] - width <= cap:
+        raise ValueError("Batched generation returned an unexpected shape")
+    if not torch.equal(sequence[:, :width], input_ids):
+        raise ValueError("Batched generation changed the prompts")
+    return [truncate_at_stop(row, stop_ids, cap) for row in sequence[:, width:].tolist()]
+
 
 def generation_dtype(name):
     """Return the torch dtype for a ``GENERATION_DTYPES`` key."""
@@ -226,6 +321,9 @@ def development_evaluator(recipe):
     cap = recipe["development_max_new_tokens"]
     if type(cap) is not int or cap < 1:
         raise ValueError("A positive development generation cap is required")
+    # Absent keys select the original per-case path.
+    batching = generation_batching(recipe.get("generation_batch_size", 1),
+                                   recipe.get("generation_kv_cache", DEFAULT_GENERATION_KV_CACHE))
 
     def evaluate(model, tokenizer, checkpoint, step):
         import torch
@@ -240,33 +338,17 @@ def development_evaluator(recipe):
                 row, recipe["parameters"]["max_sequence_tokens"], cap, case["id"]
             )
             prepared.append((case, context, row))
-        results = []
         device = next(model.parameters()).device
         destination = Path(recipe["evaluation_output_directory"]) / "cases.json"
-        for case, context, row in prepared:
-            with case_evaluation_guard(model):
-                full = torch.tensor([row["input_ids"]], device=device, dtype=torch.long)
-                with torch.no_grad():
-                    output = model(input_ids=full, attention_mask=torch.ones_like(full), use_cache=False)
-                    nll = loss_sums(output.logits, full, row["target_start"])
-                    del output
-                    prompt = full[:, :row["target_start"]]
-                    started = time.monotonic()
-                    sequence = model.generate(
-                        input_ids=prompt, attention_mask=torch.ones_like(prompt), max_new_tokens=cap,
-                        do_sample=False, num_beams=1, eos_token_id=list(NATIVE_EOG_IDS), pad_token_id=1, bos_token_id=0,
-                        repetition_penalty=1.0, return_dict_in_generate=False, use_cache=True,
-                    )
-                    generated = sequence[0, prompt.shape[1]:].tolist()
-                    generation_seconds = time.monotonic() - started
+
+        def case_record(case, context, row, nll, generated, generation_seconds):
             termination = generation_termination(generated, cap, NATIVE_EOG_IDS)
-            termination["stop_token_id"]
             response_complete = termination["response_complete"]
             raw_ids = generated[:-1] if response_complete else generated
             raw = tokenizer.decode(raw_ids, skip_special_tokens=False, clean_up_tokenization_spaces=False)
             expected_noop = list(context.region_old) == case["region_new"]
             outcome = classify(raw, context, case["region_new"], generated)
-            results.append({
+            return {
                 "id": case["id"], "package_id": case["package_id"], "family": case["family"],
                 "expected_noop": expected_noop, "strata": case.get("strata", {}),
                 "prompt_tokens": row["target_start"], "generated_tokens": len(generated),
@@ -275,10 +357,54 @@ def development_evaluator(recipe):
                 **termination,
                 "generation_seconds": generation_seconds, "raw_output": raw, "generated_ids": generated,
                 "loss": nll, **outcome,
-            })
-            # Preserve intermediate evidence if a later case fails or the watchdog stops the attempt.
-            write_json(destination, {"status": "partial", "step": step, "results": results,
-                                     "expected_case_ids": sorted(identities)})
+            }
+
+        def teacher_forced(row):
+            full = torch.tensor([row["input_ids"]], device=device, dtype=torch.long)
+            output = model(input_ids=full, attention_mask=torch.ones_like(full), use_cache=False)
+            nll = loss_sums(output.logits, full, row["target_start"])
+            del output
+            return full, nll
+
+        if batching is None:
+            results = []
+            for case, context, row in prepared:
+                with case_evaluation_guard(model):
+                    with torch.no_grad():
+                        full, nll = teacher_forced(row)
+                        prompt = full[:, :row["target_start"]]
+                        started = time.monotonic()
+                        sequence = model.generate(input_ids=prompt, attention_mask=torch.ones_like(prompt),
+                                                  **greedy_generate_kwargs(cap, NATIVE_EOG_IDS))
+                        generated = sequence[0, prompt.shape[1]:].tolist()
+                        generation_seconds = time.monotonic() - started
+                results.append(case_record(case, context, row, nll, generated, generation_seconds))
+                # Preserve intermediate evidence if a later case fails or the watchdog stops the attempt.
+                write_json(destination, {"status": "partial", "step": step, "results": results,
+                                         "expected_case_ids": sorted(identities)})
+        else:
+            done = {}
+            for indexes in generation_batches([(case["id"], row["target_start"]) for case, _, row in prepared],
+                                              batching["batch_size"]):
+                # One guard per batch: the teacher-forced forwards run before the
+                # batch's generate, and the guard restores state after it.
+                with case_evaluation_guard(model):
+                    with torch.no_grad():
+                        losses = [teacher_forced(prepared[index][2])[1] for index in indexes]
+                        started = time.monotonic()
+                        generated = batched_greedy_generate(
+                            model, [prepared[index][2]["input_ids"][:prepared[index][2]["target_start"]] for index in indexes],
+                            cap=cap, stop_ids=NATIVE_EOG_IDS, kv_cache=batching["kv_cache"], device=device)
+                        generation_seconds = (time.monotonic() - started) / len(indexes)
+                for index, nll, ids in zip(indexes, losses, generated, strict=True):
+                    case, context, row = prepared[index]
+                    done[index] = case_record(case, context, row, nll, ids, generation_seconds)
+                # Partial evidence after each batch, in panel order.
+                write_json(destination, {"status": "partial", "step": step, "results": [done[i] for i in sorted(done)],
+                                         "expected_case_ids": sorted(identities), "generation_runtime": batching})
+            if sorted(done) != list(range(len(prepared))):
+                raise ValueError("Batched generation did not cover every development case exactly once")
+            results = [done[index] for index in range(len(prepared))]
         denominators = {"cases": len(results), "complete_cases": sum(r["response_complete"] for r in results),
                         "incomplete_cases": sum(not r["response_complete"] for r in results),
                         "packages": len({r["package_id"] for r in results}),
@@ -303,6 +429,8 @@ def development_evaluator(recipe):
                    "target_nll": sum(r["loss"]["target_nll_sum"] for r in results) / denominators["target_loss_tokens"],
                    "panel_sha256": recipe["development_panel"]["sha256"], "cases_path": str(destination),
                    "interpretation": "Development exact/protocol/no-op diagnostic; no R semantic-validity or final-release claim."}
+        if batching is not None:
+            summary["generation_runtime"] = dict(batching)
         write_json(destination, {"status": "complete", "step": step, "summary": summary, "results": results})
         return summary
 

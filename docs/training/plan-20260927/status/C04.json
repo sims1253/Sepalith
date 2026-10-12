@@ -1,7 +1,7 @@
 {
   "card": "C04",
   "state": "done",
-  "updated": "2026-10-12T01:55:00+02:00",
+  "updated": "2026-10-12T04:30:00+02:00",
   "branch": "plan/C04-sft-recipe-v2",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/45",
   "outputs": {
@@ -61,24 +61,24 @@
     },
     "source_manifest": {
       "path": "docs/training/plan-20260927/c04/bound/source-manifest.json",
-      "sha256": "fbb9d55a73b7facfc075f5cafdaccb3272cf440592f13d401a9ce953de6102ad"
+      "sha256": "619c380826c652be4be71aaff257340fc82438fac6424143787af4745b86eb9f"
     },
     "bound_recipes": {
       "lr3e-6": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr3e-6.json",
-        "sha256": "df36b96af7a4307fbcc0485b2ef59505f4ad756b9a119b201bd118aca910a3f6"
+        "sha256": "539601c793d1e36902a71fc83367f88e44578b2ddd2ce839adb7f4e778a11007"
       },
       "lr1e-5": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
-        "sha256": "1a4db1006944a4ceadc697b0476434b02420b46055f26970b8028ead95d9759b"
+        "sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e"
       },
       "lr3e-5": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr3e-5.json",
-        "sha256": "a9c6c3336b02b06ef0f18883b7d91004a71c1b195dcb548d5798a6f9df0688a3"
+        "sha256": "21b93f6fa1eb6f715c61a2a759c8691abe7b57e9b1f19dae7b92516528b3c133"
       },
       "smoke-lr1e-5": {
         "path": "docs/training/plan-20260927/c04/bound/sft-v2-smoke-lr1e-5.json",
-        "sha256": "57b343e1191fc77136754d07bb41ff6b6aa9338b2cfab3b441b70390aace6c61"
+        "sha256": "e1947ceb0606d493bd60d3be0194dd411199291dfafe7b901731aae6e742850d"
       }
     },
     "bound_recipe_verification": "recipe_v2 verify passed for all four with the real parent (model.safetensors 4bf617f9...3c51), v4 rows, schedule, DEV75, DEV250 (75f3a5ee...7f22, manifest 07e370a8...230a), data queue, optimizer dispatch and source manifest",
@@ -158,7 +158,24 @@
     },
     "hf_commit_v4": "https://huggingface.co/datasets/scholzmx/sepalith/commit/2029f1360d74cad67a9ab02dd00f284ff4782699",
     "bound_recipe_outputs": "output tag r4: SFT-v2-r4-<arm> directories, apart from the SFT-v2-<arm> directories the 2026-10-12 night writes under the earlier binding",
-    "parent_baseline_compatibility": "accepted: the baseline check compares parent weights and manifest, step 0, panel hashes and case counts, not the recipe hash (now an explicit check_recipe=False); the baseline path is unchanged; tested with a baseline made under another binding"
+    "parent_baseline_compatibility": "accepted: the baseline check compares parent weights and manifest, step 0, panel hashes and case counts, not the recipe hash (now an explicit check_recipe=False); the baseline path is unchanged; tested with a baseline made under another binding",
+    "generation_batching_rebind": {
+      "why": "C07 follow-up (branch plan/C07-batched-eval): DEV75 did not finish within the 2,400 s eval budget at batch 1 on 2026-10-12; the baseline and gate DEV runs now generate in batches",
+      "dev_gate.generation_batching": {
+        "batch_size": 32,
+        "kv_cache": "dynamic",
+        "ordering": "prompt_tokens_descending_then_case_id_ascending",
+        "padding_side": "left"
+      },
+      "previous_bound_recipe_sha256": {
+        "lr3e-6": "df36b96af7a4307fbcc0485b2ef59505f4ad756b9a119b201bd118aca910a3f6",
+        "lr1e-5": "1a4db1006944a4ceadc697b0476434b02420b46055f26970b8028ead95d9759b",
+        "lr3e-5": "a9c6c3336b02b06ef0f18883b7d91004a71c1b195dcb548d5798a6f9df0688a3",
+        "smoke-lr1e-5": "57b343e1191fc77136754d07bb41ff6b6aa9338b2cfab3b441b70390aace6c61"
+      },
+      "previous_source_manifest_sha256": "fbb9d55a73b7facfc075f5cafdaccb3272cf440592f13d401a9ce953de6102ad",
+      "job_files": "unchanged (they name recipe paths, not hashes)"
+    }
   },
   "rule_decisions": [],
   "question_for_user": null,

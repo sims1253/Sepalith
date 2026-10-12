@@ -12,6 +12,13 @@ each under ``cuda_host_guard``:
    ``milestone_gate`` expects. A human override file takes precedence.
 3. On ``continue``, write the gate evidence and resume from the gate checkpoint.
 
+DEV generation settings. Every DEV process gets the recipe's
+``dev_gate.generation_batching`` (batch size and KV cache; ``--generation-batch-size``
+and ``--generation-kv-cache`` override it for a whole job). R1 compares a gate
+with the parent baseline and with the previous gate, so a result, baseline or
+previous gate whose generation runtime differs from these settings is a binding
+problem: stop-for-user, which a human override cannot turn into continue.
+
 Exit codes for the night runner: 0 the job is finished (arm complete, pilot
 gate reached, or rolled back); 75 saved and deferred to the next night; 3
 stopped for the user (R1 stop-for-user; write an override file, then
@@ -40,6 +47,7 @@ import time
 from types import FrameType
 from typing import cast
 
+from sepalith.training.eval.milestone_gate import generation_settings, requested_generation_settings
 from sepalith.training.sft import gate_rule
 from sepalith.training.sft.recipe_v2 import BOUND_SCHEMA, evaluator_hashes
 
@@ -145,18 +153,23 @@ class Settings:
     poll_seconds: float = 5.0
     clock: Callable[[], float] = time.time
     extra_env: dict[str, str] = field(default_factory=dict)
+    # None: use the recipe's dev_gate.generation_batching.
+    generation_batch_size: int | None = None
+    generation_kv_cache: str | None = None
 
     @classmethod
     def from_env(cls, recipe_path: Path, environ: Mapping[str, str] | None = None, *, guard: bool = True,
                  eval_budget_seconds: float = 2400.0, min_train_seconds: float = 900.0,
-                 stop_after_gate: int | None = None) -> Settings:
+                 stop_after_gate: int | None = None, generation_batch_size: int | None = None,
+                 generation_kv_cache: str | None = None) -> Settings:
         env = os.environ if environ is None else environ
         stop = env.get("SEPALITH_STOP_REQUEST_FILE")
         result = env.get("SEPALITH_JOB_RESULT")
         return cls(recipe_path=recipe_path, deadline=_epoch(env, "SEPALITH_DEADLINE_EPOCH"),
                    hard_stop=_epoch(env, "SEPALITH_HARD_STOP_EPOCH"), stop_request_file=Path(stop) if stop else None,
                    job_result=Path(result) if result else None, guard=guard, eval_budget_seconds=eval_budget_seconds,
-                   min_train_seconds=min_train_seconds, stop_after_gate=stop_after_gate)
+                   min_train_seconds=min_train_seconds, stop_after_gate=stop_after_gate,
+                   generation_batch_size=generation_batch_size, generation_kv_cache=generation_kv_cache)
 
     def seconds_left(self) -> float:
         return math.inf if self.deadline is None else self.deadline - self.clock()
@@ -224,6 +237,16 @@ class Arm:
         self.evidence_dir = Path(_str(gate["evidence_directory"], "evidence_directory"))
         self.runs_dir = self.evidence_dir / "runs"
         self.repository_root = Path(_str(_object(self.recipe["source"], "source")["repository_root"], "repository_root"))
+        batching = _object(gate.get("generation_batching") or {}, "generation_batching")
+        self.generation_batch_size = (settings.generation_batch_size if settings.generation_batch_size is not None
+                                      else batching.get("batch_size", 1))
+        self.generation_kv_cache = settings.generation_kv_cache or batching.get("kv_cache", "dynamic")
+        try:
+            # What every DEV result of this job, the baseline and the previous gate must have run with.
+            self.generation = requested_generation_settings(gate.get("generation_max_new_tokens"), self.generation_batch_size,
+                                                            self.generation_kv_cache)
+        except ValueError as error:
+            raise DriverError(f"DEV generation settings: {error}") from None
         self.signalled = False
         self.launcher = launcher_factory(settings, self.runs_dir, self.stop_requested)
         self.evaluations: list[Json] = []
@@ -326,6 +349,7 @@ class Arm:
                     "--dev-admission", str(admission), "--output", str(output)]
             if parent_baseline or name != "dev75":
                 args += ["--panel", name]
+            args += ["--generation-batch-size", str(self.generation_batch_size), "--generation-kv-cache", str(self.generation_kv_cache)]
             code = self.launcher.run(f"dev-{name}-step-{step}", args, budget=self.settings.eval_budget_seconds,
                                      on_stop=self.terminate)
             if self.stop_requested():
@@ -352,7 +376,19 @@ class Arm:
         }
         if not check_recipe:
             checks.pop("recipe")
-        return [f"{name} result {key} binding differs" for key, ok in checks.items() if not ok]
+        problems = [f"{name} result {key} binding differs" for key, ok in checks.items() if not ok]
+        return problems + self.generation_problems(name, value)
+
+    def generation_problems(self, name: str, value: Json) -> list[str]:
+        """R1 needs the gate, the baseline and the previous gate to decode identically."""
+        try:
+            actual: object = generation_settings(value)
+        except (ValueError, KeyError, TypeError) as error:
+            actual = f"unreadable ({error})"
+        if actual == self.generation:
+            return []
+        return [f"{name} result generation runtime binding differs: ran {json.dumps(actual, sort_keys=True)}, "
+                f"needs {json.dumps(self.generation, sort_keys=True)}"]
 
     def gate_loss(self, step: int) -> float | None:
         telemetry = self.archive / "telemetry.jsonl"
@@ -399,6 +435,15 @@ class Arm:
         previous = self.gates[self.gates.index(step) - 1]
         evidence = verify_gate_evidence(self.recipe, self.recipe_path, previous, self.checkpoint(previous))
         decision = read_json(Path(evidence["root_decision"]["path"]))
+        entries = _object(decision.get("results"), "previous results")
+        for name in PANELS:
+            entry = _object(entries.get(name), f"previous {name} result")
+            result = Path(_str(entry.get("path"), "previous result path"))
+            if not result.is_file() or sha256(result) != entry.get("sha256"):
+                raise DriverError(f"previous gate {previous} {name} result differs")
+            problems = self.generation_problems(name, read_json(result))
+            if problems:
+                raise DriverError(f"previous gate {previous}: {problems}")
         return _object(decision.get("metrics"), "previous metrics")
 
     def last_good(self, step: int) -> str:
@@ -446,6 +491,7 @@ class Arm:
             "generation_result_sha256": sha256(results["dev75"]) if results else None,
             "results": {name: {"path": str(path), "sha256": sha256(path)} for name, path in (results or {}).items()},
             "dev250": _object(self.gate["panels"], "panels")["dev250"],
+            "generation_runtime": self.generation,
             "evaluator_source_sha256": evaluator_hashes(self.repository_root),
             "last_good_checkpoint": self.last_good(step) if outcome == gate_rule.ROLLBACK else None,
             "at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
@@ -576,6 +622,7 @@ def run_baseline(arm: Arm) -> int:
     parent = _object(arm.recipe["parent"], "parent")
     path = Path(_str(_object(arm.gate["parent_baseline"], "parent_baseline")["path"], "baseline path"))
     if path.is_file():
+        # Fails with the differing generation runtime if the baseline ran with other settings.
         arm.baseline_metrics()
         return arm.finish(EXIT_DONE, f"parent baseline already exists: {path}")
     checkpoint = Path(_str(parent["path"], "parent path"))
@@ -593,6 +640,7 @@ def run_baseline(arm: Arm) -> int:
                                 "panel_sha256": _object(_object(arm.gate["panels"], "panels")[name], name)["sha256"]}
                          for name, result in results.items()},
               "metrics": metrics, "target_nll": {name: summaries[name].get("target_nll") for name in PANELS},
+              "generation_runtime": arm.generation,
               "evaluator_source_sha256": evaluator_hashes(arm.repository_root),
               "at": time.strftime("%Y-%m-%dT%H:%M:%S%z")}
     write_json(path, record, fresh=True)
@@ -658,9 +706,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--first-stop", type=int, default=10)
     parser.add_argument("--second-stop", type=int, default=20)
     parser.add_argument("--no-guard", action="store_true", help="run children without cuda_host_guard (tests only)")
+    parser.add_argument("--generation-batch-size", type=int,
+                        help="override the recipe's DEV generation batch size (1 = per-case); the baseline and gates must match")
+    parser.add_argument("--generation-kv-cache", choices=("dynamic", "static"), help="override the recipe's DEV generation KV cache")
     args = parser.parse_args(argv)
     settings = Settings.from_env(args.recipe, guard=not args.no_guard, eval_budget_seconds=args.eval_budget_seconds,
-                                 min_train_seconds=args.min_train_seconds, stop_after_gate=args.stop_after_gate)
+                                 min_train_seconds=args.min_train_seconds, stop_after_gate=args.stop_after_gate,
+                                 generation_batch_size=args.generation_batch_size,
+                                 generation_kv_cache=args.generation_kv_cache)
     arm = Arm(settings)
     signal.signal(signal.SIGTERM, arm.on_signal)
     try:
