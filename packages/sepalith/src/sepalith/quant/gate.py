@@ -38,13 +38,15 @@ Z_ONE_SIDED_95 = 1.6448536269514722
 SHIP_NET_LOSS_UPPER_BOUND_PP = 3.0
 MCNEMAR_ALPHA = 0.05
 
+# Token identity and top-1 agreement are recorded, not gated (user decision 2026-10-12):
+# near-ties flip them without changing edits, which the DEV250 exact-match checks cover.
 THRESHOLDS: dict[str, dict[str, float | None]] = {
     "q8": {"exact_delta_pp_min": -0.4, "nofp_rise_pp_max": 0.0, "valid_drop_pp_max": 0.0,
-           "token_identity_min_pct": 97.0, "mean_kld_max": 0.002, "top1_agreement_min_pct": 99.5},
+           "token_identity_min_pct": None, "mean_kld_max": 0.002, "top1_agreement_min_pct": None},
     "q6_q5": {"exact_delta_pp_min": -1.0, "nofp_rise_pp_max": 1.0, "valid_drop_pp_max": 1.0,
-              "token_identity_min_pct": 90.0, "mean_kld_max": 0.01, "top1_agreement_min_pct": 98.5},
+              "token_identity_min_pct": None, "mean_kld_max": 0.01, "top1_agreement_min_pct": None},
     "q4": {"exact_delta_pp_min": -2.0, "nofp_rise_pp_max": 1.0, "valid_drop_pp_max": 1.0,
-           "token_identity_min_pct": None, "mean_kld_max": 0.03, "top1_agreement_min_pct": 97.0},
+           "token_identity_min_pct": None, "mean_kld_max": 0.03, "top1_agreement_min_pct": None},
 }
 TIER_OF_TYPE = {"Q8_0": "q8", "Q6_K": "q6_q5", "Q5_K_M": "q6_q5", "Q4_K_M": "q4", "IQ4_XS": "q4"}
 

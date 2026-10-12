@@ -90,7 +90,8 @@ class PairedTest(unittest.TestCase):
     def test_kld_thresholds(self):
         m = gate.paired_metrics(self.ref, self.ref)
         self.assertEqual(gate.gate_checks("q8", m, {"mean_kld": 0.0021, "same_top_p_pct": 99.6})["mean_kld"]["outcome"], gate.FAIL)
-        self.assertEqual(gate.gate_checks("q4", m, {"mean_kld": 0.03, "same_top_p_pct": 96.9})["top1_agreement_pct"]["outcome"], gate.FAIL)
+        self.assertEqual(gate.gate_checks("q4", m, {"mean_kld": 0.03, "same_top_p_pct": 96.9})["top1_agreement_pct"]["outcome"], gate.RECORDED)
+        self.assertEqual(gate.gate_checks("q8", m, {"mean_kld": 0.001, "same_top_p_pct": 98.6})["top1_agreement_pct"]["outcome"], gate.RECORDED)
         self.assertEqual(gate.gate_checks("q6_q5", m, {"mean_kld": 0.01, "same_top_p_pct": 98.5})["mean_kld"]["outcome"], gate.PASS)
 
     def test_mcnemar_fails_only_on_significant_loss(self):
