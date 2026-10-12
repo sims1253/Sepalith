@@ -40,7 +40,7 @@ on `PYTHONPATH` and the training interpreter
 |---|---|
 | SFT bind | `python -m sepalith.training.sft.bind_full_weight_edit_sft --template T --admission A --output BOUND` |
 | SFT train | `python -m sepalith.training.sft.full_weight_edit_sft {preflight-template,preflight,run} --recipe BOUND [--resume CHECKPOINT]` |
-| DEV generation | `python -m sepalith.training.eval.run_dev_generation --bound-recipe BOUND --checkpoint C --dev-admission A --output RESULT` |
+| DEV generation | `python -m sepalith.training.eval.run_dev_generation --bound-recipe BOUND --checkpoint C --dev-admission A --output RESULT [--panel {dev75,dev250,both}] [--dev250-output RESULT250] [--dtype {bf16,fp16,fp32}] [--cuda-device N]`. Defaults: DEV75, bf16, the single leased GPU; this is the original call. `--panel both` evaluates DEV75 and DEV250 in one model load, and its admission also binds `dev250_panel_sha256` and `dev250_output`. Non-bf16 results carry `generation_runtime` and cannot bind a gate. |
 | Gate check | `python -m sepalith.training.eval.prepare_dev_gate ...` writes `dev-gate-step-N.json`; `sepalith.training.eval.milestone_gate.continuation_plan` checks it before a resume |
 | Save and stop | `python -m sepalith.training.supervisors.request_graceful_stop --recipe BOUND` (SFT or CPT recipe) |
 | RL driver | `python -m sepalith.training.rl.preflight_full_weight_rl --recipe R --binding B --receipt OUT`; the trainer is built by `sepalith.training.rl.full_weight_rl_production.build_production_trainer` |
