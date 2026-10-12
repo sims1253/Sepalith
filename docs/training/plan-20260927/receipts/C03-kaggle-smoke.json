@@ -1,0 +1,165 @@
+{
+  "accelerator": "NvidiaTeslaT4",
+  "bootstrap": {
+    "code_files": 90,
+    "elapsed_seconds": 124.4,
+    "nvidia_smi": [
+      "Tesla T4, 15360 MiB, 580.178.04",
+      "Tesla T4, 15360 MiB, 580.178.04"
+    ],
+    "status": "complete",
+    "steps": [
+      [
+        "start",
+        0.0
+      ],
+      [
+        "pip",
+        18.9
+      ],
+      [
+        "code",
+        22.1
+      ],
+      [
+        "entry",
+        124.4
+      ]
+    ]
+  },
+  "code_digest": "a917ae3a132e20564992edb41a91a297257bd911030b073b3ad2764f6c2ef1a7",
+  "commit": "dda4f70e3bf9fe68571b8a70280b710a89cdaeb1",
+  "entry": {
+    "elapsed_seconds": 100.90547065799998,
+    "generation": {
+      "attention": "sdpa (transformers default)",
+      "batch_size": 5,
+      "decoding": "greedy",
+      "dtype": "fp16",
+      "kv_cache": "dynamic",
+      "max_new_tokens": 128,
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "pad_token_id": 1,
+      "padding_side": "left",
+      "stop_ids": [
+        1,
+        130073
+      ],
+      "work_split": "whole global batches per shard and worker"
+    },
+    "gpus": [
+      "Tesla T4",
+      "Tesla T4"
+    ],
+    "inputs": {
+      "cases": 75,
+      "panel": "dev75",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+      "source": "hf-dataset:scholzmx/sepalith/campaign-20260915/dev/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl"
+    },
+    "model": {
+      "model_safetensors_sha256": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+      "path": "/tmp/sepalith-inference/hf/scholzmx--sepalith-2b-cpt/checkpoint-11586",
+      "source": "hf:scholzmx/sepalith-2b-cpt/checkpoint-11586",
+      "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    "plan": {
+      "batches_this_shard": 2,
+      "case_limit": 10,
+      "case_seed": 3407,
+      "cases_selected": 10,
+      "global_batches": 2,
+      "shard": [
+        0,
+        1
+      ]
+    },
+    "result": {
+      "calls_with_nonfinite_logits": 0,
+      "cap_hits": 9,
+      "cases": 10,
+      "counts": {
+        "cap_hit": 9,
+        "edit_exact": 0,
+        "exact_region": 0,
+        "predicted_noop": 0,
+        "protocol_valid": 0,
+        "strict_noop_correct": 0,
+        "strict_noop_false_suggestions": 0,
+        "suggestion": 0
+      },
+      "generated_tokens": 1176,
+      "generation_wall_seconds": 17.01280423899999,
+      "nll_finite": true,
+      "prompt_nll": 1.3990852390556598,
+      "prompts": 10,
+      "records": 10,
+      "session_tokens_per_second": 69.12440673972776,
+      "target_nll": 1.7659556838978572
+    },
+    "runtime": {
+      "accelerate": "1.14.0",
+      "huggingface_hub": "1.29.0",
+      "python": "3.13.15",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.5.0"
+    },
+    "status": "complete",
+    "workers": 2
+  },
+  "final_status": "complete",
+  "finished_at": "2026-10-12T08:40:37+0200",
+  "gpu_hours_used": 0.04,
+  "kernel": "m0hawk/sepalith-infer-c03-smoke-20261012",
+  "kernel_url": "https://www.kaggle.com/code/m0hawk/sepalith-infer-c03-smoke-20261012",
+  "local_outputs": "/home/m0hawk/.local/state/sepalith/kaggle/runs/c03-smoke-20261012",
+  "pushed_at": "2026-10-12T08:38:01+0200",
+  "quota_gpu_used_after": 0.04,
+  "quota_gpu_used_before": 0.0,
+  "quota_refresh": "2026-10-17T00:00:00",
+  "run_id": "c03-smoke-20261012",
+  "schema": "sepalith.c03.kaggle-run-receipt.v1",
+  "session_seconds_polled": 153.6,
+  "workers": [
+    {
+      "batches": [
+        0
+      ],
+      "cases": 5,
+      "cuda_visible_devices": "0",
+      "device_name": "Tesla T4",
+      "generated_tokens": 536,
+      "load_seconds": 24.755179553999994,
+      "nonfinite": {
+        "calls_with_nonfinite_logits": 0,
+        "output_head_calls": 133
+      },
+      "peak_allocated_bytes": 6803206144,
+      "peak_reserved_bytes": 7551844352,
+      "tokens_per_second": 31.505681983413336,
+      "wall_seconds": 17.01280423899999,
+      "worker": 0
+    },
+    {
+      "batches": [
+        1
+      ],
+      "cases": 5,
+      "cuda_visible_devices": "1",
+      "device_name": "Tesla T4",
+      "generated_tokens": 640,
+      "load_seconds": 25.012164409999997,
+      "nonfinite": {
+        "calls_with_nonfinite_logits": 0,
+        "output_head_calls": 133
+      },
+      "peak_allocated_bytes": 5854492672,
+      "peak_reserved_bytes": 6050283520,
+      "tokens_per_second": 59.89544845365328,
+      "wall_seconds": 10.68528605299997,
+      "worker": 1
+    }
+  ]
+}

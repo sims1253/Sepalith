@@ -120,7 +120,10 @@ def candidate_runtime(summary_path):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--reference-dir", type=Path, required=True, help="PC model folder, e.g. <attempt>/lr1e-5-gate-268")
-    p.add_argument("--reference-receipt", type=Path, help="PC references.json (batching check)")
+    p.add_argument("--reference-receipt", type=Path,
+                   help="PC references.json, or a night DEV result JSON with generation_runtime (batching check)")
+    p.add_argument("--reference-dev75", type=Path, help="override: DEV75 generations or cases.json (default: in --reference-dir)")
+    p.add_argument("--reference-dev75-cases", type=Path, help="override: DEV75 evaluator cases.json")
     p.add_argument("--dev75", type=Path, help="Kaggle DEV75 run folder (generations.jsonl, cases.json, summary.json)")
     p.add_argument("--train200", type=Path, help="Kaggle TRAIN-200 run folder (generations.jsonl, summary.json)")
     p.add_argument("--output", type=Path, required=True)
@@ -132,14 +135,21 @@ def main(argv=None):
                             "nonfinite": "none allowed"}}
     settings = None
     if a.reference_receipt and a.reference_receipt.is_file():
-        settings = json.loads(a.reference_receipt.read_text()).get("settings")
+        value = json.loads(a.reference_receipt.read_text())
+        settings = value.get("settings")
+        if settings is None and value.get("generation_runtime"):  # a night run_dev_generation / baseline result
+            runtime = value["generation_runtime"]
+            settings = {"batch_size": runtime.get("batch_size"), "kv_cache": runtime.get("kv_cache"),
+                        "cap": value["summary"]["generation_max_new_tokens"], "dtype": runtime.get("dtype")}
         receipt["reference_settings"] = settings
+    dev75_reference = a.reference_dev75 or a.reference_dir / "dev75-generations.jsonl"
+    dev75_cases = a.reference_dev75_cases or a.reference_dir / "dev75.cases/cases.json"
     comparable, nonfinite, all_identical, all_cases = [], [], 0, 0
-    for name, folder, reference_file in (("dev75", a.dev75, "dev75-generations.jsonl"),
-                                         ("train200", a.train200, "train200-generations.jsonl")):
+    for name, folder, reference_file in (("dev75", a.dev75, dev75_reference),
+                                         ("train200", a.train200, a.reference_dir / "train200-generations.jsonl")):
         if folder is None:
             continue
-        reference = load_records(a.reference_dir / reference_file)
+        reference = load_records(reference_file)
         candidate = load_records(folder / "generations.jsonl")
         entry = {"candidate_dir": str(folder), "identity": identity(reference, candidate),
                  "candidate": candidate_runtime(folder / "summary.json")}
@@ -149,9 +159,8 @@ def main(argv=None):
                 settings.get("batch_size"), settings.get("kv_cache"), settings.get("cap"))
             entry["same_batching"] = same
             comparable.append(same)
-        if name == "dev75" and (folder / "cases.json").is_file() and (a.reference_dir / "dev75.cases/cases.json").is_file():
-            entry["r1"] = r1_comparison(load_records(a.reference_dir / "dev75.cases/cases.json"),
-                                        load_records(folder / "cases.json"))
+        if name == "dev75" and (folder / "cases.json").is_file() and dev75_cases.is_file():
+            entry["r1"] = r1_comparison(load_records(dev75_cases), load_records(folder / "cases.json"))
         runtime = entry["candidate"] or {}
         nonfinite.append(bool(runtime.get("calls_with_nonfinite_logits")) or runtime.get("nll_finite") is False)
         all_identical += entry["identity"]["identical"]
