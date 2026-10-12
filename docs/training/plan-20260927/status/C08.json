@@ -1,0 +1,58 @@
+{
+  "card": "C08",
+  "state": "in_progress",
+  "updated": "2026-10-12T08:45:00+02:00",
+  "branch": "plan/C08-r2-select",
+  "pull_request": null,
+  "outputs": {
+    "pilot_night": "2026-10-12 (report ~/.local/state/sepalith/night-reports/2026-10-12.md). All three arms trained to update 268 from parent 11,586 with schedule v2 and seed 3407.",
+    "arms": {
+      "lr1e-5": {
+        "state": "gate 268 decided",
+        "recipe_sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e",
+        "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/decisions/decision-step-268-1.json (sha256 a0136c4bb206c212c350b82cf0a4d7a7c4acf9c94a63730a4c589acecdf11327)",
+        "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-268",
+        "checkpoint_manifest_sha256": "4c049df09ce8445a7c70f81fce4b1c4d9842cdc5db227695e683b73430f31be9",
+        "metrics": {"valid": 73, "cap": 2, "edit": 26, "nofp": 11, "score250": 110, "loss": 0.7168424129486084}
+      },
+      "lr3e-6": {
+        "state": "gate 268 decided",
+        "recipe_sha256": "539601c793d1e36902a71fc83367f88e44578b2ddd2ce839adb7f4e778a11007",
+        "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr3e-6/decisions/decision-step-268-1.json (sha256 34dd0a9edfa05879d5a8e75e257316f558dce5efc19848d4aada65648ba499b7)",
+        "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr3e-6/full/checkpoint-268",
+        "checkpoint_manifest_sha256": "15e9a054faa1cfb3d4c8f607a31c10b5f2391294da2ef574715d49bd1b8868a4",
+        "metrics": {"valid": 74, "cap": 1, "edit": 26, "nofp": 10, "score250": 104, "loss": 0.6943989992141724}
+      },
+      "lr3e-5": {
+        "state": "pending: trained to 268 and saved; the gate evaluation was deferred at the deadline (exit 75) and C08-arm-lr3e-5 runs first on the night of 2026-10-13",
+        "recipe_sha256": "21b93f6fa1eb6f715c61a2a759c8691abe7b57e9b1f19dae7b92516528b3c133",
+        "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr3e-5/full/checkpoint-268",
+        "checkpoint_manifest_sha256": "7d86d6f25e0f8c44cd297a118388e9bc2553ee53f83d4e7d760c0ff0fc6d217b",
+        "metrics": null
+      }
+    },
+    "automatic_selection": {
+      "selector": "docs/training/plan-20260927/c08/select_r2.py (stdlib only; /usr/bin/python3 -I -B; no CUDA)",
+      "job": "docs/training/plan-20260927/c08/jobs/C08-r2-select.json: priority 23, requires C08-arm-lr3e-5, one-shot, about 5 minutes",
+      "receipt": "~/.local/state/sepalith/campaign-20260915/C08-r2-selection.json (an earlier receipt is kept as C08-r2-selection.superseded-<time>.json)",
+      "binding_checks": "For each arm: the bound recipe's arm name and learning rate; the C08 job file carries --recipe <that recipe, same sha256> and --stop-after-gate 268 and is in done/ with the same command; the last decision-step-268-<n>.json has the decision schema, step 268, bound_recipe_sha256 = the recipe's sha256, evaluation_complete, decided_by rule_R1, no override, a first-gate R1 record without problems whose inputs equal the metrics, an outcome that matches the R1 floor recomputed here, DEV75 and DEV250 result files with matching sha256, and a checkpoint-268 manifest with the evaluated sha256 that is the latest durable checkpoint. The winner also needs dev-gate-step-268.json. Across arms: identical parent, seed, data_queue, panels, generation runtime and parent baseline metrics. Anything else is stop-for-user.",
+      "rule": "R2 as written: drop arms failing the R1 first-gate floor; highest score250; if the top two (counting ties for second) are within 5, the lower learning rate; if still tied, the lower CPT 2K validation loss, which the decisions do not record, so that step is stop-for-user; no survivor is stop-for-user.",
+      "on_winner": "Enqueues C09-arm-a-<lr> through sepalith.ops.night_queue (under queue.lock): the winner's C08 job without --stop-after-gate 268, resumable, about 240 minutes, priority 24, requires C07-baseline, C08-arm-<lr> and C08-r2-select. night_arm then resumes from checkpoint-268 through gates 536, 803 and 1,071 under R1. A retry with an identical job already queued is accepted; any other C09-arm-a-* job is stop-for-user.",
+      "exit_codes": "0 winner enqueued; 3 stop-for-user (the night report lists the question under Needs the user); anything else is an error",
+      "runner_behaviour_verified": {
+        "requires": "select() re-reads the queue before every start; a job whose requirement is pending or deferred is skipped as waiting_for_requirements for that pass only and stays in pending/.",
+        "mid_night_enqueue": "A job that another job enqueues during the night is picked up by the same runner on its next pass (tests, and a real night_runner CLI run in ~/.local/state/sepalith/night-dryrun-20261012-c08-r2b).",
+        "lr3e-5_deferred_again": "The selector stays in pending/ (waiting_for_requirements), the runner stops with no_eligible_job, and both run on the next night.",
+        "lr3e-5_failed": "The selector is skipped as requires_failed_job and stays in pending/; the report lists the lr3e-5 failure under Needs the user. After night_queue retry C08-arm-lr3e-5, both run."
+      },
+      "projection_on_current_numbers": "lr1e-5 (110) beats lr3e-6 (104) by 6, outside the band of 5. lr3e-5 wins only with score250 >= 116 and the R1 floor passed. With 111 to 115 it is within 5 of lr1e-5, so the lower learning rate, lr1e-5, wins. With 110 or less, or if lr3e-5 fails the floor, lr1e-5 wins."
+    }
+  },
+  "rule_decisions": [
+    {"rule": "R1", "arm": "lr1e-5", "step": 268, "inputs": {"valid": 73, "cap": 2, "edit": 26, "nofp": 11, "score250": 110, "loss": 0.7168424129486084, "parent_edit": 0}, "outcome": "continue"},
+    {"rule": "R1", "arm": "lr3e-6", "step": 268, "inputs": {"valid": 74, "cap": 1, "edit": 26, "nofp": 10, "score250": 104, "loss": 0.6943989992141724, "parent_edit": 0}, "outcome": "continue"},
+    {"rule": "R2", "inputs": "pending lr3e-5 gate 268", "outcome": "pending: applied automatically by C08-r2-select on the night of 2026-10-13"}
+  ],
+  "question_for_user": null,
+  "notes": "R2 runs automatically after lr3e-5's deferred gate evaluation, and the winner continues as C09 arm A the same night. Watch-out: lr1e-5 has cap 2 at gate 268, and R1's later-gate cap row continues only at 0 to 1. If cap is still 2 or more at gate 536, that gate is stop-for-user and the arm pauses there."
+}
