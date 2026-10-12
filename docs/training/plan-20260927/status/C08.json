@@ -3,7 +3,7 @@
   "state": "in_progress",
   "updated": "2026-10-12T08:45:00+02:00",
   "branch": "plan/C08-r2-select",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/53",
   "outputs": {
     "pilot_night": "2026-10-12 (report ~/.local/state/sepalith/night-reports/2026-10-12.md). All three arms trained to update 268 from parent 11,586 with schedule v2 and seed 3407.",
     "arms": {
