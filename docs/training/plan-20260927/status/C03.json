@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-10-12T09:25:00+02:00",
   "branch": "plan/C03-kaggle-inference",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/55",
   "merges_after": ["#41 (C05)", "#45 (C04)", "#52 (C07 batched eval)"],
   "outputs": {
     "harness": {
