@@ -764,6 +764,86 @@ def finalize(args: argparse.Namespace) -> None:
     print(json.dumps(receipt["semantic_spot_check"]["counts"]), outcome, cohort_sha)
 
 
+# --------------------------------------------------------------------------- rebase-cohort
+
+
+def rebase_cohort(args: argparse.Namespace) -> None:
+    """Rebuild the arm-B cohort on a corrected TRAIN row file (same 15,006 ids).
+
+    The admitted roxygen rows are copied byte for byte from the pinned earlier cohort;
+    the dedup checks against TRAIN are repeated on the new TRAIN rows.
+    """
+    out: Path = args.output_dir
+    if out.exists() and any(out.iterdir()):
+        raise SystemExit("fresh output required")
+    base, train = args.base_cohort, args.train_rows
+    if sha256_file(base) != args.base_cohort_sha256 or sha256_file(train) != args.train_rows_sha256:
+        raise SystemExit("input hash differs")
+    admitted = json.loads((args.admission_dir / "admitted-ids.json").read_text())["ids"]
+    records = {r["row_id"]: r for r in map(json.loads, (args.admission_dir / "mechanical.jsonl").read_text().splitlines())}
+    old_train_ids, tail = [], []
+    with base.open("rb") as stream:
+        for index, line in enumerate(stream):
+            if index < 15006:
+                old_train_ids.append(json.loads(line)["id"])
+            else:
+                tail.append(line)
+    if [json.loads(line)["id"] for line in tail] != admitted:
+        raise SystemExit("base cohort tail is not the admitted rows")
+    new_ids, payload, prompt, fn = [], {}, {}, {}
+    changed = 0
+    old_by_id = {}
+    with TRAIN_ROWS.open() as stream:
+        for line in stream:
+            row = json.loads(line)
+            old_by_id[row["id"]] = sha_ids(row["input_ids"])
+    with train.open() as stream:
+        for line in stream:
+            row = json.loads(line)
+            validate_row(row, MAX_SEQUENCE)
+            new_ids.append(row["id"])
+            ids, start = row["input_ids"], row["target_start"]
+            payload[sha_ids(ids)] = row["id"]
+            prompt[sha_ids(ids[:start])] = row["id"]
+            parts = prompt_parts(row["prompt_text"])
+            fn[sha_text(squash(row["target_body_text"]) + "\x00" + squash("\n".join(parts["suffix"])))] = row["id"]
+            changed += old_by_id.get(row["id"]) != sha_ids(ids)
+    if new_ids != old_train_ids:
+        raise SystemExit("TRAIN row ids or order differ from the base cohort")
+    collisions = [rid for rid in admitted if records[rid]["keys"]["payload"] in payload
+                  or records[rid]["keys"]["prompt"] in prompt or records[rid]["keys"]["documented_function"] in fn]
+    if collisions:
+        raise SystemExit(f"admitted rows collide with the new TRAIN rows: {collisions[:5]}")
+    out.mkdir(parents=True, exist_ok=True)
+    cohort = out / "arm-b-cohort-rows.jsonl"
+    tmp = cohort.with_name(cohort.name + ".tmp")
+    with tmp.open("wb") as sink:
+        with train.open("rb") as source:
+            shutil.copyfileobj(source, sink)
+        sink.writelines(tail)
+    tmp.replace(cohort)
+    seen = set()
+    with cohort.open() as stream:
+        for line in stream:
+            row = json.loads(line)
+            if row["id"] in seen:
+                raise SystemExit("duplicate id in cohort")
+            seen.add(row["id"])
+            validate_row(row, MAX_SEQUENCE)
+    receipt = {
+        "schema": "sepalith.c10.arm-b-cohort-rebase.v1",
+        "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "base_cohort": {"path": str(base), "sha256": args.base_cohort_sha256},
+        "train_rows": {"path": str(train), "sha256": args.train_rows_sha256, "rows": len(new_ids),
+                       "rows_changed_vs_v3": changed},
+        "admitted_roxygen_rows": len(admitted), "admitted_rows_copied_byte_for_byte": True,
+        "dedup_vs_new_train": {"payload_prompt_or_documented_function_collisions": 0},
+        "cohort": {"path": str(cohort), "sha256": sha256_file(cohort), "bytes": cohort.stat().st_size, "rows": len(seen)},
+    }
+    write_json(out / "cohort-receipt.json", receipt)
+    print(json.dumps(receipt, indent=1))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -774,8 +854,15 @@ def main() -> None:
     f.add_argument("--output-dir", type=Path, required=True)
     f.add_argument("--classifications", type=Path, default=HERE / "semantic-classifications.json")
     f.add_argument("--receipt", type=Path, default=HERE.parent / "receipts/C10-roxygen-admission.json")
+    r = sub.add_parser("rebase-cohort")
+    r.add_argument("--base-cohort", type=Path, required=True)
+    r.add_argument("--base-cohort-sha256", required=True)
+    r.add_argument("--train-rows", type=Path, required=True)
+    r.add_argument("--train-rows-sha256", required=True)
+    r.add_argument("--admission-dir", type=Path, required=True)
+    r.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
-    {"check": check, "finalize": finalize}[args.command](args)
+    {"check": check, "finalize": finalize, "rebase-cohort": rebase_cohort}[args.command](args)
 
 
 if __name__ == "__main__":
