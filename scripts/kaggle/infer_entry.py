@@ -623,7 +623,8 @@ def main(argv=None):
             "padding_side": "left", "pad_token_id": 1, "stop_ids": [1, 130073],
             "decoding": "greedy" if args.temperature == 0 else {"temperature": args.temperature, "top_p": args.top_p,
                                                                 "samples": args.samples, "seed": args.seed},
-            "attention": "sdpa (transformers default)", "work_split": "whole global batches per shard and worker"}
+            "attention": "sdpa (transformers default)", "work_split": "whole global batches per shard and worker",
+            "pytorch_cuda_alloc_conf": os.environ.get("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")}
         plan_path = out / "plan.json"
         write_json(plan_path, plan)
         write_json(out / "summary.json", summary)
@@ -632,6 +633,9 @@ def main(argv=None):
         children = []
         for worker in range(workers):
             env = dict(os.environ)
+            # Allocator only (no numeric change): batch 32 with DEV75's longest prompts (2,619 tokens) is at the
+            # edge of a T4's 14.6 GiB and failed on fragmentation without it (2026-10-12).
+            env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
             if args.device == "cuda":
                 from sepalith.training.eval.campaign_eval import pin_cuda_device
 
