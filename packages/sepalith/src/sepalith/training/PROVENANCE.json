@@ -210,14 +210,15 @@
   {
    "module": "sepalith.training.eval.campaign_eval",
    "path": "packages/sepalith/src/sepalith/training/eval/campaign_eval.py",
-   "sha256": "ccfec4b6eee293971d516d092b8cb3c4ae95c6cd9af2d64390eb22c0d3025e57",
+   "sha256": "bb866cc7758c1e4d53d86eaef1c026a13c040454853029bd75acd2dba99cb94f",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/campaign_eval.py",
    "source_sha256": "6e5bd413d9f71b0d8dcfdb6f98feae4f9ea0a43ac7d60c19c43cf11c43a2987c",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "eval-gate version: stops on both EOG ids 1 and 130073 and reports complete-case counts; the RL driver only uses case_evaluation_guard, which is identical",
    "changes": [
     "rewrote 2 local import statement(s) to sepalith.training package paths",
-    "unused local stop_token_id binding dropped; the lookup still runs (ruff F841)"
+    "unused local stop_token_id binding dropped; the lookup still runs (ruff F841)",
+    "C05: added GENERATION_DTYPES, generation_dtype, pin_cuda_device and load_development_model; development_evaluator is unchanged"
    ],
    "bound_by": [
     {
@@ -672,7 +673,7 @@
   {
    "module": "sepalith.training.sft.full_weight_edit_sft",
    "path": "packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py",
-   "sha256": "7efb5d534a7095343aa2e7dc052077e3d78bf7d0b0a24d28275a3758627dc518",
+   "sha256": "7144b2ed0a28cc8e0d4d05c1e0225e69b326e76303570296a92607e66b38a607",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/full_weight_edit_sft.py",
    "source_sha256": "86c0a65ec427559bc4d8664f90bc797f3245383296bb3995641c491427d6037f",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
@@ -682,7 +683,9 @@
     "the /mnt/e/ trainer/archive root requirement uses sepalith.training.paths.under_checkpoint_root: directory containment under CHECKPOINT_ROOT (default /mnt/e, env SEPALITH_CHECKPOINT_ROOT) instead of a string prefix",
     "imports under_checkpoint_root",
     "rewrote 10 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401), including sys after the sys.path removal",
+    "card C04: load_bound and identity dispatch v2 bound recipes to sft/recipe_v2.py; training_arguments_kwargs accepts warmup_steps and lr_scheduler_kwargs; run() honours SEPALITH_DEADLINE_EPOCH and --stop-after-step through night_controls.DeadlineStop, runs the pre-update masking gate before update 1, and logs peak CUDA memory; v1 behaviour unchanged",
+    "card C04 (R7): checkpoint retention goes through apply_retention; the default keeps every checkpoint, and older saves are retired only when a recipe sets retention.policy = retain_milestones_and_latest"
    ],
    "bound_by": [
     {
@@ -783,13 +786,14 @@
   {
    "module": "sepalith.training.eval.milestone_gate",
    "path": "packages/sepalith/src/sepalith/training/eval/milestone_gate.py",
-   "sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297",
+   "sha256": "56fb8864f7842e0d21ab4a006f6b8ff5ee171eeb1098ca5d8427f1214fac6cf9",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/milestone_gate.py",
    "source_sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
-    "none (verbatim)"
+    "none (verbatim)",
+    "C05: DEV250 v1 panel constants and require_bf16_result; gate evidence rejects non-bf16 generation results"
    ],
    "bound_by": [
     {
@@ -1079,13 +1083,14 @@
   {
    "module": "sepalith.training.eval.prepare_dev_gate",
    "path": "packages/sepalith/src/sepalith/training/eval/prepare_dev_gate.py",
-   "sha256": "9656ecdb0d7a3e2eaeeafa7668eec1d8bfc86730a5116c77023f761679a9822a",
+   "sha256": "0d47ecaa2d5acf15acf1b12b6abb706267c314131cdd1f1ae66fc76ae49270ef",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/prepare_dev_gate.py",
    "source_sha256": "7cf3b7f12f37bcb907219647860486beaeb2726aca5d6bbe94955f7fc15bb2d0",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
-    "rewrote 1 local import statement(s) to sepalith.training package paths"
+    "rewrote 1 local import statement(s) to sepalith.training package paths",
+    "C05: rejects non-bf16 generation results via require_bf16_result"
    ],
    "bound_by": [
     {
@@ -1117,13 +1122,14 @@
   {
    "module": "sepalith.training.supervisors.request_graceful_stop",
    "path": "packages/sepalith/src/sepalith/training/supervisors/request_graceful_stop.py",
-   "sha256": "6a63034900ac5830f3e2fcf682d59226f5db1e20c19609430c7195954916500c",
+   "sha256": "c372f403ec86d408d6a65292eb691f9ee0cc74368dbe786eca59f0b08c2da138",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/request_graceful_stop.py",
    "source_sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "identical in the three packets that bind it; fixed for the SFT trainer (C01 step 5)",
    "changes": [
-    "C01 step 5: dispatches on the bound recipe schema to the SFT trainer (sepalith.training.sft.full_weight_edit_sft) or the CPT trainer; previously it always imported the CPT trainer, whose load_bound rejects SFT recipes. The written payload is unchanged. Test: tests/training/test_request_graceful_stop.py"
+    "C01 step 5: dispatches on the bound recipe schema to the SFT trainer (sepalith.training.sft.full_weight_edit_sft) or the CPT trainer; previously it always imported the CPT trainer, whose load_bound rejects SFT recipes. The written payload is unchanged. Test: tests/training/test_request_graceful_stop.py",
+    "card C04: maps the v2 bound-recipe schema to the SFT trainer"
    ],
    "bound_by": [
     {
@@ -1146,14 +1152,15 @@
   {
    "module": "sepalith.training.eval.run_dev_generation",
    "path": "packages/sepalith/src/sepalith/training/eval/run_dev_generation.py",
-   "sha256": "c3a524628570f01d86bccd8ef751f5ef2be3ef98e2919a6a0abb41c434e0e291",
+   "sha256": "98915cb14a8b9541ded8454837f97786b7137fccf7ca1d5aeda099f72bfcd563",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/run_dev_generation.py",
    "source_sha256": "98aa378c0a856993b6f5d26507d335e1d1610be4f85af13e6a5949f571911ef0",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
     "rewrote 6 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401)"
+    "removed imports left unused (ruff F401)",
+    "C05: optional --dtype, --cuda-device, --panel {dev75,dev250,both}, --dev250-panel and --dev250-output; the default call is unchanged (receipts/C05-evaluator-equivalence.json)"
    ],
    "bound_by": [
     {

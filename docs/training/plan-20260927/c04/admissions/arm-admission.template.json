@@ -1,0 +1,29 @@
+{
+  "arm": {
+    "learning_rate": "EXAMPLE_ONLY_1e-05",
+    "name": "EXAMPLE_ONLY_lr1e-5",
+    "purpose": "EXAMPLE_ONLY_describe_the_arm"
+  },
+  "decided_by": "EXAMPLE_ONLY_who_decided_and_where_it_is_recorded",
+  "launch_authorized": false,
+  "note": "Every EXAMPLE_ONLY or FILL value must be replaced; the binder refuses any that remain.",
+  "parent": {
+    "candidate_id": "EXAMPLE_ONLY_CPT-11586",
+    "files": {
+      "campaign-manifest.json": "FILL_SHA256",
+      "chat_template.jinja": "FILL_SHA256",
+      "config.json": "FILL_SHA256",
+      "generation_config.json": "FILL_SHA256",
+      "model.safetensors": "FILL_SHA256",
+      "tokenizer.json": "FILL_SHA256",
+      "tokenizer_config.json": "FILL_SHA256"
+    },
+    "kind": "cpt_full_weight_checkpoint",
+    "path": "EXAMPLE_ONLY_/ABSOLUTE/CHECKPOINT",
+    "selection_status": "EXAMPLE_ONLY_user_selected_for_edit_sft_parent",
+    "step": "EXAMPLE_ONLY_11586"
+  },
+  "schema": "sepalith.sft-v2.full-weight-edit-sft-arm-admission.v1",
+  "status": "EXAMPLE_ONLY_TEMPLATE_NOT_A_DECISION",
+  "template_sha256": "0242ecb9f069eeaca320ef007161f50d35370e29a6dfab1969379890103256f3"
+}

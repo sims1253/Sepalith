@@ -2,6 +2,10 @@
 import hashlib,json
 from pathlib import Path
 PANEL_SHA='7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035'
+# DEV250 v1 (card C05): 250 TRAIN-mix cases, disjoint from DEV75 and TRAIN.
+DEV250_PANEL_SHA='75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22'
+DEV250_PANEL_PATH='/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl'
+DEV250_CASES=250
 def sha(path):
  h=hashlib.sha256()
  with Path(path).open('rb') as f:
@@ -9,6 +13,29 @@ def sha(path):
  return h.hexdigest()
 def require(v,m):
  if not v:raise ValueError(m)
+def require_bf16_result(value):
+ # Results without generation_runtime predate the dtype option and are bf16.
+ require(value.get('generation_runtime',{}).get('dtype','bf16')=='bf16','only bf16 DEV generation may bind a gate')
+# The per-case batch-1 path, which results without a batching record ran.
+PER_CASE_GENERATION={'batch_size':1,'ordering':'panel_order_per_case','padding_side':'none','pad_token_id':1,'kv_cache':'dynamic'}
+def generation_settings(value):
+ """The generation settings a DEV result ran with, for comparing a gate with its R1 reference.
+
+ R1 compares a gate with the baseline and the previous gate, so all of them must
+ decode the same way: dtype, cap, batch size, ordering, padding and KV cache.
+ The evaluator's own record (summary.generation_runtime) is authoritative; the
+ driver's result-level copy must agree with it."""
+ runtime=value.get('generation_runtime') or {};summary=value.get('summary') or {};batching=summary.get('generation_runtime')
+ if batching is None:
+  require(all(runtime.get(k,v)==v for k,v in PER_CASE_GENERATION.items()),'generation runtime claims batching the evaluator did not record');batching=PER_CASE_GENERATION
+ else:
+  require(isinstance(batching,dict) and all(runtime.get(k)==v for k,v in batching.items()),'generation runtime differs from the evaluator record')
+ return {'dtype':runtime.get('dtype','bf16'),'max_new_tokens':summary.get('generation_max_new_tokens'),**{k:batching.get(k) for k in PER_CASE_GENERATION}}
+def requested_generation_settings(cap,batch_size=1,kv_cache='dynamic',dtype='bf16'):
+ """``generation_settings`` of a result produced with these evaluator options."""
+ from sepalith.training.eval.campaign_eval import generation_batching
+ batching=generation_batching(batch_size,kv_cache) or PER_CASE_GENERATION
+ return {'dtype':dtype,'max_new_tokens':cap,**{k:batching.get(k) for k in PER_CASE_GENERATION}}
 def mandatory_steps(recipe):
  p=recipe['dev_gate'];steps=p['mandatory_steps'];require(p['panel']['sha256']==PANEL_SHA,'gate panel differs');require(isinstance(steps,list) and steps==sorted(set(steps)) and all(type(x)is int and x>0 for x in steps),'gate steps differ');require(steps==recipe['runtime']['evaluation_steps'],'every evaluation milestone must be a mandatory stop');require(steps[-1]==recipe['runtime']['max_steps'],'terminal gate missing');cap=p.get('generation_max_new_tokens');require(type(cap)is int and 1<=cap<=recipe['development']['generation_budget']['prepared_max_new_tokens_bound'],'gate generation budget differs');root=Path(p['evidence_directory']);require(root.is_absolute() and str(root).startswith('/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/'),'gate evidence directory differs');return steps
 def evidence_path(recipe,step):return Path(recipe['dev_gate']['evidence_directory'])/f'dev-gate-step-{step}.json'
@@ -18,7 +45,7 @@ def verify_gate_evidence(recipe,bound_recipe_path,step,checkpoint):
  require(rec['bound_recipe']=={'path':str(Path(bound_recipe_path).resolve()),'sha256':sha(bound_recipe_path)},'gate recipe binding differs')
  checkpoint=Path(checkpoint).resolve();manifest=checkpoint/'campaign-manifest.json';require(manifest.is_file(),'gate checkpoint manifest missing');require(rec['checkpoint']=={'path':str(checkpoint),'campaign_manifest_sha256':sha(manifest)},'gate checkpoint binding differs')
  require(rec['panel']==recipe['dev_gate']['panel'],'gate panel binding differs')
- result=rec['result'];require(Path(result['path']).is_file() and sha(result['path'])==result['sha256'],'gate result differs');value=json.loads(Path(result['path']).read_text());require(value['status']=='complete' and value['step']==step and value['checkpoint']['campaign_manifest_sha256']==sha(manifest) and value['bound_recipe']['sha256']==sha(bound_recipe_path) and value['panel']['sha256']==PANEL_SHA,'generation result binding differs');require(value['summary']['denominators']['cases']==75 and value['summary']['counts'].get('protocol_valid') is not None and value['summary'].get('generation_max_new_tokens')==recipe['dev_gate']['generation_max_new_tokens'],'generation result denominator/budget differs')
+ result=rec['result'];require(Path(result['path']).is_file() and sha(result['path'])==result['sha256'],'gate result differs');value=json.loads(Path(result['path']).read_text());require_bf16_result(value);require(value['status']=='complete' and value['step']==step and value['checkpoint']['campaign_manifest_sha256']==sha(manifest) and value['bound_recipe']['sha256']==sha(bound_recipe_path) and value['panel']['sha256']==PANEL_SHA,'generation result binding differs');require(value['summary']['denominators']['cases']==75 and value['summary']['counts'].get('protocol_valid') is not None and value['summary'].get('generation_max_new_tokens')==recipe['dev_gate']['generation_max_new_tokens'],'generation result denominator/budget differs')
  decision=rec['root_decision'];require(Path(decision['path']).is_file() and sha(decision['path'])==decision['sha256'],'root DEV decision differs');d=json.loads(Path(decision['path']).read_text());require(d.get('schema')=='sepalith.sft11.full-weight-edit-dev-decision.v1' and d.get('status')=='admitted_for_continuation' and d.get('continue_training') is True,'root did not admit continuation');require(d.get('step')==step and d.get('bound_recipe_sha256')==sha(bound_recipe_path) and d.get('checkpoint_manifest_sha256')==sha(manifest) and d.get('generation_result_sha256')==result['sha256'] and d.get('panel_sha256')==PANEL_SHA,'root decision binding differs')
  return rec
 def continuation_plan(recipe,bound_recipe_path,resume_checkpoint):

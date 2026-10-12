@@ -1,0 +1,25 @@
+{
+  "id": "C07-batched-eval-validation",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 9,
+  "resumable": false,
+  "estimated_minutes": 75,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c07/validate_batched_eval.py",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+    "--output-dir",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/C07-batched-eval-validation"
+  ],
+  "note": "C07 follow-up: parent 11,586 in bf16. 24 DEV75 cases (seed 3407) at batch 1 vs the bound batch size (max_new_tokens 256), a memory probe at the real cap, then DEV75 and DEV250 at the bound batch size; receipt validation.json in a fresh attempt directory"
+}

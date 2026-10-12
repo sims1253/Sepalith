@@ -1,0 +1,115 @@
+{
+  "c06_census_on_v4": {
+    "by_group": {
+      "control": {
+        "any_brace_indent_mismatch_in_target": 6,
+        "decode_body_exact": 4282,
+        "final_brace_indent_mismatch": 0,
+        "final_brace_opener_in_prompt": 4282,
+        "final_brace_own_line": 4282,
+        "n": 4282,
+        "parse_applied": 4282,
+        "range_at_eof": 4282
+      },
+      "repaired": {
+        "any_brace_indent_mismatch_in_target": 18,
+        "decode_body_exact": 3503,
+        "final_brace_indent_mismatch": 0,
+        "final_brace_opener_in_prompt": 3503,
+        "final_brace_own_line": 3503,
+        "n": 3503,
+        "parse_applied": 3503,
+        "range_at_eof": 3503
+      }
+    },
+    "final_brace_indent_mismatch_rows": 0,
+    "method": "C06 finish_repair_check.py census (branch plan/C06-finish-repair-check) with DATA pointed at the v4 directory",
+    "note": "any_brace_indent_mismatch_in_target counts inner braces, which the fix does not touch (C06 listed only final braces)",
+    "rows": 7785
+  },
+  "c06_receipt_sha256": "91f456ca4f77e16fb47e45d06b6a4188d52b5ba788a83ef17173b14638b89fec",
+  "card": "C04",
+  "data_dir": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent",
+  "data_queue": {
+    "path": "docs/training/plan-20260927/c04/v4/data-queue.json",
+    "sha256": "0024483b488eb5f4b6e3a8c8328486f2a8fe7a3763e99b979452606c0e2e27ee"
+  },
+  "decision": "user 2026-10-12: fix the 486 repaired finish_block rows whose final } is misindented (C06 receipt)",
+  "files": {
+    "brace-reindent-verification.json": "4f750db2b94e4541b4d0a18604bbf572222789055576a9740211c0348c04641b",
+    "context-sidecar.jsonl": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a",
+    "materialization.json": "a341164f3f167d1e7cec8fbae1448b458aba8c0a3865d095ce8d6780157a89c5",
+    "repair-ledger.jsonl": "db6639e76c8f0a4ee3c61050101389589d75c30a3f3b983f2600cdc2f1269930",
+    "train-token-rows.jsonl": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+  },
+  "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/2029f1360d74cad67a9ab02dd00f284ff4782699",
+  "hf_prefix": "campaign-20260915/sft/DAT10-finish-source-repair-v4-braceindent/",
+  "length_profile": {
+    "path": "docs/training/plan-20260927/c04/v4/length-profile.json",
+    "sha256": "392a1af33288a48436541ee80391bc9ebd203faf985a673fdc1c4c844999fe77"
+  },
+  "parent_data": {
+    "dir": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3",
+    "train-token-rows.jsonl": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+  },
+  "schedule": {
+    "gates": [
+      268,
+      536,
+      803,
+      1071
+    ],
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2-r4/draw-schedule-v2.json",
+    "sha256": "6820a84738ba2131911146f1541aaa525b41b08300b924261a287f6a404cc7bc",
+    "updates": 1071
+  },
+  "schema": "sepalith.plan-20260927.C04.brace-reindent-v4.v1",
+  "script": {
+    "path": "docs/training/plan-20260927/c04/fix_brace_indent.py",
+    "r_helper": "docs/training/plan-20260927/c04/brace_pairs.R",
+    "r_helper_sha256": "01fc75933f7e262c00e03bcbb9b8a964039a62c1585439101e7f56de5cda696f",
+    "sha256": "28b45c7f1e0fdbfc06965debe5dc5f84f2f19cebc8483ec5f9197fd327e0014b"
+  },
+  "verification": {
+    "air_version": "air 0.12.0",
+    "checks": {
+      "air_idempotent": 486,
+      "air_keeps_final_brace_line": 486,
+      "air_ok": 486,
+      "brace_column_equals_header_column": 486,
+      "decoded_target_equals_intended": 486,
+      "layout_ok": 486,
+      "prompt_unchanged": 486,
+      "r_parses": 486,
+      "within_length_limits": 486
+    },
+    "created_at_utc": "2026-10-11T23:38:50.250917+00:00",
+    "encoder_reproduces_all_v3_targets": 15006,
+    "fixed_rows": 486,
+    "indent_change": {
+      "1->0": 13,
+      "10->0": 6,
+      "2->0": 358,
+      "3->0": 1,
+      "4->0": 75,
+      "6->0": 23,
+      "8->0": 10
+    },
+    "limits": {
+      "generation_max_new_tokens": 1024,
+      "max_sequence_tokens": 16384
+    },
+    "max_sequence_tokens": 3064,
+    "max_target_tokens_including_eos": 933,
+    "r_version": "Rscript (R) version 4.6.1 (2026-06-24)",
+    "rows": 15006,
+    "schema": "sepalith.dat10.brace-reindent-verification.v1",
+    "status": "pass",
+    "target_token_delta": {
+      "-1": 479,
+      "-2": 1,
+      "0": 6
+    },
+    "unchanged_rows_byte_identical": 14520
+  }
+}

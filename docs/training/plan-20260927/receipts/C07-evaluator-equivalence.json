@@ -1,0 +1,79 @@
+{
+  "base_commit": "fed5b2f0cb1cdc5caeaab04538048c6d14ae6797",
+  "base_ref": "origin/main",
+  "fixture": {
+    "generation_max_new_tokens": 8,
+    "mocked": [
+      "load_bound",
+      "identity",
+      "verify_checkpoint",
+      "PANEL_SHA",
+      "torch.cuda.is_available",
+      "torch.cuda.device_count",
+      "load_pinned_reference_tokenizer",
+      "AutoTokenizer.from_pretrained",
+      "tokenizer alignment/audit hooks",
+      "parameter census (381 tensors, 2,516,756,480)"
+    ],
+    "model": "random one-layer LlamaForCausalLM (vocab 1024, hidden 16), CPU, loaded in the dtype the driver requests",
+    "panel_cases": 75
+  },
+  "identical": {
+    "new_default": {
+      "calls": true,
+      "files": true,
+      "loads": true,
+      "stdout": true
+    },
+    "new_explicit_bf16_dev75": {
+      "calls": true,
+      "files": true,
+      "loads": true,
+      "stdout": true
+    }
+  },
+  "normalized_away": [
+    "elapsed_seconds",
+    "generation_seconds",
+    "cases.sha256 and printed sha256 (they hash files that hold generation_seconds)",
+    "the per-run output directory"
+  ],
+  "observed_old": {
+    "eval_calls": 1,
+    "forward_calls": 75,
+    "from_pretrained": [
+      {
+        "device_map": {
+          "": "cuda"
+        },
+        "local_files_only": true,
+        "path": "/tmp/sepalith-c05-equivalence-gytpik4b/fixture/archive/full/checkpoint-2",
+        "torch_dtype": "torch.bfloat16",
+        "trust_remote_code": false
+      }
+    ],
+    "generate_calls": 75,
+    "generate_kwargs": {
+      "bos_token_id": 0,
+      "do_sample": false,
+      "eos_token_id": [
+        1,
+        130073
+      ],
+      "max_new_tokens": 8,
+      "num_beams": 1,
+      "pad_token_id": 1,
+      "repetition_penalty": 1.0,
+      "return_dict_in_generate": false,
+      "use_cache": true
+    }
+  },
+  "result": "identical",
+  "schema": "sepalith.c05.evaluator-equivalence.v1",
+  "sources": {
+    "new_driver_sha256": "24fcc547da1630f9e91e3e524d692375701f35f7830aa7ab988d7ffb54d2bdac",
+    "new_evaluator_sha256": "81856179ee3395f0154d5d113391ed6c3ab711d23f7b47870ff97cb376aeaf65",
+    "old_driver_sha256": "c3a524628570f01d86bccd8ef751f5ef2be3ef98e2919a6a0abb41c434e0e291",
+    "old_evaluator_sha256": "ccfec4b6eee293971d516d092b8cb3c4ae95c6cd9af2d64390eb22c0d3025e57"
+  }
+}
