@@ -20,7 +20,8 @@ check ``not_measured`` and the tier ``incomplete``.  Thresholds and the
 statistics are in ``sepalith.quant.gate``.  The gate is binding only when
 both sides are complete, gate-eligible DEV250 runs (cap 1,024, all 250
 cases) from the same llama.cpp build and backend; otherwise each tier is
-``not_gate_eligible`` and the numbers are plumbing only.
+``not_gate_eligible`` (``checks_verdict`` keeps the raw outcome) and the
+numbers are plumbing only.
 """
 from __future__ import annotations
 
@@ -94,15 +95,15 @@ def main(argv=None) -> int:
         kld = json.loads(Path(candidate["kld"]).read_text())["statistics"] if candidate.get("kld") else None
         checks = gate.gate_checks(tier, metrics, kld)
         problems = eligibility(ref250, cand250)
-        tier_verdict = gate.verdict(checks)
-        if problems and tier_verdict != gate.FAIL:
-            tier_verdict = "not_gate_eligible"
+        checks_verdict = gate.verdict(checks)
+        tier_verdict = "not_gate_eligible" if problems else checks_verdict
         parity = None
         if ref75 and cand75:
             parity = gate.dev75_parity(ref75["results"], cand75["results"])
             parity["outcome"] = (gate.PASS if parity["within_tolerance"] else gate.FAIL) if tier == "q8" else gate.RECORDED
         rows.append({"label": candidate["label"], "quant_type": candidate["quant_type"], "tier": tier,
-                     "gguf": candidate.get("gguf"), "verdict": tier_verdict, "eligibility_problems": problems,
+                     "gguf": candidate.get("gguf"), "verdict": tier_verdict, "checks_verdict": checks_verdict,
+                     "eligibility_problems": problems,
                      "checks": checks, "ship_net_loss_bound": gate.ship_check(metrics),
                      "shippable": tier_verdict == gate.PASS and gate.ship_check(metrics)["outcome"] == gate.PASS,
                      "gate_panel": gate_panel, "paired": metrics, "dev75_parity": parity, "kld": kld,
