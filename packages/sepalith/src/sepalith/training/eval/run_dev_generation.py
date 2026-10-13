@@ -12,13 +12,20 @@ admission, model load, generation calls and result file.  The flags add:
   ``--output``; ``both`` evaluates DEV75 (``--output``) and DEV250
   (``--dev250-output``) in one model load.  The admission then also binds
   ``dev250_panel_sha256`` and ``dev250_output``.
+- ``--generation-batch-size N`` and ``--generation-kv-cache {dynamic,static}``:
+  batched greedy generation (``campaign_eval.batched_greedy_generate``).  The
+  defaults come from the bound recipe's ``dev_gate.generation_batching`` and
+  otherwise are 1 and dynamic, the original per-case path.  Batched results
+  record ``generation_runtime`` (batch size, ordering, padding side, KV cache);
+  a gate whose generation runtime differs from its R1 reference stops for the
+  user (``night_arm``).
 """
 import argparse,json,os,tempfile,time
 from pathlib import Path
 from sepalith.training.sft.full_weight_edit_sft import load_bound,identity,sha256
 from sepalith.training.checkpoint.campaign_checkpoint import verify_checkpoint
 from sepalith.training.eval.milestone_gate import PANEL_SHA,DEV250_PANEL_SHA,DEV250_PANEL_PATH,DEV250_CASES,require
-from sepalith.training.eval.campaign_eval import GENERATION_DTYPES,DEFAULT_GENERATION_DTYPE,pin_cuda_device,load_development_model
+from sepalith.training.eval.campaign_eval import GENERATION_DTYPES,DEFAULT_GENERATION_DTYPE,GENERATION_KV_CACHES,pin_cuda_device,load_development_model,generation_batching
 
 ADMISSION_FIELDS={'schema','status','purpose','cuda_authorized','final_set_access','bound_recipe_sha256','checkpoint_manifest_sha256','panel_sha256','output','deadline_seconds'}
 BOTH_PANEL_ADMISSION_FIELDS={'dev250_panel_sha256','dev250_output'}
@@ -39,6 +46,8 @@ def parse_args(argv=None):
  p.add_argument('--dev250-output',type=Path,help='DEV250 result file; required with --panel both')
  p.add_argument('--dtype',choices=tuple(GENERATION_DTYPES),default=DEFAULT_GENERATION_DTYPE,help='generation dtype (default: bf16; fp16/fp32 for Kaggle T4s)')
  p.add_argument('--cuda-device',type=int,help='pin the Nth visible CUDA device (default: the single leased device)')
+ p.add_argument('--generation-batch-size',type=int,help="cases per greedy generate call (default: the recipe's dev_gate.generation_batching, else 1 = the original per-case path)")
+ p.add_argument('--generation-kv-cache',choices=GENERATION_KV_CACHES,help="KV cache for generation (default: the recipe's, else dynamic)")
  return p.parse_args(argv)
 def main(argv=None):
  a=parse_args(argv);both=a.panel=='both';require(both==(a.dev250_output is not None),'--dev250-output goes with --panel both, and only with it')
@@ -51,8 +60,10 @@ def main(argv=None):
  require(type(admission['deadline_seconds']) is int and 60<=admission['deadline_seconds']<=3600,'DEV deadline differs')
  if a.cuda_device is not None:pin_cuda_device(a.cuda_device)
  require(os.environ.get('CUDA_VISIBLE_DEVICES') not in (None,''),'root CUDA lease must expose one device')
+ bound_batching=recipe['dev_gate'].get('generation_batching') or {}
+ batch_size=a.generation_batch_size if a.generation_batch_size is not None else bound_batching.get('batch_size',1);kv_cache=a.generation_kv_cache or bound_batching.get('kv_cache','dynamic');batching=generation_batching(batch_size,kv_cache)
  # Only non-default runs record their runtime, so default results stay identical to earlier ones.
- runtime={'dtype':a.dtype,'cuda_visible_devices':os.environ['CUDA_VISIBLE_DEVICES']} if a.dtype!=DEFAULT_GENERATION_DTYPE or a.cuda_device is not None else None
+ runtime={'dtype':a.dtype,'cuda_visible_devices':os.environ['CUDA_VISIBLE_DEVICES']} if a.dtype!=DEFAULT_GENERATION_DTYPE or a.cuda_device is not None or batching is not None else None
  started=time.monotonic();os.environ['UNSLOTH_RETURN_LOGITS']='1'
  import torch
  from transformers import AutoTokenizer
@@ -68,9 +79,9 @@ def main(argv=None):
  for destination,*_ in runs[1:]:require(not destination.exists() and not destination.with_suffix('.cases').exists(),'fresh DEV case directory required')
  for destination,panel,panel_sha,denominator in runs:
   destination.parent.mkdir(parents=True,exist_ok=True);case_dir=destination.with_suffix('.cases');require(not case_dir.exists(),'fresh DEV case directory required');case_dir.mkdir()
-  cap=recipe['dev_gate']['generation_max_new_tokens'];rows=[json.loads(line) for line in Path(panel['path']).read_text().splitlines() if line];eval_recipe={'development_panel':panel,'renderer_id':'zeta2-prm03-v1','development_case_ids':sorted(row['id'] for row in rows),'development_max_new_tokens':cap,'parameters':{'max_sequence_tokens':recipe['cohort']['max_sequence_tokens']},'evaluation_output_directory':str(case_dir)}
+  cap=recipe['dev_gate']['generation_max_new_tokens'];rows=[json.loads(line) for line in Path(panel['path']).read_text().splitlines() if line];eval_recipe={'development_panel':panel,'renderer_id':'zeta2-prm03-v1','development_case_ids':sorted(row['id'] for row in rows),'development_max_new_tokens':cap,'parameters':{'max_sequence_tokens':recipe['cohort']['max_sequence_tokens']},'evaluation_output_directory':str(case_dir),'generation_batch_size':batch_size,'generation_kv_cache':kv_cache}
   summary=development_evaluator(eval_recipe)(model,tokenizer,checkpoint,step);require(summary['denominators']['cases']==denominator and summary['panel_sha256']==panel_sha,'DEV denominator differs');cases=case_dir/'cases.json';require(cases.is_file() and json.loads(cases.read_text())['status']=='complete','DEV cases incomplete')
   result={'schema':'sepalith.sft11.full-weight-edit-dev-generation.v1','status':'complete','step':step,'bound_recipe':{'path':str(recipe_path),'sha256':sha256(recipe_path)},'checkpoint':{'path':str(checkpoint),'campaign_manifest_sha256':manifest_sha},'panel':panel,'summary':summary,'cases':{'path':str(cases),'sha256':sha256(cases)},'tokenizer_contract':audit,'tokenizer_repair':repair,'elapsed_seconds':time.monotonic()-started,'final_set_access':False}
-  if runtime is not None:result['generation_runtime']=runtime
+  if runtime is not None:result['generation_runtime']={**runtime,**(summary.get('generation_runtime') or {})}
   write_new(destination,result);print(json.dumps({'status':'complete','step':step,'output':str(destination),'sha256':sha256(destination)}))
 if __name__=='__main__':main()

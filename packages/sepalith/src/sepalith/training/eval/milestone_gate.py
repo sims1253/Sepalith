@@ -16,6 +16,26 @@ def require(v,m):
 def require_bf16_result(value):
  # Results without generation_runtime predate the dtype option and are bf16.
  require(value.get('generation_runtime',{}).get('dtype','bf16')=='bf16','only bf16 DEV generation may bind a gate')
+# The per-case batch-1 path, which results without a batching record ran.
+PER_CASE_GENERATION={'batch_size':1,'ordering':'panel_order_per_case','padding_side':'none','pad_token_id':1,'kv_cache':'dynamic'}
+def generation_settings(value):
+ """The generation settings a DEV result ran with, for comparing a gate with its R1 reference.
+
+ R1 compares a gate with the baseline and the previous gate, so all of them must
+ decode the same way: dtype, cap, batch size, ordering, padding and KV cache.
+ The evaluator's own record (summary.generation_runtime) is authoritative; the
+ driver's result-level copy must agree with it."""
+ runtime=value.get('generation_runtime') or {};summary=value.get('summary') or {};batching=summary.get('generation_runtime')
+ if batching is None:
+  require(all(runtime.get(k,v)==v for k,v in PER_CASE_GENERATION.items()),'generation runtime claims batching the evaluator did not record');batching=PER_CASE_GENERATION
+ else:
+  require(isinstance(batching,dict) and all(runtime.get(k)==v for k,v in batching.items()),'generation runtime differs from the evaluator record')
+ return {'dtype':runtime.get('dtype','bf16'),'max_new_tokens':summary.get('generation_max_new_tokens'),**{k:batching.get(k) for k in PER_CASE_GENERATION}}
+def requested_generation_settings(cap,batch_size=1,kv_cache='dynamic',dtype='bf16'):
+ """``generation_settings`` of a result produced with these evaluator options."""
+ from sepalith.training.eval.campaign_eval import generation_batching
+ batching=generation_batching(batch_size,kv_cache) or PER_CASE_GENERATION
+ return {'dtype':dtype,'max_new_tokens':cap,**{k:batching.get(k) for k in PER_CASE_GENERATION}}
 def mandatory_steps(recipe):
  p=recipe['dev_gate'];steps=p['mandatory_steps'];require(p['panel']['sha256']==PANEL_SHA,'gate panel differs');require(isinstance(steps,list) and steps==sorted(set(steps)) and all(type(x)is int and x>0 for x in steps),'gate steps differ');require(steps==recipe['runtime']['evaluation_steps'],'every evaluation milestone must be a mandatory stop');require(steps[-1]==recipe['runtime']['max_steps'],'terminal gate missing');cap=p.get('generation_max_new_tokens');require(type(cap)is int and 1<=cap<=recipe['development']['generation_budget']['prepared_max_new_tokens_bound'],'gate generation budget differs');root=Path(p['evidence_directory']);require(root.is_absolute() and str(root).startswith('/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/'),'gate evidence directory differs');return steps
 def evidence_path(recipe,step):return Path(recipe['dev_gate']['evidence_directory'])/f'dev-gate-step-{step}.json'

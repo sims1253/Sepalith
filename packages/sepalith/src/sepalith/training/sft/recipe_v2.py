@@ -10,6 +10,13 @@ thing that differs between arms:
 - weight decay 0;
 - DEV gates at updates 268, 536, 803 and 1,071, decided by rule R1.
 
+Gate generation. DEV75 and DEV250 are generated greedily in batches of
+``GENERATION_BATCH_SIZE`` (``dev_gate.generation_batching``), ordered by prompt
+length then case id and left-padded, so that both panels fit the time a gate
+has. The parent baseline and every gate use these settings; the night driver
+stops for the user if a result's generation runtime differs from its R1
+reference. Batch size 1 is the original per-case path and stays available.
+
 Learning-rate ceiling. The binder refuses any LR above 3e-5. That is ten
 times the CPT hidden LR (3e-6, side 3e-7) the parent was trained with.
 Aurora and Muon updates are orthogonalized and rescaled to a fixed RMS
@@ -60,6 +67,14 @@ CPT_HIDDEN_LR = 3e-6
 PILOT_LEARNING_RATES = (3e-6, 1e-5, 3e-5)
 SEED = 3407
 GENERATION_MAX_NEW_TOKENS = 1024
+# Batch 32 with the dynamic cache: the C07 night showed batch-1 generation is
+# launch-bound (about 12 tokens/s, GPU mostly idle), so a batch costs about as
+# much per decode step as one case. The worst batch (the 32 longest prompts,
+# about 2,950 tokens, plus the 1,024-token cap) needs an estimated 14 GB with
+# the 5 GB of weights, well inside the 32 GB card less the desktop's 2.2 GB.
+# docs/training/plan-20260927/c07/validate_batched_eval.py measures it.
+GENERATION_BATCH_SIZE = 32
+GENERATION_KV_CACHE = "dynamic"
 RETENTION = {"policy": "retain_all", "preserve_selected_milestones": True,
              "reason": "R7: deleting any checkpoint is stop-for-user; every gate checkpoint and every deadline save is kept"}
 LR_UPPER_BOUND_RATIONALE = (
@@ -418,6 +433,17 @@ def runtime_for(learning_rate: float, evidence_directory: str, updates: int = UP
     }
 
 
+def generation_batching_record(batch_size: int = GENERATION_BATCH_SIZE, kv_cache: str = GENERATION_KV_CACHE) -> Json:
+    """The ``dev_gate.generation_batching`` record: what every DEV run of the arm and the baseline use."""
+    from sepalith.training.eval import campaign_eval
+
+    campaign_eval.generation_batching(batch_size, kv_cache)
+    return {"batch_size": batch_size, "kv_cache": kv_cache, "ordering": campaign_eval.GENERATION_BATCH_ORDERING,
+            "padding_side": campaign_eval.GENERATION_PADDING_SIDE,
+            "policy": "the parent baseline and every gate use these settings; a result whose generation runtime "
+                      "differs from its R1 reference is stop-for-user"}
+
+
 def bind(template_path: Path, admission_path: Path, output: Path, *, source_manifest: Path, paths: PathMap) -> Json:
     template = _object(json.loads(template_path.read_text()), "template")
     admission = _object(json.loads(admission_path.read_text()), "admission")
@@ -466,6 +492,7 @@ def bind(template_path: Path, admission_path: Path, output: Path, *, source_mani
             "continuation_policy": "automatic_rule_R1_with_human_override_file",
             "override_file_pattern": f"{evidence}/override-step-<step>.json",
             "generation_max_new_tokens": GENERATION_MAX_NEW_TOKENS,
+            "generation_batching": generation_batching_record(),
         },
         "outputs": outputs,
         "checkpoint_storage": {"mode": "e_same_filesystem_atomic", "c_hot_stage": "not_admitted",
@@ -519,6 +546,12 @@ def validate_pre_registered(recipe: Mapping[str, object]) -> None:
         cases = panel.get("cases")
         require(isinstance(cases, int) and cases > 0, f"{name} case count missing")
     require(_object(panels["dev250"], "dev250").get("manifest") is not None, "DEV250 manifest binding missing")
+    batching = _object(gate.get("generation_batching"), "dev_gate.generation_batching")
+    try:
+        expected = generation_batching_record(cast(int, batching.get("batch_size")), cast(str, batching.get("kv_cache")))
+    except ValueError as error:
+        raise ValueError(f"DEV generation batching differs: {error}") from None
+    require(batching == expected, "DEV generation batching differs")
 
 
 def load_bound_v2(path: str | os.PathLike[str]) -> Json:

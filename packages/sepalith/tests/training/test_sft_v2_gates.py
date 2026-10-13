@@ -11,7 +11,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from sepalith.training.eval import milestone_gate
+from sepalith.training.eval import campaign_eval, milestone_gate
 from sepalith.training.sft import gate_rule as R1
 from sepalith.training.sft import night_arm
 from sepalith.training.sft.recipe_v2 import BOUND_SCHEMA
@@ -116,6 +116,12 @@ class FakeLauncher(night_arm.Launcher):
                   "summary": {"denominators": {"cases": bound["cases"]}, "counts": full, "panel_sha256": bound["sha256"],
                               "generation_max_new_tokens": 1024, "target_nll": 0.3},
                   "final_set_access": False}
+        # As run_dev_generation and parent_baseline do: batched runs record their generation runtime.
+        batching = campaign_eval.generation_batching(int(args.get("--generation-batch-size", "1")),
+                                                     args.get("--generation-kv-cache", "dynamic"))
+        if batching is not None:
+            result["summary"]["generation_runtime"] = batching
+            result["generation_runtime"] = {"dtype": "bf16", "cuda_visible_devices": "0", **batching}
         output.write_text(json.dumps(result))
         return 0
 
@@ -169,11 +175,11 @@ class DriverTests(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def arm(self, deadline=None, stop_after_gate=None, eval_budget=100.0):
+    def arm(self, deadline=None, stop_after_gate=None, eval_budget=100.0, generation_batch_size=None):
         settings = night_arm.Settings(recipe_path=self.recipe_path, guard=False, deadline=deadline,
                                       stop_after_gate=stop_after_gate, eval_budget_seconds=eval_budget,
                                       min_train_seconds=10.0, job_result=self.root / "job-result.json",
-                                      clock=lambda: self.clock[0])
+                                      clock=lambda: self.clock[0], generation_batch_size=generation_batch_size)
         if not hasattr(self, "launcher"):
             self.launcher = FakeLauncher(self, self.root)
         launcher = self.launcher
@@ -184,8 +190,8 @@ class DriverTests(unittest.TestCase):
                                                  "strict_noop_false_suggestions": nofp}
         self.launcher.counts[(step, "dev250")] = {"edit_exact": score - 40, "strict_noop_correct": 40}
 
-    def baseline(self, edit=10):
-        arm = self.arm()
+    def baseline(self, edit=10, generation_batch_size=None):
+        arm = self.arm(generation_batch_size=generation_batch_size)
         self.scores(0, edit=edit)
         self.assertEqual(night_arm.run_baseline(arm), night_arm.EXIT_DONE)
         self.assertEqual(json.loads((self.root / "baseline" / "baseline.json").read_text())["metrics"]["edit"], edit)
@@ -373,6 +379,102 @@ class DriverTests(unittest.TestCase):
             self.recipe_path.write_text(json.dumps(dict(rebound, **change)))
             with self.assertRaisesRegex(night_arm.DriverError, message):
                 self.arm().baseline_metrics()
+
+    def batched_recipe(self, batch_size=32):
+        from sepalith.training.sft.recipe_v2 import generation_batching_record
+
+        recipe = json.loads(self.recipe_path.read_text())
+        recipe["dev_gate"]["generation_batching"] = generation_batching_record(batch_size)
+        self.recipe_path.write_text(json.dumps(recipe))
+
+    def test_batched_baseline_and_gates_continue_and_record_the_runtime(self):
+        self.batched_recipe(32)
+        self.launcher = FakeLauncher(self, self.root)
+        seen = []
+        self.launcher.after_run = lambda label, module_args: seen.append(module_args)
+        self.baseline()
+        self.scores(2, edit=20)
+        self.assertEqual(self.arm(stop_after_gate=2).run(), night_arm.EXIT_DONE)
+        dev_calls = [args for args in seen if "--panel" in args or args[0].endswith("run_dev_generation")]
+        self.assertEqual(len(dev_calls), 4)  # baseline and gate 2, two panels each
+        for args in dev_calls:
+            self.assertEqual(args[args.index("--generation-batch-size") + 1], "32")
+            self.assertEqual(args[args.index("--generation-kv-cache") + 1], "dynamic")
+        expected = milestone_gate.requested_generation_settings(1024, 32, "dynamic")
+        self.assertEqual(expected["batch_size"], 32)
+        self.assertEqual(expected["padding_side"], "left")
+        self.assertEqual(json.loads((self.root / "baseline" / "baseline.json").read_text())["generation_runtime"], expected)
+        record = self.decision(2)
+        self.assertEqual((record["outcome"], record["generation_runtime"]), ("continue", expected))
+
+    def test_gate_runtime_differing_from_the_baseline_is_stop_for_user_and_not_overridable(self):
+        self.baseline(generation_batch_size=1)  # per-case baseline
+        self.batched_recipe(32)
+        self.scores(2, edit=20)
+        self.assertEqual(self.arm().run(), night_arm.EXIT_NEEDS_USER)
+        record = self.decision(2)
+        self.assertEqual(record["outcome"], "stop_for_user")
+        self.assertIn("generation runtime binding differs", record["rule"]["problems"][0])
+        self.assertIn("baseline", record["rule"]["problems"][0])
+        override = {"schema": night_arm.OVERRIDE_SCHEMA, "step": 2, "outcome": "continue",
+                    "bound_recipe_sha256": sha(self.recipe_path), "reason": "try anyway", "author": "user"}
+        (self.root / "gates" / "override-step-2.json").write_text(json.dumps(override))
+        self.assertEqual(self.arm().run(), night_arm.EXIT_NEEDS_USER)
+        self.assertEqual(self.decision(2)["decided_by"], "human_override_refused_without_bound_results")
+        self.assertFalse((self.root / "gates" / "dev-gate-step-2.json").exists())
+        # The baseline job itself refuses a baseline made with other settings.
+        with self.assertRaisesRegex(night_arm.DriverError, "generation runtime binding differs"):
+            night_arm.run_baseline(self.arm())
+
+    def test_gate_runtime_differing_from_the_previous_gate_is_stop_for_user(self):
+        self.batched_recipe(32)
+        self.baseline()
+        self.scores(2, edit=20)
+        self.assertEqual(self.arm(stop_after_gate=2).run(), night_arm.EXIT_DONE)
+        self.scores(4, edit=20)
+        self.assertEqual(self.arm(generation_batch_size=16).run(), night_arm.EXIT_NEEDS_USER)
+        problem = self.decision(4)["rule"]["problems"][0]
+        self.assertIn("previous gate 2", problem)
+        self.assertIn("generation runtime binding differs", problem)
+
+    def test_a_result_whose_runtime_disagrees_with_the_evaluator_record_is_stop_for_user(self):
+        self.batched_recipe(32)
+        self.baseline()
+        self.scores(2)
+
+        def tamper(label, module_args):
+            if "--output" in module_args and "dev75-step-2" in label:
+                path = Path(module_args[module_args.index("--output") + 1])
+                value = json.loads(path.read_text())
+                value["generation_runtime"]["batch_size"] = 16
+                path.write_text(json.dumps(value))
+        self.launcher.after_run = tamper
+        self.assertEqual(self.arm().run(), night_arm.EXIT_NEEDS_USER)
+        problems = self.decision(2)["rule"]["problems"]
+        self.assertIn("dev75 result generation runtime binding differs", problems[0])
+        self.assertIn("unreadable", problems[0])
+
+    def test_generation_settings_of_results(self):
+        legacy = {"summary": {"generation_max_new_tokens": 1024}}
+        self.assertEqual(milestone_gate.generation_settings(legacy), milestone_gate.requested_generation_settings(1024))
+        batching = campaign_eval.generation_batching(32, "dynamic")
+        batched = {"summary": {"generation_max_new_tokens": 1024, "generation_runtime": batching},
+                   "generation_runtime": {"dtype": "bf16", "cuda_visible_devices": "0", **batching}}
+        self.assertEqual(milestone_gate.generation_settings(batched), milestone_gate.requested_generation_settings(1024, 32))
+        self.assertNotEqual(milestone_gate.generation_settings(batched), milestone_gate.generation_settings(legacy))
+        static = campaign_eval.generation_batching(32, "static")
+        self.assertNotEqual(milestone_gate.requested_generation_settings(1024, 32, "static"),
+                            milestone_gate.requested_generation_settings(1024, 32))
+        self.assertEqual(static["kv_cache"], "static")
+        for bad, message in (({"summary": {"generation_max_new_tokens": 1024}, "generation_runtime": {"batch_size": 32}},
+                              "did not record"),
+                             ({"summary": {"generation_max_new_tokens": 1024, "generation_runtime": batching},
+                               "generation_runtime": {"dtype": "bf16"}}, "differs from the evaluator record")):
+            with self.assertRaisesRegex(ValueError, message):
+                milestone_gate.generation_settings(bad)
+        # Non-batched dtype/device runs still compare as the per-case path.
+        fp16 = {"summary": {"generation_max_new_tokens": 1024}, "generation_runtime": {"dtype": "fp16", "cuda_visible_devices": "1"}}
+        self.assertEqual(milestone_gate.generation_settings(fp16), milestone_gate.requested_generation_settings(1024, dtype="fp16"))
 
     def test_sigterm_during_training_writes_the_recipe_bound_stop_file(self):
         arm = self.arm()
