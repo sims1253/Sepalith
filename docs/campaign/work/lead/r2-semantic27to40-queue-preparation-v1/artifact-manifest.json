@@ -1,0 +1,51 @@
+{
+  "classifier_launched": false,
+  "files": [
+    {
+      "bytes": 1543,
+      "mode": 420,
+      "path": "README.md",
+      "sha256": "8700a1419af3241765e4ab274b5d8c7bed5391ea08ac1cedcb4fb7eb9eae86c5"
+    },
+    {
+      "bytes": 1949,
+      "mode": 420,
+      "path": "commands.json",
+      "sha256": "2930ff3176ec70013235d1d7b4d146cd11adc2085b168051c317538fefe8d7b9"
+    },
+    {
+      "bytes": 607151,
+      "mode": 420,
+      "path": "input-pin.json",
+      "sha256": "fd5cc77f98ce78993c0f2bd6dcce9748d35590be1f1fe8d10d06e492f79dd9f7"
+    },
+    {
+      "bytes": 596504,
+      "mode": 420,
+      "path": "intake-plan.json",
+      "sha256": "3cf3de08e6659c0ac9ec1d3efff3580ae788dfa5023d72e07e620326a7064bc4"
+    },
+    {
+      "bytes": 20562,
+      "mode": 420,
+      "path": "run.py",
+      "sha256": "fcce86cda22ca91a28efbb09332ce436f663b9fc535011a3bd1064b13e245971"
+    },
+    {
+      "bytes": 11098,
+      "mode": 420,
+      "path": "source-pin.json",
+      "sha256": "a57894e9de7f38487a69dcbb45178723d43858c9780fbec1cdcd472e84f9bef9"
+    },
+    {
+      "bytes": 3036,
+      "mode": 420,
+      "path": "test_runner.py",
+      "sha256": "3d8c6ce1cf403a06f6a7b65fc5e09ed92759c52c8e401f9a3ae6ce12f59faf66"
+    }
+  ],
+  "replay_launched_by_packet": false,
+  "schema": "sepalith.dat10.semantic27to40_preparation_packet.v1",
+  "status": "frozen_no_classifier_launch",
+  "training_admission": false
+}

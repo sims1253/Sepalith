@@ -1,0 +1,103 @@
+{
+  "cuda_started": false,
+  "development_generation": {
+    "cases": 75,
+    "default_candidate_max_new_tokens": 1024,
+    "edit_cases": 43,
+    "final_set_access": false,
+    "historical_comparison_candidate": 192,
+    "noop_cases": 32,
+    "panel_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+    "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+    "prepared_interface_bound": 8192,
+    "reporting": [
+      "cap_hit",
+      "response_complete",
+      "stop_token_id for EOS1 or EOG130073",
+      "all-case counts",
+      "complete-case counts"
+    ],
+    "root_exclusive_cuda_process": true,
+    "teacher_forced_role": "diagnostic only, never substitute for generation"
+  },
+  "gate_contract": {
+    "behavior": "save full state and stop at next mandatory optimizer-boundary milestone; crossing next gate raises",
+    "checkpoint_identity_binds": [
+      "mandatory gate steps",
+      "corrected DEV panel SHA"
+    ],
+    "fail_closed": [
+      "missing evidence",
+      "incomplete generation",
+      "wrong 75-case denominator",
+      "wrong panel",
+      "wrong checkpoint manifest",
+      "wrong bound recipe",
+      "wrong generation budget",
+      "wrong result hash",
+      "wrong root decision hash or status"
+    ],
+    "mandatory_steps_template": [
+      290,
+      580,
+      870,
+      1160
+    ],
+    "resume": "same full_weights checkpoint and sequential cursor; every prior mandatory gate requires exact generation result and explicit root continuation decision"
+  },
+  "launch_authorized": false,
+  "limitations": [
+    "Actual full-weight DEV generation has not run; root must resource-test the standalone evaluator under an exclusive CUDA lease.",
+    "The template prepares the 18560-draw horizon. Selecting the one-pass938-update alternative needs a fresh recipe and matching gate cadence.",
+    "Pending roxygen targets and contexts may require a fresh context/generation bound above this packet."
+  ],
+  "model_loaded": false,
+  "next": "Root reviews source and selects parent, schedule, LR, batching, mandatory gate cadence, and generation budget. Root alone launches training/evaluation and writes continuation decisions.",
+  "owner": "train_adapter",
+  "packet": {
+    "artifact_identity_sha256": "5cfb3620c5d364754aacadf21ac70c6c3eeab2e0eb789ce2009aaa432e9ba65f",
+    "artifact_manifest_sha256": "a26cdeaee7c7b530957e38b779770f5ed91f5363843d197da453c6f94d0f932b",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1",
+    "recipe_template_sha256": "cd1bf5664f373eb93d9764f269b953e9e9350515afbf765bb43ea067543a5ff0",
+    "root_admission_template_sha256": "d9660bbdfce81a1f55a8e30c5769d346c1e97a3d76f9b796dc62a31fbd702457",
+    "source_identity_sha256": "3e16379a4bb4aff20c196dbcfc188409950089cdb126335528d1e75d1bdf16da",
+    "source_manifest_sha256": "e429cfdf103da18c5201811c32157b05a4d1b3674fa41363e3c25685378991f2"
+  },
+  "schedule": {
+    "current_template": {
+      "draws": 18560,
+      "policy": "full15006 + noop25 alignment replays; requires root admission",
+      "updates": 1160
+    },
+    "one_pass_alternative": {
+      "draws": 15008,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/one-pass-15008-draw-schedule.alternative.json",
+      "replays": 2,
+      "selection": "requires fresh template and gate steps; not selected here",
+      "sha256": "4b2862d8817ca6accc36a511b421ddbd1458c8270261bd19b7f5d7deb0236d83",
+      "status": "alternative_preparation_only_not_root_selected",
+      "target_truncation": false,
+      "unique_before_replay": true,
+      "unique_rows": 15006,
+      "updates": 938
+    }
+  },
+  "schema": "sepalith.campaign.worker-receipt.v1",
+  "status": "prepared_root_review_required",
+  "task": "SFT-11 full-weight editing SFT milestone DEV generation gate preparation",
+  "tests": {
+    "count": 8,
+    "evidence": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/test-results.log",
+    "meaningful": [
+      "control must save+stop exactly at gate and rejects step beyond",
+      "missing/tampered result fails; exact result+root decision advances one gate",
+      "both native EOG stops and cap-hit accounting",
+      "1024 and 2048 budgets bind; >8192 rejects",
+      "one-pass actual 15008 schedule identity/coverage",
+      "checkpoint identity changes with gate steps"
+    ],
+    "status": "pass",
+    "template_preflight": "pass",
+    "template_preflight_evidence": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/template-preflight.log"
+  }
+}

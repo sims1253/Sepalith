@@ -1,0 +1,33 @@
+{
+  "batch_binding": "4551 batch remains frozen v1; v2 rerender/delta proof required",
+  "changed_production_files": [
+    {
+      "path": "source/extension.ts",
+      "v1_sha256": "cce6f7409944db76c6101e9191435146855b470239198ba1142115bd9f8fd735",
+      "v2_sha256": "7403c42fd7e3095cc1d5c0bb52e63bf4ab71565fa980b078aae6224dc18bb039"
+    },
+    {
+      "path": "source/full_document_policy.ts",
+      "v1_sha256": "dd671fa12a839d00e6446bd07d36c02e33518290b6e95faf8187163aa08f0a95",
+      "v2_sha256": "118303c79bd1c63d956a52b93325bd847f7fbbfe447db1de358fda1489b7ed85"
+    },
+    {
+      "path": "source/namespace_runtime.ts",
+      "v1_sha256": "2292f0d6935d8ed10a7e77877114da6516d161ce336af433fa2835242a48b8d0",
+      "v2_sha256": "51e1d1d122d6b83f864cf17dbbf75f5aa86472f8668ea47ab284d38372dd3d0e"
+    }
+  ],
+  "created_at": "2026-09-15T00:16:49.496313+00:00",
+  "model_or_gpu_used": false,
+  "predecessor_source_manifest_sha256": "ab391cbcb8477c15a6f1153a9d0a540d508ec6263d5ce20ef66e8e45ee777b3d",
+  "production_edited": false,
+  "schema": "sepalith.run06.semantic_provider_integration_v2.artifact_manifest.v1",
+  "source_manifest_sha256": "5332f4789fd62e6cb0aa842681c6096a1a7ca251937a0323e18f274b9c6c4865",
+  "status": "complete_review_only_root_admission_required",
+  "test_results": {
+    "controls": 12,
+    "path": "test-results.log",
+    "sha256": "5f3a5976f2f50dd1f9a8703c5e4716e48529cf5b003bcc0360ee1b911b574224",
+    "status": "PASS"
+  }
+}

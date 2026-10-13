@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "frozen_preparation_only",
+  "files": {
+    "run_editor.py": "3ab2f13b1ee725ed208eda15c46e3918da0fd04f943e233f576513b031888ed8",
+    "qualification.py": "9f1991d61a4fac82fb376f223f7585127d9b1c4fccc5250f16d99b2541c9d0be",
+    "input-pins.json": "8c53f89f2651fbb5a380c699905c6ec4c73a8ab72542c557659c23f4830e842a",
+    "command.json": "8a2cb1536ef737c58ecb97bdae1a3678915551aa43d3401bf2ba29598e233b09",
+    "guard-command.json": "00c5d104fc87defa12a7bafc025db406673fd9d71120e69cc69b5f8e58aac081",
+    "deployment-admission.template.json": "885199b49b39cc2ad60d2bfbdf9bbf66179dda5ca530a238a45d5820b26adaec",
+    "ROOT-LAUNCH.json": "a96eb45e42b9f6905d9c09219ecb21b43bfc5f144b73adb8f3e990a7af4017b6",
+    "root-command.txt": "bff0ccf38c3766576efdbd8a0d93b7c00345ad95e1092869db2cfc0305e83a91",
+    "test_preparation.py": "7df7bb9e4f19e882125b4ce3ce3f03787e0f7fa739046b4338d587a71dd2290f",
+    "test-results.json": "da444bc45fb7d24bdccd932aebeb9e59ef081746a1a8f81e7bb10b2e73003877",
+    "controller.patch": "0c0992619d2b1bce9481eef4e8587d4d2eaa7648082bd28221a022579f7db714"
+  }
+}

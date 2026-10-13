@@ -1,0 +1,38 @@
+{
+  "status": "prepared_requires_full500_verification_training_stop_and_root_admission",
+  "merge_guard": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+    "--command-json",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-d500-v1/merge-command.json",
+    "--output",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-postsft500-d-500-merge-supervision",
+    "--seconds",
+    "900",
+    "--minimum-free-mib",
+    "6144",
+    "--admission-free-mib",
+    "18432"
+  ],
+  "prepare_export": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-d500-v1/packet/prepare_root_bindings.py",
+    "--parent-manifest",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-d-500-merged/parent-manifest.preparation.json",
+    "--output-dir",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-d500-v1/root-bindings",
+    "--export-dir",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-d-500-quant",
+    "--host-guard-output",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-postsft500-d-500-export-supervision"
+  ],
+  "observation_sequence": [
+    "observe_client.py --observe-only",
+    "build_closure.py",
+    "observe_client.py --check-policy-only"
+  ],
+  "native": "Bind actual model/profile/source hashes; root-admit and launch DEV75 only after merge/export lease release",
+  "full500_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-d/full/checkpoint-500"
+}

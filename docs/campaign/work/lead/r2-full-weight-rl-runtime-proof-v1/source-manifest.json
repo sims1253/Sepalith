@@ -1,0 +1,172 @@
+{
+  "schema": "sepalith.rl11.full-weight-rl-runtime-source.v1",
+  "actual_stack": {
+    "torch": "2.11.0",
+    "transformers": "5.5.0",
+    "trl": "0.24.0",
+    "accelerate": "1.14.0",
+    "datasets": "4.3.0"
+  },
+  "files": [
+    {
+      "path": "runtime_proof.py",
+      "bytes": 10939,
+      "sha256": "30f038fe4df215e7242405d0c03579e1356640bb2be25e4924dcabbb1f294d58"
+    },
+    {
+      "path": "source/experiments/training/admit_signal_driver.py",
+      "bytes": 3379,
+      "sha256": "575a9de425eef7887d726e90abc3494c5bba3c51c74b6d35b7f71591ff7b7a27"
+    },
+    {
+      "path": "source/experiments/training/bind_signal_driver.py",
+      "bytes": 3248,
+      "sha256": "7d4511c0b64eaccf81f79cec4d4039cb86005dcc0c30fa5a19d117112ca62139"
+    },
+    {
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "bytes": 13663,
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "path": "source/experiments/training/campaign_control.py",
+      "bytes": 5024,
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "path": "source/experiments/training/campaign_eval.py",
+      "bytes": 11848,
+      "sha256": "d54f45020d2736a9005401d28e1e5f774b1eb67be743cece2d27497eb93b15de"
+    },
+    {
+      "path": "source/experiments/training/campaign_launch.py",
+      "bytes": 2962,
+      "sha256": "043d8d5025b2fa1807972baca6e8eafe5540dcf9bb376e9404e6ecb1eb371e81"
+    },
+    {
+      "path": "source/experiments/training/campaign_profile.py",
+      "bytes": 41476,
+      "sha256": "03081f1fa6ebe1b67e517be4366b809df69c84f2a183046a52b40cda7c23f4d7"
+    },
+    {
+      "path": "source/experiments/training/campaign_r_parse_probe.py",
+      "bytes": 1830,
+      "sha256": "d41420c3ab35a8367f8c4310b8a6562214d7e97ff58c921e8df2e03c8c6b486a"
+    },
+    {
+      "path": "source/experiments/training/campaign_reward_v2.py",
+      "bytes": 9490,
+      "sha256": "b2ce979d8bc9a3112c7ae1810de8c271c180b3d916e98af0998c347bdf7669a7"
+    },
+    {
+      "path": "source/experiments/training/campaign_rl_buffer.py",
+      "bytes": 6679,
+      "sha256": "a23b92b7ab4d41c964953e3bf163722b07d0b48fc5ca5785ee6532d03607358d"
+    },
+    {
+      "path": "source/experiments/training/campaign_rl_data.py",
+      "bytes": 33222,
+      "sha256": "2c0419d50392b38725f1ba24af5063edd74d7c25ab495574537c9c597eca62d8"
+    },
+    {
+      "path": "source/experiments/training/campaign_rl_entry.py",
+      "bytes": 59174,
+      "sha256": "34f37d0255df48d0cd1b3cf00bfec567d5a48a67c04d564f0ee793e243debdce"
+    },
+    {
+      "path": "source/experiments/training/campaign_rl_launch.py",
+      "bytes": 5384,
+      "sha256": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a"
+    },
+    {
+      "path": "source/experiments/training/campaign_rl_profile.py",
+      "bytes": 40465,
+      "sha256": "6c7e041a3cf82890146aab9927f0cc5cf7cede92154e069f9cb6f6bd6323763b"
+    },
+    {
+      "path": "source/experiments/training/campaign_rl_train.py",
+      "bytes": 105428,
+      "sha256": "deb4f3c6527091e778718b23287924f41a5038d0e94e2a562e2644ea9aad7299"
+    },
+    {
+      "path": "source/experiments/training/campaign_sampling.py",
+      "bytes": 41066,
+      "sha256": "60e4e4d60b99a4b9851b3e35194f81fb2d0a2a3c47d0cac931c2091819c03dd0"
+    },
+    {
+      "path": "source/experiments/training/campaign_sft.py",
+      "bytes": 21813,
+      "sha256": "671a1da97939b21962cfaedda0dc7c2c6f2f01369cb2834ef351fd26c38541f9"
+    },
+    {
+      "path": "source/experiments/training/campaign_sft_data.py",
+      "bytes": 5026,
+      "sha256": "31e34c5a3a662724cf50dce1ea9e6a0d248c5f44bc0f5eb6b0a5b45894433104"
+    },
+    {
+      "path": "source/experiments/training/campaign_sft_inputs.py",
+      "bytes": 4704,
+      "sha256": "b89457804aa66c69214bdcb5dd31b6db6fe3877103990280126e169086451185"
+    },
+    {
+      "path": "source/experiments/training/campaign_theta0_gate.py",
+      "bytes": 47510,
+      "sha256": "bf7ec53d912b4285585ace4a87ce3df1732e49756e242ea08d1f236a58d25a95"
+    },
+    {
+      "path": "source/experiments/training/campaign_token_audit.py",
+      "bytes": 11720,
+      "sha256": "9915f867894a0fc7b21679cebc6c0f0c87317f31acdab3a647a0fbb5033a23a3"
+    },
+    {
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "bytes": 15257,
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "bytes": 19826,
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "path": "source/experiments/training/model_layout.py",
+      "bytes": 994,
+      "sha256": "eda82d61c694c8d44fc3f972b542c0d3243e108d145afb3f05e1dc9aea8ab572"
+    },
+    {
+      "path": "source/experiments/training/reward_parse_only.R",
+      "bytes": 412,
+      "sha256": "07f05d402274bbb2fdc5fdabd8a9713ba33b0b8e8005187b52f251846496d9fa"
+    },
+    {
+      "path": "source/experiments/training/runtime_update_contract.py",
+      "bytes": 8077,
+      "sha256": "cf10bcc4e2ae2d5d82d73f77f7cfb0bb6dd5662322f86ece5ca20b760bbfd1f3"
+    },
+    {
+      "path": "source/experiments/training/signal_pilot_driver.py",
+      "bytes": 26504,
+      "sha256": "8c8285426bf912f126e0f56bb6b99008ab6eee036a04baa2e16b741f72739a03"
+    },
+    {
+      "path": "source/experiments/training/signal_pilot_harness.py",
+      "bytes": 16739,
+      "sha256": "34fd56eaaf9fd3316efc97cfda8873d77eaad497fe5ca678fd270df4a654f70a"
+    },
+    {
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "bytes": 67,
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "path": "tests/test_runtime_update_contract.py",
+      "bytes": 3013,
+      "sha256": "d257b0a6144edfad067235a8044610081ed6b923d6a6010b1228db90ac0024cb"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "sepalith.sft.full-coverage-schedule-source-manifest.v1",
+  "status": "prepared_cpu_only_frozen",
+  "files": [
+    {
+      "path": "full_coverage_schedule.py",
+      "bytes": 9648,
+      "mode": "0o444",
+      "sha256": "4de8eeb323a8c8829f12557f2203a8d3faa99b65779445ef4a8a342ca8db6a52"
+    },
+    {
+      "path": "audit_e_schedule.py",
+      "bytes": 4448,
+      "mode": "0o444",
+      "sha256": "d614f8e7f203a06d6ad4eb654c996d90f40ea0f9ce4c7294a5b83c16a4d68bab"
+    },
+    {
+      "path": "test_full_coverage_schedule.py",
+      "bytes": 5002,
+      "mode": "0o444",
+      "sha256": "363d5951628567c32165509d1d80c5cbea1fc75c231790cc104e46d59813c57b"
+    }
+  ]
+}

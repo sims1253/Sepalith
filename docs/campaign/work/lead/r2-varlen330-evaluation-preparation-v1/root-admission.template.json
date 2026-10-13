@@ -1,0 +1,12 @@
+{
+  "binding_review_sha256": {
+    "ordinary_reference": "ROOT_BINDS_AFTER_PREPARE",
+    "varlen_candidate": "ROOT_BINDS_AFTER_PREPARE"
+  },
+  "launch_authorized": false,
+  "matched_panels_sha256": "03ac0a57b4b65780422bed223590c1d8863d42cdb4278d9828ba3ec23d950ebb",
+  "payload_review_sha256": "ROOT_BINDS_AFTER_PREPARE",
+  "schema": "sepalith.sft11.varlen330.evaluation-root-admission.v1",
+  "sequential_single_cuda": true,
+  "status": "ROOT_MUST_SET_admitted"
+}

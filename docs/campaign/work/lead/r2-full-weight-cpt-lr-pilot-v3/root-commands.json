@@ -1,0 +1,11 @@
+{
+  "schema": "sepalith.sft11.full-weight-cpt-lr-pilot-v3.commands.v1",
+  "status": "root_review_and_admission_required",
+  "primary_arm": "lr3e-5",
+  "commands": {
+    "cpu_template_preflight": "CUDA_VISIBLE_DEVICES='' PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python source/experiments/training/full_weight_cpt_trainer.py preflight-template --recipe recipe.lr3e-5.template.json",
+    "bind_after_root_admission": "PYTHONNOUSERSITE=1 taskset -c 0,2 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python source/experiments/training/bind_full_weight_cpt.py --template recipe.lr3e-5.template.json --admission /ABSOLUTE/ROOT-ADMISSION.json --output /ABSOLUTE/FRESH-BOUND-RECIPE.json",
+    "run_after_separate_root_cuda_admission": "PYTHONPATH=source/experiments/training CUDA_VISIBLE_DEVICES=0 PYTHONNOUSERSITE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python source/experiments/training/full_weight_cpt_trainer.py run --recipe /ABSOLUTE/FRESH-BOUND-RECIPE.json"
+  },
+  "no_retry_or_second_arm_without_new_decision": true
+}

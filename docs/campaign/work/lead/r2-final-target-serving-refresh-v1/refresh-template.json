@@ -1,0 +1,66 @@
+{
+  "schema_version": "sepalith.r2.final-target-serving-refresh.v1",
+  "status": "prepared_target_unselected",
+  "launch_authorized": false,
+  "target": null,
+  "outputs": {
+    "root": "/mnt/e/sepalith/campaign-20260915/final-target-serving-refresh-v1",
+    "f16": null,
+    "imatrix": null,
+    "q8": null,
+    "q4_k_m": null,
+    "iq3_m": null
+  },
+  "tokenizer_contract": {
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "vocab_size": 130560,
+    "bos_id": 0,
+    "pad_id": 1,
+    "canonical_eos_id": 1,
+    "native_eog_ids": [1, 130073]
+  },
+  "calibration": {
+    "split": "train",
+    "text_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-imatrix-v1/calibration.txt",
+    "text_sha256": "425d7ed07b926cb667e90dc1bc74c8f21f9ba5b407a40dcdf93ae886758209c0",
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-imatrix-v1/corpus-manifest.json",
+    "manifest_sha256": "b89046d1733d6038e46059e01ce30ccc514d0bb889c0cd9adefc5caf64414c4f",
+    "rows": 84,
+    "families": 7,
+    "packages": 80,
+    "chunks": 64,
+    "contains_dev_or_final": false
+  },
+  "quality_panel": {
+    "split": "train",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-serving-screen-followup-v1/train-serving-panel.jsonl",
+    "sha256": "9b4201f7b45bbad1f5d433129f5ceb755bbda995d88667306c9737508e018f8e",
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-serving-screen-followup-v1/train-serving-panel.manifest.json",
+    "manifest_sha256": "dcb41bb05e4e16a89ade139ad4d2e4ad66643f2a99f2e9cfdcce30cc9d8b3619",
+    "rows": 40,
+    "context": 4096,
+    "completion_cap": 192,
+    "repetitions": 1,
+    "phases": ["cold", "warm"],
+    "contains_dev_or_final": false
+  },
+  "tools": {
+    "convert_hf_to_gguf": {"path": "/home/m0hawk/Documents/Sepalith/experiments/bin/src/llamacpp-b10453/convert_hf_to_gguf.py", "sha256": "e38975e1c68d98ac1664dfd530616eb35c72294382a4dd873d4746b23f27779f"},
+    "imatrix": {"path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-imatrix", "sha256": "dc6d6a2a42aa636f7ecd2fc6acab6d975dcc6bb7a64ac640b478ecfbee43d759"},
+    "quantize": {"path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-quantize", "sha256": "9367d87e54b0c4c88de803248532ef9ad2dde804dd22b88042bd4d5449b11022"},
+    "server": {"path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-server", "sha256": "e42d5362c31f9149e36a94677e46c31b7b56ee0e4128d67e6a32383d4cc1c0ee", "build": "b10453", "source_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70"},
+    "cuda_backend": {"path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/libggml-cuda.so.0", "sha256": "3c96a25c15a70fbd568ce77599fe628fdc50c7ce27bc9ebcac297692537e9a78"},
+    "panel_probe": {"path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-serving-screen-followup-v1/paired_panel_probe.py", "sha256": "11dab7c000402b17fe91c0663dfe7ba0bd7eec8b935c35e9e1d6719edeacca9c"}
+  },
+  "drafts": {
+    "model_free_ngram": {"kind": "model_free", "available": true},
+    "released_dspark": {"kind": "released", "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/released-dspark-bf16/model-Q8_0.gguf", "sha256": "bf41fb677274a3021e5a573adbefa41deaf6f8e1d3b1f479fecdbd8632903afb", "header_receipt_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-released-draft-q8-v1/header-hash-audit.json", "header_receipt_sha256": "7c7b874105f8e6aaeea6f26d2672055b44f1cb24c3782ea243bc43bea50ce14e", "target_relation": "released_not_target_trained", "available": true},
+    "existing_trained_dspark": {"kind": "trained_for_old_step500_target", "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/R2-step500-dspark-step8-gguf/model-Q8_0.gguf", "sha256": "cabbffd48439d29f332ec3f75f9d44b57e9304b6bbdfab2b44052c2976af6a4b", "header_receipt_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-draft-native-conversion-v1/q8-audit.json", "header_receipt_sha256": "5c25381981004c448883e7ac0b217034c6a9f40ec019471dca78e8f15cb193a0", "trained_target_identity": "SFT11-task-global-b-500", "target_relation": "cross_target_trial_only_until_retrained", "available": true}
+  },
+  "runtime": {
+    "common_server_argv": ["--host", "127.0.0.1", "--port", "$PORT", "--temp", "0", "--seed", "0", "-t", "6", "-tb", "6", "--threads-http", "2", "--parallel", "1", "-c", "4096", "-b", "256", "-ub", "256", "-ngl", "99", "-ngld", "99", "-lv", "4"],
+    "model_free_argv": ["--spec-type", "ngram-mod", "--spec-draft-n-max", "64", "--spec-ngram-mod-n-match", "24", "--spec-ngram-mod-n-min", "48", "--spec-ngram-mod-n-max", "64"],
+    "dspark_argv": ["--spec-type", "draft-dspark", "--spec-draft-n-max", "7"],
+    "native_mtp": {"status": "not_assumed_or_prepared"}
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/README.md",
+      "bytes": 1564,
+      "sha256": "481ca5041c50ed94519ba5f854d1eecbf3075aaf7bf519d52e9db9d83e683328"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/check_equivalence.mjs",
+      "bytes": 1698,
+      "sha256": "5df05bc32c31b78c5fcfff367b8cc56069448f3511f9c67e4e84cfa2c380d247"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/check_startup.mjs",
+      "bytes": 3073,
+      "sha256": "7f8599214189ea00e60578dea269f53b808ed04b1b9618304f1b9641e3035de9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/check_v5.mjs",
+      "bytes": 6416,
+      "sha256": "41ba94d4093c59162477f74b28ce1c98c031b69f67d2ca217cec9951307a0066"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/cpu-validation.json",
+      "bytes": 3270,
+      "sha256": "5be347096d2792d1298153bb4f0d144a5c3b304bea741fc00e71783146cc36c9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/diagnostic-removal.patch",
+      "bytes": 2254,
+      "sha256": "d009487d8e16423ae3e3ce8f7dcfac1592f3a0977003e74c50fbabd3a03e10a2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/input-pins.json",
+      "bytes": 707,
+      "sha256": "03a26f82c538687976495a483091c808506bddaa846e3c439592dfb16ff7207d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/observe_renderer.mjs",
+      "bytes": 19245,
+      "sha256": "6aad057fecf81b5cb1870e7192bda60f6102a0b8f77c3547182effe03ba851ca"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/preparation-receipt.json",
+      "bytes": 2267,
+      "sha256": "3ba874c391ea6391ef46f8583e55bb4d9f5d666309e8ef4fd7ed4e013f97acaf"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/removed-diagnostic-block.txt",
+      "bytes": 907,
+      "sha256": "cd1d596bf997385e7a58fdfcd37faee70353470b9038c556bc520ef173198c9d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/runtime-source-manifest.json",
+      "bytes": 187,
+      "sha256": "1861d99e501ed149129919d72e3105843cb51a95d8dfc18cd952752a178f560c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-latency/startup_gate.mjs",
+      "bytes": 2509,
+      "sha256": "aea146d1af6fa9739c46b003dc0f91b7e70e059b84ffa9b62c296160bae50f2d"
+    }
+  ]
+}

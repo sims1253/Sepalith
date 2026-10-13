@@ -1,0 +1,62 @@
+{
+  "child_argv_template": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/source/edit_context_profile.py",
+    "--checkpoint",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v3-from194/runtime/checkpoint-322",
+    "--checkpoint-manifest-sha256",
+    "ROOT_ACCEPTED_322_MANIFEST_SHA256",
+    "--fixture",
+    "ROOT_EXACT_FIXTURE_FROM_FIXTURE_MANIFEST",
+    "--fixture-sha256",
+    "ROOT_EXACT_FIXTURE_SHA256",
+    "--cap",
+    "ROOT_ONE_OF_2048_4096_8192_16384_32768",
+    "--source-manifest",
+    "docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/source-manifest.json",
+    "--admission",
+    "ROOT_FRESH_CAP_ADMISSION",
+    "--report",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-edit-context-profile-ROOT_CAP/report.json"
+  ],
+  "dependency_order": [
+    "Wait for checkpoint322 training, sealing, durable publication, and root full-manifest/scientific review.",
+    "Freeze this packet and create one root admission per cap from profile-admission.template.json.",
+    "Run the inherited native launch attestation against the exact checkpoint and reusable staged-data receipt.",
+    "Run caps in ascending order in separate fresh processes under exclusive stable CUDA guards; stop escalation after any OOM, guard failure, incomplete gradients, parameter mutation, or RNG restoration failure.",
+    "Treat 32K as an explicit recheck of a previously impractical profile, not as expected fit."
+  ],
+  "execution_authorized": false,
+  "outer_argv_prefix_template": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/native_launch_attestation.py",
+    "--base-receipt",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+    "--base-receipt-sha256",
+    "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+    "--resume",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v3-from194/runtime/checkpoint-322",
+    "--resume-manifest-sha256",
+    "ROOT_ACCEPTED_322_MANIFEST_SHA256",
+    "--"
+  ],
+  "outer_attestation": {
+    "base_receipt": "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+    "base_receipt_sha256": "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+    "entrypoint": "docs/campaign/work/lead/r2-native-cpt194-continuation-preparation-v1/source/experiments/training/native_launch_attestation.py",
+    "note": "pass child argv after --; root supplies accepted checkpoint322 manifest SHA"
+  },
+  "required_environment": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "OMP_NUM_THREADS": "2",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONNOUSERSITE": "1",
+    "PYTORCH_ALLOC_CONF": "backend:native,roundup_power2_divisions:[32:256,64:128,256:64,>:32],garbage_collection_threshold:0.8",
+    "SEPALITH_CUDA_LOCK_FD": "inherited from stable root guard",
+    "SEPALITH_NATIVE_STAGE_ATTESTATION": "injected by reviewed native_launch_attestation"
+  },
+  "schema": "sepalith.sft11.full-weight-edit-context-profile-commands.v1",
+  "status": "prepared_no_launch"
+}

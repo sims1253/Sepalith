@@ -1,0 +1,237 @@
+{
+  "card": "C10",
+  "checks": {
+    "dedup": "against the 15,006 TRAIN rows: exact token payload, same prompt (same target = duplicate, other target = conflict), same documented function (whitespace-normalized target text plus the code after it); within the set: exact payload and same documented function keep the lowest id; same prompt with different targets holds all; DAT-10-roxy8597 authoritative ledger status new_candidate",
+    "geometry": "trainer validate_row (BOS 0, EOS 1, PRM03 boundary, complete body + terminal + EOS), family roxygen_drafting, operation replace, target not rewritten",
+    "length": "no truncation; rows up to the recipe's 16384-token context are admitted and bucketed by actual length",
+    "licence": "per-package provenance ledger /mnt/nas/home/sepalith/provenance/<pkg>.json; package and version must equal the row's source path; standing rule SYSTEMS.md section 7 (MIT/Apache/BSD/GPL-family/CC-BY/CC0, NC/ND/unspecified excluded); any allowed alternative of an 'A | B' licence suffices",
+    "split": "row group_id is train_group in DAT-02-global-split-v2.json and the normalized package name appears in no other split"
+  },
+  "cohort": {
+    "admitted_sequence_tokens": {
+      "max": 5066,
+      "over_16384": 0,
+      "over_2048": 9,
+      "over_4096": 1,
+      "over_8192": 0
+    },
+    "admitted_tokens": {
+      "body": 457071,
+      "input": 1636805,
+      "supervised": 480237
+    },
+    "composition": {
+      "admitted_roxygen_rows": 3861,
+      "train_rows": 15006
+    },
+    "rows": {
+      "bytes": 154457840,
+      "count": 18867,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/arm-b-cohort-rows.jsonl",
+      "sha256": "a43d775b950d1cdd1a598a6c585589dc294e3eb8dacf4a54becc4bb7b0190949"
+    },
+    "target_truncation": false
+  },
+  "created_at": "2026-10-11T22:55:14+00:00",
+  "guards": {
+    "cuda": false,
+    "dev_payloads_opened": false,
+    "final_set_opened": false,
+    "training_launched": false,
+    "upstream_pools_opened": false
+  },
+  "outputs": {
+    "admitted-ids.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/admitted-ids.json",
+      "sha256": "82a79385ee9559d244798a9efb415393937aa925186f7e63a7adb42d2eabf9ed"
+    },
+    "held-ids.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/held-ids.json",
+      "sha256": "c79338d6aff117e8672e694160098d8ba81c80e4726c35183435a9fd56f39cd9"
+    },
+    "mechanical.jsonl": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/mechanical.jsonl",
+      "sha256": "9372d069821ab4c610e0952c3969709ec25e22fb1b0bca4cde96397ba99889e3"
+    },
+    "recommended-context-ids.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/recommended-context-ids.json",
+      "sha256": "f88607c31ad60bb4b13eb50946ab2db6bfd7daf0f300bd9d9809a2c06b631e62"
+    },
+    "sample-checks.jsonl": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/sample-checks.jsonl",
+      "sha256": "f6a76f16e2c8624da4ebac84d38fbde5fa5a83c53289e3371e28c2f32f8042ac"
+    },
+    "semantic-classifications.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/semantic-classifications.json",
+      "sha256": "023dd3053393279d6160f6eb7cb433233180cb077b948aea10961d508791085b"
+    }
+  },
+  "pins": {
+    "authoritative_dedup_ledger": {
+      "bytes": 4504145,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-roxy8597-root-fixes-v1/authoritative-dedup-ledger.jsonl",
+      "sha256": "ee60274a93dd7aa13d26b7b103a8a1408516a9d00dc68bc49eeb94a2c2bec337"
+    },
+    "full_file_token_rows": {
+      "bytes": 539306503,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-repair-materialization-v2-10017/repaired-full-file-token-rows.jsonl",
+      "sha256": "752131a0ade6c1bd30248b9663046e027cd8ac9bdb38170a2b680f9dbae6d897"
+    },
+    "profiles": {
+      "bytes": 45405727,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-supported-context-v1/selected-context-profiles.jsonl",
+      "sha256": "e263a86658726bbd92129d1e322c6cac5c3ffe7ec98accf820ea25d8f2be05d2"
+    },
+    "split": {
+      "bytes": 49108497,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    "token_rows": {
+      "bytes": 85391637,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-supported-context-v1/selected-context-token-rows.jsonl",
+      "sha256": "f31377348fcefe948bf5fd3d31e8289a9f79528289ebf9281fa09ec8d6f753c1"
+    },
+    "tokenizer": {
+      "bytes": 9894271,
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    "train_rows": {
+      "bytes": 134311661,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+      "sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+    },
+    "union_ledger": {
+      "bytes": 6055858,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-roxy8597-materialization-v1/dedup-ledger.jsonl",
+      "sha256": "1429f776b83b2b45005fcc3592aeebe756058a7ae911fb6cc929012c2d52764f"
+    }
+  },
+  "post_sample_census": {
+    "defect": "target is the tail of a roxygen block whose head is directly above it in the full file but outside the selected context",
+    "hits": 17,
+    "ids": [
+      "0420c9169209bfc3f3168a29",
+      "05a6aa50a8afd0f5cdc7ffdd",
+      "07551f918e7c30ee782d8eb6",
+      "08f4fd2bd9fa9f4387aefef8",
+      "0a717e966a7d9f1b3df64de9",
+      "0bca9e3479eb01d89f6379b2",
+      "0f94b03d4c5a8bfcebee6156",
+      "1122ce2435fb7945d92ad3e0",
+      "1345b51a92b4a2b89bac9673",
+      "136d86543476d66be000a04d",
+      "18848d791350a97695a7cf3f",
+      "1a602d28c9eafbfdf297112a",
+      "1ada1d9c04f3b56cbce165b8",
+      "1c0be4207729085e7d273b29",
+      "1edfbc43aab3487d7921db74",
+      "2071daca927beaa65ad737fc",
+      "20d4321812ff4fe55194dd58"
+    ],
+    "rule": "full-file context; skip at most one blank line above the target; the next line up is roxygen-style (^\\s*(#+'|')), or it is a plain # comment directly below a roxygen-style line",
+    "scope_rows": 3878
+  },
+  "results": {
+    "admitted": 3861,
+    "held": 42,
+    "held_by_first_reason": {
+      "census:split_roxygen_block_head_outside_selected_context": 17,
+      "dedup:same_documented_function_in_train": 1,
+      "dedup:within_set_documented_function": 1,
+      "dedup:within_set_payload": 2,
+      "licence:family_not_in_standing_rule": 18,
+      "licence:no_ledger_entry": 3
+    },
+    "licence_families_admitted": {
+      "Apache": 202,
+      "BSD": 95,
+      "CC-BY": 16,
+      "CC0": 17,
+      "GPL-family": 1881,
+      "MIT": 1650
+    },
+    "reason_occurrences": {
+      "census:split_roxygen_block_head_outside_selected_context": 17,
+      "dedup:same_documented_function_in_train": 1,
+      "dedup:within_set_documented_function": 3,
+      "dedup:within_set_payload": 2,
+      "licence:family_not_in_standing_rule": 18,
+      "licence:no_ledger_entry": 3
+    },
+    "same_target_text_as_a_train_row_admitted": 3
+  },
+  "schema": "sepalith.c10.roxygen-admission-receipt.v1",
+  "scope": {
+    "recommended": 3903,
+    "recommended_ids_ledger_rebuilt_sha256": "f88607c31ad60bb4b13eb50946ab2db6bfd7daf0f300bd9d9809a2c06b631e62",
+    "recommended_ids_ledger_receipt_sha256": "f88607c31ad60bb4b13eb50946ab2db6bfd7daf0f300bd9d9809a2c06b631e62",
+    "source": "DAT-10 roxygen context admission review (3,903 recommend_context_admission_pending_root_semantic_review)"
+  },
+  "semantic_spot_check": {
+    "allocation": {
+      "1025-4096": 7,
+      "513-1024": 13,
+      "gt4096": 1,
+      "le512": 39
+    },
+    "automatic": {
+      "air_idempotent": 60,
+      "document_parses": 60,
+      "params_not_in_formals_rows": 0
+    },
+    "cosmetic": [
+      {
+        "reason": "upstream formula slip: says 2^(n-1) non-empty subsets, should be 2^n - 1; rest of the block matches the function",
+        "row_id": "04c50322b54f6ea788652cd2"
+      },
+      {
+        "reason": "internal @noRd block leaves formals angles and n_grey undocumented",
+        "row_id": "0910bc647ad34bf3e177a447"
+      },
+      {
+        "reason": "upstream copy-paste: @param N repeats the description of burn; other 13 params correct",
+        "row_id": "0ee123a0c5d56c10e7794cf1"
+      },
+      {
+        "reason": "upstream typo 'buildilng' and informal @param ... note; params match formals",
+        "row_id": "0f783882bb86c8c52d7edf65"
+      },
+      {
+        "reason": "Rcpp comment artifact \"//'\" and trailing spaces in two lines; content correct",
+        "row_id": "10999d9338d8c20957bc0d86"
+      },
+      {
+        "reason": "upstream duplicated words ('and and', 'which which'); params match formals",
+        "row_id": "1d1050e91335ed6924911fc7"
+      }
+    ],
+    "counts": {
+      "correct": 53,
+      "cosmetic": 6,
+      "defective": 1
+    },
+    "defect_rate": 0.0167,
+    "defect_rate_wilson95": [
+      0.0029,
+      0.0886
+    ],
+    "defective": [
+      {
+        "reason": "target is only the tail of a roxygen block (starts with a bare #' and @param lines); the title and description sit above a plain '#' line in the full file and are outside the selected context, so the visible prompt asks for a title-less block",
+        "row_id": "1c0be4207729085e7d273b29"
+      }
+    ],
+    "method": "C06 method: seed 3407, decode with the parent tokenizer, R parse of the applied document, roxygen @param versus formals, air format idempotence, hand classification",
+    "n": 60,
+    "outcome": "continue",
+    "rule": "C06 bands: <=5% continue; 5-10% continue and list defect kinds; >10% stop-for-user",
+    "strata": {
+      "1025-4096": 165,
+      "513-1024": 739,
+      "gt4096": 1,
+      "le512": 2973
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "sepalith.editing-sft.parent-selection.v1",
+  "at": "2026-09-27T12:05:21.951811+00:00",
+  "status": "selected",
+  "authorization": "User: then lets use that; selects recommended checkpoint11586",
+  "selected_step": 11586,
+  "selected_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586",
+  "manifest_sha256": "30527935a15d3a158f5aaf6f8759183f1e9c2bb23fde7ed3df38feaa41991ab8",
+  "model_sha256": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+  "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+  "comparison_receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-cpt-parent-comparison-20260927.json",
+  "comparison_sha256": "50e439528e6364a7f4c066338ea56793b44bfd23a1077ea23f6bb4ae034568ce",
+  "preserved_alternative": {
+    "all_payload_hashes_verified": true,
+    "manifest_sha256": "121ada3f2b737394edfecae2337efb025eaceaf1b3295f78abdab9758687d54c",
+    "cursor": 185328,
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11649"
+  },
+  "purpose": "Initialize editing SFT from selected CPT weights; CPT optimizer/cursor are not an editing-SFT resume state",
+  "training_launched": false,
+  "remaining_preparation": [
+    "Bind selected parent to reviewed editing-SFT recipe and schedule",
+    "Resolve pending reviewed roxygen training admission under all-eligible-data policy",
+    "Resource-test standalone editing DEV generation before training admission"
+  ],
+  "quality_scope": "CPT validation preference only; editing and release quality not established"
+}

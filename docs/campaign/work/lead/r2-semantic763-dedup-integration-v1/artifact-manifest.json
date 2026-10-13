@@ -1,0 +1,76 @@
+{
+  "bulk_files": [
+    {
+      "bytes": 22081290,
+      "path": "candidate-tokenrows.jsonl",
+      "sha256": "9e114d8fd064c47d74b435882fdfe2d2345411ab9e063348ee48b5dba46dbcec"
+    },
+    {
+      "bytes": 921153,
+      "path": "candidate-provenance.jsonl",
+      "sha256": "53d9c5c53768f229a4cb0f28db776d31eaf9d96663038375eeb8d528042364ff"
+    },
+    {
+      "bytes": 115952,
+      "path": "exclusion-ledger.jsonl",
+      "sha256": "4af39df5a05ba444a7f4edd55cc1689594af340992ecbb92457fdea51f3551b2"
+    },
+    {
+      "bytes": 2988,
+      "path": "manifest.json",
+      "sha256": "21e39e67202639bf332b4848f1a5866fe632ff7986c35be643961f14b2b812b3"
+    }
+  ],
+  "bulk_root": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic763-dedup-integration-v1/final-02",
+  "generated_at": "2026-09-14T23:25:10.361235+00:00",
+  "local_files": [
+    {
+      "bytes": 21092,
+      "path": "integrate.py",
+      "sha256": "5f15ea1aa3f83890b812ddb9a564936c51bb4607f855fd1db5130a724209cce6"
+    },
+    {
+      "bytes": 3054,
+      "path": "verify_outputs.py",
+      "sha256": "1a5b6e54a09ab9bbabc4e2689d6b6d8b54a9f39cdc5472abfbc483476a0b585c"
+    },
+    {
+      "bytes": 1607,
+      "path": "test_integrate.py",
+      "sha256": "4070f5eea2a2aac7ff5c521edabcbec1ccee80fa9683273a1e35e7a20f3ac96c"
+    },
+    {
+      "bytes": 1659,
+      "path": "README.md",
+      "sha256": "5a992bad8aae5bdcf5d75a6af6532c07b18375805e9f7cf1988c6301612252de"
+    },
+    {
+      "bytes": 2227,
+      "path": "commands.json",
+      "sha256": "755e29923a406b0a417bdaeb314e6d827487864976dc0b8756de149a70b47ee7"
+    },
+    {
+      "bytes": 1426,
+      "path": "analysis.json",
+      "sha256": "0bb6d17d82c96087c9c329807f99addf87705fe349b2389d3612efa5565b6ac3"
+    },
+    {
+      "bytes": 1059,
+      "path": "verification.json",
+      "sha256": "e3d25e1a385ccd89dab6d02b3959b449b1c4ccb481080a9b96b8e75519e3b490"
+    },
+    {
+      "bytes": 1576,
+      "path": "test-results.log",
+      "sha256": "60d99569a3c6876c10aaa01798432a680595e0257377ee2951e69fb477c5a7b9"
+    },
+    {
+      "bytes": 552,
+      "path": "source-manifest.json",
+      "sha256": "21af5a817ca464ee9e7aabb720a174264aa59e9795d27a04a9abe47690aa3590"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic763.dedup_artifacts.v1",
+  "status": "prepared_root_review_required",
+  "superseded_attempt": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic763-dedup-integration-v1/attempt-01-superseded"
+}

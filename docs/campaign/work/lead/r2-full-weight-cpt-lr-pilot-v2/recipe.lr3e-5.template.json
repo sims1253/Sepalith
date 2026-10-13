@@ -1,0 +1,127 @@
+{
+  "checkpoint_io_evidence": {
+    "estimated_payload_bytes": 17250917475,
+    "expected_per_arm_full_checkpoints": 1,
+    "measured_e_metadata_to_manifest_seconds": 423,
+    "measured_e_metadata_to_next_update_seconds": 614,
+    "note": "Baseline writes metrics only; terminal step24 writes one full resumable state. No dense light save.",
+    "terminal_full_checkpoint_only": true
+  },
+  "checkpoint_storage": {
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-LR-pilot-lr3e-5-v2",
+    "c_hot_stage": "not_admitted",
+    "mode": "e_same_filesystem_atomic",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-LR-pilot-lr3e-5-v2/runtime"
+  },
+  "cohort": {
+    "draw_schedule": {
+      "bytes": 31758,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/panel/draws384.json",
+      "sha256": "4ef5eccc9b63917aef08ca9589b731188185305199c7d4c13b9ebc79919b03d3"
+    },
+    "groups": 384,
+    "id": "CPT-LR-pilot-384x8K-v1",
+    "input_tokens": 3145728,
+    "loss_tokens": 3144960,
+    "manifest": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/panel/manifest.json",
+      "sha256": "bba7091361e29c7183150d3eb6dfd306caf95e3a53babe1739d159f603bd6422"
+    },
+    "max_sequence_tokens": 8192,
+    "named_replays": 0,
+    "payload_tokens": 3144960,
+    "rows": {
+      "bytes": 35177777,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/panel/train384-ctx8192.jsonl",
+      "sha256": "89aa340dbba314c86275b9db15f0baf214ab15df2518a228e41cccff1d902a14"
+    },
+    "scope": "short_lr_signal_experiment_not_production_dataset_cap",
+    "unique_rows": 384,
+    "updates": 24
+  },
+  "cohort_registry": {
+    "all_corpus_complete": false,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v1/cohort-registry.json",
+    "sha256": "698d9c2efaa180e78c1edc9d7f82681cf59165ceaacca83fe9d5f3db0eb0045d"
+  },
+  "experiment_decision": {
+    "candidate_pairs": [
+      {
+        "hidden_lr": 3e-05,
+        "side_lr": 3e-06
+      },
+      {
+        "hidden_lr": 1e-05,
+        "side_lr": 1e-06
+      }
+    ],
+    "measurements": [
+      "parent baseline before optimizer construction/training",
+      "terminal step24 after each arm"
+    ],
+    "per_row_diagnostics": "baseline and terminal include ordered row_id, package_id, loss numerator, denominator, and mean NLL; aggregate definition unchanged",
+    "primary_metric": "fixed_499_row_package_holdout_mean_causal_nll",
+    "rejected_observation": {
+      "arm": "lr1e-4",
+      "baseline_mean_causal_nll": 0.9986833514584186,
+      "reason": "same499 regression; higher 3e-4 arm not run",
+      "terminal_mean_causal_nll": 1.0450272190761625
+    },
+    "training_loss_decision_role": "telemetry_only_not_selection_metric"
+  },
+  "launch_authorized": false,
+  "optimizer_dispatch": {
+    "note": "Only valid when root selects aurora_mix; other arms require their own actual runtime manifest and template revision.",
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-LR-pilot-lr3e-5-v2",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-CPT-LR-pilot-lr3e-5-v2-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-LR-pilot-lr3e-5-v2/runtime"
+  },
+  "parent_candidates": {
+    "global_cpt250_merged": {
+      "candidate_id": "global_cpt250_merged",
+      "files": {
+        "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+        "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+        "model.safetensors": "5f12810692a90ebb32f589a25e5adcedac53d9fb6edd9166b8245fdec6e3dd1c",
+        "parent-manifest.preparation.json": "c5ddf086518e66a6709d8e4a16b88f7399d4e87ea477e24f3988ffcdecb1366e",
+        "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+      },
+      "kind": "merged_cpt_parent",
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged",
+      "selection_status": "proposed_pending_root_comparison"
+    }
+  },
+  "pilot_arm": "lr3e-5",
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true,
+    "trainer_save_total_limit": 2
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-lr-pilot-template.v3",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-lr-pilot-v2/source-manifest.json",
+    "manifest_sha256": "097a9339e8e528d3dd7df1fe9158b84742c280414983ade1ca785dd2deaa9094"
+  },
+  "status": "lower_lr_calibration_prepared_pending_root_admission",
+  "unresolved_scientific_config": [
+    "root admission/launch for one lower-LR arm",
+    "3e-5 is primary; 1e-5 remains an optional fallback requiring a separate root decision",
+    "parent remains exact CPT250 merged for direct comparability with rejected lr1e-4 arm"
+  ],
+  "validation": {
+    "edit_dev_or_final": false,
+    "max_sequence_tokens": 2048,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "role": "package_heldout_train_causal_lm_only",
+    "rows": 499,
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  }
+}

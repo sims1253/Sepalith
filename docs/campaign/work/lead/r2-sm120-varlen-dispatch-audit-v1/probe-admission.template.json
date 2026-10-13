@@ -1,0 +1,10 @@
+{
+  "schema": "sepalith.sft11.sm120-varlen-probe-admission.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "cuda_authorized": false,
+  "packet_source_manifest_sha256": "ROOT_BINDS_FROZEN_PACKET",
+  "maximum_seconds": 600,
+  "single_device": true,
+  "model_load_authorized": false,
+  "training_authorized": false
+}

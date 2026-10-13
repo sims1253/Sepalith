@@ -1,0 +1,41 @@
+{
+  "acceptance": {
+    "bootstrap_iterations": 5000,
+    "bootstrap_seed": 260914,
+    "bootstrap_speedup_lower_95_min": 1.0,
+    "bootstrap_unit": "paired_trace_cluster_stratified_by_2k_8k",
+    "candidate_p95_must_not_exceed_baseline": true,
+    "exact_output_parity": true,
+    "honest_no_winner": true,
+    "point_speedup_min": 1.4
+  },
+  "calibration_rows": 84,
+  "converter_files": 111,
+  "cuda_used": false,
+  "final_access": false,
+  "imatrix_evidence": "actual_log_and_gguf_metadata_tensor_coverage",
+  "launch_authorized": false,
+  "live_probe_large_payload_rehash": false,
+  "model_loaded": false,
+  "panels": {
+    "draft": {
+      "expected_requests": 48,
+      "repetitions": 2,
+      "rows": 24
+    },
+    "ngram": {
+      "expected_requests": 40,
+      "repetitions": 1,
+      "rows": 40
+    }
+  },
+  "prelaunch_full_hash_once": true,
+  "schema": "sepalith.r2.final-target-serving-refresh-template-preflight.v4",
+  "selected_quant_artifact_key": null,
+  "server_port": null,
+  "source_identity_sha256": "78ffad60e894ea58d73af14fe6a47501aa7a94b711220c4f19fd314e492d12b9",
+  "source_manifest_sha256": "fdf64d4f21a05defb9e98bcbac79ba3193544d14b5de4c4dfbbe24247f58e815",
+  "stable_cuda_lock_fd_required": true,
+  "status": "pass_target_quant_port_null_no_launch",
+  "target": null
+}

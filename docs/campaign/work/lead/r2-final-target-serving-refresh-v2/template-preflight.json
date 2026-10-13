@@ -1,0 +1,28 @@
+{
+  "calibration_rows": 84,
+  "converter_files": 111,
+  "cuda_used": false,
+  "final_access": false,
+  "launch_authorized": false,
+  "model_loaded": false,
+  "panels": {
+    "draft": {
+      "cap": 64,
+      "context": 10240,
+      "expected_requests": 48,
+      "repetitions": 2,
+      "rows": 24
+    },
+    "ngram": {
+      "cap": 64,
+      "context": 10240,
+      "expected_requests": 40,
+      "repetitions": 1,
+      "rows": 40
+    }
+  },
+  "schema": "sepalith.r2.final-target-serving-refresh-template-preflight.v2",
+  "source_identity_sha256": "0653dc0562f06575a36696e2408b7f50826a17bd84780d8b71cf85f1d194faa3",
+  "status": "pass_target_null_no_launch",
+  "target": null
+}

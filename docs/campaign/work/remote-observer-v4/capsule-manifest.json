@@ -1,0 +1,10 @@
+{
+  "observe_renderer.mjs": "cd1090b2fb18f81f13fa84c17e4d2dcfb825fc0ad5899ba2769eab86a2b3dd6c",
+  "collect_diagnostic.mjs": "92cf2d8ca6acabe4530b06076bdced4f8ef430e30d8205cec24900ccd822bce9",
+  "analyze_renderer.mjs": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0",
+  "run_diagnostic.mjs": "fa36430fd85991d1a49bfe769add5871e904d1f7a787c8caad5dac0b603f6737",
+  "notebook_diagnostic_supervisor.py": "71bfaf051155f95e0813cf3f81d83edaba400c31152e85b1e2363060d7f28b7f",
+  "control-harness/extension.js": "6e44eca454d1a05cb88f010db3b65c0db071e7c9e3859047337a2d2659a6882d",
+  "control-harness/controls.js": "616637f85344a8ebd9e269b8b5107c428951be1351c33ee1c8d17d6a46d541b7",
+  "control-harness/package.json": "606eb7ddf57e04054fea102b8da88f0d45dbe1a6b814f347969501104510451a"
+}

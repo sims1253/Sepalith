@@ -1,0 +1,29 @@
+{
+  "id": "C07-sft-smoke",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 11,
+  "resumable": true,
+  "estimated_minutes": 30,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.sft.night_arm",
+    "smoke",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-smoke-lr1e-5.json",
+    "--first-stop",
+    "10",
+    "--second-stop",
+    "20"
+  ],
+  "note": "C07 job 3: LR 1e-5 smoke, save at update 10, resume, stop at 20; writes smoke-receipt.json"
+}

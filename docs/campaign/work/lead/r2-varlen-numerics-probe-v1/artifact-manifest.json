@@ -1,0 +1,86 @@
+{
+  "files": [
+    {
+      "bytes": 1553,
+      "path": "README.md",
+      "sha256": "6e3cf657a77e462482b34ea209ba6e6724d198480a8606acddbbb529762c9e52"
+    },
+    {
+      "bytes": 1400,
+      "path": "command.json",
+      "sha256": "37f1744fdb51f29e868536d4880b99888697b915644758b6d1afcee91e0e28d6"
+    },
+    {
+      "bytes": 760,
+      "path": "environment.json",
+      "sha256": "aa269d155303d3dcd842daa718103c75781694d368bdf2cfc62277910c718907"
+    },
+    {
+      "bytes": 2026,
+      "path": "findings.json",
+      "sha256": "c62aae0dc4e4fcf9bb7f1bc4bc9a481cbe6f55d90a0119e8d6124e44b5d43f7b"
+    },
+    {
+      "bytes": 559,
+      "path": "guard-command.json",
+      "sha256": "63c401aec9225f1d804c01718a99bbc5f6eb00318fb1b069ebfa301e8e0b038b"
+    },
+    {
+      "bytes": 2651,
+      "path": "input-pins.json",
+      "sha256": "eeb66f1409c3427cace073a2e35e6a4f6d2030cb939e9cbf6e57d4e270eeacec"
+    },
+    {
+      "bytes": 2399,
+      "path": "source/numerics_probe_helpers.py",
+      "sha256": "e110592e75b539ca97fe47e39389e3b87aecbb60b8f616ebe287f487d2b639f5"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 4918,
+      "path": "source/varlen_contract.py",
+      "sha256": "148ab2c60c1342dc24114d9db05a0df53394da42998a8177cf9ba9ae91f526be"
+    },
+    {
+      "bytes": 20949,
+      "path": "source/varlen_numerics_probe.py",
+      "sha256": "a1d2000186337e45f1a5be0d5ca562a9c2e099ea81cd4f4ae72e83afacad026a"
+    },
+    {
+      "bytes": 3704,
+      "path": "source/verify_probe_report.py",
+      "sha256": "60144e9e7d219497b83ab3f0ab4b69237b96935836aec37979a53005a48b2631"
+    },
+    {
+      "bytes": 1027,
+      "path": "source-manifest.json",
+      "sha256": "b1dab52b6d17a2967f009a958b4cba4e940735883a653b783731db52c94f7fca"
+    },
+    {
+      "bytes": 542,
+      "path": "test-results.log",
+      "sha256": "36e1e679355f8f0920df8be2d5b824e3cfa8119715c71698acb0006d7ee8aeb2"
+    },
+    {
+      "bytes": 2430,
+      "path": "tests/test_probe_contract.py",
+      "sha256": "e66a6759280a7b989db1a1bd37a02ff357cb3db7ce41f04a8c2d7510e011275f"
+    },
+    {
+      "bytes": 1006,
+      "path": "tests/test_static_source.py",
+      "sha256": "d533611b97d9bf189c8e599b61d077ef9e686400bb7f840d5f21e4fe8783f64d"
+    },
+    {
+      "bytes": 449,
+      "path": "verify-command.template.json",
+      "sha256": "5a27beca16edd3a71f41aeb97ba8c4ae061b51c5a1fbbcfe233ca5d1c145f27a"
+    }
+  ],
+  "schema": "sepalith.sft11.varlen-numerics-probe-artifacts.v1",
+  "status": "frozen_preparation"
+}

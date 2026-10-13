@@ -1,0 +1,21 @@
+{
+  "OPERATOR.md": "9220d244c444ad10a6be88f3526e7f9f385e7885f8db756ac7a87f24e9820ae0",
+  "candidate.vsix": "b8268083aabc72c02623ee07f8b75bb932fd4aaec15e6972724bca9330be74b1",
+  "daily_lan.py": "9475e6d8e6353e4aff6258becad4cef81d34cf7a135aeba974bda4968beca4c4",
+  "deployment-admission.example.json": "2f16b759af14b06437985e65308906268dc63b711a96616c22460a87c5d7e8ec",
+  "gateway/gateway.mjs": "8c26f0dd2eb1471f47417b166947e38d45cba3c7df06d6adb5d6b4ef3716a12e",
+  "gateway/package.json": "ca5e8c329cee610258aa25ec2f94d113d4e3eb1c9873135a6c2e7627a422f796",
+  "gateway/vendor/campaign_protocol.ts": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+  "gateway/vendor/runtime.ts": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616",
+  "gateway-test.log": "a75f44763fa9aae9d0703e287decc8d4380d5de93a3f024b8f19ab525ee9f3f2",
+  "gateway.patch": "2eefba0601d6f485c4bd8f63ace2d691d1de38282e9022ecbab9df757729c36c",
+  "gateway_daily.test.mjs": "f7a9fc042807f2ee1c3dc17bc59c49bed3a66320f95d908d0b759f51fbc062eb",
+  "input-pins.json": "9b6e7e4a529054fd377478ebc03ff8780ca057badb70d19cc1def2a6465ae4dc",
+  "lifecycle-test.log": "b724a076037c223c4cc6e990b0dcd510e08f2148d37a24ac1b9518bcb6106bf6",
+  "notebook-init-command.txt": "5df0d4509b7612be281fb8e8defdffd89a03c7f4b3e2f76196bac04d52089941",
+  "notebook_setup.py": "5d6e9a37317565900dc25709323660c55766bed385d54b83240184abdee1dbaf",
+  "primary-manifest.json": "47412c26c747165862a5be9b03ed30bc68a0ed25c7dc55ba6454d004f0b4a21f",
+  "source-manifest.json": "c254f264abf59852b8786b7dc869ae7de29b729693827626d4b888d7d65de78a",
+  "test_lifecycle.py": "50135ad4b3983680e2ba4a33144dffa6747a507327501bf414a9c94bd032e785",
+  "validation.json": "fb4632da273ba4dcd22870b04b9809f8da3ec49878532a63ce20bba69d8c75f3"
+}

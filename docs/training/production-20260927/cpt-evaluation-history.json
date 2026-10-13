@@ -1,0 +1,277 @@
+[
+  {
+    "step": 706,
+    "nll": {
+      "anchor2k": 0.9789005788998009,
+      "8k": 0.7484999296296886,
+      "16k": 0.7802198872489391
+    },
+    "checkpoint_manifest_sha256": "a75a894163e88a3fc3446fcf515e84507634a6644544f0968821b77eeae92276",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 1218,
+    "nll": {
+      "anchor2k": 0.9743589730095378,
+      "8k": 0.7428800315569769,
+      "16k": 0.7770931903012452
+    },
+    "checkpoint_manifest_sha256": "df2a9715d1e385b6b18e8a535fad3c291fccbef1ec18669f4d0c370d5492509b",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 1730,
+    "nll": {
+      "anchor2k": 0.9706669513450682,
+      "8k": 0.7394666055241894,
+      "16k": 0.774778448585482
+    },
+    "checkpoint_manifest_sha256": "30252f2bcd2be0a8c59fc144ff5bb0b202347fe6ca40af965e59f38447200b13",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 2242,
+    "nll": {
+      "anchor2k": 0.9674765981676795,
+      "8k": 0.7362778809964129,
+      "16k": 0.7734792554275227
+    },
+    "checkpoint_manifest_sha256": "ded526f4f6679bb27dbdaddcb7d70b4e6c53eaf4535d5bd8a4a60f83ea036c22",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 2754,
+    "nll": {
+      "anchor2k": 0.9644028252412683,
+      "8k": 0.733295824435287,
+      "16k": 0.7715260644836825
+    },
+    "checkpoint_manifest_sha256": "9ef701247903e500179d0f64ad98b21230434f86fa66bb66eb3bad4a938e4384",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 3266,
+    "nll": {
+      "anchor2k": 0.9623023010044118,
+      "8k": 0.731525474736516,
+      "16k": 0.7702527370888012
+    },
+    "checkpoint_manifest_sha256": "2aea33fb00fea865e090d62b2f36b2d7676c51b2a03f86c7f59407a271331376",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 3778,
+    "nll": {
+      "anchor2k": 0.9606384778811558,
+      "8k": 0.7297144486339808,
+      "16k": 0.7688613221221087
+    },
+    "checkpoint_manifest_sha256": "c4a1d172e3ce10826d245a7059a4a95e48c7a7717254abaf2dea4c207b539e27",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 4290,
+    "nll": {
+      "anchor2k": 0.9578515095335458,
+      "8k": 0.7271933958376475,
+      "16k": 0.7669797661986
+    },
+    "checkpoint_manifest_sha256": "9dc8b339cf7c5c281e30db9bac5af47a4d5f2f50c0f7583d6471c88f18c5517b",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 4802,
+    "nll": {
+      "anchor2k": 0.9560627898057823,
+      "8k": 0.7253914059833567,
+      "16k": 0.7670585546944663
+    },
+    "checkpoint_manifest_sha256": "932a5b8776820d70db8eb68dc1b8f91a353aab4fbd80254bb1c19c44bcc57e18",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 4866,
+    "nll": {
+      "anchor2k": 0.9554677222695193,
+      "8k": 0.7250562184758914,
+      "16k": 0.766288975813947
+    },
+    "checkpoint_manifest_sha256": "1d7e4d50c082bb6280bc446eec61be837541a36cab05bab2bea31973040ad08f",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 4930,
+    "nll": {
+      "anchor2k": 0.9553593264635843,
+      "8k": 0.7246377400267748,
+      "16k": 0.7661699124086544
+    },
+    "checkpoint_manifest_sha256": "090ec2de5ebf3efe643489998f83d36925b54e50f0a9d512b787f5e4c9245330",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 5442,
+    "nll": {
+      "anchor2k": 0.9541868884570638,
+      "8k": 0.7240034880117524,
+      "16k": 0.7650392320424838
+    },
+    "checkpoint_manifest_sha256": "1789222dca3da6e4722335773d2095d869e0176ad41f52ec5b8fe7523e29eda0",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 5954,
+    "nll": {
+      "anchor2k": 0.9525225953747039,
+      "8k": 0.7225014604689357,
+      "16k": 0.7644377438028243
+    },
+    "checkpoint_manifest_sha256": "783eaff9f09217f8f211b8416217db1702036e81ed862ee807e2bfbb4e843fe0",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 6466,
+    "nll": {
+      "anchor2k": 0.9511325722549697,
+      "8k": 0.7214516250045239,
+      "16k": 0.7650672706719073
+    },
+    "checkpoint_manifest_sha256": "f1f1e96ea4cfba11bc25e2fc9c98ea2e1cc0a4bc04c5b65fdfd16dda41e13b69",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 6978,
+    "nll": {
+      "anchor2k": 0.9496335467821936,
+      "8k": 0.7195454734794208,
+      "16k": 0.7637602775085892
+    },
+    "checkpoint_manifest_sha256": "dc91eda8697d5e809f1b0ef8d7d12185118ef50a5c6b6e7641b29bc21400fde6",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 7490,
+    "nll": {
+      "anchor2k": 0.948692047490138,
+      "8k": 0.7181618743560084,
+      "16k": 0.7628277249610881
+    },
+    "checkpoint_manifest_sha256": "cac2d67caea910987094f0e712287f34bc2f7b769526ec1b11fa7cb3a698faf1",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 8002,
+    "nll": {
+      "anchor2k": 0.9476561628708696,
+      "8k": 0.7174205960977355,
+      "16k": 0.7620675223376857
+    },
+    "checkpoint_manifest_sha256": "8e12b4fe4df173533b0e00048f17bcdea53b1dacb18bc106e595681d6e8c02e0",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 8514,
+    "nll": {
+      "anchor2k": 0.9466823158270753,
+      "8k": 0.7157928170513754,
+      "16k": 0.7624363453495773
+    },
+    "checkpoint_manifest_sha256": "ae632bf77da69d45c81f71290fe44ff2a32a01b458b60f1ff09b2890c937b707",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 9026,
+    "nll": {
+      "anchor2k": 0.945636895215176,
+      "8k": 0.7150197395812607,
+      "16k": 0.7602386468014128
+    },
+    "checkpoint_manifest_sha256": "cc73d75b4fc344bd71ed67eeb48db89df3520c47fc2c2f9812a9a65cb8fc3d21",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 9538,
+    "nll": {
+      "anchor2k": 0.9450839751837494,
+      "8k": 0.7144808222913006,
+      "16k": 0.7617464633855066
+    },
+    "checkpoint_manifest_sha256": "0ad29f1edc6b6885e07438cf486b36bd8fdffc7ef7b6f0301f87612d2e3c0d57",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 10050,
+    "nll": {
+      "anchor2k": 0.9436683374316467,
+      "8k": 0.7130036550090433,
+      "16k": 0.7610623445259744
+    },
+    "checkpoint_manifest_sha256": "c402ec3092d88491c5f473f0c5b15a739fabe61e00d39e4a129ac338f108a616",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 10562,
+    "nll": {
+      "anchor2k": 0.9426887232740074,
+      "8k": 0.7120269409735284,
+      "16k": 0.7603627900842634
+    },
+    "checkpoint_manifest_sha256": "d38ed476f547623235cb6ca4ced9a93b35c8a90b10bdf04751c4eaf6b6a7db89",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 11074,
+    "nll": {
+      "anchor2k": 0.9412932787059447,
+      "8k": 0.7115218786528402,
+      "16k": 0.7599519365937729
+    },
+    "checkpoint_manifest_sha256": "a015f9707b15b07c96f6d3e22d3e6ec3facb284912d8ae73d46cce519744a61d",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 11586,
+    "nll": {
+      "anchor2k": 0.9419698406022244,
+      "8k": 0.7111039427066644,
+      "16k": 0.7601667469246176
+    },
+    "checkpoint_manifest_sha256": "30527935a15d3a158f5aaf6f8759183f1e9c2bb23fde7ed3df38feaa41991ab8",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  {
+    "step": 11649,
+    "nll": {
+      "anchor2k": 0.9443496028509104,
+      "8k": 0.7116869823245505,
+      "16k": 0.7610343184361399
+    },
+    "checkpoint_manifest_sha256": "121ada3f2b737394edfecae2337efb025eaceaf1b3295f78abdab9758687d54c",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  }
+]

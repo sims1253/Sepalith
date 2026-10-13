@@ -1,0 +1,51 @@
+{
+  "files": [
+    {
+      "bytes": 1674,
+      "path": "README.md",
+      "sha256": "52b9cce3d1aa90b5be7a74ca3190168416ef1ebce4b600547286fa9fb14d3d1c"
+    },
+    {
+      "bytes": 3256,
+      "path": "diagnosis.json",
+      "sha256": "eb24fbf3f4816138f139966419219df1bb300619e54bc6aaeb3f8fae6bb2159a"
+    },
+    {
+      "bytes": 5222,
+      "path": "live-sidecar-observation.json",
+      "sha256": "d829e5f4f34f0f4c3c60c3164dfee28ffe02dafa92f85de3992cfb9803cbfaa7"
+    },
+    {
+      "bytes": 4188,
+      "path": "observe_sidecar.py",
+      "sha256": "1a3cc10c2b23e2e5b9fc93afe3a96f210844e1f61544ce0fb0d8d7258c08975d"
+    },
+    {
+      "bytes": 260,
+      "path": "private-prefix-observation.json",
+      "sha256": "daeee08f954c2cdaa6117c6dc805b6e1c4074dc78b42cc6f846310619ffafefc"
+    },
+    {
+      "bytes": 318,
+      "path": "root-authorization.template.json",
+      "sha256": "949e32a243ebabc2a4ff32019a5c41fcbb9885a797680aa4be264a8afbdb093d"
+    },
+    {
+      "bytes": 5443,
+      "path": "root_stop_and_upload_once.py",
+      "sha256": "1c65eaa0d6f4ca33ce7357f62fc43226391563c1af3b6017a88a12858a815517"
+    },
+    {
+      "bytes": 1611,
+      "path": "test_diagnosis_packet.py",
+      "sha256": "9b64bb9a52041140fd8697538c4e1ed2b27953bd8ef0b186e2281f545b744f0b"
+    },
+    {
+      "bytes": 454,
+      "path": "tests.log",
+      "sha256": "dd4875eb0ff6377736cba5e60dc3eb0d9b6da4a46babba4f7a1a6fdc97a1bf02"
+    }
+  ],
+  "schema": "sepalith.cloud-cpt.persistence-diagnosis-packet.v1",
+  "status": "prepared_no_remote_repair_executed"
+}

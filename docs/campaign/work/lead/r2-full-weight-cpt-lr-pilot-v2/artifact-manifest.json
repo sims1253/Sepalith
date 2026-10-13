@@ -1,0 +1,146 @@
+{
+  "artifact_identity_sha256": "4c9fcb21d6a070d6549df787a3464ae0b74251a586484d7044d5c716567938b7",
+  "files": [
+    {
+      "bytes": 907,
+      "path": "README.md",
+      "sha256": "0c2d4d1d765bcb7f86d1f47cccdd13f78f1b62b177fec26a0866639902e4dd3c"
+    },
+    {
+      "bytes": 6134,
+      "path": "recipe.lr1e-5.template.json",
+      "sha256": "2cfb65bf481b17e8ef950979d004bbe4417b8f22293a97f240d8cdbf2315ed8a"
+    },
+    {
+      "bytes": 6134,
+      "path": "recipe.lr3e-5.template.json",
+      "sha256": "f9ff5a4287e34e487379f7f34c7cc36f9155d21b4112f2a6a327cf5d8c3085ab"
+    },
+    {
+      "bytes": 1065,
+      "path": "root-admission.lr1e-5.template.json",
+      "sha256": "3c2f6ac198d82af164af3ff69fa993147ecf3894ba17aad2f0dfd184dc4041b6"
+    },
+    {
+      "bytes": 1065,
+      "path": "root-admission.lr3e-5.template.json",
+      "sha256": "92f3c1e9378144d65ade7fb05d2f20fc44d860556bc256709b02d3a64a212c1e"
+    },
+    {
+      "bytes": 1064,
+      "path": "root-commands.json",
+      "sha256": "89ed75d67e8ca980396c9ef7e7d82c295469c305e639674855bbeb1f79378970"
+    },
+    {
+      "bytes": 5446,
+      "path": "source/experiments/training/__pycache__/bind_full_weight_cpt.cpython-310.pyc",
+      "sha256": "1327ab1d844f62a49d2ffa54c11f7359ef90a26e23271b5c5e082ca339d736e1"
+    },
+    {
+      "bytes": 24233,
+      "path": "source/experiments/training/__pycache__/campaign_cpt_data.cpython-310.pyc",
+      "sha256": "ce470eb8d3c2fc7b2115847073a5e3f6c4b786f14fb79d5f65b137a48e0ad21f"
+    },
+    {
+      "bytes": 3996,
+      "path": "source/experiments/training/__pycache__/campaign_cpt_eval.cpython-310.pyc",
+      "sha256": "b88eaf86493dd70e79ac800d4c02c016ff810738fed71991f8efb7fa4bfdeae1"
+    },
+    {
+      "bytes": 25669,
+      "path": "source/experiments/training/__pycache__/full_weight_cpt_trainer.cpython-310.pyc",
+      "sha256": "cd14487216a47b025ab8083e574f1efeb91c7d21dc5517d0c1402d4f3bbc1f3e"
+    },
+    {
+      "bytes": 5657,
+      "path": "source/experiments/training/bind_full_weight_cpt.py",
+      "sha256": "2a1472cdee085a9ff8d1d1c74866b40fbb2692aff41f566f3593cb66250d5f1f"
+    },
+    {
+      "bytes": 13663,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 29909,
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 4412,
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "9d410a7c5656cd7d9a67684475e53b766fac358021d4862f5e0a3f78695b2ef0"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 27882,
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "9107de74f432d71d52758ddf36d1e9fb9e75299916184d6c3a0ddcfab5ffb009"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 1397,
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 7748,
+      "path": "source/prepare_panel.py",
+      "sha256": "ac2989ad1a9869b3124f2c4eb82f6206c8238438361c6329cc9f6d71d48b1773"
+    },
+    {
+      "bytes": 2571,
+      "path": "source-manifest.json",
+      "sha256": "097a9339e8e528d3dd7df1fe9158b84742c280414983ade1ca785dd2deaa9094"
+    },
+    {
+      "bytes": 476,
+      "path": "template-preflights.log",
+      "sha256": "a1d6a7ec30d615dbe6713beedea41ff2c7c43ed65e8afac1c34bfa22f5e2222b"
+    },
+    {
+      "bytes": 1860,
+      "path": "test-results.log",
+      "sha256": "47d05508f27587de6c689d29ae41037845bd5590813d1ef5fe874522b79cc61c"
+    },
+    {
+      "bytes": 10370,
+      "path": "tests/__pycache__/test_lr_pilot_v2.cpython-310.pyc",
+      "sha256": "08b95da76b6d96d91bfdc242216dac196f3e639798b8a43402700276aa1ab935"
+    },
+    {
+      "bytes": 6930,
+      "path": "tests/test_lr_pilot_v2.py",
+      "sha256": "baa72cfdbfab448315ba12d88d666795175a29de88c11422b1788fc1e305e81b"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

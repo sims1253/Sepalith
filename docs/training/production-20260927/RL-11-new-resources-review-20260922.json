@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-22T14:11:13.204114+00:00",
+  "task": "RL-11",
+  "status": "research_review_complete_proposed_amendment_not_training_admitted",
+  "notes": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-659c6819/docs/research/2026-09-22-post-sft-rl-resource-review.md",
+      "sha256": "96b7ae3a4647b0b46a7e662a1989647bb6f75b30db529783aad8d876f7ac17da"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-659c6819/docs/research/2026-09-22-halo-rlearner-review.md",
+      "sha256": "a0c43107c8bfc46b0cec4ce0869c750b18a6b865ce97bec0058b2ca317cd861a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-659c6819/docs/research/2026-09-22-byte-distillation-gva-review.md",
+      "sha256": "eadcb0ec8ff9bfc5393c49e7d07008f25dd65458e83e2f0038594d98eba5ceca"
+    }
+  ],
+  "recommendation": "Retain GRPO baseline; prepare isolated KLPO token-MC pilot after SFT parent, sampler/reward/length/full-state/memory gates. Use Halo correctness patterns. Defer byte/GVA architecture changes; rlearner is causal inference.",
+  "klpo_commit": "30c0ae8c3fa8f56213d6b57bc88b18ebee8ed696",
+  "cpu_checks": "/home/m0hawk/.local/state/sepalith/rl-research-20260922/klpo-math-checks.json",
+  "cpu_check_scope": "3 tiny numerical checks passed; upstream pytest unavailable, no environment modification",
+  "gpu_used": false,
+  "training_changed": false,
+  "final_payload_accessed": false,
+  "training_admission": false,
+  "length_scope_clarification": {
+    "at": "2026-09-22T14:20:16.560336+00:00",
+    "rows": 15006,
+    "completion_over192": 2878,
+    "by_family": {
+      "finish_block": 2691,
+      "roxygen_drafting": 184,
+      "format_propagation": 3
+    },
+    "scope": "Prepared single-edit targets, not demonstrated RL capability or agentic training",
+    "all_limit_exclusions": 4106
+  },
+  "sample_efficiency_clarification": {
+    "at": "2026-09-22T14:26:22.656256+00:00",
+    "historical_groups": 80,
+    "all_correct": 58,
+    "all_zero": 16,
+    "mixed": 6,
+    "priority": "Development quality gain per collected completion and generated token; throughput secondary pending full-weight profiling."
+  }
+}

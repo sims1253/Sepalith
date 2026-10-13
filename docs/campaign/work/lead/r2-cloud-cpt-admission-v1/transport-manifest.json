@@ -1,0 +1,284 @@
+{
+  "bytes": 5582166001,
+  "credential_policy": "credentials are never manifest fields",
+  "files": [
+    {
+      "bytes": 7683333,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+      "relative_path": "lineage/00-cpt_validation.jsonl",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/00-cpt_validation.jsonl",
+      "role": "recipe_input",
+      "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+    },
+    {
+      "bytes": 464000,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "relative_path": "lineage/01-cpt-train-group-partition.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/01-cpt-train-group-partition.json",
+      "role": "recipe_input",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    {
+      "bytes": 49108497,
+      "original_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "relative_path": "lineage/02-DAT-02-global-split-v2.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/02-DAT-02-global-split-v2.json",
+      "role": "recipe_input",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    {
+      "bytes": 478726759,
+      "original_path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/cpt_train.jsonl",
+      "relative_path": "data/cpt_train.jsonl",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/data/cpt_train.jsonl",
+      "role": "recipe_input",
+      "sha256": "836b61c5b7d5545063aeaa3054c62915b8a4d24574908cade4c2d3eed1537a87"
+    },
+    {
+      "bytes": 2254585,
+      "original_path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/draws-1902.json",
+      "relative_path": "data/draws-1902.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/data/draws-1902.json",
+      "role": "recipe_input",
+      "sha256": "914cf353199f45697c028da3a6f06b732fd57bd265869890b75bf43151851b58"
+    },
+    {
+      "bytes": 3272,
+      "original_path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/manifest.json",
+      "relative_path": "data/manifest.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/data/manifest.json",
+      "role": "recipe_input",
+      "sha256": "d91e734018c29294f3e324da265342588973801efd3c3d8821a34a3ea1f91e84"
+    },
+    {
+      "bytes": 7063,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/materialize_remaining.py",
+      "relative_path": "lineage/06-materialize_remaining.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/06-materialize_remaining.py",
+      "role": "recipe_input",
+      "sha256": "da80bf74aa8fbd2c79bade64878b51e9e91aca2dff4c8edf2a7db86fe34339fd"
+    },
+    {
+      "bytes": 2943,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source-manifest.json",
+      "relative_path": "lineage/07-source-manifest.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/07-source-manifest.json",
+      "role": "recipe_input",
+      "sha256": "bba27f841aad56b5ada96202f775900d03f34372857ec2c8e529174bf6fdb012"
+    },
+    {
+      "bytes": 11665,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_checkpoint.py",
+      "relative_path": "source/experiments/training/campaign_checkpoint.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_checkpoint.py",
+      "role": "recipe_input",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "bytes": 5024,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_control.py",
+      "relative_path": "source/experiments/training/campaign_control.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_control.py",
+      "role": "recipe_input",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "bytes": 27819,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_cpt.py",
+      "relative_path": "source/experiments/training/campaign_cpt.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_cpt.py",
+      "role": "recipe_input",
+      "sha256": "a53ae739ac7e47d2e3b0ce707334626d2b992c13899059574b4bf88e2c8809cb"
+    },
+    {
+      "bytes": 29909,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_cpt_data.py",
+      "relative_path": "source/experiments/training/campaign_cpt_data.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_cpt_data.py",
+      "role": "recipe_input",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 3447,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_cpt_eval.py",
+      "relative_path": "source/experiments/training/campaign_cpt_eval.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_cpt_eval.py",
+      "role": "recipe_input",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1"
+    },
+    {
+      "bytes": 6152,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_cpt_parent.py",
+      "relative_path": "source/experiments/training/campaign_cpt_parent.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_cpt_parent.py",
+      "role": "recipe_input",
+      "sha256": "9d1de10e0df508ae5e665e3cb32a3457bb8105d62b61333c46684928c503f303"
+    },
+    {
+      "bytes": 3280,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_launch.py",
+      "relative_path": "source/experiments/training/campaign_launch.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_launch.py",
+      "role": "recipe_input",
+      "sha256": "c54e97c8f31f61eaba8781c757fe5bfbcbbe8891ed8c9c4c583db19b37265905"
+    },
+    {
+      "bytes": 23701,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_sft.py",
+      "relative_path": "source/experiments/training/campaign_sft.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_sft.py",
+      "role": "recipe_input",
+      "sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4"
+    },
+    {
+      "bytes": 7931,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_sft_data.py",
+      "relative_path": "source/experiments/training/campaign_sft_data.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_sft_data.py",
+      "role": "recipe_input",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "bytes": 15257,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/campaign_tokenizer_contract.py",
+      "relative_path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/campaign_tokenizer_contract.py",
+      "role": "recipe_input",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 10217,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/merge_cpt_cpu.py",
+      "relative_path": "source/experiments/training/merge_cpt_cpu.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/merge_cpt_cpu.py",
+      "role": "recipe_input",
+      "sha256": "743a1cff106db4c26793ab34edd15c55baa9c0266814d49c6ddff79894ed8d78"
+    },
+    {
+      "bytes": 9398,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/experiments/training/target_only_gate.py",
+      "relative_path": "source/experiments/training/target_only_gate.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/experiments/training/target_only_gate.py",
+      "role": "recipe_input",
+      "sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91"
+    },
+    {
+      "bytes": 67,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/packages/sepalith/src/sepalith/__init__.py",
+      "relative_path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/packages/sepalith/src/sepalith/__init__.py",
+      "role": "recipe_input",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "relative_path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "role": "recipe_input",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 5033557128,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/model.safetensors",
+      "relative_path": "model/model.safetensors",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/model.safetensors",
+      "role": "recipe_input",
+      "sha256": "5f12810692a90ebb32f589a25e5adcedac53d9fb6edd9166b8245fdec6e3dd1c"
+    },
+    {
+      "bytes": 748,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/config.json",
+      "relative_path": "model/config.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/config.json",
+      "role": "recipe_input",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "bytes": 213,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/generation_config.json",
+      "relative_path": "model/generation_config.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/generation_config.json",
+      "role": "recipe_input",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "bytes": 9894271,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/tokenizer.json",
+      "relative_path": "model/tokenizer.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/tokenizer.json",
+      "role": "recipe_input",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "bytes": 94391,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/tokenizer_config.json",
+      "relative_path": "model/tokenizer_config.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/tokenizer_config.json",
+      "role": "recipe_input",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "bytes": 9060,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/chat_template.jinja",
+      "relative_path": "model/chat_template.jinja",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/chat_template.jinja",
+      "role": "recipe_input",
+      "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+    },
+    {
+      "bytes": 43995,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged/parent-manifest.preparation.json",
+      "relative_path": "model/parent-manifest.preparation.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/model/parent-manifest.preparation.json",
+      "role": "recipe_input",
+      "sha256": "c5ddf086518e66a6709d8e4a16b88f7399d4e87ea477e24f3988ffcdecb1366e"
+    },
+    {
+      "bytes": 24777,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-global-a/recipe.json",
+      "relative_path": "lineage/29-recipe.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/29-recipe.json",
+      "role": "recipe_input",
+      "sha256": "9e895d9ee07660312818411d08915fc9636ad4372aa1fcc0a44d3f3d5de69bad"
+    },
+    {
+      "bytes": 19864,
+      "original_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT11-CPT-global-a/full/checkpoint-250/campaign-manifest.json",
+      "relative_path": "lineage/30-campaign-manifest.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/30-campaign-manifest.json",
+      "role": "recipe_input",
+      "sha256": "96fd78159c3415331bb53234efe404706e7cc8980a7e5658c96b086c5db2d8f6"
+    },
+    {
+      "bytes": 14501,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/merge_global_cpt_cpu.py",
+      "relative_path": "lineage/31-merge_global_cpt_cpu.py",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/lineage/31-merge_global_cpt_cpu.py",
+      "role": "recipe_input",
+      "sha256": "23686476c30260b032c22edd4dba2178ac98f160bab3f4742ab286bdc22ae258"
+    },
+    {
+      "bytes": 55624,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-remaining-v1/recipe.json",
+      "relative_path": "recipe.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/recipe.json",
+      "role": "recipe",
+      "sha256": "254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538"
+    },
+    {
+      "bytes": 6773,
+      "original_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-remaining-preparation.json",
+      "relative_path": "producer-receipt.json",
+      "remote_path": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538/files/producer-receipt.json",
+      "role": "producer_receipt",
+      "sha256": "ce34e52357802e4e95e632a6eb7115ae70f89e89ba8a64f75ffe9c6ad0973f9f"
+    }
+  ],
+  "files_count": 34,
+  "prefix": "r2-cpt-inputs/254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538",
+  "recipe_sha256": "254de1150b0fcc8e8566178905542bdadc1255610a2dc3cb8a9168dc7017d538",
+  "repo_id": "scholzmx/sepalith-lora",
+  "schema": "sepalith.cloud-cpt.transport.v1",
+  "source_identity": "7e4e80059416b3783c783a532d95b40af6067076e7a0a23d64e3b571f478c9df"
+}

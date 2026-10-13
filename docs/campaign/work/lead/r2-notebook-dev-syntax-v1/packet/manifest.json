@@ -1,0 +1,45 @@
+{
+  "denominators": {
+    "arm_cases": 225,
+    "arms": 3,
+    "cases": 75,
+    "protocol_invalid": 17,
+    "protocol_valid": 208
+  },
+  "panel": {
+    "path": "docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+    "rows": 75,
+    "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+  },
+  "protocol": {
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/runner-r2-task-v2/snapshots/8ec908a41904888af647de2ee8b40ba8f73837777509d91159051b25fc72dd3e/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+    "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+  },
+  "reconstruction": {
+    "complete_selection": 45,
+    "source_snapshot_plus_history": 30
+  },
+  "results": {
+    "C250": {
+      "path": "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-c250-native-dev-v1/dev-results/results.json",
+      "rows": 75,
+      "sha256": "1f4e10ee118a98405cb9364157cbbdabf3033b6f9e7135cddf8c24177e6cb9e5"
+    },
+    "D500": {
+      "path": "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-d500-native-dev-v1/dev-results/results.json",
+      "rows": 75,
+      "sha256": "ba909888aee088f3be4039eb186d2aad49ffa30c8199832d7ddbc70d4ca24ae9"
+    },
+    "incumbent": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-task-global500-native-a/dev-results/results.json",
+      "rows": 75,
+      "sha256": "a68190b6d87e175f01073021b16c1c8e16d57226b2d95977f2ad908e5a2fd2e3"
+    }
+  },
+  "safety": {
+    "candidate_application": "text splice only",
+    "generated_r_executed": false
+  },
+  "schema": "sepalith.notebook-dev-syntax-input.v1",
+  "status": "materialized_not_parsed"
+}

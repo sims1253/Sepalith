@@ -1,0 +1,35 @@
+{
+  "cpu_preflight": [
+    "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-preparation-v2/source/experiments/training/native_launch_attestation.py",
+    "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+    "--base-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+    "--resume", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-selected330-recovery-cadence24-v2/runtime/checkpoint-354",
+    "--resume-manifest-sha256", "c95770f2ba069795ab559222b6fd0488c4cd65100ff3fa44a61b38786969f9f3",
+    "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-preparation-v2/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight-resume", "--recipe", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-to450-continuation-preparation-v1/runtime-recipe.review.json",
+    "--resume", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-selected330-recovery-cadence24-v2/runtime/checkpoint-354",
+    "--continuation-admission", "ROOT_ADMITTED_CONTINUATION354", "--execution-stop-admission", "ROOT_ADMITTED_STOP450"
+  ],
+  "training_child": [
+    "env", "CUDA_VISIBLE_DEVICES=0", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+    "PYTORCH_ALLOC_CONF=backend:native,roundup_power2_divisions:[32:256,64:128,256:64,>:32],garbage_collection_threshold:0.8",
+    "SEPALITH_RESUME_MANIFEST_SHA256=c95770f2ba069795ab559222b6fd0488c4cd65100ff3fa44a61b38786969f9f3",
+    "SEPALITH_ALLOCATOR_REPORT=ROOT_FRESH_ALLOCATOR_REPORT",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-preparation-v2/source/experiments/training/native_launch_attestation.py",
+    "--base-receipt", "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt-prefix-extension-reusable-data-v1.receipt.json",
+    "--base-receipt-sha256", "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+    "--resume", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-selected330-recovery-cadence24-v2/runtime/checkpoint-354",
+    "--resume-manifest-sha256", "c95770f2ba069795ab559222b6fd0488c4cd65100ff3fa44a61b38786969f9f3",
+    "--", "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python", "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-to450-continuation-preparation-v1/run_with_allocator.py",
+    "run", "--recipe", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-to450-continuation-preparation-v1/runtime-recipe.review.json",
+    "--resume", "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-selected330-recovery-cadence24-v2/runtime/checkpoint-354",
+    "--continuation-admission", "ROOT_ADMITTED_CONTINUATION354", "--execution-stop-admission", "ROOT_ADMITTED_STOP450"
+  ],
+  "ordinary_transition_argument_omitted": true,
+  "status": "template_requires_checkpoint354_metric_review_and_root_admissions"
+}

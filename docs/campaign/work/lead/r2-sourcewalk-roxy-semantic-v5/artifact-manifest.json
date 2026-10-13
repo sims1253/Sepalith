@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "bytes": 2016,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "e4d0d261098a991d57c4183648804566acec6f18f0a5f66d55b5b8697d77bac9"
+    },
+    {
+      "bytes": 13013,
+      "mode": "0o644",
+      "path": "analyze_semantics.py",
+      "sha256": "b700de688a4b18d962ea0362ecbbe0e3ac0d51c25d64ddcb29f517fb75477ffc"
+    },
+    {
+      "bytes": 586,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "f9413e8c19a340e65665daed24b7e700cfb7acf6b9cbc157e3ae86b8c2fe83cb"
+    },
+    {
+      "bytes": 1688,
+      "mode": "0o644",
+      "path": "lexical-regression-evidence.json",
+      "sha256": "c55a6d005e6022517846ab7b4f98c8f83b87aa7a5ef4683e23fb7e5b87b12938"
+    },
+    {
+      "bytes": 11404,
+      "mode": "0o755",
+      "path": "reviewed_scope_reference.R",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 5639,
+      "mode": "0o644",
+      "path": "run_semantic_queue.py",
+      "sha256": "63a017ea1f88d6728ef9b30f68b6ca56e48e876f1df49036e4de58eae024fe99"
+    },
+    {
+      "bytes": 4360,
+      "mode": "0o644",
+      "path": "semantic_scope.R",
+      "sha256": "64d984139c2e5baf289f4caf8070903ff278f652a5a205f8141bc43627e84f61"
+    },
+    {
+      "bytes": 2400,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "e2ed767bb1f3f64fa120d255c6747ceb4d9eb62b8949d4c033af125fb620d6eb"
+    },
+    {
+      "bytes": 8142,
+      "mode": "0o644",
+      "path": "test_semantics.py",
+      "sha256": "cb25111a7dbb48e8df491413f52c36627cc61222db323de46f7ab6ae383e48e5"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v1",
+  "status": "complete_preparation_root_review_required"
+}

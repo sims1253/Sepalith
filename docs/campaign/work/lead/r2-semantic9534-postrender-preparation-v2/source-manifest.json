@@ -1,0 +1,156 @@
+{
+  "cuda_used": false,
+  "external_reviewed_sources": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-inputs-v1/manifest.json",
+      "role": "immutable 9534 provider input manifest",
+      "sha256": "db1dd374d1d029695c9b8daef59151272d0db0a912276f8073b24b0df4f8e9a0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-provider-parse-unavailable-preparation-v1/semantic9534-retry/source-manifest.json",
+      "role": "active rich 16K retry source closure",
+      "sha256": "9725d968382c98fe5313985f5407fd6aa01a3e34063393b88c3bfb45193572e8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic9535-provider-preparation-v1/materialize9535.py",
+      "role": "reviewed Semantic10948-compatible materializer base",
+      "sha256": "b3a05e4f2b0bda42e7ca083cd0975bd286134125d12f145926a7d2dfe429c99f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/base_materializer.py",
+      "role": "pinned base protocol source",
+      "sha256": "2edfe6c4761271889e2b2f008fcccd00b8bf2adaf712c18cc2d588eb9840136f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic763-dedup-integration-v1/integrate.py",
+      "role": "pinned dedup source",
+      "sha256": "5f15ea1aa3f83890b812ddb9a564936c51bb4607f855fd1db5130a724209cce6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic4551-provider-materialization-v1/materialize4551.py",
+      "role": "pinned prior materializer source",
+      "sha256": "af4a095daff1441d074c8fe74f3a6c58a1ff2defe9d923444375c2d29622bb7e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-noop-expansion-preparation-v3/existing-union-manifest.json",
+      "role": "accepted current dedup union",
+      "rows": 20191,
+      "sha256": "c44dadde27b2ace8908a505d1d3f691ec0e7bcb464c8411ee875d036b0b8fc60"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/final-01/manifest.json",
+      "role": "finalized Semantic10948 dedup source",
+      "rows": 10682,
+      "sha256": "c86e3bc3a402f4f568295a0dcd15fca6dfe6046ce6e7fb60844e25d505eb370f"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/final-01/candidate-tokenrows.jsonl",
+      "role": "finalized Semantic10948 token rows",
+      "rows": 10682,
+      "sha256": "17d02115590ea61921b8ee9cee3b9c0de044cea065330fd9a35a266b3db03069"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-noop4100-materializer-preparation.json",
+      "role": "dedup counts and materialization review contract",
+      "sha256": "0d7cc219d4e107c8e9eca49802557e08fc79ea9a0ac925705808972d35110c01"
+    }
+  ],
+  "file_count": 15,
+  "files": [
+    {
+      "bytes": 3421,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "5b811b3c7b88ca3b8b939cb507c7bce79feaa8766e675306ceed3133c3ad258c"
+    },
+    {
+      "bytes": 838,
+      "mode": "0o755",
+      "path": "commands/finalize_context_policy_9534.sh",
+      "sha256": "c55a8de2dce88fbcab1225325ec0ffd824c92b929c846d7cf464341b10027e14"
+    },
+    {
+      "bytes": 867,
+      "mode": "0o755",
+      "path": "commands/materialize_review_only_9534.sh",
+      "sha256": "3b530e0896f5d528945ed43bc4d200b976b8df146432eefddf81a230ab398795"
+    },
+    {
+      "bytes": 826,
+      "mode": "0o755",
+      "path": "commands/prepare_fallback_9534.sh",
+      "sha256": "6d4f686a5803fa05eed2aafb40349c0e81aecb6fb715fe90a06c3fb5d1b543f7"
+    },
+    {
+      "bytes": 2575,
+      "mode": "0o755",
+      "path": "commands/run_fallback32_lanes.sh",
+      "sha256": "f4b987498282cb41dc44b0ea30f6ac5a99aeef1715af51f3c6acfe1738fc6924"
+    },
+    {
+      "bytes": 663,
+      "mode": "0o755",
+      "path": "commands/verify_render16.sh",
+      "sha256": "d35eb9f457111cb5c4dc50d048464521f4c3aaffc8e2ce88670d2a64fd96ada0"
+    },
+    {
+      "bytes": 2729,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "894e226de75a8c52cae5832cd98a7661f579e0c02e66b8c63d441eec8cea04d1"
+    },
+    {
+      "bytes": 995,
+      "mode": "0o644",
+      "path": "dedup-binding.template.json",
+      "sha256": "779c93a30e3c7a832e1259fb3d56e8841ff723729882d3e00081ae373df3fbcf"
+    },
+    {
+      "bytes": 3015,
+      "mode": "0o644",
+      "path": "metadata/expected-inputs.json",
+      "sha256": "134435ea011fdc51f9904db4d432d7c568f8d7b7626ea35c117d5cb746094840"
+    },
+    {
+      "bytes": 15822,
+      "mode": "0o755",
+      "path": "source/finalize_policy_9534.py",
+      "sha256": "fd54eae04e2540035b1e1854bc535994aa64327a658be1fb6d698544902b518c"
+    },
+    {
+      "bytes": 12789,
+      "mode": "0o755",
+      "path": "source/materialize9534.py",
+      "sha256": "f93783989acfc0648b768a0783bcfd77263f7c5474928ab0fe5d3425f87578c9"
+    },
+    {
+      "bytes": 9404,
+      "mode": "0o755",
+      "path": "source/prepare_fallback_9534.py",
+      "sha256": "502d37bdd86dbbe5acfa76532882ced3d644e5040d8a9a95195a1dac63855907"
+    },
+    {
+      "bytes": 14123,
+      "mode": "0o755",
+      "path": "source/verify_render16.py",
+      "sha256": "52a64441243fd6a95435eb625fa3f94cdec4717879af10f0a1665a92de4cd91a"
+    },
+    {
+      "bytes": 609,
+      "mode": "0o644",
+      "path": "tests/test-results.log",
+      "sha256": "3f653422ee0ee70e6aa9c1d41b1937970c2008c6aa790541cd8022e15e6dfe61"
+    },
+    {
+      "bytes": 6651,
+      "mode": "0o644",
+      "path": "tests/test_postrender_contract.py",
+      "sha256": "8fefb64447b1ae975176835df74ca52eb36465bd4ce11dc980d4768cdab54c95"
+    }
+  ],
+  "packet": "r2-semantic9534-postrender-preparation-v2",
+  "provider_launch_performed": false,
+  "schema": "sepalith.dat10.semantic9534.postrender_source_manifest.v2",
+  "status": "complete_review_only_preparation",
+  "training_admission": false
+}

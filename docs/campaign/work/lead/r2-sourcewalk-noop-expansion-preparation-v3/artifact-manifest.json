@@ -1,0 +1,51 @@
+{
+  "files": [
+    {
+      "bytes": 1213,
+      "path": "README.md",
+      "sha256": "bedfb1d3ca92d39aeb6d7836acb603fa9dc665925d729194e2fefaa54e488e54"
+    },
+    {
+      "bytes": 1040,
+      "path": "admission-requirements.json",
+      "sha256": "ca919a5563bf417d499ac67edbef5a117a90d600c64afcb933b98bd0e3bf9114"
+    },
+    {
+      "bytes": 2252,
+      "path": "commands.json",
+      "sha256": "f95c1ab49850f08d4125081a0502de81787c8473dc0be153a8d57e1b9e7242cf"
+    },
+    {
+      "bytes": 1556,
+      "path": "existing-union-manifest.json",
+      "sha256": "c44dadde27b2ace8908a505d1d3f691ec0e7bcb464c8411ee875d036b0b8fc60"
+    },
+    {
+      "bytes": 615,
+      "path": "proof/manifest.json",
+      "sha256": "96ce796e0d9183a674d27d44910cfdd65e466801cf45b7c42ee331eeec879165"
+    },
+    {
+      "bytes": 8146,
+      "path": "proof/prediction-input.json",
+      "sha256": "d78b404ee5b213424b71ff73e0b9cb53c01744a1da990343fa2dd97c531b2804"
+    },
+    {
+      "bytes": 896,
+      "path": "proof/training-sidecar.json",
+      "sha256": "7572329eef2dafe1dcfc064aa653d745522d841bc00e91cf5b7e39ec063a64c9"
+    },
+    {
+      "bytes": 8146,
+      "path": "tests/test_noop_pipeline.py",
+      "sha256": "246943d27c7930979a1084425431b08ea7cc2ec499fc78158adb1f61a71e18e1"
+    },
+    {
+      "bytes": 2162,
+      "path": "test-results.log",
+      "sha256": "0d6c27c3f572dec38c84279ed58b993eb7ed2a34c500b9b021a67b5e5b0b750f"
+    }
+  ],
+  "schema": "sepalith.dat10.sourcewalk-noop-expansion-artifacts.v3",
+  "status": "prepared_no_launch"
+}

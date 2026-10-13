@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "bytes": 2953,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "67ddf3fac39c0cf4983cad29d6e3eb97936d3657df27b3f25b85a3c694f44942"
+    },
+    {
+      "bytes": 456,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "68b61ca1d0f6329fcae49bc7b9dca0ddef5c97c2e66538c158a6e056d644ffd5"
+    },
+    {
+      "bytes": 1042,
+      "mode": "0o644",
+      "path": "cpu-probe.json",
+      "sha256": "dd357e99e4a074dabda77a090f6ab6f09e7c5160e208d3bd61d524de75702705"
+    },
+    {
+      "bytes": 2639,
+      "mode": "0o644",
+      "path": "evidence.json",
+      "sha256": "1087998109556a9cbc4eecfaa3b1e9a9e3a0774a6c2b63ec6181b28e7600518a"
+    },
+    {
+      "bytes": 2432,
+      "mode": "0o755",
+      "path": "probe_allocator_parser.py",
+      "sha256": "e0fc78e4c49cf766ff0af26bfd1fc4aa72d7b419da2f9b57031480bd97f05b22"
+    },
+    {
+      "bytes": 5667,
+      "mode": "0o644",
+      "path": "runtime-report.patch",
+      "sha256": "056db862218c7fc04f6dad05b0cd2dd2f25b1ada570ddfd11247e2d4c8ad2a14"
+    },
+    {
+      "bytes": 2456,
+      "mode": "0o644",
+      "path": "source/experiments/training/allocator_runtime_audit.py",
+      "sha256": "b9df94b1995b7c496e1fd808df3ef3b6ec7f548617521f97b07105c09e0548bb"
+    },
+    {
+      "bytes": 31658,
+      "mode": "0o644",
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "920883ea6fc59149c033ad16e5b99df328a06f068a3b32a14502718cae94ba20"
+    },
+    {
+      "bytes": 288,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "64c7ed760d366388aeb7232400d9022533e56b9fbd0620f83215a7bdafb0682e"
+    },
+    {
+      "bytes": 1916,
+      "mode": "0o644",
+      "path": "test_allocator_audit.py",
+      "sha256": "6bea0a1a9875fd9237dd7277790385d5f6f87eec960ee9daea7bc18b67879402"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v1",
+  "status": "complete"
+}

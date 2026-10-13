@@ -1,0 +1,16 @@
+{
+  "allowed_changes": [
+    "immutable native input relocation and native-hot-to-durable-E checkpoint lifecycle",
+    "dedicated DataLoader generator preventing resume iterator creation from consuming model CPU RNG",
+    "root-bound execution stop at a scheduled optimizer checkpoint boundary",
+    "two-checkpoint transient native safety window pruned to one only after durable publication"
+  ],
+  "canonical_bound_recipe_sha256": "579269f0f203ae1eed9cdb96af0f535f19c5953e2cf3e19c52615b7545e10f70",
+  "launch_authorized": false,
+  "optimizer_scheduler_rng_sampler_identity_must_remain_unchanged": true,
+  "runtime_source_manifest_sha256": "c79bf87277485ef749ffce08290f5b5df064f70dcfe3e5627f68ec683dc30e5a",
+  "schema": "sepalith.sft11.native-runtime-source-migration-admission.v1",
+  "scientific_source_manifest_sha256": "8dd7ecf617e37e1778dabee6721857e1b79074e0314f17e0e3f55b57a809a98c",
+  "stage_receipt_sha256": "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d",
+  "status": "root_fields_pending"
+}

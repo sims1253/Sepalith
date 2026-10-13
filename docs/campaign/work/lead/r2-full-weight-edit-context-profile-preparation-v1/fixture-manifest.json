@@ -1,0 +1,111 @@
+{
+  "interpretation": "2048 fixture is root-accepted base data; longer rows remain resource-probe-only. Their use measures runtime memory only and does not admit them for optimization.",
+  "invariants": [
+    "TRAIN-only source geometry",
+    "complete input and label arrays",
+    "BOS0 once at start",
+    "terminal EOS1 supervised",
+    "prompt labels masked",
+    "no padding, truncation, invented target, or optimizer update"
+  ],
+  "pending_provider_inputs": 10948,
+  "pending_provider_training_admission": false,
+  "review_pool_rows": 20191,
+  "rows": [
+    {
+      "bytes": 24602,
+      "cap": 2048,
+      "origin": {
+        "accepted_rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+        "line_zero_based": 110,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl"
+      },
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/fixtures/edit-2048.jsonl",
+      "row_id": "02baa5f53444e0b6860c2630",
+      "sequence_tokens": 2048,
+      "sha256": "7c2eb0f795fa250127a136084ec40bb5950327c3bc9e13a9a22b548e8189e47e",
+      "source_status": "accepted_root_reviewed",
+      "supervised_tokens": 24
+    },
+    {
+      "bytes": 48270,
+      "cap": 4096,
+      "origin": {
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-sft-smoke-inputs-v1/train8.jsonl",
+        "sha256": "4c0e11dfd2f824e341af94e9b0d5c3ddbe8c33961936a52cdab56d92e9116017"
+      },
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/fixtures/edit-4096.jsonl",
+      "row_id": "226b905248adafc600023f94",
+      "sequence_tokens": 4095,
+      "sha256": "939c60cd7ccc751f9f1b1bc35e344e93ded6d07445a1efdf6254c9b66578c716",
+      "source_status": "resource_probe_only_not_training_admission",
+      "supervised_tokens": 59
+    },
+    {
+      "bytes": 95858,
+      "cap": 8192,
+      "origin": {
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-long-context-fixtures-v1/train-long-8192.jsonl",
+        "sha256": "8379d528ed4efa3367eb6e294b8a0f4c6453e99f85acbd0e470dbd87f1231f2f"
+      },
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/fixtures/edit-8192.jsonl",
+      "row_id": "1e5a0085e06c276308c15a70",
+      "sequence_tokens": 8189,
+      "sha256": "20c5d8377f580d7582b1348bd95175aba5083778b4013a75494c30c3e2112cb1",
+      "source_status": "resource_probe_only_not_training_admission",
+      "supervised_tokens": 120
+    },
+    {
+      "bytes": 190669,
+      "cap": 16384,
+      "origin": {
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-long-context-fixtures-v1/train-long-16384.jsonl",
+        "sha256": "5d180dca8016281d961ac5368579f789c981c5cc5d9afd5dd52f0f334bde4187"
+      },
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/fixtures/edit-16384.jsonl",
+      "row_id": "1a18a8535d1c5d86f4e55ee5",
+      "sequence_tokens": 16322,
+      "sha256": "d67ff81e381c7618d6fdd65b0e81971dd40aa6be20b5f57906512145b3c39679",
+      "source_status": "resource_probe_only_not_training_admission",
+      "supervised_tokens": 69
+    },
+    {
+      "bytes": 378221,
+      "cap": 32768,
+      "origin": {
+        "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-long-context-fixtures-v1/train-long-32768.jsonl",
+        "sha256": "c8173d24f521975ab84e3fb1a7a2191ca51372ceef6ba4f7e11a2a9377040fa2"
+      },
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-context-profile-preparation-v1/fixtures/edit-32768.jsonl",
+      "row_id": "06f074c4b3db8213a6e23cad",
+      "sequence_tokens": 32442,
+      "sha256": "dc62868e5f76f99769519f4301da9468e775e16c49dd11c9511ae28d336168db",
+      "source_status": "resource_probe_only_not_training_admission",
+      "supervised_tokens": 48
+    }
+  ],
+  "schema": "sepalith.sft11.full-weight-edit-context-fixtures.v1",
+  "source_profiles": [
+    {
+      "evidence": "accepted 15006 rows: max3064, p95 2144, max target including EOS933, zero truncation",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v3/length-profile.json",
+      "sha256": "33ef2275bf593c229ed9e01e292f0946b1632a2c1c70777ed0f23880db931cc5"
+    },
+    {
+      "evidence": "4435 reviewed candidates: max31341, p95 12737, p99 20035; 4355 at16K and80 at32K; training admission false",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-semantic4435-token-review.json",
+      "sha256": "e92e8465c24f7088c753ede33bbe210e65d571c9947ba71189628f254906dfb8"
+    },
+    {
+      "evidence": "15006+616+133+4435 union20190; duplicate/contradiction review pass; training admission false",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-semantic4435-root-dedup-review.json",
+      "sha256": "f7f0bd91b1f99f7d4cb6fe3eda0890d36094c54001d0819fc826bbe54ad93964"
+    },
+    {
+      "evidence": "one recovered row produces supplied review pool20191; sequence2110; training admission false",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-semantic4551-recovery-root-review.json",
+      "sha256": "7da18fd4a53ce47c78bad20b37ee12955d48478f6efbfaf69682c47b62b927c4"
+    }
+  ],
+  "status": "resource_profile_only_no_training_admission"
+}

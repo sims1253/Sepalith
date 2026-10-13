@@ -1,0 +1,17 @@
+{
+  "README.md": "723f13c7d079011634c4803c83e24583d9e36540ac59efa20f05e8cc87ed364f",
+  "analyze_renderer.mjs": "414a9dbd06bdba49b0ea2a9be205b87394af73009bc32d2fb94bf2f128266dc8",
+  "baseline-sha256.json": "43204444dc74bbfd878f49caa011fb6d26ebb789178d5fe9a8d90595abf8f311",
+  "build_primary_manifest.mjs": "eeecfac011ae1ccb014bb37a5676174aa173bf35c40cde8c9d7a817e92b22446",
+  "observe_renderer.mjs": "4765f029cb408fe8a0caca52b334b2eaa03e7efcda8c0d1bf7be4f149c0c54ab",
+  "primary-editor-harness/acceptance-v2.js": "d1e75fe82233d0956af4e084aec920de658adf2f2a8dfaa8321ca0a2cf849cff",
+  "primary-editor-harness/extension.js": "81474ceb2842d845ec92b385f9fd01b16424d9a08f9020989cfb655ffa6b724b",
+  "primary-editor-harness/package.json": "bf5754ca9f2913521bc6d19fb291124366d3152317a4aff8b1781722afe916a3",
+  "primary-route-spec.json": "6286ad151f738d6ec8cae46ad812f5e4ec070f75cbdc41f63ea17c275d990ab9",
+  "primary.vsix": "a56d2e442ae7abf266ef5f508d25443d00acecb9a78f92787b7ac332e3e2836d",
+  "run_primary_managed_route.mjs": "24d934d299b91a8a25e77e099517d5b0adb3b3ae35a908e94ae73faeaff5a5f7",
+  "source-observability.json": "2f00e8ab6378ac2f4c8a5cd555676cf1cbb5454f87407b15efe6b0957e66fbea",
+  "started-at.txt": "73aa6eb8962f99e70bdd1aacaca243963baff5d33e2d35f43243053a888aa429",
+  "tests/cpu-validation.json": "60c18f33c795243614ff646f550d5cfe2c3807e8b142ba21865680718774d965",
+  "tests/test_analysis.mjs": "03ee129a21cc1fe02a322f9b088240cb3e3d5db2d91c36848bae8a989535ba5b"
+}

@@ -1,0 +1,66 @@
+{
+  "artifact_identity_sha256": "456e4b70957a7afbe81a90fd5e1db7b24a56c0f9b8e3592ef415326ebd2492f2",
+  "files": [
+    {
+      "bytes": 1627,
+      "path": "README.md",
+      "sha256": "2ca95be88d9aa0f2a9d4e10eb1d7dd5d24871490b24c888d1bb0f84df5cdb152"
+    },
+    {
+      "bytes": 3749,
+      "path": "candidate-1585-binding-review.json",
+      "sha256": "0a0f3468b8efb8b8c50bcd46b58aaee945f8d259976cc3c8c85ed92bbfe85559"
+    },
+    {
+      "bytes": 1826,
+      "path": "candidates.json",
+      "sha256": "f03176295974bbaa5899032f61a00475f9d2deb70c47c2008f925bf13ce7e235"
+    },
+    {
+      "bytes": 540,
+      "path": "root-admission.template.json",
+      "sha256": "50acc8ed9b40711b889fc1a317e8ffb8dfec5d9d028776d955ae415dad5a7cd2"
+    },
+    {
+      "bytes": 1566,
+      "path": "root-commands.json",
+      "sha256": "ab3989f64662beb0a0ae86509398311721ae5fec0d6489dc3265148dc839cdd8"
+    },
+    {
+      "bytes": 10139,
+      "path": "source/__pycache__/merge_cloud_cpt_parent.cpython-310.pyc",
+      "sha256": "9c25b8335ce426f30b1765575df4d8690158667e967b6d1b78c241bf812f9305"
+    },
+    {
+      "bytes": 11372,
+      "path": "source/merge_cloud_cpt_parent.py",
+      "sha256": "2cb874da78b9cbe95c14a7c6801d6bed690cc396a941d3fd4f0c766fcf46ea0b"
+    },
+    {
+      "bytes": 4300,
+      "path": "source/prepare_binding.py",
+      "sha256": "17cdf2f31385a9e252dab53ace72dfa9d846c9d28e6d3fd0188621836d40ed2e"
+    },
+    {
+      "bytes": 921,
+      "path": "test-results.txt",
+      "sha256": "1096f641e35edb09b85e2fd6d1dec3a8a459d9dff4843624ad0735436120f9ff"
+    },
+    {
+      "bytes": 4577,
+      "path": "tests/__pycache__/test_packet.cpython-310.pyc",
+      "sha256": "c54d9f1425de817048f1e9e01927bf37b4322818a403e70b4bdf0d74f1f46f66"
+    },
+    {
+      "bytes": 3327,
+      "path": "tests/test_packet.py",
+      "sha256": "be73fdc2a62773e18765fc32a961b173732528ef6f8697d700ed33cd015e6957"
+    },
+    {
+      "bytes": 673,
+      "path": "source-manifest.json",
+      "sha256": "4863b5ed4adb7ea354e670c1c6c970432e5496664c7fa8a09086f8caf5a666ae"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

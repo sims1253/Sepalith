@@ -1,0 +1,76 @@
+{
+  "files": [
+    {
+      "bytes": 1584,
+      "path": "a100_resume_gate.py",
+      "sha256": "337d5dcd2d912aaac13af02cf04931f60bbc5c3257853efd0692312b02125d76"
+    },
+    {
+      "bytes": 2270,
+      "path": "bounded_exec.py",
+      "sha256": "7473692a5104fe189349582ef14664da652129d87147bc840aadba8c886a156d"
+    },
+    {
+      "bytes": 5119,
+      "path": "build_runtime_bundle.py",
+      "sha256": "e97fe48499f7d9f39c542e3b8478007be25c0cd1e425bd02da79837fcf7ee27f"
+    },
+    {
+      "bytes": 1705,
+      "path": "build_transport_spec.py",
+      "sha256": "ce907df2128848aa655cffbf9402aa5e89370c9bb73070520210065247443bba"
+    },
+    {
+      "bytes": 3385,
+      "path": "return_checkpoint_common.py",
+      "sha256": "96a5b43d86f6b6209b7bd99baba9fd403dc098b9120ec62f322c6b4088dce535"
+    },
+    {
+      "bytes": 547,
+      "path": "build_return_spec.py",
+      "sha256": "8f0b7a7f962a28c891d66ed2a597b774f7e89742e1ea9541a5876978325b982c"
+    },
+    {
+      "bytes": 4046,
+      "path": "restore_private_checkpoint.py",
+      "sha256": "43b101643b7faad8bf8db0ebfcc7d958c116927fb8f22fa2bcae579137afec8e"
+    },
+    {
+      "bytes": 4474,
+      "path": "restore_private_runtime.py",
+      "sha256": "caf60bad71f74477573bedaaa2d943cf2567fc1ac2510b87af1ecc883a69461a"
+    },
+    {
+      "bytes": 3580,
+      "path": "restore_private_return_checkpoint.py",
+      "sha256": "1a7896620017c4713ac0ada15500db990941ec93caa88187439158cafa420cdf"
+    },
+    {
+      "bytes": 4550,
+      "path": "transport_common.py",
+      "sha256": "c4e0caa56d1901a0f97fd6bd6ecb313190da5cfb0d49cc593ad85b83e5dd14d9"
+    },
+    {
+      "bytes": 5928,
+      "path": "upload_private_checkpoint.py",
+      "sha256": "0272d13913af88bd46adbc55faffbde7200e71303bf037dc76b238c2eca130b8"
+    },
+    {
+      "bytes": 6484,
+      "path": "upload_private_runtime.py",
+      "sha256": "d4a280d5a2015b9cf33fd4904e9c1f8e2e657bd1d30dd018070f367922736225"
+    },
+    {
+      "bytes": 5183,
+      "path": "upload_private_return_checkpoint.py",
+      "sha256": "dce32fa9ab7d104e4e2647c2dcce8ab27154bd93a5cbd94182e378f14a339314"
+    },
+    {
+      "bytes": 13444,
+      "path": "test_transport.py",
+      "sha256": "b4f46d68959d1495e948af8809168a01b53c30f7d598c5a832d1fc2cc8382b2b"
+    }
+  ],
+  "schema": "sepalith.pre04.a100-state-transport-source.v1",
+  "status": "frozen_preparation"
+}

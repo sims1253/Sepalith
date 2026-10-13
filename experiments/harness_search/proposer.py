@@ -28,14 +28,15 @@ from harness_config import (SPACE, DEFAULT_CONFIG, DEFAULT_TEXTS,  # noqa: E402
 
 
 def _load_key_from_zshrc() -> str | None:
-    """The Bash tool shell does not source ~/.zshrc; judges in this repo
-    document 'source ~/.zshrc first'. Parse the export line, never print."""
+    """The Bash tool shell does not source ~/.config/sepalith/secrets.env;
+    judges in this repo document 'source it first'. Parse the export line,
+    never print."""
     import os
     import re
     if os.environ.get("ZAI_API_KEY"):
         return None
     try:
-        for line in open(Path.home() / ".zshrc"):
+        for line in open(Path.home() / ".config/sepalith/secrets.env"):
             m = re.match(r'\s*export\s+ZAI_API_KEY="([^"]+)"', line)
             if m:
                 os.environ["ZAI_API_KEY"] = m.group(1)

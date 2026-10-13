@@ -1,0 +1,453 @@
+{
+  "denominators": {
+    "provenance_outside_semantic_preserved": 4423,
+    "provenance_rows": 28753,
+    "semantic_evidence_holds_preserved": 14795,
+    "semantic_rows": 24330,
+    "semantic_supported": 9535
+  },
+  "file_count": 65,
+  "files": [
+    {
+      "bytes": 1245,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "ad99f26024a3e6e4892d5b55892e30f335a2b736fb64f393974704c0a2d24261"
+    },
+    {
+      "bytes": 4499,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "745a6d0b0c0192046a0b563027a905f3b80e7de4e16ad49a0ea5f0f210732ad0"
+    },
+    {
+      "bytes": 411,
+      "mode": "0o644",
+      "path": "dedup-binding.template.json",
+      "sha256": "ed6ec1bbba9d08051353e3d7f62234207946129a4a7033232f816702fd3b23f0"
+    },
+    {
+      "bytes": 4019,
+      "mode": "0o755",
+      "path": "finalize_policy.py",
+      "sha256": "6320fc60b88b9e9fb4538935c1ccc1ef615d281a9b7f0d9c5dadeb073f2a3a60"
+    },
+    {
+      "bytes": 15997,
+      "mode": "0o644",
+      "path": "geometry-source/analyze_semantics.py",
+      "sha256": "4e62dbc7568594501a04da395006f9227c1de94db6ee99685a6213853460265f"
+    },
+    {
+      "bytes": 23662,
+      "mode": "0o644",
+      "path": "geometry-source/base_materializer.py",
+      "sha256": "2edfe6c4761271889e2b2f008fcccd00b8bf2adaf712c18cc2d588eb9840136f"
+    },
+    {
+      "bytes": 10023,
+      "mode": "0o644",
+      "path": "geometry-source/campaign_client.ts",
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "bytes": 34464,
+      "mode": "0o644",
+      "path": "geometry-source/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 4642,
+      "mode": "0o644",
+      "path": "geometry-source/campaign_requests.ts",
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "bytes": 23130,
+      "mode": "0o444",
+      "path": "geometry-source/campaign_selection.py",
+      "sha256": "354a31c8f1f88cd9f1680c5e1e8dd917be3212776716a7481c80c367a545729e"
+    },
+    {
+      "bytes": 25008,
+      "mode": "0o644",
+      "path": "geometry-source/campaign_selection.ts",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 1485,
+      "mode": "0o644",
+      "path": "geometry-source/completion.ts",
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "bytes": 14528,
+      "mode": "0o644",
+      "path": "geometry-source/context_build.ts",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "mode": "0o644",
+      "path": "geometry-source/context_select.ts",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 56128,
+      "mode": "0o644",
+      "path": "geometry-source/extension.ts",
+      "sha256": "3910dc8e194db7324921487c5a13c0b6eb94b5ca22b0bfdc9de152a2ec793c46"
+    },
+    {
+      "bytes": 4570,
+      "mode": "0o644",
+      "path": "geometry-source/full_document_policy.ts",
+      "sha256": "521c3d4491c154789aa4e3a57266f62a54ddafa3f4fcb875dbdb0cab095d05bb"
+    },
+    {
+      "bytes": 23912,
+      "mode": "0o644",
+      "path": "geometry-source/history_provider.ts",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 2287,
+      "mode": "0o644",
+      "path": "geometry-source/namespace_scope.R",
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "bytes": 2816,
+      "mode": "0o644",
+      "path": "geometry-source/next_edit.ts",
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "bytes": 1518,
+      "mode": "0o644",
+      "path": "geometry-source/primary_context.ts",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 1352,
+      "mode": "0o644",
+      "path": "geometry-source/process_lifecycle.ts",
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "bytes": 23571,
+      "mode": "0o644",
+      "path": "geometry-source/r_base_bindings.generated.ts",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 11404,
+      "mode": "0o644",
+      "path": "geometry-source/reviewed_scope_reference.R",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 24460,
+      "mode": "0o644",
+      "path": "geometry-source/runtime.ts",
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "bytes": 4193,
+      "mode": "0o644",
+      "path": "geometry-source/semantic_context_geometry_v2.py",
+      "sha256": "f38c3a96b5a8b34b420b289c00cf5de3f0c4fb51fba09ea3e634a61299339b6d"
+    },
+    {
+      "bytes": 21655,
+      "mode": "0o644",
+      "path": "geometry-source/semantic_provider.ts",
+      "sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b"
+    },
+    {
+      "bytes": 4594,
+      "mode": "0o644",
+      "path": "geometry-source/semantic_scope.R",
+      "sha256": "f4e530fd2260e025127c5a4ecef973128c0fdba18574bc5f71806950bd1b642b"
+    },
+    {
+      "bytes": 10758,
+      "mode": "0o755",
+      "path": "materialize9535.py",
+      "sha256": "b3a05e4f2b0bda42e7ca083cd0975bd286134125d12f145926a7d2dfe429c99f"
+    },
+    {
+      "bytes": 7000,
+      "mode": "0o644",
+      "path": "package.json",
+      "sha256": "2a9edf2996852a37057008d8255cf61352407d8aecf98a59635e3f0a505b94a2"
+    },
+    {
+      "bytes": 2786,
+      "mode": "0o755",
+      "path": "prepare_fallback.py",
+      "sha256": "84d5203dbb0861e0c45512d261ce89974dcf216455549c15d302984f291a24b6"
+    },
+    {
+      "bytes": 7413,
+      "mode": "0o755",
+      "path": "prepare_inputs.py",
+      "sha256": "47172339d327d81098c6b7fe61c45ec03281bd2adf3ebc8a784c6c33e61be174"
+    },
+    {
+      "bytes": 7866,
+      "mode": "0o755",
+      "path": "prepare_shard_base.py",
+      "sha256": "4352a4a28a2847b0031f84f02f845d4471f9b4be831920df218b87348707ae6a"
+    },
+    {
+      "bytes": 5843,
+      "mode": "0o644",
+      "path": "render_shard.ts",
+      "sha256": "352a2976b235d5604af9fe2a931208fda53728a53d3cf027583aa4e237d2fcd5"
+    },
+    {
+      "bytes": 4604,
+      "mode": "0o644",
+      "path": "resources/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 2705,
+      "mode": "0o644",
+      "path": "resources/source_imports.R",
+      "sha256": "7a69d0f9cff32e799ea33f407a9250c262d8b8a08a9c5db82eda49caa45d31d3"
+    },
+    {
+      "bytes": 869,
+      "mode": "0o755",
+      "path": "run_lane.sh",
+      "sha256": "573e453cffd7db4af6364a94145a4818a10fef7e75895879e83721c82fc83651"
+    },
+    {
+      "bytes": 2219,
+      "mode": "0o755",
+      "path": "run_shard.sh",
+      "sha256": "6b10a35d2257ee67de4f83c42d4d0ad13633e41a57aed1c89f6ac0dbdc90fbf6"
+    },
+    {
+      "bytes": 10023,
+      "mode": "0o644",
+      "path": "source/campaign_client.ts",
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "bytes": 34464,
+      "mode": "0o644",
+      "path": "source/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 4642,
+      "mode": "0o644",
+      "path": "source/campaign_requests.ts",
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "bytes": 25008,
+      "mode": "0o644",
+      "path": "source/campaign_selection.ts",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 1485,
+      "mode": "0o644",
+      "path": "source/completion.ts",
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "bytes": 14528,
+      "mode": "0o644",
+      "path": "source/context_build.ts",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "mode": "0o644",
+      "path": "source/context_select.ts",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 57088,
+      "mode": "0o644",
+      "path": "source/extension.ts",
+      "sha256": "cce6f7409944db76c6101e9191435146855b470239198ba1142115bd9f8fd735"
+    },
+    {
+      "bytes": 7947,
+      "mode": "0o644",
+      "path": "source/full_document_policy.ts",
+      "sha256": "dd671fa12a839d00e6446bd07d36c02e33518290b6e95faf8187163aa08f0a95"
+    },
+    {
+      "bytes": 23912,
+      "mode": "0o644",
+      "path": "source/history_provider.ts",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 4604,
+      "mode": "0o644",
+      "path": "source/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 4225,
+      "mode": "0o644",
+      "path": "source/namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 8390,
+      "mode": "0o644",
+      "path": "source/namespace_runtime.ts",
+      "sha256": "2292f0d6935d8ed10a7e77877114da6516d161ce336af433fa2835242a48b8d0"
+    },
+    {
+      "bytes": 2816,
+      "mode": "0o644",
+      "path": "source/next_edit.ts",
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "bytes": 1518,
+      "mode": "0o644",
+      "path": "source/primary_context.ts",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 1352,
+      "mode": "0o644",
+      "path": "source/process_lifecycle.ts",
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "bytes": 23571,
+      "mode": "0o644",
+      "path": "source/r_base_bindings.generated.ts",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 24460,
+      "mode": "0o644",
+      "path": "source/runtime.ts",
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "bytes": 22035,
+      "mode": "0o644",
+      "path": "source/semantic_provider.ts",
+      "sha256": "df0cb3646645cbcb7b2a9f15580f4cdedeab7438f0bb34e34263cf2f18c34fde"
+    },
+    {
+      "bytes": 2705,
+      "mode": "0o644",
+      "path": "source/source_imports.R",
+      "sha256": "7a69d0f9cff32e799ea33f407a9250c262d8b8a08a9c5db82eda49caa45d31d3"
+    },
+    {
+      "bytes": 1198,
+      "mode": "0o644",
+      "path": "test-policy.log",
+      "sha256": "46ee1e63c7c21b9e17dc298f808f9b32a35f55ba15d5f2b2fd9a2b72c2da971c"
+    },
+    {
+      "bytes": 529,
+      "mode": "0o644",
+      "path": "test-real-geometry.log",
+      "sha256": "cb1bce8f57d19a119a934a5a2e629773ce3530338e0a15034d30edb134066253"
+    },
+    {
+      "bytes": 108,
+      "mode": "0o644",
+      "path": "test-source-contract.log",
+      "sha256": "54fde26b50f3f75cef37e101a08177a03d5bbd6e3849dcf3e333c309259621ad"
+    },
+    {
+      "bytes": 2828,
+      "mode": "0o644",
+      "path": "test_policy.py",
+      "sha256": "07334f7a4a0d5178c3625901de9cb6f74c39a12913d4c7f847c1069f0d92f4c9"
+    },
+    {
+      "bytes": 3710,
+      "mode": "0o644",
+      "path": "test_real_geometry.py",
+      "sha256": "32f2009730ae852a8868984157ea801e4823e9fa3daf52be63fcaacb42346cf7"
+    },
+    {
+      "bytes": 1379,
+      "mode": "0o644",
+      "path": "test_source_contract.py",
+      "sha256": "1cf4e30fdb10f1d6966965ca409b2c48c5f2204c4a199356ff9968572578722e"
+    },
+    {
+      "bytes": 484,
+      "mode": "0o755",
+      "path": "tokenize_bridge.py",
+      "sha256": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+    },
+    {
+      "bytes": 289,
+      "mode": "0o644",
+      "path": "tsconfig.json",
+      "sha256": "bb430a7729bc1b8eb7d5f8b454341ee84a59aed254fea7ef4197ae316c8510c5"
+    }
+  ],
+  "inputs": {
+    "materializer_external_sources": [
+      {
+        "path": "docs/campaign/work/lead/r2-semantic763-context-admission-v1/source/base_materializer.py",
+        "sha256": "2edfe6c4761271889e2b2f008fcccd00b8bf2adaf712c18cc2d588eb9840136f"
+      },
+      {
+        "path": "docs/campaign/work/lead/r2-semantic763-dedup-integration-v1/integrate.py",
+        "sha256": "5f15ea1aa3f83890b812ddb9a564936c51bb4607f855fd1db5130a724209cce6"
+      },
+      {
+        "path": "docs/campaign/work/lead/r2-semantic4551-provider-materialization-v1/materialize4551.py",
+        "sha256": "af4a095daff1441d074c8fe74f3a6c58a1ff2defe9d923444375c2d29622bb7e"
+      }
+    ],
+    "pending_dedup": "Semantic10948 final output is deliberately unbound; materialization refuses until root supplies exact finalized manifest/tokenrows/provenance hashes.",
+    "provider_v2_binding": {
+      "path": "docs/campaign/work/lead/r2-semantic10948-provider-materialization-v2/provider-binding.json",
+      "sha256": "ebd260663bad21b6a5e74c4d5e848501f2c4e552674f402b23d89837769c3a42",
+      "verified_files_copied_byte_exact": 24
+    },
+    "semantic_terminal_review": {
+      "path": "docs/campaign/work/lead/r2-semantic27to40-terminal-review-v1/review-result.json",
+      "sha256": "8bbb1e9c635deebe370ad638c642b5aca1db1dc2a280502a299e605ab7183b1a"
+    },
+    "streaming_manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-semantic-streaming-queue-shards27to40-v1/streaming-manifest.json",
+      "sha256": "6e63cf554caf26298d99ba1fd76797eed3d1daa3fe205c965788abb5ed4a06a8"
+    }
+  },
+  "runtime_policy": {
+    "cores": [
+      8,
+      10
+    ],
+    "per_shard_timeout_seconds": 1800,
+    "profiles": [
+      {
+        "context": 16384,
+        "target_reserve": 2048
+      },
+      {
+        "context": 32768,
+        "target_reserve": 2048
+      }
+    ],
+    "target_truncation": "none",
+    "training_admission": false
+  },
+  "schema": "sepalith.dat10.semantic9535.provider_preparation_source.v1",
+  "status": "frozen_preparation_no_render_or_training_admission"
+}

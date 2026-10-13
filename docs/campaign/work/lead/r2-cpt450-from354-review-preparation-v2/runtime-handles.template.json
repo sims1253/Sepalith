@@ -1,0 +1,10 @@
+{
+  "schema": "sepalith.sft11.cpt450-runtime-handles.v1",
+  "status": "terminal_success",
+  "controller_pid": 2699989,
+  "guard_pid": 2700261,
+  "attestation_pid": 2700314,
+  "model_child_pid": 2700542,
+  "controller_terminal": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-to450-continuation-root-v1/terminal.json",
+  "guard_terminal": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-recovery354-to450-cadence24-v1-host-supervision/terminal.json"
+}

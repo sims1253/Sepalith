@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "CPU_materialized_candidate_not_training_admission",
+  "counts": {
+    "cpt_validation": {
+      "rows": 370,
+      "input_tokens": 661806,
+      "supervised_tokens": 661360,
+      "documents": 294,
+      "raw_bytes": 2097032,
+      "code_tokens": 661066,
+      "packages": 50
+    },
+    "cpt_train": {
+      "rows": 1662,
+      "input_tokens": 3869445,
+      "supervised_tokens": 3867176,
+      "documents": 1055,
+      "raw_bytes": 12412360,
+      "code_tokens": 3866121,
+      "packages": 745
+    }
+  },
+  "tokenizer_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+  "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+  "metadata_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/initial-raw-file-snapshot.jsonl",
+  "metadata_sha256": "6a9a8228b02c9e3b8941d32120df158a92e21e21a1bfc4c29c074d0f99aa2195",
+  "partition_sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06",
+  "parent_hash_guard_sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0",
+  "source_sha256": "e02d588ac77d3a8bf8710217c8d1c678e730681de998932219afe75a2709dd80",
+  "max_length": 4096,
+  "bos_id": 0,
+  "eos_id": 1,
+  "pad_id": 1,
+  "sampling_scope": "Hash-ordered groups from the immutable initial partial metadata inventory; not representative of all normalized packages.",
+  "boundaries": "Sequential source chunks; one masked prior-code-token overlap on continuation; BOS on every chunk; EOS only actual document end; no discarded code tokens.",
+  "padding": "None stored. Collator must pad attention with 0 and labels with -100, without masking actual EOS by token ID.",
+  "heldout_scope": "All campaign non-TRAIN groups excluded by registry before source traversal. CPT validation reserves TRAIN groups before reads. Exact TRAIN dedup and metadata SHA1/SHA256/git-blob identity guard; no complete heldout near-duplicate claim.",
+  "exclusions": {
+    "exact_duplicate_of_cpt_validation": 4,
+    "license_not_in_recognized_families": 17
+  },
+  "seconds": 56.01442203001352,
+  "artifacts": {
+    "cpt_train.jsonl": {
+      "sha256": "9a6f656bae9ec68b106120e4cc28bb1bb8b1b6cb2f91770b12e869002d41d531",
+      "bytes": 44090358
+    },
+    "cpt_validation.jsonl": {
+      "sha256": "e658d497010b83cc8e7feed990d19be263f7c46d946de4075d2f913a85be00cd",
+      "bytes": 7567695
+    },
+    "documents.jsonl": {
+      "sha256": "674d3bf6e2da08b53a0d0fa6d7ae1977c5bc6940938ebe2aaf6c7c1643ff6d68",
+      "bytes": 1118092
+    },
+    "exclusions.jsonl": {
+      "sha256": "55784697a92dc06b97eaca311b433f4e61fb18b0b87fdb43b0c2256ba3b490da",
+      "bytes": 2840
+    },
+    "selected-source-metadata.jsonl": {
+      "sha256": "27287bedfa0643caa20b47644c3544b093d19d24e0ad7fd2b493b8de543e8ab2",
+      "bytes": 686995
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "families": {
+    "finish_block": 7785,
+    "format_propagation": 1615,
+    "na_rm_propagation": 136,
+    "no_op": 1094,
+    "pipe_rewrite": 1983,
+    "rename_propagation": 1578,
+    "roxygen_drafting": 815
+  },
+  "lengths": {
+    "completion_including_eos": {
+      "max": 933,
+      "min": 7,
+      "p50": 45,
+      "p90": 305,
+      "p95": 388,
+      "p99": 536
+    },
+    "prompt": {
+      "max": 3000,
+      "min": 120,
+      "p50": 430,
+      "p90": 2018,
+      "p95": 2118,
+      "p99": 2345
+    },
+    "sequence": {
+      "max": 3064,
+      "min": 138,
+      "p50": 598,
+      "p90": 2044,
+      "p95": 2144,
+      "p99": 2386
+    }
+  },
+  "no_tokens_truncated": true,
+  "policies": {
+    "current-15006-complete-4096-candidate": {
+      "accepted_complete_rows": 15006,
+      "ordered_rejected_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "policy": {
+        "completion_max_tokens": 1024,
+        "disposition": "candidate_pending_resource_admission",
+        "input_rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+        "model_context_tokens": 4096,
+        "policy_id": "current-15006-complete-4096-candidate",
+        "prompt_max_tokens": 3072
+      },
+      "policy_sha256": "00de08c3d19b20a8334ab4e2711515ce792284aff6b58779e133467dff3bfd7e",
+      "rejected_reason_counts": {},
+      "rejected_without_truncation_rows": 0
+    },
+    "legacy-2048-prompt-192-completion-audit-only": {
+      "accepted_complete_rows": 10900,
+      "ordered_rejected_ids_sha256": "ec48ab3efdfa2b8915aa494174d91cd2f8f163383d65197162cd0ccfbd6afd74",
+      "policy": {
+        "completion_max_tokens": 192,
+        "disposition": "audit_only",
+        "input_rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+        "model_context_tokens": 2240,
+        "policy_id": "legacy-2048-prompt-192-completion-audit-only",
+        "prompt_max_tokens": 2048
+      },
+      "policy_sha256": "078760f281a1e75934c7752bbac60c6b00d2569ad0a2604800c54b7c22ad3807",
+      "rejected_reason_counts": {
+        "completion_over_limit": 2878,
+        "prompt_over_limit": 1230,
+        "sequence_over_limit": 387
+      },
+      "rejected_without_truncation_rows": 4106
+    }
+  },
+  "rows": 15006,
+  "rows_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+  "rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+  "schema": "sepalith.rl11.length-census.v1"
+}

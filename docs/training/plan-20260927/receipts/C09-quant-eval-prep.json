@@ -1,0 +1,75 @@
+{
+  "card": "C09",
+  "kind": "quant_eval_prep_and_cpu_smoke",
+  "date": "2026-10-12",
+  "gpu_work": false,
+  "cpu_policy": "nice -n 10, 8 threads, CUDA_VISIBLE_DEVICES=\"\" for every llama.cpp CPU process",
+  "final_set_access": false,
+  "uploads": false,
+  "approved_design": "docs/training/plan-20260927/research/wiki-and-trl-review-20261011.md (branch plan/research-wiki-trl-20261011), 'Addendum 2026-10-12: quantization for shipping'",
+  "llama_cpp": {"tag": "b10453", "commit": "3cb7ffb1a", "root": "~/.local/opt/llama.cpp-b10453 (SEPALITH_LLAMA_CPP)", "build_used": "build-cpu"},
+  "code": {
+    "package": "packages/sepalith/src/sepalith/quant/{calibration,gate,gguf_dev,llama_tools}.py",
+    "cli": "docs/training/plan-20260927/c09/{build_calibration,gguf_dev_eval,quant_gate,quantize_and_gate}.py",
+    "tests": "packages/sepalith/tests/test_quant_{calibration,gate,gguf_dev}.py (31 tests)"
+  },
+  "calibration_v1": {
+    "dir": "/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1",
+    "source": {"path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+               "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef", "rows": 15006},
+    "exclusion": {
+      "panels": {"dev75": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+                 "dev250": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"},
+      "rule": "DEV id; or normalized prompt / current-region / non-no-op target sha256 shared with a DEV case; or 3-line prompt-shingle containment >= 50% (>= 3 shared, boilerplate shingles ignored)",
+      "excluded_rows": 1, "reasons": {"dev_region_hash": 1}, "eligible_rows": 15005
+    },
+    "seed": 3407,
+    "calibration": {
+      "file": "calibration.txt", "sha256": "f1c183094bda80fe2c51c36c7602e3bb5d3108fa18ba66ef89080c583c974119",
+      "ids_file_sha256": "071dbe8a2776b392cef2285900c35bfc6c4916fee79301c2135cf1769610bf88",
+      "n_ctx": 4096, "chunks": 132, "tokens": 540672,
+      "whole_rows": 636, "whole_row_tokens": 528061, "filler_prefixes": 130, "filler_tokens": 12611,
+      "whole_row_tokens_by_family": {"finish_block": 75032, "format_propagation": 75663, "na_rm_propagation": 75905, "no_op": 74969,
+                                     "pipe_rewrite": 75336, "rename_propagation": 75938, "roxygen_drafting": 75218},
+      "llama_imatrix_flags": "--parse-special --no-escape -c 4096 -b 4096 --chunks 132"
+    },
+    "kld_heldout": {
+      "file": "kld-heldout.txt", "sha256": "43b81baea6c173146a79c860886b34fd8dfad0c8079210831518754169246107",
+      "ids_file_sha256": "eb0e2daa03663244f026abd62761d2887cafa06bb44b9d8df08ad9d3a6efb5b3",
+      "n_ctx": 1024, "chunks": 64, "scored_tokens": 32704, "disjoint_from_calibration": true,
+      "windows_by_family": {"finish_block": 11, "format_propagation": 10, "na_rm_propagation": 10, "no_op": 3,
+                            "pipe_rewrite": 10, "rename_propagation": 10, "roxygen_drafting": 10},
+      "llama_perplexity_flags": "--no-escape -c 1024 -b 1024"
+    },
+    "manifest_sha256": "faa0a13b8840919f74a5a1816e02e1f07fa30f7fda2df44473a4c4fdeb0c3633",
+    "token_feeding": {
+      "imatrix": "Rows are detokenized with the pinned HF tokenizer (they round-trip exactly). Each row's BOS 0 and EOS 1 are written as '<s>' and '</s>' and parsed back into control tokens by llama-imatrix --parse-special. The first '<s>' is left out because llama.cpp adds BOS (add_bos_token true). Chunks hold exactly 4,096 tokens and each starts at a row's BOS, so llama-imatrix's per-chunk BOS overwrite changes nothing. Gaps are filled with a round-tripping prompt prefix of an extra TRAIN row placed first in the chunk. Rows mentioning any added-token string are skipped. --no-escape keeps backslash sequences in R code literal.",
+      "kld": "llama-perplexity never parses control tokens, so each chunk is one window: the last 1,023 tokens of a held-out row before its EOS, ending with the gold target. Chunk 0 relies on the added BOS; later chunks begin with '<think>' (user-defined id 8, matched without special parsing), which llama-perplexity overwrites with BOS.",
+      "verification": "llama-tokenize (same common_tokenize path; special parsing on for calibration, --no-parse-special for KLD) on the parent GGUF vocabulary reproduces both expected id streams exactly (540,672 and 65,536 tokens). In the smoke, the token stream stored in the bf16 --kl-divergence-base file also equals the slice's expected ids."
+    }
+  },
+  "smoke": {
+    "purpose": "plumbing only on the CPT parent (step 11,586); quality numbers mean nothing",
+    "work_dir": "/mnt/e/sepalith/campaign-20260915/quant-work/c09-smoke-parent-11586",
+    "command": "quantize_and_gate.py --hf-dir <checkpoint-11586> --name parent-11586 --source-gguf parent-11586-bf16.gguf --existing Q8_0=parent-11586-Q8_0.gguf --existing Q4_K_M-uncalibrated=parent-11586-Q4_K_M.gguf --variants Q8_0 Q4_K_M Q4_K_M-uncalibrated --panels dev75 --limit 3 --order shortest --cap 64 --imatrix-chunks 1 --kld-chunks 2 --threads 8",
+    "steps_wall_seconds": {"imatrix_1_chunk_bf16": 94.3, "quantize_Q4_K_M_imatrix": 82.2, "dev75x3_bf16": 67.7, "dev75x3_Q8_0": 54.2,
+                           "dev75x3_Q4_K_M": 28.2, "dev75x3_Q4_K_M_uncal": 28.2, "kld_base_bf16_2_chunks": 38.1,
+                           "kld_Q8_0": 27.1, "kld_Q4_K_M": 21.9, "kld_Q4_K_M_uncal": 22.3},
+    "imatrix_coverage": {"entries": 294, "expected_matrices": 294, "missing": 0},
+    "artifacts_sha256": {"parent-11586-imatrix.gguf": "1962bb90e36c8f0f2ae20188b38555a8a86ac6beabc44750e16444297c229709",
+                         "parent-11586-imat-Q4_K_M.gguf": "ad373c9ae2dd74ce2f030ff0bd4741032baab9ad4ec26ad71dadccbfc72da548",
+                         "gate-receipt.json": "f3c34eeebaa15f887cd21985685002a68db79d39bb4e719f3014184f649af7d1"},
+    "dev75_3_cases_cap_64": "all four GGUFs: valid 0, exact 0, cap 3 (the CPT parent does not follow PRM03; failures duplicate_exact_terminal/content_after_terminal). Token identity vs bf16: Q8_0 2/3, Q4_K_M 0/3.",
+    "kld_2_chunks": {"Q8_0": {"mean_kld": 0.000993, "top1_pct": 98.63}, "Q4_K_M_imatrix_1_chunk": {"mean_kld": 0.040128, "top1_pct": 93.738},
+                     "Q4_K_M_uncalibrated": {"mean_kld": 0.065381, "top1_pct": 91.389}},
+    "gate": "every tier not_gate_eligible (smoke panel, 3 cases, cap 64), as designed",
+    "cpu_throughput_tok_s": {"prompt": {"bf16": 130, "Q8_0": 128, "Q4_K_M": 168}, "decode": {"bf16": 8.8, "Q8_0": 16.7, "Q4_K_M": 25.5}}
+  },
+  "checks": {"check_core": "109 passed", "check_quality": "ruff and ty clean", "check_training": "not run: no training code changed"},
+  "notes": [
+    "Q4_K_M already stores ffn_down of layers 0-4 and 37-41 (and every third layer) as q6_K and attn_v as q6_K at b10453, so in the Q4_K_M+ arm only attn_k and attn_v -> q8_0 change anything.",
+    "Q8_0 ignores the imatrix in llama-quantize; the Q8_0 tier is the same file with or without one.",
+    "The gate's nofp/valid pp are over all panel cases; McNemar fails a tier only for a significant loss; the net-loss bound is Bonett-Price adjusted Wald. These are implementation choices for the user's sign-off.",
+    "Full CPU estimate at 8 threads: imatrix about 1.7 h (132 chunks), DEV250 plus DEV75 for bf16 and 7 tiers about 11 to 12 h, KLD under 1 h, quantization about 15 min."
+  ]
+}

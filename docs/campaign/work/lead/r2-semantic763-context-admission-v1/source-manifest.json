@@ -1,0 +1,200 @@
+{
+  "external_runtime_dependencies": [
+    {
+      "bytes": 40337,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 22710,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-roxy8597-root-fixes-v1/audit_authoritative_stream.py",
+      "sha256": "7f042596a67ec9983f6f409a8913f4bc8df3361548a1e91fb77c9f914dafcf37"
+    },
+    {
+      "bytes": 9894271,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 15997,
+      "mode": "0o644",
+      "path": "source/analyze_semantics.py",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "4e62dbc7568594501a04da395006f9227c1de94db6ee99685a6213853460265f"
+    },
+    {
+      "bytes": 23662,
+      "mode": "0o644",
+      "path": "source/base_materializer.py",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "2edfe6c4761271889e2b2f008fcccd00b8bf2adaf712c18cc2d588eb9840136f"
+    },
+    {
+      "bytes": 10023,
+      "mode": "0o644",
+      "parent_sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333",
+      "path": "source/campaign_client.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "bytes": 34464,
+      "mode": "0o644",
+      "parent_sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+      "path": "source/campaign_protocol.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 4642,
+      "mode": "0o644",
+      "parent_sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535",
+      "path": "source/campaign_requests.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "4fdc6a881b93ae8beb9614c2b210f80fd5b0a2d5592ae02c8174345612a17535"
+    },
+    {
+      "bytes": 23130,
+      "mode": "0o444",
+      "path": "source/campaign_selection.py",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "354a31c8f1f88cd9f1680c5e1e8dd917be3212776716a7481c80c367a545729e"
+    },
+    {
+      "bytes": 25008,
+      "mode": "0o644",
+      "parent_sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3",
+      "path": "source/campaign_selection.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 1485,
+      "mode": "0o644",
+      "parent_sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd",
+      "path": "source/completion.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "6c140c2441ecaada32662a2ecd2c53ce612410065d83352bb4f04451215d32fd"
+    },
+    {
+      "bytes": 14528,
+      "mode": "0o644",
+      "parent_sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33",
+      "path": "source/context_build.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "mode": "0o644",
+      "parent_sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576",
+      "path": "source/context_select.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 56128,
+      "mode": "0o644",
+      "parent_sha256": "3910dc8e194db7324921487c5a13c0b6eb94b5ca22b0bfdc9de152a2ec793c46",
+      "path": "source/extension.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "3910dc8e194db7324921487c5a13c0b6eb94b5ca22b0bfdc9de152a2ec793c46"
+    },
+    {
+      "bytes": 4570,
+      "mode": "0o644",
+      "parent_sha256": "521c3d4491c154789aa4e3a57266f62a54ddafa3f4fcb875dbdb0cab095d05bb",
+      "path": "source/full_document_policy.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "521c3d4491c154789aa4e3a57266f62a54ddafa3f4fcb875dbdb0cab095d05bb"
+    },
+    {
+      "bytes": 23912,
+      "mode": "0o644",
+      "parent_sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251",
+      "path": "source/history_provider.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 2287,
+      "mode": "0o644",
+      "path": "source/namespace_scope.R",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "bytes": 2816,
+      "mode": "0o644",
+      "parent_sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214",
+      "path": "source/next_edit.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "c184e0d26499290ce3a8f339f2172343ab233b0799fac57a86476ff14e0e2214"
+    },
+    {
+      "bytes": 1518,
+      "mode": "0o644",
+      "parent_sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474",
+      "path": "source/primary_context.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 1352,
+      "mode": "0o644",
+      "parent_sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27",
+      "path": "source/process_lifecycle.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "a621d5c4a0e227b5e5a2cd12191142b6d1c4a779e1329893389efa5c35068e27"
+    },
+    {
+      "bytes": 23571,
+      "mode": "0o644",
+      "parent_sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2",
+      "path": "source/r_base_bindings.generated.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 11404,
+      "mode": "0o644",
+      "path": "source/reviewed_scope_reference.R",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 24460,
+      "mode": "0o644",
+      "parent_sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616",
+      "path": "source/runtime.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "4de415237088984d53eba6b182dba975c12216a516c52f9fecb3a916dc841616"
+    },
+    {
+      "bytes": 4193,
+      "mode": "0o644",
+      "path": "source/semantic_context_geometry_v2.py",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "f38c3a96b5a8b34b420b289c00cf5de3f0c4fb51fba09ea3e634a61299339b6d"
+    },
+    {
+      "bytes": 21655,
+      "mode": "0o644",
+      "parent_sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b",
+      "path": "source/semantic_provider.ts",
+      "relation": "byte_identical_to_full_document_policy_v1",
+      "sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b"
+    },
+    {
+      "bytes": 4594,
+      "mode": "0o644",
+      "path": "source/semantic_scope.R",
+      "relation": "pinned_local_dependency_copy",
+      "sha256": "f4e530fd2260e025127c5a4ecef973128c0fdba18574bc5f71806950bd1b642b"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic763.source_manifest.v1",
+  "status": "frozen_review_only"
+}

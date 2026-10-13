@@ -1,0 +1,191 @@
+{
+  "schema": "sepalith.native-selection-preparation-manifest.v1",
+  "status": "prepared_not_admitted",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1683,
+      "sha256": "df6751f24ea105dbd67a511030f4e70fe2f25cfa81a8d10d9c9a8e17fba061d1"
+    },
+    {
+      "path": "compare_native_dev.py",
+      "bytes": 3087,
+      "sha256": "3a3462a683449a2d6ccd0815844a9ef1665a176af1b7b23d2e59f09ce2b3837a"
+    },
+    {
+      "path": "export-command.json",
+      "bytes": 376,
+      "sha256": "7a20a7cdd6f9b83da80a56412f3ab40bd9baf6793f4878181b3731786a67f4d5"
+    },
+    {
+      "path": "finalize_native_profile.py",
+      "bytes": 812,
+      "sha256": "b804206d21e4a7ebfeae51250a307d77f07111b8713a4cc14211adfc951b621f"
+    },
+    {
+      "path": "merge-command.json",
+      "bytes": 1196,
+      "sha256": "bb4f40b1ea311b8d9b434a5e7aa2eb28fa94885f1690831602c9d93441398139"
+    },
+    {
+      "path": "native-command-v1.json",
+      "bytes": 510,
+      "sha256": "bd05f1e5ef3ffdc24a2081395361e86e066ce20bec6109bf8f80fae2b03dd799"
+    },
+    {
+      "path": "packet/bind_native_profile.py",
+      "bytes": 3238,
+      "sha256": "9e91821aeca5fb917fce5374a4024f3355210516763c009433592a747341e0a6"
+    },
+    {
+      "path": "packet/conversion-source-pins.json",
+      "bytes": 29107,
+      "sha256": "ef063e914173ac945f97e5adfbceb037ef51fb7f747557bda80237bca5df3326"
+    },
+    {
+      "path": "packet/export_candidate.py",
+      "bytes": 3055,
+      "sha256": "12ca2236792bcb023279dbdeda2197a63e23ce0ab61274cbd2f3894b3bcd539a"
+    },
+    {
+      "path": "packet/export_candidate_v2.py",
+      "bytes": 3639,
+      "sha256": "73bdd16af0df43c754f3969c998aa8ba040bb3a74139ef7579820d483c181325"
+    },
+    {
+      "path": "packet/merge_expanded_sft_cpu.py",
+      "bytes": 10270,
+      "sha256": "31a5bfecc07c5a116be0c69b448414adf6f1d5fe1ebc1867812cb547e3475ff6"
+    },
+    {
+      "path": "packet/native-approval.template.json",
+      "bytes": 1165,
+      "sha256": "7870e91fcbd91fb319966c514501f88a69ab9c7ba7b4b93c1d38969ebffb1f47"
+    },
+    {
+      "path": "packet/native_controller/build_closure.py",
+      "bytes": 6863,
+      "sha256": "6fa32c1d60e7b176ce6f0f6c9afa46a826c2b6605801fe7728e75227c2b3065e"
+    },
+    {
+      "path": "packet/native_controller/client_source_policy.py",
+      "bytes": 2164,
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a"
+    },
+    {
+      "path": "packet/native_controller/elf-loader-metadata.json",
+      "bytes": 28301,
+      "sha256": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452"
+    },
+    {
+      "path": "packet/native_controller/guarded_dev_client.py",
+      "bytes": 3234,
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729"
+    },
+    {
+      "path": "packet/native_controller/observe_client.py",
+      "bytes": 2433,
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1"
+    },
+    {
+      "path": "packet/native_controller/origin_snapshot.py",
+      "bytes": 4060,
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f"
+    },
+    {
+      "path": "packet/native_controller/root_controller.py",
+      "bytes": 16982,
+      "sha256": "087fb5c8c8c2e0e8c7520b6c6db40b1a17f61fba7bdb835bd4eee3a5e7d2018c"
+    },
+    {
+      "path": "packet/native_evaluator/final_binding.py",
+      "bytes": 9373,
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7"
+    },
+    {
+      "path": "packet/native_evaluator/final_row_gate.py",
+      "bytes": 19015,
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff"
+    },
+    {
+      "path": "packet/native_evaluator/native_evaluator.py",
+      "bytes": 8020,
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76"
+    },
+    {
+      "path": "packet/native_evaluator/native_identity.py",
+      "bytes": 9812,
+      "sha256": "5c02b3d3ae8330bae516daf5962f461d42bb6d655a986a691fad65dfefe06796"
+    },
+    {
+      "path": "packet/native_evaluator/native_transport.py",
+      "bytes": 56160,
+      "sha256": "42244a0fea9eca385f7e554562e79b649ed450722b6e661399ef6e0127fd01a7"
+    },
+    {
+      "path": "packet/native_evaluator/rehearse_dev.py",
+      "bytes": 2268,
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a"
+    },
+    {
+      "path": "packet/native_evaluator/selection_binding.py",
+      "bytes": 1937,
+      "sha256": "7582a6f0965c09cfb59f77d39cb112de141e8e3529bc16c953935658fc9b37b9"
+    },
+    {
+      "path": "packet/prepare_root_bindings.py",
+      "bytes": 2038,
+      "sha256": "32a34615215bfc7ce0808d537004740eb83af7ba26b883bb8ac5ccb4bab3f5d7"
+    },
+    {
+      "path": "packet/profile-baseline.json",
+      "bytes": 5908,
+      "sha256": "b699ee9c60582c3e531b97f31249de9c5097b05db957afed2d50a754a6dc0304"
+    },
+    {
+      "path": "packet/review_export.py",
+      "bytes": 2056,
+      "sha256": "eedaa8fe4d0520efa31a776c26c395d6ffc04788f928ba11dae3ffe0b5ab305c"
+    },
+    {
+      "path": "packet/selection_contract.py",
+      "bytes": 3911,
+      "sha256": "0bc17a1a4f242a725de842f2027604dbf8c95aa2314f45a1e50785788c47c1a9"
+    },
+    {
+      "path": "root-commands.json",
+      "bytes": 3905,
+      "sha256": "e13f7ab793b7c67dfac958d1239f5466963bb42c224770069c6c5356f9aff971"
+    },
+    {
+      "path": "run_e1000_comparison.py",
+      "bytes": 605,
+      "sha256": "9de2e5c4c141807f47040234f38b661cec7cfe1a47452b463f819c62312c28be"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 5001,
+      "sha256": "c7be0152864ddea1c698f0334c0cbe8d0f844ad1b28e4b3cb2909e224e6ef363"
+    },
+    {
+      "path": "test-e1000-selection.log",
+      "bytes": 723,
+      "sha256": "d090cfea826576b383a60bf9d31731a5ad7a85b02999b0a1818330496063e8c8"
+    },
+    {
+      "path": "test-e1000-selection.time",
+      "bytes": 857,
+      "sha256": "a11db9b9fc930261e7f8395067c1d0bf76eaf3dd6d361115cfebefe878710a93"
+    },
+    {
+      "path": "test-four-way-comparator.log",
+      "bytes": 1517,
+      "sha256": "c709b0080bf08f85eb0b052d67837a080d3c2ea34396fb6de582443d793c92b7"
+    },
+    {
+      "path": "test_e1000_selection.py",
+      "bytes": 4886,
+      "sha256": "a6ffc358a2f7566c0894c7266431cf3a2006fa1cad96e7f7da7eb20ea4f21fea"
+    }
+  ]
+}

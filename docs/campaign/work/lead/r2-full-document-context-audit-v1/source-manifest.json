@@ -1,0 +1,79 @@
+{
+  "files": [
+    {
+      "bytes": 34464,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/campaign_protocol.ts",
+      "origin_sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824",
+      "path": "source/campaign_protocol.ts",
+      "relation": "byte_identical",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 25008,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/campaign_selection.ts",
+      "origin_sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3",
+      "path": "source/campaign_selection.ts",
+      "relation": "byte_identical",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 14528,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/context_build.ts",
+      "origin_sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33",
+      "path": "source/context_build.ts",
+      "relation": "byte_identical",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/context_select.ts",
+      "origin_sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576",
+      "path": "source/context_select.ts",
+      "relation": "byte_identical",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 1576,
+      "origin_path": null,
+      "origin_sha256": null,
+      "path": "source/full_document_context.ts",
+      "relation": "new",
+      "sha256": "297dcdbc576a7e7b3ae5fdf8b1c7022f4ca4c5d2aac221627e089fc921acccda"
+    },
+    {
+      "bytes": 23912,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/history_provider.ts",
+      "origin_sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251",
+      "path": "source/history_provider.ts",
+      "relation": "byte_identical",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 1518,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/primary_context.ts",
+      "origin_sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474",
+      "path": "source/primary_context.ts",
+      "relation": "byte_identical",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 23571,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/r_base_bindings.generated.ts",
+      "origin_sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2",
+      "path": "source/r_base_bindings.generated.ts",
+      "relation": "byte_identical",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 21655,
+      "origin_path": "docs/campaign/work/lead/r2-serving-semantic-provider-v3/source/semantic_provider.ts",
+      "origin_sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b",
+      "path": "source/semantic_provider.ts",
+      "relation": "byte_identical",
+      "sha256": "dae63301f697e1258dfdc8fae0c4de6ffb80c6c239d07a8d887cd2c5a8449d4b"
+    }
+  ],
+  "production_modified": false,
+  "schema": "sepalith.run06.full_document_context_source_manifest.v1",
+  "status": "isolated_review_copy"
+}

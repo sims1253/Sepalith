@@ -1,0 +1,9 @@
+# Full-document context audit
+
+This review-only packet measures complete pre-edit document prompts for the frozen first-128 TRAIN census. It uses the actual production `selectPromptContext` and `renderPrompt` code copied and hash-bound from provider v3. The wrapper sets the source budget to the exact complete logical-document UTF-16 cost; it never truncates source lines or targets. For a zero-width insertion, the renderer places all source lines before the blank in `prefix`, all lines after it in `suffix_lines`, and leaves the editable blank as an empty global replacement range.
+
+The pinned tokenizer shows that 42/49 analyzer-supported rows fit a 16K total sequence and 47/49 fit 32K. Same-file helper rows fit 6/8 at 16K and 8/8 at 32K, so 32K full-document mode removes all eight same-file helper derivation holds in this census. Two target-only documents remain over 32K at 59,183 and 47,452 tokens. Both are already provider-v3 supported with complete target spans, so a reviewed hybrid of full-document-when-fit plus bounded complete-span selection accounts for 49/49 at 32K without truncating a target.
+
+Full-document context costs substantial tokens. On the 30 rows provider v3 already supports, it adds a median 2,369.5 prompt tokens and has a median 11.40x prompt-token ratio; the largest increase is 58,794 tokens. Notebook context construction itself is cheap: 49 cold builds had 0.268 ms median and 3.515 ms p95, while 441 warm builds had 0.256 ms median and 2.418 ms p95. These figures cover selection and rendering only, not tokenization or model inference.
+
+Whole-file inclusion guarantees only that accepted same-file helper spans are present. It does not supply NAMESPACE metadata or resolve external package imports. The 49 examples retain analyzer-v6 evidence, full pre-edit hashes, global cursor ranges, exact target reapplication, and complete targets. Root review is still required before data or serving admission.

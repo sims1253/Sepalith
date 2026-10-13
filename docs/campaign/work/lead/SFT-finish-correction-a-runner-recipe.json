@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+  },
+  "id": "sft06-finish-correction-a-20260913",
+  "snapshot": "26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/model.safetensors",
+      "sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/config.json",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/generation_config.json",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/parent-manifest.json",
+      "sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/finish-corrected-train-v1/train-token-rows.jsonl",
+      "sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/finish-corrected-schedule-v1/finish-corrected-draws-200.json",
+      "sha256": "017fc74ccb6fad43d2bf263d0b3d892fa13bd3fce37bff9ae6a6572fde912d31"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/finish-corrected-train-v1/manifest.json",
+      "sha256": "7ed300ca3ae69a601d74b9eaf83841bd597ef2723e3968e4b976ae87027086e0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/manifest.json",
+      "sha256": "4528ff6dbd8cfe70580901d9254a1a6931dc8c334c5dd2c55e49cf92d1a5377a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/SFT-finish-correction-a-recipe.json",
+      "sha256": "91711875f7252fca2fe29f7af453187b5372be2678d8d2a1789cbf3514529644"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host_memory_guard_v3.py",
+      "sha256": "9518f5d10ea92c424df10f4d49be32f5dd1bf8a42a0deae5d13ea2998f18a845"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host_memory_policy.py",
+      "sha256": "ed39464f8981b562dd4f91ef8ad069edae03e53da999c274507973ff0df3831a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/post_load_cache.py",
+      "sha256": "7204fc46c412d0285b6bfc931bb774b938bf5bfef87220346149e285d6f5f8a4"
+    }
+  ],
+  "provenance": {
+    "task": "SFT-06",
+    "owner": "lead",
+    "budget_source": "SFT-06-finish-correction-lead-decision.json;3600s reallocated from unusedRL ceiling, first1200s",
+    "acceptance": "First finite updates are launch acceptance only; stop50/full checkpoint and correctedDEV75 required before any continuation."
+  },
+  "steps": [
+    {
+      "id": "prepare-host-command",
+      "argv": [
+        "{python}",
+        "-c",
+        "import json,pathlib,sys; p=pathlib.Path(sys.argv[5]); p.write_text(json.dumps([sys.argv[1],str(pathlib.Path(sys.argv[2])/\"experiments/training/campaign_launch.py\"),sys.argv[3],\"--receipt\",sys.argv[4]])+\"\\n\")",
+        "{python}",
+        "{source}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/SFT-finish-correction-a-recipe.json",
+        "{run}/supervision.json",
+        "{run}/guard-command.json"
+      ],
+      "artifacts": [
+        "guard-command.json"
+      ]
+    },
+    {
+      "id": "guarded-corrective-sft",
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host_memory_guard_v3.py",
+        "--command-json",
+        "{run}/guard-command.json",
+        "--output",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT-finish-correction-a-host-supervision",
+        "--seconds",
+        "1260",
+        "--minimum-free-mib",
+        "8192",
+        "--release-cache-file",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/model.safetensors"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ]
+    }
+  ]
+}

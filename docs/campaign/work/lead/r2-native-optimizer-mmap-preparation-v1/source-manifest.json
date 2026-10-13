@@ -1,0 +1,32 @@
+{
+  "entrypoint": "source/mmap_optimizer_resume.py",
+  "files": [
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 6052,
+      "path": "source/mmap_optimizer_resume.py",
+      "sha256": "ce0b58cefd7e1c99f91429e512490a5ded4b68a0408100b4dfccdd530b508d83"
+    }
+  ],
+  "files_count": 2,
+  "integration_mro": [
+    "MmapOptimizerResumeTrainerMixin",
+    "FullWeightOptimizerTrainerMixin",
+    "Trainer"
+  ],
+  "preserves": [
+    "model restoration",
+    "scheduler state",
+    "Trainer state",
+    "CPU/CUDA RNG restoration",
+    "data cursor",
+    "composite optimizer identity and FP32 state"
+  ],
+  "schema": "sepalith.sft11.native-optimizer-mmap-source.v1",
+  "source_identity_sha256": "71727743b64da04f601e8debcc4e3aec7cd006694d47d0b1a76aa0dc4d0c4f47",
+  "status": "prepared_not_admitted"
+}

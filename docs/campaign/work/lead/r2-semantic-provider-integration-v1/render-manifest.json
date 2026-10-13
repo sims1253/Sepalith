@@ -1,0 +1,40 @@
+{
+  "dependency_parity": {
+    "exact_rows": 133,
+    "missing_rows": 0,
+    "superset_rows": 0
+  },
+  "elapsed_seconds": 93.904708417,
+  "inputs": {
+    "namespace_helper_sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847",
+    "prediction_batch_sha256": "ca5f58db94fd586b7eb56079a06d4a4a14441d2f8b018024bddb56ebea9ae7c3",
+    "source_import_helper_sha256": "7a69d0f9cff32e799ea33f407a9250c262d8b8a08a9c5db82eda49caa45d31d3",
+    "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+  },
+  "mode_counts": {
+    "complete_span": 1,
+    "full_document": 132
+  },
+  "namespace_evidence_records": 279,
+  "namespace_files": 123,
+  "output": {
+    "bytes": 2638176,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1-rendered-final.jsonl",
+    "rows": 133,
+    "sha256": "dcc4c06e48df17c1f5369915d907e67ed3e9405009616fc582960e35dd31e73c"
+  },
+  "prompt_tokens": {
+    "max": 29008,
+    "median": 3624,
+    "min": 210,
+    "total": 719548
+  },
+  "rows": 133,
+  "schema": "sepalith.dat10.semantic_provider_render.v1",
+  "selection_target_or_gold_used": false,
+  "status": "complete_review_only_root_admission_required",
+  "status_counts": {
+    "supported": 133
+  },
+  "training_admission": false
+}

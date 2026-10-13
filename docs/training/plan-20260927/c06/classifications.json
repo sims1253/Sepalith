@@ -1,0 +1,818 @@
+{
+  "schema": "sepalith.plan-20260927.C06.classifications.v1",
+  "reviewer": "Claude Code agent executing C06 (each prompt/target pair read in full)",
+  "sampling_note": "Repaired rows: stratified by source variant x finish kind (source_ref in the context sidecar), fixed floor of 5 for the five small strata and a proportional split of the rest; within a stratum, random.Random(3407).sample over sorted row ids, strata in sorted order. Controls: a fresh random.Random(3407).sample of 20 over the sorted ids of the 4,282 unrepaired finish_block rows.",
+  "class_definitions": {
+    "correct": "The applied document parses; the target completes exactly the block(s) the prompt leaves open, ending with the closing brace and nothing after it; any old region text is re-emitted; the code is consistent with the file's own style and plausibly the source's continuation.",
+    "cosmetic": "Correct code that parses and is semantically right, but has a style inconsistency with the surrounding file (here: the closing brace is indented differently from the line that opens its block).",
+    "defective": "Does not parse, leaves a block open or closes too much, swallows or duplicates post-cursor code, drops typed text, or is semantically wrong or incomplete relative to the prompt (the postmortem's 'semantic drift / incomplete setup')."
+  },
+  "caveats": [
+    "One reviewer and no second rater. Semantic correctness was judged by reading, not by running the code.",
+    "The data's build receipts record no air version. Checks used air 0.12.0. air rewrapped lines inside 36 of 80 repaired and 8 of 20 control targets. All of these follow the file's own pre-air style (rewrapping, braces around one-line ifs), so they are not counted as issues. air was idempotent and error-free on all 100 rows.",
+    "No finish_block row has post-cursor text: suffix_lines is empty and the replacement range ends at EOF for all 7,785 rows. 'Swallowing post-cursor code' was therefore checked as 'nothing after the closing brace, and the closing brace matches a block the prompt opened'. Nothing was swallowed.",
+    "The cosmetic brace-indent pattern is systematic. The census found it in 486 of 3,503 repaired rows (13.9%), all in compound* strata, and in 0 of 4,282 unrepaired rows. In every sampled case but one, the body keeps 2 more spaces of indentation than the closing brace while the header sits at column 0. Combined with free variables from an enclosing scope, this points to nested function definitions lifted with only the header dedented. The fix appends the source brace byte-exact, so the brace keeps the original nested indentation."
+  ],
+  "rows": [
+    {
+      "index": 0,
+      "row_id": "363fb70a9b910b8191558349",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Completes profile_ev_sessions with the case_when tier mutate the prompt comment announces; closes the function at column 0."
+    },
+    {
+      "index": 1,
+      "row_id": "3731c4a9b663acc54dacd320",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Remaining 17 validation/snap statements (diagnostics header: 18 total, 1 typed) and the closing brace; style matches prefix."
+    },
+    {
+      "index": 2,
+      "row_id": "3672898df15b203a0739be61",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Returns the tibble built from the computed baseline vectors and closes the function."
+    },
+    {
+      "index": 3,
+      "row_id": "36e3cf9280560df8c18a7caf",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Completes the per-scale alpha loop and bind_rows return; nested for/if blocks balanced, style matches prefix."
+    },
+    {
+      "index": 4,
+      "row_id": "368dc5f7432b66a1a87b2460",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Six remaining statements (diagnostics: 7 total, 1 typed) building the ADSR envelope; uses every unreferenced arg; closes function."
+    },
+    {
+      "index": 5,
+      "row_id": "36f29586e8caad8b3bbfea19",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|signature",
+      "class": "correct",
+      "reason": "Signature row: re-emits the last signature line verbatim, writes the body and closes at column 0."
+    },
+    {
+      "index": 6,
+      "row_id": "36c2bca50455c73fe5c7f8e7",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|signature",
+      "class": "correct",
+      "reason": "Signature row: re-emits `dt_hours = 1.0) {`, full dispatch-loop body, closing brace."
+    },
+    {
+      "index": 7,
+      "row_id": "36e5281c540d63351f271168",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|signature",
+      "class": "correct",
+      "reason": "Signature row: re-emits the last signature line, rlang/dplyr body, closing brace."
+    },
+    {
+      "index": 8,
+      "row_id": "3667d9ed17acaec2babbe364",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|signature",
+      "class": "correct",
+      "reason": "Signature row (one-line header): full body and closing brace in the same 2-space style."
+    },
+    {
+      "index": 9,
+      "row_id": "3686121d8a900c7b430da68e",
+      "group": "repaired",
+      "stratum": "finish_block_authored_agy|signature",
+      "class": "correct",
+      "reason": "Signature row: re-emits the last signature line, validation and summarize body, closing brace."
+    },
+    {
+      "index": 10,
+      "row_id": "390fac273823799efbfd757d",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|mid_body",
+      "class": "correct",
+      "reason": "Continues the prefix's brace-less if/stop guard style, hull computation, closing brace."
+    },
+    {
+      "index": 11,
+      "row_id": "3803af90ef2b1def5797c42b",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|mid_body",
+      "class": "correct",
+      "reason": "Closes the `if {` the prompt left open at its stop() line, then the rest of the body and the function brace (2 blocks)."
+    },
+    {
+      "index": 12,
+      "row_id": "372b27f159657ab437316404",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|mid_body",
+      "class": "correct",
+      "reason": "Remaining validation and rotated-grid snap code (26 statements per header); closes function."
+    },
+    {
+      "index": 13,
+      "row_id": "3739804defa4c85e3fb44769",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|mid_body",
+      "class": "correct",
+      "reason": "Remaining column checks and mutate; continuation indentation follows the file; closes function."
+    },
+    {
+      "index": 14,
+      "row_id": "370e7242a121d71f409ac7e7",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|mid_body",
+      "class": "correct",
+      "reason": "Eight remaining statements, matching the outline (9 total, 1 typed); closes function."
+    },
+    {
+      "index": 15,
+      "row_id": "3678b9c4d5fc24b68fdc9799",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|signature",
+      "class": "correct",
+      "reason": "Signature row (one-line header): body and closing brace."
+    },
+    {
+      "index": 16,
+      "row_id": "37e4ad2c3d75d3363815b1b6",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|signature",
+      "class": "correct",
+      "reason": "Signature row after a roxygen block: body and closing brace."
+    },
+    {
+      "index": 17,
+      "row_id": "37acc22069a806e4baa17692",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|signature",
+      "class": "correct",
+      "reason": "Signature row: per-scale loop, bind_rows, closing brace."
+    },
+    {
+      "index": 18,
+      "row_id": "386f5d2013fcccf01c7def27",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|signature",
+      "class": "correct",
+      "reason": "Signature row: re-emits the second signature line, body in the file's brace-less if style, closing brace."
+    },
+    {
+      "index": 19,
+      "row_id": "398c7d3215c51c97a4431ed4",
+      "group": "repaired",
+      "stratum": "finish_block_authored_gpt56sol|signature",
+      "class": "correct",
+      "reason": "Signature row: body and closing brace."
+    },
+    {
+      "index": 20,
+      "row_id": "363deedda98221c80c48cb01",
+      "group": "repaired",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Final list() return (outline: 7 statements, 6 typed) and closing brace."
+    },
+    {
+      "index": 21,
+      "row_id": "37752721171eee51cbf4e06d",
+      "group": "repaired",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Remaining five statements and closing brace (same function as row 020, earlier cut)."
+    },
+    {
+      "index": 22,
+      "row_id": "3841fc5d84657c99d7b8e2cc",
+      "group": "repaired",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Frequency computation and tibble return; closes function."
+    },
+    {
+      "index": 23,
+      "row_id": "3643eef6350193e19c5f4c18",
+      "group": "repaired",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Completes the snap loop and tibble return; closes function."
+    },
+    {
+      "index": 24,
+      "row_id": "36a38c6efe25af505b4a227a",
+      "group": "repaired",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "The one remaining pipe statement (outline: 9 total, 8 typed) and closing brace."
+    },
+    {
+      "index": 25,
+      "row_id": "38793bb64bc5b23f68767d2e",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Source-faithful completion of a CRAN function in its own unformatted style (`{` on its own line, trailing spaces); closes at column 0."
+    },
+    {
+      "index": 26,
+      "row_id": "3f73c8c76b406330710e8a70",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Closes the open `if (any(freq < 0)) {` and completes the function (2 blocks)."
+    },
+    {
+      "index": 27,
+      "row_id": "4d4960d20ab684acd8435e47",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "cosmetic",
+      "reason": "Correct completion (closes inner if and function), but the final `}` is at column 2 while the header is at column 0 and the body at 4; looks like a lifted nested definition."
+    },
+    {
+      "index": 28,
+      "row_id": "b5078bf79b02765437f9f790",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining three statements and closing brace."
+    },
+    {
+      "index": 29,
+      "row_id": "8bc9837e57b53bc779fc3257",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Closes the inner nextEl closure, then builds the iterator object and closes the outer function."
+    },
+    {
+      "index": 30,
+      "row_id": "63d05d80328a07b8f4c241a5",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "cosmetic",
+      "reason": "Correct while/tryCatch completion, but the final `}` is at column 2 under a column-0 header (body at 4)."
+    },
+    {
+      "index": 31,
+      "row_id": "39534bb290b3f4ca709b1316",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Closes the open `if` with its `} else {` branch, then the function (2 blocks); matches prefix style."
+    },
+    {
+      "index": 32,
+      "row_id": "381679800ac4482edd69abb4",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining validation, coercion and new() call; closes function."
+    },
+    {
+      "index": 33,
+      "row_id": "791a4a3b1eb8bf415c5e866b",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Finishes the `css_file <- if {` expression with its else branch, then htmlDependency and the function brace."
+    },
+    {
+      "index": 34,
+      "row_id": "43f86d5f50d28e9422bf49e0",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Finishes the open lapply closure with `})` and closes the function."
+    },
+    {
+      "index": 35,
+      "row_id": "84a2a26439e217a207ef834a",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining if/else return and closing brace."
+    },
+    {
+      "index": 36,
+      "row_id": "8e4642eae639667f47e112cb",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Two remaining statements in the file's 4-space style; `}` at column 0 matches the header."
+    },
+    {
+      "index": 37,
+      "row_id": "64383759b55d9bdc4bc5f5bc",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining height logic and closing brace."
+    },
+    {
+      "index": 38,
+      "row_id": "4a46370e8caa2efa24a323e1",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining body in the file's mixed CRAN style; closes function."
+    },
+    {
+      "index": 39,
+      "row_id": "5cbae17b7bd27a479bd3a73a",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining pipe/rename logic and closing brace."
+    },
+    {
+      "index": 40,
+      "row_id": "63321b477df9f5790bba672d",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Final sqrt(mean(...)) statement (outline: 3 total, 2 typed) and closing brace."
+    },
+    {
+      "index": 41,
+      "row_id": "93efddaab084a4692e8f7a6d",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Closes the open tryCatch `{` arm with `},` at the arm's indent, then the rest of the function."
+    },
+    {
+      "index": 42,
+      "row_id": "4ecb91bb5477052f0e83d377",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining r/n/se statements (header: 4 total, 1 typed) and closing brace; trailing comments and no explicit return are as in the source."
+    },
+    {
+      "index": 43,
+      "row_id": "611953487ad18601a463b11b",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "cosmetic",
+      "reason": "Correct ridge-solve completion, but the final `}` is at column 2 under a column-0 header (body at 4); uses `ctrl` from an enclosing scope, so a lifted nested function."
+    },
+    {
+      "index": 44,
+      "row_id": "a163c362b678bba45896edb9",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining mutate/summarise pipeline and closing brace."
+    },
+    {
+      "index": 45,
+      "row_id": "41ae6cc415bc084e0f595d18",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining httr2 perform/parse statements and closing brace."
+    },
+    {
+      "index": 46,
+      "row_id": "47de56f17d21b35ff2448473",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining EDGE computation (header: 13 statements) and closing brace."
+    },
+    {
+      "index": 47,
+      "row_id": "5da495bfaf77ed3975ed2f61",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Closes the open requireNamespace `if` with its return, then the rest of the function."
+    },
+    {
+      "index": 48,
+      "row_id": "67326f02c3de5a179f666153",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "cosmetic",
+      "reason": "Same retry_request source as row 030: correct completion, but the final `}` is at column 2 under a column-0 header."
+    },
+    {
+      "index": 49,
+      "row_id": "77e8edeaaf1cb36c92dcaa28",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining colour-assignment loop and return; closes function."
+    },
+    {
+      "index": 50,
+      "row_id": "65dffc7d9fc9d2cb5f812c9c",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining two statements and closing brace."
+    },
+    {
+      "index": 51,
+      "row_id": "649840eb19fab3021200094d",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Final log/return statement and closing brace."
+    },
+    {
+      "index": 52,
+      "row_id": "5b2cf58f329d14343a520922",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining depth loop and return; closes function."
+    },
+    {
+      "index": 53,
+      "row_id": "702f325cd816329c72964a73",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Closes the open coxph.null `if` and completes the function (2 blocks)."
+    },
+    {
+      "index": 54,
+      "row_id": "375d5aa71a1672772835ede6",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining permutation logic and closing brace."
+    },
+    {
+      "index": 55,
+      "row_id": "5508ea5ed6b5bcfc3b97f532",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining contrast-table code and closing brace."
+    },
+    {
+      "index": 56,
+      "row_id": "5b993c493216fa576b7d2138",
+      "group": "repaired",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Continues the open if with `} else if`/`else` branches, then the structure() return and the function brace."
+    },
+    {
+      "index": 57,
+      "row_id": "51ea8fb727239875942057dc",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "cosmetic",
+      "reason": "Signature row: correct body, but the body is at 4 spaces and the final `}` at column 2 under a column-0 header."
+    },
+    {
+      "index": 58,
+      "row_id": "8ac1f0d6161cb9f3883e51e1",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "correct",
+      "reason": "Signature row: body and closing brace."
+    },
+    {
+      "index": 59,
+      "row_id": "af698ded7881e19f21aa8cf4",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "cosmetic",
+      "reason": "Signature row: correct geometric-mean body, but the body is at 4 and the final `}` at column 2 under a column-0 header."
+    },
+    {
+      "index": 60,
+      "row_id": "5bbabc6cbdb232dc82428e7c",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "correct",
+      "reason": "Signature row: re-emits the `) {` line, body, closing brace."
+    },
+    {
+      "index": 61,
+      "row_id": "412c5ea7d389b9c215d8b6fc",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "correct",
+      "reason": "Signature row: body and closing brace."
+    },
+    {
+      "index": 62,
+      "row_id": "50a3bbfd9deca4d1b36e3ff4",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "correct",
+      "reason": "Signature row: body and closing brace."
+    },
+    {
+      "index": 63,
+      "row_id": "64812de0901fe0146a8129ca",
+      "group": "repaired",
+      "stratum": "finish_block_compound|signature",
+      "class": "cosmetic",
+      "reason": "Signature row: correct, source-faithful body, but the final `}` is indented 2 like the body while the header is at column 0 (source style quirk)."
+    },
+    {
+      "index": 64,
+      "row_id": "46c073d134fe0f20a68c4ce5",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Final attribute assignment, return and closing brace."
+    },
+    {
+      "index": 65,
+      "row_id": "dbab9e6d394f39c9351bde0b",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Continues the if/else-if chain inside the open block, return, closing brace."
+    },
+    {
+      "index": 66,
+      "row_id": "cf203a57b909000423305a1f",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Finishes the else branch and the function in the file's tab-indented style."
+    },
+    {
+      "index": 67,
+      "row_id": "cad01d94f70c6baec0aef375",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Remaining CSR conversion statements and closing brace."
+    },
+    {
+      "index": 68,
+      "row_id": "da505aff74a9aaa5555cb116",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "cosmetic",
+      "reason": "Correct if/else completion, but the final `}` is at column 4 under a column-0 header (body at 6); free variables show a lifted nested function."
+    },
+    {
+      "index": 69,
+      "row_id": "3706c4642cabc0f1357859a1",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Completes the if/else-if/else dispatch and closes the function."
+    },
+    {
+      "index": 70,
+      "row_id": "4268d5e4b0b0475298bcc2ab",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Server closure and shinyApp call; closes function."
+    },
+    {
+      "index": 71,
+      "row_id": "d26af90b082e78d95ff2e521",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Final c(...) return; `}` at column 2 matches the source's `{` on its own line at column 2."
+    },
+    {
+      "index": 72,
+      "row_id": "ab67eb9398c719ef5507db74",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Remaining stick-breaking statements and closing brace."
+    },
+    {
+      "index": 73,
+      "row_id": "3a42844bb5fcf90f0639fbd3",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Remaining vcov check and qvcalc call; closes function."
+    },
+    {
+      "index": 74,
+      "row_id": "68c16f246c4dcfefccafbf1b",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Closes three nested blocks (if, for, function), consistent with the file's style."
+    },
+    {
+      "index": 75,
+      "row_id": "4ed5253479d79403fbf9f2e1",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Remaining simulated variables and tibble; closes function."
+    },
+    {
+      "index": 76,
+      "row_id": "511d2cabddcbd50c1494b94a",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "cosmetic",
+      "reason": "Correct completion of the nested if and function, but the final `}` is at column 6 under a column-0 header (body at 8)."
+    },
+    {
+      "index": 77,
+      "row_id": "a1caa4e6d94cad2bf545a7f6",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Forwarding call to lagTimeSeries and closing brace."
+    },
+    {
+      "index": 78,
+      "row_id": "5cf9697e934e8686d73a75c9",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Finishes the open if (return FALSE) and the success branch; closes function."
+    },
+    {
+      "index": 79,
+      "row_id": "bfc6906a0269659b6796f289",
+      "group": "repaired",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Finishes the open for loop, remaining statements and closing brace."
+    },
+    {
+      "index": 80,
+      "row_id": "064b92fdecae693697001456",
+      "group": "control",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Finishes the inner Q.rho closure and the outer function (2 blocks)."
+    },
+    {
+      "index": 81,
+      "row_id": "2f50ebcb91467168044e28c9",
+      "group": "control",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "if/else-if plot dispatch and closing brace."
+    },
+    {
+      "index": 82,
+      "row_id": "0edf628ce0bb7fe8aefae374",
+      "group": "control",
+      "stratum": "finish_block_compound|signature",
+      "class": "correct",
+      "reason": "Signature row: body and closing brace."
+    },
+    {
+      "index": 83,
+      "row_id": "25165ed8e9b1be2ac8c0bd14",
+      "group": "control",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Remaining two statements and closing brace."
+    },
+    {
+      "index": 84,
+      "row_id": "185add57732dac1dcd5937ed",
+      "group": "control",
+      "stratum": "finish_block_authored_gpt56sol|mid_body",
+      "class": "correct",
+      "reason": "Closes the open validation if, then the remaining checks and return (2 blocks)."
+    },
+    {
+      "index": 85,
+      "row_id": "2d4a8ec2ce453edd2cdc11a0",
+      "group": "control",
+      "stratum": "finish_block_authored_agy|signature",
+      "class": "correct",
+      "reason": "Signature row: body and closing brace."
+    },
+    {
+      "index": 86,
+      "row_id": "21eec0280d8beab125f72ddf",
+      "group": "control",
+      "stratum": "finish_block_compound_random|mid_body",
+      "class": "correct",
+      "reason": "Finishes the open rules-check if and the step constructor; closes function."
+    },
+    {
+      "index": 87,
+      "row_id": "27ee57652c34c2b3202cebf1",
+      "group": "control",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Remaining four statements (outline: 5) and closing brace."
+    },
+    {
+      "index": 88,
+      "row_id": "1b6d8b192ef186cc93e4f811",
+      "group": "control",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Remaining binning pipeline and closing brace."
+    },
+    {
+      "index": 89,
+      "row_id": "r2-short-0b377e701b7e99426be92fa0",
+      "group": "control",
+      "stratum": "r2_short_task|literal_visible_tail_return",
+      "class": "correct",
+      "reason": "r2 short task: `return(df)` and closing brace after a long visible prefix."
+    },
+    {
+      "index": 90,
+      "row_id": "r2-short-dfb9a9219be6b2ccf9ad2fee",
+      "group": "control",
+      "stratum": "r2_short_task|literal_visible_tail_return",
+      "class": "correct",
+      "reason": "r2 short task: returns A and closes the function."
+    },
+    {
+      "index": 91,
+      "row_id": "2dd75c464a4aeacd0527114c",
+      "group": "control",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining AUDPC computation and closing brace."
+    },
+    {
+      "index": 92,
+      "row_id": "1d5b44a87abe9f33f5817a9b",
+      "group": "control",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining cat() calls and invisible(x); closes function."
+    },
+    {
+      "index": 93,
+      "row_id": "1ea8ea0c6cd3b491774a58d2",
+      "group": "control",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Finishes the open for loop and the return pipeline (2 blocks)."
+    },
+    {
+      "index": 94,
+      "row_id": "193d32b0dfa65fb46ddefc1f",
+      "group": "control",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Remaining Gaussian fit and return; closes function."
+    },
+    {
+      "index": 95,
+      "row_id": "0c305bdeab626572b9cffcb4",
+      "group": "control",
+      "stratum": "finish_block_authored_zai|mid_body",
+      "class": "correct",
+      "reason": "Remaining quantization statements and closing brace."
+    },
+    {
+      "index": 96,
+      "row_id": "21d2d1eb802ea2864ca2ae95",
+      "group": "control",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining process setup and closing brace."
+    },
+    {
+      "index": 97,
+      "row_id": "15decb73c8d38a650ccdc3b4",
+      "group": "control",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Final verbose branch and closing brace."
+    },
+    {
+      "index": 98,
+      "row_id": "23a2bc2c73fc36939039641b",
+      "group": "control",
+      "stratum": "finish_block_authored_agy|mid_body",
+      "class": "correct",
+      "reason": "Remaining hull/baseline computation and closing brace."
+    },
+    {
+      "index": 99,
+      "row_id": "0cacc38f1c8349c4c0c13e6e",
+      "group": "control",
+      "stratum": "finish_block_compound|mid_body",
+      "class": "correct",
+      "reason": "Remaining standardisation pipeline (header: 21 statements) and closing brace."
+    }
+  ]
+}

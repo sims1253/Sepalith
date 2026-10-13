@@ -1,0 +1,6 @@
+{
+  "model_repo": "scholzmx/sepalith-2b-cpt",
+  "data_repo": "scholzmx/sepalith",
+  "prefix": "campaign-20260915",
+  "weights_sha256_verified": true
+}

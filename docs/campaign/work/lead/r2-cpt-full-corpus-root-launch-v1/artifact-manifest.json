@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "bytes": 1915,
+      "path": "README.md",
+      "sha256": "f4ed9b5bba542034c74a99151d9f76e63f9b5c9a725516a7d01bcf7295292b0a"
+    },
+    {
+      "bytes": 7582,
+      "path": "bound-recipe.json",
+      "sha256": "88f5d6b1348802a8f0efcccd858f01c62269c771512c154b30ca7029c5a88498"
+    },
+    {
+      "bytes": 301,
+      "path": "cpu-preflight.log",
+      "sha256": "a079a078e0abde2f9cc2b320308f3a999cc494ac27c76a626edba04dc2dc8ad8"
+    },
+    {
+      "bytes": 1473,
+      "path": "guard-launch-command.json",
+      "sha256": "aac9bbe7c056d2032d3e4d6bfe3e17428a85953ed5cd86f10afb80882a89e2f3"
+    },
+    {
+      "bytes": 6096,
+      "path": "launch-inputs.v3.json",
+      "sha256": "82551dbcafb79a4136dc68256f5e0208df142bd33f2e1774fbbc954124b9f853"
+    },
+    {
+      "bytes": 2729,
+      "path": "root-data-admission.json",
+      "sha256": "fd8888be780a51cd2e9009607adb6bf1b6f18dd699dd68931f761ae264f113e2"
+    },
+    {
+      "bytes": 4438,
+      "path": "root-stage-admission.json",
+      "sha256": "2204bf43cd2f129920ec550a6a9c11898a424e371bb2eaefab484d2da49d90a4"
+    },
+    {
+      "bytes": 706,
+      "path": "trainer-command.json",
+      "sha256": "07f112984e9a1fa72e73ce766aeb378bb92ca949968078dd3e552e3050eb604b"
+    },
+    {
+      "bytes": 1481,
+      "path": "v2-preflight-blocker.log",
+      "sha256": "324b617e5836b8c98674971a7175669717bcd8f1c10f58e8d0052524eaa3bcda"
+    },
+    {
+      "bytes": 4438,
+      "path": "root-stage-admission.v2-blocked.json",
+      "sha256": "ad369408a6bfca22171828016776d52789d71f32fbc3912d42a7d6855e272737"
+    },
+    {
+      "bytes": 7582,
+      "path": "bound-recipe.v2-blocked.json",
+      "sha256": "1b0d27cc3d138e03e94f2850cc7ba593ec66881e78396c8a808d32d3b4d0f86d"
+    },
+    {
+      "bytes": 1974,
+      "path": "verification.json",
+      "sha256": "70092b4f02be1a1511043bf824b0d257a9bc8db222ac7cea1ef4d917f86f137d"
+    }
+  ],
+  "schema": "sepalith.sft11.cpt-full-corpus-root-launch-artifacts.v1",
+  "status": "bound_preflight_passed_not_launched"
+}

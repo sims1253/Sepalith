@@ -1,0 +1,13 @@
+{
+  "README.md": "b18a2ce168cd630e2621c271521590260057d934475ee16aed9339877dacce10",
+  "accepted-observer.mjs": "11f7298f68b0c8748cf9fd8891513b35b4111ddf4f265e3b81663dc369a61feb",
+  "analyze_auto.mjs": "b40367cbd5bae372dee0cad4487f7425fcedfdc0a06153f4dbd9b883ad86ac4e",
+  "analyze_renderer.mjs": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0",
+  "check_merged.mjs": "ce95faa09a71d9063c1a41134884f1ec9820e568413d11c6541059ea4e83cd7c",
+  "observe_renderer.mjs": "5ec5023d5abbf9aa8f4febe79b818cd1e486010e377f3797d206390c4b7fdf05",
+  "primary-editor-harness/acceptance-v2.js": "b53156cdcc630cbe00124dd395b8273a7f8e4112318796682fac205479550ca5",
+  "primary-editor-harness/extension.js": "5788b4ee3a1ab9b7d75cc3611bb6b24c53ce51be03baf38d392263eaf225a424",
+  "primary-editor-harness/package.json": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8",
+  "root-supplied-identities.json": "30618209336d9b5bc94d54d8193e406434c401da9a9d9ed3931feebd63978104",
+  "run_remote_editor.mjs": "eaa93a4d364a1ac5b99dc7338081b760e9a6a3de8144c869e367159606e4a2db"
+}

@@ -1,0 +1,624 @@
+{
+  "schemaVersion": 1,
+  "campaignId": "sepalith-2026-09",
+  "revision": 569,
+  "tasks": {
+    "PRE-01": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Verified three source roots, 1923 source files, ignored gate-input supplement, environment and two distinct b4 Q8 hashes. No training launch admitted.",
+      "receipt": "docs/campaign/receipts/PRE-01-source-snapshot.json",
+      "updatedAt": "2026-09-12T00:54:46Z"
+    },
+    "PRE-02": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Verified live O2 owner and telemetry. User directed owner to stop after current experiments. WSL process table empty is not release evidence.",
+      "receipt": "docs/campaign/receipts/PRE-02-cuda-ownership.json",
+      "updatedAt": "2026-09-12T00:57:02Z"
+    },
+    "PRE-03": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Live root 165 GiB, E 1777 GiB, NAS 2728 GiB free. Reserved separate checkpoint paths; no deletion.",
+      "receipt": "docs/campaign/receipts/PRE-03-storage-headroom.json",
+      "updatedAt": "2026-09-12T00:54:46Z"
+    },
+    "PRE-04": {
+      "status": "done",
+      "owner": "lead",
+      "note": "2026-09-15T03:01Z fresh authenticated API checks: all three submitted Anyscale probes TERMINATED, including prodjob_unft95hemreusegtr9pqbfntj1. No new paid launches. Credit/capacity need fresh admission before future paid work.",
+      "receipt": "docs/campaign/receipts/PRE-04-approved-login-recheck-20260915T0301.json",
+      "updatedAt": "2026-09-15T03:09:59Z"
+    },
+    "PRE-05": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Pinned installed SFT stack and CPU llama b10453 binary/hash; tokenizer cache empty, staging and parity remain hard launch gates.",
+      "receipt": "docs/campaign/receipts/PRE-05-environment-lock.json",
+      "updatedAt": "2026-09-12T00:54:46Z"
+    },
+    "PRE-06": {
+      "status": "done",
+      "owner": "lead",
+      "note": "User all-eligible-data amendment supersedes original and one-day-extension cutoffs; no replacement harddeadline. Runbook and board label now agree with existing policy receipt. Full ordinary remainingCPT forecast~68computehours; packedcanary prioritized. Cloud ceilings unchanged60USD/100EUR.",
+      "receipt": "docs/campaign/receipts/LEAD-policy-pointer-reconciliation-20260915.json",
+      "updatedAt": "2026-09-15T00:59:36Z"
+    },
+    "PRE-07": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Terminal unfiltered control archived:1800metrics,checkpoint/final adapter match,Q8hashverified,mergedHFdurable. Oldowner nochildren/noCUDA libraries/no activejobs at05:49UTC. Lead accepts closure; commonbattery quality unavailable/deferred to protect primary run; filtered255/307 keptseparate.",
+      "receipt": "docs/campaign/receipts/PRE-07-o2-control-archive.json",
+      "updatedAt": "2026-09-12T05:50:57Z"
+    },
+    "PRE-08": {
+      "status": "done",
+      "owner": "worker-runtime",
+      "note": "Lead accepted matched banked packaging_b4 hash and rollback; independently verified320 tensor matches, parser/source fixtures, Sept10 evaluation hash and corrected historical denominators. No live rollback/target-host benchmark claimed.",
+      "receipt": "docs/campaign/receipts/PRE-08-lead-review.json",
+      "updatedAt": "2026-09-12T01:57:20Z"
+    },
+    "PRE-09": {
+      "status": "deferred",
+      "owner": "lead",
+      "note": "Live local board verified on8766; static PostPlan snapshot generated. Hosted publication deferred to protect prompt/data/trainer work.",
+      "receipt": "docs/campaign/receipts/PRE-09-tracking-surfaces.json",
+      "updatedAt": "2026-09-12T01:09:28Z"
+    },
+    "PRM-01": {
+      "status": "done",
+      "owner": "worker-prompt",
+      "note": "Lead accepted: independently reran builder and protocol tests (11 fixtures; 9 tests), verified both hashes. Synthetic functional coverage only: 0 observed events. Actual rollout/context sufficiency remains PRM-06/07.",
+      "receipt": "docs/campaign/receipts/PRM-01-event-fixtures.json",
+      "updatedAt": "2026-09-12T01:29:42Z"
+    },
+    "PRM-02": {
+      "status": "done",
+      "owner": "worker-prompt",
+      "note": "Lead reviewed15 gaps, independently verified7 canonical/execution source hashes. Missing providers, geometry, whitespace and parser mismatches require PRM-03/04 fixes.",
+      "receipt": "docs/campaign/receipts/PRM-02-renderer-gap-matrix.json",
+      "updatedAt": "2026-09-12T01:43:52Z"
+    },
+    "PRM-03": {
+      "status": "done",
+      "owner": "worker-prompt",
+      "note": "Lead accepted schema after API/tokenizer checks and final consistency amendments. Primary [NO_EDIT] vs deletion; exact input geometry; multi-line range via explicit WorkspaceEdit; no substring stops or target oracle in serving. Implementation/parity remain PRM04+ gates.",
+      "receipt": "docs/campaign/receipts/PRM-03-prompt-schema.json",
+      "updatedAt": "2026-09-12T02:10:52Z"
+    },
+    "PRM-04": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Accepted token guard correction:19 Python protocol tests,14 TS checks,8 full cross-language rows/56 parser outcomes/17 native texts.508 CONTROL IDs audited; native EOG1/130073 aligned, reserved-slot literals explicitly rejected.",
+      "receipt": "docs/campaign/receipts/PRM-04-token-guard-review.json",
+      "updatedAt": "2026-09-12T03:24:14Z"
+    },
+    "PRM-05": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Prediction-time context selection/dropout implementation accepted after independent cross-language and provider fixture review. Settings invalidation and shared request deadlines fixed. Live VS Code/managed restart and final latency remain release gates.",
+      "receipt": "docs/campaign/receipts/PRM-05-context-selector.json",
+      "updatedAt": "2026-09-12T05:28:57Z"
+    },
+    "PRM-06": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Prior independent CPU timing receipt accepted after PRE07closure:33case/layoutpairs102promptdenominators; keep file-prefix-first. Stable-head gain withinrepeatnoise; no quality/remote latency claim.",
+      "receipt": "docs/campaign/receipts/PRM-06-lead-timing-review.json",
+      "updatedAt": "2026-09-12T05:50:57Z"
+    },
+    "PRM-07": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Measured profiles and immutable prompt handoff accepted; actual SFT/GRPO resume and trainedparent behavior remain separate gates.",
+      "receipt": "docs/campaign/receipts/PRM-07-length-memory-profile.json",
+      "updatedAt": "2026-09-12T09:31:41Z"
+    },
+    "PRM-08": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Measured profiles and immutable prompt handoff accepted; actual SFT/GRPO resume and trainedparent behavior remain separate gates.",
+      "receipt": "docs/campaign/receipts/PRM-08-frozen-prompt-contract.json",
+      "updatedAt": "2026-09-12T09:31:41Z"
+    },
+    "PRM-09": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Measured profiles and immutable prompt handoff accepted; actual SFT/GRPO resume and trainedparent behavior remain separate gates.",
+      "receipt": "docs/campaign/receipts/PRM-09-prompt-rollout-handoff.json",
+      "updatedAt": "2026-09-12T09:31:41Z"
+    },
+    "DAT-01": {
+      "status": "done",
+      "owner": "worker-data",
+      "note": "Lead accepted inventory prerequisite:27 source records,152 size checks,8 independent hashes/counts. Final receipt hashes verified after worker correction. Row admission awaits DAT-02/03/04.",
+      "receipt": "docs/campaign/receipts/DAT-01-lead-review.json",
+      "updatedAt": "2026-09-12T01:43:52Z"
+    },
+    "DAT-02": {
+      "status": "done",
+      "owner": "worker-data",
+      "note": "Accepted v2 global split:373984 training candidates across46families;706 clean final boundary candidates in49groups before semantic validation. Named/parent identities independently checked.",
+      "receipt": "docs/campaign/receipts/DAT-02-lead-review.json",
+      "updatedAt": "2026-09-12T02:58:32Z"
+    },
+    "DAT-03": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Selected11839train+75dev source/render review accepted:zero contradictory prompts or crosssplit leakage;75exacttrain duplicates will be removed. Unreviewed/TU3/final sources excluded.",
+      "receipt": "docs/campaign/receipts/DAT-03-selected-collision-visibility-final.json",
+      "updatedAt": "2026-09-12T07:08:39Z"
+    },
+    "DAT-04": {
+      "status": "done",
+      "owner": "lead",
+      "note": "11839train candidates tokenized with complete targets, zero token exclusions; max3064;10355short;8503RLcapsfit. Legacy numerical threshold comparison labeled accurately; actualRLmemorygatependingPRM07.",
+      "receipt": "docs/campaign/receipts/DAT-04-token-length-audit.json",
+      "updatedAt": "2026-09-12T07:08:40Z"
+    },
+    "DAT-05": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Lead verified exact admitted artifacts and denominators; see receipt.",
+      "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-05-sft-registry.json",
+      "updatedAt": "2026-09-12T09:36:46Z"
+    },
+    "DAT-06": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Lead verified exact admitted artifacts and denominators; see receipt.",
+      "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-06-sft-sampler-manifest.json",
+      "updatedAt": "2026-09-12T09:36:46Z"
+    },
+    "DAT-07": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Lead verified exact admitted artifacts and denominators; see receipt.",
+      "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-07-dev-selector-panel.json",
+      "updatedAt": "2026-09-12T09:36:46Z"
+    },
+    "DAT-08": {
+      "status": "in_progress",
+      "owner": "lead",
+      "note": "R2 constructor and native-client source graphs root-admitted after fresh-process deep policy and actual verify_source_closure replay passed314/5029files. Controller remains pinned verified inventory. Launch template references admitted graph digests but statusROOT_REVIEW_REQUIRED. Finalist freeze, concrete final constructor inputs and10UTC access gate still pending.",
+      "receipt": "docs/campaign/receipts/DAT-08-r2-source-admission.json",
+      "updatedAt": "2026-09-14T05:10:33Z"
+    },
+    "DAT-09": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Selected1000 pool8440, allcontext/source joins and verifier tests reviewed; v4 quota24000draws; complete2048+192 eligibility.",
+      "receipt": "docs/campaign/receipts/DAT-09-rl-pool-verifier.json",
+      "updatedAt": "2026-09-12T17:38:43Z"
+    },
+    "SFT-01": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Lead verified exact admitted artifacts and denominators; see receipt.",
+      "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-01-minicpm-load-audit.json",
+      "updatedAt": "2026-09-12T09:36:46Z"
+    },
+    "SFT-02": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Actual50 optimizer updates finite;588 optimizer states at50,800 draws;14 reference export/token/parser roundtrips pass;50step dev diagnostic preserved. One NAS-save failure charged; native checkpoint verified.",
+      "receipt": "docs/campaign/receipts/SFT-02-sft-smoke.json",
+      "updatedAt": "2026-09-12T12:38:20Z"
+    },
+    "SFT-03": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Primary SFT trajectory terminal and reviewed through2500; selected1000 byDEV evidence, mergedtheta0 preserved. New correction is a separateSFT06 stage; no original training process remains.",
+      "receipt": "docs/campaign/receipts/SFT-10-step2500-terminal-review.json",
+      "updatedAt": "2026-09-13T01:57:41Z"
+    },
+    "SFT-04": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Actual continuous50 and interrupted25/resumed50 verified; exact counters/RNG, documented GPU numerical variation, native durable saves and same-process evaluation passed. Primary3000 admitted now.",
+      "receipt": "docs/campaign/receipts/SFT-04-sft-hooks.json",
+      "updatedAt": "2026-09-12T12:59:45Z"
+    },
+    "SFT-05": {
+      "status": "done",
+      "owner": "lead",
+      "note": "500devcomplete:26/43exact edits,19/32correct noops,12/32false suggestions,70/75protocolvalid,5caphits. Continue mandatory1000decision; notpromotion.",
+      "receipt": "docs/campaign/receipts/SFT-05-sft-dev-readout.json",
+      "updatedAt": "2026-09-12T13:44:56Z"
+    },
+    "SFT-06": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Target-only25 terminalcut:24/43edits23/32noops8FP;0/6exactfinish. Allcontinuationfloorsfail. Fullstate/sourcecursor400/gate verified; noresume/export. Totalcharged2526.146s;unused1073.854s unallocated.",
+      "receipt": "receipts/SFT-06-target-only25-a-lead-outcome.json",
+      "updatedAt": "2026-09-13T13:46:48Z"
+    },
+    "SFT-07": {
+      "status": "deferred",
+      "owner": "lead",
+      "note": "Optional6000extension cut; retain primary3000ceiling and sustainedRL budget. No extension launched.",
+      "receipt": "docs/campaign/receipts/SFT-10-step1000-review.json",
+      "updatedAt": "2026-09-12T14:38:06Z"
+    },
+    "SFT-08": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Common theta0 selected full1000:26/43 edits,25/32 noops,5 false suggestions. Full2500 preserved; matched b4 fallback retained.",
+      "receipt": "docs/campaign/receipts/SFT-08-sft-checkpoint-selection.json",
+      "updatedAt": "2026-09-12T17:10:48Z"
+    },
+    "SFT-09": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Selected1000 immutable merged parent accepted; canonical tokenizer bytes preserved;20 live token/mode fixtures pass,4/4 KV parity. RL smoke next.",
+      "receipt": "docs/campaign/receipts/SFT-09-theta0-manifest.json",
+      "updatedAt": "2026-09-12T17:19:07Z"
+    },
+    "SFT-10": {
+      "status": "done",
+      "owner": "lead",
+      "note": "SFT terminal after Windows TDR at2968; guarded full2500 DEV75 and all588 optimizer states verified. No tail retry.",
+      "receipt": "docs/campaign/receipts/SFT-10-step2500-terminal-review.json",
+      "updatedAt": "2026-09-12T17:10:48Z"
+    },
+    "RL-01": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Runner parameterized and actual8440row CPUpreflight passes; theta0live20/20; .75allocator. Throughput extension remains separate.",
+      "receipt": "docs/campaign/receipts/RL-01-runner-parameterization.json",
+      "updatedAt": "2026-09-12T17:38:43Z"
+    },
+    "RL-02": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Root accepted and snapshotted offline deterministic interleaving fix;9 tests pass. Current v6 exact draw stream unchanged.",
+      "receipt": "docs/campaign/receipts/RL-02-pool-interleave-source-lead-review.json",
+      "updatedAt": "2026-09-12T19:34:14Z"
+    },
+    "RL-03": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Accepted theta0, P2 throughput and long-context gates; root verified evidence. No RL quality promotion.",
+      "receipt": "docs/campaign/receipts/RL-03-pre-rl-gate.json",
+      "updatedAt": "2026-09-12T18:43:07Z"
+    },
+    "RL-04": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Root admits full5 retry after6-update host guard stop. Full checkpoint every5; firstDEV75/decision5. Compiler workers2, expandable allocation candidate. Admission8GiB; runtime soft8GiB requires2samples;hard4GiB/commit90/newdriver immediate. No added ceiling/cloud.",
+      "receipt": "docs/campaign/receipts/RL-05-full5-a-admission.json",
+      "updatedAt": "2026-09-12T19:50:32Z"
+    },
+    "RL-05": {
+      "status": "done",
+      "owner": "lead",
+      "note": "First valid mixed4/8 update verified by root and independent reviewer:32 rollouts/rewards,8 sources,G4/P2,finite588-tensor gradient. Launch acceptance only; main terminal and DEV selection pending.",
+      "receipt": "docs/campaign/receipts/RL-05-rl-launch.json",
+      "updatedAt": "2026-09-12T19:40:12Z"
+    },
+    "RL-06": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Root admits full5 retry after6-update host guard stop. Full checkpoint every5; firstDEV75/decision5. Compiler workers2, expandable allocation candidate. Admission8GiB; runtime soft8GiB requires2samples;hard4GiB/commit90/newdriver immediate. No added ceiling/cloud.",
+      "receipt": "docs/campaign/receipts/RL-05-full5-a-admission.json",
+      "updatedAt": "2026-09-12T19:50:32Z"
+    },
+    "RL-07": {
+      "status": "done",
+      "owner": "lead",
+      "note": "First full5 readout accepted: exact75IDs43edits32noops; counts matchtheta0; per-family andTRAINrewardvariation recorded. Next25 pending.",
+      "receipt": "docs/campaign/receipts/RL-07-rl-dev-checkpoints.json",
+      "updatedAt": "2026-09-12T20:17:34Z"
+    },
+    "RL-08": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Historicalmilestone staysdone. NewR2followup: actualtenstep320completions/80distinctprompts of8246eligible (0.97%). Plateau at10updates doesnotproveRLexhaustion. Prepare largerbatchprofile and sustainedcheckpointedRL afterexpandedSFT.",
+      "receipt": "docs/campaign/receipts/RL-08-r2-actual-rollout-consumption.json",
+      "updatedAt": "2026-09-14T06:59:05Z"
+    },
+    "RL-09": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Retain immutable SFT1000theta0 for release comparison: validRL checkpoints do not improve26/43edits25/32noops5FP; correctedfresh5 harmsfinishtermination. NoRLmerge/export. Full140/full5 andtheta0/b4 preserved; nofinalsetused.",
+      "receipt": "receipts/RL-09-rl-candidate.json",
+      "updatedAt": "2026-09-13T15:19:08Z"
+    },
+    "RL-10": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Full140 and correctedfresh5 plus separate lightadapters/provenance archived; root rehashed56files1.86GB. Both campaign manifests match acceptedidentities. Accounting amendment separates run vs cumulative cost and accepted a-b-c-e lineage. Parent remains pinnedexternaldependency; no faithfulresume claim.",
+      "receipt": "receipts/RL-10-terminal-archive.json",
+      "updatedAt": "2026-09-13T15:19:08Z"
+    },
+    "PAR-01": {
+      "status": "in_progress",
+      "owner": "lead",
+      "note": "Uploadcauseconfirmed: HF rejects README localpath base_model. Exactsidecar5498stopped; traininguntouched. Full317nodevalid; tartransport preservesalloriginalbytes and replacementmonitorpreparing. Privatepersistence notyetaccepted.",
+      "receipt": "docs/campaign/receipts/PAR-R2-CPT-upload-modelcard-failure-root-readout.json",
+      "updatedAt": "2026-09-14T12:01:35Z"
+    },
+    "PAR-02": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-03": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-04": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-05": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-06": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-07": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Admission audit complete:12 regions/216 GPU entries, every target family has0 free quota; each region10 free total vCPUs. Azure GPU launch blocked, spend0. A10080GB and full A10 are future options if quota changes; prices recorded. Local SFT continues.",
+      "receipt": "docs/campaign/receipts/PAR-07-azure-lead-decision.json",
+      "updatedAt": "2026-09-12T12:32:36Z"
+    },
+    "PAR-08": {
+      "status": "deferred",
+      "owner": "lead",
+      "note": "No auxiliary cloud model completed or was launched, so there is no eligible cloud artifact to compare. Preserve localtheta0 and evaluate bounded correctedRL; spend0.",
+      "receipt": "docs/campaign/receipts/PAR-08-cloud-dev-readout.json",
+      "updatedAt": "2026-09-13T14:13:57Z"
+    },
+    "PAR-09": {
+      "status": "deferred",
+      "owner": "lead",
+      "note": "Portable Kaggle smoke cut: no release dependency or unanswered compatibility issue justifies its setup now; existing local correctedRL and LAN qualification take priority. No Kaggle job launched; allocation0.",
+      "receipt": "docs/campaign/receipts/PAR-09-kaggle-portable-smoke.json",
+      "updatedAt": "2026-09-13T14:13:57Z"
+    },
+    "PAR-10": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-11": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Azure restraint branch disabled: reviewed PAR07 quota audit found0available GPUquota in12regions; no new capacity evidence. PAR12 already confirms0resources andEUR0. No training/checkpoint.",
+      "receipt": "docs/campaign/receipts/PAR-11-azure-restraint-sft.json",
+      "updatedAt": "2026-09-13T14:13:57Z"
+    },
+    "PAR-12": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Azure disabled after quota audit; freshresourcecount0. EUR0allocation/spend; admission evidence archived.",
+      "receipt": "docs/campaign/receipts/PAR-12-azure-shutdown.json",
+      "updatedAt": "2026-09-12T13:12:19Z"
+    },
+    "PAR-13": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-14": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-15": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "PAR-16": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "RUN-01": {
+      "status": "done",
+      "owner": "lead",
+      "note": "R2 daily-lifetime independent review accepted: only duration changes among9production files; selected500 identity,2fresh bindings,10HTTP joins,12process exits and empty gateway drains verified. Actual sessions6.7/5.4s with120s ceilings. Session deadline excludes separate startup/cleanup bounds; log caps may stop early. No8h stability or final promotion claim.",
+      "receipt": "docs/campaign/receipts/RUN-01-daily-lifetime-root-review-acceptance.json",
+      "updatedAt": "2026-09-14T05:11:25Z"
+    },
+    "RUN-02": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Accepted frozen serving gate:4 shared Python/TS prompt and token-boundary matches; actual provider rejects delayed old generation and preserves fresh cache. Source17 closure verified; live editor checks remain RUN04.",
+      "receipt": "docs/campaign/receipts/RUN-02-serving-contract-fixture.json",
+      "updatedAt": "2026-09-13T01:05:22Z"
+    },
+    "RUN-03": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Native6/6parsedcycles p50~1.53s;2actualeditorcommits fresh/existing withindependentRparse. Usefulfixture response1053/1175ms; cancellation4taskreleases measured. Synthetic no-op failure explicitlyretained; noqualitypromotion. AllnotebookownedPIDsreleased03:12:50UTC.",
+      "receipt": "docs/campaign/receipts/RUN-03-b4-host-baseline.json",
+      "updatedAt": "2026-09-13T03:17:52Z"
+    },
+    "RUN-04": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Consolidated runtime profiling accepted: seven actual context events, exact prior-key cache reuse, cursor/history/anchor/file-switch coverage, separate host/native work and cancellation limits. Keep cache8192 and debounce1500; diagnostics unsupported. No speedup or quality promotion; final editor p95 remains RUN-10.",
+      "receipt": "receipts/RUN-04-cache-slot-profile.json",
+      "updatedAt": "2026-09-13T17:35:22Z"
+    },
+    "RUN-05": {
+      "status": "done",
+      "owner": "lead",
+      "note": "DEVcap192/384/512 sweep225requests terminal. Context-aware scoring reproduces192baseline75/75rawtokens;largercaps improveprotocol69->72 butnotexact26/43 andfalse suggestions4->6. No globalcap promotion;training/contextinvestigation continues. Preliminary token-only no-op summary explicitlyinvalidated.",
+      "receipt": "docs/campaign/receipts/RUN-05-r2-dev-cap-root-readout.json",
+      "updatedAt": "2026-09-14T06:29:10Z"
+    },
+    "RUN-06": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Original serving-path research complete; expanded-context provider preparation34pins/12tests passes but not production admitted: standalone R fallback, async namespace invalidation and helper environment fixes required. Final-weight speculation/latency qualification remains pending.",
+      "receipt": "docs/campaign/receipts/RUN-06-semantic-provider-integration-root-review.json",
+      "updatedAt": "2026-09-15T00:08:44Z"
+    },
+    "RUN-07": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Selectedtheta0 CUDA screen complete:24/24 protocol responses,16/16 candidate output pairs exact. Both speculative options remain unpromoted; ordinary Q8 retained.4TRAIN rows perarm; no final data. All10 owned PIDs released.",
+      "receipt": "receipts/RUN-07-theta0-draft-acceptance.json",
+      "updatedAt": "2026-09-13T16:14:28Z"
+    },
+    "RUN-08": {
+      "status": "in_progress",
+      "owner": "lead",
+      "note": "Root verified 77 ngram editor review artifacts and replayed all controls/cases. Bounded integration accepted; zero editor proposals means no active-draft editor acceleration claim. Final runtime decision remains pending.",
+      "receipt": "docs/campaign/receipts/RUN-01-ngram-editor-root-review-acceptance.json",
+      "updatedAt": "2026-09-14T05:44:03Z"
+    },
+    "RUN-09": {
+      "status": "deferred",
+      "owner": "lead",
+      "note": "Optional notebook scout stopped:Vulkan75 diagnostic rows,CPU34 complete+1partial/75; no full matched latency claim. User-approved LAN primary takes priority; b4 local fallback preserved. Earlier RUN09 quant receipts remain immutable and refer to runtime profile evidence.",
+      "receipt": "receipts/RUN-09-notebook-vulkan-scout.json",
+      "updatedAt": "2026-09-13T16:21:44Z"
+    },
+    "RUN-10": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-00": {
+      "status": "in_progress",
+      "owner": "lead",
+      "note": "User authorizes up to24h extension for better measured performance: delivery Sep16 09Berlin, freeze Sep15 12Berlin; final stayssealed until actual freeze. Calibrated quantization and feasible QAT recovery prioritized. Cloud ceilings unchanged. Imatrix active guard1064864.",
+      "receipt": "docs/campaign/receipts/LEAD-schedule-extension-20260914.json",
+      "updatedAt": "2026-09-14T06:08:53Z"
+    },
+    "REL-01": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-02": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-03": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-04": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-05": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-06": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-07": {
+      "status": "todo",
+      "owner": "lead",
+      "note": "Prefreeze comparison825completed requests accepted;27interruptedIQ3 excluded. CalibratedQ4/IQ3 advance;IQ2recipe rejected. Finalqualification stillpendingfreeze. Notebook4arm CPUeval active; localCUDA released forpostSFT training.",
+      "receipt": "docs/campaign/receipts/REL-07-r2-quant-development-root-readout.json",
+      "updatedAt": "2026-09-14T06:47:32Z"
+    },
+    "REL-08": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-09": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "REL-10": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-12T00:31:28Z"
+    },
+    "DAT-10": {
+      "status": "done",
+      "owner": "lead",
+      "note": "Original rawR CPT admission remains valid. Additional30873 editing rows reviewed, not training admitted. Fresh9534semantic retry activeCPU8/10 (controller2726253), after all14inputhashes verified. Root passed5parse-policy checks; no-op4100 retry preparation and uniongeometry audit continue.",
+      "receipt": "docs/campaign/receipts/DAT-10-r2-corpus-admission.json",
+      "updatedAt": "2026-09-15T05:15:32Z"
+    },
+    "SFT-11": {
+      "status": "in_progress",
+      "owner": "lead",
+      "note": "User selected checkpoint11586 as editing-SFT parent. Selection binds durable checkpoint path, model/tokenizer/manifest hashes and comparison evidence: docs/campaign/receipts/SFT-11-editing-parent-selected-11586.json. Preserve11649 as completed-CPT alternate. Editing-SFT packets reviewed for readiness: parent/recipe/schedule binding, pending roxygen admission and evaluator resource proof remain; no SFT launched.",
+      "receipt": "docs/campaign/receipts/SFT-11-cpt578-durable-observation.json",
+      "updatedAt": "2026-09-27T12:05:21Z"
+    },
+    "RL-11": {
+      "status": "in_progress",
+      "owner": "lead",
+      "note": "Root accepted actual tinyCPU TRL0.24 GRPO+hybridoptimizer proof after independent rerun and5correctedcontracttests. Interrupted resume matches model/optimizer/scheduler and seesonlyrow1. ProductionBF16/sampleRNG/PRM03/modeldata/resource gates pending; noRLlaunch. September 22 research review: preserve GRPO baseline and prepare a gated KLPO token-MC comparison after editing SFT; strengthen sampler probability, reward, length and resume checks. Halo is an engineering reference; byte/GVA changes are deferred; rlearner is causal inference. Research receipt: docs/campaign/receipts/RL-11-new-resources-review-20260922.json. No RL launch admitted and CPT unchanged.",
+      "receipt": "docs/campaign/receipts/RL-11-full-weight-runtime-proof-root-review.json",
+      "updatedAt": "2026-09-22T14:11:56Z"
+    },
+    "RL-12": {
+      "status": "todo",
+      "owner": "",
+      "note": "",
+      "receipt": "",
+      "updatedAt": "2026-09-13T18:16:02Z"
+    }
+  },
+  "updatedAt": "2026-09-27T12:05:21Z"
+}

@@ -1,0 +1,139 @@
+{
+  "files": [
+    {
+      "bytes": 3295,
+      "mode": "0444",
+      "path": "README.md",
+      "sha256": "aa2671f9d6c08643b776a4f0a7238de289dd8c001c6e9c93faad3ebced5d3b68"
+    },
+    {
+      "bytes": 8852,
+      "mode": "0444",
+      "path": "analyze_refresh_v4.py",
+      "sha256": "562e74a6994bf0d628ee241b39524699693581acd886ebf52010ddb12cef2393"
+    },
+    {
+      "bytes": 3130,
+      "mode": "0444",
+      "path": "audit_gguf_norms.py",
+      "sha256": "b0650f162219e1a05ba50c9b0730736509c73e28afc2ff9e2abfbc80ad735571"
+    },
+    {
+      "bytes": 7626,
+      "mode": "0444",
+      "path": "binding.template.json",
+      "sha256": "c6e7726af459783b47e99347b2ad39ed052346a930ee732f8f4013660c35783f"
+    },
+    {
+      "bytes": 4908,
+      "mode": "0444",
+      "path": "build_spec_panels.py",
+      "sha256": "ba536d171c86d0d4a033ad8cca507ac356875d8379a3ce0e8277a1973bce74e8"
+    },
+    {
+      "bytes": 17803,
+      "mode": "0444",
+      "path": "converter-source-closure.json",
+      "sha256": "fbb541504eb9f71af515534cbf7dd480dbd935c67d849dcc0a8883ba94eb3a0a"
+    },
+    {
+      "bytes": 859490,
+      "mode": "0444",
+      "path": "draft-panel.jsonl",
+      "sha256": "a8e411f89ea17d651536b1432e1cfc395a54e5d89f909514d54e0d419292d4df"
+    },
+    {
+      "bytes": 16198,
+      "mode": "0444",
+      "path": "draft-panel.manifest.json",
+      "sha256": "fc3634790fe53a26e66906f5b94cd61ed4ece266925ba5c59f05f0f3f88922bb"
+    },
+    {
+      "bytes": 1338497,
+      "mode": "0444",
+      "path": "ngram-panel.jsonl",
+      "sha256": "a1d1b7c8c4b4043490d59f62a1d11e9c816f7ae4a0f4b3a3e61cb35c2dfcc7f8"
+    },
+    {
+      "bytes": 26048,
+      "mode": "0444",
+      "path": "ngram-panel.manifest.json",
+      "sha256": "edee52d0fc8e36e26f7930e18205899199d8b185dda12fbe4bc54bf8cd80aa9e"
+    },
+    {
+      "bytes": 29219,
+      "mode": "0444",
+      "path": "paired_panel_probe_v4.py",
+      "sha256": "4b300264a6ce401df80a0dab7dca87243d432ad50ae269dc828560d19999c95b"
+    },
+    {
+      "bytes": 12822,
+      "mode": "0444",
+      "path": "prepare_refresh_v4.py",
+      "sha256": "86f1d1ecf74b55bd03db96611a7414ffac7ccfaf028a9e63f6ac12a493f91f94"
+    },
+    {
+      "bytes": 3087,
+      "mode": "0444",
+      "path": "probe_bound_v4.py",
+      "sha256": "4bf9d7f6bea5033793b6696061f34d0f66b6dae8d0d6e1d741c63a68505e2e15"
+    },
+    {
+      "bytes": 4380,
+      "mode": "0444",
+      "path": "record_imatrix_completion.py",
+      "sha256": "3631ba26878ccd59c5105672f86eb91d73f3c591eba83e5f590e0050fb150f73"
+    },
+    {
+      "bytes": 4448,
+      "mode": "0444",
+      "path": "record_prelaunch_verification.py",
+      "sha256": "6957c3fd4e9c7f418a0ee54280cb690b8132f0dd1031be77c9fece3d146c7f3d"
+    },
+    {
+      "bytes": 605,
+      "mode": "0444",
+      "path": "root-admission.template.json",
+      "sha256": "dbfdb09039ef9f13ea9b3c052fc1431a92b6a097089a963389105deeb7ee157c"
+    },
+    {
+      "bytes": 2769,
+      "mode": "0444",
+      "path": "root-commands.template.json",
+      "sha256": "91d95358660590bce04222b760e895d15366ceaa1198188b9b3b619da602f246"
+    },
+    {
+      "bytes": 8427,
+      "mode": "0444",
+      "path": "server_lifecycle_v4.py",
+      "sha256": "415ca0cd2c2cd5425c7944b989568b73592769f0e78606658be034d96360e8f3"
+    },
+    {
+      "bytes": 1794,
+      "mode": "0444",
+      "path": "source-manifest.json",
+      "sha256": "fdf64d4f21a05defb9e98bcbac79ba3193544d14b5de4c4dfbbe24247f58e815"
+    },
+    {
+      "bytes": 1296,
+      "mode": "0444",
+      "path": "template-preflight.json",
+      "sha256": "f823a7a3c4f884637f61110d1d2b37b9b5ce97a87eb22ab5667b95ce36496181"
+    },
+    {
+      "bytes": 1273,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "7ad155ab3b6cc68ecbebc33be65959569e6ff001407991fe4253fdd5c32a495c"
+    },
+    {
+      "bytes": 13669,
+      "mode": "0444",
+      "path": "test_v4.py",
+      "sha256": "3c2cb3df010f3b4bfb5492805a567c03a624bd3381ca16bcc5fe9db01ad0cccd"
+    }
+  ],
+  "identity_sha256": "2840e40150c0c777efb2d0fe0485e14e902ac502084422bf3d7e6ac6f50d6e1d",
+  "schema": "sepalith.r2.final-target-serving-refresh-artifacts.v4",
+  "status": "frozen_preparation"
+}
