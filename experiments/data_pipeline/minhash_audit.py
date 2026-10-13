@@ -72,6 +72,7 @@ NUM_PERM = 128
 MERSENNE = (1 << 61) - 1
 BANDS, ROWS = 16, 8          # b*r = 128; ~J>=0.7 candidate gate
 SHINGLE_K = 5                # word 5-grams
+SIG_BLOCK = 8192             # shingle columns per MinHash projection block
 MIN_DOC_TOKENS = 20          # below this a "document" is noise for dedup stats
 
 _word_re = re.compile(r"\S+")
@@ -111,9 +112,15 @@ class MinHasher:
 
     def signature(self, shingles: np.ndarray) -> np.ndarray:
         h = shingles.astype(np.uint64)
-        # (a_i * h + b_i) mod (2^61-1), vectorized over perms x shingles
-        proj = (self.a[:, None] * h[None, :] + self.b[:, None]) % np.uint64(MERSENNE)
-        return proj.min(axis=1)
+        # (a_i * h + b_i) mod (2^61-1), vectorized over perms x shingles in
+        # column blocks so the perms x shingles scratch stays bounded.
+        sig = None
+        for start in range(0, len(h) or 1, SIG_BLOCK):
+            block = h[start:start + SIG_BLOCK]
+            block_min = ((self.a[:, None] * block[None, :] + self.b[:, None])
+                         % np.uint64(MERSENNE)).min(axis=1)
+            sig = block_min if sig is None else np.minimum(sig, block_min, out=sig)
+        return sig
 
 
 def lsh_buckets(sig: np.ndarray):
