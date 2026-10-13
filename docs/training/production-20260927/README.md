@@ -80,6 +80,10 @@ review and qualifications; it does not admit RL training.
 
 ## Artifact locations and recovery
 
+The host paths below predate the October 10 WSL reinstall. For current
+locations and what was lost, see
+[RECOVERY-20261011.md](../plan-20260927/RECOVERY-20261011.md).
+
 The evidence in this directory is portable metadata. Absolute paths in the
 receipts describe the training host; they are not files supplied by a clone.
 Model weights, optimizer payloads, datasets, credentials and full runtime logs

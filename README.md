@@ -39,7 +39,8 @@ lives in `extensions/` and builds separately from the Python training stack.
 
 ## Data
 
-Datasets live on a private HF repo (`sepalith-cran`) and a local NAS store,
+Datasets live on the public HF dataset `scholzmx/sepalith` (formerly
+`sepalith-cran`) and a local NAS store,
 including per-package provenance, license texts, and derived finish-block pairs.
 No credentials are stored in this repository; tools read `HF_TOKEN` /
 `ZAI_API_KEY` from the environment.

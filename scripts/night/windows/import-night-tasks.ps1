@@ -1,10 +1,10 @@
 # Import the two Sepalith night-window tasks. Run once, as administrator:
-#   powershell -ExecutionPolicy Bypass -File \\wsl.localhost\Ubuntu-22.04\<repo>\scripts\night\windows\import-night-tasks.ps1
+#   powershell -ExecutionPolicy Bypass -File \\wsl.localhost\archlinux\<repo>\scripts\night\windows\import-night-tasks.ps1
 # Optional: -EnableWakeTimers sets "Allow wake timers" to Enable on AC power.
 param(
-    [string]$Distro = 'Ubuntu-22.04',
+    [string]$Distro = 'archlinux',
     [string]$LinuxUser = 'm0hawk',
-    [string]$Repo = '/home/m0hawk/Documents/Sepalith',
+    [string]$Repo = '/home/m0hawk/sandbox/Sepalith',
     [switch]$EnableWakeTimers
 )
 $ErrorActionPreference = 'Stop'

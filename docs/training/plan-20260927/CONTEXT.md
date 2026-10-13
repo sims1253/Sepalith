@@ -94,11 +94,16 @@ approves a release freeze.
 
 ## Environments
 
-- PC: RTX 5090 32 GB under WSL2, 47 GiB RAM visible to Linux, 24 threads.
-  `/` has about 113 GiB free. `/mnt/e` has about 1.2 TB free and holds
-  checkpoints. `/mnt/h` is the NAS.
-- Training interpreter: `/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python`
-  (torch 2.11.0+cu130, transformers 5.5.0, trl 0.24.0, unsloth 2026.8.18,
+- PC: RTX 5090 32 GB under WSL2 (distro `archlinux` since the October 10
+  reinstall; see [RECOVERY-20261011.md](RECOVERY-20261011.md)), 47 GiB RAM
+  visible to Linux, 24 threads. `/` has about 400 GiB free. `/mnt/e` has
+  about 1.2 TB free and holds checkpoints. The NAS is mounted at
+  `/mnt/nas/home` (project data under `/mnt/nas/home/sepalith`, formerly
+  `/mnt/h/sepalith`) and `/mnt/nas/bulk` (backups).
+- Repository: `/home/m0hawk/sandbox/Sepalith` (formerly
+  `/home/m0hawk/Documents/Sepalith`).
+- Training interpreter: `/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python`,
+  built from `requirements-sft.txt` (torch 2.11.0+cu130, transformers 5.5.0, trl 0.24.0, unsloth 2026.8.18,
   accelerate 1.14.0, peft 0.20.0, datasets 4.3.0).
 - R 4.6.1 and `air` are installed. The Kaggle CLI is at `~/.local/bin/kaggle`.
 - Research Python: `uv run python ...` from the repository root.
@@ -111,7 +116,7 @@ approves a release freeze.
 ## Secrets
 
 Secrets come only from the environment. Load them with
-`eval "$(grep -E '^export (HF_TOKEN|ZAI_API_KEY|KAGGLE_API_TOKEN)=' ~/.zshrc)"`.
+`eval "$(grep -E '^export (HF_TOKEN|ZAI_API_KEY|KAGGLE_API_TOKEN)=' ~/.config/sepalith/secrets.env)"`.
 Never write a secret to a file, log, receipt, commit or kernel source.
 
 ## Public repositories

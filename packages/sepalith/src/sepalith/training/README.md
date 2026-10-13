@@ -34,7 +34,7 @@ for C01 (`paths`, `request_graceful_stop`, the test fixtures).
 
 **Entry points for later cards.** Run them as modules with `packages/sepalith/src`
 on `PYTHONPATH` and the training interpreter
-`/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python`:
+`.venv-sft/bin/python` at the repository root (built from `requirements-sft.txt`):
 
 | Step | Command |
 |---|---|

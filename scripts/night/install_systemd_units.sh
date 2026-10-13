@@ -2,7 +2,7 @@
 # Render and install the night-runner systemd user units.
 #   install_systemd_units.sh [--enable]
 # Run it from the checkout the runner should use for good, normally
-# /home/m0hawk/Documents/Sepalith on main. Worktrees under ~/.t3 get cleaned.
+# /home/m0hawk/sandbox/Sepalith on main. Worktrees under ~/.t3 get cleaned.
 set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo="$(cd "$here/../.." && pwd)"

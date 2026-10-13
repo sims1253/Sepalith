@@ -25,7 +25,7 @@ tries again every 5 minutes until the deadline.
 
 | Check | Limit |
 | --- | --- |
-| GPU | no compute processes, and less than 2,048 MiB used (`--max-gpu-used-mib`) |
+| GPU | no compute processes, and less than 3,072 MiB used (`--max-gpu-used-mib`; the service passes 3,072 since 2026-10-12 because the desktop idles at about 2.2 GB; the code default stays 2,048) |
 | Host memory | Windows: at least 16,384 MiB available and commit at most 90%. Linux: at least 6 GiB `MemAvailable`. These are the thresholds of the campaign guard. |
 | Disk | at least 150 GB free on `/mnt/e` (R7) |
 | CUDA lock | `~/.local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock` is not held |
@@ -70,8 +70,8 @@ so a trainer is not killed before it can save.
 ## Queue commands
 
 ```bash
-export PYTHONPATH=/home/m0hawk/Documents/Sepalith/packages/sepalith/src
-python3 -m sepalith.ops.night_queue enqueue --id C07-baseline --cwd /home/m0hawk/Documents/Sepalith \
+export PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src
+python3 -m sepalith.ops.night_queue enqueue --id C07-baseline --cwd /home/m0hawk/sandbox/Sepalith \
     --env HF_TOKEN --priority 10 --resumable --estimated-minutes 90 -- /path/to/job.sh arg
 python3 -m sepalith.ops.night_queue enqueue --file job.json
 python3 -m sepalith.ops.night_queue list
@@ -109,7 +109,7 @@ The 09:05 check is clean only if every observation (queue, runner service,
 ## One-time setup
 
 1. **Linux (after this change is merged).** From a stable checkout on `main`
-   (normally `/home/m0hawk/Documents/Sepalith`, not a `~/.t3` worktree):
+   (normally `/home/m0hawk/sandbox/Sepalith`, not a `~/.t3` worktree):
 
    ```bash
    scripts/night/install_systemd_units.sh --enable
@@ -118,13 +118,13 @@ The 09:05 check is clean only if every observation (queue, runner service,
 
    Lingering is already enabled for `m0hawk`, and `/etc/wsl.conf` has
    `systemd=true`. The units call `scripts/night/night-runner.sh`. That script
-   loads `HF_TOKEN`, `ZAI_API_KEY` and `KAGGLE_API_TOKEN` from `~/.zshrc` into
+   loads `HF_TOKEN`, `ZAI_API_KEY` and `KAGGLE_API_TOKEN` from `~/.config/sepalith/secrets.env` into
    the runner's environment only.
 
 2. **Windows (administrator PowerShell, once).**
 
    ```powershell
-   powershell -ExecutionPolicy Bypass -File \\wsl.localhost\Ubuntu-22.04\home\m0hawk\Documents\Sepalith\scripts\night\windows\import-night-tasks.ps1 -EnableWakeTimers
+   powershell -ExecutionPolicy Bypass -File \\wsl.localhost\archlinux\home\m0hawk\sandbox\Sepalith\scripts\night\windows\import-night-tasks.ps1 -EnableWakeTimers
    ```
 
    This copies `night-wake.ps1` and `night-check.ps1` to

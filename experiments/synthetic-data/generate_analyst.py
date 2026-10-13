@@ -932,7 +932,7 @@ def main():
 
     if not ACTIVE_SOURCES:
         print("no API keys found (OPENCODE_API_KEY / OPENROUTER_API_KEY); "
-              "source ~/.zshrc first", file=sys.stderr)
+              "source ~/.config/sepalith/secrets.env first", file=sys.stderr)
         sys.exit(2)
 
     if args.pilot:

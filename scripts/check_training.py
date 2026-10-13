@@ -9,12 +9,11 @@ import os
 import subprocess
 import sys
 
-DEFAULT_PYTHON = "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python"
 
 
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
-    python = os.environ.get("SEPALITH_TRAINING_PYTHON", DEFAULT_PYTHON)
+    python = os.environ.get("SEPALITH_TRAINING_PYTHON", str(root / ".venv-sft/bin/python"))
     env = dict(os.environ)
     env.update({
         "PYTHONPATH": str(root / "packages/sepalith/src"),
