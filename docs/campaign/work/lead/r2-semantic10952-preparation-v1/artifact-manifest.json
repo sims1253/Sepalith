@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "bytes": 1024,
+      "mode": 420,
+      "path": "README.md",
+      "sha256": "bf9cbc27a9dd213f8228ebbfa7cd70feebe95c3db14c788d1fa29c42c9866aa7"
+    },
+    {
+      "bytes": 11838,
+      "mode": 420,
+      "path": "run.py",
+      "sha256": "f7973f9c68253821f5eeed59fb73493c897ae9090853edf4347f3ddcbf5937af"
+    },
+    {
+      "bytes": 5251,
+      "mode": 420,
+      "path": "verify.py",
+      "sha256": "20f51013b7aa728bd74a4a7336e3e2d114b3df1b21dc85a7234d023253fe8641"
+    },
+    {
+      "bytes": 7798,
+      "mode": 420,
+      "path": "finalize.py",
+      "sha256": "45f3d4b3103492fb540732a981af33a86a3e1e077cfd70f4aed357b18ffd7dae"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic10952_preparation_packet.v2",
+  "status": "frozen_finalizer_before_terminal_binding",
+  "training_admission": false
+}

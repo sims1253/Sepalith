@@ -1,0 +1,16 @@
+# Training interpreter (.venv-sft) for the full-weight runtime in
+# packages/sepalith/src/sepalith/training. Pins are the versions recorded in the
+# CPT campaign receipts. Rebuild:
+#   uv venv --python 3.12 .venv-sft
+#   uv pip install --python .venv-sft --index-strategy unsafe-best-match -r requirements-sft.txt
+--extra-index-url https://download.pytorch.org/whl/cu130
+torch==2.11.0
+transformers==5.5.0
+trl==0.24.0
+unsloth==2026.8.18
+unsloth_zoo==2026.8.12
+accelerate==1.14.0
+peft==0.20.0
+datasets==4.3.0
+safetensors
+numpy

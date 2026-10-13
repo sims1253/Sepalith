@@ -1,0 +1,36 @@
+{
+  "artifacts": [
+    {
+      "bytes": 14328,
+      "path": "source-manifest.json",
+      "sha256": "8c1231d49066dcc6335c4b6a9c244249231874e31895d2799bba327a5672d9dc"
+    },
+    {
+      "bytes": 4499,
+      "path": "commands.json",
+      "sha256": "745a6d0b0c0192046a0b563027a905f3b80e7de4e16ad49a0ea5f0f210732ad0"
+    },
+    {
+      "bytes": 411,
+      "path": "dedup-binding.template.json",
+      "sha256": "ed6ec1bbba9d08051353e3d7f62234207946129a4a7033232f816702fd3b23f0"
+    },
+    {
+      "bytes": 529,
+      "path": "test-real-geometry.log",
+      "sha256": "cb1bce8f57d19a119a934a5a2e629773ce3530338e0a15034d30edb134066253"
+    },
+    {
+      "bytes": 1198,
+      "path": "test-policy.log",
+      "sha256": "46ee1e63c7c21b9e17dc298f808f9b32a35f55ba15d5f2b2fd9a2b72c2da971c"
+    },
+    {
+      "bytes": 108,
+      "path": "test-source-contract.log",
+      "sha256": "54fde26b50f3f75cef37e101a08177a03d5bbd6e3849dcf3e333c309259621ad"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic9535.provider_preparation_artifacts.v1",
+  "status": "preparation_complete_full_render_not_started"
+}

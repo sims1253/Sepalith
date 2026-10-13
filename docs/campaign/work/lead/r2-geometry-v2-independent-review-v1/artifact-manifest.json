@@ -1,0 +1,42 @@
+{
+  "cuda_used": false,
+  "file_count": 5,
+  "files": [
+    {
+      "bytes": 1588,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "7c55dc2d5163eef4b3324490652b9f1fcd87ca0b1d31dbe3dd37af64406586e1"
+    },
+    {
+      "bytes": 5532,
+      "mode": "0o644",
+      "path": "findings.json",
+      "sha256": "638dd48eb2e53f7a2b6d0b5c3b5ae0121ac0a986e5545e6cacd6fd510d50562e"
+    },
+    {
+      "bytes": 3986,
+      "mode": "0o644",
+      "path": "source-manifest.json",
+      "sha256": "d0a04932801d3687485ef47294989541b3783861e77fd85cb833dee12219ac47"
+    },
+    {
+      "bytes": 400,
+      "mode": "0o644",
+      "path": "tests/test-results.log",
+      "sha256": "3032c2ba41a64653ce47a4596db22543df2c116c8c156fb791ef0346cceb35bc"
+    },
+    {
+      "bytes": 6421,
+      "mode": "0o644",
+      "path": "tests/test_integration_contract.py",
+      "sha256": "e3ed635bd227b55b384f294c4559b26abe5d1bccab3d2318c24aa73628146b66"
+    }
+  ],
+  "full_cohort_scan": false,
+  "packet": "r2-geometry-v2-independent-review-v1",
+  "schema": "sepalith.dat10.geometry-v2-independent-review-artifact.v1",
+  "source_manifest_sha256": "d0a04932801d3687485ef47294989541b3783861e77fd85cb833dee12219ac47",
+  "status": "review_only",
+  "training_admission": false
+}

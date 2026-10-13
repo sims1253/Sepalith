@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "status": "CPU-prepared expanded step-250 merge/export/native-DEV packet; actual checkpoint and outputs pending",
+  "created_at": "2026-09-14T07:23:17Z",
+  "training_recipe": {
+    "path": "docs/campaign/work/lead/r2-expanded-sft-b/recipe.json",
+    "sha256": "ba64a66e4f78d9a13b5db95ab3f7dd68a0b09382159c1b533ed8e6f23665eb07",
+    "source_snapshot": "56132b2fd3b21cef88043cff5ea2b1f4db7495a481f3b0d0a7485a5ee3584676"
+  },
+  "pending_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-b/full/checkpoint-250",
+  "fresh_outputs": {
+    "merged": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-b-250-merged",
+    "quantized": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-b-250-quant",
+    "native_dev": "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-postsft500-b-250-native-dev"
+  },
+  "adapted_files": {
+    "packet/selection_contract.py": "6c42b96c73a380d4beb2dab1d1df4758fef2bfa47b4e7daf06f10f7c7a9f8a54",
+    "packet/merge_expanded_sft_cpu.py": "664a9b241c2fff0acacf35affae7b5b2ebec1e3fef9ee3866816ce1964f50d1b",
+    "packet/bind_native_profile.py": "232c017ab636bd6065220b41e70ab58d365a52273d2fc4941f47e4ecca1a0e49",
+    "packet/prepare_root_bindings.py": "bf6621963fa437224025ac75eae30d66615d4675e5cee423b1274c5fc43ffa6b",
+    "packet/native_evaluator/selection_binding.py": "690514871961ac895975d392f36a66546c9487e1180bc934361c89d4bdce5556"
+  },
+  "reused_pinned_pipeline": {
+    "source": "docs/campaign/work/lead/r2-task-global500-native-selection/packet",
+    "export_candidate_sha256": "12ca2236792bcb023279dbdeda2197a63e23ce0ab61274cbd2f3894b3bcd539a",
+    "review_export_sha256": "eedaa8fe4d0520efa31a776c26c395d6ffc04788f928ba11dae3ffe0b5ab305c",
+    "conversion_source_pins_sha256": "ef063e914173ac945f97e5adfbceb037ef51fb7f747557bda80237bca5df3326",
+    "profile_baseline_sha256": "b699ee9c60582c3e531b97f31249de9c5097b05db957afed2d50a754a6dc0304",
+    "unchanged_native_controller_and_evaluator_files": 14
+  },
+  "contract": {
+    "stage": "expanded_task_sft_v1",
+    "checkpoint_step": 250,
+    "checkpoint_consumed_draws": 4000,
+    "parent_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+    "checkpoint_requirements": [
+      "verified full manifest inventory and exact expanded identity",
+      "campaign-state, trainer state and manifest step all equal 250",
+      "optimizer, scheduler, RNG, trainer and campaign state hashes present",
+      "sampler split and schedule match recipe; consumed draws equal 4000"
+    ],
+    "merge": "CPU-only FP32 accumulation, one final BF16 cast, 294 exact LoRA module checks, original parent tokenizer bytes restored",
+    "native_dev": {
+      "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+      "cases": 75,
+      "edit": 43,
+      "noop": 32,
+      "build": "b10453",
+      "backend": "cuda",
+      "context": 4096,
+      "batch": 256,
+      "ubatch": 256,
+      "parallel": 1,
+      "output": 192,
+      "cuda_graph_opt": 0
+    }
+  },
+  "tests": {
+    "passed": 8,
+    "failed": 0,
+    "CPU_threads": 2,
+    "CUDA_started": false,
+    "test_file_sha256": "148391d89b286b2afedcdc3af7f0fb0aab3887a2880fdc18650d7204e7bb2224"
+  }
+}

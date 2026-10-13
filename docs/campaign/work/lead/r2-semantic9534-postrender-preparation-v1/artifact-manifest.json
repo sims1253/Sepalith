@@ -1,0 +1,102 @@
+{
+  "cuda_used": false,
+  "file_count": 15,
+  "files": [
+    {
+      "bytes": 2952,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "2c616dd146737cc054f8cf89c7906dbddf0ffea994b321c510bef9d0c1dabcdf"
+    },
+    {
+      "bytes": 838,
+      "mode": "0o755",
+      "path": "commands/finalize_context_policy_9534.sh",
+      "sha256": "af578c59106cc08880cc091eff80a37e94a0d9141d51f5e2e73fd91c2a07ceba"
+    },
+    {
+      "bytes": 867,
+      "mode": "0o755",
+      "path": "commands/materialize_review_only_9534.sh",
+      "sha256": "fc356d1b25f3ed57cff6d15a5a8afb7e6b5b5fd7c51b5d564b26c0d73bc22724"
+    },
+    {
+      "bytes": 826,
+      "mode": "0o755",
+      "path": "commands/prepare_fallback_9534.sh",
+      "sha256": "a0d74882cf52f92decbd2a159c36f5f87090181819b8c5c4e186be42dba9c484"
+    },
+    {
+      "bytes": 2575,
+      "mode": "0o755",
+      "path": "commands/run_fallback32_lanes.sh",
+      "sha256": "f4b987498282cb41dc44b0ea30f6ac5a99aeef1715af51f3c6acfe1738fc6924"
+    },
+    {
+      "bytes": 663,
+      "mode": "0o755",
+      "path": "commands/verify_render16.sh",
+      "sha256": "1ba201afcff718a7545aae5c9ae35ae5106bcf4b06ed5a3d607bb74e3609ae5b"
+    },
+    {
+      "bytes": 2445,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "9865c6747a3f6c975b1cbdfe2cab9e1916195fb3025a7104e35dc5c58350e1dc"
+    },
+    {
+      "bytes": 995,
+      "mode": "0o644",
+      "path": "dedup-binding.template.json",
+      "sha256": "779c93a30e3c7a832e1259fb3d56e8841ff723729882d3e00081ae373df3fbcf"
+    },
+    {
+      "bytes": 3015,
+      "mode": "0o644",
+      "path": "metadata/expected-inputs.json",
+      "sha256": "757b37875632fd7cb1c6a3ac71486c4e285de4c9a89add61e63c3d54eea8b269"
+    },
+    {
+      "bytes": 15822,
+      "mode": "0o755",
+      "path": "source/finalize_policy_9534.py",
+      "sha256": "fd54eae04e2540035b1e1854bc535994aa64327a658be1fb6d698544902b518c"
+    },
+    {
+      "bytes": 12789,
+      "mode": "0o755",
+      "path": "source/materialize9534.py",
+      "sha256": "f93783989acfc0648b768a0783bcfd77263f7c5474928ab0fe5d3425f87578c9"
+    },
+    {
+      "bytes": 9404,
+      "mode": "0o755",
+      "path": "source/prepare_fallback_9534.py",
+      "sha256": "502d37bdd86dbbe5acfa76532882ced3d644e5040d8a9a95195a1dac63855907"
+    },
+    {
+      "bytes": 12954,
+      "mode": "0o755",
+      "path": "source/verify_render16.py",
+      "sha256": "5bb4451fc084d462221152433a85788c16c3bae3ba8e57c29bb5bf532068d899"
+    },
+    {
+      "bytes": 413,
+      "mode": "0o644",
+      "path": "tests/test-results.log",
+      "sha256": "599594b1722b91aa7a243aa6b82d0581948b5eff973ac3b8de54c31f2c948f5b"
+    },
+    {
+      "bytes": 4030,
+      "mode": "0o644",
+      "path": "tests/test_postrender_contract.py",
+      "sha256": "91433e9229400ba08053dc8f44fec052fc7e971b4f3c1659eb33b98349d77bdf"
+    }
+  ],
+  "packet": "r2-semantic9534-postrender-preparation-v1",
+  "provider_launch_performed": false,
+  "schema": "sepalith.dat10.semantic9534.postrender_artifact_manifest.v1",
+  "source_manifest_sha256": "159f777ff3f859637a20e5f788300fd66c8c44262552e79b2fe0153d61896df0",
+  "status": "complete_review_only_preparation",
+  "training_admission": false
+}

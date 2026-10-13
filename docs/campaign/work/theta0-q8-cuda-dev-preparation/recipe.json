@@ -1,0 +1,73 @@
+{
+  "schema_version": "sepalith.run09.theta0-q8-cuda-dev-preparation.v1",
+  "task": "RUN-09/SFT-08",
+  "status": "prepared_root_launch_pending",
+  "model": {
+    "label": "theta0-step1000-Q8_0",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-quant-candidates-c/model-Q8_0.gguf",
+    "bytes": 2679710496,
+    "sha256": "22401b9f6203cfcb8daa0f5a2919ba74e5e862889050cfb3059ceaf923fb4559",
+    "root_must_rehash_before_load": true
+  },
+  "runtime": {
+    "server": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-server",
+    "server_sha256": "e42d5362c31f9149e36a94677e46c31b7b56ee0e4128d67e6a32383d4cc1c0ee",
+    "version": "0.1.0-dev build 10453 commit 3cb7ffb1a",
+    "cuda_visible_devices": "0",
+    "ggml_cuda_graph_opt": "0",
+    "context": 4096,
+    "batch": 256,
+    "ubatch": 256,
+    "parallel": 1,
+    "threads": 6,
+    "threads_http": 2,
+    "ngl": 99,
+    "server_guard_seconds": 1200,
+    "forbidden_existing_cpu_server_port": 18099,
+    "default_fresh_port": 18403
+  },
+  "quality": {
+    "panel_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+    "panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+    "panel_manifest_sha256": "4528ff6dbd8cfe70580901d9254a1a6931dc8c334c5dd2c55e49cf92d1a5377a",
+    "rows": 75,
+    "edit_rows": 43,
+    "strict_noop_rows": 32,
+    "completion_cap": 512,
+    "case_deadline_seconds": 120,
+    "global_deadline_seconds": 1100,
+    "reserve_seconds": 60,
+    "adapter": "run09_corrected_dev_client.py",
+    "reference_scorer_sha256": "e574a9453066b5fa5a8e33c02777e8bdd875e208d4c3c51c00e5ede13bba5362",
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "protocol_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+    "campaign_eval_sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f",
+    "campaign_client_sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+  },
+  "diagnostic": {
+    "fixture_rows": 4,
+    "fixture_sha256": "4081472e1e19457ab4b9e186858e837fbf37f9011d7f8d576a6298f3e6ddb008",
+    "manifest_sha256": "0b2195b87b5f6eabc892164124c25b876833a00ba6add0d79af6826413f5d0b3",
+    "probe_sha256": "f4f556a046f801eb233106c6d773accef317eb83eae5e261c0e0102388ca51a7",
+    "completion_cap": 192,
+    "context": 4096,
+    "user_deadline_ms": 5000,
+    "diagnostic_timeout_ms": 60000,
+    "denominator_is_separate_from_dev_quality": true
+  },
+  "commands": {
+    "quality": "PYTHONDONTWRITEBYTECODE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/theta0-q8-cuda-dev-preparation/launch_theta0_q8_cuda_dev.py --run-root <fresh-ext4-run-root> --port 18403 --mode quality",
+    "diagnostic": "PYTHONDONTWRITEBYTECODE=1 /home/m0hawk/Documents/Sepalith/.venv-sft/bin/python -B /home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/theta0-q8-cuda-dev-preparation/launch_theta0_q8_cuda_dev.py --run-root <fresh-ext4-run-root> --port 18403 --mode diagnostic"
+  },
+  "scope": {
+    "model_loaded_by_preparation": false,
+    "server_started_by_preparation": false,
+    "cuda_used_by_preparation": false,
+    "network_used_by_preparation": false,
+    "ssh_used_by_preparation": false,
+    "state_or_cli_edited": false,
+    "sealed_final_read": false,
+    "notebook_vulkan_claim": "pending independent target validation"
+  }
+}

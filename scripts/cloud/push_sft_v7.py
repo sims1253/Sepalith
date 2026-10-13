@@ -6,7 +6,7 @@ safe while the 5090 is busy). Gzips /mnt/h/sepalith/datasets/sft_v7 with pigz
 when available and uploads train/eval.jsonl.gz + stats.json.
 
 Usage:  python push_sft_v7.py [--repo scholzmx/sepalith-sft-v7]
-Env:    HF_TOKEN (dataset write; see ~/.zshrc)
+Env:    HF_TOKEN (dataset write; see ~/.config/sepalith/secrets.env)
 """
 import os
 import subprocess

@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "at": "2026-09-13T14:08:24.164059+00:00",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/README.md",
+      "bytes": 4489,
+      "sha256": "861781c9d0e43668a4a891b04e0a7f81bfbcb16e4160d278cfcb7a36573965ec"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/build_staging.py",
+      "bytes": 7444,
+      "sha256": "2097a16d342ee37b6ad5021d22cc89aff718e04d52851d74efa66162be6bbb57"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/check_staging.py",
+      "bytes": 4708,
+      "sha256": "9dc49a13ae96d93fb9fd6612d09227964e2f1eab2216c3f276b762e697b2b6c3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/cpu-validation.json",
+      "bytes": 1143,
+      "sha256": "7f6d20fa430fee3e9263f3662ca59b030751fe06562ab41c6f9b192b5bd34fcb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/launcher-argv-validation.json",
+      "bytes": 238,
+      "sha256": "7cd98f068541b3eafcb8db3ad895670ca4bd7c2bd602e35c7e0aadbfa378d6e4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/README.md",
+      "bytes": 1055,
+      "sha256": "b96378f5146836b6aabd45b17ff98d23e72cedb45a4573d4520acb011e5a8b0d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/analyze_auto.mjs",
+      "bytes": 7989,
+      "sha256": "b40367cbd5bae372dee0cad4487f7425fcedfdc0a06153f4dbd9b883ad86ac4e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/analyze_renderer.mjs",
+      "bytes": 10464,
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/binding.json",
+      "bytes": 6202,
+      "sha256": "51feb0141ff163de8eea7444cad4a006aee4e93a794d5ec2bca06eb42cfa763f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/candidate.vsix",
+      "bytes": 40832,
+      "sha256": "b8268083aabc72c02623ee07f8b75bb932fd4aaec15e6972724bca9330be74b1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/capsule-manifest.json",
+      "bytes": 1361,
+      "sha256": "da5a795cac7b3da01f9f0d949f5bb1173cf751cdddc1c8fdf72dda8a18684c8e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/check_merged.mjs",
+      "bytes": 7193,
+      "sha256": "306fe35af89e183ee69d39a41968a852e3bcd06f14bc35aff53fb52ecc323d32"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/merged-source-manifest.json",
+      "bytes": 983,
+      "sha256": "c2a658e1789d7ff99d428c70024d0655a664f05164b178e04ca5b7f86c1cecc9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/notebook_editor_supervisor.py",
+      "bytes": 5586,
+      "sha256": "3de42909b1fc1fba5a244bb837fa1bb6469809c85ae01b9d43a5dc31d786217f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/observe_renderer.mjs",
+      "bytes": 12099,
+      "sha256": "11f7298f68b0c8748cf9fd8891513b35b4111ddf4f265e3b81663dc369a61feb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/primary-editor-harness/acceptance-v2.js",
+      "bytes": 12346,
+      "sha256": "b53156cdcc630cbe00124dd395b8273a7f8e4112318796682fac205479550ca5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/primary-editor-harness/extension.js",
+      "bytes": 23027,
+      "sha256": "5788b4ee3a1ab9b7d75cc3611bb6b24c53ce51be03baf38d392263eaf225a424"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/primary-editor-harness/package.json",
+      "bytes": 279,
+      "sha256": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/root-supplied-identities.json",
+      "bytes": 798,
+      "sha256": "db35131b9325358e119aa15f78a0f46520b8dca05c572aa9ac078be90adba052"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a/run_remote_editor.mjs",
+      "bytes": 10326,
+      "sha256": "eaa93a4d364a1ac5b99dc7338081b760e9a6a3de8144c869e367159606e4a2db"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a-plan.json",
+      "bytes": 4398,
+      "sha256": "df3b490dddca290fc10a61d93759d0fa2670512a1b7a8ae836b7ade981181bbb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto1500-a.tar",
+      "bytes": 153600,
+      "sha256": "85bd9a3a599b1d94034b106b138c5dbb1c552204742945a2b5f9f09d9c3e2689"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/README.md",
+      "bytes": 1049,
+      "sha256": "df31b7689424f487d27cd6e08973243763e39132e89e909296f3d438e1d8a64f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/analyze_auto.mjs",
+      "bytes": 7989,
+      "sha256": "b40367cbd5bae372dee0cad4487f7425fcedfdc0a06153f4dbd9b883ad86ac4e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/analyze_renderer.mjs",
+      "bytes": 10464,
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/binding.json",
+      "bytes": 6202,
+      "sha256": "58174b4b3e75764553c545944d111da00b1bb40fd1ed0f0d85ef3ae56d1035b3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/candidate.vsix",
+      "bytes": 40832,
+      "sha256": "b8268083aabc72c02623ee07f8b75bb932fd4aaec15e6972724bca9330be74b1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/capsule-manifest.json",
+      "bytes": 1361,
+      "sha256": "b4534851bfdc2d773d6ddaa60641f4c9d7923866ffeedf7453f2768213fb9886"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/check_merged.mjs",
+      "bytes": 7193,
+      "sha256": "306fe35af89e183ee69d39a41968a852e3bcd06f14bc35aff53fb52ecc323d32"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/merged-source-manifest.json",
+      "bytes": 983,
+      "sha256": "c2a658e1789d7ff99d428c70024d0655a664f05164b178e04ca5b7f86c1cecc9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/notebook_editor_supervisor.py",
+      "bytes": 5582,
+      "sha256": "3aafdea75423121eed3496af38ab15592016ce0d0845d7ff063bcdb4163905bb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/observe_renderer.mjs",
+      "bytes": 12099,
+      "sha256": "11f7298f68b0c8748cf9fd8891513b35b4111ddf4f265e3b81663dc369a61feb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/primary-editor-harness/acceptance-v2.js",
+      "bytes": 12346,
+      "sha256": "b53156cdcc630cbe00124dd395b8273a7f8e4112318796682fac205479550ca5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/primary-editor-harness/extension.js",
+      "bytes": 23027,
+      "sha256": "5788b4ee3a1ab9b7d75cc3611bb6b24c53ce51be03baf38d392263eaf225a424"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/primary-editor-harness/package.json",
+      "bytes": 279,
+      "sha256": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/root-supplied-identities.json",
+      "bytes": 796,
+      "sha256": "31b11aab483db83d625bbabd32eb491b430e7024b9ba549516795ad6b5707fe2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a/run_remote_editor.mjs",
+      "bytes": 10326,
+      "sha256": "eaa93a4d364a1ac5b99dc7338081b760e9a6a3de8144c869e367159606e4a2db"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a-plan.json",
+      "bytes": 4384,
+      "sha256": "afc85d9449052ee3450cb12364a6f3e4782e5e63508b571c4c7a76fe61460f55"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/remote-auto350-a.tar",
+      "bytes": 153600,
+      "sha256": "cf22c77832e48e25d7b49108aa0032db65aec9dfc9c31f331494b01286c294fc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/staging-plan.json",
+      "bytes": 13559,
+      "sha256": "a81f9eafec214f10effddb1ff5419988fb63219fd49630cfc562cee6f9c7847b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-auto-root-staging-v1/transfer_capsules.py",
+      "bytes": 6005,
+      "sha256": "89aaa3c6899d520c0541ce0b0d4bc10e5c722f35c44a71429d16995cb9087404"
+    }
+  ],
+  "network_or_launch_performed": false
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "sepalith.sft11.native-runtime-source-migration-admission.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "launch_authorized": false,
+  "allowed_changes": [
+    "checkpoint cadence 24 to 64 after accepted checkpoint450",
+    "mandatory external review boundary 354 to 706",
+    "fresh continuation runtime output roots"
+  ],
+  "canonical_bound_recipe_sha256": "579269f0f203ae1eed9cdb96af0f535f19c5953e2cf3e19c52615b7545e10f70",
+  "source_runtime_recipe": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-to450-continuation-root-v1/runtime-recipe.json",
+  "source_runtime_recipe_sha256": "26b78532f907ca5e3a34827857ad58a47e0d56a167fb26a61dbf9b555b50a1d5",
+  "source_identity_sha256": "46a5a1aced9f533e8ba4cd25aebe795dedc64d390a0d563cfc7e406c03324739",
+  "destination_identity_sha256": "6ac45eec834ee675bfecd880b06972ec028b7314497c47ca0130d6d32c43ce48",
+  "checkpoint450_review": {"path": "ROOT_SUPPLIES_ACCEPTED_CHECKPOINT450_REVIEW", "sha256": "ROOT_SUPPLIES_SHA256"},
+  "matched450_review": {"path": "ROOT_SUPPLIES_ACCEPTED_MATCHED450_REVIEW", "sha256": "ROOT_SUPPLIES_SHA256"},
+  "optimizer_scheduler_rng_sampler_identity_must_remain_unchanged": true,
+  "runtime_source_manifest_sha256": "e9e05e8b21fd6b05e54bef66fb6555408a0b3d3fc64e52c2b41ed9a4a869e590",
+  "scientific_source_manifest_sha256": "8dd7ecf617e37e1778dabee6721857e1b79074e0314f17e0e3f55b57a809a98c",
+  "stage_receipt_sha256": "a72c1b699fe931e0db0fa2ddfc96a43486e74fc962802e8a541540e16596b88d"
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "sepalith.run06.e750-notebook-timeout-recovery-source.v1",
+  "status": "prepared_no_launch",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1094,
+      "sha256": "c3f427a2cdc72035eb04262ef2f35ec3884a25615f8a68109d530f86d0fa933b",
+      "mode": "0o644"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1686,
+      "sha256": "a6687da3cc461739bc465c7bd9eee048cf367fa71f932153d7f088feaeaf9774",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/tests-final.txt",
+      "bytes": 102,
+      "sha256": "0292b91377e3f5de5fc72b83a91ddacbecbc2c226b761793f9b4babe85f7ad63",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/tests.txt",
+      "bytes": 102,
+      "sha256": "84ff24306afcf5e19892adf32493aa9bc9dbc8db16870c6155e8e03c23864a33",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/topology-and-current-state.txt",
+      "bytes": 853,
+      "sha256": "0e4fb7af95f6f88d42b72b6f5ec5092e35ea0ea55fb266c1c836e30e00f6902e",
+      "mode": "0o644"
+    },
+    {
+      "path": "failed-row.json",
+      "bytes": 27255,
+      "sha256": "bd9b9ccadc3c6963c0da307c0ab7fd181ef868b45ba3e0bf8e9f19608bdba69b",
+      "mode": "0o644"
+    },
+    {
+      "path": "packet.json",
+      "bytes": 1652,
+      "sha256": "c4e2c8c317d3c7dd12dab22910770e2dbcdc89d8ab2e8ecb030ded0cb6995ca0",
+      "mode": "0o644"
+    },
+    {
+      "path": "pilot_entry.sh",
+      "bytes": 718,
+      "sha256": "79e087eb0fbf1ef474b380e5591b32b42cc4241696d3329983895921a76bcbd5",
+      "mode": "0o755"
+    },
+    {
+      "path": "root-admission.template.json",
+      "bytes": 904,
+      "sha256": "b0570c9cc556ae5707e79e5b553ce680f940a488c1b501a9cd03fe6e6a9e5601",
+      "mode": "0o644"
+    },
+    {
+      "path": "run_failed_row_pilot.py",
+      "bytes": 6980,
+      "sha256": "b812b66efeef503560ad3f58de975d75e6e91b29b346fd30a48fe42826b6d8a4",
+      "mode": "0o755"
+    },
+    {
+      "path": "test_pilot.py",
+      "bytes": 1497,
+      "sha256": "31f94d00c5f4e3156869ffb9667d1f467bcdc4067eb35ab27192e0aeaeb66882",
+      "mode": "0o644"
+    }
+  ],
+  "file_count": 11,
+  "total_bytes": 42843
+}

@@ -1,0 +1,388 @@
+{
+  "schema": 1,
+  "build": "b10453-prm03",
+  "model": {
+    "name": "prm03.gguf",
+    "url": "https://example.com/prm03.gguf",
+    "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "bytes": 1
+  },
+  "bundles": [
+    {
+      "platform": "linux",
+      "arch": "x64",
+      "backend": "cpu",
+      "server": "llama-server-cpu",
+      "files": [
+        {
+          "name": "llama-server-cpu",
+          "url": "https://example.com/llama-server-cpu",
+          "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "bytes": 1,
+          "executable": true
+        },
+        {
+          "name": "libggml-base.so.0.20.0",
+          "url": "https://example.com/libggml-base.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml-cpu.so.0.20.0",
+          "url": "https://example.com/libggml-cpu.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml.so.0.20.0",
+          "url": "https://example.com/libggml.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-cli-impl.so",
+          "url": "https://example.com/libllama-cli-impl.so",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-common.so.0.1.0",
+          "url": "https://example.com/libllama-common.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-server-impl.so",
+          "url": "https://example.com/libllama-server-impl.so",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama.so.0.1.0",
+          "url": "https://example.com/libllama.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libmtmd.so.0.1.0",
+          "url": "https://example.com/libmtmd.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        }
+      ],
+      "launchProfile": {
+        "contextSize": 4096,
+        "batchSize": 256,
+        "ubatchSize": 256,
+        "parallel": 1,
+        "threads": 6,
+        "threadsBatch": 6,
+        "httpThreads": 2,
+        "gpuLayers": 0,
+        "cudaGraphOptimization": 0,
+        "vulkanGraphOptimization": false,
+        "sourceCommit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+        "sourceTree": "f9a9f82f92eb23b6dbc05494e542ddb1f907a0c4",
+        "serverSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "requiredLibraries": [
+          {
+            "name": "libggml-base.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml-cpu.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-cli-impl.so",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-common.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-server-impl.so",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libmtmd.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        ]
+      }
+    },
+    {
+      "platform": "linux",
+      "arch": "x64",
+      "backend": "vulkan",
+      "server": "llama-server-vulkan",
+      "files": [
+        {
+          "name": "llama-server-vulkan",
+          "url": "https://example.com/llama-server-vulkan",
+          "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "bytes": 1,
+          "executable": true
+        },
+        {
+          "name": "libggml-base.so.0.20.0",
+          "url": "https://example.com/libggml-base.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml-cpu.so.0.20.0",
+          "url": "https://example.com/libggml-cpu.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml.so.0.20.0",
+          "url": "https://example.com/libggml.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-cli-impl.so",
+          "url": "https://example.com/libllama-cli-impl.so",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-common.so.0.1.0",
+          "url": "https://example.com/libllama-common.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-server-impl.so",
+          "url": "https://example.com/libllama-server-impl.so",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama.so.0.1.0",
+          "url": "https://example.com/libllama.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libmtmd.so.0.1.0",
+          "url": "https://example.com/libmtmd.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml-vulkan.so.0.20.0",
+          "url": "https://example.com/libggml-vulkan.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        }
+      ],
+      "launchProfile": {
+        "contextSize": 4096,
+        "batchSize": 256,
+        "ubatchSize": 256,
+        "parallel": 1,
+        "threads": 6,
+        "threadsBatch": 6,
+        "httpThreads": 2,
+        "gpuLayers": 99,
+        "cudaGraphOptimization": 0,
+        "vulkanGraphOptimization": true,
+        "sourceCommit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+        "sourceTree": "f9a9f82f92eb23b6dbc05494e542ddb1f907a0c4",
+        "serverSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "requiredLibraries": [
+          {
+            "name": "libggml-base.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml-cpu.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-cli-impl.so",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-common.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-server-impl.so",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libmtmd.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml-vulkan.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        ]
+      }
+    },
+    {
+      "platform": "linux",
+      "arch": "x64",
+      "backend": "cuda",
+      "server": "llama-server-cuda",
+      "files": [
+        {
+          "name": "llama-server-cuda",
+          "url": "https://example.com/llama-server-cuda",
+          "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "bytes": 1,
+          "executable": true
+        },
+        {
+          "name": "libggml-base.so.0.20.0",
+          "url": "https://example.com/libggml-base.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml-cpu.so.0.20.0",
+          "url": "https://example.com/libggml-cpu.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml.so.0.20.0",
+          "url": "https://example.com/libggml.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-cli-impl.so",
+          "url": "https://example.com/libllama-cli-impl.so",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-common.so.0.1.0",
+          "url": "https://example.com/libllama-common.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama-server-impl.so",
+          "url": "https://example.com/libllama-server-impl.so",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libllama.so.0.1.0",
+          "url": "https://example.com/libllama.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libmtmd.so.0.1.0",
+          "url": "https://example.com/libmtmd.so.0.1.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        },
+        {
+          "name": "libggml-cuda.so.0.20.0",
+          "url": "https://example.com/libggml-cuda.so.0.20.0",
+          "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 1
+        }
+      ],
+      "launchProfile": {
+        "contextSize": 4096,
+        "batchSize": 256,
+        "ubatchSize": 256,
+        "parallel": 1,
+        "threads": 6,
+        "threadsBatch": 6,
+        "httpThreads": 2,
+        "gpuLayers": 99,
+        "cudaGraphOptimization": 0,
+        "vulkanGraphOptimization": false,
+        "sourceCommit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+        "sourceTree": "f9a9f82f92eb23b6dbc05494e542ddb1f907a0c4",
+        "serverSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "requiredLibraries": [
+          {
+            "name": "libggml-base.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml-cpu.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-cli-impl.so",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-common.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama-server-impl.so",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libllama.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libmtmd.so.0.1.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          {
+            "name": "libggml-cuda.so.0.20.0",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        ]
+      }
+    }
+  ],
+  "modelProfile": {
+    "renderer": "zeta2-prm03-v1",
+    "task": "r-next-edit",
+    "tokenizerRevision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "modelRevision": "sft500-q8",
+    "schemaVersion": "sepalith.prompt.prm03.v1",
+    "tokenizerJsonSha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "tokenizerConfigSha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+    "tokenizationPolicy": "hf_split_special_tokens_true_native_no_bos_no_parse_special_manual_bos0_terminal_eos1_final_lf_v1",
+    "bosTokenId": 0,
+    "canonicalEosTokenId": 1,
+    "vocabSize": 130560,
+    "nativeEogTokenIds": [
+      1,
+      130073
+    ],
+    "contextSize": 4096,
+    "maxOutputTokens": 192,
+    "modelSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }
+}

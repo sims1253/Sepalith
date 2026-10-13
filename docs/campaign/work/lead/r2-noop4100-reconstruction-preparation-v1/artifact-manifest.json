@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "bytes": 1254,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/README.md",
+      "sha256": "360af8c2fcbb5f45f9a2022dc0bd779a35d5080049ae4020493c68b628bdc992"
+    },
+    {
+      "bytes": 1854,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/commands.json",
+      "sha256": "dc9b0d5f6a3b30467c003e1d46883ca9dc114641cc77979ada097ac4ef91b494"
+    },
+    {
+      "bytes": 2097,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/source-manifest.json",
+      "sha256": "b81bfe2ca7e4e1eb503775b8150d54d7cdf9d5602eea154f53f6adffe2d413b3"
+    },
+    {
+      "bytes": 4951,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/tests/test_reconstruction.py",
+      "sha256": "ce8e0e9c629c25bbf959b03c5cb8f59633361bcc76193c2f153ee8af4321d337"
+    },
+    {
+      "bytes": 807,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/test-results.log",
+      "sha256": "2a0d728bed9c6aff4e0e426583c9082a83fa12e1661c11af93a88c24935b7a10"
+    }
+  ],
+  "schema": "sepalith.dat10.noop4100.reconstruction-artifacts.v1"
+}

@@ -1,0 +1,8 @@
+{
+  "bound_recipe_sha256": "26b78532f907ca5e3a34827857ad58a47e0d56a167fb26a61dbf9b555b50a1d5",
+  "launch_authorized": false,
+  "resume_global_step": 354,
+  "schema": "sepalith.sft11.native-cpt-execution-stop.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "stop_at_global_step": 450
+}

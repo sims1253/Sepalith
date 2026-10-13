@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "files": {
+    "ROOT-INTEGRATION.json": {
+      "sha256": "2761eca7b9e4bf22f5c6628915a329d6262f9996ea2fc4a3f2431717a46e4718",
+      "bytes": 3869
+    },
+    "assemble_inputs.py": {
+      "sha256": "d7155691b6054e3b9ad241204e3ad4eee6a10944ab5d0045f4f715069ec7de27",
+      "bytes": 11057
+    },
+    "metadata-check.json": {
+      "sha256": "0f00a4fdf00fb46ddf777f883522dc6ebf90827180e2bb893d4a8d249a134fd0",
+      "bytes": 1122
+    },
+    "test-results.txt": {
+      "sha256": "76a857152017388c881f3a4de53bebf80f6e7b9658fe6c3576834a5376992847",
+      "bytes": 586
+    },
+    "test_assembly.py": {
+      "sha256": "2b09a736d964002d31111e54fd86c51eb9a5def69f6d9e6d57bb81fa2b184476",
+      "bytes": 4559
+    }
+  },
+  "frozen_at": "2026-09-14T05:57:29.392853+00:00"
+}

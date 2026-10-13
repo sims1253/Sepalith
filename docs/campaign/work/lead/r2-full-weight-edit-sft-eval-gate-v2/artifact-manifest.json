@@ -1,0 +1,211 @@
+{
+  "artifact_identity_sha256": "640c49e69d206accd0abe43f1ec5535af2bdd6f812b3f5c10b7e7619cc06f7ce",
+  "files": [
+    {
+      "bytes": 1198,
+      "mode": "0444",
+      "path": "README.md",
+      "sha256": "95a861a0b0b1d0a90d714dc7ff431a5d418fb564967bb56afd41b0c8ad7faf5a"
+    },
+    {
+      "bytes": 2038,
+      "mode": "0444",
+      "path": "data-queue.json",
+      "sha256": "b471bc54f6940857cadf4e36494132380e2b80eadaf4e04a041f78a92fc41bcb"
+    },
+    {
+      "bytes": 443,
+      "mode": "0444",
+      "path": "dev-generation-admission.template.json",
+      "sha256": "906edf724931eb216968e292212de2795f2c3b20e111e8f7792b85b28f6fd01e"
+    },
+    {
+      "bytes": 1095,
+      "mode": "0444",
+      "path": "length-profile.json",
+      "sha256": "33ef2275bf593c229ed9e01e292f0946b1632a2c1c70777ed0f23880db931cc5"
+    },
+    {
+      "bytes": 8504824,
+      "mode": "0444",
+      "path": "one-pass-15008-draw-schedule.alternative.json",
+      "sha256": "4b2862d8817ca6accc36a511b421ddbd1458c8270261bd19b7f5d7deb0236d83"
+    },
+    {
+      "bytes": 244,
+      "mode": "0444",
+      "path": "one-pass-generation.log",
+      "sha256": "77fa6b3f8e70dabd38769d1e6d83b04e962563f9108c0e183336e4f3dcec0dec"
+    },
+    {
+      "bytes": 6499,
+      "mode": "0444",
+      "path": "recipe.template.json",
+      "sha256": "743dc2d6504ada792b599cd0b0f3a6a8644d52e0cbf23e8a40ad339717c8b5da"
+    },
+    {
+      "bytes": 1850,
+      "mode": "0444",
+      "path": "root-admission.template.json",
+      "sha256": "0c41e3c5115b5290368fa8300174edfedd1c09bcc2bccdb0a389055f5d7e38db"
+    },
+    {
+      "bytes": 2589,
+      "mode": "0444",
+      "path": "root-commands.json",
+      "sha256": "a468bfbe140d50e6f77b05ca8d7a34058751c1963147f33e470c824ecb17e270"
+    },
+    {
+      "bytes": 457,
+      "mode": "0444",
+      "path": "root-dev-decision.template.json",
+      "sha256": "cccc737ba43f89feaba1acbe4e5648585e2896719a780026664b4114e12d26e5"
+    },
+    {
+      "bytes": 5744,
+      "mode": "0444",
+      "path": "source/experiments/training/bind_full_weight_edit_sft.py",
+      "sha256": "98a3be8278226b6b5ffb2a887336f3b1bac16a317f394aa6b87b3d4c2e29086b"
+    },
+    {
+      "bytes": 13663,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 5508,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_edit_data.py",
+      "sha256": "a4c4b36b117dd8c4b0da668ba32f55d1752deb837b4b7bc311eca0a9e3190cc4"
+    },
+    {
+      "bytes": 13906,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "6e5bd413d9f71b0d8dcfdb6f98feae4f9ea0a43ac7d60c19c43cf11c43a2987c"
+    },
+    {
+      "bytes": 15257,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 1435,
+      "mode": "0444",
+      "path": "source/experiments/training/dev_model_state.py",
+      "sha256": "7b251e43886e90886cc4ef37858105d72b015ed40cbcf4b28785f998497d0bb7"
+    },
+    {
+      "bytes": 11493,
+      "mode": "0444",
+      "path": "source/experiments/training/full_coverage_schedule.py",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "bytes": 29531,
+      "mode": "0444",
+      "path": "source/experiments/training/full_weight_edit_sft.py",
+      "sha256": "b0bc0b92681ac8175ae45436f41ce47928cc018416681f51454a77b4bcdc8bdf"
+    },
+    {
+      "bytes": 19826,
+      "mode": "0444",
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 4565,
+      "mode": "0444",
+      "path": "source/experiments/training/milestone_gate.py",
+      "sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297"
+    },
+    {
+      "bytes": 2680,
+      "mode": "0444",
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 5949,
+      "mode": "0444",
+      "path": "source/experiments/training/one_pass_schedule.py",
+      "sha256": "a1ee01d5b10262b83c0a7f49024c99c15072077f14e4bffab8db8b234168cb60"
+    },
+    {
+      "bytes": 3461,
+      "mode": "0444",
+      "path": "source/experiments/training/prepare_dev_gate.py",
+      "sha256": "7cf3b7f12f37bcb907219647860486beaeb2726aca5d6bbe94955f7fc15bb2d0"
+    },
+    {
+      "bytes": 1397,
+      "mode": "0444",
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 6078,
+      "mode": "0444",
+      "path": "source/experiments/training/run_dev_generation.py",
+      "sha256": "ca8ab60fff29b484063bbfbfd17e72f5208e5c7e18eb4368ae754eba49d63c65"
+    },
+    {
+      "bytes": 1783,
+      "mode": "0444",
+      "path": "source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 7843,
+      "mode": "0444",
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "mode": "0444",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "mode": "0444",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 4116,
+      "mode": "0444",
+      "path": "source-manifest.json",
+      "sha256": "65f20d3525d884956677a92e37700c9cb985e9171481fca5598e7a9c16e0653c"
+    },
+    {
+      "bytes": 191,
+      "mode": "0444",
+      "path": "template-preflight.log",
+      "sha256": "be04dd683cd57b12d6923a54554e1cab0d500221432bb1bc7c4a8fb4734e0fb2"
+    },
+    {
+      "bytes": 1237,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "97b0a69fcbc782d98d6cce8e91b2a56708fc92ac39f7a49384ec49ab90583d87"
+    },
+    {
+      "bytes": 8976,
+      "mode": "0444",
+      "path": "tests/test_eval_gate.py",
+      "sha256": "b305f78f652e9a863f4bab67f2dec040aae1e21476bf5daf06cc5d33c3a53524"
+    },
+    {
+      "bytes": 2116,
+      "mode": "0444",
+      "path": "tests/test_saved_precision.py",
+      "sha256": "908f338d8ad82114edbcc7a00509615dd636b9b24933ea577bd1ea6707111523"
+    }
+  ],
+  "schema": "sepalith.full-weight-edit-sft-eval-gate-artifacts.v2",
+  "status": "frozen_preparation"
+}

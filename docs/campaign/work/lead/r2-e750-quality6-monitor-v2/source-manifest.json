@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "bytes": 647,
+      "path": "evidence/cap192-terminal.json",
+      "sha256": "cb57f84258427f13b42cd59a039e29026a0e21bdb5a75700455e4931b9e9027a"
+    },
+    {
+      "bytes": 638,
+      "path": "evidence/cap384-partial.json",
+      "sha256": "2455b052f54dd265cdd6c36fdf220bcda09ac766eab5f8513450cd1dd2166d03"
+    },
+    {
+      "bytes": 365,
+      "path": "evidence/final-process-health.txt",
+      "sha256": "7aae52d5801e452d089f5aedd752558eed7a4cfdff02cf0d567720f1c29b7efb"
+    },
+    {
+      "bytes": 2244,
+      "path": "evidence/paired-cap192-cap384.json",
+      "sha256": "9c7c6d5f1b41649caa5c0afe38f340bd177b4ebfb73849b5fdcbaf1ee712144f"
+    },
+    {
+      "bytes": 2992,
+      "path": "monitor-summary.json",
+      "sha256": "a09e867e51e7e77a41fedc3915fb89bafeac48a395dcb0e8747be2bd88aa0351"
+    }
+  ],
+  "schema": "sepalith.run06.e750-quality6-monitor-v2.source-manifest.v1",
+  "status": "monitor_window_complete_run_active"
+}

@@ -1,0 +1,167 @@
+{
+  "checkpoint_storage": {
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-stage-transition-v2",
+    "c_hot_stage": "not_admitted",
+    "mode": "e_same_filesystem_atomic",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-stage-transition-v2/runtime"
+  },
+  "cohort": {
+    "documents": 177190,
+    "draw_schedule": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1-draw-schedule.json",
+      "sha256": "78bc2f3ec17ece7ad56a6dd79d4a1369d58c2329b5fb6a282d5a613135517937"
+    },
+    "id": "CPT-final-union-v1-ctx16384-current-snapshot",
+    "input_tokens": 461205327,
+    "loss_tokens": 461010455,
+    "manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1-ctx16384/result.json",
+      "sha256": "dd9c35c10678d8ade01d19ef49ffe5f8b293896df34ff0344ed59a7ce2b084a6"
+    },
+    "max_sequence_tokens": 16384,
+    "named_replays": 4,
+    "packages": 10046,
+    "payload_tokens": 460833265,
+    "rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1-ctx16384/cpt_train_ctx16384.jsonl",
+      "sha256": "c7c2bbcd64827cc2a06eca0dd4f3b1c404226f18019df61bf3d24a49e0b351b7"
+    },
+    "scope": "complete_admitted_train_corpus",
+    "streaming_cache": {
+      "manifest_sha256": "ac17fe1ced73efe37767bf28619b47c120f57be121c4648a1bf5fb0c426084ec",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-streaming-input-v1/final-union-cache"
+    },
+    "unique_rows": 183084,
+    "updates": 11443
+  },
+  "corpus_manifest": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1-ctx16384/result.json",
+    "sha256": "dd9c35c10678d8ade01d19ef49ffe5f8b293896df34ff0344ed59a7ce2b084a6"
+  },
+  "data_admission": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-full-corpus-root-launch-v1/root-data-admission.json",
+    "sha256": "fd8888be780a51cd2e9009607adb6bf1b6f18dd699dd68931f761ae264f113e2"
+  },
+  "dtype_audit": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-full-weight-dtype-audit.json",
+    "sha256": "8961dfb937256c11f0d9d71a4827f5b284b0dfa700afcbf236a260e2047349f1"
+  },
+  "launch_authorized": true,
+  "optimizer_dispatch": {
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-stage-transition-v2",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-CPT-stage-transition-v2-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-stage-transition-v2/runtime"
+  },
+  "parent": {
+    "candidate_id": "representative_lr3e-6_checkpoint66",
+    "files": {
+      "config.json": "31ee2f63353d66da52edc74c10b14b2506c2c3c0a72e04db53077074e9ede9b8",
+      "generation_config.json": "0f9e07ed38da2371971f322d8ad8d2f77da32514b66798d089e55faba704844b",
+      "model.safetensors": "aac456d2481869d1cec9c6e5e693c8807068ecb8a981d78c1384dbb0d4e39701",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "0888551b46656b68bdb4402b79598f49ee6bb7b7e8be5f60a89278c439fe6896"
+    },
+    "kind": "full_weight_stage_checkpoint",
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-lr3e-6-v1/full/checkpoint-66",
+    "saved_precision": {
+      "fp32_elements": 174080,
+      "fp32_tensors": 85,
+      "identity_source": "header-only read of selected checkpoint66 model.safetensors"
+    }
+  },
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true,
+    "trainer_save_total_limit": 2
+  },
+  "root_admission": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-full-corpus-root-launch-v1/root-stage-admission.json",
+    "sha256": "ad369408a6bfca22171828016776d52789d71f32fbc3912d42a7d6855e272737"
+  },
+  "runtime": {
+    "checkpoint_every": 128,
+    "effective_batch": 16,
+    "evaluation_steps": [
+      194,
+      11509
+    ],
+    "gradient_accumulation": 16,
+    "learning_rate": 3e-06,
+    "mandatory_stop_step": 194,
+    "max_steps": 11509,
+    "micro_batch": 1,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 3e-06,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 3e-07,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "scheduler": "constant_with_warmup",
+    "selected_milestones": [
+      194,
+      11509
+    ],
+    "telemetry_every": 1,
+    "warmup_steps": 2
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-stage-transition-bound.v1",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-stage-transition-v2/source-manifest.json",
+    "manifest_sha256": "629b50b72b4c97fa74e07a2f68956a0ca156d19e456147775f8955751a92d483"
+  },
+  "source_quality": {
+    "note": "The inherited full-weight CPT source path preserves reviewed mechanics. Prior source/pilot results do not constitute a target-quality promotion.",
+    "status": "reviewed_mechanics_not_model_quality_promoted"
+  },
+  "status": "root_admitted_not_launched",
+  "transition": {
+    "destination_sampler": "fresh_cursor_zero",
+    "global_optimizer_step_offset": 66,
+    "scheduler_state": "load_source_without_rewarm",
+    "source_checkpoint": {
+      "candidate_id": "representative_lr3e-6_checkpoint66",
+      "manifest_sha256": "6ae1d9cef615d179d4e55b7da7f68cc67b92239ffce5daeb8852c547c6dfc15d",
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-representative-lr3e-6-v1/full/checkpoint-66"
+    },
+    "source_decision": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-representative66-root-decision.json",
+      "sha256": "1a60125b6889f214417d2dc2bd2d194d5634523e78758923fe626b37ce57f310"
+    },
+    "source_manifest": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source-manifest.json",
+      "sha256": "e4962fbbc9cc7e99d7168a7632db7e0094415db1cdb3e5651b01d50535755efc"
+    },
+    "source_recipe": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-representative-lr3e-6-root-v1/bound-recipe.json",
+      "sha256": "771e3a824d17867af086da3344a788074ee1bad7e60685bd591ea4e3b040a5d4"
+    }
+  },
+  "validation": {
+    "edit_dev_or_final": false,
+    "max_sequence_tokens": 2048,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "role": "fixed_package_heldout_train_causal_comparator",
+    "rows": 499,
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  }
+}

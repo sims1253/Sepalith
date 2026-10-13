@@ -1,0 +1,35 @@
+{
+  "context_sizes": [
+    8192,
+    16384,
+    32768
+  ],
+  "expected_totals": {
+    "documents": 3,
+    "payload_tokens": 8082,
+    "rows": 6
+  },
+  "inputs": [
+    {
+      "bytes": 93749,
+      "committed_receipt": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000775-g-38a8abbf71ff20d92554/receipt.json",
+      "cpt_partition": "cpt_train",
+      "documents": 3,
+      "group_id": "g-38a8abbf71ff20d92554",
+      "package": "spsUtil",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-lossless-rechunk-v1/sample/input-cpt_train.jsonl",
+      "payload_tokens": 8082,
+      "rows": 6,
+      "sha256": "74f4cb54cdbbd7f1e1265b0e3229fce360d7bcc61b0972d865f6c9c8e8a48699",
+      "source_path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-all-eligible-v1/groups/000775-g-38a8abbf71ff20d92554/cpt_train.jsonl"
+    }
+  ],
+  "raw_chunks": {
+    "bos": 0,
+    "eos": 1,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-lossless-rechunk-v1/source/raw_cpt_broader.py",
+    "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab",
+    "source_chunk_size": 2048
+  },
+  "schema": "sepalith.cpt.lossless-rechunk-input.v1"
+}

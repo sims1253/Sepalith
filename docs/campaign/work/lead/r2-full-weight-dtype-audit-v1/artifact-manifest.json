@@ -1,0 +1,22 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 2772,
+      "sha256": "4e5d17e161f2ce75eb23131df6a2a6315108dd77eb1d814a645222d879b1251c"
+    },
+    "audit.json": {
+      "bytes": 6869,
+      "sha256": "a7c542b119d45c82a6cc763bd729c1fe5abcd4422f76c936c8d2de1a40e946db"
+    },
+    "test-evidence.json": {
+      "bytes": 328,
+      "sha256": "943cbd5c892b9abaf098fe71afb7b511695cf26b300c90cf6d489698e9401716"
+    },
+    "test_saved_precision_contract.py": {
+      "bytes": 2235,
+      "sha256": "99b23eb44ac6e724a5fec176036a7fd7f5dc7e57a50a38f97d4d50f767faa448"
+    }
+  },
+  "schema": "sepalith.sft11.full-weight-dtype-audit-manifest.v1",
+  "status": "frozen"
+}

@@ -1,0 +1,223 @@
+{
+  "schema_version": "run-02.shared-id-prompt-manifest.v1",
+  "status": "mechanical_shared_fixture_pass",
+  "source_pins": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "role": "actual Python training renderer",
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/campaign_protocol.ts",
+      "role": "actual current TypeScript serving renderer",
+      "bytes": 34464,
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/scripts/check-campaign-protocol.ts",
+      "role": "accepted PRM03 TypeScript fixture checks",
+      "bytes": 10180,
+      "sha256": "f500f65d716c84de474b26f2171d0e293d42ed407d9108532b39465bc092f178"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/serving-readiness/native-probe-train-fixture.jsonl",
+      "role": "accepted native-probe TRAIN rows",
+      "bytes": 38525,
+      "sha256": "4081472e1e19457ab4b9e186858e837fbf37f9011d7f8d576a6298f3e6ddb008"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/serving-readiness/native-probe-train-fixture.manifest.json",
+      "role": "accepted native-probe fixture manifest",
+      "bytes": 6915,
+      "sha256": "0b2195b87b5f6eabc892164124c25b876833a00ba6add0d79af6826413f5d0b3"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/context-sidecar.jsonl",
+      "role": "RL-02 context-only sidecar; streamed selected rows",
+      "bytes": 83927520,
+      "sha256": "6996f89d399e5e4dd5a5dafa49e92e8a49178fbecf15b2d6e769532f1afe703f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/PRM-04-shared-fixtures.json",
+      "role": "PRM04 shared Python/TypeScript fixture receipt",
+      "bytes": 15232,
+      "sha256": "86637cd03bb690c353e7aa7c90de0559513d147b25dd3a03dc8dac3eb1d3a4bc"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/PRM-05-selection-v3-fixture.json",
+      "role": "PRM05 synthetic selection fixture provenance",
+      "bytes": 11762,
+      "sha256": "cae8e84e87a5c3f06479b6d49f156a0616fbff166576c9fe81d9a0ee47a14fa3"
+    }
+  ],
+  "contract": {
+    "renderer_id": "zeta2-prm03-v1",
+    "tokenization_policy": "hf_split_special_tokens_true_native_no_bos_no_parse_special_manual_bos0_terminal_eos1_final_lf_v1",
+    "manual_bos_id": 0,
+    "canonical_eos_id": 1,
+    "native_noncanonical_eog_id": 130073,
+    "prompt_boundary": "renderPrompt output is UTF-8 and ends with exactly one LF before generation."
+  },
+  "fixture": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/serving-readiness/native-probe-train-fixture.jsonl",
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/serving-readiness/native-probe-train-fixture.manifest.json",
+    "row_count": 4,
+    "row_order": [
+      "0003ea6fc6a4d0b3b354efba",
+      "000a6aaa48aee4291dbcb0cb",
+      "000d2bf789b999f887d12308",
+      "00ef45e53aea030d3465f860"
+    ],
+    "rows": [
+      {
+        "id": "0003ea6fc6a4d0b3b354efba",
+        "ordinal": 0,
+        "family": "no_op",
+        "package_id": "wnominate",
+        "split": "train",
+        "prompt_sha256": "5c08ad690b01d6cf03f9ec54de44bcbcb4c12d552cd521b31f942b86ac8d1f8a",
+        "prompt_bytes": 1099,
+        "prompt_token_count": 345,
+        "row_sha256": "739d291fa2eb9e83b6c897e1e8be9f0d41593b2782f98d5c228fe1e6a1178553",
+        "target_operation": "no_op",
+        "sidecar_line": 5,
+        "typescript_prompt_sha256": "5c08ad690b01d6cf03f9ec54de44bcbcb4c12d552cd521b31f942b86ac8d1f8a",
+        "typescript_prompt_bytes": 1099,
+        "python_typescript_match": true
+      },
+      {
+        "id": "000a6aaa48aee4291dbcb0cb",
+        "ordinal": 1,
+        "family": "rename_propagation",
+        "package_id": "heplots",
+        "split": "train",
+        "prompt_sha256": "4837faf50d9fe4b5d98814fd4903b4b3257d52a5adb2e55edf0b365b894a1f02",
+        "prompt_bytes": 2613,
+        "prompt_token_count": 886,
+        "row_sha256": "d683f66f3c03dc6513938ebc4715711476d23b074b40413f9d136b8af2a00658",
+        "target_operation": "replace",
+        "sidecar_line": 1,
+        "typescript_prompt_sha256": "4837faf50d9fe4b5d98814fd4903b4b3257d52a5adb2e55edf0b365b894a1f02",
+        "typescript_prompt_bytes": 2613,
+        "python_typescript_match": true
+      },
+      {
+        "id": "000d2bf789b999f887d12308",
+        "ordinal": 2,
+        "family": "format_propagation",
+        "package_id": "rempsyc",
+        "split": "train",
+        "prompt_sha256": "80f454949d462a9ad97916d54b3c829c054597a0b90ea6d1fec7b4b58438d320",
+        "prompt_bytes": 3953,
+        "prompt_token_count": 1216,
+        "row_sha256": "e61895a272e844bee6a8035a9b742e9a18f19f55ba3c7a4934020a16958b6342",
+        "target_operation": "replace",
+        "sidecar_line": 3,
+        "typescript_prompt_sha256": "80f454949d462a9ad97916d54b3c829c054597a0b90ea6d1fec7b4b58438d320",
+        "typescript_prompt_bytes": 3953,
+        "python_typescript_match": true
+      },
+      {
+        "id": "00ef45e53aea030d3465f860",
+        "ordinal": 3,
+        "family": "na_rm_propagation",
+        "package_id": "lares",
+        "split": "train",
+        "prompt_sha256": "8574f7d139161502ab3e1c63248f42f93be12d2dbadfe3d05b16458ec9bc689a",
+        "prompt_bytes": 6537,
+        "prompt_token_count": 1902,
+        "row_sha256": "74eb62b3cb331355cc3facf230f549a763f010d7d23cf094fd033ceaa722560b",
+        "target_operation": "replace",
+        "sidecar_line": 2,
+        "typescript_prompt_sha256": "8574f7d139161502ab3e1c63248f42f93be12d2dbadfe3d05b16458ec9bc689a",
+        "typescript_prompt_bytes": 6537,
+        "python_typescript_match": true
+      }
+    ]
+  },
+  "token_boundary_evidence": {
+    "rows": [
+      {
+        "id": "0003ea6fc6a4d0b3b354efba",
+        "split": "train",
+        "prompt_token_count": 345,
+        "target_start": 346,
+        "target_token_count": 11,
+        "manual_bos_id": 0,
+        "canonical_eos_id": 1,
+        "prompt_prefix_length_including_bos": 346,
+        "target_suffix_length": 12,
+        "one_bos_in_prompt_prefix": true,
+        "one_eos_at_sequence_end": true,
+        "target_start_is_prompt_count_plus_bos": true,
+        "terminal_suffix_matches_stored_target": true,
+        "terminal_suffix_ends_canonical_eos": true
+      },
+      {
+        "id": "000a6aaa48aee4291dbcb0cb",
+        "split": "train",
+        "prompt_token_count": 886,
+        "target_start": 887,
+        "target_token_count": 30,
+        "manual_bos_id": 0,
+        "canonical_eos_id": 1,
+        "prompt_prefix_length_including_bos": 887,
+        "target_suffix_length": 31,
+        "one_bos_in_prompt_prefix": true,
+        "one_eos_at_sequence_end": true,
+        "target_start_is_prompt_count_plus_bos": true,
+        "terminal_suffix_matches_stored_target": true,
+        "terminal_suffix_ends_canonical_eos": true
+      },
+      {
+        "id": "000d2bf789b999f887d12308",
+        "split": "train",
+        "prompt_token_count": 1216,
+        "target_start": 1217,
+        "target_token_count": 19,
+        "manual_bos_id": 0,
+        "canonical_eos_id": 1,
+        "prompt_prefix_length_including_bos": 1217,
+        "target_suffix_length": 20,
+        "one_bos_in_prompt_prefix": true,
+        "one_eos_at_sequence_end": true,
+        "target_start_is_prompt_count_plus_bos": true,
+        "terminal_suffix_matches_stored_target": true,
+        "terminal_suffix_ends_canonical_eos": true
+      },
+      {
+        "id": "00ef45e53aea030d3465f860",
+        "split": "train",
+        "prompt_token_count": 1902,
+        "target_start": 1903,
+        "target_token_count": 19,
+        "manual_bos_id": 0,
+        "canonical_eos_id": 1,
+        "prompt_prefix_length_including_bos": 1903,
+        "target_suffix_length": 20,
+        "one_bos_in_prompt_prefix": true,
+        "one_eos_at_sequence_end": true,
+        "target_start_is_prompt_count_plus_bos": true,
+        "terminal_suffix_matches_stored_target": true,
+        "terminal_suffix_ends_canonical_eos": true
+      }
+    ],
+    "all_rows_pass": true,
+    "accepted_PRM04_joint_boundary_proof": "4/4 rows: joint_ids == prompt_ids + target_ids",
+    "accepted_PRM04_terminal_suffix_proof": "4/4 rows: target IDs end in independently encoded terminal IDs",
+    "no_model_or_server": true
+  },
+  "renderer_comparison": {
+    "python_renderer": "sepalith.campaign_protocol.render_prompt",
+    "typescript_renderer": "current extensions/vscode-sepalith/src/campaign_protocol.ts::renderPrompt",
+    "python_typescript_exact_matches": 4,
+    "expected_matches": 4,
+    "all_prompt_hashes_match": true
+  },
+  "execution": {
+    "typescript_command": "node --experimental-strip-types --no-warnings render_shared_fixture.ts shared-context-input.json typescript-render-results.json",
+    "python_renderer_invoked": true,
+    "sidecar_rows_scanned_until_all_selected": 5
+  }
+}

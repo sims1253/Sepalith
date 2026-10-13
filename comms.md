@@ -56,9 +56,12 @@ House rules (mirrors `SYSTEMS.md` §discipline):
 - Never kill a PID you didn't log. Unknown GPU squatter → note it on the
   board with the PID and wait.
 - CPU llama-server builds are a fallback only; the GPU is the target
-  (user directive 2026-08-26). `experiments/bin/llama/llama-b10453`
-  is CPU-only — use `/tmp/llama.cpp-cuda/build/bin/llama-server` (b10453,
-  CUDA 13, sm_120) or rebuild from the same commit.
+  (user directive 2026-08-26). Since the 2026-10-10 reinstall the pinned
+  b10453 builds live under `~/.local/opt/llama.cpp-b10453/`
+  (`SEPALITH_LLAMA_CPP`): `build-cpu/bin` is CPU-only — use
+  `build-cuda/bin/llama-server` (CUDA 13, sm_120) for GPU serving.
+  Rebuild with `scripts/packaging/build_llama_cpp.sh`. The old
+  `experiments/bin/llama/` and `/tmp/llama.cpp-cuda/` paths are gone.
 
 ## Long jobs
 

@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "bytes": 1568,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "2b8cc88961fc0381ac8490fccb59c115b442c951f5c2c37f51306fe9739328be"
+    },
+    {
+      "bytes": 827,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "11bb558c5099041cf4685811f4d0ae25355ca3aeb6121681f5175ec68095ac3e"
+    },
+    {
+      "bytes": 4335,
+      "mode": "0o644",
+      "path": "evidence.json",
+      "sha256": "13ff86f5c699e62bbd9d820c5ddc7ece3ec12bdefd5264bb64f35c02c6aaa0fc"
+    },
+    {
+      "bytes": 311,
+      "mode": "0o644",
+      "path": "probe-admission.template.json",
+      "sha256": "72bb4e83ad347f95cdb4f3cdbcd29e3990c01fb24cff3d3816fbb5f4296c9a87"
+    },
+    {
+      "bytes": 4774,
+      "mode": "0o755",
+      "path": "probe.py",
+      "sha256": "d7ddf828f16d4841836558425baaf504d6f3124e984108a44a69e69e8fc805ee"
+    },
+    {
+      "bytes": 183,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "d1d567cab939fdbf30d0f4609af954822046c15d21e13f1907ead16601b1089e"
+    },
+    {
+      "bytes": 761,
+      "mode": "0o755",
+      "path": "test_candidate.py",
+      "sha256": "ea6275c9287ed3c62c38819e19fb089b5c146877e063ee31a84656de6d75dc12"
+    },
+    {
+      "bytes": 3163,
+      "mode": "0o755",
+      "path": "test_static_evidence.py",
+      "sha256": "cdb87bf494b2468788a7e94b64876c5446626585340eebab6560ae452a9b2d59"
+    },
+    {
+      "bytes": 2503,
+      "mode": "0o755",
+      "path": "torch_varlen_candidate.py",
+      "sha256": "9a5e2911ede7e144f535bd35ce73f94032a37848488f9cf6c463767d173ec7cd"
+    }
+  ],
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_cpu_audit_probe_requires_root_admission"
+}

@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 2399,
+      "path": "source/numerics_probe_helpers.py",
+      "sha256": "e110592e75b539ca97fe47e39389e3b87aecbb60b8f616ebe287f487d2b639f5"
+    },
+    {
+      "bytes": 1254,
+      "path": "source/runtime_source_closure.py",
+      "sha256": "3c24d20c4078d245f1a14d209ae8b8cca0656b8608e5f067edb64b142c73c055"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 4918,
+      "path": "source/varlen_contract.py",
+      "sha256": "148ab2c60c1342dc24114d9db05a0df53394da42998a8177cf9ba9ae91f526be"
+    },
+    {
+      "bytes": 21238,
+      "path": "source/varlen_numerics_probe.py",
+      "sha256": "2cfe29fee6359857152ca07df05e4aaa4e65d334efdbb1e7f03a48e65eb9ffca"
+    },
+    {
+      "bytes": 3973,
+      "path": "source/verify_probe_report.py",
+      "sha256": "77491422325c39afec5f8fe6bc333a52eb46dfc61c5fdd4d946c0db6092e1ce3"
+    }
+  ],
+  "schema": "sepalith.sft11.varlen-numerics-probe-source.v2",
+  "status": "frozen_preparation"
+}

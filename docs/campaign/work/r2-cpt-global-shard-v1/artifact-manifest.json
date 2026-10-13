@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "task": "DAT-10/SFT-11 global raw-R diversity shard",
+  "status": "CPU_candidate_verified_not_training_admitted",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/REVIEW.md",
+      "bytes": 4304,
+      "sha256": "45a0a8760229277bc0f2c2b53997fb3b372199146426f97342d8de1264891cb8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/audit_global_metadata.py",
+      "bytes": 3996,
+      "sha256": "e63379fe7039c4af8aebc2eccaa7771c0fa744f244b16ab5f79fa0a235bb5112"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/build.log",
+      "bytes": 9881,
+      "sha256": "a80a4170ac9fe4f4427a206cde02a40a7919acad4ee037f512b319ab0de21cb2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/build_global_shard.py",
+      "bytes": 11897,
+      "sha256": "abdca06a6ee266a7a8e14fff3d8071ab40e44dfe15d973ad39a6174503031ef1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/global-audit.log",
+      "bytes": 2310,
+      "sha256": "ac3fcdd7ff569cefe4969b77d1f3468d4320b4f91a636291a905e08565b403e3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/global-shard-audit.json",
+      "bytes": 2698,
+      "sha256": "16dbb5136816b2dc1f759b1a762b0a0e43eee48c56d01c6c94d27fa79fa03b79"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/input-source-pins.json",
+      "bytes": 4666,
+      "sha256": "99aac7fe587600cb4e96ee23433c5d900df6481be011e78c802025d742fd1484"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/process-memory-observation.json",
+      "bytes": 292,
+      "sha256": "87f7f6d32a1e3deccf49d969f50c78352407250af7d82fd49f582dea94d18beb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/cpt_train.jsonl",
+      "bytes": 287212621,
+      "sha256": "aac7e1b6140b011043f25a22970c0e8c300fde65316f7e5fbcbda7d747d4f703"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/cpt_validation.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/documents.jsonl",
+      "bytes": 9403180,
+      "sha256": "8a8cf09059afa42fcc6915d8b0a7645558115cc440d521daeedfa6d2a9305804"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/exclusions.jsonl",
+      "bytes": 367641,
+      "sha256": "e0eca7e898cd9a87fdfa04d415e24feafda6171aed4897b614170e0b03b262d6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/manifest.json",
+      "bytes": 33034,
+      "sha256": "951b1193f147854f87bf24c1a8f178a3b78ffbb65f150058bab12bdd8770e507"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/package-receipts.jsonl",
+      "bytes": 133058,
+      "sha256": "0b8bd5b02119f192f6508652e7e55f961e34fc6e1872e2eebceb88ff802dd043"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/shard/selected-source-metadata.jsonl",
+      "bytes": 6855865,
+      "sha256": "a107a223751378686f697cd2cf1b10a767c3289ceb1a0bbfc2df5e96b12c34ab"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/source-reconstruction-validation.json",
+      "bytes": 794,
+      "sha256": "3dbe8cfc99aaa408633cef177c196d229a241a82cc0d960f0434a72ce2f7da73"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/summary.json",
+      "bytes": 1404,
+      "sha256": "38c7e2cbd63ea0909d626ed327bbe97ed413d3b9578bac809f9de107b2c3c8ab"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/test_global_shard.py",
+      "bytes": 2930,
+      "sha256": "7842854424f41e78e44ec416483c7dc54194b80e814d19864cad15a4f35fce69"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/tests.log",
+      "bytes": 710,
+      "sha256": "c2dd806268a644f63c87be3d57d7032e1e4d0d75163bd03168ec33c65de84df0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-global-shard-v1/validation.log",
+      "bytes": 724,
+      "sha256": "f0981d81031dac927f7829d570ee7931764c92cf2afa2cabfb9cec7371f49ffd"
+    }
+  ]
+}

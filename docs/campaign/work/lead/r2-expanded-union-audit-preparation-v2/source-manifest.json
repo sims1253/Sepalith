@@ -1,0 +1,42 @@
+{
+  "schema": "sepalith.sft11.expanded-union-audit-source.v2",
+  "status": "frozen_preparation_review_only",
+  "files_count": 7,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 696,
+      "sha256": "ac682a9ac152e0c1ed6164423794c0359040edd4957697be1ac3d3ab7c33627e"
+    },
+    {
+      "path": "audit_expanded_union.py",
+      "bytes": 5674,
+      "sha256": "9c24e6d651b7c1c156edd82b924979cdd7504ef78a0a126423df09966ee2dd86"
+    },
+    {
+      "path": "audit_expanded_union_v1.py",
+      "bytes": 14771,
+      "sha256": "ae6f0e2ec2fd0e9010d4289754ce152222730b6d2801bad2076953c1df0c0155"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 771,
+      "sha256": "bb549ea00e9c2c4479888cc1f658ce5fbb8fead2c501ec6906540c12c2967ce0"
+    },
+    {
+      "path": "test-results.log",
+      "bytes": 466,
+      "sha256": "48a9e52fd8cc1a0e508b3cba1aa376d2616efb104653d0e00f1a56672d4a3faf"
+    },
+    {
+      "path": "tests/test_expanded_union_audit.py",
+      "bytes": 3529,
+      "sha256": "c9f592e4d88fcfc926c24a3bba488872aa00929c1e876d15e351684e57507391"
+    },
+    {
+      "path": "union-spec.template.json",
+      "bytes": 1775,
+      "sha256": "78bd62302b5a8215aa0b5b87e96b73771a4687261c41e068fdfd731d449e6736"
+    }
+  ]
+}

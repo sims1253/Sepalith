@@ -1,0 +1,11 @@
+{
+  "schema": "sepalith.sft11.varlen-numerics-root-command.v1",
+  "status": "requires_root_source_review_and_cuda_lease",
+  "base_environment": "docs/campaign/work/lead/r2-sm120-actualmodel-root-v4/environment.json",
+  "base_command": "docs/campaign/work/lead/r2-sm120-actualmodel-root-v4/command.json",
+  "required_new_harness": "fresh root-owned v5 copied from the exact v4 harness plus probe-plan.json phases",
+  "suggested_report": "/mnt/e/sepalith/campaign-20260915/training/SFT11-sm120-varlen-v1/xformers-numerics-v5.json",
+  "provider_timeout_seconds": 2400,
+  "no_optimizer_step": true,
+  "do_not_run_this_template_directly": true
+}

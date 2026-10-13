@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-09-14T14:54:07.903713+00:00",
+  "files": [
+    {
+      "bytes": 13663,
+      "mode": "0o644",
+      "path": "source/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 15257,
+      "mode": "0o644",
+      "path": "source/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 19826,
+      "mode": "0o644",
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 18233,
+      "mode": "0o644",
+      "path": "source/full_weight_resume_proof.py",
+      "sha256": "cbd4018ed547b01f360ed025f5640d0ac642f3c52282485bce888509db41060b"
+    },
+    {
+      "bytes": 12447,
+      "mode": "0o644",
+      "path": "source/full_weight_smoke.py",
+      "sha256": "2409ada7e76a08658c41e41360086c7761cbcec5dd480b9d8e32f2db3035063f"
+    },
+    {
+      "bytes": 2680,
+      "mode": "0o644",
+      "path": "source/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 67,
+      "mode": "0o644",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "3e26bce7ffdd405c40f3a78b8d0b1c1ea8a78ec3e26caae3c294e21c24c97bee"
+    },
+    {
+      "bytes": 40337,
+      "mode": "0o644",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 19301,
+      "mode": "0o644",
+      "path": "source/shared_checkpoint_replay.py",
+      "sha256": "c2903e18fcda160b71e7a82d9b2399a3f0b7c7bef300cbc2e59c5f2b72ba7b6b"
+    }
+  ],
+  "schema": "sepalith.resume-determinism-diagnostic-source.v1",
+  "upstream_v3_source_manifest": "95ec06b8a3eb44d254338f5237fd847f4ca6268b7444cc1d2ad205a420344ee7"
+}

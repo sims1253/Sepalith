@@ -1,0 +1,32 @@
+{
+  "base_harness_sha256": "5fe2f692eb2cbd490934c5ef772b67ddd6df743e526a039547c4883baf8418ae",
+  "files": [
+    {
+      "bytes": 2399,
+      "path": "source/numerics_probe_helpers.py",
+      "sha256": "e110592e75b539ca97fe47e39389e3b87aecbb60b8f616ebe287f487d2b639f5"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 4918,
+      "path": "source/varlen_contract.py",
+      "sha256": "148ab2c60c1342dc24114d9db05a0df53394da42998a8177cf9ba9ae91f526be"
+    },
+    {
+      "bytes": 20949,
+      "path": "source/varlen_numerics_probe.py",
+      "sha256": "a1d2000186337e45f1a5be0d5ca562a9c2e099ea81cd4f4ae72e83afacad026a"
+    },
+    {
+      "bytes": 3704,
+      "path": "source/verify_probe_report.py",
+      "sha256": "60144e9e7d219497b83ab3f0ab4b69237b96935836aec37979a53005a48b2631"
+    }
+  ],
+  "schema": "sepalith.sft11.varlen-numerics-probe-source.v1",
+  "status": "frozen_preparation"
+}

@@ -1,0 +1,30 @@
+{
+  "resource_gate": "Root must first verify CUDA workload terminal, existing global lock released, host memory admitted, and remaining aggregate CPT budget. CPU merge may not overlap local CUDA training.",
+  "merge_argv": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=30",
+    "570",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/merge_global_cpt_cpu.py",
+    "--recipe",
+    "ROOT_SELECTED_TERMINAL_GLOBAL_RECIPE",
+    "--checkpoint",
+    "ROOT_SELECTED_FULL_GLOBAL_CHECKPOINT",
+    "--output",
+    "ROOT_FRESH_EXT4_OUTPUT"
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2"
+  },
+  "post_merge": "Root must independently verify manifest hashes, all model/config/tokenizer files, exact selected recipe/checkpoint, terminal readout and actual host cleanup. Then bind task SFT with this helper SHA256; no optimizer resume across stages.",
+  "task_parent_policy": {
+    "kind": "cpt_merged",
+    "initialization": "new_lora_on_cpt_merged_parent"
+  },
+  "merge_helper_sha256": "23686476c30260b032c22edd4dba2178ac98f160bab3f4742ab286bdc22ae258"
+}

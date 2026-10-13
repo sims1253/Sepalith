@@ -1,0 +1,10 @@
+{
+  "schema": "sepalith.sft11.cpt706-runtime-handles.v1",
+  "status": "terminal_success",
+  "controller_pid": 3038867,
+  "guard_pid": 3040840,
+  "attestation_pid": 3042470,
+  "model_child_pid": 3044342,
+  "controller_terminal": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-to706-cadence64-root-v3/terminal.json",
+  "guard_terminal": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-cpt450-cadence64-to706-v1-host-supervision-c/terminal.json"
+}

@@ -5,7 +5,7 @@
 # ((c) = teacher-target: identical prompts to (b), teacher renderings as targets)).
 #
 # FIRE (from repo root, tree committed):
-#   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
+#   eval "$(grep -E '^export HF_TOKEN=' ~/.config/sepalith/secrets.env)"
 #   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
 #     && git archive HEAD | tar -x -C /tmp/anyscale_sft/pkg
 #   sed -e "s|<HF_TOKEN>|$HF_TOKEN|" -e "s|<STEPS>|SET_BY_FIRE_ORDER|" \

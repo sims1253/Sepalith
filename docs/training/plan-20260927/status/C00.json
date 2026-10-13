@@ -1,0 +1,39 @@
+{
+  "card": "C00",
+  "state": "done",
+  "updated": "2026-09-27T23:20:00+02:00",
+  "branch": "t3code/sft-rl-training-plan",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/40",
+  "outputs": {
+    "git_snapshot": {
+      "path": "docs/campaign/",
+      "files": 5455,
+      "note": "Code, notes and small manifests only; DEV-case/model-output R files and vendored third-party code (2,091 files) were removed from git and remain in the HF provenance tarball. See docs/campaign/SNAPSHOT.md"
+    },
+    "model_repo": {
+      "id": "scholzmx/sepalith-2b-cpt",
+      "visibility": "public",
+      "files": 20,
+      "weights_sha256": {
+        "checkpoint-11586": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+        "checkpoint-11649": "754f8e2d0861f34a (prefix; full hash in the checkpoint-11649 manifest)"
+      },
+      "weights_sha256_verified": true
+    },
+    "dataset": {
+      "id": "scholzmx/sepalith",
+      "visibility": "public",
+      "prefix": "campaign-20260915/",
+      "files": 27,
+      "bytes": 5930000000,
+      "forbidden_paths_found": [],
+      "readme_updated": true,
+      "provenance_tarball_sha256": "1a524e78b833f126 (prefix; verified equal to the local build before cleanup)"
+    },
+    "upload_script": "docs/training/plan-20260927/receipts/upload_secure_20260927.py",
+    "upload_log": "removed with /mnt/e/sepalith/hf-staging after verification; receipt kept at receipts/C00-upload-receipt.json"
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "Secret scan: none of the ten ~/.zshrc secrets, the old Hermes key or the Kaggle key occur in the snapshot; one token-shaped test fixture (HTTP 401 on HF) was excluded. The planning branch's own nine commits were scanned the same way before pushing."
+}

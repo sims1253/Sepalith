@@ -1,0 +1,80 @@
+{
+  "schema": "sepalith.run06.e750-notebook-root-admission-prep-source.v1",
+  "status": "complete_no_launch",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1694,
+      "sha256": "3764e37f12d4be057f80f031569db76ccfa158688cce5b6bce895cfed13d9ef4",
+      "mode": "0o644"
+    },
+    {
+      "path": "admission.draft.json",
+      "bytes": 1015,
+      "sha256": "e49ebe5664e75480f3412a28b038c6586ecbf3ff207a27cfbd390bf65b39dce9",
+      "mode": "0o644"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1816,
+      "sha256": "48c0b5411e310ad2425c5bcd4f5d2f7b22b0af3e7ec66df1b0f48a7f6adf4bbd",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/remote-current-audit.txt",
+      "bytes": 2102,
+      "sha256": "7a8dfe7c0228db41fa6c2d6a67242677aa5d8391daa8754c2e8d841461e33227",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/remote-supervisor-tools.txt",
+      "bytes": 56,
+      "sha256": "5a1c0b203ff9d7fcfcce176a1e4d89d15113441e61ba4d7ecb59a64e6abc2535",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/tests-final.txt",
+      "bytes": 103,
+      "sha256": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6",
+      "mode": "0o644"
+    },
+    {
+      "path": "evidence/tests.txt",
+      "bytes": 102,
+      "sha256": "e6ec182765cd965f2837d8eeaef5a64af48a104f245cd1a0b7281559194c57c1",
+      "mode": "0o644"
+    },
+    {
+      "path": "issue_admission.py",
+      "bytes": 2753,
+      "sha256": "3e591a08e82d0edce9b8da7a0bcb768b3cc0f4cccb82302ac0966c286436e954",
+      "mode": "0o755"
+    },
+    {
+      "path": "review.json",
+      "bytes": 4551,
+      "sha256": "cd2c24168d0feeb8f849d9d0888c08c3e33bae379518f90cf33078ce2b794146",
+      "mode": "0o644"
+    },
+    {
+      "path": "stage_and_launch.sh",
+      "bytes": 4534,
+      "sha256": "cbbcf9f04bef10112a82a30091343379702a33192cf794e3f8f1fd943afd4848",
+      "mode": "0o755"
+    },
+    {
+      "path": "test_admission.py",
+      "bytes": 1699,
+      "sha256": "a35942cfbaf676acfbd8c9195fa78008b4d0ffc7c24342ca019ba217b648b773",
+      "mode": "0o644"
+    },
+    {
+      "path": "watchdog_remote.py",
+      "bytes": 4033,
+      "sha256": "424a641b599cf793e58d0ec142d0a07d3ac0def375b2bc3db6faa9dc070b2fff",
+      "mode": "0o755"
+    }
+  ],
+  "file_count": 12,
+  "total_bytes": 24458
+}

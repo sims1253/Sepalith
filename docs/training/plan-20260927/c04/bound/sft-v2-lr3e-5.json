@@ -1,0 +1,308 @@
+{
+  "arm": {
+    "learning_rate": 3e-05,
+    "name": "lr3e-5",
+    "purpose": "C08 learning-rate pilot arm (stops at the first gate; the R2 winner resumes in C09)"
+  },
+  "checkpoint_storage": {
+    "archive_root": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr3e-5",
+    "c_hot_stage": "not_admitted",
+    "mode": "e_same_filesystem_atomic",
+    "required_same_filesystem": true,
+    "trainer_root": "/mnt/e/sepalith/campaign-20260915/training/SFT-v2-r4-lr3e-5/runtime"
+  },
+  "cohort": {
+    "body_tokens": 1486961,
+    "draw_schedule": {
+      "bytes": 9582526,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C04-sft-recipe-v2-r4/draw-schedule-v2.json",
+      "sha256": "6820a84738ba2131911146f1541aaa525b41b08300b924261a287f6a404cc7bc"
+    },
+    "id": "DAT10-finish-source-repair-v4-braceindent-full15006",
+    "input_tokens": 13755200,
+    "length_profile": {
+      "bytes": 471,
+      "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/v4/length-profile.json",
+      "sha256": "392a1af33288a48436541ee80391bc9ebd203faf985a673fdc1c4c844999fe77"
+    },
+    "loss_tokens": 1576997,
+    "manifest": {
+      "bytes": 2314,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/materialization.json",
+      "sha256": "a341164f3f167d1e7cec8fbae1448b458aba8c0a3865d095ce8d6780157a89c5"
+    },
+    "max_sequence_tokens": 16384,
+    "observed_max_sequence_tokens": 3064,
+    "observed_max_target_tokens_including_eos": 933,
+    "rows": {
+      "bytes": 134305148,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+    },
+    "schedule_semantics": {
+      "edit_per_batch": 13,
+      "exposure_histogram_by_pool": {
+        "edit": {
+          "1": 13901,
+          "2": 11
+        },
+        "noop": {
+          "2": 69,
+          "3": 1025
+        }
+      },
+      "gate_updates": [
+        268,
+        536,
+        803,
+        1071
+      ],
+      "noop_per_batch": 3,
+      "noop_share": 0.1875,
+      "replay_draws_by_reason": {
+        "edit_batch_completion_alignment_replay": 11,
+        "noop_pass_replay": 2119
+      },
+      "version": "sft-schedule-v2-13edit-3noop"
+    },
+    "scope": "accepted_repaired_15006_only_additional_roxy_pending",
+    "target_truncation": false,
+    "unique_rows": 15006,
+    "updates": 1071
+  },
+  "data_queue": {
+    "additional_roxy_rows": 10017,
+    "additional_roxy_status": "pending_root_admission",
+    "bytes": 2521,
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/v4/data-queue.json",
+    "sha256": "0024483b488eb5f4b6e3a8c8328486f2a8fe7a3763e99b979452606c0e2e27ee"
+  },
+  "dev_gate": {
+    "continuation_policy": "automatic_rule_R1_with_human_override_file",
+    "evidence_directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr3e-5",
+    "generation_batching": {
+      "batch_size": 32,
+      "kv_cache": "dynamic",
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "padding_side": "left",
+      "policy": "the parent baseline and every gate use these settings; a result whose generation runtime differs from its R1 reference is stop-for-user"
+    },
+    "generation_max_new_tokens": 1024,
+    "mandatory_steps": [
+      268,
+      536,
+      803,
+      1071
+    ],
+    "override_file_pattern": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr3e-5/override-step-<step>.json",
+    "panel": {
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "panels": {
+      "dev250": {
+        "cases": 250,
+        "manifest": {
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/manifest.json",
+          "sha256": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+        },
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+        "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+      },
+      "dev75": {
+        "cases": 75,
+        "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+        "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+      }
+    },
+    "parent_baseline": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-parent-11586-baseline/baseline.json"
+    },
+    "rule": "R1"
+  },
+  "dev_panels": {
+    "dev250": {
+      "cases": 250,
+      "manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/manifest.json",
+        "sha256": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+      },
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+    },
+    "dev75": {
+      "cases": 75,
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    }
+  },
+  "development": {
+    "cases": 75,
+    "final_set_access": false,
+    "generation_budget": {
+      "default_candidate": 1024,
+      "policy": "no silent truncation; report cap hit, response completeness, stop token, all-case metrics, and complete-case metrics",
+      "prepared_max_new_tokens_bound": 8192,
+      "root_selected": true
+    },
+    "generation_evaluation": "required_for_edit_and_noop_quality",
+    "in_callback_policy": "mandatory optimizer-boundary stop; DEV75 and DEV250 generation run in a separate process after the trainer exits",
+    "panel": {
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "teacher_forced_diagnostic": "separate_metric_not_edit_accuracy"
+  },
+  "expected_model": {
+    "dtype": "bfloat16",
+    "parameter_tensors": 381,
+    "parameters": 2516756480,
+    "peft": false
+  },
+  "launch_authorized": true,
+  "optimizer_dispatch": {
+    "bytes": 90229,
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "output_tag": "r4",
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr3e-5",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT-v2-r4-lr3e-5-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT-v2-r4-lr3e-5/runtime"
+  },
+  "parent": {
+    "candidate_id": "CPT-11586",
+    "files": {
+      "campaign-manifest.json": "30527935a15d3a158f5aaf6f8759183f1e9c2bb23fde7ed3df38feaa41991ab8",
+      "chat_template.jinja": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c",
+      "config.json": "ac441a791ac12d0802429892f42044bc4b9a5b6968bd75db3fe96416c69c2173",
+      "generation_config.json": "0f9e07ed38da2371971f322d8ad8d2f77da32514b66798d089e55faba704844b",
+      "model.safetensors": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "0888551b46656b68bdb4402b79598f49ee6bb7b7e8be5f60a89278c439fe6896"
+    },
+    "kind": "cpt_full_weight_checkpoint",
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586",
+    "selection_status": "user_selected_for_edit_sft_parent",
+    "step": 11586
+  },
+  "pre_registered": {
+    "arms_differ_only_in": "learning_rate (hidden LR) and side LR = LR / 10",
+    "card": "C04",
+    "cpt_hidden_learning_rate": 3e-06,
+    "gate_rule": "R1 (docs/training/plan-20260927/RULES.md)",
+    "gate_updates": [
+      268,
+      536,
+      803,
+      1071
+    ],
+    "learning_rate_upper_bound": 3e-05,
+    "learning_rate_upper_bound_rationale": "3e-5 is ten times the CPT hidden LR of 3e-6. Aurora/Muon updates have a fixed RMS of rms_scale x LR, so the LR directly sets how far each update moves the weights, and a 268-update pilot cannot reveal slow forgetting of CPT knowledge; the search therefore stays within one decade above the CPT rate.",
+    "min_lr_rate": 0.1,
+    "optimizer_mechanics": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "parent_baseline": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-parent-11586-baseline/baseline.json",
+    "pilot_learning_rates": [
+      3e-06,
+      1e-05,
+      3e-05
+    ],
+    "scheduler": "cosine_with_min_lr",
+    "side_lr_ratio": 0.1,
+    "warmup_steps": 32,
+    "weight_decay": 0.0
+  },
+  "retention": {
+    "policy": "retain_all",
+    "preserve_selected_milestones": true,
+    "reason": "R7: deleting any checkpoint is stop-for-user; every gate checkpoint and every deadline save is kept"
+  },
+  "root_admission": {
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/admissions/lr3e-5.json",
+    "sha256": "88aac957d401fae66ff932096f1988a4e6a46c14e832936e14d4d5e41a6aa90f"
+  },
+  "runtime": {
+    "checkpoint_every": 1071,
+    "development_max_new_tokens": 1024,
+    "effective_batch": 16,
+    "evaluation_steps": [
+      268,
+      536,
+      803,
+      1071
+    ],
+    "gate_evidence_directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr3e-5",
+    "gradient_accumulation": 16,
+    "learning_rate": 3e-05,
+    "lr_scheduler_kwargs": {
+      "min_lr_rate": 0.1
+    },
+    "mandatory_dev_gate_steps": [
+      268,
+      536,
+      803,
+      1071
+    ],
+    "max_steps": 1071,
+    "micro_batch": 1,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 3e-05,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 3e-06,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "scheduler": "cosine_with_min_lr",
+    "selected_milestones": [
+      268,
+      536,
+      803,
+      1071
+    ],
+    "telemetry_every": 1,
+    "warmup_steps": 32,
+    "weight_decay": 0.0
+  },
+  "schema": "sepalith.sft-v2.full-weight-edit-sft-bound.v1",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/source-manifest.json",
+    "manifest_sha256": "619c380826c652be4be71aaff257340fc82438fac6424143787af4745b86eb9f",
+    "repository_root": "/home/m0hawk/sandbox/Sepalith"
+  },
+  "status": "bound_not_launched",
+  "template": {
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/sft-v2-recipe.template.json",
+    "sha256": "0242ecb9f069eeaca320ef007161f50d35370e29a6dfab1969379890103256f3"
+  }
+}

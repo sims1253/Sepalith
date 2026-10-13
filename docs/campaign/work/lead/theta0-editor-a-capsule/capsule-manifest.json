@@ -1,0 +1,10 @@
+{
+  "primary.vsix": "a56d2e442ae7abf266ef5f508d25443d00acecb9a78f92787b7ac332e3e2836d",
+  "build_primary_manifest.mjs": "eeecfac011ae1ccb014bb37a5676174aa173bf35c40cde8c9d7a817e92b22446",
+  "notebook_editor_supervisor.py": "7a670b69f95d1250067c84357d1d1126061aaaf80fbde2c8c4a2ebbecf6b4aa0",
+  "primary-route-spec.json": "6286ad151f738d6ec8cae46ad812f5e4ec070f75cbdc41f63ea17c275d990ab9",
+  "run_primary_managed_route.mjs": "a3b9c2e16f4b715ee19964160f256e94cf5f0faa87579ed07fca750f70b0dce6",
+  "primary-editor-harness/package.json": "bf5754ca9f2913521bc6d19fb291124366d3152317a4aff8b1781722afe916a3",
+  "primary-editor-harness/extension.js": "b052363ca397bee08ae94af7f441b7ead7c41a47306431fd39347a5dba22c4b2",
+  "primary-editor-harness/README.md": "bc5828dafb847a069296b119d9286706cd2e76f3112962714ca7befc5650c4d5"
+}

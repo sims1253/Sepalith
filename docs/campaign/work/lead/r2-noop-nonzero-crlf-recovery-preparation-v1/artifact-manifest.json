@@ -1,0 +1,59 @@
+{
+  "artifacts": [
+    {
+      "bytes": 1511,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/README.md",
+      "sha256": "40a5b6a776ef9e1ca1466cd38f9826a175f9dab83b37365a648aa52f0b6b4c9e"
+    },
+    {
+      "bytes": 21554,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/prepare_recovery_audit.py",
+      "sha256": "c59848e8008f06c87a7f21474af73bcde0f98cdbd5b59881cabe11342fe8bd6e"
+    },
+    {
+      "bytes": 1210,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/test_recovery_rules.py",
+      "sha256": "c9699ebd8d7acaf3027ae1ab7f4ffb8cdea875dccabc5850d848faec6ac10b90"
+    },
+    {
+      "bytes": 1609,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/source-manifest.json",
+      "sha256": "d020c56072b5a90864f912a12fa473e3938aec0dc1773167111409517404cfc5"
+    },
+    {
+      "bytes": 13923,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/result.json",
+      "sha256": "904c79e73bb2e57003c4210e401677ab0e65e45fec8fe73cc9d06710d011aa95"
+    }
+  ],
+  "external_outputs": {
+    "decision_ledger": {
+      "bytes": 3798287,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop-expansion-v4/recovery-decisions.jsonl",
+      "rows": 2991,
+      "sha256": "b83ebd543041fc829fe6cbe32326bfcc6d71786b8f983a16d1e2b6efedeaed03"
+    },
+    "mixed_eol_hold_evidence": {
+      "bytes": 4220,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop-expansion-v4/mixed-eol-hold-evidence.json",
+      "rows": 6,
+      "sha256": "d36d5c6a3e496a49ed0172dd08d8f7344254f2bc776767f5de2d72d3628eaaf7"
+    },
+    "output_manifest": {
+      "bytes": 4755,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop-expansion-v4/manifest.json",
+      "sha256": "3537384c8e0288ffdb7e9c13ed90f08790a2a651fae3970ffe35df712e399991"
+    },
+    "representative_proofs": {
+      "bytes": 4524,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop-expansion-v4/representative-proofs.json",
+      "sha256": "6cab8785c7c0bff3b766c02b7ecb4f5abbca2b5fa4f9ef87d3eeee5e765cdb40"
+    }
+  },
+  "packet_root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1",
+  "provider_inputs_emitted": false,
+  "schema": "sepalith.dat10.noop_recovery_preparation_artifact_manifest.v1",
+  "source_or_target_text_written": false,
+  "status": "frozen_review_only",
+  "training_admission": false
+}

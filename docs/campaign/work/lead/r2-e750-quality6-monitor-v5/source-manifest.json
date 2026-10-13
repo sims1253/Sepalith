@@ -1,0 +1,45 @@
+{
+  "files": [
+    {
+      "bytes": 5855,
+      "mode": "0o444",
+      "path": "analyze_results.py",
+      "sha256": "34d1aa03f05bfcd0dcc42518c2b40fcd21b98d3f5f917f0fff1c676ee2492351"
+    },
+    {
+      "bytes": 12516,
+      "mode": "0o444",
+      "path": "terminal-comparison.json",
+      "sha256": "d8b750540cf361958ef92f49533db9068ce5465ce437910e173ffb394bcd43f7"
+    },
+    {
+      "bytes": 150533,
+      "mode": "0o444",
+      "path": "paired-comparison.json",
+      "sha256": "10cf84972105137acdb8901491194847a7100f837f98c3763316e19810792db5"
+    },
+    {
+      "bytes": 707,
+      "mode": "0o444",
+      "path": "test-results.log",
+      "sha256": "385cec8291a087ba084a210b275d01450d5b9679e8f6f4b826404b7b3868c281"
+    }
+  ],
+  "input": {
+    "path": "docs/campaign/receipts/RUN-06-e750-quality6-monitor-v4.json",
+    "sha256": "568facff6c666e42dda6f35bd0a904fb5ebf25c37a59f9858b4138585dc8aea7"
+  },
+  "remote_binding": {
+    "admission_sha256": "b80bb6c2c5b1a211d4e10f779ac990d2931674b06aa93a896d1ebf88dade4190",
+    "packet_sha256": "f8a1615a87665d06d3d4a56813d5bbcb22d7eaf9b081eee867d8a21b2cdb89e2",
+    "suite_terminal_sha256": "8b23156df18072b15483692391f116e887015346877bd279f37b392bad7c2453"
+  },
+  "result_hashes": {
+    "192": "5e22551350ae72083c8e4cf1f494c969151f3086f4c3a5a892aaea2670c69f18",
+    "384": "c9c21c0ac20a69fb6b0092285eb72d08114038e34d28289849422fa4fdba2da3",
+    "768": "7ee0b3c1d60ecf448d7be82a0cb0e12356c5b37422db158b39706695c3608f7e"
+  },
+  "run_id": "root-20260915T0446",
+  "schema": "sepalith.run06.e750-quality6-terminal-monitor.source-manifest.v5",
+  "status": "complete_frozen_root_review_candidate"
+}

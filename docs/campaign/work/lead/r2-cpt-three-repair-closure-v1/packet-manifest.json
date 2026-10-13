@@ -1,0 +1,72 @@
+{
+  "files": {
+    "rblpapi-provisional-16k-input.json": {
+      "bytes": 1084,
+      "sha256": "fab6b6ca20e25a596825a607c850a03c25a375acf9492743290938f8487e7fbc"
+    },
+    "recover.py": {
+      "bytes": 8735,
+      "sha256": "97fbf3d26b43cc8d3176d869251b4b250eab88cd56e5a18f077fd894b0d52489"
+    },
+    "review.json": {
+      "bytes": 5857,
+      "sha256": "e6007b7db031a04202c45f14245e59307783192bc7292ef115516858661bc9f0"
+    },
+    "source/campaign_cpt_data.py": {
+      "bytes": 29909,
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    "source/lossless_rechunk.py": {
+      "bytes": 11812,
+      "sha256": "0530b93885e4db9f4c8f87acc6e5efd9bd735f82b5b2c24b8006d145acb5fa13"
+    },
+    "source/raw_cpt_broader.py": {
+      "bytes": 11920,
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "svars-16k-input.json": {
+      "bytes": 1054,
+      "sha256": "04869c9416b916e24f0a52d8fffda20a6143997fd52a2a62ee5d18a3fd5e40cd"
+    }
+  },
+  "output": {
+    "exclusions": {
+      "bytes": 312,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/exclusions.jsonl",
+      "sha256": "b1c823722d79f46593ee5823f37c56b5f149a78525b7b7e97c02d92512fae8e0"
+    },
+    "rblpapi_16k_provisional": {
+      "bytes": 200377,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/rblpapi-provisional-16k/cpt_train_ctx16384.jsonl",
+      "sha256": "b90217868249c4ea2c71865ecfbc1d892a6625e067ce6a59cb794ee331f257df"
+    },
+    "rblpapi_2k_provisional": {
+      "bytes": 200206,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/rblpapi-provisional/cpt_train.jsonl",
+      "sha256": "4eb7dfd1379b223dcdfb94a0abdd0cf44e51d46373974251b0b3cffbba3a21a6"
+    },
+    "result": {
+      "bytes": 3508,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/result.json",
+      "sha256": "4e6a24ff4e7711b9c73595f3ddbefdd2fbc5d87254842eda3370bf3035d1afe2"
+    },
+    "source_inventory": {
+      "bytes": 81548,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/source-inventory.jsonl",
+      "sha256": "c19cb53f3a0e3b774de7d3c8ef39c04197ce9e0dc82b957f0f31670d984efbd0"
+    },
+    "svars_16k": {
+      "bytes": 924145,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/svars-16k/cpt_train_ctx16384.jsonl",
+      "sha256": "cd5582e116b61395681f2a08841b4618826c661fefcdd155f7f44f9b459c79d2"
+    },
+    "svars_2k": {
+      "bytes": 938208,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-three-repair-recovery-v1/svars/cpt_train.jsonl",
+      "sha256": "6ad53802dfb7ebec6c820c7d934e048fdaff4cc920dcb74de0fd283da00df385"
+    }
+  },
+  "schema": "sepalith.cpt.three-repair-closure-packet.v1",
+  "status": "complete_root_review_required",
+  "training_admission": false
+}

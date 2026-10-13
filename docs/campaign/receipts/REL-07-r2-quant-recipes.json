@@ -1,0 +1,283 @@
+{
+  "schema_version": "sepalith.rel-07.r2-quant-recipes.v1",
+  "task": "REL-07 R2 calibrated native quant recipes",
+  "status": "research_complete_root_launch_pending",
+  "generated_at": "2026-09-14T08:30:00+02:00",
+  "scope": {
+    "calibration": "TRAIN only",
+    "worker_cpu_only": true,
+    "worker_threads": 2,
+    "worker_cuda_used": false,
+    "worker_ssh_or_network_used": false,
+    "worker_paid_or_large_download_used": false,
+    "worker_source_model_tensor_payload_read": false,
+    "worker_conversion_launched": false,
+    "worker_inference_launched": false,
+    "dev_or_final_content_opened": false,
+    "root_owns_launch_and_scientific_choice": true
+  },
+  "selected_model": {
+    "identity": "SFT11-task-global-b-500",
+    "lineage": "MiniCPM5-2B-Midtrain -> CPT -> SFT11-task-global-b-500",
+    "f16": {
+      "path": "/mnt/e/sepalith/campaign-20260915/intermediate-f16/SFT11-task-global-b-500-quant/model-F16.gguf",
+      "bytes": 5039006496,
+      "sha256": "fe1c38a2b53519fb15eeb4ac36efdd7b6f60ad5a58451475b51308a93cb8a8ee"
+    },
+    "q8_reference": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-quant/model-Q8_0.gguf",
+      "bytes": 2679710496,
+      "sha256": "d269a9fb85cd19efa05c6bf0dc11ccaa0f931fc50b826d893d58ae65043e02db"
+    },
+    "parent_manifest_sha256": "92157a4a52a4ed928f76df9f1f77a6aa39235eefd6a859eb9c2b3d4118ee18db",
+    "architecture": {
+      "layers": 42,
+      "hidden_size": 2048,
+      "intermediate_size": 6144,
+      "attention_heads": 16,
+      "kv_heads": 2,
+      "gqa": 8,
+      "tie_word_embeddings": false,
+      "tensor_records": 381,
+      "quantizable_linear_records": 294,
+      "unquantized_f32_records": 85
+    }
+  },
+  "importance_matrix": {
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/benchmarks/r2-imatrix-v1/imatrix.gguf",
+    "sha256": "0c2f8dcbdbc55dd3f35953fc735b997190559c3ad91cfbd5a4d58f1a318607bf",
+    "bytes": 3150208,
+    "weight_entries": 295,
+    "entry_layout": "42 layers x 7 linear families plus output.weight",
+    "physical_f32_tensors": 590,
+    "chunks": 51,
+    "chunk_size": 2048,
+    "count_min": 104448,
+    "count_max": 104448,
+    "all_values_finite_nonnegative": true,
+    "all_counts_positive": true,
+    "all_model_linears_covered": true,
+    "output_weight_covered": true,
+    "token_embedding_covered": false,
+    "token_embedding_missing_is_safe": "token_embd.weight is explicitly Q8_0 and excluded from the required-imatrix check",
+    "acceptance_receipt": "docs/campaign/receipts/REL-07-r2-imatrix-root-acceptance.json"
+  },
+  "pinned_quantizer": {
+    "source_tree": "/home/m0hawk/Documents/Sepalith/experiments/bin/src/llamacpp-b10453",
+    "git_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+    "label": "b10453",
+    "installed_cpu_binary": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+    "installed_cpu_binary_sha256": "28cd0f04614c2ca5a6de32feb4b2196625fc792052682749da64cc5879035365",
+    "source_hashes": {
+      "tools/quantize/quantize.cpp": "5a3e413ca1022d345c8b3a100fbc957f73e461bb0f24eb7b42addf107c926903",
+      "src/llama-quant.cpp": "41a5bce8f9ee9d4fd27053fee30357c4b3724ae7c612bd108161b7e0ddc42244",
+      "common/imatrix-loader.cpp": "fcd471a2c502f5d78dd26dec04b6129a755e7eaa5566db6161ba646ac046b373",
+      "tools/imatrix/imatrix.cpp": "a56c35fe501a2b4dc4b10d55dcf0468e22b8bfd0e82987f0cec8121201d2bf5a",
+      "ggml/src/ggml.c": "fb177479234cc6e5d15105f5cac630d9321827de6a71ead648ac96862ec6367f",
+      "ggml/src/ggml-quants.c": "07143d7068936ae46b3c528b2f3d4bbb666e74d88992165716174d243573965d"
+    }
+  },
+  "conversion_commands": [
+    {
+      "preset": "Q4_K_M",
+      "argv": [
+        "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+        "--imatrix",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/benchmarks/r2-imatrix-v1/imatrix.gguf",
+        "--output-tensor-type",
+        "q8_0",
+        "--token-embedding-type",
+        "q8_0",
+        "/mnt/e/sepalith/campaign-20260915/intermediate-f16/SFT11-task-global-b-500-quant/model-F16.gguf",
+        "/mnt/e/sepalith/campaign-20260915/quant-candidates/SFT11-task-global-b-500/model-Q4_K_M-imatrix-q8io.gguf",
+        "Q4_K_M",
+        "2"
+      ],
+      "matrix_required_for_success": false,
+      "matrix_required_for_this_calibrated_comparison": true
+    },
+    {
+      "preset": "IQ3_M",
+      "argv": [
+        "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+        "--imatrix",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/benchmarks/r2-imatrix-v1/imatrix.gguf",
+        "--output-tensor-type",
+        "q8_0",
+        "--token-embedding-type",
+        "q8_0",
+        "/mnt/e/sepalith/campaign-20260915/intermediate-f16/SFT11-task-global-b-500-quant/model-F16.gguf",
+        "/mnt/e/sepalith/campaign-20260915/quant-candidates/SFT11-task-global-b-500/model-IQ3_M-imatrix-q8io.gguf",
+        "IQ3_M",
+        "2"
+      ],
+      "matrix_required_for_success": false,
+      "matrix_required_for_this_calibrated_comparison": true
+    },
+    {
+      "preset": "IQ2_M",
+      "argv": [
+        "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-quantize",
+        "--imatrix",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/benchmarks/r2-imatrix-v1/imatrix.gguf",
+        "--output-tensor-type",
+        "q8_0",
+        "--token-embedding-type",
+        "q8_0",
+        "/mnt/e/sepalith/campaign-20260915/intermediate-f16/SFT11-task-global-b-500-quant/model-F16.gguf",
+        "/mnt/e/sepalith/campaign-20260915/quant-candidates/SFT11-task-global-b-500/model-IQ2_M-imatrix-q8io.gguf",
+        "IQ2_M",
+        "2"
+      ],
+      "matrix_required_for_success": true,
+      "matrix_required_for_this_calibrated_comparison": true,
+      "required_actual_type": "IQ2_S"
+    }
+  ],
+  "expected_actual_tensor_types": {
+    "Q4_K_M": {
+      "F32": 85,
+      "Q8_0": 2,
+      "Q4_K": 252,
+      "Q6_K": 42,
+      "total": 381,
+      "q6_rule": "21 attn_v plus 21 ffn_down tensors on layers 0,1,2,3,4,7,10,13,16,19,22,25,28,31,34,36,37,38,39,40,41"
+    },
+    "IQ3_M": {
+      "F32": 85,
+      "Q8_0": 2,
+      "IQ3_S": 205,
+      "Q4_K": 89,
+      "total": 381,
+      "q4_rule": "all 42 attn_v, all 42 attn_output, and ffn_down layers 0 through 4"
+    },
+    "IQ2_M": {
+      "F32": 85,
+      "Q8_0": 2,
+      "IQ2_S": 205,
+      "IQ3_S": 47,
+      "Q4_K": 42,
+      "total": 381,
+      "q4_rule": "all 42 attn_v",
+      "iq3_rule": "all 42 attn_output and ffn_down layers 0 through 4"
+    },
+    "output_tensor": "output.weight -> Q8_0",
+    "token_embedding_tensor": "token_embd.weight -> Q8_0",
+    "expected_shape_fallbacks": 0,
+    "reason_no_fallback_expected": "model first dimensions are 2048 or 6144, divisible by 256-element IQ/K blocks"
+  },
+  "measured_train_importance": {
+    "method": "read-only reduction of F32 imatrix .in_sum2 vectors divided by .counts, matching pinned loader semantics",
+    "metric_caveat": "scores are squared activations, not raw activation magnitudes",
+    "families": {
+      "attn_q": {
+        "entries": 42,
+        "width": 2048,
+        "sum_sigma_act2": 57048.83,
+        "largest_layer_sum": 2320.41,
+        "largest_layer": 41,
+        "largest_channel": 266.47,
+        "largest_channel_layer": 2,
+        "highest_zd_percent": 2.83,
+        "highest_zd_layer": 29
+      },
+      "attn_k": {
+        "entries": 42,
+        "width": 2048,
+        "sum_sigma_act2": 57048.83,
+        "largest_layer_sum": 2320.41,
+        "largest_layer": 41,
+        "largest_channel": 266.47,
+        "largest_channel_layer": 2,
+        "highest_zd_percent": 2.83,
+        "highest_zd_layer": 29
+      },
+      "attn_v": {
+        "entries": 42,
+        "width": 2048,
+        "sum_sigma_act2": 57048.83,
+        "largest_layer_sum": 2320.41,
+        "largest_layer": 41,
+        "largest_channel": 266.47,
+        "largest_channel_layer": 2,
+        "highest_zd_percent": 2.83,
+        "highest_zd_layer": 29
+      },
+      "attn_output": {
+        "entries": 42,
+        "width": 2048,
+        "sum_sigma_act2": 7478.63,
+        "largest_layer_sum": 719.92,
+        "largest_layer": 39,
+        "largest_channel": 5.27,
+        "largest_channel_layer": 39,
+        "highest_zd_percent": 19.43,
+        "highest_zd_layer": 30
+      },
+      "ffn_down": {
+        "entries": 42,
+        "width": 6144,
+        "sum_sigma_act2": 29525.57,
+        "largest_layer_sum": 14541.67,
+        "largest_layer": 41,
+        "largest_channel": 4054.25,
+        "largest_channel_layer": 7,
+        "highest_zd_percent": 9.07,
+        "highest_zd_layer": 15
+      },
+      "ffn_gate": {
+        "entries": 42,
+        "width": 2048,
+        "sum_sigma_act2": 35224.54,
+        "largest_layer_sum": 1778.70,
+        "largest_layer": 41,
+        "largest_channel": 115.46,
+        "largest_channel_layer": 41,
+        "highest_zd_percent": 11.52,
+        "highest_zd_layer": 30
+      },
+      "ffn_up": {
+        "entries": 42,
+        "width": 2048,
+        "sum_sigma_act2": 35224.54,
+        "largest_layer_sum": 1778.70,
+        "largest_layer": 41,
+        "largest_channel": 115.46,
+        "largest_channel_layer": 41,
+        "highest_zd_percent": 11.52,
+        "highest_zd_layer": 30
+      },
+      "output.weight": {
+        "entries": 1,
+        "width": 2048,
+        "sum_sigma_act2": 44835.31,
+        "largest_channel": 12814.05,
+        "highest_zd_percent": 0.59
+      }
+    },
+    "interpretation": "matrix scores support protecting attention V, late FFN-down, late attention-output, and output paths; type schedules remain source heuristics",
+    "outlier_treatment": "imatrix changes weighted scale/codebook/lattice fits; b10453 has no separate clipping, FP16 spill, or per-channel preservation pass"
+  },
+  "acceptance_gates": [
+    "Conversion terminal success with direct F16 input and the pinned CPU binary",
+    "No missing-imatrix error and no non-embedding matrix size mismatch",
+    "No tensor-shape fallback warnings; actual fallback count is zero",
+    "All 381 output headers match the selected inventory exactly",
+    "output.weight and token_embd.weight are Q8_0; 85 unquantized records remain F32",
+    "Output metadata records the imatrix file, dataset, entry count, and chunk count",
+    "Hash and size are recorded for every candidate",
+    "TRAIN-only paired quality, no-op/edit/cap, parser, and CPU two-thread latency checks pass root thresholds",
+    "No promotion claim from this recipe receipt alone; root makes the scientific choice"
+  ],
+  "test_priorities": [
+    "Q4_K_M baseline: ffn_down layers 7 and 41, attention V layer 2 and late layers, and output/embedding logits",
+    "IQ3_M: attention output layers 39 and 41 and ffn_down layers 7 and 41, with special attention to layer-41 ffn_down remaining IQ3_S",
+    "IQ2_M: all 205 IQ2_S tensors, complete matrix coverage, and layer-41 ffn_down remaining IQ2_S",
+    "Compare each candidate to native Q8 using only the bounded TRAIN panel and root's ordinary decoding settings",
+    "Record tensor inventory, matrix diagnostics, output hash, resident memory, and CPU two-thread latency before promotion"
+  ],
+  "research_doc": {
+    "path": "docs/campaign/work/lead/r2-quant-recipe-research-v1/README.md",
+    "sha256": "386ba7e7110e6530aaac11b0f99e69e424b2f7cc08f2c17560271a40d4e08b8f"
+  }
+}

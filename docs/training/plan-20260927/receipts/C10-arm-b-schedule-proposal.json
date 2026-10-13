@@ -1,0 +1,116 @@
+{
+  "card": "C10",
+  "cohort_rows": {
+    "edit_rows": 17773,
+    "noop_rows": 1094,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/admission/arm-b-cohort-rows.jsonl",
+    "rows": 18867,
+    "sha256": "a43d775b950d1cdd1a598a6c585589dc294e3eb8dacf4a54becc4bb7b0190949"
+  },
+  "length_profile": {
+    "max_sequence_tokens": 5066,
+    "observed_fit_without_truncation": true,
+    "over_threshold_counts": {
+      "16384": 0,
+      "2048": 1462,
+      "4096": 1,
+      "8192": 0
+    },
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b/length-profile.json",
+    "sha256": "9fe5f608f3d47170d3d7f46335fd32c355b321cb08d6f158d5b3456c3f6b62b3"
+  },
+  "night_cost_estimate": {
+    "added_rows_are_shorter": "the admitted rows use the selected source-span context (median about 480 tokens), not full files; only 1 of 3,861 exceeds 4,096 tokens",
+    "arm_a": {
+      "scheduled_input_tokens": 14550712,
+      "train_hours_provisional": 2.31,
+      "updates": 1071
+    },
+    "arm_b": {
+      "scheduled_input_tokens": 16518870,
+      "train_hours_provisional": 2.63,
+      "updates": 1368
+    },
+    "basis": "C07 has not run; scale arm A by scheduled input tokens. Provisional absolute rate from the CPT 16K accum-16 smoke (16 x 16,384 tokens in 150.05 s, about 1,747 tokens/s); short SFT rows may run below that rate.",
+    "gates": "4 gates (DEV75 + DEV250 each) on top; scale C07's measured gate time",
+    "nights": "one night expected (about 2.6 h of training plus 4 gates inside the 8 h window); two at most if C07 shows a much lower rate. Rule: arm-B night hours = C07 arm-A hours x 1.135 (tokens) or x 1.277 (if per-update overhead dominates).",
+    "ratio_tokens": 1.135,
+    "ratio_updates": 1.277
+  },
+  "schedule": {
+    "alternative_cap_3": {
+      "noop_draws": 3282,
+      "noop_share": 0.1559,
+      "note": "needs mixed 13:3 / 14:2 updates, which schedule v2 does not support (constant composition); about 1,316 updates"
+    },
+    "batch": "13 edit + 3 no-op in every update",
+    "builder": "sepalith.training.sft.schedule_v2 from PR #45 (plan/C04-sft-recipe-v2 at fb15e20), unchanged; seed 3407",
+    "card_conflict": "card asks for no-op share about 18.75% AND no-op exposure at most 3; with 1,094 no-op rows that allows at most 3,282 no-op draws, i.e. at most 14,222 edits at 13:3 (arm B has 17,773). This proposal keeps 13:3 and lets 822 no-op rows reach a 4th exposure.",
+    "checks": {
+      "all_eligible_ids_drawn": true,
+      "constant_batch_composition": true,
+      "edits_seen_once_except_last_update_replays": true,
+      "every_unique_edit_before_edit_replay": true,
+      "every_unique_noop_before_noop_replay": true,
+      "no_target_truncation": true,
+      "noop_exposures_at_most_cap": true,
+      "targets_over_1024_retained": 5
+    },
+    "draws": 21888,
+    "edit_replays": 11,
+    "exposure_histogram_by_pool": {
+      "edit": {
+        "1": 17762,
+        "2": 11
+      },
+      "noop": {
+        "3": 272,
+        "4": 822
+      }
+    },
+    "gates": [
+      342,
+      684,
+      1026,
+      1368
+    ],
+    "noop_passes": {
+      "passes": 4,
+      "rows_per_pass": [
+        1094,
+        1094,
+        1094,
+        822
+      ]
+    },
+    "noop_share": 0.1875,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b/draw-schedule-v2-armb-proposed.json",
+    "sequence_buckets": {
+      "batches": {
+        "1024": 338,
+        "2048": 277,
+        "4096": 112,
+        "512": 640,
+        "8192": 1
+      },
+      "draws": {
+        "1024": 4626,
+        "2048": 3611,
+        "4096": 1469,
+        "512": 12181,
+        "8192": 1
+      },
+      "unique_rows": {
+        "1024": 4447,
+        "2048": 3605,
+        "4096": 1461,
+        "512": 9353,
+        "8192": 1
+      }
+    },
+    "sha256": "e7a0d1aa654be1a15198b71e034755866934db7a656ececcfd3d248285cc6b92",
+    "updates": 1368
+  },
+  "schema": "sepalith.c10.arm-b-schedule-proposal.v1",
+  "status": "proposed_pending_user_answer"
+}

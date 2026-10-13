@@ -1,0 +1,105 @@
+{
+  "schema_version": "run-06.native-transition-manifest.v1",
+  "fixture_path": "native-probe-train-fixture.jsonl",
+  "fixture_sha256": "4081472e1e19457ab4b9e186858e837fbf37f9011d7f8d576a6298f3e6ddb008",
+  "native_manifest_path": "native-probe-train-fixture.manifest.json",
+  "native_manifest_sha256": "0b2195b87b5f6eabc892164124c25b876833a00ba6add0d79af6826413f5d0b3",
+  "native_probe_path": "runtime_native_probe.py",
+  "native_probe_sha256": "f4f556a046f801eb233106c6d773accef317eb83eae5e261c0e0102388ca51a7",
+  "selection": {
+    "method": "reuse the four accepted native TRAIN rows in stored manifest order; no final or DEV rows",
+    "row_count": 4,
+    "row_order": [
+      "0003ea6fc6a4d0b3b354efba",
+      "000a6aaa48aee4291dbcb0cb",
+      "000d2bf789b999f887d12308",
+      "00ef45e53aea030d3465f860"
+    ],
+    "deadlines_ms": [
+      1000,
+      5000
+    ],
+    "sequences_per_external_batch": 8,
+    "allowed_external_batches": [
+      64,
+      128,
+      256
+    ],
+    "max_total_ms": 600000,
+    "retry_deadline_ms": 60000
+  },
+  "tokenizer": {
+    "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "policy": "hf_split_special_tokens_true_native_no_bos_no_parse_special_manual_bos0_terminal_eos1_final_lf_v1",
+    "manual_bos_id": 0,
+    "canonical_eos_id": 1,
+    "tokenize_flags": {
+      "add_special": false,
+      "parse_special": false,
+      "with_pieces": false
+    }
+  },
+  "selected_rows": [
+    {
+      "ordinal": 0,
+      "row_id": "0003ea6fc6a4d0b3b354efba",
+      "row_sha256": "739d291fa2eb9e83b6c897e1e8be9f0d41593b2782f98d5c228fe1e6a1178553",
+      "prompt_sha256": "5c08ad690b01d6cf03f9ec54de44bcbcb4c12d552cd521b31f942b86ac8d1f8a",
+      "prompt_token_count": 345,
+      "split": "train",
+      "sidecar_context_only": true
+    },
+    {
+      "ordinal": 1,
+      "row_id": "000a6aaa48aee4291dbcb0cb",
+      "row_sha256": "d683f66f3c03dc6513938ebc4715711476d23b074b40413f9d136b8af2a00658",
+      "prompt_sha256": "4837faf50d9fe4b5d98814fd4903b4b3257d52a5adb2e55edf0b365b894a1f02",
+      "prompt_token_count": 886,
+      "split": "train",
+      "sidecar_context_only": true
+    },
+    {
+      "ordinal": 2,
+      "row_id": "000d2bf789b999f887d12308",
+      "row_sha256": "e61895a272e844bee6a8035a9b742e9a18f19f55ba3c7a4934020a16958b6342",
+      "prompt_sha256": "80f454949d462a9ad97916d54b3c829c054597a0b90ea6d1fec7b4b58438d320",
+      "prompt_token_count": 1216,
+      "split": "train",
+      "sidecar_context_only": true
+    },
+    {
+      "ordinal": 3,
+      "row_id": "00ef45e53aea030d3465f860",
+      "row_sha256": "74eb62b3cb331355cc3facf230f549a763f010d7d23cf094fd033ceaa722560b",
+      "prompt_sha256": "8574f7d139161502ab3e1c63248f42f93be12d2dbadfe3d05b16458ec9bc689a",
+      "prompt_token_count": 1902,
+      "split": "train",
+      "sidecar_context_only": true
+    }
+  ],
+  "transition_contract": {
+    "cold_request": "exact stored full prompt IDs including manual BOS; cache_prompt=false",
+    "cancellation": "client closes SSE socket at whole-request deadline; monotonic timestamps recorded",
+    "retry": "re-tokenize and resend the identical full prompt with cache_prompt=true; retry bound 60000 ms",
+    "telemetry": [
+      "tokenize_wall_ms",
+      "queued_wait_ms",
+      "arrival",
+      "cancel",
+      "retry_ttft_ms",
+      "retry_end_wall_ms",
+      "cache_n",
+      "prompt_n"
+    ],
+    "queue_delay": "queued_wait_ms remains unmeasured without correlated server arrival and launch/slot timestamps; any uncorrelated server field is retained only as a hint",
+    "server_ack": "unmeasured_no_log_correlation unless a separately correlated server log is supplied",
+    "output_parity": "retry raw text and returned token IDs compared with accepted >=60s native baseline",
+    "request_body_policy": "only native tokenize fields and completion fields; target/family/labels are never sent"
+  },
+  "real_editor_transitions": {
+    "status": "pending",
+    "reason": "The stored TRAIN histories do not provide an independently hashed before/after pair with exact token geometry. No synthetic edit or invented label is admitted.",
+    "next_gate": "Capture a genuine editor trace and prove exact before/after token IDs, LCP, and section geometry before adding rows."
+  }
+}

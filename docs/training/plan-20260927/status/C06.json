@@ -1,0 +1,38 @@
+{
+  "card": "C06",
+  "state": "done",
+  "updated": "2026-10-11T18:48:24+02:00",
+  "branch": "plan/C06-finish-repair-check",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/44",
+  "outputs": {
+    "receipt": "docs/training/plan-20260927/receipts/C06-finish-repair-check.json",
+    "receipt_sha256": "91f456ca4f77e16fb47e45d06b6a4188d52b5ba788a83ef17173b14638b89fec",
+    "script": "docs/training/plan-20260927/c06/finish_repair_check.py",
+    "parse_helper": "docs/training/plan-20260927/c06/check_parse.R",
+    "classifications": "docs/training/plan-20260927/c06/classifications.json",
+    "sample": "80 repaired rows (8 strata: source variant x finish kind, floor of 5 for small strata) and 20 unrepaired finish_block controls, seed 3407",
+    "repaired_counts": {"correct": 71, "cosmetic": 9, "defective": 0},
+    "control_counts": {"correct": 20, "cosmetic": 0, "defective": 0},
+    "repaired_defect_rate_wilson95": [0.0, 0.0458],
+    "control_defect_rate_wilson95": [0.0, 0.1611],
+    "tools": "parent tokenizer sha256 3e065a55... verified; R 4.6.1; air 0.12.0",
+    "hf_paths": []
+  },
+  "rule_decisions": [
+    {
+      "rule": "C06 acceptance",
+      "inputs": {
+        "repaired_defective": 0,
+        "repaired_n": 80,
+        "repaired_defect_rate": 0.0,
+        "repaired_wilson95": [0.0, 0.0458],
+        "control_defective": 0,
+        "control_n": 20,
+        "control_defect_rate": 0.0
+      },
+      "outcome": "continue"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "No sampled row is defective. Every target parses, closes exactly the blocks the prompt left open and stops at the closing brace (finish rows have no post-cursor text). air 0.12.0 is idempotent on all 100 rows. 9 of 80 repaired rows are cosmetic: the closing brace is misindented against a column-0 header, likely from nested functions lifted with only the header dedented. A census of all 7,785 finish rows finds this in 486 of 3,503 repaired rows (13.9%, all compound*) and 0 of 4,282 unrepaired rows. The receipt lists the ids in case C04 wants to drop or re-indent them; this is optional, and the rule outcome is continue. Context drift: the card's corrective-finish-quality-review folder and DAT-10 root-review receipt are not in the docs/campaign snapshot. After the Oct 10 reinstall the training interpreter is /home/m0hawk/sandbox/Sepalith/.venv-sft and the NAS is /mnt/nas/home/sepalith."
+}

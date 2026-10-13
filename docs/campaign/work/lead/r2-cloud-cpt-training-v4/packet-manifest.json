@@ -1,0 +1,186 @@
+{
+  "schema": "sepalith.cloud-cpt.training-preparation-manifest.v4",
+  "status": "prepared_not_admitted_not_armed_not_submitted",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1290,
+      "mode": "0o444",
+      "sha256": "a13508a91fdeae5d5ab00490b1458d032f6c3f1f1687b98b686d722864582a29"
+    },
+    {
+      "path": "binding.template.json",
+      "bytes": 1301,
+      "mode": "0o444",
+      "sha256": "454f6eab43f85dee737a09e0bf344b7e780fdc991b1d5a02fdc75b5ed42f1b81"
+    },
+    {
+      "path": "build_payload_manifest.py",
+      "bytes": 1103,
+      "mode": "0o444",
+      "sha256": "05660e0817f0f9b47c2e053c729a8b2b6b19cafca1795d896d21c6d11fbfcb13"
+    },
+    {
+      "path": "finalize_binding_after_arm.py",
+      "bytes": 1748,
+      "mode": "0o444",
+      "sha256": "158bdee64369bf8e83e217d223c669df10fe4a69f6824d95184a926e99ba6e50"
+    },
+    {
+      "path": "inherited-tests.log",
+      "bytes": 114,
+      "mode": "0o444",
+      "sha256": "a49d7fe8a545cea484ea22e586a9b5eb4b29dc7b64212aacf994b706370fe20a"
+    },
+    {
+      "path": "inherited-tests.time",
+      "bytes": 846,
+      "mode": "0o444",
+      "sha256": "69c8466766475b1dda26d8ac02310ff6c491ee3049391ee7fd67e54528e62871"
+    },
+    {
+      "path": "job-template.proposed.yaml",
+      "bytes": 482,
+      "mode": "0o444",
+      "sha256": "9c8a3aca56d7baab623b68ec6fb6067e775a5ea4ded4e1bd94b3873257530c8a"
+    },
+    {
+      "path": "launch-plan.json",
+      "bytes": 3533,
+      "mode": "0o444",
+      "sha256": "1af1c3f9c7b38eec15b05fecf8d99656ff4c64574b02081afbe9d5dd8580e995"
+    },
+    {
+      "path": "payload/artifact_upload.py",
+      "bytes": 8955,
+      "mode": "0o444",
+      "sha256": "a055094b5ab39c35e10b32acb4938ff56537946a6e55ed8785612360b6aaf146"
+    },
+    {
+      "path": "payload/checkpoint_sidecar.py",
+      "bytes": 1518,
+      "mode": "0o444",
+      "sha256": "0b3d4df5e4a0ffd5ea679ad58fe709a0b2126230cdffa4b7f3c77719c6400511"
+    },
+    {
+      "path": "payload/cloud_contract.py",
+      "bytes": 3991,
+      "mode": "0o444",
+      "sha256": "2b345761d5e663e1bf9021856161f362f539e351e414005c39cf47f3952f256a"
+    },
+    {
+      "path": "payload/cloud_entry.py",
+      "bytes": 14093,
+      "mode": "0o444",
+      "sha256": "dc0b4d0cc10afc98d8d7a08dbb2729c062f757c99ca5ef4dc0a7fe624c7bd12f"
+    },
+    {
+      "path": "payload/deadline_watchdog.py",
+      "bytes": 3059,
+      "mode": "0o444",
+      "sha256": "fbbe410de51f786a08b0647c3a09a8c816aede76445656d27e57daccd2406885"
+    },
+    {
+      "path": "payload/managed_python.py",
+      "bytes": 1491,
+      "mode": "0o444",
+      "sha256": "a3172cfa97639293e6d4bee31869f81fe96c6469870c52d9901ecdc9b695be01"
+    },
+    {
+      "path": "payload/requirements.txt",
+      "bytes": 427,
+      "mode": "0o444",
+      "sha256": "33b185e616eec49f22a24073a8e155ec4d27f2f84b0481a6cf7490e846116890"
+    },
+    {
+      "path": "payload/root-bound-entry.sh",
+      "bytes": 200,
+      "mode": "0o444",
+      "sha256": "e3feb0988581bef1397d7336ced2fb80246dd8068266ae23a13491923c0ccc12"
+    },
+    {
+      "path": "payload/root_arm_watchdog.py",
+      "bytes": 819,
+      "mode": "0o444",
+      "sha256": "3df5484f80dcca236c615ce4b9c6cc61513993577b5f69b228a923173152db48"
+    },
+    {
+      "path": "payload/stage_inputs.py",
+      "bytes": 5931,
+      "mode": "0o444",
+      "sha256": "35e17c6092be5b58360850df6eeaa8fdd9396ec52084e489ca4bce6a0522fb7f"
+    },
+    {
+      "path": "payload-manifest.json",
+      "bytes": 2373,
+      "mode": "0o444",
+      "sha256": "523fa1dcc78fc2d3aac0b4f29359e788252c753699d58648712b32ee8fb3e5d1"
+    },
+    {
+      "path": "prepare_prearm_binding.py",
+      "bytes": 1944,
+      "mode": "0o444",
+      "sha256": "f6e39883d28399398bcbc3bea64a1fb6e9572eb82614cb5e8ea76291fbc29e99"
+    },
+    {
+      "path": "root-commands.json",
+      "bytes": 2852,
+      "mode": "0o444",
+      "sha256": "5901e3360c27f8a2d8efa6a146de8b9901a8aa1be656242beccd1014b8db880a"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 3612,
+      "mode": "0o444",
+      "sha256": "f838f3ff29ddaac03a8b9781995d50e8588355ed16f98e7c95071d8cb91b0df4"
+    },
+    {
+      "path": "submit_job.py",
+      "bytes": 3725,
+      "mode": "0o444",
+      "sha256": "da00fc3867f95a3b66512bcce037b66894444b9d51888d48fb0e0ac90de029a1"
+    },
+    {
+      "path": "submit_with_private_environment.py",
+      "bytes": 464,
+      "mode": "0o444",
+      "sha256": "726ede8e189bc702a4501c7dd6e60f3af0c90b23fdedbe56545fbd70581c8ae4"
+    },
+    {
+      "path": "test_cloud_cpt_packet.py",
+      "bytes": 8270,
+      "mode": "0o444",
+      "sha256": "b878b6ca7d8275498104469aaae75d62a9f2ab36e414465c762b65ba59af68b0"
+    },
+    {
+      "path": "test_training_v4.py",
+      "bytes": 11848,
+      "mode": "0o444",
+      "sha256": "8c493da1cc66f3aa5e8835b8532223beaa6cdd4450f3e65eb52c43ebfa430fa4"
+    },
+    {
+      "path": "tests.log",
+      "bytes": 6349,
+      "mode": "0o444",
+      "sha256": "72645b9a20d981b88c8a13cbb8c2c6df003d6266811ddb91b75ea141944da223"
+    },
+    {
+      "path": "tests.time",
+      "bytes": 842,
+      "mode": "0o444",
+      "sha256": "855e8c9b13dfc664ad28d350c88d87b4b0ebd6f9ccae93659dd7ab93832b18b7"
+    },
+    {
+      "path": "transport-manifest.json",
+      "bytes": 17676,
+      "mode": "0o444",
+      "sha256": "a9afe5d58034b56e36abf83a0c1d169ec578b79cc215daa32603ccd210e7045b"
+    },
+    {
+      "path": "upload_private_inputs.py",
+      "bytes": 4349,
+      "mode": "0o444",
+      "sha256": "67b1fc7447397bb6c448c513623e6fef222c08893cc9eeb72e249750c5e2c0ac"
+    }
+  ]
+}

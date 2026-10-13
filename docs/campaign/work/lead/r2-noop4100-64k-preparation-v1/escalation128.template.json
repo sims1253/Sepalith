@@ -1,0 +1,11 @@
+{
+  "schema": "sepalith.dat10.noop4100.context128-escalation-template.v1",
+  "status": "ROOT_MUST_SET_admitted_after_64k_review",
+  "source_queue_manifest": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop4100-provider-v1/fallback64-root-v1/manifest.json",
+  "input_population": "only rows still holding for complete_span_not_applicable or complete_span_unresolved after exact 64K review",
+  "context_size": 131072,
+  "generation_reserve": 2048,
+  "provider_source_manifest_sha256": "114b0a410cf15c821ce83c8d569b16d831640f744f3e53d303d849929e503919",
+  "render_authorized": false,
+  "training_admitted": false
+}

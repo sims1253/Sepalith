@@ -1,0 +1,35 @@
+{
+  "copied_at": "2026-09-13T19:07:37.678106+00:00",
+  "files": {
+    "root-post-stop-reclaim.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/post-stop-guest-cache-reclaim.json",
+      "sha256": "92e8b4aa52262cf087a7bc7e5a741e68e8f85819cd538d58a9d50b243d818a3f",
+      "bytes": 260
+    },
+    "root-host-after-reclaim.json": {
+      "source": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/host-after-reclaim.json",
+      "sha256": "cccac21004e04a9b9c4d7d1eebb4b853de974245f20191e5119058b777edf0a7",
+      "bytes": 1755
+    },
+    "smoke-host-memory.jsonl": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/host-memory.jsonl",
+      "sha256": "eed99a0a6de96db85a8bbbbc9fcde6076c21f5de420d4a62d327a4879c6061fd",
+      "bytes": 2761
+    },
+    "smoke-low-memory-details.jsonl": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/low-memory-details.jsonl",
+      "sha256": "4ebab1077ae4257672e9afb7f9f20f99dfb60e234221bccf6ea8b5c625e31255",
+      "bytes": 4848
+    },
+    "smoke-post-load-cache-release.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/post-load-cache-release.json",
+      "sha256": "248f74dfe69c339575dc33cd8080b95a5928b6e9e3cf01a7c0c014c916412825",
+      "bytes": 511
+    },
+    "smoke-guard-terminal.json": {
+      "source": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-CPT-smoke25-a-host-supervision/terminal.json",
+      "sha256": "011da23a891e3be3024dd23b8e9893fbc82a625b4e0e59aedb2887c3b82894af",
+      "bytes": 198
+    }
+  }
+}

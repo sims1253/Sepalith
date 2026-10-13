@@ -7,6 +7,17 @@ results were not independently reconfirmed. No models or native runtime download
 were rerun.
 Current offline checks are `python3 scripts/check_product.py`.
 
+> **Different model (note added 2026-10-12).** Every size and count below is
+> for B4, the Qwen3.5-2B (GDN hybrid, about 1.9B parameters) LoRA merge from
+> the base bakeoff. It is not the Sepalith 2B model (dense `LlamaForCausalLM`,
+> 2.52B parameters, vocabulary 130,560, untied embeddings), so these sizes do
+> not transfer. The CPT parent 11586 measured 4,805.6 MiB as bf16, 2,555.6 MiB
+> as Q8_0 and 1,678.2 MiB as Q4_K_M with Q8_0 output and token-embedding tensors
+> (the two 130,560 x 2,048 matrices are about a third of the Q4_K_M file);
+> see `training/plan-20260927/receipts/C09-prep-gguf-tooling.json`. The
+> `experiments/bin/` binaries and paths named here were lost in the 2026-10-10
+> WSL reinstall; the rebuilt toolchain is described in `SYSTEMS.md` §5.
+
 The serving/packaging implementation passes the local pipeline smoke. Q4_K_M
 reduces B4's GGUF size by 30.5% with the Q8 embedding/output policy. The small
 paired scenario test found no exact-match loss and no imatrix benefit. This is

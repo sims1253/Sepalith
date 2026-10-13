@@ -1,0 +1,56 @@
+{
+  "authorization": "Preparation only. No root-admission.json or bound recipe exists. Root must admit scientific/resource choices and wrap run/resume with the reviewed CUDA host guard.",
+  "bind_after_root_admission": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source/experiments/training/bind_full_weight_cpt.py",
+    "--template",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/recipe.template.json",
+    "--admission",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/root-admission.json",
+    "--output",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/bound-recipe.root.json"
+  ],
+  "preflight_bound": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/bound-recipe.root.json"
+  ],
+  "preflight_template": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight-template",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/recipe.template.json"
+  ],
+  "request_save_and_stop": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source/experiments/training/request_graceful_stop.py",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/bound-recipe.root.json"
+  ],
+  "resume_under_root_guard": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/bound-recipe.root.json",
+    "--resume",
+    "<durable-full-checkpoint-path>"
+  ],
+  "run_under_root_guard": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/bound-recipe.root.json"
+  ],
+  "schema": "sepalith.full-weight-cpt-root-commands.v1"
+}

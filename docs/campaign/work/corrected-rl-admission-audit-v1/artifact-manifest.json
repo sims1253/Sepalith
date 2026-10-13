@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "status": "CPU_candidate_verified_root_admission_pending",
+  "files": [
+    {
+      "path": "work/corrected-rl-admission-audit-v1/AUDIT.md",
+      "bytes": 6730,
+      "sha256": "401e85c4a4a3ad4349691f5bf3dad527a843024a4bf7dc81bd337e2f90d5a406"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/audit_data.py",
+      "bytes": 10708,
+      "sha256": "38db7d0015fcbad89c08a2376174b1baeccd3493c6293f70d745d319905ca01c"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/candidate-cpu-preflight.json",
+      "bytes": 2509,
+      "sha256": "9b231415aaa354c9b68ef13253f81294d30a161d9a7686f92c4a756d7411ed8d"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/candidate-data/allocation-policy.json",
+      "bytes": 377637,
+      "sha256": "b563a573a8eb01dee078d6be3936723b720c4a5567ac28ccd80816399fe7e751"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/candidate-data/context-sidecar.jsonl",
+      "bytes": 82236821,
+      "sha256": "265b80762efc9544230f1aba09e492906760e98a34431593fdeb4813d6e169ac"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/candidate-data/eligible-train-rows.jsonl",
+      "bytes": 76614021,
+      "sha256": "7e9cf35e8ecbf1af151df78bfc42c07d7b1d24f6ab82ec47770463d967fe9465"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/candidate-data/selected-train-ids.json",
+      "bytes": 263974,
+      "sha256": "8f6083193dd4d5e3ffbb084fe9df31ddde8e9f3d9326d29c1cb9d113b2ba3c09"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/candidate-data/source-row-draw-sequence.json",
+      "bytes": 769484,
+      "sha256": "7e82f42eafa97bbb07a410ff2e4078cc96744cc45933f1167f7ebc3fbd558e98"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/check_candidate.py",
+      "bytes": 3513,
+      "sha256": "cd617e116644f24a9f71bbcb017c02293728da0bf8c2306f8677127c9cabf3c2"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/data-audit.json",
+      "bytes": 18362,
+      "sha256": "8f4705498085b7d1076ebffc48d8618fa335ad0b5e833421e158addcda738618"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/data-preparation.json",
+      "bytes": 68815878,
+      "sha256": "d08b8bdb2430fcc640a551adc69e8de77fc3ccd3f40a8789e67fd880438ec9d3"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/fresh5.recipe.json",
+      "bytes": 71710017,
+      "sha256": "6661af89eb83fd95070f939290a3e74ff2c1e0b09c561d2d16a1704f32bbabee"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/independent-byte-retention.json",
+      "bytes": 413,
+      "sha256": "b34440ee30d4a2848d7e9cb4dcac0b972fcdf3aa5ba5ec4f2581c24c910a1f18"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/independent-candidate-cpu-preflight.json",
+      "bytes": 1034,
+      "sha256": "57ab10012bb8d1f51f1d725c347c77bfb31658ff21c8f7ce8263ce4f95ee585a"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/launch-command.json",
+      "bytes": 1862,
+      "sha256": "55ffd36f246086d1362bbb845319955464c9b2c988a91723d30bd158727c0493"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/prepare_candidate.py",
+      "bytes": 12069,
+      "sha256": "815dec75cf1f98cb2ddc6a74ed76ec2af4e5c232bd1001bbb3a2d978f423b842"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/production-cpu-tests.json",
+      "bytes": 1455,
+      "sha256": "97e79938a09f907773b311a2c49c2afe2aa1fe0de828ec9368630ef876c44595"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/production-cpu-tests.txt",
+      "bytes": 1568,
+      "sha256": "dda97e2177d4b573d5e0c72cf762f2d269153afd991a7cf0101c9941ef3da648"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/source-pins.json",
+      "bytes": 4053,
+      "sha256": "184b676a32844c6bc69f9771fb5a6a7a8bcc83eeb0acce4e916794209f39178d"
+    },
+    {
+      "path": "work/corrected-rl-admission-audit-v1/timing-and-budget.json",
+      "bytes": 1979,
+      "sha256": "e5f242ae503a0ab42f0dea810ce082b5b47dd56de11fc2e169d2b4952659493e"
+    }
+  ]
+}

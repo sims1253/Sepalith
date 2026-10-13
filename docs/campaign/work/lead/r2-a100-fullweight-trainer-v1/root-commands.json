@@ -1,0 +1,51 @@
+{
+  "schema": "sepalith.sft11.a100-fullweight-root-commands.v1",
+  "cpu_preflight": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "source/experiments/training/a100_fullweight_trainer.py",
+    "preflight-template",
+    "--recipe",
+    "recipe.template.json"
+  ],
+  "cpu_tests": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "cloud_resume_view_after_root_admission": [
+    "python",
+    "-B",
+    "source/experiments/training/prepare_a100_resume_view.py",
+    "--source",
+    "<private-staged-checkpoint-90>",
+    "--destination",
+    "<same-filesystem-fresh-resume-view>",
+    "--manifest-sha256",
+    "d820a0f5cd3c790f470212406c841fb3a34924131ac5fc098f2a22c1b2db9252",
+    "--world-size",
+    "8"
+  ],
+  "future_cuda_shape_after_remaining_gates": [
+    "torchrun",
+    "--standalone",
+    "--nnodes=1",
+    "--nproc-per-node=8",
+    "<root-reviewed-production-runner.py>",
+    "run",
+    "--recipe",
+    "<root-bound-recipe.json>",
+    "--resume",
+    "<fresh-resume-view>",
+    "--execution-transition-admission",
+    "<root-admission.json>"
+  ],
+  "note": "The packet front door intentionally rejects run. Do not substitute it for the pending integrated production runner."
+}

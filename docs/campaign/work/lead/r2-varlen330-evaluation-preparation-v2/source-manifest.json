@@ -1,0 +1,72 @@
+{
+  "files": [
+    {
+      "bytes": 2316,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "30dd73781f4b156ecde613e294f5c591277663e4f78369bf4b8664f1acdcf3ea"
+    },
+    {
+      "bytes": 471,
+      "mode": "0o644",
+      "path": "admission-negative-v2.log",
+      "sha256": "57e3eb377bcf53a3ea0ec1511b3655fb55415b9d18292655af70430a66a13e42"
+    },
+    {
+      "bytes": 1768,
+      "mode": "0o755",
+      "path": "admit.py",
+      "sha256": "6e93d9654ae534645f2d83421d8a6e3be6876646bed439cf841151f807cc7f80"
+    },
+    {
+      "bytes": 1910,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "60ccab2ba2e11f36ed145fd400b31160548165a2ce86d43aa0c732a541aa50f8"
+    },
+    {
+      "bytes": 772,
+      "mode": "0o644",
+      "path": "environment.json",
+      "sha256": "1041d51da1633d97e21ee12440840b1851e6d171864dec8595a2819ca580faa8"
+    },
+    {
+      "bytes": 863,
+      "mode": "0o644",
+      "path": "matched-panels.json",
+      "sha256": "03ac0a57b4b65780422bed223590c1d8863d42cdb4278d9828ba3ec23d950ebb"
+    },
+    {
+      "bytes": 13950,
+      "mode": "0o755",
+      "path": "prepare.py",
+      "sha256": "f5c0d1c9ed5c0cdd7a74e36a5977dbeb512cef574f2477446cf556a687025344"
+    },
+    {
+      "bytes": 1310,
+      "mode": "0o644",
+      "path": "preterminal-negative-v2.log",
+      "sha256": "8392ce2f65363083067c8422f871d622c1e368efed1c5bf5bd75eb6e664fdb55"
+    },
+    {
+      "bytes": 463,
+      "mode": "0o644",
+      "path": "root-admission.template.json",
+      "sha256": "6a656f1488d3fd325dced1a1fd18af31b441b1d99ca6c622976434353112819b"
+    },
+    {
+      "bytes": 113,
+      "mode": "0o644",
+      "path": "test-results-v2.log",
+      "sha256": "5feed1adec411c806ceb21dd7b2959ff75dd9ced1d0842b440e799207f7691b7"
+    },
+    {
+      "bytes": 5180,
+      "mode": "0o755",
+      "path": "test_prepare.py",
+      "sha256": "8bc0bb1e1e538fe36c04c0ae58d638f4f154d70f03a71303eb585d66333310d4"
+    }
+  ],
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_preparation_waiting_for_packed_retry_terminal"
+}

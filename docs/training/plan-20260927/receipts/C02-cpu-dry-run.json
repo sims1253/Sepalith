@@ -1,0 +1,56 @@
+{
+  "card": "C02",
+  "kind": "cpu_mechanics_dry_run",
+  "gpu_work": false,
+  "command": "scripts/night/dry_run.sh cpu --max-gpu-used-mib 8192 --host-admission-mib 8192",
+  "why_relaxed_limits": "Daytime Windows desktop held 5.1 GB of GPU memory and Windows had about 17.8 GB free; the CPU run only tests the runner mechanics. Probes were real (nvidia-smi, PowerShell, /mnt/e, CUDA lock).",
+  "state_root": "/home/m0hawk/.local/state/sepalith/night-dryrun-20260928-225623-cpu",
+  "phases": {
+    "A_honour": {
+      "window": {
+        "start": "2026-09-28T22:56:23+02:00",
+        "deadline": "2026-09-28T22:57:23+02:00",
+        "graceful": "2026-09-28T22:57:53+02:00",
+        "hard": "2026-09-28T22:58:23+02:00"
+      },
+      "job": {
+        "id": "honour-cpu",
+        "outcome": "deferred",
+        "reason": "stopped_at_safe_boundary",
+        "exit_code": 75,
+        "started": "2026-09-28T22:56:24+02:00",
+        "ended": "2026-09-28T22:57:24+02:00",
+        "graceful_stop_at": null,
+        "hard_kill_at": null,
+        "leftover_pids": []
+      },
+      "summary": "stopped on deadline after 79087 steps, +0.0s from the deadline",
+      "preflight_passed": true,
+      "stop_reason": "window_closed"
+    },
+    "B_ignore": {
+      "window": {
+        "start": "2026-09-28T22:57:24+02:00",
+        "deadline": "2026-09-28T22:58:24+02:00",
+        "graceful": "2026-09-28T22:58:54+02:00",
+        "hard": "2026-09-28T22:59:24+02:00"
+      },
+      "job": {
+        "id": "ignore-cpu",
+        "outcome": "failed",
+        "reason": "hard_stop_killed",
+        "exit_code": -9,
+        "started": "2026-09-28T22:57:25+02:00",
+        "ended": "2026-09-28T22:59:26+02:00",
+        "graceful_stop_at": "2026-09-28T22:58:55+02:00",
+        "hard_kill_at": "2026-09-28T22:59:25+02:00",
+        "leftover_pids": []
+      },
+      "summary": null,
+      "preflight_passed": true,
+      "stop_reason": "window_closed"
+    }
+  },
+  "result": "Phase A job saved at the deadline and exited 75 before the graceful stop (deferred). Phase B job ignored SIGTERM at the graceful stop and was SIGKILLed 1 s after the hard stop (poll interval); no processes left behind.",
+  "still_required": "CUDA dry run (scripts/night/dry_run.sh cuda) in a user-approved 21-minute slot"
+}

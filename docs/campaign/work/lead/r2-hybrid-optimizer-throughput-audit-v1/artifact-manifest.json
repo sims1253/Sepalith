@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 2068,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v1/README.md",
+      "sha256": "ba4170254b15a0c34a68177a41392fa483cccde9d33c8e581b28ad1a7f7a347f"
+    },
+    {
+      "bytes": 99,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v1/cpu-test-output.txt",
+      "sha256": "adf2789872a7ef2d5e9ac8b00d4f76f13ddb39f2b8f701e935de040f4eec8cce"
+    },
+    {
+      "bytes": 654,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v1/environment.json",
+      "sha256": "3fd7aca9f61895ebd728f5a2486a467ab2d32e561c7be400ec75eb09f20ee8dd"
+    },
+    {
+      "bytes": 8889,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v1/recommendations.json",
+      "sha256": "501436819a50a9bc88c112629e5f85fed1002d892e2f3c56346fefce7e42d206"
+    },
+    {
+      "bytes": 8982,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v1/static-analysis.json",
+      "sha256": "ae7f3af3bd261be859752d95e56c4228b7ae4c7d10d994a52a18b15692a6ba31"
+    },
+    {
+      "bytes": 10068,
+      "path": "docs/campaign/work/lead/r2-hybrid-optimizer-throughput-audit-v1/static_audit.py",
+      "sha256": "e61b1113d62cdf49fe2f671e117a1fa77a3503bf4bc6ef3fa31e97b7416919f2"
+    }
+  ],
+  "schema": "sepalith.sft11.hybrid-optimizer-throughput-audit-artifacts.v1",
+  "status": "frozen_cpu_audit"
+}

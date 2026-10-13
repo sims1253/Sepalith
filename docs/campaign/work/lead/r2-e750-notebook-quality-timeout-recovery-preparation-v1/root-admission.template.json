@@ -1,0 +1,31 @@
+{
+  "schema": "sepalith.run06.e750-notebook-timeout-recovery-root-admission.v1",
+  "status": "ROOT_MUST_ADMIT",
+  "pilot_packet_sha256": "c4e2c8c317d3c7dd12dab22910770e2dbcdc89d8ab2e8ecb030ded0cb6995ca0",
+  "base_packet_sha256": "2b6dd8210ede1db19b00fa1aa8e0815eb4034618acfbc920a5facd31ae27cfb3",
+  "failed_row_sha256": "bd9b9ccadc3c6963c0da307c0ab7fd181ef868b45ba3e0bf8e9f19608bdba69b",
+  "arms": [
+    {
+      "threads": 4,
+      "cpu_list": "0,2,4,6"
+    },
+    {
+      "threads": 6,
+      "cpu_list": "0,2,4,6,8,10"
+    },
+    {
+      "threads": 8,
+      "cpu_list": "0,2,4,6,8,10,1,3"
+    }
+  ],
+  "cap": 192,
+  "case_deadline_seconds": 300,
+  "maximum_threads": 8,
+  "maximum_seconds": 1800,
+  "host": "m0hawk@192.168.178.40",
+  "purpose": "offline_failed_row_thread_deadline_pilot_not_production_latency",
+  "source_reviewed": false,
+  "run_id": null,
+  "created_at": null,
+  "expires_at": null
+}

@@ -1,0 +1,95 @@
+{
+  "task": "RUN-03",
+  "files": [
+    {
+      "path": "client.py",
+      "bytes": 29999,
+      "sha256": "1de31a83b657609fb343973d650b8625796d8d1058c6fa1182ce62a845a1b61d"
+    },
+    {
+      "path": "deps/cpu_admission.json",
+      "bytes": 2991,
+      "sha256": "fce7400c5fd924c10dc716a9b48c36664272b7670306d98ae12c5654e7409f94"
+    },
+    {
+      "path": "deps/parser_path.ts",
+      "bytes": 30316,
+      "sha256": "368d6e502bb0f7c743ca5e38ec79c800c74b0776a14669bb1166985094217285"
+    },
+    {
+      "path": "deps/pre08_receipt.json",
+      "bytes": 23823,
+      "sha256": "36d6a619f3c8fd00a66ea4940f933275cb5edef2347b1187c2a5ef97588122ae"
+    },
+    {
+      "path": "deps/previous_client.py",
+      "bytes": 50040,
+      "sha256": "2c229cf3c65c15984193fee80e30d515a917ed743c112502e33c53b92b526caa"
+    },
+    {
+      "path": "deps/renderer_path.py",
+      "bytes": 12417,
+      "sha256": "7fc6d4d796856ef3697365a462a8a1f5b0a9876d1f2e55cb88325a6ff7ef493d"
+    },
+    {
+      "path": "deps/runtime_identity.json",
+      "bytes": 2359,
+      "sha256": "0569e1707d79bb3f8f5f39a9a9e63d1fcb1f6f5cf613e8a5f07bbae8ddb1968e"
+    },
+    {
+      "path": "deps/sft_receipt.json",
+      "bytes": 10842,
+      "sha256": "b21fb0a88412774a6f39b24bab77c5af15b6dbb9b95858b4c89812b6da380be2"
+    },
+    {
+      "path": "deps/v4_review_receipt.json",
+      "bytes": 8722,
+      "sha256": "cf1527b7f58a7e85d03d373afd375ab4d19b1d9410e32afc1f7540348d044fd6"
+    },
+    {
+      "path": "extension.js",
+      "bytes": 29927,
+      "sha256": "e546ed6b75ef87a27a9c5af6f5a34a6c5814d267a84bcad8374f5a2e7bc0804f"
+    },
+    {
+      "path": "fixtures.json",
+      "bytes": 2100,
+      "sha256": "1f58c2a6bc8db81270b8d9fbebe8e92edb9f3e2574aff2f54047a8d2f744ffd3"
+    },
+    {
+      "path": "notebook_b4_editor_server.py",
+      "bytes": 5679,
+      "sha256": "82e7554aa56f280b63b3642b392ab5df430ac05f00028decd22c0f5227936f6e"
+    },
+    {
+      "path": "notebook_editor_existing_supervisor.py",
+      "bytes": 4854,
+      "sha256": "a149ca499b3c47422991612603f076fec0f72af95f83bf8c78e70f44b4d170a9"
+    },
+    {
+      "path": "notebook_editor_fresh_supervisor.py",
+      "bytes": 4845,
+      "sha256": "51cb912d9934993ba6c6278c18aed62cb68b12460155c97dc26f67d429ba0b1e"
+    },
+    {
+      "path": "package.json",
+      "bytes": 275,
+      "sha256": "19c616359c9f25d424ecf6b89015f6c9b946d560fe0a47386c0766f348d5417f"
+    },
+    {
+      "path": "primary.vsix",
+      "bytes": 38855,
+      "sha256": "a56d2e442ae7abf266ef5f508d25443d00acecb9a78f92787b7ac332e3e2836d"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 2920,
+      "sha256": "eba70336af38007bbdaff121e0a17e75103bae845dc65b3712f6de9e313279a6"
+    },
+    {
+      "path": "run_b4_editor_cycle.mjs",
+      "bytes": 15765,
+      "sha256": "c7bb25a9639d458afb0f6fcf746d717592364f908e497797d3682859c6717f47"
+    }
+  ]
+}

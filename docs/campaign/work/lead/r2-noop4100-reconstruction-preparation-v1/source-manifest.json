@@ -1,0 +1,42 @@
+{
+  "files": [
+    {
+      "bytes": 10456,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/source/base_reconstruction.py",
+      "sha256": "a114eff080e00869f355b052fbc0762d4e69bb1478d80013a16ffe553af7e95f"
+    },
+    {
+      "bytes": 21554,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/source/recovery_geometry.py",
+      "sha256": "c59848e8008f06c87a7f21474af73bcde0f98cdbd5b59881cabe11342fe8bd6e"
+    },
+    {
+      "bytes": 12150,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-reconstruction-preparation-v1/source/prepare_noop4100.py",
+      "sha256": "f9a31ae1493587a7c51448e4af6ce08e9c10c2449ee54c4931055ea05ddd8bac"
+    }
+  ],
+  "frozen_dependencies": {
+    "candidate_ids": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-full41-preparation-v1/candidate-ids.jsonl",
+      "rows": 4227,
+      "sha256": "59e4d0b57fa2185503e1ab4a1bad1b6e43acf4bc70e239508b800204a31a7ca7"
+    },
+    "coverage": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-full41-preparation-v1/result.json",
+      "rows": 41,
+      "sha256": "8c11cf68cf1d2a91dd92cbe29327b887fe0efc46943d8302760b5f3a80c16df8"
+    },
+    "recovery_decisions": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Sourcewalk-noop-expansion-v4/recovery-decisions.jsonl",
+      "rows": 2991,
+      "sha256": "b83ebd543041fc829fe6cbe32326bfcc6d71786b8f983a16d1e2b6efedeaed03"
+    },
+    "v4_recovery_source_manifest": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-nonzero-crlf-recovery-preparation-v1/source-manifest.json",
+      "sha256": "d020c56072b5a90864f912a12fa473e3938aec0dc1773167111409517404cfc5"
+    }
+  },
+  "schema": "sepalith.dat10.noop4100.reconstruction-source.v1",
+  "status": "frozen_preparation"
+}

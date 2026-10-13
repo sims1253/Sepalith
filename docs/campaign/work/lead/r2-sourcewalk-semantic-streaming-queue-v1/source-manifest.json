@@ -1,0 +1,32 @@
+{
+  "file_count": 5,
+  "files": [
+    {
+      "bytes": 14623,
+      "path": "source/analyze_semantics.py",
+      "sha256": "54965cb3af14a125d945d94f24975eddff040b0706ab934b5a04543a12a99a57"
+    },
+    {
+      "bytes": 2287,
+      "path": "source/namespace_scope.R",
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "bytes": 11404,
+      "path": "source/reviewed_scope_reference.R",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 11159,
+      "path": "source/run_streaming_semantic_queue.py",
+      "sha256": "29d0ce2537ce481d276c99824f166bfd3e7cfa6a8958345ab58723c8c09197a0"
+    },
+    {
+      "bytes": 4360,
+      "path": "source/semantic_scope.R",
+      "sha256": "64d984139c2e5baf289f4caf8070903ff278f652a5a205f8141bc43627e84f61"
+    }
+  ],
+  "schema": "sepalith.source-closure-manifest.v1",
+  "source_identity_sha256": "006e0625617f291808f2b54505296b976cb3df3b930fc0c3b4de9aee2f33a299"
+}

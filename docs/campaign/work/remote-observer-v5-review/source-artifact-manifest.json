@@ -1,0 +1,159 @@
+{
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/REVIEW.md",
+      "bytes": 2984,
+      "sha256": "d33803c822dc28c99744786a754072e55399b225edae69c9c122e689a972ba1b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/analyze_renderer.mjs",
+      "bytes": 10464,
+      "sha256": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/analyzer-stdout.json",
+      "bytes": 3079,
+      "sha256": "29b52f652f5d436b19e4d64b4370bfffda187b57861fb1c5369569a5eec56b21"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/exact-first-accepted-frame.json",
+      "bytes": 29578,
+      "sha256": "344047054290c462cb58ae7caf34787a4be5669c1a91a34d5e423407c1360303"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/pull-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/pull_evidence.py",
+      "bytes": 3708,
+      "sha256": "5d0f73e30d119c838cd9cd76e8bd92f3e33d093e1d27e89e2b32e81b045a5fd1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/ghost-01.png",
+      "bytes": 58915,
+      "sha256": "96804451956d950c5495b8799148d37161f6b5132bb515f9dae2e67252cf4edb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/ghost-02.png",
+      "bytes": 71818,
+      "sha256": "bd5a629b04ecb5a81476de25f5f48f3a40d26346c4a96bf99289cdf286b950c9"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/harness-events.jsonl",
+      "bytes": 2530,
+      "sha256": "be4ea36214d42d7c4a0ad8266e7636e203e220374d9675d5ae442a6d96cb68cd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/host-process.json",
+      "bytes": 25,
+      "sha256": "bcebd13d238a77ac126cc4e2019b18ca63df4a97ac56ee163379a4c768d3acd3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/host-result.json",
+      "bytes": 69,
+      "sha256": "989833811358fea07c5274efc16f8f2f09c739265b7b5039e61ae65e84c849ab"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/host.stderr.log",
+      "bytes": 221,
+      "sha256": "40014c140700e625a81667e771d253bccee41117475093415d3f30928e85741d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/host.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/launch.json",
+      "bytes": 1062,
+      "sha256": "8f6aa2d4c09d08bec46ca06a346b05443ef1b12988a8ae36010f47fba080d48f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/multiline-diagnostic-screenshot.json",
+      "bytes": 141,
+      "sha256": "f549e60dda26f93f276738f930f65ef92f0127d57a6e3e3c952a452036cf41b0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/multiline-diagnostic.png",
+      "bytes": 71856,
+      "sha256": "08abe3a2523c89f7136161ee88784d0c71c4503899f946302c1314de81fbacbf"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/multiline-diagnostics.jsonl",
+      "bytes": 154540,
+      "sha256": "6112e255051c0592870d23b1fc8b8f18c637e4228d260fea3755d328d3efa4ac"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/renderer-frames.jsonl",
+      "bytes": 1102951,
+      "sha256": "aa84071cec1b3eed57bcde871bc35e016acbf7507b23e64c5136cbfbc4039df1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/renderer-observer.json",
+      "bytes": 1091,
+      "sha256": "2886cab3cb817b7fc2bbcd10d0b25169c3dbfff0f3d69e2d6c73d3ff906a8654"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/renderer-ready.json",
+      "bytes": 977,
+      "sha256": "e09c97ad0b02cd56d51a90de38ce2bdf1a14c88c81c6ad2fda9eb014d2cd7f5c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/remote/renderer-result.json",
+      "bytes": 915,
+      "sha256": "42329dedff5a55c3014fe41d012a6901aa63b8588d30e24ca6b7e48f930b7ed8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/renderer-analysis.json",
+      "bytes": 3079,
+      "sha256": "29b52f652f5d436b19e4d64b4370bfffda187b57861fb1c5369569a5eec56b21"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/review.json",
+      "bytes": 6960,
+      "sha256": "a1f07bbed0fd314dd765f993328f1261cb118bcc07ab68ca16598b1e37148141"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/source-manifest.json",
+      "bytes": 6594,
+      "sha256": "37aafeb584feabf45e66056fec38ab6b004df784aa263a380a81dcef76cddc8c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/supervision/launch.json",
+      "bytes": 483,
+      "sha256": "c3d0bb6ead7518ae01c05f8b15ab9211688f3a079e05cadbf7344f57556b9f5e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/supervision/owned-process-history.json",
+      "bytes": 13701,
+      "sha256": "cd3fefbb38643c88bf23c8a0ec3673f70d301e1b635538b12289b8bece14cbc1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/supervision/owned-processes.json",
+      "bytes": 717,
+      "sha256": "bab12c3bd5f559be191e7abd6bba77f3ff1879bd6512c7c2b60da86f7dba28f5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/supervision/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/supervision/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/supervision/terminal.json",
+      "bytes": 304,
+      "sha256": "62e997660e82c18776c7b8265de43d4be1918b7ed69c419139e180c6defa580b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/remote-observer-v5-review/unique-accepted-decisions.json",
+      "bytes": 336493,
+      "sha256": "e54070198f72c7e0ab666f107532543bfbae04868f87683132d3901d46821fd7"
+    }
+  ]
+}

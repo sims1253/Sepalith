@@ -1,0 +1,105 @@
+{
+  "files": [
+    {
+      "bytes": 4743,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/parser-infrastructure-fix.patch",
+      "sha256": "36bb998f3eb080706d4aaaf39917a501e863f07624cd27eead24e5f5f14c00c4"
+    },
+    {
+      "bytes": 1598,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/parser-training-integration.patch",
+      "sha256": "142295b8f4e97a2c2a5dbbda3e9ad1302c432f2e2c15076900093cb2996c09a0"
+    },
+    {
+      "bytes": 58959,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/pilot-groups.jsonl",
+      "sha256": "b2bcb6a3eb08d41bdb46b78e75c5772d321692073719187461c8f9c484699a04"
+    },
+    {
+      "bytes": 8257,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/pilot-spec.json",
+      "sha256": "df176d826901f80ccdb2ef485069fb5e27482eb53da549ff8641b0a59850df0b"
+    },
+    {
+      "bytes": 2408,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/pool-census.json",
+      "sha256": "8cf35d6412dbce5d2bcfbde8fc22386b5dd3146a2c79bb13e26b69e342366c44"
+    },
+    {
+      "bytes": 840,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/prepare-resource.txt",
+      "sha256": "ece61523fe94d46d3c42c3c679197c7ff54ff9cc7f660ed7996bcfbc37bdf1d3"
+    },
+    {
+      "bytes": 3487,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/prepare.log",
+      "sha256": "ca632c06d710e3cecb41cc0d5fe9911d1720fe7bafe882a06afd207220ad71a0"
+    },
+    {
+      "bytes": 17227,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/prepare_signal_pilot.py",
+      "sha256": "49464d37810c94e33b9c2e6a8366e15ca649e87a2a09273504aa545eb3b3aa27"
+    },
+    {
+      "bytes": 4368,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/rollout-api-findings.json",
+      "sha256": "d428a63af3d78980c1aee23fe3de8192433eb04859ad8a7f690fdc2eff9bdf0a"
+    },
+    {
+      "bytes": 16536,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/signal_pilot_harness.py",
+      "sha256": "c3fcdeb3f15499dd09b7a7827bbc4afd6bbb79ec464b1f7e8a604e03bc38e2ba"
+    },
+    {
+      "bytes": 4433,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/source/experiments/training/campaign_r_parse_probe.py",
+      "sha256": "798f5cbed8530b648b309c068c971d9b8504050221e9a3bd65c60fdf8f2e0e89"
+    },
+    {
+      "bytes": 385,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/source/experiments/training/reward_parse_only.R",
+      "sha256": "905d920f82a0cdd8a52cfd890c20c80cc83fbd579ca2996f81e3ea76a7b75ff5"
+    },
+    {
+      "bytes": 833,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/test-resource.txt",
+      "sha256": "8cd36ea753a0b163d1812345c2037ea120fae4657893fca6a95bfc984969c125"
+    },
+    {
+      "bytes": 109,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/test-results.log",
+      "sha256": "fcb303e949ce18256ca218dede8de3be6fe8f6d05ce9a625691213ccd3e9dc45"
+    },
+    {
+      "bytes": 8655,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/test_signal_pilot.py",
+      "sha256": "946c659368ddbd4c7fba6e57cf45dc5629b3783c4d935a7be82b3b894e544b18"
+    },
+    {
+      "bytes": 136,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/validate-spec.json",
+      "sha256": "24e268c9126023dfacd014a7a70b026a4c1d3cd89fba68b75f5f0ba11a1c264d"
+    }
+  ],
+  "frozen_inputs_modified": false,
+  "launch_performed": false,
+  "schema": "sepalith.rl11.signal-pilot-artifact-manifest.v1",
+  "status": "frozen_root_review_required",
+  "tree_identity_sha256": "38534ac5383c67b29928cc0c97e15fdad9a0c2df0675eaa327d31f8de43c082e"
+}

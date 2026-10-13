@@ -1,0 +1,51 @@
+{
+  "schema_version": "sepalith.r2.artifact-manifest.v1",
+  "source_identity": "96673b4be880fd74c431168154d6978b1bfddba032a3e79e5ff437a17302c157",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/README.md",
+      "sha256": "a439bdd9c799e5d3312d7a6bff77b075ead57f712fb8dcd85f3d0c0058f08036",
+      "bytes": 3545
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/refresh-template.json",
+      "sha256": "8f5d10cba0cfb1dce8a9d6cd094942539a7e0731353d516ba8b08475a0ee7bfc",
+      "bytes": 5045
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/prepare_refresh.py",
+      "sha256": "3797fc493c48705edd6bd69fd645f73e798bb5930f58eadd0475303a176428ac",
+      "bytes": 6681
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/probe_bound.py",
+      "sha256": "7108335d3bcb98be8e017589e2a5803b0658f9ac2c100218a0db2fa8eaa7da1f",
+      "bytes": 2325
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/analyze_refresh.py",
+      "sha256": "264f93de177020e175f4abe04f2e60037e8de634c866e9bcb4094b5b45009432",
+      "bytes": 5108
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/test_refresh.py",
+      "sha256": "8c946d07149d7feb462a98a49525d746bfa841313038e1d1d482071d252a620a",
+      "bytes": 5430
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/test_template.py",
+      "sha256": "307940d04031a1d4688e7ab98fc80872504b4228af504b5a43f4ae1a467cf33c",
+      "bytes": 1651
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/source-manifest.json",
+      "sha256": "1a5e7989e51d10bfbaa60ab13337a12e8699cfc05e0be98a0c51ff84f0abbb0e",
+      "bytes": 2434
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/test-results.json",
+      "sha256": "96f9405dd3bfc23967a3b2f9b144f0de5a1186483a2d4e7a07d9cc646a2b2454",
+      "bytes": 1086
+    }
+  ]
+}

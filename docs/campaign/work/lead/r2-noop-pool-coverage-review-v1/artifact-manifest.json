@@ -1,0 +1,48 @@
+{
+  "files": [
+    {
+      "bytes": 1133,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/README.md",
+      "sha256": "0be9a82219d0a9ec7430d94409b4153d30e062238446009dfeeefbc6bd0fcc4c"
+    },
+    {
+      "bytes": 6669,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/audit_inventory.py",
+      "sha256": "18b9f7a88957118387eeecb55130bd2a57bd179e03755548c951c3e37944ba2a"
+    },
+    {
+      "bytes": 5464,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/audit_supported_candidates.py",
+      "sha256": "5a28cb7fbdcdb408bbfef2d3ebaa1ac9ddbf4881d0b3fea7e4c8355fdd8312c7"
+    },
+    {
+      "bytes": 8027,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/build_review.py",
+      "sha256": "8a33593e551f7236dbbae819cbd50fe5437cb9f84bb63c8cfb8c88edf48b9a71"
+    },
+    {
+      "bytes": 14064,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/review.json",
+      "sha256": "381f4f08889024f6d8a2294315c8d1fc8d25f9beb50dd852e946c37ea4e49698"
+    },
+    {
+      "bytes": 609,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/test-results.log",
+      "sha256": "cbb8c977ae1fbd03149dc10d90e90faa412f2bd3d838e1b83f15a021d7c4d4df"
+    },
+    {
+      "bytes": 1897,
+      "mode": "0o644",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop-pool-coverage-review-v1/test_review.py",
+      "sha256": "568aed0706860eb930bb0c5619485d348119ccf83f742e2eaf5ee8f94ccd369b"
+    }
+  ],
+  "schema": "sepalith.dat10.noop-pool-coverage-artifacts.v1",
+  "status": "frozen_review_only"
+}

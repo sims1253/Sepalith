@@ -1,0 +1,97 @@
+{
+  "attention_backend": {
+    "actual_model_parity": null,
+    "extension_sha256": "bb2a59af5ed03aa28ea0e1ed705384fcb6d5d0e6ab8bd825b004ffbb3af9d669",
+    "kernel_probe": null,
+    "overlay_root": "/mnt/e/sepalith/campaign-20260915/build-work/sm120-varlen-v1/cu130-overlay",
+    "selected": null,
+    "wheel_sha256": "962eb73f7243fb6a6b68ed85ed8f97780070ee35c1be464eefe3299b0382391d"
+  },
+  "cohort": {
+    "documents": null,
+    "draw_schedule": {
+      "path": null,
+      "sha256": null
+    },
+    "id": null,
+    "input_tokens": null,
+    "loss_tokens": null,
+    "manifest": {
+      "path": null,
+      "sha256": null
+    },
+    "max_sequence_tokens": null,
+    "named_replays": null,
+    "packages": null,
+    "payload_tokens": null,
+    "rows": {
+      "path": null,
+      "sha256": null
+    },
+    "scope": "complete_admitted_train_corpus",
+    "streaming_cache": {
+      "manifest_sha256": null,
+      "path": null
+    },
+    "unique_rows": null,
+    "updates": null
+  },
+  "corpus_manifest": {
+    "path": null,
+    "sha256": null
+  },
+  "data_admission": {
+    "path": null,
+    "sha256": null
+  },
+  "dtype_audit": {
+    "path": null,
+    "sha256": null
+  },
+  "launch_authorized": false,
+  "saved_precision": {
+    "fp32_elements": null,
+    "fp32_tensors": null,
+    "identity_source": null
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-stage-transition-root-admission.v1",
+  "selected": {
+    "checkpoint_every": null,
+    "evaluation_stage_steps": null,
+    "gradient_accumulation": null,
+    "learning_rate": null,
+    "mandatory_stop_stage_step": null,
+    "micro_batch": null,
+    "optimizer": null,
+    "scheduler": "constant_with_warmup",
+    "selected_stage_milestones": null,
+    "telemetry_every": null,
+    "warmup_steps": null
+  },
+  "status": "pending_varlen_gpu_parity_and_root_scientific_admission",
+  "template_sha256": "32a906be7d375e0e7b68e23fb998784d16ac394da0ad27f72ad8511dca38d37e",
+  "transition": {
+    "destination_sampler": "preserve_verified_prefix",
+    "global_optimizer_step_offset": null,
+    "scheduler_state": "load_source_without_rewarm",
+    "source_checkpoint": {
+      "candidate_id": null,
+      "manifest_sha256": null,
+      "path": null
+    },
+    "source_cursor": null,
+    "source_decision": {
+      "path": null,
+      "sha256": null
+    },
+    "source_global_step": null,
+    "source_manifest": {
+      "path": null,
+      "sha256": null
+    },
+    "source_recipe": {
+      "path": null,
+      "sha256": null
+    }
+  }
+}

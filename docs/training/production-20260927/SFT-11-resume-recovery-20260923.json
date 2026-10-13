@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-23T09:14:21.545258+00:00",
+  "status": "resumed_first_updates_verified",
+  "resume_step": 4866,
+  "failure": "host_free_memory_below_soft_floor_persisted during checkpoint4866 durable publication",
+  "evidence": {
+    "windows_available_mib": [
+      4845,
+      6963
+    ],
+    "linux_cached_kib": 30854152,
+    "linux_available_kib": 38453128
+  },
+  "mitigation": "continuously advise DONTNEED on owned checkpoint model/optimizer payloads, including temporary publication paths, and staged dataset files; file contents and frozen trainer unchanged",
+  "guards": {
+    "windows_soft_mib": 8192,
+    "windows_hard_mib": 4096,
+    "admission_mib": 16384,
+    "linux_available_gib": 6,
+    "cuda_fraction": 0.95
+  },
+  "original_deadline_epoch": 1790243068.8309097,
+  "files": {
+    "cache_maintenance.py": "aecf332e318d91e3c299370d80c95d1b1f7a18b87ef02b000a69e7ff246f3052",
+    "supervise_recovery.py": "0e67b0f001b43c9d95f80a63494ddfbd2294acac990676079bb9724f6a328284",
+    "recover_checkpoint.py": "5fb20d6d681b966b34aa6ac7f0d12730262922d828157c3de1ce9d2541b621f1"
+  },
+  "live_status": {
+    "at": "2026-09-23T09:14:17.379505+00:00",
+    "state": "training",
+    "supervisor_pid": 3647678,
+    "step": 4869,
+    "loss": 0.8655058145523071,
+    "segment": "/home/m0hawk/.local/state/sepalith/resume-20260921/recovery-train-4866-5378/execution",
+    "deadline": 1790243068.8309097
+  },
+  "checkpoint_recovery": "/home/m0hawk/.local/state/sepalith/resume-20260921/checkpoint-4866-recovered.json",
+  "evaluation": {
+    "step": 4866,
+    "nll": {
+      "anchor2k": 0.9554677222695193,
+      "8k": 0.7250562184758914,
+      "16k": 0.766288975813947
+    },
+    "checkpoint_manifest_sha256": "1d7e4d50c082bb6280bc446eec61be837541a36cab05bab2bea31973040ad08f",
+    "decision": "continue_cpt_only",
+    "release_promoted": false
+  },
+  "publication_recovery_guard": {
+    "at": "2026-09-23T09:08:54.217875+00:00",
+    "status": "completed",
+    "reason": null,
+    "child_exit_code": 0,
+    "seconds": 232.30316211900208
+  },
+  "limitation": "Recovery publication passed without resident training model; first future training checkpoint remains to be observed by supervisor. Guards remain fail-closed."
+}

@@ -43,3 +43,6 @@ results/
 
 # Archived process evidence (restore on demand; index in docs/artifacts)
 /experiments/latent_memory/resource-observation.json
+
+# Claude Code agent worktrees
+.claude/worktrees/

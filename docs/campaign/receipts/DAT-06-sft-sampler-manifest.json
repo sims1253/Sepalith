@@ -1,0 +1,177 @@
+{
+  "task": "DAT-06",
+  "owner": "lead",
+  "status": "accepted_actual_finite_schedules",
+  "observed_at": "2026-09-12T09:36:34.622097+00:00",
+  "input_receipt": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/receipt.json",
+    "sha256": "0cb111766bd70ee3a5511d71b7bb51b1b300e1b611f8812272892f56a2e316a9"
+  },
+  "schedules": {
+    "3000": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/draws-3000.json",
+      "sha256": "a439fe8af68b4929a7747d4a82b9e0b26a05fcd3973f8a3c81148a84581d7f94"
+    },
+    "50": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/draws-50.json",
+      "sha256": "bc6366887e806c99b6d2e314056d426b10f166d408bbcf36070a848c2f5e76bc"
+    }
+  },
+  "verified": [
+    {
+      "steps": 50,
+      "draws": 800,
+      "unique_rows": 800,
+      "max_row_presentations": 1,
+      "family_draws": {
+        "finish_block": 200,
+        "pipe_rewrite": 140,
+        "format_propagation": 128,
+        "rename_propagation": 123,
+        "roxygen_drafting": 92,
+        "no_op": 80,
+        "na_rm_propagation": 37
+      },
+      "achieved_mixture": {
+        "families": {
+          "finish_block": {
+            "count": 200,
+            "fraction": 0.25
+          },
+          "format_propagation": {
+            "count": 128,
+            "fraction": 0.16
+          },
+          "na_rm_propagation": {
+            "count": 37,
+            "fraction": 0.04625
+          },
+          "no_op": {
+            "count": 80,
+            "fraction": 0.1
+          },
+          "pipe_rewrite": {
+            "count": 140,
+            "fraction": 0.175
+          },
+          "rename_propagation": {
+            "count": 123,
+            "fraction": 0.15375
+          },
+          "roxygen_drafting": {
+            "count": 92,
+            "fraction": 0.115
+          }
+        },
+        "length": {
+          "long": 134,
+          "long_ceiling": 0.2,
+          "long_fraction": 0.1675,
+          "short": 666
+        },
+        "semantic_noop": {
+          "achieved": 80,
+          "deficit": 0,
+          "fraction": 0.1,
+          "reserved": 80
+        }
+      },
+      "deficits": {
+        "achieved_draws": 800,
+        "allocator_unallocated": 0,
+        "family_quota": {},
+        "global": 0,
+        "no_op_achieved": 80,
+        "no_op_reserved": 80,
+        "no_op_shortage": 0,
+        "reasons": [],
+        "requested_draws": 800
+      },
+      "exposure_summary": {
+        "actual_input_tokens": 931627,
+        "prompt_loss_tokens": 877115,
+        "target_loss_tokens": 53712
+      }
+    },
+    {
+      "steps": 3000,
+      "draws": 48000,
+      "unique_rows": 11764,
+      "max_row_presentations": 8,
+      "family_draws": {
+        "finish_block": 12000,
+        "pipe_rewrite": 8653,
+        "format_propagation": 7993,
+        "rename_propagation": 7671,
+        "roxygen_drafting": 5787,
+        "no_op": 4800,
+        "na_rm_propagation": 1096
+      },
+      "achieved_mixture": {
+        "families": {
+          "finish_block": {
+            "count": 12000,
+            "fraction": 0.25
+          },
+          "format_propagation": {
+            "count": 7993,
+            "fraction": 0.16652083333333334
+          },
+          "na_rm_propagation": {
+            "count": 1096,
+            "fraction": 0.022833333333333334
+          },
+          "no_op": {
+            "count": 4800,
+            "fraction": 0.1
+          },
+          "pipe_rewrite": {
+            "count": 8653,
+            "fraction": 0.18027083333333332
+          },
+          "rename_propagation": {
+            "count": 7671,
+            "fraction": 0.1598125
+          },
+          "roxygen_drafting": {
+            "count": 5787,
+            "fraction": 0.1205625
+          }
+        },
+        "length": {
+          "long": 7011,
+          "long_ceiling": 0.2,
+          "long_fraction": 0.1460625,
+          "short": 40989
+        },
+        "semantic_noop": {
+          "achieved": 4800,
+          "deficit": 0,
+          "fraction": 0.1,
+          "reserved": 4800
+        }
+      },
+      "deficits": {
+        "achieved_draws": 48000,
+        "allocator_unallocated": 0,
+        "family_quota": {
+          "na_rm_propagation": 1103
+        },
+        "global": 0,
+        "no_op_achieved": 4800,
+        "no_op_reserved": 4800,
+        "no_op_shortage": 0,
+        "reasons": [],
+        "requested_draws": 48000
+      },
+      "exposure_summary": {
+        "actual_input_tokens": 55393217,
+        "prompt_loss_tokens": 51361471,
+        "target_loss_tokens": 3983746
+      }
+    }
+  ],
+  "source_snapshot": "bd79e7b24803d59c7334b45176aa73796b57226f0677b79e6b5d471aa9b1ed6e",
+  "decision": "Keep10%semanticnoops and25%familycap; na.rm originalquota shortfall1103backfilledfromothereligiblefamilies withnoindefinite duplication. Actualschedulefills48000draws, everyrow<=8 presentations.",
+  "smallpack": "No newlyauthoredsmallpackrows; configuredcap3retained."
+}
