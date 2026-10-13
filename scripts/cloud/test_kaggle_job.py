@@ -82,6 +82,14 @@ class Jobs(unittest.TestCase):
             with self.assertRaises(ValueError): job.collect(self.root, self.record, 'fake', lambda *a: output)
         self.assertFalse((self.root / 'artifacts').exists())
 
+    def test_state_guard_ignores_git_named_directory_but_rejects_real_repo(self):
+        import subprocess
+        parent = Path(self.temp.name)
+        (parent / '.git').mkdir()
+        job.ensure_external_state(parent / 'external-state')
+        subprocess.run(['git', 'init', '-q', str(parent)], check=True)
+        with self.assertRaises(ValueError): job.ensure_external_state(parent / 'inside-state')
+
     def test_lock_excludes_second_controller(self):
         with job.locked(self.root):
             with self.assertRaises(BlockingIOError):
