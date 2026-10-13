@@ -1,0 +1,77 @@
+{
+  "commit_url": "https://huggingface.co/datasets/scholzmx/sepalith/commit/d6ddf63ca8e901cee62e838b3d4a05ca298641d1",
+  "files": [
+    {
+      "bytes": 123639,
+      "repo_path": "campaign-20260915/C10/admission/admitted-ids.json",
+      "sha256": "82a79385ee9559d244798a9efb415393937aa925186f7e63a7adb42d2eabf9ed"
+    },
+    {
+      "bytes": 4243,
+      "repo_path": "campaign-20260915/C10/admission/held-ids.json",
+      "sha256": "c79338d6aff117e8672e694160098d8ba81c80e4726c35183435a9fd56f39cd9"
+    },
+    {
+      "bytes": 10201,
+      "repo_path": "campaign-20260915/C10/admission/receipt.json",
+      "sha256": "39863075571e6cf834430400ce9844910b8bad7d639b5948a860cb74e9aee673"
+    },
+    {
+      "bytes": 6628,
+      "repo_path": "campaign-20260915/C10/admission/checks.json",
+      "sha256": "699be180250172bf80db3274c110c76765c4734c3d468fc455788d537cd233c2"
+    },
+    {
+      "bytes": 5231877,
+      "repo_path": "campaign-20260915/C10/admission/mechanical.jsonl",
+      "sha256": "9372d069821ab4c610e0952c3969709ec25e22fb1b0bca4cde96397ba99889e3"
+    },
+    {
+      "bytes": 36154,
+      "repo_path": "campaign-20260915/C10/admission/sample-checks.jsonl",
+      "sha256": "f6a76f16e2c8624da4ebac84d38fbde5fa5a83c53289e3371e28c2f32f8042ac"
+    },
+    {
+      "bytes": 16501,
+      "repo_path": "campaign-20260915/C10/admission/semantic-classifications.json",
+      "sha256": "023dd3053393279d6160f6eb7cb433233180cb077b948aea10961d508791085b"
+    },
+    {
+      "bytes": 320817,
+      "repo_path": "campaign-20260915/C10/admission/recommended-context-ids.json",
+      "sha256": "f88607c31ad60bb4b13eb50946ab2db6bfd7daf0f300bd9d9809a2c06b631e62"
+    },
+    {
+      "bytes": 154451327,
+      "repo_path": "campaign-20260915/C10/arm-b-v4/arm-b-cohort-rows.jsonl",
+      "sha256": "256a418b914014f12b7a848e4d899e210407435cbf98c243f98d50225e8b92ec"
+    },
+    {
+      "bytes": 1028,
+      "repo_path": "campaign-20260915/C10/arm-b-v4/cohort-receipt.json",
+      "sha256": "6795c7eece80ff0c5ce4dcd8ef9609f28255fb14eeee71d95a7f4a8e05bae4db"
+    },
+    {
+      "bytes": 472,
+      "repo_path": "campaign-20260915/C10/arm-b-v4/length-profile.json",
+      "sha256": "8ee634f0168e7799096e792210580f6e4a3db300452896d67f84ecc2aee699b0"
+    },
+    {
+      "bytes": 12232046,
+      "repo_path": "campaign-20260915/C10/arm-b-v4/draw-schedule-v2-armb.json",
+      "sha256": "1e89713e95b8ab789b56077b9c01ad78c6b469014cd803b40ea7add0e04598d2"
+    },
+    {
+      "bytes": 1825,
+      "repo_path": "campaign-20260915/C10/arm-b-v4/draw-schedule-v2-armb.summary.json",
+      "sha256": "c0210b71a356f9ad8a1f255d0c60c552538f601551134f72044cb7ea9d84dda4"
+    }
+  ],
+  "oid": "d6ddf63ca8e901cee62e838b3d4a05ca298641d1",
+  "repo": "datasets/scholzmx/sepalith",
+  "schema": "sepalith.c10.hf-upload.v1",
+  "script": "docs/training/plan-20260927/c10/upload_c10.py",
+  "single_commit": true,
+  "train_derived_only": true,
+  "verified": "LFS oids of the cohort and schedule on the Hub equal the local sha256"
+}

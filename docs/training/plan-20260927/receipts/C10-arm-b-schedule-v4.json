@@ -1,0 +1,140 @@
+{
+  "card": "C10",
+  "cohort": {
+    "admitted_roxygen_rows": 3861,
+    "bytes": 154451327,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b-v4/arm-b-cohort-rows.jsonl",
+    "rebase_receipt": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b-v4/cohort-receipt.json",
+      "sha256": "6795c7eece80ff0c5ce4dcd8ef9609f28255fb14eeee71d95a7f4a8e05bae4db"
+    },
+    "rows": 18867,
+    "sha256": "256a418b914014f12b7a848e4d899e210407435cbf98c243f98d50225e8b92ec",
+    "train_rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "rows": 15006,
+      "rows_changed_vs_v3": 486,
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+    }
+  },
+  "length_profile": {
+    "max_sequence_tokens": 5066,
+    "observed_fit_without_truncation": true,
+    "over_threshold_counts": {
+      "16384": 0,
+      "2048": 1462,
+      "4096": 1,
+      "8192": 0
+    },
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b-v4/length-profile.json",
+    "sha256": "8ee634f0168e7799096e792210580f6e4a3db300452896d67f84ecc2aee699b0"
+  },
+  "night_cost_estimate": {
+    "arm_a": {
+      "scheduled_input_tokens": 14550231,
+      "train_hours_provisional": 2.31,
+      "updates": 1071
+    },
+    "arm_b": {
+      "scheduled_input_tokens": 16518389,
+      "train_hours_provisional": 2.63,
+      "updates": 1368
+    },
+    "basis": "C07 has not run; scale arm A (C04 v4 schedule 6820a847...) by scheduled input tokens. Provisional rate from the CPT 16K accum-16 smoke (about 1,747 tokens/s); short SFT rows may run below it.",
+    "nights": "one night expected, two at most; arm-B hours = C07 arm-A hours x ratio_tokens (or x ratio_updates if per-update overhead dominates), plus 4 gates",
+    "ratio_tokens": 1.135,
+    "ratio_updates": 1.277
+  },
+  "schedule": {
+    "batch": "13 edit + 3 no-op in every update",
+    "builder": "sepalith.training.sft.schedule_v2 (PR #45 at 5057cac), unchanged; seed 3407",
+    "checks": {
+      "all_eligible_ids_drawn": true,
+      "constant_batch_composition": true,
+      "edits_seen_once_except_last_update_replays": true,
+      "every_unique_edit_before_edit_replay": true,
+      "every_unique_noop_before_noop_replay": true,
+      "no_target_truncation": true,
+      "noop_exposures_at_most_cap": true,
+      "targets_over_1024_retained": 5
+    },
+    "draws": 21888,
+    "edit_replays": 11,
+    "exposure_histogram_by_pool": {
+      "edit": {
+        "1": 17762,
+        "2": 11
+      },
+      "noop": {
+        "3": 272,
+        "4": 822
+      }
+    },
+    "gates": [
+      342,
+      684,
+      1026,
+      1368
+    ],
+    "noop_passes": {
+      "passes": 4,
+      "rows_per_pass": [
+        1094,
+        1094,
+        1094,
+        822
+      ]
+    },
+    "noop_share": 0.1875,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C10-roxygen-admission-v1/arm-b-v4/draw-schedule-v2-armb.json",
+    "sequence_buckets": {
+      "batches": {
+        "1024": 338,
+        "2048": 277,
+        "4096": 112,
+        "512": 640,
+        "8192": 1
+      },
+      "draws": {
+        "1024": 4626,
+        "2048": 3611,
+        "4096": 1469,
+        "512": 12181,
+        "8192": 1
+      },
+      "unique_rows": {
+        "1024": 4447,
+        "2048": 3605,
+        "4096": 1461,
+        "512": 9353,
+        "8192": 1
+      }
+    },
+    "sha256": "1e89713e95b8ab789b56077b9c01ad78c6b469014cd803b40ea7add0e04598d2",
+    "summary_sha256": "c0210b71a356f9ad8a1f255d0c60c552538f601551134f72044cb7ea9d84dda4",
+    "token_denominators": {
+      "scheduled": {
+        "input_tokens": 16518389,
+        "prompt_tokens_excluding_bos": 14400648,
+        "rows": 21888,
+        "supervised_target_tokens_including_eos": 2095853,
+        "target_body_tokens": 1964525,
+        "target_protocol_tokens_excluding_eos": 109440,
+        "targets_over_1024_tokens": 5
+      },
+      "unique": {
+        "input_tokens": 15392005,
+        "prompt_tokens_excluding_bos": 13315904,
+        "rows": 18867,
+        "supervised_target_tokens_including_eos": 2057234,
+        "target_body_tokens": 1944032,
+        "target_protocol_tokens_excluding_eos": 94335,
+        "targets_over_1024_tokens": 5
+      }
+    },
+    "updates": 1368
+  },
+  "schema": "sepalith.c10.arm-b-schedule.v1",
+  "status": "accepted_user_decision_2026-10-12_option_a_v4_rows",
+  "supersedes": "receipts/C10-arm-b-schedule-proposal.json (v3 rows, proposal)"
+}
