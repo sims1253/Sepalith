@@ -703,16 +703,11 @@ def main():
     train_pkgs = defaultdict(set)
     for r in train:
         train_pkgs[r["family"]].add(r["package_or_repo"])
-    overlap = {}
-    if train_pkgs:
-        overlap_pkgs = defaultdict(set)
-        for r in evals:
-            fam = r["family"]
-            pkgs = train_pkgs.get(fam)
-            if pkgs is not None and r["package_or_repo"] in pkgs:
-                overlap_pkgs[fam].add(r["package_or_repo"])
-        for fam in sorted(overlap_pkgs):
-            overlap[fam] = len(overlap_pkgs[fam])
+    overlap_pkgs = defaultdict(set)
+    for r in evals:
+        if r["package_or_repo"] in train_pkgs.get(r["family"], ()):
+            overlap_pkgs[r["family"]].add(r["package_or_repo"])
+    overlap = {fam: len(overlap_pkgs[fam]) for fam in sorted(overlap_pkgs)}
     assert not overlap, f"eval/train package overlap: {overlap}"
 
     random.Random(42).shuffle(train)
