@@ -8,10 +8,26 @@ and model smoke/evaluation results. Clients do not follow nightlies.
 ## Quant exports
 
 The original three positional export arguments and environment overrides still
-work. The default remains Q8_0. The default converter now comes from the permanent
-pinned source checkout; a missing converter fails before model loading. Explicit
-`LLAMA_CONVERT` and `LLAMA_QUANT` overrides remain available for architecture forks.
-Do not assume spark models work in the stock release.
+work. The default remains Q8_0. The pinned llama.cpp lives outside the repo under
+`SEPALITH_LLAMA_CPP` (default `~/.local/opt/llama.cpp-b10453`), built by
+`scripts/packaging/build_llama_cpp.sh`: the converter is `src/convert_hf_to_gguf.py`
+run with `venv-convert/bin/python`, and the quantizer is `build-cpu/bin/llama-quantize`.
+The default converter must sit at the pinned commit; a missing converter fails before
+model loading. Explicit `LLAMA_CONVERT`, `LLAMA_CONVERT_PYTHON` and `LLAMA_QUANT`
+overrides remain available for architecture forks. Do not assume spark models work
+in the stock release.
+
+The converter writes a bf16 GGUF (`--outtype bf16`, the default; `--outtype f16` is
+still available). It is the quantization source and the full-precision reference;
+keep it with `--keep-source` (alias `--keep-f16`) and reuse it with `--source-gguf`
+(alias `--f16`). `--out-dir` writes somewhere other than `experiments/models`.
+Tiers are Q8_0, Q6_K, Q5_K_M, Q4_K_M and IQ4_XS. Q4_K_M needs `--imatrix` or an
+explicit `--uncalibrated` control; any IQ type, as a tier or an override, needs
+`--imatrix`. The quantizer flags `--imatrix`, `--output-tensor-type`,
+`--token-embedding-type`, repeated `--tensor-type PATTERN=TYPE` (any ggml type at
+the pin) and `--dry-run` pass through. `--dry-run` merges, converts and writes
+nothing: it prints the planned commands and receipts, and with `--source-gguf` it
+runs `llama-quantize --dry-run` for each tier's size.
 
 Build calibration text from an assembled training split:
 
@@ -27,37 +43,45 @@ family-balanced calibration candidate; it is not a quality result. Keep evaluati
 rows outside this corpus. `cal_length.py` calibrates diffusion lengths and has no
 role in quantization.
 
-Export from the banked merged B4 checkpoint, retaining the full precision GGUF:
+Export a full HF checkpoint (no LoRA merge, so the system Python is enough),
+retaining the bf16 GGUF. The 2026-09-06 smoke used the B4 merge with stem
+`packaging_b4` and an f16 source; this example uses the current defaults:
 
 ```sh
-NO_LORA=1 .venv-sft/bin/python experiments/training/export_gguf.py \
-  unused /mnt/h/sepalith/runs/pft1_b4_merged packaging_b4 --keep-f16
+NO_LORA=1 python3 experiments/training/export_gguf.py \
+  unused /path/to/hf-checkpoint sepalith_x --keep-source
 ```
 
 Compute activations on that model. CPU flags avoid using the GPU, but this work still requires a CPU resource
-window and must not overlap a quiet benchmark. Use the matching CUDA binary and `-ngl 99` only in an available GPU
-window. Increase chunks for a release calibration after measuring coverage.
+window and must not overlap a quiet benchmark. Use the matching CUDA binary (`build-cuda/bin`) and `-ngl 99` only
+in an available GPU window. Increase chunks for a release calibration after measuring coverage.
 
 ```sh
-experiments/bin/llama/llama-b10453/llama-imatrix \
-  -m experiments/models/packaging_b4-f16.gguf \
+LLAMA=${SEPALITH_LLAMA_CPP:-$HOME/.local/opt/llama.cpp-b10453}
+"$LLAMA/build-cpu/bin/llama-imatrix" \
+  -m experiments/models/sepalith_x-bf16.gguf \
   -f experiments/models/quant-calibration/sft_v7.txt \
-  -o experiments/models/quant-calibration/b4-imatrix.gguf \
+  -o experiments/models/quant-calibration/sepalith_x-imatrix.gguf \
   --parse-special --no-ppl --chunks 32 -c 512 -t 8 -ngl 0
-python3 experiments/training/export_gguf.py unused unused packaging_b4_imatrix \
-  --f16 experiments/models/packaging_b4-f16.gguf \
-  --imatrix experiments/models/quant-calibration/b4-imatrix.gguf \
-  --tiers Q6_K Q4_K_M IQ4_XS
-python3 experiments/training/export_gguf.py unused unused packaging_b4_control \
-  --f16 experiments/models/packaging_b4-f16.gguf \
+python3 experiments/training/export_gguf.py unused unused sepalith_x_imatrix \
+  --source-gguf experiments/models/sepalith_x-bf16.gguf \
+  --imatrix experiments/models/quant-calibration/sepalith_x-imatrix.gguf \
+  --tiers Q6_K Q5_K_M Q4_K_M IQ4_XS
+python3 experiments/training/export_gguf.py unused unused sepalith_x_control \
+  --source-gguf experiments/models/sepalith_x-bf16.gguf \
   --uncalibrated --tiers Q4_K_M
 ```
 
 Non-Q8 tiers default to Q8_0 output and embedding tensors. Each can be changed to
-Q6_K with `--output-type` / `--embedding-type`. Both Q4 arms must use the same
+any ggml type with `--output-tensor-type` / `--token-embedding-type` (old names
+`--output-type` / `--embedding-type` still work). Both Q4 arms must use the same
 policy so the comparison isolates imatrix. Q8 retains the original quantizer
-behavior. Each GGUF has a JSON receipt with size, hash, quantizer path, policy,
-and imatrix hash. Failed quantization removes its partial file.
+behavior unless overrides are given explicitly. Each GGUF has a JSON receipt
+(`<file>.json`, schema `sepalith.gguf-export/v2`): output, source, HF input files,
+imatrix and quantizer paths with sizes and SHA-256, the converter commit and
+command, the quantizer build and command, every flag, and wall times. A kept
+source GGUF has its own receipt. Failed conversion or quantization removes its
+partial file.
 
 Run `experiments/eval/eval_scenarios.py` on Q8 and both Q4 arms with identical
 settings. Use separate stems because the harness keys result files by model stem.

@@ -37,8 +37,14 @@ logged scar class). The roots:
   `normalized/` (CRAN corpus, `<pkg>/<ver>/<pkg>/...`),
   `normalized_bioc/` + `bioc_staging/` (Bioconductor),
   `stack_staging/`, `pwc_staging/` (acquisitions).
-- `/tmp` — caches (token blocks, corpus copies, merged models, llama.cpp
-  builds). Volatile by design; everything rebuilds.
+- `/tmp` — caches (token blocks, corpus copies, merged models). Volatile
+  by design; everything rebuilds.
+- `SEPALITH_LLAMA_CPP` (default `~/.local/opt/llama.cpp-b10453`) — the
+  pinned llama.cpp install, outside the repo: `src/` (tag b10453, commit
+  `3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70`), `build-cpu/bin/`,
+  `build-cuda/bin/` (CUDA 13, sm_120), `venv-convert/` (converter
+  interpreter). Built by `scripts/packaging/build_llama_cpp.sh`; see §5
+  SERVING.
 - Run dirs: `/mnt/h/sepalith/runs/<model>_<dataset>/` (checkpoints +
   `final_lora`).
 
@@ -91,7 +97,9 @@ logged scar class). The roots:
 - From-scratch POC trainer: `experiments/training/poc_twin/` (Muon/
   Aurora/QK-Clip verified; the seed of the real pretrainer).
 - Export: `experiments/training/export_gguf.py` (arch-gated --no-nextn;
-  the converter must match the model family — see its history).
+  the converter must match the model family — see its history). Converts
+  to a bf16 GGUF (quant source and reference), then quantizes to
+  Q8_0/Q6_K/Q5_K_M/Q4_K_M/IQ4_XS with per-file JSON receipts.
 
 ### 5. Eval battery
 - `experiments/eval/`: `eval_scenarios.py` (validators, spawns its own
@@ -101,7 +109,22 @@ logged scar class). The roots:
   `cache_bench*.py`, `keystroke_sim.py`.
 - **SERVING**: use a CUDA-enabled build (`cmake -DGGML_CUDA=ON`) — the
   stock binaries are CPU-only and `-ngl` fails SILENTLY (74x difference,
-  verified the hard way). Readiness = POST /v1/completions 200, never
+  verified the hard way). Pinned builds (llama.cpp b10453 =
+  `3cb7ffb1a1f6`, rebuilt 2026-10-12 after the WSL reinstall wiped
+  `experiments/bin/` and `/tmp/llama.cpp-cuda/`) live under
+  `$SEPALITH_LLAMA_CPP` (default `~/.local/opt/llama.cpp-b10453`):
+  CPU `build-cpu/bin/llama-{server,completion,quantize,imatrix}`, CUDA
+  `build-cuda/bin/llama-server` (`-DGGML_CUDA=ON
+  -DCMAKE_CUDA_ARCHITECTURES=120`, nvcc from `/opt/cuda/bin`), converter
+  `src/convert_hf_to_gguf.py` run with `venv-convert/bin/python`.
+  Rebuild with `scripts/packaging/build_llama_cpp.sh [src|cpu|cuda|vulkan|convert|all]`
+  (full clone, so binaries report build 10453). No Vulkan build on this
+  box (no Vulkan headers/glslc). Scripts that still
+  hardcode `experiments/bin/llama/llama-b10453/` need a symlink to
+  `build-cpu/bin` in their checkout (`ln -s
+  ~/.local/opt/llama.cpp-b10453/build-cpu/bin
+  experiments/bin/llama/llama-b10453`); `export_gguf.py` reads
+  `SEPALITH_LLAMA_CPP` directly. Readiness = POST /v1/completions 200, never
   /health. Kill by tracked PID/port (`fuser -k PORT/tcp`) — never
   `pkill -f` (three self-match incidents on record).
 - GPU when free, CPU when a trainer owns the card; never both.
@@ -137,7 +160,8 @@ logged scar class). The roots:
 2. Create the NAS-equivalent data roots; populate `normalized/` from
    CRAN/Bioconductor via the ingest scripts (license ledger on).
 3. Put the API keys in the environment (names in the table above).
-4. Build llama.cpp WITH CUDA.
+4. Build llama.cpp b10453 WITH CUDA (and a CPU tree plus the converter
+   venv) under `$SEPALITH_LLAMA_CPP`; see §5 SERVING.
 5. Smoke: `cases.test_cases` → `cases.rules.run_rules --selftest` →
    mine a small spec pool → one mock-backend wave → assemble a small
    mixture → 200-step train → export → eval_scenarios on the GGUF.

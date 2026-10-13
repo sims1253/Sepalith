@@ -27,12 +27,13 @@ Products: checkpoints and the final LoRA under
   argument if your data lives elsewhere.
 - GPU: `train_sft.py` runs `nvidia-smi` first. It aborts when more than
   8 GB is in use. That is the shared-machine policy; do not bypass it.
-- `export_gguf.py` needs a llama.cpp checkout at `/tmp/llamacpp-src/` (for
-  `convert_hf_to_gguf.py`) and `llama-quantize` at
-  `experiments/bin/llama/llama-b10453/llama-quantize`. The binary is not in
-  git. The script writes into `experiments/models/` through an absolute
-  checkout path, so the repo must sit at
-  `/home/m0hawk/Documents/Sepalith` or that path must exist.
+- `export_gguf.py` needs the pinned llama.cpp (b10453) under
+  `SEPALITH_LLAMA_CPP` (default `~/.local/opt/llama.cpp-b10453`):
+  `src/convert_hf_to_gguf.py`, `venv-convert/bin/python` and
+  `build-cpu/bin/llama-quantize`. Build them with
+  `scripts/packaging/build_llama_cpp.sh`; nothing is in git. The script
+  writes into `experiments/models/` of the checkout it runs from, or
+  into `--out-dir`.
 
 ## Run it
 
@@ -78,7 +79,7 @@ Products: checkpoints and the final LoRA under
 | Script | What it does |
 |---|---|
 | `train_sft.py` | LoRA fine-tune with unsloth. Takes a model id, a step count, and a data directory. Saves checkpoints to the NAS store. |
-| `export_gguf.py` | Merges a trained LoRA, converts to GGUF, and quantizes to Q8_0 for llama.cpp serving and eval. |
+| `export_gguf.py` | Merges a trained LoRA (or takes a full HF model), converts to a bf16 GGUF, and quantizes to Q8_0 (plus optional Q6_K/Q5_K_M/Q4_K_M/IQ4_XS) with JSON receipts. |
 | `rl/` | Verifiable-reward training scaffold. See its README. |
 
 ## Notes
