@@ -96,3 +96,6 @@ These workflow families retain their existing tracked entry points and environme
 
 Editor acceptance: [test coverage and native release matrix](EDITOR-ACCEPTANCE.md).
 Remote smoke preparation: [Kaggle jobs](KAGGLE-JOBS.md), separate from local runner dispatch.
+
+[Reports and raw evidence](ARTIFACTS.md) explains which records belong in Git
+and how to retrieve verified raw artifacts from the private archive.
