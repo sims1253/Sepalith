@@ -1,0 +1,100 @@
+{
+  "checkpoint_io_evidence": {
+    "measured_checkpoint_payload_bytes": 17250917475,
+    "measured_e_metadata_to_manifest_seconds": 423,
+    "measured_e_metadata_to_next_checkpoint_start_seconds": 614,
+    "policy": "No dense light checkpoint. Full save seals one exact inventory then atomically renames on one filesystem. Cadence remains a root scientific/resource selection; resume and terminal acceptance rehash all bytes."
+  },
+  "cohort": {
+    "draw_schedule": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/draws-1902.json",
+      "sha256": "914cf353199f45697c028da3a6f06b732fd57bd265869890b75bf43151851b58"
+    },
+    "groups": 2017,
+    "id": "CPT-remaining-v1-30421",
+    "input_tokens": 41386614,
+    "loss_tokens": 41329272,
+    "manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/manifest.json",
+      "sha256": "d91e734018c29294f3e324da265342588973801efd3c3d8821a34a3ea1f91e84"
+    },
+    "max_sequence_tokens": 2048,
+    "named_replays": 11,
+    "payload_tokens": 41312278,
+    "rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-remaining-v1/cpt_train.jsonl",
+      "sha256": "836b61c5b7d5545063aeaa3054c62915b8a4d24574908cade4c2d3eed1537a87"
+    },
+    "scope": "complete_first_cohort_not_all_eligible_corpus",
+    "unique_rows": 30421,
+    "updates": 1902
+  },
+  "cohort_registry": {
+    "all_corpus_complete": false,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/cohort-registry.json",
+    "sha256": "d0dd3f3bd052a6c90f42f9bc835affec8255cc1e02448344a92e5a629bbb2a40"
+  },
+  "launch_authorized": false,
+  "optimizer_dispatch": {
+    "note": "Only valid when root selects aurora_mix; other arms require their own actual runtime manifest and template revision.",
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-cohort1-v1",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/SFT11-full-weight-CPT-cohort1-v1-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-CPT-cohort1-v1/runtime"
+  },
+  "outputs_same_filesystem_required": true,
+  "parent_candidates": {
+    "global_cpt250_merged": {
+      "candidate_id": "global_cpt250_merged",
+      "files": {
+        "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+        "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+        "model.safetensors": "5f12810692a90ebb32f589a25e5adcedac53d9fb6edd9166b8245fdec6e3dd1c",
+        "parent-manifest.preparation.json": "c5ddf086518e66a6709d8e4a16b88f7399d4e87ea477e24f3988ffcdecb1366e",
+        "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+      },
+      "kind": "merged_cpt_parent",
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-CPT-global-a-250-merged",
+      "selection_status": "proposed_pending_root_comparison"
+    }
+  },
+  "resource_evidence": {
+    "full_weight_forward_backward_peak_reserved_bytes": 11830034432,
+    "hybrid_two_step_peak_allocated_bytes": 24196862976,
+    "hybrid_two_step_peak_reserved_bytes": 24746393600,
+    "interpretation": "Observed hybrid peak is about24.20GB allocated/24.75GB reserved; 13.6GB is not the admitted full-training peak.",
+    "optimizer_state_bytes": 12206817280
+  },
+  "retention": {
+    "durable_archive_latest": 2,
+    "preserve_selected_milestones": true,
+    "trainer_save_total_limit": 2
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-template.v1",
+  "seed": 3407,
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-trainer-v1/source-manifest.json",
+    "manifest_sha256": "ae09c62f923fe712e8d8426579980cbf816748c85e91df1b90f4d780124e01fa"
+  },
+  "status": "scientific_and_resource_selection_pending_root_admission",
+  "unresolved_scientific_config": [
+    "parent candidate acceptance after comparison",
+    "optimizer arm",
+    "learning rate and side rate",
+    "micro batch 1 or 2 after resource check",
+    "scheduler/warmup",
+    "checkpoint/evaluation milestones"
+  ],
+  "validation": {
+    "edit_dev_or_final": false,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+    "role": "package_heldout_train_causal_lm_only",
+    "rows": 499,
+    "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+  }
+}

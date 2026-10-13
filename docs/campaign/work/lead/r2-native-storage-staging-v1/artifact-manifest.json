@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "bytes": 5066,
+      "path": "README.md",
+      "sha256": "8fe5374fb37b4c2af8d8d39c7201a69ed47d90c3984126aaa90ad4bb1ebf78df"
+    },
+    {
+      "bytes": 534,
+      "path": "relocation-admission.template.json",
+      "sha256": "50488ac067736fbdbd59c4f60dfc6c080fd69adb90f6aaf32f09bc5e40548cbd"
+    },
+    {
+      "bytes": 2511,
+      "path": "root-commands.json",
+      "sha256": "dfba05a20de283099eefd7b32f87160a087fc1d05543a4bbcdb524dbfb511acf"
+    },
+    {
+      "bytes": 1609,
+      "path": "source/native_attestation.py",
+      "sha256": "39651283e19bc265a4247c717db5d9f3525812552ff5a34e3321016937cbc8d0"
+    },
+    {
+      "bytes": 1856,
+      "path": "source/native_capacity.py",
+      "sha256": "61dc8a543350f9c15526c8af8b21d058b64c058aac1c7553ea0dbb2a3b764866"
+    },
+    {
+      "bytes": 5232,
+      "path": "source/native_checkpoint_publish.py",
+      "sha256": "220115bef24c240b2425fb222a7e6435787f352fcd08e3ae0ec9022c773baa1e"
+    },
+    {
+      "bytes": 6063,
+      "path": "source/native_runtime_overlay.py",
+      "sha256": "878649c8a79dcf114c58da1b20effb35bb8ae25be4ff67300fb4e892365d18a1"
+    },
+    {
+      "bytes": 12693,
+      "path": "source/native_stage.py",
+      "sha256": "f8d1ed323500964f60d9c954373eb714bf66552288f2a14069b66c6456d45459"
+    },
+    {
+      "bytes": 935,
+      "path": "source-manifest.json",
+      "sha256": "45571dbb78afcd17efe9b5478b877be33184dc229f3c45f3217855911ecbd74c"
+    },
+    {
+      "bytes": 1955,
+      "path": "stage-spec.template.json",
+      "sha256": "7d6d719dcc64667d588fb9869af7f89047038a604bb7c80de683428646bf05c5"
+    },
+    {
+      "bytes": 939,
+      "path": "test-results.log",
+      "sha256": "38a8d82488bfd66aaef5458cacd745d7bf2c892d7b6ca8be06bb738949dc36e7"
+    },
+    {
+      "bytes": 9747,
+      "path": "tests/test_native_storage.py",
+      "sha256": "79e06dc93940feafa98a170dd078c3d4908b2f7b2bf08abd891facb9aea8ca2e"
+    }
+  ],
+  "schema": "sepalith.sft11.native-storage-staging-artifacts.v1",
+  "status": "frozen_preparation"
+}

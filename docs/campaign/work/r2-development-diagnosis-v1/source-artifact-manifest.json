@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "input_pins": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_rl_train.py",
+      "sha256": "78d27aa98cebc80292d1871a39821eee5a1a705b5a8f412ce270d1707d724443",
+      "bytes": 100780
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "bytes": 40337
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/data-audit.json",
+      "sha256": "8f4705498085b7d1076ebffc48d8618fa335ad0b5e833421e158addcda738618",
+      "bytes": 18362
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/data-preparation.json",
+      "sha256": "d08b8bdb2430fcc640a551adc69e8de77fc3ccd3f40a8789e67fd880438ec9d3",
+      "bytes": 68815878
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-fresh5-live-review/REVIEW.md",
+      "sha256": "63c946d8cf80e2cff032dad8bf3df7ffa9a1af1de0149a5b4be4b37d1f7340db",
+      "bytes": 4495
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/RL-08-corrected-rl-fresh5-live-review.json",
+      "sha256": "5bf6e46f359dd1c651d63c54a8a81fcede2645be1f84a838cc264e90d464979a",
+      "bytes": 11654
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-step50-lead-milestone-decision.json",
+      "sha256": "198b968cda890b0845265038373953e4897922a8d9c72c1064df754b07b5f90b",
+      "bytes": 5520
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-step100-lead-milestone-decision.json",
+      "sha256": "fd5e8dbd9b63a1c9b29ae4fe5d5e38b1caa4b7c60ec29ed8ef25dea3620ba18b",
+      "bytes": 3218
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-06-target-only25-a-lead-outcome.json",
+      "sha256": "57d5b64a66c660c31435a30eb6c8607e0a9f9ad8adbdfc56c811e94f7f14c616",
+      "bytes": 1928
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-notebook-long-a/run_notebook_long.py",
+      "sha256": "a1e53be27e53d6cc869bc80d0f80202919443e3f0e172d3deda73868c3f91103",
+      "bytes": 6108
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-notebook-long-a/notebook_long_server.py",
+      "sha256": "cc6e4f1f25c7e363513cad328ffac0b6313972e0a9791cfc1f89ca0b05311bad",
+      "bytes": 8035
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-long-context-a/replay-long-context.ts",
+      "sha256": "3d56587618dc728879353c53b2132683294322e97a4872eaf16839794a3dd273",
+      "bytes": 1743
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/theta0-notebook-cpu-dev-preparation/run_theta0_notebook_cpu_dev_v2.py",
+      "sha256": "899777e2e33a342e8090fc2b19a25a7b0de6535fc3b82f8ab140b6e26e91a6d5",
+      "bytes": 19116
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/theta0-notebook-cpu-dev-preparation/remote_notebook_theta0_cpu_server_v2.py",
+      "sha256": "ee872f83dd233e0cb4842e92ace2e6e0ad6f04f48f30d7ecc309a78891d0ef88",
+      "bytes": 10026
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter/__init__.py",
+      "sha256": "0754ef728b311cfb8eb64de361390cbe1344f280c7f40fded08161a6e650268f",
+      "bytes": 1504
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter/_binding.cpython-310-x86_64-linux-gnu.so",
+      "sha256": "f900ba170dfc937845fec8994bfb10809f4ad164180f1f1a016a5138aac81212",
+      "bytes": 2036664
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter_r/__init__.py",
+      "sha256": "9614021d75ff0ccee59f05dfa11aaceade25fe812011c9e3d3fe91a12bed1e2d",
+      "bytes": 1132
+    },
+    {
+      "path": "/home/m0hawk/Documents/Sepalith/.venv/lib/python3.10/site-packages/tree_sitter_r/_binding.abi3.so",
+      "sha256": "788d2871015496fcdefa990517ff44dd7d6482c65074a76719c98f205554ff2a",
+      "bytes": 560856
+    }
+  ],
+  "missing_exact_parser_paths": [],
+  "artifacts": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/audit_native_dev.py",
+      "sha256": "be873d2eb7c7da305e7754eb82d4513f8add01c87c40cbf08e44f932b085fae7",
+      "bytes": 7308
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/audit_train_metadata.py",
+      "sha256": "40136d2059e69f8b00f59a23420a5ca82d07da9da46e19770fc5ab16aee85ca1",
+      "bytes": 2392
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/initial-findings.md",
+      "sha256": "9ebc8ed8228b62b9ebd1fe178d9ece560356b8f9a3b832f1b914e010ecc409c7",
+      "bytes": 6798
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/native-dev-case-audit.json",
+      "sha256": "57ea38f84449c96025bcc339b5e26d26613566939c6546fbaa84c2ca6b1a6c56",
+      "bytes": 51947
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/opus-review-packet-v2.md",
+      "sha256": "a0176360d819cd95ae913ce97e47f7e51a025ab29a41d12db4c464408b7412bf",
+      "bytes": 11676
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/opus-review-packet.md",
+      "sha256": "43ad928f1f5cdfe66b7b8660561397fceaf793419d683827310f751988dfd153",
+      "bytes": 10707
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-development-diagnosis-v1/train-metadata-audit.json",
+      "sha256": "e93a9819b11c6e58e96bab59bbea8fc93bdbd7f648c68a71f09eb5ec2a6f99f4",
+      "bytes": 1195
+    }
+  ]
+}

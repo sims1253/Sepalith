@@ -1,0 +1,28 @@
+{
+  "arm": {
+    "learning_rate": 1e-05,
+    "name": "smoke-lr1e-5",
+    "purpose": "C07 SFT smoke: 10 updates, save, resume, 10 more; output kept for inspection only"
+  },
+  "decided_by": "user decisions of 2026-09-27 in docs/training/plan-20260927/README.md (parent 11,586; pilot LRs 3e-6, 1e-5, 3e-5) and of 2026-10-12 (fix the 486 C06 braces: v4-braceindent rows)",
+  "launch_authorized": true,
+  "parent": {
+    "candidate_id": "CPT-11586",
+    "files": {
+      "campaign-manifest.json": "30527935a15d3a158f5aaf6f8759183f1e9c2bb23fde7ed3df38feaa41991ab8",
+      "chat_template.jinja": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c",
+      "config.json": "ac441a791ac12d0802429892f42044bc4b9a5b6968bd75db3fe96416c69c2173",
+      "generation_config.json": "0f9e07ed38da2371971f322d8ad8d2f77da32514b66798d089e55faba704844b",
+      "model.safetensors": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "0888551b46656b68bdb4402b79598f49ee6bb7b7e8be5f60a89278c439fe6896"
+    },
+    "kind": "cpt_full_weight_checkpoint",
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586",
+    "selection_status": "user_selected_for_edit_sft_parent",
+    "step": 11586
+  },
+  "schema": "sepalith.sft-v2.full-weight-edit-sft-arm-admission.v1",
+  "status": "admitted",
+  "template_sha256": "0242ecb9f069eeaca320ef007161f50d35370e29a6dfab1969379890103256f3"
+}

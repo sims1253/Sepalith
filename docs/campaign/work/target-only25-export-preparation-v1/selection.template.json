@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "decision": "NOT_SELECTED",
+  "producer_terminal": false,
+  "development_gate_passed": false,
+  "identity": {
+    "parent": {
+      "revision": "SFT-primary-step1000-theta0",
+      "weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+      "parent_manifest_sha256": "1230e35f3d4adc3a8b23ba4cec0c8b55620d8e83e671cde8c66c3dcd77c5af12"
+    },
+    "tokenizer": {
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "BOS": 0,
+      "EOS_PAD": 1,
+      "native_EOG": [
+        1,
+        130073
+      ]
+    },
+    "renderer": {
+      "id": "zeta2-prm03-v1",
+      "contract_sha256": "173577c7df85d6e51e22ff9a556062737b311382f58a029b6a177e9a418e57d1"
+    },
+    "data": {
+      "train_rows_sha256": "e2408c5177e3134189c4b86f7247db41fc0c1ea5aab9d9260a3dea55906786fe",
+      "draw_schedule_sha256": "017fc74ccb6fad43d2bf263d0b3d892fa13bd3fce37bff9ae6a6572fde912d31",
+      "development_panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df",
+      "correction_manifest_sha256": "7ed300ca3ae69a601d74b9eaf83841bd597ef2723e3968e4b976ae87027086e0",
+      "original_development_panel_sha256": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21"
+    },
+    "source": "dcccf3ed2de98386223a0d06c994747e025363ebed80d6adc9d96bfee21a3e43",
+    "policy": {
+      "stage": "finish_correction_target_only_pilot50_v1",
+      "initialization": "new_lora_on_merged_sft1000_theta0",
+      "full_text_labels": false,
+      "optimizer": "adamw_torch_fused",
+      "weight_decay": 0.0,
+      "lr_schedule": "cosine",
+      "warmup_ratio": 0.03,
+      "seed": 3407,
+      "loss_objective": "exact_target_and_eos_v1"
+    },
+    "schedule": {
+      "max_steps": 200,
+      "per_device_batch": 4,
+      "gradient_accumulation": 4,
+      "learning_rate": 5e-05,
+      "lora_rank": 32,
+      "lora_alpha": 64,
+      "max_sequence_tokens": 4096
+    }
+  },
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT-target-only25-a/full/checkpoint-25",
+  "step": 25,
+  "source_cursor": 400,
+  "recipe_sha256": "d9fcd250546338040e553e65e353c75bce0e16849a35ef88ff68fa651a8cc0ac",
+  "checkpoint_manifest_sha256": null,
+  "terminal_receipt_sha256": null,
+  "development_receipt_sha256": null
+}

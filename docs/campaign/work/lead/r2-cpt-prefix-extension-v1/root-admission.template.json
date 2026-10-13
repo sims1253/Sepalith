@@ -1,0 +1,89 @@
+{
+  "cohort": {
+    "documents": null,
+    "draw_schedule": {
+      "path": null,
+      "sha256": null
+    },
+    "id": null,
+    "input_tokens": null,
+    "loss_tokens": null,
+    "manifest": {
+      "path": null,
+      "sha256": null
+    },
+    "max_sequence_tokens": null,
+    "named_replays": null,
+    "packages": null,
+    "payload_tokens": null,
+    "rows": {
+      "path": null,
+      "sha256": null
+    },
+    "scope": "complete_admitted_train_corpus",
+    "streaming_cache": {
+      "manifest_sha256": null,
+      "path": null
+    },
+    "unique_rows": null,
+    "updates": null
+  },
+  "corpus_manifest": {
+    "path": null,
+    "sha256": null
+  },
+  "data_admission": {
+    "path": null,
+    "sha256": null
+  },
+  "dtype_audit": {
+    "path": null,
+    "sha256": null
+  },
+  "launch_authorized": false,
+  "saved_precision": {
+    "fp32_elements": null,
+    "fp32_tensors": null,
+    "identity_source": null
+  },
+  "schema": "sepalith.sft11.full-weight-cpt-stage-transition-root-admission.v1",
+  "selected": {
+    "checkpoint_every": null,
+    "evaluation_stage_steps": null,
+    "gradient_accumulation": null,
+    "learning_rate": null,
+    "mandatory_stop_stage_step": null,
+    "micro_batch": null,
+    "optimizer": null,
+    "scheduler": "constant_with_warmup",
+    "selected_stage_milestones": null,
+    "telemetry_every": null,
+    "warmup_steps": null
+  },
+  "status": "pending",
+  "template_sha256": "6457278ea13f217050036f9d149706eaab23a4343042305d2b36a08fb92584b9",
+  "transition": {
+    "destination_sampler": "preserve_verified_prefix",
+    "global_optimizer_step_offset": null,
+    "scheduler_state": "load_source_without_rewarm",
+    "source_checkpoint": {
+      "candidate_id": null,
+      "manifest_sha256": null,
+      "path": null
+    },
+    "source_cursor": null,
+    "source_decision": {
+      "path": null,
+      "sha256": null
+    },
+    "source_global_step": null,
+    "source_manifest": {
+      "path": null,
+      "sha256": null
+    },
+    "source_recipe": {
+      "path": null,
+      "sha256": null
+    }
+  }
+}

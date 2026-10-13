@@ -1,0 +1,115 @@
+{
+  "files": [
+    {
+      "bytes": 2580,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "eae721c2a18615b9b177800f63c2e578a31cc5cfcc3497f2a9529140e32a67a0"
+    },
+    {
+      "bytes": 671,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "261936775f9a30745c27ef9509650fa1155d715d637e1cb57e2844c4e5b8c23f"
+    },
+    {
+      "bytes": 13538,
+      "mode": "0o444",
+      "path": "inputs/e677-preedit.jsonl",
+      "sha256": "1c1cb54909b08296cf09c0980de1cd18210e86d3d7b8e2abbe3808e650531b53"
+    },
+    {
+      "bytes": 8048,
+      "mode": "0o444",
+      "path": "inputs/valid-control.jsonl",
+      "sha256": "299c4ed67dee4ffb354821a4e621335de2975bf583844a43c206fc04a5a5a41a"
+    },
+    {
+      "bytes": 3343,
+      "mode": "0o644",
+      "path": "source/abortable_namespace_adapter.ts",
+      "sha256": "caeda4727dd6e853be3c1f96916f0db0026b5553c93e8492431f57ce4abe19e4"
+    },
+    {
+      "bytes": 4604,
+      "mode": "0o444",
+      "path": "source/provider/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 4225,
+      "mode": "0o444",
+      "path": "source/provider/namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 10430,
+      "mode": "0o644",
+      "path": "source/provider/namespace_runtime.ts",
+      "sha256": "d6d52063de932714551ae21509bd62d51f0ea00ed8c1bdbc7dbeca9981d91b9c"
+    },
+    {
+      "bytes": 7532,
+      "mode": "0o644",
+      "path": "source/provider/owned_helper.ts",
+      "sha256": "f03e232d931af6c3e0f8d56b1f1dfdb81bbd74f917e3ed5eb9308c4a349919d3"
+    },
+    {
+      "bytes": 3289,
+      "mode": "0o444",
+      "path": "source/provider/source_imports.R",
+      "sha256": "cb0822dd3d9d50018ec20c2992b017506d232ca56169570d0751256e69456250"
+    },
+    {
+      "bytes": 677,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "10f4d6ac78fcda487f2b8bb9a95636ac427d15cde10b764325b242ae61c02c29"
+    },
+    {
+      "bytes": 194,
+      "mode": "0o644",
+      "path": "tests/fixtures/delay.mjs",
+      "sha256": "692b699229709db3873c6182b7ffb2ef638fc2376ffccf16148e7ac3c2f82207"
+    },
+    {
+      "bytes": 132,
+      "mode": "0o644",
+      "path": "tests/fixtures/normal.R",
+      "sha256": "d42c9a726b58388712d400ff84da7cb66dc50f7df2c4e3f9054a9a0ef667000a"
+    },
+    {
+      "bytes": 140,
+      "mode": "0o644",
+      "path": "tests/fixtures/slow.R",
+      "sha256": "d69f456ac3d52df5687da595592b4996cf11844a2cbc06807c399ddabccd9355"
+    },
+    {
+      "bytes": 1546,
+      "mode": "0o644",
+      "path": "tests/test_adapter.ts",
+      "sha256": "cf99c6046c3087fbe193e80a58202b06a38c11e727ce6c81942615027843cb73"
+    },
+    {
+      "bytes": 3419,
+      "mode": "0o644",
+      "path": "tests/test_owned_helper.ts",
+      "sha256": "70d0390fcf15ed6fe7c57948d967b7419f916a58254cc8d02e333913fdae429e"
+    },
+    {
+      "bytes": 1638,
+      "mode": "0o644",
+      "path": "tests/test_train_parity.ts",
+      "sha256": "f83f5e304298341788a5a15236266f0dacddce1cb901875c8a74db1a0aa4432e"
+    },
+    {
+      "bytes": 1842,
+      "mode": "0o644",
+      "path": "source-manifest.json",
+      "sha256": "f3573fa68281ea9552b1c9560491fa43a85567a3bb1745eab2955406dbf1ae8c"
+    }
+  ],
+  "schema": "sepalith.run06.expanded-provider-abortable-helper.artifacts.v1",
+  "source_manifest_sha256": "f3573fa68281ea9552b1c9560491fa43a85567a3bb1745eab2955406dbf1ae8c",
+  "status": "prepared_unlaunched"
+}

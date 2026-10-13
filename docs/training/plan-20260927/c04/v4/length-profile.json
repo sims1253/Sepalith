@@ -1,0 +1,20 @@
+{
+  "observed_fit_without_truncation": true,
+  "rows": 15006,
+  "rows_sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef",
+  "schema": "sepalith.full-weight-edit-sft-length-profile.v1",
+  "sequence_tokens": {
+    "max": 3064,
+    "over_threshold_counts": {
+      "16384": 0,
+      "2048": 1453,
+      "4096": 0,
+      "8192": 0
+    },
+    "sum": 13755200
+  },
+  "supervised_target_tokens_including_eos": {
+    "max": 933,
+    "sum": 1576997
+  }
+}

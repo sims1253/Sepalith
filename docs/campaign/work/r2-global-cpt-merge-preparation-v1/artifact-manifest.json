@@ -1,0 +1,29 @@
+{
+  "artifacts": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/dependency-pins.json",
+      "bytes": 1620,
+      "sha256": "9a9d9cc4f4f8eb8c8fb093f33e913a9c318876ea36297d71e638b9dd27d4f4c2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/merge_global_cpt_cpu.py",
+      "bytes": 14501,
+      "sha256": "23686476c30260b032c22edd4dba2178ac98f160bab3f4742ab286bdc22ae258"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/root-commands.json",
+      "bytes": 1298,
+      "sha256": "63117d79ed433bd69c2d75c515b158ec3bf50014888a3be02e85161ecb00a8f2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/test_merge_global.py",
+      "bytes": 3591,
+      "sha256": "b5c3e63e3b9a1f4b22b4c22d6e61ae6be6c75519242275e99c8250083f153dd3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-global-cpt-merge-preparation-v1/tests.log",
+      "bytes": 1580,
+      "sha256": "5b3b3161427bf7eb62ea4ab53bf024b857f2ed52ac2b152a808e6944c31d02c3"
+    }
+  ]
+}

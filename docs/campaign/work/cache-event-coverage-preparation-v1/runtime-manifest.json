@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "files": {
+    "trace-cache-events.cjs": "8b5b0904322ded669f0eb455dfaaac50e2d3c0f7304c619056d43c6f5f653fb6",
+    "actual-provider-host.cjs": "c39e343f25cd0e80986cf939bc2308e23de7d8876908e95e2fd06899afe9e638",
+    "input-pins.json": "812549af8a0b629e1c588270c1f3bd1fbcaedf9ec5cf2e014fb6b982b8e894f6"
+  }
+}

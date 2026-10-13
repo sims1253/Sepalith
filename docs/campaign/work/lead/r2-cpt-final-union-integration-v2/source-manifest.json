@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "bytes": 46664,
+      "mode": "0444",
+      "path": "build_final_union.py",
+      "sha256": "094b8f1c209c70db4f2f99113544a2168813c7ee24c8e361c102a616ef7fa333"
+    }
+  ],
+  "identity_sha256": "d05b4c6b5a8e45c478a9e6cf855e2d7e88aa84877d01beaa8d4ee93bc289fd36",
+  "schema": "sepalith.dat10.cpt_final_union_source.v2",
+  "status": "frozen"
+}

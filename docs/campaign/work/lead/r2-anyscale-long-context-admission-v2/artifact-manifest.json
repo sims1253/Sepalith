@@ -1,0 +1,43 @@
+{
+  "artifacts": {
+    "README.md": {
+      "bytes": 3427,
+      "path": "README.md",
+      "sha256": "86e4fa769d7b614049ee7f48f96d51383ed552efaed30cbdd31631fbc945be0d"
+    },
+    "probe-evidence.json": {
+      "bytes": 6220,
+      "path": "probe-evidence.json",
+      "sha256": "32f4216ed218215844db851454e381a5f5806387a7f069a63540418313c3f996"
+    },
+    "read_only_billing_route_probe.py": {
+      "bytes": 12443,
+      "path": "read_only_billing_route_probe.py",
+      "sha256": "c5908c4f8702569ad6027974efa9d0bdc3843cbddcd6146f2949eafbcb4beab4"
+    },
+    "sdk-surface.json": {
+      "bytes": 2862,
+      "path": "sdk-surface.json",
+      "sha256": "127b97822a3b40a0745e4a52c6a044a6db95f18087ac7e5f20fd5ef657783b2c"
+    },
+    "status.json": {
+      "bytes": 1661,
+      "path": "status.json",
+      "sha256": "b9c5219ba41dbbafe86dff836817854ac01c11808bd68b988b5eb79de20139e8"
+    },
+    "test-results.txt": {
+      "bytes": 622,
+      "path": "test-results.txt",
+      "sha256": "4751389ddd74b227a409d7e080d16d354c2e854133fe4fe55af7837ccc4cd436"
+    },
+    "test_read_only_billing_route_probe.py": {
+      "bytes": 2396,
+      "path": "test_read_only_billing_route_probe.py",
+      "sha256": "04aa062f5632eb09d8aa6dec67cb4a42c7f4db6288971097233b19c519baae6c"
+    }
+  },
+  "generated_at": "2026-09-14T19:12:21.078186+00:00",
+  "packet": "r2-anyscale-long-context-admission-v2",
+  "receipt_excluded_from_manifest": true,
+  "schema": "sepalith.anyscale-pre04-long-context-admission-manifest.v1"
+}

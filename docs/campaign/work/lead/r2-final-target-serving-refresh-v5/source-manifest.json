@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "bytes": 8852,
+      "mode": "0444",
+      "path": "analyze_refresh_v5.py",
+      "sha256": "562e74a6994bf0d628ee241b39524699693581acd886ebf52010ddb12cef2393"
+    },
+    {
+      "bytes": 3130,
+      "mode": "0444",
+      "path": "audit_gguf_norms.py",
+      "sha256": "d4184c5ddcbfb3a3fc6393fde9abc2d5010f67da0487eec2aa4c0f0fac4617b7"
+    },
+    {
+      "bytes": 4908,
+      "mode": "0444",
+      "path": "build_spec_panels.py",
+      "sha256": "ba536d171c86d0d4a033ad8cca507ac356875d8379a3ce0e8277a1973bce74e8"
+    },
+    {
+      "bytes": 1009,
+      "mode": "0444",
+      "path": "cuda_lock_contract.py",
+      "sha256": "99f25c4ec63875dff9fc0c7112e0f29b9f09b3f31c6b305beae637ac53e60c1c"
+    },
+    {
+      "bytes": 29457,
+      "mode": "0444",
+      "path": "paired_panel_probe_v5.py",
+      "sha256": "0f2c84a24a087136e2372f816eeb55ae4e0898dacfd32a57ca7acf992fac831e"
+    },
+    {
+      "bytes": 14158,
+      "mode": "0444",
+      "path": "prepare_refresh_v5.py",
+      "sha256": "d2d9e6ff31f2d2536d22e5cd5ee2ad68545030bc37c34c61333f6285b60a478c"
+    },
+    {
+      "bytes": 3141,
+      "mode": "0444",
+      "path": "probe_bound_v5.py",
+      "sha256": "a4152c857f01e6a0ff992f6708e3eabf78e6c655d3735b5da6867181ed66c3f4"
+    },
+    {
+      "bytes": 5683,
+      "mode": "0444",
+      "path": "record_imatrix_completion.py",
+      "sha256": "3110997296fba7b797e32bbf0b0355970f4b68502d3c453c9a35f68d9b39be60"
+    },
+    {
+      "bytes": 6136,
+      "mode": "0444",
+      "path": "record_prelaunch_verification.py",
+      "sha256": "76e7cc905b72d88c26a37c09381f2ca59a03cf6a257c7e73a0f7cc390c846bd2"
+    },
+    {
+      "bytes": 8463,
+      "mode": "0444",
+      "path": "server_lifecycle_v5.py",
+      "sha256": "64c0d96de85830ebac0d8eeaeb9909ba9601e029c935a870e46cdaf2bfb0411d"
+    }
+  ],
+  "identity_sha256": "f1142bd30e7b67b56e2be8d3dfe76c037496d8760b9e5462f1441a4e639c900c",
+  "schema": "sepalith.r2.final-target-serving-refresh-source.v5"
+}

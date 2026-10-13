@@ -1,0 +1,127 @@
+{
+  "diagnostic_runtime": "rich phase/message/code/signal/killed/stdout/stderr; no output quarantine",
+  "files": [
+    {
+      "bytes": 5843,
+      "path": "render_shard.ts",
+      "sha256": "352a2976b235d5604af9fe2a931208fda53728a53d3cf027583aa4e237d2fcd5"
+    },
+    {
+      "bytes": 484,
+      "path": "tokenize_bridge.py",
+      "sha256": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+    },
+    {
+      "bytes": 9794,
+      "path": "source/namespace_runtime.ts",
+      "sha256": "55ca303991c210666eb83fb6adfa2f53a232a1f8aa4fd0040efd7ce45c471e26"
+    },
+    {
+      "bytes": 2705,
+      "path": "source/source_imports.R",
+      "sha256": "7a69d0f9cff32e799ea33f407a9250c262d8b8a08a9c5db82eda49caa45d31d3"
+    },
+    {
+      "bytes": 4604,
+      "path": "source/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 34464,
+      "path": "source/campaign_protocol.ts",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 25008,
+      "path": "source/campaign_selection.ts",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 14528,
+      "path": "source/context_build.ts",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "path": "source/context_select.ts",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 7947,
+      "path": "source/full_document_policy.ts",
+      "sha256": "dd671fa12a839d00e6446bd07d36c02e33518290b6e95faf8187163aa08f0a95"
+    },
+    {
+      "bytes": 23912,
+      "path": "source/history_provider.ts",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 4225,
+      "path": "source/namespace_provider.ts",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 1518,
+      "path": "source/primary_context.ts",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 23571,
+      "path": "source/r_base_bindings.generated.ts",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 22035,
+      "path": "source/semantic_provider.ts",
+      "sha256": "df0cb3646645cbcb7b2a9f15580f4cdedeab7438f0bb34e34263cf2f18c34fde"
+    }
+  ],
+  "fresh_retry_output_root": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-16k-retry-rich-v1",
+  "input_manifest_sha256": "db1dd374d1d029695c9b8daef59151272d0db0a912276f8073b24b0df4f8e9a0",
+  "input_root": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-inputs-v1",
+  "lane_0": {
+    "core": 8,
+    "shards": [
+      "0027",
+      "0029",
+      "0031",
+      "0033",
+      "0035",
+      "0037",
+      "0039"
+    ]
+  },
+  "lane_1": {
+    "core": 10,
+    "shards": [
+      "0028",
+      "0030",
+      "0032",
+      "0034",
+      "0036",
+      "0038",
+      "0040"
+    ]
+  },
+  "preserved_failed_output_root": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic9535-provider-preparation-v1/render-16k-v1",
+  "provider_source": "r2-semantic9535-provider-preparation-v1",
+  "schema": "sepalith.dat10.semantic9534.retry-rich-source-manifest.v1",
+  "shards": [
+    "0027",
+    "0028",
+    "0029",
+    "0030",
+    "0031",
+    "0032",
+    "0033",
+    "0034",
+    "0035",
+    "0036",
+    "0037",
+    "0038",
+    "0039",
+    "0040"
+  ],
+  "status": "prepared_unlaunched"
+}

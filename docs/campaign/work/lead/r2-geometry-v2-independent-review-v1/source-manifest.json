@@ -1,0 +1,90 @@
+{
+  "cuda_used": false,
+  "external_reviewed_sources": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-geometry-recovery-preparation-v2/source-manifest.json",
+      "role": "geometry recovery v2 closure",
+      "sha256": "2f45b530e5dbd8777471c0dec43279a38917a091e14da3f73cab69a3ab2f5946"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-geometry-recovery-preparation-v2/recover_geometry_v2.py",
+      "role": "geometry producer",
+      "sha256": "404fbb30c63961e8746137712974df297ce14bf17b8931510aec4e7278d8dbcd"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-geometry-recovery-preparation-v2/input-registry.json",
+      "role": "geometry input registry",
+      "sha256": "f9482701d8e16603e252bdb7fe8c56ed9c2e502cd393d43f3277e5a036830419"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-audit-preparation-v2/source-manifest.json",
+      "role": "union audit v2 closure",
+      "sha256": "aa674d79e263d11ba618be8dcee73b9c57da02d118272ab726ca1231b6e1628f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-audit-preparation-v2/audit_expanded_union.py",
+      "role": "union audit v2 adapter",
+      "sha256": "9c24e6d651b7c1c156edd82b924979cdd7504ef78a0a126423df09966ee2dd86"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-audit-preparation-v2/audit_expanded_union_v1.py",
+      "role": "geometry consumer",
+      "sha256": "ae6f0e2ec2fd0e9010d4289754ce152222730b6d2801bad2076953c1df0c0155"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-union-audit-preparation-v2/union-spec.template.json",
+      "role": "root audit binding template",
+      "sha256": "78bd62302b5a8215aa0b5b87e96b73771a4687261c41e068fdfd731d449e6736"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/context-sidecar.jsonl",
+      "role": "original source/preedit geometry fixture",
+      "rows": 15006,
+      "sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/selected-01/selected-contexts.jsonl",
+      "role": "semantic selected context input",
+      "rows": 10948,
+      "sha256": "89ad831243e16a9b789a6cce2a71f398a6314dcceea7e0b4bcb0be94c30c35ae"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic10948-provider-materialization-v2/final-01/candidate-provenance.jsonl",
+      "role": "semantic candidate provenance input",
+      "rows": 10682,
+      "sha256": "b8d54654bc35d3166ef6b96cfe7cd4f78bcc0bd03b42d6eeaf5dcebe4f92a329"
+    }
+  ],
+  "file_count": 4,
+  "files": [
+    {
+      "bytes": 1588,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "7c55dc2d5163eef4b3324490652b9f1fcd87ca0b1d31dbe3dd37af64406586e1"
+    },
+    {
+      "bytes": 5532,
+      "mode": "0o644",
+      "path": "findings.json",
+      "sha256": "638dd48eb2e53f7a2b6d0b5c3b5ae0121ac0a986e5545e6cacd6fd510d50562e"
+    },
+    {
+      "bytes": 400,
+      "mode": "0o644",
+      "path": "tests/test-results.log",
+      "sha256": "3032c2ba41a64653ce47a4596db22543df2c116c8c156fb791ef0346cceb35bc"
+    },
+    {
+      "bytes": 6421,
+      "mode": "0o644",
+      "path": "tests/test_integration_contract.py",
+      "sha256": "e3ed635bd227b55b384f294c4559b26abe5d1bccab3d2318c24aa73628146b66"
+    }
+  ],
+  "full_cohort_scan": false,
+  "packet": "r2-geometry-v2-independent-review-v1",
+  "schema": "sepalith.dat10.geometry-v2-independent-review-source.v1",
+  "status": "review_only",
+  "training_admission": false
+}

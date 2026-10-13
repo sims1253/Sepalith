@@ -1,0 +1,29 @@
+{
+  "id": "C08-arm-lr3e-6",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 21,
+  "resumable": true,
+  "estimated_minutes": 120,
+  "requires": [
+    "C07-baseline"
+  ],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.sft.night_arm",
+    "arm",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-lr3e-6.json",
+    "--stop-after-gate",
+    "268"
+  ],
+  "note": "C08 learning-rate pilot lr3e-6: train to gate 268, evaluate DEV75 and DEV250, apply R1, stop"
+}

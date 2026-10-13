@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "frozen_at": "2026-09-14T06:07:32.369343+00:00",
+  "files": {
+    "ROOT-COMMANDS.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/ROOT-COMMANDS.json",
+      "sha256": "1b1d0be168270d76280c2588f6c5b181db6776ae55a35bd7808d7d806a4b3337",
+      "bytes": 4335
+    },
+    "assemble_final.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/assemble_final.py",
+      "sha256": "88ca7ab3d316c6ad02b36023050bbfef1843a172faf165fc637ad47494774df7",
+      "bytes": 9537
+    },
+    "assemble_inputs.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/assemble_inputs.py",
+      "sha256": "d7155691b6054e3b9ad241204e3ad4eee6a10944ab5d0045f4f715069ec7de27",
+      "bytes": 11057
+    },
+    "assembly-observation-terminal.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/assembly-observation-terminal.json",
+      "sha256": "dce5a40f5bc46de7158878a6a389598cfbdb9eb4b06bb74c192c28c7e94b80ee",
+      "bytes": 194
+    },
+    "assembly-observation.log": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/assembly-observation.log",
+      "sha256": "43379e700653baa43ff44830df4e18a50865e5403afe95bb2cbea572157ca1bc",
+      "bytes": 1155
+    },
+    "assembly-origins.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/assembly-origins.json",
+      "sha256": "6f13cef3cb2adbae391037d1f0216dc4052eaf8adf50d3428ad0df35a83da81e",
+      "bytes": 133042
+    },
+    "assembly-source-closure.prepared.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/assembly-source-closure.prepared.json",
+      "sha256": "d7efb970a24e7a6d4f0b8cd1b2844cbbbdffdfc428a73182deb47a961c46ef36",
+      "bytes": 313369
+    },
+    "attempt1-assembly-observation-terminal.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/attempt1-assembly-observation-terminal.json",
+      "sha256": "b162091e4f4d45b0411c3be7f8f0b049601c5431d6c7c1095f2de62e2cf38505",
+      "bytes": 196
+    },
+    "attempt1-assembly-observation.log": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/attempt1-assembly-observation.log",
+      "sha256": "a99f9b1925403e2a3dd2b476f6e98314d792418c269f3d067a3844330f9c0031",
+      "bytes": 1377
+    },
+    "build_graph.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/build_graph.py",
+      "sha256": "9408b411b0526b6a8eb16dc1799fc86265277bc6e8c7db8859146f481dc1ef1f",
+      "bytes": 4964
+    },
+    "launcher-tests.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/launcher-tests.json",
+      "sha256": "a4742953de4bba94e29593c089f36645f6d0fa9e13ff7f678f30da89a74749e6",
+      "bytes": 52
+    },
+    "observe_cpu.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/observe_cpu.py",
+      "sha256": "a647e6c9e3e8e729300424c87d3ee99c281f6d42c70c783b35b4e67178e8d214",
+      "bytes": 2099
+    },
+    "origin-negative-tests.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/origin-negative-tests.json",
+      "sha256": "c99f46cd656fe82f9c731f5232595541a513595db257ab5a4f1b562be0d54335",
+      "bytes": 761
+    },
+    "policy-replay.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/policy-replay.json",
+      "sha256": "085b613539d2c95975ffc96c0763bdd0c91bb3320831ac21c269d8e5ad237766",
+      "bytes": 577
+    },
+    "replay_policy.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/replay_policy.py",
+      "sha256": "9670af9007a30b5d86e965057b22fb447f2019483c9810518d011416094c260a",
+      "bytes": 1761
+    },
+    "root_run.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/root_run.py",
+      "sha256": "85c3bcd62f8df1bb897424964e182ff63639f1032fc8864367d4cdb630a35a52",
+      "bytes": 1027
+    },
+    "source-comparison.json": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/source-comparison.json",
+      "sha256": "f032a8397fc0588115401e78d0a68fef44560603d6092317f59abf05fc46f9a5",
+      "bytes": 879
+    },
+    "test_policy_negative.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/test_policy_negative.py",
+      "sha256": "faafef00dbcdd7e0be4187a1940e9aa73d662103c498c7fba657c1fc354549d2",
+      "bytes": 2214
+    },
+    "test_wrapper.py": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/test_wrapper.py",
+      "sha256": "a0c7577a6bd7c7f85cc2a45288b676a88e9472f2f090c4022c8e646c6b42a9e5",
+      "bytes": 4207
+    },
+    "wrapper-tests.txt": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-final-assembly-v1/wrapper-tests.txt",
+      "sha256": "47bf6f469f1708a40b040cd69cdf7a50dbcf44e9dbf0d35aa67a244860fb8758",
+      "bytes": 604
+    }
+  },
+  "graph_status": "preparation_only",
+  "root_admission": false
+}

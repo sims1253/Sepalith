@@ -28,7 +28,7 @@
 # dashboard/run_loop.sh >/dev/null 2>&1 & disown
 # Log: experiments/dashboard/results/loop.log
 # Counters: experiments/dashboard/results/loop_state.json
-eval "$(grep -E '^export (POSTPLAN_API_KEY|OPENCODE_API_KEY)=' ~/.zshrc)"
+eval "$(grep -E '^export (POSTPLAN_API_KEY|OPENCODE_API_KEY)=' ~/.config/sepalith/secrets.env)"
 export CUDA_VISIBLE_DEVICES=""
 cd /home/m0hawk/Documents/Sepalith/experiments/dashboard
 D=results

@@ -1,0 +1,69 @@
+{
+  "schema": "sepalith.sft11.native-storage-root-commands.v1",
+  "status": "prepared_no_copy_or_launch_executed",
+  "commands": {
+    "stage_once": [
+      "python3",
+      "-B",
+      "docs/campaign/work/lead/r2-native-storage-staging-v1/source/native_stage.py",
+      "build",
+      "--spec",
+      "docs/campaign/work/lead/r2-native-storage-staging-v1/stage-spec.template.json",
+      "--receipt",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt90-prefix-extension-v1.stage-receipt.json"
+    ],
+    "make_runtime_overlay_after_root_admission": [
+      "python3",
+      "-B",
+      "docs/campaign/work/lead/r2-native-storage-staging-v1/source/native_runtime_overlay.py",
+      "--recipe",
+      "docs/campaign/work/lead/r2-cpt90-prefix-extension-root-v2/bound-recipe.json",
+      "--stage-receipt",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt90-prefix-extension-v1.stage-receipt.json",
+      "--stage-receipt-sha256",
+      "ROOT_FILL_AFTER_STAGING",
+      "--admission",
+      "ROOT_CREATE_FRESH_RELOCATION_ADMISSION",
+      "--output",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt90-prefix-extension-v1.runtime-recipe.json"
+    ],
+    "verified_child_wrapper": [
+      "python3",
+      "-B",
+      "docs/campaign/work/lead/r2-native-storage-staging-v1/source/native_stage.py",
+      "verify-run",
+      "--receipt",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt90-prefix-extension-v1.stage-receipt.json",
+      "--receipt-sha256",
+      "ROOT_FILL_AFTER_STAGING",
+      "--",
+      "ROOT_FRESH_NATIVE_AWARE_TRAINER_COMMAND"
+    ],
+    "capacity_before_native_hot_save": [
+      "python3",
+      "-B",
+      "docs/campaign/work/lead/r2-native-storage-staging-v1/source/native_capacity.py",
+      "--root",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915",
+      "--bundle-bytes",
+      "26581176959",
+      "--existing-hot-bytes",
+      "ROOT_SUM_CURRENT_OWNED_HOT_CHECKPOINT_BYTES",
+      "--next-checkpoint-bytes",
+      "17250934153"
+    ],
+    "publish_native_checkpoint_to_E": [
+      "python3",
+      "-B",
+      "docs/campaign/work/lead/r2-native-storage-staging-v1/source/native_checkpoint_publish.py",
+      "--source",
+      "ROOT_NATIVE_HOT_CHECKPOINT",
+      "--destination",
+      "ROOT_E_DURABLE_FULL_CHECKPOINT",
+      "--manifest-sha256",
+      "ROOT_SEALED_MANIFEST_SHA256",
+      "--receipt",
+      "ROOT_E_DURABLE_PUBLISH_RECEIPT"
+    ]
+  }
+}

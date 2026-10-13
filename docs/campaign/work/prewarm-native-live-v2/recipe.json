@@ -1,0 +1,84 @@
+{
+  "schema_version": "run-04.native-prewarm-live-v2.recipe.v1",
+  "status": "prepared_pending_root_native_launch",
+  "source": {
+    "adapter_copy": "src/native_exact_adapter.ts",
+    "client_copy": "src/campaign_client.ts",
+    "scheduler_copy": "src/exact_prewarm_scheduler.ts",
+    "harness": "harness/native_live_ab_harness.ts"
+  },
+  "profile": {
+    "base_url": "http://127.0.0.1:18403",
+    "context_size": 4096,
+    "foreground_max_output_tokens": 192,
+    "warm_max_output_tokens": 1,
+    "foreground_timeout_ms": 5000,
+    "warm_timeout_ms": 5000,
+    "manual_bos_id": 0,
+    "canonical_eos_id": 1,
+    "vocab_size": 130560,
+    "cache_prompt": true,
+    "completion_temperature": 0,
+    "return_tokens": true,
+    "stream": false
+  },
+  "inputs": {
+    "fixture_path": "docs/campaign/work/lead/prewarm-fixture-inputs/native-probe-train-fixture.jsonl",
+    "fixture_sha256": "4081472e1e19457ab4b9e186858e837fbf37f9011d7f8d576a6298f3e6ddb008",
+    "fixture_bytes": 38525,
+    "manifest_path": "docs/campaign/work/serving-readiness/native-probe-train-fixture.manifest.json",
+    "manifest_sha256": "0b2195b87b5f6eabc892164124c25b876833a00ba6add0d79af6826413f5d0b3",
+    "sidecar_path": "/mnt/e/sepalith/campaign-20260915/data-work/RL-02-contexts-v1/context-sidecar.jsonl",
+    "sidecar_sha256": "6996f89d399e5e4dd5a5dafa49e92e8a49178fbecf15b2d6e769532f1afe703f",
+    "accepted_split": "train",
+    "fixture_row_order": [
+      "0003ea6fc6a4d0b3b354efba",
+      "000a6aaa48aee4291dbcb0cb",
+      "000d2bf789b999f887d12308",
+      "00ef45e53aea030d3465f860"
+    ],
+    "prompt_token_counts": [345, 886, 1216, 1902],
+    "tokenizer_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+  },
+  "packet_rule": {
+    "prompt_text": "fixture.prompt_text",
+    "encoded_prompt_token_ids": "fixture.input_ids[1:1+fixture.prompt_token_count]",
+    "wire_prompt_ids": "[0, ...encoded_prompt_token_ids]",
+    "target_arrays_sent": false,
+    "target_text_sent": false,
+    "family_or_operation_sent": false,
+    "no_op_passed_to_adapter": false,
+    "context_render_must_equal_prompt": true,
+    "truncated_response": "reject_for_warm_and_foreground"
+  },
+  "arms": {
+    "off": {
+      "requests": ["foreground"],
+      "foreground_n_predict": 192
+    },
+    "on": {
+      "requests": ["prewarm", "foreground"],
+      "prewarm_n_predict": 1,
+      "foreground_n_predict": 192,
+      "warm_and_foreground_prompt_ids_identical": true,
+      "real_debounce_timer": true,
+      "same_slot_max_outstanding": 1
+    }
+  },
+  "timing": {
+    "foreground_deadline_ms": 5000,
+    "deadline_includes_client_slot_wait": true,
+    "warm_deadline_ms": 5000,
+    "server_queue_ms": "unmeasured_without_correlated_server_logs",
+    "recorded": ["epoch_start_end", "monotonic_start_end", "client_queue_wait", "warm_elapsed", "foreground_elapsed"]
+  },
+  "execution_contract": {
+    "one_fixture_case_per_process": true,
+    "required_flags": ["arm", "fixture-index", "fixture", "manifest", "sidecar", "run-id", "output-dir"],
+    "output_is_exclusive": true,
+    "server_lifecycle_owned_by": "root",
+    "native_quality_or_gain_claim": false,
+    "native_launch_performed": false
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "sepalith.rl11.full-weight-rl-runtime-artifacts.v1",
+  "status": "CPU_tiny_proof_only_no_launch",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1911,
+      "sha256": "9efd3bd06efd9d9edef82bd58fc716cf8ce6c34e89d9a58b40a60862b924dc88"
+    },
+    {
+      "path": "review.json",
+      "bytes": 3312,
+      "sha256": "20385bb91caab212e4d1f5dad868b6ca075edc0282d4f070991ccdb8267c3eab"
+    },
+    {
+      "path": "runtime-evidence.json",
+      "bytes": 4370,
+      "sha256": "0f3b814065a51f8b0fd987e30dc130f7bfc553c2658a0a790f083181420154eb"
+    },
+    {
+      "path": "runtime-proof.json",
+      "bytes": 20364,
+      "sha256": "2dd228852bd70d3f95c5e81fe5a2dd34f3bbd915385825d575efe84b74cdfc9b"
+    },
+    {
+      "path": "runtime.log",
+      "bytes": 16439,
+      "sha256": "c29ddde68a343e299d4ca8f42630d11a073786ca563d8c1cd13772fb33657aad"
+    },
+    {
+      "path": "runtime_proof.py",
+      "bytes": 10939,
+      "sha256": "30f038fe4df215e7242405d0c03579e1356640bb2be25e4924dcabbb1f294d58"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 6098,
+      "sha256": "4fd4ccdd4dc5f07da1570bd88d33b53bf6836b3d128618d210466a1cecb3cc78"
+    },
+    {
+      "path": "tests/test_runtime_update_contract.py",
+      "bytes": 3013,
+      "sha256": "d257b0a6144edfad067235a8044610081ed6b923d6a6010b1228db90ac0024cb"
+    },
+    {
+      "path": "unit-tests.log",
+      "bytes": 555,
+      "sha256": "3d3563025a6e5531220f44cc2e31dafc62c1642af92c0b3ed76c05413afec221"
+    }
+  ]
+}

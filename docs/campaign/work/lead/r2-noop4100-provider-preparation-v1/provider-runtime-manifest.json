@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "bytes": 6173,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/render_shard.ts",
+      "sha256": "f5c5e57e9f33cb6503586ee51c9aa0fd1e38d017f6f74edef8b4e45423e9c2a6"
+    },
+    {
+      "bytes": 2330,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/run_shard.sh",
+      "sha256": "9fd8d8ef6730871ffa1a9703e3af4b92dd4e265c07976fa547803e23e6c3e3fb"
+    },
+    {
+      "bytes": 8808,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/source/namespace_runtime.ts",
+      "sha256": "e11868caa0d96a216f399d7772098d89ac415fe4db36ba69ea9e3c0d96140b12"
+    },
+    {
+      "bytes": 2931,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/source/source_imports.R",
+      "sha256": "3f140b69f9ff75d48d3305a5f27d6d2b8d8a49a4f97eaa9b0a2effe963801925"
+    }
+  ],
+  "frozen_base_entrypoints": [
+    {
+      "bytes": 484,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic10948-provider-materialization-v2/tokenize_bridge.py",
+      "sha256": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+    },
+    {
+      "bytes": 4604,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic10948-provider-materialization-v2/source/namespace_evidence.R",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    }
+  ],
+  "frozen_provider_base": {
+    "bytes": 7114,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic10948-provider-materialization-v2/source-manifest.json",
+    "sha256": "7546d5457c299edfbf69bc0681327f08bad5041e2a146fe60fd66278dd58c770"
+  },
+  "schema": "sepalith.dat10.noop4100.provider-runtime.v1",
+  "status": "frozen_preparation"
+}

@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "bytes": 2526,
+      "path": "README.md",
+      "sha256": "0443c8b6571b9b9303d04f6e661ec3ad51b0103c729647353f6c30108ab7b6a1"
+    },
+    {
+      "bytes": 12092,
+      "path": "assemble_root_admission.py",
+      "sha256": "4cbfa43068391947e96a976c2e2eca113309a6ad9376330a1f60860f6eff9b03"
+    },
+    {
+      "bytes": 419,
+      "path": "guard-proposal.json",
+      "sha256": "c01555e967af6080599c4f3f5a9034d9eb8ca39df4cc98548860df59c9423f89"
+    },
+    {
+      "bytes": 6103,
+      "path": "launch-inputs.json",
+      "sha256": "d1b7c724c22d2f0c3f8bd874600123081573ce8da3603530bfbccf90db93040c"
+    },
+    {
+      "bytes": 2456,
+      "path": "root-commands.json",
+      "sha256": "696e8eed371c8fe00628b6abd35f78a9fe80203ad7be6f8ce9f2fef81aa92ebd"
+    },
+    {
+      "bytes": 1185,
+      "path": "root-data-admission.template.json",
+      "sha256": "cc5419f7ba7c15a57d3d3e68c0bd83a159df3aa42fd037fed415d3a5d83395e9"
+    },
+    {
+      "bytes": 225,
+      "path": "source-manifest.json",
+      "sha256": "cc17ca2699e22a76ea66671c64ba4fa8db061613a4a65936a38640156b392eb1"
+    },
+    {
+      "bytes": 699,
+      "path": "test-results.json",
+      "sha256": "d06a62f4f7cc30ced8379014030ccb0c2a64e05f7a7e3fe793d97ccfe79e6fc1"
+    },
+    {
+      "bytes": 679,
+      "path": "test-results.log",
+      "sha256": "bcaf0687f49e27b7c99e37615c32e385835524d2bf800f627816e8969c9b986a"
+    },
+    {
+      "bytes": 8869,
+      "path": "tests.py",
+      "sha256": "2e0d30757c40430fb411c985e46d8b3c18c79a01be4146bd95b015ece391a73e"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1",
+  "status": "prepared_not_launched"
+}

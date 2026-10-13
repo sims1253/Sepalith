@@ -1,0 +1,144 @@
+{
+  "downloads": {
+    "download_cache": "run-owned transient only",
+    "download_child_token_scrub": true,
+    "private_target": {
+      "prefix": "r2-draft-target/b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+      "repo_id": "scholzmx/sepalith-lora",
+      "revision": "257487b64044600fee8c27cbcb1ceb19e424a9ac"
+    },
+    "public_draft": {
+      "repo_id": "openbmb/MiniCPM5-2B-DSpark",
+      "revision": "114a20fdbf53220712c7fbdd7dccddbf1dedebb4"
+    },
+    "public_files": 2,
+    "target_files": 5
+  },
+  "files": {
+    "README.md": {
+      "bytes": 5901,
+      "sha256": "40d09e56f75166120996ad7c0e2a20bd534afac87175066cb116e13690689be2"
+    },
+    "artifact_upload.py": {
+      "bytes": 9055,
+      "sha256": "fb7c23560769bb5c63d56ccfb1b9993a90a5cbda9d6d3c5501c6b9d10bf5a29b"
+    },
+    "binding-template.json": {
+      "bytes": 3318,
+      "sha256": "738683f45e7176fb0ef706773356a1350e9db3675faead683e5bf2698caada3a"
+    },
+    "cloud_entry.py": {
+      "bytes": 40401,
+      "sha256": "2eb9a0d34c61b45b7fb26fa6e7163cdba1f3eed0f08d66aa9c7cc5fb026cb457"
+    },
+    "download_staging.py": {
+      "bytes": 11540,
+      "sha256": "4a27a73ddf3d388506f12c6417f028efe6cd5e0da74fae93395780576f61adc2"
+    },
+    "managed_python.py": {
+      "bytes": 9215,
+      "sha256": "3b9b1818d29cb6a10dc4586b850f17cf17ad97f4400a8b9ea798cce78bb2cc4e"
+    },
+    "requirements-cloud-candidate.txt": {
+      "bytes": 283,
+      "sha256": "0d09b6ba0309870d744a3a9ec99a40fb6aecfeeaf84e8cbc12d83dd5fba8140a"
+    },
+    "requirements-cloud-resolved.txt": {
+      "bytes": 6165,
+      "sha256": "acd1da83fee378caa992baf4ff751956cbb9cf5d69830745c894e76d2821607e"
+    },
+    "stage_durable.py": {
+      "bytes": 6471,
+      "sha256": "9916ec52da704b238f1db09cea46ba71e28fb6428033cae4cfa6b7dd188b701f"
+    },
+    "test_cloud_entry.py": {
+      "bytes": 23971,
+      "sha256": "def28051d84545da803360c4fd1eaf882e7e1cdfad0255b0904f722964c389ce"
+    }
+  },
+  "requirements": {
+    "candidate": "requirements-cloud-candidate.txt",
+    "candidate_sha256": "0d09b6ba0309870d744a3a9ec99a40fb6aecfeeaf84e8cbc12d83dd5fba8140a",
+    "matplotlib_in_canonical_closure": false,
+    "resolved": "requirements-cloud-resolved.txt",
+    "resolved_sha256": "acd1da83fee378caa992baf4ff751956cbb9cf5d69830745c894e76d2821607e"
+  },
+  "runtime": {
+    "bootstrap_discovery_flags": [
+      "--managed-python",
+      "--no-python-downloads",
+      "--no-project",
+      "--resolve-links"
+    ],
+    "bootstrap_paths": {
+      "managed_python": "runtime/python",
+      "uv_cache": "runtime/uv-cache",
+      "uv_tools": "runtime/bootstrap-tools",
+      "venv": "runtime/venv"
+    },
+    "image_python_assumption": "Ray image system Python is only used to install pinned uv; CPython 3.10.19 is installed and verified per run",
+    "image_uri": "docker.io/anyscale/ray@sha256:3b904e7cbb1736a8a17359708197d62333daa0bc8285d7de66f1d22aa78754f9",
+    "instance_type": "g5.2xlarge",
+    "managed_python": [
+      3,
+      10,
+      19
+    ],
+    "managed_python_bootstrap": true,
+    "max_retries": 0,
+    "uv_spec": "uv==0.11.23",
+    "uv_version": "0.11.23"
+  },
+  "schema": 1,
+  "scope": {
+    "gpu_used": false,
+    "model_or_train_content_read": false,
+    "network_used": false,
+    "original_control_entry_modified": false,
+    "provider_launched": false
+  },
+  "stable_profile": {
+    "deepspec_revision": "005e03b81cec38b7da6399833d609ee89a2587f2",
+    "profile_inventory_sha256": "9b51028caf406821f59be5ccff1e610b4d69a0b3d3a622d9808a66a7a52c97e1",
+    "profile_path": "docs/campaign/work/r2-draft-cloud-profile-v2/profile_orchestrator.py",
+    "profile_sha256": "411d859e8e00411a93a1402ce6aa9943773f67ef038fd166804135c2211315ee",
+    "target_runtime_path": "docs/campaign/work/r2-draft-target-runtime-v3/target_runtime.py",
+    "target_runtime_sha256": "6c8fafbd1d197beea370a89e164ab7db642a6fe6324c1033be2960ad73ecbc2f"
+  },
+  "staged_inputs": {
+    "manifest_relocation": "run/inputs/target-manifest.json with model_dir target-model and source_manifest_sha256 field",
+    "public_artifacts": {
+      "config.json": {
+        "sha256": "bfbcab77ce2b466928deeb23109e7ff7738639c499d45f2c15941743b475d14b"
+      },
+      "model.safetensors": {
+        "bytes": 647558522,
+        "sha256": "ae9ff4a8c944e2f88f266cc9452f6b8908a6d2bfce57cd4cf12cfb5cb979bc97"
+      }
+    },
+    "source_root": "source",
+    "target_artifacts": {
+      "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+      "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+      "model.safetensors": "b862986475d8b7f9dd74639e53c2b79b7d85abe30e79af5763efdcc9a1ed6fc4",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    "target_model_dir": "inputs/target-model",
+    "train_path": "inputs/train.jsonl"
+  },
+  "status": "cpu_prepared_no_launch",
+  "root_final_integration": {
+    "at": "2026-09-14T02:04:58.557859+00:00",
+    "tests": 13,
+    "fixes": [
+      "static bootstrap inputs",
+      "managed venv symlink identity",
+      "network enabled success and failure uploads"
+    ]
+  },
+  "root_download_path_fix": {
+    "at": "2026-09-14T02:10:57.229971+00:00",
+    "status": "reproduced_before_network_fixed_nested_layout_13tests_pass"
+  }
+}

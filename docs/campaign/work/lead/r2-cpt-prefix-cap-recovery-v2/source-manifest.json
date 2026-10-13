@@ -1,0 +1,151 @@
+{
+  "broader_cap_source_hashes": [
+    {
+      "bytes": 1696876,
+      "git_blob_sha1": "f5c51223a968e0b226026bbbe4a57c7e6c488da1",
+      "path": "/mnt/h/sepalith/normalized/AutoPlots/1.5.0/AutoPlots/R/PlotFunctions_NEW.R",
+      "sha1": "15633b96d058b877080973c4c5a71c3a7694d2b4",
+      "sha256": "b7bdbb87c9e0269f1aee58d8cf9e6610197f96aadc9b2f3895dae8cf9e094f7b"
+    },
+    {
+      "bytes": 293614,
+      "git_blob_sha1": "44785f39bce4aab1bc1c1be2b2d5eb622c773a63",
+      "path": "/mnt/h/sepalith/normalized/AICcmodavg/2.3-4/AICcmodavg/R/modavgShrink.R",
+      "sha1": "8013eae3e40040b8d09955a5e3e3e90ef0016d79",
+      "sha256": "ecfedcc7067a769e36a5a0b3bf925d791c2a47307a86c957b9bc88a1b183206b"
+    },
+    {
+      "bytes": 524703,
+      "git_blob_sha1": "12433400b55a4461ef5376da3301afe655e9ef7f",
+      "path": "/mnt/h/sepalith/normalized/AICcmodavg/2.3-4/AICcmodavg/R/modavg.R",
+      "sha1": "deeb68015bc8d1c86e9957003c4d39481da767b1",
+      "sha256": "1acf0ea83c1c71ae58b3a3b175060af75143bad7f000e536edd9f02c9dcadb67"
+    },
+    {
+      "bytes": 146704,
+      "git_blob_sha1": "aba24437ef09e0c6729080e2a192dbacb1e35540",
+      "path": "/mnt/h/sepalith/normalized/AICcmodavg/2.3-4/AICcmodavg/R/aictab.R",
+      "sha1": "dd8305808945d0fa66b02aac54d2ce843b207831",
+      "sha256": "72916d9fa1149f4d3420f8fda94372e30d4fc1642f921e6f9a7726b2ed255c2d"
+    }
+  ],
+  "builder": {
+    "bytes": 52109,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/materialize_prefix_cap_recovery.py",
+    "sha256": "dd19e4088b3caadfb794a0e2b72126cc1f3f96d422ef8c4aca1446aa3365c67e"
+  },
+  "combined_frontier_manifest": {
+    "bytes": 2981,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/combined-frontier-manifest.json",
+    "sha256": "26f4799d85d72300f52a733c0cd9c42e9d6fb5b220d56a985538b7efb0bf879c"
+  },
+  "created_at": "2026-09-14T20:49:43.666486+00:00",
+  "inputs": {
+    "combined_frontier": {
+      "bytes": 1301005,
+      "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/combined-frontier.jsonl",
+      "sha256": "4708d69f53e04c48754e48095497eb1c281acac998dd099620b8fae293a1019d"
+    },
+    "combined_frontier_manifest": {
+      "bytes": 2981,
+      "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/combined-frontier-manifest.json",
+      "sha256": "26f4799d85d72300f52a733c0cd9c42e9d6fb5b220d56a985538b7efb0bf879c"
+    },
+    "cpt_partition": {
+      "bytes": 464000,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/cpt-train-group-partition.json",
+      "sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06"
+    },
+    "global_split": {
+      "bytes": 49108497,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+    },
+    "prefix_frontier_original": {
+      "bytes": 1194656,
+      "path": "docs/campaign/work/lead/r2-final-union-terminal-accounting-v1/global-cap-exclusion-frontier.jsonl",
+      "sha256": "acf86ba87bf833b6bd69cf732f2cb4a7d5356bcbd9e38ba2676b385af2b37560"
+    },
+    "profile_validation_documents": {
+      "bytes": 1118092,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v1/documents.jsonl",
+      "sha256": "674d3bf6e2da08b53a0d0fa6d7ae1977c5bc6940938ebe2aaf6c7c1643ff6d68"
+    },
+    "protected_parent_hashes": {
+      "bytes": 883961,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/known-nontrain-parent-hashes.json",
+      "sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0"
+    },
+    "raw_chunk_contract": {
+      "bytes": 11920,
+      "path": "docs/campaign/work/r2-corpus-preparation-v1/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    "terminal_document_provenance": {
+      "bytes": 79025155,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-final-union-v1/document-provenance.jsonl",
+      "sha256": "a731974ee8581b9fa571aae9672f6b933743779c24f4253843bff268065c305f"
+    },
+    "tokenizer": {
+      "bytes": 9894271,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    "v1_omitted_frontier_audit": {
+      "bytes": 54693,
+      "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v1/omitted-frontier-audit.json",
+      "sha256": "09fbc6b708856314c2af67ac1485e2e0fe8a832c94c25ae721971c958c35125c"
+    }
+  },
+  "packet": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2",
+  "policy": {
+    "cloud": false,
+    "cpu_threads": 2,
+    "cuda": false,
+    "empty_sources": "named_exclusion",
+    "oversized_sources": "retain_and_measure",
+    "package_group_token_caps": null,
+    "source_file_caps": null,
+    "source_max_bytes": null,
+    "target_truncation": false,
+    "terminal_global_dedup_pending": true,
+    "training_admission": false,
+    "unreadable_or_changed_sources": "named_repair_queue"
+  },
+  "preflight": {
+    "bytes": 2156,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/preflight.json",
+    "sha256": "cd1a7813b14765283088db381fbd7494268a8d004c8e9cffdd90cd749110cbda"
+  },
+  "readme": {
+    "bytes": 5111,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/README.md",
+    "sha256": "33ac3554210d888ff8d8be1ff24f681b7f2295dd27ae9706906a6715242f456e"
+  },
+  "resume_contract": {
+    "reject_unexpected_or_tampered_completed_groups": true,
+    "verify_artifact_sha256_and_bytes": true,
+    "verify_builder_input_guard_pins": true,
+    "verify_document_row_sidecar_hashes": true,
+    "verify_frontier_membership_and_exact_coverage": true
+  },
+  "schema": "sepalith.dat10.cpt-prefix-cap-recovery-v2-source-manifest.v1",
+  "scope": {
+    "base_broader_package_cap": 4,
+    "groups": 81,
+    "prefix_global_cap": 1999,
+    "rows": 2003,
+    "source_payload_opened_for_four_broader_hashes": true,
+    "source_payload_opened_for_prefix": false
+  },
+  "status": "prepared_not_executed_full_source_walk",
+  "test_run": {
+    "command": "python3 -B docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/test_materialize_prefix_cap_recovery.py",
+    "status": "PASS"
+  },
+  "tests_artifact": {
+    "bytes": 6073,
+    "path": "docs/campaign/work/lead/r2-cpt-prefix-cap-recovery-v2/test_materialize_prefix_cap_recovery.py",
+    "sha256": "a7aad03eb3959a4f689112aff0391b7e2058e67e475b4c7d70602bd7e93c59a8"
+  }
+}

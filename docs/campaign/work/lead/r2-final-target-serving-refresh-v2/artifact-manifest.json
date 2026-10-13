@@ -1,0 +1,115 @@
+{
+  "files": [
+    {
+      "bytes": 3178,
+      "mode": "0444",
+      "path": "README.md",
+      "sha256": "db66fefe9d3b9ee537a8e61936f0c5195601334450fb47cf003343ac53ea1044"
+    },
+    {
+      "bytes": 7465,
+      "mode": "0444",
+      "path": "analyze_refresh_v2.py",
+      "sha256": "e17d207e5e39f86d8e3122e486226bbe48ef74997f9a49796f747309216b893a"
+    },
+    {
+      "bytes": 3130,
+      "mode": "0444",
+      "path": "audit_gguf_norms.py",
+      "sha256": "f9f5e9471a610ff6e452670c802de893a48b8ddb7bb21639fda69bf80a70174c"
+    },
+    {
+      "bytes": 7005,
+      "mode": "0444",
+      "path": "binding.template.json",
+      "sha256": "11fa3e6e2f1e804b809d984501a2928b4f32578eb8f4a7fe9c003fe0df07cacb"
+    },
+    {
+      "bytes": 4908,
+      "mode": "0444",
+      "path": "build_spec_panels.py",
+      "sha256": "ba536d171c86d0d4a033ad8cca507ac356875d8379a3ce0e8277a1973bce74e8"
+    },
+    {
+      "bytes": 17803,
+      "mode": "0444",
+      "path": "converter-source-closure.json",
+      "sha256": "fbb541504eb9f71af515534cbf7dd480dbd935c67d849dcc0a8883ba94eb3a0a"
+    },
+    {
+      "bytes": 859490,
+      "mode": "0444",
+      "path": "draft-panel.jsonl",
+      "sha256": "a8e411f89ea17d651536b1432e1cfc395a54e5d89f909514d54e0d419292d4df"
+    },
+    {
+      "bytes": 16198,
+      "mode": "0444",
+      "path": "draft-panel.manifest.json",
+      "sha256": "fc3634790fe53a26e66906f5b94cd61ed4ece266925ba5c59f05f0f3f88922bb"
+    },
+    {
+      "bytes": 1338497,
+      "mode": "0444",
+      "path": "ngram-panel.jsonl",
+      "sha256": "a1d1b7c8c4b4043490d59f62a1d11e9c816f7ae4a0f4b3a3e61cb35c2dfcc7f8"
+    },
+    {
+      "bytes": 26048,
+      "mode": "0444",
+      "path": "ngram-panel.manifest.json",
+      "sha256": "edee52d0fc8e36e26f7930e18205899199d8b185dda12fbe4bc54bf8cd80aa9e"
+    },
+    {
+      "bytes": 29219,
+      "mode": "0444",
+      "path": "paired_panel_probe_v2.py",
+      "sha256": "4b300264a6ce401df80a0dab7dca87243d432ad50ae269dc828560d19999c95b"
+    },
+    {
+      "bytes": 10480,
+      "mode": "0444",
+      "path": "prepare_refresh_v2.py",
+      "sha256": "be5599ed75635575aa54d65808f7450a298f1e8747ce58ceb00e82a0b2747d7e"
+    },
+    {
+      "bytes": 2349,
+      "mode": "0444",
+      "path": "probe_bound_v2.py",
+      "sha256": "ec2a13ee9c6495e213b131495c499aedda94e8c18fddcb7ac1ec25cd7787ef08"
+    },
+    {
+      "bytes": 564,
+      "mode": "0444",
+      "path": "root-admission.template.json",
+      "sha256": "6350739d45075078b69dcabe9778e03942d2037e886052006329d52bc5e13948"
+    },
+    {
+      "bytes": 1241,
+      "mode": "0444",
+      "path": "source-manifest.json",
+      "sha256": "48af7fb8dba1e695da8edbc4c2f818c4d7a9c9d82fd36f9d2aee3cf743326b44"
+    },
+    {
+      "bytes": 679,
+      "mode": "0444",
+      "path": "template-preflight.json",
+      "sha256": "2c1be7d5758ff8abce5888486c21067379217efb76c65ed91cbf827786b1f8fb"
+    },
+    {
+      "bytes": 811,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "83fa5d363e829dd00bcf589436d8a0da156b50c5ac32836594608f7ee08cc1c0"
+    },
+    {
+      "bytes": 8670,
+      "mode": "0444",
+      "path": "test_v2.py",
+      "sha256": "07697932081b5b9e94a92e76c67c864e54eec56a74f170fda33ce82d58032e32"
+    }
+  ],
+  "identity_sha256": "bbe4ebbf85a8641454fc3be95f9177e746538d0acd7414e4b6371ef5a1f754fa",
+  "schema": "sepalith.r2.final-target-serving-refresh-artifacts.v2",
+  "status": "frozen_preparation"
+}

@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 9490,
+      "path": "campaign_reward_v2.py",
+      "sha256": "b2ce979d8bc9a3112c7ae1810de8c271c180b3d916e98af0998c347bdf7669a7"
+    },
+    {
+      "bytes": 8409,
+      "path": "materialize_reward_rebind.py",
+      "sha256": "934f58e512ed7f4fa690a50e31a7f7c27093e30a2bdd5dbd4d270458ae02a247"
+    },
+    {
+      "bytes": 448,
+      "path": "parse_only.R",
+      "sha256": "524c23bd098420a8b90ad97a6d6e23f28dc9dde61c077cd01d51affc6b13ee51"
+    },
+    {
+      "bytes": 58959,
+      "path": "pilot/pilot-groups.jsonl",
+      "sha256": "a578c461d9cbab939918a4735e784c03bb5ea93360190bb492e9f570277cc49f"
+    },
+    {
+      "bytes": 8600,
+      "path": "pilot/pilot-spec.json",
+      "sha256": "4b999be5ac51bcf9612bf420908cb6ff08b545803efb459f8fb6acef18a73bb3"
+    },
+    {
+      "bytes": 905,
+      "path": "verification.json",
+      "sha256": "ad16f3abcd4517748878a14bd7e5e3698650a2c5b165cf4f4e5673acf8c88cd7"
+    }
+  ],
+  "schema": "sepalith.rl11.finish-reward-rebind-code.v1",
+  "status": "prepared_root_review_required"
+}

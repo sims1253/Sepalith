@@ -1,0 +1,26 @@
+{
+  "files": [
+    {
+      "bytes": 2496,
+      "path": "README.md",
+      "sha256": "cb3dfdc0e749681a29ed1811a4924ccccf77952dbcec822a9ea36dc89420f51f"
+    },
+    {
+      "bytes": 11358,
+      "path": "audit-result.json",
+      "sha256": "d195dd811ad15c5a6be661833bddc0dfbf998407f09efa6c0e495c64eb86e0e5"
+    },
+    {
+      "bytes": 9402,
+      "path": "audit_train_finish_boundaries.py",
+      "sha256": "3b35b0b3b8f38bd41643664a5b1d1bf52de7df704c3cad561e099b3d67f95326"
+    },
+    {
+      "bytes": 149,
+      "path": "run.log",
+      "sha256": "226a2fb4a5773163cd8bc4e57fc4eca56d86ac0b1cae5af08aebb6255b7112b7"
+    }
+  ],
+  "schema": "sepalith.dat10.train-finish-boundary-audit-artifacts.v1",
+  "status": "complete_root_decision_required"
+}

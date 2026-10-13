@@ -1,0 +1,172 @@
+{
+  "file_count": 33,
+  "files": [
+    {
+      "bytes": 2398,
+      "path": "README.md",
+      "sha256": "117c2985bce23ee12dcf434c8abd8a22bf08c3be7d9eaed1edc25474d26445fb"
+    },
+    {
+      "bytes": 1212,
+      "path": "driver-config.template.json",
+      "sha256": "c12e8d0439a7bfcb31ebf4162521ab19a22050311d7719ef49acc92c461a9c27"
+    },
+    {
+      "bytes": 108,
+      "path": "preflight.log",
+      "sha256": "e36a3e378f46e3ca8a4f67a54a04869e6d51acbed3b205ae24c84e6333d4d83b"
+    },
+    {
+      "bytes": 936,
+      "path": "root-commands.json",
+      "sha256": "3d13ea5515b7e5608aabbeded050fabfb8de60b3e3abf36a95235a65918ee386"
+    },
+    {
+      "bytes": 3160,
+      "path": "source/experiments/training/bind_signal_driver.py",
+      "sha256": "d151a1f0a7e125042381d34d8be53ac077cfbc3505f717862d3e8212977bcd86"
+    },
+    {
+      "bytes": 11665,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "bytes": 5024,
+      "path": "source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "bytes": 11848,
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "d54f45020d2736a9005401d28e1e5f774b1eb67be743cece2d27497eb93b15de"
+    },
+    {
+      "bytes": 2962,
+      "path": "source/experiments/training/campaign_launch.py",
+      "sha256": "043d8d5025b2fa1807972baca6e8eafe5540dcf9bb376e9404e6ecb1eb371e81"
+    },
+    {
+      "bytes": 41476,
+      "path": "source/experiments/training/campaign_profile.py",
+      "sha256": "03081f1fa6ebe1b67e517be4366b809df69c84f2a183046a52b40cda7c23f4d7"
+    },
+    {
+      "bytes": 1830,
+      "path": "source/experiments/training/campaign_r_parse_probe.py",
+      "sha256": "d41420c3ab35a8367f8c4310b8a6562214d7e97ff58c921e8df2e03c8c6b486a"
+    },
+    {
+      "bytes": 9490,
+      "path": "source/experiments/training/campaign_reward_v2.py",
+      "sha256": "b2ce979d8bc9a3112c7ae1810de8c271c180b3d916e98af0998c347bdf7669a7"
+    },
+    {
+      "bytes": 6679,
+      "path": "source/experiments/training/campaign_rl_buffer.py",
+      "sha256": "a23b92b7ab4d41c964953e3bf163722b07d0b48fc5ca5785ee6532d03607358d"
+    },
+    {
+      "bytes": 33222,
+      "path": "source/experiments/training/campaign_rl_data.py",
+      "sha256": "2c0419d50392b38725f1ba24af5063edd74d7c25ab495574537c9c597eca62d8"
+    },
+    {
+      "bytes": 59174,
+      "path": "source/experiments/training/campaign_rl_entry.py",
+      "sha256": "34f37d0255df48d0cd1b3cf00bfec567d5a48a67c04d564f0ee793e243debdce"
+    },
+    {
+      "bytes": 5384,
+      "path": "source/experiments/training/campaign_rl_launch.py",
+      "sha256": "fa245326052bfae2997d91d80bbf8f45c055d35ffcd0b4b2b7d4440045ffb36a"
+    },
+    {
+      "bytes": 40465,
+      "path": "source/experiments/training/campaign_rl_profile.py",
+      "sha256": "6c7e041a3cf82890146aab9927f0cc5cf7cede92154e069f9cb6f6bd6323763b"
+    },
+    {
+      "bytes": 105428,
+      "path": "source/experiments/training/campaign_rl_train.py",
+      "sha256": "deb4f3c6527091e778718b23287924f41a5038d0e94e2a562e2644ea9aad7299"
+    },
+    {
+      "bytes": 41066,
+      "path": "source/experiments/training/campaign_sampling.py",
+      "sha256": "60e4e4d60b99a4b9851b3e35194f81fb2d0a2a3c47d0cac931c2091819c03dd0"
+    },
+    {
+      "bytes": 21813,
+      "path": "source/experiments/training/campaign_sft.py",
+      "sha256": "671a1da97939b21962cfaedda0dc7c2c6f2f01369cb2834ef351fd26c38541f9"
+    },
+    {
+      "bytes": 5026,
+      "path": "source/experiments/training/campaign_sft_data.py",
+      "sha256": "31e34c5a3a662724cf50dce1ea9e6a0d248c5f44bc0f5eb6b0a5b45894433104"
+    },
+    {
+      "bytes": 4704,
+      "path": "source/experiments/training/campaign_sft_inputs.py",
+      "sha256": "b89457804aa66c69214bdcb5dd31b6db6fe3877103990280126e169086451185"
+    },
+    {
+      "bytes": 47510,
+      "path": "source/experiments/training/campaign_theta0_gate.py",
+      "sha256": "bf7ec53d912b4285585ace4a87ce3df1732e49756e242ea08d1f236a58d25a95"
+    },
+    {
+      "bytes": 11720,
+      "path": "source/experiments/training/campaign_token_audit.py",
+      "sha256": "9915f867894a0fc7b21679cebc6c0f0c87317f31acdab3a647a0fbb5033a23a3"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 412,
+      "path": "source/experiments/training/reward_parse_only.R",
+      "sha256": "07f05d402274bbb2fdc5fdabd8a9713ba33b0b8e8005187b52f251846496d9fa"
+    },
+    {
+      "bytes": 19848,
+      "path": "source/experiments/training/signal_pilot_driver.py",
+      "sha256": "b7af72dfd37a20dfc6b56ebf5f790036ec9cf491ea7bf26c616f620880688243"
+    },
+    {
+      "bytes": 16739,
+      "path": "source/experiments/training/signal_pilot_harness.py",
+      "sha256": "34fd56eaaf9fd3316efc97cfda8873d77eaad497fe5ca678fd270df4a654f70a"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 4921,
+      "path": "source-manifest.json",
+      "sha256": "f709008bab2d38313d2a7eaaf9dd2ebe86a323a11fb609db2835bf127fd03cfa"
+    },
+    {
+      "bytes": 1058,
+      "path": "test-results.log",
+      "sha256": "1599e3b8ec5e8943ed95742928d46cfb03dda12f66dc9c31f8f193e355def4dc"
+    },
+    {
+      "bytes": 6350,
+      "path": "tests/test_signal_pilot_driver.py",
+      "sha256": "da4471db39c552a447e1acad66542e9c6543d3f478ffbbc606c5704a090d7ad1"
+    }
+  ],
+  "schema": "sepalith.rl11.signal-driver-artifact-manifest.v1",
+  "status": "prepared_root_review_required"
+}

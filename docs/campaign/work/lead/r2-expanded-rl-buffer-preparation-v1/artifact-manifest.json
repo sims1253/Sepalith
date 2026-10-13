@@ -1,0 +1,153 @@
+{
+  "baseline_blob_closure": "blob-closure.json",
+  "files": [
+    {
+      "bytes": 2202125,
+      "mode": "0o644",
+      "path": "baseline-blob-manifest.jsonl",
+      "sha256": "a0942560691e2e6cb4474b1b41e9ba38bf7ea2902f77b4c7c271f7f15f05cce2"
+    },
+    {
+      "bytes": 368,
+      "mode": "0o644",
+      "path": "blob-closure.json",
+      "sha256": "9e8e10760ccbbf291a8aa007ad91aa5284a0d2b760e1daff4ae78f0afb8da31e"
+    },
+    {
+      "bytes": 2225,
+      "mode": "0o644",
+      "path": "buffer_geometry.py",
+      "sha256": "5a297b01c56971aff1110c4af96cb4e383f9c8adede3b472b4cc46b9b82e71d8"
+    },
+    {
+      "bytes": 871,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "4f0d6d3bc48a53faa8a2f048dda9d2e4a9587435196997fc655f6de51fa0ad58"
+    },
+    {
+      "bytes": 1472,
+      "mode": "0o644",
+      "path": "input-spec.json",
+      "sha256": "bb51acab0365e9c1466477a66a5af4821d559cd4a64f9d1927e2d15551166021"
+    },
+    {
+      "bytes": 3628,
+      "mode": "0o644",
+      "path": "integration-review.json",
+      "sha256": "dc04117c006689149044998827756c35de5782529bef7c49807d805fbc453251"
+    },
+    {
+      "bytes": 17321,
+      "mode": "0o644",
+      "path": "materialize_expanded_buffers.py",
+      "sha256": "afe516af4274e5aa9f15782954dde14b52917c28a36af970b15caac1f13b472b"
+    },
+    {
+      "bytes": 448,
+      "mode": "0o644",
+      "path": "parse_only.R",
+      "sha256": "524c23bd098420a8b90ad97a6d6e23f28dc9dde61c077cd01d51affc6b13ee51"
+    },
+    {
+      "bytes": 9490,
+      "mode": "0o644",
+      "path": "proposed-source/experiments/training/campaign_reward_v2.py",
+      "sha256": "b2ce979d8bc9a3112c7ae1810de8c271c180b3d916e98af0998c347bdf7669a7"
+    },
+    {
+      "bytes": 3431,
+      "mode": "0o644",
+      "path": "proposed-source/experiments/training/campaign_rl_buffer.py",
+      "sha256": "ec3f7791650fc79425293a045f82f01aba1c5fef5cd2a0f2c34734e3a1464ab3"
+    },
+    {
+      "bytes": 33251,
+      "mode": "0o644",
+      "path": "proposed-source/experiments/training/campaign_rl_data.py",
+      "sha256": "f7ddc2d7b5047b09d85e08fb6a079646ff93a6c1e86bb6eae021b749fcb486d4"
+    },
+    {
+      "bytes": 5382,
+      "mode": "0o644",
+      "path": "reframe_new_finish.py",
+      "sha256": "311821be603baf8eecc5e83b9a30d9df03703844a03e9a3c4c9434922574774c"
+    },
+    {
+      "bytes": 94315,
+      "mode": "0o644",
+      "path": "repair-summary.json",
+      "sha256": "2a542b2c59b116982af842b90dc6422d392a1d4d2ef0191f5e91cf8c443173c6"
+    },
+    {
+      "bytes": 17446,
+      "mode": "0o644",
+      "path": "reward-buffer-binding.patch",
+      "sha256": "843247a9d1a04520344448356f2462768a43ea66e3dbe05298353438dac2d798"
+    },
+    {
+      "bytes": 3431,
+      "mode": "0o644",
+      "path": "reward_buffer_binding.py",
+      "sha256": "ec3f7791650fc79425293a045f82f01aba1c5fef5cd2a0f2c34734e3a1464ab3"
+    },
+    {
+      "bytes": 1844,
+      "mode": "0o644",
+      "path": "summarize_materialization.py",
+      "sha256": "86af90352feaabd811d62d88ab82c34e7580fe0c2adc21bc0c6bc7ac7a862bbc"
+    },
+    {
+      "bytes": 1619,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "f7ad01772db7096c13ef14774acf76bd25379e9c5d98870611478c70de4e52aa"
+    },
+    {
+      "bytes": 2152,
+      "mode": "0o644",
+      "path": "test_buffer_preparation.py",
+      "sha256": "db65a33ff317cbc4a81fe00205bda854186057b2c9b69c95ab4e6ed8a9dc2c39"
+    },
+    {
+      "bytes": 2039,
+      "mode": "0o644",
+      "path": "test_reward_buffer_binding.py",
+      "sha256": "3fdaf3c571b7447fde2674e1046e5d957df56546d1d11db2afd9c3162f8017ff"
+    },
+    {
+      "bytes": 2045,
+      "mode": "0o644",
+      "path": "test_reward_v2_framing.py",
+      "sha256": "497dd6ac31f0829ae2be351e4b73624cd8287c5272dfe1cc07b0fb76a933bd4e"
+    },
+    {
+      "bytes": 3046,
+      "mode": "0o644",
+      "path": "train-rollout-signal-audit.json",
+      "sha256": "ba88377dd26b05d7c996981b83fa948ceec0e002b0365b3ea4782e27f42ed25d"
+    }
+  ],
+  "output_files": [
+    {
+      "bytes": 2216,
+      "mode": "0o555",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-expanded-buffer-v5/materialization.json",
+      "sha256": "a49b1ef464773817d7a18f76cdec68b82eaa4abb960a10a7d919c7535d7add84"
+    },
+    {
+      "bytes": 28038667,
+      "mode": "0o555",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-expanded-buffer-v5/reward-buffer-sidecar.jsonl",
+      "sha256": "126a9654b9d7d788c6cd60a4c90c9e0bf7f88fa718232be3f209473c94a81c4f"
+    },
+    {
+      "bytes": 2477835,
+      "mode": "0o555",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-expanded-buffer-v5/repair-ledger.jsonl",
+      "sha256": "a321d2746d3792838f4baf141d27b275e9b2df53fe1383e80c8499092dedb273"
+    }
+  ],
+  "output_tree_mode": "read_only",
+  "schema": "sepalith.rl11.expanded-buffer-source-closure.v1"
+}

@@ -1,0 +1,1 @@
+Private RUN-04 remote-auto350-c capsule. Fresh UUID and binding. Selected Q8 batch256, context4096, output192. Actual controls and process cleanup are required before measurement acceptance. Scored v5 observer and verified startup gate; diagnostic extra CDP calls removed.

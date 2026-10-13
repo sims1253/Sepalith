@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+  },
+  "id": "sft03-minicpm-primary3000-b-20260912",
+  "snapshot": "26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f",
+  "inputs": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/train-token-rows.jsonl",
+      "sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/draws-3000.json",
+      "sha256": "a439fe8af68b4929a7747d4a82b9e0b26a05fcd3973f8a3c81148a84581d7f94"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-final-evaluator-cases.jsonl",
+      "sha256": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT-primary-3000-a/full/checkpoint-1000/campaign-manifest.json",
+      "sha256": "230abf65a8d168bde4a66dbbabb67223f3c0631e3db933b031f63d3dadc971d3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/SFT-primary-3000-b-proposed-recipe.json",
+      "sha256": "ef850686feb0ddfda2d20b0e9f3af9ad2caa699494a5fd9b46fec1eb8b0376c5"
+    }
+  ],
+  "provenance": {
+    "task": "SFT-03",
+    "owner": "lead",
+    "budget_source": "Existing 12 GPU-hour SFT03 ceiling including 718.434s control; optional6000 extension cut",
+    "attempt_limit_seconds": 10800,
+    "acceptance": "Root1000review then same3000schedule resume; mandatory stop2000, noautomaticpromotion."
+  },
+  "steps": [
+    {
+      "id": "sft-primary3000-b",
+      "argv": [
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/SFT-primary-3000-b-proposed-recipe.json",
+        "--receipt",
+        "{run}/supervision.json"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ]
+    }
+  ]
+}

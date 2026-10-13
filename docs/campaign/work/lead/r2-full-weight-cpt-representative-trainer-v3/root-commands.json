@@ -1,0 +1,81 @@
+{
+  "bind": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source/experiments/training/bind_representative_cpt.py",
+    "--template",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/recipe.template.json",
+    "--admission",
+    "$ROOT_ADMISSION",
+    "--output",
+    "$BOUND_RECIPE"
+  ],
+  "preflight": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "initial_run_root_guard_required": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=0",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "resume_after_root_decision_root_guard_required": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=0",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE",
+    "--resume",
+    "$MANDATORY_CHECKPOINT",
+    "--continuation-admission",
+    "$CONTINUATION_ADMISSION"
+  ],
+  "external_save_stop": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source/experiments/training/request_graceful_stop.py",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "prepare_received_cohort_binding": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v3/source/experiments/training/prepare_representative_cohort_binding.py",
+    "--rows",
+    "/mnt/e/sepalith/campaign-20260915/data-work/CPT-representative-full-doc-pilot-v1/cpt_train_ctx16384.jsonl",
+    "--schedule",
+    "/mnt/e/sepalith/campaign-20260915/data-work/CPT-representative-full-doc-pilot-v1/draw-schedule.json",
+    "--manifest",
+    "/mnt/e/sepalith/campaign-20260915/data-work/CPT-representative-full-doc-pilot-v1/selection-manifest.json",
+    "--producer-receipt",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-representative-full-doc-pilot-preparation.json",
+    "--provenance-review",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-representative-root-provenance.json",
+    "--data-admission",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/SFT-11-CPT-representative-diagnostic-data-admission.json",
+    "--repository-root",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb",
+    "--output",
+    "$FRESH_COHORT_BINDING"
+  ]
+}

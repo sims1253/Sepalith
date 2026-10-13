@@ -1,0 +1,82 @@
+{
+  "schema": "sepalith.full-weight-cpt-representative-trainer-source.v2",
+  "identity_sha256": "4188f2e0c6fc96612de22cef42d75d7024d45b54b3349f4d169749d303d3365b",
+  "files": [
+    {
+      "path": "source/experiments/training/bind_representative_cpt.py",
+      "sha256": "b6b8c03f5e66b05e8fbbf9870ed1cd90b9e3a7d76fd669e3db75041b5933b59b",
+      "bytes": 5967
+    },
+    {
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5",
+      "bytes": 13663
+    },
+    {
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa",
+      "bytes": 29909
+    },
+    {
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1",
+      "bytes": 3447
+    },
+    {
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+      "bytes": 15257
+    },
+    {
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "5e6595c85e3d66999cd7cfe534ff822cfd2b24c9d98ae71f13f2597c5fada242",
+      "bytes": 31546
+    },
+    {
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13",
+      "bytes": 19826
+    },
+    {
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25",
+      "bytes": 2680
+    },
+    {
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf",
+      "bytes": 1397
+    },
+    {
+      "path": "source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629",
+      "bytes": 1783
+    },
+    {
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d",
+      "bytes": 7843
+    },
+    {
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+      "bytes": 67
+    },
+    {
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "bytes": 40337
+    }
+  ],
+  "provenance": {
+    "base_packet": "docs/campaign/work/lead/r2-full-weight-cpt-representative-trainer-v1",
+    "dtype_audit_receipt": "docs/campaign/receipts/SFT-11-full-weight-dtype-audit.json",
+    "saved_precision_helper": {
+      "source": "docs/campaign/work/lead/r2-cpt-long-eval-root-v2/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    "change": "restore exact saved F32 tensors after Unsloth preparation and bind expected parent counts",
+    "resume_semantics_changed": false,
+    "quality_promotion": false
+  }
+}

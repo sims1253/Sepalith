@@ -1,0 +1,9 @@
+# Native full-optimizer varlen canary preparation
+
+This packet prepares paired one-update debugging arms or paired eight-update measurement arms from one verified ordinary full-state checkpoint. The ordinary arm retains microbatch 1 and gradient accumulation 16. The candidate converts the same logical 16 rows into complete-row block-diagonal packs and exposes one logical batch to Trainer. Both use the same global supervised-token denominator, the same number of Aurora/Muon/AdamW optimizer and scheduler steps, and the same restored RNG and stage cursor.
+
+The packed identity is intentionally different from the ordinary checkpoint identity. A root canary admission authorizes only the transition into a bounded canary experiment checkpoint. These checkpoints cannot silently resume the production recipe. The preferred source is the future native checkpoint322 after it is sealed and root-reviewed; durable E checkpoint194 remains a fallback.
+
+CPU tests use Transformers 5.5 with unequal row lengths and the real composite optimizer. They establish denominator equivalence, optimizer dispatch, and exact interrupted resume mechanics. The eight-update mode treats updates 1-2 as compile/warmup and times updates 3-8 with synchronized forward/backward, 381-gradient audit, optimizer/scheduler-to-step-end, and full-step components; save/evaluation time is excluded. They do not establish MiniCPM BF16 GPU memory, speed, or quality. `root-commands.template.json` lists the required binding and two exclusive root-owned GPU runs.
+
+The ordinary production trace currently averages 21.77 seconds per update at steps 195-215; its pre-optimizer-to-log interval averages 5.93 seconds (median 5.86). Packing therefore cannot remove the optimizer portion, and this canary reports the components separately rather than inferring speed from the 4.623x call-count opportunity. A window with sixteen physical packs remains valid and reports a reduction ratio of 1.

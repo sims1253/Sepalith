@@ -1,0 +1,45 @@
+{
+  "schema": "sepalith.c07.batched-eval-cpu-receipt.v1",
+  "branch": "plan/C07-batched-eval",
+  "merges_after": ["#41 (C05)", "#45 (C04)"],
+  "cause": "2026-10-12 night: C07-baseline was stopped by the 2,400 s eval budget before DEV75 finished; batch-1 generation ran at about 12 tokens/s with the GPU about 87% idle (launch-bound), and the CPT parent runs every case to the 1,024-token cap",
+  "design": {
+    "path": "campaign_eval.batched_greedy_generate, used by development_evaluator for run_dev_generation and parent_baseline",
+    "per_case_path": "batch size 1 with the dynamic cache is the original per-case code path (receipts/C07-evaluator-equivalence.json: identical to origin/main fed5b2f)",
+    "ordering": "prompt_tokens_descending_then_case_id_ascending; depends only on the panel, so the baseline and every gate batch the same cases with the same padding",
+    "padding": "left, pad id 1, attention mask 0 on padding; position ids from the mask",
+    "stop": "eos ids (1, 130073) per row; each row is cut after its first stop id (pad fill removed); a row without a stop must have exactly the cap",
+    "cap": 1024,
+    "teacher_forced_forward": "unchanged: per case, unpadded, use_cache=False (prompt/target NLL in the summary); not batched because full logits for a batch of 32 x 4K tokens would cost about 32 GB",
+    "outputs": "per-case records unchanged and in panel order; summary.generation_runtime and result.generation_runtime record batch size, ordering, padding side, pad id and KV cache when batching is on",
+    "kv_cache": "dynamic by default; static is selectable and recorded; torch.compile not used",
+    "default": "recipe dev_gate.generation_batching = batch 32, dynamic cache; night_arm passes it to every DEV process (override flags exist; --generation-batch-size 1 restores the per-case path)",
+    "fail_closed": "night_arm compares milestone_gate.generation_settings of every gate result, of the baseline results and of the previous gate's results with the requested settings; any difference is a 'generation runtime binding differs' problem: stop-for-user that a human override cannot turn into continue; the baseline job refuses an existing baseline made with other settings"
+  },
+  "tests": {
+    "check_training": "111 tests OK on CPU (/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python)",
+    "check_core": "78 tests OK",
+    "check_quality": "ruff and ty clean",
+    "new": [
+      "test_batched_dev_generation.py: fp32 batched == batch-1 for batch sizes 1, 2, 4, 5, 14 and dynamic/static caches with mixed prompt lengths and early stops; finished rows do not change other rows; cap; stop-id handling; batch order and order restoration; driver and parent_baseline end to end",
+      "test_sft_v2_gates.py: batched baseline and gates continue; gate vs baseline runtime mismatch is stop-for-user and not overridable; previous-gate mismatch; result vs evaluator record mismatch; generation_settings"
+    ]
+  },
+  "rebind": {
+    "source_manifest_sha256": "619c380826c652be4be71aaff257340fc82438fac6424143787af4745b86eb9f",
+    "bound_recipes_sha256": {
+      "lr3e-6": "539601c793d1e36902a71fc83367f88e44578b2ddd2ce839adb7f4e778a11007",
+      "lr1e-5": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e",
+      "lr3e-5": "21b93f6fa1eb6f715c61a2a759c8691abe7b57e9b1f19dae7b92516528b3c133",
+      "smoke-lr1e-5": "e1947ceb0606d493bd60d3be0194dd411199291dfafe7b901731aae6e742850d"
+    },
+    "verification": "recipe_v2 verify passed for all four with the real parent 11,586",
+    "job_files": "c04/jobs unchanged"
+  },
+  "gpu_validation": {
+    "status": "not run (no GPU work by this agent); enqueue the job in the night window",
+    "script": "docs/training/plan-20260927/c07/validate_batched_eval.py",
+    "job": "docs/training/plan-20260927/c07/jobs/C07-batched-eval-validation.json",
+    "estimate": "per-step time is launch-bound, so batch 32 should cost about one batch-1 decode step per step: 11 batches x 1,024 steps for both panels on the parent (worst case), roughly 15 to 20 minutes; worst-batch memory estimated at 14 GB"
+  }
+}

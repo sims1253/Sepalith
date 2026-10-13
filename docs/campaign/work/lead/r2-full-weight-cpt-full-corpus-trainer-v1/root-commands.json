@@ -1,0 +1,61 @@
+{
+  "bind": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/bind_full_corpus_cpt.py",
+    "--template",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/recipe.template.json",
+    "--admission",
+    "$ROOT_FULL_CORPUS_ADMISSION",
+    "--output",
+    "$BOUND_RECIPE"
+  ],
+  "template_preflight": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight-template",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/recipe.template.json"
+  ],
+  "bound_preflight": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "preflight",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "run_root_guard_required": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=0",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE"
+  ],
+  "resume_root_guard_required": [
+    "env",
+    "CUDA_VISIBLE_DEVICES=0",
+    "OMP_NUM_THREADS=2",
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-full-corpus-trainer-v1/source/experiments/training/full_weight_cpt_trainer.py",
+    "run",
+    "--recipe",
+    "$BOUND_RECIPE",
+    "--resume",
+    "$CHECKPOINT",
+    "--continuation-admission",
+    "$CONTINUATION_ADMISSION"
+  ]
+}

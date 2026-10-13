@@ -1,0 +1,57 @@
+{
+  "files": [
+    {
+      "bytes": 1634,
+      "path": "README.md",
+      "sha256": "59c31f2114b83a5c2f72647b38efc8349fe170669d525a9fc2405876aa5c7866"
+    },
+    {
+      "bytes": 1402,
+      "path": "commands/run_fallback32_lanes.sh",
+      "sha256": "73525dbcd4f8412aab7258d4e2a5c814ae3844c77fe6e78d8f59a20ccd213647"
+    },
+    {
+      "bytes": 2917,
+      "path": "commands.json",
+      "sha256": "7534ea826bcf2459a945cb1801f2045bec6e2f77f2100ba39b080d7fc660ffc7"
+    },
+    {
+      "bytes": 1563,
+      "path": "evidence.json",
+      "sha256": "362f62ee6d164eea9241b11999389f122a6a6b63b56758ad3dd16e09a6d4d896"
+    },
+    {
+      "bytes": 4938,
+      "path": "source/finalize_policy.py",
+      "sha256": "baf4c1d3797024b707c15b628fb861e8f97d00487162a554d26fd8569837faa5"
+    },
+    {
+      "bytes": 4185,
+      "path": "source/prepare_fallback.py",
+      "sha256": "12fc7ede2d3ba0f8b8b6e1aa0015c47f813b89992e3a8c4a76561bf5fb2a6f91"
+    },
+    {
+      "bytes": 5536,
+      "path": "source/verify_render16.py",
+      "sha256": "619e9a9e74a283a8178ef57ecc771414a371f77b6ad1729a5ec083b702bd46a7"
+    },
+    {
+      "bytes": 2064,
+      "path": "source-manifest.json",
+      "sha256": "08144b910be4dadc2762fccfdd40465cb7e2e762bf3fbaa2dd12d2eb89d3b6a3"
+    },
+    {
+      "bytes": 101,
+      "path": "test-results.log",
+      "sha256": "79897d011a1aaa76145e639592b1207fa563cb1187e00ac85c3ee31c86a0b15f"
+    },
+    {
+      "bytes": 1070,
+      "path": "tests/test_postrender.py",
+      "sha256": "f9a8e2657aadeb1f03df86afb756be34e2a514733ca6b16576d6bfd1b8cd5f38"
+    }
+  ],
+  "schema": "sepalith.dat10.noop4100.postrender-preparation-artifacts.v1",
+  "source_manifest_sha256": "08144b910be4dadc2762fccfdd40465cb7e2e762bf3fbaa2dd12d2eb89d3b6a3",
+  "status": "prepared_unlaunched"
+}

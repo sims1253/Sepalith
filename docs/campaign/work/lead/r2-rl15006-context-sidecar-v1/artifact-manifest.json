@@ -1,0 +1,97 @@
+{
+  "frozen_artifacts_modified_after_manifest": false,
+  "local_artifacts": [
+    {
+      "bytes": 735,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/independent-verification.json",
+      "sha256": "b36d49fb1f71f7744a555d3398541c09b799fe824c9df6f71a0010daac57c014"
+    },
+    {
+      "bytes": 2024,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/loader-compatibility.json",
+      "sha256": "2d0ed617116871ed5fe968b0d72927ca5ad744dd87dc6a0b219985ab7517e3a3"
+    },
+    {
+      "bytes": 9782,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/materialize_context15006.py",
+      "sha256": "f7744de9cf3ab007f6585b121fb574b83098138670b3a5ef82936ad5f4ab7db4"
+    },
+    {
+      "bytes": 3828,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/optional-expanded-context-source.patch",
+      "sha256": "b1df67758fba269c0ae7dc255c038fc9e5ef66d9c1fbf074555751374213fc1c"
+    },
+    {
+      "bytes": 6679,
+      "mode": "0o444",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/source/experiments/training/campaign_rl_buffer.py",
+      "sha256": "a23b92b7ab4d41c964953e3bf163722b07d0b48fc5ca5785ee6532d03607358d"
+    },
+    {
+      "bytes": 35270,
+      "mode": "0o444",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/source/experiments/training/campaign_rl_data.py",
+      "sha256": "c57f0a2df19ab92b135bf844e9ec0787e958e4de954a6df15ac644e452305afb"
+    },
+    {
+      "bytes": 67,
+      "mode": "0o444",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "mode": "0o444",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 5190,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/verify_context15006.py",
+      "sha256": "84d554a03acd6128f0d9eceb8f13f3a0346f03de19c6d8dfd2fee4be67c748c6"
+    },
+    {
+      "bytes": 5900,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl15006-context-sidecar-v1/verify_loader_compatibility.py",
+      "sha256": "d79d1be4901cfed7e3443db5d7475162c14cf9353156c0b1732e2b262fa33bb4"
+    }
+  ],
+  "output_artifacts": [
+    {
+      "bytes": 158751584,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/context-sidecar.jsonl",
+      "sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"
+    },
+    {
+      "bytes": 408947,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/selected-train-ids.json",
+      "sha256": "986a1f7910c44423e50988e76abb6671dedf8cd70f5542ff9efd7a03ce504462"
+    },
+    {
+      "bytes": 5558187,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/source-order-manifest.jsonl",
+      "sha256": "8df58d0bc8121f720bb8e5a77390bea957d8a202717fe591817f88d8091b3d0f"
+    },
+    {
+      "bytes": 2826,
+      "mode": "0o777",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/materialization.json",
+      "sha256": "4a82bdeafbdc055e0ae3de1016256131bf9cca2bdba1b5ef850b34402eb829c7"
+    }
+  ],
+  "schema": "sepalith.rl11.context15006-artifact-manifest.v1",
+  "source_tree": {
+    "files": 4,
+    "identity_sha256": "31cbc070a0247f1cb877687e3065b61173e6f2c81cffe9f5e8e0ff8e63d51b27"
+  },
+  "status": "frozen_hash_closure_root_review_required"
+}

@@ -1,0 +1,29 @@
+{
+  "geometry": {
+    "candidates_per_group": 4,
+    "context_max_tokens": 4096,
+    "groups": 112,
+    "max_new_tokens": 1024,
+    "prompt_max_tokens": 3072
+  },
+  "model": null,
+  "optimizer_updates": 0,
+  "output_path": null,
+  "parser": {
+    "generated_r_executed": false,
+    "operation": "base::parse_only",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-rl15006-signal-driver-v1/source/experiments/training/reward_parse_only.R",
+    "sha256": "07f05d402274bbb2fdc5fdabd8a9713ba33b0b8e8005187b52f251846496d9fa",
+    "timeout_seconds": 5.0
+  },
+  "pilot_spec": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-rl15006-signal-pilot-v1/pilot-spec.json",
+    "sha256": "df176d826901f80ccdb2ef485069fb5e27482eb53da549ff8641b0a59850df0b"
+  },
+  "schema": "sepalith.rl11.signal-driver-config.v1",
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-rl15006-signal-driver-v1/source-manifest.json",
+    "manifest_sha256": "f709008bab2d38313d2a7eaaf9dd2ebe86a323a11fb609db2835bf127fd03cfa"
+  },
+  "status": "prepared_model_binding_and_root_admission_required"
+}

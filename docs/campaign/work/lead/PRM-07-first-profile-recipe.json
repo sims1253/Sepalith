@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "id": "prm07-minicpm-sft-profile-20260912-a",
+  "snapshot": "5cbf652c115dd4b5606db99df5ac793387f6f43f4291f85f287c1ff2b135f526",
+  "resource": "gpu",
+  "depends_on": [],
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "env": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2",
+    "NUMEXPR_NUM_THREADS": "2",
+    "MAX_JOBS": "2",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TOKENIZERS_PARALLELISM": "false",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+  },
+  "inputs": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-04-structured-pilot-token-audit/candidate-token-rows.jsonl",
+      "sha256": "bfb1071e8c86bee02902e317c14b8f00408aa69f0c5e174dc6067c98a0fa83cb"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/PRM-07-lead-profile-selected.json",
+      "sha256": "bfb548019e95f3dd4c9c4b75167ddf3211f836e8816ab1ffb78bfa84c95e108a"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    }
+  ],
+  "provenance": {
+    "task": "PRM-07",
+    "owner": "lead",
+    "disposable_weights": true,
+    "admitted_training_registry": false,
+    "selected_cases": "Six source-checked propagation cases; natural2047-2783tokens",
+    "selected_ids_sha256": "bfb548019e95f3dd4c9c4b75167ddf3211f836e8816ab1ffb78bfa84c95e108a",
+    "root_source_review": "docs/campaign/receipts/PRM-07-lead-profile-source.json",
+    "resource_ownership": "Oldcontroltraining/exportclosed; kernel2295754nochildren/noCUDA libraries; leadnowownsCUDA",
+    "max_command_seconds_including_kill": 615,
+    "total_PRM07_GPU_ceiling_seconds": 1800,
+    "known_limits": [
+      "Warmupfirstbatchperbucket; other shape compilation can affect observed throughput.",
+      "Microbatch1 only;50stepresume smoke must measure complete training schedule.",
+      "No full4096orRLmemorysupportclaim."
+    ]
+  },
+  "steps": [
+    {
+      "id": "sft-profile",
+      "argv": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=15",
+        "600",
+        "{python}",
+        "{source}/experiments/training/campaign_profile.py",
+        "--profile",
+        "--candidate-file",
+        "/mnt/e/sepalith/campaign-20260915/data-work/DAT-04-structured-pilot-token-audit/candidate-token-rows.jsonl",
+        "--candidate-sha256",
+        "bfb1071e8c86bee02902e317c14b8f00408aa69f0c5e174dc6067c98a0fa83cb",
+        "--selected-train-ids",
+        "/mnt/e/sepalith/campaign-20260915/data-work/PRM-07-lead-profile-selected.json",
+        "--selected-ids-sha256",
+        "bfb548019e95f3dd4c9c4b75167ddf3211f836e8816ab1ffb78bfa84c95e108a",
+        "--receipt",
+        "{run}/prm07-sft-profile.json",
+        "--wall-timeout-seconds",
+        "570",
+        "--max-existing-vram-mib",
+        "4096",
+        "--warmup-steps",
+        "1",
+        "--timed-steps",
+        "3",
+        "--batch-size",
+        "1"
+      ],
+      "artifacts": [
+        "prm07-sft-profile.json"
+      ]
+    },
+    {
+      "id": "validate-profile",
+      "argv": [
+        "{python}",
+        "-c",
+        "import sys,json,math,pathlib\nsource=pathlib.Path(sys.argv[1]);out=pathlib.Path(sys.argv[2]);receipt=json.loads(source.read_text());assert receipt['status']=='complete';result=receipt['result'];assert result['input']['selected_row_count']==6\nfor name in ('short','long'):\n m=result['sft_metrics'][name];assert m['status']=='measured' and m['timed_steps']==3;assert m['device'].startswith('cuda');assert math.isfinite(m['mean_loss']);assert m['actual_timed_tokens']>0 and m['elapsed_seconds']>0;assert m['peak_allocated_bytes']>0 and m['peak_reserved_bytes']>=m['peak_allocated_bytes']\nassert result['sft_policy']['expected_attachments']==294 and result['sft_policy']['expected_trainable_parameters']==50233344\nout.write_text(json.dumps({'task':'PRM-07','status':'SFT_profile_mechanism_validated_not_training_or_release','selected_rows':6,'quality_claim':False,'RL_gate':'pending','actual_maximum_sequence_tokens':2783,'full_4096_capacity_claim':False},indent=2)+'\\n')\n",
+        "{run}/prm07-sft-profile.json",
+        "{run}/prm07-sft-profile-validation.json"
+      ],
+      "artifacts": [
+        "prm07-sft-profile-validation.json"
+      ]
+    }
+  ]
+}

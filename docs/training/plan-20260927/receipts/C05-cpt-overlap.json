@@ -1,0 +1,1145 @@
+{
+  "card": "C05",
+  "step": "2 CPT-overlap check",
+  "final_files_opened": false,
+  "inputs": {
+    "cpt_cohort_manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/cohort-manifest.json",
+      "sha256": "9c8dc8c83f6a3745441a4f74212ed62e23603ede9d5b69a4bc5ac3dfea65e3d4"
+    },
+    "cpt_rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-cpt-train-ctx16384.jsonl",
+      "sha256": "7b3edfd052de4be5d1180144f75497aef5e862eeed816b372c5d751a855425bf",
+      "documents": 179188
+    },
+    "split": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+      "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df"
+    },
+    "dev_parent_allowlist": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-dev-parent-allowlist.json",
+      "sha256": "ac66fff6c65b4dd41eac7ce952649b4a7dff15237fac9132b148fd3a0243f4c1"
+    },
+    "dev_source_manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-dev-source-manifest.json",
+      "sha256": "f60b1da57d2094c52a0dc3353e6e21d302767405704be6865791fcd62d02b437"
+    },
+    "dev75": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+      "cases": 75
+    }
+  },
+  "method": "Identity join on DAT-02 group_id and normalized package name (DAT-02 norm_name), and document join on source sha256 (pre- and post-edit) and on (package, package-relative path).",
+  "cpt_groups_by_split": {
+    "train_group": 10046
+  },
+  "summary": {
+    "dev_groups": 169,
+    "dev_groups_overlapping_cpt": 0,
+    "dev75_groups": 60,
+    "dev75_cases_with_group_overlap": 0,
+    "dev75_cases_with_document_in_cpt": 0,
+    "dat07_dev_snapshots_in_cpt": 1,
+    "parent_allowlist_groups": 165,
+    "eligible_construction_groups": 105
+  },
+  "eligible_construction_groups": [
+    "g-0b508bfe6a8e82536ec1",
+    "g-0f6c7075bbc59782504b",
+    "g-10fe7b762f850247e0ba",
+    "g-16659ba0f2e941f4bbf9",
+    "g-171ca1caaaf6ef99b0a2",
+    "g-1bfd691d43a985d861f4",
+    "g-1c76db5f1b3973476c7a",
+    "g-1cfd6fda75fe178b5ca6",
+    "g-227dc5701285a0aceac4",
+    "g-25814c20335d497549ff",
+    "g-25dbc2bbf0cc1293a276",
+    "g-26f89597b7a6ab215f3b",
+    "g-29575c8bc793dca63ed8",
+    "g-2b4b2177bbc2c2e9cbdd",
+    "g-2db08b01cbc4dbbad1af",
+    "g-31f49d476782f1c7fd5a",
+    "g-31f640c8f80b04967e11",
+    "g-32669966dc57c1358e90",
+    "g-338552268b198dc389bc",
+    "g-33c85a07f6672b552e6b",
+    "g-35b255562969c0134774",
+    "g-3d82d224ae2417534c9a",
+    "g-40038b2a10969fe09902",
+    "g-4265bbe0cbe96cfccc16",
+    "g-428fa5c196b0f6b356fe",
+    "g-456ab71a73a93615acea",
+    "g-45d0f6ffc07ce9f6ea22",
+    "g-484e45d923e770233538",
+    "g-4ae57dd681952a8296e7",
+    "g-4d8f4e06275b3e71be60",
+    "g-52a1c6b38d30075121d3",
+    "g-539e1f11c82972eba46f",
+    "g-58296a6165392ee98698",
+    "g-5c92a52837980a54fb77",
+    "g-5d49ffbe62565603e457",
+    "g-636e5df7fb853505d4e4",
+    "g-66bc8bebdb82f05e56bc",
+    "g-684f6cf0f355a5c3d675",
+    "g-6dcde5dc78c645d54a1e",
+    "g-6ff54a4e94bfaf3aa9ce",
+    "g-7111369e4f2f96df9eed",
+    "g-715e887a598799cfafcb",
+    "g-79b801f8d1198ace99ce",
+    "g-7fec435e35fc4cae704a",
+    "g-825d09777e9a74ab1693",
+    "g-82a8936b0512195ca00a",
+    "g-862bd54e0085a1502e16",
+    "g-8ac0abe7c1ae145b7678",
+    "g-8c18a51d811bd174328f",
+    "g-8c641ab4e8986ffc52f5",
+    "g-8c77e99807bf1ebfbd45",
+    "g-8d208d0f3ddb86af16ac",
+    "g-8f0441e635e8864969b7",
+    "g-8f6cd991c40ef76cc4ba",
+    "g-9250d27ac240e9e409bf",
+    "g-960ddf51d06279250a6c",
+    "g-964209578065345eba41",
+    "g-96ab17c026ebaa0ec55c",
+    "g-9b6cb397c5fd8764584e",
+    "g-9cd12790c262f7b03444",
+    "g-a2d4edcd4c9079f2270a",
+    "g-a57b3e7f485db35dcaa0",
+    "g-a63547c49848449b4660",
+    "g-aad9efd9c54aba31ca64",
+    "g-adbebbe36010abd29c20",
+    "g-af6afba7a5e6d0bda2cf",
+    "g-b00b449060aad79b952e",
+    "g-b1974709b427113b41b1",
+    "g-b400d130d5c0655a800a",
+    "g-b8d72ab158884f5df122",
+    "g-b9e4f3f5543b484333f6",
+    "g-badcbde6132eabd81288",
+    "g-be17a4b83c63e364e9f6",
+    "g-bf38c28e483d20528a57",
+    "g-bf6a8363ce92b1338a70",
+    "g-c0605c49ccfb60934dad",
+    "g-c67a41bd6826004c18e3",
+    "g-c71756fcd130e3db1e3d",
+    "g-c78c9005e3d650e8e5a0",
+    "g-ca2a90d2585a95ee7206",
+    "g-cb09eeb1d4da7ed84257",
+    "g-cc6222bca21ee6bddaac",
+    "g-cc6a9ce31af14c660d84",
+    "g-ce524af392294ec3cd3c",
+    "g-cef746561a381cf6cd77",
+    "g-cfed327c90ca088e2d12",
+    "g-d0adb5aa71bf044e6d48",
+    "g-d43b1585be8a8a4c89bc",
+    "g-d62527d953947c090c35",
+    "g-d6af6806acd6b50ee22c",
+    "g-d7083cab17f88fdbec90",
+    "g-da6439fb8618e5472bbb",
+    "g-dd8e8f9abccdbd899843",
+    "g-e1bc580666df90577592",
+    "g-ea99f0a66cdb4aa939ee",
+    "g-eded2c513950cccea16b",
+    "g-f217f0f72b89d5a50308",
+    "g-f274af1b9de0462ac29c",
+    "g-f35945cd3c45c43e8b00",
+    "g-f42b0736cf8788874d11",
+    "g-f6d983491e03881a4262",
+    "g-f708361b6b695d8da7e7",
+    "g-f7e54669ef8828570749",
+    "g-ff6f3efa5874a9ad0e72",
+    "g-ff7c80056263f936b45e"
+  ],
+  "dev_groups_overlapping_cpt": {},
+  "dev75": [
+    {
+      "id": "dat07-existing-c54ed09efae0ca38cff22981",
+      "family": "roxygen_drafting",
+      "group_id": "g-4a9446af17f1a81e707e",
+      "package": "bigsimr",
+      "path": "R/bigsimr.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-152d62f7a57472f8abb30ca9",
+      "family": "roxygen_drafting",
+      "group_id": "g-01d2c25018a2f01919b5",
+      "package": "corHMM",
+      "path": "R/convertPhangorn.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-2838b904f1e44b7440e6da9f",
+      "family": "roxygen_drafting",
+      "group_id": "g-2742972e2fd3ac9725d9",
+      "package": "fplyr",
+      "path": "R/fdply.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-06847c759fd32bdf16f2e598",
+      "family": "roxygen_drafting",
+      "group_id": "g-3126f6c91cf1f68409c4",
+      "package": "kvh",
+      "path": "R/RcppExports.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-81ddc4c6ddd226b04dcf0910",
+      "family": "roxygen_drafting",
+      "group_id": "g-050aa6d4a3ba727c8382",
+      "package": "peRiodiCS",
+      "path": "R/b_rcs.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-5b5e844d3a8795c52149f848",
+      "family": "roxygen_drafting",
+      "group_id": "g-34ade3cb391ec7a1985c",
+      "package": "rmarchingcubes",
+      "path": "R/contour3d.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-06097c12b0328d475be857e1",
+      "family": "roxygen_drafting",
+      "group_id": "g-02eb617c06699c0d2a3b",
+      "package": "standrecon",
+      "path": "R/standrecon-internal-helpers.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-d38a792699b4cccded445dc0",
+      "family": "roxygen_drafting",
+      "group_id": "g-3c64879a01ce1c53a911",
+      "package": "TCpRepDesigns",
+      "path": "R/TCpRep1.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-92f6d09aad6ff785964e2165",
+      "family": "no_op",
+      "group_id": "g-cb0a43da986baf0a6df2",
+      "package": "AgriDataTools",
+      "path": "R/cluster_analysis.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-d566409e128abd081376e6fe",
+      "family": "no_op",
+      "group_id": "g-d054a98a7da3041fb83c",
+      "package": "AutoStrataK",
+      "path": "R/compare_sampling.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-78fef7317afd1406ca5f1e66",
+      "family": "no_op",
+      "group_id": "g-e10c0b09d1955bfe3e7a",
+      "package": "CFilt",
+      "path": "R/cosine.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-4a64017b69fe23f5b553fa27",
+      "family": "no_op",
+      "group_id": "g-4b7bb6dd597e7a3dd820",
+      "package": "clinicalomicsdbR",
+      "path": "R/clinicalomicsdbR.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-cd55b7ebb2f82f37cf26c07c",
+      "family": "no_op",
+      "group_id": "g-a5a370830b1f6f2f0b27",
+      "package": "combinedevents",
+      "path": "R/combined_events.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-ac3860bc0cf085337a0206d7",
+      "family": "no_op",
+      "group_id": "g-5b42564e2dd0a525734b",
+      "package": "connected",
+      "path": "R/functions.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-9494058d0f2c32bd40e17d3a",
+      "family": "no_op",
+      "group_id": "g-977538b535ef21b7897c",
+      "package": "Copula.Markov.survival",
+      "path": "R/ClaytonClayton.Weibull.MLE.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-d9011e8269f9e109350ffbcb",
+      "family": "no_op",
+      "group_id": "g-abf24091250d2663206f",
+      "package": "CSeQTL",
+      "path": "R/CSeQTL.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-070d33653640c346278add08",
+      "family": "no_op",
+      "group_id": "g-a7e1b84d23a4994c1809",
+      "package": "datazoom.social",
+      "path": "R/build_pnadc_panel.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-a1b63fee525fbc1373bb82c3",
+      "family": "no_op",
+      "group_id": "g-ac5545be832480efe5fc",
+      "package": "fqadata",
+      "path": "R/fqa_citations.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-7e51067ae755fcd8dcda1765",
+      "family": "no_op",
+      "group_id": "g-d94adf1b32509d274955",
+      "package": "ggplot2movies",
+      "path": "R/movies.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-cc5f7cc76a4d8f143a7e8ef9",
+      "family": "no_op",
+      "group_id": "g-7556cac6e106c8be5eef",
+      "package": "ggpointless",
+      "path": "R/aaa.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-4366811a0192d0049c0eeacf",
+      "family": "no_op",
+      "group_id": "g-b7f75be2d8830b108bea",
+      "package": "implied",
+      "path": "R/implied_odds.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-719cd49683667d0fb86fb2fa",
+      "family": "no_op",
+      "group_id": "g-462a60a60eec5be3dd51",
+      "package": "irtreliability",
+      "path": "R/reliability.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-d7da75be93bab6d10111259b",
+      "family": "no_op",
+      "group_id": "g-4c2e1c1dae4f75f47f30",
+      "package": "kyotil",
+      "path": "R/DMHeatMap.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-f6a8a2051155c52a8d33e635",
+      "family": "no_op",
+      "group_id": "g-d70db5c8837c38f413e2",
+      "package": "LSAfun",
+      "path": "R/coherence.r",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-a6adbbecf7f6bfdc07070036",
+      "family": "no_op",
+      "group_id": "g-8aa48bd8f2ae67931f56",
+      "package": "mcqAnalysis",
+      "path": "R/distractor_analysis.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-783c8b64bbb90fb346e9933b",
+      "family": "no_op",
+      "group_id": "g-90a9a2454c2f86644a86",
+      "package": "metasplines",
+      "path": "R/pool_splines.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-22326f07fea6ec393ce8ed8a",
+      "family": "no_op",
+      "group_id": "g-9f8bc4418cb4e38c9a8e",
+      "package": "mlr3forecast",
+      "path": "R/MeasureCoverage.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-e777f718a62393c54cb5cdbe",
+      "family": "no_op",
+      "group_id": "g-106c6a6d948fc2f2b960",
+      "package": "nhm",
+      "path": "R/fitting.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-151eae6df5ff101c98769017",
+      "family": "no_op",
+      "group_id": "g-81df7c881e4ee04e0cbc",
+      "package": "pciR",
+      "path": "R/pci.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-4d5f3a466c4585d1bf29d740",
+      "family": "no_op",
+      "group_id": "g-e7eef9c40b3b2b57bfbc",
+      "package": "pivmet",
+      "path": "R/piv_sel.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-84dc717a31f23eb207c5af0e",
+      "family": "no_op",
+      "group_id": "g-952211e43b4bf69ad5d5",
+      "package": "prqlr",
+      "path": "R/knitr-engine.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-f0ebef6d396b0f88f2448b2f",
+      "family": "no_op",
+      "group_id": "g-5761b747d3833001aa63",
+      "package": "quallmer.app",
+      "path": "R/qlm_app.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-8cd665881bea1be1e3bd6ef1",
+      "family": "no_op",
+      "group_id": "g-b8bbda55670d0027f62d",
+      "package": "rasterbc",
+      "path": "R/utils.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-a656f53717db8478d2e96eda",
+      "family": "no_op",
+      "group_id": "g-f5bd3bfb69322e2a3259",
+      "package": "responsePatterns",
+      "path": "R/rp.summary.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-bd6d83fcd62bc0beb70a2282",
+      "family": "no_op",
+      "group_id": "g-adab626e92345a0dcde5",
+      "package": "rsm",
+      "path": "R/varfcn.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-existing-acac075364038a6979bb0631",
+      "family": "no_op",
+      "group_id": "g-6b963193a0f74af2155d",
+      "package": "SCI",
+      "path": "R/distrstart.r",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-a7725c2dcd5b4df3dd45620c",
+      "family": "no_op",
+      "group_id": "g-8993f5ecdb48edeef3e0",
+      "package": "STDistance",
+      "path": "R/correlation_analysis.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-f6d615c5f4e7e1954bdbf727",
+      "family": "no_op",
+      "group_id": "g-6c3db5a528edbe7f4959",
+      "package": "swash",
+      "path": "R/swash.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-d1c76ba29b30040a7561ce3e",
+      "family": "no_op",
+      "group_id": "g-7ed003e3697af1a04f6c",
+      "package": "tidyplate",
+      "path": "R/tidy_plate.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07-derived-98b5639ff1cea02087e02cfc",
+      "family": "no_op",
+      "group_id": "g-0ba28e4ccfbcb6b37453",
+      "package": "trade",
+      "path": "R/TariffClasses.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-5c49c78fbd3c78577b0a7d6d8ed6",
+      "family": "rename_propagation",
+      "group_id": "g-a46a47b3fd7a2650df05",
+      "package": "actcd",
+      "path": "R/DistIdealPatt.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-bef80e810c7f6b6c8fef111586ca",
+      "family": "rename_propagation",
+      "group_id": "g-c73215d9c383d26be982",
+      "package": "adformr",
+      "path": "R/fetch_adform.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-8e11f3d5ada0943eb4208be4a089",
+      "family": "rename_propagation",
+      "group_id": "g-cb0a43da986baf0a6df2",
+      "package": "agridatatools",
+      "path": "R/cluster_analysis.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-50650d3337211ba95f955a267acb",
+      "family": "format_propagation",
+      "group_id": "g-cb0a43da986baf0a6df2",
+      "package": "agridatatools",
+      "path": "R/cluster_analysis.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-62d7578b316cb1f8beeff41aa00e",
+      "family": "rename_propagation",
+      "group_id": "g-7c1379793994cfb6c8f0",
+      "package": "annoprobe",
+      "path": "R/annoGene.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-ec0b2698480915b3942207179c9d",
+      "family": "format_propagation",
+      "group_id": "g-7c1379793994cfb6c8f0",
+      "package": "annoprobe",
+      "path": "R/annoGene.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-d6782a306bc4c889b8e04389a751",
+      "family": "rename_propagation",
+      "group_id": "g-d054a98a7da3041fb83c",
+      "package": "autostratak",
+      "path": "R/autostrata.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-b63821dac2506e8e617d989cdd67",
+      "family": "na_rm_propagation",
+      "group_id": "g-d054a98a7da3041fb83c",
+      "package": "autostratak",
+      "path": "R/evaluate_strata.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-cf94d967a08c2f37e67e4d678a31",
+      "family": "format_propagation",
+      "group_id": "g-d054a98a7da3041fb83c",
+      "package": "autostratak",
+      "path": "R/autostrata.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-a6c4252de9cc3691b0314d0a36e0",
+      "family": "rename_propagation",
+      "group_id": "g-01d545ae2de8a29fcd47",
+      "package": "b64",
+      "path": "R/alphabet.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-48b35fcee94a6d767a1acf49e495",
+      "family": "format_propagation",
+      "group_id": "g-01d545ae2de8a29fcd47",
+      "package": "b64",
+      "path": "R/alphabet.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-1136fd1f8ede92da225babc7eaf4",
+      "family": "rename_propagation",
+      "group_id": "g-4a9446af17f1a81e707e",
+      "package": "bigsimr",
+      "path": "R/bigsimr.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-71e37ff93807a117156d3772f173",
+      "family": "rename_propagation",
+      "group_id": "g-e8d64f9b8e00a5dd4552",
+      "package": "bioi",
+      "path": "R/euclidean_linker.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-a3532882e98a227a44eb5536c0fb",
+      "family": "format_propagation",
+      "group_id": "g-d5862ef9303cc6ec8ccf",
+      "package": "bsicons",
+      "path": "R/bs-icon.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-3d06cbc3baf45cbd4418eaec21ff",
+      "family": "format_propagation",
+      "group_id": "g-e6b993a59a49e0d73bca",
+      "package": "calibratessb",
+      "path": "R/CalibratePackageReGenesees.r",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-db2bda9be7fd0bb444e22a4fa7f0",
+      "family": "format_propagation",
+      "group_id": "g-36902bd767688c75fd4d",
+      "package": "calibrator",
+      "path": "R/calibrator.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-954d1d6fbaea918724e00526f2a8",
+      "family": "pipe_rewrite",
+      "group_id": "g-4b7bb6dd597e7a3dd820",
+      "package": "clinicalomicsdbr",
+      "path": "R/clinicalomicsdbR.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-e13c7eedddba913e470370c893b4",
+      "family": "pipe_rewrite",
+      "group_id": "g-a5a370830b1f6f2f0b27",
+      "package": "combinedevents",
+      "path": "R/marks.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-8bcc168b178888b9193616f3db54",
+      "family": "pipe_rewrite",
+      "group_id": "g-5b42564e2dd0a525734b",
+      "package": "connected",
+      "path": "R/functions.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-66b278b7ffbb79051ec30473f3b9",
+      "family": "pipe_rewrite",
+      "group_id": "g-c5608aa9fd9c6407eb6f",
+      "package": "consortr",
+      "path": "R/app.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-ca348985932068b9dc50ea2f89e8",
+      "family": "pipe_rewrite",
+      "group_id": "g-ad4c46314822a0cc1dfe",
+      "package": "covid19br",
+      "path": "R/utils.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-8b40f50940c420196894f8e6652d",
+      "family": "pipe_rewrite",
+      "group_id": "g-1c20322d6dfad87b33f5",
+      "package": "crosscarry",
+      "path": "R/CrossGEE.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-1a9f4de9440d145ac737d184542b",
+      "family": "pipe_rewrite",
+      "group_id": "g-a7e1b84d23a4994c1809",
+      "package": "datazoom.social",
+      "path": "R/build_pnadc_panel.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-a54a87953098c0a2ab9ee558e0f8",
+      "family": "pipe_rewrite",
+      "group_id": "g-ecdfe97946f4bb0c2257",
+      "package": "fdapaceshiny",
+      "path": "R/mod_FCR_model_box.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-d159f76cc8104b7c64731bc5f748",
+      "family": "na_rm_propagation",
+      "group_id": "g-bbd4ebc786222ade9d1c",
+      "package": "gwqs",
+      "path": "R/gwqs.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-0e0546346b73ee0569489171b27d",
+      "family": "na_rm_propagation",
+      "group_id": "g-85f5690ef9c990fae9c1",
+      "package": "ibdinfer",
+      "path": "R/IBDInfer.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-e6909cb5da7f9dfa8165eeafd022",
+      "family": "na_rm_propagation",
+      "group_id": "g-8aa48bd8f2ae67931f56",
+      "package": "mcqanalysis",
+      "path": "R/mcq_analysis.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-75f4fdee3720dfe620cdcba4f220",
+      "family": "na_rm_propagation",
+      "group_id": "g-3eb0e69125cfb68fc9ed",
+      "package": "quantreg",
+      "path": "R/quantreg.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "dat07p-337812a6401193db81d292006ec5",
+      "family": "na_rm_propagation",
+      "group_id": "g-8993f5ecdb48edeef3e0",
+      "package": "stdistance",
+      "path": "R/plot_distances_boxplot.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "e623a61b5a4c066358a477f2",
+      "family": "finish_block",
+      "group_id": "g-0526e868172e6fde7b3a",
+      "package": "netassoc",
+      "path": "R/generate_nul_resample.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "4f08633513b5c525240d2540",
+      "family": "finish_block",
+      "group_id": "g-48ce063e322d56ee9d2c",
+      "package": "rlecuyer",
+      "path": "R/rlecuyer.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "d11581e9cfa4e3971aa1466e",
+      "family": "finish_block",
+      "group_id": "g-a7568d9684c2b4ff0e11",
+      "package": "semnetdictionaries",
+      "path": "R/utils-SemNetDictionaries.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "157517ba47dbab157f7c361a",
+      "family": "finish_block",
+      "group_id": "g-acc7e17bde8ec49ad33f",
+      "package": "partitions",
+      "path": "R/partitions.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "f43de3e77f2d92ed7b223464",
+      "family": "finish_block",
+      "group_id": "g-d054a98a7da3041fb83c",
+      "package": "autostratak",
+      "path": "R/autostrata.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    },
+    {
+      "id": "04834fef4fe59742f13677a9",
+      "family": "finish_block",
+      "group_id": "g-f0c43c48184e4d534799",
+      "package": "regmed",
+      "path": "R/mvregmed.graph.attributes.R",
+      "group_overlaps_cpt": false,
+      "document_in_cpt": false,
+      "document_hits": {
+        "by_hash": [],
+        "by_package_path": []
+      }
+    }
+  ],
+  "dat07_dev_snapshots_in_cpt": [
+    {
+      "id": "dat07-derived-c3a87f6c8111fb87a6c09cbd",
+      "package": "spatialreg.hp",
+      "document_hits": {
+        "by_hash": [
+          "1241af42e7cc7b1f3272eae77e38982e12c8696f6cc9400530dacc45c3288ff2"
+        ],
+        "by_package_path": []
+      }
+    }
+  ]
+}

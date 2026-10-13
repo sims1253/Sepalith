@@ -1,0 +1,175 @@
+{
+  "candidate": {
+    "kernel": "m0hawk/sepalith-infer-c03-parent-dev75-fp16-b32-r2",
+    "receipt": "receipts/C03-kaggle-parent-dev75-fp16.json",
+    "runtime": {
+      "accelerate": "1.14.0",
+      "huggingface_hub": "1.29.0",
+      "python": "3.13.15",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.5.0"
+    },
+    "settings": {
+      "attention": "sdpa (transformers default)",
+      "batch_size": 32,
+      "decoding": "greedy",
+      "dtype": "fp16",
+      "kv_cache": "dynamic",
+      "max_new_tokens": 1024,
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "pad_token_id": 1,
+      "padding_side": "left",
+      "pytorch_cuda_alloc_conf": "expandable_segments:True",
+      "stop_ids": [
+        1,
+        130073
+      ],
+      "work_split": "whole global batches per shard and worker"
+    }
+  },
+  "card_checks": {
+    "dev75_counts_within_1": false,
+    "identity_at_least_90pct": false,
+    "no_nonfinite": true,
+    "prompts_identical": true
+  },
+  "context": {
+    "parent_runs_on": "64 of 75 PC and 67 of 75 Kaggle cases hit the 1,024 cap without a stop token, so this measures drift in run-on text; valid, edit and nofp are 0 on both sides",
+    "pc_bf16_batch1_vs_batch32_identity_on_parent": "54% (night 1, C07 validation): bf16 batch composition alone changes about half the parent's run-on outputs"
+  },
+  "first_divergence_positions": [
+    0,
+    16,
+    18,
+    22,
+    23,
+    23,
+    24,
+    28,
+    29,
+    30,
+    33,
+    34,
+    34,
+    42,
+    46,
+    66,
+    67,
+    69,
+    77,
+    83,
+    99,
+    116,
+    117,
+    158,
+    165,
+    182,
+    238,
+    271,
+    301,
+    323,
+    431,
+    601
+  ],
+  "gpu_hours": {
+    "failed_attempt": 0.14,
+    "this_run": 0.21
+  },
+  "identity": {
+    "cases": 75,
+    "extra_in_candidate": [],
+    "first_divergence": {
+      "max": 601,
+      "median": 66.5,
+      "min": 0
+    },
+    "identical": 43,
+    "identity_rate": 0.5733333333333334,
+    "missing_in_candidate": [],
+    "prompt_mismatches": []
+  },
+  "nll": {
+    "kaggle_fp16": {
+      "prompt": 1.3071365432382729,
+      "target": 1.3555032914617786
+    }
+  },
+  "nonfinite": {
+    "calls_with_nonfinite_logits": 0,
+    "nll_finite": true
+  },
+  "purpose": "Informative pre-check, not the card's parity receipt: Kaggle fp16 vs the night's PC bf16 baseline on parent 11,586 DEV75, both at the bound batching (batch 32, dynamic cache, cap 1,024). The card's parity run adds the 200 TRAIN prompts and the SFT gate-268 checkpoint once the night references exist.",
+  "r1": {
+    "candidate": {
+      "cap": 67,
+      "edit": 0,
+      "nofp": 0,
+      "valid": 0
+    },
+    "cases": 75,
+    "difference": {
+      "cap": 3,
+      "edit": 0,
+      "nofp": 0,
+      "valid": 0
+    },
+    "per_case_agreement": {
+      "cap": 72,
+      "edit": 75,
+      "nofp": 75,
+      "valid": 75
+    },
+    "reference": {
+      "cap": 64,
+      "edit": 0,
+      "nofp": 0,
+      "valid": 0
+    },
+    "within_tolerance": false
+  },
+  "reference": {
+    "device": "RTX 5090, bf16, torch 2.11.0+cu130",
+    "result": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-parent-11586-baseline/dev-dev75-step-0.20261012T042711-411294149.json",
+    "settings": {
+      "batch_size": 32,
+      "cap": 1024,
+      "dtype": "bf16",
+      "kv_cache": "dynamic"
+    }
+  },
+  "same_batching": true,
+  "schema": "sepalith.c03.parity-precheck.v1",
+  "throughput_t4_fp16": {
+    "note": "batch 0 = the 32 longest DEV75 prompts (1,507 to 2,619 tokens); it first failed with CUDA OOM on fragmentation (kernel sepalith-infer-c03-parent-dev75-fp16-b32, 0.14 GPU-h) and passed with PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True at 12.5 GiB peak of 14.6",
+    "peak_allocated_gib": [
+      12.46,
+      8.96
+    ],
+    "per_batch": {
+      "0": {
+        "cases": 32,
+        "generation_seconds": 535.8,
+        "max_generated_tokens": 1024,
+        "seconds_per_decode_step": 0.5233
+      },
+      "1": {
+        "cases": 32,
+        "generation_seconds": 363.9,
+        "max_generated_tokens": 1024,
+        "seconds_per_decode_step": 0.3554
+      },
+      "2": {
+        "cases": 11,
+        "generation_seconds": 76.7,
+        "max_generated_tokens": 1024,
+        "seconds_per_decode_step": 0.0749
+      }
+    },
+    "worker_tokens_per_second": [
+      61.987783766061355,
+      76.65473423117146
+    ]
+  }
+}

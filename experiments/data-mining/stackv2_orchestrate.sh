@@ -6,7 +6,7 @@ set -u
 BPID="${1:-}"
 LOGROOT=/mnt/h/sepalith/stack_staging/logs
 cd /home/m0hawk/Documents/Sepalith
-eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
+eval "$(grep -E '^export HF_TOKEN=' ~/.config/sepalith/secrets.env)"
 
 log() { echo "$(date +%H:%M:%S) ORCH $*" | tee -a "$LOGROOT/orchestrator.log"; }
 

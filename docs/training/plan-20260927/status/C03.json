@@ -1,0 +1,68 @@
+{
+  "card": "C03",
+  "state": "needs_user",
+  "updated": "2026-10-12T09:25:00+02:00",
+  "branch": "plan/C03-kaggle-inference",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/55",
+  "merges_after": ["#41 (C05)", "#45 (C04)", "#52 (C07 batched eval)"],
+  "outputs": {
+    "harness": {
+      "entry": "scripts/kaggle/infer_entry.py",
+      "driver": "scripts/kaggle/infer_push.py",
+      "docs": "scripts/kaggle/README.md (scripts/cloud/README.md marks the old driver historical)",
+      "engine": "transformers through campaign_eval (development_evaluator for DEV panels, batched_greedy_generate for prompt files, plus seeded sampling with k samples). vLLM not used: the gates and baseline are bound to the evaluator's batching (batch 32, length-descending order, left pad 1, dynamic cache), batch composition alone moves bf16 outputs (54% identity batch 1 vs 32), and vLLM's continuous batching cannot reproduce it.",
+      "model_sources": "hf:<repo>/<folder>, kaggle:<owner>/<slug>[/dir] (attached automatically), path:",
+      "work_split": "whole global batches: batch b -> shard b % shard_count -> worker j % workers; --workers 2 runs both T4s as independent processes",
+      "code_delivery": "GitHub codeload tarball at the pushed commit, checked against a sha256 digest of packages/sepalith/src and infer_entry.py computed from git by the driver",
+      "secrets": "none in the kernel (the driver refuses token-like strings); public HF reads need no token; uploads (--upload-hf) run on the PC with the hf login. Kaggle CLI 2.2.4 authenticates with KAGGLE_API_TOKEN (KGAT_) from the environment; the driver reads it from ~/.config/sepalith/secrets.env into the CLI subprocess only.",
+      "quota": "kaggle quota before and after each run; push refused (exit 3) if used + estimate > 20 GPU-h; ledger ~/.local/state/sepalith/kaggle/quota-ledger.jsonl",
+      "tests": "packages/sepalith/tests/training/test_kaggle_inference.py (12 tests: batch-granular split keeps PC batches, 2 workers == 1 worker in prompts and panel mode, sampling determinism, input refusals, TRAIN selection, comparison verdicts, kernel packaging). check_training 123 OK, check_core 78 OK, check_quality clean.",
+      "cpu_end_to_end": "infer_entry.py on the real parent on CPU (fp32, 3 cases, cap 4) in panel, greedy-prompts and sampled-prompts modes; parity_references.py --inner on CPU with the real parent and gate-268 weights (3 DEV75 cases, 3 TRAIN prompts, cap 4, CUDA calls stubbed)"
+    },
+    "kaggle_smoke": {
+      "receipt": "docs/training/plan-20260927/receipts/C03-kaggle-smoke.json",
+      "kernel": "m0hawk/sepalith-infer-c03-smoke-20261012",
+      "job": "public parent 11,586 from HF, 10 DEV75 cases (seed 3407) from the public HF panel, fp16, cap 128, batch 5, both T4s (one batch each)",
+      "result": "complete; session 2.5 min (pip 19 s, code 3 s, entry 102 s incl. 5 GB download and sha256 check); 0 non-finite logits; NLL finite; 9 of 10 cap hits",
+      "image": "Python 3.13, torch 2.11.0+cu128, 2x Tesla T4 15,360 MiB, driver 580.178.04; pinned transformers 5.5.0, tokenizers 0.22.2, accelerate 1.14.0",
+      "gpu_hours": 0.04
+    },
+    "parent_dev75_precheck": {
+      "receipt": "docs/training/plan-20260927/receipts/C03-parent-dev75-parity-precheck.json",
+      "run_receipt": "docs/training/plan-20260927/receipts/C03-kaggle-parent-dev75-fp16.json",
+      "kernel": "m0hawk/sepalith-infer-c03-parent-dev75-fp16-b32-r2",
+      "what": "informative, not the card's parity receipt: full DEV75 on the parent in fp16 at the bound batching, compared with the night's bf16 batch-32 baseline",
+      "result": "43/75 token-identical (57%), first divergence median 66 (min 0, max 601); valid 0/0, edit 0/0, nofp 0/0, cap 67 vs 64 (+3); prompts identical; 0 non-finite; NLL prompt 1.307, target 1.356. Comparable to the PC's own bf16 batch-1 vs batch-32 identity (54%): on the parent this measures run-on drift.",
+      "oom": "first attempt (kernel ...-fp16-b32, 0.14 GPU-h) hit CUDA OOM in the batch-0 prefill (32 rows padded to 2,619 tokens) on fragmentation; fixed with PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True (allocator only), peak 12.5 GiB of 14.6",
+      "gpu_hours": 0.35
+    },
+    "throughput_t4_fp16_batch32": {
+      "seconds_per_decode_step": {"32 rows, prompts 1,507-2,619": 0.523, "32 rows, prompts 347-1,455": 0.355, "11 rows, prompts 132-333": 0.075},
+      "tokens_per_second": "62 to 77 per T4, 106 per two-T4 session (parent, all rows to the cap)",
+      "pc_5090_bf16_for_comparison": "0.066 to 0.104 s per step at batch 32 (night 1)",
+      "census_projection": "C12 = 15,006 prompts x 8 samples = 120,048 rows = 3,752 batches of 32 rows. Static batches run until their longest row ends; gate 268 hits the cap on 8% of DEV250 rows, so nearly every 32-row batch runs to 1,024 steps. At about 0.25 s per step (TRAIN prompts are shorter than DEV75's: median 426 tokens): about 267 T4-hours, 133 session-hours with both T4s; about 67 session-hours if batches averaged 512 steps. That is 3 to 7 weeks of the R7 20 GPU-hour budget: the card's stop-for-user condition."
+    },
+    "parity_references_job": {
+      "job": "docs/training/plan-20260927/c03/jobs/C03-parity-references.json (priority 50, not resumable, 60 min estimate, 90 min guard; validated with night_queue.validate_job)",
+      "script": "docs/training/plan-20260927/c03/parity_references.py (+ c03/train_prompts.py)",
+      "enqueue": "cd /home/m0hawk/sandbox/Sepalith && PYTHONPATH=packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file docs/training/plan-20260927/c03/jobs/C03-parity-references.json",
+      "requires_in_night_checkout": "docs/training/plan-20260927/c03/{parity_references.py,train_prompts.py,jobs/C03-parity-references.json}; uses only package code already on night/c07-integration-2 (campaign_eval batched path, recipe_v2, cuda_host_guard)",
+      "produces": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C03-parity-references/<attempt>/references.json; per model (parent-11586, lr1e-5-gate-268): dev75.cases/cases.json, dev75-generations.jsonl, train200-generations.jsonl; the prompts file c03-train200-seed3407.jsonl; DEV75 run-to-run identity against the night's own results",
+      "train_prompts": {"sha256": "3a99e2ad6a6b04995cd52a2614d67e13e31ba8e30eae2d2fc4a6d502ff250dc2", "quota": {"finish_block": 104, "pipe_rewrite": 26, "format_propagation": 21, "rename_propagation": 21, "no_op": 15, "roxygen_drafting": 11, "na_rm_propagation": 2}, "prompt_tokens": {"min": 126, "median": 426, "max": 2371}, "source": "DAT10-finish-source-repair-v3/train-token-rows.jsonl sha256 3f551c44..."}
+    },
+    "comparison": "docs/training/plan-20260927/c03/compare_parity.py: exact identity, first divergence, prompt identity, DEV75 R1 counts and per-case agreement, non-finite check, batching check (different batching -> not comparable), card verdict",
+    "gpu_hours_week": {"used": 0.39, "refresh": "2026-10-17T00:00:00Z", "runs": {"smoke": 0.04, "dev75 OOM attempt": 0.14, "dev75 rerun": 0.21}},
+    "hf_uploads": "none",
+    "follow_ups": [
+      "After the night job: upload c03-train200-seed3407.jsonl and the reference generations (not weights) to datasets/scholzmx/sepalith campaign-20260915/C07/parity-references/ in one commit",
+      "Kaggle parity runs for parent 11,586: --panel dev75 and --prompts <HF prompts file>, fp16, batch 32; then compare_parity.py",
+      "The gate-268 weights are not public, so Kaggle cannot run the representative SFT parity without a user decision (see notes)",
+      "Upload the Kaggle run outputs to campaign-20260915/inference/<run-id>/ (infer_push.py --upload-hf, or batched with the references)"
+    ]
+  },
+  "rule_decisions": [
+    {"rule": "R7", "inputs": {"kaggle_gpu_hours_used_this_week": 0.39, "limit": 20}, "outcome": "within limit"}
+  ],
+  "question_for_user": "With the bound-batching transformers path, Kaggle T4s generate about 106 tokens/s per two-T4 session, so the C12 census (15,006 prompts x 8 samples, cap 1,024) projects to about 67 to 133 Kaggle GPU-hours, or 3 to 7 weeks of the 20 GPU-hour R7 budget. Which way should C12 go? Recommended: allow one bounded Kaggle trial (at most 1 GPU-hour) of vLLM with CUDA graphs and continuous batching for the census only. It would get its own fp16 parity check against the same bf16 references; the bound-batching path stays the parity and evaluation reference. If vLLM cannot reach about 5x, reduce the census (for example 4 samples and cap 512). Colab free has the same T4 class and does not change the arithmetic.",
+  "notes": "Harness, smoke and parity tooling are done; the card's parity receipt waits for the night reference job. The parent pre-check (57% identity, cap +3) does not meet the card's 90%/within-1 criteria, but it measures run-on drift: the PC's own bf16 batch-1 vs batch-32 identity is 54%. The representative check is the SFT checkpoint, whose outputs are short (median 26 tokens on DEV75). Kaggle can only read it if its weights are made readable there, for example a private Kaggle dataset (the user said not to upload it anywhere today), or by running parity on the arm-A model once R8 publishes it. fp32 fallback: weights alone are 10 GB in fp32, so batch 32 with DEV75's longest prompts will not fit a T4; an fp32 run would need smaller batches and so different batching than the PC references."
+}

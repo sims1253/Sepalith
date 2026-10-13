@@ -1,0 +1,85 @@
+{
+  "files": [
+    {
+      "bytes": 821,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/README.md",
+      "sha256": "dab5fe9d9d0aefb0cfcb597ac9ac4ad07f2436d5042422d438660c4967c21a4b"
+    },
+    {
+      "bytes": 1805,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/account-refresh.json",
+      "sha256": "a98e99e2a738ae3a998edd5639bb4f9d228fb5a37ededf7721a4d3e473ae4d5a"
+    },
+    {
+      "bytes": 5914,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/feasibility.json",
+      "sha256": "d817c74b423ad3b10d709414e90e8b2cd276e6859346cfb48a9a30f0c7880a2e"
+    },
+    {
+      "bytes": 364,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/jobs-refresh.json",
+      "sha256": "8f768912b5aeba17cc043929a7d00e74abd9dcf0bf25779847ed9c6b3177a88d"
+    },
+    {
+      "bytes": 2088,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/read_only_jobs_probe.py",
+      "sha256": "5c47a9c9952e601c163432fc6923f6f9f4a5867333696bd610e080ff12ecbd63"
+    },
+    {
+      "bytes": 949,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/test_feasibility.py",
+      "sha256": "9a78bb1a49176b9813df9cf778a925dab0cd74f21e3e2f8be62158bf81c4e6b1"
+    },
+    {
+      "bytes": 1046,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/test_read_only_jobs_probe.py",
+      "sha256": "4c2219fcbe9f450e130de75244860b2796bf1cbe8855ad0d5fa463052e3b02f9"
+    },
+    {
+      "bytes": 2363,
+      "path": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1/usage-refresh.json",
+      "sha256": "791a72acfb94b06f544c784343794987fb699fde0a490717e5dfab642a6e7ff9"
+    }
+  ],
+  "input_references": [
+    {
+      "path": "docs/campaign/receipts/PRE-04-cloud-budget-reconciliation-root.json",
+      "sha256": "8f2c4e9e9554cbbdbac06961cf9b54f1093205731f897d31be0421f93df9d051"
+    },
+    {
+      "path": "docs/campaign/receipts/PRE-04-anyscale-large-vram-v3-review.json",
+      "sha256": "d8bdee19be18ed84bc12e6e9fecdf45bfaf5251243704eea151647a253ec3e12"
+    },
+    {
+      "path": "docs/campaign/receipts/SFT-11-full-weight-CPT-16k-root-readout.json",
+      "sha256": "f84b231572107d1c3c60022c039b71130e1536143af2c36971b133524ff6d436"
+    },
+    {
+      "path": "docs/campaign/receipts/SFT-11-full-weight-CPT-16k-accumulation-root-readout.json",
+      "sha256": "09a3e8c4876d7c2e5ff95d4232661674f8467153cd690d7fbb95a09fa7f39a6a"
+    },
+    {
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v3/sdk-surface.json",
+      "sha256": "e10c99383b9718afb36e6067489a4328a6b43735ddf7b987f07e61089712c568"
+    },
+    {
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v3/official-evidence.json",
+      "sha256": "883a80e6695fd828771d2cabda302378bc6ef77c8abc380d652580ba719c7284"
+    },
+    {
+      "path": "docs/campaign/work/lead/r2-anyscale-large-vram-admission-v3/targeted_account_probe.py",
+      "sha256": "accb45e532ee9c35f426bec091b3fcfc2068131d435e596fec940a233fcf750e"
+    },
+    {
+      "path": "docs/campaign/work/lead/r2-anyscale-long-context-cost-v1/billing_probe.py",
+      "sha256": "d3fee60b7cfef5d298b5b05815691eea5d8fdc0aba6294082c0e671c801cef47"
+    }
+  ],
+  "installed_sdk": {
+    "default_api_path": "/home/m0hawk/.local/share/uv/tools/anyscale/lib/python3.14/site-packages/anyscale/client/openapi_client/api/default_api.py",
+    "default_api_sha256": "759eef1d9ebec40ade3f92356392ebf466642df0f45422c7437a76b689dc397d",
+    "version": "0.26.108"
+  },
+  "packet": "docs/campaign/work/lead/r2-anyscale-full-weight-feasibility-v1",
+  "schema": "sepalith.artifact-manifest.v1"
+}

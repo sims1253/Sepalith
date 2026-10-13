@@ -1,0 +1,123 @@
+{
+  "files": [
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_checkpoint.cpython-310.pyc",
+      "sha256": "34e7d3cbb8f52d51dc7937ad71f9656089d70ddcd33a89e60cab4ac95bd1eeac"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_control.cpython-310.pyc",
+      "sha256": "5950d7b05bd0418b53062e2b335fad90b2d278d9e424b7914efb59d1364a8f13"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_expanded_sft.cpython-310.pyc",
+      "sha256": "1f3f42f2ce69390d00b540362a7f878561aa841defa38b88ca1c07114345cbda"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_launch.cpython-310.pyc",
+      "sha256": "0fce8b445dba3b9c612c435b1206b7b67357bdabdd4f0a17029c29e57e3c8351"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_sft.cpython-310.pyc",
+      "sha256": "7c7e48f6ae70be30c3538c9621797eefd6ae61edad521c24b3ddefffea9c6f3c"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_sft_data.cpython-310.pyc",
+      "sha256": "1be00aac7ce7998095568957f35b2fcaa1ad5782c48799347c2b84593c72bf3f"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_task_sft.cpython-310.pyc",
+      "sha256": "83341157112a5fab93bbb663eca442f7d83ba443854aead7cd60d48d3db070bc"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/campaign_tokenizer_contract.cpython-310.pyc",
+      "sha256": "416138018b84f21a3e65954dc9b2bee16d14952e3a9ad3842eda9e18601ec124"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/__pycache__/target_only_gate.cpython-310.pyc",
+      "sha256": "780883583140b491b10b5c7d3e18c8ec57e38ebd0528caf9e18782d4ce57e6fc"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_eval.py",
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_expanded_sft.py",
+      "sha256": "80598c908c46948d12948ca9409d5518ba30090591b52cd66bf8f142acd21d70"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_launch.py",
+      "sha256": "44fa334d91af14f3c17efc8d20e6200a818a3d2bdd5394504d7755c6675a4189"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_sft.py",
+      "sha256": "62009e1c026ae2dcc64a651fff5fc38e414770ed7f98394b02ae21a5478fdd35"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_task_sft.py",
+      "sha256": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/target_only_gate.py",
+      "sha256": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/__pycache__/__init__.cpython-310.pyc",
+      "sha256": "da74990d47b7a039d2922ccb3a7e11f514bf3b0e9670b6790ed8b40c84b1d738"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/__pycache__/campaign_protocol.cpython-310.pyc",
+      "sha256": "eff63d1ca7c8f1ffba33c38c17b12934330e0a07928be841b1c6b61e9730029a"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "id": "2d659de02afc205588f5c2417e32032a96b677871eb7ef5379085f10cc8de48f",
+  "predecessor_source": "56132b2fd3b21cef88043cff5ea2b1f4db7495a481f3b0d0a7485a5ee3584676",
+  "schema_version": 1,
+  "status": "prepared_not_snapshotted_or_launched"
+}

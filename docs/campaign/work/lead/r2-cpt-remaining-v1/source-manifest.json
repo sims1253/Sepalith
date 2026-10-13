@@ -1,0 +1,84 @@
+{
+  "files": [
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt.py",
+      "sha256": "a53ae739ac7e47d2e3b0ce707334626d2b992c13899059574b4bf88e2c8809cb"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt_eval.py",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_cpt_parent.py",
+      "sha256": "9d1de10e0df508ae5e665e3cb32a3457bb8105d62b61333c46684928c503f303"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_launch.py",
+      "sha256": "c54e97c8f31f61eaba8781c757fe5bfbcbbe8891ed8c9c4c583db19b37265905"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_sft.py",
+      "sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/merge_cpt_cpu.py",
+      "sha256": "743a1cff106db4c26793ab34edd15c55baa9c0266814d49c6ddff79894ed8d78"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/target_only_gate.py",
+      "sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91"
+    },
+    {
+      "mode": 292,
+      "path": "experiments/training/test_cpt_remaining_contract.py",
+      "sha256": "225a818fa7e38eaa663175ef31966fd52633bee05e212c36702c723623c74561"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "mode": 292,
+      "path": "packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "git_head": "a1736d0cf1c5a33b0beac87256444187e0302ce6",
+  "id": "7e4e80059416b3783c783a532d95b40af6067076e7a0a23d64e3b571f478c9df",
+  "predecessor_source": "aaacb632811c5a4639fefe52023e72b72e2b960523dbffe10d0187fd6cef8da8",
+  "schema_version": 1,
+  "status": "prepared_root_snapshot_required"
+}

@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "status": "not_launch_admitted",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/ROOT-LAUNCH.md",
+      "bytes": 9300,
+      "sha256": "3c92cae8eb1351f9dc9902b4f46d05b86c2e59f0de7f55b34c8ee7607fe4b1a2"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/anyscale-account.json",
+      "bytes": 534,
+      "sha256": "990f0e23e7d1a8a2f135c370efb0dd57d7a238b0fc2c07f74868e2aae51f49c3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/anyscale-fleet.json",
+      "bytes": 217,
+      "sha256": "4b90ddb1ef4cc63fa80dca7fa784992664f8081e02946baf039699b161acfbc3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/anyscale-other-workloads.json",
+      "bytes": 1007,
+      "sha256": "3533017686875b330d4340a98528c05c8dad405f84320ed4c27a801c29bc7734"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/anyscale-workspaces.json",
+      "bytes": 294,
+      "sha256": "a5761e08a9a511c8e200b3fb3fd2fa2bf7258d17c69dc1b72b8b8f9b78bb208f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/anyscale_jobs.json",
+      "bytes": 4637,
+      "sha256": "9642e24fd4915b50208cba7a461f6de190ce8a7e19b0a22f887c2d161573f00a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/anyscale_quota.json",
+      "bytes": 286,
+      "sha256": "afdf35bf0e83e63082cbb54a5e4fa3b0e88171be5f5de4c288a73705127aa86a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/azure_eastus.json",
+      "bytes": 2562,
+      "sha256": "7a26b2759bba1f177aba382c4e581a2d08479f8f251c0208d80c2fab0c8e7597"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/azure_northeurope.json",
+      "bytes": 2572,
+      "sha256": "24286df5650237971276332951a8bc13402239aebcba0607f7ec15f07c6b9e93"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/deadline_watchdog.py",
+      "bytes": 3901,
+      "sha256": "3cb42137fef07301a8fcc96191d41a3efdc7bba4283d0c1faf3a9c9b891a31a5"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/hf-artifact-access.json",
+      "bytes": 286,
+      "sha256": "4afea0b595baa856537883d95dc72ed790068f85fa7c6551a2e0b31095dcbd15"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/input-pins.json",
+      "bytes": 2263,
+      "sha256": "6ac57a9f5a7315570f989e84081fcb8ec0f6d14e9de9c9f5c4658d8c48a243cb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/job-schema-check.json",
+      "bytes": 208,
+      "sha256": "1e2508970eac163bd13ef6470d6fbc3f41c1ae74a25b4ecfae11e1ca17c20aba"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/job-template.yaml",
+      "bytes": 681,
+      "sha256": "331d258d1eac1ed85338211d012cbded5423c0fcfb425448dcdfce465227bc2d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle-live-access.json",
+      "bytes": 18976,
+      "sha256": "296ece487dc1f2b0c52451e213d8f7856567a11486aef0a97be7692a7062d19c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle-private-dataset-complete.json",
+      "bytes": 391,
+      "sha256": "5f6d5845ab06152b8de9dc44b45b847f3b3869142f445af7108d99f479b3a799"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle-private-dataset.json",
+      "bytes": 158,
+      "sha256": "2680dfbb63105c0decc6fea189af38d1b056b92f0cca167766659350685c664a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle_dataset.json",
+      "bytes": 284,
+      "sha256": "14a68ae478df27f228c58d8fec95dcaa4755676ad18083afbc442747142dc49d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle_kernel_outputs.json",
+      "bytes": 265,
+      "sha256": "af2cf953a417280b31d5fdad88ae6afaa4f7f538266f83fa57426770de8a0cc1"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle_kernels.json",
+      "bytes": 5645,
+      "sha256": "902c0c7ed91211a0a3df69c61758d8ad14837cd7029a71c6f1437bd9815509a8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/kaggle_quota.json",
+      "bytes": 406,
+      "sha256": "e9f59c8e74c8d5c59bcc905efab6cffdb80f0ef1cfe393addaf182dfae5de4af"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/local-training-package-metadata.json",
+      "bytes": 558,
+      "sha256": "bf11f6dbc873811e4913a8351d7f20762215baf96aad55d5388b2b1f02310c76"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/summary.json",
+      "bytes": 2904,
+      "sha256": "c55065cd0df4366a0c393bcdf388497c38656ac01478d09eccbebde798269f02"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/test_deadline_watchdog.py",
+      "bytes": 2172,
+      "sha256": "bd2f1fcde2682617f4d1c620307a37efe2c9507bda929c09586a0c3e01d2fe49"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/trainer-source-replay.json",
+      "bytes": 6118,
+      "sha256": "17757bede09cb49bc5b912c64facb214a4d83e1ce500af013a5771cb0fa0079f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cloud-admission-v1/watchdog-tests.log",
+      "bytes": 599,
+      "sha256": "134e19fc519ac4fff84c8112e5b85a972bfd62f08ae217eba1931006bd2b106b"
+    }
+  ]
+}

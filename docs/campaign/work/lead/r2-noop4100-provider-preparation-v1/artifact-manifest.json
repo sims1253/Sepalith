@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "bytes": 1790,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/README.md",
+      "sha256": "742faffc06994892d0fc1aaf1be52175e863529848237c5c64936673dce97279"
+    },
+    {
+      "bytes": 1895,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/commands.json",
+      "sha256": "c660bd3ef96a16c251331fd1bac65bda7a5aa1c35b6fa1e05f8b9d96c0c6ee88"
+    },
+    {
+      "bytes": 431,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/materialization-gate.json",
+      "sha256": "97b789fea638d87190c28916f3d767e6c1f4cc6d7e8e3e18ba354ddcfe6c4bd8"
+    },
+    {
+      "bytes": 3132,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/source-manifest.json",
+      "sha256": "e574f75f845f11d3164853296a8da028edb335f65d37d03623435221a6e5888c"
+    },
+    {
+      "bytes": 10823,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/test-results.log",
+      "sha256": "3e39fb3c32114ffd6e92ff0cd2d905a603820f392d6915727ee215b383e4dc7d"
+    },
+    {
+      "bytes": 12905,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-noop4100-provider-preparation-v1/tests/test_provider4100.py",
+      "sha256": "bcbc7571a3d785098b5c8b2783d304b85cf73cc410626670ddeecf1bec8e1991"
+    }
+  ],
+  "schema": "sepalith.dat10.noop4100.provider-artifacts.v1"
+}

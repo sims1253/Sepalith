@@ -1,0 +1,9 @@
+# Full-corpus full-weight CPT trainer preparation
+
+This fresh source closure integrates the disk-backed streaming cache into the proven full-weight CPT path. It does not modify the active representative v3 run. The template leaves the full corpus, data admission, cache, parent, learning rates, warmup, checkpoint cadence, and evaluation gates unset and cannot launch.
+
+A root admission must name `complete_admitted_train_corpus`, bind the immutable rows, draw schedule, terminal materialization/dedup manifest, data-admission receipt, and cache manifest, and provide exact row/document/package/token/draw denominators. The binder requires every unique row plus at most 15 named batch-alignment replays, effective batch 16, a root-audited merged parent and saved precision identity, and an intermediate checkpoint/evaluation/stop. The terminal update must also be a preserved checkpoint and evaluation.
+
+The trainer replaces only the old Python-list `FrozenTokenRowDataset` with `streaming_trainer_adapter.dataset_from_bound_recipe`. It preserves the 381-tensor full-weight optimizer, FP32 state, stochastic BF16 updates, tokenizer and AddedToken repair, dense atomic checkpoints, scheduler/RNG/sampler resume, exact absolute draw cursor, fixed 499-row/2K package holdout, finite/resource telemetry, and root continuation receipt. Cache, runtime, archive, and logs stay on E.
+
+The copied cache builder adds full-corpus gates beyond the preparation v1: source JSONL is hashed from the same bytes consumed and fstat-checked across the pass; schedule bytes are read/hash/fstat-checked once; continuation carries must equal preceding owned tokens; declared token-stream hashes must match reconstruction; and schedule horizon, effective batch, replay count, replay tail, and one-batch alignment are exact. No whole-corpus payload is read by this preparation.
