@@ -210,7 +210,7 @@
   {
    "module": "sepalith.training.eval.campaign_eval",
    "path": "packages/sepalith/src/sepalith/training/eval/campaign_eval.py",
-   "sha256": "bb866cc7758c1e4d53d86eaef1c026a13c040454853029bd75acd2dba99cb94f",
+   "sha256": "81856179ee3395f0154d5d113391ed6c3ab711d23f7b47870ff97cb376aeaf65",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/campaign_eval.py",
    "source_sha256": "6e5bd413d9f71b0d8dcfdb6f98feae4f9ea0a43ac7d60c19c43cf11c43a2987c",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
@@ -218,7 +218,8 @@
    "changes": [
     "rewrote 2 local import statement(s) to sepalith.training package paths",
     "unused local stop_token_id binding dropped; the lookup still runs (ruff F841)",
-    "C05: added GENERATION_DTYPES, generation_dtype, pin_cuda_device and load_development_model; development_evaluator is unchanged"
+    "C05: added GENERATION_DTYPES, generation_dtype, pin_cuda_device and load_development_model; development_evaluator is unchanged",
+    "C07: optional deterministic batched greedy generation (generation_batching, generation_batches, truncate_at_stop, greedy_generate_kwargs, batched_greedy_generate); batch size 1 with the dynamic cache is the original per-case path (receipts/C07-evaluator-equivalence.json)"
    ],
    "bound_by": [
     {
@@ -786,14 +787,15 @@
   {
    "module": "sepalith.training.eval.milestone_gate",
    "path": "packages/sepalith/src/sepalith/training/eval/milestone_gate.py",
-   "sha256": "56fb8864f7842e0d21ab4a006f6b8ff5ee171eeb1098ca5d8427f1214fac6cf9",
+   "sha256": "758f6f7d71de0257343a620e762127d89f3e2987d3ce2cd410aae0fb0afb59bd",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/milestone_gate.py",
    "source_sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
     "none (verbatim)",
-    "C05: DEV250 v1 panel constants and require_bf16_result; gate evidence rejects non-bf16 generation results"
+    "C05: DEV250 v1 panel constants and require_bf16_result; gate evidence rejects non-bf16 generation results",
+    "C07: PER_CASE_GENERATION, generation_settings and requested_generation_settings, so a gate and its R1 reference must decode the same way"
    ],
    "bound_by": [
     {
@@ -1152,7 +1154,7 @@
   {
    "module": "sepalith.training.eval.run_dev_generation",
    "path": "packages/sepalith/src/sepalith/training/eval/run_dev_generation.py",
-   "sha256": "98915cb14a8b9541ded8454837f97786b7137fccf7ca1d5aeda099f72bfcd563",
+   "sha256": "24fcc547da1630f9e91e3e524d692375701f35f7830aa7ab988d7ffb54d2bdac",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/run_dev_generation.py",
    "source_sha256": "98aa378c0a856993b6f5d26507d335e1d1610be4f85af13e6a5949f571911ef0",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
@@ -1160,7 +1162,8 @@
    "changes": [
     "rewrote 6 local import statement(s) to sepalith.training package paths",
     "removed imports left unused (ruff F401)",
-    "C05: optional --dtype, --cuda-device, --panel {dev75,dev250,both}, --dev250-panel and --dev250-output; the default call is unchanged (receipts/C05-evaluator-equivalence.json)"
+    "C05: optional --dtype, --cuda-device, --panel {dev75,dev250,both}, --dev250-panel and --dev250-output; the default call is unchanged (receipts/C05-evaluator-equivalence.json)",
+    "C07: optional --generation-batch-size and --generation-kv-cache (defaults from the recipe's dev_gate.generation_batching, else the per-case path); batched results record generation_runtime"
    ],
    "bound_by": [
     {
