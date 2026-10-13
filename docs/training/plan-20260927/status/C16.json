@@ -1,0 +1,68 @@
+{
+  "card": "C16",
+  "state": "done",
+  "updated": "2026-10-12T01:40:00+02:00",
+  "branch": "plan/C16-hf-dataset-resync",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/47",
+  "outputs": {
+    "code": "experiments/post-processing/push_cases.py (--dry-run/--apply, --root/SEPALITH_ROOT, Hub diff, eval-protection guard, batched create_commit, deletion only with --delete-legacy)",
+    "receipt": "docs/training/plan-20260927/receipts/C16-hf-resync-receipt.json",
+    "hf_commits": [
+      "131082961ab979f45522b8e6a5a4af9ec09f7a74",
+      "e92d2a01d07ca0b5d76b440cfcf6def4159a71d3",
+      "32ee84a24dc6e260b23121e2399052ec3dd4054e",
+      "995ab0ff6b281f692d2e908aeda7c92896d21002"
+    ],
+    "hf_paths": [
+      "corpus/cran/provenance/<shard>/ (14,292 files, 8,961,318 bytes)",
+      "README.md (layout table)",
+      "deleted: 99 families/ files from cases_v1 and mixtures/sft_v*/ (20 files); 119 files, 7147664514 bytes"
+    ],
+    "provenance_complete": true,
+    "verification": "Hub tree after: 26,517 files; 14,292 added, 0 removed, only README.md changed; 47/47 spot git-sha1 match; re-run dry run: 0 new, 0 changed",
+    "verification_delete": "Hub files 26517 -> 26398; removed set equals plan; 0 added; only README.md changed; no mixtures/ left; 30 families/ files remain"
+  },
+  "rule_decisions": [
+    {
+      "rule": "R8 batched data commits",
+      "inputs": {
+        "files": 14292,
+        "commits": 3
+      },
+      "outcome": "3 commits in one run"
+    },
+    {
+      "rule": "C16 stop condition: > 50 GB or outside documented folders",
+      "inputs": {
+        "upload_bytes": 8961318,
+        "folders": [
+          "corpus/cran/provenance/",
+          "README.md"
+        ]
+      },
+      "outcome": "continue"
+    },
+    {
+      "rule": "C16 stop condition: push_cases.py no longer matches the NAS layout",
+      "inputs": {
+        "packages": "flat datasets/packages/*.jsonl, script expected packages/*/*.jsonl",
+        "provenance": "at the NAS root, script expected datasets/provenance/",
+        "hidden-r and edit-pairs": "local paths gone after the reinstall"
+      },
+      "outcome": "fixed in the script instead of stopping, as the user asked; provenance goes to sharded corpus/cran/provenance/ because the Hub caps a folder at 10,000 entries"
+    },
+    {
+      "rule": "user decision 2026-10-12",
+      "inputs": {
+        "families_files": 99,
+        "mixture_files": 20,
+        "bytes": 7147664514,
+        "nas_copies_confirmed": 119,
+        "skipped": 0
+      },
+      "outcome": "deleted in one commit 995ab0ff6b281f692d2e908aeda7c92896d21002 with the README update; Hub history not rewritten"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "Re-synced 2026-10-11 from /mnt/nas/home/sepalith: nothing in families/, mixtures/, corpus ledgers or pretraining/ had changed since Sep 1; uploaded the complete CRAN provenance (14,292 files) to corpus/cran/provenance/<first char>/ and fixed the README layout table. On 2026-10-12, by user decision, removed the 99 cases_v1-derived families/ files and all 20 mixtures/sft_v* files (7.15 GB) in one commit; history kept; push_cases.py no longer projects them. Still open, not blocking: datasets/packages/ holds 1,997 of 14,193 shards; flat provenance/ stays capped at 10,000; NAS datasets new since Sep 1 and hidden_r_instruction_v1 are not projected."
+}

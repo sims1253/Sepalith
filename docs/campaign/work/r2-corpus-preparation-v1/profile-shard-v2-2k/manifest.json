@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "status": "CPU_materialized_candidate_not_training_admission",
+  "counts": {
+    "cpt_train": {
+      "rows": 2526,
+      "input_tokens": 3872644,
+      "supervised_tokens": 3867176,
+      "code_tokens": 3866121,
+      "documents": 1055,
+      "packages": 745,
+      "raw_bytes": 12412360
+    },
+    "cpt_validation": {
+      "rows": 499,
+      "input_tokens": 662269,
+      "supervised_tokens": 661360,
+      "code_tokens": 661066,
+      "documents": 294,
+      "packages": 50,
+      "raw_bytes": 2097032
+    }
+  },
+  "tokenizer_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-theta0/tokenizer.json",
+  "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+  "metadata_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/initial-raw-file-snapshot.jsonl",
+  "metadata_sha256": "6a9a8228b02c9e3b8941d32120df158a92e21e21a1bfc4c29c074d0f99aa2195",
+  "partition_sha256": "6553ab5d84429d07a9094df28ea029b94088b48bbd0fbf706451f443ccd66b06",
+  "parent_hash_guard_sha256": "7210a342559278c2bd82f3514da899d6cfbbb89104c4d9c8af0df61fbb8133b0",
+  "source_sha256": "d2a3c590f2e5b4f9bad8b02924fc27b683a9dcad45a8d9a7cfb4cdfb43b8c7c8",
+  "max_length": 2048,
+  "bos_id": 0,
+  "eos_id": 1,
+  "pad_id": 1,
+  "sampling_scope": "Hash-ordered groups from the immutable initial partial metadata inventory; not representative of all normalized packages.",
+  "boundaries": "Every chunk is BOS+payload+EOS. Continuations include one masked previous source token. Nonterminal EOS labels=-100. Exact document-final EOS is supervised. No code token discarded or supervised twice.",
+  "padding": "None stored. Collator must pad attention with 0 and labels with -100, without masking actual EOS by token ID.",
+  "heldout_scope": "All campaign non-TRAIN groups excluded by registry before source traversal. CPT validation reserves TRAIN groups before reads. Exact TRAIN dedup and metadata SHA1/SHA256/git-blob identity guard; no complete heldout near-duplicate claim.",
+  "exclusions": {
+    "exact_duplicate_of_cpt_validation": 4,
+    "license_not_in_recognized_families": 17
+  },
+  "seconds": 56.01442203001352,
+  "artifacts": {
+    "cpt_train.jsonl": {
+      "sha256": "d707a61ccfabc058dc1215cd1b2345e17edf77e2797cc5fa6f6f53daebf31da9",
+      "bytes": 44810110
+    },
+    "cpt_validation.jsonl": {
+      "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8",
+      "bytes": 7683333
+    },
+    "draws-one-pass.json": {
+      "sha256": "c2b5d11820493ffee11b81f8ba77c7687af13455f66873767b0f6860345d6b23",
+      "bytes": 175061
+    }
+  },
+  "source_profile_manifest_sha256": "cf3116644ddbda12da30b779fcca241ea1bf8959ea159f81a584cebe70a875ab",
+  "derivation_source_sha256": "ce5a2ed7fb87b835b9b6ca90572c08530557995793a3cd3ec44c140db99db918"
+}

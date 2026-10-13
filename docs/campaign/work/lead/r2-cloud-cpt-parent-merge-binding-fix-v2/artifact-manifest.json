@@ -1,0 +1,26 @@
+{
+  "artifact_identity_sha256": "9078c9f94b7254cb9ab9e59a267bae60bc60bb10327cb5dce629c0b09c2d9a81",
+  "files": [
+    {
+      "bytes": 997,
+      "path": "README.md",
+      "sha256": "e1aebcce44787474c82b3a153c634766bfbd5d40b2cb315dabd8d0f8161ac78d"
+    },
+    {
+      "bytes": 4444,
+      "path": "prepare_binding_v2.py",
+      "sha256": "1e0b869f6e1ea1a1a7c9b6ac2c4746ba681817042b22f59ab1b5f50ba8202d7e"
+    },
+    {
+      "bytes": 566,
+      "path": "test-results.txt",
+      "sha256": "8801c9220be389200b96d3eba13b91b2909d744e996065620439a72af9354ad4"
+    },
+    {
+      "bytes": 2779,
+      "path": "tests/test_binding_v2.py",
+      "sha256": "c553a66a7cf2c12a3fb0529e1fc15079755d262c467bdd2e2bfc3a3e3090b843"
+    }
+  ],
+  "schema": "sepalith.artifact-manifest.v1"
+}

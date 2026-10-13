@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 870,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "058174933cb0fc5817a434d06de60a14986d993c11f6ae5cb84dbdd89f8f5cd5"
+    },
+    {
+      "bytes": 4222,
+      "mode": "0o755",
+      "path": "finalize.py",
+      "sha256": "ef9dc54450a5cea01ae5257f8eedb05ffc83f78247d9391c57d5fdbe9d11a3af"
+    },
+    {
+      "bytes": 3289,
+      "mode": "0o755",
+      "path": "prepare.py",
+      "sha256": "c5dfcf806c9f96144a402c61baabd6482646179b4fb3917207be5994e78ab033"
+    },
+    {
+      "bytes": 119,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "2f9d3e2bb8d290fd924a9b1ee91b6ae9927d48e185756b24ee374dc0df6a740d"
+    },
+    {
+      "bytes": 1076,
+      "mode": "0o644",
+      "path": "test_results.py",
+      "sha256": "e69e03f6f926e37efb175e9a713915ccba75495ae04f685a1648b638675b6f4d"
+    }
+  ],
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_complete"
+}

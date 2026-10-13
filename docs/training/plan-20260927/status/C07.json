@@ -1,0 +1,61 @@
+{
+  "card": "C07",
+  "state": "done",
+  "updated": "2026-10-12T09:30:00+02:00",
+  "branch": "plan/C07-batched-eval",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/52",
+  "outputs": {
+    "night": "2026-10-12, run from local branch night/c07-integration-2 (origin/main + #48 + #52, unmerged) with the user's approval to start training",
+    "baseline": {
+      "parent": "checkpoint-11586, model.safetensors 4bf617f9…3c51",
+      "generation": "bf16, deterministic batches of 32 (prompt length descending, then case id), left padding, dynamic KV cache, cap 1,024",
+      "counts": {"valid": 0, "cap": 64, "edit": 0, "nofp": 0, "score250": 0},
+      "dev75_result_sha256": "e58675ec2245017a2f3e9d092abef35614ac1d6212158b5db72d65d42231c88f",
+      "dev250_result_sha256": "d142c199fec908eeadcd3e438a3ad1c5393a9ebcb94bcb894a1a726d4b9fb408",
+      "seconds": 1382,
+      "note": "The CPT parent never produces the PRM03 format and runs to the cap on most cases."
+    },
+    "smoke": {
+      "receipt": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-smoke-lr1e-5/smoke-receipt.json",
+      "recipe_sha256": "17ece1ddc9696235fa01947702b031ec807766acd0dc6e029ea7784a48aa9f2f",
+      "updates": 20,
+      "seconds_per_update_median": 16.93,
+      "seconds_per_update_note": "Measured under heavy CPU contention from another project. The uncontended pilot arms ran at about 12.5 s per update.",
+      "peak_allocated_gib": 23.02,
+      "peak_reserved_gib": 23.58,
+      "save_seconds": [284.1, 288.7],
+      "masking_gate": "Passed on the live first batch: 16 micro-batches, 0 padding tokens supervised, EOS supervised in 16 rows.",
+      "resume": "Deadline stop at update 10, then resume to update 20, completed. Bit-exact resume is covered by the C04 CPU test."
+    },
+    "batched_eval_validation": {
+      "receipt": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C07-batched-eval-validation/20261012T033857/validation.json",
+      "speedup_batch32_over_batch1": 15.7,
+      "batch32_repeat_identity": 1.0,
+      "batch32_vs_batch1_identity_on_parent_256_tokens": 0.54,
+      "both_panels_worst_case_seconds": 1337,
+      "memory_probe_peak_reserved_gib": {"16": 13.9, "32": 19.1, "48": 24.2, "64": "29.5, does not fit with margin"},
+      "decision": "Keep the bound batch size of 32. The validator's choice of 48 saves little time and leaves less headroom for the desktop, and switching would invalidate the recorded baseline."
+    },
+    "parity_references": "Not produced on night 1 because C04 shipped no job for it. C03 prepares a job for a later night.",
+    "host_issues_fixed": [
+      "systemd user services had a soft limit of 1,024 open files. The trainer peaks at about 1,350 and failed with 'CUDA driver error: unknown error'. Fixed with LimitNOFILE in the night-runner unit (#48).",
+      "The desktop holds about 2.2 GB of GPU memory, so the 2,048 MiB start limit never passed. The service now passes --max-gpu-used-mib 3072 (user decision, #48).",
+      "Batch-1 generation ran at about 11 tokens/s on WSL2, so DEV75 exceeded the 40-minute eval budget. Fixed with batched generation (#52).",
+      "Another project used about 30 GB of host RAM and all CPUs during the window. One resume failed with ENOMEM while loading optimizer state."
+    ]
+  },
+  "rule_decisions": [
+    {"rule": "C07 morning read-out", "inputs": {"peak_gpu_gib": 23.6, "limit_gib": 30.5, "masking_gate_fired": false, "resume_completed": true, "pilot_arm_to_gate_268_hours": 1.24}, "outcome": "continue to C08"},
+    {"rule": "baseline", "inputs": {"valid": 0, "cap": 64, "edit": 0, "nofp": 0, "score250": 0}, "outcome": "recorded"}
+  ],
+  "capacity": {
+    "seconds_per_update_uncontended": 12.5,
+    "gate_eval_minutes_both_panels_sft": 12.3,
+    "full_save_minutes": 4.8,
+    "pilot_arm_to_gate_268_minutes": 74,
+    "arm_a_268_to_1071_hours_estimate": 3.6,
+    "conclusion": "C08's remaining arm, the R2 selection and the full arm A fit in one night."
+  },
+  "question_for_user": null,
+  "notes": "Night 1 also ran two C08 pilot arms to gate 268; see status/C08.json."
+}

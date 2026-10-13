@@ -1,0 +1,11 @@
+{
+  "action": "upload_full_weight_checkpoint90_private",
+  "authorized": false,
+  "campaign_manifest_sha256": "d820a0f5cd3c790f470212406c841fb3a34924131ac5fc098f2a22c1b2db9252",
+  "checkpoint_path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-expandable-pilot-v1/full/checkpoint-90",
+  "maximum_bytes": 17250934153,
+  "prefix": "full-weight-state/d820a0f5cd3c790f47021240/checkpoint-90",
+  "repo": "scholzmx/sepalith-lora",
+  "schema": "sepalith.pre04.full_weight_transport_authorization.v1",
+  "status": "not_admitted"
+}

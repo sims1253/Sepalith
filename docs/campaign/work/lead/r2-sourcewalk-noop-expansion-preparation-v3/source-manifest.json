@@ -1,0 +1,38 @@
+{
+  "duplicate_geometry_policy": {
+    "distinct_row_ids_required": true,
+    "duplicate_geometry_allowed": true,
+    "duplicate_members_recorded": true,
+    "retain_all_until_provider_prompt_target_dedup": true
+  },
+  "failure_classification": {
+    "candidate_status_must_equal_ledger_status": true,
+    "infrastructure_exceptions_propagate": true,
+    "row_hold_exception": "RowValidationError"
+  },
+  "files": [
+    {
+      "bytes": 22710,
+      "path": "source/audit_authoritative_stream.py",
+      "sha256": "7f042596a67ec9983f6f409a8913f4bc8df3361548a1e91fb77c9f914dafcf37"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 8301,
+      "path": "source/materialize_noops.py",
+      "sha256": "b3e111d3e7184e7d8d8dce401e71807522f15da1a4f4108548e01ac1648da69d"
+    },
+    {
+      "bytes": 10456,
+      "path": "source/prepare_noop_inputs.py",
+      "sha256": "a114eff080e00869f355b052fbc0762d4e69bb1478d80013a16ffe553af7e95f"
+    }
+  ],
+  "parent_source_manifest_sha256": "d9e86ba0ca1a416fde6ec137f3d142372b3d45ead52f8fee82b34ea2762d0412",
+  "schema": "sepalith.dat10.sourcewalk-noop-expansion-source.v3",
+  "status": "frozen"
+}

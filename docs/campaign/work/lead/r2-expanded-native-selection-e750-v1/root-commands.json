@@ -1,0 +1,76 @@
+{
+  "status": "prepared_requires_E_full750_verification_and_root_admission",
+  "full750_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-e/full/checkpoint-750",
+  "prepare_export": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/packet/prepare_root_bindings.py",
+    "--parent-manifest",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged/parent-manifest.preparation.json",
+    "--output-dir",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/root-bindings",
+    "--export-dir",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-quant",
+    "--host-guard-output",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-postsft500-e-750-export-supervision"
+  ],
+  "export_guard": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+    "--command-json",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/export-command.json",
+    "--output",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-expanded-postsft500-e-750-export-supervision",
+    "--seconds",
+    "900",
+    "--minimum-free-mib",
+    "6144",
+    "--admission-free-mib",
+    "12288"
+  ],
+  "review_export": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/packet/review_export.py",
+    "--export",
+    "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-quant",
+    "--output",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/root-bindings/export-integrity.json"
+  ],
+  "bind_profile": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/finalize_native_profile.py"
+  ],
+  "observation_sequence": [
+    [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+      "-I",
+      "-S",
+      "-B",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/packet/native_controller/observe_client.py"
+    ],
+    [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+      "-I",
+      "-S",
+      "-B",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/packet/native_controller/build_closure.py"
+    ],
+    [
+      "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+      "-I",
+      "-S",
+      "-B",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/packet/native_controller/observe_client.py",
+      "--check-policy-only"
+    ]
+  ],
+  "native_command_json": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/native-command-v1.json",
+  "comparison": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-native-selection-e750-v1/run_e750_comparison.py"
+  ]
+}

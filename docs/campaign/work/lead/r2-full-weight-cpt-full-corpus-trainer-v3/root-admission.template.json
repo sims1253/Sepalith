@@ -1,0 +1,57 @@
+{
+  "cohort": {
+    "documents": null,
+    "draw_schedule": {
+      "path": null,
+      "sha256": null
+    },
+    "id": null,
+    "input_tokens": null,
+    "loss_tokens": null,
+    "manifest": {
+      "path": null,
+      "sha256": null
+    },
+    "max_sequence_tokens": null,
+    "named_replays": null,
+    "packages": null,
+    "payload_tokens": null,
+    "rows": {
+      "path": null,
+      "sha256": null
+    },
+    "scope": "complete_admitted_train_corpus",
+    "streaming_cache": {
+      "manifest_sha256": null,
+      "path": null
+    },
+    "unique_rows": null,
+    "updates": null
+  },
+  "corpus_manifest": {
+    "path": null,
+    "sha256": null
+  },
+  "data_admission": {
+    "path": null,
+    "sha256": null
+  },
+  "launch_authorized": false,
+  "parent": null,
+  "schema": "sepalith.sft11.full-weight-cpt-full-corpus-root-admission.v1",
+  "selected": {
+    "checkpoint_every": null,
+    "evaluation_steps": null,
+    "gradient_accumulation": null,
+    "learning_rate": null,
+    "mandatory_stop_step": null,
+    "micro_batch": null,
+    "optimizer": null,
+    "scheduler": null,
+    "selected_milestones": null,
+    "telemetry_every": null,
+    "warmup_steps": null
+  },
+  "status": "pending",
+  "template_sha256": "84303fc15d6f24d7f757af0d53e4608fab100f8cc780e78314d1e66eef82c4f0"
+}

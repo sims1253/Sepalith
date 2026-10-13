@@ -1,0 +1,20 @@
+{
+  "schema": "sepalith.dat10.semantic9534.dedup_binding.v1",
+  "status": "unbound_waiting_for_semantic9534_context_policy",
+  "current_rows": 20191,
+  "accepted_current_manifest": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-sourcewalk-noop-expansion-preparation-v3/existing-union-manifest.json",
+    "sha256": "c44dadde27b2ace8908a505d1d3f691ec0e7bcb464c8411ee875d036b0b8fc60",
+    "rows": 20191
+  },
+  "semantic10948_candidate_rows": 10682,
+  "combined_rows": null,
+  "future_noop_rows": 0,
+  "pending_semantic10948": {
+    "manifest": {"path": null, "sha256": "c86e3bc3a402f4f568295a0dcd15fca6dfe6046ce6e7fb60844e25d505eb370f"},
+    "tokenrows": {"path": null, "sha256": "17d02115590ea61921b8ee9cee3b9c0de044cea065330fd9a35a266b3db03069", "rows": 10682},
+    "provenance": {"path": null, "sha256": "b8d54654bc35d3166ef6b96cfe7cd4f78bcc0bd03b42d6eeaf5dcebe4f92a329", "rows": 10682}
+  },
+  "semantic9534": null,
+  "training_admission": false
+}

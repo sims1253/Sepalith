@@ -1,0 +1,227 @@
+{
+  "files": [
+    {
+      "bytes": 3018,
+      "path": "README.md",
+      "sha256": "c2e8d4c612fa45631bbdde65310721d67977e3278353d5114f28fad8c3aca3d1"
+    },
+    {
+      "bytes": 504,
+      "path": "continuation-330.template.json",
+      "sha256": "0ed90705ce12e4991a4bad1b7b4d0de151b10a18d3ef1e1b6111da4f58d0fc75"
+    },
+    {
+      "bytes": 252,
+      "path": "execution-stop-354.template.json",
+      "sha256": "971847e6505af66abebf73f99f49e8d6b7c000147fa3636b564d55749c34cb3b"
+    },
+    {
+      "bytes": 12106,
+      "path": "prepare_recovery.py",
+      "sha256": "62a3857ca7c62a6d5e1d622eadc948a43d8c3aff9be85625a4a5b5632941bc08"
+    },
+    {
+      "bytes": 1971,
+      "path": "recovery-plan.json",
+      "sha256": "78ce5e542ea0cc7f3fc9046acc8ebe11e8b6732471c352cba433a8589f414055"
+    },
+    {
+      "bytes": 2722,
+      "path": "root-commands.json",
+      "sha256": "5fa831c3771d9ffb554a9e51ffe3c3f8f9bab85007ccb537b40ef184c10c039a"
+    },
+    {
+      "bytes": 3760,
+      "path": "run_with_allocator.py",
+      "sha256": "129f23e29b68c62c2749d26517ecef3622e9d23a43024ea4de94ccb8a9217440"
+    },
+    {
+      "bytes": 1088,
+      "path": "runtime-source-migration-admission.template.json",
+      "sha256": "db1e875c32f131cdc8945f7500a80620564eef21295408750f3ea937faacff67"
+    },
+    {
+      "bytes": 2044,
+      "path": "selected-packed330-transition.template.json",
+      "sha256": "589f6742cdf2762fb30f13517fd6bc9650d640aed6a820ba6a54e23aab4b9a38"
+    },
+    {
+      "bytes": 4220,
+      "path": "selected-source/campaign-manifest.json",
+      "sha256": "2b35854537588499fb703af2127029ff649e410cbab65374948723273b520951"
+    },
+    {
+      "bytes": 2967,
+      "path": "selected-source/campaign-state.json",
+      "sha256": "fb6d4d456e2318c70301a8b39f21e54069570c48c9c90de80e3f09155361a8e8"
+    },
+    {
+      "bytes": 12028,
+      "path": "selected-source/canary-runtime-recipe.json",
+      "sha256": "12d09ed0158070b256b0976e6f80fc0e46e1f552c1556b44dbc7a6cf360d5997"
+    },
+    {
+      "bytes": 2799,
+      "path": "selected-source/metric-selection-result.json",
+      "sha256": "b9368a6d6ec1ebf30cd1e59669ce3b66f065fb3c04dc77f6f97a4d4f27b93a21"
+    },
+    {
+      "bytes": 7738,
+      "path": "selected-source/payload-review.json",
+      "sha256": "fc42ebb45d9cddbded49c9c356cdc371b630b5e7c42f35e7bf804c5b0c6f287b"
+    },
+    {
+      "bytes": 34803,
+      "path": "source/experiments/training/__pycache__/full_weight_cpt_trainer.cpython-310.pyc",
+      "sha256": "f3c2a561c629614e8349f27058e5011630328c3e3f038f1f1c8cffd2441019ae"
+    },
+    {
+      "bytes": 6697,
+      "path": "source/experiments/training/bind_stage_transition.py",
+      "sha256": "f97f873d1cf4d468a7fe65d362bf693e1a9b27df27a3841f9cf8a05d0b26eed5"
+    },
+    {
+      "bytes": 14452,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "75472c65dc44479ca6090cc6be86a2e196ccbbda684e20e3a45cef6eb96acaa8"
+    },
+    {
+      "bytes": 29909,
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 4667,
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "cf982c2600a62b7e628f0cc0fc20dbb5270e0c1b01c75bd9a62a6aef2126e1a2"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 12656,
+      "path": "source/experiments/training/cpt_streaming_cache.py",
+      "sha256": "890a01d72a6a20d2be5383fcf8442d6971f1d84f8fa1aed513034d3ee621664d"
+    },
+    {
+      "bytes": 40631,
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "5184354d974cc9bedfbc055f1d6b4c7091582e50a6d2b68c677c6a43ddfc79ee"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 1895,
+      "path": "source/experiments/training/native_attestation.py",
+      "sha256": "0a01b63786db9b49851630596ba66986e46f78bb3de9f69c48fb391812003110"
+    },
+    {
+      "bytes": 1856,
+      "path": "source/experiments/training/native_capacity.py",
+      "sha256": "61dc8a543350f9c15526c8af8b21d058b64c058aac1c7553ea0dbb2a3b764866"
+    },
+    {
+      "bytes": 5232,
+      "path": "source/experiments/training/native_checkpoint_publish.py",
+      "sha256": "220115bef24c240b2425fb222a7e6435787f352fcd08e3ae0ec9022c773baa1e"
+    },
+    {
+      "bytes": 4854,
+      "path": "source/experiments/training/native_launch_attestation.py",
+      "sha256": "c611138a53400d49b79d0a7889deac93cfc969e0d1273f5fe100726ef878f05b"
+    },
+    {
+      "bytes": 6822,
+      "path": "source/experiments/training/native_runtime_contract.py",
+      "sha256": "fe25359e6fae1da1e19ea325ce7746da7d45a67ae3e783b4df37ecaa97de2eed"
+    },
+    {
+      "bytes": 8196,
+      "path": "source/experiments/training/native_runtime_overlay.py",
+      "sha256": "75a4598b979503ab6916bf780c69c9491d1885ef646ee005cfd9bf140af3950b"
+    },
+    {
+      "bytes": 12693,
+      "path": "source/experiments/training/native_stage.py",
+      "sha256": "f8d1ed323500964f60d9c954373eb714bf66552288f2a14069b66c6456d45459"
+    },
+    {
+      "bytes": 8507,
+      "path": "source/experiments/training/ordinary_canary_resume.py",
+      "sha256": "35b29f807366500ed8604e28ccfc6edfb7542cffa99f595d15d8213f4c594f5e"
+    },
+    {
+      "bytes": 9933,
+      "path": "source/experiments/training/prefix_extension_contract.py",
+      "sha256": "c7d94a08861cfb6b3392b887ba0836763f581035edfac86b9d9369ae98c2d439"
+    },
+    {
+      "bytes": 2815,
+      "path": "source/experiments/training/prepare_native_stage_spec.py",
+      "sha256": "7d7aef2bf7213890a5d1670c6c148f977a743450687a55b214c227697a93f70f"
+    },
+    {
+      "bytes": 1397,
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 12802,
+      "path": "source/experiments/training/stage_transition_contract.py",
+      "sha256": "de99096512b4fbc9bcd44265869829efbbf8fa07701d9f87d18553896f1e1e89"
+    },
+    {
+      "bytes": 3048,
+      "path": "source/experiments/training/streaming_trainer_adapter.py",
+      "sha256": "135522b96820a083838078754dc6b9ba0f1d998aa176296c0c789d0c6f1eabb9"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 7321,
+      "path": "source-manifest.json",
+      "sha256": "d17b49bf5beb26aa6308fba1e1a6fda26b6163e42d636bd6200c55556e3d0f1a"
+    },
+    {
+      "bytes": 767,
+      "path": "test-results.log",
+      "sha256": "93bba01d3462a89ad7e4e1c2766d59b1dbdbc6e3c117ba191ccfd81570162e65"
+    },
+    {
+      "bytes": 7828,
+      "path": "tests/test_recovery.py",
+      "sha256": "9d8d5affcae72908609334bd0b581b163a9a19d8665886e2eaadd1f2086717bd"
+    }
+  ],
+  "files_count": 44,
+  "schema": "sepalith.sft11.selected330-recovery-artifacts.v2",
+  "status": "frozen_preparation_no_admission_no_launch"
+}

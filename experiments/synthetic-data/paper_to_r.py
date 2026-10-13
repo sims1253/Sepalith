@@ -148,7 +148,7 @@ CALL_COUNT = {"n": 0}
 def api_call(prompt, max_retries=3):
     key = os.environ.get("ZAI_API_KEY")
     if not key:
-        raise RuntimeError("ZAI_API_KEY not set (source ~/.zshrc)")
+        raise RuntimeError("ZAI_API_KEY not set (source ~/.config/sepalith/secrets.env)")
     if CALL_COUNT["n"] >= CALL_BUDGET:
         raise RuntimeError(f"call budget {CALL_BUDGET} exhausted")
     CALL_COUNT["n"] += 1

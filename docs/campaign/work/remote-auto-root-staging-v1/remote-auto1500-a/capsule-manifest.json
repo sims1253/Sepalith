@@ -1,0 +1,16 @@
+{
+  "README.md": "b96378f5146836b6aabd45b17ff98d23e72cedb45a4573d4520acb011e5a8b0d",
+  "analyze_auto.mjs": "b40367cbd5bae372dee0cad4487f7425fcedfdc0a06153f4dbd9b883ad86ac4e",
+  "analyze_renderer.mjs": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0",
+  "binding.json": "51feb0141ff163de8eea7444cad4a006aee4e93a794d5ec2bca06eb42cfa763f",
+  "candidate.vsix": "b8268083aabc72c02623ee07f8b75bb932fd4aaec15e6972724bca9330be74b1",
+  "check_merged.mjs": "306fe35af89e183ee69d39a41968a852e3bcd06f14bc35aff53fb52ecc323d32",
+  "merged-source-manifest.json": "c2a658e1789d7ff99d428c70024d0655a664f05164b178e04ca5b7f86c1cecc9",
+  "notebook_editor_supervisor.py": "3de42909b1fc1fba5a244bb837fa1bb6469809c85ae01b9d43a5dc31d786217f",
+  "observe_renderer.mjs": "11f7298f68b0c8748cf9fd8891513b35b4111ddf4f265e3b81663dc369a61feb",
+  "primary-editor-harness/acceptance-v2.js": "b53156cdcc630cbe00124dd395b8273a7f8e4112318796682fac205479550ca5",
+  "primary-editor-harness/extension.js": "5788b4ee3a1ab9b7d75cc3611bb6b24c53ce51be03baf38d392263eaf225a424",
+  "primary-editor-harness/package.json": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8",
+  "root-supplied-identities.json": "db35131b9325358e119aa15f78a0f46520b8dca05c572aa9ac078be90adba052",
+  "run_remote_editor.mjs": "eaa93a4d364a1ac5b99dc7338081b760e9a6a3de8144c869e367159606e4a2db"
+}

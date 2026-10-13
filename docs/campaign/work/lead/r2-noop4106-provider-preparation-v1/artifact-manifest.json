@@ -1,0 +1,26 @@
+{
+  "files": [
+    {
+      "bytes": 1479,
+      "path": "README.md",
+      "sha256": "69f972687f8df110caa84a2e1f84aff90d5036832765472846d34fdebcdb6594"
+    },
+    {
+      "bytes": 3169,
+      "path": "commands.json",
+      "sha256": "512166095b98f287f2a51a6f625508a85aab55cc94e365e6eed04c04cba24190"
+    },
+    {
+      "bytes": 9175,
+      "path": "tests/test_provider_preparation.py",
+      "sha256": "a959cc1b47678e148de5023f58fe020c5084f7f7137a17c15af89a984c3b375e"
+    },
+    {
+      "bytes": 12860,
+      "path": "test-results.log",
+      "sha256": "7a5124621d2b2dc178476c7f1c1195ad5df3a14a2d9e8f2dcc3fcf1ab572c9f1"
+    }
+  ],
+  "schema": "sepalith.dat10.noop4106.provider-preparation-artifacts.v1",
+  "status": "prepared_waiting_for_v3_reconstruction_no_launch"
+}

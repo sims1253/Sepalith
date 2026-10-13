@@ -1,0 +1,91 @@
+{
+  "created_at": "2026-09-15T01:01:39.176227+00:00",
+  "execution_summary_sha256": "09010358f73d574b22aa854ac33623be601f5bb694f778c1a7c55ed62a274a6e",
+  "input_binding_review_sha256": "7cfbca9f0d3c2be717bbd77c4b058780ac54ec857f3b28d91adfe3003d62a838",
+  "materialization": {
+    "candidate_ids_sha256": "cb05c5640aa4cb7e39cdeeeee722b7032dc86a065648b07c7114f86cbe111874",
+    "candidate_rows": 4435,
+    "holds_or_exclusions": 116,
+    "manifest_sha256": "819d61049ceec8f5513d6ae8fd4a9cfa5e8b6d201fb76d7de81a91e55b14f61e",
+    "outputs": {
+      "candidate-provenance.jsonl": {
+        "bytes": 7045943,
+        "path": "candidate-provenance.jsonl",
+        "rows": 4435,
+        "sha256": "138f7de823e23442ca79a3e9016718e2d9c791d7b875e094f16eafdbbedf9acd"
+      },
+      "candidate-tokenrows.jsonl": {
+        "bytes": 165876708,
+        "path": "candidate-tokenrows.jsonl",
+        "rows": 4435,
+        "sha256": "4c3d7898c803d565a001c14f56bab24a1ad24019d1bfb4f0e79e644a516133cc"
+      },
+      "decision-ledger.jsonl": {
+        "bytes": 578178,
+        "path": "decision-ledger.jsonl",
+        "rows": 4551,
+        "sha256": "4a472985cfe9756998bed9b188caf9ff0a27adf868a9a6d80644dfec2e75525a"
+      }
+    },
+    "training_admission": false
+  },
+  "provider_binding_sha256": "137aa115a930623307e900d1f44a0f5593ff7451f16972677292c5b7d6965d55",
+  "render16": {
+    "outputs": [
+      {
+        "bytes": 1162052,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-provider-materialization-v1/render-16k/shard-0000.jsonl",
+        "rows": 190,
+        "sha256": "a727e27e161ffe3aa8e3ec92506dd68d3b374810cbf2901618c0ac10f5866919"
+      },
+      {
+        "bytes": 1168121,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-provider-materialization-v1/render-16k/shard-0001.jsonl",
+        "rows": 189,
+        "sha256": "362932528ee5b6c82c0ab13c06482034fd1283d3800471f9f88ab900a418583c"
+      }
+    ],
+    "rows": 379,
+    "terminals_sha256": [
+      "459f1013326794112084667c49591e29f128d7af555945d8d9961a289a7cbb2c",
+      "a9ef1d41b178688574e09589ea33a14011f30c460f9fc5394888eea284f01287"
+    ]
+  },
+  "render32": {
+    "attempt": "render-04",
+    "outputs": [
+      {
+        "bytes": 41656002,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-provider-materialization-v1/render-04/shard-0000.jsonl",
+        "rows": 2276,
+        "sha256": "f97d5796b5f5f110337507a2f20bb49b578a6dceb631afd9f87637758e1dde1e"
+      },
+      {
+        "bytes": 43098329,
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-provider-materialization-v1/render-04/shard-0001.jsonl",
+        "rows": 2275,
+        "sha256": "daa7c8b98d8cc416b40bcb5b6d99e64894b3f0ae84d33267ccaf903f0b8a83fa"
+      }
+    ],
+    "terminals_sha256": [
+      "2d833219c31c9fe2354b84b4dc3b0ad5410f96afdc8f34af18f116a484414bc3",
+      "96eac397a05dedc35ed21e360ae8e87840a71c6f04bc14624e5f5fbe82d559dd"
+    ]
+  },
+  "schema": "sepalith.dat10.semantic4551.artifact_manifest.v1",
+  "selection": {
+    "holds": 115,
+    "manifest_sha256": "8ea8a3101b6d8183d85db3caf56af2c7080306edf84f7fc0d4ea787f4dea17d3",
+    "output": {
+      "bytes": 71560578,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-provider-materialization-v1/selected-01/selected-contexts.jsonl",
+      "rows": 4551,
+      "sha256": "3729541c9edc0eb82eb217bf4a28c6a5a8a295676c886e41277abf18fb0e98e8"
+    },
+    "supported": 4436,
+    "target_used": false
+  },
+  "source_manifest_sha256": "f3b2454df0cf44de833042bd0fd24e071d47cb01e6c8feb555ae9b4651147f74",
+  "status": "complete_review_only_root_admission_required",
+  "test_results_sha256": "6844a9adcc18cf46f082542a413be008b76e01be6ffa25d3eb60521f0c64f1fa"
+}

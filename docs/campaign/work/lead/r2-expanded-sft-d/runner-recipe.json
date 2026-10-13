@@ -1,0 +1,249 @@
+{
+  "depends_on": [],
+  "description": "Root-controlled SFT-11 D recovery: exact C/full250 optimizer/RNG/sampler resume to mandatory full500 with HF diagnostic-cap repair",
+  "env": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HF_HUB_OFFLINE": "1",
+    "MAX_JOBS": "2",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "2",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "{source}/packages/sepalith/src:{source}/experiments/training",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "TOKENIZERS_PARALLELISM": "false",
+    "TORCHINDUCTOR_COMPILE_THREADS": "2",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "id": "sft11-expanded-postsft500-d-resume250-20260914",
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/checkpoints/SFT11-task-global-b/full/checkpoint-500/campaign-manifest.json",
+      "sha256": "5eb05924adcfb047d8ae9fcc296b0da5099ce4b95b1bd09b72d46401de99d596"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/chat_template.jinja",
+      "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/config.json",
+      "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/generation_config.json",
+      "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/model.safetensors",
+      "sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/parent-manifest.preparation.json",
+      "sha256": "92157a4a52a4ed928f76df9f1f77a6aa39235eefd6a859eb9c2b3d4118ee18db"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-data-expansion-audit-v1/expanded-corrected-short-token-rows.jsonl",
+      "sha256": "fa247ae7dbbf0b5a66538e8993d9fdd70624ce1c81ae54ae4d6f3d62b2368889"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-task-global500-native-selection/merge-recipe.json",
+      "sha256": "a9a6d87ee66578e02d4ffbe6dd9856f1c98af9316cf7dbaa225d2b7acab03b8b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_eval.py",
+      "sha256": "2e3ff36cc34921ebd8f3ab12bb03110298cb2eb80e76db388373ed627c8105cf"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_expanded_sft.py",
+      "sha256": "80598c908c46948d12948ca9409d5518ba30090591b52cd66bf8f142acd21d70"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_launch.py",
+      "sha256": "44fa334d91af14f3c17efc8d20e6200a818a3d2bdd5394504d7755c6675a4189"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_sft.py",
+      "sha256": "62009e1c026ae2dcc64a651fff5fc38e414770ed7f98394b02ae21a5478fdd35"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_task_sft.py",
+      "sha256": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/experiments/training/target_only_gate.py",
+      "sha256": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/expanded-full-noop25-16000-draw-manifest.json",
+      "sha256": "2ad2074d194b99bdef6826eb74543669fd8a7cf3490aedd692844b6402bed498"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/campaign-manifest.json",
+      "sha256": "0c78cbee3dd410bcf4a226562cf853e52891a5fd2894d5d0cbffe7c2885b5e39"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/README.md",
+      "sha256": "faefde553483097a12057303242c7329b7b2fb2f28c5913c735ce683bdfdead1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/adapter_config.json",
+      "sha256": "70f39f5403db8f5b4bc8f92a04ef351e9e2b42f213c1e9d401b32ff25e39e955"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/adapter_model.safetensors",
+      "sha256": "91a00d9ec479b365e323bfe82066d0faca4f8e7fbc1447ff41364ed004423da7"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/campaign-state.json",
+      "sha256": "3436e7869f7213fc93aaef436070735cf9fd8f4d97339decb9be8c1a615905d7"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/chat_template.jinja",
+      "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/optimizer.pt",
+      "sha256": "2bcf5c26cf4d65cc1ba490860406e675b2a39bb38a0100bccb9d32179c079f05"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/rng_state.pth",
+      "sha256": "f1d565802a8e26c4e8a31328752b7a7fdc186d9401aa008e65697d0ad8c22e33"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/scheduler.pt",
+      "sha256": "a4171e8847c9287dab9e3d7b852a1a6d78fb8972de32b7ed6dc842c33135b146"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/tokenizer.json",
+      "sha256": "d5ede0bcd21e0676a58b176937262fb80a06a32b5cb4ed8bfed8b7d11e45b0e1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/tokenizer_config.json",
+      "sha256": "71e726da77f3f0bbfde07d916acae8bd5a316d1857a00979cdc2e9ed3061034c"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/trainer_state.json",
+      "sha256": "7f091e44c8a4ae173f3ba3e0390ef47e4b90cb56029c5846191ec61059fb7a6f"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-expanded-postsft500-c/full/checkpoint-250/training_args.bin",
+      "sha256": "f63d4a1059deb0fd8c90325a5d28b1f0954c40362736df418ea77ba730d1c4ac"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/recipe.json",
+      "sha256": "7ff8bc587b50a078bd7e5d7bd6f4538c985b5781e2fdc40273e2739c24e35550"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/source-manifest.json",
+      "sha256": "8e3ddae3cdd318b20d83a2068bef417e1073e5b9ae61c7df60ec9e6380ccf289"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+      "sha256": "25f85d1da5bfee8da085a209982617e39e176b89dda11febc851c248a75240e0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/host_memory_policy.py",
+      "sha256": "ed39464f8981b562dd4f91ef8ad069edae03e53da999c274507973ff0df3831a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/post_load_cache.py",
+      "sha256": "7204fc46c412d0285b6bfc931bb774b938bf5bfef87220346149e285d6f5f8a4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/root-policy-tests.json",
+      "sha256": "ca4c42fe22bcb92cbcdccb769f91747932231fce337fc162c1f5aa9afa5e1319"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+      "sha256": "de8d32f644b73312d38631e8427338f1a2884e5f4899391141a0154515db31c3"
+    }
+  ],
+  "provenance": {
+    "acceptance": "Resume exact C/full250 to mandatory full500 then halt; HF diagnostics remain non-acceptance and native acceptance remains separate",
+    "budget_source": "Fresh per-job 6084-second trainer horizon under 6144-second V4 host guard; no data-coverage cutoff",
+    "owner": "lead",
+    "prior_terminal_reason": "C stopped cleanly at mandatory250; HF diagnostic cap failed after full checkpoint archive",
+    "status": "prepared_root_review_snapshot_enqueue_and_launch_required",
+    "task": "SFT-11-expanded-D"
+  },
+  "python": "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+  "resource": "gpu",
+  "schema_version": 1,
+  "snapshot": "bb2f9fdc1d016679533beab7d9906c9b996c9ce59d36e54ff98101adbaeed384",
+  "steps": [
+    {
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-broad-f/prepare_guard_command.py",
+        "{python}",
+        "{source}/experiments/training/campaign_launch.py",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-expanded-sft-d/recipe.json",
+        "{run}/supervision.json",
+        "{run}/guard-command.json"
+      ],
+      "artifacts": [
+        "guard-command.json"
+      ],
+      "id": "prepare-task-host-command"
+    },
+    {
+      "argv": [
+        "{python}",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/host-memory-guard-v4/cuda_host_guard.py",
+        "--command-json",
+        "{run}/guard-command.json",
+        "--output",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-expanded-postsft500-d-host-supervision",
+        "--seconds",
+        "6144",
+        "--minimum-free-mib",
+        "6144",
+        "--admission-free-mib",
+        "14336",
+        "--release-cache-file",
+        "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/model.safetensors"
+      ],
+      "artifacts": [
+        "supervision.json"
+      ],
+      "id": "guarded-expanded-d-to500"
+    }
+  ]
+}

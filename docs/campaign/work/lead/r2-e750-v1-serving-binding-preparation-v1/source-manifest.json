@@ -1,0 +1,62 @@
+{
+  "schema": "sepalith.packet-source-manifest.v1",
+  "task": "RUN-06/REL-07",
+  "status": "prepared_no_launch_no_release",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1907,
+      "sha256": "4bd6a00d3dd37f32bddb7bd9400a83c52b26764f2b7859fc9a8701d94146baec"
+    },
+    {
+      "path": "binding.candidate.json",
+      "bytes": 7798,
+      "sha256": "047cf84762d16a5d8899167923351fa764e02b5fdceae41bb692f4630f7fde07"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 7255,
+      "sha256": "a7bfb8f948847e8109074f53bc712c21a9fd0e0e7e3185ff42368ae5dad3a6fc"
+    },
+    {
+      "path": "evidence/cap-192/preflight.json",
+      "bytes": 1570,
+      "sha256": "d75b4956e3581536525918e20200f159583349caed72b98a440f8980b344485a"
+    },
+    {
+      "path": "evidence/cap-384/preflight.json",
+      "bytes": 1570,
+      "sha256": "31cad2128153a8c6a47b11eacac155d3da86cc3bac6cc2f22125f824be6b6e26"
+    },
+    {
+      "path": "evidence/cap-768/preflight.json",
+      "bytes": 1570,
+      "sha256": "c739eebd1cfbdf9b1568d5a997c7bfdef7046a66f081ef5e4d9457cf9b3918d0"
+    },
+    {
+      "path": "evidence/local-small-file-hashes.txt",
+      "bytes": 1174,
+      "sha256": "b43f34bc606c6915105579e7b3346ca3bf9208f090d7cf3293507f8e973f18b0"
+    },
+    {
+      "path": "evidence/notebook-readonly-inventory.txt",
+      "bytes": 1019,
+      "sha256": "d42f631e7ffe62de09c2320674f7560d7ae2328232b7f982ef049bf03f482848"
+    },
+    {
+      "path": "gaps.json",
+      "bytes": 2662,
+      "sha256": "d9c3c3d376022c97f391c3f29c7f412c74496ce7dff57ffabbece2fab57d6256"
+    },
+    {
+      "path": "preflight.py",
+      "bytes": 2377,
+      "sha256": "d7e85f8890b46b6c9493cf795088908096c4bdf267fa7812c87393e091cd2d7c"
+    },
+    {
+      "path": "test_preparation.py",
+      "bytes": 2464,
+      "sha256": "d16b8432de007e69999ca76e6a1be73e8e6da16e3c31bb545444421531038a67"
+    }
+  ]
+}

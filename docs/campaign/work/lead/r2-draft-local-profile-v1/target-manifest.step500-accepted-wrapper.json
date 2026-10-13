@@ -1,0 +1,79 @@
+{
+  "accepted_parent_wrapper": {
+    "base_model_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "kind": "merged_sft",
+    "merged_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+    "model_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-step500-rl-gate-v2/parent-manifest.json",
+    "renderer_contract_sha256": "173577c7df85d6e51e22ff9a556062737b311382f58a029b6a177e9a418e57d1",
+    "renderer_id": "zeta2-prm03-v1",
+    "sft_source": "306b50daf21a1c1daa31d849f2f1d64b43dbe4c1349afba1d3793366ab0d4fbb",
+    "sha256": "05eac983926eacc45b78f59d281eeaeeecfc8c58ed03647b4a8cbe794160afa5",
+    "status": "accepted",
+    "train_rows_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+  },
+  "config_file": "config.json",
+  "config_sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+  "deepspec_revision": "005e03b81cec38b7da6399833d609ee89a2587f2",
+  "expected_target_cache_identity": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+  "generation_config_file": "generation_config.json",
+  "generation_config_sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+  "merged_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+  "model_dir": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged",
+  "prior_preparation_manifest": {
+    "alias": "NATIVE/models/SFT11-task-global-b-500-merged",
+    "base_model_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "kind": "merged_task_sft",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged/parent-manifest.preparation.json",
+    "sha256": "92157a4a52a4ed928f76df9f1f77a6aa39235eefd6a859eb9c2b3d4118ee18db",
+    "source_cursor": 8000,
+    "status": "prepared; root selection and load/generation admission required"
+  },
+  "profile_binding": {
+    "block_size": 7,
+    "max_context_tokens": 4096,
+    "num_anchors": 32,
+    "num_draft_layers": 5,
+    "precision": "bf16",
+    "resume": false,
+    "rows": 8,
+    "steps": 8,
+    "target_layer_ids": [
+      1,
+      10,
+      20,
+      30,
+      39
+    ]
+  },
+  "schema": "sepalith.r2-dspark.local-profile-target-manifest.v1",
+  "source_manifest": {
+    "alias": "r2-step500-rl-gate-v2/parent-manifest.json",
+    "ancestry_verified_against_selected500": true,
+    "base_model_revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "kind": "merged_sft",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-step500-rl-gate-v2/parent-manifest.json",
+    "sha256": "05eac983926eacc45b78f59d281eeaeeecfc8c58ed03647b4a8cbe794160afa5",
+    "source_cursor": 8000,
+    "status": "accepted",
+    "train_rows_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+  },
+  "status": "accepted_step500_parent_wrapper_metadata_only_profile_input",
+  "tokenizer_config_file": "tokenizer_config.json",
+  "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b",
+  "tokenizer_contract": {
+    "bos_token_id": 0,
+    "eos_token_id": 1,
+    "native_eog_ids": [
+      1,
+      130073
+    ],
+    "pad_token_id": 1,
+    "vocab_size": 130560
+  },
+  "tokenizer_file": "tokenizer.json",
+  "tokenizer_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+  "weight_bytes": 5033557128,
+  "weights_file": "model.safetensors",
+  "weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c"
+}

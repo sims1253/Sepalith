@@ -1,0 +1,36 @@
+{
+  "schema": "dat08.native-dev-root-launch.v1",
+  "status": "ROOT_MUST_ADMIT",
+  "run_id": null,
+  "lease_id": null,
+  "created_at": null,
+  "expires_at": null,
+  "source_policy_reviewed": true,
+  "exclusive_gpu_owner": true,
+  "no_other_clients": true,
+  "native_loading_trust_accepted": true,
+  "dev_only": true,
+  "profile_sha256": null,
+  "port": 18403,
+  "client_seconds": 600,
+  "host_seconds": 780,
+  "client_rss_bytes": 1610612736,
+  "server_rss_bytes": 8589934592,
+  "input_files": {},
+  "data_files": {},
+  "required_input_files": [
+    "native_controller/root_controller.py",
+    "native_controller/source-closure.prepared.json",
+    "native_controller/native-mapped-code-allowlist.json",
+    "native_controller/guarded_dev_client.py",
+    "native_controller/client_source_policy.py",
+    "native_controller/origin_snapshot.py",
+    "native_controller/elf-loader-metadata.json",
+    "native_evaluator/profile.json",
+    "native_evaluator/selection_binding.py"
+  ],
+  "required_data_files": [
+    "selected merged tokenizer.json/tokenizer_config.json/config.json/special_tokens_map.json",
+    "fixed corrected DEV75 panel at original path and SHA"
+  ]
+}

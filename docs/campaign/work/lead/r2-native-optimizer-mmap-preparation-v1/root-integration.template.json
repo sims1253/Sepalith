@@ -1,0 +1,14 @@
+{
+  "schema": "sepalith.sft11.native-optimizer-mmap-integration.v1",
+  "status": "prepared_not_admitted",
+  "trainer_mro": ["MmapOptimizerResumeTrainerMixin", "FullWeightOptimizerTrainerMixin", "Trainer"],
+  "source_checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-CPT-prefix-extension-v3-from194/runtime/checkpoint-322",
+  "requirements": [
+    "root accepts complete checkpoint322 manifest and ordinary scientific identity",
+    "native_launch_attestation retains and propagates all checkpoint file descriptors and CUDA lease",
+    "single-device Transformers 5.5.0 and PyTorch 2.11.0",
+    "full preflight plus bounded no-update restore/RSS probe before training continuation"
+  ],
+  "production_admitted": false,
+  "launch_authorized": false
+}

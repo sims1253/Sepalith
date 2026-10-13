@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "id": "SFT-02-04-smoke-a",
+  "identity": {
+    "parent": {
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "weights_sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    "tokenizer": {
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "BOS": 0,
+      "EOS_PAD": 1,
+      "native_EOG": [
+        1,
+        130073
+      ]
+    },
+    "renderer": {
+      "id": "zeta2-prm03-v1",
+      "contract_sha256": "173577c7df85d6e51e22ff9a556062737b311382f58a029b6a177e9a418e57d1"
+    },
+    "data": {
+      "train_rows_sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6",
+      "draw_schedule_sha256": "bc6366887e806c99b6d2e314056d426b10f166d408bbcf36070a848c2f5e76bc",
+      "development_panel_sha256": "9192bd278c0342ce94d029ee5b1b9964b3fce0048ed6b99e4bcc0d97aaf06b59",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df"
+    },
+    "source": "26a07c58eebc1769a224a193a7b163e989125e4117236cc367b940e706d7af6f",
+    "policy": {
+      "stage": "50step_resume_smoke",
+      "full_text_labels": true,
+      "optimizer": "adamw_torch_fused",
+      "weight_decay": 0.0,
+      "lr_schedule": "cosine",
+      "warmup_ratio": 0.03,
+      "seed": 3407
+    },
+    "schedule": {
+      "max_steps": 50,
+      "per_device_batch": 4,
+      "gradient_accumulation": 4,
+      "learning_rate": 0.0002,
+      "lora_rank": 32,
+      "lora_alpha": 64,
+      "max_sequence_tokens": 4096
+    }
+  },
+  "parameters": {
+    "max_steps": 50,
+    "per_device_batch": 4,
+    "gradient_accumulation": 4,
+    "learning_rate": 0.0002,
+    "lora_rank": 32,
+    "lora_alpha": 64,
+    "max_sequence_tokens": 4096
+  },
+  "renderer_id": "zeta2-prm03-v1",
+  "model_path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain",
+  "token_rows": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/train-token-rows.jsonl",
+    "sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6"
+  },
+  "draw_schedule": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/draws-50.json",
+    "sha256": "bc6366887e806c99b6d2e314056d426b10f166d408bbcf36070a848c2f5e76bc"
+  },
+  "development_panel": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-smoke-dev-14-v1.jsonl",
+    "sha256": "9192bd278c0342ce94d029ee5b1b9964b3fce0048ed6b99e4bcc0d97aaf06b59"
+  },
+  "development_case_ids": [
+    "157517ba47dbab157f7c361a",
+    "f43de3e77f2d92ed7b223464",
+    "dat07p-cf94d967a08c2f37e67e4d678a31",
+    "dat07p-db2bda9be7fd0bb444e22a4fa7f0",
+    "dat07p-b63821dac2506e8e617d989cdd67",
+    "dat07p-0e0546346b73ee0569489171b27d",
+    "dat07-existing-a1b63fee525fbc1373bb82c3",
+    "dat07-existing-719cd49683667d0fb86fb2fa",
+    "dat07p-8b40f50940c420196894f8e6652d",
+    "dat07p-8bcc168b178888b9193616f3db54",
+    "dat07p-d6782a306bc4c889b8e04389a751",
+    "dat07p-8e11f3d5ada0943eb4208be4a089",
+    "dat07-existing-5b5e844d3a8795c52149f848",
+    "dat07-existing-d38a792699b4cccded445dc0"
+  ],
+  "development_max_new_tokens": 512,
+  "evaluator_factory": "campaign_eval:development_evaluator",
+  "checkpoint": {
+    "light_every": 25,
+    "full_every": 25,
+    "evaluation_steps": [
+      25,
+      50
+    ]
+  },
+  "decision_steps": [
+    25
+  ],
+  "deadline": "2026-09-12T14:00:00+00:00",
+  "max_attempt_seconds": 720,
+  "termination_grace_seconds": 30,
+  "checkpoint_reserve_seconds": 90,
+  "output_dir": "/mnt/e/sepalith/campaign-20260915/training/SFT-smoke-a",
+  "archive_dir": "/mnt/h/sepalith/runs/campaign-20260915/SFT-smoke-a",
+  "inputs": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/train-token-rows.jsonl",
+      "sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-inputs-v1/draws-50.json",
+      "sha256": "bc6366887e806c99b6d2e314056d426b10f166d408bbcf36070a848c2f5e76bc"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/SFT-smoke-dev-14-v1.jsonl",
+      "sha256": "9192bd278c0342ce94d029ee5b1b9964b3fce0048ed6b99e4bcc0d97aaf06b59"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    }
+  ]
+}

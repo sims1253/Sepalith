@@ -1,0 +1,8 @@
+{
+  "bound_recipe_sha256": "ROOT_BINDS_FRESH_RUNTIME_RECIPE",
+  "launch_authorized": false,
+  "resume_global_step": 330,
+  "schema": "sepalith.sft11.native-cpt-execution-stop.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "stop_at_global_step": 450
+}

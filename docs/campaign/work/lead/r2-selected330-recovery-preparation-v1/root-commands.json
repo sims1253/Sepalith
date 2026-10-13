@@ -1,0 +1,40 @@
+{
+  "binding_directory": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-root-v1",
+  "commands": {
+    "prepare_after_root_source_migration_admission": [
+      "python3",
+      "-B",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-preparation-v1/prepare_recovery.py",
+      "--source-manifest",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-preparation-v1/source-manifest.json",
+      "--runtime-source-migration-admission",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-root-v1/runtime-source-migration-admission.json",
+      "--trainer-root",
+      "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-selected330-recovery-cadence24-v1/runtime",
+      "--archive-root",
+      "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-selected330-recovery-cadence24-v1",
+      "--output-dir",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-selected330-recovery-root-v1"
+    ],
+    "cpu_preflight_after_all_four_admissions": [
+      "python3",
+      "-c",
+      "import json,subprocess; p='docs/campaign/work/lead/r2-selected330-recovery-root-v1/cpu-preflight-command.json'; raise SystemExit(subprocess.run(json.load(open(p)),cwd='/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb').returncode)"
+    ],
+    "guard_after_cpu_pass_and_empty_output_roots_created": [
+      "python3",
+      "-c",
+      "import json,subprocess; p='docs/campaign/work/lead/r2-selected330-recovery-root-v1/guard-command.json'; raise SystemExit(subprocess.run(json.load(open(p)),cwd='/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb').returncode)"
+    ]
+  },
+  "dependency_order": [
+    "Root verifies source-manifest.json and admits an exact copy of runtime-source-migration-admission.template.json with the final source manifest SHA-256.",
+    "Root runs prepare_after_root_source_migration_admission while both fresh output roots are absent.",
+    "Root reviews the emitted runtime recipe and admits exact copies of the three *.review.json files as the corresponding *.admitted.json paths.",
+    "Root creates only the emitted empty trainer and archive roots, preventing the known startup telemetry parent failure.",
+    "Root runs cpu_preflight_after_all_four_admissions with CUDA hidden.",
+    "Root runs guard_after_cpu_pass_and_empty_output_roots_created under the stable CUDA lease and host-memory guard. No retry is implicit."
+  ],
+  "schema": "sepalith.sft11.selected330-recovery-root-commands.v1",
+  "status": "prepared_no_admission_no_launch"
+}

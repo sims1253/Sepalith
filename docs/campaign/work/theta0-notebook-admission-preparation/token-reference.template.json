@@ -1,0 +1,33 @@
+{
+  "schema": "sepalith.run01.theta0-token-reference.v1",
+  "synthetic_only": true,
+  "tokenizer": {
+    "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+    "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+    "tokenizer_config_sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+  },
+  "cases": [
+    {
+      "case_id": "synthetic-tokenize-routine",
+      "prompt_text": "value <- c(2L, 4L, 8L)\nmean(value)\n",
+      "prompt_sha256": "65ab971c51b7afd9d39c35a1983b7924cabf7ae4838494c1decaab0c50a7074e",
+      "expected_native_token_ids": null,
+      "expected_native_token_ids_sha256": null
+    },
+    {
+      "case_id": "synthetic-eog-report",
+      "prompt_text": "report <- list(title = \"notebook gate\", rows = 3L)\nprint(report)\n",
+      "prompt_sha256": "15cfb981fbce59d39160ba60e3b5524f39cd5ca174976d89615a05d668a707d8",
+      "expected_native_token_ids": null,
+      "expected_native_token_ids_sha256": null
+    },
+    {
+      "case_id": "synthetic-completion-anchor",
+      "prompt_text": "result <- transform(data.frame(day = 1:3), score = day * 2)\nresult\n",
+      "prompt_sha256": "b8b73f5ac6bb480b46052c85260c9645cca4700d86621c9c0f035cbc4eae6c9c",
+      "expected_native_token_ids": null,
+      "expected_native_token_ids_sha256": null
+    }
+  ],
+  "instructions": "Root must replace expected_native_token_ids with IDs from the pinned tokenizer revision and record their SHA256 before live replay. Null values intentionally fail the live parity gate."
+}

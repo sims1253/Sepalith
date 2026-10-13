@@ -1,0 +1,212 @@
+{
+  "files": [
+    {
+      "bytes": 1955,
+      "path": "README.md",
+      "sha256": "5873f62347d8bf73bb0223d136dd2309ac386fe4b00fd8cdcd75d4339b28086e"
+    },
+    {
+      "bytes": 728,
+      "path": "canary-admission.template.json",
+      "sha256": "4e8bf6dd71ea35c604b7a686e04946aba4af52d7e1ad2abfb2aa68eb9730ea05"
+    },
+    {
+      "bytes": 4639,
+      "path": "findings.json",
+      "sha256": "d7376ab303494cbc30e4a15a956cd01346b0e60e842c0005c6b52e0b4f214ef5"
+    },
+    {
+      "bytes": 11882,
+      "path": "prepared/ordinary-reference.recipe.prepared.json",
+      "sha256": "3fa61428827ca1a7f316b7426126832a8cc41d16c4a4c98f99c7e57589e5e703"
+    },
+    {
+      "bytes": 11894,
+      "path": "prepared/varlen-candidate.recipe.prepared.json",
+      "sha256": "b7e1a146624804c531c20942dd51320cb64c97486cdca85a6a2462cce8589205"
+    },
+    {
+      "bytes": 5188,
+      "path": "root-commands.template.json",
+      "sha256": "e5137c86f3f9fe35c1a795dfe29db2467e29f006c6c747103a217a9dfc1a373c"
+    },
+    {
+      "bytes": 837,
+      "path": "runtime-source-migration-admission.template.json",
+      "sha256": "4f13641518aca2e86e5e8d41c16dde613434f79e2044a76500d59bfef431b6db"
+    },
+    {
+      "bytes": 6697,
+      "path": "source/experiments/training/bind_stage_transition.py",
+      "sha256": "f97f873d1cf4d468a7fe65d362bf693e1a9b27df27a3841f9cf8a05d0b26eed5"
+    },
+    {
+      "bytes": 14452,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "75472c65dc44479ca6090cc6be86a2e196ccbbda684e20e3a45cef6eb96acaa8"
+    },
+    {
+      "bytes": 29909,
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 4667,
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "cf982c2600a62b7e628f0cc0fc20dbb5270e0c1b01c75bd9a62a6aef2126e1a2"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 5381,
+      "path": "source/experiments/training/compare_native_varlen_canary.py",
+      "sha256": "1e1b4f32fc3e6d92657668fb7941d8b1a5d117a61b20503e01c915a225b2da9a"
+    },
+    {
+      "bytes": 12687,
+      "path": "source/experiments/training/cpt_streaming_cache.py",
+      "sha256": "0a4c460dab801f745c5d451052609ecf0522e68f6587b1aecb2abf07d7489026"
+    },
+    {
+      "bytes": 39829,
+      "path": "source/experiments/training/full_weight_cpt_trainer.py",
+      "sha256": "8e952c3fb68c3237e04224784125eb463b4f773c183b5e40348d92367d9ec53d"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 2680,
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 1895,
+      "path": "source/experiments/training/native_attestation.py",
+      "sha256": "0a01b63786db9b49851630596ba66986e46f78bb3de9f69c48fb391812003110"
+    },
+    {
+      "bytes": 1856,
+      "path": "source/experiments/training/native_capacity.py",
+      "sha256": "61dc8a543350f9c15526c8af8b21d058b64c058aac1c7553ea0dbb2a3b764866"
+    },
+    {
+      "bytes": 5232,
+      "path": "source/experiments/training/native_checkpoint_publish.py",
+      "sha256": "220115bef24c240b2425fb222a7e6435787f352fcd08e3ae0ec9022c773baa1e"
+    },
+    {
+      "bytes": 4854,
+      "path": "source/experiments/training/native_launch_attestation.py",
+      "sha256": "c611138a53400d49b79d0a7889deac93cfc969e0d1273f5fe100726ef878f05b"
+    },
+    {
+      "bytes": 5111,
+      "path": "source/experiments/training/native_runtime_contract.py",
+      "sha256": "547742372529cd09f8f89c926197436d33467295c84c614382a91e50b8b7802d"
+    },
+    {
+      "bytes": 8196,
+      "path": "source/experiments/training/native_runtime_overlay.py",
+      "sha256": "75a4598b979503ab6916bf780c69c9491d1885ef646ee005cfd9bf140af3950b"
+    },
+    {
+      "bytes": 12693,
+      "path": "source/experiments/training/native_stage.py",
+      "sha256": "f8d1ed323500964f60d9c954373eb714bf66552288f2a14069b66c6456d45459"
+    },
+    {
+      "bytes": 52531,
+      "path": "source/experiments/training/native_varlen_canary.py",
+      "sha256": "fc9516057d9626b502221765fe6f43a58a23c4f1e7b21a4e0d976964715b6437"
+    },
+    {
+      "bytes": 9933,
+      "path": "source/experiments/training/prefix_extension_contract.py",
+      "sha256": "c7d94a08861cfb6b3392b887ba0836763f581035edfac86b9d9369ae98c2d439"
+    },
+    {
+      "bytes": 2815,
+      "path": "source/experiments/training/prepare_native_stage_spec.py",
+      "sha256": "7d7aef2bf7213890a5d1670c6c148f977a743450687a55b214c227697a93f70f"
+    },
+    {
+      "bytes": 7297,
+      "path": "source/experiments/training/prepare_native_varlen_canary.py",
+      "sha256": "44a5170ac03e45790f8842ede15fc82e1849f99f30c830c5e65af369f12555c1"
+    },
+    {
+      "bytes": 1397,
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 1732,
+      "path": "source/experiments/training/run_canary_with_allocator.py",
+      "sha256": "432ed3ae260b467d1e4fd19f36a26d4c4e7968d49e02bf5033e86be3a4ead9fd"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 12802,
+      "path": "source/experiments/training/stage_transition_contract.py",
+      "sha256": "de99096512b4fbc9bcd44265869829efbbf8fa07701d9f87d18553896f1e1e89"
+    },
+    {
+      "bytes": 3048,
+      "path": "source/experiments/training/streaming_trainer_adapter.py",
+      "sha256": "135522b96820a083838078754dc6b9ba0f1d998aa176296c0c789d0c6f1eabb9"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 8080,
+      "path": "source/experiments/training/varlen_update_adapter.py",
+      "sha256": "b6c8baecec3284d863fd076ede67447b2fac1a8be082bbf1ad6b7b547a8c049e"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 6392,
+      "path": "source-manifest.json",
+      "sha256": "faa7dd822910c2ad81154f6b5f9b7b8165952adcd7a38e41d3c3a90210a8b2b0"
+    },
+    {
+      "bytes": 1724,
+      "path": "test-results.log",
+      "sha256": "a92a35ddd741bd72ba3f73e5b75ac5c84368b207ae108fcca78a4e38c1cacf31"
+    },
+    {
+      "bytes": 6004,
+      "path": "tests/test_contract.py",
+      "sha256": "71d7f96e7be323678ea47108ef864a155140ce3c29c6dcb9d0a6f8d6a3e729fb"
+    },
+    {
+      "bytes": 7904,
+      "path": "tests/test_hybrid_varlen_resume.py",
+      "sha256": "cf38bee161995e4fe18d56760b57b5fba4a2085ee4c6d47b2b0d25743fb97289"
+    }
+  ],
+  "files_count": 41,
+  "schema": "sepalith.sft11.native-varlen-canary-artifacts.v1",
+  "status": "frozen_preparation_no_launch"
+}

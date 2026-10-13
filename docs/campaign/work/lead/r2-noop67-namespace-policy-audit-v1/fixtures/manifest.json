@@ -1,0 +1,57 @@
+{
+  "edit_positive_control": {
+    "path": "R/tree.R",
+    "preedit_sha256": "01b090b39acb73ec471e39ebd41af033f1a23ea56a98574159ed24204395ff44",
+    "row_id": "22899cb124702c6d2df03b26"
+  },
+  "namespace_examples": {
+    "semantic_unavailable_ambiguous_explicit_origin": {
+      "fixture_path": "fixtures/NAMESPACE.semantic_unavailable_ambiguous_explicit_origin.txt",
+      "source_path": "/mnt/h/sepalith/normalized/GenEst/1.4.9/GenEst/NAMESPACE",
+      "source_sha256": "0f1ff035d14537361d741ea72ce4dd25c3345d13f5f0c2f9d18536955a0db445"
+    },
+    "semantic_unavailable_conditional": {
+      "fixture_path": "fixtures/NAMESPACE.semantic_unavailable_conditional.txt",
+      "source_path": "/mnt/h/sepalith/normalized/microplot/1.0-47/microplot/NAMESPACE",
+      "source_sha256": "c2fafe36bfc63e6d1d78eec5adf2c3d9819b21242a11dd82e74484515806cbbc"
+    },
+    "semantic_unavailable_malformed_directive": {
+      "fixture_path": "fixtures/NAMESPACE.semantic_unavailable_malformed_directive.txt",
+      "source_path": "/mnt/h/sepalith/normalized/oceanmap/0.1.7/oceanmap/NAMESPACE",
+      "source_sha256": "16722baa315317abd7456993cfdf97b95fe02fe44e17ec811cc83acd30d10439"
+    },
+    "semantic_unavailable_syntax_or_encoding_parse_error": {
+      "fixture_path": "fixtures/NAMESPACE.semantic_unavailable_syntax_or_encoding_parse_error.txt",
+      "source_path": "/mnt/h/sepalith/normalized/GMMBoost/1.1.5/GMMBoost/NAMESPACE",
+      "source_sha256": "bbbc8777405fa52507d1a214df029fe3262141c72dd4e5b0a8321678ddee1dcc"
+    }
+  },
+  "noop_rows": [
+    {
+      "path": "R/as.includegraphics.R",
+      "preedit_sha256": "e2f798b8ee1842c4c2be33db560443aaad2aa24c45ce2c3fc6134947a2589075",
+      "row_id": "47da1fa2a16fef228acf1192",
+      "shard": 10
+    },
+    {
+      "path": "R/hidden.r",
+      "preedit_sha256": "f08c54ffac1512657fe5b78fcc7da11e158e1d213b00cd32c5253ab909dc3f77",
+      "row_id": "563aaf1badec3cab5588bf09",
+      "shard": 13
+    },
+    {
+      "path": "R/bGAMM.r",
+      "preedit_sha256": "806a10a156889d63835a66b90ca8962cebe0ed772971dc4f3c78df84b66ef847",
+      "row_id": "565afca3bb561457e7f3ad97",
+      "shard": 13
+    },
+    {
+      "path": "R/app_content.R",
+      "preedit_sha256": "8956b6fe45ff872751777085c11c2c114dc7c266aa009eb60937735059638370",
+      "row_id": "6624546202c8df22e437ca87",
+      "shard": 15
+    }
+  ],
+  "schema": "sepalith.dat10.noop67.exact_train_fixtures.v1",
+  "selection_target_or_gold_used": false
+}

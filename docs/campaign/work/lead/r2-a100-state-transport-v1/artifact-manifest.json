@@ -1,0 +1,137 @@
+{
+  "files": [
+    {
+      "bytes": 1584,
+      "path": "a100_resume_gate.py",
+      "sha256": "337d5dcd2d912aaac13af02cf04931f60bbc5c3257853efd0692312b02125d76"
+    },
+    {
+      "bytes": 2270,
+      "path": "bounded_exec.py",
+      "sha256": "7473692a5104fe189349582ef14664da652129d87147bc840aadba8c886a156d"
+    },
+    {
+      "bytes": 5119,
+      "path": "build_runtime_bundle.py",
+      "sha256": "e97fe48499f7d9f39c542e3b8478007be25c0cd1e425bd02da79837fcf7ee27f"
+    },
+    {
+      "bytes": 1705,
+      "path": "build_transport_spec.py",
+      "sha256": "ce907df2128848aa655cffbf9402aa5e89370c9bb73070520210065247443bba"
+    },
+    {
+      "bytes": 3385,
+      "path": "return_checkpoint_common.py",
+      "sha256": "96a5b43d86f6b6209b7bd99baba9fd403dc098b9120ec62f322c6b4088dce535"
+    },
+    {
+      "bytes": 547,
+      "path": "build_return_spec.py",
+      "sha256": "8f0b7a7f962a28c891d66ed2a597b774f7e89742e1ea9541a5876978325b982c"
+    },
+    {
+      "bytes": 4046,
+      "path": "restore_private_checkpoint.py",
+      "sha256": "43b101643b7faad8bf8db0ebfcc7d958c116927fb8f22fa2bcae579137afec8e"
+    },
+    {
+      "bytes": 4474,
+      "path": "restore_private_runtime.py",
+      "sha256": "caf60bad71f74477573bedaaa2d943cf2567fc1ac2510b87af1ecc883a69461a"
+    },
+    {
+      "bytes": 3580,
+      "path": "restore_private_return_checkpoint.py",
+      "sha256": "1a7896620017c4713ac0ada15500db990941ec93caa88187439158cafa420cdf"
+    },
+    {
+      "bytes": 4550,
+      "path": "transport_common.py",
+      "sha256": "c4e0caa56d1901a0f97fd6bd6ecb313190da5cfb0d49cc593ad85b83e5dd14d9"
+    },
+    {
+      "bytes": 5928,
+      "path": "upload_private_checkpoint.py",
+      "sha256": "0272d13913af88bd46adbc55faffbde7200e71303bf037dc76b238c2eca130b8"
+    },
+    {
+      "bytes": 6484,
+      "path": "upload_private_runtime.py",
+      "sha256": "d4a280d5a2015b9cf33fd4904e9c1f8e2e657bd1d30dd018070f367922736225"
+    },
+    {
+      "bytes": 5183,
+      "path": "upload_private_return_checkpoint.py",
+      "sha256": "dce32fa9ab7d104e4e2647c2dcce8ab27154bd93a5cbd94182e378f14a339314"
+    },
+    {
+      "bytes": 13444,
+      "path": "test_transport.py",
+      "sha256": "b4f46d68959d1495e948af8809168a01b53c30f7d598c5a832d1fc2cc8382b2b"
+    },
+    {
+      "bytes": 4511,
+      "path": "README.md",
+      "sha256": "e67c130fa80fb19ca5c363fe83bf611e2a5d135915b6c7b6e02f90d97de18606"
+    },
+    {
+      "bytes": 24,
+      "path": "requirements.txt",
+      "sha256": "9adf9f2cdf677d1f601c695cc7019916822d6731c9e3bf1ad67c972e83a4838c"
+    },
+    {
+      "bytes": 3627,
+      "path": "transport-spec.json",
+      "sha256": "90f06149813bddaa933bde68369675582f8e88b074901896afe7b0c224791af8"
+    },
+    {
+      "bytes": 14568,
+      "path": "runtime-bundle-spec.json",
+      "sha256": "76d0f5638ffc02440892d0a47958d7c7396dfa8e9ec75536938d5dab4d460713"
+    },
+    {
+      "bytes": 547,
+      "path": "root-authorization.template.json",
+      "sha256": "3636c600f3e6cf02142de9285775f48acc34fd090ef8a837913c5453707d6897"
+    },
+    {
+      "bytes": 604,
+      "path": "runtime-root-authorization.template.json",
+      "sha256": "cc1a6e6d45293f8ffb9879b81efbf8c0a58874c66a3506a4b5bee44ba7d17e15"
+    },
+    {
+      "bytes": 439,
+      "path": "return-root-authorization.template.json",
+      "sha256": "9592426ebbbcc90345de854d8be1f45f62e0c6958bf27296eb2722c19d91b6e4"
+    },
+    {
+      "bytes": 3834,
+      "path": "commands.json",
+      "sha256": "27c9b34f29dd10f94b9daa4303416bfe4629e05509c597767ac69f87e15b94dd"
+    },
+    {
+      "bytes": 2360,
+      "path": "resume-prerequisites.json",
+      "sha256": "ef1a0bf6b306e4c5d299fbaba0b7d83f69e1a443689310b68274547e128ce32a"
+    },
+    {
+      "bytes": 369,
+      "path": "account-evidence.json",
+      "sha256": "2d28d6455dddf1edcda09b1f6b51dbc51313b4912057cc3a404b5dcb1033324c"
+    },
+    {
+      "bytes": 903,
+      "path": "test-results.log",
+      "sha256": "1491224101e37f7c32441575fbeb839ce78b1365de999c67154d79f1d30fb328"
+    },
+    {
+      "bytes": 2347,
+      "path": "source-manifest.json",
+      "sha256": "f75d46956a3eb28a85feb79399d189f109940d27251c8635b734306d8c6a5434"
+    }
+  ],
+  "generated_at": "2026-09-14T23:08:38.783045+00:00",
+  "schema": "sepalith.pre04.a100-state-transport-artifacts.v1",
+  "status": "prepared_not_uploaded_not_launched"
+}

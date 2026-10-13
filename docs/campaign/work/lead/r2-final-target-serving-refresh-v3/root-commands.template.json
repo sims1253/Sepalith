@@ -1,0 +1,69 @@
+{
+  "analyze": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v3/analyze_refresh_v3.py",
+    "--binding",
+    "$BINDING",
+    "--profile",
+    "$PROFILE",
+    "--baseline",
+    "$RUN/baseline/probe.json",
+    "--candidate",
+    "$RUN/candidate/probe.json",
+    "--candidate-mode",
+    "$CANDIDATE_MODE",
+    "--out",
+    "$RUN/comparison.json"
+  ],
+  "baseline_lifecycle": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v3/server_lifecycle_v3.py",
+    "--binding",
+    "$BINDING",
+    "--profile",
+    "$PROFILE",
+    "--mode",
+    "ordinary",
+    "--run-dir",
+    "$RUN/baseline"
+  ],
+  "candidate_lifecycle": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v3/server_lifecycle_v3.py",
+    "--binding",
+    "$BINDING",
+    "--profile",
+    "$PROFILE",
+    "--mode",
+    "$CANDIDATE_MODE",
+    "--run-dir",
+    "$RUN/candidate"
+  ],
+  "execution_authorized": false,
+  "prepare_export": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v3/prepare_refresh_v3.py",
+    "--binding",
+    "$BINDING",
+    "--stage",
+    "export",
+    "--out",
+    "$RUN/export-command.json"
+  ],
+  "record_imatrix_completion": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v3/record_imatrix_completion.py",
+    "--binding",
+    "$BINDING",
+    "--execution",
+    "$ROOT_IMATRIX_TERMINAL",
+    "--out",
+    "$RUN/imatrix-completion.json"
+  ],
+  "schema": "sepalith.run06.final-target-serving-refresh-root-commands.v3"
+}

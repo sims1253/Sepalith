@@ -1,0 +1,3084 @@
+{
+  "schemaVersion": 1,
+  "campaignId": "sepalith-2026-09",
+  "title": "Sepalith 72-hour model campaign task board",
+  "deadline": "After training coverage and development selection; calendar cutoffs superseded by user (LEAD-all-eligible-data-policy-20260914.json)",
+  "phases": [
+    {
+      "id": "prepare",
+      "title": "Prepare and protect the lane",
+      "window": "Sat 00:00–08:00; parallel gates as needed",
+      "goal": "Pin sources, preserve the live O2 control, establish one-CUDA ownership, storage, provider and recovery rules."
+    },
+    {
+      "id": "prompt",
+      "title": "Freeze the prediction-time prompt contract",
+      "window": "Sat 00:00–12:00, before primary SFT",
+      "goal": "Make Python, TypeScript, SFT and RL receive the same prediction-time information and measured length/stop contract."
+    },
+    {
+      "id": "data",
+      "title": "Build clean train, dev and final registries",
+      "window": "Sat 00:00–12:00 in parallel with prompt work",
+      "goal": "Create package-disjoint, validator-backed, tokenizer-audited registries without legacy evaluation leakage."
+    },
+    {
+      "id": "sft",
+      "title": "Train one broad MiniCPM SFT parent",
+      "window": "Sat 08:00–20:00",
+      "goal": "Run the single Midtrain primary, preserve checkpoints and select one immutable theta0."
+    },
+    {
+      "id": "rl",
+      "title": "Run sustained parent-specific RL",
+      "window": "Sat 20:00–Mon 00:00",
+      "goal": "Run one measured broad-mixture GRPO trajectory with durable checkpoints and held-out development gates."
+    },
+    {
+      "id": "parallel",
+      "title": "Use conditional independent capacity",
+      "window": "Sat 08:00–Mon 00:00, only after admission",
+      "goal": "Use Anyscale primarily for same-parent breadth SFT; keep Azure/Kaggle conditional and non-blocking."
+    },
+    {
+      "id": "runtime",
+      "title": "Co-optimize serving architecture",
+      "window": "Sat 00:00–Tue 09:00, early fixtures and late finalist checks",
+      "goal": "Measure host placement, cache/context behavior and competing target/draft coupling while training proceeds."
+    },
+    {
+      "id": "release",
+      "title": "Freeze, validate and deliver",
+      "window": "Mon 00:00–Tue 09:00; final set opens after Mon 12:00",
+      "goal": "Select by development, open the locked final only after freeze, package Q8, runtime and rollback evidence, and deliver."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "PRE-01",
+      "phase": "prepare",
+      "title": "Snapshot authoritative sources and artifacts",
+      "summary": "Capture the exact dirty worktree, owner worktree, canonical asset roots, model revisions and required uncommitted fixes before any launch.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [],
+      "steps": [
+        "Record git SHAs, worktree paths and dirty-file manifests for the plan checkout, active owner checkout and canonical assets.",
+        "Hash the current plan, prompt contract, runner, training entry points and existing release artifacts.",
+        "Write a source map that distinguishes readable evidence from files that must not be regenerated."
+      ],
+      "acceptance": [
+        "The manifest names all three roots and records their SHAs or dirty state.",
+        "Every planned launch can resolve its source, model and environment from the manifest.",
+        "No source or artifact is modified by the inventory."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-01-source-snapshot.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop if any required root or dirty fix cannot be identified; use the existing b4 fallback until resolved.",
+      "gate": "Required before training, cloud packaging or release packaging."
+    },
+    {
+      "id": "PRE-02",
+      "phase": "prepare",
+      "title": "Establish one-CUDA ownership and process ledger",
+      "summary": "Audit the 5090 and reserve one owner at a time, explicitly separating the live O2 control from the finished filtered arm.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Lead",
+      "effort": "0.25 engineer-hour; 0.1 RTX 5090 GPU-hour",
+      "dependsOn": [
+        "PRE-01"
+      ],
+      "steps": [
+        "Record nvidia-smi memory/utilization, active PIDs and command lines.",
+        "Identify PID 1700431 as the O2 unfiltered control when present and record its output directory.",
+        "Create a handoff rule that forbids a second CUDA workload until the owner releases the device."
+      ],
+      "acceptance": [
+        "The live control and finished O2-filtered artifact have distinct IDs and paths.",
+        "The ledger has one current GPU owner and a next-slot condition.",
+        "No second dispatcher or training process is started."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-02-cuda-ownership.json",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/docs/validation/2026-09-11-o2f1800.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop any new GPU launch while an unregistered process or the active control owns the device.",
+      "gate": "Required before every 5090 task."
+    },
+    {
+      "id": "PRE-03",
+      "phase": "prepare",
+      "title": "Recheck storage and artifact headroom",
+      "summary": "Measure current storage before copying checkpoints, preserving the current root reading and separately flagging the historical full-snapshot estimate for recheck.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01"
+      ],
+      "steps": [
+        "Run a fresh df/du inventory for the workspace, /mnt/e, /mnt/h and NAS destinations.",
+        "Record the current root reading of approximately 103 GiB free only if the live measurement agrees; do not reuse an unverified historical snapshot.",
+        "Identify disposable build outputs without deleting anything and reserve durable paths for light/full checkpoints."
+      ],
+      "acceptance": [
+        "A timestamped storage receipt reports measured free space and shared-file caveats.",
+        "The historical full-snapshot size is marked unverified until remeasured.",
+        "No research, active-run or environment files are deleted."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-03-storage-headroom.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop cleanup when ownership or artifact provenance is uncertain; stage to /mnt/e or NAS instead.",
+      "gate": "Required before checkpoint copying or export."
+    },
+    {
+      "id": "PRE-04",
+      "phase": "prepare",
+      "title": "Check provider admission and credit limits",
+      "summary": "Resolve account readiness before reserving paid capacity, distinguishing Anyscale authentication from Azure Cost Management authorization and Kaggle quota.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Cloud",
+      "effort": "0.75 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01"
+      ],
+      "steps": [
+        "Check Anyscale authentication, available A10G allocation and lifecycle/shutdown capability without starting training.",
+        "Check Azure subscription and Cost Management once; record AADSTS530035 or the current result without retries.",
+        "Read Kaggle GPU quota/reset state and write provider-specific ceilings and abort contacts."
+      ],
+      "acceptance": [
+        "Anyscale auth state and a bounded cost/lifecycle plan are recorded, or the lane is explicitly disabled.",
+        "Azure is marked blocked unless its Cost Management check succeeds, and that disabled result is usable by the local plan.",
+        "Kaggle is explicitly optional and cannot gate delivery."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-04-provider-admission.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-parallel-compute.md"
+      ],
+      "delegate": true,
+      "stopRule": "Do not launch paid compute when auth, cost ceiling or independent termination is unverified.",
+      "gate": "Required admission check; provider branches remain conditional."
+    },
+    {
+      "id": "PRE-05",
+      "phase": "prepare",
+      "title": "Pin software, hardware and tokenizer environment",
+      "summary": "Record the exact runtime needed to reproduce the primary SFT/RL and serving artifacts.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Training",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01"
+      ],
+      "steps": [
+        "Capture Python, PyTorch, Transformers, TRL, Unsloth, PEFT, Datasets, llama.cpp and CUDA/driver versions.",
+        "Record RTX 5090, host RAM, target-host identities and model/tokenizer cache locations.",
+        "Pin or snapshot the environment without upgrading dependencies during a run."
+      ],
+      "acceptance": [
+        "A manifest contains exact package versions and hardware identity.",
+        "The active runner and SFT entry point resolve to the pinned source.",
+        "Any version mismatch is an explicit gate failure."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-05-environment-lock.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop a launch if the installed stack differs from the manifest and cannot be reproduced in a smoke.",
+      "gate": "Required for every training and export task."
+    },
+    {
+      "id": "PRE-06",
+      "phase": "prepare",
+      "title": "Freeze the 66-GPU-hour calendar and cut rules",
+      "summary": "Translate the authoritative budget into executable windows without treating engineer time as GPU time.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-02",
+        "PRE-04"
+      ],
+      "steps": [
+        "Record 8 GPU-hours for the existing control, 12 for primary SFT, 26 for RL, 4 for consolidation, 10 for evaluation/harness and 6 for export/recovery.",
+        "Set RL stop at Monday 00:00 Berlin and weight/harness freeze at Monday 12:00.",
+        "Order cuts as optional branches, merges/consolidation and extra probes before final validation."
+      ],
+      "acceptance": [
+        "The local ledger sums to exactly 66 GPU-hours.",
+        "No required release task depends on cloud or optional experiments.",
+        "The ledger records wall-clock cutoffs separately from compute ceilings."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-06-budget-calendar.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop optional launches when the remaining wall window or GPU budget cannot cover export and final validation.",
+      "gate": "Required before SFT admission."
+    },
+    {
+      "id": "PRE-07",
+      "phase": "prepare",
+      "title": "Archive the O2 control and filtered comparator separately",
+      "summary": "Allow the running PID 1700431 control to finish, then preserve its receipt without relabeling the completed O2-filtered run as a control.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Evaluation",
+      "effort": "0.5 engineer-hour; up to 8 RTX 5090 GPU-hours already allocated to the control",
+      "dependsOn": [
+        "PRE-02",
+        "PRE-06"
+      ],
+      "steps": [
+        "Monitor the existing control only and collect its terminal metrics, checkpoints and command line.",
+        "Evaluate control and filtered artifacts on the declared common battery with separate denominators.",
+        "Write a comparison ledger naming filtered, unfiltered and banked b4 rows."
+      ],
+      "acceptance": [
+        "The receipt identifies the control PID/output and its terminal state.",
+        "The 255/307 filtered result is labeled finished filtered, while the control result is separately labeled unfiltered.",
+        "No new O2 run is launched."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-07-o2-control-archive.json",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/docs/validation/2026-09-11-o2f1800.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-experiment-audit.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop comparison if the battery, denominator or model lineage differs; report the artifact as unavailable rather than merging labels.",
+      "gate": "Required historical comparator gate."
+    },
+    {
+      "id": "PRE-08",
+      "phase": "prepare",
+      "title": "Prepare the b4 rollback and banked artifact ledger",
+      "summary": "Make a tested fallback available before the new lineage consumes the release window.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Runtime",
+      "effort": "0.75 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01",
+        "PRE-03"
+      ],
+      "steps": [
+        "Locate and hash b4 Q8_0, its launch settings, parser/marker contract and any O2/Spark/Granite comparator artifacts.",
+        "Write a fresh-start and already-running-sidecar rollback command without changing private research files.",
+        "Record which comparator metrics are historical and which must be re-evaluated on the new development set."
+      ],
+      "acceptance": [
+        "A b4 artifact, hash and launch recipe are present.",
+        "Rollback can run independently of the MiniCPM lineage.",
+        "Historical scores carry explicit cohort and denominator labels."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-08-fallback-ledger.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-model-compute-sources.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop release packaging if the fallback hash or parser contract cannot be reproduced.",
+      "gate": "Required release safety net."
+    },
+    {
+      "id": "PRE-09",
+      "phase": "prepare",
+      "title": "Create local tracker and hosted readable campaign snapshot",
+      "summary": "Keep an interactive persistent tracker locally and a readable expandable snapshot for hosted viewing; do not add a PostPlanCSP script.",
+      "kind": "optional",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.75 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01",
+        "PRE-06"
+      ],
+      "steps": [
+        "Render this task board into a hosted-readable snapshot with all task details expanded or expandable.",
+        "Maintain the local tracker as the authoritative interactive state, with dependency and gate views.",
+        "Record board version, generation time and the rule that task status is maintained outside this immutable pending board."
+      ],
+      "acceptance": [
+        "The hosted snapshot is readable without a custom CSP script.",
+        "The local tracker preserves task details and dependency links across updates.",
+        "The board does not invent completed status for audited historical work."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRE-09-tracking-surfaces.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop if a tracker would overwrite the immutable task definitions; create a new revision receipt instead.",
+      "gate": "Optional administrative surface; it must not block prompt, data, SFT or release work."
+    },
+    {
+      "id": "PRM-01",
+      "phase": "prompt",
+      "title": "Freeze representative pre-edit event fixtures",
+      "summary": "Build non-final snapshots that exercise the information available at prediction time before changing the renderer.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Harness",
+      "effort": "1.5 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "PRE-01"
+      ],
+      "steps": [
+        "Collect typing, deletion, cursor movement, history append/eviction, diagnostic refresh, definition change, anchor move and file-switch episodes.",
+        "Include long-scope, cross-file, local-only, evidence-missing and no-op cases.",
+        "Record source provenance and ensure every snapshot is pre-edit and outside the locked final set."
+      ],
+      "acceptance": [
+        "Fixtures cover all named event classes with pre-edit context and target geometry.",
+        "No target, post-edit repository state or future intent is used to construct an input.",
+        "Each fixture has a stable ID and source package."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-01-event-fixtures.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "extensions/vscode-sepalith/src/extension.ts"
+      ],
+      "delegate": true,
+      "stopRule": "Stop a fixture if its context can only be reconstructed from post-edit state; quarantine it for audit.",
+      "gate": "Required prompt gate."
+    },
+    {
+      "id": "PRM-02",
+      "phase": "prompt",
+      "title": "Map Python and TypeScript renderer gaps",
+      "summary": "Compare the live extension, shared contract and training renderer so SFT does not teach fields serving cannot supply.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Harness",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01",
+        "PRM-01"
+      ],
+      "steps": [
+        "Inspect suffix/prefix/outline/region ordering, history/evidence fields, character caps and cursor offset conventions.",
+        "List every missing provider and every field whose value differs between Python and TypeScript.",
+        "Separate host-side provenance metadata from model-visible prompt text."
+      ],
+      "acceptance": [
+        "A gap matrix names each mismatch and its owner.",
+        "The matrix includes the live lack of history/diagnostic/retrieved-definition rendering.",
+        "No unsupported field is silently added to the new training schema."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-02-renderer-gap-matrix.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "extensions/vscode-sepalith/src/context_build.ts",
+        "extensions/vscode-sepalith/src/extension.ts"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if a field has no prediction-time provider; represent it as missing rather than idealized context.",
+      "gate": "Required before renderer implementation."
+    },
+    {
+      "id": "PRM-03",
+      "phase": "prompt",
+      "title": "Specify the versioned prompt schema and output contract",
+      "summary": "Define model-visible sections, order, missing-field semantics and unchanged replacement/output semantics before SFT.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Harness",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRM-02"
+      ],
+      "steps": [
+        "Define the fixed task contract, workspace-relative path, current prefix/region/scope, selected evidence, history/diagnostics, suffix and generation boundary.",
+        "Assign a renderer ID and version all section delimiters, special-token handling and output markers.",
+        "Keep audit metadata outside the prompt unless its model-visible use is justified."
+      ],
+      "acceptance": [
+        "The schema has one explicit field order and an empty-section policy.",
+        "The replacement/output terminator semantics remain compatible with the parser.",
+        "The schema forbids timestamps, global hashes and future edit intent at the prompt head."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-03-prompt-schema.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/PROMPT-CONTRACT.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if the schema cannot preserve exact whitespace, cursor geometry or complete targets.",
+      "gate": "Required before shared fixtures."
+    },
+    {
+      "id": "PRM-04",
+      "phase": "prompt",
+      "title": "Build shared literal, tokenizer and output fixtures",
+      "summary": "Make Python training, evaluation, RL and TypeScript serving agree on boundaries, Unicode, BOS/EOS and marker handling.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Harness",
+      "effort": "1.5 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "PRM-03",
+        "PRE-05"
+      ],
+      "steps": [
+        "Test Unicode cursor offsets, whitespace, replacement boundaries, missing evidence and literal marker-like source text.",
+        "Tokenize prompt plus target and serving overhead with the chosen tokenizer, including BOS/EOS treatment.",
+        "Round-trip generated output through the parser and application fixture."
+      ],
+      "acceptance": [
+        "Python and TypeScript produce matching fixture IDs, boundaries and marker behavior.",
+        "Complete targets plus terminal tokens fit the recorded admission budget.",
+        "Known-correct, known-wrong and no-op fixtures produce distinct parser outcomes."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-04-shared-fixtures.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "experiments/eval/spec_bench.py",
+        "extensions/vscode-sepalith/src/extension.ts"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if a boundary or marker mismatch would make training labels differ from serving application.",
+      "gate": "Required before context selection."
+    },
+    {
+      "id": "PRM-05",
+      "phase": "prompt",
+      "title": "Implement prediction-time context selection and dropout",
+      "summary": "Provide current source, bounded history and deterministic evidence while preserving missing-provider and evidence-dependent cases.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Harness",
+      "effort": "2 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "PRM-03",
+        "PRM-04"
+      ],
+      "steps": [
+        "Select unsaved current source, exact cursor/region, enclosing scope and bounded chronological history.",
+        "Add relevant definitions/signatures, fresh diagnostics and related tests only when a provider supplies them.",
+        "Apply fixed optional-evidence dropout only when the target remains supported, and leave unsupported rows out."
+      ],
+      "acceptance": [
+        "A renderer can produce current-source-only, evidence-present and missing-evidence prompts.",
+        "History never derives from the target and stale evidence is omitted or refreshed.",
+        "Selection and truncation anchors are deterministic and provenance-backed."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-05-context-selector.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "extensions/vscode-sepalith/src/context_build.ts",
+        "docs/PROMPT-CONTRACT.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if a provider leaks post-edit state or an evidence dropout removes the only support for a target.",
+      "gate": "Required pre-SFT implementation."
+    },
+    {
+      "id": "PRM-06",
+      "phase": "prompt",
+      "title": "Compare at most three prompt layouts on identical snapshots",
+      "summary": "Use the pre-SFT harness budget to compare suffix-first control, file-prefix-first and stable-reference-first with the same selected information.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Harness",
+      "effort": "1 engineer-hour; up to 2 RTX 5090 GPU-hours, serialized",
+      "dependsOn": [
+        "PRM-04",
+        "PRE-07"
+      ],
+      "steps": [
+        "Render each fixture under the three layouts without changing evidence, labels or target.",
+        "Measure token common-prefix survival and recomputation requirements across event types.",
+        "Confirm promising layouts with pinned-server prompt timing, recording backend and contention."
+      ],
+      "acceptance": [
+        "All layouts use the same snapshot IDs and selected information.",
+        "The receipt separates token-overlap diagnostics from measured latency.",
+        "One primary layout and the legacy fallback are nominated before SFT."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-06-layout-comparison.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "experiments/harness_search/H1_RESULTS.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop the comparison after the third layout or when the two-GPU-hour allocation is consumed; do not start full SFT arms.",
+      "gate": "Required prompt decision."
+    },
+    {
+      "id": "PRM-07",
+      "phase": "prompt",
+      "title": "Profile SFT/RL lengths and the 480/170 memory workaround",
+      "summary": "Measure tokenizer lengths and a small memory/throughput profile instead of treating the short current caps as a quality hypothesis.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "1 engineer-hour; up to 0.5 RTX 5090 GPU-hour, serialized",
+      "dependsOn": [
+        "PRM-04",
+        "PRE-05",
+        "PRM-06"
+      ],
+      "steps": [
+        "Tokenize representative fixtures and targets under MiniCPM, reporting the current dataset filters of 480 prompt and 170 target tokens.",
+        "Profile the SFT proposal of 80% <=2048 total tokens and up to 20% naturally longer <=4096 examples.",
+        "Profile RL candidates up to 2048 prompt plus 192 completion tokens, reducing simultaneous rollout generation if needed rather than deleting evidence."
+      ],
+      "acceptance": [
+        "The receipt distinguishes dataset 480/170 filters, old RL trainer 512/192 limits and the proposed longer profile.",
+        "No profile removes target tokens or critical evidence to satisfy a cap.",
+        "Peak memory, generated tokens and throughput are recorded for each admitted bucket."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-07-length-memory-profile.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop a longer profile if memory or policy-log-probability support is not validated; retain the smaller correct profile.",
+      "gate": "Required before primary SFT and RL manifest."
+    },
+    {
+      "id": "PRM-08",
+      "phase": "prompt",
+      "title": "Freeze the pre-SFT prompt contract",
+      "summary": "Select one renderer layout, context policy, dropout policy and output contract for broad SFT, with a correct smaller fallback if optional providers are absent.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRM-05",
+        "PRM-06",
+        "PRM-07"
+      ],
+      "steps": [
+        "Choose the primary renderer ID and record the legacy fallback.",
+        "Freeze selected evidence ordering, history limits, tokenizer budget, marker semantics and empty optional sections.",
+        "Publish the contract manifest to the SFT/data handoff."
+      ],
+      "acceptance": [
+        "Exactly one layout is marked primary before SFT launch.",
+        "The contract can render a valid prompt when every optional provider is missing.",
+        "No full SFT contest or unsupported retrieval dependency remains on the critical path."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-08-frozen-prompt-contract.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop SFT admission if Python, TypeScript and RL fixture IDs do not agree with the frozen contract.",
+      "gate": "Hard gate before SFT."
+    },
+    {
+      "id": "PRM-09",
+      "phase": "prompt",
+      "title": "Prepare the prompt contract handoff and rollout checklist",
+      "summary": "Make the frozen renderer, length buckets and stop contract consumable by data, SFT and RL tasks.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRM-08",
+        "PRM-07"
+      ],
+      "steps": [
+        "Record renderer ID, tokenizer revision, prompt/output caps and length-bucket IDs in one handoff manifest.",
+        "List pre-RL checks for cache/fresh correctness, no-op reward, cap hits, parser and stop behavior.",
+        "Define a new stage ID for any later prompt or length change."
+      ],
+      "acceptance": [
+        "SFT and RL manifests can reference one immutable prompt handoff.",
+        "A changed field/order cannot silently reuse an old stage ID.",
+        "The checklist names every required pre-RL observation."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PRM-09-prompt-rollout-handoff.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop handoff if the actual tokenizer or renderer cannot be pinned.",
+      "gate": "Required dependency for data and training."
+    },
+    {
+      "id": "DAT-01",
+      "phase": "data",
+      "title": "Inventory all data packs, environments and lineage",
+      "summary": "Catalog rows, packages, trajectories, source identities and validators before constructing new splits.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01"
+      ],
+      "steps": [
+        "Enumerate SFT, RL, B11, SY1, scenario, trajectory and environment sources with file hashes.",
+        "Record family, package/repository, source parent, target, validator and derivation metadata.",
+        "Mark known teacher-selection, post-training, banked and paper-derived sources."
+      ],
+      "acceptance": [
+        "Every admitted source has a provenance record and family label.",
+        "Known post-training and historical evaluation sources are identifiable.",
+        "The inventory preserves raw inputs without mutation."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-01-data-inventory.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-data-audit.json"
+      ],
+      "delegate": true,
+      "stopRule": "Stop admission for rows without provenance or a recoverable target/context boundary.",
+      "gate": "Required split prerequisite."
+    },
+    {
+      "id": "DAT-02",
+      "phase": "data",
+      "title": "Build one global package/repository split",
+      "summary": "Assign package/repository groups consistently across SFT, RL, development, final and all derived twins.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "2 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-01"
+      ],
+      "steps": [
+        "Group rows by canonical package/repository, source parent and fork/alias identity.",
+        "Exclude the full sft_v7 package set and known post-training sources from the clean final candidate pool.",
+        "Keep complete trajectories together and prevent one source edit from crossing train/dev/final."
+      ],
+      "acceptance": [
+        "A split manifest has disjoint package/repository groups and source aliases.",
+        "The legacy sft_v3/eval file, inspected derivatives and historical scenario batteries are excluded from final.",
+        "Every later registry references this split ID."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-02-global-split.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-data-audit.json"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if a package cannot be resolved or if a final candidate is derived from post-training evaluation material.",
+      "gate": "Required for every data registry."
+    },
+    {
+      "id": "DAT-03",
+      "phase": "data",
+      "title": "Audit contradictions, duplicates and target visibility",
+      "summary": "Remove irreducible labels and rows whose target cannot be derived from prediction-time evidence.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "DAT-02"
+      ],
+      "steps": [
+        "Find identical normalized prompts with conflicting targets and exact/full-text duplicates across splits.",
+        "Check that pre-edit context, target and validator are separately recoverable.",
+        "Quarantine TU3's 28 contradictory prompt/target pairs and severe truncation until repaired."
+      ],
+      "acceptance": [
+        "The collision receipt lists every contradictory pair and quarantine reason.",
+        "No contradictory prompt reaches a required training or final manifest.",
+        "Rows lacking visible target support are tagged rather than relabeled."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-03-collision-and-visibility.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-tu3-collision-audit.json"
+      ],
+      "delegate": true,
+      "stopRule": "Stop a family if its validator or target boundary is ambiguous; do not fill quotas with guessed labels.",
+      "gate": "Required before clean registry."
+    },
+    {
+      "id": "DAT-04",
+      "phase": "data",
+      "title": "Run candidate-tokenizer length and target audit",
+      "summary": "Recompute eligibility under the selected MiniCPM tokenizer and frozen prompt contract, including current filters and proposed long buckets.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "2 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-03",
+        "PRM-04",
+        "PRE-05"
+      ],
+      "steps": [
+        "Encode prompts, complete targets and terminal tokens under the actual tokenizer.",
+        "Report rows dropped by the current 480/170 builder filters and rows that fit the proposed 2048/4096 SFT or 2048+192 RL profiles.",
+        "Keep prompt and target token counts separate and record family/source losses."
+      ],
+      "acceptance": [
+        "The receipt provides per-family eligible counts and exact drop reasons.",
+        "No row is admitted by truncating a target or required evidence.",
+        "The profile decision can update filters and rollout configuration together."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-04-token-length-audit.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop the long bucket if it only contains duplicated examples or cannot retain full targets.",
+      "gate": "Required data admission gate."
+    },
+    {
+      "id": "DAT-05",
+      "phase": "data",
+      "title": "Build the cleaned SFT registry",
+      "summary": "Materialize one broad train registry from lossless, validator-backed rows under the global split and frozen prompt contract.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "3 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-03",
+        "DAT-04",
+        "PRM-08"
+      ],
+      "steps": [
+        "Convert structured rows through the shared renderer, preserving observed context, target and marker.",
+        "Include real edits/completions, deterministic repairs, documented tasks, comment/doc tasks and checked no-ops.",
+        "Exclude TU3, contradictory rows, legacy final sources and rows failing full-target eligibility."
+      ],
+      "acceptance": [
+        "Every registry row links to source, package, renderer ID, tokenizer profile and target hash.",
+        "No post-edit context or final-set failure is used to author a training target.",
+        "The registry reports family and length coverage."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-05-sft-registry.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop conversion for any row that fails round-trip rendering; quarantine it with a reason.",
+      "gate": "Required SFT input."
+    },
+    {
+      "id": "DAT-06",
+      "phase": "data",
+      "title": "Implement the parameterized SFT sampler",
+      "summary": "Use 10% no-op slots and square-root family allocation with a 25% ceiling, backfilling only from eligible replay.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "1.5 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-05"
+      ],
+      "steps": [
+        "Compute quotas from admitted family counts rather than old fixed pools.",
+        "Reserve 10% no-op slots, cap any family at 25%, cap new small-pack source rows at three presentations and backfill unavailable slots.",
+        "Emit the exact selected IDs, draws, exposures and achieved mixture for each seed."
+      ],
+      "acceptance": [
+        "The sampler produces a manifest without hard-coded run2/O2 assumptions.",
+        "No rare-family quota is met by indefinite duplication.",
+        "The 48,000-draw/3,000-update first readout can be reproduced from the manifest."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-06-sft-sampler-manifest.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if the sampler cannot fill a quota with valid rows; renormalize and record the deficit.",
+      "gate": "Required before primary SFT."
+    },
+    {
+      "id": "DAT-07",
+      "phase": "data",
+      "title": "Build the development selector panel",
+      "summary": "Create a package-separated 128-case panel for checkpoint selection with edits, completions, no-ops and family labels.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "2 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-02",
+        "DAT-03",
+        "DAT-05"
+      ],
+      "steps": [
+        "Sample 128 non-final cases from disjoint packages and trajectories.",
+        "Include family, length bucket, evidence-present/missing and no-op strata with verified targets.",
+        "Write scoring rules for exact, semantic/useful edit, parser, no-op false suggestion and cap hits."
+      ],
+      "acceptance": [
+        "The panel has no package or normalized-prompt collision with training.",
+        "Every case has a validator or declared human review path.",
+        "The panel can be scored repeatedly without opening the locked final set."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-07-dev-selector-panel.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if the panel cannot reach declared coverage; report the actual package count and uncertainty.",
+      "gate": "Required for checkpoint gates."
+    },
+    {
+      "id": "DAT-08",
+      "phase": "data",
+      "title": "Build and lock the final evaluation manifest",
+      "summary": "Construct the 600–1000-point final set from at least 30 independent packages where available, then keep it unopened until Monday 12:00.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "2 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-02",
+        "DAT-03",
+        "DAT-05"
+      ],
+      "steps": [
+        "Select useful edits, deterministic repairs, no-edits and realistic typing/history events from clean sources.",
+        "Exclude sft_v3/eval, its overlap-derived rows, sft_v7 packages, historical batteries and all post-training/teacher-selection sources.",
+        "Hash the manifest, restrict routine access and create a separate 2K/4K plus 8K stress trace manifest."
+      ],
+      "acceptance": [
+        "The final manifest records package/repository disjointness and source exclusions.",
+        "The final data remains unopened until the declared weight/harness freeze.",
+        "Shortfall from 600–1000 or 30 packages is reported rather than padded with leaked rows."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-08-locked-final-manifest.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-data-audit.json"
+      ],
+      "delegate": false,
+      "stopRule": "Stop if final rows derive from training, historical evaluation or post-edit state; use a smaller honest final set.",
+      "gate": "Required release gate."
+    },
+    {
+      "id": "DAT-09",
+      "phase": "data",
+      "title": "Build the parent-specific RL pool and verifier manifest",
+      "summary": "Create broad RL quotas and validators for the selected parent without inheriting the b4/O2 prescreen or stale 480/170 admissions.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "2 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-05",
+        "DAT-06",
+        "PRM-09"
+      ],
+      "steps": [
+        "Parameterize primary quotas around rename, format, no-op, pipe and validated additional/finish families from available rows.",
+        "Run known-correct/known-wrong/no-op verifier fixtures and retain evidence-dependent tasks only when evidence is visible.",
+        "Record the actual prompt/target profile, 192-token completion maximum and any rows excluded by the chosen rollout profile."
+      ],
+      "acceptance": [
+        "The manifest has no hard-coded O2/run2 filter and names the selected parent/renderer/tokenizer.",
+        "Every admitted row has a passing verifier or an explicit SFT-only tag.",
+        "TU3 and contradictory rows are absent."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-09-rl-pool-verifier.json"
+      ],
+      "sources": [
+        "docs/campaign/tasks.json#DAT-05",
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop RL pool assembly if verifier pass/fail cannot distinguish a correct no-op from parser failure.",
+      "gate": "Required before RL smoke."
+    },
+    {
+      "id": "SFT-01",
+      "phase": "sft",
+      "title": "Load and audit the MiniCPM Midtrain checkpoint",
+      "summary": "Verify the pinned revision, tokenizer and architecture before committing the 12-hour SFT slot.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; 0.25 RTX 5090 GPU-hour, serialized",
+      "dependsOn": [
+        "PRE-05",
+        "PRM-09",
+        "DAT-04"
+      ],
+      "steps": [
+        "Load the pinned `openbmb/MiniCPM5-2B-Midtrain` revision with the selected tokenizer.",
+        "Inspect model type, trainable projection names, vocabulary, BOS/EOS IDs and chat-template behavior.",
+        "Run one prompt/target fixture through the frozen renderer and model loader."
+      ],
+      "acceptance": [
+        "The model loads without GDN-specific assumptions or unexpected offload.",
+        "The two EOS IDs and special-token behavior are recorded.",
+        "The fixture reports prompt/target lengths under the chosen SFT profile."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-01-minicpm-load-audit.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-new-base-challenge.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop the Midtrain primary if architecture, tokenizer or memory behavior is incompatible; consider the final checkpoint only as a reserve decision.",
+      "gate": "Required parent compatibility gate."
+    },
+    {
+      "id": "SFT-02",
+      "phase": "sft",
+      "title": "Attach SFT LoRA and run the 50-step smoke",
+      "summary": "Verify actual modules, finite loss, renderer compatibility, export and throughput before the primary SFT.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "1 engineer-hour; up to 0.5 RTX 5090 GPU-hour",
+      "dependsOn": [
+        "SFT-01",
+        "PRM-08",
+        "DAT-06"
+      ],
+      "steps": [
+        "Attach the audited MiniCPM projection list at r32/alpha64 with BF16 and effective batch 16.",
+        "Run 50 updates using the frozen prompt contract and candidate length buckets.",
+        "Export a temporary adapter and run parser/output/target round-trip fixtures."
+      ],
+      "acceptance": [
+        "Loss is finite and trainable module count matches the audit.",
+        "No persistent system-memory fallback or unexpected OOM occurs.",
+        "Exported output tokenizes, parses and preserves the target contract."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-02-sft-smoke.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop the primary launch after OOM, nonfinite loss, dropped target, parser mismatch or unmeasured throughput.",
+      "gate": "Hard gate before the 12-hour SFT."
+    },
+    {
+      "id": "SFT-03",
+      "phase": "sft",
+      "title": "Launch broad SFT and verify the first update",
+      "summary": "Start the one broad SFT trajectory, verify its identity and first healthy optimizer update, then hand monitoring to the checkpoint tasks while the job continues.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; up to 12 RTX 5090 GPU-hours",
+      "dependsOn": [
+        "SFT-02",
+        "SFT-04",
+        "DAT-06",
+        "PRM-09"
+      ],
+      "steps": [
+        "Confirm the SFT smoke, resumable checkpoint hooks, selected renderer and data registry receipts.",
+        "Acquire the single CUDA lease and start the pinned run toward the initial 3000-update readout within the 12-hour ceiling.",
+        "Record PID, command, source/model/data hashes, output directory, first valid update and the next evaluation checkpoint. Leave terminal completion to SFT-10."
+      ],
+      "acceptance": [
+        "A launch receipt identifies the actual running process and first finite-loss update.",
+        "Checkpoint and development callbacks are active before the long run proceeds.",
+        "The run has one resource owner and a declared deadline; launch acceptance does not claim training completion."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-03-primary-sft-run.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop at the first unresolved OOM, target truncation, data leakage or calendar overrun; preserve the best valid checkpoint.",
+      "gate": "Required primary intervention."
+    },
+    {
+      "id": "SFT-04",
+      "phase": "sft",
+      "title": "Install SFT checkpoint, resume and evaluation hooks",
+      "summary": "Make checkpoint persistence, interruption/resume and early development reads ready before the primary SFT starts.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.25 engineer-hour; included in SFT-03's 12 GPU-hour job",
+      "dependsOn": [
+        "SFT-02",
+        "DAT-07"
+      ],
+      "steps": [
+        "Configure lightweight adapter/config snapshots, full optimizer/scheduler/RNG/sampler state, durable output paths and retention before launch.",
+        "Install the development evaluator callback so it can consume checkpoints as they appear without waiting for the terminal run.",
+        "Run an interrupted 50-step resume dry-run and verify optimizer, scheduler, RNG and sampler restoration."
+      ],
+      "acceptance": [
+        "The primary launch can name save/resume/evaluation paths before SFT-03 starts.",
+        "The dry-run restores state rather than starting a fresh optimizer.",
+        "The evaluator can read an available checkpoint while the full SFT remains in progress."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-04-sft-hooks.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop the primary launch if durable save, resume or early-evaluation hooks cannot be exercised in the smoke.",
+      "gate": "Hard prelaunch gate for SFT-03."
+    },
+    {
+      "id": "SFT-05",
+      "phase": "sft",
+      "title": "Record the first scheduled SFT development readout",
+      "summary": "Evaluate the first saved SFT checkpoint while the trajectory is running; later periodic reads remain part of the terminal SFT archive.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "1.5 engineer-hours; up to 2 compute-hours on validated CPU/cloud backend",
+      "dependsOn": [
+        "SFT-03",
+        "SFT-04",
+        "DAT-07"
+      ],
+      "steps": [
+        "At the first scheduled saved checkpoint, pause or hand off the CUDA lease safely, or use an available compatible evaluator.",
+        "Score the fixed development panel with per-family edit, no-op, target-length and evidence-use results.",
+        "Record the readout and resume/stop recommendation; schedule subsequent evaluations through SFT-10 without opening the final set."
+      ],
+      "acceptance": [
+        "The first scheduled checkpoint has a complete development report with denominators and model/renderer/data identities.",
+        "The next evaluation and any stopping concern are recorded.",
+        "No final-test row was used, and this receipt does not claim later checkpoints have been evaluated."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-05-sft-dev-readout.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop additional SFT scoring when the evaluation allowance or data boundary would be breached.",
+      "gate": "Required SFT selection input."
+    },
+    {
+      "id": "SFT-06",
+      "phase": "sft",
+      "title": "Run bounded source-supported finish correction",
+      "summary": "Correct verified incomplete finish targets using a fresh SFT stage from selected theta0, then choose continuation from fixed development milestones.",
+      "kind": "conditional",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "Up to1 compute-hour reallocated from unused RL ceiling",
+      "dependsOn": [
+        "SFT-05",
+        "SFT-09",
+        "DAT-07",
+        "PRE-02"
+      ],
+      "steps": [
+        "Verify versioned corrected TRAIN and DEV artifacts, preserving original sources and no-op mixture.",
+        "Original full-text50/100 arm was cut. Admit one fresh target-only25 pilot from theta0 at LR5e-5 with fixed200-step schedule horizon, target+EOS masks and pre-update objective check; any full25-to50 resume requires a new root decision.",
+        "Choose continuation or stop from actual editing/no-op,finish application,protocol and latency evidence."
+      ],
+      "acceptance": [
+        "Corrected inputs bind exact source and tokenizer identities with no truncated targets.",
+        "Full checkpoint,optimizer,RNG,sampler and development readouts are verified at every decision.",
+        "No automatic continuation or promotion; fallback and final-set seal remain."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-06-finish-correction-outcome.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/campaign/receipts/SFT-06-finish-correction-lead-decision.json",
+        "docs/campaign/receipts/SFT-06-target-only25-a-lead-decision.json"
+      ],
+      "delegate": true,
+      "stopRule": "Stop fresh pilot25, runtime/memory gate failure, remaining1775.576667825all-in seconds, or Monday00Berlin. No automatic resume; later target-only50 is unconditional ceiling.",
+      "gate": "Conditional source-supported correction replaces deferred optional selector work."
+    },
+    {
+      "id": "SFT-07",
+      "phase": "sft",
+      "title": "Extend the primary SFT only when the gate earns it",
+      "summary": "Use unused eligible data and development retention to decide whether to continue toward 6,000 updates/96,000 draws.",
+      "kind": "conditional",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.25 engineer-hour; uses only remaining SFT allocation within the 12 GPU-hour ceiling",
+      "dependsOn": [
+        "SFT-05"
+      ],
+      "steps": [
+        "Check measured throughput, development retention and remaining calendar before extending.",
+        "Resume the same schedule when possible; if a new optimizer/schedule is used, assign a new stage ID.",
+        "Archive the extension and compare it with the selected 3,000-update checkpoint."
+      ],
+      "acceptance": [
+        "The extension stays within 12 GPU-hours and does not delay RL.",
+        "No repeated cosine restart is presented as a faithful continuation.",
+        "A development decision says extend or keep the shorter checkpoint."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-07-sft-extension-decision.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop extension at the first retention regression, calendar conflict or budget exhaustion.",
+      "gate": "Conditional; never required for RL admission."
+    },
+    {
+      "id": "SFT-08",
+      "phase": "sft",
+      "title": "Select one SFT checkpoint for the common parent",
+      "summary": "Choose the SFT checkpoint that will seed every decisive branch using development quality, restraint, length and export evidence.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "SFT-05",
+        "SFT-10"
+      ],
+      "steps": [
+        "Rank valid SFT checkpoints using the development report and optional diagnostic evidence.",
+        "Check no-op, target support, parser, length and target-host feasibility against b4.",
+        "Record one selected checkpoint and one fallback without opening the final set."
+      ],
+      "acceptance": [
+        "Exactly one checkpoint is designated `theta0` input.",
+        "The selection receipt contains metrics, denominators, source and renderer hashes.",
+        "No optional extension or cloud branch is required to define theta0."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-08-sft-checkpoint-selection.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop selection if all checkpoints fail the smoke or development validity gates; use b4 while repairing.",
+      "gate": "Required parent decision."
+    },
+    {
+      "id": "SFT-09",
+      "phase": "sft",
+      "title": "Merge and hash the immutable theta0 parent",
+      "summary": "Create one durable merged Midtrain→SFT parent with tokenizer and serving contract for all branches.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; up to 0.5 RTX 5090 GPU-hour",
+      "dependsOn": [
+        "SFT-08"
+      ],
+      "steps": [
+        "Merge the selected adapter into a durable non-/tmp directory using explicit model and tokenizer paths.",
+        "Hash merged weights, tokenizer, renderer ID, marker protocol and environment manifest.",
+        "Run a load/generation/parser fixture and preserve the unmodified SFT adapter separately."
+      ],
+      "acceptance": [
+        "The hash and parent path reproduce the selected checkpoint exactly.",
+        "Every subsequent branch can reference the same theta0 bytes.",
+        "The b4 rollback remains independent."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-09-theta0-manifest.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop branch packaging if merge changes tokenizer, special tokens or parser behavior.",
+      "gate": "Hard gate for RL and same-parent cloud."
+    },
+    {
+      "id": "SFT-10",
+      "phase": "sft",
+      "title": "Finalize SFT and archive its checkpoint history",
+      "summary": "Monitor the remaining primary SFT trajectory, perform scheduled development reads, and close the job with a durable checkpoint and terminal receipt.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.25 engineer-hour; included in SFT-03's 12 GPU-hour job",
+      "dependsOn": [
+        "SFT-03",
+        "SFT-04",
+        "SFT-05"
+      ],
+      "steps": [
+        "Maintain the 500-update adapter/full-state cadence and periodic development evaluations while the primary job runs.",
+        "At 3000 updates, record the stop or optional-extension decision against development results, measured throughput and the remaining 12-hour allowance.",
+        "Stop by the declared deadline, verify the real process has ended, and archive the checkpoint inventory, optimizer/RNG/sampler state, scores and final training-token counts."
+      ],
+      "acceptance": [
+        "The process is terminal and its ending reason, update count and elapsed allocation are recorded.",
+        "Every scored checkpoint and the latest full resume state are recoverable by hash.",
+        "The complete available development history supports SFT-08 selecting a parent; missing or skipped evaluations are explicit."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-10-checkpoint-archive.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop continuation if the latest safe state cannot be copied or verified; use the last valid checkpoint.",
+      "gate": "Required in-run monitor; launch it alongside SFT-03 and let it finish independently."
+    },
+    {
+      "id": "RL-01",
+      "phase": "rl",
+      "title": "Parameterize the RL runner for theta0 and the chosen context profile",
+      "summary": "Replace b4-specific paths and filters while retaining the first comparable GRPO reward and adapter geometry.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Training",
+      "effort": "3 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "PRM-07",
+        "PRM-09",
+        "SFT-02"
+      ],
+      "steps": [
+        "Add explicit model, SFT adapter/merge, renderer, data, stop/EOS, prompt/completion, resume and output-path arguments.",
+        "Update the 480/170 dataset filters together with trainer/rollout limits; do not leave longer eligible rows silently excluded.",
+        "Add light-adapter and full-state checkpoint hooks, telemetry fields and a dry-run manifest."
+      ],
+      "acceptance": [
+        "The runner has no hard-coded v6/b4 merge or O2 prescreen dependency.",
+        "A dry run resolves theta0, tokenizer, quotas, stop contract and output directory.",
+        "The first arm keeps exact-plus-0.2-line-F1, beta 0 and r16/alpha16 unless the smoke records a necessary change."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-01-runner-parameterization.json"
+      ],
+      "sources": [
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py",
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop implementation if a change requires a framework migration or invalidates the existing reward parser.",
+      "gate": "Required before RL smoke."
+    },
+    {
+      "id": "RL-02",
+      "phase": "rl",
+      "title": "Materialize the parent-specific RL pool and stage manifest",
+      "summary": "Bind the validator-backed pool to theta0, renderer, length buckets and the measured rollout profile.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Data",
+      "effort": "1.5 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "DAT-09",
+        "PRM-09",
+        "RL-01"
+      ],
+      "steps": [
+        "Join admitted rows to theta0 tokenizer/renderer IDs and mark SFT-only rows.",
+        "Emit parameterized family quotas, no-op guard, source exposure cap and fallback backfill.",
+        "Record the candidate prompt maximum, 192-token completion maximum and expected completion/group counts."
+      ],
+      "acceptance": [
+        "Every row has a parent-independent source and parent-specific eligibility result.",
+        "The manifest distinguishes proposed 2048+192 from the actually measured profile.",
+        "No final-set failures or O2-selected-only rows enter the required pool."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-02-rl-stage-manifest.json"
+      ],
+      "sources": [
+        "docs/campaign/tasks.json#DAT-05",
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if the measured profile cannot retain complete targets or if a family has no valid reward contract.",
+      "gate": "Required RL input."
+    },
+    {
+      "id": "RL-03",
+      "phase": "rl",
+      "title": "Run the pre-RL theta0 behavior and rollout gate",
+      "summary": "Validate evidence sensitivity, parser/stop parity, no-op reward and memory before the long trajectory.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Evaluation",
+      "effort": "1 engineer-hour; up to 1 RTX 5090 GPU-hour, serialized",
+      "dependsOn": [
+        "SFT-09",
+        "RL-01",
+        "RL-02"
+      ],
+      "steps": [
+        "Compare correct, irrelevant/missing-evidence and local-only fixtures on theta0.",
+        "Run cache-enabled and fresh-state generation, no-op/marker fixtures and candidate length profiles.",
+        "Measure rollout memory, policy-log-probability path, cap hits and actual completion tokens."
+      ],
+      "acceptance": [
+        "The chosen profile fits without silent truncation or missing loss-bearing probabilities.",
+        "Parser, stop, no-op and cache/fresh outputs satisfy the frozen contract.",
+        "A measured throughput and profile decision is recorded."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-03-pre-rl-gate.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop long RL if behavior, policy-log-probability, parser or memory gates fail; repair or fall back to theta0/b4.",
+      "gate": "Hard gate before sustained RL."
+    },
+    {
+      "id": "RL-04",
+      "phase": "rl",
+      "title": "Freeze the RL rollout, reward and quota manifest",
+      "summary": "Make the long run's prompt length, output length, family mix, stop contract and stage identity immutable.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "RL-03"
+      ],
+      "steps": [
+        "Choose the measured prompt profile up to 2048 plus 192 and record any smaller memory-safe profile.",
+        "Freeze exact/line-F1 reward, four generations, batch/accumulation, beta, temperature, quotas and no-op guard.",
+        "Write the RL stage ID and explicit Monday 00:00 stop/cut rule."
+      ],
+      "acceptance": [
+        "The manifest records actual rather than assumed prompt/completion limits.",
+        "A later profile or renderer change must receive a new stage ID.",
+        "The manifest names theta0 and all source/validator hashes."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-04-frozen-rl-contract.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop if any reward, renderer, quota or length setting remains implicit.",
+      "gate": "Hard gate before launch."
+    },
+    {
+      "id": "RL-05",
+      "phase": "rl",
+      "title": "Launch broad-mixture GRPO and hand off at first valid update",
+      "summary": "Launch the instrumented broad-mixture GRPO job and hand off after its first valid update; RL-10 records terminal completion separately.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; up to 26 RTX 5090 GPU-hours including rollouts",
+      "dependsOn": [
+        "RL-04",
+        "RL-06"
+      ],
+      "steps": [
+        "Launch one instrumented run with r16/alpha16, four generations, batch 8 × accumulation 4, BNPO/group scaling and the frozen reward.",
+        "Record the first valid update, 32 completions per update, actual generated tokens, prompt lengths, wall time and family telemetry.",
+        "Continue only under RL-08's decision and the Monday 00:00 cutoff; do not make launch success imply terminal completion."
+      ],
+      "acceptance": [
+        "A durable launch/first-valid-update receipt exists; terminal status may remain pending.",
+        "The 26 GPU-hour ceiling and one-CUDA policy are respected.",
+        "The run does not consume final-set failures or silently change renderer/reward."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-05-rl-launch.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop on persistent quality deterioration, invalid reward/termination behavior, no learning signal, calendar cutoff or budget exhaustion.",
+      "gate": "Primary RL launch gate; it closes at first valid update, not at terminal completion."
+    },
+    {
+      "id": "RL-06",
+      "phase": "rl",
+      "title": "Install RL checkpoint and telemetry hooks before launch",
+      "summary": "Prepare light adapters, full resumable state, telemetry callbacks and durable paths before the long RL job begins.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; included in RL-05's 26 GPU-hour job",
+      "dependsOn": [
+        "RL-04"
+      ],
+      "steps": [
+        "Save full resumable adapter/optimizer/scheduler/RNG/sampler state every5 RL updates and at every controlled stop. The cadence follows interrupted runs that reached6 updates but retained only light5. Preserve prior light and full snapshots; measure storage after the first full5 save.",
+        "Add reward, family, length, cap, termination, zero-variance and gradient telemetry fields.",
+        "Run a dry-run save/resume check against theta0 before releasing the GPU to RL-05."
+      ],
+      "acceptance": [
+        "RL-05 can start with save, resume, telemetry and durable output paths already configured.",
+        "The dry-run restores optimizer, scheduler, RNG and sampler state.",
+        "The hook receipt does not rely on save_total_limit=2 or /tmp survival."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-06-checkpoint-hooks.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/rl_smoke.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop the long launch if hooks cannot save and restore state in the dry-run.",
+      "gate": "Hard prelaunch gate for RL-05."
+    },
+    {
+      "id": "RL-07",
+      "phase": "rl",
+      "title": "Record the first scheduled RL development readout",
+      "summary": "Evaluate the first scheduled saved RL checkpoint during the active run, then hand later checks to the continuation and terminal tasks.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Evaluation",
+      "effort": "Included in the RL-05 local ceiling; evaluate serially in the one owned CUDA process.",
+      "dependsOn": [
+        "RL-05",
+        "RL-06"
+      ],
+      "steps": [
+        "At update5 in the corrected full5 stage, record the full-state identity and evaluate the fixed accepted75-case DEV panel (43 edits,32 no-ops). Continue DEV at update25 and every25 updates; preserve early interrupted attempts as such.",
+        "Report per-family edit/no-op scores, cap hits, invalid parses and reward variation; compare with theta0 and the existing baseline.",
+        "Record the recommendation and next checkpoint; continue periodic monitoring through RL-08 and RL-10."
+      ],
+      "acceptance": [
+        "The first scheduled readout has model-specific metrics and denominators, or an explicit early-stop receipt explains why that checkpoint was not reached.",
+        "A next readout and continuation concern are recorded without claiming future checkpoints are evaluated.",
+        "The locked final set remains unopened."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-07-rl-dev-checkpoints.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": true,
+      "stopRule": "Skip stale intermediate evaluation rather than pausing productive training indefinitely; preserve the skipped artifact list.",
+      "gate": "Required checkpoint evidence."
+    },
+    {
+      "id": "RL-08",
+      "phase": "rl",
+      "title": "Make scheduled early and sustained RL continuation decisions",
+      "summary": "Decide whether the primary RL trajectory has useful held-out signal and should continue to the Monday cutoff.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "RL-05",
+        "RL-07"
+      ],
+      "steps": [
+        "Review the early5-update DEV readout before resuming, then review25 and decide continuation at100 and250 or the latest evaluated checkpoint within six trajectory hours, whichever arrives first. Counts are ceilings; use measured time and remaining budget.",
+        "Compare the best RL checkpoint with theta0 and b4 on the development panel.",
+        "Check format/rename learning, no-op restraint, termination/cap behavior and retention.",
+        "Record stop, continue or fallback with remaining wall/GPU budget."
+      ],
+      "acceptance": [
+        "The decision has explicit metrics, denominators and a timestamp before continuation.",
+        "A failed gate leaves theta0 and b4 available.",
+        "Continuation never consumes locked final evaluation time."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-08-rl-continuation-gate.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop on protocol/memory/reward-contract failure immediately. Stop persistent DEV deterioration or absent held-out progress by update250 or six trajectory hours, whichever arrives first; document smaller beneficial checkpoints and preserve theta0/b4.",
+      "gate": "Required continuation gate."
+    },
+    {
+      "id": "RL-09",
+      "phase": "rl",
+      "title": "Select and export the best RL candidate",
+      "summary": "Choose the useful checkpoint, or explicitly retain theta0 when RL does not earn promotion.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; up to 1 RTX 5090 GPU-hour",
+      "dependsOn": [
+        "RL-05",
+        "RL-06",
+        "RL-07",
+        "RL-08",
+        "RL-10",
+        "SFT-09"
+      ],
+      "steps": [
+        "Rank valid RL checkpoints by held-out useful edits, restraint, termination and serving feasibility.",
+        "Merge the selected adapter once into a durable candidate and hash it with theta0 lineage.",
+        "Preserve the selected adapter, unmerged checkpoint and theta0/b4 fallbacks."
+      ],
+      "acceptance": [
+        "One candidate ID or theta0 fallback is designated for release comparison.",
+        "The export has complete parent/tokenizer/renderer/reward lineage.",
+        "No final-set result was used to tune the selection."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-09-rl-candidate.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/experiments/training/rl_smoke.py"
+      ],
+      "delegate": false,
+      "stopRule": "Stop export if no checkpoint is valid; promote theta0/b4 fallback and retain RL artifacts as experimental.",
+      "gate": "Required primary candidate output."
+    },
+    {
+      "id": "RL-10",
+      "phase": "rl",
+      "title": "Finalize the sustained RL run and terminal archive",
+      "summary": "After RL-08 decides stop or continue, finish or stop the trajectory at its gate, archive terminal state and close the 26-hour job.",
+      "kind": "required",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.25 engineer-hour; included in RL-05's 26 GPU-hour job",
+      "dependsOn": [
+        "RL-05",
+        "RL-06",
+        "RL-08"
+      ],
+      "steps": [
+        "Follow RL-08's stop/continue decision until the selected update target or Monday 00:00 cutoff.",
+        "Copy the latest full resumable state, final light adapter, telemetry and command line to durable storage.",
+        "Record terminal update, wall time, generated-token total, budget use and any recovery or early-stop reason."
+      ],
+      "acceptance": [
+        "The terminal receipt states whether RL completed, stopped early or fell back.",
+        "The final checkpoint and latest full state are independently recoverable.",
+        "The 26 GPU-hour ceiling and Monday 00:00 cutoff are honored."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-10-terminal-archive.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/rl_smoke.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop at Monday 00:00 or the 26 GPU-hour ceiling even if the target update count is incomplete.",
+      "gate": "Required terminal receipt before RL candidate selection."
+    },
+    {
+      "id": "PAR-01",
+      "phase": "parallel",
+      "title": "Admit the authenticated Anyscale auxiliary lane",
+      "summary": "Verify that Anyscale can run a bounded same-parent SFT job with independent shutdown before uploading private artifacts.",
+      "kind": "conditional",
+      "resource": "Anyscale",
+      "role": "Cloud",
+      "effort": "0.75 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-04"
+      ],
+      "steps": [
+        "Confirm credentials, A10G allocation, region, private storage and shutdown API.",
+        "Set an all-in ceiling of $60 and an 18 allocation-hour maximum.",
+        "Record the exact image/environment and source snapshot required for parity."
+      ],
+      "acceptance": [
+        "Auth and lifecycle controls pass without training.",
+        "The lane has a bounded cost and termination receipt.",
+        "No required local task depends on this lane."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-01-anyscale-admission.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-parallel-compute.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop the cloud branch after one failed admission or cost/lifecycle check; do not retry blindly.",
+      "gate": "Conditional auxiliary lane gate."
+    },
+    {
+      "id": "PAR-02",
+      "phase": "parallel",
+      "title": "Package theta0 and renderer for Anyscale",
+      "summary": "Transfer the exact same parent, tokenizer, prompt contract and source fixes privately for the auxiliary SFT lane.",
+      "kind": "conditional",
+      "resource": "Anyscale",
+      "role": "Cloud",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PAR-01",
+        "SFT-09",
+        "PRM-09"
+      ],
+      "steps": [
+        "Create a private manifest containing theta0 hashes, renderer ID, tokenizer and environment.",
+        "Upload only required artifacts and verify hashes in the cloud workspace.",
+        "Run one tokenizer/parser fixture before allocating training."
+      ],
+      "acceptance": [
+        "Cloud and local theta0/renderer/tokenizer hashes match.",
+        "Private outputs have a durable download path.",
+        "The fixture passes before a GPU job is requested."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-02-anyscale-package.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if hashes or source fixes differ; do not launch a non-equivalent branch.",
+      "gate": "Conditional package gate."
+    },
+    {
+      "id": "PAR-03",
+      "phase": "parallel",
+      "title": "Run the Anyscale 50-step SFT parity smoke",
+      "summary": "Check the auxiliary SFT geometry and precision before using the cloud budget for breadth.",
+      "kind": "conditional",
+      "resource": "Anyscale",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; up to 0.5 Anyscale allocation-hour",
+      "dependsOn": [
+        "PAR-02",
+        "PRM-09",
+        "DAT-06"
+      ],
+      "steps": [
+        "Run the same prompt fixtures, LoRA geometry, effective batch and full-target checks.",
+        "Measure loss, trainable modules, memory, token profile and throughput.",
+        "Record the cloud precision and any data-loader difference."
+      ],
+      "acceptance": [
+        "The smoke has finite loss, matching parser output and an explicit rate.",
+        "Precision/architecture differences are recorded rather than hidden.",
+        "The branch either passes or is dropped without affecting local delivery."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-03-anyscale-parity-smoke.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop cloud training on fixture mismatch, nonfinite loss, uncontrolled cost or missing shutdown.",
+      "gate": "Conditional cloud gate."
+    },
+    {
+      "id": "PAR-04",
+      "phase": "parallel",
+      "title": "Run the Anyscale breadth SFT continuation",
+      "summary": "Use authenticated cloud capacity for a same-parent replay plus validated underrepresented completion/repair families.",
+      "kind": "conditional",
+      "resource": "Anyscale",
+      "role": "Training",
+      "effort": "0.25 engineer-hour; up to 3,000 updates and 18 allocation-hours, capped at $60",
+      "dependsOn": [
+        "PAR-03"
+      ],
+      "steps": [
+        "Launch from theta0 with the same renderer/tokenizer and LR 2e-5 after the parity smoke.",
+        "Use replay plus validated underrepresented families, with source caps and no final-set rows.",
+        "Save checkpoints and stop early if the local candidate already dominates or Monday 00:00 approaches."
+      ],
+      "acceptance": [
+        "The branch has an independent checkpoint/readout and actual data mixture.",
+        "The cost and Monday cutoff are respected.",
+        "It is not treated as a required second primary lineage."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-04-anyscale-breadth-sft.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop at the cost ceiling, no-data-signal gate or Monday 00:00; retain local theta0/RL as complete fallback.",
+      "gate": "Conditional breadth branch."
+    },
+    {
+      "id": "PAR-05",
+      "phase": "parallel",
+      "title": "Archive and shut down Anyscale artifacts",
+      "summary": "Preserve cloud checkpoints and terminate resources before the deadline.",
+      "kind": "conditional",
+      "resource": "Anyscale",
+      "role": "Cloud",
+      "effort": "0.5 engineer-hour; included in PAR-04 allocation",
+      "dependsOn": [
+        "PAR-02"
+      ],
+      "steps": [
+        "If PAR-04 ran, copy manifests, logs, checkpoints and hashes to durable private storage.",
+        "If PAR-04 was disabled, record that no Anyscale resource or artifact existed; otherwise verify download integrity and actual cost.",
+        "Terminate instances and confirm no active resources remain."
+      ],
+      "acceptance": [
+        "Selected cloud artifacts are recoverable locally, or a disabled/no-resource outcome is recorded.",
+        "The provider reports shutdown and final cost when a job ran.",
+        "No Anyscale process remains after Monday 00:00."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-05-anyscale-shutdown.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-parallel-compute.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop and escalate if shutdown cannot be independently verified; do not start another provider.",
+      "gate": "Cleanup remains executable after a failed or interrupted training attempt. Record terminal failure separately from a valid trained artifact."
+    },
+    {
+      "id": "PAR-06",
+      "phase": "parallel",
+      "title": "Decide whether a restrained cloud branch is justified",
+      "summary": "Only admit a 25–30% no-op/finish-block curriculum branch if the rollout contract and reward are proven.",
+      "kind": "conditional",
+      "resource": "Anyscale",
+      "role": "Lead",
+      "effort": "0.25 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PAR-03",
+        "DAT-09"
+      ],
+      "steps": [
+        "Review parity, primary dev weaknesses and no-op/termination verifier coverage.",
+        "Choose SFT continuation as default; admit restrained RL only if cloud rollout parity is independently passed.",
+        "Write replacement budget and seed rules for any branch."
+      ],
+      "acceptance": [
+        "The decision names the weakness being tested and common dev panel.",
+        "A restrained branch cannot silently add GPU-hours.",
+        "No branch is launched solely to occupy paid hardware."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-06-restrained-branch-decision.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop branch admission when parity, verifier or budget replacement is absent.",
+      "gate": "Conditional branch gate."
+    },
+    {
+      "id": "PAR-07",
+      "phase": "parallel",
+      "title": "Perform the one-shot Azure admission check",
+      "summary": "Record the current Cost Management block and keep Azure out of the critical path unless authorization changes.",
+      "kind": "conditional",
+      "resource": "Azure",
+      "role": "Cloud",
+      "effort": "0.25 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-04"
+      ],
+      "steps": [
+        "Read subscription/provider status and Cost Management authorization once.",
+        "Record AADSTS530035 or the new authorized result with timestamp.",
+        "If blocked, close the task without launching or retrying."
+      ],
+      "acceptance": [
+        "Azure status is unambiguous and independently timestamped.",
+        "No Azure spend occurs while Cost Management is blocked.",
+        "The local and Anyscale plans remain complete without Azure."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-07-azure-admission.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-parallel-compute.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop after the first blocked authorization result; no retries or dependent release work.",
+      "gate": "Conditional; currently expected blocked."
+    },
+    {
+      "id": "PAR-08",
+      "phase": "parallel",
+      "title": "Evaluate eligible cloud branches on the common development panel",
+      "summary": "Evaluate whichever auxiliary branches actually completed; an unavailable Azure or Anyscale branch must not prevent evaluating the other.",
+      "kind": "conditional",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "0.75 engineer-hour; up to 2 compute-hours on validated backend",
+      "dependsOn": [
+        "PRE-04",
+        "SFT-09",
+        "DAT-07"
+      ],
+      "steps": [
+        "List completed auxiliary branch and shutdown receipts, and record unavailable or cut providers separately.",
+        "For each available branch, verify the exact theta0/tokenizer/renderer lineage and evaluate the common development panel.",
+        "Return eligible branch identities and metrics. If none completed, record that outcome and defer this optional comparison."
+      ],
+      "acceptance": [
+        "Every evaluated branch has its own durable artifact and provider termination receipt.",
+        "Absent providers are explicit and do not block an available branch.",
+        "The comparison uses only development data and identifies which branches qualify for further work."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-08-cloud-dev-readout.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop evaluation when branch artifacts or hashes are incomplete; retain unmerged local candidate.",
+      "gate": "Conditional evaluation."
+    },
+    {
+      "id": "PAR-09",
+      "phase": "parallel",
+      "title": "Run a bounded Kaggle portable smoke",
+      "summary": "Use remaining Kaggle quota only for portable compatibility, verifier or short SFT work after quota and precision checks.",
+      "kind": "conditional",
+      "resource": "Kaggle",
+      "role": "Cloud",
+      "effort": "0.5 engineer-hour; at most 1 Kaggle GPU-hour",
+      "dependsOn": [
+        "PRE-04",
+        "PRE-08"
+      ],
+      "steps": [
+        "Recheck quota/reset and verify the standard-architecture image before allocation.",
+        "Run one portable tokenizer/generation or short SFT fixture without making it a release dependency.",
+        "Archive logs and shut down the notebook/job after the bounded smoke."
+      ],
+      "acceptance": [
+        "Quota consumption and precision are recorded.",
+        "The smoke does not replace 5090 SFT/RL or alter the primary manifest.",
+        "No running Kaggle resource remains after the task."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-09-kaggle-portable-smoke.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "experiments/training/train_sft.py"
+      ],
+      "delegate": true,
+      "stopRule": "Stop on quota ambiguity, no-bf16/precision mismatch or any job exceeding its small budget.",
+      "gate": "Conditional capacity probe."
+    },
+    {
+      "id": "PAR-10",
+      "phase": "parallel",
+      "title": "Select branch inputs for optional merges or consolidation",
+      "summary": "Decide whether any same-parent cloud branch complements RL before allocating the four-hour consolidation slot.",
+      "kind": "conditional",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "RL-09",
+        "PAR-08"
+      ],
+      "steps": [
+        "Collect only auxiliary branches accepted by PAR-08 and the strongest local candidate.",
+        "Check same-parent tensor/tokenizer compatibility and complementary development gains; ignore missing or deferred providers.",
+        "Record the selected branch inputs, fixed blend coefficients and remaining consolidation budget, or defer merging with a reason."
+      ],
+      "acceptance": [
+        "Only compatible same-parent branches can be nominated.",
+        "No optional branch is required for release.",
+        "The consolidation decision is fixed before any blend run."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-10-branch-selection.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop merge planning if no branch has complementary development evidence or if it would consume final-validation time.",
+      "gate": "Conditional merge input."
+    },
+    {
+      "id": "PAR-11",
+      "phase": "parallel",
+      "title": "Run the conditional Azure restraint SFT",
+      "summary": "If Azure admission succeeds, run the same-parent 20–25% no-op restraint continuation; if blocked, complete with a disabled receipt and no spend.",
+      "kind": "conditional",
+      "resource": "Azure",
+      "role": "Training",
+      "effort": "0.25 engineer-hour; up to 1,500 updates and 18 allocation-hours, capped at €100",
+      "dependsOn": [
+        "PAR-07",
+        "SFT-09",
+        "PRM-09",
+        "DAT-06"
+      ],
+      "steps": [
+        "Check PAR-07's authorization outcome and exit with a disabled receipt when Cost Management remains blocked.",
+        "When authorized, launch from theta0 with replay plus validated no-op/positive-edit rows, BF16 where supported and LR 2e-5.",
+        "Save checkpoints, record actual cost and stop at 1,500 updates, €100 or Monday 00:00."
+      ],
+      "acceptance": [
+        "A blocked Azure result causes no compute or spend and is usable by the branch DAG.",
+        "An authorized run uses theta0, the same renderer/tokenizer and a declared restraint mix.",
+        "The cost, update count and shutdown handoff are recorded."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-11-azure-restraint-sft.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-parallel-compute.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop immediately on blocked authorization, cost ceiling, missing lifecycle control or Monday 00:00; do not retry.",
+      "gate": "The lead records a restraint weakness and a passing Azure admission before launch; this does not require Anyscale to be available."
+    },
+    {
+      "id": "PAR-12",
+      "phase": "parallel",
+      "title": "Archive and shut down the Azure branch",
+      "summary": "Close the Azure branch whether it ran or was disabled, preserving evidence and ensuring no resource remains.",
+      "kind": "conditional",
+      "resource": "Azure",
+      "role": "Cloud",
+      "effort": "0.5 engineer-hour; included in PAR-11 allocation",
+      "dependsOn": [
+        "PAR-07"
+      ],
+      "steps": [
+        "If PAR-11 ran, copy logs, checkpoints, hashes and cost records to durable private storage.",
+        "If PAR-11 was disabled, record the provider-disabled/no-resource outcome.",
+        "Terminate the instance and verify subscription/resource activity is zero."
+      ],
+      "acceptance": [
+        "Azure artifacts are recoverable locally or the disabled outcome is explicit.",
+        "Final allocation cost and shutdown status are recorded.",
+        "No Azure resource remains after Monday 00:00."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-12-azure-shutdown.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-parallel-compute.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop and escalate if an Azure resource cannot be independently shut down; do not launch another provider.",
+      "gate": "Cleanup remains executable after a failed Azure attempt. A termination receipt is required even when no usable adapter was produced."
+    },
+    {
+      "id": "PAR-13",
+      "phase": "parallel",
+      "title": "Run up to three fixed same-parent blends",
+      "summary": "Execute the predeclared blend coefficients only for eligible same-parent branch weights; retain theta0 and unmerged controls.",
+      "kind": "conditional",
+      "resource": "CPU",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; 0 compute hours for weight arithmetic",
+      "dependsOn": [
+        "PAR-10",
+        "RL-09"
+      ],
+      "steps": [
+        "Materialize at most 0.75R+0.25B, 0.75R+0.25N and 0.50R+0.25B+0.25N when eligible.",
+        "Combine correctly scaled effective LoRA deltas or merged weights, never raw A/B factors.",
+        "Hash every blend and preserve theta0 plus each unmerged branch as controls."
+      ],
+      "acceptance": [
+        "Only compatible parent/tokenizer/module mappings are blended.",
+        "No more than three actual blend artifacts are produced.",
+        "Missing or ineligible branches yield a no-blend receipt without GPU spend."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-13-blends.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-initialization-and-merging.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop blending on incompatible tensors, missing branch hashes or any need for coefficient tuning.",
+      "gate": "Conditional; never required for release."
+    },
+    {
+      "id": "PAR-14",
+      "phase": "parallel",
+      "title": "Evaluate blends and unmerged branch controls",
+      "summary": "Compare every blend with theta0, RL and each unmerged branch before allowing consolidation.",
+      "kind": "conditional",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "1 engineer-hour; up to 2 compute-hours on validated backend",
+      "dependsOn": [
+        "PAR-13"
+      ],
+      "steps": [
+        "Score blends and unmerged controls on the common development panel by useful edit, no-op, parser, termination and latency.",
+        "Check parent/tokenizer/renderer hashes and keep final data unopened.",
+        "Nominate only a branch with complementary development evidence for the four-hour consolidation slot."
+      ],
+      "acceptance": [
+        "Every candidate has common-panel denominators and lineage hashes.",
+        "The unmerged control is scored alongside every proposed blend.",
+        "No blend proceeds without a recorded complementary-gain decision."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-14-blend-control-eval.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-initialization-and-merging.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if no branch is complementary or if evaluation would consume final-validation time.",
+      "gate": "Conditional selection gate."
+    },
+    {
+      "id": "PAR-15",
+      "phase": "parallel",
+      "title": "Run matched consolidation and unmerged control",
+      "summary": "Use the four-GPU-hour allowance for a short consolidation arm and a matched unmerged replay control only after PAR-14 earns it.",
+      "kind": "conditional",
+      "resource": "RTX 5090",
+      "role": "Training",
+      "effort": "0.5 engineer-hour; up to 4 RTX 5090 GPU-hours total across both arms",
+      "dependsOn": [
+        "PAR-14"
+      ],
+      "steps": [
+        "Run at most 500–1,000 SFT updates on the nominated blend with LR 1e-5 and cleaned training-only replay/harness data.",
+        "Run the matched unmerged branch control for the same updates, data, seed and optimizer budget.",
+        "Archive before/after adapters, optimizer state, source manifests and hashes."
+      ],
+      "acceptance": [
+        "Both arms use training-only data and the same declared compute budget.",
+        "The four-GPU-hour consolidation ceiling is respected.",
+        "A post-consolidation evaluation can distinguish blending from another SFT stage."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-15-consolidation-control.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-initialization-and-merging.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop both arms on quality regression, budget exhaustion, missing control or Monday 00:00; do not rescue a weak blend.",
+      "gate": "Conditional and mutually exclusive with any target-draft adaptation budget replacement."
+    },
+    {
+      "id": "PAR-16",
+      "phase": "parallel",
+      "title": "Evaluate consolidation and choose the branch",
+      "summary": "Select the strongest unmerged, blended or consolidated candidate without making optional work a release dependency.",
+      "kind": "conditional",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "0.75 engineer-hour; up to 2 compute-hours on validated backend",
+      "dependsOn": [
+        "PAR-15"
+      ],
+      "steps": [
+        "Score post-consolidation and unmerged controls on the common development panel.",
+        "Compare useful edits, no-op restraint, termination, retention and target-host feasibility.",
+        "Write a branch recommendation or no-adoption receipt for the release lead."
+      ],
+      "acceptance": [
+        "The report contains pre/post and unmerged-control denominators.",
+        "A weak or inconclusive consolidation is discarded without further training.",
+        "The primary RL/theta0 fallback remains independently available."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/PAR-16-consolidation-decision.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-initialization-and-merging.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop on missing controls, final-data access or no measurable development benefit.",
+      "gate": "Conditional; release can proceed without it."
+    },
+    {
+      "id": "RUN-01",
+      "phase": "runtime",
+      "title": "Pin serving architecture and host placement",
+      "summary": "Define the local/SSH extension host, llama.cpp version, server slot and target-host responsibilities before training finishes.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01",
+        "PRE-05"
+      ],
+      "steps": [
+        "Inspect extension host placement and the child llama-server launch path.",
+        "Pin llama.cpp b10453, one request slot, deterministic generation and the configured localhost port.",
+        "Record which host owns inference and how the notebook displays the workspace-host server."
+      ],
+      "acceptance": [
+        "A host-placement and launch profile is reproducible.",
+        "The server/extension path has one explicit owner and fallback.",
+        "No server-to-notebook tunnel is assumed without a measured need."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-01-serving-architecture.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "extensions/vscode-sepalith/src/extension.ts"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if host placement cannot be observed or if two servers would contend for the same port.",
+      "gate": "Required runtime foundation."
+    },
+    {
+      "id": "RUN-02",
+      "phase": "runtime",
+      "title": "Build the serving renderer and cache fixture",
+      "summary": "Test the frozen prompt contract, source freshness, slot continuity and cached/fresh correctness independently of SFT/RL.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1.5 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "RUN-01",
+        "PRM-03",
+        "PRM-04"
+      ],
+      "steps": [
+        "Render representative current-buffer, history, evidence-missing and marker-like fixtures through the extension path.",
+        "Test cache-enabled versus fresh requests, slot identity, stale cancellation and response applicability.",
+        "Record prefix identity, context length and parser/application result for every event."
+      ],
+      "acceptance": [
+        "Serving and training fixture IDs agree for the frozen contract.",
+        "Stale or out-of-date responses are rejected.",
+        "Cache reuse never overrides correctness or reuses old-checkpoint state."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-02-serving-contract-fixture.json"
+      ],
+      "sources": [
+        "docs/research/72h-prompt-training-contract.md",
+        "extensions/vscode-sepalith/src/context_build.ts",
+        "extensions/vscode-sepalith/src/extension.ts"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if cached and fresh outputs disagree on correctness or if stale responses can apply.",
+      "gate": "Required before latency profiling."
+    },
+    {
+      "id": "RUN-03",
+      "phase": "runtime",
+      "title": "Measure b4 target-host baseline",
+      "summary": "Establish the fallback's full edit-cycle baseline on SSH/server and notebook paths before comparing a new checkpoint.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-08",
+        "RUN-01"
+      ],
+      "steps": [
+        "Run b4 Q8_0 on CPU/server with one slot and the pinned parser/marker contract.",
+        "Collect p50/p95 time to a useful parsed suggestion, prefill, decode, cancellation and application time.",
+        "Record host load, context bucket, output tokens and exact greedy output."
+      ],
+      "acceptance": [
+        "Baseline traces contain full-cycle timings rather than TTFT alone.",
+        "SSH/local placement and model hash are recorded.",
+        "The b4 fallback can be started fresh and as an existing sidecar."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-03-b4-host-baseline.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/docs/validation/2026-09-08-s1-cpu-scout.json"
+      ],
+      "delegate": true,
+      "stopRule": "Stop timing claims if host contention or trace identity is missing; rerun only in a quiet declared window.",
+      "gate": "Required runtime comparator."
+    },
+    {
+      "id": "RUN-04",
+      "phase": "runtime",
+      "title": "Profile cache, slot and stale-request behavior",
+      "summary": "Measure serving architecture effects while weights and primary training continue separately.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "RUN-01",
+        "RUN-02"
+      ],
+      "steps": [
+        "Exercise typing, cursor movement, history changes, diagnostics refresh, anchor moves and file switches.",
+        "Measure prefix-cache reuse, prompt recomputation, duplicate requests and stale cancellation.",
+        "Separate host-side index/cache timing from model prefix-cache timing."
+      ],
+      "acceptance": [
+        "The report includes event-stratified reuse and correctness.",
+        "Anchor moves rebuild needed context rather than preserving stale source.",
+        "No cache speedup is presented as quality or lossless behavior."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-04-cache-slot-profile.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop a cache optimization when correctness or response applicability regresses.",
+      "gate": "Required runtime optimization."
+    },
+    {
+      "id": "RUN-05",
+      "phase": "runtime",
+      "title": "Run bounded 2K/4K/8K latency traces",
+      "summary": "Profile verified 2K/4K serving and retain 8K only as a stress/latency trace, not as supported edit-quality training.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1.5 engineer-hours; 0 compute hours",
+      "dependsOn": [
+        "RUN-02",
+        "RUN-03"
+      ],
+      "steps": [
+        "Render the same source/event traces under 2K and 4K profiles and the existing 8K stress band.",
+        "Reject overflow explicitly and record prompt/output tokens, context and host load.",
+        "Measure p50/p95 full-cycle latency, useful suggestion rate and parser correctness."
+      ],
+      "acceptance": [
+        "The 8K trace is labeled stress/latency only.",
+        "No silent fallback to the extension's 8192 default occurs.",
+        "Results preserve b4 baseline comparability."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-05-context-latency-profile.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop a larger default profile if target support, quality or latency is not verified.",
+      "gate": "Required runtime profile."
+    },
+    {
+      "id": "RUN-06",
+      "phase": "runtime",
+      "title": "Inspect competing draft and speculative pathways",
+      "summary": "Compare ngram/copy, released or adapted DSpark, small autoregressive drafts and attached-head/MTP candidates; do not assume DSpark is best.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "PRE-01",
+        "PRE-05",
+        "RUN-01"
+      ],
+      "steps": [
+        "Read the speculative-paths design and inspect available ngram/copy, DSpark, small-AR and attached-head/MTP artifacts for tokenizer, architecture and llama.cpp coupling.",
+        "Compare target/draft vocabulary, layers, dimensions, marker/stop behavior and expected integration cost with the MiniCPM family.",
+        "Rank pathways by early cheap-science value and write a theta0/final-candidate acceptance gate for each."
+      ],
+      "acceptance": [
+        "The receipt distinguishes official artifact facts, local artifact facts and hypotheses.",
+        "No pathway is selected from model name or stock acceptance alone.",
+        "The gate states which candidates can be tested after theta0 and which require target-specific adaptation."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-06-speculative-paths-audit.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/campaign/SPECULATIVE-PATHS.md",
+        "docs/research/72h-granite-frog-candidates.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop any pathway whose tokenizer/architecture coupling or source artifact cannot be established; retain ordinary serving.",
+      "gate": "Required early pathway audit."
+    },
+    {
+      "id": "RUN-07",
+      "phase": "runtime",
+      "title": "Run baseline draft acceptance after theta0",
+      "summary": "Test each cheap compatible draft pathway against the actual merged theta0 before considering target-matched adaptation.",
+      "kind": "conditional",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "RUN-06",
+        "SFT-09"
+      ],
+      "steps": [
+        "Run theta0 with no draft and each compatible ngram/copy, DSpark or attached-head pathway on short and long fixtures.",
+        "Compare accepted tokens, greedy output, parser correctness, no-op behavior and end-to-end cycle time.",
+        "Record target/draft hashes and failures by context/event."
+      ],
+      "acceptance": [
+        "Acceptance and correctness are measured on theta0, not inferred from stock checkpoints.",
+        "Any output mismatch or crash is preserved in the receipt.",
+        "The receipt ranks candidates for a small target-matched adaptation or rejection."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-07-theta0-draft-acceptance.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/campaign/SPECULATIVE-PATHS.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop draft promotion on any correctness mismatch, crash or unmeasured target/draft pairing.",
+      "gate": "Conditional after theta0."
+    },
+    {
+      "id": "RUN-08",
+      "phase": "runtime",
+      "title": "Run target-matched draft adaptation only by budget replacement",
+      "summary": "If a pathway is viable, prepare target-matched draft work from theta0 under a replacement budget; refresh acceptance against final target weights later.",
+      "kind": "conditional",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; replacement budget only, 0 incremental campaign hours",
+      "dependsOn": [
+        "RUN-07"
+      ],
+      "steps": [
+        "Use RUN-07 to choose the best feasible target-matched draft path rather than assuming DSpark wins. Read SPECULATIVE-PATHS.md and prove its training and export path fits the budget.",
+        "Record the exact budget transfer; freeze a theta0 or later target snapshot, and prepare target-generated training-split data only. Evaluation/S1 traces stay excluded.",
+        "Train or adapt within the transferred allowance, keeping the target fixed for that draft stage. It may run while main RL continues on independent admitted hardware.",
+        "After the final target is selected, measure compatibility and acceptance again; refresh only if worthwhile and still inside the same transferred budget. Leave final promotion to RUN-10."
+      ],
+      "acceptance": [
+        "The replacement ledger shows zero added GPU/credit hours.",
+        "Target/draft hashes, theta0 adaptation stage and data provenance are recorded.",
+        "Final promotion requires unchanged correctness and measured cycle-time improvement after the late refresh."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-08-target-draft-adaptation.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md",
+        "docs/campaign/SPECULATIVE-PATHS.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop if target/renderer compatibility, usable training/export support or the budget transfer is missing. No extra hours are implied; skip refresh if the original pair still passes final checks.",
+      "gate": "Complete the at-most-90-engineer-minute training/export feasibility check; reassign at most two GPU-hours from optional consolidation, or capacity within an existing cloud ceiling, including any final refresh."
+    },
+    {
+      "id": "RUN-09",
+      "phase": "runtime",
+      "title": "Run the bounded notebook CPU/Vulkan scout",
+      "summary": "Compare notebook CPU and Vulkan/iGPU behavior for the fallback or available finalist without turning it into a training dependency.",
+      "kind": "optional",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "0.5 engineer-hour; 60–90 minutes wall time",
+      "dependsOn": [
+        "RUN-03",
+        "PRE-08"
+      ],
+      "steps": [
+        "Run identical Q8 model, trace set, output cap and parser on CPU and Vulkan.",
+        "Measure full-cycle p50/p95 and stability under representative context events.",
+        "Keep Vulkan only if it gives a substantial stable end-to-end gain; otherwise retain CPU."
+      ],
+      "acceptance": [
+        "Host, model hash, traces and load are recorded.",
+        "The decision uses full-cycle timing, not raw decode alone.",
+        "No notebook path becomes a release dependency without a quiet-window smoke."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-09-notebook-vulkan-scout.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop after 90 minutes or on instability; do not train a draft head.",
+      "gate": "Optional runtime scout."
+    },
+    {
+      "id": "RUN-10",
+      "phase": "runtime",
+      "title": "Run final retargeted draft acceptance and end-to-end benchmark",
+      "summary": "Benchmark the selected final Q8 target with baseline and every admitted speculative pathway, reporting correctness before speed.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-07",
+        "RUN-02"
+      ],
+      "steps": [
+        "Run the final target with no draft and each admitted ngram/copy, DSpark, small-AR or attached-head arm under identical 2K/4K traces plus selected 8K stress.",
+        "Check exact greedy outputs, parser/no-op correctness, crashes, changing-context behavior, accepted tokens and end-to-end p50/p95.",
+        "Promote speculation only when measured benefit meets the predeclared gate; otherwise package ordinary serving."
+      ],
+      "acceptance": [
+        "The final report includes target/draft hashes and paired correctness outcomes.",
+        "No lossless speed or acceptance is assumed; any mismatch disqualifies that draft.",
+        "The release has a measured baseline fallback."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RUN-10-final-draft-benchmark.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff/docs/validation/2026-09-08-s1-cpu-scout.json",
+        "docs/campaign/SPECULATIVE-PATHS.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop draft promotion on any mismatch, crash, p95 regression or absent measured speedup; ordinary serving remains valid.",
+      "gate": "Required final runtime benchmark."
+    },
+    {
+      "id": "REL-00",
+      "phase": "release",
+      "title": "Close training and optional-branch decisions",
+      "summary": "Select only completed, validated artifacts and close unfinished optional work before freezing the release. A failed new lineage still permits an honest b4 delivery.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "30 engineer-minutes; no new training",
+      "dependsOn": [
+        "PRE-06",
+        "PRE-08",
+        "DAT-07"
+      ],
+      "steps": [
+        "At the Monday cutoff, inspect real process/provider state and the accepted SFT, RL, cloud, draft and consolidation receipts.",
+        "Record every optional branch as accepted, cut or unavailable. Require terminal artifacts for any proposed candidate, and terminate campaign allocations through their owner.",
+        "If the new lineage is blocked or fails development gates, select the verified b4 fallback with its matched renderer. Keep failed tasks visibly blocked instead of marking unperformed work complete.",
+        "Write the candidate inventory and close further weight/harness changes before REL-01; do not wait for an unavailable provider."
+      ],
+      "acceptance": [
+        "Every candidate is an immutable, terminal artifact with its own development evidence and renderer.",
+        "Optional work and live resource ownership have explicit dispositions; active training is not mistaken for a completed checkpoint.",
+        "There is at least one eligible candidate, including b4 if necessary, and no final-test result was used for selection."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-00-candidate-and-branch-closure.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/campaign/RESOURCE-LEASES.md",
+        "docs/campaign/tasks.json"
+      ],
+      "delegate": false,
+      "stopRule": "Keep the final set sealed if no verifiable artifact exists. Resolve the saved b4 rollback before claiming a deliverable.",
+      "gate": "Monday 00:00 ends main RL/cloud allocation; Monday 12:00 freezes weights and harness. This decision accepts available evidence without requiring every optional branch."
+    },
+    {
+      "id": "REL-01",
+      "phase": "release",
+      "title": "Freeze development ranking and finalist set",
+      "summary": "Select the primary candidate, SFT/theta0 fallback and any eligible branch before opening final data.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.75 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-00",
+        "DAT-07",
+        "RUN-03"
+      ],
+      "steps": [
+        "Collect SFT, RL, banked comparator and runtime development receipts.",
+        "Rank useful edit/completion, no-op restraint, termination, tokenizer retention and latency.",
+        "Freeze at most two finalists for final evaluation, with b4 fallback and no cloud dependency."
+      ],
+      "acceptance": [
+        "Finalist IDs and fallback are fixed before final-set access.",
+        "All ranking inputs have denominators and lineage hashes.",
+        "No final-test failure is used to retune the ranking."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-01-development-freeze.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop if no candidate has valid development evidence; promote b4 fallback and document the missing new lineage.",
+      "gate": "Required pre-freeze decision."
+    },
+    {
+      "id": "REL-02",
+      "phase": "release",
+      "title": "Prepare the locked-final execution gate",
+      "summary": "Verify final manifest integrity and schedule access only after the Monday 12:00 weight/harness freeze.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-01",
+        "DAT-08",
+        "REL-07"
+      ],
+      "steps": [
+        "Verify final manifest hash, source exclusions, package groups and evaluator version.",
+        "Record the freeze timestamp and finalist/model/harness hashes.",
+        "Prepare quality, intent/preference, BPB and latency commands without reading final rows."
+      ],
+      "acceptance": [
+        "The final set remains unread before the declared freeze.",
+        "The gate names exact finalists and evaluator commands.",
+        "A failed integrity check blocks final scoring."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-02-final-eval-gate.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-data-audit.json"
+      ],
+      "delegate": false,
+      "stopRule": "Stop final access if the manifest or evaluator has changed since DAT-08.",
+      "gate": "Hard gate at Monday 12:00."
+    },
+    {
+      "id": "REL-03",
+      "phase": "release",
+      "title": "Run the locked final quality battery",
+      "summary": "Score finalists on exact, semantic/useful edit, no-op, parser and termination behavior after freeze.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Evaluation",
+      "effort": "2 engineer-hours; up to 4 compute-hours after freeze",
+      "dependsOn": [
+        "REL-02"
+      ],
+      "steps": [
+        "Open the locked final set only after Monday 12:00 and run every finalist with the frozen renderer/stop contract.",
+        "Record exact and semantic results, no-op false suggestions, invalid/cap rates and denominators by package/family.",
+        "Bootstrap intervals by package or trajectory and preserve raw outputs."
+      ],
+      "acceptance": [
+        "The report contains locked-set provenance and no pre-freeze access.",
+        "Every score has a denominator and failure category.",
+        "No weights, prompt layout or harness policy changes after REL-02 are permitted during final scoring.",
+        "The result can be reproduced from finalist and evaluator hashes."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-03-final-quality.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop and fall back if final rows are contaminated, evaluator hashes differ or a candidate fails parser integrity.",
+      "gate": "Required final quality gate."
+    },
+    {
+      "id": "REL-04",
+      "phase": "release",
+      "title": "Run blinded final intent and preference evaluation",
+      "summary": "Compare the strongest finalist(s) with b4 using visible prompt context, both orders and valid-pair accounting.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Evaluation",
+      "effort": "1.5 engineer-hours; up to 3 compute-hours after freeze",
+      "dependsOn": [
+        "REL-02",
+        "REL-01"
+      ],
+      "steps": [
+        "Generate candidate proposals on the declared final intent/trajectory subset with blinded labels.",
+        "Run both orders with known-good/corrupted controls and record ties, order conflicts and invalid calls separately.",
+        "Collect at most 300 paired points per contrast or report an honest shortfall."
+      ],
+      "acceptance": [
+        "At least 200 valid both-order comparisons are sought or the shortfall is explicit.",
+        "No b4 label is reused for an O2/new-candidate proposal.",
+        "Preference and intent outcomes remain separate from deterministic exact scores.",
+        "No weight or harness changes occur after the final set opens."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-04-final-preference-intent.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-experiment-audit.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop judging on provider failure or invalid controls; do not call an invalid sample a pass.",
+      "gate": "Required when provider/human review is available; report shortfall."
+    },
+    {
+      "id": "REL-05",
+      "phase": "release",
+      "title": "Run retention, BPB and tokenizer-specific guards",
+      "summary": "Check general-R/text retention within tokenizer and compare target-host behavior without cross-tokenizer loss claims.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Evaluation",
+      "effort": "1 engineer-hour; up to 2 compute-hours after freeze",
+      "dependsOn": [
+        "REL-02",
+        "REL-03"
+      ],
+      "steps": [
+        "Run identical-byte general-R/text BPB and parent-retention diagnostics for each finalist.",
+        "Report new-family own-starting-checkpoint retention and b4 comparison separately.",
+        "Join no-op/quality/length and latency diagnostics into the promotion table."
+      ],
+      "acceptance": [
+        "Token loss is compared only within one tokenizer.",
+        "Any >1% b4-descendant degradation is diagnosed before promotion.",
+        "Retention cannot override materially better or worse measured editing without disclosure.",
+        "The architecture/profile identity is frozen for the final measurement."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-05-final-retention-bpb.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-model-compute-sources.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop promotion when tokenizer identity or baseline comparison is missing.",
+      "gate": "Required release guard."
+    },
+    {
+      "id": "REL-06",
+      "phase": "release",
+      "title": "Run final SSH/local editor smoke",
+      "summary": "Verify the selected model, frozen harness and ordinary serving path in the actual editor before quantization/promotion.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-01",
+        "REL-07",
+        "RUN-05"
+      ],
+      "steps": [
+        "Start the external sidecar fresh and connect the extension on the workspace host.",
+        "Exercise typing, cursor movement, history, no-op and file-switch episodes under the selected context profile.",
+        "Measure p50/p95 useful suggestion time and compare with same-host b4."
+      ],
+      "acceptance": [
+        "The editor applies only current-buffer-valid responses.",
+        "Latency and parser results are recorded for real events.",
+        "The candidate stays within the declared slowdown/quality rule or b4 is retained."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-06-final-editor-smoke.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-prompt-training-contract.md"
+      ],
+      "delegate": true,
+      "stopRule": "Stop promotion on stale application, parser failure, crash or unexplained p95 regression.",
+      "gate": "Required runtime release gate."
+    },
+    {
+      "id": "REL-07",
+      "phase": "release",
+      "title": "Export the candidate Q8_0 GGUF before final evaluation",
+      "summary": "Export and hash the selected deployment artifact before opening the final set, so quality and latency checks assess the same candidate that will ship.",
+      "kind": "required",
+      "resource": "Target hosts",
+      "role": "Runtime",
+      "effort": "0.75 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-01",
+        "RUN-02"
+      ],
+      "steps": [
+        "Convert the selected full/merged weights to pinned llama.cpp b10453 Q8_0.",
+        "Hash GGUF, tokenizer, prompt/serving manifest and source environment.",
+        "Run a small greedy/parser/no-op quality smoke against the pre-quantized finalist."
+      ],
+      "acceptance": [
+        "The GGUF loads on the target host and hash is recorded.",
+        "Quantization smoke preserves output contract and parser behavior.",
+        "The artifact has a rollback b4 path."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-07-final-q8-export.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "scripts/packaging/"
+      ],
+      "delegate": true,
+      "stopRule": "Stop export on load/hash/quality mismatch; retain the unquantized finalist and b4.",
+      "gate": "Use the frozen candidate and renderer; export does not authorize further target-weight adaptation."
+    },
+    {
+      "id": "REL-08",
+      "phase": "release",
+      "title": "Assemble lineage, rollback and installation package",
+      "summary": "Package all evidence needed for a reviewer or future operator to reproduce and revert the release.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-03",
+        "REL-04",
+        "REL-05",
+        "REL-06",
+        "REL-07",
+        "RUN-10"
+      ],
+      "steps": [
+        "Write base revision→SFT→theta0→RL/adaptation/branch lineage with hashes and stage IDs.",
+        "Bundle raw scores, denominators, uncertainty, prompt/data manifests, environment and target-host traces.",
+        "Add fresh-start and running-sidecar installation commands plus b4 rollback."
+      ],
+      "acceptance": [
+        "Every released file maps to a source, parent, tokenizer and evaluator hash.",
+        "The package contains both selected artifact and rollback configuration.",
+        "No private source or cloud credential is included."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-08-lineage-release-package.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md",
+        "docs/research/72h-training-allocation.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop package publication if any hash, denominator or rollback path is absent.",
+      "gate": "Required delivery package."
+    },
+    {
+      "id": "REL-09",
+      "phase": "release",
+      "title": "Apply the promotion gate or select b4 fallback",
+      "summary": "Make the final quality/latency decision against predeclared thresholds without tuning on final failures.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "0.5 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-08"
+      ],
+      "steps": [
+        "Check clustered exact/semantic, no-op, preference/intent, retention and latency thresholds.",
+        "Select the new candidate only when its benefit and guardrails are supported; otherwise select b4.",
+        "Record inconclusive dimensions and keep all rejected artifacts as experimental."
+      ],
+      "acceptance": [
+        "One recommended model/harness/runtime combination is named.",
+        "The fallback decision cites thresholds, denominators and uncertainty.",
+        "No final-set failure causes another training or prompt change."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-09-promotion-decision.json"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop all tuning after the final test; b4 is the release if any hard gate fails.",
+      "gate": "Required final decision."
+    },
+    {
+      "id": "REL-10",
+      "phase": "release",
+      "title": "Deliver the Tuesday package and tracker snapshot",
+      "summary": "Verify installation, update the local persistent tracker and create the final hosted-readable details snapshot by 09:00 Berlin.",
+      "kind": "required",
+      "resource": "CPU",
+      "role": "Lead",
+      "effort": "1 engineer-hour; 0 compute hours",
+      "dependsOn": [
+        "REL-09"
+      ],
+      "steps": [
+        "Test the selected artifact from a fresh start and an already-running sidecar using the packaged commands.",
+        "Copy hashes, receipts, rollback instructions and known limitations to the private delivery location.",
+        "Update the local interactive tracker and render an expandable hosted snapshot without a PostPlanCSP script."
+      ],
+      "acceptance": [
+        "The package is installable and its hashes match the promotion receipt.",
+        "The final tracker/snapshot identifies delivery time, owner, artifact and fallback.",
+        "Delivery is complete by 2026-09-15 09:00+02:00 or an explicit recovery receipt names the blocker."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/REL-10-delivery.json",
+        "docs/campaign/receipts/REL-10-hosted-details.md"
+      ],
+      "sources": [
+        "docs/72-HOUR-MODEL-PLAN.md"
+      ],
+      "delegate": false,
+      "stopRule": "Stop publication of any public/private artifact if integrity or privacy checks fail; retain local delivery and b4 rollback.",
+      "gate": "Final Tuesday delivery gate."
+    },
+    {
+      "kind": "conditional",
+      "effort": "12h initial combined local window, conditional18h total; no paid allocation",
+      "sources": [
+        "docs/campaign/receipts/R2-user-directed-branch-change.json"
+      ],
+      "gate": "User-directed broader R branch; current theta0 Q8 and b4 remain protected. Final content sealed.",
+      "stopRule": "Target stop Monday06:15UTC; extension requires intermediate evidence, absolute stop Monday12:15UTC. Stop on unresolved memory pressure, leakage, corruption, or rejected scheduled development gate.",
+      "id": "DAT-10",
+      "phase": "data",
+      "title": "Admit TRAIN-only raw R corpus and broader task data for the second branch",
+      "summary": "Expand supported TRAIN sources beyond the first small materialized pool; identify real additional coverage rather than repeat nearly exhausted rows.",
+      "resource": "CPU",
+      "role": "Data",
+      "dependsOn": [
+        "DAT-02",
+        "DAT-04",
+        "DAT-09"
+      ],
+      "delegate": true,
+      "steps": [
+        "Audit originalSFTexposure and exactTRAIN package mapping for rawR andtaskcandidate sources.",
+        "Admit a first frozen rawR CPT shard with tokenizer/label/document integrity, package-heldout TRAINvalidation, exactdedup andsource provenance.",
+        "Publish initial andbroader corpuscounts andfrozenorder; pass additional PRM03candidate materialization andadmission forward toSFT11task-stage gate."
+      ],
+      "acceptance": [
+        "Broader corpus adds identified valid TRAIN sources or documents why proposed sources cannot be admitted.",
+        "No DEV/final examples or target generation from them enters training.",
+        "Input and output source/data identities and token lengths are recorded."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/DAT-10-r2-corpus-admission.json"
+      ]
+    },
+    {
+      "kind": "conditional",
+      "effort": "12h initial combined local window, conditional18h total; no paid allocation",
+      "sources": [
+        "docs/campaign/receipts/R2-user-directed-branch-change.json"
+      ],
+      "gate": "User-directed broader R branch; current theta0 Q8 and b4 remain protected. Final content sealed.",
+      "stopRule": "Target stop Monday06:15UTC; extension requires intermediate evidence, absolute stop Monday12:15UTC. Stop on unresolved memory pressure, leakage, corruption, or rejected scheduled development gate.",
+      "id": "SFT-11",
+      "phase": "sft",
+      "title": "Train raw R CPT then task SFT for the second branch",
+      "summary": "Fresh pinned Midtrain→TRAIN raw-R causal-LM continued pretraining→corrected broader PRM03 task SFT. Evaluate CPT validation and recovered edit/no-op behavior separately before conditional RL.",
+      "resource": "RTX 5090",
+      "role": "Lead",
+      "dependsOn": [
+        "DAT-10",
+        "SFT-04"
+      ],
+      "delegate": false,
+      "steps": [
+        "Select initial parent/objective using corpus audit and bounded independent review.",
+        "Review source/checkpoint/evaluation hooks, launch under global CUDA lock and record first update.",
+        "Before task SFT, admit the expanded corrected PRM03 data and schedule; raw CPT admission does not admit task candidates.",
+        "Evaluate scheduled milestones; preserve terminal candidate or cut branch without modifying theta0."
+      ],
+      "acceptance": [
+        "Launch, intermediate readout and terminal acceptance are separate.",
+        "Continuation uses exact editing/no-op/protocol development evidence and actual throughput.",
+        "No training remains after cutoff; original selected artifacts intact."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/SFT-11-r2-training-outcome.json"
+      ]
+    },
+    {
+      "kind": "conditional",
+      "effort": "12h initial combined local window, conditional18h total; no paid allocation",
+      "sources": [
+        "docs/campaign/receipts/R2-user-directed-branch-change.json"
+      ],
+      "gate": "User-directed broader R branch; current theta0 Q8 and b4 remain protected. Final content sealed.",
+      "stopRule": "Target stop Monday06:15UTC; extension requires intermediate evidence, absolute stop Monday12:15UTC. Stop on unresolved memory pressure, leakage, corruption, or rejected scheduled development gate.",
+      "id": "RL-11",
+      "phase": "rl",
+      "title": "Diagnose current model failures and improve TRAIN reward coverage",
+      "summary": "Use development evidence and isolated notebook exploration to identify train-supported task/reward gaps; external Opus and GLM have bounded context.",
+      "resource": "CPU / notebook",
+      "role": "Research",
+      "dependsOn": [
+        "DAT-07",
+        "DAT-09",
+        "RL-09"
+      ],
+      "delegate": true,
+      "steps": [
+        "Stratify actual DEV failures into ability, format, context and no-op errors.",
+        "Use independent Opus review and feasible isolated notebook agent exploration.",
+        "Construct or repair only TRAIN-source-backed reward examples with positive/negative validator checks."
+      ],
+      "acceptance": [
+        "DEV diagnoses do not become copied training examples.",
+        "No final content or unsupported teacher assertions admitted.",
+        "Proposed reward changes have concrete independent validator checks and bounded scope."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-11-r2-diagnosis-and-pool.json"
+      ]
+    },
+    {
+      "kind": "conditional",
+      "effort": "12h initial combined local window, conditional18h total; no paid allocation",
+      "sources": [
+        "docs/campaign/receipts/R2-user-directed-branch-change.json"
+      ],
+      "gate": "User-directed broader R branch; current theta0 Q8 and b4 remain protected. Final content sealed.",
+      "stopRule": "Target stop Monday06:15UTC; extension requires intermediate evidence, absolute stop Monday12:15UTC. Stop on unresolved memory pressure, leakage, corruption, or rejected scheduled development gate.",
+      "id": "RL-12",
+      "phase": "rl",
+      "title": "Conditionally improve the second parent with diagnosed RL",
+      "summary": "Run a bounded parent-specific RL stage only after SFT and reward gates; retain current theta0 if second branch fails.",
+      "resource": "RTX 5090",
+      "role": "Lead",
+      "dependsOn": [
+        "SFT-11",
+        "RL-11",
+        "RL-06"
+      ],
+      "delegate": false,
+      "steps": [
+        "Admit exact eligible parent/reward pool after development review.",
+        "Verify first update/checkpoint hooks and run only remaining cutoff-safe allocation.",
+        "Evaluate and select by development evidence before freeze."
+      ],
+      "acceptance": [
+        "No automatic RL on a failed SFT parent or unvalidated reward.",
+        "Every candidate has complete checkpoint/provenance/development evidence.",
+        "No cutoff overrun or final-test tuning."
+      ],
+      "outputs": [
+        "docs/campaign/receipts/RL-12-r2-outcome.json"
+      ]
+    }
+  ]
+}

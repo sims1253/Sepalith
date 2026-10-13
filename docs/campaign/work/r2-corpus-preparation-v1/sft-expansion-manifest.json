@@ -1,0 +1,11 @@
+{
+  "prepare_options.py": "a0d43bcf9d59bd44f551fb13cf5bc0ae3851945d818a9c00857dc81ab9c10540",
+  "materialize_candidates.py": "ffb5ee175503af51fcc6614b0721a17a49d03e1d737734fe7162982cfedfa08d",
+  "candidate-inputs.json": "174f87962e9feec81a0322b787ab10c8aa367c809e92ed832b4d17263dcb3ef7",
+  "exposure.json": "d1bca43354f0dce0fda760c6c37f0c610d315e3009fbabc7b4d43f1513be49e8",
+  "novel-train-audit-roster.jsonl": "07f2010a958c44dd5f93ccb44b7db2ff0b5ce7f6a653ee2b8d39668c57e3511c",
+  "novel-roster-summary.json": "5e8d58ecd799026db2ac502b8b8be47083fdac06f5bf357c3baabf1ba52fd2ba",
+  "unseen-admitted-corrected-metadata.json": "22a830865136f4e65c40e52dc92fe8969a219f24b6abc3a64549d5f66d9e18bc",
+  "unseen-admitted-row-locations.json": "13aec3f39ab1d5b87bdb000ef4d4129b4ec56282453ab08dbc67eda41654897e",
+  "validation.json": "4fdca837cb6bdeedcdef464afd66236e99f993cc33cd1d1fb0bfc85b6d81bd17"
+}

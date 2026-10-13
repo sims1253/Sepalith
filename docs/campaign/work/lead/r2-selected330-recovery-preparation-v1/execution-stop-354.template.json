@@ -1,0 +1,8 @@
+{
+  "bound_recipe_sha256": "PREPARE_RECOVERY_WRITES_EXACT_HASH",
+  "launch_authorized": false,
+  "resume_global_step": 330,
+  "schema": "sepalith.sft11.native-cpt-execution-stop.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "stop_at_global_step": 354
+}

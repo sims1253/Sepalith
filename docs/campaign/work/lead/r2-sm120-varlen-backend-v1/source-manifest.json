@@ -1,0 +1,28 @@
+{
+  "canonical_environment_mutated": false,
+  "files": [
+    {
+      "bytes": 4946,
+      "path": "backend_contract.py",
+      "sha256": "b9532661f9389a82b28895855de844239712199084de88279a3cb36539cd9bb6"
+    },
+    {
+      "bytes": 3598,
+      "path": "probe_xformers_sm120.py",
+      "sha256": "9da519d8b1e0291a264cdadf7c84a3d586aaf66b49689f9814c30bc37a228ac9"
+    },
+    {
+      "bytes": 3140,
+      "path": "probe_flex_sm120.py",
+      "sha256": "e1e44ac3eeb59f09f85363fba2f49f1b599c6c33022bada920146e4fa6910753"
+    },
+    {
+      "bytes": 1909,
+      "path": "tests/test_contract.py",
+      "sha256": "f8f7fc87d82e00cf8045904d953889c56581dfd6a254df7813a4f5a4373bc5e9"
+    }
+  ],
+  "production_source_changed": false,
+  "schema": "sepalith.source-manifest.v1",
+  "status": "frozen_preparation"
+}

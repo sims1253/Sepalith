@@ -1,0 +1,82 @@
+{
+  "batch": {
+    "gradient_accumulation": 1,
+    "per_device": 1,
+    "sampler": "sequential"
+  },
+  "checkpoint_kind": "full_weights",
+  "data": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-smoke-inputs-v1/train8.jsonl",
+    "row_ids": [
+      "b68fa47d63c5d267972222c0c973e35232a0698142446956207fca64abeecba4:0",
+      "101123100fb23fd1121f921512003cff14b63552b7803f515456579ab8af4522:0",
+      "946e93a5964977a5b1ff8a3b90f98285280bda2b12e32b800955326d090ec35d:0",
+      "6b96f3ab091642e01b84df3a774d076ea329916c20bf27754efa48e53beafeb9:0",
+      "0fef2a53dd93d7858a6114b4dcf377c6da27927f057c8510edf38fb127fad4dd:0",
+      "996200450d4d3c7c5d1bb8d5f8e04cbac08d47947ae932b45bf3ff427d4e5ab6:0",
+      "540853a7ba9e46ff8fac08dcb0c06cc93d17a594933f5671a8ddda414b653cfb:0",
+      "ae2bcc34050e6b625a208f5d3b99c3d13c8318ae609b36744b121cd0df4625d3:0"
+    ],
+    "rows": 8,
+    "sequence_tokens": 2048,
+    "sha256": "e86c50a00d9a50f0c5d287eb419f622cc4eec5c607838304b2d49caa957ebf0e",
+    "split": "TRAIN"
+  },
+  "expected_parameter_tensors": 381,
+  "expected_parameters": 2516756480,
+  "model": {
+    "files": {
+      "config.json": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991",
+      "generation_config.json": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269",
+      "model.safetensors": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    "kind": "selected_sft500_merged",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT11-task-global-b-500-merged"
+  },
+  "optimizer": {
+    "arm": "aurora_mix",
+    "config": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 0.0001,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 1e-05,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "expected_dispatch_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "expected_dispatch_sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7",
+    "source_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v4/source/full_weight_optimizer.py",
+    "source_sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+  },
+  "output_root": "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-resume-proof-v4",
+  "scheduler": {
+    "horizon_steps": 2,
+    "type": "cosine",
+    "warmup_steps": 0
+  },
+  "schema": "sepalith.sft11.full-weight-resume-proof.v4",
+  "seed": 3407,
+  "semantics": "V4 exact two-update restart proof with narrow Trainer token-alignment repair, runtime and serialized token checks, and no duplicate post-seal full read.",
+  "source": {
+    "manifest_path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v4/source-manifest.json",
+    "manifest_sha256": "692bede46fbb678b0c0def98540a64ffc342cfc8baf6a73494636a55d6ecd081"
+  },
+  "status": "prepared_root_cuda_execution_required",
+  "steps": {
+    "interrupted": 1,
+    "terminal": 2
+  }
+}

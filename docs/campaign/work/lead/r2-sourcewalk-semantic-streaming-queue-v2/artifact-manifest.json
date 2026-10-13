@@ -1,0 +1,53 @@
+{
+  "file_count": 9,
+  "files": [
+    {
+      "bytes": 1815,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/README.md",
+      "sha256": "c0df86b26f5024f48743b81faeb54224ecc8593ed985e1d919512d0dd70953b3"
+    },
+    {
+      "bytes": 14623,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/source/analyze_semantics.py",
+      "sha256": "54965cb3af14a125d945d94f24975eddff040b0706ab934b5a04543a12a99a57"
+    },
+    {
+      "bytes": 2287,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/source/namespace_scope.R",
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "bytes": 11404,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/source/reviewed_scope_reference.R",
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "bytes": 18133,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/source/run_streaming_semantic_queue.py",
+      "sha256": "69d999cd0b7309775435126bf8fdd5f54e24bf793b9ad200fb1b3efbb2379e77"
+    },
+    {
+      "bytes": 4360,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/source/semantic_scope.R",
+      "sha256": "64d984139c2e5baf289f4caf8070903ff278f652a5a205f8141bc43627e84f61"
+    },
+    {
+      "bytes": 9348,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/tests/test_streaming_queue.py",
+      "sha256": "20490003d04a9a99ca54269b182c19acc3e209aca91dac82fd74dcaefcdebd42"
+    },
+    {
+      "bytes": 4543,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/source-manifest.json",
+      "sha256": "8388ed844789974986529357f1528ff9e6593f6dbbe68230060c06a54c161251"
+    },
+    {
+      "bytes": 862,
+      "path": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2/commands.json",
+      "sha256": "9563bd7ac452338a0154f4aa2ab2c15936148e1153852e947772a1e2c84ff2e9"
+    }
+  ],
+  "packet": "docs/campaign/work/lead/r2-sourcewalk-semantic-streaming-queue-v2",
+  "schema": "sepalith.dat10.sourcewalk_semantic_streaming_queue_v2_artifact_manifest.v1",
+  "status": "prepared_review_only_no_queue_launch"
+}

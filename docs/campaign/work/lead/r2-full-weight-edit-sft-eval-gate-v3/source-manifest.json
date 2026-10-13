@@ -1,0 +1,120 @@
+{
+  "files": [
+    {
+      "bytes": 5744,
+      "mode": "0444",
+      "path": "source/experiments/training/bind_full_weight_edit_sft.py",
+      "sha256": "98a3be8278226b6b5ffb2a887336f3b1bac16a317f394aa6b87b3d4c2e29086b"
+    },
+    {
+      "bytes": 13663,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "c7ca01f7f6ba6f4a8bbb23dd1cf6c29432d6f04853b6967f614df78190921fd5"
+    },
+    {
+      "bytes": 5508,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_edit_data.py",
+      "sha256": "a4c4b36b117dd8c4b0da668ba32f55d1752deb837b4b7bc311eca0a9e3190cc4"
+    },
+    {
+      "bytes": 13906,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_eval.py",
+      "sha256": "6e5bd413d9f71b0d8dcfdb6f98feae4f9ea0a43ac7d60c19c43cf11c43a2987c"
+    },
+    {
+      "bytes": 15257,
+      "mode": "0444",
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 1435,
+      "mode": "0444",
+      "path": "source/experiments/training/dev_model_state.py",
+      "sha256": "7b251e43886e90886cc4ef37858105d72b015ed40cbcf4b28785f998497d0bb7"
+    },
+    {
+      "bytes": 11493,
+      "mode": "0444",
+      "path": "source/experiments/training/full_coverage_schedule.py",
+      "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
+    },
+    {
+      "bytes": 29531,
+      "mode": "0444",
+      "path": "source/experiments/training/full_weight_edit_sft.py",
+      "sha256": "b0bc0b92681ac8175ae45436f41ce47928cc018416681f51454a77b4bcdc8bdf"
+    },
+    {
+      "bytes": 19826,
+      "mode": "0444",
+      "path": "source/experiments/training/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 4565,
+      "mode": "0444",
+      "path": "source/experiments/training/milestone_gate.py",
+      "sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297"
+    },
+    {
+      "bytes": 2680,
+      "mode": "0444",
+      "path": "source/experiments/training/model_layout.py",
+      "sha256": "e67663c513e297a3aa2fd32a864b7bb522a08a27651cfe095bced113635c4e25"
+    },
+    {
+      "bytes": 5949,
+      "mode": "0444",
+      "path": "source/experiments/training/one_pass_schedule.py",
+      "sha256": "a1ee01d5b10262b83c0a7f49024c99c15072077f14e4bffab8db8b234168cb60"
+    },
+    {
+      "bytes": 3461,
+      "mode": "0444",
+      "path": "source/experiments/training/prepare_dev_gate.py",
+      "sha256": "7cf3b7f12f37bcb907219647860486beaeb2726aca5d6bbe94955f7fc15bb2d0"
+    },
+    {
+      "bytes": 1397,
+      "mode": "0444",
+      "path": "source/experiments/training/request_graceful_stop.py",
+      "sha256": "7347df108651764fe06a0f47d4d6fae8ce47a34dd1c1be8bf79fe99dd547b7cf"
+    },
+    {
+      "bytes": 6725,
+      "mode": "0444",
+      "path": "source/experiments/training/run_dev_generation.py",
+      "sha256": "fdcf9a405d23495eae707aff8e2b6d95d0986b074a4ccf6c1475bafabddcc2b7"
+    },
+    {
+      "bytes": 1783,
+      "mode": "0444",
+      "path": "source/experiments/training/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 7843,
+      "mode": "0444",
+      "path": "source/experiments/training/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 67,
+      "mode": "0444",
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "mode": "0444",
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    }
+  ],
+  "identity_sha256": "57d61eb58e12c4dcefad6cce324bb3c6693d04de283e3303fb17c0725c2ad32d",
+  "schema": "sepalith.full-weight-edit-sft-eval-gate-source.v3"
+}

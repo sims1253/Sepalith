@@ -3,7 +3,7 @@
 # manager's explicit GO (gated on B13's verdict; STAND-DOWN = leave parked).
 #
 # ONE COMMAND TO FIRE (from the repo root, working tree committed):
-#   eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
+#   eval "$(grep -E '^export HF_TOKEN=' ~/.config/sepalith/secrets.env)"
 #   rm -rf /tmp/anyscale_sft/pkg && mkdir -p /tmp/anyscale_sft/pkg \
 #     && git archive HEAD | tar -x -C /tmp/anyscale_sft/pkg
 #   sed -e "s|<HF_TOKEN>|$HF_TOKEN|" -e "s|REPLACE_PKG|/tmp/anyscale_sft/pkg|" \

@@ -1,0 +1,53 @@
+{
+  "acceptance": {
+    "bootstrap_iterations": 5000,
+    "bootstrap_seed": 260914,
+    "bootstrap_speedup_lower_95_min": 1.0,
+    "bootstrap_unit": "paired_trace_cluster_stratified_by_2k_8k",
+    "candidate_p95_must_not_exceed_baseline": true,
+    "exact_output_parity": true,
+    "honest_no_winner": true,
+    "point_speedup_min": 1.4
+  },
+  "calibration_rows": 84,
+  "converter_files": 111,
+  "cuda_used": false,
+  "final_access": false,
+  "imatrix_evidence": "actual_log_and_gguf_metadata_tensor_coverage",
+  "imatrix_expected_actual_chunks": 51,
+  "imatrix_expected_count": 104448,
+  "imatrix_expected_non_embedding_matrices": 295,
+  "imatrix_requested_max_chunks": 64,
+  "launch_authorized": false,
+  "live_probe_large_payload_rehash": false,
+  "model_loaded": false,
+  "panels": {
+    "draft": {
+      "expected_requests": 48,
+      "repetitions": 2,
+      "rows": 24
+    },
+    "ngram": {
+      "expected_requests": 40,
+      "repetitions": 1,
+      "rows": 40
+    }
+  },
+  "prelaunch_full_hash_once": true,
+  "prelaunch_stat_seals": [
+    "device",
+    "inode",
+    "bytes",
+    "mtime_ns",
+    "ctime_ns"
+  ],
+  "schema": "sepalith.r2.final-target-serving-refresh-template-preflight.v5",
+  "selected_quant_artifact_key": null,
+  "server_port": null,
+  "source_identity_sha256": "f1142bd30e7b67b56e2be8d3dfe76c037496d8760b9e5462f1441a4e639c900c",
+  "source_manifest_sha256": "cb5e44169ef5f126731a645f6639735f2e3e0cc35995aba69b4c4863a79dcf31",
+  "stable_cuda_lock_exact_inode_and_held_flock": true,
+  "stable_cuda_lock_fd_required": true,
+  "status": "pass_target_quant_port_null_no_launch",
+  "target": null
+}

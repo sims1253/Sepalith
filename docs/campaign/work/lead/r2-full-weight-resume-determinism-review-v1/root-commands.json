@@ -1,0 +1,20 @@
+{
+  "authorization": "Preparation only. Root owns CUDA. Run restoration_capture under the reviewed host guard; it raises before forward/backward/optimizer and writes no checkpoint.",
+  "optional_shared_checkpoint_replay_note": "Only if restoration capture mismatches or root needs deterministic-kernel localization. Each replay performs one update and one full save, so it is intentionally secondary.",
+  "restoration_capture": [
+    "/home/m0hawk/Documents/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-determinism-review-v1/verify_restoration.py",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-resume-proof-v3/recipe.json",
+    "--resume",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-resume-proof-v3/interrupted/checkpoint-1",
+    "--expected-report",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-resume-proof-v3/interrupted/proof-lane.json",
+    "--output-dir",
+    "/mnt/e/sepalith/campaign-20260915/training/SFT11-full-weight-resume-restoration-v1/runtime",
+    "--result",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-full-weight-resume-restoration-v1/result.json"
+  ],
+  "schema": "sepalith.resume-determinism-root-commands.v1"
+}

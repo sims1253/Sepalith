@@ -1,0 +1,28 @@
+{
+  "schema": "sepalith.sft11.cpt-streaming-input-source.v1",
+  "identity_sha256": "812545b84940166a3a55e417df155cc2321d5f01cccbe57cf8994423d447e12e",
+  "files": [
+    {
+      "path": "source/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa",
+      "bytes": 29909
+    },
+    {
+      "path": "source/cpt_streaming_cache.py",
+      "sha256": "92f9c88ae2132d13d6ee8df9b67d75cd5a68092cfbd728919bf5180dc23b7240",
+      "bytes": 10391
+    },
+    {
+      "path": "source/streaming_trainer_adapter.py",
+      "sha256": "e6f62044e70aa19089c97210f8b476f6c5d21ab11c008d49446ef2e5daf6a479",
+      "bytes": 2295
+    },
+    {
+      "path": "source/verify_streaming_cache.py",
+      "sha256": "4deaa88f7e37300ecc151e8fcbfcc33d66320578023f00524e732e147d6bfbed",
+      "bytes": 2074
+    }
+  ],
+  "active_trainer_modified": false,
+  "integration_target": "fresh future trainer revision only"
+}

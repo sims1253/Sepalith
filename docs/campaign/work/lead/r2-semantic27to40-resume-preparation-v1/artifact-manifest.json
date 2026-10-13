@@ -1,0 +1,26 @@
+{
+  "files": [
+    {
+      "bytes": 1289,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic27to40-resume-preparation-v1/README.md",
+      "sha256": "37c5ac11797e9bf1238b00971a73c86347b5f6477c70f3d61e28e64506e30abf"
+    },
+    {
+      "bytes": 10223,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic27to40-resume-preparation-v1/validate_resume.py",
+      "sha256": "3dc30d5a1223f1728cc900293e72333d436c39d634f13936567ad99ea3bc0f67"
+    },
+    {
+      "bytes": 1575,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic27to40-resume-preparation-v1/resume-command.txt",
+      "sha256": "6e29983af676003c557d688d3996f9fc53f1730364418258774bbdc832654f28"
+    },
+    {
+      "bytes": 11047,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-semantic27to40-resume-preparation-v1/preflight.json",
+      "sha256": "0f7c664c6a58d798979f1c9533e58dae65e94d681851b57f453c9d2080c253e4"
+    }
+  ],
+  "schema": "sepalith.dat10.semantic27to40_resume_packet_artifacts.v1",
+  "training_admission": false
+}

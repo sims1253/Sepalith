@@ -1,0 +1,176 @@
+{
+  "schema": "sepalith.native-selection-preparation-manifest.v1",
+  "status": "prepared_not_admitted",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1861,
+      "sha256": "21be607da597ab14f41d3014ffde88136cda73d72f049ae5a915bed4c599fc18"
+    },
+    {
+      "path": "compare_native_dev.py",
+      "bytes": 3080,
+      "sha256": "4aa8627a229a8a31bd4ccd8b30b4b8d153f9462e1204bb76d5639bd89b8be209"
+    },
+    {
+      "path": "export-command.json",
+      "bytes": 374,
+      "sha256": "d8d8d8ccf07ce63b2ebfd0b0eada2c6e1c27cdf071ec6e761ad985e2e9f20ef8"
+    },
+    {
+      "path": "finalize_native_profile.py",
+      "bytes": 810,
+      "sha256": "61a8cb1f3986354b40bbb79b09603ef09544480505f7be37d670dd59bb67e5ed"
+    },
+    {
+      "path": "native-command-v1.json",
+      "bytes": 507,
+      "sha256": "8ecad021536f1fcb487d63dae5cd56e50faa0f2cfefbf845b65d33cbc891f232"
+    },
+    {
+      "path": "packet/bind_native_profile.py",
+      "bytes": 3303,
+      "sha256": "05712815bb7c93c96671fa942e8ef452d36408fbd6324be4aebfc9253d079972"
+    },
+    {
+      "path": "packet/conversion-source-pins.json",
+      "bytes": 29107,
+      "sha256": "ef063e914173ac945f97e5adfbceb037ef51fb7f747557bda80237bca5df3326"
+    },
+    {
+      "path": "packet/export_candidate.py",
+      "bytes": 3055,
+      "sha256": "12ca2236792bcb023279dbdeda2197a63e23ce0ab61274cbd2f3894b3bcd539a"
+    },
+    {
+      "path": "packet/export_candidate_v2.py",
+      "bytes": 3666,
+      "sha256": "4330a19a509ebcf58de18491c0f97dc9105a4486813ed71f222d6f3bb9617bf6"
+    },
+    {
+      "path": "packet/native-approval.template.json",
+      "bytes": 1165,
+      "sha256": "7870e91fcbd91fb319966c514501f88a69ab9c7ba7b4b93c1d38969ebffb1f47"
+    },
+    {
+      "path": "packet/native_controller/build_closure.py",
+      "bytes": 6863,
+      "sha256": "6fa32c1d60e7b176ce6f0f6c9afa46a826c2b6605801fe7728e75227c2b3065e"
+    },
+    {
+      "path": "packet/native_controller/client_source_policy.py",
+      "bytes": 2164,
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a"
+    },
+    {
+      "path": "packet/native_controller/elf-loader-metadata.json",
+      "bytes": 28301,
+      "sha256": "633bfeefbe73cc861ff021129ce3d379d20ea75fada85285238ee435d6612452"
+    },
+    {
+      "path": "packet/native_controller/guarded_dev_client.py",
+      "bytes": 3234,
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729"
+    },
+    {
+      "path": "packet/native_controller/observe_client.py",
+      "bytes": 2433,
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1"
+    },
+    {
+      "path": "packet/native_controller/origin_snapshot.py",
+      "bytes": 4060,
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f"
+    },
+    {
+      "path": "packet/native_controller/root_controller.py",
+      "bytes": 16982,
+      "sha256": "087fb5c8c8c2e0e8c7520b6c6db40b1a17f61fba7bdb835bd4eee3a5e7d2018c"
+    },
+    {
+      "path": "packet/native_evaluator/final_binding.py",
+      "bytes": 9373,
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7"
+    },
+    {
+      "path": "packet/native_evaluator/final_row_gate.py",
+      "bytes": 19015,
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff"
+    },
+    {
+      "path": "packet/native_evaluator/native_evaluator.py",
+      "bytes": 8020,
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76"
+    },
+    {
+      "path": "packet/native_evaluator/native_identity.py",
+      "bytes": 9812,
+      "sha256": "5c02b3d3ae8330bae516daf5962f461d42bb6d655a986a691fad65dfefe06796"
+    },
+    {
+      "path": "packet/native_evaluator/native_transport.py",
+      "bytes": 56160,
+      "sha256": "42244a0fea9eca385f7e554562e79b649ed450722b6e661399ef6e0127fd01a7"
+    },
+    {
+      "path": "packet/native_evaluator/rehearse_dev.py",
+      "bytes": 2268,
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a"
+    },
+    {
+      "path": "packet/native_evaluator/selection_binding.py",
+      "bytes": 2064,
+      "sha256": "400ab5c0730041a872d52352d5205b91870e2f75105cc4dcb082cf8536bde0a8"
+    },
+    {
+      "path": "packet/prepare_root_bindings.py",
+      "bytes": 2069,
+      "sha256": "d3de7372813cd274a99f890309ea71db58820136ece8b9d376f57f50195414e2"
+    },
+    {
+      "path": "packet/profile-baseline.json",
+      "bytes": 5907,
+      "sha256": "4a734ae9468e009ba11c25ec3965a457d71033a2baae9384aa9effe0a86d346e"
+    },
+    {
+      "path": "packet/review_export.py",
+      "bytes": 2056,
+      "sha256": "eedaa8fe4d0520efa31a776c26c395d6ffc04788f928ba11dae3ffe0b5ab305c"
+    },
+    {
+      "path": "packet/selection_contract.py",
+      "bytes": 4652,
+      "sha256": "a435c8d45987d83aaed85984acd8bb79a3378c3277ed76cb5260fdff4d239336"
+    },
+    {
+      "path": "root-commands.json",
+      "bytes": 3621,
+      "sha256": "b89d2dd1f6fea2bd6937ee6189b39de8b63a375ebbf706f622079960db73aa67"
+    },
+    {
+      "path": "run_e750_comparison.py",
+      "bytes": 600,
+      "sha256": "cfa759b56b8e9acabe8c0d80ebf611b150b7e35139f182b3f76cff98c1fffa4b"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 4954,
+      "sha256": "7a83644819b88ec8c9565635946dcfdf7f29745209bb7de3e1e0b2ccab628712"
+    },
+    {
+      "path": "test-e750-selection.log",
+      "bytes": 740,
+      "sha256": "099dd9882be8387debb2c02f43e8f59297b65c54c875981d24de42c7f8e93922"
+    },
+    {
+      "path": "test-e750-selection.time",
+      "bytes": 753,
+      "sha256": "3cf24a4ad24ce18bae4f6c6e7fb80a8faec3b277ae81569f414ccce5fbe713cf"
+    },
+    {
+      "path": "test_e750_selection.py",
+      "bytes": 5981,
+      "sha256": "7d16d482ac56240831b70f317d888db051db2a3506a3383c1662fff17f97aa1e"
+    }
+  ]
+}

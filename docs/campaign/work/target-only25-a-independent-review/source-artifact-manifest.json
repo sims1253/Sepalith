@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "task": "SFT-06",
+  "scope": "independent completed target-only25-a review; no launch or promotion",
+  "created": "2026-09-13T13:40:27.844236+00:00",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/157517ba47dbab157f7c361a.after.R",
+      "bytes": 252,
+      "sha256": "6c687162ab97e992c6a4c55f32abf6289bda5afe10b4f07882d36a01dca09877"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/4f08633513b5c525240d2540.after.R",
+      "bytes": 184,
+      "sha256": "8af3bbb13155e89ef8226fda5988bace5747d05102ad2242a0657dd29203a2af"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/REVIEW.md",
+      "bytes": 4980,
+      "sha256": "819f134fc5e212f0f40dfb3ea080d2a39ae6d3769a53547cc9d5228816a16d8b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/development-readout.json",
+      "bytes": 7517,
+      "sha256": "3157e7791a86d45cf08f206706bb6c44925ef7f1a3a844a7710ef4330f7cfe45"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/f43de3e77f2d92ed7b223464.after.R",
+      "bytes": 1582,
+      "sha256": "47edcf0f2a7221cfee7c0e2ca3a5e468577d3eff0032fc6c77c1d235b3c4fc9b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/host-terminal-review.json",
+      "bytes": 4407,
+      "sha256": "76468fc1449d0d376fd24cf4f8a3b6831e77a615179ebac58e07b436eeec46d8"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/observations.jsonl",
+      "bytes": 2933,
+      "sha256": "26024c471782ee0c16f29b7763759a6f0445c185b4280aee0de251bcc8cb313f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/observe.py",
+      "bytes": 1927,
+      "sha256": "97c663875c945cf1bad475b58f6d5bfe57762f585129d14c4a2646b8c34cafa3"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/parser-identity.json",
+      "bytes": 968,
+      "sha256": "6e5f40af87a0ba035e98409a9b044e7dd0a04b417241a39ae390acc67f01218a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/review.json",
+      "bytes": 46444,
+      "sha256": "b174cb30fc7af553e34fb7af9f7a5eaccc2e3b07861b7b5f249ae06e7804beec"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/review.log",
+      "bytes": 1191,
+      "sha256": "3638671e1a8023730ea17c1af082536af69ab487a5f9d4a524426fc480a108a6"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/review_terminal.py",
+      "bytes": 10423,
+      "sha256": "91f275f8124b89e82d3895e2237174843986d7e926b5ce6771fc5b3ee354e40c"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/scorer-tests.log",
+      "bytes": 359,
+      "sha256": "24c7fb553190cd1b592669b418323d24fbbc1f1f5046dc9fab71dd4411386c61"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/startup-batch-corroboration.json",
+      "bytes": 365,
+      "sha256": "ca6b5615afef6285ecc3c253eece8d8b9623b7cb341c55d03a4c48f2ee43735d"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/target-only25-a-independent-review/summarize_terminal.py",
+      "bytes": 3962,
+      "sha256": "d62aaf1a74317f1717d891aa4c250448b4d318ddf2b593cdde3bbc060ecb8b95"
+    }
+  ],
+  "external_evidence_indices": [
+    "review.json:source_snapshot,input_pins,terminal_artifact_pins,checkpoint,development",
+    "host-terminal-review.json:pins,tokenizer_json",
+    "parser-identity.json:pins"
+  ]
+}

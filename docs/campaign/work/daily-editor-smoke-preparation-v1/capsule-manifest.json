@@ -1,0 +1,12 @@
+{
+  "run_remote_editor.mjs": "c7d2288ee8dcc3bc1e8908dc0233ee3e5f579d33c6c75374b7c18f4d05ee9a94",
+  "notebook_editor_supervisor.py": "81f9cd7cbee0883899cfa3a96f335fd8e2010b06e729a8ab40deb2efce84082a",
+  "observe_renderer.mjs": "6aad057fecf81b5cb1870e7192bda60f6102a0b8f77c3547182effe03ba851ca",
+  "startup_gate.mjs": "aea146d1af6fa9739c46b003dc0f91b7e70e059b84ffa9b62c296160bae50f2d",
+  "analyze_renderer.mjs": "7c37679cd352545311f904fa1e02136010dbeb5446c493975a485132f5b4a8d0",
+  "installed-payload-pins.json": "3c14ad52ecab28ab0cd0956ad99811d77c176613c7768a43adcef43b88b77d54",
+  "expected-daily-settings.json": "2c8dcf15b46ac74d92df82b3b4cbaa484a8cbb7f548908106dc43d474c5c03df",
+  "primary-editor-harness/package.json": "b698d9de0a1a8c14d495161caf1b155a17006f0130477939ed777c9da62757a8",
+  "primary-editor-harness/extension.js": "0b7f1be8159d2195d69385d6120e7544f570a90a5f29a1bed56596d06b8c1607",
+  "primary-editor-harness/acceptance-v2.js": "05270ea01cc30d9ba1472098208a5964d8a0417ae9f7a1936482ccf46bfa71c4"
+}

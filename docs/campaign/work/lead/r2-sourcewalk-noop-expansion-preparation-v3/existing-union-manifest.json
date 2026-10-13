@@ -1,0 +1,37 @@
+{
+  "cohorts": [
+    {
+      "cohort": "original15006",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+      "rows": 15006,
+      "sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+    },
+    {
+      "cohort": "candidate616",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic763-dedup-integration-v1/final-02/candidate-tokenrows.jsonl",
+      "rows": 616,
+      "sha256": "9e114d8fd064c47d74b435882fdfe2d2345411ab9e063348ee48b5dba46dbcec"
+    },
+    {
+      "cohort": "candidate133",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic-provider-integration-v1/final-01/candidate-tokenrows.jsonl",
+      "rows": 133,
+      "sha256": "2fbfbcb96849289dd65105cee708cb6f07a7f1c5b02c2d9fd57fb8402082f822"
+    },
+    {
+      "cohort": "candidate4435",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-provider-materialization-v1/final-01/candidate-tokenrows.jsonl",
+      "rows": 4435,
+      "sha256": "4c3d7898c803d565a001c14f56bab24a1ad24019d1bfb4f0e79e644a516133cc"
+    },
+    {
+      "cohort": "candidate1",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/Semantic4551-hold-recovery-v1/final-01/candidate-tokenrows.jsonl",
+      "rows": 1,
+      "sha256": "6f2c2d76e0acfb70b1dc374da4e48c965303cc0f5e1cbdd3aed707806b754a06"
+    }
+  ],
+  "rows": 20191,
+  "schema": "sepalith.dat10.review-union-20191.v1",
+  "source_census_sha256": "59fec5d5d5fa5b0f4187b2a5418062bcf7c8cbd47f2d19571b1a5bb5c4085dfa"
+}

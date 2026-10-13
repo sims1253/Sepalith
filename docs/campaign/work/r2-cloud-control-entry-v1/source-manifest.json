@@ -1,0 +1,123 @@
+{
+  "arming_receipt_order": "Root arming validates deadline with a temporary syntax-only receipt-hash placeholder; cloud entry still requires final root-bound actual armed-receipt hash.",
+  "core11_byte_identity_verified": true,
+  "core_source_identity": "8ec908a41904888af647de2ee8b40ba8f73837777509d91159051b25fc72dd3e",
+  "files": {
+    "artifact_upload.py": {
+      "bytes": 4157,
+      "sha256": "0ad2bc70570c5473874b84274c9c46ea36d9b255bdda2533cfd79c33e178e135"
+    },
+    "cloud_entry.py": {
+      "bytes": 12961,
+      "sha256": "11c642651fb8d13a3db3da0c1e73a56c6da8d39e98fe4576e2e5f5ca3b0b3af2"
+    },
+    "cloud_launch.py": {
+      "bytes": 1050,
+      "sha256": "da8a2e2544f8b3395cc75cdfd5c9985bfde99e8b89c520213e8d874a9c6ed436"
+    },
+    "cloud_train.py": {
+      "bytes": 3421,
+      "sha256": "96bf513ca89a9b3ebb5f97e10d68241c70e62ededfe36b0407051ab1d162e4f2"
+    },
+    "cpu-tests.log": {
+      "bytes": 841,
+      "sha256": "55dae76d271ae5e9c07d8ca03616b319ae9e63b8432375526e23ce2bbe55dd56"
+    },
+    "job-template.yaml": {
+      "bytes": 393,
+      "sha256": "5551b4bcd57b1be2241a915d4c6a346f7c93ce8bd975c77ffbdcae16041bcb24"
+    },
+    "operator-commands.json": {
+      "bytes": 4157,
+      "sha256": "4f1d1cde80fc56abff15837a62fc034502a43d653e972c1a778ea6df90540cd9"
+    },
+    "package-pins.json": {
+      "bytes": 605,
+      "sha256": "92529dce10b1e140612fe5f5dc7e437aa56e97742887f6d4685a526ee07985a1"
+    },
+    "payload-binding.template.json": {
+      "bytes": 1676,
+      "sha256": "3c3984103333ea54b8f65987ce5728171a661421a03a78f7698c02727a00a5c7"
+    },
+    "requirements.txt": {
+      "bytes": 427,
+      "sha256": "33b185e616eec49f22a24073a8e155ec4d27f2f84b0481a6cf7490e846116890"
+    },
+    "root-bound-entry.sh": {
+      "bytes": 117,
+      "sha256": "b869e6fdc18e8ffbbfc6d880f4d8846eb1977098b633a7d968a51c7c4f573411"
+    },
+    "root_arm_watchdog.py": {
+      "bytes": 1306,
+      "sha256": "ee398f3879018decc6bb654a8248b2715bb735b45aabd3a8ea6dc348dc111e5c"
+    },
+    "runtime_setup.py": {
+      "bytes": 2068,
+      "sha256": "f18f1e26ea3b098733eca5d4573dec72987e806dbd6548ecaedf92eeda90e5fb"
+    },
+    "source/experiments/training/campaign_checkpoint.py": {
+      "bytes": 11665,
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    "source/experiments/training/campaign_control.py": {
+      "bytes": 5024,
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    "source/experiments/training/campaign_eval.py": {
+      "bytes": 11831,
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    "source/experiments/training/campaign_launch.py": {
+      "bytes": 3545,
+      "sha256": "52f72a711fccf64efd8733a107d08b466b21305b53bc04c28473ef1befd31164"
+    },
+    "source/experiments/training/campaign_sft.py": {
+      "bytes": 25401,
+      "sha256": "38cbdab5a693fd1abf88adba62fa42fed7f680ceee053dfd701c488c31eb83ca"
+    },
+    "source/experiments/training/campaign_sft_data.py": {
+      "bytes": 7931,
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    "source/experiments/training/campaign_task_sft.py": {
+      "bytes": 14053,
+      "sha256": "e96af91dc7699357ac71d28814ac33f08394411adb1b8b1160fc427082ec2280"
+    },
+    "source/experiments/training/campaign_tokenizer_contract.py": {
+      "bytes": 15257,
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    "source/experiments/training/target_only_gate.py": {
+      "bytes": 10118,
+      "sha256": "4c21b32c401a42871ae2b2c18fbaadd8c132204c22cc8328a75da69f8fd7f5de"
+    },
+    "source/packages/sepalith/src/sepalith/__init__.py": {
+      "bytes": 67,
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    "source/packages/sepalith/src/sepalith/campaign_protocol.py": {
+      "bytes": 40337,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    "task-recipe.template.json": {
+      "bytes": 5263,
+      "sha256": "a8b8d417795ec8e207ad9d70d9464c03fa49c246d20d8c03a6c9949930a020eb"
+    },
+    "test_cloud_entry.py": {
+      "bytes": 7343,
+      "sha256": "87e54b6993304bb83c37fb7944b9ea77244ae832e30bfaef1a10e2e7e013ee31"
+    },
+    "trainer-source-manifest.json": {
+      "bytes": 6791,
+      "sha256": "c7c9d344442f5903cfae4f7d40e0b173f642f8970f7ec4e5e301790c4aeb0e8f"
+    }
+  },
+  "schema": 1,
+  "tests": {
+    "CPU_threads": 1,
+    "CUDA_initialized": false,
+    "no_provider_or_network_calls": true,
+    "passed": 8,
+    "seconds": 2.225
+  }
+}

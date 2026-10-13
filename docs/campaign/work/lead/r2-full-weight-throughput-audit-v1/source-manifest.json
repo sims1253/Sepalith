@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "bytes": 1662,
+      "path": "tests/test_varlen_pack.py",
+      "sha256": "aeae36927f45ef8e4f70bdb555b3cce25ed95871a1f1cc2a876329de2927c217"
+    },
+    {
+      "bytes": 4170,
+      "path": "varlen_pack_candidate.py",
+      "sha256": "4c8ccaf2d30bc204a56567dd67cbf9bc1233d33d5069bd0e8052e33b2f13402b"
+    }
+  ],
+  "schema": "sepalith.campaign.source-manifest.v1"
+}

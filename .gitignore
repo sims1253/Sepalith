@@ -43,3 +43,6 @@ results/
 
 # Downloaded extension test host
 .vscode-test/
+
+# Claude Code agent worktrees
+.claude/worktrees/

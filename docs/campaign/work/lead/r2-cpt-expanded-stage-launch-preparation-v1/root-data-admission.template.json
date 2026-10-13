@@ -1,0 +1,29 @@
+{
+  "all_source_pool_closed": false,
+  "launch_authorized": false,
+  "pending_frontier": {
+    "content_dedup_status": "pending_rehash_and_content_dedup",
+    "documents": 1999,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-union-terminal-accounting-v1/global-cap-exclusion-frontier.jsonl",
+    "sha256": "acf86ba87bf833b6bd69cf732f2cb4a7d5356bcbd9e38ba2676b385af2b37560"
+  },
+  "schema": "sepalith.sft11.cpt-expanded-snapshot-data-admission.v1",
+  "snapshot": {
+    "cache_manifest_sha256": null,
+    "documents": 177190,
+    "draw_schedule_sha256": "78bc2f3ec17ece7ad56a6dd79d4a1369d58c2329b5fb6a282d5a613135517937",
+    "input_tokens": 461205327,
+    "loss_tokens": 461010455,
+    "max_sequence_tokens": 16384,
+    "named_replays": 4,
+    "packages": null,
+    "payload_tokens": 460833265,
+    "rows_sha256": "c7c2bbcd64827cc2a06eca0dd4f3b1c404226f18019df61bf3d24a49e0b351b7",
+    "scope": "current_terminal_union_snapshot_pending_1999_cap_frontier",
+    "stage_updates": 11443,
+    "unique_rows": 183084
+  },
+  "stage_transition_binding_authorized": false,
+  "status": "pending_root_data_review",
+  "training_admission": false
+}

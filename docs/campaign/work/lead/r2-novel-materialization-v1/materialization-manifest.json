@@ -1,0 +1,10 @@
+{
+  "receipt": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/receipts/DAT-10-novel-materialization.json",
+  "receipt_sha256": "9173ab59a463cdbb1c3eeb8be23c826a7dde04bd0fee561ace80ea8b196a2c4a",
+  "output_root": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1",
+  "status": "candidate_materialization_complete_root_admission_pending",
+  "source_checked_candidates": 4490,
+  "training_admitted_rows": 0,
+  "candidate_gate_summary": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/candidate-gate-summary.json",
+  "candidate_gate_summary_sha256": "4466324c090f09d88817f61d5c19c3801f638074f55ff381113477c5f1b60dc7"
+}

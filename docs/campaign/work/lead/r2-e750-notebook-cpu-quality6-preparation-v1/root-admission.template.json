@@ -1,0 +1,22 @@
+{
+  "schema": "sepalith.run06.e750-notebook-cpu-quality6-root-admission.v1",
+  "status": "ROOT_MUST_ADMIT",
+  "packet_sha256": "f8a1615a87665d06d3d4a56813d5bbcb22d7eaf9b081eee867d8a21b2cdb89e2",
+  "model_sha256": "9b11c5275202b83c6e6299890582fc55526113586c4ae3f8daf3bc0ac1ab54bd",
+  "model_integrity_sha256": "b5a3450b052cdace5c662b4ddc74b25b40e8e90a0834faf63efd7c502194b01c",
+  "caps": [
+    192,
+    384,
+    768
+  ],
+  "maximum_threads": 6,
+  "offline_case_deadline_seconds": 300,
+  "maximum_seconds": 28800,
+  "run_id": null,
+  "created_at": null,
+  "expires_at": null,
+  "host": "m0hawk@192.168.178.40",
+  "purpose": "offline_DEV75_CPU_quality6_not_production_latency",
+  "source_reviewed": false,
+  "remote_packet_source_manifest_sha256": null
+}

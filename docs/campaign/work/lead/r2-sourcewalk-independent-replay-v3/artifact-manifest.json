@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "bytes": 1896,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "099034f34f75f20c23e80e8949666a7bb2a5b62b52733f3dd329dfefdd6bed9d"
+    },
+    {
+      "bytes": 4605,
+      "mode": "0o755",
+      "path": "bounded_review.py",
+      "sha256": "bc484610c44d510dc230ff9413e4b18f260325e1a6577e7576905d9b29782579"
+    },
+    {
+      "bytes": 720,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "85d038dcce6a4baf14669399d1952bd2254618feb8a001fc5aa349af0af9c2e4"
+    },
+    {
+      "bytes": 33811,
+      "mode": "0o755",
+      "path": "full_replay.py",
+      "sha256": "63d165ae1488c1f38174f7e24f68a51e4c80c2d48e5aec44a0446fa062a61f7f"
+    },
+    {
+      "bytes": 1492,
+      "mode": "0o644",
+      "path": "row-824a-investigation.json",
+      "sha256": "93dcdde6e996848bc6fca110d9f6a03e67cde9c41a7e2d268dd6f0da55828738"
+    },
+    {
+      "bytes": 976,
+      "mode": "0o755",
+      "path": "run_full.sh",
+      "sha256": "2f7bf735f74af2cb7daa57f164912fef46cc0e2ddb505213ee61781c484d18cc"
+    },
+    {
+      "bytes": 1686,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "f27e1d64db6871f4d38c7c0034ce98f217f9229dffc163956a0288d8ff8aecd8"
+    },
+    {
+      "bytes": 7001,
+      "mode": "0o644",
+      "path": "test_full_replay.py",
+      "sha256": "c453dac74493176f0878622997cf8ed2d6da9f92b13960aafc914f9dcdccc555"
+    }
+  ],
+  "schema": "sepalith.packet_artifact_manifest.v1",
+  "status": "complete_preparation_root_review_required"
+}

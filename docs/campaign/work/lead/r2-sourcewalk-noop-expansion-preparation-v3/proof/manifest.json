@@ -1,0 +1,15 @@
+{
+  "full_preedit_bytes": 7183,
+  "full_source_reapplication": true,
+  "global_cursor_line": 38,
+  "local_cursor_line": 30,
+  "prediction_sha256": "d78b404ee5b213424b71ff73e0b9cb53c01744a1da990343fa2dd97c531b2804",
+  "prediction_target_free": true,
+  "row_id": "43b24d15b32aae89fdf72245",
+  "schema": "sepalith.dat10.sourcewalk-noop-small-proof.v1",
+  "sidecar_sha256": "7572329eef2dafe1dcfc064aa653d745522d841bc00e91cf5b7e39ec063a64c9",
+  "source_sha256": "c936b3cd7e9f8d2fe899d6c597e0c7a82a12d614d00e9be6b6b490a5a1b11f73",
+  "status": "pass_review_only",
+  "training_admission": false,
+  "window_start_line": 8
+}

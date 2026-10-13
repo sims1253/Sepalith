@@ -1,0 +1,134 @@
+[
+  {
+    "path": "/home/m0hawk/Documents/Sepalith",
+    "branch": "refs/heads/main",
+    "tracked_changes": 47,
+    "untracked_files": 116
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-1f639876",
+    "branch": "refs/heads/t3code/evaluate-colab-sft-rl",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-20371fdf",
+    "branch": "refs/heads/t3code/check-paper-presence",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-3d83226e",
+    "branch": "refs/heads/t3code/review-deepseek-v41-paper",
+    "tracked_changes": 1,
+    "untracked_files": 4
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-65574094",
+    "branch": "refs/heads/t3code/tuesday-model-campaign",
+    "tracked_changes": 0,
+    "untracked_files": 21
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-659c6819",
+    "branch": "refs/heads/t3code/resume-production-model-training",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-6d721763",
+    "branch": "refs/heads/t3code/evaluate-post-training-method",
+    "tracked_changes": 1,
+    "untracked_files": 1
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a60604c8",
+    "branch": "refs/heads/t3code/assess-paper-for-training",
+    "tracked_changes": 2,
+    "untracked_files": 3
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb",
+    "branch": "refs/heads/t3code/best-token-model-plan",
+    "tracked_changes": 1,
+    "untracked_files": 25790
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-b49b1185",
+    "branch": "refs/heads/t3code/compare-minicpm-spark-posttrain",
+    "tracked_changes": 1,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-e6aed5ff",
+    "branch": "refs/heads/t3code/queue-owner-handoff",
+    "tracked_changes": 3,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912",
+    "branch": "DETACHED",
+    "tracked_changes": 9,
+    "untracked_files": 73
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-anti-slop",
+    "branch": "refs/heads/tooling/anti-slop",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-artifact-archive",
+    "branch": "refs/heads/cleanup/raw-artifact-archive",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-autoresearch-review",
+    "branch": "refs/heads/review/autoresearch-20260907",
+    "tracked_changes": 0,
+    "untracked_files": 62
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-editor-kaggle",
+    "branch": "refs/heads/tooling/editor-kaggle-readiness",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-kaggle-capabilities",
+    "branch": "refs/heads/research/kaggle-capabilities-20260906",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-latent-memory",
+    "branch": "refs/heads/research/latent-memory-gate",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-performance",
+    "branch": "refs/heads/perf/offline-optimization-20260906",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-pr-review",
+    "branch": "refs/heads/review/side-branches-20260906",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-reanalysis",
+    "branch": "refs/heads/reanalysis/saved-capabilities-20260906",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  },
+  {
+    "path": "/home/m0hawk/Documents/Sepalith-runner-migration",
+    "branch": "refs/heads/migration/runner-first-real-20260906",
+    "tracked_changes": 0,
+    "untracked_files": 0
+  }
+]

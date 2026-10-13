@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 90229,
+      "path": "source/expected-aurora-mix-manifest.json",
+      "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+    },
+    {
+      "bytes": 1252,
+      "path": "source/extract_fixture.py",
+      "sha256": "2bc19030ad05cbcade805114a6782cc1aa375f99abecf6c3d0b94c7be7733d9b"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 17101,
+      "path": "source/microbatch_benchmark.py",
+      "sha256": "a5c8d81c9cb3c26609253d001ba9faa320d37c2ac5cb5a98a775ea1bcceec79e"
+    },
+    {
+      "bytes": 1679,
+      "path": "source/smoke-configs.json",
+      "sha256": "91830e68559c694195779fc642e78ef5d1317bb171c74aaa77a2167362c8d1ac"
+    },
+    {
+      "bytes": 7948,
+      "path": "source/throughput_candidate.py",
+      "sha256": "fea729615f39dff7793ba41b0ac926dfc9f1e74a62cc229e6609ba6a378067d9"
+    }
+  ],
+  "identity_sha256": "b0f1a4dc2ab2043ff09d8438a2729a49ea472060e38c707f57d6b86c0a5427a5",
+  "schema": "sepalith.source-manifest.v1"
+}

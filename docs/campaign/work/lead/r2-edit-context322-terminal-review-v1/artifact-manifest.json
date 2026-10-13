@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "bytes": 6916,
+      "mode": "0o644",
+      "path": "review.json",
+      "sha256": "6e742e639079f7e9d13ab623ac4b6d99eeb3e7674fd9ed0cafc72113631a5b83"
+    },
+    {
+      "bytes": 7010,
+      "mode": "0o644",
+      "path": "review.py",
+      "sha256": "c42cad45abb12fa4bc103eff2207e4476b0c7d5357d5dcc6aea1b7a8e2c78319"
+    },
+    {
+      "bytes": 195,
+      "mode": "0o644",
+      "path": "test.log",
+      "sha256": "b840cab44f749c25b6a3122458fa6cc041bf247cc13188b392a8a4f428b6693e"
+    }
+  ],
+  "files_count": 3,
+  "schema": "sepalith.sft11.edit-context322-terminal-review-artifacts.v1",
+  "status": "complete_cpu_read_only_review"
+}

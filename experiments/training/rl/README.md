@@ -1,6 +1,9 @@
 # RL — verifiable-reward training
 
-Status: scaffold. The environments exist. Trainer selection is staged.
+Status: historical. This is the MiniCPM LoRA RL track. The campaign
+full-weight RL driver in `sepalith.training.rl`
+([packages/sepalith](../../../packages/sepalith/src/sepalith/training/README.md))
+supersedes it. See the [post-CPT plan](../../../docs/training/plan-20260927/README.md).
 
 | Layer | Choice | Why |
 |---|---|---|

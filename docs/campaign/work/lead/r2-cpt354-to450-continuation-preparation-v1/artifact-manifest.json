@@ -1,0 +1,57 @@
+{
+  "files": [
+    {
+      "bytes": 1340,
+      "path": "README.md",
+      "sha256": "9473ca245dfa42e606e27acbfae9b7d200fe2cd7cdc63e90afadb424efb5db57"
+    },
+    {
+      "bytes": 526,
+      "path": "continuation-354.template.json",
+      "sha256": "d73d464223846eb52b8d11678e008ae652d4b019df8f482dabbf9d16a8668950"
+    },
+    {
+      "bytes": 282,
+      "path": "execution-stop-450.template.json",
+      "sha256": "3c94c64f423e8e56f2ddafbad34987b4fef3a8125dfea125ad50c0873148e6ac"
+    },
+    {
+      "bytes": 816,
+      "path": "preparation-result.json",
+      "sha256": "148decb550633d491cd49d3bb813befaa1a8ef031b3b567350f444cbdf8e59fd"
+    },
+    {
+      "bytes": 3521,
+      "path": "prepare.py",
+      "sha256": "974a47b3652e49ea881cd7187ff3b7920d1cde8dfebad46ac8392700d7f81370"
+    },
+    {
+      "bytes": 3509,
+      "path": "root-commands.template.json",
+      "sha256": "6535eadd9e9f43d4a19a00570f2c0a0c04b110c5d0291f9e09ca7e13e7dbcf77"
+    },
+    {
+      "bytes": 3728,
+      "path": "run_with_allocator.py",
+      "sha256": "2b960a1f502c94c62fa3187fa632f9f8d704805d67089c50fd77321640d2a648"
+    },
+    {
+      "bytes": 10248,
+      "path": "runtime-recipe.review.json",
+      "sha256": "26b78532f907ca5e3a34827857ad58a47e0d56a167fb26a61dbf9b555b50a1d5"
+    },
+    {
+      "bytes": 588,
+      "path": "test-results.log",
+      "sha256": "575edc875765eb9329513a3b8689be26e7045ef67c0a784f1d257356a50fe64f"
+    },
+    {
+      "bytes": 3092,
+      "path": "tests/test_continuation.py",
+      "sha256": "323959506663bbd135ac5a8ecf748a41587e2d80b94075ba1c2bd22a8420cf36"
+    }
+  ],
+  "files_count": 10,
+  "schema": "sepalith.sft11.cpt354-to450-artifacts.v1",
+  "status": "frozen_preparation_no_admission_no_launch"
+}

@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "bytes": 1579,
+      "path": "README.md",
+      "sha256": "66bb475d20e7dc1f4f3f4792d694a0440a9f6df6e0a54e5141e4585c265aae0f"
+    },
+    {
+      "bytes": 321,
+      "path": "root-authorization.template.json",
+      "sha256": "b18a5b34b760d2fd59dc5f4b862898506e176b54dc6a4598292663849660a1d2"
+    },
+    {
+      "bytes": 8034,
+      "path": "root_stop_and_upload_once_v2.py",
+      "sha256": "9008ec2a8d763b1ebce384edce8a634d6ba86f5970c57974b52e9a9bb33518f3"
+    },
+    {
+      "bytes": 2160,
+      "path": "test_controller_v2.py",
+      "sha256": "2721f1671667b6637675010e723a76e60e9b8e4ff9e622c8d940699512a64190"
+    },
+    {
+      "bytes": 684,
+      "path": "tests.log",
+      "sha256": "07690a708752a847a5fa2c9aca91ca1853e0eef35fc2577d018be792161f2749"
+    }
+  ],
+  "schema": "sepalith.cloud-cpt.persistence-diagnostic-controller.v2",
+  "status": "prepared_not_executed_root_authorization_required"
+}

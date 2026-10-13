@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "path": "source/analyze_semantics.py",
+      "bytes": 15013,
+      "sha256": "1eb0efed5c7ced6da56fdf60773412338876783a6be3e53fff9f2d8589cfd3ee"
+    },
+    {
+      "path": "source/namespace_scope.R",
+      "bytes": 2287,
+      "sha256": "81196a5851f630b3af723d80914f488a03b58dcc8bb95256bfb131b47038587d"
+    },
+    {
+      "path": "source/reviewed_scope_reference.R",
+      "bytes": 11404,
+      "sha256": "e02b4bd66438c93c472c84622e3d244c6c9efb71275a121058f8b2d6a11c0f7b"
+    },
+    {
+      "path": "source/run_streaming_semantic_queue.py",
+      "bytes": 18133,
+      "sha256": "69d999cd0b7309775435126bf8fdd5f54e24bf793b9ad200fb1b3efbb2379e77"
+    },
+    {
+      "path": "source/semantic_scope.R",
+      "bytes": 4360,
+      "sha256": "64d984139c2e5baf289f4caf8070903ff278f652a5a205f8141bc43627e84f61"
+    },
+    {
+      "path": "tests/test_parse_variants.py",
+      "bytes": 1376,
+      "sha256": "c75c35b0e417f2cc1d971b3064b778fb0bd43403aa8de9d3a6c7bf29c95d6e24"
+    },
+    {
+      "path": "tests/test_streaming_queue.py",
+      "bytes": 9348,
+      "sha256": "20490003d04a9a99ca54269b182c19acc3e209aca91dac82fd74dcaefcdebd42"
+    }
+  ],
+  "reason": "Group parser reconstructions by path and exact parse-byte hash"
+}
