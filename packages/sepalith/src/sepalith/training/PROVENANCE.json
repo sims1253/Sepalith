@@ -210,14 +210,15 @@
   {
    "module": "sepalith.training.eval.campaign_eval",
    "path": "packages/sepalith/src/sepalith/training/eval/campaign_eval.py",
-   "sha256": "ccfec4b6eee293971d516d092b8cb3c4ae95c6cd9af2d64390eb22c0d3025e57",
+   "sha256": "bb866cc7758c1e4d53d86eaef1c026a13c040454853029bd75acd2dba99cb94f",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/campaign_eval.py",
    "source_sha256": "6e5bd413d9f71b0d8dcfdb6f98feae4f9ea0a43ac7d60c19c43cf11c43a2987c",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "eval-gate version: stops on both EOG ids 1 and 130073 and reports complete-case counts; the RL driver only uses case_evaluation_guard, which is identical",
    "changes": [
     "rewrote 2 local import statement(s) to sepalith.training package paths",
-    "unused local stop_token_id binding dropped; the lookup still runs (ruff F841)"
+    "unused local stop_token_id binding dropped; the lookup still runs (ruff F841)",
+    "C05: added GENERATION_DTYPES, generation_dtype, pin_cuda_device and load_development_model; development_evaluator is unchanged"
    ],
    "bound_by": [
     {
@@ -783,13 +784,14 @@
   {
    "module": "sepalith.training.eval.milestone_gate",
    "path": "packages/sepalith/src/sepalith/training/eval/milestone_gate.py",
-   "sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297",
+   "sha256": "56fb8864f7842e0d21ab4a006f6b8ff5ee171eeb1098ca5d8427f1214fac6cf9",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/milestone_gate.py",
    "source_sha256": "7ca01b35b6f1bd2b44c3df5871b4f468d1fff7dfeaacb0cc31c3d89b438f3297",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
-    "none (verbatim)"
+    "none (verbatim)",
+    "C05: DEV250 v1 panel constants and require_bf16_result; gate evidence rejects non-bf16 generation results"
    ],
    "bound_by": [
     {
@@ -1079,13 +1081,14 @@
   {
    "module": "sepalith.training.eval.prepare_dev_gate",
    "path": "packages/sepalith/src/sepalith/training/eval/prepare_dev_gate.py",
-   "sha256": "9656ecdb0d7a3e2eaeeafa7668eec1d8bfc86730a5116c77023f761679a9822a",
+   "sha256": "0d47ecaa2d5acf15acf1b12b6abb706267c314131cdd1f1ae66fc76ae49270ef",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/prepare_dev_gate.py",
    "source_sha256": "7cf3b7f12f37bcb907219647860486beaeb2726aca5d6bbe94955f7fc15bb2d0",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
-    "rewrote 1 local import statement(s) to sepalith.training package paths"
+    "rewrote 1 local import statement(s) to sepalith.training package paths",
+    "C05: rejects non-bf16 generation results via require_bf16_result"
    ],
    "bound_by": [
     {
@@ -1146,14 +1149,15 @@
   {
    "module": "sepalith.training.eval.run_dev_generation",
    "path": "packages/sepalith/src/sepalith/training/eval/run_dev_generation.py",
-   "sha256": "c3a524628570f01d86bccd8ef751f5ef2be3ef98e2919a6a0abb41c434e0e291",
+   "sha256": "98915cb14a8b9541ded8454837f97786b7137fccf7ca1d5aeda099f72bfcd563",
    "source": "docs/campaign/work/lead/r2-full-weight-edit-sft-eval-gate-v1/source/experiments/training/run_dev_generation.py",
    "source_sha256": "98aa378c0a856993b6f5d26507d335e1d1610be4f85af13e6a5949f571911ef0",
    "selected_from": "r2-full-weight-edit-sft-eval-gate-v1",
    "selection": "single version",
    "changes": [
     "rewrote 6 local import statement(s) to sepalith.training package paths",
-    "removed imports left unused (ruff F401)"
+    "removed imports left unused (ruff F401)",
+    "C05: optional --dtype, --cuda-device, --panel {dev75,dev250,both}, --dev250-panel and --dev250-output; the default call is unchanged (receipts/C05-evaluator-equivalence.json)"
    ],
    "bound_by": [
     {

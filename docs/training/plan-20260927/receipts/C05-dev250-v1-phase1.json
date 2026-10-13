@@ -1,0 +1,37 @@
+{
+  "packets": 959,
+  "by_family": {
+    "finish_block": 192,
+    "no_op": 58,
+    "rename_propagation": 299,
+    "format_propagation": 179,
+    "pipe_rewrite": 38,
+    "na_rm_propagation": 3,
+    "roxygen_drafting": 190
+  },
+  "groups_by_family": {
+    "finish_block": 86,
+    "format_propagation": 64,
+    "na_rm_propagation": 3,
+    "no_op": 25,
+    "pipe_rewrite": 13,
+    "rename_propagation": 102,
+    "roxygen_drafting": 84
+  },
+  "exclusions": {
+    "finish:finish_literal_prefix_target_splice_mismatch": 34,
+    "finish:mixed_document_eol_requires_policy": 60,
+    "no_op:file_in_cpt": 15,
+    "no_op:unreadable": 1,
+    "rename_propagation:ambiguous_target_geometry": 4,
+    "format_propagation:full_post_edit_R_parse_error": 8,
+    "format_propagation:history_after_snapshot_R_parse_error": 16,
+    "format_propagation:ambiguous_target_geometry": 3,
+    "pipe_rewrite:ambiguous_target_geometry": 1,
+    "format_propagation:history_after_prefix_unavailable": 1,
+    "rename_propagation:file_in_cpt": 5,
+    "roxygen:file_in_cpt": 1
+  },
+  "packets_sha256": "c4612e52ad0b341a6e0c64f4d55db42145d5ee4e66133ee4cf93b0b16de24702",
+  "derived_rows_sha256": "1d577bc79d21f6cbcb3e99056e573171ccc2351e22af07c64a4e211994538700"
+}

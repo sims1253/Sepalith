@@ -6,10 +6,68 @@ The final evaluation set is not an accepted input to this evaluator.
 """
 from contextlib import contextmanager
 import json
+import os
 from pathlib import Path
+import sys
 import time
 
 from sepalith.training.checkpoint.campaign_checkpoint import write_json
+
+
+# bf16 is the authoritative PC dtype; fp16 and fp32 exist for Kaggle T4s,
+# which have no bf16.  Only bf16 results may bind a training gate.
+GENERATION_DTYPES = {"bf16": "bfloat16", "fp16": "float16", "fp32": "float32"}
+DEFAULT_GENERATION_DTYPE = "bf16"
+
+
+def generation_dtype(name):
+    """Return the torch dtype for a ``GENERATION_DTYPES`` key."""
+    if name not in GENERATION_DTYPES:
+        raise ValueError(f"Unsupported development generation dtype: {name!r}")
+    import torch
+
+    return getattr(torch, GENERATION_DTYPES[name])
+
+
+def pin_cuda_device(index, environ=None):
+    """Expose exactly one CUDA device to this process and return its id.
+
+    ``index`` selects among the devices already visible: the entries of an
+    existing ``CUDA_VISIBLE_DEVICES`` lease, or the physical devices when the
+    variable is unset (Kaggle).  This must run before CUDA initializes.
+    """
+    environ = os.environ if environ is None else environ
+    if type(index) is not int or index < 0:
+        raise ValueError("CUDA device index must be a non-negative integer")
+    torch = sys.modules.get("torch")
+    if torch is not None and torch.cuda.is_initialized():
+        raise ValueError("CUDA is already initialized; pin the device before any CUDA use")
+    visible = environ.get("CUDA_VISIBLE_DEVICES")
+    if visible is None:
+        chosen = str(index)
+    else:
+        entries = [entry.strip() for entry in visible.split(",") if entry.strip()]
+        if not entries:
+            raise ValueError("CUDA_VISIBLE_DEVICES hides every device; refusing to pin one")
+        if index >= len(entries):
+            raise ValueError(f"CUDA device index {index} is outside the visible devices {visible!r}")
+        chosen = entries[index]
+    environ["CUDA_VISIBLE_DEVICES"] = chosen
+    return chosen
+
+
+def load_development_model(path, *, dtype=DEFAULT_GENERATION_DTYPE, device="cuda"):
+    """Load a dense checkpoint for DEV generation on one device.
+
+    With the defaults this is exactly the original PC call: bf16 weights on
+    the single leased CUDA device.
+    """
+    from transformers import AutoModelForCausalLM
+
+    return AutoModelForCausalLM.from_pretrained(
+        str(path), torch_dtype=generation_dtype(dtype), device_map={"": device},
+        local_files_only=True, trust_remote_code=False,
+    )
 
 
 def verified_file(record):
