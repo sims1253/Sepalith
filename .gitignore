@@ -41,6 +41,9 @@ results/
 .ruff_cache/
 .ty_cache/
 
+# Downloaded extension test host
+.vscode-test/
+
 # Archived process evidence (restore on demand; index in docs/artifacts)
 /experiments/latent_memory/resource-observation.json
 

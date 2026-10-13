@@ -1,0 +1,18 @@
+name: Kaggle controller contracts
+on:
+  pull_request:
+    paths: ['scripts/cloud/kaggle_job.py', 'scripts/cloud/kaggle_smoke.py', 'scripts/cloud/test_kaggle_job.py', '.github/workflows/kaggle.yml']
+  push:
+    paths: ['scripts/cloud/kaggle_job.py', 'scripts/cloud/kaggle_smoke.py', 'scripts/cloud/test_kaggle_job.py', '.github/workflows/kaggle.yml']
+permissions:
+  contents: read
+jobs:
+  fake-jobs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s scripts/cloud -p test_kaggle_job.py -v

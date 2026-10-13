@@ -440,17 +440,24 @@ class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntr
 // Inline completion provider
 // ---------------------------------------------------------------------------
 
-class SepalithProvider implements vscode.InlineCompletionItemProvider {
+export class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private controller: AbortController | null = null;
-  // acceptance telemetry counters (local only; the seed of the future
-  // opt-in upload). shown = ghost text rendered; accepted = any partial
-  // or full accept event from VS Code.
-  static shown = 0;
+  private generation = 0;
+  // Local counters use stable APIs: offered results and full accept commands.
+  // Partial acceptance and actual display events require proposed editor APIs.
+  static offered = 0;
   static accepted = 0;
   // identical prompts: reuse the in-flight promise or the cached result —
   // VS Code re-invokes the provider on every cursor move, which previously
   // aborted and re-sent the SAME request dozens of times per keystroke
   private lastPrompt = "";
+
+  invalidate(): void {
+    this.generation++;
+    this.controller?.abort();
+    this.lastItems = null;
+    this.inFlight = null;
+  }
   private lastItems: vscode.InlineCompletionItem[] | null = null;
   private inFlight: { prompt: string; promise: Promise<vscode.InlineCompletionItem[]> } | null = null;
   private lastSkipLog = 0;
@@ -502,7 +509,12 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     }
   }
 
-  async provideInlineCompletionItems(document: vscode.TextDocument, position: vscode.Position): Promise<vscode.InlineCompletionItem[]> {
+  async provideInlineCompletionItems(document: vscode.TextDocument, position: vscode.Position, _context: vscode.InlineCompletionContext, token: vscode.CancellationToken): Promise<vscode.InlineCompletionItem[]> {
+    const version = document.version;
+    if (cfg().postAcceptCooldown && acceptedDocument?.uri === document.uri.toString() && acceptedDocument.version === version) return [];
+    const generation = this.generation;
+    const current = () => generation === this.generation && !token.isCancellationRequested && !document.isClosed && document.version === version;
+    if (!current()) return [];
     if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") {
       this.skipLogRateLimited(`request skipped: sidecar is ${sidecar.currentState}`);
       return [];
@@ -515,6 +527,7 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     }
     const c = cfg();
     const scope = c.scopeContext ? await this.buildScopeContext(document, position) : null;
+    if (!current()) return [];
     logScopeMode(scope ? scope.mode : "off");
     const { prompt, truncatedLines, truncatedSuffixLines } = buildPrompt(document, position, scope);
     if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
@@ -523,14 +536,18 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     }
 
     lastPrompt = prompt;
-    if (this.lastItems && prompt === this.lastPrompt) {
+    const key = JSON.stringify([document.uri.toString(), version, position.line, position.character, c, prompt]);
+    if (this.lastItems && key === this.lastPrompt) {
       requestLog.begin(prompt, prompt.length, "cached", "identical prompt — reused cached result");
       this.skipLogRateLimited("request: identical prompt — cached result");
       return this.lastItems;
     }
-    if (this.inFlight && prompt === this.inFlight.prompt) {
+    if (this.inFlight && !this.controller?.signal.aborted && key === this.inFlight.prompt) {
       this.skipLogRateLimited("request: identical prompt already in flight — joining it");
-      return this.inFlight.promise;
+      const pending = this.inFlight;
+      const controller = this.controller;
+      const subscription = token.onCancellationRequested(() => controller?.abort());
+      try { return await pending.promise; } finally { subscription.dispose(); }
     }
 
     const entry = requestLog.begin(prompt, prompt.length, "in-flight");
@@ -538,11 +555,16 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
     this.controller?.abort();
     const controller = new AbortController();
     this.controller = controller;
+    const subscription = token.onCancellationRequested(() => controller.abort());
     let promise: Promise<vscode.InlineCompletionItem[]>;
     promise = (async () => {
       try {
         const t0 = Date.now();
         const r = await postCompletion(c.port, prompt, 320, STOPS, controller.signal);
+        if (!current() || controller.signal.aborted) {
+          requestLog.fail(entry, "aborted", "document changed or request cancelled");
+          return [];
+        }
         lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
         channel.appendLine(`response: ${lastStats}`);
         if (c.debugMode) {
@@ -552,7 +574,7 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
         const lines = parsePrediction(r.text);
         requestLog.finish(entry, Date.now() - t0, r.completionTokens, r.text, lines);
         if (lines.length === 0) {
-          this.lastPrompt = prompt;
+          this.lastPrompt = key;
           this.lastItems = [];
           return [];
         }
@@ -576,7 +598,9 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
         }
         const eol = document.lineAt(position.line).range.end;
         const item = new vscode.InlineCompletionItem(lines.join("\n"), new vscode.Range(rangeStart, eol));
-        this.lastPrompt = prompt;
+        item.command = { command: "sepalith.accepted", title: "Record accepted suggestion" };
+        SepalithProvider.offered++;
+        this.lastPrompt = key;
         this.lastItems = [item];
         return [item];
       } catch (e) {
@@ -587,26 +611,14 @@ class SepalithProvider implements vscode.InlineCompletionItemProvider {
         requestLog.fail(entry, "error", errText(e));
         void sidecar.noteRequestError(errText(e));
         return [];
+      } finally {
+        subscription.dispose();
+        if (this.controller === controller) this.inFlight = null;
       }
     })();
-    this.inFlight = { prompt, promise };
+    this.inFlight = { prompt: key, promise };
     this.lastItems = null; // a different prompt invalidates the cache
     return promise;
-  }
-
-  handleDidShowCompletionItem(_item: vscode.InlineCompletionItem): void {
-    SepalithProvider.shown++;
-    renderStatusBar();
-  }
-
-  handleDidPartiallyAcceptCompletionItem(_item: vscode.InlineCompletionItem): void {
-    SepalithProvider.accepted++;
-    // post-accept cooldown (user rule 2026-08-23): no new suggestion until
-    // the user's NEXT button press. The accepted text lands as a document
-    // change right after this event — that insertion must not re-trigger.
-    postAcceptInsertionPending = cfg().postAcceptCooldown;
-    channel.appendLine(`accept (${SepalithProvider.accepted}/${SepalithProvider.shown})`);
-    renderStatusBar();
   }
 }
 
@@ -620,10 +632,7 @@ let requestLog: RequestLog;
 let lastStats = "no requests yet";
 let lastPrompt = "(no request yet)";
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-// post-accept cooldown state: true between an accept event and the
-// acceptance's own document-change event (which gets swallowed so it
-// cannot re-trigger; the user's next keystroke triggers normally)
-let postAcceptInsertionPending = false;
+let acceptedDocument: { uri: string; version: number } | null = null;
 const sidecar = new Sidecar();
 
 function modelName(): string {
@@ -635,7 +644,7 @@ function renderStatusBar(): void {
   const s = sidecar.currentState;
   const label = s === "starting" ? "starting…" : s === "ready" ? `ready (${modelName()})` : s === "external" ? "external server" : s;
   statusBarItem.text = `Sepalith: ${label}`;
-  statusBarItem.tooltip = `Sepalith sidecar\nstate: ${s}${sidecar.detailText ? `\n${sidecar.detailText}` : ""}\nlast request: ${lastStats}\nsuggestions shown ${SepalithProvider.shown} / accepted ${SepalithProvider.accepted}`;
+  statusBarItem.tooltip = `Sepalith sidecar\nstate: ${s}${sidecar.detailText ? `\n${sidecar.detailText}` : ""}\nlast request: ${lastStats}\nsuggestions offered ${SepalithProvider.offered} / accepted ${SepalithProvider.accepted}`;
 }
 
 // which context mode built the prompt (scope:pin+outline / scope:outline /
@@ -656,6 +665,7 @@ function triggerInlineSuggestion(): void {
 }
 
 export function activate(context: vscode.ExtensionContext): void {
+  const provider = new SepalithProvider();
   runtimeStorage = sharedCacheRoot();
   channel = vscode.window.createOutputChannel("Sepalith");
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
@@ -668,8 +678,19 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("sepalith.startServer", () => void sidecar.start()),
-    vscode.commands.registerCommand("sepalith.stopServer", () => sidecar.stop()),
+    vscode.commands.registerCommand("sepalith.startServer", () => { provider.invalidate(); return sidecar.start(); }),
+    vscode.commands.registerCommand("sepalith.accepted", () => {
+      SepalithProvider.accepted++;
+      const document = vscode.window.activeTextEditor?.document;
+      acceptedDocument = document ? { uri: document.uri.toString(), version: document.version } : null;
+      provider.invalidate();
+      if (cfg().postAcceptCooldown && debounceTimer !== null) {
+        clearTimeout(debounceTimer);
+        debounceTimer = null;
+      }
+      renderStatusBar();
+    }),
+    vscode.commands.registerCommand("sepalith.stopServer", () => { provider.invalidate(); return sidecar.stop(); }),
     vscode.commands.registerCommand("sepalith.refreshRuntime", async () => {
       const url = cfg().manifestUrl;
       if (!url) {
@@ -685,6 +706,7 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     // manual suggest: bypasses the debounce entirely
     vscode.commands.registerCommand("sepalith.suggest", () => {
+      acceptedDocument = null; // an explicit user request ends the cooldown
       if (debounceTimer !== null) {
         clearTimeout(debounceTimer);
         debounceTimer = null;
@@ -704,25 +726,21 @@ export function activate(context: vscode.ExtensionContext): void {
       // by default per the recorded telemetry decision)
       const line = JSON.stringify({
         time: new Date().toISOString(),
-        shown: SepalithProvider.shown,
+        offered: SepalithProvider.offered,
         accepted: SepalithProvider.accepted,
         lastStats,
       });
       channel.appendLine(`stats: ${line}`);
       vscode.window.showInformationMessage(
-        `Sepalith: shown ${SepalithProvider.shown}, accepted ${SepalithProvider.accepted} (logged)`);
+        `Sepalith: offered ${SepalithProvider.offered}, accepted ${SepalithProvider.accepted} (logged)`);
     }),
     vscode.commands.registerCommand("sepalith.clearRequests", () => requestLog.clear()),
-    vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, new SepalithProvider()),
+    vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, provider),
+    { dispose: () => provider.invalidate() },
+    vscode.window.onDidChangeActiveTextEditor(() => provider.invalidate()),
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (e.document.languageId !== "r") return;
-      if (postAcceptInsertionPending) {
-        // the just-accepted text landing: swallow this change — the next
-        // auto-suggestion waits for the user's next real button press
-        postAcceptInsertionPending = false;
-        if (debounceTimer !== null) { clearTimeout(debounceTimer); debounceTimer = null; }
-        return;
-      }
+      provider.invalidate();
       const ms = cfg().debounceMs;
       if (ms <= 0) return; // 0 disables auto-trigger (manual only)
       if (debounceTimer !== null) clearTimeout(debounceTimer);

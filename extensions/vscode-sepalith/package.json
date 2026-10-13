@@ -174,12 +174,14 @@
     "check-process": "esbuild scripts/check-process.ts --bundle --platform=node --format=cjs --outfile=dist/check-process.cjs && node dist/check-process.cjs",
     "lint": "oxlint --deny-warnings src scripts",
     "check-completion": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-completion.ts",
-    "test:lint": "node --test tools/anti-slop/rules/*.test.ts"
+    "test:lint": "node --test tools/anti-slop/rules/*.test.ts",
+    "test:editor": "npm run build && node tests/run.cjs"
   },
   "devDependencies": {
     "@oxlint/plugins": "1.78.0",
     "@types/node": "^18.19.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "3.1.0",
     "esbuild": "^0.25.0",
     "oxlint": "1.78.0",
     "typescript": "^5.5.0"

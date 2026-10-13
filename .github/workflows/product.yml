@@ -39,3 +39,21 @@ jobs:
           python-version: '3.12'
       - run: npm --prefix extensions/vscode-sepalith ci
       - run: python scripts/check_product.py
+
+  editor:
+    strategy:
+      matrix:
+        vscode: ['1.85.2', '1.104.3']
+    env:
+      SEPALITH_VSCODE_VERSION: ${{ matrix.vscode }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: extensions/vscode-sepalith/package-lock.json
+      - run: npm --prefix extensions/vscode-sepalith ci
+      - run: xvfb-run -a npm --prefix extensions/vscode-sepalith run test:editor
