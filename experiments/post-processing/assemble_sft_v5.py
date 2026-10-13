@@ -703,12 +703,11 @@ def main():
     train_pkgs = defaultdict(set)
     for r in train:
         train_pkgs[r["family"]].add(r["package_or_repo"])
-    overlap = {}
-    for fam in sorted(train_pkgs):
-        ev = {r["package_or_repo"] for r in evals if r["family"] == fam}
-        ov = ev & train_pkgs[fam]
-        if ov:
-            overlap[fam] = len(ov)
+    overlap_pkgs = defaultdict(set)
+    for r in evals:
+        if r["package_or_repo"] in train_pkgs.get(r["family"], ()):
+            overlap_pkgs[r["family"]].add(r["package_or_repo"])
+    overlap = {fam: len(overlap_pkgs[fam]) for fam in sorted(overlap_pkgs)}
     assert not overlap, f"eval/train package overlap: {overlap}"
 
     random.Random(42).shuffle(train)
@@ -724,8 +723,11 @@ def main():
     fam_tr = Counter(r["family"] for r in train)
     fam_ev = Counter(r["family"] for r in evals)
     lengths = sorted(len(r["text"]) for r in train)
-    per_fam_len = {f: sorted(len(r["text"]) for r in train if r["family"] == f)
-                   for f in sorted(fam_tr)}
+    per_fam_len = {f: [] for f in sorted(fam_tr)}
+    for r in train:
+        per_fam_len[r["family"]].append(len(r["text"]))
+    for family_lengths in per_fam_len.values():
+        family_lengths.sort()
     eval_lengths = sorted(len(r["text"]) for r in evals)
     report = dict(
         total_train=len(train), total_eval=len(evals),
