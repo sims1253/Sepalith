@@ -285,13 +285,14 @@
   {
    "module": "sepalith.training.rl.campaign_r_parse_probe",
    "path": "packages/sepalith/src/sepalith/training/rl/campaign_r_parse_probe.py",
-   "sha256": "d41420c3ab35a8367f8c4310b8a6562214d7e97ff58c921e8df2e03c8c6b486a",
+   "sha256": "94a203f6fb7968477dec2521aa734c48cbb7c8a057fd22f98379e58f81482c91",
    "source": "docs/campaign/work/lead/r2-full-weight-rl-production-driver-v2/source/experiments/training/campaign_r_parse_probe.py",
    "source_sha256": "d41420c3ab35a8367f8c4310b8a6562214d7e97ff58c921e8df2e03c8c6b486a",
    "selected_from": "r2-full-weight-rl-production-driver-v2",
    "selection": "single version",
    "changes": [
-    "none (verbatim)"
+    "C11 parser fix: only the designated syntax-error exit (3) counts as invalid R; any other exit, signal, timeout or unusable output raises ParseInfrastructureError after logged retries",
+    "C11: records the R version the probe uses (--version) and adds a one-process batch mode (parse_many)"
    ],
    "bound_by": [
     {
@@ -342,7 +343,7 @@
   {
    "module": "sepalith.training.rl.campaign_rl_data",
    "path": "packages/sepalith/src/sepalith/training/rl/campaign_rl_data.py",
-   "sha256": "46bf67633328a58412f3b1a4e8cf0b94f6656beea7874214e297cd67e911caa8",
+   "sha256": "354e8ff38753d4eb5d69b6d7ddba2cb4eac799f28d924e46b3b42e10640a8228",
    "source": "docs/campaign/work/lead/r2-full-weight-rl-production-driver-v2/source/experiments/training/campaign_rl_data.py",
    "source_sha256": "2c0419d50392b38725f1ba24af5063edd74d7c25ab495574537c9c597eca62d8",
    "selected_from": "r2-full-weight-rl-production-driver-v2",
@@ -351,7 +352,9 @@
     "removed the sys.path insertion for packages/sepalith/src (the module now lives inside the package)",
     "rewrote 1 local import statement(s) to sepalith.training package paths",
     "dropped `# noqa: E402` markers that became stale once the sys.path insertion was removed",
-    "removed imports left unused (ruff F401), including sys after the sys.path removal"
+    "removed imports left unused (ruff F401), including sys after the sys.path removal",
+    "C11: limits come from the reviewed length policy (sepalith.training.rl.length_policy.REVIEWED_POLICY: 3,072 prompt, 1,024 completion, 4,096 context) instead of hardcoded 2,048/192; complete rows are checked and the policy is bound to its census rows hash",
+    "C11: ported the root-reviewed 15,006-row sidecar patch from r2-rl15006-context-sidecar-v1 (optional expanded_context_source, short source identity)"
    ],
    "bound_by": [
     {
@@ -1279,13 +1282,13 @@
   {
    "module": null,
    "path": "packages/sepalith/src/sepalith/training/rl/reward_parse_only.R",
-   "sha256": "07f05d402274bbb2fdc5fdabd8a9713ba33b0b8e8005187b52f251846496d9fa",
+   "sha256": "175cd35a7a825dc0362348bf168a8406f8751ad82a8b58d975af667a48c28f6c",
    "source": "docs/campaign/work/lead/r2-full-weight-rl-production-driver-v2/source/experiments/training/reward_parse_only.R",
    "source_sha256": "07f05d402274bbb2fdc5fdabd8a9713ba33b0b8e8005187b52f251846496d9fa",
    "selected_from": "r2-full-weight-rl-production-driver-v2",
    "selection": "single version",
    "changes": [
-    "none (verbatim)"
+    "C11: syntax errors exit 3 (designated), usage errors exit 2, a missing input is an uncaught error; adds --batch and --version modes"
    ],
    "bound_by": [
     {
@@ -1465,7 +1468,8 @@
    "source": "docs/campaign/work/lead/r2-full-weight-rl-production-driver-v2/tests/test_production_driver.py",
    "source_sha256": "7d97e39ea83da9ebda965a0cfde9d59d02c4a47bb8c6717ced0a75314ad8578e",
    "changes": [
-    "imports from the package"
+    "imports from the package",
+    "C11: the recipe fixture uses the reviewed 3,072/1,024 length policy and checks that 2,048/192 is rejected"
    ]
   },
   {

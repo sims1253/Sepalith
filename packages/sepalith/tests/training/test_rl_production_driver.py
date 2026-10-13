@@ -96,7 +96,7 @@ class TestProductionDriver(unittest.TestCase):
    'renderer':{'renderer_id':rl.RENDERER_ID,'tokenization_policy':rl.TOKENIZATION_POLICY,'terminal':rl.TERMINAL,'no_edit':'[NO_EDIT]'},
    'data':{'split':'train','admission_status':'admitted','rows_sha256':h('1'),'context_sha256':h('2'),'sidecar_artifact_sha256':h('2'),'selected_ids_sha256':h('3'),'ordered_ids_sha256':h('4'),'row_identity_sha256':h('5'),'reward_buffer_manifest_sha256':h('6'),'reward_buffer_sidecar_sha256':h('7'),'row_count':1,'selected_ids':ids,'row_identities':[{'id':'row-a'}]},
    'source':{'manifest_sha256':h('8')},
-   'policy':{'checkpoint_kind':'full_weights','expected_parameter_tensors':381,'expected_trainable_parameters':2516756480,'peft_tensors':0,'prompt_max_tokens':2048,'completion_max_tokens':192,'generation_groups_per_call':1,'per_device_train_batch_size':8,'gradient_accumulation_steps':4,'candidate_count':4,'rollout_rows_per_update':32,'loss_type':'bnpo','scale_rewards':'group','beta':0,'reward_policy_id':'protocol_restraint_syntax_coverage_v2','reward_source_sha256':h('9'),'reward_parse_harness_sha256':h('a'),'sampling':{'do_sample':True,'temperature':0.7,'top_p':0.95,'repetition_penalty':1.0}},
+   'policy':{'checkpoint_kind':'full_weights','expected_parameter_tensors':381,'expected_trainable_parameters':2516756480,'peft_tensors':0,'prompt_max_tokens':3072,'completion_max_tokens':1024,'generation_groups_per_call':1,'per_device_train_batch_size':8,'gradient_accumulation_steps':4,'candidate_count':4,'rollout_rows_per_update':32,'loss_type':'bnpo','scale_rewards':'group','beta':0,'reward_policy_id':'protocol_restraint_syntax_coverage_v2','reward_source_sha256':h('9'),'reward_parse_harness_sha256':h('a'),'sampling':{'do_sample':True,'temperature':0.7,'top_p':0.95,'repetition_penalty':1.0}},
    'schedule':{'seed':3407,'sampler_id':rl.CampaignRepeatSampler.SAMPLER_ID,'generation_batch_size':32,'steps_per_generation':4,'num_iterations':1},
   }
   recipe={'schema_version':rl.TRAIN_SCHEMA_VERSION,'training_mode':'full_weights','identity':identity,'generation_groups_per_call':1,'generation_kwargs':identity['policy']['sampling'],'data':{'rows_path':'/x','rows_sha256':h('1'),'sidecar_path':'/y','sidecar_artifact_sha256':h('2'),'selected_ids_path':'/z','selected_ids_sha256':h('3'),'reward_buffer_manifest_path':'/r','reward_buffer_manifest_sha256':h('6')},'reward_parse':{'operation':'base::parse_only','generated_r_executed':False,'harness_sha256':h('a')}}
@@ -104,6 +104,10 @@ class TestProductionDriver(unittest.TestCase):
   self.assertEqual((checked['parent']['kind'],geometry.prompt_groups_per_update),('full_weight_edit_sft_checkpoint',8))
   recipe=copy.deepcopy(recipe);recipe['identity']['parent']['kind']='merged_sft'
   with self.assertRaisesRegex(ValueError,'full_weight_edit_sft_checkpoint'):rl.validate_rl_recipe(recipe)
+  # C11: the reviewed length policy replaces the legacy 2,048/192 limits.
+  legacy=copy.deepcopy(recipe);legacy['identity']['parent']['kind']='full_weight_edit_sft_checkpoint'
+  legacy['identity']['policy'].update(prompt_max_tokens=2048,completion_max_tokens=192)
+  with self.assertRaisesRegex(ValueError,'token geometry'):rl.validate_rl_recipe(legacy)
 
  def test_train_wrapper_uses_only_verified_resume_path(self):
   class T:

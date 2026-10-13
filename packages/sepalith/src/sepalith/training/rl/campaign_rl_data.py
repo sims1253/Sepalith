@@ -25,6 +25,12 @@ from typing import Any, Mapping, Sequence
 
 
 from sepalith.training.rl.campaign_rl_buffer import RewardBufferIndex
+from sepalith.training.rl.length_policy import (
+    REVIEWED_POLICY,
+    LengthPolicy,
+    LengthPolicyError,
+    require_row,
+)
 
 from sepalith.campaign_protocol import (
     BOS_ID,
@@ -42,9 +48,13 @@ from sepalith.campaign_protocol import (
 DATA_SCHEMA_VERSION = "sepalith.prm07.rl-train-data.v1"
 CONTEXT_SCHEMA_VERSION = "sepalith.prm03.context-manifest.v1"
 SELECTED_IDS_SCHEMA_VERSION = "sepalith.prm07.selected-train-ids.v1"
-PROMPT_MAX_TOKENS = 2_048
-COMPLETION_MAX_TOKENS = 192
-CONTEXT_MAX_TOKENS = PROMPT_MAX_TOKENS + COMPLETION_MAX_TOKENS
+# Card C11: the limits come from the reviewed RL-11 length policy (3,072 prompt
+# tokens including BOS, 1,024 completion tokens including EOS, 4,096 context).
+# The former hardcoded 2,048/192 limits rejected 4,106 of the 15,006 TRAIN rows.
+LENGTH_POLICY = REVIEWED_POLICY
+PROMPT_MAX_TOKENS = LENGTH_POLICY.prompt_max_tokens
+COMPLETION_MAX_TOKENS = LENGTH_POLICY.completion_max_tokens
+CONTEXT_MAX_TOKENS = LENGTH_POLICY.model_context_tokens
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -181,6 +191,7 @@ class RLDataManifest:
     row_identities: tuple[Mapping[str, Any], ...]
     reward_buffer_manifest_sha256: str
     reward_buffer_sidecar_sha256: str
+    length_policy: LengthPolicy = LENGTH_POLICY
 
     @property
     def row_identity_sha256(self) -> str:
@@ -210,6 +221,8 @@ class RLDataManifest:
             "row_identities": list(self.row_identities),
             "reward_buffer_manifest_sha256": self.reward_buffer_manifest_sha256,
             "reward_buffer_sidecar_sha256": self.reward_buffer_sidecar_sha256,
+            "length_policy": self.length_policy.to_mapping(),
+            "length_policy_sha256": self.length_policy.sha256,
         }
         if self.context_snapshot_sha256 is not None:
             # Compatibility metadata for the old single-context-manifest
@@ -283,14 +296,20 @@ def load_selected_ids(path: Path, expected_sha256: str) -> tuple[str, ...]:
     return tuple(row_ids)
 
 
-def _validate_prompt_prefix(row: Mapping[str, Any]) -> tuple[int, ...]:
+def _validate_prompt_prefix(
+    row: Mapping[str, Any], policy: LengthPolicy = LENGTH_POLICY,
+) -> tuple[int, ...]:
     values = row["input_ids"]
     start = row["target_start"]
     prompt = tuple(values[:start])
     if not prompt or prompt[0] != BOS_ID:
         raise RLDataError(f"row {row['id']} prompt lacks manual BOS {BOS_ID}")
-    if len(prompt) > PROMPT_MAX_TOKENS:
-        raise RLDataError(f"row {row['id']} prompt exceeds {PROMPT_MAX_TOKENS} IDs")
+    # The whole stored row (prompt with BOS, target with EOS, and their sum)
+    # must fit the policy. Rows are admitted whole or rejected; never sliced.
+    try:
+        require_row(row, policy)
+    except LengthPolicyError as error:
+        raise RLDataError(f"row {row['id']} violates length policy {policy.policy_id}: {error}") from error
     if any(type(token) is not int or not 0 <= token < VOCAB_SIZE for token in prompt):
         raise RLDataError(f"row {row['id']} prompt has an invalid ID")
     if prompt.count(BOS_ID) != 1 or EOS_ID in prompt:
@@ -335,7 +354,38 @@ def _validate_sidecar_source_identity(
     RL-02 selected, while leaving each row free to point at a different static
     source document.
     """
-    if not isinstance(value, Mapping) or set(value) != SIDECAR_SOURCE_IDENTITY_KEYS:
+    if not isinstance(value, Mapping):
+        raise RLDataError(f"sidecar row {row_id} source_identity fields are incomplete")
+    # Card C11 ports the root-reviewed 15,006-row sidecar patch
+    # (r2-rl15006-context-sidecar-v1, RL-11-context15006-root-review): rows
+    # from the accepted short packet carry a document-level source identity.
+    fields = set(value)
+    short_fields = SIDECAR_SOURCE_IDENTITY_KEYS - {"source_ref"}
+    if fields == short_fields:
+        provenance = value.get("source_provenance")
+        if (value.get("registry_provenance_id") != row_id
+                or value.get("registry_provenance_decision") != "prior_short_source_and_token_checks_passed"
+                or not isinstance(provenance, Mapping)
+                or provenance.get("group_id") != value.get("group_id")
+                or provenance.get("package_id") != value.get("package_id")
+                or provenance.get("source_split") != "train_group"
+                or not isinstance(provenance.get("source_path"), str)
+                or not Path(provenance["source_path"]).is_absolute()
+                or not isinstance(provenance.get("source_sha256"), str)
+                or _SHA256_RE.fullmatch(provenance["source_sha256"]) is None):
+            raise RLDataError(f"sidecar row {row_id} short source identity is invalid")
+        # The frozen short packet has a document-level source identity rather
+        # than a source-line reference. Preserve it and derive only the two
+        # fields needed by ContextCapture; do not invent a source line/hash.
+        normalized = json.loads(json.dumps(value, sort_keys=True, ensure_ascii=False))
+        normalized["source_ref"] = {
+            "source_sha256": provenance["source_sha256"],
+            "file": provenance["source_path"],
+            "split": "train_group",
+            "source": "accepted_short_packet_source_document",
+        }
+        return normalized
+    if fields != SIDECAR_SOURCE_IDENTITY_KEYS:
         raise RLDataError(f"sidecar row {row_id} source_identity fields are incomplete")
     candidate_file = value["candidate_file"]
     if not isinstance(candidate_file, str) or not Path(candidate_file).is_absolute():
@@ -452,8 +502,14 @@ def _validate_sidecar_record(
     value: Mapping[str, Any], row: Mapping[str, Any],
 ) -> tuple[str, PromptContext, ContextCapture, dict[str, Any], dict[str, Any]]:
     row_id = str(row["id"])
-    if set(value) != SIDECAR_ROW_KEYS:
+    fields = set(value)
+    allowed_fields = SIDECAR_ROW_KEYS | {"expanded_context_source"}
+    if fields not in (SIDECAR_ROW_KEYS, allowed_fields):
         raise RLDataError(f"sidecar row {row_id} fields do not match RL-02 output")
+    if "expanded_context_source" in value and value["expanded_context_source"] not in {
+        "DAT05_candidate_envelope_revalidated", "accepted_short_packet_revalidated",
+    }:
+        raise RLDataError(f"sidecar row {row_id} expanded context source is invalid")
     if value["row_id"] != row_id:
         raise RLDataError(f"sidecar row {row_id} ID mismatch")
     if value["split"] != "train" or row.get("split") != "train":
@@ -501,7 +557,9 @@ def _validate_sidecar_record(
     return row_id, context, capture, source_identity, geometry
 
 
-def _validate_row(row: Mapping[str, Any]) -> tuple[dict[str, Any], tuple[int, ...]]:
+def _validate_row(
+    row: Mapping[str, Any], policy: LengthPolicy = LENGTH_POLICY,
+) -> tuple[dict[str, Any], tuple[int, ...]]:
     try:
         normalized = validate_training_row(row)
     except (ProtocolError, TypeError, ValueError, KeyError) as error:
@@ -510,7 +568,7 @@ def _validate_row(row: Mapping[str, Any]) -> tuple[dict[str, Any], tuple[int, ..
         raise RLDataError(f"row {normalized['id']} is not a train row")
     if normalized["renderer_id"] != RENDERER_ID or normalized["tokenization_policy"] != TOKENIZATION_POLICY:
         raise RLDataError(f"row {normalized['id']} renderer/tokenization identity mismatch")
-    return normalized, _validate_prompt_prefix(normalized)
+    return normalized, _validate_prompt_prefix(normalized, policy)
 
 
 def _validate_semantics(row: Mapping[str, Any], context: PromptContext) -> None:
@@ -541,6 +599,7 @@ def load_training_records(
     expected_context_snapshot_sha256: str | None = None,
     reward_buffer_manifest_path: Path,
     reward_buffer_manifest_sha256: str,
+    length_policy: LengthPolicy = LENGTH_POLICY,
 ) -> tuple[list[RLTrainRecord], RLDataManifest]:
     """Load exactly the hashed, selected train rows and their pre-edit contexts.
 
@@ -550,7 +609,14 @@ def load_training_records(
     """
     if admission_status != "admitted":
         raise RLDataError("RL training requires an explicit admitted data status")
+    if length_policy.disposition == "audit_only":
+        raise RLDataError(f"length policy {length_policy.policy_id} is audit-only")
     rows_file, rows_actual = _verified_path(rows_path, rows_sha256, "rows")
+    if rows_actual != length_policy.input_rows_sha256:
+        raise RLDataError(
+            f"length policy {length_policy.policy_id} binds rows {length_policy.input_rows_sha256}, "
+            f"not {rows_actual}; census the new rows and bind a new policy"
+        )
     context_file, context_actual = _verified_path(context_path, context_sha256, "context")
     selected_file, selected_actual = _verified_path(selected_ids_path, selected_ids_sha256, "selected_ids")
     selected_ids = load_selected_ids(selected_file, selected_actual)
@@ -560,7 +626,7 @@ def load_training_records(
 
     rows_by_id: dict[str, dict[str, Any]] = {}
     for raw in _jsonl(rows_file, "rows"):
-        row, _prompt = _validate_row(raw)
+        row, _prompt = _validate_row(raw, length_policy)
         row_id = row["id"]
         if row_id in rows_by_id:
             raise RLDataError(f"rows repeat ID {row_id}")
@@ -665,6 +731,7 @@ def load_training_records(
         row_identities=tuple(row_identities),
         reward_buffer_manifest_sha256=reward_buffer_manifest_sha256,
         reward_buffer_sidecar_sha256=buffer_index.sidecar_sha256,
+        length_policy=length_policy,
     )
     return records, manifest
 
