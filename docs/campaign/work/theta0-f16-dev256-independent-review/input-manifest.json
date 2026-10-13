@@ -1,0 +1,208 @@
+{
+  "model": {
+    "bytes_read_or_hashed": false,
+    "expected_sha256": "ee7ba2fd7e7b6446d74224e1e1f9e4724fbcfa54e56e60c4b623981d1e4f45ed",
+    "identity_source": "quality.model.provenance and F16 lead manifest",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/SFT-primary-step1000-runtime-gguf/model-F16.gguf"
+  },
+  "panel_counts": {
+    "edit_rows": 43,
+    "noop_rows": 32,
+    "rows": 75
+  },
+  "purpose": "immutable input inventory for independent CPU-only F16 versus Q8 b256 review",
+  "q8_baseline_model": {
+    "bytes_read_or_hashed": false,
+    "identity_source": "previously reviewed Q8 b256 report and saved quality provenance"
+  },
+  "read_policy": [
+    "CPU tokenizer, protocol, corrected panel, reviewed scorer, source controllers and completed run artifacts only",
+    "no native launch, GPU, SSH, network, model-weight read or model-weight hash"
+  ],
+  "runs": {
+    "f16_b256": [
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/quality.json",
+        "read": true,
+        "sha256": "3851ff90b4fc97458d57fff7a4f4edbecddccb617627e913ff440df1c1fb072c"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/terminal.json",
+        "read": true,
+        "sha256": "38db61feaf52a1b6dc427da9d51e60eaaa1749cc237305f86af40ae6acd4df68"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/client-launch.json",
+        "read": true,
+        "sha256": "1178e80c2294ca7dc4237f1bc28627c41d43115685f1d0dad8ce2fdc9af5270a"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/server-launch.json",
+        "read": true,
+        "sha256": "1e4e6ab5c31b7efb511d28747152c3e4ec9616f51b826442f7a3da5abee8f9a7"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/server-children.json",
+        "read": true,
+        "sha256": "0a67084a5a906ddd0bb208c399673bf7e6936fa1162817c6f67fcc4fec817826"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/server-env-23900.json",
+        "read": true,
+        "sha256": "be7b7213a691daa48f7894eff3f46675c194e5a5d53d4c5c078da33cef33bfd8"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/server.log",
+        "read": true,
+        "sha256": "c632b702ed66137397ac9dd860bfc62cea092e0a3867bb6878e5452db47acf89"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/client.log",
+        "read": true,
+        "sha256": "68f440240a3744d69152a76488bfcb1e7e6125c5945400b806353ec8b435b6f7"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/F16-b256/server-maps-23900.txt",
+        "read": true,
+        "sha256": "e5afa406093e57e0287f964fe35b69a928dd02b9004be14c84011ccf424b7416"
+      }
+    ],
+    "f16_root_terminal": [
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-f16-dev256-a/terminal.json",
+        "read": true,
+        "sha256": "da9de0fac73db609ab4a4ed49936d8f6fa134ce2ae14a34c54121e86a1c131b1"
+      }
+    ],
+    "q8_b256": [
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/quality.json",
+        "read": true,
+        "sha256": "e323ed7db53f928cf2066b2a03f66031262c7bcb2c48ccb9b04eb939fc1bac9c"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/terminal.json",
+        "read": true,
+        "sha256": "0cd5007d6a27ffc825d1d4863a9102746b52536dc858bab09803c3f79fffa4df"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/client-launch.json",
+        "read": true,
+        "sha256": "2d6440a003d7a5134e31c92a72c6be65f28de8338470621ecb941606d9b5fa3c"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/server-launch.json",
+        "read": true,
+        "sha256": "fbcdd258c1efeaa86cd57ef6a4f57c24d0cb269f93d057495a4f2bf458c8ef60"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/server-children.json",
+        "read": true,
+        "sha256": "341bcbe09c3ee35a74b916790b02cd72c0d21e93ba2a234cd7b7876d649ba76c"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/server.log",
+        "read": true,
+        "sha256": "39bc72922387d9f12f4bd857d3a6c4c1ac68676eedfd708aefa471222a31611e"
+      },
+      {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RUN-05-theta0-cuda-dev192-a/Q8_0-b256/client.log",
+        "read": true,
+        "sha256": "c81e344884fbbf5cb4aeb44cb121f64399b2d2f46213be5eda269bc843a573c6"
+      }
+    ]
+  },
+  "schema_version": "sepalith.run09.theta0-f16-dev256-review-inputs.v1",
+  "server_binary": {
+    "bytes_read_or_hashed": false,
+    "expected_sha256": "e42d5362c31f9149e36a94677e46c31b7b56ee0e4128d67e6a32383d4cc1c0ee",
+    "identity_source": "lead/controller manifest and saved server argv",
+    "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-server"
+  },
+  "source_paths": [
+    {
+      "name": "panel",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "read": true,
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    {
+      "name": "panel_manifest",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-dev75-v1/manifest.json",
+      "read": true,
+      "sha256": "4528ff6dbd8cfe70580901d9254a1a6931dc8c334c5dd2c55e49cf92d1a5377a"
+    },
+    {
+      "name": "protocol",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "read": true,
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "name": "campaign_client",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/extensions/vscode-sepalith/src/campaign_client.ts",
+      "read": true,
+      "sha256": "0390fd1bf1af94197b6771fe2b96c8e833b13e9d0d123c92fc4bcd69fc9c1333"
+    },
+    {
+      "name": "campaign_eval",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/experiments/training/campaign_eval.py",
+      "read": true,
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    {
+      "name": "reference_scorer",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/quant-quality/run09_native_dev_quality.py",
+      "read": true,
+      "sha256": "e574a9453066b5fa5a8e33c02777e8bdd875e208d4c3c51c00e5ede13bba5362"
+    },
+    {
+      "name": "q8_controller",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-dev192-a/run_dev192.py",
+      "read": true,
+      "sha256": "18d1e37dbc94ab108865a7aa01ceb77bac51a63cc08b753c15e807d21032f8e3"
+    },
+    {
+      "name": "q8_cap_adapter",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-dev192-a/run_dev192_client.py",
+      "read": true,
+      "sha256": "dacabb514952427b9b36c1f85c964c786cbe7820100c771ff13c99dabb2ecc89"
+    },
+    {
+      "name": "q8_controller_manifest",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-dev192-a/manifest.json",
+      "read": true,
+      "sha256": "074fde2c1fefd71c784a2109c81ce565640de3ff02b1669192261af94ab7d92f"
+    },
+    {
+      "name": "reviewed_scorer",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/theta0-cuda-dev192-review-v1/review_dev192.py",
+      "read": true,
+      "sha256": "766e29676648d9ce52abfe4065e6adbd58d92904f2d46248ff158afd1a257730"
+    },
+    {
+      "name": "baseline_review_report",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/theta0-cuda-dev192-review-v1/review-report.json",
+      "read": true,
+      "sha256": "671c0aa13c6b09e7e4f87890dc61931d980d50928a64c15d52c80f48433f8151"
+    },
+    {
+      "name": "f16_controller",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-f16-dev256-a/run_dev192.py",
+      "read": true,
+      "sha256": "d99c9b5746672ee939f1ae4ff929497900ac43da6927386803377229250c6079"
+    },
+    {
+      "name": "f16_cap_adapter",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-f16-dev256-a/run_dev192_client.py",
+      "read": true,
+      "sha256": "dacabb514952427b9b36c1f85c964c786cbe7820100c771ff13c99dabb2ecc89"
+    },
+    {
+      "name": "f16_lead_manifest",
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/theta0-cuda-f16-dev256-a/manifest.json",
+      "read": true,
+      "sha256": "fe6ec71d27f8729a9f30144537808eb058903788f32e6bc99dea1fdffc80570f"
+    }
+  ]
+}

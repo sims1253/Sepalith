@@ -1,5 +1,14 @@
 # Edit context and prompt contract
 
+> **Render of record for editing SFT and evaluation: `zeta2-prm03-v1`.** It is
+> implemented in `sepalith.campaign_protocol` (`RENDERER_ID`, prompt schema
+> `sepalith.prompt.prm03.v1`). Editing-SFT rows, the DEV75 and DEV250 panels
+> and the DEV evaluator (`sepalith.training.eval.campaign_eval`) all render and
+> score through it: `build_training_row` builds the prompt and target, and
+> `parse_output` scores the output. A no-op answer is `[NO_EDIT]` followed by
+> the terminal line `>>>>>>> UPDATED`. The `zeta2-v1` renderer described below
+> is the older baseline format. Do not use it for SFT or evaluation data.
+
 `sepalith.protocol` provides a standard-library input contract and the named
 `zeta2-v1` renderer. The v5 assembler's edit-row path uses this renderer with
 legacy byte parity; other training, evaluation and extension callers keep their

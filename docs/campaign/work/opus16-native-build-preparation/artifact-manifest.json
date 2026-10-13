@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4986,
+      "sha256": "067f81b8e8ef3f7dbfdfa61eba18eb4034ff923a57843deebc7f4967499dc976"
+    },
+    {
+      "path": "build-plan.json",
+      "bytes": 45184,
+      "sha256": "39f722a3a064d1272911b162d9836ada379f22f9eaf17ef31baeef37c49ce9ef"
+    },
+    {
+      "path": "collect_fingerprints.py",
+      "bytes": 4837,
+      "sha256": "0f23a4d39ce11b0ec7248b7bf9666fa6ebb8ca52f13a90483ddb607e45b4156f"
+    },
+    {
+      "path": "cpu-validation.json",
+      "bytes": 252,
+      "sha256": "60ed8c61f04969a03b7f9fc3ef69cb742b521ddfa3810eaaa3646105cbd834c6"
+    },
+    {
+      "path": "expected-inputs.json",
+      "bytes": 7952,
+      "sha256": "231b8d09772c4c966fca8aa283cbb4f1cb6472da63418e133f30a860422aa72f"
+    },
+    {
+      "path": "make_plan.py",
+      "bytes": 4829,
+      "sha256": "4db032f283f624cd36b399956c2ade88b013928bc22cd7ecdf4b331b99b0eca3"
+    },
+    {
+      "path": "test_plan.py",
+      "bytes": 1877,
+      "sha256": "9979f572bdb73b14feb6a30091df1bf951f7f78212ad5a2df1977dd4c709259f"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "archive_dir": "/ROOT_TO_BIND",
+  "checkpoint": {
+    "evaluation_steps": [
+      250,
+      500,
+      1000
+    ],
+    "full_every": 250,
+    "light_every": 250
+  },
+  "checkpoint_reserve_seconds": 300,
+  "deadline": "ROOT_TO_BIND",
+  "decision_steps": [
+    250
+  ],
+  "development_case_ids": [],
+  "development_evaluation_route": "hf_diagnostic_only",
+  "development_max_new_tokens": 192,
+  "development_panel": {
+    "path": "/ROOT_TO_BIND",
+    "sha256": "ROOT_TO_BIND"
+  },
+  "draw_schedule": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-draw-manifest-noop25.json",
+    "sha256": "00efb66e1b37a44d99a0767f777bb37fc8efa9084e06a7994b921ab19291722c"
+  },
+  "evaluator_factory": "ROOT_TO_BIND",
+  "hf_evaluation_is_acceptance": false,
+  "identity": {
+    "data": {
+      "development_panel_sha256": "ROOT_TO_BIND",
+      "draw_schedule_sha256": "00efb66e1b37a44d99a0767f777bb37fc8efa9084e06a7994b921ab19291722c",
+      "split_id": "DAT-02-global-v2-285001f3d93e9f1871df",
+      "train_rows_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+    },
+    "parent": {
+      "kind": "midtrain_control",
+      "revision": "8dc5f6055b90fe4b9422340810b270b9569f37f3",
+      "weights_sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    "policy": {
+      "dtype": "bfloat16",
+      "full_text_labels": false,
+      "gradient_checkpointing": "gpu_standard_v1",
+      "initialization": "new_lora_on_midtrain_control",
+      "logging_steps": 1,
+      "loss_objective": "prm03_target_only_next_token_v1",
+      "lr_schedule": "cosine",
+      "optimizer": "adamw_torch_fused",
+      "seed": 3407,
+      "stage": "task_sft_prm03_v1",
+      "target_learning_rate": 0.0002,
+      "warmup_ratio": 0.03,
+      "weight_decay": 0.0
+    },
+    "renderer": {
+      "contract_sha256": "ROOT_TO_BIND",
+      "id": "zeta2-prm03-v1"
+    },
+    "schedule": {
+      "gradient_accumulation": 8,
+      "learning_rate": 0.0002,
+      "lora_alpha": 64,
+      "lora_rank": 32,
+      "max_sequence_tokens": 4096,
+      "max_steps": 1000,
+      "per_device_batch": 2
+    },
+    "source": "8ec908a41904888af647de2ee8b40ba8f73837777509d91159051b25fc72dd3e",
+    "tokenizer": {
+      "BOS": 0,
+      "EOS_PAD": 1,
+      "native_EOG": [
+        1,
+        130073
+      ],
+      "revision": "ROOT_TO_BIND",
+      "tokenizer_json_sha256": "ROOT_TO_BIND"
+    }
+  },
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/model.safetensors",
+      "sha256": "38a28680f6208242a0de7c84627343d44cee517b49c2b39d1afd706be6beabad"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/generation_config.json",
+      "sha256": "9ac4f32e5f32358697a9f438a3ea89ef80e6ba786c72c49e932f9f21c122fdb1"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/tokenizer.json",
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native/tokenizer_config.json",
+      "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-token-rows.jsonl",
+      "sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-draw-manifest-noop25.json",
+      "sha256": "00efb66e1b37a44d99a0767f777bb37fc8efa9084e06a7994b921ab19291722c"
+    },
+    {
+      "path": "/ROOT_TO_BIND",
+      "sha256": "ROOT_TO_BIND"
+    }
+  ],
+  "launch_authorized": false,
+  "mandatory_stop_steps": [
+    250
+  ],
+  "max_attempt_seconds": 4200,
+  "milestones": [
+    250,
+    500,
+    1000
+  ],
+  "model_path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/models/minicpm5-2b-midtrain-native",
+  "native_acceptance_required": true,
+  "output_dir": "/ROOT_TO_BIND",
+  "parameters": {
+    "gradient_accumulation": 8,
+    "learning_rate": 0.0002,
+    "lora_alpha": 64,
+    "lora_rank": 32,
+    "max_sequence_tokens": 4096,
+    "max_steps": 1000,
+    "per_device_batch": 2
+  },
+  "renderer_id": "zeta2-prm03-v1",
+  "resume_from": null,
+  "schema_version": 1,
+  "stage": "task_sft_prm03_v1",
+  "status": "template_not_launchable_bind_all_inputs",
+  "target_gate_start_steps": [
+    0,
+    250,
+    500
+  ],
+  "target_resume_steps": [
+    250,
+    500
+  ],
+  "termination_grace_seconds": 30,
+  "token_rows": {
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-mixture-v1/verified-corrected-short-token-rows.jsonl",
+    "sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e"
+  }
+}

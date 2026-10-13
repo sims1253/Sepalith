@@ -1,0 +1,164 @@
+{
+  "card": "C09-prep",
+  "kind": "gguf_tooling_restore_and_cpu_smoke",
+  "date": "2026-10-12",
+  "gpu_work": false,
+  "gpu_note": "A night-window GPU job held the RTX 5090. Nothing ran on the GPU: builds only, CPU binaries for the smoke, and the CUDA binary only for --version with CUDA_VISIBLE_DEVICES=\"\".",
+  "llama_cpp": {
+    "tag": "b10453",
+    "commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+    "pin_verification": "git rev-parse b10453^{commit} in a fresh clone of github.com/ggml-org/llama.cpp gives 3cb7ffb1a1f6...; it matches PIN in export_gguf.py and docs/SERVING-PACKAGING.md. The tag is lightweight. Commit date 2026-08-16, 'model : remove some ggml_concat (#27176)'.",
+    "root": "/home/m0hawk/.local/opt/llama.cpp-b10453",
+    "env_var": "SEPALITH_LLAMA_CPP",
+    "build_script": "scripts/packaging/build_llama_cpp.sh",
+    "clone": "full history (non-shallow), so binaries report build 10453; a shallow clone reports build 1",
+    "lost_paths_replaced": {
+      "experiments/bin/llama/llama-b10453/": "build-cpu/bin/",
+      "experiments/bin/src/llamacpp-b10453/convert_hf_to_gguf.py": "src/convert_hf_to_gguf.py",
+      "/tmp/llama.cpp-cuda/build/bin/llama-server": "build-cuda/bin/llama-server"
+    },
+    "toolchain": {
+      "os": "Arch Linux on WSL2 (kernel 6.18.40.1-microsoft-standard-WSL2)",
+      "cmake": "4.4.4",
+      "generator": "Ninja",
+      "gcc": "16.2.1 20260810",
+      "nvcc": "CUDA 13.4 (V13.4.92), /opt/cuda/bin/nvcc",
+      "build_jobs": 8,
+      "nice": 10
+    },
+    "builds": {
+      "cpu": {
+        "dir": "build-cpu",
+        "flags": ["-DCMAKE_BUILD_TYPE=Release", "-DGGML_NATIVE=ON", "-DLLAMA_BUILD_TESTS=OFF", "-DLLAMA_BUILD_EXAMPLES=OFF"],
+        "version": "0.1.0-dev (build 10453, commit 3cb7ffb1a), built with GNU 16.2.1 for Linux x86_64",
+        "note": "GGML_NATIVE=ON tunes for this host CPU; not a redistributable runtime (release bundles use upstream prebuilts).",
+        "sha256": {
+          "llama-quantize": "e390b8e6ef0dcaa08751e9bf517c27a93c89ebf34b6a6bec13f481c1732d00af",
+          "llama-completion": "6f23118d8bbfd96254ee12f0eef9148bb3d1b9e8b14542d354c678a95afe51bb",
+          "llama-server": "984253bd1a0ff2e26f966b0e2853f5e8c5349a5eccd5a279262de014a54eeaf1",
+          "llama-imatrix": "dcaa741b7d9b793b1377a39952ce03fba86a5e7b4a78ee5a6f5d34b1f9f46cf0",
+          "llama-cli": "6af4848a13e20260d6019049c92180440608f702335ef627e93b7b1292d0719c",
+          "llama-perplexity": "7d6a89acdc39ddbc14fdf3040feb842271508e323a9c285ff03c179ecbde8832",
+          "libllama.so.0.1.0": "61d0563954b11b4ad33aa5c8ce3cbac8039306bf95d4668a170759f099f05fee",
+          "libllama-common.so.0.1.0": "8d17b4d9e3162daa11e751c49edfcc5d25ee2d078ee9f06a8b63aa0c7263005d",
+          "libggml.so.0.20.0": "f362f38f564b4fe8053720c75b9a69cd638d8128d056785bcf94c023ba8478ed",
+          "libggml-base.so.0.20.0": "28aca8be0fb8a27f426508be6e3c5b65bbf975fe96ec7761d686cd4b20a46d82",
+          "libggml-cpu.so.0.20.0": "fee98e3e31b16b3e12201e2d7de780e400625aa67d317befa6949f728a08e8c5"
+        }
+      },
+      "cuda": {
+        "dir": "build-cuda",
+        "flags": ["-DCMAKE_BUILD_TYPE=Release", "-DGGML_NATIVE=ON", "-DGGML_CUDA=ON", "-DCMAKE_CUDA_ARCHITECTURES=120", "-DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc", "-DCUDAToolkit_ROOT=/opt/cuda", "-DLLAMA_BUILD_TESTS=OFF", "-DLLAMA_BUILD_EXAMPLES=OFF"],
+        "version": "0.1.0-dev (build 10453, commit 3cb7ffb1a), built with GNU 16.2.1 for Linux x86_64",
+        "links": "libggml-cuda.so.0, libcudart.so.13 and libcublas.so.13 from /opt/cuda/lib64, libcuda.so.1 from /usr/lib/wsl/lib",
+        "checked": "--version only, with CUDA_VISIBLE_DEVICES=\"\" (prints 'no CUDA-capable device is detected', as expected). Not run on the GPU.",
+        "sha256": {
+          "llama-server": "00ab55bb2c4b62c36ffcb5a1c5261ce0221dd65f1445d87d32d4302ec5194257",
+          "llama-completion": "1118a8e70f04b93a6649c1ecc0b15e183470f5ea0b5ca4fbf2da020170848224",
+          "llama-quantize": "0cccc94a7104ea61c490c2546ca55b4ad7538386658c4897e7aadfc3e1fa5014",
+          "llama-imatrix": "210d79de7abfb00dc547be94a0fb84098ed1252b19c4bafe7b9dae66303c4c82",
+          "llama-bench": "afeacbbdc383a98e070aecc943ca403568bd7a6f61c2b0354a7f00ce08c4d215",
+          "libggml-cuda.so.0.20.0": "6cf6fa3af89864e260984dab829bd0b5a0509975c19c7493b08f96e8caca72a3",
+          "libllama.so.0.1.0": "68e0ffd0b6f5c20c2eb37b3d269c203d406a3b742be945af9c55fcca51f60fc8",
+          "libggml.so.0.20.0": "57abb75082d31fa392b5f47e44f52481a2e6918fd9fd3588b5fbf354a1319530",
+          "libggml-base.so.0.20.0": "28aca8be0fb8a27f426508be6e3c5b65bbf975fe96ec7761d686cd4b20a46d82",
+          "libggml-cpu.so.0.20.0": "2d0c60701468e479a1ddec020d37d06513379806dc7c4608cf217f0c9ac98357"
+        }
+      },
+      "vulkan": {
+        "built": false,
+        "reason": "No Vulkan headers (/usr/include/vulkan) and no glslc on this host; system packages were not installed. build_llama_cpp.sh vulkan builds it once vulkan-headers and shaderc are present."
+      }
+    },
+    "converter": {
+      "script": "src/convert_hf_to_gguf.py",
+      "python": "venv-convert/bin/python (uv venv, CPython 3.12.15)",
+      "requirements": "src/requirements/requirements-convert_hf_to_gguf.txt (torch 2.11.0+cpu, numpy 1.26.4, sentencepiece 0.2.2, protobuf 4.25.9, gguf-py from the source tree)",
+      "deviation": "transformers 5.5.0 instead of the pinned 4.57.6. The checkpoint was saved by transformers 5.5.0 with tokenizer_class 'TokenizersBackend', and 4.57.6 fails with 'Tokenizer class TokenizersBackend does not exist'. The campaign's earlier b10453 conversions also ran under transformers 5.5.0 (.venv-sft). tokenizers 0.22.2.",
+      "freeze": "/home/m0hawk/.local/opt/llama.cpp-b10453/logs/venv-convert.freeze.txt"
+    }
+  },
+  "exporter": {
+    "file": "experiments/training/export_gguf.py",
+    "receipt_schema": "sepalith.gguf-export/v2",
+    "changes": [
+      "--outtype bf16 by default (f16 optional); the bf16 GGUF is the quantization source and reference",
+      "--keep-source (alias --keep-f16), --source-gguf (alias --f16), --out-dir",
+      "tiers Q8_0, Q6_K, Q5_K_M, Q4_K_M, IQ4_XS; Q4_K_M needs --imatrix or --uncalibrated; any IQ tier or override needs --imatrix",
+      "pass-through: --imatrix, repeated --tensor-type PATTERN=TYPE, --output-tensor-type, --token-embedding-type (any ggml type at the pin, case-insensitive) and --dry-run",
+      "receipts record every input and output path, size and sha256 (HF converter inputs, source GGUF, imatrix, quantizer binary, output), the converter commit and command, quantizer build and command, every flag, and wall times",
+      "SEPALITH_LLAMA_CPP locates the pinned install; LLAMA_QUANT, LLAMA_CONVERT and LLAMA_CONVERT_PYTHON override single pieces",
+      "unchanged: the --no-nextn arch gate for qwen architectures, the converter pin check, NO_LORA and MERGE_VIA_PEFT modes, imatrix provenance check"
+    ],
+    "tests": {
+      "file": "experiments/training/test_quant_export.py",
+      "result": "11 passed (6 new: bf16 default plus arch gate, source cleanup, quantizer flag pass-through plus receipts, invalid combinations, dry run, converter pin)",
+      "also": "experiments/training/test_fullft_mode.py::test_export_nolora_mode_pinned passed; scripts/check_core.py 78 passed; scripts/check_quality.py clean"
+    }
+  },
+  "smoke": {
+    "model": "CPT parent checkpoint 11586 (LlamaForCausalLM, 42 layers, hidden 2048, 16/2 heads, vocab 130,560, untied embeddings). This is the parent CPT model, not a product; quality was not evaluated and nothing was uploaded.",
+    "hf_dir": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586",
+    "hf_model_safetensors_sha256": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+    "out_dir": "/mnt/e/sepalith/campaign-20260915/quant-work/parent-11586",
+    "command": "NO_LORA=1 CUDA_VISIBLE_DEVICES=\"\" nice -n 10 python3 experiments/training/export_gguf.py unused <hf_dir> parent-11586 --out-dir <out_dir> --keep-source --tiers Q8_0 Q4_K_M --uncalibrated --threads 8",
+    "host_contention": "Load average 24 to 28 on 24 logical CPUs from other jobs (nice 5 Python workers) during the run. Timings are wall-clock on a contended box; they are not latency measurements.",
+    "metadata": {
+      "general.architecture": "llama",
+      "tokenizer.ggml.pre": "minicpm5",
+      "llama.rope.freq_base": 5000000.0,
+      "llama.vocab_size": 130560,
+      "bos": 0,
+      "eos": 1,
+      "eog_tokens_at_load": [1, 130073],
+      "eog_note": "The GGUF stores eos 1; llama.cpp auto-detects '<|im_end|>' (130073) as EOT, so both end-of-generation ids from config.json stop generation.",
+      "converter_warnings": ["Unknown RoPE type: default (rope scaling NONE, theta 5e6 written correctly)", "Unknown separator token '<s>' in TemplateProcessing<pair>"]
+    },
+    "files": {
+      "bf16": {
+        "path": "parent-11586-bf16.gguf",
+        "bytes": 5039006528,
+        "mib": 4805.6,
+        "sha256": "69dd6c56bc4c3ac3fb55e96817500c8cc2f3278b470daa93cfca682a53bfb2e2",
+        "convert_seconds": 139.5
+      },
+      "Q8_0": {
+        "path": "parent-11586-Q8_0.gguf",
+        "bytes": 2679710528,
+        "mib": 2555.6,
+        "sha256": "c786b0ee36897cbd9c7e5610ba38b1e891a8b40cc9317d405a255824395c21c6",
+        "quantize_seconds": 91.2,
+        "flags": []
+      },
+      "Q4_K_M": {
+        "path": "parent-11586-Q4_K_M.gguf",
+        "bytes": 1759769408,
+        "mib": 1678.2,
+        "sha256": "3d2a6ed7dc698630d48333e14c1199709197e8d289a6555c8e8697f3cca805de",
+        "quantize_seconds": 116.8,
+        "flags": ["--output-tensor-type", "q8_0", "--token-embedding-type", "q8_0"],
+        "uncalibrated": true,
+        "note": "token_embd and output stay q8_0 (270.94 MiB each, about a third of the file); no imatrix exists for this model yet"
+      }
+    },
+    "generation": {
+      "prompt": "smoke-prompt.R: a toy roxygen-documented rescale01() stub written for this smoke, not from TRAIN, DEV or final data",
+      "prompt_sha256": "b4a0eb30d1635f564e02da95a25fb735e9ce09aa4e9edc1befc314aed2f1371c",
+      "binary": "build-cpu/bin/llama-completion",
+      "flags": "-n 64 --temp 0 --seed 1 -t 8 -c 512 --no-mmap -no-cnv --no-display-prompt, CUDA_VISIBLE_DEVICES=\"\"",
+      "results": {
+        "bf16": {"exit": 0, "wall_s": 353.3, "load_ms": 44643, "prompt_tok_s": 4.47, "gen_tok_s": 0.22, "first_line": "if (length(x) == 0L) {"},
+        "Q8_0": {"exit": 0, "wall_s": 162.0, "load_ms": 24313, "prompt_tok_s": 10.14, "gen_tok_s": 0.49, "first_line": "if (is.null(x)) {"},
+        "Q4_K_M": {"exit": 0, "wall_s": 186.4, "load_ms": 13313, "prompt_tok_s": 44.28, "gen_tok_s": 0.37, "first_line": "if (is.null(x)) {"}
+      },
+      "verdict": "All three files load on CPU and produce syntactically plausible R. Speeds reflect the contended host and the drvfs (/mnt/e) location, not the model.",
+      "logs": "smoke.sh, smoke-<tier>.out, smoke-<tier>.log, smoke-summary.txt and export.log in out_dir"
+    }
+  },
+  "open_for_c09": [
+    "No imatrix for the Sepalith model yet; IQ4_XS needs one and a calibrated Q4_K_M arm wants one. Build it from TRAIN-side text only, keeping DEV and final rows out.",
+    "The DEV75 llama.cpp parity check (Q8_0 within 2 of bf16) needs a campaign_eval-compatible llama.cpp path and a quiet CPU or the GPU window; CPU throughput on this box is too contended for timings.",
+    "Scripts that still hardcode experiments/bin/llama/llama-b10453/ (eval_scenarios.py, eval_noop_fp.py, spec_bench.py, harness_search, scripts/packaging/*.sh) need a symlink to build-cpu/bin in their checkout, or SEPALITH_LLAMA_CPP support.",
+    "No Vulkan build here (missing vulkan-headers and shaderc); the C17 notebook latency check needs one on the notebook."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "controller_pid": "ROOT_FILLS_INTEGER",
+  "controller_terminal": "ROOT_FILLS_ABSOLUTE_PATH",
+  "guard_pid": "ROOT_FILLS_INTEGER",
+  "guard_terminal": "ROOT_FILLS_ABSOLUTE_PATH",
+  "model_child_pid": "ROOT_FILLS_INTEGER",
+  "schema": "sepalith.sft11.cpt354-runtime-handles.v1",
+  "status": "ROOT_FILLS_terminal_success"
+}

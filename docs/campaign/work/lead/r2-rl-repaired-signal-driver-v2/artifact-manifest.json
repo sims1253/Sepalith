@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "bytes": 5875,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/source-manifest.json",
+      "sha256": "3d65e74a545a965fe256c2387a1817f45992a96c83a703d2e6a3018ca574da2c"
+    },
+    {
+      "bytes": 1812,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/driver-config.template.json",
+      "sha256": "d2acd1a4d008ca0ca2c5ced8647403e5405dbf16b85482e1cb00e980204d4f85"
+    },
+    {
+      "bytes": 1662,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/root-commands.json",
+      "sha256": "252df59f32a7b19da7f956c855e35ccc31b14983d395e127aa16f287a19bc758"
+    },
+    {
+      "bytes": 1747,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/test-results.log",
+      "sha256": "ede538d9fd8aef14f90368d68fe6232044593c4d66c9a6efb03fdc3541b14927"
+    },
+    {
+      "bytes": 108,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/preflight.log",
+      "sha256": "e36a3e378f46e3ca8a4f67a54a04869e6d51acbed3b205ae24c84e6333d4d83b"
+    },
+    {
+      "bytes": 9523,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/tests/test_signal_pilot_driver.py",
+      "sha256": "48e46964410bd860bb5af38bcf0091e5a992828225c452451930e9e390299064"
+    }
+  ],
+  "key_source": {
+    "bytes": 23212,
+    "mode": "0o644",
+    "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/source/experiments/training/signal_pilot_driver.py",
+    "sha256": "7f8f32c1deb14b14c2f9ccfabf1f296d34e3b87aa9305921d01c501f7779375d"
+  },
+  "reward_source": {
+    "bytes": 9490,
+    "mode": "0o644",
+    "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/source/experiments/training/campaign_reward_v2.py",
+    "sha256": "b2ce979d8bc9a3112c7ae1810de8c271c180b3d916e98af0998c347bdf7669a7"
+  },
+  "schema": "sepalith.rl11.repaired-signal-driver-artifacts.v2",
+  "status": "prepared_model_null_root_review_required",
+  "tokenizer_contract_source": {
+    "bytes": 15257,
+    "mode": "0o644",
+    "path": "docs/campaign/work/lead/r2-rl-repaired-signal-driver-v2/source/experiments/training/campaign_tokenizer_contract.py",
+    "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "status": "CPU-prepared unadmitted checkpoint-to-native-DEV candidate",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/ROOT-COMMANDS.md",
+      "sha256": "9d26fa9f4362af7e37b13bafc5d2c8504b12001d1634c4c3e5eb8a3d29ac186d",
+      "bytes": 8056
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/bind_merge_recipe.py",
+      "sha256": "b5a169d11555200ec93fc5491cf055475d5fc99ed85f7fae76b7744c7b04c9a7",
+      "bytes": 1417
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/bind_native_profile.py",
+      "sha256": "31a12092ecd17cd163b4092c0da29a25bf8ebad35aa9ab5bf8a86f52c5b41c4e",
+      "bytes": 3065
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/conversion-source-pins.json",
+      "sha256": "ef063e914173ac945f97e5adfbceb037ef51fb7f747557bda80237bca5df3326",
+      "bytes": 29107
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/export_candidate.py",
+      "sha256": "12ca2236792bcb023279dbdeda2197a63e23ce0ab61274cbd2f3894b3bcd539a",
+      "bytes": 3055
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/freeze_packet.py",
+      "sha256": "d6f2131bdef6b85a1e7976cde0476e8b888ad80ff79713e693c46f91dd32247a",
+      "bytes": 8207
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/merge_task_sft_cpu.py",
+      "sha256": "5c484fedbc45337e02b6f0a7599ef2862e5d00f255dc10b2f31536e3c13977f0",
+      "bytes": 9717
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native-approval.template.json",
+      "sha256": "7870e91fcbd91fb319966c514501f88a69ab9c7ba7b4b93c1d38969ebffb1f47",
+      "bytes": 1165
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native-profile.template.json",
+      "sha256": "1ec58d2b6d02810b04fa06f5c45f137b954a3f4b4fa6a13fdb0ed7c21582b4fa",
+      "bytes": 5822
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/build_closure.py",
+      "sha256": "9b3c27a2e868390231cdea04e53db64e84319bc1741782c1c6da11f224150ddc",
+      "bytes": 6631
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/client_source_policy.py",
+      "sha256": "cac1753bc9ec7770eda5bc3beceee0375d45f794812b50610ea49b5ba65d079a",
+      "bytes": 2164
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/elf-loader-metadata.json",
+      "sha256": "0f26023543882f0c8fa724e3086d7a46c35b483a30468dc65bdba015c520293d",
+      "bytes": 28301
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/guarded_dev_client.py",
+      "sha256": "73025519a18ae96a3d6c2b3c9a52aff21a21181cec339f54cadab45276606729",
+      "bytes": 3234
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/native-mapped-code-allowlist.json",
+      "sha256": "1bd57fd1b144063c0a9fcbadf1f13902b17d9eff77f540f9bcd050ee27899ef3",
+      "bytes": 5757
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/observe_client.py",
+      "sha256": "011252f6ce8f1c6b2de2b843bb37a98fcfa54362d31d1bd3af945508ad284bc1",
+      "bytes": 2433
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/origin_snapshot.py",
+      "sha256": "ef5ee51b0ca0ec43cc668feb13ef0806941234868b0b452ee8fcc8d19e5a0e0f",
+      "bytes": 4060
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_controller/root_controller.py",
+      "sha256": "087fb5c8c8c2e0e8c7520b6c6db40b1a17f61fba7bdb835bd4eee3a5e7d2018c",
+      "bytes": 16982
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/final_binding.py",
+      "sha256": "0a10512932af45115faeac50d320bf24a0331922d9f94b53ddeea242206866b7",
+      "bytes": 9373
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/final_row_gate.py",
+      "sha256": "dfd51f49c611dd233ef0aa4e15f69cffc9fe5761ae05edb847c090db758356ff",
+      "bytes": 19015
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/native_evaluator.py",
+      "sha256": "6df13b4e3de31389af2c24195863eb83ec7fab5eea66cee03b00a7b5bbd43d76",
+      "bytes": 8020
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/native_identity.py",
+      "sha256": "5c02b3d3ae8330bae516daf5962f461d42bb6d655a986a691fad65dfefe06796",
+      "bytes": 9812
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/native_transport.py",
+      "sha256": "42244a0fea9eca385f7e554562e79b649ed450722b6e661399ef6e0127fd01a7",
+      "bytes": 56160
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/rehearse_dev.py",
+      "sha256": "55eee2c4f9bad653d1cc2a4822562ea352077a75288dac649cb18eee66feb53a",
+      "bytes": 2268
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/native_evaluator/selection_binding.py",
+      "sha256": "b4268ff841c35f9505a4fb2bb0d5d91460bd3f88aaff825f2844861ea6410987",
+      "bytes": 1854
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/prepare_private_sources.py",
+      "sha256": "44041407f733f410d71bc3bde35e9be85a6ba979893b22ba94c94a39beafbb63",
+      "bytes": 5543
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/prepare_root_bindings.py",
+      "sha256": "0ed38563b3f1271dc46bb114b64b0d665154548563d96e090a806f8597bf10f5",
+      "bytes": 1349
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/profile-baseline.json",
+      "sha256": "b699ee9c60582c3e531b97f31249de9c5097b05db957afed2d50a754a6dc0304",
+      "bytes": 5908
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/reference-pins.json",
+      "sha256": "a71e5c34478804e74ea35f9ed42310be418148d9f8c30fb379c7d925effecf3a",
+      "bytes": 6208
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/review_export.py",
+      "sha256": "eedaa8fe4d0520efa31a776c26c395d6ffc04788f928ba11dae3ffe0b5ab305c",
+      "bytes": 2056
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/selection_contract.py",
+      "sha256": "b162a95e42f193abba7b0a12731475ed19961d93ee14896d89b92abdda55d909",
+      "bytes": 2460
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/source.patch",
+      "sha256": "9d7f3880005a02a4449fa63364a02ba9e49190a4d850d85ce2a320b20efb1b3b",
+      "bytes": 11283
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/syntax-check.json",
+      "sha256": "e630b6f44edff3a71d59533a906e6a99074b155a5c32cbd5f4accdffceba769d",
+      "bytes": 96
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/test_selection_seams.py",
+      "sha256": "548c1aff01c8cf880f0eeb9962d60cde26a5bea6d14882eb18c215b758a5c076",
+      "bytes": 6068
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-native-selection-preparation-v1/tests.log",
+      "sha256": "72184bf1ed06a87276fa70c329cc6b232436597fc479002895f1fae9a865fa12",
+      "bytes": 1132
+    }
+  ],
+  "unchanged_native_files": [
+    "native_controller/client_source_policy.py",
+    "native_controller/origin_snapshot.py",
+    "native_evaluator/final_binding.py",
+    "native_evaluator/final_row_gate.py",
+    "native_evaluator/native_evaluator.py",
+    "native_evaluator/native_transport.py"
+  ],
+  "changed_existing_native_files": [
+    "native_controller/build_closure.py",
+    "native_controller/guarded_dev_client.py",
+    "native_controller/observe_client.py",
+    "native_controller/root_controller.py",
+    "native_evaluator/native_identity.py",
+    "native_evaluator/rehearse_dev.py"
+  ]
+}

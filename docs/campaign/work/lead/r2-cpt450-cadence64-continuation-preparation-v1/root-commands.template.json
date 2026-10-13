@@ -1,0 +1,14 @@
+{
+  "schema": "sepalith.sft11.cpt450-cadence64-root-commands.v1",
+  "status": "templates_only_no_admission_no_launch",
+  "prepare_after_root_accepts_checkpoint_and_metrics": [
+    "env", "CUDA_VISIBLE_DEVICES=", "PYTHONNOUSERSITE=1", "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=2",
+    "python3", "-B", "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt450-cadence64-continuation-preparation-v1/prepare.py",
+    "--checkpoint-review", "ROOT_ACCEPTED_CHECKPOINT450_REVIEW", "--checkpoint-review-sha256", "ROOT_SHA256",
+    "--matched-review", "ROOT_ACCEPTED_MATCHED450_REVIEW", "--matched-review-sha256", "ROOT_SHA256",
+    "--checkpoint-manifest-sha256", "ROOT_VERIFIED_CHECKPOINT450_MANIFEST_SHA256",
+    "--migration-admission", "ROOT_ADMITTED_CADENCE64_MIGRATION", "--migration-admission-sha256", "ROOT_SHA256",
+    "--output", "ROOT_FRESH_BINDING_DIRECTORY/runtime-recipe.json"
+  ],
+  "subsequent_root_steps": ["replace continuation and execution-stop template statuses with separately reviewed root admissions", "run actual CPU frontdoor preflight", "acquire fresh stable CUDA lease and host-memory guard", "launch only after all prior steps pass"]
+}

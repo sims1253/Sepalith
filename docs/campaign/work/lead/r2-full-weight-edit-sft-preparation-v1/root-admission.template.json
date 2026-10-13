@@ -1,0 +1,60 @@
+{
+  "launch_authorized": false,
+  "parent": {
+    "candidate_id": "FILL_ROOT_SELECTED_CPT1902_MERGED",
+    "files": {
+      "config.json": "FILL",
+      "generation_config.json": "FILL",
+      "model.safetensors": "FILL",
+      "parent-manifest.preparation.json": "FILL",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "FILL"
+    },
+    "kind": "merged_cpt_parent",
+    "path": "/ABSOLUTE/MERGED/PARENT",
+    "selection_status": "root_selected_for_edit_sft_parent"
+  },
+  "schema": "sepalith.sft11.full-weight-edit-sft-root-admission.v1",
+  "selected": {
+    "checkpoint_every": 290,
+    "evaluation_steps": [
+      290,
+      580,
+      870,
+      1160
+    ],
+    "gradient_accumulation": 16,
+    "learning_rate": 1e-05,
+    "micro_batch": 1,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 1e-05,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 1e-06,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "scheduler": "cosine",
+    "selected_milestones": [
+      290,
+      580,
+      870,
+      1160
+    ],
+    "telemetry_every": 1,
+    "warmup_ratio": 0.03
+  },
+  "status": "DO_NOT_USE_TEMPLATE",
+  "template_sha256": "352bc092423c0edf29d25d030f8b8cfec1edc1474231cabfe0248c984019fd4c"
+}

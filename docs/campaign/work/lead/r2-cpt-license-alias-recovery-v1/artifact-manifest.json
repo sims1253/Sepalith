@@ -1,0 +1,91 @@
+{
+  "files": [
+    {
+      "bytes": 3666,
+      "mode": "0555",
+      "path": "audit_output.py",
+      "sha256": "55b31c7c4e1b124c74529159f35d80641b8ce1ecbe886e5e53c231bdc9827660"
+    },
+    {
+      "bytes": 643,
+      "mode": "0444",
+      "path": "commands.json",
+      "sha256": "ff214c85945d648161f693974862194de1eeac93d86eacb2d275e74748b0eb67"
+    },
+    {
+      "bytes": 1760,
+      "mode": "0444",
+      "path": "design.json",
+      "sha256": "ef97e1a0c7873c051fc30ead6ba224087773cdac52f344146a746dc64cde3723"
+    },
+    {
+      "bytes": 1622,
+      "mode": "0444",
+      "path": "first-frontier-progress.json",
+      "sha256": "d5a6e1243917c69816a9b66f0dbc49cbfda9dc1cf29ad51777ac0fcb6df9e30a"
+    },
+    {
+      "bytes": 26755,
+      "mode": "0444",
+      "path": "output-audit-second-frontier.json",
+      "sha256": "3df8fa9929775591173296ed4202ce9a9fac969ffc17361f8c5d44002bc54ff0"
+    },
+    {
+      "bytes": 1467,
+      "mode": "0444",
+      "path": "repair-review.json",
+      "sha256": "465072f2c7f34f75bc3253ef87f62372197c5a5153b97bbc44c47d8fbcb8166d"
+    },
+    {
+      "bytes": 29909,
+      "mode": "0444",
+      "path": "source/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa"
+    },
+    {
+      "bytes": 738,
+      "mode": "0444",
+      "path": "source/license_aliases.py",
+      "sha256": "57dcde114ff95fea0ef97423d2d7e5f2f865a4949bf32ea8c62158ca9bcf7975"
+    },
+    {
+      "bytes": 16107,
+      "mode": "0555",
+      "path": "source/materialize_alias_recovery.py",
+      "sha256": "f8358a0414d58e1336437035b44b078a5bf1747f61e46a7468ad1c7f54586dbf"
+    },
+    {
+      "bytes": 15027,
+      "mode": "0444",
+      "path": "source/materialize_alias_recovery_initial.py",
+      "sha256": "c9c3b09806790769647a988524917d692a220434178023c983645c661fc72c98"
+    },
+    {
+      "bytes": 11920,
+      "mode": "0444",
+      "path": "source/raw_cpt_broader.py",
+      "sha256": "84d6a865a5d86bc7b81a274942ce8798f37f471dd6a336e182da1a44b00ea7ab"
+    },
+    {
+      "bytes": 683,
+      "mode": "0444",
+      "path": "source-migration.json",
+      "sha256": "d1ddff18107d8dff6bba54375b0d47cc094486a7ada34bdd15c192869d285737"
+    },
+    {
+      "bytes": 1156,
+      "mode": "0444",
+      "path": "test-results.log",
+      "sha256": "9d6351acd1995a4641a1e7e8c86489f4a4d35dad6694fd5a95456d9d5e72f0a6"
+    },
+    {
+      "bytes": 5059,
+      "mode": "0444",
+      "path": "test_alias_recovery.py",
+      "sha256": "2b6e9963b260615096e024285ea7e243e3dac00d517c321f8416357f5eed1dc5"
+    }
+  ],
+  "root": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-license-alias-recovery-v1",
+  "schema": "sepalith.artifact-manifest.v1",
+  "task": "DAT-10-cpt-license-alias-recovery"
+}

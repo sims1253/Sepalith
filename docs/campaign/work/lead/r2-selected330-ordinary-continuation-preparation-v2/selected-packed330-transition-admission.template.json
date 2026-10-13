@@ -1,0 +1,36 @@
+{
+  "allowed_source_policy": {
+    "attention_backend": "xformers",
+    "attention_packing": "varlen_block_diagonal_v1",
+    "execution_arm": "varlen_candidate",
+    "execution_experiment": "native_full_optimizer_varlen_canary_v1",
+    "logical_effective_batch": 16,
+    "loss_reduction": "global_supervised_token_mean",
+    "physical_gradient_accumulation": 1
+  },
+  "bound_recipe_sha256": "ROOT_BINDS_FRESH_RUNTIME_RECIPE",
+  "campaign_state_sha256": "fb6d4d456e2318c70301a8b39f21e54069570c48c9c90de80e3f09155361a8e8",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-native-varlen-canary-322-varlen_candidate-v1/runtime/checkpoint-330",
+  "checkpoint_manifest_sha256": "2b35854537588499fb703af2127029ff649e410cbab65374948723273b520951",
+  "checkpoint_step": 330,
+  "decision": "selected_packed330_weights_to_ordinary_production_execution",
+  "destination_execution": "ordinary_sdpa_unpacked",
+  "destination_identity_sha256": "730c2aba916ae9ab8a97a1584207e7c1d7095e23ce1988cdd968df7fd17844b6",
+  "launch_authorized": false,
+  "payload_action": "load_original_full_state_without_rewrite_or_copy",
+  "schema": "sepalith.sft11.selected-packed330-to-ordinary-transition-admission.v2",
+  "selection_evidence": {
+    "metric_selection": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-varlen330-metric-root-review-v1/result.json",
+      "sha256": "b9368a6d6ec1ebf30cd1e59669ce3b66f065fb3c04dc77f6f97a4d4f27b93a21"
+    },
+    "payload_review": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-varlen330-evaluation-preparation-v2/payload-review.json",
+      "sha256": "fc42ebb45d9cddbded49c9c356cdc371b630b5e7c42f35e7bf804c5b0c6f287b"
+    }
+  },
+  "source_arm": "varlen_candidate",
+  "source_canary_recipe_sha256": "12d09ed0158070b256b0976e6f80fc0e46e1f552c1556b44dbc7a6cf360d5997",
+  "source_identity_sha256": "6d5a7a2dff56d74e1d31662e60a2dff6bd81b46827bbf4760bf16d530fd1f0cf",
+  "status": "ROOT_MUST_SET_admitted"
+}

@@ -1,0 +1,61 @@
+{
+  "files": [
+    {
+      "bytes": 1351,
+      "path": "README.md",
+      "sha256": "a714e824ade120d9466969523ce46a620a6fa42a6034c6d0f469e00d192a5f8f"
+    },
+    {
+      "bytes": 1495,
+      "path": "audit-result.json",
+      "sha256": "2ff3ac545a3c8201d1ab547803d28a4fbd979a159039a78fdbb4a67d58e9da89"
+    },
+    {
+      "bytes": 3155,
+      "path": "findings.json",
+      "sha256": "8471b7eb8c64838a2f9170048f0a5c2d90ad8052f77475006e55925e415bc78d"
+    },
+    {
+      "bytes": 2917,
+      "path": "probe-plan.json",
+      "sha256": "819cbb1aa08caa97c424d60c46d76c7f8e14479d26d57e5347a65591037bad8b"
+    },
+    {
+      "bytes": 641,
+      "path": "root-command.template.json",
+      "sha256": "65f1e1de07c88cd64871a74cf8ba14ce1ce9aac6ccb42f3d50b1727a4dfc34ab"
+    },
+    {
+      "bytes": 3490,
+      "path": "source/analyze_varlen_reports.py",
+      "sha256": "f27245fa871dcac61d7ecd5dcf8a4081abe941fc0639d83f7b69ad37d41f4286"
+    },
+    {
+      "bytes": 2399,
+      "path": "source/numerics_probe_helpers.py",
+      "sha256": "e110592e75b539ca97fe47e39389e3b87aecbb60b8f616ebe287f487d2b639f5"
+    },
+    {
+      "bytes": 444,
+      "path": "source-manifest.json",
+      "sha256": "4ed8aec4cbe0bba68e9b645baa11994e51a40d12a48b64336918e4970f2b10e7"
+    },
+    {
+      "bytes": 770,
+      "path": "source-pins.txt",
+      "sha256": "b4a4904ca30de87dc14802c2d0294802df8b24612cdbe8766a6ca036b50839df"
+    },
+    {
+      "bytes": 334,
+      "path": "test-results.log",
+      "sha256": "9acc9980eae3fc1add25ba41444c928bf4567856e4a8ae28dfe4b87f638e56f7"
+    },
+    {
+      "bytes": 1726,
+      "path": "tests/test_audit.py",
+      "sha256": "91f4094c4a469d3776ad02a4edf22191d3950e91b71cef820d128f39f448119f"
+    }
+  ],
+  "schema": "sepalith.sft11.varlen-numerics-artifacts.v1",
+  "status": "frozen_preparation"
+}

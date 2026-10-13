@@ -1,0 +1,258 @@
+{
+  "contract": {
+    "initial_context_tokens": 2048,
+    "lora": {
+      "alpha": 64,
+      "rank": 32,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ]
+    },
+    "manual_special_tokens": {
+      "add_special_tokens": false,
+      "bos": 0,
+      "eos": 1,
+      "pad": 1,
+      "split_special_tokens": true
+    },
+    "objective": "raw_causal_next_token_all_v1",
+    "optimizer": {
+      "dtype": "bfloat16",
+      "effective_batch": 16,
+      "learning_rate": 0.0001,
+      "microbatch_choices": [
+        1,
+        2
+      ],
+      "name": "adamw_torch_fused"
+    },
+    "resource": {
+      "global_cuda_lock": "root outer wrapper",
+      "gpu_memory_used_cap_mib": 6144,
+      "host_free_gib_min": 8
+    },
+    "stage": "cpt_raw_r_v1"
+  },
+  "copied_reviewed_closure": [
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_checkpoint.py",
+      "origin_sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba",
+      "owned": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_control.py",
+      "origin_sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac",
+      "owned": "source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_sft.py",
+      "origin_sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4",
+      "owned": "source/experiments/training/campaign_sft.py",
+      "sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_sft_data.py",
+      "origin_sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f",
+      "owned": "source/experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_tokenizer_contract.py",
+      "origin_sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958",
+      "owned": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/target_only_gate.py",
+      "origin_sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91",
+      "owned": "source/experiments/training/target_only_gate.py",
+      "sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/packages/sepalith/src/sepalith/__init__.py",
+      "origin_sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0",
+      "owned": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "byte_identical": true,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "origin_sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156",
+      "owned": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "adaptation": "raw cpt stage dispatch selects campaign_cpt.py; reviewed SFT path remains default",
+      "byte_identical": false,
+      "origin": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/target-only25-a/reviewed-source/experiments/training/campaign_launch.py",
+      "origin_sha256": "043d8d5025b2fa1807972baca6e8eafe5540dcf9bb376e9404e6ecb1eb371e81",
+      "owned": "source/experiments/training/campaign_launch.py",
+      "sha256": "c54e97c8f31f61eaba8781c757fe5bfbcbbe8891ed8c9c4c583db19b37265905"
+    }
+  ],
+  "cpu_observation": {
+    "cuda_started": false,
+    "path": "cpu-observation.json",
+    "sha256": "23cb2ffd35fa30a52e1a1a22efa381cfe1aeb7b846a49d92c76b28541aeebd5c"
+  },
+  "entrypoint": "source/experiments/training/campaign_cpt.py",
+  "entrypoint_sha256": "f5e46f3629fbc4bd118884ef951a3139dc6f403314a0562555bf9ba68eca8cdc",
+  "frozen_external_inputs": [
+    {
+      "bytes": 10801,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/raw_cpt.py",
+      "sha256": "e02d588ac77d3a8bf8710217c8d1c678e730681de998932219afe75a2709dd80"
+    },
+    {
+      "bytes": 44810110,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_train.jsonl",
+      "sha256": "d707a61ccfabc058dc1215cd1b2345e17edf77e2797cc5fa6f6f53daebf31da9"
+    },
+    {
+      "bytes": 7683333,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/cpt_validation.jsonl",
+      "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+    },
+    {
+      "bytes": 2878,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/manifest.json",
+      "sha256": "f54e1c24eb44dfc18bfc944e575d3569247b671932b3259a6f48cee9ad593a7c"
+    },
+    {
+      "bytes": 175061,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-corpus-preparation-v1/profile-shard-v2-2k/draws-one-pass.json",
+      "sha256": "c2b5d11820493ffee11b81f8ba77c7687af13455f66873767b0f6860345d6b23"
+    },
+    {
+      "bytes": 59647,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/draws50.json",
+      "sha256": "b100196be44b69cc2788765faab802060d2168b4b31fabbbd8c6a2744e7dd3de"
+    },
+    {
+      "bytes": 22776,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-smoke-a/recipe.prepared.json",
+      "sha256": "76778c8a8855b04d061873b691a0f8239b963cdd38a6b72db57518c9fb1f57eb"
+    }
+  ],
+  "limitations": [
+    "No CUDA/model-weight load or training launch was performed by this worker.",
+    "Raw CPT causal loss is diagnostic; SFT continuation/edit quality requires a later fresh stage.",
+    "Root must replace the prepared recipe source identity with the final frozen source manifest and perform model/config/tokenizer preflight before admission."
+  ],
+  "owned_directory": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-cpt-trainer-preparation-v1",
+  "owned_files": [
+    {
+      "bytes": 3293,
+      "path": "README.md",
+      "sha256": "257985ef2c43110bb396376869d7f423941e1bec70621778c950da7fab04c406"
+    },
+    {
+      "bytes": 1630,
+      "path": "cpu-observation.json",
+      "sha256": "23cb2ffd35fa30a52e1a1a22efa381cfe1aeb7b846a49d92c76b28541aeebd5c"
+    },
+    {
+      "bytes": 2533,
+      "path": "raw-cpt-schema.json",
+      "sha256": "9cb00d714bfcb8137f7db551535869e7c7e6612903830777e558bb92308d8209"
+    },
+    {
+      "bytes": 11665,
+      "path": "source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "bytes": 5024,
+      "path": "source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "bytes": 24320,
+      "path": "source/experiments/training/campaign_cpt.py",
+      "sha256": "f5e46f3629fbc4bd118884ef951a3139dc6f403314a0562555bf9ba68eca8cdc"
+    },
+    {
+      "bytes": 26531,
+      "path": "source/experiments/training/campaign_cpt_data.py",
+      "sha256": "428fc5d6983f7ae9351857501b8c4ac6e0e85935a5e5d37c0b424f3ff35e975e"
+    },
+    {
+      "bytes": 3447,
+      "path": "source/experiments/training/campaign_cpt_eval.py",
+      "sha256": "eab4edee75534b5e0da0784a1c608c7deb095155a7743d2ea658ce3d82fdd6a1"
+    },
+    {
+      "bytes": 3280,
+      "path": "source/experiments/training/campaign_launch.py",
+      "sha256": "c54e97c8f31f61eaba8781c757fe5bfbcbbe8891ed8c9c4c583db19b37265905"
+    },
+    {
+      "bytes": 23701,
+      "path": "source/experiments/training/campaign_sft.py",
+      "sha256": "b2d7d40f1c901629ac05cf1741725a9ea8277fba442ff89b93bf978abe5653d4"
+    },
+    {
+      "bytes": 7931,
+      "path": "source/experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 9398,
+      "path": "source/experiments/training/target_only_gate.py",
+      "sha256": "181a241204c0d5756babde51c3f20394378096855e5a41e4569cc2ef926c9a91"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 7430,
+      "path": "tests/test_campaign_cpt_data.py",
+      "sha256": "23dd484481261ef43d1a7480a20a3d1560313fbdbd5b732d7856a049df149360"
+    },
+    {
+      "bytes": 2673,
+      "path": "tests/test_profile_shard_integration.py",
+      "sha256": "796e9fe77b18b5ad87a525124cce30de2a8e86c8b5d50dc24fb4108eed2be7d6"
+    }
+  ],
+  "profile_counts": {
+    "draws50": 800,
+    "train_documents": 1055,
+    "train_loss_tokens": 3867176,
+    "train_packages": 745,
+    "train_rows": 2526,
+    "validation_documents": 294,
+    "validation_loss_tokens": 661360,
+    "validation_packages": 50,
+    "validation_rows": 499
+  },
+  "schema": "sepalith.sft11.cpt-source-manifest.v1",
+  "status": "cpu-reviewed-candidate;root-admission-and-launch-pending"
+}

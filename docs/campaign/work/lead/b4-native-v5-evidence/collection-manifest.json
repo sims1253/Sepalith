@@ -1,0 +1,118 @@
+{
+  "files": [
+    {
+      "path": "b4-editor-cycle-d/launch.json",
+      "bytes": 4901,
+      "sha256": "467b49d45240cc60e0044f7c851608d777aeea982196cb39100a78fbea069b29"
+    },
+    {
+      "path": "b4-editor-cycle-d/terminal.json",
+      "bytes": 325,
+      "sha256": "0c5fdb0b530246efbf69dc471d95d3291b4e62fd5295a915417ffffb04b2a00a"
+    },
+    {
+      "path": "b4-editor-cycle-d/server.log",
+      "bytes": 82403,
+      "sha256": "e54b844deb0adb1164794758c5fe276b40f35d025381180ed00d4c9bfbb123cd"
+    },
+    {
+      "path": "b4-native-v5-client/summary.json",
+      "bytes": 5385,
+      "sha256": "528751ac48e41f8d7a0bb826f952b1915ac17a5d7f1008e8997f6b22a9921355"
+    },
+    {
+      "path": "b4-native-v5-client/per_request.jsonl",
+      "bytes": 43759,
+      "sha256": "f1008287acdcbe2edcc34dce8a7d0845436098f8edaf3340d89eabb8f8fff511"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh/launch.json",
+      "bytes": 1715,
+      "sha256": "f860b05a7eb07148b6fd0277b8b9ee2f6a3ec9537e828b2eed485257d3c61322"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh/run-result.json",
+      "bytes": 12112,
+      "sha256": "c152d71af3a111185a3e1d0878e18c2de1c20ceba67da7c7aa5221e5d6a9f30b"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh/host-result.json",
+      "bytes": 35686,
+      "sha256": "28c31a1a552dc5941a435a87434cdc0c173e446f297958e81a19c6bd9eacc86d"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh/inline-acceptance-evidence.json",
+      "bytes": 797,
+      "sha256": "858939b9e31001b7c26b76e78b668786366cb4a60e87281ad624d4a62a8d36fb"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh/user-data/logs/20260913T050348/window1/exthost/output_logging_20260913T050350/1-Sepalith.log",
+      "bytes": 2310,
+      "sha256": "d9805757a10586078052737e39104e6541990d3cb965dad6fca7bac3d56442e3"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing/launch.json",
+      "bytes": 1727,
+      "sha256": "ec1abdc6b5952da7401004094356c27f1abbbf18d7b3db1f5006a41dc6c83fd1"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing/run-result.json",
+      "bytes": 12118,
+      "sha256": "f29cd43d3a799e95d17606bba1cbb992639db59cce492bb61dd95e47439bf289"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing/host-result.json",
+      "bytes": 35737,
+      "sha256": "d46260903ce9fa117cbb36b81f6b9028e58cdf01bdbb95ed212c062cf41f2b19"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing/inline-acceptance-evidence.json",
+      "bytes": 797,
+      "sha256": "5721a62a32cdcaa283086ef77209d7d1d63ba93bd6ee3299e6c089b2929f45b1"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing/user-data/logs/20260913T050735/window1/exthost/output_logging_20260913T050737/1-Sepalith.log",
+      "bytes": 2310,
+      "sha256": "6e22969f70a517a4efafac42e9d840b6ec5f1bdf50fab55ea2087cf8331eb2dd"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh-supervision/launch.json",
+      "bytes": 940,
+      "sha256": "a0ffcce2b278a5386a6d09d06a4ef3980105f5f248d45d27617377cc0fd782f2"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh-supervision/terminal.json",
+      "bytes": 308,
+      "sha256": "7cbfcce568fa0f76b02a6db2a462f23b18d180750de0a5ac15728cf8b255125c"
+    },
+    {
+      "path": "b4-native-v5-capsule-fresh-supervision/owned-process-history.json",
+      "bytes": 16065,
+      "sha256": "26074d8f95665f5f237864946b7bb32a030532563502c29944b56143770b4c1f"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing-supervision/launch.json",
+      "bytes": 946,
+      "sha256": "817d44067194af336520c3d69714b66938d10be721dba8b3f4e4083c5a380176"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing-supervision/terminal.json",
+      "bytes": 307,
+      "sha256": "8005b87e711deb5e3e9e62fa5fa5507b6a3ccc62d6b348f85068931fbbdf43dd"
+    },
+    {
+      "path": "b4-native-v5-capsule-existing-supervision/owned-process-history.json",
+      "bytes": 14780,
+      "sha256": "f6314e37cd765fe802fcdc4ff300401d702bce8363bf28c348530d68994cad95"
+    }
+  ],
+  "release": {
+    "at": "2026-09-13T03:12:50.992607+00:00",
+    "pids_absent": true,
+    "ports": {
+      "18401": "free",
+      "18402": "free",
+      "18403": "free"
+    }
+  }
+}

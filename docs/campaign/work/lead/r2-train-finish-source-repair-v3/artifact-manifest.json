@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "bytes": 1810,
+      "path": "README.md",
+      "sha256": "c691a172b0af4f4305a577e7dfa05d033856741cc5e0f71fd2b24ff552844152"
+    },
+    {
+      "bytes": 12186,
+      "path": "materialize_finish_source_repair.py",
+      "sha256": "fc66bbb2b7bd3373a698687cbdd6dc6ff879c1699dcdd9a8a75829191c90f0d5"
+    },
+    {
+      "bytes": 448,
+      "path": "parse_only.R",
+      "sha256": "524c23bd098420a8b90ad97a6d6e23f28dc9dde61c077cd01d51affc6b13ee51"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 4060,
+      "path": "verify_finish_source_repair.py",
+      "sha256": "a5dde4503493cde107719e3fac2247aa313efb8dc5c10972e27b0779d0e2bb66"
+    }
+  ],
+  "schema": "sepalith.dat10.finish-source-repair-code.v3",
+  "status": "prepared_root_review_required"
+}

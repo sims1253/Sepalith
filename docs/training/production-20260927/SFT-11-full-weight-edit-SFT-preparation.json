@@ -1,0 +1,93 @@
+{
+  "active_cohort": {
+    "excluded_rows": 0,
+    "finish_repaired_rows": 3503,
+    "input_tokens": 13755681,
+    "observed_max_sequence_tokens": 3064,
+    "observed_max_target_tokens_including_eos": 933,
+    "prepared_context_bound": 16384,
+    "rows_path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+    "rows_sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e",
+    "status": "accepted_root_reviewed",
+    "supervised_target_tokens_including_eos": 1577478,
+    "target_body_tokens": 1487442,
+    "truncated_targets": 0,
+    "unique_rows": 15006
+  },
+  "cuda_started": false,
+  "evaluation": {
+    "callback_behavior": "writes checkpoint-bound request only; same-model evaluation awaits optimizer-allocated resource/roundtrip proof",
+    "development_cases": 75,
+    "final_set_access": false,
+    "generation": "required edit/no-op quality",
+    "max_new_tokens": 192,
+    "teacher_forced": "diagnostic only, not edit accuracy"
+  },
+  "launch_authorized": false,
+  "limitations": [
+    "No same-model development evaluator is executed in the callback until a resource and train/eval/train roundtrip test passes with full optimizer state allocated.",
+    "The 10017 roxygen candidates are retained separately but have zero training admission in this recipe.",
+    "Parent, LR, scheduler, microbatch/accumulation, checkpoint cadence, and development cadence remain root decisions."
+  ],
+  "model_loaded": false,
+  "next": "Root reviews and binds a selected merged CPT parent plus scientific/runtime choices. Root alone owns any CUDA preflight or launch.",
+  "owner": "train_adapter",
+  "packet": {
+    "artifact_identity_sha256": "7e6f8aef7bb800c3dc2f2bcd53d9acfe00afccc2e56f7d89f05d6a89f0dab0c1",
+    "artifact_manifest_sha256": "60f5d6270dd7d4c79d841b862f484f6e17ca18b6acb940e0c8b8c658df7f5816",
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1",
+    "recipe_template_sha256": "352bc092423c0edf29d25d030f8b8cfec1edc1474231cabfe0248c984019fd4c",
+    "root_admission_template_sha256": "06d02d559f1bf7bd26b4e290c057d9ecae1d17e37900afc3a53669fbe44289c3",
+    "source_identity_sha256": "2475a61d90167faee6ae199c089b677fbcab3bb3e63a4a5cc549e1416ebd6409",
+    "source_manifest_sha256": "306502d3e3db173806c0e5e83407c3601acd5a99093c5a21dd8b2350ec18a323"
+  },
+  "pending_registry": {
+    "admitted_rows": 0,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/data-queue.json",
+    "policy": "requires fresh root-admitted cohort/schedule/recipe; not mixed or excluded",
+    "roxygen_rows": 10017,
+    "sha256": "b471bc54f6940857cadf4e36494132380e2b80eadaf4e04a041f78a92fc41bcb",
+    "status": "review_complete_training_admission_pending"
+  },
+  "runtime_contract": {
+    "checkpoint": "full weights + optimizer + scheduler + CPU/CUDA RNG + sequential sampler; atomic E same-filesystem publication; resume requires full_weights",
+    "lr": "root selected, binder upper bound 3e-5",
+    "optimizer": "aurora_mix reviewed exact mechanics; FP32 state and BF16 stochastic updates",
+    "parent": "null until root selects merged CPT parent",
+    "peft": false,
+    "tokenizer": "native raw tokenizer plus exact AddedToken restoration and serialized checkpoint checks",
+    "trainable_parameter_tensors": 381,
+    "trainable_parameters": 2516756480
+  },
+  "schedule": {
+    "distinct_rows": 15006,
+    "draws": 18560,
+    "edit_per_batch": 12,
+    "effective_batch": 16,
+    "explanation": "one complete eligible-row coverage pass plus 3546 no-op alignment replays to preserve 25% no-op exposure and 8 edit batch-completion replays; each pool exhausts unique IDs before its own replay; this is not labeled one epoch",
+    "noop_per_batch": 4,
+    "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/repaired15006-draw-schedule.json",
+    "replay_reasons": {
+      "edit_batch_completion_alignment_replay": 8,
+      "noop_ratio_length_alignment_replay": 3546
+    },
+    "replays": 3554,
+    "sha256": "287eafcb4ed14989e1b2819de885b5febfbe2b633b5ea07df63d1763811f73e9",
+    "updates": 1160
+  },
+  "schema": "sepalith.campaign.worker-receipt.v1",
+  "status": "prepared_root_review_required",
+  "task": "SFT-11 full-weight editing SFT preparation",
+  "tests": {
+    "binding": "root parent and exact optimizer mechanics required; excessive LR rejected",
+    "checkpoint": "small atomic publication plus static full-state resume/tokenizer hook checks",
+    "collator": "prompt masked and full body+terminal+EOS supervised",
+    "count": 10,
+    "coverage": "actual 15006-row/18560-draw join, complete targets, unique-before-replay",
+    "evidence": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/test-results.log",
+    "long_context": "synthetic >4096 sequence with >1024 target accepted under 16K; truncation rejected",
+    "status": "pass",
+    "template_preflight": "pass",
+    "template_preflight_evidence": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-edit-sft-preparation-v1/template-preflight.log"
+  }
+}

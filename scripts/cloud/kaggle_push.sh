@@ -21,7 +21,7 @@
 #             gpu REQUIRES --fire: interactive confirmation of GPU burn)
 #     --fire – required for mode=gpu (the PARKED-until-FIRE convention)
 #
-# Env: HF_TOKEN sourced from ~/.zshrc (same convention as the Anyscale
+# Env: HF_TOKEN sourced from ~/.config/sepalith/secrets.env (same convention as the Anyscale
 # FIRE commands); KAGGLE auth via ~/.kaggle/kaggle.json or the zshrc token.
 #
 # Watch:  kaggle kernels status m0hawk/<slug>
@@ -33,8 +33,8 @@ SLUG="${1:?slug}"; STEPS="${2:?steps}"; LR="${3:?lr}"; MODE="${4:?cpu-smoke|gpu}
 [ "$MODE" = "gpu" ] && [ "$FIRE" != "--fire" ] && { echo "REFUSED: mode=gpu needs --fire (quota burn)"; exit 2; }
 [ "$MODE" = "cpu-smoke" ] && [ "$STEPS" != "0" ] && echo "NOTE: cpu-smoke ignores steps (no train)"
 
-eval "$(grep -E '^export HF_TOKEN=' ~/.zshrc)"
-[ -n "${HF_TOKEN:-}" ] || { echo "FATAL: HF_TOKEN not found in ~/.zshrc"; exit 2; }
+eval "$(grep -E '^export HF_TOKEN=' ~/.config/sepalith/secrets.env)"
+[ -n "${HF_TOKEN:-}" ] || { echo "FATAL: HF_TOKEN not found in ~/.config/sepalith/secrets.env"; exit 2; }
 # KAGGLE_REPO_SHA (optional): stage/fire at that commit instead of HEAD —
 # e.g. when only the driver changed since the dataset's version (avoids the
 # 15-20min version re-ingest), or to fire a banked tree exactly.

@@ -1,0 +1,21 @@
+{
+  "id": "C08-r2-select",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 23,
+  "resumable": false,
+  "estimated_minutes": 5,
+  "requires": [
+    "C08-arm-lr3e-5"
+  ],
+  "command": [
+    "/usr/bin/env",
+    "CUDA_VISIBLE_DEVICES=",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c08/select_r2.py"
+  ],
+  "note": "C08 morning step: apply R2 to the three gate-268 pilot decisions (CPU only), write campaign-20260915/C08-r2-selection.json and enqueue C09-arm-a-<lr> for the winner; exit 3 is stop-for-user"
+}

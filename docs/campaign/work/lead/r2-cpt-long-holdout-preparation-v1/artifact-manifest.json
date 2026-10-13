@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "bytes": 1009,
+      "path": "commands.json",
+      "sha256": "41b9811d5af92d9a24d542a0ff043156cfe24defa581df10efa037ecddc65ccb"
+    },
+    {
+      "bytes": 1491,
+      "path": "evaluator-configs.json",
+      "sha256": "c20e6261515451b5e6f4dbd84c06117a9b946cb80d7c874dff869a70d978863f"
+    },
+    {
+      "bytes": 768542,
+      "path": "output/cpt_validation_16k.jsonl",
+      "sha256": "ac0adc964592488e2e345ad16f4c832e94e9772b16129ada6896da36c7b496ac"
+    },
+    {
+      "bytes": 1420990,
+      "path": "output/cpt_validation_8k.jsonl",
+      "sha256": "3e6625f075af7639e5e99d76b2fc0b89578c4011408133a32be1a6479b6b8d74"
+    },
+    {
+      "bytes": 18201,
+      "path": "output/document-provenance.jsonl",
+      "sha256": "936f67015cb00c08da94ab1056d0ff8a704e2e335b4fa4de6c1fc8c58442e61a"
+    },
+    {
+      "bytes": 2277,
+      "path": "output/manifest.json",
+      "sha256": "75f879e30afbb15fa33a27d5ee64454d6aefc902a15ed60a2c144134939de7c9"
+    },
+    {
+      "bytes": 12563,
+      "path": "prepare_long_holdout.py",
+      "sha256": "a30e59c95d2a41e57362073a56f9c2aacaeb971d72567ee85635fa1e80eb5bc8"
+    },
+    {
+      "bytes": 563,
+      "path": "test-results.log",
+      "sha256": "23ead8375c23a102add329dfd1a0a0f5a766a77af3c153a622628cbf4dde7d34"
+    },
+    {
+      "bytes": 4230,
+      "path": "test_long_holdout.py",
+      "sha256": "930cf5f088c5d48d8d224f1a20eec62448e869833a7b591c9aa8a037c9a613b1"
+    }
+  ],
+  "schema": "sepalith.sft11.cpt-long-holdout-artifacts.v1"
+}

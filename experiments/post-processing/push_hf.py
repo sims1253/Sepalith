@@ -6,7 +6,7 @@ Usage:
   push_hf.py <repo_id>       # same, explicit repo
   push_hf.py --finish-block  # targeted: card + the provenance-enriched
                              # finish-block sample as finish-block/sample_top2000.jsonl
-Reads HF_TOKEN from the environment (see ~/.zshrc).
+Reads HF_TOKEN from the environment (see ~/.config/sepalith/secrets.env).
 """
 import os, sys
 from pathlib import Path

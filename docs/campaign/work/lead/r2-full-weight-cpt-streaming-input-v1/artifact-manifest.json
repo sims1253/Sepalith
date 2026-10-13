@@ -1,0 +1,108 @@
+{
+  "schema": "sepalith.sft11.cpt-streaming-input-artifacts.v1",
+  "source_identity": "812545b84940166a3a55e417df155cc2321d5f01cccbe57cf8994423d447e12e",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/README.md",
+      "sha256": "d5c6035eb8edf000dcd34855972897d5f6a572cd4827d97696f0463f407d5a84",
+      "bytes": 2317
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/root-commands.json",
+      "sha256": "c1ab8977d5e3e48b8591762bb4ab3c7172bb0236014e0080426566dc4d19ec89",
+      "bytes": 1489
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/source-manifest.json",
+      "sha256": "6c856b7a68c2873fa90e567aee3bbd0a2f3e1b65b3419a984a70c4bcb672a76d",
+      "bytes": 932
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/test-results.json",
+      "sha256": "1f61b1395553ffd87fe9644b0e5623aa8ec2b7848ade51648c60ef3df97e8f04",
+      "bytes": 1208
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/test-results.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/test-time.log",
+      "sha256": "4feadd8bd028f06c6b3203d405c22b29d6951a6f8ffb8ef847be1aa7adb56926",
+      "bytes": 1162
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/representative-build.log",
+      "sha256": "3bcdbbcada615ed7cd535a24a5db8b72994a4c4696bb644b409cc92ae6e36d58",
+      "bytes": 1400
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/representative-build-time.log",
+      "sha256": "26e56f5eedc30a08830b423c34e2b143249360a694f22aa4dc2b701468528b6e",
+      "bytes": 1386
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/representative-verify.json",
+      "sha256": "9238a75be52cbbc08f5a745097a8a101e51d404913d5d169524612cccaa61058",
+      "bytes": 158
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/representative-verify-time.log",
+      "sha256": "59c44fec84f958a8abaef545bccba8991c3e5fe8331656efcea9faace169865c",
+      "bytes": 972
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/integration-check.json",
+      "sha256": "3ffe91fae826f6d22452663facae9a997359c0991f84857e12a9ba99cc9899cc",
+      "bytes": 320
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/tests/test_streaming_cache.py",
+      "sha256": "d1f9b0ff79508d1267d0f8f70e41c274dc6ea65b2deae40cdc818cc762e9a365",
+      "bytes": 3252
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/source/campaign_cpt_data.py",
+      "sha256": "8ae0271b7c133171a4db85c9c4a693c0b1930b756d0499d7a46961ff1b2276fa",
+      "bytes": 29909
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/source/cpt_streaming_cache.py",
+      "sha256": "92f9c88ae2132d13d6ee8df9b67d75cd5a68092cfbd728919bf5180dc23b7240",
+      "bytes": 10391
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/source/streaming_trainer_adapter.py",
+      "sha256": "e6f62044e70aa19089c97210f8b476f6c5d21ab11c008d49446ef2e5daf6a479",
+      "bytes": 2295
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-weight-cpt-streaming-input-v1/source/verify_streaming_cache.py",
+      "sha256": "4deaa88f7e37300ecc151e8fcbfcc33d66320578023f00524e732e147d6bfbed",
+      "bytes": 2074
+    }
+  ],
+  "bulk_cache": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-streaming-input-v1/representative-cache",
+    "manifest_sha256": "96b4f7b1cdb975e4aa8a1c18ff5fd8fab1661c1169aa36c0cb6530242ea7f530",
+    "files": {
+      "draw_ordinals.i64le": {
+        "bytes": 8448,
+        "sha256": "f6da94a6f2897a4e34309a90b878a45ada1a6f9b0011d670598669f430fded75"
+      },
+      "index.sqlite3": {
+        "bytes": 847872,
+        "sha256": "cfb6f75360e74e0cd85314b3bf6b46b9284b912cfd07c9408ff93e4210e32a25"
+      },
+      "input_ids.i32le": {
+        "bytes": 10312344,
+        "sha256": "1272ee12ed7529ca0f0c43260de39e41a41bad5956f548c36b293f2d7590d2a2"
+      },
+      "labels.i32le": {
+        "bytes": 10312344,
+        "sha256": "d300a864719a8dad3082095178a7fc438aba6262bf93b8eff9db6bd1d389770a"
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "at": "2026-09-14T13:50:34.351008+00:00",
+  "status": "resource_probe_fixture_only_not_training_pool_selection",
+  "source_bindings": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/train-token-rows.jsonl",
+      "sha256": "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-novel-v1/roxygen-repair-materialization-v2-10017/repaired-full-file-token-rows.jsonl",
+      "sha256": "752131a0ade6c1bd30248b9663046e027cd8ac9bdb38170a2b680f9dbae6d897"
+    }
+  ],
+  "output_sha256": "4c0e11dfd2f824e341af94e9b0d5c3ddbe8c33961936a52cdab56d92e9116017",
+  "rows": [
+    {
+      "row_id": "226b905248adafc600023f94",
+      "source_kind": "roxy_fullfile",
+      "line": 10003,
+      "sequence_tokens": 4095,
+      "prompt_tokens": 4036,
+      "target_tokens": 59,
+      "family": "roxygen_drafting"
+    },
+    {
+      "row_id": "7fa670c507f5da645780bb59",
+      "source_kind": "repaired",
+      "line": 5469,
+      "sequence_tokens": 3064,
+      "prompt_tokens": 3000,
+      "target_tokens": 64,
+      "family": "format_propagation"
+    },
+    {
+      "row_id": "1c7b3e1a04a1921e3456fe8e",
+      "source_kind": "roxy_fullfile",
+      "line": 8120,
+      "sequence_tokens": 4095,
+      "prompt_tokens": 4018,
+      "target_tokens": 77,
+      "family": "roxygen_drafting"
+    },
+    {
+      "row_id": "8565a973a6d747591274259b",
+      "source_kind": "repaired",
+      "line": 5698,
+      "sequence_tokens": 2986,
+      "prompt_tokens": 2946,
+      "target_tokens": 40,
+      "family": "format_propagation"
+    },
+    {
+      "row_id": "1ae98412c08064a7908f15ed",
+      "source_kind": "roxy_fullfile",
+      "line": 7609,
+      "sequence_tokens": 4094,
+      "prompt_tokens": 4002,
+      "target_tokens": 92,
+      "family": "roxygen_drafting"
+    },
+    {
+      "row_id": "4777dad97587c296b882feaf",
+      "source_kind": "repaired",
+      "line": 3144,
+      "sequence_tokens": 2983,
+      "prompt_tokens": 2934,
+      "target_tokens": 49,
+      "family": "format_propagation"
+    },
+    {
+      "row_id": "0818ef8bd3abd08058b7bb76",
+      "source_kind": "roxy_fullfile",
+      "line": 1496,
+      "sequence_tokens": 4094,
+      "prompt_tokens": 4032,
+      "target_tokens": 62,
+      "family": "roxygen_drafting"
+    },
+    {
+      "row_id": "833325b936da74ee3ab58519",
+      "source_kind": "repaired",
+      "line": 5596,
+      "sequence_tokens": 2974,
+      "prompt_tokens": 2934,
+      "target_tokens": 40,
+      "family": "format_propagation"
+    }
+  ],
+  "labels": "Target-only, all original input tokens and targets intact; no padding/truncation. Four longest fullfile-supportedroxy <=4096 plusfour longest repairedpool rows. Largerexamplesremainfulltrainingadmissionscope."
+}

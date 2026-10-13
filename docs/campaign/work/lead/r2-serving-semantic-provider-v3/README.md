@@ -1,0 +1,11 @@
+# Serving semantic provider v3
+
+This is an isolated, review-only production candidate. It preserves v2 and does not modify or launch the extension. It keeps the current unsaved-document identity, source-window, evidence budget, and freshness checks from v2.
+
+The v3 scanner fixes four false-resolution defects. R identifiers beginning with a dot use explicit lexical boundaries, `.R` file matching is case-insensitive, masked literals/comments preserve UTF-16 code-unit offsets, and higher-order argument matching applies exact named arguments before positional arguments. Literal dispatch through direct or `base::` `do.call`, `lapply`, `sapply`, `vapply`, `Map`, and `Reduce` is resolved. Dynamic dispatch, member dispatch, and these higher-order calls through any unverified non-base namespace return named unresolved evidence instead of passing silently.
+
+The hand-maintained base allowlist is replaced by `r_base_bindings.generated.ts`: 1,407 names mechanically enumerated with `sort(ls(envir=baseenv(), all.names=TRUE))` under R 4.6.1. Its complete LF name-list hash and generator are pinned. This enumerates bindings without sourcing or running package code. Local top-level definitions still take precedence, so a local definition that shadows a base binding remains required evidence. Package imports and attached-package bindings are not inferred from this base list.
+
+Tests cover leading-dot helpers, lower-case `.r`, base-qualified literal dispatch, unknown namespace refusal, R named-before-positional matching, local base shadowing, and astral characters before a raw literal dispatch. The same frozen first-128 TRAIN census contains 49 analyzer-v6 supported rows and 79 analyzer holds; 8 supported rows require helpers. Provider v3 supports 30/49 analyzer-supported rows and exactly matches helper names on 2/8 helper rows. The remaining 19/49 stay named unresolved because this static prediction-time slice lacks authoritative package namespace/import state, anonymous-function lexical scopes, or non-braced function-definition support. They are not admitted through this provider.
+
+The notebook repeated the 8-row helper screen and full 128-row accounting on CPU 0,2. It executed TypeScript only; no generated R, model, GPU, editor, or server process ran.

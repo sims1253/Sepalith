@@ -1,0 +1,45 @@
+{
+  "schema": "sepalith.sft11.native-stage-spec.v1",
+  "status": "prepared_not_executed",
+  "native_root": "/home/m0hawk/.local/state/sepalith/campaign-20260915/native-staging/cpt90-prefix-extension-v1",
+  "max_native_bytes": 34359738368,
+  "min_free_after_bytes": 75161927680,
+  "objects": [
+    {
+      "name": "checkpoint",
+      "kind": "manifest_tree",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-expandable-pilot-v1/full/checkpoint-90",
+      "manifest_name": "campaign-manifest.json",
+      "manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-expandable-pilot-v1/full/checkpoint-90/campaign-manifest.json",
+        "sha256": "d820a0f5cd3c790f470212406c841fb3a34924131ac5fc098f2a22c1b2db9252"
+      }
+    },
+    {
+      "name": "cache",
+      "kind": "manifest_tree",
+      "source": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-cache",
+      "manifest_name": "manifest.json",
+      "manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-cache/manifest.json",
+        "sha256": "0e2bad85de9926d1949aa17397144e58f86f7604d7b72f41e1fcfefec7b27fb8"
+      }
+    },
+    {
+      "name": "rows",
+      "kind": "file",
+      "source": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-cpt-train-ctx16384.jsonl",
+      "destination_name": "combined-cpt-train-ctx16384.jsonl",
+      "bytes": 5391073868,
+      "sha256": "7b3edfd052de4be5d1180144f75497aef5e862eeed816b372c5d751a855425bf"
+    },
+    {
+      "name": "schedule",
+      "kind": "file",
+      "source": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-draw-schedule-final-v1.json",
+      "destination_name": "combined-draw-schedule-final-v1.json",
+      "bytes": 15392324,
+      "sha256": "5ea4a04f4082f93ad8e7211a139e19e7ffffd33f4ef2661d93e42134933a3cac"
+    }
+  ]
+}

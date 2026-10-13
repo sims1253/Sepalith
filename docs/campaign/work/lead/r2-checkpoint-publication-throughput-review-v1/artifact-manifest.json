@@ -1,0 +1,27 @@
+{
+  "files": [
+    {
+      "bytes": 2028,
+      "path": "README.md",
+      "sha256": "947899d46cbe89ccb5a364324e7f3aa0b5536760e99e0eb0e5aff2364a9e3d93"
+    },
+    {
+      "bytes": 3224,
+      "path": "audit.py",
+      "sha256": "607a6d4c2214436b6b8bb71e29d269b978cee8f7b01e06e913f92faeed0d6baa"
+    },
+    {
+      "bytes": 4099,
+      "path": "recommendation.json",
+      "sha256": "665d62edb54fb9f94f6bf2fa4530b1929e8b978ef98a7fd172c1e76c6ba8ae08"
+    },
+    {
+      "bytes": 1625,
+      "path": "result.json",
+      "sha256": "68458fa5b65ab0f3fdc5dfde2ea487e53f480bcdfe75e4d5927576b579a3611b"
+    }
+  ],
+  "files_count": 4,
+  "schema": "sepalith.sft11.checkpoint-publication-review-artifacts.v1",
+  "status": "frozen_cpu_metadata_review"
+}

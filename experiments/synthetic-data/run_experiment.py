@@ -28,7 +28,7 @@ MAX_TOKENS = {"low": 1500, "high": 4000, "max": 6000}
 def api_call(prompt, effort, max_retries=3):
     key = os.environ.get("ZAI_API_KEY")
     if not key:
-        raise RuntimeError("ZAI_API_KEY not set (source ~/.zshrc)")
+        raise RuntimeError("ZAI_API_KEY not set (source ~/.config/sepalith/secrets.env)")
     body = json.dumps({
         "model": "glm-5.3",
         "thinking": {"type": "enabled"},

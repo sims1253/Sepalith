@@ -1,0 +1,63 @@
+{
+  "schema": "sepalith.dat10.expanded-union-geometry-recovery-v4-artifact.v1",
+  "packet": "r2-expanded-union-geometry-recovery-preparation-v4",
+  "status": "review_only",
+  "cuda_used": false,
+  "full_cohort_scan": false,
+  "targeted_actual_row_checks": true,
+  "targets_or_labels_used": false,
+  "frozen_inputs_modified": false,
+  "training_admission": false,
+  "file_count": 8,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3024,
+      "mode": "0o644",
+      "sha256": "6041b890e0ca7c75b4ae11b695ea9160b6cf0e094431da0c30c9adc1892fe5c6"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 2462,
+      "mode": "0o644",
+      "sha256": "b4e779a7319a78ba3a054cefa9d540dd577c3972f004a97db48a7daa96043d7d"
+    },
+    {
+      "path": "input-registry.json",
+      "bytes": 1738,
+      "mode": "0o444",
+      "sha256": "f9482701d8e16603e252bdb7fe8c56ed9c2e502cd393d43f3277e5a036830419"
+    },
+    {
+      "path": "recover_geometry_v4.py",
+      "bytes": 21042,
+      "mode": "0o644",
+      "sha256": "90c43a9982fe866c329c708d17290b3de0405b90faeffdca994cee93d8abe867"
+    },
+    {
+      "path": "validate_geometry_consumer_v4.py",
+      "bytes": 6346,
+      "mode": "0o644",
+      "sha256": "04e48cadebe19b176d659a75e511c2c09a2c895702ac14e0e072227d7f27f8d5"
+    },
+    {
+      "path": "tests/test_geometry_v4.py",
+      "bytes": 9301,
+      "mode": "0o644",
+      "sha256": "0b5df0f381218f1a8a38477d79219bbdc0f864c15477fa1d89ea0c374206b7f1"
+    },
+    {
+      "path": "test-results.log",
+      "bytes": 1158,
+      "mode": "0o644",
+      "sha256": "0b44188f3977d4a0c78ed7284228cd3283dcc6ef33ba1f18485384f2d3d62c7f"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 5853,
+      "mode": "0o644",
+      "sha256": "233c2676d79168c7048ce81e5a36d110cff1b80cd9f9bd95873ed89da189e36f"
+    }
+  ],
+  "source_manifest_sha256": "233c2676d79168c7048ce81e5a36d110cff1b80cd9f9bd95873ed89da189e36f"
+}

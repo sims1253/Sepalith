@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "bytes": 7700,
+      "path": "review_setup.py",
+      "sha256": "fa065ba8d9edd2a309a87189f8d43aa92bd570001026428d535f233d7fe19018"
+    },
+    {
+      "bytes": 3070,
+      "path": "review-result.json",
+      "sha256": "e1c9e157c931c19a6f155f3fc64e6db96964687f42a336829655fdd221a7c02f"
+    },
+    {
+      "bytes": 2806,
+      "path": "review.stdout",
+      "sha256": "9593d7e3b69b2628e7a84dde768a28588022c11741c54c3dfdd3a8e493aa2f3c"
+    }
+  ],
+  "schema": "sepalith.sft11.native-varlen322-independent-review-source.v1",
+  "status": "frozen"
+}

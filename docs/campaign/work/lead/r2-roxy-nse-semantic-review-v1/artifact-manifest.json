@@ -1,0 +1,60 @@
+{
+  "output_files": {
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/r-input.json": {
+      "bytes": 827348,
+      "sha256": "7fcfe30dc1030d23bd3d4c6a54e38327291dd2cb0d7083da7a465d1a94172fc0"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/r-occurrence-output.jsonl": {
+      "bytes": 4009291,
+      "sha256": "17c97dc2d991e00ba68900443c28908d527a54ed20fd8fc4200093a67bfd1ea8"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/r-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/recoverable-ids.json": {
+      "bytes": 172,
+      "sha256": "db8cfdd54bb3a44dda33b10515379cbec36001cd8c1bef591773957a5af651f6"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/representative-evidence.json": {
+      "bytes": 27166,
+      "sha256": "e2c50cc28219ca857a94c9f814eeb25ac5267db95ba320cb8072f4cb22f67d95"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/retained-hold-ids.json": {
+      "bytes": 72871,
+      "sha256": "f1e4067a0343d127190095664d736b386e6544194cfa459b85cfeab8fe62dba0"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/semantic-ledger.jsonl": {
+      "bytes": 4009291,
+      "sha256": "086706d72d315f924b51d44111b2e93aeed5a84cede12672008efc16c68361f2"
+    },
+    "/mnt/e/sepalith/campaign-20260915/data-work/Roxy-NSE-semantic-review-v1/summary.json": {
+      "bytes": 2850,
+      "sha256": "e22e8bf41c3b86c4128fac99c879169a50537996da8c50053ae746aa0b08e7e9"
+    }
+  },
+  "schema": "sepalith.dat10.roxy-nse-artifact-manifest.v1",
+  "source_files": {
+    "docs/campaign/work/lead/r2-roxy-nse-semantic-review-v1/nse_occurrence_audit.R": {
+      "bytes": 8419,
+      "sha256": "5cad2535670bc3374543a958a6d321afd3c72b5e27fef1ecf0659501b1c28bb2"
+    },
+    "docs/campaign/work/lead/r2-roxy-nse-semantic-review-v1/review-conclusions.json": {
+      "bytes": 4288,
+      "sha256": "8e4a69320d8bf2ab3e16f5951806786802e12d38e20aca45fa5f980e5f5fc151"
+    },
+    "docs/campaign/work/lead/r2-roxy-nse-semantic-review-v1/run_review.py": {
+      "bytes": 8581,
+      "sha256": "cab11f18c2c763f6784c7c12fca6130664c1cffc66489a135217e52abe4408e2"
+    },
+    "docs/campaign/work/lead/r2-roxy-nse-semantic-review-v1/test-evidence.json": {
+      "bytes": 544,
+      "sha256": "4edcd6c8b557b29359f8ba28219dc262bd928717504ae89772d6d8095bef5a4c"
+    },
+    "docs/campaign/work/lead/r2-roxy-nse-semantic-review-v1/test_nse_occurrence_audit.py": {
+      "bytes": 3026,
+      "sha256": "87b81cf0a3d0353e8ffde80fcb2e7f744a912ba1ce9bddc2d1f65a5a6a1b9244"
+    }
+  },
+  "status": "frozen_review_packet"
+}

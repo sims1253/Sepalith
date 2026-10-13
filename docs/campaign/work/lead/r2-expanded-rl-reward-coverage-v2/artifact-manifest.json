@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "bytes": 3955,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/build_coverage_index.py",
+      "sha256": "9f26e2bb26279ffc3c4eb0a41a37f3ae219de53f1f96a7d65eba44fab24fac9d"
+    },
+    {
+      "bytes": 1864,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/coverage.json",
+      "sha256": "f21f4e41fdb120830b051976f42a5b632fca4d949b4693a67eec15c70a83502b"
+    },
+    {
+      "bytes": 408947,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/eligible-selected-ids.json",
+      "sha256": "986a1f7910c44423e50988e76abb6671dedf8cd70f5542ff9efd7a03ce504462"
+    },
+    {
+      "bytes": 4539,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/integration.json",
+      "sha256": "7ff4c46acb2368926e8437433ae149e73d96e67084ffc009e98324918b71db8e"
+    },
+    {
+      "bytes": 33870,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/reward-coverage-v2.patch",
+      "sha256": "d222cb1e2e7788ba8a83283459d013b67903741b3b0cb7d41be93fb9b0c76f86"
+    },
+    {
+      "bytes": 6100,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/source-manifest.json",
+      "sha256": "c590f0628a847d5a7416bebe83e0991e1adbdd644d033d856e4e0aa24302cc60"
+    },
+    {
+      "bytes": 11096973,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/syntax-evidence-index.jsonl",
+      "sha256": "218fce0771e838168e04ff90430f3317ced97fb1afe7779132e56ab85a220efa"
+    },
+    {
+      "bytes": 1600,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/test-results.log",
+      "sha256": "65a0b081a2a7f6d9f53d1768415ee6f2f5e9d559d952a454827ac1b7b7f4f904"
+    },
+    {
+      "bytes": 8141,
+      "mode": "0o644",
+      "path": "docs/campaign/work/lead/r2-expanded-rl-reward-coverage-v2/test_reward_coverage_v2.py",
+      "sha256": "3520e2b8c951bcf16ce4ae5c50d33c753f990d3f6093a8672d8f14d5dab143b4"
+    }
+  ],
+  "schema": "sepalith.rl11.reward-coverage-v2-artifacts.v1",
+  "source_tree_identity_sha256": "d59d8964e55dc4f954e50cf49b6fbe826dd8f21af1ff25c993b1739b8878e1c6"
+}

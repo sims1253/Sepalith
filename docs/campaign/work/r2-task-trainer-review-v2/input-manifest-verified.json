@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/README.md",
+      "sha256": "5948f61efacc3d51ae7fbceed2117fc9c266fcae3887450ab0625d791d8b26fb"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/recipe-template.json",
+      "sha256": "ffafa99fc88ea1623c8376312d5831cfa065705aace737bfc6a4737cfa1e5fd7"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_checkpoint.py",
+      "sha256": "64202f4e5b88c94a74794442be3a4955f07d195079c9d64bbcff2850dbadd0ba"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_control.py",
+      "sha256": "9a5b0614f134ecf6b804d2f0d5e37a4fecf2b1dc53589b92f17580678f9dbdac"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_eval.py",
+      "sha256": "7064385d63e3900b87241da75525897acb6b55d9ce1a023689c9addfbaacfc9f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_launch.py",
+      "sha256": "52f72a711fccf64efd8733a107d08b466b21305b53bc04c28473ef1befd31164"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_sft.py",
+      "sha256": "4f347675c050edf9492b24e5fbb2298a25ae71c1dfe478546a539390cecd6ea0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_sft_data.py",
+      "sha256": "7474b60846ac9a572d9d545c9819db2b081db5deb9f18d200a85d6e6c9239c9f"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_task_sft.py",
+      "sha256": "1d74e9f6e8310eac3a8d0922848fc892c200d048c0ecf290fb74ce3758ba5965"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/experiments/training/target_only_gate.py",
+      "sha256": "68a600ddb0fb26ce2ae4c19f763245d88ca2aa42d770e2355aac036d42ce00d4"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/task-sft-schema.json",
+      "sha256": "8add77abb138ca971e1a461f2f78130c2c842df8cc0dc02d154c419fc65e341a"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/tests/fixtures/task-target-unit-v1.jsonl",
+      "sha256": "846b78b5f27f169a3fdade416db455ac7c3b3be153a5178ce4f0233d8970d158"
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/r2-task-trainer-preparation-v1/tests/test_campaign_task_sft.py",
+      "sha256": "94126d66873022352d41c08e6bc8b0bae05f9be175716db5fa52f1ce730b73d4"
+    }
+  ]
+}

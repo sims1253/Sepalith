@@ -1,0 +1,104 @@
+{
+  "checkpoint_portability": {
+    "distributed_rng_files": "rng_state_0.pth through rng_state_7.pth",
+    "optimizer_state": "one rank0 optimizer.pt with FP32 state and distributed step metadata",
+    "scheduler_state": "unchanged continuation; no rewarm",
+    "single_device_rng_alias": "rng_state.pth hard-linked to rank0",
+    "source_resume_view": "fresh hard-link view outside source checkpoint"
+  },
+  "data": {
+    "cache_manifest_sha256": "ac17fe1ced73efe37767bf28619b47c120f57be121c4648a1bf5fb0c426084ec",
+    "cohort_id": "CPT-final-union-v1-ctx16384-current-snapshot",
+    "draw_schedule_sha256": "78bc2f3ec17ece7ad56a6dd79d4a1369d58c2329b5fb6a282d5a613135517937",
+    "max_sequence_tokens": 16384,
+    "remaining_draws": 182704,
+    "rows_sha256": "c7c2bbcd64827cc2a06eca0dd4f3b1c404226f18019df61bf3d24a49e0b351b7"
+  },
+  "distributed": {
+    "average_tokens_across_devices": true,
+    "backend": "nccl",
+    "dispatch_batches": false,
+    "effective_batch": 16,
+    "gpus_per_node": 8,
+    "gradient_accumulation": 1,
+    "nodes": 1,
+    "rows_per_rank": 2,
+    "split_batches": false,
+    "world_size": 8
+  },
+  "launch_authorized": false,
+  "outputs": {
+    "archive": "/mnt/local_storage/sepalith/SFT11-a100-fullweight-continuation-v1/archive",
+    "return_artifact": "private immutable artifact revision pending root binding",
+    "trainer": "/mnt/local_storage/sepalith/SFT11-a100-fullweight-continuation-v1/runtime"
+  },
+  "root_admission": null,
+  "runtime": {
+    "checkpoint_cadence": null,
+    "first_diagnostic_gate_global_step": null,
+    "global_optimizer_step_offset": 66,
+    "global_step": 90,
+    "initial_cursor": 384,
+    "learning_rate": 3e-06,
+    "max_steps": 11509,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 3e-06,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 3e-07,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "rounding_base_seed": 3407,
+    "scheduler": "constant_with_warmup",
+    "warmup_steps": 2
+  },
+  "schema": "sepalith.sft11.a100-fullweight-continuation-template.v1",
+  "seed": 3407,
+  "source_checkpoint": {
+    "cursor": 384,
+    "manifest_sha256": "d820a0f5cd3c790f470212406c841fb3a34924131ac5fc098f2a22c1b2db9252",
+    "offset": 66,
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-full-weight-CPT-expandable-pilot-v1/full/checkpoint-90",
+    "required_files": [
+      "campaign-state.json",
+      "chat_template.jinja",
+      "config.json",
+      "generation_config.json",
+      "model.safetensors",
+      "optimizer.pt",
+      "rng_state.pth",
+      "scheduler.pt",
+      "tokenizer.json",
+      "tokenizer_config.json",
+      "trainer_state.json",
+      "training_args.bin"
+    ],
+    "source_recipe": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt-full-corpus-expandable-pilot-root-v1/bound-recipe.json",
+      "sha256": "64aaf99bff0b4552347025a3167a85c5988de6d319fab14df754b6586ec6520e"
+    },
+    "step": 90
+  },
+  "status": "cpu_prepared_cuda_unverified",
+  "unbound": [
+    "root admission",
+    "provider image/config identity",
+    "private input/output revision",
+    "first diagnostic stop",
+    "checkpoint cadence",
+    "watchdog/deadline",
+    "actual A100 CUDA parity and memory receipt"
+  ]
+}

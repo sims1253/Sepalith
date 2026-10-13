@@ -1,0 +1,115 @@
+{
+  "files": [
+    {
+      "bytes": 1368,
+      "path": "README.md",
+      "sha256": "c36a63e85c9c8d0125b8dd104efe7c0c569ad55f1568580cb0b25231c0d6601a"
+    },
+    {
+      "bytes": 1272,
+      "path": "acceptance.json",
+      "sha256": "a0b69e1df8b94a6605dce3e5a9b8d2152d4a07b3ca011d139a1f160625535483"
+    },
+    {
+      "bytes": 5850,
+      "path": "fixture-manifest.json",
+      "sha256": "b64e34f0769f3631a6fa3d42e121d396ca7eba9d617749090ba6877bbb06a1bf"
+    },
+    {
+      "bytes": 190669,
+      "path": "fixtures/edit-16384.jsonl",
+      "sha256": "d67ff81e381c7618d6fdd65b0e81971dd40aa6be20b5f57906512145b3c39679"
+    },
+    {
+      "bytes": 24602,
+      "path": "fixtures/edit-2048.jsonl",
+      "sha256": "7c2eb0f795fa250127a136084ec40bb5950327c3bc9e13a9a22b548e8189e47e"
+    },
+    {
+      "bytes": 378221,
+      "path": "fixtures/edit-32768.jsonl",
+      "sha256": "dc62868e5f76f99769519f4301da9468e775e16c49dd11c9511ae28d336168db"
+    },
+    {
+      "bytes": 48270,
+      "path": "fixtures/edit-4096.jsonl",
+      "sha256": "939c60cd7ccc751f9f1b1bc35e344e93ded6d07445a1efdf6254c9b66578c716"
+    },
+    {
+      "bytes": 95858,
+      "path": "fixtures/edit-8192.jsonl",
+      "sha256": "20c5d8377f580d7582b1348bd95175aba5083778b4013a75494c30c3e2112cb1"
+    },
+    {
+      "bytes": 753,
+      "path": "profile-admission.template.json",
+      "sha256": "e426489ec12c5def3af7cadff45b85febdd2254038679e1fd3e842cf253a19b3"
+    },
+    {
+      "bytes": 3422,
+      "path": "root-commands.template.json",
+      "sha256": "673bffd1490fbe94d4a7d3d3a9329a755283dc1927835bd9333bba68b2277f78"
+    },
+    {
+      "bytes": 15257,
+      "path": "source/campaign_tokenizer_contract.py",
+      "sha256": "d01721f8716a78904268b8df94d1d86d86161d3f91f7de4bae3f5529d13f9958"
+    },
+    {
+      "bytes": 13546,
+      "path": "source/edit_context_profile.py",
+      "sha256": "712c010825d94bffde32a9648930c3b1f3c58aab41fbf732376bdfc9c2dd66f6"
+    },
+    {
+      "bytes": 19826,
+      "path": "source/full_weight_optimizer.py",
+      "sha256": "5abb194e57b05633f2eb7a58c354d4a08500428754ba0650f9c75a2c44bc4c13"
+    },
+    {
+      "bytes": 67,
+      "path": "source/packages/sepalith/src/sepalith/__init__.py",
+      "sha256": "c1748c8b1945c2167e77c1d2d962a3a6f53770104f195e10a84e5138bfe8c0a0"
+    },
+    {
+      "bytes": 40337,
+      "path": "source/packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "5a869329be74d8177769901bc771aa3dc6e19dad1f2d97fca149e5c38f840156"
+    },
+    {
+      "bytes": 1783,
+      "path": "source/saved_precision.py",
+      "sha256": "3a46d3f301d2f6ade8332b0426edd182a16a7b52c44f28aee60a7b27af144629"
+    },
+    {
+      "bytes": 7843,
+      "path": "source/trainer_tokenizer_alignment.py",
+      "sha256": "d152790cd1b1b873fe667b33496dd17352f5c46a4a527db9505b50accc3ddc5d"
+    },
+    {
+      "bytes": 1711,
+      "path": "source-manifest.json",
+      "sha256": "182fcc0752cd8d9d01cbcd7f71b5542f2d06651e59dd69ad18b419c17f4d53f1"
+    },
+    {
+      "bytes": 583,
+      "path": "test-results.log",
+      "sha256": "595a39ebb33ac93c8ae1495dc5fb74ee9148d678bea72b93327790d9ebb00dfd"
+    },
+    {
+      "bytes": 4840,
+      "path": "tests/__pycache__/test_profile_contract.cpython-310.pyc",
+      "sha256": "4f1f651e52e8de8fe0683bf31e6f518f24fe0165a3bcdd760158a1ddd1e39e69"
+    },
+    {
+      "bytes": 4199,
+      "path": "tests/test_profile_contract.py",
+      "sha256": "4ff740cc7ec69a5d4db80c073a0009297b3603facbc2f160ce304378175fed18"
+    }
+  ],
+  "files_count": 21,
+  "fixture_manifest_sha256": "b64e34f0769f3631a6fa3d42e121d396ca7eba9d617749090ba6877bbb06a1bf",
+  "schema": "sepalith.sft11.full-weight-edit-context-profile-artifacts.v1",
+  "source_manifest_sha256": "182fcc0752cd8d9d01cbcd7f71b5542f2d06651e59dd69ad18b419c17f4d53f1",
+  "status": "prepared_no_launch",
+  "total_bytes": 860277
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "sepalith.sft11.cpt450-cadence64-identity-transition-admission.v1",
+  "status": "ROOT_MUST_SET_admitted",
+  "decision": "continue_checkpoint450_with_cadence64",
+  "launch_authorized": false,
+  "bound_recipe_sha256": "ROOT_BINDS_CADENCE64_RECIPE",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/SFT11-recovery354-to450-cadence24-v1/runtime/checkpoint-450",
+  "checkpoint_manifest_sha256": "ROOT_BINDS_VERIFIED_CHECKPOINT450_MANIFEST",
+  "campaign_state_sha256": "ROOT_BINDS_VERIFIED_CHECKPOINT450_STATE",
+  "checkpoint_step": 450,
+  "source_identity_sha256": "46a5a1aced9f533e8ba4cd25aebe795dedc64d390a0d563cfc7e406c03324739",
+  "destination_identity_sha256": "6ac45eec834ee675bfecd880b06972ec028b7314497c47ca0130d6d32c43ce48",
+  "source_runtime_recipe": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-cpt354-to450-continuation-root-v1/runtime-recipe.json",
+  "source_runtime_recipe_sha256": "26b78532f907ca5e3a34827857ad58a47e0d56a167fb26a61dbf9b555b50a1d5",
+  "checkpoint450_review": {"path": "ROOT_ACCEPTED_CHECKPOINT450_REVIEW", "sha256": "ROOT_SHA256"},
+  "matched450_review": {"path": "ROOT_ACCEPTED_MATCHED450_REVIEW", "sha256": "ROOT_SHA256"},
+  "allowed_changes": ["checkpoint cadence 24 to 64 after accepted checkpoint450", "mandatory external review boundary 354 to 706", "fresh continuation runtime output roots"],
+  "payload_action": "load_checkpoint450_full_state_without_rewrite_or_optimizer_reset"
+}

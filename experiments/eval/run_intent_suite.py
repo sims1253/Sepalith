@@ -16,7 +16,7 @@ Ops rules honored here (docs/research/2026-08-19-night-results.md):
   - CPU serving only (-t 8 -ngl 0), readiness = POST /v1/completions -> 200
     (NEVER /health), kill ONLY the tracked child PID (port-scoped fuser as a
     last resort if the child died but the port still answers).
-  - ZAI_API_KEY must be in the environment (source ~/.zshrc first).
+  - ZAI_API_KEY must be in the environment (source ~/.config/sepalith/secrets.env first).
 """
 import argparse
 import json
@@ -174,7 +174,7 @@ Respond ONLY with JSON: {{"score": <0|1|2>, "reason": "<short>"}}"""
 def judge(case, completion, retries=3):
     key = os.environ.get("ZAI_API_KEY")
     if not key:
-        sys.exit("ZAI_API_KEY missing from environment (source ~/.zshrc first)")
+        sys.exit("ZAI_API_KEY missing from environment (source ~/.config/sepalith/secrets.env first)")
     inp = case["input"]
     body = json.dumps({
         "model": "glm-5.3", "thinking": {"type": "enabled"},
@@ -248,7 +248,7 @@ def main():
     args = ap.parse_args()
 
     if not os.environ.get("ZAI_API_KEY"):
-        sys.exit("ZAI_API_KEY missing from environment (source ~/.zshrc first)")
+        sys.exit("ZAI_API_KEY missing from environment (source ~/.config/sepalith/secrets.env first)")
 
     cases = [json.loads(l) for l in open(args.suite)]
     by_id = {c["id"]: c for c in cases}

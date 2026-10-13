@@ -1,0 +1,30 @@
+{
+  "changes": [
+    "fresh output directory",
+    "require all 41 complete receipts and pending_shards=[]",
+    "bind and require source-index no-op denominator 4227"
+  ],
+  "files": [
+    {
+      "bytes": 2697,
+      "path": "check.py",
+      "sha256": "c919a6a94dcab667f6b0941ca9647653fd284a92994172636a3264ca5ed0b605"
+    },
+    {
+      "bytes": 4299,
+      "path": "verify_integrity.py",
+      "sha256": "6a3bf855ba8f27d6fc6100f32ef7f2f5884cce725dae67000fd42e384aa202ba"
+    },
+    {
+      "bytes": 965,
+      "path": "README.md",
+      "sha256": "6df6e879e9e8a5b5122733caa49b4e842a08658ea0b7785b11fd246183167296"
+    }
+  ],
+  "reviewed_parent_checker": {
+    "path": "docs/campaign/work/lead/r2-noop-pool-coverage-root-v1/check.py",
+    "sha256": "a0891985da5648cfa0bca88cbc1c9ff90f5bd45bd2955022ea5eed2309cd1a4b"
+  },
+  "schema": "sepalith.dat10.noop-full41-census-source.v1",
+  "status": "frozen"
+}

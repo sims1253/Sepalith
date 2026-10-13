@@ -1,0 +1,116 @@
+{
+  "files": [
+    {
+      "bytes": 2576,
+      "path": "prepare67_inputs.py",
+      "relation": "new_preparation_entrypoint",
+      "sha256": "a95a8240106978e2f6f2cf54b3c73697a26a1d0cabebf66d762e9106bc67c31d"
+    },
+    {
+      "bytes": 6380,
+      "path": "render_shard.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "92aa54e41c7178b27b724edcc19324928402ffc14f5310fedf6fb8b9f83afe88"
+    },
+    {
+      "bytes": 4195,
+      "path": "run_policy_ladder.py",
+      "relation": "new_preparation_entrypoint",
+      "sha256": "11e14b55a679a7eb4942ab59d839fc1017af700b215c6ba54cffb411243fea6e"
+    },
+    {
+      "bytes": 34464,
+      "path": "source/campaign_protocol.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "ec4ab1529cb7ade10be28343600f26be027f24239009ec354a357a7caff4b824"
+    },
+    {
+      "bytes": 25008,
+      "path": "source/campaign_selection.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "70a03d86c8d1c2cd0e117edcbd69cfbac193382b20b555e2d0a327e7e006e8e3"
+    },
+    {
+      "bytes": 14528,
+      "path": "source/context_build.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "effce2d6a253b00539a033d721fb1d514dcf60acff4ae898a09ab3f02151bf33"
+    },
+    {
+      "bytes": 8020,
+      "path": "source/context_select.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "413f0a1c2fab480fcf36c3fdd221a03a359a05d52dec81475193cd6fc1870576"
+    },
+    {
+      "bytes": 7947,
+      "path": "source/full_document_policy.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "dd671fa12a839d00e6446bd07d36c02e33518290b6e95faf8187163aa08f0a95"
+    },
+    {
+      "bytes": 23912,
+      "path": "source/history_provider.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "b2763b7d1b146d398835f4a15eb84e3f0bccfa3bb07b2e9faf5ca9a4eda0a251"
+    },
+    {
+      "bytes": 4604,
+      "path": "source/namespace_evidence.R",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "97a56820bb237b4d6e40216f932b2514a306985c0b67cbb3afe6b91b22bf1847"
+    },
+    {
+      "bytes": 4225,
+      "path": "source/namespace_provider.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "7168c960ef73d82783aa5ce7c9f6aba60e25daadb9cc231834800d986248a8bc"
+    },
+    {
+      "bytes": 10394,
+      "path": "source/namespace_runtime.ts",
+      "relation": "modified_from_provider114b0_for_narrow_unavailable_policy",
+      "sha256": "1c2b8060feb7c591e4c8e55fcc10fdf84de3ab9b0ddc6191bfdf2484b1f75758"
+    },
+    {
+      "bytes": 1620,
+      "path": "source/namespace_unavailable_policy.ts",
+      "relation": "new_shared_train_eval_serve_policy_seam",
+      "sha256": "f8f9d1c91a85d35abbea415dd28f1990259ab336ac7539f150197b3dd76a3401"
+    },
+    {
+      "bytes": 1518,
+      "path": "source/primary_context.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "9dded5d88e45347a254d9cf80397122dc80591aeb70e3041dc2cdf741d3d9474"
+    },
+    {
+      "bytes": 23571,
+      "path": "source/r_base_bindings.generated.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "76de456c69422eccd7d6289ea56fb582cdb6a32c937905eb67bc8f591cab2be2"
+    },
+    {
+      "bytes": 22035,
+      "path": "source/semantic_provider.ts",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "df0cb3646645cbcb7b2a9f15580f4cdedeab7438f0bb34e34263cf2f18c34fde"
+    },
+    {
+      "bytes": 3289,
+      "path": "source/source_imports.R",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "cb0822dd3d9d50018ec20c2992b017506d232ca56169570d0751256e69456250"
+    },
+    {
+      "bytes": 484,
+      "path": "tokenize_bridge.py",
+      "relation": "byte_identical_to_provider114b0",
+      "sha256": "57ef8859a2e9294acd8f1abb56def91b1bf2fd864eb64394dc89e016051e9db9"
+    }
+  ],
+  "parent_provider_source_manifest_sha256": "114b0a410cf15c821ce83c8d569b16d831640f744f3e53d303d849929e503919",
+  "schema": "sepalith.dat10.noop67.namespace_policy_source.v1",
+  "status": "frozen_candidate_not_admitted",
+  "train_eval_serve_contract": "namespace_unavailable_policy.ts must remain byte-identical across all three paths before data/model promotion"
+}

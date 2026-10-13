@@ -1,0 +1,67 @@
+{
+  "files": [
+    {
+      "bytes": 1370,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "a3961e0a4bff0e428d796f23105997629217af81c36b30d1636c1867c1f428e3"
+    },
+    {
+      "bytes": 827,
+      "mode": "0o644",
+      "path": "commands.json",
+      "sha256": "21ab8fc89c28fa9f8c7c12b1dba6b5060318546249c33d289ab5780ae486170e"
+    },
+    {
+      "bytes": 5237,
+      "mode": "0o644",
+      "path": "evidence.json",
+      "sha256": "9082ff1361a0cf2be619e5624b85fdd208bf163cc40ba54a7fdae8c81ed83e85"
+    },
+    {
+      "bytes": 311,
+      "mode": "0o644",
+      "path": "probe-admission.template.json",
+      "sha256": "6bb615c59b05ec91c50e302bd386d55bc06819ae734ad90e8624fadd336588d3"
+    },
+    {
+      "bytes": 8670,
+      "mode": "0o755",
+      "path": "probe.py",
+      "sha256": "6ad7bd6e33e1934bba1b8b5fc896608b1c34b93069550d76cd41d39bd6a8ac13"
+    },
+    {
+      "bytes": 555,
+      "mode": "0o644",
+      "path": "test-results.log",
+      "sha256": "0c8fc742c9d7ddcc8e6f545e958a7a82521ebf3439774ef670c250308e33de9d"
+    },
+    {
+      "bytes": 761,
+      "mode": "0o755",
+      "path": "test_candidate.py",
+      "sha256": "ea6275c9287ed3c62c38819e19fb089b5c146877e063ee31a84656de6d75dc12"
+    },
+    {
+      "bytes": 3163,
+      "mode": "0o755",
+      "path": "test_static_evidence.py",
+      "sha256": "cdb87bf494b2468788a7e94b64876c5446626585340eebab6560ae452a9b2d59"
+    },
+    {
+      "bytes": 2273,
+      "mode": "0o644",
+      "path": "test_probe_contract.py",
+      "sha256": "5f42ac6845b0356b8d3baf5c5ef1f1766149b75d18a690b3fc39d52ac2a4bdaf"
+    },
+    {
+      "bytes": 2503,
+      "mode": "0o755",
+      "path": "torch_varlen_candidate.py",
+      "sha256": "9a5e2911ede7e144f535bd35ce73f94032a37848488f9cf6c463767d173ec7cd"
+    }
+  ],
+  "parent_source_manifest_sha256": "b23e488612966d781377747062031a3c801fab71127155e54ca90e26fec16fe0",
+  "schema": "sepalith.source_manifest.v1",
+  "status": "frozen_cpu_preparation_probe_requires_root_admission"
+}

@@ -1,0 +1,126 @@
+{
+  "card": "C02",
+  "kind": "cuda_dry_run",
+  "gpu_work": true,
+  "approved_by_user": "2026-09-28, daytime slot",
+  "state_root": "/home/m0hawk/.local/state/sepalith/night-dryrun-20260928-232722-cuda",
+  "device": "NVIDIA GeForce RTX 5090, synthetic job held 2,080 MiB",
+  "overrides": {
+    "max_gpu_used_mib": 6144,
+    "reason": "Windows desktop held 5,069 to 5,317 MiB of GPU memory with no compute processes"
+  },
+  "phase_a_honour": {
+    "window": {
+      "start": "2026-09-28T23:27:22+02:00",
+      "deadline": "2026-09-28T23:31:22+02:00",
+      "graceful": "2026-09-28T23:32:22+02:00",
+      "hard": "2026-09-28T23:33:22+02:00"
+    },
+    "job": {
+      "outcome": "deferred",
+      "reason": "stopped_at_safe_boundary",
+      "exit_code": 75,
+      "started": "2026-09-28T23:27:23+02:00",
+      "ended": "2026-09-28T23:31:23+02:00",
+      "graceful_stop_at": null,
+      "hard_kill_at": null,
+      "leftover_pids": []
+    },
+    "summary": "stopped on deadline after 295794 steps, +0.0s from the deadline",
+    "gpu_mib_before_after": [
+      5100,
+      5135
+    ],
+    "result": "pass"
+  },
+  "phase_b_ignore": {
+    "attempts": [
+      {
+        "window": {
+          "start": "2026-09-28T23:31:23+02:00",
+          "deadline": "2026-09-28T23:41:23+02:00",
+          "graceful": "2026-09-28T23:43:53+02:00",
+          "hard": "2026-09-28T23:46:23+02:00"
+        },
+        "host_admission_mib": 16384,
+        "stop_reason": "preflight_failed",
+        "jobs_run": 0,
+        "host_memory_checks": [
+          {
+            "windows_available_mib": 9375,
+            "commit_ratio": 0.6684,
+            "linux_available_mib": 43009
+          },
+          {
+            "windows_available_mib": 7465,
+            "commit_ratio": 0.6567,
+            "linux_available_mib": 42502
+          }
+        ]
+      },
+      {
+        "window": {
+          "start": "2026-09-28T23:52:33+02:00",
+          "deadline": "2026-09-29T00:02:33+02:00",
+          "graceful": "2026-09-29T00:05:03+02:00",
+          "hard": "2026-09-29T00:07:33+02:00"
+        },
+        "host_admission_mib": 8192,
+        "stop_reason": "preflight_failed",
+        "jobs_run": 0,
+        "host_memory_checks": [
+          {
+            "windows_available_mib": 7618,
+            "commit_ratio": 0.6639,
+            "linux_available_mib": 42574
+          },
+          {
+            "windows_available_mib": 7215,
+            "commit_ratio": 0.6753,
+            "linux_available_mib": 43271
+          }
+        ]
+      }
+    ],
+    "result": "pass on the rerun (2026-09-29, after installing sepalith-cache-trim); the first two attempts were blocked by the host-memory preflight",
+    "gpu_mib_after": 5266,
+    "synthetic_processes_left": 0,
+    "rerun_after_cache_trim": {
+      "window": {
+        "start": "2026-09-29T11:43:46+02:00",
+        "deadline": "2026-09-29T11:53:46+02:00",
+        "graceful": "2026-09-29T11:56:16+02:00",
+        "hard": "2026-09-29T11:58:46+02:00"
+      },
+      "host_admission_mib": 16384,
+      "preflight": {
+        "gpu_idle": true,
+        "host_memory": true,
+        "disk_free": true,
+        "cuda_lock_free": true
+      },
+      "windows_available_mib": 34435,
+      "job": {
+        "outcome": "failed",
+        "reason": "hard_stop_killed",
+        "exit_code": -9,
+        "started": "2026-09-29T11:43:47+02:00",
+        "ended": "2026-09-29T11:58:48+02:00",
+        "graceful_stop_at": "2026-09-29T11:56:16+02:00",
+        "hard_kill_at": "2026-09-29T11:58:47+02:00",
+        "killed_pids": [
+          1073118
+        ],
+        "leftover_pids": []
+      },
+      "gpu_mib_before_after": [
+        4882,
+        4969
+      ],
+      "synthetic_processes_left": 0,
+      "result": "pass"
+    }
+  },
+  "finding": "Windows-available memory fell from 23,069 MiB (before phase A) to 7,215 MiB while Linux MemAvailable stayed about 43 GB. The WSL VM (vmmemWSL 34.8 GB) holds about 38 to 41.5 GB of Linux page cache that Windows counts as used, and it grew with no dry-run job running. autoMemoryReclaim=dropCache did not return it. The same Windows-available floors are used by cuda_host_guard during training (soft 8,192 MiB, hard 4,096 MiB), so nightly jobs can be refused or stopped for cache alone.",
+  "fix": "sepalith-cache-trim (root system service, installed by the user 2026-09-29 00:45) caps Linux file cache at 8 GiB via /sys/fs/cgroup/memory.reclaim; Windows available memory rose from 7,215 to 33,751-34,435 MiB"
+}

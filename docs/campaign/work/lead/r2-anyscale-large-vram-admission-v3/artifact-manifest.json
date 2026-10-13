@@ -1,0 +1,47 @@
+{
+  "files": [
+    {
+      "bytes": 817,
+      "path": "README.md",
+      "sha256": "7e29a83f209a2561499f70c3682e81b3b6335cb6a3d6680a08857155def1e397"
+    },
+    {
+      "bytes": 1805,
+      "path": "account-evidence.json",
+      "sha256": "faf7642b9b2f895acc533f9832edf36aef243d9e5d41733b9b9cbc8322d807ee"
+    },
+    {
+      "bytes": 3005,
+      "path": "feasibility.json",
+      "sha256": "5b3aee83eca3e7d01266f377fe195158f368ab0442b78501ed51ce707b5d1a9c"
+    },
+    {
+      "bytes": 2353,
+      "path": "official-evidence.json",
+      "sha256": "883a80e6695fd828771d2cabda302378bc6ef77c8abc380d652580ba719c7284"
+    },
+    {
+      "bytes": 2022,
+      "path": "sdk-surface.json",
+      "sha256": "e10c99383b9718afb36e6067489a4328a6b43735ddf7b987f07e61089712c568"
+    },
+    {
+      "bytes": 4869,
+      "path": "targeted_account_probe.py",
+      "sha256": "accb45e532ee9c35f426bec091b3fcfc2068131d435e596fec940a233fcf750e"
+    },
+    {
+      "bytes": 291,
+      "path": "test-results.txt",
+      "sha256": "9b16f800055c95466502f8c1d94f670e51395c56bcf30542344347ef29614e74"
+    },
+    {
+      "bytes": 3397,
+      "path": "test_targeted_probe.py",
+      "sha256": "d0e9e1c2f88ebba77b2c74da768321fe658071e9410f6afa1f6e217481a4a744"
+    }
+  ],
+  "packet": "r2-anyscale-large-vram-admission-v3",
+  "schema": "sepalith.artifact-manifest.v1",
+  "source_identity_sha256": "be0af6933c2f3fa272aa06beb2cde225621edce1b96d411c4c133a0c3f9b5522"
+}

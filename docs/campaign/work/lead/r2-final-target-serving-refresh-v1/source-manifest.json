@@ -1,0 +1,49 @@
+{
+  "schema_version": "sepalith.r2.source-manifest.v1",
+  "source_identity": "96673b4be880fd74c431168154d6978b1bfddba032a3e79e5ff437a17302c157",
+  "files": [
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/refresh-template.json",
+      "sha256": "8f5d10cba0cfb1dce8a9d6cd094942539a7e0731353d516ba8b08475a0ee7bfc",
+      "bytes": 5045
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/prepare_refresh.py",
+      "sha256": "3797fc493c48705edd6bd69fd645f73e798bb5930f58eadd0475303a176428ac",
+      "bytes": 6681
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/probe_bound.py",
+      "sha256": "7108335d3bcb98be8e017589e2a5803b0658f9ac2c100218a0db2fa8eaa7da1f",
+      "bytes": 2325
+    },
+    {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-final-target-serving-refresh-v1/analyze_refresh.py",
+      "sha256": "264f93de177020e175f4abe04f2e60037e8de634c866e9bcb4094b5b45009432",
+      "bytes": 5108
+    }
+  ],
+  "runtime_dependencies": {
+    "panel_probe": {
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-serving-screen-followup-v1/paired_panel_probe.py",
+      "sha256": "11dab7c000402b17fe91c0663dfe7ba0bd7eec8b935c35e9e1d6719edeacca9c"
+    },
+    "llama_server": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-server",
+      "sha256": "e42d5362c31f9149e36a94677e46c31b7b56ee0e4128d67e6a32383d4cc1c0ee",
+      "commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70"
+    },
+    "convert_hf_to_gguf": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/src/llamacpp-b10453/convert_hf_to_gguf.py",
+      "sha256": "e38975e1c68d98ac1664dfd530616eb35c72294382a4dd873d4746b23f27779f"
+    },
+    "llama_imatrix": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-b10453/llama-imatrix",
+      "sha256": "dc6d6a2a42aa636f7ecd2fc6acab6d975dcc6bb7a64ac640b478ecfbee43d759"
+    },
+    "llama_quantize": {
+      "path": "/home/m0hawk/Documents/Sepalith/experiments/bin/llama/llama-cuda-b10453/llama-quantize",
+      "sha256": "9367d87e54b0c4c88de803248532ef9ad2dde804dd22b88042bd4d5449b11022"
+    }
+  }
+}

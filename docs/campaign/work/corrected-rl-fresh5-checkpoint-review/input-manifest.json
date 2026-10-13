@@ -1,0 +1,184 @@
+{
+  "schema": "sepalith.rl08.corrected-rl-fresh5-checkpoint-review-inputs.v1",
+  "task": "RL-08",
+  "terminal_marker": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/supervisor-terminal.json",
+  "recipe": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/recipe.json",
+  "root_verification": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/corrected-rl-fresh5-a/root-verification.json",
+  "checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-corrected-theta0-fresh5-v1/archive/full/checkpoint-5",
+  "frozen_verifier": "/home/m0hawk/.local/state/sepalith/migration-20260906/prepared-state/snapshots/be406557c23d368fbb9869c0edf0c0c1099c7939d650a6bc32190fce53c330b9/source/experiments/training/campaign_checkpoint.py",
+  "schedule": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/source-row-draw-sequence.json",
+  "selected_ids": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/corrected-rl-admission-audit-v1/candidate-data/selected-train-ids.json",
+  "reads_allowed_after_terminal": [
+    "full checkpoint manifest and sealed files",
+    "optimizer.pt, scheduler.pt, rng_state.pth on CPU",
+    "adapter_model.safetensors on CPU"
+  ],
+  "not_read": [
+    "model/base weights",
+    "training_args.bin",
+    "final outputs or sealed evaluation",
+    "live process/state/lease files"
+  ],
+  "produced_summaries": {
+    "checkpoint_identity": {
+      "recipe_sha256": "9042c8e1ad3f5c9580551360678a65fbe66d8f9fc980fa2c68eb94825bd7e281",
+      "identity_sha256_reported": "ae851d72f158518f979f61b70f0a292151aed2a017c0cd71b282527ddc604bed",
+      "checkpoint_manifest": {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-corrected-theta0-fresh5-v1/archive/full/checkpoint-5/campaign-manifest.json",
+        "bytes": 71704553,
+        "sha256": "fa1180a7592e8a6d6b3eb2fca1a746af1f4ea598f2e283deff4ee113ef8e6a36",
+        "schema_version": 1,
+        "step": 5,
+        "full": true,
+        "file_count": 12,
+        "file_bytes_sum_excluding_manifest": 305690700,
+        "files": {
+          "README.md": {
+            "bytes": 5351,
+            "sha256": "a755e35444ec785e93a6433c57f4ae24c95129d87611e432397fad3fecdba952"
+          },
+          "adapter_config.json": {
+            "bytes": 1354,
+            "sha256": "5a65f402fa59946d5d4e45b989aab1fc548db269b53d50cbaf72c1cfad02077f"
+          },
+          "adapter_model.safetensors": {
+            "bytes": 100544848,
+            "sha256": "b5f9c9824625c4105f6edcd2f90a2a59285892c89806b9b368383dcdcd6bb932"
+          },
+          "campaign-state.json": {
+            "bytes": 143400537,
+            "sha256": "1e1cf534d59ba04f132496ec18be35720e6a8a1a608ff90edacacb3216e6e7b1"
+          },
+          "chat_template.jinja": {
+            "bytes": 9060,
+            "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+          },
+          "optimizer.pt": {
+            "bytes": 51712341,
+            "sha256": "ae3849e21075bd56a193e49788506add6e7a2a549c322a2246c65024b65eb971"
+          },
+          "rng_state.pth": {
+            "bytes": 14645,
+            "sha256": "5123540bc2a705cd05d02fd6bdafd631d0399f04b7297afeebc5c1d0864dd29f"
+          },
+          "scheduler.pt": {
+            "bytes": 1465,
+            "sha256": "fab3d2b257c78ef5e23915b2c7640c8c42d2084b27d193cd0df20826eb70ada5"
+          },
+          "tokenizer.json": {
+            "bytes": 9894271,
+            "sha256": "d5ede0bcd21e0676a58b176937262fb80a06a32b5cb4ed8bfed8b7d11e45b0e1"
+          },
+          "tokenizer_config.json": {
+            "bytes": 94399,
+            "sha256": "71e726da77f3f0bbfde07d916acae8bd5a316d1857a00979cdc2e9ed3061034c"
+          },
+          "trainer_state.json": {
+            "bytes": 5692,
+            "sha256": "ac349d0bfc8e062196703164d4229bcb22a866eb93ef9b485e0ef81c2223297c"
+          },
+          "training_args.bin": {
+            "bytes": 6737,
+            "sha256": "2ef6644e7382ac4114ef21e1b9a62d572f5e9274b6902eb8787ac9cfd03f89fb"
+          }
+        }
+      },
+      "archive_checkpoint": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-corrected-theta0-fresh5-v1/archive/full/checkpoint-5",
+      "checkpoint_manifest_sha256": "fa1180a7592e8a6d6b3eb2fca1a746af1f4ea598f2e283deff4ee113ef8e6a36",
+      "root_verification_sha256": "9cd2e509a30523a1bc97dbbec95615b415982a26038be8a1d82c9b0b61c006cb",
+      "root_verification_full_preflight_sha256": "9f4edaa5e8046af0cb768e1481ec56b142812959cffecc69ffde18d9f877f674",
+      "tensor_error": null
+    },
+    "manifest": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/training/RL-corrected-theta0-fresh5-v1/archive/full/checkpoint-5/campaign-manifest.json",
+      "bytes": 71704553,
+      "sha256": "fa1180a7592e8a6d6b3eb2fca1a746af1f4ea598f2e283deff4ee113ef8e6a36",
+      "schema_version": 1,
+      "step": 5,
+      "full": true,
+      "file_count": 12,
+      "file_bytes_sum_excluding_manifest": 305690700,
+      "files": {
+        "README.md": {
+          "bytes": 5351,
+          "sha256": "a755e35444ec785e93a6433c57f4ae24c95129d87611e432397fad3fecdba952"
+        },
+        "adapter_config.json": {
+          "bytes": 1354,
+          "sha256": "5a65f402fa59946d5d4e45b989aab1fc548db269b53d50cbaf72c1cfad02077f"
+        },
+        "adapter_model.safetensors": {
+          "bytes": 100544848,
+          "sha256": "b5f9c9824625c4105f6edcd2f90a2a59285892c89806b9b368383dcdcd6bb932"
+        },
+        "campaign-state.json": {
+          "bytes": 143400537,
+          "sha256": "1e1cf534d59ba04f132496ec18be35720e6a8a1a608ff90edacacb3216e6e7b1"
+        },
+        "chat_template.jinja": {
+          "bytes": 9060,
+          "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+        },
+        "optimizer.pt": {
+          "bytes": 51712341,
+          "sha256": "ae3849e21075bd56a193e49788506add6e7a2a549c322a2246c65024b65eb971"
+        },
+        "rng_state.pth": {
+          "bytes": 14645,
+          "sha256": "5123540bc2a705cd05d02fd6bdafd631d0399f04b7297afeebc5c1d0864dd29f"
+        },
+        "scheduler.pt": {
+          "bytes": 1465,
+          "sha256": "fab3d2b257c78ef5e23915b2c7640c8c42d2084b27d193cd0df20826eb70ada5"
+        },
+        "tokenizer.json": {
+          "bytes": 9894271,
+          "sha256": "d5ede0bcd21e0676a58b176937262fb80a06a32b5cb4ed8bfed8b7d11e45b0e1"
+        },
+        "tokenizer_config.json": {
+          "bytes": 94399,
+          "sha256": "71e726da77f3f0bbfde07d916acae8bd5a316d1857a00979cdc2e9ed3061034c"
+        },
+        "trainer_state.json": {
+          "bytes": 5692,
+          "sha256": "ac349d0bfc8e062196703164d4229bcb22a866eb93ef9b485e0ef81c2223297c"
+        },
+        "training_args.bin": {
+          "bytes": 6737,
+          "sha256": "2ef6644e7382ac4114ef21e1b9a62d572f5e9274b6902eb8787ac9cfd03f89fb"
+        }
+      }
+    },
+    "adapter": {
+      "tensor_count": 588,
+      "value_count": 25116672,
+      "dtypes": {
+        "torch.float32": 588
+      },
+      "finite": true,
+      "nonfinite_keys": [],
+      "expected_value_count": 25116672
+    },
+    "optimizer": {
+      "finite": true,
+      "tensor_count": 3528,
+      "floating_values": 497280,
+      "nonfinite_paths": [],
+      "state_entries": 588,
+      "state_step_values": {
+        "5": 588
+      },
+      "state_steps_all_5": true,
+      "param_groups": 2,
+      "param_group_param_counts": [
+        588,
+        0
+      ],
+      "param_group_learning_rates": [
+        2e-05,
+        2e-05
+      ],
+      "param_groups_geometry_ok": true
+    }
+  }
+}

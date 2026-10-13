@@ -1,0 +1,79 @@
+[
+  {
+    "at": "2026-09-13T05:06:08.288Z",
+    "method": "GET",
+    "url": "/manifest.json",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.045Z",
+    "method": "GET",
+    "url": "/asset/vulkan/llama-server",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.056Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libggml-base.so.0",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.065Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libggml-cpu.so.0",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.240Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libggml-vulkan.so.0",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.257Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libggml.so.0",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.261Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libllama-cli-impl.so",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.271Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libllama-common.so.0",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.292Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libllama-server-impl.so",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.322Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libllama.so.0",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "at": "2026-09-13T05:06:11.340Z",
+    "method": "GET",
+    "url": "/asset/vulkan/libmtmd.so.0",
+    "status": 200,
+    "bytes": null
+  }
+]

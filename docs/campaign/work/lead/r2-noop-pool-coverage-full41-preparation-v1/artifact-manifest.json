@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 5773,
+      "path": "result.json",
+      "sha256": "8c11cf68cf1d2a91dd92cbe29327b887fe0efc46943d8302760b5f3a80c16df8"
+    },
+    {
+      "bytes": 725451,
+      "path": "candidate-ids.jsonl",
+      "sha256": "59e4d0b57fa2185503e1ab4a1bad1b6e43acf4bc70e239508b800204a31a7ca7"
+    },
+    {
+      "bytes": 4799,
+      "path": "check.log",
+      "sha256": "82ef0cd0e074cefb6c41609cad7fff6e329dca2e77fdb11edbfeb680f8de3052"
+    },
+    {
+      "bytes": 778,
+      "path": "integrity-result.json",
+      "sha256": "4479c1cc1ee0d6627fe55c18eb6249d61965ba5e8c35898c2e60e4189fc8f086"
+    },
+    {
+      "bytes": 706,
+      "path": "integrity.log",
+      "sha256": "8830ced7fe322bed3eb1efe4b0eaba99cf24b13b6dd96e3aefd40802134fa03f"
+    },
+    {
+      "bytes": 1046,
+      "path": "noop-pipeline-tests.log",
+      "sha256": "ad772121a001c7b5d2aa2e29e6a49b6b8edae24838803864610f04ae33d544e0"
+    }
+  ],
+  "schema": "sepalith.dat10.noop-full41-census-artifacts.v1",
+  "status": "complete_review_only"
+}

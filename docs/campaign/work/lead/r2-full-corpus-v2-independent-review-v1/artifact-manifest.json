@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "bytes": 1134,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-corpus-v2-independent-review-v1/README.md",
+      "sha256": "612e07d7698421eb2eb28b63fa1ccc217e04fd48dd6a4fe5b3b493845573c308"
+    },
+    {
+      "bytes": 4071,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-corpus-v2-independent-review-v1/context-guard-audit.json",
+      "sha256": "74d3233bcc7468c84da64caefd026ca3dcc5564505678f1dbe5b0c2673d83c60"
+    },
+    {
+      "bytes": 99,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-corpus-v2-independent-review-v1/independent-tests.txt",
+      "sha256": "ad7cbb2c113e90b7def53c41ff90f08924e00d22a1ea68e2b7a3e5b48b25751e"
+    },
+    {
+      "bytes": 3289,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-corpus-v2-independent-review-v1/review.json",
+      "sha256": "4545c909cb0e7dd2c12509dfd7ef7dff27212dbc91684865d67cc65a1db607a5"
+    },
+    {
+      "bytes": 744,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-corpus-v2-independent-review-v1/verification.json",
+      "sha256": "d3bf67297ee46b4ab0287a0ebb731b0cf86f6707c3130c4f24b07bf36e8707b5"
+    },
+    {
+      "bytes": 3227,
+      "path": "/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb/docs/campaign/work/lead/r2-full-corpus-v2-independent-review-v1/verify_review.py",
+      "sha256": "86063e7f0de4a39a95df627c7f63b5a898ebc52209be21b6286030fcfc8af082"
+    }
+  ],
+  "reviewed_source_identity": "78741c7449eb71e45d235ca1501baf8e9ed798dca1afa8c962c7f85d3989f659",
+  "schema": "sepalith.sft11.full-corpus-v2-independent-review-artifacts.v1"
+}
