@@ -1,0 +1,25 @@
+{
+  "id": "C07-baseline",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 10,
+  "resumable": false,
+  "estimated_minutes": 75,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.sft.night_arm",
+    "baseline",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json"
+  ],
+  "note": "C07 job 1: DEV75 and DEV250 on parent 11,586 (bf16), the step-0 baseline R1 compares against"
+}

@@ -18,6 +18,7 @@ from sepalith.training.paths import under_checkpoint_root
 
 EXPECTED_PARAMETERS = 2_516_756_480
 EXPECTED_PARAMETER_TENSORS = 381
+V2_BOUND_SCHEMA = "sepalith.sft-v2.full-weight-edit-sft-bound.v1"
 
 
 def require(value, message):
@@ -79,6 +80,10 @@ def verify_data_queue(record):
 
 def load_bound(path):
     recipe = json.loads(Path(path).read_text())
+    if recipe.get("schema") == V2_BOUND_SCHEMA:
+        # Card C04 recipe v2: pre-registered schedule, optimizer and gates (sft/recipe_v2.py).
+        from sepalith.training.sft.recipe_v2 import load_bound_v2
+        return load_bound_v2(path)
     require(recipe.get("schema") == "sepalith.sft11.full-weight-edit-sft-eval-gate-bound.v1" and recipe.get("status") == "root_admitted_not_launched", "bound recipe is not root-admitted")
     admission = recipe.get("root_admission", {})
     require(Path(admission.get("path", "")).is_file() and sha256(admission["path"]) == admission.get("sha256"), "root admission differs")
@@ -120,8 +125,10 @@ def validate_context_and_storage(recipe):
 
 def training_arguments_kwargs(recipe, output):
     runtime = recipe["runtime"]
-    warmup_steps = int(runtime["max_steps"] * runtime["warmup_ratio"])
-    return {"output_dir": str(output), "per_device_train_batch_size": runtime["micro_batch"], "gradient_accumulation_steps": runtime["gradient_accumulation"], "max_steps": runtime["max_steps"], "learning_rate": runtime["learning_rate"], "lr_scheduler_type": runtime["scheduler"], "warmup_steps": warmup_steps, "max_grad_norm": 0.0, "bf16": True, "use_cache": False, "gradient_checkpointing": True, "gradient_checkpointing_kwargs": {"use_reentrant": False}, "save_strategy": "steps", "save_steps": runtime["checkpoint_every"], "save_only_model": False, "save_total_limit": 2, "logging_strategy": "steps", "logging_steps": 1, "logging_first_step": True, "eval_strategy": "no", "report_to": "none", "disable_tqdm": True, "remove_unused_columns": False, "dataloader_num_workers": 0, "dataloader_pin_memory": False, "train_sampling_strategy": "sequential", "ignore_data_skip": False, "seed": recipe["seed"], "data_seed": recipe["seed"]}
+    # v2 recipes pre-register warmup in updates and a cosine floor; v1 recipes give a warmup ratio.
+    warmup_steps = runtime["warmup_steps"] if "warmup_steps" in runtime else int(runtime["max_steps"] * runtime["warmup_ratio"])
+    extra = {"lr_scheduler_kwargs": dict(runtime["lr_scheduler_kwargs"])} if "lr_scheduler_kwargs" in runtime else {}
+    return {**extra, "output_dir": str(output), "per_device_train_batch_size": runtime["micro_batch"], "gradient_accumulation_steps": runtime["gradient_accumulation"], "max_steps": runtime["max_steps"], "learning_rate": runtime["learning_rate"], "lr_scheduler_type": runtime["scheduler"], "warmup_steps": warmup_steps, "max_grad_norm": 0.0, "bf16": True, "use_cache": False, "gradient_checkpointing": True, "gradient_checkpointing_kwargs": {"use_reentrant": False}, "save_strategy": "steps", "save_steps": runtime["checkpoint_every"], "save_only_model": False, "save_total_limit": 2, "logging_strategy": "steps", "logging_steps": 1, "logging_first_step": True, "eval_strategy": "no", "report_to": "none", "disable_tqdm": True, "remove_unused_columns": False, "dataloader_num_workers": 0, "dataloader_pin_memory": False, "train_sampling_strategy": "sequential", "ignore_data_skip": False, "seed": recipe["seed"], "data_seed": recipe["seed"]}
 
 
 class FrozenTokenRowDataset:
@@ -158,7 +165,41 @@ def preflight_template(template_path):
     return _validated_cohort(recipe)[1]
 
 def identity(recipe):
+    if recipe.get("schema") == V2_BOUND_SCHEMA:
+        return identity_v2(recipe)
     return {"parent":{"candidate_id":recipe["parent"]["candidate_id"],"weights_sha256":recipe["parent"]["files"]["model.safetensors"]},"tokenizer":{"sha256":recipe["parent"]["files"]["tokenizer.json"],"bos":0,"eos_pad":1,"native_eog":[1,130073]},"renderer":{"id":"zeta2-prm03-v1","objective":"exact_target_body_terminal_eos_only","max_sequence_tokens":recipe["cohort"]["max_sequence_tokens"]},"data":{"cohort_id":recipe["cohort"]["id"],"rows_sha256":recipe["cohort"]["rows"]["sha256"],"draw_schedule_sha256":recipe["cohort"]["draw_schedule"]["sha256"]},"source":{"manifest_sha256":recipe["source"]["manifest_sha256"]},"policy":{"stage":"full_weight_edit_sft_eval_gate_v1","optimizer":recipe["runtime"]["optimizer"],"full_text_labels":False,"mandatory_dev_gate_steps":recipe["dev_gate"]["mandatory_steps"],"development_panel_sha256":recipe["dev_gate"]["panel"]["sha256"]},"schedule":{k:recipe["runtime"][k] for k in ("max_steps","effective_batch","micro_batch","gradient_accumulation","learning_rate","scheduler","warmup_ratio","checkpoint_every")}}
+
+def identity_v2(recipe):
+    value = {"parent": {"candidate_id": recipe["parent"]["candidate_id"], "weights_sha256": recipe["parent"]["files"]["model.safetensors"]},
+             "tokenizer": {"sha256": recipe["parent"]["files"]["tokenizer.json"], "bos": 0, "eos_pad": 1, "native_eog": [1, 130073]},
+             "renderer": {"id": "zeta2-prm03-v1", "objective": "exact_target_body_terminal_eos_only", "max_sequence_tokens": recipe["cohort"]["max_sequence_tokens"]},
+             "data": {"cohort_id": recipe["cohort"]["id"], "rows_sha256": recipe["cohort"]["rows"]["sha256"], "draw_schedule_sha256": recipe["cohort"]["draw_schedule"]["sha256"]},
+             "source": {"manifest_sha256": recipe["source"]["manifest_sha256"]},
+             "policy": {"stage": "full_weight_edit_sft_v2", "arm": recipe["arm"]["name"], "optimizer": recipe["runtime"]["optimizer"], "full_text_labels": False,
+                        "mandatory_dev_gate_steps": recipe["dev_gate"]["mandatory_steps"], "development_panel_sha256": recipe["dev_gate"]["panel"]["sha256"],
+                        "dev250_panel_sha256": recipe["dev_gate"]["panels"]["dev250"]["sha256"]},
+             "schedule": {k: recipe["runtime"][k] for k in ("max_steps", "effective_batch", "micro_batch", "gradient_accumulation", "learning_rate", "scheduler", "lr_scheduler_kwargs", "warmup_steps", "weight_decay", "checkpoint_every")}}
+    return value
+
+
+RETAIN_ALL = "retain_all"
+RETIRE_OLDER = "retain_milestones_and_latest"
+
+
+def apply_retention(recipe, archive_root):
+    """Checkpoint retention after each durable save.
+
+    The default keeps every checkpoint: rule R7 makes any deletion
+    stop-for-user. Older non-milestone saves are retired only when a recipe
+    explicitly opts in with retention.policy = "retain_milestones_and_latest".
+    """
+    policy = recipe.get("retention", {}).get("policy", RETAIN_ALL)
+    require(policy in (RETAIN_ALL, RETIRE_OLDER), "checkpoint retention policy differs")
+    if policy == RETAIN_ALL:
+        return {"policy": RETAIN_ALL, "retired": []}
+    return {"policy": RETIRE_OLDER, **retain_archives(archive_root, set(recipe["runtime"]["selected_milestones"]),
+                                                      latest=recipe["retention"]["durable_archive_latest"])}
+
 
 def retain_archives(archive_root, milestones, latest=2):
     full = Path(archive_root) / "full"; checkpoints = []
@@ -218,8 +259,10 @@ def publish_sealed_checkpoint(source, destination, sealed_manifest):
     return destination
 
 
-def run(recipe_path, resume=None):
+def run(recipe_path, resume=None, stop_after_step=None):
+    from sepalith.training.sft.night_controls import DeadlineStop, deadline_from_env, pre_update_masking_gate
     recipe = load_bound(recipe_path); recipe_hash = sha256(recipe_path)
+    night = DeadlineStop(deadline_from_env(), stop_after_step)
     from sepalith.training.eval.milestone_gate import continuation_plan
     gate_plan = continuation_plan(recipe, recipe_path, resume)
     dataset, run_preflight = _validated_cohort(recipe); runtime = recipe["runtime"]
@@ -235,6 +278,8 @@ def run(recipe_path, resume=None):
     if resume is None: initial_cursor = 0
     require(gate_plan["initial_step"] * 16 == initial_cursor, "gate plan/resume cursor differs")
     next_mandatory_stop = gate_plan["next_mandatory_stop"]
+    require(stop_after_step is None or gate_plan["initial_step"] < stop_after_step <= next_mandatory_stop, "stop-after step lies outside this segment")
+    stops = []; holder = {}
     output.mkdir(parents=True, exist_ok=True); archive.mkdir(parents=True, exist_ok=True)
     telemetry = archive / "telemetry.jsonl"; stop_path = Path(recipe["outputs"]["graceful_stop"])
 
@@ -266,7 +311,6 @@ def run(recipe_path, resume=None):
     require(not any("lora_" in n.lower() or "modules_to_save" in n.lower() for n, _ in named), "PEFT parameter entered full-weight run")
 
     expected_dispatch = json.loads(Path(recipe["optimizer_dispatch"]["path"]).read_text())
-    selected_milestones = set(runtime["selected_milestones"])
     observed_positions = []
 
     def collate(items):
@@ -282,6 +326,13 @@ def run(recipe_path, resume=None):
             repair = restore_trainer_eog_alignment(model, tokenizer, reference)
             require(repair.get("repair", {}).get("vocab_mapping_unchanged") is True, "train-begin token repair changed vocabulary")
             token_stage_audits.append(assert_runtime_tokenizer(model, tokenizer, reference, embeddings_before_trainer, "train_begin"))
+            if int(state.global_step) == 0:
+                # Pre-update masking gate (card C04): abort before update 1 unless the live first batch is target-only.
+                expected = [dataset.rows[dataset.draws[i]] for i in range(runtime["micro_batch"] * runtime["gradient_accumulation"])]
+                gate = pre_update_masking_gate(holder["trainer"], kwargs.get("train_dataloader"), expected,
+                                               accumulation=runtime["gradient_accumulation"], global_step=int(state.global_step))
+                write_json(archive / "masking-gate.json", gate)
+                append_jsonl(telemetry, {"event": "pre_update_masking_gate_pass", "rows_sha256": gate["rows_sha256"], "at": time.time()})
             return control
 
         def on_pre_optimizer_step(self, args, state, control, **kwargs):
@@ -290,7 +341,7 @@ def run(recipe_path, resume=None):
                 require(parameter.grad is not None and bool(torch.isfinite(parameter.grad).all().item()), "missing or nonfinite full-weight gradient")
                 finite += 1; nonzero += int(bool(parameter.grad.detach().abs().max().item() > 0))
             if (int(state.global_step) + 1) % runtime["telemetry_every"] == 0:
-                append_jsonl(telemetry, {"event": "pre_optimizer", "next_step": int(state.global_step) + 1, "finite_gradient_tensors": finite, "nonzero_gradient_tensors": nonzero, "allocated_bytes": int(torch.cuda.memory_allocated()), "reserved_bytes": int(torch.cuda.memory_reserved()), "at": time.time()})
+                append_jsonl(telemetry, {"event": "pre_optimizer", "next_step": int(state.global_step) + 1, "finite_gradient_tensors": finite, "nonzero_gradient_tensors": nonzero, "allocated_bytes": int(torch.cuda.memory_allocated()), "reserved_bytes": int(torch.cuda.memory_reserved()), "max_allocated_bytes": int(torch.cuda.max_memory_allocated()), "max_reserved_bytes": int(torch.cuda.max_memory_reserved()), "at": time.time()})
             return control
 
         def on_log(self, args, state, control, logs=None, **kwargs):
@@ -300,6 +351,10 @@ def run(recipe_path, resume=None):
         def on_step_end(self, args, state, control, **kwargs):
             if enforce_mandatory_gate_boundary(int(state.global_step), next_mandatory_stop, control):
                 append_jsonl(telemetry, {"event": "mandatory_dev_gate_stop_at_optimizer_boundary", "step": int(state.global_step), "at": time.time()})
+            reason = night.apply(int(state.global_step), control)
+            if reason is not None:
+                stops.append(reason)
+                append_jsonl(telemetry, {"event": f"{reason}_save_at_optimizer_boundary", "step": int(state.global_step), "deadline_epoch": night.deadline_epoch, "at": time.time()})
             if stop_path.exists():
                 request = json.loads(stop_path.read_text())
                 require(request == {"action": "save_and_stop", "bound_recipe_sha256": recipe_hash}, "graceful stop request identity differs")
@@ -318,7 +373,7 @@ def run(recipe_path, resume=None):
             if step in set(runtime["evaluation_steps"]):
                 request=build_evaluation_request(recipe,step,destination)
                 write_json(archive / "evaluations" / f"request-step-{step}.json",request)
-            retention = retain_archives(archive, selected_milestones, latest=2)
+            retention = apply_retention(recipe, archive)
             append_jsonl(telemetry, {"event": "checkpoint_durable", "step": step, "path": str(destination), "retention": retention, "at": time.time()})
             return control
 
@@ -341,7 +396,7 @@ def run(recipe_path, resume=None):
     optimizer = dict(runtime["optimizer"]); optimizer.pop("arm", None)
     optimizer_config = OptimizerConfig(arm=runtime["optimizer"]["arm"], **optimizer)
     args = TrainingArguments(**training_arguments_kwargs(recipe, output))
-    trainer = FullWeightTrainer(model=model, args=args, train_dataset=dataset, data_collator=collate, processing_class=tokenizer, callbacks=[CampaignCallback()]); trainer.full_weight_optimizer_config = optimizer_config
+    trainer = FullWeightTrainer(model=model, args=args, train_dataset=dataset, data_collator=collate, processing_class=tokenizer, callbacks=[CampaignCallback()]); trainer.full_weight_optimizer_config = optimizer_config; holder["trainer"] = trainer
     post_trainer_repair = restore_trainer_eog_alignment(model, tokenizer, reference)
     require(post_trainer_repair.get("repair", {}).get("vocab_mapping_unchanged") is True, "post-Trainer token repair changed vocabulary")
     token_stage_audits.append(assert_runtime_tokenizer(model, tokenizer, reference, embeddings_before_trainer, "post_trainer_construction"))
@@ -352,16 +407,17 @@ def run(recipe_path, resume=None):
     terminal = archive / "full" / f"checkpoint-{terminal_step}"
     require(terminal.is_dir(), "terminal durable full checkpoint missing")
     verify_checkpoint(terminal, identity(recipe), require_full=True, expected_checkpoint_kind="full_weights")
-    report = {"schema": "sepalith.sft11.full-weight-edit-sft-run.v1", "status": "awaiting_mandatory_dev_gate" if terminal_step == next_mandatory_stop else "gracefully_stopped", "global_step": terminal_step, "initial_cursor": initial_cursor, "observed_draws": len(observed_positions), "last_draw_position": observed_positions[-1] if observed_positions else None, "train_loss": float(result.training_loss), "terminal_checkpoint": str(terminal), "tokenizer_contract": terminal_tokenizer, "tokenizer_stage_audits": token_stage_audits, "in_process_preflight": run_preflight, "cohort_scope": "accepted_repaired15006_additional_roxy10017_pending", "gate_plan": gate_plan}
+    report = {"schema": "sepalith.sft11.full-weight-edit-sft-run.v1", "status": "awaiting_mandatory_dev_gate" if terminal_step == next_mandatory_stop else ("deadline_stopped" if stops else "gracefully_stopped"), "stop_reasons": stops, "global_step": terminal_step, "initial_cursor": initial_cursor, "observed_draws": len(observed_positions), "last_draw_position": observed_positions[-1] if observed_positions else None, "train_loss": float(result.training_loss), "terminal_checkpoint": str(terminal), "tokenizer_contract": terminal_tokenizer, "tokenizer_stage_audits": token_stage_audits, "in_process_preflight": run_preflight, "cohort_scope": "accepted_repaired15006_additional_roxy10017_pending", "gate_plan": gate_plan}
     write_json(archive / "run-result.json", report); print(json.dumps(report, sort_keys=True)); return report
 
 
 def main(argv: Sequence[str] | None = None):
     p = argparse.ArgumentParser(); p.add_argument("command", choices=("preflight-template", "preflight", "run")); p.add_argument("--recipe", type=Path, required=True); p.add_argument("--resume", type=Path)
-    a = p.parse_args()
+    p.add_argument("--stop-after-step", type=int, help="save full state and stop at this update (C07 smoke); the night deadline comes from SEPALITH_DEADLINE_EPOCH")
+    a = p.parse_args(argv)
     if a.command == "preflight-template": print(json.dumps(preflight_template(a.recipe), sort_keys=True)); return 0
     if a.command == "preflight": print(json.dumps(preflight(a.recipe), sort_keys=True)); return 0
-    run(a.recipe, a.resume); return 0
+    run(a.recipe, a.resume, a.stop_after_step); return 0
 
 
 if __name__ == "__main__": raise SystemExit(main())
