@@ -10,7 +10,7 @@ this file is the public-facing operating manual.
 All secrets come from the environment (never the repo). Sourcing
 convention used throughout:
 
-    eval "$(grep -E '^export (ZAI|OPENCODE|OPENROUTER|NOUS_PORTAL|NINE_ROUTER)_API_KEY=|^export (HF_TOKEN|POSTPLAN_API_KEY|NINE_ROUTER_BASE_URL)=' ~/.zshrc)"
+    eval "$(grep -E '^export (ZAI|OPENCODE|OPENROUTER|NOUS_PORTAL|NINE_ROUTER)_API_KEY=|^export (HF_TOKEN|POSTPLAN_API_KEY|NINE_ROUTER_BASE_URL)=' ~/.config/sepalith/secrets.env)"
 
 | Variable | Used by |
 |---|---|
@@ -27,6 +27,10 @@ convention used throughout:
 The codebase uses absolute paths (a deliberate ops rule — CWD drift is a
 logged scar class). The roots:
 
+- The NAS is mounted at `/mnt/nas/home`; project data lives under
+  `/mnt/nas/home/sepalith`. Older scripts and receipts spell this root
+  `/mnt/h/sepalith`, which resolves through the `/mnt/h -> /mnt/nas/home`
+  symlink (see `docs/training/plan-20260927/RECOVERY-20261011.md`).
 - `NAS=/mnt/h/sepalith/datasets` — all data stores:
   `cases_v1/` (wave families), `scenarios_v1/`, `synthetic_analyst_v1/`,
   `sft_v1..vN/` (assembled mixtures), `packages/` (CRAN shards),

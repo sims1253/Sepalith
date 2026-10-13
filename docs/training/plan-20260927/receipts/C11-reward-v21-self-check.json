@@ -1,0 +1,187 @@
+{
+  "data": {
+    "context": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v3/context-sidecar.jsonl",
+      "sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"
+    },
+    "length_policy": "current-15006-complete-4096-candidate",
+    "reward_buffer_manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-finish-source-repair-buffer-v1/materialization.json",
+      "sha256": "84f19b3011501b9614f6794dd6635b0e0aef56d8a853cb94fbbda4f8aa0467d4"
+    },
+    "rows": 15006,
+    "selected_ids": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/selected-train-ids.json",
+      "sha256": "986a1f7910c44423e50988e76abb6671dedf8cd70f5542ff9efd7a03ce504462"
+    }
+  },
+  "infrastructure_failures": {
+    "air": 0,
+    "r": 0
+  },
+  "near_miss_probe": {
+    "comparison": {
+      "None": 397,
+      "air": 511,
+      "raw_fallback_reference": 69,
+      "raw_formatting_target": 23
+    },
+    "exact": 0,
+    "family_exact": {
+      "finish_block": 0,
+      "format_propagation": 0,
+      "na_rm_propagation": 0,
+      "pipe_rewrite": 0,
+      "rename_propagation": 0,
+      "roxygen_drafting": 0
+    },
+    "family_rows": {
+      "finish_block": 529,
+      "format_propagation": 126,
+      "na_rm_propagation": 10,
+      "pipe_rewrite": 148,
+      "rename_propagation": 128,
+      "roxygen_drafting": 59
+    },
+    "flags": {
+      "formatting_only_reference": 80,
+      "reference_air_failed": 69,
+      "reference_window_does_not_parse": 69
+    },
+    "mean_reward": 0.221749,
+    "outcome": {
+      "applied_syntax_invalid": 397,
+      "near_miss": 534,
+      "wrong_parse_unverified": 69
+    },
+    "samples": 1000
+  },
+  "non_exact_count": 0,
+  "non_exact_rows": [],
+  "reference_flags": {
+    "formatting_only_reference": 981,
+    "reference_air_failed": 970,
+    "reference_window_does_not_parse": 974
+  },
+  "reindented_probe": {
+    "comparison": {
+      "air": 851,
+      "operation": 3,
+      "raw_fallback_reference": 68,
+      "raw_formatting_target": 78
+    },
+    "exact": 848,
+    "family_exact": {
+      "finish_block": 526,
+      "format_propagation": 1,
+      "na_rm_propagation": 10,
+      "pipe_rewrite": 148,
+      "rename_propagation": 128,
+      "roxygen_drafting": 35
+    },
+    "family_rows": {
+      "finish_block": 529,
+      "format_propagation": 126,
+      "na_rm_propagation": 10,
+      "pipe_rewrite": 148,
+      "rename_propagation": 128,
+      "roxygen_drafting": 59
+    },
+    "flags": {
+      "formatting_only_reference": 80,
+      "reference_air_failed": 69,
+      "reference_window_does_not_parse": 69
+    },
+    "mean_reward": 0.849592,
+    "outcome": {
+      "exact": 848,
+      "missed_edit": 3,
+      "near_miss": 81,
+      "wrong_parse_unverified": 68
+    },
+    "samples": 1000
+  },
+  "rows_scored": 15006,
+  "schema": "sepalith.c11.reward-v21-self-check.v1",
+  "scorer": {
+    "config": {
+      "max_completion_tokens": 1024,
+      "partial_credit": "gain",
+      "partial_weight": 0.5
+    },
+    "formatter": {
+      "arguments": "format --no-configuration --stdin-file-path",
+      "command": "air",
+      "version": "air 0.12.0"
+    },
+    "parser": {
+      "command": "Rscript --vanilla",
+      "generated_r_executed": false,
+      "harness_sha256": "175cd35a7a825dc0362348bf168a8406f8751ad82a8b58d975af667a48c28f6c",
+      "operation": "base::parse(file=...,keep.source=FALSE)",
+      "r_version": "R 4.6.1 (2026-06-24)",
+      "syntax_error_exit_code": 3
+    },
+    "policy": "sepalith.reward.v2.1",
+    "rewards": {
+      "cap_hit": -0.5,
+      "correct_no_edit": 1.0,
+      "exact": 1.0,
+      "false_positive_edit": -0.5,
+      "missed_edit": 0.0,
+      "protocol_invalid": -0.5,
+      "syntax_invalid": 0.0,
+      "unverified_wrong": 0.0
+    }
+  },
+  "seconds": {
+    "build_references": 83.126,
+    "load": 213.903,
+    "score_perturbed": 5.368,
+    "score_targets": 34.279
+  },
+  "seconds_per_1000": {
+    "perturbed_samples": 2.684,
+    "references": 5.54,
+    "target_samples": 2.284
+  },
+  "self_check": {
+    "comparison": {
+      "air": 11961,
+      "operation": 1094,
+      "raw_fallback_reference": 970,
+      "raw_formatting_target": 981
+    },
+    "exact": 15006,
+    "family_exact": {
+      "finish_block": 7785,
+      "format_propagation": 1615,
+      "na_rm_propagation": 136,
+      "no_op": 1094,
+      "pipe_rewrite": 1983,
+      "rename_propagation": 1578,
+      "roxygen_drafting": 815
+    },
+    "family_rows": {
+      "finish_block": 7785,
+      "format_propagation": 1615,
+      "na_rm_propagation": 136,
+      "no_op": 1094,
+      "pipe_rewrite": 1983,
+      "rename_propagation": 1578,
+      "roxygen_drafting": 815
+    },
+    "flags": {
+      "formatting_only_reference": 981,
+      "reference_air_failed": 970,
+      "reference_window_does_not_parse": 974
+    },
+    "mean_reward": 1.0,
+    "outcome": {
+      "correct_no_edit": 1094,
+      "exact": 13912
+    },
+    "samples": 15006
+  },
+  "workers": 8
+}

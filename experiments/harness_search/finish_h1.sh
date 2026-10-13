@@ -15,7 +15,7 @@ if [ ! -f "$RES/PIPELINE_DONE" ]; then
   exit 1
 fi
 
-echo "== intent leg (glm-5.3 judge; needs ZAI key from ~/.zshrc) =="
+echo "== intent leg (glm-5.3 judge; needs ZAI key from ~/.config/sepalith/secrets.env) =="
 nice -n 15 "$PY" "$RIG/verdict_battery.py" --results "$RES" \
   --ports 18310,18311 --intent-only 2>&1 | tail -8
 
