@@ -1,7 +1,7 @@
 {
   "card": "C09",
   "state": "in_progress",
-  "updated": "2026-10-16T13:30:00+02:00",
+  "updated": "2026-10-16T14:00:00+02:00",
   "branch": "plan/C09-arm-a-export",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/58",
   "outputs": {
@@ -212,6 +212,23 @@
         "user_priority": "edit quality over no-op restraint"
       },
       "outcome": "arm A final = checkpoint-536 (most exact edits, less drift from the CPT parent); 803 and 1,071 stay on disk, not published"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-16",
+      "inputs": {
+        "approved_design": "quant gate greedy on CPU",
+        "night_run": "CUDA build b10453 (--gpu-window), bf16 and every tier on the same build"
+      },
+      "outcome": "a CUDA quant gate binds when reference and tiers ran on the same build and backend (quant_gate.py already enforces this)"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-16",
+      "inputs": {
+        "source": "wiki entities/hint4.md (attention output projection was the quantization-sensitive module); imatrix research flagged attn_output at layers 39 and 41"
+      },
+      "outcome": "added tier Q4_K_M-attn-out-q8_0 (imatrix Q4_K_M, attn_output q8_0) and the contrast q4_k_m_attn_out_q8_0_vs_q4_k_m to the quant gate"
     }
   ],
   "question_for_user": null,
