@@ -1,0 +1,32 @@
+{
+  "id": "C09-arm-a-cpt-forgetting",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 31,
+  "resumable": false,
+  "estimated_minutes": 30,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c09/cpt_forgetting.py",
+    "--model",
+    "parent=/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586",
+    "--model",
+    "arm-a-536=/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "--panel",
+    "/mnt/e/sepalith/campaign-20260915/data-work/C09-cpt-validation-2k/campaign-20260915/cpt/validation/cpt_validation-2k.jsonl",
+    "--output",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/cpt-forgetting-536.json",
+    "--device",
+    "cuda",
+    "--gpu-window"
+  ],
+  "note": "C09 forgetting check: CPT 2K held-out causal loss (499 rows) for the CPT parent 11,586 (harness control, recorded 0.94197) and arm A checkpoint 536. Needs c09/cpt_forgetting.py from PR plan/C09-arm-a-export merged to main."
+}

@@ -1,8 +1,8 @@
 {
   "card": "C09",
   "state": "in_progress",
-  "updated": "2026-10-16T12:20:00+02:00",
-  "branch": null,
+  "updated": "2026-10-16T13:30:00+02:00",
+  "branch": "plan/C09-arm-a-export",
   "pull_request": null,
   "outputs": {
     "recipe": "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json (sha256 de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e)",
@@ -89,6 +89,59 @@
         "536": 1.5617,
         "803": 1.5844
       }
+    },
+    "export": {
+      "work_dir": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a",
+      "day_cpu_steps": "2026-10-16, nice 10, 8 threads, llama.cpp b10453 build-cpu; record day-run.json (export 182 s, uncalibrated Q4_K_M 73 s)",
+      "converter_check": "LlamaForCausalLM -> GGUF arch llama, 42 blocks, vocab 130,560 (130,560 tokens), BOS 0, EOS 1, pad 1, add_bos true, 381 tensors; id 130073 is '<|im_end|>' (llama.cpp treats it as end-of-generation; gguf_dev_eval also stops on ids 1 and 130073 explicitly)",
+      "ggufs": {
+        "bf16": {
+          "file": "arm-a-bf16.gguf",
+          "bytes": 5039006528,
+          "sha256": "a97ff12e8eb636ecb036dd2738bcbb820dc923678f60898452c03c3e1b43a446"
+        },
+        "Q8_0": {
+          "file": "arm-a-Q8_0.gguf",
+          "bytes": 2679710528,
+          "sha256": "44b01828b21cd6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe"
+        },
+        "Q4_K_M-uncalibrated": {
+          "file": "arm-a-uncal-Q4_K_M.gguf",
+          "bytes": 1759769408,
+          "sha256": "c5f52e79249f80074f96bf11da38c611b947b9af2efaf9d6d32e37aec1f4673b"
+        }
+      },
+      "night_job": "C09-arm-a-quant (enqueued 2026-10-16 for the night to 2026-10-17; code already on main): imatrix, Q6_K/Q5_K_M/Q4_K_M/Q4_K_M-head-q6_k/Q4_K_M+, DEV250+DEV75 on bf16 and every tier, KLD, gate-receipt.json, all on the CUDA build (--gpu-window). The approved design says 'greedy on CPU'; the receipt records the backend, so the user decides whether the CUDA gate binds.",
+      "card_check": "Q8_0 DEV75 valid/cap/edit/nofp within 2 of the bf16 GGUF: gate-receipt.json tiers[Q8_0].dev75_parity; Q4_K_M drift recorded only"
+    },
+    "cpt_forgetting": {
+      "panel": "/mnt/e/sepalith/campaign-20260915/data-work/C09-cpt-validation-2k/campaign-20260915/cpt/validation/cpt_validation-2k.jsonl (from scholzmx/sepalith, sha256 efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8, 499 rows, equals the CPT recipe's validation file)",
+      "script": "docs/training/plan-20260927/c09/cpt_forgetting.py (new in this PR, not on main yet)",
+      "job_file": "docs/training/plan-20260927/c09/jobs/C09-arm-a-cpt-forgetting.json (enqueue after merge)",
+      "output": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/cpt-forgetting-536.json",
+      "design": "evaluates the CPT parent 11,586 as a harness control (recorded 0.94197) and checkpoint 536 with the CPT trainer's package_holdout_evaluator (bf16, FP32 norms restored, bf16 autocast); reports the paired delta, rows won and a package bootstrap 95% interval",
+      "cpu_smoke": "2026-10-16, --device cpu --threads 8 --limit 2, nice 10: plumbing only, both models load (85 FP32 norms restored), 1,450 loss tokens each; parent 0.69353, 536 0.71444 on 2 rows (not meaningful); about 70 s per model on CPU",
+      "parent_value": 0.94197,
+      "result_536": null
+    },
+    "publish": {
+      "repo": "scholzmx/sepalith-2b-edit-sft (does not exist yet; the script creates it public)",
+      "folder": "arm-a/",
+      "script": "docs/training/plan-20260927/c09/publish_arm_a.py (new in this PR)",
+      "files": [
+        "config.json",
+        "generation_config.json",
+        "model.safetensors",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "chat_template.jinja",
+        "arm-a-Q8_0.gguf",
+        "arm-a-Q4_K_M.gguf (imatrix, q8_0 head and embeddings)",
+        "README.md (model card)",
+        "repo README.md"
+      ],
+      "not_uploaded": "optimizer.pt, rng_state.pth, scheduler.pt, trainer_state.json, training_args.bin, checkpoints 268/803/1071, pilot arms",
+      "uploaded": false
     }
   },
   "rule_decisions": [
@@ -162,5 +215,12 @@
     }
   ],
   "question_for_user": null,
-  "notes": "Arm A complete. The user chose checkpoint 536 as final. Remaining day work: CPT-2K forgetting check, GGUF export and quant gate, publish arm-a per R8 (536 only)."
+  "notes": "Arm A final = checkpoint 536 (user). Day work 2026-10-16: bf16/Q8_0/uncalibrated Q4_K_M GGUFs exported on CPU; C09-arm-a-quant enqueued for tonight; the CPT forgetting job and the publish script need this PR merged. Notebook latency check (optional) not run: the notebook was not reachable from this session.",
+  "next_steps": [
+    "User: merge this PR (it adds c09/cpt_forgetting.py and c09/publish_arm_a.py; the forgetting job needs them on main).",
+    "After merge: PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c09/jobs/C09-arm-a-cpt-forgetting.json",
+    "Morning after C09-arm-a-quant: read /mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt.json (tiers[Q8_0].dev75_parity must pass; record Q4_K_M dev75_parity and KLD as drift).",
+    "When both night jobs are done (one model upload per night, R8), from /home/m0hawk/sandbox/Sepalith: .venv/bin/python docs/training/plan-20260927/c09/publish_arm_a.py --preview-dir /tmp/arm-a-card (check the rendered card), then load HF_TOKEN from ~/.config/sepalith/secrets.env and run .venv/bin/python docs/training/plan-20260927/c09/publish_arm_a.py --upload --receipt docs/training/plan-20260927/receipts/C09-publish-arm-a.json. Exit 3 means stop-for-user (for example Q8_0 DEV75 parity failed).",
+    "Then record the receipt here and set state done; C12 can start once C11 has landed."
+  ]
 }
