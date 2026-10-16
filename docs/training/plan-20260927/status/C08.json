@@ -1,7 +1,7 @@
 {
   "card": "C08",
-  "state": "in_progress",
-  "updated": "2026-10-12T08:45:00+02:00",
+  "state": "done",
+  "updated": "2026-10-16T02:45:00+02:00",
   "branch": "plan/C08-r2-select",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/53",
   "outputs": {
@@ -13,7 +13,14 @@
         "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/decisions/decision-step-268-1.json (sha256 a0136c4bb206c212c350b82cf0a4d7a7c4acf9c94a63730a4c589acecdf11327)",
         "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-268",
         "checkpoint_manifest_sha256": "4c049df09ce8445a7c70f81fce4b1c4d9842cdc5db227695e683b73430f31be9",
-        "metrics": {"valid": 73, "cap": 2, "edit": 26, "nofp": 11, "score250": 110, "loss": 0.7168424129486084}
+        "metrics": {
+          "valid": 73,
+          "cap": 2,
+          "edit": 26,
+          "nofp": 11,
+          "score250": 110,
+          "loss": 0.7168424129486084
+        }
       },
       "lr3e-6": {
         "state": "gate 268 decided",
@@ -21,14 +28,28 @@
         "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr3e-6/decisions/decision-step-268-1.json (sha256 34dd0a9edfa05879d5a8e75e257316f558dce5efc19848d4aada65648ba499b7)",
         "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr3e-6/full/checkpoint-268",
         "checkpoint_manifest_sha256": "15e9a054faa1cfb3d4c8f607a31c10b5f2391294da2ef574715d49bd1b8868a4",
-        "metrics": {"valid": 74, "cap": 1, "edit": 26, "nofp": 10, "score250": 104, "loss": 0.6943989992141724}
+        "metrics": {
+          "valid": 74,
+          "cap": 1,
+          "edit": 26,
+          "nofp": 10,
+          "score250": 104,
+          "loss": 0.6943989992141724
+        }
       },
       "lr3e-5": {
-        "state": "pending: trained to 268 and saved; the gate evaluation was deferred at the deadline (exit 75) and C08-arm-lr3e-5 runs first on the night of 2026-10-13",
+        "state": "gate 268 decided (2026-10-14)",
         "recipe_sha256": "21b93f6fa1eb6f715c61a2a759c8691abe7b57e9b1f19dae7b92516528b3c133",
         "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr3e-5/full/checkpoint-268",
         "checkpoint_manifest_sha256": "7d86d6f25e0f8c44cd297a118388e9bc2553ee53f83d4e7d760c0ff0fc6d217b",
-        "metrics": null
+        "metrics": {
+          "valid": 74,
+          "cap": 1,
+          "edit": 24,
+          "nofp": 18,
+          "score250": 100,
+          "loss": 0.8009618520736694
+        }
       }
     },
     "automatic_selection": {
@@ -49,10 +70,63 @@
     }
   },
   "rule_decisions": [
-    {"rule": "R1", "arm": "lr1e-5", "step": 268, "inputs": {"valid": 73, "cap": 2, "edit": 26, "nofp": 11, "score250": 110, "loss": 0.7168424129486084, "parent_edit": 0}, "outcome": "continue"},
-    {"rule": "R1", "arm": "lr3e-6", "step": 268, "inputs": {"valid": 74, "cap": 1, "edit": 26, "nofp": 10, "score250": 104, "loss": 0.6943989992141724, "parent_edit": 0}, "outcome": "continue"},
-    {"rule": "R2", "inputs": "pending lr3e-5 gate 268", "outcome": "pending: applied automatically by C08-r2-select on the night of 2026-10-13"}
+    {
+      "rule": "R1",
+      "arm": "lr1e-5",
+      "step": 268,
+      "inputs": {
+        "valid": 73,
+        "cap": 2,
+        "edit": 26,
+        "nofp": 11,
+        "score250": 110,
+        "loss": 0.7168424129486084,
+        "parent_edit": 0
+      },
+      "outcome": "continue"
+    },
+    {
+      "rule": "R1",
+      "arm": "lr3e-6",
+      "step": 268,
+      "inputs": {
+        "valid": 74,
+        "cap": 1,
+        "edit": 26,
+        "nofp": 10,
+        "score250": 104,
+        "loss": 0.6943989992141724,
+        "parent_edit": 0
+      },
+      "outcome": "continue"
+    },
+    {
+      "rule": "R1",
+      "arm": "lr3e-5",
+      "step": 268,
+      "inputs": {
+        "valid": 74,
+        "cap": 1,
+        "edit": 24,
+        "nofp": 18,
+        "score250": 100,
+        "loss": 0.8009618520736694,
+        "parent_edit": 0
+      },
+      "outcome": "continue"
+    },
+    {
+      "rule": "R2",
+      "inputs": {
+        "lr1e-5": 110,
+        "lr3e-6": 104,
+        "lr3e-5": 100,
+        "measure": "score250; all arms pass the R1 first-gate floor"
+      },
+      "outcome": "lr1e-5 (6 above the next arm, outside the tie band of 5)",
+      "receipt": "~/.local/state/sepalith/campaign-20260915/C08-r2-selection.json"
+    }
   ],
   "question_for_user": null,
-  "notes": "R2 runs automatically after lr3e-5's deferred gate evaluation, and the winner continues as C09 arm A the same night. Watch-out: lr1e-5 has cap 2 at gate 268, and R1's later-gate cap row continues only at 0 to 1. If cap is still 2 or more at gate 536, that gate is stop-for-user and the arm pauses there."
+  "notes": "Pilot complete. R2 selected lr1e-5 on 2026-10-14 and enqueued C09-arm-a-lr1e-5, which ran the same night."
 }

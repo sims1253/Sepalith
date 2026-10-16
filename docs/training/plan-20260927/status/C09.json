@@ -1,0 +1,77 @@
+{
+  "card": "C09",
+  "state": "in_progress",
+  "updated": "2026-10-16T02:45:00+02:00",
+  "branch": null,
+  "pull_request": null,
+  "outputs": {
+    "recipe": "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json (sha256 de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e)",
+    "checkpoints": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-{268,536,803} (retain_all)",
+    "dev_reference_nll": {
+      "note": "teacher-forced target NLL from the gate results (summary.target_nll)",
+      "dev250": {
+        "parent": 0.9826,
+        "268": 0.7971,
+        "536": 0.7993,
+        "803": 0.805
+      },
+      "dev75": {
+        "parent": 1.3562,
+        "268": 1.0417,
+        "536": 1.0211,
+        "803": 1.0259
+      }
+    },
+    "train_loss_134_step_mean": {
+      "403-536": 0.355,
+      "537-670": 0.333,
+      "671-803": 0.339
+    }
+  },
+  "rule_decisions": [
+    {
+      "rule": "R1",
+      "step": 536,
+      "inputs": {
+        "valid": 74,
+        "cap": 1,
+        "edit": 27,
+        "nofp": 8,
+        "score250": 117
+      },
+      "outcome": "continue"
+    },
+    {
+      "rule": "R1",
+      "step": 803,
+      "inputs": {
+        "valid": 75,
+        "cap": 0,
+        "edit": 28,
+        "nofp": 9,
+        "score250": 109,
+        "score250_drop": 8
+      },
+      "outcome": "stop_for_user (score250 drop 8 in the 5-9 band; every other row continue)",
+      "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/decisions/decision-step-803-1.json"
+    },
+    {
+      "rule": "user decision",
+      "step": 803,
+      "at": "2026-10-16T02:20:00+02:00",
+      "inputs": {
+        "epoch_at_803": 0.75,
+        "dev250_target_nll_536_to_803": [
+          0.7993,
+          0.805
+        ],
+        "lr_at_803": 2.41e-06
+      },
+      "outcome": "human override: continue to 1,071; choose the final checkpoint among 536/803/1,071 afterwards (user confirms)",
+      "override": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/override-step-803.json",
+      "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/decisions/decision-step-803-2.json"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "Arm A ran gates 536 and 803 on 2026-10-14 and stopped for the user at 803. The jobs sat idle for two nights until the decision on 2026-10-16; attempt 2 resumed at 02:22 that night toward gate 1,071. The step-803 'loss 0.16' in the decision is a single-batch loss, not an epoch-level trend."
+}

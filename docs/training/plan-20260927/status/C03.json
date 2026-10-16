@@ -1,10 +1,14 @@
 {
   "card": "C03",
-  "state": "needs_user",
-  "updated": "2026-10-12T09:25:00+02:00",
+  "state": "in_progress",
+  "updated": "2026-10-16T02:45:00+02:00",
   "branch": "plan/C03-kaggle-inference",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/55",
-  "merges_after": ["#41 (C05)", "#45 (C04)", "#52 (C07 batched eval)"],
+  "merges_after": [
+    "#41 (C05)",
+    "#45 (C04)",
+    "#52 (C07 batched eval)"
+  ],
   "outputs": {
     "harness": {
       "entry": "scripts/kaggle/infer_entry.py",
@@ -37,7 +41,11 @@
       "gpu_hours": 0.35
     },
     "throughput_t4_fp16_batch32": {
-      "seconds_per_decode_step": {"32 rows, prompts 1,507-2,619": 0.523, "32 rows, prompts 347-1,455": 0.355, "11 rows, prompts 132-333": 0.075},
+      "seconds_per_decode_step": {
+        "32 rows, prompts 1,507-2,619": 0.523,
+        "32 rows, prompts 347-1,455": 0.355,
+        "11 rows, prompts 132-333": 0.075
+      },
       "tokens_per_second": "62 to 77 per T4, 106 per two-T4 session (parent, all rows to the cap)",
       "pc_5090_bf16_for_comparison": "0.066 to 0.104 s per step at batch 32 (night 1)",
       "census_projection": "C12 = 15,006 prompts x 8 samples = 120,048 rows = 3,752 batches of 32 rows. Static batches run until their longest row ends; gate 268 hits the cap on 8% of DEV250 rows, so nearly every 32-row batch runs to 1,024 steps. At about 0.25 s per step (TRAIN prompts are shorter than DEV75's: median 426 tokens): about 267 T4-hours, 133 session-hours with both T4s; about 67 session-hours if batches averaged 512 steps. That is 3 to 7 weeks of the R7 20 GPU-hour budget: the card's stop-for-user condition."
@@ -48,10 +56,35 @@
       "enqueue": "cd /home/m0hawk/sandbox/Sepalith && PYTHONPATH=packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file docs/training/plan-20260927/c03/jobs/C03-parity-references.json",
       "requires_in_night_checkout": "docs/training/plan-20260927/c03/{parity_references.py,train_prompts.py,jobs/C03-parity-references.json}; uses only package code already on night/c07-integration-2 (campaign_eval batched path, recipe_v2, cuda_host_guard)",
       "produces": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C03-parity-references/<attempt>/references.json; per model (parent-11586, lr1e-5-gate-268): dev75.cases/cases.json, dev75-generations.jsonl, train200-generations.jsonl; the prompts file c03-train200-seed3407.jsonl; DEV75 run-to-run identity against the night's own results",
-      "train_prompts": {"sha256": "3a99e2ad6a6b04995cd52a2614d67e13e31ba8e30eae2d2fc4a6d502ff250dc2", "quota": {"finish_block": 104, "pipe_rewrite": 26, "format_propagation": 21, "rename_propagation": 21, "no_op": 15, "roxygen_drafting": 11, "na_rm_propagation": 2}, "prompt_tokens": {"min": 126, "median": 426, "max": 2371}, "source": "DAT10-finish-source-repair-v3/train-token-rows.jsonl sha256 3f551c44..."}
+      "train_prompts": {
+        "sha256": "3a99e2ad6a6b04995cd52a2614d67e13e31ba8e30eae2d2fc4a6d502ff250dc2",
+        "quota": {
+          "finish_block": 104,
+          "pipe_rewrite": 26,
+          "format_propagation": 21,
+          "rename_propagation": 21,
+          "no_op": 15,
+          "roxygen_drafting": 11,
+          "na_rm_propagation": 2
+        },
+        "prompt_tokens": {
+          "min": 126,
+          "median": 426,
+          "max": 2371
+        },
+        "source": "DAT10-finish-source-repair-v3/train-token-rows.jsonl sha256 3f551c44..."
+      }
     },
     "comparison": "docs/training/plan-20260927/c03/compare_parity.py: exact identity, first divergence, prompt identity, DEV75 R1 counts and per-case agreement, non-finite check, batching check (different batching -> not comparable), card verdict",
-    "gpu_hours_week": {"used": 0.39, "refresh": "2026-10-17T00:00:00Z", "runs": {"smoke": 0.04, "dev75 OOM attempt": 0.14, "dev75 rerun": 0.21}},
+    "gpu_hours_week": {
+      "used": 0.39,
+      "refresh": "2026-10-17T00:00:00Z",
+      "runs": {
+        "smoke": 0.04,
+        "dev75 OOM attempt": 0.14,
+        "dev75 rerun": 0.21
+      }
+    },
     "hf_uploads": "none",
     "follow_ups": [
       "After the night job: upload c03-train200-seed3407.jsonl and the reference generations (not weights) to datasets/scholzmx/sepalith campaign-20260915/C07/parity-references/ in one commit",
@@ -61,8 +94,27 @@
     ]
   },
   "rule_decisions": [
-    {"rule": "R7", "inputs": {"kaggle_gpu_hours_used_this_week": 0.39, "limit": 20}, "outcome": "within limit"}
+    {
+      "rule": "R7",
+      "inputs": {
+        "kaggle_gpu_hours_used_this_week": 0.39,
+        "limit": 20
+      },
+      "outcome": "within limit"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-16",
+      "inputs": {
+        "census_projection_gpu_hours": [
+          67,
+          133
+        ],
+        "r7_weekly_limit": 20
+      },
+      "outcome": "C12: run one bounded Kaggle vLLM trial (at most 1 GPU-hour, census only, own fp16 parity check against the bf16 references). If it does not reach about 5x, reduce the census (for example 4 samples, cap 512). The bound-batching path stays the parity and evaluation reference."
+    }
   ],
-  "question_for_user": "With the bound-batching transformers path, Kaggle T4s generate about 106 tokens/s per two-T4 session, so the C12 census (15,006 prompts x 8 samples, cap 1,024) projects to about 67 to 133 Kaggle GPU-hours, or 3 to 7 weeks of the 20 GPU-hour R7 budget. Which way should C12 go? Recommended: allow one bounded Kaggle trial (at most 1 GPU-hour) of vLLM with CUDA graphs and continuous batching for the census only. It would get its own fp16 parity check against the same bf16 references; the bound-batching path stays the parity and evaluation reference. If vLLM cannot reach about 5x, reduce the census (for example 4 samples and cap 512). Colab free has the same T4 class and does not change the arithmetic.",
-  "notes": "Harness, smoke and parity tooling are done; the card's parity receipt waits for the night reference job. The parent pre-check (57% identity, cap +3) does not meet the card's 90%/within-1 criteria, but it measures run-on drift: the PC's own bf16 batch-1 vs batch-32 identity is 54%. The representative check is the SFT checkpoint, whose outputs are short (median 26 tokens on DEV75). Kaggle can only read it if its weights are made readable there, for example a private Kaggle dataset (the user said not to upload it anywhere today), or by running parity on the arm-A model once R8 publishes it. fp32 fallback: weights alone are 10 GB in fp32, so batch 32 with DEV75's longest prompts will not fit a T4; an fp32 run would need smaller batches and so different batching than the PC references."
+  "question_for_user": null,
+  "notes": "Harness, smoke and parity tooling are done; the card's parity receipt waits for the night reference job. The parent pre-check (57% identity, cap +3) does not meet the card's 90%/within-1 criteria, but it measures run-on drift: the PC's own bf16 batch-1 vs batch-32 identity is 54%. The representative check is the SFT checkpoint, whose outputs are short (median 26 tokens on DEV75). Kaggle can only read it if its weights are made readable there, for example a private Kaggle dataset (the user said not to upload it anywhere today), or by running parity on the arm-A model once R8 publishes it. fp32 fallback: weights alone are 10 GB in fp32, so batch 32 with DEV75's longest prompts will not fit a T4; an fp32 run would need smaller batches and so different batching than the PC references. 2026-10-16: bf16 parity references done (night job C03-parity-references, 2026-10-14). The representative SFT parity check runs on arm A once C09 publishes it (R8); the census budget question is answered above."
 }
