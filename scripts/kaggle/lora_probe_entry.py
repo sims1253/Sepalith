@@ -472,6 +472,12 @@ def main(argv=None):
     unknown = [c for ph in phases for c in ph if c.removeprefix("ddp:") not in CONFIGS]
     if unknown or any(len(ph) > 2 or (len(ph) > 1 and any(c.startswith("ddp:") for c in ph)) for ph in phases):
         raise SystemExit(f"bad --phases {args.phases!r}: unknown {unknown}, at most 2 configs per phase, ddp alone")
+    if not args.selftest_tiny:
+        # Kaggle's image ships torchao 0.10.0; peft 0.20.0's LoRA dispatcher raises ImportError for torchao < 0.16
+        # on every plain nn.Linear (probe attempt 1). The probe does not use torchao, so remove it.
+        r = subprocess.run([sys.executable, "-m", "pip", "uninstall", "-y", "torchao"], capture_output=True, text=True,
+                           timeout=300)
+        summary["torchao_uninstall"] = {"exit": r.returncode, "tail": (r.stdout or r.stderr)[-300:]}
     if any(c.removeprefix("ddp:").startswith("q4") for ph in phases for c in ph) and not args.selftest_tiny:
         r = subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "bitsandbytes==0.50.2"],
                            capture_output=True, text=True, timeout=600)
