@@ -9,6 +9,7 @@ parity check in `docs/training/plan-20260927/c03/` compares them with the PC.
 | --- | --- | --- |
 | `infer_push.py` | PC | Builds and pushes the kernel (T4 accelerator), polls it, fetches the outputs, records quota (R7), optionally uploads the outputs to HF |
 | `infer_entry.py` | Kaggle (or any CUDA host) | Downloads the model and inputs, splits the work across the GPUs, generates, merges, writes the outputs |
+| `lora_probe_push.py`, `lora_probe_entry.py` | PC, Kaggle | LoRA-SFT feasibility probe on T4s (research, not a plan card); see `docs/validation/2026-10-16-kaggle-lora-probe.md` |
 
 ## Engine
 

@@ -1,0 +1,1368 @@
+{
+ "schema": "sepalith.kaggle-lora-probe-receipt.v1",
+ "date": "2026-10-16",
+ "kernels": [
+  {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016",
+   "commit": "8a8f259fb962ffdebed268009b355ce2a6e425c8",
+   "phases": "r16+r64,r16-gc2048+q4-r16,ddp:r16",
+   "final_status": "complete",
+   "gpu_hours_used": 0.22,
+   "session_seconds": 736.3,
+   "quota_before_used": 0.39,
+   "quota_after_used": 0.61
+  },
+  {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r2",
+   "commit": "8a8a04934c34fb07e70b1b33594ed5d6986f561b",
+   "phases": "r16+r64,r16-gc2048+r16-mb4,ddp:r16",
+   "final_status": "complete",
+   "gpu_hours_used": 0.46,
+   "session_seconds": 1656.7,
+   "quota_before_used": 0.61,
+   "quota_after_used": 1.07
+  },
+  {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r3",
+   "commit": "8a8a04934c34fb07e70b1b33594ed5d6986f561b",
+   "phases": "ddp:r16-mb4",
+   "final_status": "complete",
+   "gpu_hours_used": 0.17,
+   "session_seconds": 573.3,
+   "quota_before_used": 1.07,
+   "quota_after_used": 1.24
+  }
+ ],
+ "configs": {
+  "ddp-r16@attempt1": {
+   "status": "failed",
+   "error": "ImportError: Found an incompatible version of torchao. Found version 0.10.0, but only versions above 0.16.0 are supported"
+  },
+  "q4-r16": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016",
+   "status": "complete",
+   "settings": {
+    "gc_threshold": 0,
+    "micro_batch": 1,
+    "quant": "nf4",
+    "rank": 16
+   },
+   "error": null,
+   "trainable_parameters": 25116672,
+   "static_allocated_gib": 2.043,
+   "peak_allocated_gib": 4.908,
+   "peak_reserved_gib": 5.424,
+   "rank1_peak_allocated_gib": null,
+   "measured_updates": 15,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [
+    65536.0
+   ],
+   "tokens_per_second": 428.0,
+   "bucket_mean_seconds": {
+    "1024": 19.679,
+    "2048": 57.844,
+    "512": 13.596
+   },
+   "pilot_268_hours": {
+    "bucket_mean_hours": 1.938,
+    "fit_hours": 2.301
+   },
+   "arm_1071_hours": {
+    "bucket_mean_hours": 8.427,
+    "fit_hours": 9.699
+   },
+   "per_update": [
+    {
+     "update": 246,
+     "bucket": 4096,
+     "tokens": 29512,
+     "seconds": 71.085,
+     "loss": 0.8832605410844852,
+     "grad_norm": 2.1963250637054443
+    },
+    {
+     "update": 1,
+     "bucket": 512,
+     "tokens": 5469,
+     "seconds": 13.591,
+     "loss": 1.1097098049875034,
+     "grad_norm": 0.6567707657814026
+    },
+    {
+     "update": 27,
+     "bucket": 2048,
+     "tokens": 25579,
+     "seconds": 57.035,
+     "loss": 0.8288139260333517,
+     "grad_norm": 2.213564395904541
+    },
+    {
+     "update": 54,
+     "bucket": 1024,
+     "tokens": 10704,
+     "seconds": 18.976,
+     "loss": 0.7541828510084112,
+     "grad_norm": 0.3510213792324066
+    },
+    {
+     "update": 81,
+     "bucket": 1024,
+     "tokens": 10814,
+     "seconds": 20.051,
+     "loss": 0.8725253420027476,
+     "grad_norm": 0.3157068192958832
+    },
+    {
+     "update": 108,
+     "bucket": 2048,
+     "tokens": 22615,
+     "seconds": 53.721,
+     "loss": 0.8171343652428298,
+     "grad_norm": 0.8084108829498291
+    },
+    {
+     "update": 134,
+     "bucket": 512,
+     "tokens": 5096,
+     "seconds": 13.684,
+     "loss": 1.147611905753864,
+     "grad_norm": 0.8412377238273621
+    },
+    {
+     "update": 161,
+     "bucket": 2048,
+     "tokens": 24110,
+     "seconds": 59.082,
+     "loss": 0.3447799478706561,
+     "grad_norm": 1.2640036344528198
+    },
+    {
+     "update": 188,
+     "bucket": 2048,
+     "tokens": 22553,
+     "seconds": 55.18,
+     "loss": 0.7962249603146822,
+     "grad_norm": 0.6615014672279358
+    },
+    {
+     "update": 215,
+     "bucket": 512,
+     "tokens": 4663,
+     "seconds": 13.716,
+     "loss": 0.8506949470315502,
+     "grad_norm": 1.0160020589828491
+    },
+    {
+     "update": 241,
+     "bucket": 512,
+     "tokens": 5764,
+     "seconds": 13.394,
+     "loss": 1.0516594965124226,
+     "grad_norm": 0.49341583251953125
+    },
+    {
+     "update": 268,
+     "bucket": 2048,
+     "tokens": 24394,
+     "seconds": 61.693,
+     "loss": 0.860711980088849,
+     "grad_norm": 0.7476673722267151
+    },
+    {
+     "update": 295,
+     "bucket": 1024,
+     "tokens": 9853,
+     "seconds": 19.446,
+     "loss": 0.7551613480214989,
+     "grad_norm": 0.4074159562587738
+    },
+    {
+     "update": 322,
+     "bucket": 2048,
+     "tokens": 23969,
+     "seconds": 60.351,
+     "loss": 0.1853166043292731,
+     "grad_norm": 1.1710070371627808
+    },
+    {
+     "update": 349,
+     "bucket": 1024,
+     "tokens": 9907,
+     "seconds": 20.243,
+     "loss": 0.8930650469480804,
+     "grad_norm": 0.37622103095054626
+    }
+   ]
+  },
+  "r16@attempt1": {
+   "status": "failed",
+   "error": "ImportError: Found an incompatible version of torchao. Found version 0.10.0, but only versions above 0.16.0 are supported"
+  },
+  "r16-gc2048@attempt1": {
+   "status": "failed",
+   "error": "ImportError: Found an incompatible version of torchao. Found version 0.10.0, but only versions above 0.16.0 are supported"
+  },
+  "r64@attempt1": {
+   "status": "failed",
+   "error": "ImportError: Found an incompatible version of torchao. Found version 0.10.0, but only versions above 0.16.0 are supported"
+  },
+  "ddp-r16": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r2",
+   "status": "complete",
+   "settings": {
+    "gc_threshold": 0,
+    "micro_batch": 1,
+    "quant": "none",
+    "rank": 16
+   },
+   "error": null,
+   "trainable_parameters": 25116672,
+   "static_allocated_gib": 4.781,
+   "peak_allocated_gib": 7.67,
+   "peak_reserved_gib": 8.211,
+   "rank1_peak_allocated_gib": 6.975,
+   "measured_updates": 25,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [
+    65536.0
+   ],
+   "tokens_per_second": 818.1,
+   "bucket_mean_seconds": {
+    "1024": 9.508,
+    "2048": 30.744,
+    "4096": 44.267,
+    "512": 5.725
+   },
+   "pilot_268_hours": {
+    "bucket_mean_hours": 1.172,
+    "fit_hours": 1.157
+   },
+   "arm_1071_hours": {
+    "bucket_mean_hours": 5.05,
+    "fit_hours": 4.908
+   },
+   "per_update": [
+    {
+     "update": 246,
+     "bucket": 4096,
+     "tokens": 29512,
+     "seconds": 40.027,
+     "loss": 0.8009770246652457,
+     "grad_norm": 1.5316940546035767
+    },
+    {
+     "update": 1,
+     "bucket": 512,
+     "tokens": 5469,
+     "seconds": 5.896,
+     "loss": 1.0290577044729459,
+     "grad_norm": 0.5893484354019165
+    },
+    {
+     "update": 27,
+     "bucket": 2048,
+     "tokens": 25579,
+     "seconds": 31.385,
+     "loss": 0.7770439082791346,
+     "grad_norm": 1.6582379341125488
+    },
+    {
+     "update": 54,
+     "bucket": 1024,
+     "tokens": 10704,
+     "seconds": 9.675,
+     "loss": 0.6822077839618536,
+     "grad_norm": 0.2773866355419159
+    },
+    {
+     "update": 81,
+     "bucket": 1024,
+     "tokens": 10814,
+     "seconds": 9.881,
+     "loss": 0.8089777207753015,
+     "grad_norm": 0.2518729865550995
+    },
+    {
+     "update": 108,
+     "bucket": 2048,
+     "tokens": 22615,
+     "seconds": 26.449,
+     "loss": 0.7666737033068977,
+     "grad_norm": 0.5932489633560181
+    },
+    {
+     "update": 134,
+     "bucket": 512,
+     "tokens": 5096,
+     "seconds": 5.745,
+     "loss": 1.0617799939988535,
+     "grad_norm": 0.7402384877204895
+    },
+    {
+     "update": 161,
+     "bucket": 2048,
+     "tokens": 24110,
+     "seconds": 33.782,
+     "loss": 0.28443246217150436,
+     "grad_norm": 1.2017005681991577
+    },
+    {
+     "update": 188,
+     "bucket": 2048,
+     "tokens": 22553,
+     "seconds": 28.051,
+     "loss": 0.7173144242732353,
+     "grad_norm": 0.5884903073310852
+    },
+    {
+     "update": 215,
+     "bucket": 512,
+     "tokens": 4663,
+     "seconds": 5.568,
+     "loss": 0.7487736281815108,
+     "grad_norm": 0.7974734902381897
+    },
+    {
+     "update": 241,
+     "bucket": 512,
+     "tokens": 5764,
+     "seconds": 5.603,
+     "loss": 0.9676536525964253,
+     "grad_norm": 0.4207279086112976
+    },
+    {
+     "update": 268,
+     "bucket": 2048,
+     "tokens": 24394,
+     "seconds": 32.863,
+     "loss": 0.833991363691021,
+     "grad_norm": 0.805488646030426
+    },
+    {
+     "update": 295,
+     "bucket": 1024,
+     "tokens": 9853,
+     "seconds": 9.639,
+     "loss": 0.7002868944890155,
+     "grad_norm": 0.3264187276363373
+    },
+    {
+     "update": 322,
+     "bucket": 2048,
+     "tokens": 23969,
+     "seconds": 33.997,
+     "loss": 0.12031526379287243,
+     "grad_norm": 0.878285825252533
+    },
+    {
+     "update": 349,
+     "bucket": 1024,
+     "tokens": 9907,
+     "seconds": 9.462,
+     "loss": 0.8400701906965478,
+     "grad_norm": 0.34815967082977295
+    },
+    {
+     "update": 375,
+     "bucket": 512,
+     "tokens": 4950,
+     "seconds": 5.951,
+     "loss": 0.7720904788535863,
+     "grad_norm": 0.5604569911956787
+    },
+    {
+     "update": 402,
+     "bucket": 2048,
+     "tokens": 25166,
+     "seconds": 31.114,
+     "loss": 0.3056249348622448,
+     "grad_norm": 1.0276800394058228
+    },
+    {
+     "update": 429,
+     "bucket": 512,
+     "tokens": 6002,
+     "seconds": 5.908,
+     "loss": 0.9503872177242767,
+     "grad_norm": 0.4972965121269226
+    },
+    {
+     "update": 456,
+     "bucket": 1024,
+     "tokens": 10696,
+     "seconds": 9.551,
+     "loss": 0.6954547332089204,
+     "grad_norm": 0.379594624042511
+    },
+    {
+     "update": 482,
+     "bucket": 2048,
+     "tokens": 24290,
+     "seconds": 31.319,
+     "loss": 0.16386376458220184,
+     "grad_norm": 0.6118185520172119
+    },
+    {
+     "update": 509,
+     "bucket": 1024,
+     "tokens": 9644,
+     "seconds": 8.843,
+     "loss": 0.6582404116859504,
+     "grad_norm": 0.3294924199581146
+    },
+    {
+     "update": 536,
+     "bucket": 512,
+     "tokens": 4756,
+     "seconds": 5.402,
+     "loss": 0.9430020038499481,
+     "grad_norm": 0.5177111029624939
+    },
+    {
+     "update": 563,
+     "bucket": 4096,
+     "tokens": 30101,
+     "seconds": 44.267,
+     "loss": 0.06822941663385027,
+     "grad_norm": 0.5191131234169006
+    },
+    {
+     "update": 590,
+     "bucket": 2048,
+     "tokens": 22216,
+     "seconds": 26.332,
+     "loss": 0.2742282753205899,
+     "grad_norm": 0.4441188871860504
+    },
+    {
+     "update": 616,
+     "bucket": 2048,
+     "tokens": 23867,
+     "seconds": 32.147,
+     "loss": 0.038996022881037005,
+     "grad_norm": 0.3021394610404968
+    }
+   ]
+  },
+  "r16": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r2",
+   "status": "complete",
+   "settings": {
+    "gc_threshold": 0,
+    "micro_batch": 1,
+    "quant": "none",
+    "rank": 16
+   },
+   "error": null,
+   "trainable_parameters": 25116672,
+   "static_allocated_gib": 4.781,
+   "peak_allocated_gib": 7.67,
+   "peak_reserved_gib": 8.211,
+   "rank1_peak_allocated_gib": null,
+   "measured_updates": 14,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [
+    65536.0
+   ],
+   "tokens_per_second": 457.4,
+   "bucket_mean_seconds": {
+    "1024": 18.223,
+    "2048": 54.835,
+    "512": 10.975
+   },
+   "pilot_268_hours": {
+    "bucket_mean_hours": 1.768,
+    "fit_hours": 2.106
+   },
+   "arm_1071_hours": {
+    "bucket_mean_hours": 7.747,
+    "fit_hours": 8.921
+   },
+   "per_update": [
+    {
+     "update": 246,
+     "bucket": 4096,
+     "tokens": 29512,
+     "seconds": 71.067,
+     "loss": 0.8009770246652457,
+     "grad_norm": 1.5316940546035767
+    },
+    {
+     "update": 1,
+     "bucket": 512,
+     "tokens": 5469,
+     "seconds": 11.212,
+     "loss": 1.0290577044729459,
+     "grad_norm": 0.5893484354019165
+    },
+    {
+     "update": 27,
+     "bucket": 2048,
+     "tokens": 25579,
+     "seconds": 56.423,
+     "loss": 0.7770439082791346,
+     "grad_norm": 1.6582379341125488
+    },
+    {
+     "update": 54,
+     "bucket": 1024,
+     "tokens": 10704,
+     "seconds": 18.052,
+     "loss": 0.6822077839618536,
+     "grad_norm": 0.2773866355419159
+    },
+    {
+     "update": 81,
+     "bucket": 1024,
+     "tokens": 10814,
+     "seconds": 19.1,
+     "loss": 0.8089777207753015,
+     "grad_norm": 0.2518729865550995
+    },
+    {
+     "update": 108,
+     "bucket": 2048,
+     "tokens": 22615,
+     "seconds": 50.591,
+     "loss": 0.7666801022350945,
+     "grad_norm": 0.5932777523994446
+    },
+    {
+     "update": 134,
+     "bucket": 512,
+     "tokens": 5096,
+     "seconds": 10.921,
+     "loss": 1.061579215375683,
+     "grad_norm": 0.7405198216438293
+    },
+    {
+     "update": 161,
+     "bucket": 2048,
+     "tokens": 24110,
+     "seconds": 55.946,
+     "loss": 0.2844800141296889,
+     "grad_norm": 1.203008770942688
+    },
+    {
+     "update": 188,
+     "bucket": 2048,
+     "tokens": 22553,
+     "seconds": 51.164,
+     "loss": 0.7176081351205414,
+     "grad_norm": 0.5889739394187927
+    },
+    {
+     "update": 215,
+     "bucket": 512,
+     "tokens": 4663,
+     "seconds": 10.604,
+     "loss": 0.7487759423422646,
+     "grad_norm": 0.7977023124694824
+    },
+    {
+     "update": 241,
+     "bucket": 512,
+     "tokens": 5764,
+     "seconds": 11.163,
+     "loss": 0.9676562689138958,
+     "grad_norm": 0.42026689648628235
+    },
+    {
+     "update": 268,
+     "bucket": 2048,
+     "tokens": 24394,
+     "seconds": 58.125,
+     "loss": 0.8338940714564279,
+     "grad_norm": 0.8049432039260864
+    },
+    {
+     "update": 295,
+     "bucket": 1024,
+     "tokens": 9853,
+     "seconds": 17.518,
+     "loss": 0.7003460623363941,
+     "grad_norm": 0.32677406072616577
+    },
+    {
+     "update": 322,
+     "bucket": 2048,
+     "tokens": 23969,
+     "seconds": 56.76,
+     "loss": 0.12014902911614626,
+     "grad_norm": 0.8762782216072083
+    }
+   ]
+  },
+  "r16-gc2048": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r2",
+   "status": "failed",
+   "settings": {
+    "gc_threshold": 2048,
+    "micro_batch": 1,
+    "quant": "none",
+    "rank": 16
+   },
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 256.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 194.81 MiB is free. Process 36 has 104.00 MiB memory in use. Including non-PyTorch ",
+   "trainable_parameters": 25116672,
+   "static_allocated_gib": 4.781,
+   "peak_allocated_gib": 13.859,
+   "peak_reserved_gib": null,
+   "rank1_peak_allocated_gib": null,
+   "measured_updates": 0,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [],
+   "tokens_per_second": null,
+   "bucket_mean_seconds": null,
+   "pilot_268_hours": null,
+   "arm_1071_hours": null,
+   "per_update": []
+  },
+  "r16-mb4": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r2",
+   "status": "complete",
+   "settings": {
+    "gc_threshold": 0,
+    "micro_batch": 4,
+    "quant": "none",
+    "rank": 16
+   },
+   "error": null,
+   "trainable_parameters": 25116672,
+   "static_allocated_gib": 4.781,
+   "peak_allocated_gib": 8.742,
+   "peak_reserved_gib": 9.135,
+   "rank1_peak_allocated_gib": null,
+   "measured_updates": 20,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [
+    65536.0
+   ],
+   "tokens_per_second": 639.5,
+   "bucket_mean_seconds": {
+    "1024": 14.712,
+    "2048": 39.618,
+    "512": 7.006
+   },
+   "pilot_268_hours": {
+    "bucket_mean_hours": 1.266,
+    "fit_hours": 1.483
+   },
+   "arm_1071_hours": {
+    "bucket_mean_hours": 5.581,
+    "fit_hours": 6.311
+   },
+   "per_update": [
+    {
+     "update": 246,
+     "bucket": 4096,
+     "tokens": 29512,
+     "seconds": 59.707,
+     "loss": 0.8011269202599158,
+     "grad_norm": 1.530770182609558
+    },
+    {
+     "update": 1,
+     "bucket": 512,
+     "tokens": 5469,
+     "seconds": 7.309,
+     "loss": 1.028984054306806,
+     "grad_norm": 0.5888218283653259
+    },
+    {
+     "update": 27,
+     "bucket": 2048,
+     "tokens": 25579,
+     "seconds": 40.256,
+     "loss": 0.7774183142999684,
+     "grad_norm": 1.6591901779174805
+    },
+    {
+     "update": 54,
+     "bucket": 1024,
+     "tokens": 10704,
+     "seconds": 15.175,
+     "loss": 0.6823007065293066,
+     "grad_norm": 0.28379759192466736
+    },
+    {
+     "update": 81,
+     "bucket": 1024,
+     "tokens": 10814,
+     "seconds": 15.129,
+     "loss": 0.8088869609530009,
+     "grad_norm": 0.25079116225242615
+    },
+    {
+     "update": 108,
+     "bucket": 2048,
+     "tokens": 22615,
+     "seconds": 36.661,
+     "loss": 0.7668183359432975,
+     "grad_norm": 0.592419445514679
+    },
+    {
+     "update": 134,
+     "bucket": 512,
+     "tokens": 5096,
+     "seconds": 6.895,
+     "loss": 1.061357111870488,
+     "grad_norm": 0.7370209097862244
+    },
+    {
+     "update": 161,
+     "bucket": 2048,
+     "tokens": 24110,
+     "seconds": 40.478,
+     "loss": 0.28447651863098145,
+     "grad_norm": 1.199239730834961
+    },
+    {
+     "update": 188,
+     "bucket": 2048,
+     "tokens": 22553,
+     "seconds": 37.506,
+     "loss": 0.7174908507104013,
+     "grad_norm": 0.5886900424957275
+    },
+    {
+     "update": 215,
+     "bucket": 512,
+     "tokens": 4663,
+     "seconds": 6.037,
+     "loss": 0.7490678444886819,
+     "grad_norm": 0.7976993918418884
+    },
+    {
+     "update": 241,
+     "bucket": 512,
+     "tokens": 5764,
+     "seconds": 7.645,
+     "loss": 0.9674822747344661,
+     "grad_norm": 0.42413195967674255
+    },
+    {
+     "update": 268,
+     "bucket": 2048,
+     "tokens": 24394,
+     "seconds": 41.275,
+     "loss": 0.834177915923692,
+     "grad_norm": 0.8048224449157715
+    },
+    {
+     "update": 295,
+     "bucket": 1024,
+     "tokens": 9853,
+     "seconds": 13.639,
+     "loss": 0.7002057158276291,
+     "grad_norm": 0.3290477395057678
+    },
+    {
+     "update": 322,
+     "bucket": 2048,
+     "tokens": 23969,
+     "seconds": 40.317,
+     "loss": 0.12058983445167541,
+     "grad_norm": 0.8793966174125671
+    },
+    {
+     "update": 349,
+     "bucket": 1024,
+     "tokens": 9907,
+     "seconds": 14.725,
+     "loss": 0.8399810611236078,
+     "grad_norm": 0.3491974174976349
+    },
+    {
+     "update": 375,
+     "bucket": 512,
+     "tokens": 4950,
+     "seconds": 6.265,
+     "loss": 0.7721038793385907,
+     "grad_norm": 0.5590319037437439
+    },
+    {
+     "update": 402,
+     "bucket": 2048,
+     "tokens": 25166,
+     "seconds": 39.968,
+     "loss": 0.3062457832686021,
+     "grad_norm": 1.0379092693328857
+    },
+    {
+     "update": 429,
+     "bucket": 512,
+     "tokens": 6002,
+     "seconds": 7.888,
+     "loss": 0.9502347757668551,
+     "grad_norm": 0.4968116283416748
+    },
+    {
+     "update": 456,
+     "bucket": 1024,
+     "tokens": 10696,
+     "seconds": 14.892,
+     "loss": 0.6955357225270262,
+     "grad_norm": 0.3631008267402649
+    },
+    {
+     "update": 482,
+     "bucket": 2048,
+     "tokens": 24290,
+     "seconds": 40.484,
+     "loss": 0.163884217441082,
+     "grad_norm": 0.6088368892669678
+    }
+   ]
+  },
+  "r64": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r2",
+   "status": "complete",
+   "settings": {
+    "gc_threshold": 0,
+    "micro_batch": 1,
+    "quant": "none",
+    "rank": 64
+   },
+   "error": null,
+   "trainable_parameters": 100466688,
+   "static_allocated_gib": 5.062,
+   "peak_allocated_gib": 7.958,
+   "peak_reserved_gib": 8.939,
+   "rank1_peak_allocated_gib": null,
+   "measured_updates": 14,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [
+    65536.0
+   ],
+   "tokens_per_second": 432.2,
+   "bucket_mean_seconds": {
+    "1024": 19.181,
+    "2048": 58.421,
+    "512": 11.127
+   },
+   "pilot_268_hours": {
+    "bucket_mean_hours": 1.859,
+    "fit_hours": 2.222
+   },
+   "arm_1071_hours": {
+    "bucket_mean_hours": 8.164,
+    "fit_hours": 9.422
+   },
+   "per_update": [
+    {
+     "update": 246,
+     "bucket": 4096,
+     "tokens": 29512,
+     "seconds": 76.798,
+     "loss": 0.8009770246652457,
+     "grad_norm": 3.137299060821533
+    },
+    {
+     "update": 1,
+     "bucket": 512,
+     "tokens": 5469,
+     "seconds": 11.778,
+     "loss": 1.0168079634844247,
+     "grad_norm": 1.2289862632751465
+    },
+    {
+     "update": 27,
+     "bucket": 2048,
+     "tokens": 25579,
+     "seconds": 63.469,
+     "loss": 0.5206011422672627,
+     "grad_norm": 2.0003464221954346
+    },
+    {
+     "update": 54,
+     "bucket": 1024,
+     "tokens": 10704,
+     "seconds": 19.453,
+     "loss": 0.6430439856738686,
+     "grad_norm": 0.4901966452598572
+    },
+    {
+     "update": 81,
+     "bucket": 1024,
+     "tokens": 10814,
+     "seconds": 19.729,
+     "loss": 0.7671764173961821,
+     "grad_norm": 0.437709242105484
+    },
+    {
+     "update": 108,
+     "bucket": 2048,
+     "tokens": 22615,
+     "seconds": 53.535,
+     "loss": 0.6248058619316775,
+     "grad_norm": 0.714180588722229
+    },
+    {
+     "update": 134,
+     "bucket": 512,
+     "tokens": 5096,
+     "seconds": 10.767,
+     "loss": 0.9313892116023519,
+     "grad_norm": 1.0553617477416992
+    },
+    {
+     "update": 161,
+     "bucket": 2048,
+     "tokens": 24110,
+     "seconds": 58.487,
+     "loss": 0.13823701152087828,
+     "grad_norm": 1.5775318145751953
+    },
+    {
+     "update": 188,
+     "bucket": 2048,
+     "tokens": 22553,
+     "seconds": 54.305,
+     "loss": 0.6301250045790392,
+     "grad_norm": 0.8184599280357361
+    },
+    {
+     "update": 215,
+     "bucket": 512,
+     "tokens": 4663,
+     "seconds": 10.707,
+     "loss": 0.6686203313040566,
+     "grad_norm": 1.1457425355911255
+    },
+    {
+     "update": 241,
+     "bucket": 512,
+     "tokens": 5764,
+     "seconds": 11.254,
+     "loss": 0.952475416997323,
+     "grad_norm": 0.5801295638084412
+    },
+    {
+     "update": 268,
+     "bucket": 2048,
+     "tokens": 24394,
+     "seconds": 61.262,
+     "loss": 0.771955479772013,
+     "grad_norm": 0.9273115992546082
+    },
+    {
+     "update": 295,
+     "bucket": 1024,
+     "tokens": 9853,
+     "seconds": 18.361,
+     "loss": 0.6812174928632367,
+     "grad_norm": 0.45616164803504944
+    },
+    {
+     "update": 322,
+     "bucket": 2048,
+     "tokens": 23969,
+     "seconds": 59.469,
+     "loss": 0.05797727258177474,
+     "grad_norm": 0.6151250004768372
+    }
+   ]
+  },
+  "ddp-r16-mb4": {
+   "kernel": "m0hawk/sepalith-lora-probe-20261016-r3",
+   "status": "complete",
+   "settings": {
+    "gc_threshold": 0,
+    "micro_batch": 4,
+    "quant": "none",
+    "rank": 16
+   },
+   "error": null,
+   "trainable_parameters": 25116672,
+   "static_allocated_gib": 4.781,
+   "peak_allocated_gib": 8.742,
+   "peak_reserved_gib": 9.133,
+   "rank1_peak_allocated_gib": 8.304,
+   "measured_updates": 40,
+   "skipped_updates": 0,
+   "nonfinite_micro_losses": 0,
+   "grad_scale_values": [
+    65536.0
+   ],
+   "tokens_per_second": 1174.4,
+   "bucket_mean_seconds": {
+    "1024": 7.668,
+    "2048": 20.876,
+    "4096": 29.035,
+    "512": 3.743
+   },
+   "pilot_268_hours": {
+    "bucket_mean_hours": 0.804,
+    "fit_hours": 0.811
+   },
+   "arm_1071_hours": {
+    "bucket_mean_hours": 3.475,
+    "fit_hours": 3.452
+   },
+   "per_update": [
+    {
+     "update": 246,
+     "bucket": 4096,
+     "tokens": 29512,
+     "seconds": 30.085,
+     "loss": 0.8012386811085236,
+     "grad_norm": 1.5305073261260986
+    },
+    {
+     "update": 1,
+     "bucket": 512,
+     "tokens": 5469,
+     "seconds": 3.599,
+     "loss": 1.0290665862519863,
+     "grad_norm": 0.5891128778457642
+    },
+    {
+     "update": 27,
+     "bucket": 2048,
+     "tokens": 25579,
+     "seconds": 21.121,
+     "loss": 0.7773898343862213,
+     "grad_norm": 1.659694790840149
+    },
+    {
+     "update": 54,
+     "bucket": 1024,
+     "tokens": 10704,
+     "seconds": 7.518,
+     "loss": 0.6823664906839156,
+     "grad_norm": 0.27840518951416016
+    },
+    {
+     "update": 81,
+     "bucket": 1024,
+     "tokens": 10814,
+     "seconds": 7.51,
+     "loss": 0.8090043519035218,
+     "grad_norm": 0.2519490420818329
+    },
+    {
+     "update": 108,
+     "bucket": 2048,
+     "tokens": 22615,
+     "seconds": 19.458,
+     "loss": 0.7665634457228366,
+     "grad_norm": 0.5929657220840454
+    },
+    {
+     "update": 134,
+     "bucket": 512,
+     "tokens": 5096,
+     "seconds": 3.658,
+     "loss": 1.0615984759753263,
+     "grad_norm": 0.7387240529060364
+    },
+    {
+     "update": 161,
+     "bucket": 2048,
+     "tokens": 24110,
+     "seconds": 23.278,
+     "loss": 0.2847533853430497,
+     "grad_norm": 1.20004403591156
+    },
+    {
+     "update": 188,
+     "bucket": 2048,
+     "tokens": 22553,
+     "seconds": 18.28,
+     "loss": 0.7176070119820389,
+     "grad_norm": 0.5893003344535828
+    },
+    {
+     "update": 215,
+     "bucket": 512,
+     "tokens": 4663,
+     "seconds": 3.357,
+     "loss": 0.7490219614166758,
+     "grad_norm": 0.7986783981323242
+    },
+    {
+     "update": 241,
+     "bucket": 512,
+     "tokens": 5764,
+     "seconds": 3.888,
+     "loss": 0.9674045618842629,
+     "grad_norm": 0.4275263547897339
+    },
+    {
+     "update": 268,
+     "bucket": 2048,
+     "tokens": 24394,
+     "seconds": 23.071,
+     "loss": 0.8341633018303511,
+     "grad_norm": 0.8053561449050903
+    },
+    {
+     "update": 295,
+     "bucket": 1024,
+     "tokens": 9853,
+     "seconds": 7.242,
+     "loss": 0.7002425858419697,
+     "grad_norm": 0.326732337474823
+    },
+    {
+     "update": 322,
+     "bucket": 2048,
+     "tokens": 23969,
+     "seconds": 22.227,
+     "loss": 0.12007093206048011,
+     "grad_norm": 0.8743150234222412
+    },
+    {
+     "update": 349,
+     "bucket": 1024,
+     "tokens": 9907,
+     "seconds": 7.775,
+     "loss": 0.8401505797530836,
+     "grad_norm": 0.34668245911598206
+    },
+    {
+     "update": 375,
+     "bucket": 512,
+     "tokens": 4950,
+     "seconds": 3.52,
+     "loss": 0.7722154732811861,
+     "grad_norm": 0.560289740562439
+    },
+    {
+     "update": 402,
+     "bucket": 2048,
+     "tokens": 25166,
+     "seconds": 21.586,
+     "loss": 0.30555555441308857,
+     "grad_norm": 1.0208513736724854
+    },
+    {
+     "update": 429,
+     "bucket": 512,
+     "tokens": 6002,
+     "seconds": 4.261,
+     "loss": 0.9502544903608755,
+     "grad_norm": 0.49744027853012085
+    },
+    {
+     "update": 456,
+     "bucket": 1024,
+     "tokens": 10696,
+     "seconds": 7.784,
+     "loss": 0.6955100912227522,
+     "grad_norm": 0.36453601717948914
+    },
+    {
+     "update": 482,
+     "bucket": 2048,
+     "tokens": 24290,
+     "seconds": 22.256,
+     "loss": 0.16381312429904937,
+     "grad_norm": 0.6119247078895569
+    },
+    {
+     "update": 509,
+     "bucket": 1024,
+     "tokens": 9644,
+     "seconds": 7.362,
+     "loss": 0.6581129994169402,
+     "grad_norm": 0.33160650730133057
+    },
+    {
+     "update": 536,
+     "bucket": 512,
+     "tokens": 4756,
+     "seconds": 3.638,
+     "loss": 0.9431334632694921,
+     "grad_norm": 0.5181847214698792
+    },
+    {
+     "update": 563,
+     "bucket": 4096,
+     "tokens": 30101,
+     "seconds": 30.459,
+     "loss": 0.06786536070620994,
+     "grad_norm": 0.5142800807952881
+    },
+    {
+     "update": 590,
+     "bucket": 2048,
+     "tokens": 22216,
+     "seconds": 19.389,
+     "loss": 0.2739843134635766,
+     "grad_norm": 0.4464343190193176
+    },
+    {
+     "update": 616,
+     "bucket": 2048,
+     "tokens": 23867,
+     "seconds": 22.258,
+     "loss": 0.03879517284830056,
+     "grad_norm": 0.2979515790939331
+    },
+    {
+     "update": 643,
+     "bucket": 512,
+     "tokens": 5170,
+     "seconds": 3.835,
+     "loss": 0.9060674031575521,
+     "grad_norm": 0.4429861307144165
+    },
+    {
+     "update": 670,
+     "bucket": 512,
+     "tokens": 5434,
+     "seconds": 3.695,
+     "loss": 0.7884842806682619,
+     "grad_norm": 0.6023156046867371
+    },
+    {
+     "update": 697,
+     "bucket": 4096,
+     "tokens": 28732,
+     "seconds": 27.612,
+     "loss": 0.027133083343505858,
+     "grad_norm": 0.2733401954174042
+    },
+    {
+     "update": 723,
+     "bucket": 1024,
+     "tokens": 9743,
+     "seconds": 7.517,
+     "loss": 0.593771646646227,
+     "grad_norm": 0.38447803258895874
+    },
+    {
+     "update": 750,
+     "bucket": 1024,
+     "tokens": 11036,
+     "seconds": 8.502,
+     "loss": 0.6038881744829416,
+     "grad_norm": 0.2882740795612335
+    },
+    {
+     "update": 777,
+     "bucket": 512,
+     "tokens": 5829,
+     "seconds": 4.006,
+     "loss": 1.2070981039236814,
+     "grad_norm": 0.49198365211486816
+    },
+    {
+     "update": 804,
+     "bucket": 1024,
+     "tokens": 10746,
+     "seconds": 7.805,
+     "loss": 0.5175018691583605,
+     "grad_norm": 0.26438480615615845
+    },
+    {
+     "update": 831,
+     "bucket": 2048,
+     "tokens": 22099,
+     "seconds": 21.712,
+     "loss": 0.4076066412436912,
+     "grad_norm": 0.49436166882514954
+    },
+    {
+     "update": 857,
+     "bucket": 512,
+     "tokens": 5068,
+     "seconds": 3.394,
+     "loss": 0.6824063421755421,
+     "grad_norm": 0.5369299054145813
+    },
+    {
+     "update": 884,
+     "bucket": 512,
+     "tokens": 5049,
+     "seconds": 3.327,
+     "loss": 0.7413004540937124,
+     "grad_norm": 0.4435238540172577
+    },
+    {
+     "update": 911,
+     "bucket": 512,
+     "tokens": 5571,
+     "seconds": 3.908,
+     "loss": 0.7566294596176739,
+     "grad_norm": 0.6203518509864807
+    },
+    {
+     "update": 938,
+     "bucket": 512,
+     "tokens": 4930,
+     "seconds": 3.442,
+     "loss": 0.7048782904942831,
+     "grad_norm": 0.6041915416717529
+    },
+    {
+     "update": 964,
+     "bucket": 2048,
+     "tokens": 20366,
+     "seconds": 18.932,
+     "loss": 0.455105834112966,
+     "grad_norm": 0.6523625254631042
+    },
+    {
+     "update": 991,
+     "bucket": 2048,
+     "tokens": 20859,
+     "seconds": 17.815,
+     "loss": 0.505214148279013,
+     "grad_norm": 0.7192734479904175
+    },
+    {
+     "update": 1018,
+     "bucket": 512,
+     "tokens": 6085,
+     "seconds": 4.618,
+     "loss": 0.7627530379418316,
+     "grad_norm": 0.3910192549228668
+    }
+   ]
+  }
+ },
+ "environment": {
+  "accelerate": "1.14.0",
+  "bf16_supported": true,
+  "bitsandbytes": "0.50.2",
+  "capability": [
+   7,
+   5
+  ],
+  "cpus": 4,
+  "cuda": "12.8",
+  "gpus": [
+   "Tesla T4",
+   "Tesla T4"
+  ],
+  "host_mem_gib": 31.3,
+  "peft": "0.20.0",
+  "python": "3.13.15",
+  "torch": "2.11.0+cu128",
+  "transformers": "5.5.0"
+ },
+ "inputs": {
+  "model": "hf:scholzmx/sepalith-2b-cpt/checkpoint-11586",
+  "model_sha256": "4bf617f9ea66a31e547397b93f0998372686e076d03ba22961780abd285a3c51",
+  "rows": "hf-dataset:scholzmx/sepalith/campaign-20260915/sft/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+  "rows_sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef",
+  "sampled_bucket_counts": {
+   "1024": 9,
+   "2048": 13,
+   "4096": 3,
+   "512": 15
+  },
+  "schedule": "hf-dataset:scholzmx/sepalith/campaign-20260915/sft/DAT10-finish-source-repair-v4-braceindent/schedule-v2/draw-schedule-v2.json",
+  "schedule_sha256": "6820a84738ba2131911146f1541aaa525b41b08300b924261a287f6a404cc7bc"
+ },
+ "gpu_hours_total": 0.85
+}
