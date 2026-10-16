@@ -135,6 +135,7 @@ def main(argv=None) -> int:
                   "dev75_parity": "card C09: Q8_0 DEV75 valid/cap/edit/nofp within 2 of bf16; recorded for other tiers"},
         "tiers": rows,
         "contrasts": {"q4_k_m_plus_vs_q4_k_m": contrast("Q4_K_M+", "Q4_K_M"),
+                      "q4_k_m_attn_out_q8_0_vs_q4_k_m": contrast("Q4_K_M-attn-out-q8_0", "Q4_K_M"),
                       "q4_k_m_head_q6_k_vs_q8_0": contrast("Q4_K_M-head-q6_k", "Q4_K_M"),
                       "q4_k_m_imatrix_vs_uncalibrated": contrast("Q4_K_M", "Q4_K_M-uncalibrated")},
         "smallest_shippable": shippable[0]["label"] if shippable else None,

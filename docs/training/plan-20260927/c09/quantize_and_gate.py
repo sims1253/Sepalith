@@ -21,6 +21,7 @@ Steps (each skips work whose output already exists, so a stopped run resumes):
    | Q4_K_M-head-q6_k | Q4_K_M | yes | q6_k | (head A/B) |
    | Q4_K_M-uncalibrated | Q4_K_M | no | q8_0 | (control) |
    | Q4_K_M+ | Q4_K_M | yes | q8_0 | attn_k, attn_v q8_0; ffn_down of layers 0, 1, L-2, L-1 q6_k |
+   | Q4_K_M-attn-out-q8_0 | Q4_K_M | yes | q8_0 | attn_output q8_0 (HINT4: the sensitive module) |
 
 4. ``gguf_dev_eval.py`` on DEV250 (the gate panel) and DEV75 for bf16 and
    every tier: CPU build at ``nice -n 10`` by default, the CUDA build only
@@ -62,9 +63,11 @@ HERE = Path(__file__).resolve().parent
 EXPORT = REPO / "experiments" / "training" / "export_gguf.py"
 CALIBRATION_DIR = Path("/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1")
 EMBEDDING = "q8_0"
-VARIANT_LABELS = ("Q8_0", "Q6_K", "Q5_K_M", "Q4_K_M", "Q4_K_M-head-q6_k", "Q4_K_M-uncalibrated", "Q4_K_M+")
+VARIANT_LABELS = ("Q8_0", "Q6_K", "Q5_K_M", "Q4_K_M", "Q4_K_M-head-q6_k", "Q4_K_M-uncalibrated", "Q4_K_M+",
+                  "Q4_K_M-attn-out-q8_0")
 QUANT_TYPE = {"Q8_0": "Q8_0", "Q6_K": "Q6_K", "Q5_K_M": "Q5_K_M", "Q4_K_M": "Q4_K_M",
-              "Q4_K_M-head-q6_k": "Q4_K_M", "Q4_K_M-uncalibrated": "Q4_K_M", "Q4_K_M+": "Q4_K_M"}
+              "Q4_K_M-head-q6_k": "Q4_K_M", "Q4_K_M-uncalibrated": "Q4_K_M", "Q4_K_M+": "Q4_K_M",
+              "Q4_K_M-attn-out-q8_0": "Q4_K_M"}
 
 IMATRIX_CHECK = r"""
 import json, sys
@@ -93,6 +96,8 @@ def variant_specs(n_layers: int) -> dict[str, dict]:
         "Q4_K_M-uncalibrated": {"stem": "uncal", "tier": "Q4_K_M", "imatrix": False, "output": "q8_0", "tensor_types": []},
         "Q4_K_M+": {"stem": "q4plus", "tier": "Q4_K_M", "imatrix": True, "output": "q8_0",
                     "tensor_types": [r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0", edge_down]},
+        "Q4_K_M-attn-out-q8_0": {"stem": "attn-out-q8_0", "tier": "Q4_K_M", "imatrix": True, "output": "q8_0",
+                                 "tensor_types": [r"attn_output\.weight=q8_0"]},
     }
 
 
