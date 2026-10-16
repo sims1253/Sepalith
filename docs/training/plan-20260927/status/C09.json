@@ -1,7 +1,7 @@
 {
   "card": "C09",
   "state": "in_progress",
-  "updated": "2026-10-16T02:45:00+02:00",
+  "updated": "2026-10-16T12:20:00+02:00",
   "branch": null,
   "pull_request": null,
   "outputs": {
@@ -13,19 +13,82 @@
         "parent": 0.9826,
         "268": 0.7971,
         "536": 0.7993,
-        "803": 0.805
+        "803": 0.805,
+        "1071": 0.8082
       },
       "dev75": {
         "parent": 1.3562,
         "268": 1.0417,
         "536": 1.0211,
-        "803": 1.0259
+        "803": 1.0259,
+        "1071": 1.0308
       }
     },
     "train_loss_134_step_mean": {
       "403-536": 0.355,
       "537-670": 0.333,
       "671-803": 0.339
+    },
+    "final_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "gate_table": {
+      "score250": {
+        "268": 110,
+        "536": 117,
+        "803": 109,
+        "1071": 105
+      },
+      "dev250_edit_exact_of_200": {
+        "268": 76,
+        "536": 79,
+        "803": 76,
+        "1071": 76
+      },
+      "dev250_noop_correct_of_50": {
+        "268": 34,
+        "536": 38,
+        "803": 33,
+        "1071": 29
+      },
+      "dev75_edit_exact_of_43": {
+        "268": 26,
+        "536": 27,
+        "803": 28,
+        "1071": 28
+      },
+      "dev75_valid_cap_nofp": {
+        "268": [
+          73,
+          2,
+          11
+        ],
+        "536": [
+          74,
+          1,
+          8
+        ],
+        "803": [
+          75,
+          0,
+          9
+        ],
+        "1071": [
+          74,
+          1,
+          9
+        ]
+      },
+      "dev250_edit_case_target_nll": {
+        "268": 0.7887,
+        "536": 0.7971,
+        "803": 0.8032,
+        "1071": 0.805
+      },
+      "dev250_prompt_nll": {
+        "parent": 1.3961,
+        "268": 1.5226,
+        "536": 1.5617,
+        "803": 1.5844
+      }
     }
   },
   "rule_decisions": [
@@ -70,8 +133,34 @@
       "outcome": "human override: continue to 1,071; choose the final checkpoint among 536/803/1,071 afterwards (user confirms)",
       "override": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/override-step-803.json",
       "decision": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/decisions/decision-step-803-2.json"
+    },
+    {
+      "rule": "R1",
+      "step": 1071,
+      "inputs": {
+        "valid": 74,
+        "cap": 1,
+        "edit": 28,
+        "nofp": 9,
+        "score250": 105,
+        "score250_drop": 4
+      },
+      "outcome": "continue (arm complete 2026-10-16 03:35)"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-16T12:15:00+02:00",
+      "inputs": {
+        "edit_exact_both_panels_of_243": {
+          "536": 106,
+          "803": 104,
+          "1071": 104
+        },
+        "user_priority": "edit quality over no-op restraint"
+      },
+      "outcome": "arm A final = checkpoint-536 (most exact edits, less drift from the CPT parent); 803 and 1,071 stay on disk, not published"
     }
   ],
   "question_for_user": null,
-  "notes": "Arm A ran gates 536 and 803 on 2026-10-14 and stopped for the user at 803. The jobs sat idle for two nights until the decision on 2026-10-16; attempt 2 resumed at 02:22 that night toward gate 1,071. The step-803 'loss 0.16' in the decision is a single-batch loss, not an epoch-level trend."
+  "notes": "Arm A complete. The user chose checkpoint 536 as final. Remaining day work: CPT-2K forgetting check, GGUF export and quant gate, publish arm-a per R8 (536 only)."
 }
