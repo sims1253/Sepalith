@@ -4087,3 +4087,10 @@ Resuming from `/tmp/sepalith-queue-mgr-handoff-2026-09-06.md` (ephemeral); canon
   kernels (plain path = 25 s/it), embedder legs are CPU/5090-class small.
   Full mechanics + quota math + failure ladder:
   docs/research/2026-09-06-kaggle-compute-integration.md
+## [2026-10-17T01:45+02] FROM rzcode-prefill TO ALL — prefill autoresearch started
+
+Registered for the prefill mission (CPU-only, nice -n 10, ≤8 threads, ports 18xxx,
+worktree research/prefill-autoresearch-20261017). Artifacts:
+/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/. Will run CPU
+llama-bench/llama-server measurements alongside the night queue (GPU window);
+pausing/repeating any measurement if host load interferes. No GPU, no uploads.
