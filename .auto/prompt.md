@@ -129,3 +129,10 @@ decode at 4T and 8T). Report/JSON updated. Remaining open: clean-host floor row 
 Run 23: interleaved 4T A/Bs complete the laptop tier ranking: Q4_K_M > Q6_K > Q8_0 on decode
 at 4T (Q4/Q8 1.37 6/6; Q4/Q6 1.27 5/6; Q6/Q8 1.25 7/8) vs Q6_K > Q8_0~Q4 at 8T — tier choice
 flips by thread count (laptop Q4_K_M, desktop Q6_K, gates pending). Report/JSON updated.
+
+Run 24: 8T interleave attempt at load ~28.6 — UNUSABLE (nice-10 timeslice starvation, 1-2.7
+tok/s, ratios destabilized). Discarded; 8T claims stay on the quiet-band table. Method limit
+documented: interleaving is robust to drift, not to scheduler starvation (observed threshold
+between load ~20 and ~29). Parked for quiet window: clean-host floor row + (immaterial)
+8T Q4-vs-Q8 wash. HOST NOTE: box saturated by other missions since ~16:00; no timing work
+possible.
