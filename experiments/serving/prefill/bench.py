@@ -130,10 +130,13 @@ def stream_completion(
     seed: int,
     timeout: float = 600.0,
     cache_prompt: bool = True,
+    id_slot: int | None = None,
 ) -> dict[str, Any]:
     """POST /completion with stream=True; return TTFT, wall, tokens, timings."""
     body = json.dumps(
-        completion_request(ids, n_predict, seed, stream=True, cache_prompt=cache_prompt)
+        completion_request(
+            ids, n_predict, seed, stream=True, cache_prompt=cache_prompt, id_slot=id_slot
+        )
     ).encode()
     conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
     began = time.monotonic()
