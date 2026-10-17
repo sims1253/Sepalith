@@ -477,6 +477,9 @@ def main() -> None:
         bs["e2e_warm_ms"] and cs["e2e_warm_ms"]) else float("nan")
     ci_lo, ci_hi = bootstrap_speedup_ratio(pairs)
     tok_step, acc_rate, draft_len = pooled_acceptance(rows, cand_name)
+    sum_b = sum(p[0] for p in pairs)
+    sum_c = sum(p[1] for p in pairs)
+    speedup_pooled = (sum_b / sum_c) if sum_c > 0 else float("nan")
 
     summary = {
         "run_id": run_id, "candidate": cand_name,
@@ -487,6 +490,7 @@ def main() -> None:
         "load_start": load0[0], "load_end": load1[0],
         "baseline": bs, "candidate": cs,
         "speedup_warm": speedup,
+        "speedup_warm_pooled": speedup_pooled,
         "speedup_warm_ci95": [ci_lo, ci_hi],
         "parity": parity, "parity_ref": parity_ref,
         "parity_base_warmcold": parity_base_warmcold,
@@ -510,6 +514,7 @@ def main() -> None:
         return f"{x:.{nd}f}" if isinstance(x, (int, float)) else "nan"
 
     print("\nMETRIC speedup_warm=" + fmt(speedup, 3))
+    print("METRIC speedup_warm_pooled=" + fmt(speedup_pooled, 3))
     print("METRIC speedup_warm_ci_lo=" + fmt(ci_lo, 3))
     print("METRIC e2e_warm_ms=" + fmt(cs["e2e_warm_ms"]))
     print("METRIC e2e_warm_base_ms=" + fmt(bs["e2e_warm_ms"]))
