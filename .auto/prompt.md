@@ -92,6 +92,38 @@ existing_gguf (optional absolute path to reuse instead of quantizing).
 ## What's Been Tried
 (Runs live in .auto/log.jsonl; summarize durable findings here.)
 
+CPU KLD anchors (64 chunks, vs CPU bf16 base, deterministic):
+
+| variant | KLD | MB | note |
+|---|---|---|---|
+| Q4_K_M imatrix (baseline) | 0.033973 | 1759.8 | CUDA 0.034197 |
+| Q6_K | 0.004104 | 2199.7 | safe tier |
+| Q4+attn_output q8_0 | 0.026750 | 1847.9 | CUDA 0.026839 |
+| Q4_K_M+ (kv q8) | 0.030182 | 1779.0 | CUDA 0.030327 |
+| probe attn_output q6_K | 0.027237 | 1805.2 | 93% of q8 gain, 52% cost |
+| C1: ao6+kv8+head6, emb q8 | 0.024990 | 1759.6 | emb q6 costs +0.0002 |
+| C2: ao6+kv8+emb6+head6 | 0.024784 | 1694.9 | ★ headline so far |
+| C4: C2 with emb+head q5_K | 0.026501 | 1623.8 | passes gate, 136 MB under |
+
+Module sensitivities (marginal KLD/MB from Q4_K_M): kv→q8 2.0e-4, ao→q6
+1.5e-4, ao→q8 0.8e-4; trims: emb q6 +3.2e-6, emb+head q5 2.4e-5 (all tiny).
+
+**b10453 override semantics discovered**: a --tensor-type override that
+matches attn_v/ffn_down tensors skips `++i_attention_wv`/`++i_ffn_down`, so
+all LATER tensors of that category shift the Q4_K_M every-3rd q6_K mix. The
+night run's Q4_K_M+ ffn_down mix silently differs from its receipt. Rule:
+override those categories completely (all 42) or not at all.
+
+**valid_drop analysis (night CUDA eval)**: every tier incl. Q8_0 fails
+valid_drop (0/1 pp); quantization flips mid-length generations (124–501 tok)
+into 1024-cap runaways at ~0.12 × changed-cases; even Q8_0 nets +6 caps of
+11. Threshold looks structurally unpassable → report to user, gate.py
+untouched. Search panel measures net cap-rise vs bf16 as the proxy.
+
+Search panel: 196 TRAIN cases (7 families × 28), excludes calibration + KLD
+ids, `search-panel.json` built (sha 11c4f32c…). bf16 CPU reference run
+pending (~1.5–2 h).
+
 ## Plan
 1. CPU KLD anchors: Q4_K_M baseline, Q6_K (bf16 CPU base computed once).
 2. Sensitivity map: from Q6_K base (emb+head q8_0), drop one module type to

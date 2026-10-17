@@ -131,11 +131,11 @@ def parse_args(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     b = sub.add_parser("build", help="build the TRAIN search panel file")
-    b.add_argument("--train-rows", required=True,
+    b.add_argument("--train-rows",
                    default="/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl")
-    b.add_argument("--calibration-ids", required=True,
+    b.add_argument("--calibration-ids",
                    default="/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1/calibration.ids.json")
-    b.add_argument("--kld-ids", required=True,
+    b.add_argument("--kld-ids",
                    default="/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1/kld-heldout.ids.json")
     b.add_argument("--panel", required=True)
     b.add_argument("--per-family", type=int, default=28)
