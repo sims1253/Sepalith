@@ -1,14 +1,9 @@
 {
   "card": "C03",
   "state": "in_progress",
-  "updated": "2026-10-16T02:45:00+02:00",
-  "branch": "plan/C03-kaggle-inference",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/55",
-  "merges_after": [
-    "#41 (C05)",
-    "#45 (C04)",
-    "#52 (C07 batched eval)"
-  ],
+  "updated": "2026-10-17T10:20:00+02:00",
+  "branch": "plan/C03-arm-a-parity",
+  "pull_request": null,
   "outputs": {
     "harness": {
       "entry": "scripts/kaggle/infer_entry.py",
@@ -78,30 +73,71 @@
     "comparison": "docs/training/plan-20260927/c03/compare_parity.py: exact identity, first divergence, prompt identity, DEV75 R1 counts and per-case agreement, non-finite check, batching check (different batching -> not comparable), card verdict",
     "gpu_hours_week": {
       "used": 0.39,
-      "refresh": "2026-10-17T00:00:00Z",
+      "refresh": "2026-10-24T00:00:00Z",
       "runs": {
-        "smoke": 0.04,
-        "dev75 OOM attempt": 0.14,
-        "dev75 rerun": 0.21
+        "c03-arma-dev75-fp16-b32": 0.13,
+        "c03-arma-train200-fp16-b32": 0.26
+      },
+      "c03_budget_this_week": 3.0,
+      "previous_week": {
+        "used_c03": 0.39,
+        "week_total": 1.24
       }
     },
-    "hf_uploads": "none",
+    "hf_uploads": [
+      {
+        "at": "2026-10-17",
+        "repo": "datasets/scholzmx/sepalith",
+        "commit": "f3388f8d79006e83aebe0edc0b9fb0672ada058b",
+        "files": [
+          "campaign-20260915/C03/c03-train200-seed3407.jsonl (200 TRAIN rows, split=train only)",
+          "campaign-20260915/C03/parity-references/20261014T032809/references.json",
+          "campaign-20260915/C03/parity-references/20261014T032809/{parent-11586,lr1e-5-gate-268}/{dev75-generations.jsonl,dev75.cases/cases.json,train200-generations.jsonl}"
+        ],
+        "allow_list": "explicit 8-file list; TRAIN- and DEV-derived only; nothing sealed; no weights"
+      }
+    ],
     "follow_ups": [
-      "After the night job: upload c03-train200-seed3407.jsonl and the reference generations (not weights) to datasets/scholzmx/sepalith campaign-20260915/C07/parity-references/ in one commit",
-      "Kaggle parity runs for parent 11,586: --panel dev75 and --prompts <HF prompts file>, fp16, batch 32; then compare_parity.py",
-      "The gate-268 weights are not public, so Kaggle cannot run the representative SFT parity without a user decision (see notes)",
-      "Upload the Kaggle run outputs to campaign-20260915/inference/<run-id>/ (infer_push.py --upload-hf, or batched with the references)"
-    ]
+      "Morning 2026-10-18: run next_steps below (compare, upload, verdict).",
+      "If fp16 fails only on identity: the card says repeat in fp32, but fp32 at the bound batch 32 likely does not fit a T4 (10 GB weights + about 10 GB KV for 32 x 3.6K tokens), and a smaller batch changes the batching; record stop-for-user with the numbers instead of spending quota."
+    ],
+    "arm_a_parity": {
+      "model": {
+        "source": "hf:scholzmx/sepalith-2b-edit-sft/arm-a",
+        "local": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+        "model_safetensors_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030 (HF LFS hash == local manifest)"
+      },
+      "kaggle_receipt": "docs/training/plan-20260927/receipts/C03-arm-a-kaggle-fp16.json",
+      "kaggle_runs": {
+        "c03-arma-dev75-fp16-b32": "complete; fp16, batch 32, dynamic cache, cap 1,024, 2 T4 workers; 0 non-finite logits, NLL finite; R1 valid 74, cap 1, edit 27, nofp 9; session 8 min",
+        "c03-arma-train200-fp16-b32": "complete; same settings, prompts hf-dataset:scholzmx/sepalith/campaign-20260915/C03/c03-train200-seed3407.jsonl (sha256 3a99e2ad...); 0 non-finite; 8/200 cap hits, median 45.5 generated tokens; 5 of 7 batches ran to the cap; session 15.5 min"
+      },
+      "local_outputs": "/home/m0hawk/.local/state/sepalith/kaggle/runs/c03-arma-{dev75,train200}-fp16-b32/c03-arma-{dev75,train200}-fp16-b32/",
+      "dev75_provisional": {
+        "reference": "night R1 gate result for step 536 (bf16, bound batching, 2026-10-14): evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.json",
+        "identity": "63/75 token-identical (84%), first divergence median 21.5 (min 0, max 181); prompts identical; same batching",
+        "r1": "bf16 valid 74 cap 1 edit 27 nofp 8 vs fp16 valid 74 cap 1 edit 27 nofp 9: all within 1; per-case agreement valid 75/75, cap 75/75, edit 75/75, nofp 74/75",
+        "checks": {
+          "no_nonfinite": true,
+          "dev75_counts_within_1": true,
+          "identity_at_least_90pct_dev75_alone": false
+        },
+        "combined_needs": "combined identity >= 90% over 275 cases needs >= 248 identical, so TRAIN-200 needs >= 185/200 (92.5%)"
+      },
+      "pc_references_job": {
+        "id": "C03-parity-references-arm-a",
+        "enqueued": "2026-10-17 for the 2026-10-18 window (priority 50, 60 min estimate, 90 min guard)",
+        "job_file": "docs/training/plan-20260927/c03/jobs/C03-parity-references-arm-a.json (queued copy: ~/.local/state/sepalith/night-queue/pending/)",
+        "code": "origin/main 6cc2d17 only (parity_references.py unchanged); runs parent 11,586 again first (night-to-night determinism vs 2026-10-14), then arm-a-536 with --determinism-reference against the step-536 gate cases",
+        "produces": "~/.local/state/sepalith/campaign-20260915/C03-parity-references-arm-a/<attempt>/references.json, arm-a-536/{dev75.cases/cases.json,dev75-generations.jsonl,train200-generations.jsonl}"
+      },
+      "throughput_arm_a_t4_fp16_batch32": {
+        "train200_greedy": "0.27 s per decode step at 32 rows (worker with batches 1,3,5: 3,072 steps in 816 s); 5 of 7 static batches ran to 1,024 steps because one or two rows capped",
+        "census_projection": "about 210 s per 32-row batch -> 3,752 batches for 15,006 x 8 = about 219 T4-h = about 110 two-T4 session-h at the bound batching: confirms the 2026-10-16 decision (C12 vLLM trial or reduced census)"
+      }
+    }
   },
   "rule_decisions": [
-    {
-      "rule": "R7",
-      "inputs": {
-        "kaggle_gpu_hours_used_this_week": 0.39,
-        "limit": 20
-      },
-      "outcome": "within limit"
-    },
     {
       "rule": "user decision",
       "at": "2026-10-16",
@@ -113,8 +149,33 @@
         "r7_weekly_limit": 20
       },
       "outcome": "C12: run one bounded Kaggle vLLM trial (at most 1 GPU-hour, census only, own fp16 parity check against the bf16 references). If it does not reach about 5x, reduce the census (for example 4 samples, cap 512). The bound-batching path stays the parity and evaluation reference."
+    },
+    {
+      "rule": "R7",
+      "at": "2026-10-17",
+      "inputs": {
+        "kaggle_gpu_hours_used_this_week": 0.39,
+        "limit": 20,
+        "c03_cap_this_week": 3,
+        "c12_reserve": 1
+      },
+      "outcome": "within limit"
     }
   ],
   "question_for_user": null,
-  "notes": "Harness, smoke and parity tooling are done; the card's parity receipt waits for the night reference job. The parent pre-check (57% identity, cap +3) does not meet the card's 90%/within-1 criteria, but it measures run-on drift: the PC's own bf16 batch-1 vs batch-32 identity is 54%. The representative check is the SFT checkpoint, whose outputs are short (median 26 tokens on DEV75). Kaggle can only read it if its weights are made readable there, for example a private Kaggle dataset (the user said not to upload it anywhere today), or by running parity on the arm-A model once R8 publishes it. fp32 fallback: weights alone are 10 GB in fp32, so batch 32 with DEV75's longest prompts will not fit a T4; an fp32 run would need smaller batches and so different batching than the PC references. 2026-10-16: bf16 parity references done (night job C03-parity-references, 2026-10-14). The representative SFT parity check runs on arm A once C09 publishes it (R8); the census budget question is answered above."
+  "notes": "Arm A (checkpoint 536) is public, so Kaggle ran the representative SFT parity on it today. fp16 DEV75 against the night's bf16 R1 gate result for step 536: no non-finite values, all four R1 counts within 1 (nofp 9 vs 8, one case), 84% token-identical (63/75). The card verdict combines DEV75 and TRAIN-200, and the TRAIN-200 bf16 references for arm A come from the night job enqueued for 2026-10-18; next_steps has the exact commands. Earlier history: harness merged in #55; parent pre-check 57% identity (run-on drift on the CPT parent); bf16 references for the parent and gate 268 done 2026-10-14 and now public under campaign-20260915/C03/.",
+  "previous_pull_requests": [
+    "https://github.com/sims1253/Sepalith/pull/55"
+  ],
+  "next_steps": {
+    "when": "after the night job C03-parity-references-arm-a (window 2026-10-18)",
+    "commands": [
+      "cd /home/m0hawk/sandbox/Sepalith && PYTHONPATH=packages/sepalith/src python3 -m sepalith.ops.night_queue list   # expect: done C03-parity-references-arm-a",
+      "ls -d ~/.local/state/sepalith/campaign-20260915/C03-parity-references-arm-a/2026*/   # the attempt dir, below <A>",
+      "python3 -c \"import json,sys; r=json.load(open(sys.argv[1])); print(r['status'], {k:(v['phases']['dev75'].get('r1_dev75'), v['phases']['dev75'].get('vs_night_results',{}).get('identity_rate')) for k,v in r['models'].items()})\" <A>/references.json   # expect complete; arm-a-536 r1 == valid 74 cap 1 edit 27 nofp 8 and identity 1.0 (parent-11586 vs_night_results is its bf16 night-to-night check against the 2026-10-12 baseline, expect 1.0)",
+      "python3 docs/training/plan-20260927/c03/compare_parity.py --reference-dir <A>/arm-a-536 --reference-receipt <A>/references.json --dev75 ~/.local/state/sepalith/kaggle/runs/c03-arma-dev75-fp16-b32/c03-arma-dev75-fp16-b32 --train200 ~/.local/state/sepalith/kaggle/runs/c03-arma-train200-fp16-b32/c03-arma-train200-fp16-b32 --output docs/training/plan-20260927/receipts/C03-parity-arm-a-fp16.json",
+      "one HF data commit (allow-list): stage <A>/references.json, <A>/arm-a-536/{dev75-generations.jsonl,dev75.cases/cases.json,train200-generations.jsonl} under parity-references/<attempt>/ and the two Kaggle run folders (generations.jsonl, cases.json, summary.json, plan.json, bootstrap.json, worker-*.log) under inference/<run-id>/ in a /tmp staging dir, then: hf upload scholzmx/sepalith <stage> campaign-20260915/C03 --repo-type dataset --commit-message \"C03: arm A bf16 references and Kaggle fp16 parity runs\"",
+      "record the verdict here and in the PR: pass -> state done (card acceptance met in fp16); fail -> see follow_ups (fp32 feasibility) and set needs_user with the numbers"
+    ]
+  }
 }
