@@ -3,7 +3,7 @@
 # experiments/scripts (research mode), plus the frozen-session integrity gate.
 set -uo pipefail
 cd "$(dirname "$0")/.."
-PY=/home/m0hawk/sandbox/Sepalith/.venv/bin/python
+PY="${SEPALITH_PY:-/home/m0hawk/sandbox/Sepalith/.venv/bin/python}"
 
 OUT=0
 "$PY" scripts/check_quality.py > /tmp/prefill-checks.log 2>&1 || OUT=1
