@@ -87,7 +87,9 @@ class Config:
         )
 
 
-def completion_request(ids: Sequence[int], n_predict: int, seed: int, stream: bool) -> dict[str, Any]:
+def completion_request(
+    ids: Sequence[int], n_predict: int, seed: int, stream: bool, cache_prompt: bool = True
+) -> dict[str, Any]:
     return {
         "prompt": list(ids),
         "n_predict": n_predict,
@@ -105,7 +107,7 @@ def completion_request(ids: Sequence[int], n_predict: int, seed: int, stream: bo
         "ignore_eos": False,
         "stop": [],
         "seed": seed,
-        "cache_prompt": True,
+        "cache_prompt": cache_prompt,
         "return_tokens": True,
         "stream": stream,
         "n_probs": 0,
@@ -114,10 +116,17 @@ def completion_request(ids: Sequence[int], n_predict: int, seed: int, stream: bo
 
 
 def stream_completion(
-    port: int, ids: Sequence[int], n_predict: int, seed: int, timeout: float = 600.0
+    port: int,
+    ids: Sequence[int],
+    n_predict: int,
+    seed: int,
+    timeout: float = 600.0,
+    cache_prompt: bool = True,
 ) -> dict[str, Any]:
     """POST /completion with stream=True; return TTFT, wall, tokens, timings."""
-    body = json.dumps(completion_request(ids, n_predict, seed, stream=True)).encode()
+    body = json.dumps(
+        completion_request(ids, n_predict, seed, stream=True, cache_prompt=cache_prompt)
+    ).encode()
     conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
     began = time.monotonic()
     ttft_ms: float | None = None
@@ -264,9 +273,12 @@ class Server:
 def head_ids_for_policy(
     context: Mapping[str, Any], full_ids: Sequence[int], tokenizer, policy: str  # noqa: ANN001
 ) -> list[int]:
-    """Stable-head token ids: the longest true prefix of full_ids covered by
-    the sections that survive the next edit (contract, path, prefix, section
-    markers; plus accumulated history for the ``stable_history`` policy)."""
+    """Warm-up prompt ids under a policy: the longest true prefix of full_ids
+    covered by sections that survive the next edit (contract, path, prefix,
+    section markers; plus accumulated history for ``stable_history``), or the
+    entire prompt for ``full`` (prefill-as-you-settle)."""
+    if policy == "full":
+        return list(full_ids)
     parts: list[str] = [TASK_CONTRACT, f"<filename>{context['path']}", *context["prefix"]]
     if policy == "stable_history":
         parts.extend(WARMUP_SECTION_MARKERS[:1])
@@ -322,6 +334,7 @@ def run_pass(
     port: int,
     pass_index: int,
     log_dir: Path,
+    cold: bool = False,
 ) -> list[dict[str, Any]]:
     server = Server(config, port, log_dir / f"server-pass{pass_index}.log")
     records: list[dict[str, Any]] = []
@@ -342,7 +355,9 @@ def run_pass(
                         warmup_total_s += result["wall_ms"] / 1000.0
                         warmup_count += 1
                         warmup_tokens += len(head)
-                result = stream_completion(port, event["ids"], config.n_predict, config.seed)
+                result = stream_completion(
+                    port, event["ids"], config.n_predict, config.seed, cache_prompt=not cold
+                )
                 timings = result["timings"]
                 records.append(
                     {
@@ -499,6 +514,7 @@ def main() -> int:
     parser.add_argument("--label", type=str, default=None)
     parser.add_argument("--reference", type=Path, default=HERE / "reference_outputs.json")
     parser.add_argument("--write-reference", action="store_true", help="freeze this run as the parity reference")
+    parser.add_argument("--cold", action="store_true", help="cold mode: cache_prompt=false per request (per-event cold numerics; also the parity reference semantics)")
     args = parser.parse_args()
 
     import tokenizers
@@ -516,7 +532,9 @@ def main() -> int:
     records: list[dict[str, Any]] = []
     with out_path.open("w", encoding="utf-8") as out:
         for pass_index in range(args.passes):
-            pass_records = run_pass(config, sessions, args.port, pass_index, ARTIFACTS)
+            pass_records = run_pass(
+                config, sessions, args.port, pass_index, ARTIFACTS, cold=args.cold
+            )
             records.extend(pass_records)
             out.flush()
         for record in records:
@@ -531,6 +549,7 @@ def main() -> int:
     if args.reference.exists():
         reference = json.loads(args.reference.read_text(encoding="utf-8"))
     summary = summarize(records, reference)
+    summary["cold"] = args.cold
     summary.update(
         {
             "label": label,
