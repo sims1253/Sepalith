@@ -288,7 +288,8 @@ def tokens_equal(a: list[int] | None, b: list[int] | None) -> bool:
 # bench
 
 
-def run_arm_trace(server: Server, tr: dict, do_cold: bool, n_predict: int) -> dict:
+def run_arm_trace(server: Server, tr: dict, do_cold: bool, n_predict: int,
+                  repeat: bool = False) -> dict:
     row: dict[str, Any] = {
         "arm": server.name, "trace_id": tr["trace_id"],
         "family": tr["family"], "band": tr["band"], "is_noop": tr["is_noop"],
@@ -319,6 +320,12 @@ def run_arm_trace(server: Server, tr: dict, do_cold: bool, n_predict: int) -> di
     )
     if w.error and not row.get("error"):
         row["error"] = w.error
+    if repeat and not w.error:
+        # determinism control: identical warm request again (baseline arm)
+        w2 = stream_completion(server.port, tr["prompt_ids"], n_predict,
+                               cache_prompt=True)
+        row["tokens_repeat"] = w2.tokens
+        row["wall_repeat_ms"] = w2.wall_ms
     return row
 
 
@@ -403,7 +410,8 @@ def main() -> None:
         for i, tr in enumerate(traces):
             arms = [base, cand] if i % 2 == 0 else [cand, base]
             for srv in arms:
-                row = run_arm_trace(srv, tr, do_cold=a.cold, n_predict=a.n_predict)
+                row = run_arm_trace(srv, tr, do_cold=a.cold, n_predict=a.n_predict,
+                                    repeat=(srv is base))
                 row["i"] = i
                 rows.append(row)
                 out_fh.write(json.dumps(row) + "\n")
@@ -441,6 +449,12 @@ def main() -> None:
         parity_base_warmcold = sum(bpar) / len(bpar) if bpar else None
     else:
         parity_base_warmcold = None
+    # baseline determinism floor: warm vs warm-repeat (identical batch shapes)
+    rpar2 = [
+        tokens_equal(r.get("tokens"), r.get("tokens_repeat"))
+        for r in rows if r["arm"] == "baseline" and r.get("tokens_repeat")
+    ]
+    parity_base_repeat = (sum(rpar2) / len(rpar2)) if rpar2 else None
 
     ref = None
     if a.reference and a.reference.exists():
@@ -493,6 +507,7 @@ def main() -> None:
         "speedup_warm_ci95": [ci_lo, ci_hi],
         "parity": parity, "parity_ref": parity_ref,
         "parity_base_warmcold": parity_base_warmcold,
+        "parity_base_repeat": parity_base_repeat,
         "accept_tok_per_step": tok_step, "accept_rate": acc_rate,
         "mean_draft_len": draft_len,
         "n_parity_fail": len(par) - sum(par),
@@ -533,6 +548,8 @@ def main() -> None:
         print("METRIC parity_ref=" + fmt(parity_ref, 4))
     if parity_base_warmcold is not None:
         print("METRIC parity_base_warmcold=" + fmt(parity_base_warmcold, 4))
+    if parity_base_repeat is not None:
+        print("METRIC parity_base_repeat=" + fmt(parity_base_repeat, 4))
     if a.cold:
         print("METRIC cold_e2e_ms=" + fmt(cs["cold_e2e_ms"]))
         print("METRIC cold_e2e_ms_base=" + fmt(bs["cold_e2e_ms"]))
