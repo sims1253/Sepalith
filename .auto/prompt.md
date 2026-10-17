@@ -67,3 +67,15 @@ Baseline (extension flags, freeze v2, load 7.95): edit p50 382.8ms, p95 8.1s; ty
 - DEV75 single latency use done (see report §7).
 
 Recommended config = baseline flags + eager warm-up flow (report §4). Status: report drafted; PR after DEV75 + final verification.
+
+## Final status (2026-10-17)
+
+Mission delivered on PR #66 (open, not merged):
+- Recommended: baseline spawn flags + eager full warm-up request flow with abort-on-pause.
+- edit p50 382.8→64.6ms (5.9×), p95 8.1s→71ms; DEV75 cold open 8.18s→66ms (124×).
+- Parity: baseline 0.9455 / recommended 0.9136 vs cold (prefix-cache splits flip near-ties;
+  same mechanism as shipped behavior). 0 DEV quality slots used.
+- Quant table handed to C09; layout reordering measured negative; cache-reuse/KV-q8 rejected.
+- Artifacts: /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/
+Primary metric at decode floor; no further levers on this axis without numerics changes
+(quant tier / specdec = other missions' lanes).
