@@ -1,0 +1,71 @@
+{
+  "schema": "sepalith.quant-autoresearch.v1",
+  "date": "2026-10-17",
+  "branch": "research/quant-autoresearch-20261017",
+  "mission_brief": "/home/m0hawk/sandbox/sepalith-quant-autoresearch-brief.md",
+  "setup": {
+    "llama_cpp": {"build": 10453, "commit": "3cb7ffb1a", "bin": "build-cpu", "pinned": true},
+    "backend": "cpu",
+    "threads": 8,
+    "nice": 10,
+    "host": "AMD Ryzen 9 5900X 12C/24T WSL2 (shared; host_load1 12-16 during most runs)",
+    "kld": {
+      "method": "llama-perplexity --kl-divergence vs CPU bf16 base",
+      "base": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/kld/bf16-base-cpu.kld",
+      "base_sha256_note": "8.5 GB; one-time; deterministic",
+      "slice": "calibration-v1/kld-heldout.txt (64 x 1024 ctx, 32704 scored tokens)",
+      "bf16_cpu_ppl": 3.3265
+    },
+    "speed": "llama-bench -t 8 -fa on -r 3 -p 512,2048 -n 32 (load ~16; relative comparisons only)"
+  },
+  "variants": {
+    "anchor-Q4_K_M": {"gguf": "night:arm-a-imat-Q4_K_M.gguf", "bytes": 1759769728, "mean_kld": 0.033973, "same_top_p_pct": 94.349, "p99_kld": 0.386016, "ppl_gap": 0.0927},
+    "anchor-Q6_K": {"gguf": "night:arm-a-imat-Q6_K.gguf", "bytes": 2199741568, "mean_kld": 0.004104, "same_top_p_pct": 97.985, "p99_kld": 0.047404, "ppl_gap": 0.0327},
+    "anchor-Q4plus": {"gguf": "night:arm-a-q4plus-Q4_K_M.gguf", "bytes": 1779000000, "mean_kld": 0.030182, "same_top_p_pct": 94.680, "p99_kld": 0.356966, "ppl_gap": 0.0951},
+    "anchor-Q4attnout8": {"gguf": "night:arm-a-attn-out-q8_0-Q4_K_M.gguf", "bytes": 1847850112, "mean_kld": 0.026750, "same_top_p_pct": 95.062, "p99_kld": 0.315360, "ppl_gap": 0.0685},
+    "probe-ao-q6": {"recipe": {"tier": "Q4_K_M", "tensor_types": ["attn_output=q6_K"]}, "bytes": 1805200000, "mean_kld": 0.027237, "same_top_p_pct": 95.138, "p99_kld": 0.313637, "ppl_gap": 0.0690},
+    "c2-ao6kv8-emb6-head6": {"recipe": {"tensor_types": ["attn_output=q6_K", "attn_k=q8_0", "attn_v=q8_0"], "output": "q6_K", "embedding": "q6_K"}, "bytes": 1694900000, "mean_kld": 0.024784, "same_top_p_pct": 95.248, "p99_kld": 0.283137, "ppl_gap": 0.0735},
+    "Q4_K_M-mixA": {"recipe": {"tensor_types": ["attn_output=q6_K", "attn_k=q8_0", "attn_v=q8_0"], "output": "q5_K", "embedding": "q5_K"}, "bytes": 1623800000, "mean_kld": 0.026501, "same_top_p_pct": 94.998, "p99_kld": 0.286736, "ppl_gap": 0.0826, "speed": {"pp512": 90.25, "pp2048": 83.11, "tg32": 14.29, "load": 16}},
+    "Q4_K_M-mixB": {"recipe": {"tensor_types": ["attn_output=q6_K", "attn_k=q8_0", "attn_v=q8_0", "ffn_down=q6_K"], "output": "q5_K", "embedding": "q5_K"}, "bytes": 1692000000, "mean_kld": 0.022949, "same_top_p_pct": 95.306, "p99_kld": 0.246440, "ppl_gap": 0.0681, "speed": {"pp512": 88.19, "pp2048": 80.50, "tg32": 9.97, "load": 16}},
+    "c7-emb4-head4": {"recipe": "mixB with emb+head q4_K", "bytes": 1625100000, "mean_kld": 0.030851, "same_top_p_pct": 94.050, "p99_kld": 0.289073, "ppl_gap": 0.0950},
+    "anchor-IQ4_XS": {"gguf": "autoresearch:anchor-IQ4_XS", "bytes": 1630300000, "mean_kld": 0.043625, "same_top_p_pct": 93.878, "p99_kld": 0.508772, "ppl_gap": 0.1174}
+  },
+  "sensitivity_marginals_from_Q4_K_M": {
+    "attn_k_attn_v_q8": {"delta_mb": 19.2, "delta_kld": -0.00379},
+    "attn_output_q6": {"delta_mb": 45.2, "delta_kld": -0.00674},
+    "attn_output_q8": {"delta_mb": 88.1, "delta_kld": -0.00722},
+    "ffn_down_q6_all": {"delta_mb": 68.1, "delta_kld": -0.00330},
+    "token_embd_q6": {"delta_mb": -64.8, "delta_kld": 0.00021},
+    "emb_head_q5_from_q6": {"delta_mb": -71.1, "delta_kld": 0.00172},
+    "emb_head_q4_from_q5": {"delta_mb": -66.9, "delta_kld": 0.00790}
+  },
+  "b10453_tool_finding": {
+    "issue": "--tensor-type overrides matching attn_v/ffn_down tensors skip i_attention_wv/i_ffn_down counters; later same-category tensors silently shift the Q4_K_M every-3rd q6_K mix",
+    "evidence": "night Q4_K_M+ ffn_down q6 set is {0-6,9..33 step3,36,38-41}, exactly counter=layer-2; receipt says layers 0,1,40,41",
+    "rule": "override attn_v/ffn_down completely (all layers) or not at all"
+  },
+  "valid_drop_analysis": {
+    "night_run_cuda": {
+      "reference_caps_dev250": 11,
+      "Q8_0": {"caps": 17, "done_to_cap": 9, "cap_to_done": 3},
+      "Q6_K": {"caps": 17, "done_to_cap": 7, "cap_to_done": 1},
+      "Q4_K_M+": {"caps": 16, "done_to_cap": 10, "cap_to_done": 5},
+      "Q4_K_M": {"caps": 21, "done_to_cap": 16, "cap_to_done": 6},
+      "Q4_K_M-attn-out-q8_0": {"caps": 27, "done_to_cap": 20, "cap_to_done": 4}
+    },
+    "finding": "flips are mid-length generations (124-501 ref tokens) diverging into 1024-cap runaways at ~0.12 x changed-cases; threshold unpassable for any real quantization incl Q8_0; gate.py untouched; user decision requested"
+  },
+  "search_panel": {
+    "cases": 196, "families": 7, "per_family": 28,
+    "ids_sha256": "11c4f32c010bdc5cf5b689d2443d99b1f4cda9d0579c22984e879d11e7513cdc",
+    "excludes": "calibration.ids.json + kld-heldout.ids.json",
+    "results": {}
+  },
+  "dev_confirmations": {"reads": [], "results": "pending"},
+  "artifacts": {
+    "ggufs": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/ggufs/",
+    "kld": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/kld/",
+    "panel": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/panel/",
+    "bench": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/bench-finalists.csv"
+  }
+}
