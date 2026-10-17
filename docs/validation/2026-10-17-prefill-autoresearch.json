@@ -48,7 +48,14 @@
    "open": 0.997,
    "file_switch": 0.999,
    "switch_back": 0.998
-  }
+  },
+  "floor_confirmations_edit_p50_ms": [
+   64.6,
+   64.6,
+   65.4,
+   63.6,
+   63.5
+  ]
  },
  "dev75_latency": {
   "usage": "single DEV75 latency use 2026-10-17: dev75-baseline + dev75-eager runs, no scoring",
@@ -237,6 +244,8 @@
   "run-dev75-baseline-20261017T101211.jsonl",
   "run-dev75-baseline-20261017T103954.jsonl",
   "run-dev75-eager-20261017T110729.jsonl",
+  "run-warmup-eager-poll100-20261017T113847.jsonl",
+  "run-warmup-eager-stale1-20261017T133324.jsonl",
   "run-warmup-full-eager-20261017T044620.jsonl",
   "run-warmup-full-eager-20261017T055255.jsonl",
   "run-warmup-full-eager-20261017T075441.jsonl",
@@ -245,5 +254,22 @@
   "run-warmup-full-settle-20261017T052031.jsonl",
   "run-warmup-stable-20261017T030246.jsonl",
   "run-warmup-stable-20261017T033514.jsonl"
- ]
+ ],
+ "race_bound_stale1": {
+  "description": "one document change races every warm-up, no refresh (pessimistic bound)",
+  "edit_p50_ms": 579.6,
+  "edit_p95_ms": 8720.5,
+  "per_event_ms": {
+   "type": 265.0,
+   "accept": 2827.9,
+   "diag": 2164.6,
+   "cursor_move": 3987.7,
+   "open": 65.9,
+   "file_switch": 5077.6,
+   "switch_back": 108.9
+  },
+  "warmup_cpu_s_per_pass": 91.5,
+  "interpretation": "typing pauses land between 64ms (floor) and 265ms (mid-burst pause); settle events hold the floor when the pause follows the settle warm-up by more than the debounce"
+ },
+ "poll_lever": "--poll 100 --poll-batch 100 measured latency-neutral (64.7 vs 64.6ms); default stands"
 }

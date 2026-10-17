@@ -83,3 +83,8 @@ Primary metric at decode floor; no further levers on this axis without numerics 
 Run 12 (post-PR iteration): --poll 100 --poll-batch 100 on the eager config — latency-neutral
 (64.7 vs 64.6ms; 4th floor confirmation). Discarded; default poll stands. Every flag lever on
 the primary axis is now closed by measurement, not estimate.
+
+Runs 12-13 (post-PR iterations): poll=100 latency-neutral (floor confirmed 4x); warmup.stale=1
+race-bound arm: type 265ms / accept+cursor+switch regress to structural baseline when the
+warm-up is raced and not refreshed — report §2 now carries the 64-265ms typing band and the
+refresh-matters note in §4. Floor confirmations now span 5 runs (63.5-65.4ms).

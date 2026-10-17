@@ -61,6 +61,20 @@ Recommended = same flags + the warm-up request flow (§4). Medians over
 
 Notes:
 
+* **Race bound (realism check):** the headline numbers assume the last
+  document change's warm-up completed before the pause (a ≥150–300 ms
+  debounce gap, typical when a human pauses). A deliberately harsher arm —
+  one document change racing *every* warm-up, never refreshed — measures
+  the opposite bound: typing 265 ms (one keystroke-burst delta ≈ 24
+  tokens), while accept/cursor-move/file-switch fall back to their
+  structural baseline costs (2.8/4.0/5.1 s) because a stale warm-up shares
+  only the prefix; opens keep the 66 ms floor (an open's warm-up cannot be
+  stale). Real typing pauses land between 64 and 265 ms depending on
+  debounce; settle events hold the floor whenever the pause follows the
+  settle by more than the debounce, and the abort-then-request rule keeps
+  partial progress when it doesn't. This arm is in the artifacts as
+  `warmup-eager-stale1`.
+
 * `switch_back` is already nearly free on b10453 defaults: the default
   `--cache-ram 8192` unified-KV pool restores the previous file's context
   (~1 token recomputed). Nothing to fix there.
@@ -131,6 +145,9 @@ Request flow (the important part):
    the current prompt token IDs with `n_predict: 0` (prefill only, no
    decode, no output). During typing, debounce (~150–300 ms after the last
    keystroke) — a keystroke warm-up only pays the few-token delta.
+   **Refresh matters:** skipping the refresh after a change re-exposes the
+   structural prefill cost for that event (measured race bound, §2) — the
+   debounce must be shorter than typical pause gaps for the floor to hold.
 3. **On pause: abort any in-flight warm-up first** (close the connection),
    then send the real request. Abort is fast and the partial KV remains
    usable — this is what keeps worst-case TTFT at the floor instead of the
