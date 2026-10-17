@@ -1,10 +1,10 @@
 {
-  "label": "anchor-Q4_K_M",
-  "tier": "Q4_K_M",
+  "label": "anchor-Q6_K",
+  "tier": "Q6_K",
   "output_type": "q8_0",
   "embedding_type": "q8_0",
   "imatrix": true,
   "tensor_types": [],
   "kld_chunks": 64,
-  "existing_gguf": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-imat-Q4_K_M.gguf"
+  "existing_gguf": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-imat-Q6_K.gguf"
 }
