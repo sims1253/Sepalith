@@ -1,0 +1,1 @@
+{"name": "ngcache", "server_args": ["--spec-type", "ngram-cache"]}
