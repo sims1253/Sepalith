@@ -574,11 +574,12 @@ def main() -> int:
     if edit.get("parity_rate") is not None:
         print(f"METRIC parity_rate={edit['parity_rate']}")
     print(f"METRIC cold_ttft_p50_ms={by_type['open']['ttft_p50_ms']}")
-    print(f"METRIC switchback_ttft_p50_ms={by_type['switch_back']['ttft_p50_ms']}")
-    print(f"METRIC type_ttft_p50_ms={by_type['type']['ttft_p50_ms']}")
-    print(f"METRIC accept_ttft_p50_ms={by_type['accept']['ttft_p50_ms']}")
-    print(f"METRIC cursormove_ttft_p50_ms={by_type['cursor_move']['ttft_p50_ms']}")
-    print(f"METRIC edit_cached_frac={by_type['type']['cached_frac_p50']}")
+    print(f"METRIC cold_ttft_p95_ms={by_type['open']['ttft_p95_ms']}")
+    print(f"METRIC cold_wall_p50_ms={by_type['open']['wall_p50_ms']}")
+    for name in ("switch_back", "type", "accept", "cursor_move"):
+        if name in by_type:
+            print(f"METRIC {name}_ttft_p50_ms={by_type[name]['ttft_p50_ms']}")
+    print(f"METRIC edit_cached_frac={by_type['open']['cached_frac_p50']}")
     print(f"METRIC warmup_total_s={edit['warmup_total_s']}")
     print(f"METRIC host_load1={summary['host_load1']}")
     print(f"SUMMARY {json.dumps(summary)}")
