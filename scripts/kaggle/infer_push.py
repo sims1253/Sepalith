@@ -321,6 +321,10 @@ def main(argv=None):
         pushed = kaggle(*push)
         receipt["push_output"] = redact(pushed.stdout.strip())[-500:]
         print(receipt["push_output"], flush=True)
+        # The CLI exits 0 on a refused push (e.g. "Kernel push error: Maximum batch GPU session count of 2
+        # reached."); nothing was launched then, so stop here instead of polling a kernel that does not run.
+        if "successfully pushed" not in pushed.stdout.lower() or "push error" in pushed.stdout.lower():
+            raise SystemExit(f"kaggle refused the push of {kernel_id}: {receipt['push_output']}")
         if args.no_wait:
             print(f"pushed {kernel_id}; later: infer_push.py --run-id {args.run_id} --fetch-only --estimate-hours 0")
             return 0
