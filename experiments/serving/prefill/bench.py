@@ -481,10 +481,11 @@ def summarize(records: Sequence[dict[str, Any]], reference: Mapping[str, Sequenc
             if expected is not None:
                 parity_total += 1
                 parity_match += int(list(row["output_ids"]) == list(expected))
+    edit_ttfts = [r["ttft_ms"] for r in edit_rows]
     summary["edit"] = {
         "n": len(edit_rows),
-        "ttft_p50_ms": percentile([r["ttft_ms"] for r in edit_rows], 0.50),
-        "ttft_p95_ms": percentile([r["ttft_ms"] for r in edit_rows], 0.95),
+        "ttft_p50_ms": percentile(edit_ttfts, 0.50) if edit_ttfts else None,
+        "ttft_p95_ms": percentile(edit_ttfts, 0.95) if edit_ttfts else None,
         "ttft_p50_ci": cluster_bootstrap_p50(edit_by_session),
         "slow_ttft_p50_ms": percentile([r["ttft_ms"] for r in slow_rows], 0.50)
         if slow_rows
