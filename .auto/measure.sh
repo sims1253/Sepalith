@@ -18,12 +18,10 @@ tier=$($PY -c "import json;print(json.load(open('$CAND'))['tier'])")
 chunks=$($PY -c "import json;print(json.load(open('$CAND')).get('kld_chunks',64))")
 existing=$($PY -c "import json;print(json.load(open('$CAND')).get('existing_gguf','') or '')")
 
-# Be a good citizen on a shared box: if a latency-sensitive prefill bench is
-# running or the box is saturated, wait a bounded time before starting.
-for _ in $(seq 1 30); do
+# Be a good citizen on a shared box: wait (bounded) only when truly saturated.
+for _ in $(seq 1 20); do
   load=$(cut -d' ' -f1 /proc/loadavg)
-  busy=$(pgrep -fc "serving/prefill/bench.py" || true)
-  awk -v l="$load" -v b="$busy" 'BEGIN{exit !(l>15 || b>0)}' || break
+  awk -v l="$load" 'BEGIN{exit !(l>18)}' || break
   sleep 60
 done
 
@@ -42,7 +40,8 @@ if [ ! -f "$WORK/kld/bf16-base-cpu.check.json" ]; then
   PYTHONPATH=packages/sepalith/src "$PY" - "$WORK/kld/bf16-base-cpu.kld" "$CAL/kld-heldout.ids.json" > "$WORK/kld/bf16-base-cpu.check.json" <<'EOF'
 import json, sys
 sys.path.insert(0, "packages/sepalith/src")
-from sepalith.quant.llama_tools import read_kld_base_tokens, first_mismatch
+from sepalith.quant.llama_tools import read_kld_base_tokens
+from sepalith.quant.calibration import first_mismatch
 stored = read_kld_base_tokens(sys.argv[1])
 expected = json.loads(open(sys.argv[2]).read())[: stored["n_chunk"] * stored["n_ctx"]]
 mm = first_mismatch(stored["tokens"], expected)
