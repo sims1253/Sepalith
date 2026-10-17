@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -16,8 +17,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "packages" / "sepalith" / "src"))
 
 DEFAULT_TOKENIZER = Path(
-    "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/"
-    "full/checkpoint-536/tokenizer.json"
+    os.environ.get(
+        "SEPALITH_TOKENIZER",
+        "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/"
+        "full/checkpoint-536/tokenizer.json",
+    )
 )
 
 

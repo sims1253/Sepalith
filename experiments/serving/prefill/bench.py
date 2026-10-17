@@ -42,16 +42,25 @@ from sepalith.campaign_protocol import (  # noqa: E402
 )
 
 HERE = Path(__file__).resolve().parent
-MODELS_DIR = Path("/tmp/prefill-models")
+MODELS_DIR = Path(os.environ.get("SEPALITH_MODELS_DIR", "/tmp/prefill-models"))
 SERVER_BIN = Path(
-    "/home/m0hawk/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-server"
+    os.environ.get(
+        "SEPALITH_LLAMA_SERVER",
+        "/home/m0hawk/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-server",
+    )
 )
 DEFAULT_TOKENIZER = Path(
-    "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/"
-    "full/checkpoint-536/tokenizer.json"
+    os.environ.get(
+        "SEPALITH_TOKENIZER",
+        "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/"
+        "full/checkpoint-536/tokenizer.json",
+    )
 )
 ARTIFACTS = Path(
-    "/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017"
+    os.environ.get(
+        "SEPALITH_ARTIFACTS",
+        "/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017",
+    )
 )
 EDIT_TYPES = frozenset({"type", "accept", "diag", "cursor_move"})
 WARMUP_SECTION_MARKERS = (
