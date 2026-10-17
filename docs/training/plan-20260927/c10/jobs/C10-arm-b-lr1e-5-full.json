@@ -1,0 +1,27 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.sft.night_arm",
+    "arm",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c10/bound/sft-v2-arm-b-lr1e-5.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 360,
+  "id": "C10-arm-b-lr1e-5-full",
+  "note": "C10 arm B to the end of its schedule (1,368 updates; gates 342, 684, 1,026, 1,368 under R1). Resumes from the latest durable checkpoint, so it also continues a run stopped at gate 684. Enqueue instead of, or after, C10-arm-b-lr1e-5, never together with it",
+  "priority": 40,
+  "requires": [
+    "C07-baseline"
+  ],
+  "resumable": true
+}
