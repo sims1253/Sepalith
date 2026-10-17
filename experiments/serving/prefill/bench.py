@@ -68,6 +68,7 @@ class Config:
     server_args: tuple[str, ...]
     warmup_policy: str
     warmup_events: tuple[str, ...]
+    warmup_stale: int
     n_predict: int
     seed: int
 
@@ -82,6 +83,7 @@ class Config:
             server_args=tuple(data.get("server_args", [])),
             warmup_policy=str(warmup.get("policy", "none")),
             warmup_events=tuple(warmup.get("events", ("open", "cursor_move", "accept"))),
+            warmup_stale=int(warmup.get("stale", 0)),
             n_predict=int(request.get("n_predict", 64)),
             seed=int(request.get("seed", 3407)),
         )
@@ -335,6 +337,7 @@ def run_pass(
     pass_index: int,
     log_dir: Path,
     cold: bool = False,
+    stale_warmup: int = 0,
 ) -> list[dict[str, Any]]:
     server = Server(config, port, log_dir / f"server-pass{pass_index}.log")
     records: list[dict[str, Any]] = []
@@ -347,8 +350,14 @@ def run_pass(
         for session in sessions:
             for event_index, event in enumerate(session["events"]):
                 if config.warmup_policy != "none" and event["type"] in config.warmup_events:
-                    head = head_ids_for_policy(
-                        event["context"], event["ids"], TOKENIZER, config.warmup_policy
+                    source_index = max(0, event_index - stale_warmup) if stale_warmup else event_index
+                    source = session["events"][source_index]
+                    head = (
+                        list(source["ids"])
+                        if config.warmup_policy == "full"
+                        else head_ids_for_policy(
+                            source["context"], source["ids"], TOKENIZER, config.warmup_policy
+                        )
                     )
                     if head:
                         result = warmup_completion(port, head)
@@ -516,6 +525,7 @@ def main() -> int:
     parser.add_argument("--reference", type=Path, default=HERE / "reference_outputs.json")
     parser.add_argument("--write-reference", action="store_true", help="freeze this run as the parity reference")
     parser.add_argument("--cold", action="store_true", help="cold mode: cache_prompt=false per request (per-event cold numerics; also the parity reference semantics)")
+    parser.add_argument("--stale-warmup", type=int, default=0, help="warm up the prompt state from N events earlier (simulates a document change racing the warm-up; 0 = exact)")
     args = parser.parse_args()
 
     import tokenizers
@@ -534,7 +544,13 @@ def main() -> int:
     with out_path.open("w", encoding="utf-8") as out:
         for pass_index in range(args.passes):
             pass_records = run_pass(
-                config, sessions, args.port, pass_index, ARTIFACTS, cold=args.cold
+                config,
+                sessions,
+                args.port,
+                pass_index,
+                ARTIFACTS,
+                cold=args.cold,
+                stale_warmup=max(args.stale_warmup, config.warmup_stale),
             )
             records.extend(pass_records)
             out.flush()
@@ -551,6 +567,7 @@ def main() -> int:
         reference = json.loads(args.reference.read_text(encoding="utf-8"))
     summary = summarize(records, reference)
     summary["cold"] = args.cold
+    summary["stale_warmup"] = max(args.stale_warmup, config.warmup_stale)
     summary.update(
         {
             "label": label,
