@@ -23,6 +23,7 @@ EOF
 case "$MODE" in
   probe_interrupt) exec "$PY" experiments/serving/prefill/probe_interrupt.py ;;
   probe_parallel) exec "$PY" experiments/serving/prefill/probe_parallel.py ;;
+  probe_slots) exec "$PY" experiments/serving/prefill/probe_slots.py ;;
 esac
 
 # host-load guard: warn (do not fail) when the box is busy
