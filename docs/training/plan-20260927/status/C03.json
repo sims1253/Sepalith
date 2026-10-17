@@ -1,7 +1,7 @@
 {
   "card": "C03",
   "state": "in_progress",
-  "updated": "2026-10-17T10:20:00+02:00",
+  "updated": "2026-10-17T12:00:00+02:00",
   "branch": "plan/C03-arm-a-parity",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/64",
   "outputs": {
@@ -160,10 +160,20 @@
         "c12_reserve": 1
       },
       "outcome": "within limit"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "dev75_token_identity_pct": 84,
+        "dev75_counts": "valid/cap/edit equal, nofp +1",
+        "pc_bf16_batch1_vs_batch32_identity_pct": 54
+      },
+      "outcome": "accept fp16 on Kaggle T4 if TRAIN-200/DEV75 token identity misses 90% but valid/cap/edit/nofp stay within 1 of bf16; no fp32 fallback"
     }
   ],
   "question_for_user": null,
-  "notes": "Arm A (checkpoint 536) is public, so Kaggle ran the representative SFT parity on it today. fp16 DEV75 against the night's bf16 R1 gate result for step 536: no non-finite values, all four R1 counts within 1 (nofp 9 vs 8, one case), 84% token-identical (63/75). The card verdict combines DEV75 and TRAIN-200, and the TRAIN-200 bf16 references for arm A come from the night job enqueued for 2026-10-18; next_steps has the exact commands. Earlier history: harness merged in #55; parent pre-check 57% identity (run-on drift on the CPT parent); bf16 references for the parent and gate 268 done 2026-10-14 and now public under campaign-20260915/C03/.",
+  "notes": "Arm A (checkpoint 536) is public, so Kaggle ran the representative SFT parity on it today. fp16 DEV75 against the night's bf16 R1 gate result for step 536: no non-finite values, all four R1 counts within 1 (nofp 9 vs 8, one case), 84% token-identical (63/75). The card verdict combines DEV75 and TRAIN-200, and the TRAIN-200 bf16 references for arm A come from the night job enqueued for 2026-10-18; next_steps has the exact commands. Earlier history: harness merged in #55; parent pre-check 57% identity (run-on drift on the CPT parent); bf16 references for the parent and gate 268 done 2026-10-14 and now public under campaign-20260915/C03/. 2026-10-17: user pre-decided acceptance of fp16 when counts stay within 1; verdict after tonight's C03-parity-references-arm-a.",
   "previous_pull_requests": [
     "https://github.com/sims1253/Sepalith/pull/55"
   ],
