@@ -1,0 +1,4 @@
+{
+  "name": "ngsimple-m8",
+  "server_args": ["--spec-type", "ngram-simple", "--spec-ngram-simple-size-m", "8"]
+}
