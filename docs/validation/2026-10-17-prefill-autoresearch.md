@@ -233,10 +233,14 @@ tiers (~106–132 tok/s; Q5_K_M is the outlier — slow dot path on this
 build/CPU). Decode is bandwidth-bound but **Q4_K_M does not beat Q8_0 at
 8 threads on this build** (15.8 vs 16.1 — the int8 paths are already
 fast); **Q6_K is the decode winner (+31% over Q8_0)**. With the warm-up
-flow, TTFT is decode-dominated, so the tier choice now moves the *floor*:
-Q6_K would take the 64 ms floor to ~50 ms and full-suggestion decode from
-~1.7 s to ~1.3 s at similar prompt speed. Fidelity calls stay with the
-quant mission.
+flow, TTFT is decode-dominated, so the tier choice now moves the *floor*.
+**Measured end-to-end** (eager warm-up on the frozen sessions): Q6_K
+floor 79.5 ms p50 at host load 24.1 vs Q8_0's 119.1 ms at load 25.6
+(~33% lower in near-matched contention bands); clean-band estimate from
+the decode rates is ~47 ms vs ~62 ms (−24%), with full-suggestion decode
+~25–30% faster too. Fidelity calls stay with the quant mission; the
+parity figure across GGUFs (0.823 vs the Q8_0 reference) is numerics, not
+a speed signal.
 
 ## 7. DEV75 final latency check (single allowed DEV latency use)
 

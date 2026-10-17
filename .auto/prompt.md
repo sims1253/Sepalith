@@ -107,3 +107,8 @@ Report/JSON updated. Remaining untested items: none with primary-metric upside i
 Run 18: slot persistence probe (--slot-save-path): save 544ms/105MB, restore 537ms; post-restart
 cold 36.7s vs restore+floor 0.73s (~50x). Adopted as flow step 5 (restart gap closed). This was
 the brief's last unexplored lever — every lever in section 4 now has a measurement.
+
+Run 19: Q6_K eager floor 79.5ms @ load 24.1 (vs Q8_0 119.1 @ 25.6; clean est. 47 vs 62ms) —
+end-to-end tier argument handed to quant mission. Paired Q8_0 rerun timed out at load ~29
+(other missions saturating; floor mechanics intact in partial data). Box now too busy for
+timing runs; host-discipline pause until a quiet window.

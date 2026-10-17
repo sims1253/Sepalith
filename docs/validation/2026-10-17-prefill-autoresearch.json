@@ -281,6 +281,7 @@
   "run-warmup-eager-async-p1-20261017T152835.jsonl",
   "run-warmup-eager-cacheram2048-20261017T161204.jsonl",
   "run-warmup-eager-poll100-20261017T113847.jsonl",
+  "run-warmup-eager-q6k-20261017T165125.jsonl",
   "run-warmup-eager-stale1-20261017T133324.jsonl",
   "run-warmup-full-eager-20261017T044620.jsonl",
   "run-warmup-full-eager-20261017T055255.jsonl",
@@ -338,5 +339,28 @@
   "processed_n": 1,
   "cache_n": 2437,
   "verdict": "adopt for restarts: ~50x on post-restart first opens; composes with warm-up flow"
+ },
+ "q6k_eager_floor": {
+  "load_band": 24.1,
+  "edit_p50_ms": 79.5,
+  "edit_p95_ms": 147.2,
+  "per_type_ms": {
+   "type": 79.2,
+   "accept": 82.3,
+   "diag": 75.3,
+   "cursor_move": 95.1,
+   "open": 79.6,
+   "file_switch": 78.4,
+   "switch_back": 151.9
+  },
+  "q8_comparator": {
+   "load_band": 25.6,
+   "edit_p50_ms": 119.1
+  },
+  "clean_band_estimate_ms": {
+   "q6k": 47.3,
+   "q8_0": 62.0
+  },
+  "note": "speed characterization only; fidelity/gating belongs to the quant mission"
  }
 }
