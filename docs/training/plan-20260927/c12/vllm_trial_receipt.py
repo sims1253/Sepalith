@@ -141,6 +141,10 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--run", type=Path, required=True, help="fetched run folder (summary.json, vllm-*.jsonl, hf-dev75/)")
     p.add_argument("--driver-receipt", type=Path, help="default: <run>/../driver-receipt.json")
+    p.add_argument("--hf-dev75-run", type=Path,
+                   help="C03's bound-batching fp16 DEV75 run of arm A (cases.json, summary.json); default <run>/hf-dev75")
+    p.add_argument("--hf-train200-run", type=Path,
+                   help="C03's bound-batching fp16 TRAIN-200 run of arm A (generations.jsonl, summary.json)")
     p.add_argument("--output", type=Path, required=True)
     a = p.parse_args(argv)
     run = a.run
@@ -183,13 +187,26 @@ def main(argv=None):
     nll_rows = read_jsonl(run / "vllm-dev-nll.jsonl")
     parity = {}
     refs = {name: cases(path) for name, path in REFERENCES.items()}
-    hf_cases_path = run / "hf-dev75" / "cases.json"
-    hf = cases(hf_cases_path) if hf_cases_path.is_file() else None
+    hf_dir = a.hf_dev75_run or run / "hf-dev75"
+    hf = cases(hf_dir / "cases.json") if (hf_dir / "cases.json").is_file() else None
+    hf_train = None
+    if a.hf_train200_run and (a.hf_train200_run / "generations.jsonl").is_file():
+        hf_train = {r["id"]: r for r in read_jsonl(a.hf_train200_run / "generations.jsonl") if r.get("sample", 0) == 0}
     if dev:
         for panel in ("dev75", "dev250"):
             parity[f"vllm_fp16_vs_bf16_{panel}"] = compare(refs[panel], by_panel(dev, panel))
         if hf:
             parity["vllm_fp16_vs_hf_fp16_dev75"] = compare(hf, by_panel(dev, "dev75"))
+        if hf_train:
+            entry = {"identity": identity(hf_train, by_panel(dev, "train200"))}
+            entry["identity"].pop("divergent")
+            cand = by_panel(dev, "train200")
+            ids = sorted(set(hf_train) & set(cand))
+            entry["cap_hits"] = {"hf_fp16": sum(bool(hf_train[i]["cap_hit"]) for i in ids),
+                                 "vllm_fp16": sum(bool(cand[i]["cap_hit"]) for i in ids)}
+            entry["mean_tokens"] = {"hf_fp16": round(statistics.mean(len(hf_train[i]["generated_ids"]) for i in ids), 1),
+                                    "vllm_fp16": round(statistics.mean(len(cand[i]["generated_ids"]) for i in ids), 1)}
+            parity["vllm_fp16_vs_hf_fp16_train200"] = entry
         if rerun:
             parity["vllm_dev75_alone_vs_mixed"] = compare(by_panel(dev, "dev75"), rerun)
     if hf:
@@ -201,6 +218,8 @@ def main(argv=None):
                               if any(r["panel"] == panel for r in nll_rows) else None) for panel in refs},
     }
     hf_summary = (summary.get("hf_dev75") or {}).get("result") or {}
+    if (hf_dir / "summary.json").is_file():
+        hf_summary = json.loads((hf_dir / "summary.json").read_text()).get("result") or hf_summary
     parity["nonfinite"] = {"hf_fp16_calls_with_nonfinite_logits": hf_summary.get("calls_with_nonfinite_logits"),
                            "hf_fp16_nll_finite": hf_summary.get("nll_finite"),
                            "vllm_nll_finite": all(math.isfinite(r["target_nll_sum"]) for r in nll_rows) if nll_rows else None}

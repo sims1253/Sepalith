@@ -14,18 +14,22 @@ Phases, in one session:
    sha256 pinned; every row must have ``split == "train"``) and the pinned DEV75
    and DEV250 panels. A seeded subset of ``--train-prompts`` TRAIN prompts
    (``input_ids[:target_start]``) is sampled; DEV is used for greedy parity
-   only, never for sampling. Nothing from the sealed final set is read.
-2. Reference (``--hf-dev75``): DEV75 greedy through ``infer_entry.py`` at the
-   bound batching (fp16, batch 32, both T4s), the same harness C03 uses.
-   vLLM is installed into a separate venv meanwhile, so Kaggle's torch and the
-   harness pins stay untouched.
+   only, never for sampling. The C03 TRAIN-200 parity prompts (public, sha256
+   pinned) are added for greedy only, so vLLM can be compared with C03's
+   bound-batching fp16 run of arm A on the same TRAIN prompts. Nothing from the
+   sealed final set is read. vLLM is installed into a separate venv from the
+   start (overlapping the downloads), so Kaggle's torch and the harness pins
+   stay untouched.
+2. Optional reference (``--hf-dev75``, off by default because C03 runs it):
+   DEV75 greedy through ``infer_entry.py`` at the bound batching (fp16, batch
+   32, both T4s).
 3. vLLM, one engine per T4 (data parallel, two independent processes), fp16,
    ``max_model_len`` 4,096, token-id prompts (``skip_tokenizer_init``), stop
    ids 1 and 130073, the model's generation_config ignored. Engine
    configurations are tried in order until one starts (the default attention
    backend, then TRITON_ATTN, FLEX_ATTENTION, and finally eager mode without
    CUDA graphs, which is recorded as such). Per worker:
-   a. greedy on its share of DEV75 + DEV250 (one call), then DEV75 again alone
+   a. greedy on its share of DEV75 + DEV250 + TRAIN-200 (one call), then DEV75 again alone
       (a different batch composition: vLLM's own noise floor);
    b. census sampling on its share of the TRAIN subset: k = ``--samples``
       samples per prompt (``n``), temperature 1.0, top_p 1.0, top_k off, cap
@@ -65,6 +69,10 @@ from infer_entry import PANELS, resolve_source, sha256_file, sha256_ids, write_j
 
 SCHEMA = "sepalith.c12.vllm-trial.v1"
 MODEL = ("hf:scholzmx/sepalith-2b-edit-sft/arm-a", "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030")
+# The C03 TRAIN-200 parity prompts (seed 3407, stratified by family), which C03 runs on arm A through the
+# bound-batching harness: vLLM greedy on the same prompts gives a TRAIN-side engine comparison.
+GREEDY_PROMPTS = ("hf-dataset:scholzmx/sepalith/campaign-20260915/C03/c03-train200-seed3407.jsonl",
+                  "3a99e2ad6a6b04995cd52a2614d67e13e31ba8e30eae2d2fc4a6d502ff250dc2")
 TRAIN_ROWS = ("hf-dataset:scholzmx/sepalith/campaign-20260915/sft/DAT10-finish-source-repair-v4-braceindent/"
               "train-token-rows.jsonl", "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef")
 STOP_IDS = (1, 130073)
@@ -86,7 +94,7 @@ def parse_args(argv=None):
     p.add_argument("--cache-dir", type=Path, default=Path("/tmp/sepalith-vllm"))
     p.add_argument("--model", default=MODEL[0])
     p.add_argument("--model-sha256", default=MODEL[1])
-    p.add_argument("--train-prompts", type=int, default=384, help="seeded TRAIN subset size")
+    p.add_argument("--train-prompts", type=int, default=512, help="seeded TRAIN subset size")
     p.add_argument("--samples", type=int, default=8)
     p.add_argument("--temperature", type=float, default=1.0)
     p.add_argument("--top-p", type=float, default=1.0)
@@ -94,13 +102,16 @@ def parse_args(argv=None):
     p.add_argument("--seed", type=int, default=3407)
     p.add_argument("--chunk-prompts", type=int, default=96, help="TRAIN prompts per generate call and worker")
     p.add_argument("--workers", type=int, default=2)
-    p.add_argument("--hf-dev75", action=argparse.BooleanOptionalAction, default=True,
-                   help="run the bound-batching transformers DEV75 reference in this session")
+    p.add_argument("--hf-dev75", action=argparse.BooleanOptionalAction, default=False,
+                   help="also run the bound-batching transformers DEV75 reference in this session (off: C03 runs it)")
+    p.add_argument("--greedy-prompts", default=GREEDY_PROMPTS[0],
+                   help="extra TRAIN prompts for vLLM greedy (default: C03 TRAIN-200); 'none' to skip")
+    p.add_argument("--greedy-prompts-sha256", default=GREEDY_PROMPTS[1])
     p.add_argument("--vllm-specs", default="vllm==0.31.0,vllm==0.25.0",
                    help="pip specs tried in order (each into a fresh venv) until an engine starts")
     p.add_argument("--gpu-memory-utilization", type=float, default=0.88)
     p.add_argument("--max-num-seqs", type=int, default=256)
-    p.add_argument("--session-budget-minutes", type=float, default=38.0,
+    p.add_argument("--session-budget-minutes", type=float, default=30.0,
                    help="no sampling chunk may run past this many minutes after the entry started")
     p.add_argument("--first-chunk-prompts", type=int, default=32, help="calibration chunk (sizes the deadline check)")
     p.add_argument("--train-rows", default=TRAIN_ROWS[0], help="TRAIN rows source (its sha256 stays pinned)")
@@ -175,6 +186,21 @@ def build_inputs(args, model_path, out):
         if count != pinned["cases"]:
             raise ValueError(f"{name}: {count} cases, expected {pinned['cases']}")
         panels[name] = {"source": pinned["source"], "sha256": pinned["sha256"], "cases": count}
+    extra = None
+    if args.greedy_prompts and args.greedy_prompts != "none":
+        path = resolve_source(args.greedy_prompts, args.cache_dir)
+        if sha256_file(path) != args.greedy_prompts_sha256:
+            raise ValueError("greedy prompts sha256 differs from the pinned file")
+        rows = read_jsonl(path)
+        for row in rows:
+            if row.get("split", "train") != "train":
+                raise ValueError("extra greedy prompts must be TRAIN rows")
+            ids = row["prompt_token_ids"]
+            if len(ids) + args.max_new_tokens > MAX_MODEL_LEN:
+                raise ValueError(f"greedy prompt {row['id']} plus the cap exceeds {MAX_MODEL_LEN}")
+            dev.append({"key": f"train200:{row['id']}", "panel": "train200", "id": row["id"],
+                        "family": row.get("family"), "prompt_token_ids": ids, "prompt_sha256": sha256_ids(ids)})
+        extra = {"source": args.greedy_prompts, "sha256": args.greedy_prompts_sha256, "prompts": len(rows)}
     write_jsonl(out / "dev-prompts.jsonl", dev)
     families = {}
     for item in train:
@@ -182,7 +208,7 @@ def build_inputs(args, model_path, out):
     return {"train_rows": {"source": args.train_rows, "sha256": TRAIN_ROWS[1], "rows": len(rows)},
             "train_subset": {"prompts": len(train), "seed": args.seed, "families": families,
                              "prompt_tokens_mean": sum(len(t["prompt_token_ids"]) for t in train) / len(train)},
-            "dev_panels": panels}
+            "dev_panels": panels, "greedy_train_prompts": extra}
 
 
 def classify_dev(model_path, cache_dir, records):
@@ -201,6 +227,8 @@ def classify_dev(model_path, cache_dir, records):
                 case = json.loads(line)
                 panels[f"{name}:{case['id']}"] = case
     for record in records:
+        if record["key"] not in panels:  # TRAIN greedy prompts: no panel context; token comparison only
+            continue
         case = panels[record["key"]]
         context = PromptContext.from_mapping(case["context"])
         generated = record["generated_ids"]
@@ -428,8 +456,9 @@ def vllm_worker(args):
         try:
             t0 = time.monotonic()
             nll = []
-            for first in range(0, len(dev), 8):
-                batch = dev[first:first + 8]
+            scored = [d for d in dev if "input_ids" in d]
+            for first in range(0, len(scored), 8):
+                batch = scored[first:first + 8]
                 outputs = llm.generate([tokens_prompt(d["input_ids"]) for d in batch],
                                        sampling_params(temperature=0.0, max_tokens=1, prompt_logprobs=0),
                                        use_tqdm=False)
@@ -555,6 +584,11 @@ def main(argv=None):
     write_json(out / "summary.json", summary)
     try:
         mark("start")
+        specs = [s.strip() for s in args.vllm_specs.split(",") if s.strip()]
+        installs = {}
+        install_thread = threading.Thread(
+            target=lambda: installs.update({0: install_vllm(specs[0], VENV, out / "vllm-install.log")}))
+        install_thread.start()
         model_path = resolve_source(args.model, args.cache_dir, want="model").resolve()
         model_sha = sha256_file(model_path / "model.safetensors")
         if model_sha != args.model_sha256:
@@ -564,11 +598,6 @@ def main(argv=None):
         summary["inputs"] = build_inputs(args, model_path, out)
         mark("inputs")
 
-        specs = [s.strip() for s in args.vllm_specs.split(",") if s.strip()]
-        installs = {}
-        install_thread = threading.Thread(
-            target=lambda: installs.update({0: install_vllm(specs[0], VENV, out / "vllm-install.log")}))
-        install_thread.start()
         if args.hf_dev75 and not args.cpu_dry_run:
             summary["hf_dev75"] = run_hf_dev75(args, model_path, out)
             mark("hf-dev75")
@@ -613,6 +642,7 @@ def main(argv=None):
         summary["vllm_workers"] = worker_results
         summary["throughput"] = throughput(worker_results)
         dev = classify_dev(model_path, args.cache_dir, merge_vllm(out, args.workers, "dev_greedy"))
+        summary["vllm_greedy_train200"] = {"prompts": sum(r["panel"] == "train200" for r in dev)}
         rerun = classify_dev(model_path, args.cache_dir, merge_vllm(out, args.workers, "dev75_rerun"))
         write_jsonl(out / "vllm-dev-greedy.jsonl", dev)
         write_jsonl(out / "vllm-dev75-rerun.jsonl", rerun)
