@@ -19,5 +19,8 @@ echo "host_load1=${LOAD1}"
 
 exec "$PY" experiments/serving/prefill/bench.py \
   --config experiments/serving/prefill/configs/current.json \
+  --sessions "${SESSIONS:-experiments/serving/prefill/sessions.jsonl}" \
+  --manifest "${MANIFEST:-experiments/serving/prefill/manifest.json}" \
   --passes "${PASSES:-2}" \
-  --port "${PORT:-18071}"
+  --port "${PORT:-18071}" \
+  ${EXTRA:+$EXTRA}
