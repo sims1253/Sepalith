@@ -1,5 +1,5 @@
 {
-  "name": "warmup-stable",
+  "name": "warmup-full-eager",
   "model": "arm-a-Q8_0.gguf",
   "server_args": [
     "--alias", "sepalith",
@@ -9,6 +9,6 @@
     "-t", "8",
     "-ngl", "0"
   ],
-  "warmup": { "policy": "stable", "events": ["open", "cursor_move", "file_switch"] },
+  "warmup": { "policy": "full", "events": ["open", "type", "accept", "diag", "cursor_move", "file_switch"] },
   "request": { "n_predict": 64, "seed": 3407 }
 }

@@ -40,9 +40,15 @@ def main() -> int:
     by_type: dict[str, list[int]] = {}
     diffs: list[tuple[str, list[int], list[int]]] = []
     total = match = 0
+    positional: dict[tuple[int, str], int] = {}
     for line in args.records.read_text(encoding="utf-8").splitlines():
         record = json.loads(line)
-        key = f'{record["session_id"]}:{record.get("index", "?")}:{record["pass"]}'
+        if "index" in record:
+            key = f'{record["session_id"]}:{record["index"]}:{record["pass"]}'
+        else:
+            counter = positional.setdefault((record["pass"], record["session_id"]), 0)
+            key = f'{record["session_id"]}:{counter}:{record["pass"]}'
+            positional[(record["pass"], record["session_id"])] = counter + 1
         expected = reference.get(key)
         if expected is None:
             continue

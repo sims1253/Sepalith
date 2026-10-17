@@ -4094,3 +4094,4 @@ worktree research/prefill-autoresearch-20261017). Artifacts:
 /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/. Will run CPU
 llama-bench/llama-server measurements alongside the night queue (GPU window);
 pausing/repeating any measurement if host load interferes. No GPU, no uploads.
+## [2026-10-17T04:05+02] HEARTBEAT rzcode-prefill pid 366875 /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/cold-reference.log — baseline+cache-reuse+warmup measured (2 passes each); cold 12x via n_predict=0 warmup; generating per-event cold parity reference now; next flag sweep. Load dropped to ~3 (night job done).
