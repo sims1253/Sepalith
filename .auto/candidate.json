@@ -1,9 +1,9 @@
 {
-  "label": "c7-ao6kv8-ffndown6-emb4-head4",
-  "tier": "Q4_K_M",
-  "output_type": "q4_K",
-  "embedding_type": "q4_K",
+  "label": "anchor-IQ4_XS",
+  "tier": "IQ4_XS",
+  "output_type": "q8_0",
+  "embedding_type": "q8_0",
   "imatrix": true,
-  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "ffn_down\\.weight=q6_K"],
+  "tensor_types": [],
   "kld_chunks": 64
 }

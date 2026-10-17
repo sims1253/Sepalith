@@ -35,7 +35,7 @@ from sepalith.quant import search_panel as sp
 from sepalith.quant import gguf_dev as gd
 from sepalith.quant.llama_tools import NICE, file_sha256, gpu_layers, llama_bin, llama_version, refuse_sealed, tool_env
 
-TOKENIZER_JSON_SHA256 = "3e065a558a034185fe299917b396685c1facd0169a9eea1e629eb30c171fed81"
+TOKENIZER_JSON_SHA256 = "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
 
 
 def build(args) -> dict:

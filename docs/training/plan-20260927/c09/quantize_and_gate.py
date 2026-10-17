@@ -64,10 +64,10 @@ EXPORT = REPO / "experiments" / "training" / "export_gguf.py"
 CALIBRATION_DIR = Path("/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1")
 EMBEDDING = "q8_0"
 VARIANT_LABELS = ("Q8_0", "Q6_K", "Q5_K_M", "Q4_K_M", "Q4_K_M-head-q6_k", "Q4_K_M-uncalibrated", "Q4_K_M+",
-                  "Q4_K_M-attn-out-q8_0")
+                  "Q4_K_M-attn-out-q8_0", "Q4_K_M-mixA", "Q4_K_M-mixB")
 QUANT_TYPE = {"Q8_0": "Q8_0", "Q6_K": "Q6_K", "Q5_K_M": "Q5_K_M", "Q4_K_M": "Q4_K_M",
               "Q4_K_M-head-q6_k": "Q4_K_M", "Q4_K_M-uncalibrated": "Q4_K_M", "Q4_K_M+": "Q4_K_M",
-              "Q4_K_M-attn-out-q8_0": "Q4_K_M"}
+              "Q4_K_M-attn-out-q8_0": "Q4_K_M", "Q4_K_M-mixA": "Q4_K_M", "Q4_K_M-mixB": "Q4_K_M"}
 
 IMATRIX_CHECK = r"""
 import json, sys
@@ -85,7 +85,15 @@ print(json.dumps({'chunk_count': field('imatrix.chunk_count'), 'chunk_size': fie
 
 
 def variant_specs(n_layers: int) -> dict[str, dict]:
-    """Stem suffix, tier and export flags for each label (Q8_0 comes from step 1)."""
+    """Stem suffix, tier and export flags for each label (Q8_0 comes from step 1).
+
+    ``embedding`` defaults to :data:`EMBEDDING` (q8_0) when absent.  For
+    attn_v/ffn_down, override the whole category (all 42 layers), never a
+    subset: a partial override skips the b10453 ``i_attention_wv``/
+    ``i_ffn_down`` counters and silently shifts the Q4_K_M every-3rd q6_K
+    mix for every later layer of that category (observed on the night run's
+    Q4_K_M+; see docs/validation/2026-10-17-quant-autoresearch.md).
+    """
     last = (n_layers - 2, n_layers - 1)
     edge_down = r"blk\.(0|1|%d|%d)\.ffn_down\.weight=q6_k" % last
     return {
@@ -98,6 +106,16 @@ def variant_specs(n_layers: int) -> dict[str, dict]:
                     "tensor_types": [r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0", edge_down]},
         "Q4_K_M-attn-out-q8_0": {"stem": "attn-out-q8_0", "tier": "Q4_K_M", "imatrix": True, "output": "q8_0",
                                  "tensor_types": [r"attn_output\.weight=q8_0"]},
+        # 2026-10-17 quant autoresearch (CPU search): mixed-precision q4 tiers.
+        # mixA "speed" (report Pareto: smallest + fastest CPU decode of the gate-passing
+        # recipes): token_embd/output q5_K, attn_output q6_K, attn_k/attn_v q8_0 (all layers).
+        "Q4_K_M-mixA": {"stem": "mixa", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q5_K",
+                        "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0"]},
+        # mixB "fidelity" (best KLD under the Q4_K_M size): mixA + ffn_down q6_K on all 42
+        # layers.  Note: q6_K ffn_down costs ~30% CPU decode (bandwidth) — see the report.
+        "Q4_K_M-mixB": {"stem": "mixb", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q5_K",
+                        "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
+                                          r"ffn_down\.weight=q6_K"]},
     }
 
 
@@ -245,7 +263,7 @@ def main(argv=None) -> int:
         if label in existing:
             continue
         flags = ["--source-gguf", str(bf16), "--out-dir", str(work), "--tiers", spec["tier"], "--threads", str(a.threads),
-                 "--output-tensor-type", spec["output"], "--token-embedding-type", EMBEDDING]
+                 "--output-tensor-type", spec["output"], "--token-embedding-type", spec.get("embedding", EMBEDDING)]
         flags += ["--imatrix", str(imatrix)] if spec["imatrix"] else ["--uncalibrated"]
         for override in spec["tensor_types"]:
             flags += ["--tensor-type", override]
