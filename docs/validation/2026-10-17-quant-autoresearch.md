@@ -135,8 +135,17 @@ identity that a ≤2-case net cap rise would require. **This threshold needs a
 user decision** (accept a noise-calibrated bound, e.g. valid_drop ≤ 3 pp for
 all tiers, or gate on exact/McNemar/nofp/KLD only). `gate.py` was not touched.
 
-Search-panel evidence (TRAIN, no DEV reads): ⏳ bf16 reference run in flight;
-mixA/mixB agreement + net cap rise vs bf16 to follow.
+Search-panel evidence (TRAIN, no DEV reads; 196 cases, 7 families × 28, greedy, cap 1,024,
+bf16 CPU reference; `panel/agreement-*.json`):
+
+| candidate | identical with bf16 | net cap rise | done→cap | cap→done | median Δlen | p90 Δlen |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Q4_K_M-mixA | **78.1%** | **+1** | 1 | 0 | 0 | +1 |
+| Q4_K_M-mixB | ⏳ | | | | | |
+
+For scale: on the night run's DEV250 (CUDA), Q4_K_M was 51.2% identical with
+bf16 (+10 net caps) and Q8_0 66.8% (+6). mixA's TRAIN-panel fidelity is far
+above the baseline's, consistent with its KLD.
 
 ## 7. DEV confirmations (≤3; every DEV read logged here)
 
