@@ -216,6 +216,21 @@
     22.3,
     7.03
    ]
+  },
+  "4t_interleaved_ab": {
+   "method": "alternating single-rep tg32 runs, drift-cancelling under contention",
+   "pairs": 8,
+   "favoring_q6k": 7,
+   "median_ratio_q6_over_q8": 1.251,
+   "q6k_range": [
+    7.34,
+    8.59
+   ],
+   "q8_range": [
+    4.84,
+    6.69
+   ],
+   "verdict": "crossover NOT confirmed \u2014 Q6_K leads decode at 4T and 8T; earlier same-band pair was contention drift"
   }
  },
  "layout_simulation_v2": {
@@ -394,6 +409,5 @@
   "id_parity_exact": "220/220 (no auto-BOS)",
   "load_band": 26,
   "verdict": "send token IDs: faster and training-exact; text path identical but ~5-23ms slower per request"
- },
- "flagged_4t_crossover_hypothesis": "Q8_0 may beat Q6_K on decode at 4 threads (8.53 vs 5.97 tok/s contended, opposite of 8T) \u2014 confirm interleaved on a quiet host before relying on it"
+ }
 }

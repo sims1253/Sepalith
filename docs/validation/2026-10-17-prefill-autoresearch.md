@@ -250,13 +250,14 @@ the decode rates is ~47 ms vs ~62 ms (−24%), with full-suggestion decode
 parity figure across GGUFs (0.823 vs the Q8_0 reference) is numerics, not
 a speed signal.
 
-**Flagged hypothesis for the quant mission (needs quiet-window
-confirmation):** under heavy contention at 4 threads with a same-band
-anchor, Q8_0 decoded *faster* than Q6_K (8.53 vs 5.97 tok/s; pp512 34.9
-vs 32.0) — the opposite of the 8-thread ordering. Plausible mechanism:
-Q6_K's heavier dequant loses to Q8_0's VNNI int8 dots when compute
-threads are scarce. If it holds, the tier recommendation flips by
-platform: Q6_K for 8-thread desktops, Q8_0 for 4-thread laptops.
+**Resolved (interleaved A/B re-test):** an earlier same-band pair
+suggested Q8_0 might decode faster than Q6_K at 4 threads (8.53 vs
+5.97 tok/s) — the opposite of the 8-thread ordering. Interleaved
+Q8_0/Q6_K decode reps (A/B ×8, drift-cancelling under contention) refute
+it: **7/8 pairs favor Q6_K, median +25%** (Q6_K 7.3–8.6 vs Q8_0
+4.8–6.7 tok/s at 4T in the same band). The tier ordering does not flip
+by platform: Q6_K leads decode at both 4 and 8 threads; the earlier pair
+was contention drift between non-interleaved runs.
 
 ## 7. DEV75 final latency check (single allowed DEV latency use)
 

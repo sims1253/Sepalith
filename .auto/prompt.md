@@ -121,3 +121,7 @@ Run 21: 4T laptop tier rows + same-band anchor. FLAGGED HYPOTHESIS: possible Q8_
 decode crossover at 4T (8.53 vs 5.97 tok/s contended; opposite of 8T ordering) — needs
 quiet-window interleaved confirmation. Clean-host validation still blocked (load 17-27
 all window; quant mission saturating).
+
+Run 22: interleaved A/B 4T decode test resolves the flagged crossover — NOT confirmed:
+7/8 pairs favor Q6_K (median +25%). Tier ordering stable across thread counts (Q6_K leads
+decode at 4T and 8T). Report/JSON updated. Remaining open: clean-host floor row only.
