@@ -94,3 +94,8 @@ Runs 14-15: CORRECTED the abort claim — client abort does not cancel an in-fli
 Two-slot probe: --parallel 2 gives a warm-up lane — cross-slot pool restore 91.6ms,
 auto-select avoids busy slots (195ms), concurrency costs contention not queuing (1.7s).
 Report §3/§4 + JSON updated: drop abort-on-pause; optional --parallel 2 lane.
+
+Run 16 (async zero-debounce, 1 pass, load 15-25): pause-during-warm-up interleaves via
+continuous batching; degrades to structural latency, never worse; warm-up pays only when
+it completes first — debounce is the knob. Parallel-2 full run skipped (moot: pool serves
+revisited states; interleaving avoids the queue disaster). config restored to eager winner.

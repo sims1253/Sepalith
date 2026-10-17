@@ -278,6 +278,7 @@
   "run-dev75-baseline-20261017T101211.jsonl",
   "run-dev75-baseline-20261017T103954.jsonl",
   "run-dev75-eager-20261017T110729.jsonl",
+  "run-warmup-eager-async-p1-20261017T152835.jsonl",
   "run-warmup-eager-poll100-20261017T113847.jsonl",
   "run-warmup-eager-stale1-20261017T133324.jsonl",
   "run-warmup-full-eager-20261017T044620.jsonl",
@@ -305,5 +306,15 @@
   "warmup_cpu_s_per_pass": 91.5,
   "interpretation": "typing pauses land between 64ms (floor) and 265ms (mid-burst pause); settle events hold the floor when the pause follows the settle warm-up by more than the debounce"
  },
- "poll_lever": "--poll 100 --poll-batch 100 measured latency-neutral (64.7 vs 64.6ms); default stands"
+ "poll_lever": "--poll 100 --poll-batch 100 measured latency-neutral (64.7 vs 64.6ms); default stands",
+ "zero_debounce_async_p1": {
+  "description": "fire-and-forget warm-up + immediate request (pause races the warm-up), 1 pass, host load 15-25 (~2x other arms' band)",
+  "edit_p50_ms": 1323.2,
+  "type_ms": 765.3,
+  "accept_ms": 6243.4,
+  "cursor_move_ms": 8254.3,
+  "open_ms": 4133.5,
+  "mechanics": "queued request interleaves with the in-flight warm-up (cache_n at request start == warm-up progress); TTFT ~= warm-up remaining + tail ~= structural cost; a warm-up pays only when it completes before the pause",
+  "parallel2_full_run": "skipped as moot: single-slot interleaving avoids worse-than-structural waits; revisited-state reuse already served by the KV pool (switch_back)"
+ }
 }

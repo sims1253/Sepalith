@@ -29,10 +29,15 @@ esac
 LOAD1=$(cut -d' ' -f1 /proc/loadavg)
 echo "host_load1=${LOAD1}"
 
+CFG_PASSES=$("$PY" - <<'EOF2'
+import json, pathlib
+print(json.loads(pathlib.Path("experiments/serving/prefill/configs/current.json").read_text()).get("passes", 2))
+EOF2
+)
 exec "$PY" experiments/serving/prefill/bench.py \
   --config experiments/serving/prefill/configs/current.json \
   --sessions "${SESSIONS:-experiments/serving/prefill/sessions.jsonl}" \
   --manifest "${MANIFEST:-experiments/serving/prefill/manifest.json}" \
-  --passes "${PASSES:-2}" \
+  --passes "$CFG_PASSES" \
   --port "${PORT:-18071}" \
   ${EXTRA:+$EXTRA}
