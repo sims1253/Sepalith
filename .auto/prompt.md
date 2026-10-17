@@ -116,3 +116,8 @@ timing runs; host-discipline pause until a quiet window.
 Run 20: tokenize probe — server /tokenize 4.9ms p50/23ms max per prompt (7.5-36% of floor);
 id parity 220/220 exact (no auto-BOS). Send-IDs recommendation now quantified. Box still
 saturated by other missions; clean-host validation run remains the only open item.
+
+Run 21: 4T laptop tier rows + same-band anchor. FLAGGED HYPOTHESIS: possible Q8_0 > Q6_K
+decode crossover at 4T (8.53 vs 5.97 tok/s contended; opposite of 8T ordering) — needs
+quiet-window interleaved confirmation. Clean-host validation still blocked (load 17-27
+all window; quant mission saturating).

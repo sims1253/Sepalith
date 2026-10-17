@@ -198,6 +198,24 @@
     67.7,
     15.51
    ]
+  },
+  "4t_contended_band": {
+   "note": "load ~26 band, same-band anchor rows; ratios within band only",
+   "Q8_0": [
+    34.9,
+    null,
+    8.53
+   ],
+   "imat-Q6_K": [
+    32.0,
+    28.7,
+    5.97
+   ],
+   "imat-Q5_K_M": [
+    23.2,
+    22.3,
+    7.03
+   ]
   }
  },
  "layout_simulation_v2": {
@@ -376,5 +394,6 @@
   "id_parity_exact": "220/220 (no auto-BOS)",
   "load_band": 26,
   "verdict": "send token IDs: faster and training-exact; text path identical but ~5-23ms slower per request"
- }
+ },
+ "flagged_4t_crossover_hypothesis": "Q8_0 may beat Q6_K on decode at 4 threads (8.53 vs 5.97 tok/s contended, opposite of 8T) \u2014 confirm interleaved on a quiet host before relying on it"
 }
