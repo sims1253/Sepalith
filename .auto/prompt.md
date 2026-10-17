@@ -103,3 +103,7 @@ revisited states; interleaving avoids the queue disaster). config restored to ea
 Run 17: --cache-ram 2048 (laptop recommendation) VALIDATED free — processed_n=1 everywhere,
 parity identical; floor scales with contention 64.6ms@load8 -> 119.1ms@load25.6 (graceful).
 Report/JSON updated. Remaining untested items: none with primary-metric upside in this lane.
+
+Run 18: slot persistence probe (--slot-save-path): save 544ms/105MB, restore 537ms; post-restart
+cold 36.7s vs restore+floor 0.73s (~50x). Adopted as flow step 5 (restart gap closed). This was
+the brief's last unexplored lever — every lever in section 4 now has a measurement.

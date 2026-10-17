@@ -327,5 +327,16 @@
    "load_8_floor_ms": 64.6,
    "load_25_6_floor_ms": 119.1
   }
+ },
+ "slot_persistence_probe": {
+  "prompt_tokens": 2438,
+  "save_ms": 544.5,
+  "file_bytes": 104893564,
+  "control_cold_after_restart_ms": 36736.3,
+  "restore_ms": 537.3,
+  "open_after_restore_ms": 190.9,
+  "processed_n": 1,
+  "cache_n": 2437,
+  "verdict": "adopt for restarts: ~50x on post-restart first opens; composes with warm-up flow"
  }
 }

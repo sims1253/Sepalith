@@ -120,6 +120,7 @@ and settle-only is the battery-saving fallback.
 | KV cache type `-ctk/-ctv q8_0` | Reject on CPU | pp2048 61.8 vs 85.4 tok/s (f16) — quantize/dequant overhead dominates with 2 KV heads; also numerics-changing. |
 | `--ctx-checkpoints` / KV pool | Keep defaults | switch_back already ~free via the default `--cache-ram` pool (checked: 0.998 cached). On RAM-tight laptops cap it (`--cache-ram 2048`). |
 | Prompt-layout reordering (retraining proposal) | **Negative — do not spend a training round on ordering alone** | Token-level LCP simulation on the frozen sessions: pooled cached p50 0.801 (PRM03) vs 0.788 (stable-first: diagnostics-before-history hurts diag events) vs 0.801 (history capped to 1 event). Cursor moves stay 0.23 under every ordering: the anchored prefix itself grows, so divergence lands at the prefix end regardless of section order. The mid-prompt volatility problem is content change, not section order. |
+| Slot persistence across restarts (`--slot-save-path` + `/slots`) | Adopt for restarts | Probe (2438-token context, load ~13–21): save 544 ms → 104.9 MB (~43 KB/token); after a restart the cold open costs 36.7 s while restore (537 ms) + open lands at the floor (190.9 ms, 1 processed token) — ~50× for the first open of each previously-warm file. Save on shutdown/idle (0.5 s per file), restore on startup for reopened editors. |
 | Warm-up overlap safety | Solved — no abort needed; optionally a second slot | Fresh-server probes (2438-token cold prompt): a client-side abort does **not** cancel an in-flight prefill nor free the slot (follow-up request queued 36.6 s; the warm-up runs to completion server-side, and its finished/aborted KV is what persists — the original "69 ms after abort" was the KV pool restoring an earlier full context). With `--parallel 2`: cross-slot pool restore gives a slot-0 request the slot-1-warmed prefix (91.6 ms, cache_n 2437); auto slot selection avoids the busy slot (195 ms); concurrent prefill costs CPU contention (~1.7 s) instead of queuing (30.9 s cold control). |
 
 ## 4. Recommended llama-server spawn args and request flow
@@ -174,6 +175,11 @@ Request flow (the important part):
    queuing behind it).
 4. Suggestion display streams from the first token (TTFT ≈ 64 ms); the full
    suggestion is decode-bound (~26 tokens ≈ 1.7 s at Q8_0/8T).
+5. **Across restarts**: add `--slot-save-path <dir>`, save each open
+   document's context on shutdown or idle (≈0.5 s per file, ~43 KB/token),
+   and restore on startup — post-restart first opens then cost ~0.5–0.7 s
+   instead of the full cold prefill (measured ~50× on a 2438-token
+   context).
 
 CPU/battery note: eager warm-up conserves total FLOPs (it is the same
 prefill, moved into idle time) but concentrates CPU during typing bursts;
