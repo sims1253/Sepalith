@@ -121,8 +121,18 @@ into 1024-cap runaways at ~0.12 × changed-cases; even Q8_0 nets +6 caps of
 untouched. Search panel measures net cap-rise vs bf16 as the proxy.
 
 Search panel: 196 TRAIN cases (7 families × 28), excludes calibration + KLD
-ids, `search-panel.json` built (sha 11c4f32c…). bf16 CPU reference run
-pending (~1.5–2 h).
+ids, `search-panel.json` built (sha 11c4f32c…). Results (vs bf16 CPU ref,
+mean 75 gen tok): **mixA 78.1% identical, net cap rise +1; mixB 77.6%
+identical, net cap rise −2** (2 recoveries). Baseline Q4_K_M on DEV250
+(CUDA) was 51% identical / +10 caps for scale.
+
+llama-bench (matched load 16, 8T): Q4_K_M 10.09 tg32; C2 11.63; **mixA
+14.29 (+42%)**; mixB 9.97 (−1%). ffn_down q6 is a decode tax; head q5_K
+is the decode win. Prefill ~equal across the set.
+
+Finalists: **mixA** (speed) and **mixB** (fidelity). DEV250+DEV75 CPU
+confirmation running (quantize_and_gate via --existing, gate receipt into
+the work dir). Third DEV slot unused.
 
 ## Plan
 1. CPU KLD anchors: Q4_K_M baseline, Q6_K (bf16 CPU base computed once).
