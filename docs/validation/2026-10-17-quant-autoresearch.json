@@ -235,6 +235,16 @@
         "length_delta_p90": 1,
         "mean_generated_tokens": 79.07,
         "wall_seconds": 3774.7
+      },
+      "Q4_K_M-mixB": {
+        "identical_pct": 77.55,
+        "net_cap_rise": -2,
+        "done_to_cap": 0,
+        "cap_to_done": 2,
+        "length_delta_median": 0,
+        "length_delta_p90": 0,
+        "mean_generated_tokens": 67.61,
+        "wall_seconds": 2149.2
       }
     }
   },
