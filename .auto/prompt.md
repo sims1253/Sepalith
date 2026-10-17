@@ -99,3 +99,7 @@ Run 16 (async zero-debounce, 1 pass, load 15-25): pause-during-warm-up interleav
 continuous batching; degrades to structural latency, never worse; warm-up pays only when
 it completes first — debounce is the knob. Parallel-2 full run skipped (moot: pool serves
 revisited states; interleaving avoids the queue disaster). config restored to eager winner.
+
+Run 17: --cache-ram 2048 (laptop recommendation) VALIDATED free — processed_n=1 everywhere,
+parity identical; floor scales with contention 64.6ms@load8 -> 119.1ms@load25.6 (graceful).
+Report/JSON updated. Remaining untested items: none with primary-metric upside in this lane.

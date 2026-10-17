@@ -89,6 +89,9 @@ Notes:
   (~1 token recomputed). Nothing to fix there.
 * After warm-up, TTFT is the decode-bound floor: 1 forced prompt token
   (~7 ms) + one decode step (~55 ms at 15–16 tok/s, Q8_0, 8 threads).
+  The floor scales with host CPU contention, gracefully: 64.6 ms at load
+  ~8, 119.1 ms at load ~25.6 (measured alongside the quant mission's
+  benches), with the mechanism intact (1 processed token everywhere).
   Further TTFT gains now require faster decode (quant tier — §6 — or
   speculative decoding), not more caching.
 * Full-response time is decode-dominated: with this harness's 64-token cap
@@ -134,7 +137,9 @@ llama-server \
   --parallel 1 \
   -t <all-physical-cores> \
   -ngl 0 \
-  --cache-ram 2048        # cap the KV pool on 16-32 GB laptops (default 8192)
+  --cache-ram 2048        # cap the KV pool on 16-32 GB laptops (default 8192);
+                          # measured free: processed_n=1 on every event incl.
+                          # switch_back, identical outputs (run 16)
 ```
 
 * Do **not** add `--cache-reuse`, `--no-cache-prompt`, `-ub`, `-fa`, or
