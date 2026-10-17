@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import hashlib
+from pathlib import Path
 import shutil
 import unittest
+from unittest import mock
 
 from sepalith.campaign_protocol import Cursor, Position, PromptContext, ReplacementRange
 from sepalith.training.rl.air_canonical import AirFormatter, AirInfrastructureError
@@ -13,7 +15,9 @@ from sepalith.training.rl.campaign_r_parse_probe import (
     RParseOnlyProbe,
     sha_file,
 )
+from sepalith.training.rl.length_policy import REVIEWED_POLICY, REVIEWED_POLICY_V4
 from sepalith.training.rl.reward_v21 import (
+    TRAIN_INPUTS,
     CampaignPRM03RewardV21,
     Evidence,
     ReferenceSpec,
@@ -22,6 +26,7 @@ from sepalith.training.rl.reward_v21 import (
     RewardV21Scorer,
     RowReference,
     Sample,
+    load_train_specs,
 )
 
 HAVE_TOOLS = shutil.which("Rscript") is not None and shutil.which("air") is not None
@@ -255,6 +260,33 @@ class RewardV21Tests(unittest.TestCase):
                         reward_buffer=[envelope] * 2, id=["edit"] * 2, family=["rename_propagation"] * 2)
         self.assertEqual(values, [1.0, 0.0])
         self.assertEqual([record["exact"] for record in reward.last_records], [True, False])
+
+
+class TrainInputsTests(unittest.TestCase):
+    """The census scores against the rows arm A was trained on (DAT10 v4-braceindent)."""
+
+    def test_train_inputs_are_the_v4_braceindent_rows(self) -> None:
+        rows_path, rows_sha = TRAIN_INPUTS["rows"]
+        context_path, context_sha = TRAIN_INPUTS["context"]
+        self.assertTrue(rows_path.startswith("DAT10-finish-source-repair-v4-braceindent/"))
+        self.assertTrue(context_path.startswith("DAT10-finish-source-repair-v4-braceindent/"))
+        self.assertEqual(rows_sha, "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef")
+        # v4 leaves prompts and ranges alone: the sidecar is byte-identical to v3's.
+        self.assertEqual(context_sha, "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a")
+        self.assertEqual(REVIEWED_POLICY_V4.input_rows_sha256, rows_sha)
+
+    def test_loader_binds_the_v4_length_policy(self) -> None:
+        class Stop(Exception):
+            pass
+
+        target = "sepalith.training.rl.campaign_rl_data.load_training_records"
+        with mock.patch(target, side_effect=Stop) as loader, self.assertRaises(Stop):
+            load_train_specs(Path("/nonexistent"))
+        args, kwargs = loader.call_args
+        self.assertEqual(args[0], Path("/nonexistent") / TRAIN_INPUTS["rows"][0])
+        self.assertEqual(args[1], TRAIN_INPUTS["rows"][1])
+        self.assertIs(kwargs["length_policy"], REVIEWED_POLICY_V4)
+        self.assertEqual(RewardV21Config().max_completion_tokens, REVIEWED_POLICY.completion_max_tokens)
 
 
 if __name__ == "__main__":
