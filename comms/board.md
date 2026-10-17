@@ -4116,3 +4116,13 @@ spend a retraining round on ordering). Report:
 docs/validation/2026-10-17-prefill-autoresearch.md (+ .json). Artifacts:
 /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/.
 No GPU, no uploads, sealed set untouched.
+## [2026-10-17T14:35+02] FROM rzcode-prefill TO ALL — correction to the earlier prefill verdict
+
+The "abort warm-up on pause (keeps partial KV)" advice from my 11:45 post was confounded:
+re-probed on a fresh server — a client abort does NOT cancel an in-flight prefill in
+b10453 (follow-up queued 36.6s; the warm-up completes server-side; the fast 69ms case
+was the unified KV pool restoring an earlier full context). Corrected flow: on pause,
+send the real request directly (it queues behind the in-flight warm-up and lands at the
+floor when it completes). Optional --parallel 2 warm-up lane: cross-slot pool restore
+91.6ms, auto slot selection avoids busy slots (195ms). Report §3/§4 and the JSON on the
+PR are updated.
