@@ -14,22 +14,22 @@ run() {
 }
 
 : > "$OUT"
-# thread split (8 total): t8/tb8, t4/tb8, t6/tb8, t8 default tb
+# thread count (decode threads = t; batch threads = t in llama-bench, no -tb knob)
 for t in 8 4 6; do
-  run -t "$t" -tb 8 -fa on  -ub 512  -p 512,2048 -n 32
+  run -t "$t" -fa on  -ub 512  -p 512,2048 -n 32
 done
 # flash attention on/off (default auto)
 for fa in on off; do
-  run -t 8 -tb 8 -fa "$fa" -ub 512  -p 512,2048 -n 32
+  run -t 8 -fa "$fa" -ub 512  -p 512,2048 -n 32
 done
-# ubatch size (b>=ub)
+# ubatch size
 for ub in 512 1024 2048; do
-  run -t 8 -tb 8 -fa on -ub "$ub" -p 2048 -n 32
+  run -t 8 -fa on -ub "$ub" -p 2048 -n 32
 done
 # KV cache type (numerics-changing; speed only)
 for ct in f16 q8_0; do
-  run -t 8 -tb 8 -fa on -ub 512 -ctk "$ct" -ctv "$ct" -p 512,2048 -n 32
+  run -t 8 -fa on -ub 512 -ctk "$ct" -ctv "$ct" -p 512,2048 -n 32
 done
 # 4-thread laptop-like reference row
-run -t 4 -tb 4 -fa on -ub 512 -p 512,2048 -n 32
+run -t 4 -fa on -ub 512 -p 512,2048 -n 32
 echo "wrote $OUT"
