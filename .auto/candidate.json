@@ -1,10 +1,10 @@
 {
-  "label": "anchor-Q4attnout8",
+  "label": "anchor-Q4plus",
   "tier": "Q4_K_M",
   "output_type": "q8_0",
   "embedding_type": "q8_0",
   "imatrix": true,
-  "tensor_types": ["attn_output\\.weight=q8_0"],
+  "tensor_types": ["attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "blk\\.(0|1|40|41)\\.ffn_down\\.weight=q6_K"],
   "kld_chunks": 64,
-  "existing_gguf": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-attn-out-q8_0-Q4_K_M.gguf"
+  "existing_gguf": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-q4plus-Q4_K_M.gguf"
 }
