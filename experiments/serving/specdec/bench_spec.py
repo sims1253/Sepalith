@@ -397,6 +397,7 @@ def main() -> None:
     cand = Server(cand_name, a.port_base + 1, cand_args,
                   out_dir / f"server-{cand_name}.log", threads=a.threads)
     rows: list[dict] = []
+    out_fh = open(out_dir / "per_request.jsonl", "w")
     try:
         base.start()
         cand.start()
@@ -406,6 +407,8 @@ def main() -> None:
                 row = run_arm_trace(srv, tr, do_cold=a.cold, n_predict=a.n_predict)
                 row["i"] = i
                 rows.append(row)
+                out_fh.write(json.dumps(row) + "\n")
+                out_fh.flush()
                 err = " ERR" if row.get("error") else ""
                 print(
                     f"[{i + 1}/{len(traces)}] {srv.name} {tr['trace_id']} "
@@ -416,11 +419,11 @@ def main() -> None:
     finally:
         cand.stop()
         base.stop()
+        out_fh.close()
     load1 = open("/proc/loadavg").read().split()
 
-    with open(out_dir / "per_request.jsonl", "w") as fh:
-        for r in rows:
-            fh.write(json.dumps(r) + "\n")
+    with open(out_dir / "summary_meta.json", "w") as fh:
+        fh.write(json.dumps({"n_rows": len(rows)}) + "\n")
 
     # parity: candidate vs baseline, same trace, same session
     base_tok = {r["trace_id"]: r.get("tokens") for r in rows if r["arm"] == "baseline"}

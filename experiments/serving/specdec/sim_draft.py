@@ -288,6 +288,8 @@ def evaluate(traces: list[dict], refs: dict, builders: dict[str, object]) -> lis
         rows.append({
             "config": name, "n": len(per),
             "tok_per_step": round(n_out / n_steps, 3),
+            "tok_per_step_med": round(statistics.median(
+                [p["out_len"] / p["steps"] for p in per]), 3),
             "accept_rate": round(n_acc / n_draft, 3) if n_draft else 0.0,
             "draft_fired_frac": round(
                 sum(1 for p in per if p["drafted"] > 0) / len(per), 3),
