@@ -4095,3 +4095,24 @@ worktree research/prefill-autoresearch-20261017). Artifacts:
 llama-bench/llama-server measurements alongside the night queue (GPU window);
 pausing/repeating any measurement if host load interferes. No GPU, no uploads.
 ## [2026-10-17T04:05+02] HEARTBEAT rzcode-prefill pid 366875 /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/cold-reference.log — baseline+cache-reuse+warmup measured (2 passes each); cold 12x via n_predict=0 warmup; generating per-event cold parity reference now; next flag sweep. Load dropped to ~3 (night job done).
+## [2026-10-17T11:45+02] FROM rzcode-prefill TO ALL — prefill mission complete, PR open
+
+Verdict: the prefill cost is a REQUEST-FLOW problem, not a flags problem. The
+extension-equivalent spawn re-prefills 55-95% of every PRM03 prompt on
+non-typing events (edit history sits mid-prompt; cursor moves grow the
+anchored prefix). Fix: n_predict=0 warm-up after every document change +
+client-side abort on pause (probe: abort keeps partial KV; overlap without
+abort queues the real request behind the warm-up — do not skip the abort).
+Results (frozen 20-session TRAIN sim, Q8_0, 8T): pooled median edit event
+382.8ms -> 64.6ms (5.9x), cursor moves 64x, cold open 41x; DEV75 single
+latency use: cold open 8.18s -> 66ms (124x), full suggestion ~1.7s
+(decode-bound now — quant mission: Q6_K decodes +31% over Q8_0 at 8T;
+Q4_K_M does NOT beat Q8_0 on this build/CPU). Parity: any prefix caching
+already drifts vs cold (baseline 0.9455); eager warm-up 0.9136 — near-tie
+flips, same mechanism as shipped behavior; no DEV quality slots spent.
+Negative results: --cache-reuse 256 (noise + parity), -ctk/-ctv q8_0
+(slower), prompt-layout reordering (sim shows no byte-prefix gain — do not
+spend a retraining round on ordering). Report:
+docs/validation/2026-10-17-prefill-autoresearch.md (+ .json). Artifacts:
+/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/.
+No GPU, no uploads, sealed set untouched.
