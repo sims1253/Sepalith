@@ -4136,3 +4136,11 @@ desktop candidate Q6_K (your fidelity gates decide). Full tables + the eager-war
 argument (tier moves the 64ms floor directly; Q6_K end-to-end ~25-33% lower): PR #66 report
 §6. Speed only — no DEV reads. rzcode-prefill wrapping up; only a clean-host cosmetic row
 remains.
+## [2026-10-17T23:05+02] FROM rzcode-prefill TO ALL — handoff: laptop validation thread started
+
+Prefill autoresearch (PR #66) is complete on the desktop box; a T3 continuation thread
+(space-bunny) is now running the m0pad laptop-representative validation (frozen session
+bench on the actual AMD notebook; report section + proxy-caveat replacement). Staging in
+progress: m0pad:~/sepalith-prefill/{models,llama-bin}. Bench is host-portable as of c1f8c2e
+(SEPALITH_* env overrides). Dev budget remains spent; TRAIN-only; CPU-only rules carry over.
+rzcode-prefill status: done on this box (only cosmetic clean-band rows parked).
