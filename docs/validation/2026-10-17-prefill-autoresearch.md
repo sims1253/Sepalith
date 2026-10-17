@@ -232,6 +232,9 @@ host load ~4. tok/s.
 | head-q6_k-Q4_K_M | 116.6 | 108.8 | 20.61 |
 | Q8_0 @4T | 63.2 | 55.4 | 12.28 |
 | imat-Q4_K_M @4T | 75.2 | 67.7 | 15.51 |
+| Q8_0 @4T (contended band) | 34.9 | — | 8.53 |
+| imat-Q6_K @4T (contended band) | 32.0 | 28.7 | 5.97 |
+| imat-Q5_K_M @4T (contended band) | 23.2 | 22.3 | 7.03 |
 
 Reading: prefill is compute-bound and roughly flat across 8-bit/4-bit
 tiers (~106–132 tok/s; Q5_K_M is the outlier — slow dot path on this
@@ -246,6 +249,14 @@ the decode rates is ~47 ms vs ~62 ms (−24%), with full-suggestion decode
 ~25–30% faster too. Fidelity calls stay with the quant mission; the
 parity figure across GGUFs (0.823 vs the Q8_0 reference) is numerics, not
 a speed signal.
+
+**Flagged hypothesis for the quant mission (needs quiet-window
+confirmation):** under heavy contention at 4 threads with a same-band
+anchor, Q8_0 decoded *faster* than Q6_K (8.53 vs 5.97 tok/s; pp512 34.9
+vs 32.0) — the opposite of the 8-thread ordering. Plausible mechanism:
+Q6_K's heavier dequant loses to Q8_0's VNNI int8 dots when compute
+threads are scarce. If it holds, the tier recommendation flips by
+platform: Q6_K for 8-thread desktops, Q8_0 for 4-thread laptops.
 
 ## 7. DEV75 final latency check (single allowed DEV latency use)
 
