@@ -108,7 +108,7 @@ and settle-only is the battery-saving fallback.
 | KV cache type `-ctk/-ctv q8_0` | Reject on CPU | pp2048 61.8 vs 85.4 tok/s (f16) — quantize/dequant overhead dominates with 2 KV heads; also numerics-changing. |
 | `--ctx-checkpoints` / KV pool | Keep defaults | switch_back already ~free via the default `--cache-ram` pool (checked: 0.998 cached). On RAM-tight laptops cap it (`--cache-ram 2048`). |
 | Prompt-layout reordering (retraining proposal) | **Negative — do not spend a training round on ordering alone** | Token-level LCP simulation on the frozen sessions: pooled cached p50 0.801 (PRM03) vs 0.788 (stable-first: diagnostics-before-history hurts diag events) vs 0.801 (history capped to 1 event). Cursor moves stay 0.23 under every ordering: the anchored prefix itself grows, so divergence lands at the prefix end regardless of section order. The mid-prompt volatility problem is content change, not section order. |
-| Warm-up overlap safety | Solved by client abort | Probe (2132-token prompt): a real request arriving 0.3 s into a warm-up queues behind it (TTFT = warm-up duration, 16.1 s). Aborting the warm-up connection frees the slot immediately and **keeps the partial KV**: the follow-up request ran at 69 ms TTFT with cache_n = 2131. |
+| Warm-up overlap safety | Solved — no abort needed; optionally a second slot | Fresh-server probes (2438-token cold prompt): a client-side abort does **not** cancel an in-flight prefill nor free the slot (follow-up request queued 36.6 s; the warm-up runs to completion server-side, and its finished/aborted KV is what persists — the original "69 ms after abort" was the KV pool restoring an earlier full context). With `--parallel 2`: cross-slot pool restore gives a slot-0 request the slot-1-warmed prefix (91.6 ms, cache_n 2437); auto slot selection avoids the busy slot (195 ms); concurrent prefill costs CPU contention (~1.7 s) instead of queuing (30.9 s cold control). |
 
 ## 4. Recommended llama-server spawn args and request flow
 
@@ -148,10 +148,16 @@ Request flow (the important part):
    **Refresh matters:** skipping the refresh after a change re-exposes the
    structural prefill cost for that event (measured race bound, §2) — the
    debounce must be shorter than typical pause gaps for the floor to hold.
-3. **On pause: abort any in-flight warm-up first** (close the connection),
-   then send the real request. Abort is fast and the partial KV remains
-   usable — this is what keeps worst-case TTFT at the floor instead of the
-   warm-up duration.
+3. **On pause: just send the real request** — do not bother aborting an
+   in-flight warm-up: llama.cpp does not cancel an underway prefill on
+   client disconnect, and the queued real request lands at the floor as
+   soon as the warm-up finishes (its KV is exactly the prompt you want).
+   If pauses frequently race settle warm-ups, add `--parallel 2` (KV
+   memory doubles, ~1.4 GiB) and keep at most one warm-up in flight: the
+   pause request then takes the free slot immediately and the unified KV
+   pool restores the warmed prefix across slots (measured 92 ms vs 30.9 s
+   cold; concurrent prefill costs ~1.7 s of CPU contention worst case, vs
+   queuing behind it).
 4. Suggestion display streams from the first token (TTFT ≈ 64 ms); the full
    suggestion is decode-bound (~26 tokens ≈ 1.7 s at Q8_0/8T).
 

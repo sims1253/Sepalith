@@ -214,10 +214,44 @@
   "verdict": "reordering/capping shows no byte-prefix gain; retraining-for-ordering not justified"
  },
  "interrupt_probe": {
-  "overlap_ttft_ms": 16104.1,
-  "abort_then_request_ttft_ms": 69.1,
-  "abort_keeps_partial_kv": true,
-  "prompt_tokens": 2132
+  "corrected_2026_10_17": true,
+  "prompt_tokens": 2438,
+  "abort_immediate": {
+   "ttft_ms": 36612.7,
+   "cache_n": 2048,
+   "processed_n": 390,
+   "finding": "client abort does NOT cancel the in-flight prefill or free the slot; the follow-up queues behind the still-running warm-up"
+  },
+  "abort_wait2s": {
+   "ttft_ms": 1220.3,
+   "cache_n": 2437,
+   "finding": "the warm-up completes server-side after the client leaves"
+  },
+  "pool_restore_control": {
+   "ttft_ms": 116.1,
+   "cache_n": 2437,
+   "finding": "the original 69ms 'abort keeps partial KV' was the unified KV pool restoring an earlier full context"
+  },
+  "two_slot_parallel2": {
+   "cold_control_slot0": {
+    "ttft_ms": 30925.7,
+    "processed_n": 2438
+   },
+   "cross_slot_restore_B": {
+    "ttft_ms": 91.6,
+    "cache_n": 2437,
+    "finding": "slot-0 request reuses slot-1-warmed prefix via the pool"
+   },
+   "concurrent_C": {
+    "ttft_ms": 1660.1,
+    "finding": "CPU contention, not queuing, while the other slot prefills"
+   },
+   "auto_slot_D": {
+    "ttft_ms": 195.2,
+    "finding": "auto selection avoids the busy slot"
+   }
+  },
+  "flow_consequence": "drop abort-on-pause (does nothing server-side; queued request lands at floor when warm-up completes); optional --parallel 2 warm-up lane for pause-during-warm-up"
  },
  "recommended": {
   "spawn_args": [
@@ -232,7 +266,7 @@
    "-ngl 0",
    "--cache-ram 2048"
   ],
-  "request_flow": "token-id /completion prompts; n_predict:0 warm-up after every document change (open/cursor settle/accept/edit/diagnostic/switch targets + debounced keystrokes); ABORT in-flight warm-up on pause; stream from first token"
+  "request_flow": "token-id /completion prompts; n_predict:0 warm-up after every document change (open/cursor settle/accept/edit/diagnostic/switch targets + debounced keystrokes); on pause send the real request directly (it queues behind any in-flight warm-up and lands at the floor when it completes); optional --parallel 2 warm-up lane; stream from first token"
  },
  "runs": [
   "run-baseline-extension-20261017T015139.jsonl",

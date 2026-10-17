@@ -88,3 +88,9 @@ Runs 12-13 (post-PR iterations): poll=100 latency-neutral (floor confirmed 4x); 
 race-bound arm: type 265ms / accept+cursor+switch regress to structural baseline when the
 warm-up is raced and not refreshed — report §2 now carries the 64-265ms typing band and the
 refresh-matters note in §4. Floor confirmations now span 5 runs (63.5-65.4ms).
+
+Runs 14-15: CORRECTED the abort claim — client abort does not cancel an in-flight prefill
+(36.6s queue case; warm-up completes server-side; the original 69ms was pool restore).
+Two-slot probe: --parallel 2 gives a warm-up lane — cross-slot pool restore 91.6ms,
+auto-select avoids busy slots (195ms), concurrency costs contention not queuing (1.7s).
+Report §3/§4 + JSON updated: drop abort-on-pause; optional --parallel 2 lane.
