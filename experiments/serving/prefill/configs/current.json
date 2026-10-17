@@ -1,5 +1,5 @@
 {
-  "name": "cache-reuse-256",
+  "name": "warmup-stable",
   "model": "arm-a-Q8_0.gguf",
   "server_args": [
     "--alias", "sepalith",
@@ -7,9 +7,8 @@
     "--parallel", "1",
     "-c", "16384",
     "-t", "8",
-    "-ngl", "0",
-    "--cache-reuse", "256"
+    "-ngl", "0"
   ],
-  "warmup": { "policy": "none" },
+  "warmup": { "policy": "stable", "events": ["open", "cursor_move", "file_switch"] },
   "request": { "n_predict": 64, "seed": 3407 }
 }
