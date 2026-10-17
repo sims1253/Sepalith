@@ -1,7 +1,7 @@
 {
   "card": "C12",
-  "state": "needs_user",
-  "updated": "2026-10-17T17:15:00+02:00",
+  "state": "done",
+  "updated": "2026-10-17T17:00:00+02:00",
   "branch": "plan/C12-vllm-trial",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/65",
   "outputs": {
@@ -289,8 +289,20 @@
         "M": 0.125083
       },
       "outcome": "stop-for-user (ambiguous): the literal counts pass (52,145 or 7,528 distinct verified-correct >= 2,000; 18,268 pairs >= 1,000), but the card's family-balanced RFT candidate file holds only 384 samples (< 2,000) because roxygen_drafting has 21 distinct correct samples; M = 12.5% is recorded for R4 step 3 (below 15%) but step 3 applies only after an adopted offline step"
+    },
+    {
+      "rule": "R4 step 1 + user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "verified_correct_samples": 52145,
+        "distinct_prompts_with_correct": 7528,
+        "dpo_pairs": 18268,
+        "strict_balanced_rft_rows": 384,
+        "M_pct": 12.5
+      },
+      "outcome": "start C13 (offline route): RFT on a family-capped set (each family capped at its TRAIN share of the distinct correct pool: 4,413 samples, finish_block 1,181, roxygen_drafting 21) plus DPO on the 18,268 pairs; the C13 parent is arm A 536 unless R3 adopts arm B after tonight's gate 684"
     }
   ],
-  "question_for_user": "R4 step 1: should the offline route (C13) start? Literal counts pass (52,145 verified-correct samples, 7,528 distinct at <= 2 per prompt; 18,268 DPO pair candidates, 3,058 with a model-generated chosen), but the C12 card's RFT file balanced to the TRAIN mix has only 384 samples, because roxygen_drafting has 21 distinct correct samples and finish_block 1,181 (finish_block all-wrong 86%, roxygen all-wrong 97%). Recommendation: continue to C13 with the RFT set capped per family at its TRAIN share of the distinct pool instead of scaled down (4,413 samples: finish_block 1,181, format 810, pipe 994, rename 791, no_op 548, na_rm 68, roxygen 21) and the 18,268 DPO pairs.",
-  "notes": "2026-10-17: reward v2.1 aligned to the v4-braceindent rows (self-check 15,006/15,006, C11 semantics unchanged). Full census done on Kaggle (3 private sessions, 3.27 GPU-h, week at 3.99 of 20): 15,006 prompts x 8 samples, all scored. M = 12.5%, all-correct 36.7%, all-wrong 50.8%; the mixed signal sits in finish_block (M 12.8%) and format_propagation (M 46.6%). Outputs uploaded in one HF commit. R4 step 1 stops for the user (RFT balance count vs literal count)."
+  "question_for_user": null,
+  "notes": "2026-10-17: reward v2.1 aligned to the v4-braceindent rows (self-check 15,006/15,006, C11 semantics unchanged). Full census done on Kaggle (3 private sessions, 3.27 GPU-h, week at 3.99 of 20): 15,006 prompts x 8 samples, all scored. M = 12.5%, all-correct 36.7%, all-wrong 50.8%; the mixed signal sits in finish_block (M 12.8%) and format_propagation (M 46.6%). Outputs uploaded in one HF commit. R4 step 1 stops for the user (RFT balance count vs literal count). 2026-10-17: user approved starting C13 with the family-capped RFT set and all DPO pairs."
 }
