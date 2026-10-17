@@ -71,9 +71,18 @@ Notes:
   only the prefix; opens keep the 66 ms floor (an open's warm-up cannot be
   stale). Real typing pauses land between 64 and 265 ms depending on
   debounce; settle events hold the floor whenever the pause follows the
-  settle by more than the debounce, and the abort-then-request rule keeps
-  partial progress when it doesn't. This arm is in the artifacts as
+  settle by more than the debounce. This arm is in the artifacts as
   `warmup-eager-stale1`.
+* **Zero-debounce pause (request fired immediately, warm-up in flight):**
+  the queued request *interleaves* with the in-flight warm-up through
+  continuous batching — the server's `cache_n` at request start shows the
+  warm-up's progress, and the request then pays only the tail. TTFT
+  therefore degrades gracefully to the event's structural prefill time
+  (never worse than no warm-up; measured in `warmup-eager-async-p1` under
+  heavy host load ~2× the other arms' band). The warm-up pays only when it
+  completes before the pause — debounce is the product knob, and typing
+  deltas are small enough that even sub-debounce pauses stay in the
+  few-hundred-ms band.
 
 * `switch_back` is already nearly free on b10453 defaults: the default
   `--cache-ram 8192` unified-KV pool restores the previous file's context
