@@ -2,7 +2,7 @@
 # Autoresearch measure script: run the frozen PRM03 session bench once.
 # Emits METRIC name=value lines. Config under test: configs/current.json.
 set -euo pipefail
-cd "$(dirname "$0")/../.."
+cd "$(dirname "$0")/.."
 PY=/home/m0hawk/sandbox/Sepalith/.venv/bin/python
 
 # fast pre-checks (<2s): syntax + config validity

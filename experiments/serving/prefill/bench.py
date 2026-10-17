@@ -331,7 +331,7 @@ def run_pass(
     try:
         startup_s = server.wait_ready()
         for session in sessions:
-            for event in session["events"]:
+            for event_index, event in enumerate(session["events"]):
                 if config.warmup_policy != "none" and event["type"] in config.warmup_events:
                     head = head_ids_for_policy(
                         event["context"], event["ids"], TOKENIZER, config.warmup_policy
@@ -347,6 +347,7 @@ def run_pass(
                     {
                         "pass": pass_index,
                         "session_id": session["session_id"],
+                        "index": event_index,
                         "type": event["type"],
                         "prompt_tokens": len(event["ids"]),
                         "ttft_ms": result["ttft_ms"],
@@ -419,7 +420,7 @@ def percentile(values: Sequence[float], q: float) -> float:
     return round(ordered[index], 1)
 
 
-def summarize(records: Sequence[dict[str, Any]]) -> dict[str, Any]:
+def summarize(records: Sequence[dict[str, Any]], reference: Mapping[str, Sequence[int]] | None = None) -> dict[str, Any]:
     by_type: dict[str, list[dict[str, Any]]] = {}
     for record in records:
         by_type.setdefault(record["type"], []).append(record)
@@ -452,13 +453,31 @@ def summarize(records: Sequence[dict[str, Any]]) -> dict[str, Any]:
     edit_by_session: dict[str, list[float]] = {}
     for row in edit_rows:
         edit_by_session.setdefault(row["session_id"], []).append(row["ttft_ms"])
+    slow_rows = [r for r in records if r["type"] in ("accept", "cursor_move", "diag")]
+    slow_by_session: dict[str, list[float]] = {}
+    for row in slow_rows:
+        slow_by_session.setdefault(row["session_id"], []).append(row["ttft_ms"])
+    parity_total = parity_match = 0
+    if reference:
+        for row in records:
+            key = f'{row["session_id"]}:{row["index"]}:{row["pass"]}'
+            expected = reference.get(key)
+            if expected is not None:
+                parity_total += 1
+                parity_match += int(list(row["output_ids"]) == list(expected))
     summary["edit"] = {
         "n": len(edit_rows),
         "ttft_p50_ms": percentile([r["ttft_ms"] for r in edit_rows], 0.50),
         "ttft_p95_ms": percentile([r["ttft_ms"] for r in edit_rows], 0.95),
         "ttft_p50_ci": cluster_bootstrap_p50(edit_by_session),
+        "slow_ttft_p50_ms": percentile([r["ttft_ms"] for r in slow_rows], 0.50)
+        if slow_rows
+        else None,
+        "slow_ttft_p50_ci": cluster_bootstrap_p50(slow_by_session) if slow_rows else None,
         "warmup_total_s": records[0]["warmup_total_s"] if records else 0.0,
         "warmup_count": records[0]["warmup_count"] if records else 0,
+        "parity_rate": round(parity_match / parity_total, 4) if parity_total else None,
+        "parity_n": parity_total,
     }
     return summary
 
@@ -477,6 +496,8 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=18071)
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--label", type=str, default=None)
+    parser.add_argument("--reference", type=Path, default=HERE / "reference_outputs.json")
+    parser.add_argument("--write-reference", action="store_true", help="freeze this run as the parity reference")
     args = parser.parse_args()
 
     import tokenizers
@@ -499,7 +520,16 @@ def main() -> int:
             out.flush()
         for record in records:
             out.write(json.dumps(record) + "\n")
-    summary = summarize(records)
+    if args.write_reference:
+        reference = {
+            f'{r["session_id"]}:{r["index"]}:{r["pass"]}': r["output_ids"]
+            for r in records
+        }
+        args.reference.write_text(json.dumps(reference) + "\n", encoding="utf-8")
+    reference = None
+    if args.reference.exists():
+        reference = json.loads(args.reference.read_text(encoding="utf-8"))
+    summary = summarize(records, reference)
     summary.update(
         {
             "label": label,
@@ -519,6 +549,9 @@ def main() -> int:
     by_type = summary["by_type"]
     print(f"METRIC edit_ttft_p50_ms={edit['ttft_p50_ms']}")
     print(f"METRIC edit_ttft_p95_ms={edit['ttft_p95_ms']}")
+    print(f"METRIC slow_edit_ttft_p50_ms={edit['slow_ttft_p50_ms']}")
+    if edit.get("parity_rate") is not None:
+        print(f"METRIC parity_rate={edit['parity_rate']}")
     print(f"METRIC cold_ttft_p50_ms={by_type['open']['ttft_p50_ms']}")
     print(f"METRIC switchback_ttft_p50_ms={by_type['switch_back']['ttft_p50_ms']}")
     print(f"METRIC type_ttft_p50_ms={by_type['type']['ttft_p50_ms']}")
