@@ -190,7 +190,10 @@ def mark(step):
     boot.setdefault("steps", []).append([step, round(time.monotonic() - T0, 1)]); save(); print("[bootstrap]", step, flush=True)
 try:
     mark("start")
-    boot["nvidia_smi"] = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip().splitlines()
+    try:  # CPU kernels (--cpu) have no nvidia-smi
+        boot["nvidia_smi"] = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip().splitlines()
+    except FileNotFoundError:
+        boot["nvidia_smi"] = []
     subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", *PIP_PINS], check=True, timeout=900)
     mark("pip")
     data = urllib.request.urlopen(f"https://codeload.github.com/sims1253/Sepalith/tar.gz/{COMMIT}", timeout=600).read()
