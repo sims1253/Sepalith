@@ -13,6 +13,17 @@ cfg = json.loads(pathlib.Path("experiments/serving/prefill/configs/current.json"
 assert cfg["model"] and isinstance(cfg["server_args"], list)
 EOF
 
+# dispatch: configs may select a probe instead of the session bench
+MODE=$(/home/m0hawk/sandbox/Sepalith/.venv/bin/python - <<'EOF'
+import json, pathlib
+cfg = json.loads(pathlib.Path("experiments/serving/prefill/configs/current.json").read_text())
+print(cfg.get("bench", "sessions"))
+EOF
+)
+if [ "$MODE" = "probe_interrupt" ]; then
+  exec "$PY" experiments/serving/prefill/probe_interrupt.py
+fi
+
 # host-load guard: warn (do not fail) when the box is busy
 LOAD1=$(cut -d' ' -f1 /proc/loadavg)
 echo "host_load1=${LOAD1}"
