@@ -154,6 +154,11 @@ Request flow (the important part):
    `return_tokens: true`, `temperature 0`, `top_k 1`, fixed seed, stream).
    Render with `render_prompt` + the pinned tokenizer (BOS 0 manual, no
    special parsing) so serving tokenization matches training exactly.
+   Measured: server-side tokenization of a text prompt costs 4.9 ms p50 /
+   23 ms max per request (7.5–36% of the TTFT floor) and the two paths are
+   proven token-identical on all 220 frozen prompts (220/220 exact, no
+   auto-BOS) — IDs are both faster and training-exact; the client-side
+   encode (2.8 ms p50) happens once per render and overlaps user activity.
 2. **Warm-up after every document change**: file open, cursor settle,
    accepted suggestion, manual edit, diagnostic arrival, and the stable
    heads of the other open editors (file-switch targets). Request body =

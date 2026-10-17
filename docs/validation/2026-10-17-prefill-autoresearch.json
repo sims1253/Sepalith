@@ -362,5 +362,19 @@
    "q8_0": 62.0
   },
   "note": "speed characterization only; fidelity/gating belongs to the quant mission"
+ },
+ "tokenize_probe": {
+  "server_tokenize_ms": {
+   "p50": 4.86,
+   "p95": 15.0,
+   "max": 23.28
+  },
+  "hf_encode_ms": {
+   "p50": 2.78,
+   "max": 15.36
+  },
+  "id_parity_exact": "220/220 (no auto-BOS)",
+  "load_band": 26,
+  "verdict": "send token IDs: faster and training-exact; text path identical but ~5-23ms slower per request"
  }
 }

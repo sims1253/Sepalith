@@ -112,3 +112,7 @@ Run 19: Q6_K eager floor 79.5ms @ load 24.1 (vs Q8_0 119.1 @ 25.6; clean est. 47
 end-to-end tier argument handed to quant mission. Paired Q8_0 rerun timed out at load ~29
 (other missions saturating; floor mechanics intact in partial data). Box now too busy for
 timing runs; host-discipline pause until a quiet window.
+
+Run 20: tokenize probe — server /tokenize 4.9ms p50/23ms max per prompt (7.5-36% of floor);
+id parity 220/220 exact (no auto-BOS). Send-IDs recommendation now quantified. Box still
+saturated by other missions; clean-host validation run remains the only open item.
