@@ -90,7 +90,12 @@ class Config:
 
 
 def completion_request(
-    ids: Sequence[int], n_predict: int, seed: int, stream: bool, cache_prompt: bool = True
+    ids: Sequence[int],
+    n_predict: int,
+    seed: int,
+    stream: bool,
+    cache_prompt: bool = True,
+    id_slot: int | None = None,
 ) -> dict[str, Any]:
     return {
         "prompt": list(ids),
@@ -114,6 +119,7 @@ def completion_request(
         "stream": stream,
         "n_probs": 0,
         "samplers": ["top_k"],
+        **({"id_slot": id_slot} if id_slot is not None else {}),
     }
 
 
@@ -182,9 +188,11 @@ def stream_completion(
     }
 
 
-def warmup_completion(port: int, ids: Sequence[int], timeout: float = 600.0) -> dict[str, Any]:
+def warmup_completion(
+    port: int, ids: Sequence[int], timeout: float = 600.0, id_slot: int | None = None
+) -> dict[str, Any]:
     """Prefill-only request (n_predict=0): warms the slot cache, no decode."""
-    body = completion_request(ids, 0, 3407, stream=False)
+    body = completion_request(ids, 0, 3407, stream=False, id_slot=id_slot)
     conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
     began = time.monotonic()
     try:

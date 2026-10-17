@@ -30,6 +30,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=bench.HERE / "configs" / "baseline.json")
     parser.add_argument("--port", type=int, default=18082)
+    parser.add_argument("--abort-after-s", type=float, default=5.0)
+    parser.add_argument("--decode", type=int, default=8)
     args = parser.parse_args()
 
     bench.TOKENIZER = tokenizers.Tokenizer.from_file(str(bench.DEFAULT_TOKENIZER))
@@ -47,9 +49,57 @@ def main() -> int:
     try:
         server.wait_ready()
 
-        # --- scenario 1: overlap
+        import http.client
         import threading
 
+        def start_warmup() -> tuple[http.client.HTTPConnection, float]:
+            body = json.dumps(
+                bench.completion_request(big["ids"], 0, 3407, stream=False)
+            ).encode()
+            conn = http.client.HTTPConnection("127.0.0.1", args.port, timeout=120)
+            began = time.monotonic()
+            conn.request(
+                "POST", "/completion", body=body, headers={"Content-Type": "application/json"}
+            )
+            return conn, began
+
+        # --- abort probes FIRST (clean KV pool; earlier scenario used a
+        # pool-populated state and could not distinguish partial-KV salvage
+        # from whole-context restore)
+        for label, post_abort_wait_s in (("abort_immediate", 0.0), ("abort_wait2s", 2.0)):
+            conn, began = start_warmup()
+            time.sleep(args.abort_after_s)
+            if conn.sock is not None:
+                conn.sock.close()
+            conn.close()
+            time.sleep(post_abort_wait_s)
+            real = bench.stream_completion(args.port, big["ids"], args.decode, 3407)
+            print(
+                json.dumps(
+                    {
+                        "scenario": label,
+                        "abort_after_s": args.abort_after_s,
+                        "real_ttft_ms": real["ttft_ms"],
+                        "real_cache_n": real["timings"].get("cache_n"),
+                        "real_processed_n": real["timings"].get("prompt_n"),
+                    }
+                )
+            )
+
+        # --- cold control LAST (populates the pool deliberately)
+        control = bench.stream_completion(args.port, big["ids"], args.decode, 3407)
+        print(
+            json.dumps(
+                {
+                    "scenario": "pool_restore_control",
+                    "real_ttft_ms": control["ttft_ms"],
+                    "real_cache_n": control["timings"].get("cache_n"),
+                    "real_processed_n": control["timings"].get("prompt_n"),
+                }
+            )
+        )
+
+        # --- scenario: overlap (real request queues behind a long warm-up)
         warmup_result: dict[str, float] = {}
 
         def run_warmup() -> None:
@@ -62,7 +112,7 @@ def main() -> int:
         thread.start()
         time.sleep(0.3)
         t0 = time.monotonic()
-        real = bench.stream_completion(args.port, big["ids"], 8, 3407)
+        real = bench.stream_completion(args.port, big["ids"], args.decode, 3407)
         real_wall = time.monotonic() - t0
         thread.join()
         print(
@@ -74,32 +124,6 @@ def main() -> int:
                     "real_processed_n": real["timings"].get("prompt_n"),
                     "real_cache_n": real["timings"].get("cache_n"),
                     "warmup_wall_s": round(warmup_result.get("wall_s", -1), 2),
-                }
-            )
-        )
-
-        # --- scenario 2: cancel a warm-up mid-flight
-        import http.client
-
-        body = json.dumps(bench.completion_request(big["ids"], 0, 3407, stream=False)).encode()
-        conn = http.client.HTTPConnection("127.0.0.1", args.port, timeout=60)
-        conn.request(
-            "POST", "/completion", body=body, headers={"Content-Type": "application/json"}
-        )
-        time.sleep(0.5)
-        conn.sock.close() if conn.sock else None  # abort mid-prefill
-        conn.close()
-        t0 = time.monotonic()
-        real = bench.stream_completion(args.port, big["ids"], 8, 3407)
-        real_wall = time.monotonic() - t0
-        print(
-            json.dumps(
-                {
-                    "scenario": "cancel",
-                    "real_ttft_ms": real["ttft_ms"],
-                    "real_wall_s": round(real_wall, 2),
-                    "real_processed_n": real["timings"].get("prompt_n"),
-                    "real_cache_n": real["timings"].get("cache_n"),
                 }
             )
         )

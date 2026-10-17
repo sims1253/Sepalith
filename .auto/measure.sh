@@ -20,9 +20,10 @@ cfg = json.loads(pathlib.Path("experiments/serving/prefill/configs/current.json"
 print(cfg.get("bench", "sessions"))
 EOF
 )
-if [ "$MODE" = "probe_interrupt" ]; then
-  exec "$PY" experiments/serving/prefill/probe_interrupt.py
-fi
+case "$MODE" in
+  probe_interrupt) exec "$PY" experiments/serving/prefill/probe_interrupt.py ;;
+  probe_parallel) exec "$PY" experiments/serving/prefill/probe_parallel.py ;;
+esac
 
 # host-load guard: warn (do not fail) when the box is busy
 LOAD1=$(cut -d' ' -f1 /proc/loadavg)
