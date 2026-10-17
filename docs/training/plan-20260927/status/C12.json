@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-10-17T11:00:00+02:00",
   "branch": "plan/C12-vllm-trial",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/65",
   "outputs": {
     "vllm_trial": {
       "report": "docs/validation/2026-10-17-c12-vllm-trial.md",
