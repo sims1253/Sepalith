@@ -1,5 +1,5 @@
 {
-  "name": "baseline-extension",
+  "name": "cache-reuse-256",
   "model": "arm-a-Q8_0.gguf",
   "server_args": [
     "--alias", "sepalith",
@@ -7,7 +7,8 @@
     "--parallel", "1",
     "-c", "16384",
     "-t", "8",
-    "-ngl", "0"
+    "-ngl", "0",
+    "--cache-reuse", "256"
   ],
   "warmup": { "policy": "none" },
   "request": { "n_predict": 64, "seed": 3407 }
