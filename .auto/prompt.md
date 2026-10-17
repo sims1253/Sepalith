@@ -79,3 +79,7 @@ Mission delivered on PR #66 (open, not merged):
 - Artifacts: /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/
 Primary metric at decode floor; no further levers on this axis without numerics changes
 (quant tier / specdec = other missions' lanes).
+
+Run 12 (post-PR iteration): --poll 100 --poll-batch 100 on the eager config — latency-neutral
+(64.7 vs 64.6ms; 4th floor confirmation). Discarded; default poll stands. Every flag lever on
+the primary axis is now closed by measurement, not estimate.

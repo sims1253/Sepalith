@@ -8,9 +8,7 @@ evaluated and closed:
 - ~~`--cache-reuse 64`~~ — closed by analysis + the 256 measurement: the
   chunk matcher needs ≥N contiguous identical post-divergence tokens;
   window shifts and history insertions don't provide them at any threshold.
-- ~~`--poll 0`~~ — potential is sub-millisecond (TTFT is ~55 ms decode +
-  ~7 ms one-token prefill + ~2 ms HTTP); below measurement noise, not worth
-  a 35-minute run.
+- ~~`--poll`~~ — MEASURED (run 12): `--poll 100 --poll-batch 100` latency-neutral (64.7 vs 64.6ms p50, p95 in noise band, parity unchanged). Default 50 confirmed.
 - ~~multi-slot `--parallel 2`~~ — switch-back is already free via the
   default KV pool and warm-up covers switches; adds memory and complexity.
 - ~~`--cache-ram 0` quantification~~ — report note only (defaults are
