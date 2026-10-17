@@ -49,6 +49,19 @@ timings, throughput), ``vllm-dev-greedy.jsonl`` and ``vllm-dev75-rerun.jsonl``
 generated ids incl. the stop id, finish reason, cap hit), ``train-prompts.jsonl``
 (the sampled TRAIN subset: ids, family, prompt and target token ids),
 ``hf-dev75/`` (the harness run), and every log.
+
+Census mode (``--census``, card C12, user decision 2026-10-17): the full census
+on the same engine and sampling settings. All 15,006 TRAIN prompts are put in a
+fixed order (``census_order``: the sorted ids shuffled with ``--seed``); prompt
+``g`` of that order gets the seed ``--seed + g`` and belongs to session shard
+``g % --shard-count``. A shard is cut into chunks of ``--chunk-prompts``
+prompts; both workers (one engine per T4) claim chunks from a shared list, so
+the faster GPU takes more. A worker starts a chunk only if its measured time
+per prompt says the chunk ends before ``--session-budget-minutes``. Each
+finished chunk is written at once to ``chunks/chunk-NNNN.jsonl`` (one record
+per prompt and sample), so a session that stops early keeps every finished
+chunk; ``--chunk-indexes`` reruns only the chunks still missing. No DEV prompt
+is used in census mode.
 """
 from __future__ import annotations
 
@@ -68,6 +81,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from infer_entry import PANELS, resolve_source, sha256_file, sha256_ids, write_json, write_jsonl  # noqa: E402
 
 SCHEMA = "sepalith.c12.vllm-trial.v1"
+CENSUS_SCHEMA = "sepalith.c12.vllm-census.v1"
 MODEL = ("hf:scholzmx/sepalith-2b-edit-sft/arm-a", "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030")
 # The C03 TRAIN-200 parity prompts (seed 3407, stratified by family), which C03 runs on arm A through the
 # bound-batching harness: vLLM greedy on the same prompts gives a TRAIN-side engine comparison.
@@ -118,12 +132,18 @@ def parse_args(argv=None):
     p.add_argument("--cpu-dry-run", action="store_true",
                    help="inputs, vLLM install and import only (no GPU work); for a CPU kernel")
     p.add_argument("--dev-nll", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--census", action="store_true", help="full TRAIN census (see the module docstring)")
+    p.add_argument("--shard-index", type=int, default=0)
+    p.add_argument("--shard-count", type=int, default=1)
+    p.add_argument("--chunk-indexes", default="", help="census: comma-separated chunk indexes to run (default all)")
     p.add_argument("--vllm-worker", type=int, help=argparse.SUPPRESS)
     p.add_argument("--plan", type=Path, help=argparse.SUPPRESS)
     p.add_argument("--attempt", type=int, default=0, help=argparse.SUPPRESS)
     a = p.parse_args(argv)
     if a.output_dir is None:
         a.output_dir = Path("/kaggle/working") / a.run_id
+    if not 0 <= a.shard_index < a.shard_count:
+        p.error("--shard-index must lie in [0, --shard-count)")
     return a
 
 
@@ -249,6 +269,61 @@ def dev_counts(records):
     return counts
 
 
+# Census inputs (system Python) -----------------------------------------------------------------------
+
+def census_order(ids, seed):
+    """The fixed census order: sorted ids, shuffled with ``seed``. Prompt g of it is sampled with seed + g."""
+    order = sorted(ids)
+    random.Random(seed).shuffle(order)
+    return order
+
+
+def census_chunks(order, shard_index, shard_count, chunk_prompts):
+    """[(chunk index, [(global index, id), ...]), ...] for one session shard."""
+    mine = [(g, case_id) for g, case_id in enumerate(order) if g % shard_count == shard_index]
+    return [(index, mine[first:first + chunk_prompts])
+            for index, first in enumerate(range(0, len(mine), chunk_prompts))]
+
+
+def build_census_inputs(args, out):
+    """Prompt ids for this shard's chunks (TRAIN only, sha256-pinned rows); returns the input record."""
+    rows_path = resolve_source(args.train_rows, args.cache_dir)
+    if sha256_file(rows_path) != TRAIN_ROWS[1]:
+        raise ValueError("TRAIN rows sha256 differs from the pinned file")
+    rows = read_jsonl(rows_path)
+    if len(rows) != 15006 or any(row.get("split") != "train" for row in rows):
+        raise ValueError("expected 15,006 rows, all split == 'train'")
+    by_id = {row["id"]: row for row in rows}
+    if len(by_id) != len(rows):
+        raise ValueError("TRAIN row ids repeat")
+    order = census_order(by_id, args.seed)
+    chunks = census_chunks(order, args.shard_index, args.shard_count, args.chunk_prompts)
+    wanted = {int(x) for x in args.chunk_indexes.split(",") if x.strip()} if args.chunk_indexes else None
+    if wanted is not None and not wanted <= {index for index, _ in chunks}:
+        raise ValueError(f"--chunk-indexes outside this shard's {len(chunks)} chunks")
+    prompts, plan_chunks = [], []
+    for index, members in chunks:
+        if wanted is not None and index not in wanted:
+            continue
+        plan_chunks.append({"chunk": index, "prompts": len(members)})
+        for g, case_id in members:
+            row = by_id[case_id]
+            prompt = row["input_ids"][:row["target_start"]]
+            if len(prompt) + args.max_new_tokens > MAX_MODEL_LEN:
+                raise ValueError(f"TRAIN prompt {case_id} plus the cap exceeds {MAX_MODEL_LEN}")
+            prompts.append({"id": case_id, "family": row["family"], "global_index": g, "chunk": index,
+                            "seed": args.seed + g, "prompt_token_ids": prompt, "prompt_sha256": sha256_ids(prompt)})
+    write_jsonl(out / "census-prompts.jsonl", prompts)
+    families = {}
+    for item in prompts:
+        families[item["family"]] = families.get(item["family"], 0) + 1
+    return {"train_rows": {"source": args.train_rows, "sha256": TRAIN_ROWS[1], "rows": len(rows)},
+            "order": {"seed": args.seed, "ordered_ids_sha256": sha256_ids(order)},
+            "shard": {"index": args.shard_index, "count": args.shard_count, "chunk_prompts": args.chunk_prompts,
+                      "chunks_in_shard": len(chunks), "chunks_run": [c["chunk"] for c in plan_chunks],
+                      "prompts": len(prompts), "families": families}}, plan_chunks
+
+
 # vLLM install (background, separate venv) -----------------------------------------------------------
 
 VERSION_PROBE = """
@@ -359,8 +434,89 @@ def engine_info(llm):
     return info
 
 
+def census_worker(args, plan):
+    """Claim chunks from the shared list until none is left or the next one would overrun the deadline."""
+    worker, config = args.vllm_worker, LADDER[args.attempt]
+    root = Path(plan["output_dir"])
+    out = root / f"vllm-worker-{worker}"
+    out.mkdir(parents=True, exist_ok=True)
+    (root / "chunks").mkdir(exist_ok=True)
+    (root / "claims").mkdir(exist_ok=True)
+    result = {"worker": worker, "attempt": args.attempt, "config": config, "mode": "census",
+              "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES")}
+    started = time.monotonic()
+    import torch
+    import vllm
+
+    llm, kwargs = make_engine(plan, config)
+    result.update(vllm=vllm.__version__, torch=torch.__version__, engine_seconds=round(time.monotonic() - started, 1),
+                  engine_kwargs={k: v for k, v in kwargs.items() if k != "model"}, engine=engine_info(llm),
+                  device_name=torch.cuda.get_device_name(0))
+    write_json(out / "engine.json", result)  # marks a started engine: later failures are not retried
+    log(f"worker {worker}: engine '{config['name']}' up in {result['engine_seconds']} s")
+    cap = plan["max_new_tokens"]
+    prompts = {}
+    for item in read_jsonl(plan["census_prompts"]):
+        prompts.setdefault(item["chunk"], []).append(item)
+    llm.generate([tokens_prompt(p["prompt_token_ids"]) for p in next(iter(prompts.values()))[:4]],
+                 sampling_params(temperature=0.0, max_tokens=8), use_tqdm=False)  # warm-up, not timed
+    chunks = []
+    for spec in plan["chunks"]:
+        index, chunk = spec["chunk"], prompts[spec["chunk"]]
+        if (root / "chunks" / f"chunk-{index:04d}.jsonl").exists():
+            continue
+        remaining = plan["deadline_epoch"] - time.time()
+        per_prompt = (sum(c["seconds"] for c in chunks) / sum(c["prompts"] for c in chunks)) if chunks else 0
+        if remaining < 1.2 * per_prompt * len(chunk) or remaining < 120:
+            result["sampling_stopped_early"] = {"before_chunk": index, "remaining_seconds": round(remaining, 1)}
+            log(f"worker {worker}: deadline - no further chunks (next {index})")
+            break
+        try:  # claim the chunk; the other worker skips it
+            os.close(os.open(root / "claims" / f"chunk-{index:04d}", os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+        except FileExistsError:
+            continue
+        # top_k left at vLLM's default (disabled); repetition penalty 1; the model's generation_config is ignored.
+        params = [sampling_params(n=plan["samples"], temperature=plan["temperature"], top_p=plan["top_p"],
+                                  max_tokens=cap, seed=item["seed"]) for item in chunk]
+        t0 = time.monotonic()
+        outputs = llm.generate([tokens_prompt(item["prompt_token_ids"]) for item in chunk], params, use_tqdm=False)
+        seconds = time.monotonic() - t0
+        records, tokens = [], 0
+        for item, output in zip(chunk, outputs, strict=True):
+            if len(output.outputs) != plan["samples"]:
+                raise ValueError(f"{item['id']}: {len(output.outputs)} samples, expected {plan['samples']}")
+            for completion in sorted(output.outputs, key=lambda c: c.index):
+                record = {"id": item["id"], "family": item["family"], "global_index": item["global_index"],
+                          "sample": completion.index, "seed": item["seed"], "chunk": index, "worker": worker,
+                          "prompt_tokens": len(item["prompt_token_ids"]), "prompt_sha256": item["prompt_sha256"],
+                          **completion_record(completion, cap)}
+                tokens += record["generated_tokens"]
+                records.append(record)
+        write_jsonl(root / "chunks" / f"chunk-{index:04d}.jsonl", records)  # atomic (tmp + rename)
+        chunks.append({"chunk": index, "prompts": len(chunk), "samples": len(records), "seconds": round(seconds, 2),
+                       "generated_tokens": tokens, "tokens_per_second": round(tokens / seconds, 1),
+                       "cap_hits": sum(r["cap_hit"] for r in records)})
+        total_seconds = sum(c["seconds"] for c in chunks)
+        result["sampling"] = {"chunks": chunks, "prompts": sum(c["prompts"] for c in chunks),
+                              "samples": sum(c["samples"] for c in chunks),
+                              "generated_tokens": sum(c["generated_tokens"] for c in chunks),
+                              "seconds": round(total_seconds, 2)}
+        result["sampling"]["tokens_per_second"] = round(result["sampling"]["generated_tokens"] / total_seconds, 1)
+        write_json(out / "worker.json", result)
+        log(f"worker {worker}: chunk {index}: {len(chunk)} prompts, {tokens} tokens in {seconds:.1f} s "
+            f"({tokens / seconds:.0f} tok/s); {len(chunks)} chunks done")
+    result["status"] = "complete"
+    result["wall_seconds"] = round(time.monotonic() - started, 1)
+    write_json(out / "worker.json", result)
+    llm = None
+    gc.collect()
+    return 0
+
+
 def vllm_worker(args):
     plan = json.loads(args.plan.read_text())
+    if plan.get("mode") == "census":
+        return census_worker(args, plan)
     worker, config = args.vllm_worker, LADDER[args.attempt]
     out = Path(plan["output_dir"]) / f"vllm-worker-{worker}"
     out.mkdir(parents=True, exist_ok=True)
@@ -564,10 +720,106 @@ def throughput(worker_results):
             "prompts": sum(s["prompts"] for s in done), "samples": sum(s["samples"] for s in done)}
 
 
+def census_main(args):
+    """Census mode orchestrator: inputs, vLLM install (overlapped), one engine per T4, chunk inventory."""
+    t0 = time.time()
+    out = args.output_dir
+    out.mkdir(parents=True, exist_ok=True)
+    deadline = t0 + 60 * args.session_budget_minutes
+    summary = {"schema": CENSUS_SCHEMA, "run_id": args.run_id, "status": "running", "final_set_access": False,
+               "dev_access": False, "args": {k: str(v) for k, v in vars(args).items()}, "session_t0_epoch": t0,
+               "sampling_deadline_epoch": deadline, "timeline": []}
+
+    def mark(step):
+        summary["timeline"].append([step, round(time.time() - t0, 1)])
+        write_json(out / "summary.json", summary)
+        log(step)
+
+    write_json(out / "summary.json", summary)
+    try:
+        mark("start")
+        specs = [s.strip() for s in args.vllm_specs.split(",") if s.strip()]
+        installs = {}
+        install_thread = threading.Thread(
+            target=lambda: installs.update({0: install_vllm(specs[0], VENV, out / "vllm-install.log")}))
+        install_thread.start()
+        model_path = resolve_source(args.model, args.cache_dir, want="model").resolve()
+        model_sha = sha256_file(model_path / "model.safetensors")
+        if model_sha != args.model_sha256:
+            raise ValueError(f"model.safetensors sha256 {model_sha} differs from {args.model_sha256}")
+        summary["model"] = {"source": args.model, "path": str(model_path), "model_safetensors_sha256": model_sha}
+        mark("model")
+        summary["inputs"], plan_chunks = build_census_inputs(args, out)
+        mark("inputs")
+        install_thread.join()
+        summary["vllm_install"] = [installs[0]]
+        mark("vllm-install")
+        if args.cpu_dry_run:
+            summary["status"] = "complete"
+            return 0
+        plan = {"mode": "census", "output_dir": str(out.resolve()), "model_path": str(model_path),
+                "workers": args.workers, "census_prompts": str(out / "census-prompts.jsonl"), "chunks": plan_chunks,
+                "max_new_tokens": args.max_new_tokens, "samples": args.samples, "temperature": args.temperature,
+                "top_p": args.top_p, "seed": args.seed, "gpu_memory_utilization": args.gpu_memory_utilization,
+                "max_num_seqs": args.max_num_seqs, "deadline_epoch": deadline}
+        plan_path = out / "vllm-plan.json"
+        write_json(plan_path, plan)
+        summary["vllm_attempts"] = []
+        for index, spec in enumerate(specs):
+            venv = VENV if index == 0 else Path(f"/tmp/vllm-venv-{index}")
+            if index > 0:
+                if time.time() > deadline - 1800:
+                    summary["vllm_attempts"].append({"spec": spec, "skipped": "too close to the session deadline"})
+                    break
+                summary["vllm_install"].append(install_vllm(spec, venv, out / "vllm-install.log"))
+                mark(f"vllm-install-{index}")
+            if summary["vllm_install"][-1]["status"] != "installed":
+                summary["vllm_attempts"].append({"spec": spec, "skipped": "install failed"})
+                continue
+            attempts = run_vllm_workers(args, plan_path, str(venv / "bin/python"), out)
+            summary["vllm_attempts"].append({"spec": spec, "workers": attempts})
+            mark(f"vllm-run-{index}")
+            if any(a["engine_started"] for runs in attempts.values() for a in runs):
+                break
+        worker_results = []
+        for worker in range(args.workers):
+            path = out / f"vllm-worker-{worker}" / "worker.json"
+            if path.is_file():
+                worker_results.append(json.loads(path.read_text()))
+        summary["vllm_workers"] = worker_results
+        summary["throughput"] = throughput(worker_results)
+        done, missing, samples = [], [], 0
+        for spec in plan_chunks:
+            path = out / "chunks" / f"chunk-{spec['chunk']:04d}.jsonl"
+            if path.is_file():
+                lines = sum(1 for line in path.open() if line.strip())
+                if lines != spec["prompts"] * args.samples:
+                    raise ValueError(f"{path.name}: {lines} samples, expected {spec['prompts'] * args.samples}")
+                done.append(spec["chunk"])
+                samples += lines
+            else:
+                missing.append(spec["chunk"])
+        summary["chunks"] = {"done": done, "missing": missing, "samples": samples,
+                             "prompts": sum(s["prompts"] for s in plan_chunks if s["chunk"] in done)}
+        mark("inventory")
+        summary["status"] = "complete" if not missing else "partial"
+    except BaseException as error:
+        summary.update(status="failed", error=f"{type(error).__name__}: {error}", traceback=traceback.format_exc())
+        raise
+    finally:
+        summary["elapsed_seconds"] = round(time.time() - t0, 1)
+        write_json(out / "summary.json", summary)
+        log(json.dumps({k: summary.get(k) for k in ("status", "elapsed_seconds", "throughput", "chunks", "error")},
+                       default=str)[:3000])
+    return 0
+
+
 def main(argv=None):
     args = parse_args(argv)
     if args.vllm_worker is not None:
         return vllm_worker(args)
+    if args.census:
+        return census_main(args)
     t0 = time.time()
     out = args.output_dir
     out.mkdir(parents=True, exist_ok=True)

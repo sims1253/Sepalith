@@ -10,7 +10,7 @@ parity check in `docs/training/plan-20260927/c03/` compares them with the PC.
 | `infer_push.py` | PC | Builds and pushes the kernel (T4 accelerator), polls it, fetches the outputs, records quota (R7), optionally uploads the outputs to HF |
 | `infer_entry.py` | Kaggle (or any CUDA host) | Downloads the model and inputs, splits the work across the GPUs, generates, merges, writes the outputs |
 | `lora_probe_push.py`, `lora_probe_entry.py` | PC, Kaggle | LoRA-SFT feasibility probe on T4s (research, not a plan card); see `docs/validation/2026-10-16-kaggle-lora-probe.md` |
-| `vllm_census_push.py`, `vllm_census_entry.py` | PC, Kaggle | C12 vLLM census-throughput trial (vLLM 0.31.0 in its own venv, fp16, TRITON_ATTN, CUDA graphs, one engine per T4); census sampling only, with its own fp16 parity check; see `docs/validation/2026-10-17-c12-vllm-trial.md` |
+| `vllm_census_push.py`, `vllm_census_entry.py` | PC, Kaggle | C12 vLLM census-throughput trial (vLLM 0.31.0 in its own venv, fp16, TRITON_ATTN, CUDA graphs, one engine per T4); census sampling only, with its own fp16 parity check; see `docs/validation/2026-10-17-c12-vllm-trial.md`; `--census --shard-index i --shard-count n` runs the full C12 census (all 15,006 TRAIN prompts in a seeded order, k = 8, chunked, chunks claimed by both T4s, each chunk saved as it finishes) |
 
 ## Engine
 

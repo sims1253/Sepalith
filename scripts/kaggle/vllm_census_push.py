@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Push, poll and fetch the C12 vLLM census-throughput trial kernel (``vllm_census_entry.py``).
+"""Push, poll and fetch the C12 vLLM census kernels (``vllm_census_entry.py``: the trial and the census).
 
 A thin wrapper over ``infer_push.py`` (card C03): same bootstrap (GitHub
 codeload at a pushed commit, code digest check, no secret in the source, the
@@ -18,6 +18,9 @@ Examples::
         --timeout-hours 1 -- --cpu-dry-run
     # The bounded GPU trial (user cap: 1 GPU-hour).
     python3 scripts/kaggle/vllm_census_push.py --run-id c12-vllm-trial --estimate-hours 0.8 --timeout-hours 0.95 --
+    # The full census (user decision 2026-10-17), one session per shard, both T4s:
+    python3 scripts/kaggle/vllm_census_push.py --run-id c12-census-s0 --estimate-hours 2.75 --timeout-hours 3.25 -- \\
+        --census --shard-index 0 --shard-count 2 --chunk-prompts 256 --session-budget-minutes 160
 """
 from __future__ import annotations
 
@@ -37,14 +40,14 @@ def configure():
         raise SystemExit("infer_push.BOOTSTRAP changed; update vllm_census_push.py")
     infer_push.BOOTSTRAP = (infer_push.BOOTSTRAP.replace(old, f'str(root / "{ENTRY}"), "--run-id"')
                             .replace('"/tmp/sepalith-inference"', '"/tmp/sepalith-vllm"')
-                            .replace("Sepalith C03 inference bootstrap", "Sepalith C12 vLLM trial bootstrap"))
+                            .replace("Sepalith C03 inference bootstrap", "Sepalith C12 vLLM census bootstrap"))
     infer_push.slug = lambda run_id: f"sepalith-vllm-{run_id}"[:50].rstrip("-")
 
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     if "--upload-hf" in argv:
-        raise SystemExit("the vLLM trial does not upload to HF; C12 uploads its outputs in one batched commit")
+        raise SystemExit("the vLLM kernels do not upload to HF; C12 uploads its outputs in one batched commit")
     configure()
     return infer_push.main(argv)
 
