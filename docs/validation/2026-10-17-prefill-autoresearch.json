@@ -219,18 +219,22 @@
   },
   "4t_interleaved_ab": {
    "method": "alternating single-rep tg32 runs, drift-cancelling under contention",
-   "pairs": 8,
-   "favoring_q6k": 7,
-   "median_ratio_q6_over_q8": 1.251,
-   "q6k_range": [
-    7.34,
-    8.59
-   ],
-   "q8_range": [
-    4.84,
-    6.69
-   ],
-   "verdict": "crossover NOT confirmed \u2014 Q6_K leads decode at 4T and 8T; earlier same-band pair was contention drift"
+   "q4k_over_q8": {
+    "pairs": 6,
+    "favoring_q4k": 6,
+    "median_ratio": 1.369
+   },
+   "q4k_over_q6k": {
+    "pairs": 6,
+    "favoring_q4k": 5,
+    "median_ratio": 1.273
+   },
+   "q6k_over_q8": {
+    "pairs": 8,
+    "favoring_q6k": 7,
+    "median_ratio": 1.251
+   },
+   "verdict": "4T decode ordering Q4_K_M > Q6_K > Q8_0; 8T ordering Q6_K > Q8_0 ~ Q4_K_M \u2014 tier recommendation flips by thread count (laptop: Q4_K_M, desktop: Q6_K), pending fidelity gates"
   }
  },
  "layout_simulation_v2": {

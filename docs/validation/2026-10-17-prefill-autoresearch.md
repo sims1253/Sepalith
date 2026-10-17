@@ -250,14 +250,18 @@ the decode rates is ~47 ms vs ~62 ms (−24%), with full-suggestion decode
 parity figure across GGUFs (0.823 vs the Q8_0 reference) is numerics, not
 a speed signal.
 
-**Resolved (interleaved A/B re-test):** an earlier same-band pair
-suggested Q8_0 might decode faster than Q6_K at 4 threads (8.53 vs
-5.97 tok/s) — the opposite of the 8-thread ordering. Interleaved
-Q8_0/Q6_K decode reps (A/B ×8, drift-cancelling under contention) refute
-it: **7/8 pairs favor Q6_K, median +25%** (Q6_K 7.3–8.6 vs Q8_0
-4.8–6.7 tok/s at 4T in the same band). The tier ordering does not flip
-by platform: Q6_K leads decode at both 4 and 8 threads; the earlier pair
-was contention drift between non-interleaved runs.
+**Laptop (4-thread) tier ordering — measured with interleaved A/B reps
+(drift-cancelling under contention; non-interleaved same-band rows proved
+unreliable):** Q4_K_M > Q6_K > Q8_0 on decode at 4T — Q4_K_M/Q8_0
+median ×1.37 (6/6 pairs; quiet-band sweep independently showed ×1.26),
+Q4_K_M/Q6_K median ×1.27 (5/6 pairs), Q6_K/Q8_0 median ×1.25 (7/8
+pairs; an earlier non-interleaved pair suggesting the opposite was
+contention drift). At 8T the ordering is Q6_K > Q8_0 ≈ Q4_K_M. **The
+tier recommendation therefore flips by thread count: Q4_K_M is the
+laptop decode candidate, Q6_K the desktop one** (both pending their
+fidelity gates — speed only here). Mechanism: at 4 threads the machine
+is more bandwidth-starved per thread and the smaller weight footprint
+wins; at 8 threads the faster dot paths dominate.
 
 ## 7. DEV75 final latency check (single allowed DEV latency use)
 

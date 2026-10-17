@@ -125,3 +125,7 @@ all window; quant mission saturating).
 Run 22: interleaved A/B 4T decode test resolves the flagged crossover — NOT confirmed:
 7/8 pairs favor Q6_K (median +25%). Tier ordering stable across thread counts (Q6_K leads
 decode at 4T and 8T). Report/JSON updated. Remaining open: clean-host floor row only.
+
+Run 23: interleaved 4T A/Bs complete the laptop tier ranking: Q4_K_M > Q6_K > Q8_0 on decode
+at 4T (Q4/Q8 1.37 6/6; Q4/Q6 1.27 5/6; Q6/Q8 1.25 7/8) vs Q6_K > Q8_0~Q4 at 8T — tier choice
+flips by thread count (laptop Q4_K_M, desktop Q6_K, gates pending). Report/JSON updated.
