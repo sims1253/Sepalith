@@ -30,6 +30,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+import threading
 
 REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO / "packages" / "sepalith" / "src"))
@@ -69,6 +70,9 @@ class Config:
     warmup_policy: str
     warmup_events: tuple[str, ...]
     warmup_stale: int
+    warmup_async: bool
+    warmup_slot: int | None
+    request_slot: int | None
     n_predict: int
     seed: int
 
@@ -84,6 +88,9 @@ class Config:
             warmup_policy=str(warmup.get("policy", "none")),
             warmup_events=tuple(warmup.get("events", ("open", "cursor_move", "accept"))),
             warmup_stale=int(warmup.get("stale", 0)),
+            warmup_async=bool(warmup.get("async", False)),
+            warmup_slot=warmup.get("slot"),
+            request_slot=request.get("slot"),
             n_predict=int(request.get("n_predict", 64)),
             seed=int(request.get("seed", 3407)),
         )
@@ -213,6 +220,15 @@ def warmup_completion(
         conn.close()
     wall_ms = (time.monotonic() - began) * 1000.0
     return {"wall_ms": round(wall_ms, 1), "timings": payload.get("timings", {})}
+
+
+def bench_warmup(port: int, ids: list[int], slot: int | None) -> None:
+    """Fire-and-forget warm-up used by the async policy (errors swallowed:
+    the measured request is what counts)."""
+    try:
+        warmup_completion(port, ids, id_slot=slot)
+    except Exception:  # noqa: BLE001, S110 — probe-style: never fail the run
+        pass
 
 
 class Server:
@@ -371,12 +387,26 @@ def run_pass(
                         )
                     )
                     if head:
-                        result = warmup_completion(port, head)
-                        warmup_total_s += result["wall_ms"] / 1000.0
-                        warmup_count += 1
                         warmup_tokens += len(head)
+                        if config.warmup_async:
+                            # fire-and-forget: the pause request races the warm-up
+                            thread = threading.Thread(
+                                target=bench_warmup,
+                                args=(port, head, config.warmup_slot),
+                                daemon=True,
+                            )
+                            thread.start()
+                        else:
+                            result = warmup_completion(port, head, id_slot=config.warmup_slot)
+                            warmup_total_s += result["wall_ms"] / 1000.0
+                        warmup_count += 1
                 result = stream_completion(
-                    port, event["ids"], config.n_predict, config.seed, cache_prompt=not cold
+                    port,
+                    event["ids"],
+                    config.n_predict,
+                    config.seed,
+                    cache_prompt=not cold,
+                    id_slot=config.request_slot,
                 )
                 timings = result["timings"]
                 records.append(

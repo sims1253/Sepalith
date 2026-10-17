@@ -1,8 +1,11 @@
 {
-  "name": "probe-parallel-slots",
-  "bench": "probe_parallel",
+  "name": "warmup-eager-async-p1",
   "model": "arm-a-Q8_0.gguf",
-  "server_args": ["--alias", "sepalith", "--temp", "0", "--parallel", "2", "-c", "16384", "-t", "8", "-ngl", "0"],
-  "warmup": { "policy": "none" },
-  "request": { "n_predict": 8, "seed": 3407 }
+  "server_args": ["--alias", "sepalith", "--temp", "0", "--parallel", "1", "-c", "16384", "-t", "8", "-ngl", "0"],
+  "warmup": {
+    "policy": "full",
+    "events": ["open", "type", "accept", "diag", "cursor_move", "file_switch"],
+    "async": true
+  },
+  "request": { "n_predict": 64, "seed": 3407 }
 }
