@@ -1,0 +1,538 @@
+{
+ "schema": "sepalith.prefill.sessions.devpanel.v1",
+ "panel": {
+  "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+  "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+  "cases": 75
+ },
+ "seed": null,
+ "n_sessions": 75,
+ "sessions_sha256": "ee0646eaa6769bbb21ba0a217b60103094513af1c095238620c98b41e776ce69",
+ "events": [
+  {
+   "session_id": "dev75-000",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "49168e84bad0c185833ce39f59d600c337bdb2f0592047cc3d09ddf9e6d68529",
+   "prompt_tokens": 346
+  },
+  {
+   "session_id": "dev75-001",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "2cd25ba3615f8626fbe291df4a9f844be633c9967480457509f146d063004c02",
+   "prompt_tokens": 281
+  },
+  {
+   "session_id": "dev75-002",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "989c5aee55c4c40a2f953252f3accd07ee70977522e34ca194e6f87962cc86e1",
+   "prompt_tokens": 287
+  },
+  {
+   "session_id": "dev75-003",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "5cdefcb986054f84e9ec99c99b84e96728ece7086dce1bef5906db2ca3b1ebef",
+   "prompt_tokens": 220
+  },
+  {
+   "session_id": "dev75-004",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "a4a67c7fd3b582008f465d946b27e49f771d97523edd4f910e4b59f15a66943b",
+   "prompt_tokens": 332
+  },
+  {
+   "session_id": "dev75-005",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "163f17a66f3935dbe10b24fed7da85e3c54d9273c298e71de3acbb10e7252dec",
+   "prompt_tokens": 217
+  },
+  {
+   "session_id": "dev75-006",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "1b0bc54a964a5e3583085e8b9709a38026d2039a1015745ae2f638131f588fa5",
+   "prompt_tokens": 349
+  },
+  {
+   "session_id": "dev75-007",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "f59c53d7afc1b9950ebda216e64b410486a60dfb1af608db06e0f1a67a4be3f1",
+   "prompt_tokens": 1192
+  },
+  {
+   "session_id": "dev75-008",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "3fa7a9b525c56e63bb613dfd7bcfbcfd8b6d7c0904c82a8059efcec4e2f8b842",
+   "prompt_tokens": 1745
+  },
+  {
+   "session_id": "dev75-009",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "9ef1a724d11308ef5435b3f5d6d93f71e4c7beaa48fe12c44cad7456a60216b7",
+   "prompt_tokens": 364
+  },
+  {
+   "session_id": "dev75-010",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "2e3fd1e96dcccfd7da1ef49b592cc9a4a071918436985c84cb76ca27f991040d",
+   "prompt_tokens": 627
+  },
+  {
+   "session_id": "dev75-011",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "a8957220a573d2212233a966571ce8835d7e17e645e5c705eab7a7221a1bc011",
+   "prompt_tokens": 1619
+  },
+  {
+   "session_id": "dev75-012",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "de98637f735b4d66e30dc249f5dab141de6cb36251f4e42ca7155510480762d5",
+   "prompt_tokens": 531
+  },
+  {
+   "session_id": "dev75-013",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "7fdc0cd474b2eabdd8b5eae48a162f2284a7f20e6ad98ef0a2bd62b0ca75682d",
+   "prompt_tokens": 2098
+  },
+  {
+   "session_id": "dev75-014",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "c23fd52b7ef70b3bd0230f5217eb01288df9f45d34da11355b23d077d1fdb56e",
+   "prompt_tokens": 2259
+  },
+  {
+   "session_id": "dev75-015",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "b0d41ea45aa48f1a0563b34ae7892996998425c47dc72a9ed332887bd3dc8ee8",
+   "prompt_tokens": 2249
+  },
+  {
+   "session_id": "dev75-016",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "68a81e4cde831ac1915b1061436b4cc5defd6eaabdbf6f2f2e136128d9ba1ff4",
+   "prompt_tokens": 2026
+  },
+  {
+   "session_id": "dev75-017",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "7eee0e0a8715f82afb80fbf78420daf39a9b08cba8afabb38d3632180d98cb08",
+   "prompt_tokens": 289
+  },
+  {
+   "session_id": "dev75-018",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "44d81d222bee452754ea94616f336ecafb49372db45d45519161cbdaf3762b68",
+   "prompt_tokens": 518
+  },
+  {
+   "session_id": "dev75-019",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "3fe143d59c3386a085c63cb9bc47c9bdc7516a6fc85dfe045f9db4b2a77c60d6",
+   "prompt_tokens": 1930
+  },
+  {
+   "session_id": "dev75-020",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "48d9f90021960a19ac885f9625430a8178f96c3ae7c064ac2b053e44bb8b1f5b",
+   "prompt_tokens": 1904
+  },
+  {
+   "session_id": "dev75-021",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "70b0256c3126ee31a9c678d1e466b12a341a676aa2d92164cf5935cc8d3bc70d",
+   "prompt_tokens": 2618
+  },
+  {
+   "session_id": "dev75-022",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "70dd54bf85a0f9f6382833fef006b9fafbe82e5249a46ff8bd2f02530f7a156d",
+   "prompt_tokens": 2033
+  },
+  {
+   "session_id": "dev75-023",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "cf6faf9b8973992431fc66690043481824de83c2a47c0907817ba8107a39d616",
+   "prompt_tokens": 519
+  },
+  {
+   "session_id": "dev75-024",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "61c9635f608af06bc9a0aae2dd3ac247c10846289829b77893f056e3b5b6b8c8",
+   "prompt_tokens": 1048
+  },
+  {
+   "session_id": "dev75-025",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "84f8d1484ce0f2ca32c3518ac7832530bd92a0c88d1498a7474ce20a34889a87",
+   "prompt_tokens": 2020
+  },
+  {
+   "session_id": "dev75-026",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "5e26dc14540fa04a6c51ddc1d3de667a6b0016e18377c8c4eb7e26e11f3b07f1",
+   "prompt_tokens": 720
+  },
+  {
+   "session_id": "dev75-027",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "e18207a6a29afce74e1720aa239e31d2574126dcdf419e08b48d23d11d4149ff",
+   "prompt_tokens": 1948
+  },
+  {
+   "session_id": "dev75-028",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "eee36e16b3734b1c2332f3ea717e79ec3c1194e3f0908e61cfd34a061d593451",
+   "prompt_tokens": 1161
+  },
+  {
+   "session_id": "dev75-029",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "0069aa3efe69181c5d1f065122159714886ab192602ccef5131c2aea239da731",
+   "prompt_tokens": 1739
+  },
+  {
+   "session_id": "dev75-030",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "afbab3e670d543eb2d788928afa6732fcc2a1e827b9c316bc171f978ad91de83",
+   "prompt_tokens": 660
+  },
+  {
+   "session_id": "dev75-031",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "810f01b8f8e1cb4e8464937a053b6e43b7eb03b9a0199001ed42b50f383e565b",
+   "prompt_tokens": 1551
+  },
+  {
+   "session_id": "dev75-032",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "3a56c2eb391b7f46dc29e8427c667f31821c2ae8c0d7b39f084aa6a3d532fe04",
+   "prompt_tokens": 1695
+  },
+  {
+   "session_id": "dev75-033",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "474c0653e94cbee56b4284815e6d2ac05ffc2afe2a43147fc762068a11c6e1e0",
+   "prompt_tokens": 872
+  },
+  {
+   "session_id": "dev75-034",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "39e56831c703aba4133445e9b7625a0e6b69891b1f138b941a951b5332a03a9a",
+   "prompt_tokens": 1454
+  },
+  {
+   "session_id": "dev75-035",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "b99f376b29fb5b005cf2e22e915f0f50943cfd3acb875ca2615b060375d39831",
+   "prompt_tokens": 1878
+  },
+  {
+   "session_id": "dev75-036",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "ed096de2d2169a8d9c9e56595a4ba1df79242fabe42f33a010038f86b2f79b8d",
+   "prompt_tokens": 1119
+  },
+  {
+   "session_id": "dev75-037",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "5903058718ea8f39944038f1a83d47a6fe313c82fb5b5725436794f768e59dd6",
+   "prompt_tokens": 1985
+  },
+  {
+   "session_id": "dev75-038",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "5258b2c7e94bebc23f4801d410be1fe7f50cad1d476df31108a0df04d668dbba",
+   "prompt_tokens": 1506
+  },
+  {
+   "session_id": "dev75-039",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "f40baaeed4d29a8b0cba6f521fceb4f552e1de5f4d0800ac662069657469c447",
+   "prompt_tokens": 1861
+  },
+  {
+   "session_id": "dev75-040",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "9bb772f32c737b86b030505c1ce4d14dccc9fe27b75560561a991e8d9205a775",
+   "prompt_tokens": 504
+  },
+  {
+   "session_id": "dev75-041",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "9a028528c61d0309514716a810247eed8b931dac2b1c0a2ea2e91c9aa04ad1bf",
+   "prompt_tokens": 754
+  },
+  {
+   "session_id": "dev75-042",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "79e6a7172b9bbff3272753a3a9bae32f391b9d76efb059ec8699e6fa562c71b8",
+   "prompt_tokens": 1896
+  },
+  {
+   "session_id": "dev75-043",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "0a6ffcfb75d7463cafae30a24be7002a80a34b92b081221e5c48118323215d4b",
+   "prompt_tokens": 1789
+  },
+  {
+   "session_id": "dev75-044",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "7cc22e28dedfee25e4f72b3853ce1b115eccbda4c3fa6bebb23f74868c2b772a",
+   "prompt_tokens": 1088
+  },
+  {
+   "session_id": "dev75-045",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "1f7da5ec9b0fa8e82dd506c2fb6e3a7ee17bcaafb05a0b85b8c9e976c077b6a6",
+   "prompt_tokens": 1073
+  },
+  {
+   "session_id": "dev75-046",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "67c53ea93bd09dfc09821d6037b903d0554a49228fa63d75466475c96a88f228",
+   "prompt_tokens": 472
+  },
+  {
+   "session_id": "dev75-047",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "5824ba145497e48ca57f0517fa395a7144455148d8214f8d974e9ac3a14b6dd4",
+   "prompt_tokens": 561
+  },
+  {
+   "session_id": "dev75-048",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "09c7b818e1b8c3775045e6df63516b82a107211a7323eb7b7f9f2d81b1c028e1",
+   "prompt_tokens": 498
+  },
+  {
+   "session_id": "dev75-049",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "f94531ae7a03a766745a8b4dd1a8685c200075de627c41d5aff7bd11916c96e2",
+   "prompt_tokens": 771
+  },
+  {
+   "session_id": "dev75-050",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "725d6b629aefb942ecb6b79ae0291c40925cbd0ff5d8d71cb81bb53af708cc84",
+   "prompt_tokens": 834
+  },
+  {
+   "session_id": "dev75-051",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "51c86d9832159e212b4bdc97aa3d64717e5d4c510ca0775548c2b3027c05cfb2",
+   "prompt_tokens": 524
+  },
+  {
+   "session_id": "dev75-052",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "6bf1a23c25db33da01cc6b7caf92483a749adca500ac1ce51cf4516bfc1aa6d4",
+   "prompt_tokens": 1291
+  },
+  {
+   "session_id": "dev75-053",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "c9149077df75c34f3d453ece2439ecb2a676d9f9394a53afd8acfd53ff85216a",
+   "prompt_tokens": 1348
+  },
+  {
+   "session_id": "dev75-054",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "37e1c7f971fe9271bc3a276712ca0731e672db9e1dde77c2fb6b45ac9b9dfeae",
+   "prompt_tokens": 1078
+  },
+  {
+   "session_id": "dev75-055",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "df4d71edcdf1ba3bec69bce7bc1c3dd8efa9e47d6c8bd9e9225a862e6de8095c",
+   "prompt_tokens": 2510
+  },
+  {
+   "session_id": "dev75-056",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "1053cb55286d97abdd7e8530ed2b99aff4fe010d9d37cb1c2e1d8dde893866a9",
+   "prompt_tokens": 1704
+  },
+  {
+   "session_id": "dev75-057",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "c8120e50497b3b1031bd4ebecafacfc4c11eb3c4ffb78d2785bad30c065edc0a",
+   "prompt_tokens": 1811
+  },
+  {
+   "session_id": "dev75-058",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "21711fb8269db2276ad27590d68b4e42e192c4e7dd54b8eee27fe4f3ad46925d",
+   "prompt_tokens": 2164
+  },
+  {
+   "session_id": "dev75-059",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "c500b58cef916a2c215afddbfda8605556af5ae322d08ce2390334c5aed8ec6e",
+   "prompt_tokens": 1629
+  },
+  {
+   "session_id": "dev75-060",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "9a445f26760ffe6769922ac1a243aa57bb2bfed799e049b9f383078372683701",
+   "prompt_tokens": 1839
+  },
+  {
+   "session_id": "dev75-061",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "f71347f64fe1a2c8ef5031fb22f87c3c73f1b120369ed30bdc3a5cf98fdf5118",
+   "prompt_tokens": 1278
+  },
+  {
+   "session_id": "dev75-062",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "543fb850c92cfb79f74ecbe4f5e2451e526d3de6f564f9947fbc36d97fd6065b",
+   "prompt_tokens": 2027
+  },
+  {
+   "session_id": "dev75-063",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "091ceecc48664437fd5efa326f3a6dc375442eb5b325ca98b344c5c4220f0b42",
+   "prompt_tokens": 1715
+  },
+  {
+   "session_id": "dev75-064",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "dad1de00fb5c7038c421f1e5c074bef98fbb0c4294c4fbd8b85bfd6a0f2b8db8",
+   "prompt_tokens": 2117
+  },
+  {
+   "session_id": "dev75-065",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "2d80ef83af1d0d60e19b3c873b84e6102a10bc30eb9b70aecdbb54ed46151c91",
+   "prompt_tokens": 2506
+  },
+  {
+   "session_id": "dev75-066",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "77d00f9e758d3fbaa80663331644097f871431b822c75899390266ed4fd42a0d",
+   "prompt_tokens": 1168
+  },
+  {
+   "session_id": "dev75-067",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "e43f5cb63572348b188a5417e65e64c01f3241bc178a678d66c86802e3299b79",
+   "prompt_tokens": 2306
+  },
+  {
+   "session_id": "dev75-068",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "c6da1f792bace8235a1f6efe20078b99d2d04b0a2e52702f7b36e2a5a75522d7",
+   "prompt_tokens": 1075
+  },
+  {
+   "session_id": "dev75-069",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "374a392bce0c55aa0ade618f576338d86f8d0dd4d9094a15d51a53cffe94d58f",
+   "prompt_tokens": 132
+  },
+  {
+   "session_id": "dev75-070",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "1ff14f002a144d45757cc5f0f3a83ab7cf04aebba8bcb96c1f4d24d9cf7283cb",
+   "prompt_tokens": 137
+  },
+  {
+   "session_id": "dev75-071",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "273920819575364e94576df6b5a18b6a95394b0831610e5631f309645fefbcc8",
+   "prompt_tokens": 131
+  },
+  {
+   "session_id": "dev75-072",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "caf7562431ce98fc08f03ad0ee12e35099c122e41da957236184d85115ed19d1",
+   "prompt_tokens": 141
+  },
+  {
+   "session_id": "dev75-073",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "806928b032e5f25f31234d226de9f3048bd9f1d5a978a17a81b839e1c6b6934a",
+   "prompt_tokens": 379
+  },
+  {
+   "session_id": "dev75-074",
+   "index": 0,
+   "type": "open",
+   "prompt_sha256": "076b3b3ad72bfe980e4ecc9902e7b95efc6516dbbe4ccf5b4a3e1fe3f5a9eb5d",
+   "prompt_tokens": 160
+  }
+ ]
+}
