@@ -1,0 +1,175 @@
+{
+ "schema": "sepalith.prefill.layout-simulation.v1",
+ "prm03_render_verified_events": 220,
+ "ms_per_token_estimate": 10.0,
+ "orders": {
+  "prm03": {
+   "accept": {
+    "n": 20,
+    "cached_frac_p50": 0.452,
+    "cached_frac_mean": 0.458,
+    "uncached_tokens_p50": 344,
+    "uncached_tokens_mean": 476,
+    "est_prefill_ms_p50": 3440.0
+   },
+   "cursor_move": {
+    "n": 20,
+    "cached_frac_p50": 0.231,
+    "cached_frac_mean": 0.321,
+    "uncached_tokens_p50": 491,
+    "uncached_tokens_mean": 597.2,
+    "est_prefill_ms_p50": 4910.0
+   },
+   "diag": {
+    "n": 20,
+    "cached_frac_p50": 0.66,
+    "cached_frac_mean": 0.67,
+    "uncached_tokens_p50": 246,
+    "uncached_tokens_mean": 326.2,
+    "est_prefill_ms_p50": 2460.0
+   },
+   "file_switch": {
+    "n": 20,
+    "cached_frac_p50": 0.079,
+    "cached_frac_mean": 0.148,
+    "uncached_tokens_p50": 657,
+    "uncached_tokens_mean": 801.0,
+    "est_prefill_ms_p50": 6570.0
+   },
+   "switch_back": {
+    "n": 20,
+    "cached_frac_p50": 0.075,
+    "cached_frac_mean": 0.075,
+    "uncached_tokens_p50": 689,
+    "uncached_tokens_mean": 884.9,
+    "est_prefill_ms_p50": 6890.0
+   },
+   "type": {
+    "n": 100,
+    "cached_frac_p50": 0.954,
+    "cached_frac_mean": 0.936,
+    "uncached_tokens_p50": 24,
+    "uncached_tokens_mean": 35.4,
+    "est_prefill_ms_p50": 240.0
+   },
+   "_pooled": {
+    "n": 200,
+    "cached_frac_p50": 0.801,
+    "uncached_tokens_p50": 112,
+    "est_prefill_ms_p50": 1125.0
+   }
+  },
+  "stable_first": {
+   "accept": {
+    "n": 20,
+    "cached_frac_p50": 0.467,
+    "cached_frac_mean": 0.476,
+    "uncached_tokens_p50": 331,
+    "uncached_tokens_mean": 463,
+    "est_prefill_ms_p50": 3310.0
+   },
+   "cursor_move": {
+    "n": 20,
+    "cached_frac_p50": 0.231,
+    "cached_frac_mean": 0.321,
+    "uncached_tokens_p50": 491,
+    "uncached_tokens_mean": 597.2,
+    "est_prefill_ms_p50": 4910.0
+   },
+   "diag": {
+    "n": 20,
+    "cached_frac_p50": 0.424,
+    "cached_frac_mean": 0.428,
+    "uncached_tokens_p50": 402,
+    "uncached_tokens_mean": 526.5,
+    "est_prefill_ms_p50": 4025.0
+   },
+   "file_switch": {
+    "n": 20,
+    "cached_frac_p50": 0.079,
+    "cached_frac_mean": 0.148,
+    "uncached_tokens_p50": 657,
+    "uncached_tokens_mean": 801.0,
+    "est_prefill_ms_p50": 6570.0
+   },
+   "switch_back": {
+    "n": 20,
+    "cached_frac_p50": 0.075,
+    "cached_frac_mean": 0.075,
+    "uncached_tokens_p50": 689,
+    "uncached_tokens_mean": 884.9,
+    "est_prefill_ms_p50": 6890.0
+   },
+   "type": {
+    "n": 100,
+    "cached_frac_p50": 0.954,
+    "cached_frac_mean": 0.936,
+    "uncached_tokens_p50": 24,
+    "uncached_tokens_mean": 35.4,
+    "est_prefill_ms_p50": 240.0
+   },
+   "_pooled": {
+    "n": 200,
+    "cached_frac_p50": 0.788,
+    "uncached_tokens_p50": 125,
+    "est_prefill_ms_p50": 1255.0
+   }
+  },
+  "history_cap1": {
+   "accept": {
+    "n": 20,
+    "cached_frac_p50": 0.441,
+    "cached_frac_mean": 0.452,
+    "uncached_tokens_p50": 340,
+    "uncached_tokens_mean": 471.4,
+    "est_prefill_ms_p50": 3405.0
+   },
+   "cursor_move": {
+    "n": 20,
+    "cached_frac_p50": 0.256,
+    "cached_frac_mean": 0.328,
+    "uncached_tokens_p50": 473,
+    "uncached_tokens_mean": 580.4,
+    "est_prefill_ms_p50": 4735.0
+   },
+   "diag": {
+    "n": 20,
+    "cached_frac_p50": 0.639,
+    "cached_frac_mean": 0.664,
+    "uncached_tokens_p50": 246,
+    "uncached_tokens_mean": 326.2,
+    "est_prefill_ms_p50": 2460.0
+   },
+   "file_switch": {
+    "n": 20,
+    "cached_frac_p50": 0.079,
+    "cached_frac_mean": 0.148,
+    "uncached_tokens_p50": 657,
+    "uncached_tokens_mean": 801.0,
+    "est_prefill_ms_p50": 6570.0
+   },
+   "switch_back": {
+    "n": 20,
+    "cached_frac_p50": 0.075,
+    "cached_frac_mean": 0.076,
+    "uncached_tokens_p50": 689,
+    "uncached_tokens_mean": 868.0,
+    "est_prefill_ms_p50": 6890.0
+   },
+   "type": {
+    "n": 100,
+    "cached_frac_p50": 0.953,
+    "cached_frac_mean": 0.935,
+    "uncached_tokens_p50": 24,
+    "uncached_tokens_mean": 35.4,
+    "est_prefill_ms_p50": 240.0
+   },
+   "_pooled": {
+    "n": 200,
+    "cached_frac_p50": 0.801,
+    "uncached_tokens_p50": 112,
+    "est_prefill_ms_p50": 1125.0
+   }
+  }
+ }
+}

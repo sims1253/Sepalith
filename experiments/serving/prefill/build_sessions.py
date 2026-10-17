@@ -219,24 +219,71 @@ def _apply_diagnostic(context: dict[str, Any], rng: random.Random) -> None:
     ]
 
 
-def _merge_window(base: Mapping[str, Any], window: Mapping[str, Any]) -> dict[str, Any]:
-    """Same-file cursor move: take the partner's window, keep base's history."""
-    merged = _clone(base)
-    for key in (
-        "prefix",
-        "suffix_lines",
-        "scope_lines",
-        "region_old",
-        "cursor",
-        "replacement_range",
-    ):
-        merged[key] = json.loads(json.dumps(window["context"][key]))
-    return merged
+def _apply_cursor_move(context: dict[str, Any], rng: random.Random) -> None:
+    """Same-document cursor move: the region becomes a later suffix line, the
+    prefix absorbs the old region and intervening lines (anchored prefixes →
+    the old prefix stays a true prefix of the new one, as in the product)."""
+    suffix = list(context["suffix_lines"])
+    if not suffix:
+        # nothing below the region: move UP into the prefix instead
+        prefix = list(context["prefix"])
+        if not prefix:
+            return
+        steps = min(len(prefix), 3 + rng.randrange(8))
+        while steps < len(prefix) and prefix[steps - 1] == "":
+            steps += 1
+        new_region = prefix[-steps:]
+        context["prefix"] = prefix[: len(prefix) - steps]
+        context["suffix_lines"] = [*context["region_old"], *suffix]
+        context["region_old"] = new_region
+    else:
+        # pick a target line that is not the canonical-empty [] case
+        steps = 2 + rng.randrange(12)
+        while steps < len(suffix) and suffix[steps - 1] == "":
+            steps += 1
+        steps = min(len(suffix), steps)
+        between = suffix[:steps]
+        new_region = [between[-1]]
+        context["prefix"] = [*context["prefix"], *context["region_old"], *between[:-1]]
+        context["suffix_lines"] = suffix[steps:]
+        context["region_old"] = new_region
+    _move_range_to_region(context)
+    if context["region_old"]:
+        index = min(len(context["region_old"]) - 1, 0)
+        _set_cursor(context, index, len(context["region_old"][index]) if context["region_old"][index] else 0)
+    else:
+        context["cursor"] = {
+            "region_line_index": -1,
+            "code_point_column": None,
+            "utf16_column": None,
+        }
+
+
+def _move_range_to_region(context: dict[str, Any]) -> None:
+    """Slide replacement_range to the new region lines (same file)."""
+    span = context["replacement_range"]
+    start_line = span["end"]["line"] + 1 if span["end"]["line"] >= span["start"]["line"] else span["start"]["line"]
+    region = context["region_old"]
+    if not region:
+        context["replacement_range"] = {
+            **span,
+            "start": {"line": start_line, "character": 0},
+            "end": {"line": start_line, "character": 0},
+        }
+        return
+    context["replacement_range"] = {
+        **span,
+        "start": {"line": start_line, "character": 0},
+        "end": {
+            "line": start_line + len(region) - 1,
+            "character": utf16_length(region[-1]),
+        },
+        "content_sha256": hashlib.sha256("\n".join(region).encode()).hexdigest(),
+    }
 
 
 def build_event_sequence(
     base: Mapping[str, Any],
-    move: Mapping[str, Any],
     switch: Mapping[str, Any],
     target_ids: Sequence[int],
     decode,  # noqa: ANN001
@@ -283,7 +330,7 @@ def build_event_sequence(
     emit("diag", current)
 
     before_move = _clone(current)
-    current = _merge_window(current, move)
+    _apply_cursor_move(current, rng)
     emit("cursor_move", current)
 
     fragment3 = TYPING_FRAGMENTS[(TYPING_FRAGMENTS.index(fragment) + 2) % len(TYPING_FRAGMENTS)]
@@ -331,12 +378,7 @@ def main() -> int:
 
     rng = random.Random(args.seed)
     # length-stratified, family-mix sampling over rows that have a partner
-    candidates = [
-        side
-        for side in sides
-        if len(groups[(str(side.get("package_id", "?")), side["context"]["path"])]) >= 2
-        and side["row_id"] in rows
-    ]
+    candidates = [side for side in sides if side["row_id"] in rows]
     candidates.sort(key=lambda side: rows[side["row_id"]]["target_start"])
     strata = 4
     per_stratum = args.sessions // strata + 1
@@ -352,8 +394,6 @@ def main() -> int:
     sessions: list[dict[str, Any]] = []
     used_switch: set[str] = set()
     for base in picked:
-        key = (str(base.get("package_id", "?")), base["context"]["path"])
-        partner = rng.choice([s for s in groups[key] if s["row_id"] != base["row_id"]])
         switch_pool = [s for s in sides if s.get("package_id") != base.get("package_id")]
         switch = rng.choice(switch_pool)
         while switch["row_id"] in used_switch and len(used_switch) < len(sides):
@@ -361,14 +401,13 @@ def main() -> int:
         used_switch.add(switch["row_id"])
         row = rows[base["row_id"]]
         target_ids = row["input_ids"][row["target_start"] :]
-        events = build_event_sequence(base, partner, switch, target_ids, decode, args.seed)
+        events = build_event_sequence(base, switch, target_ids, decode, args.seed)
         sessions.append(
             {
                 "session_id": base["row_id"],
                 "package_id": base.get("package_id"),
                 "family": base.get("family"),
                 "base_row_id": base["row_id"],
-                "move_row_id": partner["row_id"],
                 "switch_row_id": switch["row_id"],
                 "events": events,
             }
