@@ -1,7 +1,7 @@
 {
   "card": "C10",
-  "state": "needs_user",
-  "updated": "2026-10-17T15:00:00+02:00",
+  "state": "in_progress",
+  "updated": "2026-10-17T12:00:00+02:00",
   "branch": "plan/C10-arm-b-night",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/63",
   "outputs": {
@@ -309,10 +309,24 @@
         ]
       },
       "outcome": "needs_user: R3 and the card do not say which arm-B checkpoint to compare, nor whether B runs to its end now that A's final is mid-schedule"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "arm_a_final": 536,
+        "arm_b_gates": [
+          342,
+          684,
+          1026,
+          1368
+        ]
+      },
+      "outcome": "run arm B only to gate 684 (50% of schedule, matching A-536); pick B's better gate by exact edits over both DEV panels; apply R3 as written against A-536 (B adopted if score250 >= 114, roxygen exact >= 4/19, nofp <= 9)"
     }
   ],
-  "question_for_user": "R3 and the card do not say which arm-B checkpoint is compared with arm A, whose final (536) you chose mid-schedule. Do you agree to run arm B only to gate 684 (job C10-arm-b-lr1e-5) and then apply R3 as written to B's better gate, picked the way you picked A (most exact edits on DEV250 + DEV75 together, ties to the earlier gate), against A-536? Numbers: A-536 has score250 117, nofp 8, DEV roxygen subset 1 of 19 (8 DEV75 + 11 DEV250 cases; A scored 1 at every gate). B is adopted if score250 >= 114, roxygen >= 4 of 19 and nofp <= 9; one condition missed by 1 is stop-for-user. Gate 684 is 50% of B's schedule, the same schedule and LR position as A's 536. Arm A did not improve after 50% (score250 117, 109, 105; exact edits 106, 104, 104 of 243), so B's second half (about 2.5-3 h of GPU, 36 GB) is unlikely to change the decision. If B-684 beats B-342 by 5 or more on score250 or on exact edits, I would ask again before continuing B with the -full job, which resumes from 684. Recommendation: yes. The alternative is the full run (job C10-arm-b-lr1e-5-full, 5.2-5.8 h, one night) with the same selection rule over all four gates.",
-  "notes": "Arm-B night part: recipe bound with the unchanged C04 machinery (same source manifest as arm A), CPU-verified, two night jobs written (to 684, or to 1,368), nothing enqueued. The jobs run from /home/m0hawk/sandbox/Sepalith at origin/main, so this PR must be merged first. R3 needs the user's answer on which B checkpoint to compare. R3's nofp condition stands as written (nofp(B) <= nofp(A) + 1) even though nofp is the user's least important metric; only the user can change it, and only before B runs.",
+  "question_for_user": null,
+  "notes": "Arm-B night part: recipe bound with the unchanged C04 machinery (same source manifest as arm A), CPU-verified, two night jobs written (to 684, or to 1,368), nothing enqueued. The jobs run from /home/m0hawk/sandbox/Sepalith at origin/main, so this PR must be merged first. R3 needs the user's answer on which B checkpoint to compare. R3's nofp condition stands as written (nofp(B) <= nofp(A) + 1) even though nofp is the user's least important metric; only the user can change it, and only before B runs. 2026-10-17: user approved the stop at gate 684; job C10-arm-b-lr1e-5 enqueued after merge.",
   "previous_pull_requests": [
     "https://github.com/sims1253/Sepalith/pull/50 (admission, cohort and v4 schedule)"
   ],
