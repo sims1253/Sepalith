@@ -276,12 +276,13 @@ def head_ids_for_policy(
         parts.extend(WARMUP_SECTION_MARKERS)
     head_text = "\n".join(parts) + "\n"
     head = tokenizer.encode(head_text, add_special_tokens=False).ids
+    body = list(full_ids[1:])  # full_ids[0] is the manual BOS
     k = 0
-    for a, b in zip(head, full_ids):
+    for a, b in zip(head, body):
         if a != b:
             break
         k += 1
-    return list(full_ids[:k])
+    return [0, *body[:k]]
 
 
 def load_sessions(
