@@ -1,0 +1,417 @@
+{
+ "schema": "sepalith.prefill.autoresearch.v1",
+ "created_utc": "2026-10-17T11:30+02:00",
+ "setup": {
+  "host": "AMD Ryzen 9 5900X 12C/24T WSL2 (laptop proxy), nice -n 10, <=8 threads, CPU-only (CUDA_VISIBLE_DEVICES='')",
+  "llama_cpp": "b10453 commit 3cb7ffb1a build-cpu",
+  "model": "arm-a-Q8_0.gguf sha256=44b01828b21d6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe",
+  "tokenizer_json_sha256": "3e065a558a034185fe299917398685c1facd0169a9eea1e629eb30c171fed81",
+  "workload": "experiments/serving/prefill/manifest.json (freeze v2, seed 20261018, 20 sessions / 220 events from TRAIN DAT10 sidecar)"
+ },
+ "headline": {
+  "baseline_edit_ttft_p50_ms": 382.8,
+  "recommended_edit_ttft_p50_ms": 64.6,
+  "speedup_pooled_edit_p50": 5.9,
+  "speedup_edit_p95": 114.0,
+  "per_event_baseline_ms": {
+   "type": 291.5,
+   "accept": 3153.2,
+   "diag": 2111.5,
+   "cursor_move": 4175.5,
+   "open": 2544.9,
+   "file_switch": 5010.3,
+   "switch_back": 119.9
+  },
+  "per_event_recommended_ms": {
+   "type": 64.2,
+   "accept": 64.6,
+   "diag": 64.9,
+   "cursor_move": 64.9,
+   "open": 62.8,
+   "file_switch": 63.7,
+   "switch_back": 117.7
+  },
+  "cached_frac_baseline": {
+   "type": 0.954,
+   "accept": 0.453,
+   "diag": 0.661,
+   "cursor_move": 0.233,
+   "open": 0.177,
+   "file_switch": 0.08,
+   "switch_back": 0.998
+  },
+  "cached_frac_recommended": {
+   "type": 0.998,
+   "accept": 0.999,
+   "diag": 0.999,
+   "cursor_move": 0.999,
+   "open": 0.997,
+   "file_switch": 0.999,
+   "switch_back": 0.998
+  },
+  "floor_confirmations_edit_p50_ms": [
+   64.6,
+   64.6,
+   65.4,
+   63.6,
+   63.5
+  ]
+ },
+ "dev75_latency": {
+  "usage": "single DEV75 latency use 2026-10-17: dev75-baseline + dev75-eager runs, no scoring",
+  "baseline": {
+   "ttft_p50_ms": 8183.3,
+   "ttft_p95_ms": 17397.8,
+   "wall_p50_ms": 10097.3,
+   "n": 150
+  },
+  "eager": {
+   "ttft_p50_ms": 66.2,
+   "ttft_p95_ms": 72.9,
+   "wall_p50_ms": 1724.5,
+   "n": 150
+  },
+  "warmup_cpu_s_per_pass": 320.4
+ },
+ "policy_variants": {
+  "none": {
+   "edit_p50_ms": 382.8,
+   "warmup_cpu_s_per_pass": 0.0
+  },
+  "stable_head_open_cursor_switch_v1": {
+   "edit_p50_ms": 288.0,
+   "cold_ms": 236.0,
+   "switch_ms": 1372.8,
+   "cursor_ms": 1814.9,
+   "warmup_cpu_s_per_pass": 133.5
+  },
+  "full_settle_v1": {
+   "edit_p50_ms": 195.4,
+   "type_ms": 229.6,
+   "slow_edit_ms": 64.6,
+   "warmup_cpu_s_per_pass": 392.8
+  },
+  "full_eager": {
+   "edit_p50_ms": 64.6,
+   "warmup_cpu_s_per_pass": 440.6,
+   "repeat_runs_edit_p50_ms": [
+    64.6,
+    64.6,
+    65.4
+   ]
+  },
+  "full_eager_4t_v1": {
+   "edit_p50_ms": 67.0,
+   "warmup_cpu_s_per_pass": 661.0,
+   "wall_p50_ms": 2154.0
+  }
+ },
+ "parity": {
+  "baseline_vs_cold_v2": 0.9455,
+  "eager_vs_cold_v2": 0.9136,
+  "eager_vs_sessionflow_v2": 0.9455,
+  "cache_reuse_vs_sessionflow_v1": 0.9909,
+  "note": "prefix-cache splits reorder FP reductions; the shipped cache_prompt behavior already drifts vs cold; mismatches are near-tie alternative continuations",
+  "dev_quality_confirmation_slots_used": 0
+ },
+ "rejected_levers": {
+  "--cache-reuse 256": "gain was host-load noise; cached fracs unchanged; parity 0.9909",
+  "-ctk/-ctv q8_0": "pp2048 61.8 vs 85.4 tok/s f16",
+  "-ub 2048": "+5-6% pp2048 only, numerics-changing",
+  "--cache-prompt off": "typing events would pay full recompute (baseline cached .954 on type)"
+ },
+ "flag_sweep_pp512_tg32_8t": {
+  "t8": [
+   87.7,
+   15.25
+  ],
+  "t6": [
+   75.1,
+   13.31
+  ],
+  "t4": [
+   61.9,
+   13.11
+  ],
+  "fa_off": [
+   87.5,
+   15.04
+  ],
+  "note": "contended-host run; relative ordering only"
+ },
+ "quant_speed_table": {
+  "pp512_pp2048_tg32_8t": {
+   "bf16": [
+    131.4,
+    125.3,
+    9.22
+   ],
+   "Q8_0": [
+    129.4,
+    132.1,
+    16.12
+   ],
+   "imat-Q6_K": [
+    120.5,
+    113.5,
+    21.12
+   ],
+   "imat-Q5_K_M": [
+    79.7,
+    64.8,
+    21.36
+   ],
+   "imat-Q4_K_M": [
+    116.8,
+    106.1,
+    15.8
+   ],
+   "uncal-Q4_K_M": [
+    111.5,
+    106.1,
+    18.07
+   ],
+   "q4plus-Q4_K_M": [
+    114.7,
+    108.5,
+    18.81
+   ],
+   "attn-out-q8_0-Q4_K_M": [
+    110.8,
+    101.5,
+    18.96
+   ],
+   "head-q6_k-Q4_K_M": [
+    116.6,
+    108.8,
+    20.61
+   ]
+  },
+  "4t": {
+   "Q8_0": [
+    63.2,
+    55.4,
+    12.28
+   ],
+   "imat-Q4_K_M": [
+    75.2,
+    67.7,
+    15.51
+   ]
+  },
+  "4t_contended_band": {
+   "note": "load ~26 band, same-band anchor rows; ratios within band only",
+   "Q8_0": [
+    34.9,
+    null,
+    8.53
+   ],
+   "imat-Q6_K": [
+    32.0,
+    28.7,
+    5.97
+   ],
+   "imat-Q5_K_M": [
+    23.2,
+    22.3,
+    7.03
+   ]
+  },
+  "4t_interleaved_ab": {
+   "method": "alternating single-rep tg32 runs, drift-cancelling under contention",
+   "q4k_over_q8": {
+    "pairs": 6,
+    "favoring_q4k": 6,
+    "median_ratio": 1.369
+   },
+   "q4k_over_q6k": {
+    "pairs": 6,
+    "favoring_q4k": 5,
+    "median_ratio": 1.273
+   },
+   "q6k_over_q8": {
+    "pairs": 8,
+    "favoring_q6k": 7,
+    "median_ratio": 1.251
+   },
+   "verdict": "4T decode ordering Q4_K_M > Q6_K > Q8_0; 8T ordering Q6_K > Q8_0 ~ Q4_K_M \u2014 tier recommendation flips by thread count (laptop: Q4_K_M, desktop: Q6_K), pending fidelity gates"
+  }
+ },
+ "layout_simulation_v2": {
+  "pooled_cached_frac_p50": {
+   "prm03": 0.801,
+   "stable_first": 0.788,
+   "history_cap1": 0.801
+  },
+  "cursor_move_cached_frac_p50": {
+   "prm03": 0.231,
+   "stable_first": 0.231,
+   "history_cap1": 0.256
+  },
+  "verdict": "reordering/capping shows no byte-prefix gain; retraining-for-ordering not justified"
+ },
+ "interrupt_probe": {
+  "corrected_2026_10_17": true,
+  "prompt_tokens": 2438,
+  "abort_immediate": {
+   "ttft_ms": 36612.7,
+   "cache_n": 2048,
+   "processed_n": 390,
+   "finding": "client abort does NOT cancel the in-flight prefill or free the slot; the follow-up queues behind the still-running warm-up"
+  },
+  "abort_wait2s": {
+   "ttft_ms": 1220.3,
+   "cache_n": 2437,
+   "finding": "the warm-up completes server-side after the client leaves"
+  },
+  "pool_restore_control": {
+   "ttft_ms": 116.1,
+   "cache_n": 2437,
+   "finding": "the original 69ms 'abort keeps partial KV' was the unified KV pool restoring an earlier full context"
+  },
+  "two_slot_parallel2": {
+   "cold_control_slot0": {
+    "ttft_ms": 30925.7,
+    "processed_n": 2438
+   },
+   "cross_slot_restore_B": {
+    "ttft_ms": 91.6,
+    "cache_n": 2437,
+    "finding": "slot-0 request reuses slot-1-warmed prefix via the pool"
+   },
+   "concurrent_C": {
+    "ttft_ms": 1660.1,
+    "finding": "CPU contention, not queuing, while the other slot prefills"
+   },
+   "auto_slot_D": {
+    "ttft_ms": 195.2,
+    "finding": "auto selection avoids the busy slot"
+   }
+  },
+  "flow_consequence": "drop abort-on-pause (does nothing server-side; queued request lands at floor when warm-up completes); optional --parallel 2 warm-up lane for pause-during-warm-up"
+ },
+ "recommended": {
+  "spawn_args": [
+   "-m <model>",
+   "--alias sepalith",
+   "--temp 0",
+   "--host 127.0.0.1",
+   "--port <p>",
+   "-c 16384",
+   "--parallel 1",
+   "-t <cores>",
+   "-ngl 0",
+   "--cache-ram 2048"
+  ],
+  "request_flow": "token-id /completion prompts; n_predict:0 warm-up after every document change (open/cursor settle/accept/edit/diagnostic/switch targets + debounced keystrokes); on pause send the real request directly (it queues behind any in-flight warm-up and lands at the floor when it completes); optional --parallel 2 warm-up lane; stream from first token"
+ },
+ "runs": [
+  "run-baseline-extension-20261017T015139.jsonl",
+  "run-baseline-extension-20261017T071327.jsonl",
+  "run-cache-reuse-256-20261017T022933.jsonl",
+  "run-cold-reference-20261017T040828.jsonl",
+  "run-cold-reference-v2-20261017T083211.jsonl",
+  "run-dev75-baseline-20261017T094403.jsonl",
+  "run-dev75-baseline-20261017T101211.jsonl",
+  "run-dev75-baseline-20261017T103954.jsonl",
+  "run-dev75-eager-20261017T110729.jsonl",
+  "run-warmup-eager-async-p1-20261017T152835.jsonl",
+  "run-warmup-eager-cacheram2048-20261017T161204.jsonl",
+  "run-warmup-eager-poll100-20261017T113847.jsonl",
+  "run-warmup-eager-q6k-20261017T165125.jsonl",
+  "run-warmup-eager-stale1-20261017T133324.jsonl",
+  "run-warmup-full-eager-20261017T044620.jsonl",
+  "run-warmup-full-eager-20261017T055255.jsonl",
+  "run-warmup-full-eager-20261017T075441.jsonl",
+  "run-warmup-full-eager-20261017T090553.jsonl",
+  "run-warmup-full-eager-4t-20261017T062554.jsonl",
+  "run-warmup-full-settle-20261017T052031.jsonl",
+  "run-warmup-stable-20261017T030246.jsonl",
+  "run-warmup-stable-20261017T033514.jsonl"
+ ],
+ "race_bound_stale1": {
+  "description": "one document change races every warm-up, no refresh (pessimistic bound)",
+  "edit_p50_ms": 579.6,
+  "edit_p95_ms": 8720.5,
+  "per_event_ms": {
+   "type": 265.0,
+   "accept": 2827.9,
+   "diag": 2164.6,
+   "cursor_move": 3987.7,
+   "open": 65.9,
+   "file_switch": 5077.6,
+   "switch_back": 108.9
+  },
+  "warmup_cpu_s_per_pass": 91.5,
+  "interpretation": "typing pauses land between 64ms (floor) and 265ms (mid-burst pause); settle events hold the floor when the pause follows the settle warm-up by more than the debounce"
+ },
+ "poll_lever": "--poll 100 --poll-batch 100 measured latency-neutral (64.7 vs 64.6ms); default stands",
+ "zero_debounce_async_p1": {
+  "description": "fire-and-forget warm-up + immediate request (pause races the warm-up), 1 pass, host load 15-25 (~2x other arms' band)",
+  "edit_p50_ms": 1323.2,
+  "type_ms": 765.3,
+  "accept_ms": 6243.4,
+  "cursor_move_ms": 8254.3,
+  "open_ms": 4133.5,
+  "mechanics": "queued request interleaves with the in-flight warm-up (cache_n at request start == warm-up progress); TTFT ~= warm-up remaining + tail ~= structural cost; a warm-up pays only when it completes before the pause",
+  "parallel2_full_run": "skipped as moot: single-slot interleaving avoids worse-than-structural waits; revisited-state reuse already served by the KV pool (switch_back)"
+ },
+ "cache_ram_2048_validation": {
+  "finding": "pool capping to 2048 MiB is free at realistic session working sets",
+  "processed_n_all_events": 1,
+  "switch_back_cached_frac": 0.998,
+  "parity_vs_sessionflow": 0.9455,
+  "contention_scaling": {
+   "load_8_floor_ms": 64.6,
+   "load_25_6_floor_ms": 119.1
+  }
+ },
+ "slot_persistence_probe": {
+  "prompt_tokens": 2438,
+  "save_ms": 544.5,
+  "file_bytes": 104893564,
+  "control_cold_after_restart_ms": 36736.3,
+  "restore_ms": 537.3,
+  "open_after_restore_ms": 190.9,
+  "processed_n": 1,
+  "cache_n": 2437,
+  "verdict": "adopt for restarts: ~50x on post-restart first opens; composes with warm-up flow"
+ },
+ "q6k_eager_floor": {
+  "load_band": 24.1,
+  "edit_p50_ms": 79.5,
+  "edit_p95_ms": 147.2,
+  "per_type_ms": {
+   "type": 79.2,
+   "accept": 82.3,
+   "diag": 75.3,
+   "cursor_move": 95.1,
+   "open": 79.6,
+   "file_switch": 78.4,
+   "switch_back": 151.9
+  },
+  "q8_comparator": {
+   "load_band": 25.6,
+   "edit_p50_ms": 119.1
+  },
+  "clean_band_estimate_ms": {
+   "q6k": 47.3,
+   "q8_0": 62.0
+  },
+  "note": "speed characterization only; fidelity/gating belongs to the quant mission"
+ },
+ "tokenize_probe": {
+  "server_tokenize_ms": {
+   "p50": 4.86,
+   "p95": 15.0,
+   "max": 23.28
+  },
+  "hf_encode_ms": {
+   "p50": 2.78,
+   "max": 15.36
+  },
+  "id_parity_exact": "220/220 (no auto-BOS)",
+  "load_band": 26,
+  "verdict": "send token IDs: faster and training-exact; text path identical but ~5-23ms slower per request"
+ }
+}

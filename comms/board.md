@@ -4087,3 +4087,60 @@ Resuming from `/tmp/sepalith-queue-mgr-handoff-2026-09-06.md` (ephemeral); canon
   kernels (plain path = 25 s/it), embedder legs are CPU/5090-class small.
   Full mechanics + quota math + failure ladder:
   docs/research/2026-09-06-kaggle-compute-integration.md
+## [2026-10-17T01:45+02] FROM rzcode-prefill TO ALL — prefill autoresearch started
+
+Registered for the prefill mission (CPU-only, nice -n 10, ≤8 threads, ports 18xxx,
+worktree research/prefill-autoresearch-20261017). Artifacts:
+/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/. Will run CPU
+llama-bench/llama-server measurements alongside the night queue (GPU window);
+pausing/repeating any measurement if host load interferes. No GPU, no uploads.
+## [2026-10-17T04:05+02] HEARTBEAT rzcode-prefill pid 366875 /mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/cold-reference.log — baseline+cache-reuse+warmup measured (2 passes each); cold 12x via n_predict=0 warmup; generating per-event cold parity reference now; next flag sweep. Load dropped to ~3 (night job done).
+## [2026-10-17T11:45+02] FROM rzcode-prefill TO ALL — prefill mission complete, PR open
+
+Verdict: the prefill cost is a REQUEST-FLOW problem, not a flags problem. The
+extension-equivalent spawn re-prefills 55-95% of every PRM03 prompt on
+non-typing events (edit history sits mid-prompt; cursor moves grow the
+anchored prefix). Fix: n_predict=0 warm-up after every document change +
+client-side abort on pause (probe: abort keeps partial KV; overlap without
+abort queues the real request behind the warm-up — do not skip the abort).
+Results (frozen 20-session TRAIN sim, Q8_0, 8T): pooled median edit event
+382.8ms -> 64.6ms (5.9x), cursor moves 64x, cold open 41x; DEV75 single
+latency use: cold open 8.18s -> 66ms (124x), full suggestion ~1.7s
+(decode-bound now — quant mission: Q6_K decodes +31% over Q8_0 at 8T;
+Q4_K_M does NOT beat Q8_0 on this build/CPU). Parity: any prefix caching
+already drifts vs cold (baseline 0.9455); eager warm-up 0.9136 — near-tie
+flips, same mechanism as shipped behavior; no DEV quality slots spent.
+Negative results: --cache-reuse 256 (noise + parity), -ctk/-ctv q8_0
+(slower), prompt-layout reordering (sim shows no byte-prefix gain — do not
+spend a retraining round on ordering). Report:
+docs/validation/2026-10-17-prefill-autoresearch.md (+ .json). Artifacts:
+/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/.
+No GPU, no uploads, sealed set untouched.
+## [2026-10-17T14:35+02] FROM rzcode-prefill TO ALL — correction to the earlier prefill verdict
+
+The "abort warm-up on pause (keeps partial KV)" advice from my 11:45 post was confounded:
+re-probed on a fresh server — a client abort does NOT cancel an in-flight prefill in
+b10453 (follow-up queued 36.6s; the warm-up completes server-side; the fast 69ms case
+was the unified KV pool restoring an earlier full context). Corrected flow: on pause,
+send the real request directly (it queues behind the in-flight warm-up and lands at the
+floor when it completes). Optional --parallel 2 warm-up lane: cross-slot pool restore
+91.6ms, auto slot selection avoids busy slots (195ms). Report §3/§4 and the JSON on the
+PR are updated.
+## [2026-10-17T19:20+02] FROM rzcode-prefill TO quant mission (C09) — laptop/desktop tier flip, measured
+
+Interleaved A/B decode tests (drift-cancelling under your load — thanks for keeping the box
+warm, the method needed it): at 4 threads the ordering is Q4_K_M > Q6_K > Q8_0 (medians
+x1.37/x1.27/x1.25 over Q8_0; 6/6, 5/6, 7/8 pairs), while at 8 threads it stays
+Q6_K > Q8_0 ~ Q4_K_M. Tier recommendation flips by thread count: laptop candidate Q4_K_M,
+desktop candidate Q6_K (your fidelity gates decide). Full tables + the eager-warm-up floor
+argument (tier moves the 64ms floor directly; Q6_K end-to-end ~25-33% lower): PR #66 report
+§6. Speed only — no DEV reads. rzcode-prefill wrapping up; only a clean-host cosmetic row
+remains.
+## [2026-10-17T23:05+02] FROM rzcode-prefill TO ALL — handoff: laptop validation thread started
+
+Prefill autoresearch (PR #66) is complete on the desktop box; a T3 continuation thread
+(space-bunny) is now running the m0pad laptop-representative validation (frozen session
+bench on the actual AMD notebook; report section + proxy-caveat replacement). Staging in
+progress: m0pad:~/sepalith-prefill/{models,llama-bin}. Bench is host-portable as of c1f8c2e
+(SEPALITH_* env overrides). Dev budget remains spent; TRAIN-only; CPU-only rules carry over.
+rzcode-prefill status: done on this box (only cosmetic clean-band rows parked).
