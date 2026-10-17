@@ -29,7 +29,6 @@ import signal
 import socket
 import statistics
 import subprocess
-import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -178,7 +177,7 @@ def port_open(port: int) -> bool:
 
 class Server:
     def __init__(self, name: str, port: int, server_args: list[str],
-                 log_path: Path, threads: int = 8, ctx: int = 16384):
+                 log_path: Path, threads: int = 8, ctx: int = 16384) -> None:
         self.name, self.port = name, port
         self.server_args = list(server_args)
         self.log_path, self.threads, self.ctx = log_path, threads, ctx
@@ -339,9 +338,9 @@ def summarize_arm(rows: list[dict], arm: str) -> dict:
         "cold_e2e_ms": med([r["cold_wall_ms"] for r in ok if r.get("cold_wall_ms") is not None]),
         "cold_prompt_ms": med([r["cold_prompt_ms"] for r in ok if r.get("cold_prompt_ms") is not None]),
         "cache_frac_med": med([
-            r["cache_n"] / r["prompt_tokens"] if r.get("cache_n") is not None else None
-            for r in ok
-        ] if any(r.get("cache_n") is not None for r in ok) else []),
+            r["cache_n"] / r["prompt_tokens"]
+            for r in ok if r.get("cache_n") is not None
+        ]),
     }
 
 
@@ -381,7 +380,7 @@ def main() -> None:
     cand_args: list[str] = list(cfg.get("server_args", []))
     cand_name = str(cfg.get("name", a.config.stem))
 
-    traces = [json.loads(l) for l in a.traces.read_text().splitlines() if l.strip()]
+    traces = [json.loads(line) for line in a.traces.read_text().splitlines() if line.strip()]
     if a.n_traces and a.n_traces < len(traces):
         step = len(traces) / a.n_traces
         traces = [traces[int(i * step)] for i in range(a.n_traces)]
@@ -482,7 +481,7 @@ def main() -> None:
     speedup_pooled = (sum_b / sum_c) if sum_c > 0 else float("nan")
 
     summary = {
-        "run_id": run_id, "candidate": cand_name,
+        "run_id": run_id, "candidate_name": cand_name,
         "server_args": cand_args, "n_traces": len(traces),
         "n_predict": n_predict_global[0],
         "threads": a.threads, "cold": a.cold,

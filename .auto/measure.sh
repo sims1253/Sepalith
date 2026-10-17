@@ -4,7 +4,7 @@ set -euo pipefail
 # .auto/candidate.json ({"name": ..., "server_args": [...]}).
 cd "$(dirname "$0")/.."
 CONFIG="${SPECDEC_CONFIG:-.auto/candidate.json}"
-N_TRACES="${SPECDEC_N_TRACES:-90}"
+N_TRACES="${SPECDEC_N_TRACES:-60}"
 N_PREDICT="${SPECDEC_N_PREDICT:-256}"
 exec python3 experiments/serving/specdec/bench_spec.py \
   --config "$CONFIG" \

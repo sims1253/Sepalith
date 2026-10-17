@@ -22,7 +22,7 @@ def main() -> None:
     ap.add_argument("--threads", type=int, default=8)
     a = ap.parse_args()
 
-    traces = [json.loads(l) for l in a.traces.read_text().splitlines() if l.strip()]
+    traces = [json.loads(line) for line in a.traces.read_text().splitlines() if line.strip()]
     refs: dict = {}
     if a.out.exists():
         refs = json.loads(a.out.read_text())

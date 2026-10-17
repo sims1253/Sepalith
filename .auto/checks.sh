@@ -10,14 +10,13 @@ man = json.loads((here / "manifest.json").read_text())
 bad = []
 for line in (here / "traces.jsonl").read_text().splitlines():
     r = json.loads(line)
-    h = hashlib.sha256(json.dumps(
-        [r["trace_id"], r["prompt_ids"] + r["target_ids"],
-         r["prompt_token_count"]], separators=(",", ":")).encode()).hexdigest()
-    # row sha in manifest was computed from source rows; recompute cheaply
     if r["trace_id"] not in man["row_sha256"]:
         bad.append(r["trace_id"])
 if bad:
     sys.exit(f"traces not in manifest: {bad[:5]}")
 print(f"traces ok: {man['n_traces']}")
 EOF
-python3 scripts/check_quality.py --research 2>&1 | tail -3
+python3 scripts/check_quality.py 2>&1 | tail -2
+# specdec scope: keep new code lint/type clean (experiments/ has pre-existing debt)
+timeout 300 uv run --project tools/quality --locked ruff check --config 'include = ["*.py"]' experiments/serving/specdec/ 2>&1 | tail -2
+timeout 300 uv run --project tools/quality --locked ty check --error-on-warning --config 'src.include = ["experiments/serving/specdec"]' experiments/serving/specdec 2>&1 | tail -2

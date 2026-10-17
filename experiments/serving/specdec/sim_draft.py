@@ -16,8 +16,8 @@ from __future__ import annotations
 import argparse
 import json
 import statistics
-from collections import Counter
 from pathlib import Path
+from typing import Any, Protocol
 
 HERE = Path(__file__).resolve().parent
 TOKENIZER = Path(
@@ -173,12 +173,14 @@ class RegionCopy:
 # verification
 
 
-def simulate(prompt: list[int], out: list[int], drafter) -> tuple[int, int, int]:
-    """Returns (steps, drafted_total, accepted_total) for a callable drafter.
+class Drafter(Protocol):
+    def step(self, tokens: list[int], sampled: int, out_so_far: list[int]) -> list[int]: ...
 
-    drafter.step(tokens_history_excl_sampled, sampled, out_so_far) -> draft
-    drafter.on_accept(n) after each step.
-    """
+    def on_accept(self, n_accepted: int) -> None: ...
+
+
+def simulate(prompt: list[int], out: list[int], drafter: Drafter) -> tuple[int, int, int]:
+    """Returns (steps, drafted_total, accepted_total) for a drafter."""
     tokens = list(prompt)
     steps = drafted_total = accepted_total = 0
     pos = 0
@@ -197,40 +199,23 @@ def simulate(prompt: list[int], out: list[int], drafter) -> tuple[int, int, int]
     return steps, drafted_total, accepted_total
 
 
-def make_simple(n: int, m: int):
+def make_simple(n: int, m: int) -> Drafter:
     class D:
-        def step(self, tokens, sampled, _out):
+        def step(self, tokens: list[int], sampled: int, out_so_far: list[int]) -> list[int]:
             return ngram_simple_draft(tokens, sampled, n, m)
 
-        def on_accept(self, _n):
+        def on_accept(self, n_accepted: int) -> None:
             pass
     return D()
 
 
-def make_mod(n_match: int, n_min: int, n_max: int):
-    state: dict[str, NgramMod] = {}
-
-    class D:
-        def step(self, tokens, sampled, _out):
-            if "m" not in state:  # begin() on first call with full prompt
-                state["m"] = NgramMod(n_match, n_min, n_max)
-                state["m"].begin(tokens)
-            return state["m"].draft(tokens, sampled)
-
-        def on_accept(self, n_acc):
-            m = state.get("m")
-            if m is not None and hasattr(m, "last_len"):
-                m.accept(n_acc, m.last_len)
-    return D()
-
-
-def make_mod_full(n_match: int, n_min: int, n_max: int):
+def make_mod_full(n_match: int, n_min: int, n_max: int) -> Drafter:
     impl = NgramMod(n_match, n_min, n_max)
     begun = [False]
     last_len = [0]
 
     class D:
-        def step(self, tokens, sampled, _out):
+        def step(self, tokens: list[int], sampled: int, out_so_far: list[int]) -> list[int]:
             if not begun[0]:
                 impl.begin(tokens)
                 begun[0] = True
@@ -238,25 +223,25 @@ def make_mod_full(n_match: int, n_min: int, n_max: int):
             last_len[0] = len(d)
             return d
 
-        def on_accept(self, n_acc):
-            impl.accept(n_acc, last_len[0])
+        def on_accept(self, n_accepted: int) -> None:
+            impl.accept(n_accepted, last_len[0])
     return D()
 
 
-def make_region(region: list[int], depth: int):
+def make_region(region: list[int], depth: int) -> Drafter:
     rc = RegionCopy(region, depth)
 
     class D:
-        def step(self, _tokens, sampled, out_so_far):
+        def step(self, tokens: list[int], sampled: int, out_so_far: list[int]) -> list[int]:
             # draft continues AFTER the sampled token
             return rc.draft(list(out_so_far) + [sampled])
 
-        def on_accept(self, n):
-            rc.accepted(n)
+        def on_accept(self, n_accepted: int) -> None:
+            rc.accepted(n_accepted)
     return D()
 
 
-def evaluate(traces: list[dict], refs: dict, builders: dict[str, object]) -> list[dict]:
+def evaluate(traces: list[dict], refs: dict, builders: dict[str, Any]) -> list[dict]:
     rows = []
     for name, build in builders.items():
         per: list[dict] = []
@@ -310,12 +295,12 @@ def main() -> None:
     a = ap.parse_args()
     depths = [int(x) for x in a.depths.split(",")]
 
-    traces = [json.loads(l) for l in (HERE / "traces.jsonl").read_text().splitlines()]
+    traces = [json.loads(line) for line in (HERE / "traces.jsonl").read_text().splitlines()]
     refs = json.loads((HERE / "reference_outputs.json").read_text())
     n_with = sum(1 for t in traces if t["trace_id"] in refs)
     print(f"references cover {n_with}/{len(traces)} traces", flush=True)
 
-    builders: dict[str, object] = {}
+    builders: dict[str, Any] = {}
     # ngram-simple grid (only size_m >= size_n can ever draft)
     for n in (1, 2, 3, 4, 6, 8):
         for m in (m for m in depths if m >= n):
