@@ -130,3 +130,4 @@ correction.)
 | zcode-frm-intel | intel intake: FRM (X5 PROPOSED) + batch-2 Uno/Avey-B/SMELT (`2026-09-05-intel-batch-2.md`) + queue verdict-sync pass | this session | active 2026-09-05 (doc-only, no GPU) |
 | zcode-b9-select | B9 SeleKT gradient-importance masking A/B (queue §2b B9; winner track's last open item; build → validated run → battery) | subagent of zcode-queue-mgr-2 | done 2026-09-06 (VERDICT: NO-ADOPT, exact 47.1 vs b4 76.5 p=1e-15, masking family closed = PLAIN SFT; §B9 RESULTS.md, commits 27c9bc8 + 04902ea) |
 | codex-latent-memory | Isolated latent-memory implementation and bounded gate; research/latent-memory-gate worktree | user task 2026-09-06 | implementation delivered; gate awaits X5-S1 and quiet benchmark release |
+| zcode-quant-ar | C09 quant autoresearch: GGUF recipe search (CPU, branch research/quant-autoresearch-20261017) | this session | active 2026-10-17 |
