@@ -153,9 +153,9 @@ reference:
 
 | Run | Agreement vs cold ref | Agreement vs baseline session-flow |
 | --- | ---: | ---: |
-| Baseline session flow (today's effective behavior) | 0.9545 | 1.0 |
-| Recommended (eager warm-up) | 0.9455 (v2 freeze) | 0.9455 |
-| `--cache-reuse 256` | — | 0.9909 |
+| Baseline session flow (today's effective behavior) | 0.9455 (freeze v2) | 1.0 |
+| Recommended (eager warm-up) | 0.9136 (freeze v2) | 0.9455 |
+| `--cache-reuse 256` (freeze v1) | — | 0.9909 |
 
 Mismatching outputs are alternative near-tie continuations (verified by
 decoding; both sides protocol-valid), not truncations or degeneration. The
@@ -198,19 +198,24 @@ quant mission.
 ## 7. DEV75 final latency check (single allowed DEV latency use)
 
 Usage log: DEV75 (`corrected-dev75-v1`, sha `7c144bcd…`, 75 cases) read
-once on 2026-10-17 for this latency run only; no quality scoring, no other
-DEV reads by this mission.
+on 2026-10-17 for this latency pair only (two runs: baseline flags, then
+warm-up flow; latency-only, no quality scoring). No other DEV reads by
+this mission; DEV250 untouched; the 3 quality-confirmation slots unused.
 
-Each case = one cold `open` event (n_predict 96), baseline flags vs the
-warm-up flow, 8 threads, host load ~4:
+Each case = one cold `open` event — the reviewer-walks-unrelated-files
+worst case (no cross-request reuse possible), `n_predict` 96, 8 threads,
+2 passes, host load ≈ 8:
 
-| Config | TTFT p50 | TTFT p95 | wall p50 | generated p50 |
-| --- | ---: | ---: | ---: | ---: |
-| Baseline flags | 2903 ms | 9135 ms | 5412 ms | 27 tok |
-| + warm-up flow | 66 ms | 78 ms | 2580 ms | 27 tok |
+| Config | TTFT p50 | TTFT p95 | wall p50 | prompt tokens p50 | generated p50 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline flags | 8183 ms | 17398 ms | 10097 ms | 1169 | ~26 tok (EOS-terminated) |
+| + warm-up flow | **66.2 ms** | **72.9 ms** | **1724 ms** | 1169 | same |
 
-(DEV75 numbers to be finalized from the recorded run JSON; see
-`docs/validation/2026-10-17-prefill-autoresearch.json`.)
+**124× on the median cold open; 239× on p95.** Full suggestion in ~1.7 s
+(decode-bound). Warm-up CPU: 320 s per pass for 75 prompts (≈ 4.3 s each,
+these are big prompts under load) — all of it movable to idle time before
+the pause. This is the number the PRM03 port should advertise: real DEV
+prompts, no cross-file reuse assumed.
 
 ## 8. Proposals needing a user decision
 
