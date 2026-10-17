@@ -344,5 +344,19 @@
       "exact_region": 117,
       "cap_hit": 11
     }
+  },
+  "paired_valid_rule": {
+    "receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt-paired-valid.json",
+    "smallest_shippable": "Q6_K",
+    "verdicts": {
+      "Q8_0": "pass",
+      "Q6_K": "pass",
+      "Q5_K_M": "fail",
+      "Q4_K_M": "fail",
+      "Q4_K_M-head-q6_k": "fail",
+      "Q4_K_M-uncalibrated": "fail",
+      "Q4_K_M+": "fail",
+      "Q4_K_M-attn-out-q8_0": "fail"
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "card": "C09",
-  "state": "needs_user",
-  "updated": "2026-10-17T09:45:00+02:00",
+  "state": "done",
+  "updated": "2026-10-17T11:30:00+02:00",
   "branch": "plan/C09-arm-a-export",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/58",
   "outputs": {
@@ -148,8 +148,19 @@
     "quant_gate": {
       "receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt.json",
       "summary": "docs/training/plan-20260927/receipts/C09-quant-gate-summary.json",
-      "result": "no tier shippable: every tier fails valid_drop (cap-1,024 run-ons on cases bf16 also got wrong); Q5_K_M and the Q4_K_M tiers except attn-out-q8_0 also fail mean KLD",
-      "dev75_parity_q8_0": "pass (74/1/27/9 identical to bf16)"
+      "result": "under the paired valid rule Q8_0 and Q6_K pass and are shippable; smallest shippable tier Q6_K (2.20 GB). Q5_K_M fails KLD and significant run-ons; the Q4_K_M tiers fail KLD (> 0.03) and/or significant run-ons (attn-out-q8_0 passes KLD at 0.0268 but loses 20 / gains 4 valid outputs, p 0.002)",
+      "dev75_parity_q8_0": "pass (74/1/27/9 identical to bf16)",
+      "receipt_paired_valid": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt-paired-valid.json",
+      "verdicts_paired_valid": {
+        "Q8_0": "pass",
+        "Q6_K": "pass",
+        "Q5_K_M": "fail",
+        "Q4_K_M": "fail",
+        "Q4_K_M-head-q6_k": "fail",
+        "Q4_K_M-uncalibrated": "fail",
+        "Q4_K_M+": "fail",
+        "Q4_K_M-attn-out-q8_0": "fail"
+      }
     },
     "published": {
       "repo": "scholzmx/sepalith-2b-edit-sft",
@@ -250,10 +261,32 @@
         "source": "wiki entities/hint4.md (attention output projection was the quantization-sensitive module); imatrix research flagged attn_output at layers 39 and 41"
       },
       "outcome": "added tier Q4_K_M-attn-out-q8_0 (imatrix Q4_K_M, attn_output q8_0) and the contrast q4_k_m_attn_out_q8_0_vs_q4_k_m to the quant gate"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "valid_lost_gained_vs_bf16": {
+          "Q8_0": [
+            9,
+            3
+          ],
+          "Q6_K": [
+            7,
+            1
+          ],
+          "Q4_K_M": [
+            16,
+            6
+          ]
+        },
+        "engine_noise_valid_cases": 5
+      },
+      "outcome": "quant gate valid row becomes a paired test like the exact row: fail only when the exact two-sided McNemar p <= 0.05 and the quant loses more valid outputs than it gains; the pp drop is recorded"
     }
   ],
-  "question_for_user": "The quant gate's valid row fails every tier, including Q8_0 (9 run-ons lost, 3 gained vs bf16, net -2.4 pp; exact-match unaffected). Run-on flips are near the engine noise floor (PC HF bf16 vs GGUF bf16 differ by 5 valid cases). Change the valid row to a paired test like the exact row (fail only for a significant net loss, p <= 0.05)? Recommended: yes. Under it Q8_0 and Q6_K pass; the Q4 tiers still fail on KLD or significant run-ons.",
-  "notes": "Arm A complete and published (checkpoint 536). Forgetting: +0.052 nats (+5.6%) on CPT 2K vs the parent. Quant gate: no tier shippable under the approved thresholds; see question_for_user.",
+  "question_for_user": null,
+  "notes": "Arm A complete and published (checkpoint 536; Q8_0 + imatrix Q4_K_M GGUFs). Forgetting +0.052 nats (+5.6%) on CPT 2K. Quant gate under the paired valid rule: ship Q8_0 + Q6_K; no Q4 tier passes yet (see the quant autoresearch mission). The published Q4_K_M is informational, not a gated tier.",
   "next_steps": [
     "User: merge this PR (it adds c09/cpt_forgetting.py and c09/publish_arm_a.py; the forgetting job needs them on main).",
     "After merge: PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c09/jobs/C09-arm-a-cpt-forgetting.json",

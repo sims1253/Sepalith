@@ -8,7 +8,8 @@ the research branch), approved by the user for C09:
 | --- | --- | --- | --- |
 | DEV250 exact-match change | >= -0.4 pp | >= -1.0 pp | >= -2.0 pp |
 | Paired McNemar on exact match | p > 0.05 | p > 0.05 | p > 0.05 |
-| ``nofp`` and ``valid`` | no worse | at most +1 pp | at most +1 pp |
+| ``nofp`` | no worse | at most +1 pp | at most +1 pp |
+| ``valid`` (paired) | no significant net loss | same | same |
 | Whole-output token identity vs bf16 | >= 97% | >= 90% | recorded |
 | Mean KLD on held-out TRAIN text | <= 0.002 | <= 0.01 | <= 0.03 |
 | Top token agrees with bf16 | >= 99.5% | >= 98.5% | >= 97% |
@@ -21,9 +22,17 @@ Choices this module makes where the table is silent (recorded in every receipt):
 - McNemar is the exact two-sided binomial test on the discordant pairs.  It
   fails a tier only when p <= 0.05 *and* the quant loses more cases than it
   gains; a significant improvement is reported, not failed.
-- ``nofp`` and ``valid`` changes are percentage points of the whole panel
-  (250 cases on DEV250): ``nofp`` counts no-op cases with a suggested edit,
-  ``valid`` counts protocol-valid outputs.  "no worse" means a change of 0.
+- ``nofp`` changes are percentage points of the whole panel (250 cases on
+  DEV250) and count no-op cases with a suggested edit.  "no worse" means a
+  change of 0.
+- ``valid`` (protocol-valid outputs) uses the same paired rule as McNemar
+  on exact match: it fails only when the exact two-sided test on the
+  discordant pairs has p <= 0.05 *and* the quant loses more valid outputs
+  than it gains.  The drop in pp is recorded, not gated.  User decision
+  2026-10-17 (C09): every lost valid case in the first gate run was a
+  cap-1,024 run-on on a case bf16 also got wrong, and PC bf16 vs GGUF bf16
+  already differ by 5 valid cases, so a fixed pp threshold sat below the
+  noise floor.
 - The net-loss bound is the Bonett-Price adjusted Wald interval for a paired
   difference of proportions (one-sided, z = 1.645), which stays informative
   when there are no discordant pairs.
@@ -41,11 +50,11 @@ MCNEMAR_ALPHA = 0.05
 # Token identity and top-1 agreement are recorded, not gated (user decision 2026-10-12):
 # near-ties flip them without changing edits, which the DEV250 exact-match checks cover.
 THRESHOLDS: dict[str, dict[str, float | None]] = {
-    "q8": {"exact_delta_pp_min": -0.4, "nofp_rise_pp_max": 0.0, "valid_drop_pp_max": 0.0,
+    "q8": {"exact_delta_pp_min": -0.4, "nofp_rise_pp_max": 0.0, "valid_drop_pp_max": None,
            "token_identity_min_pct": None, "mean_kld_max": 0.002, "top1_agreement_min_pct": None},
-    "q6_q5": {"exact_delta_pp_min": -1.0, "nofp_rise_pp_max": 1.0, "valid_drop_pp_max": 1.0,
+    "q6_q5": {"exact_delta_pp_min": -1.0, "nofp_rise_pp_max": 1.0, "valid_drop_pp_max": None,
               "token_identity_min_pct": None, "mean_kld_max": 0.01, "top1_agreement_min_pct": None},
-    "q4": {"exact_delta_pp_min": -2.0, "nofp_rise_pp_max": 1.0, "valid_drop_pp_max": 1.0,
+    "q4": {"exact_delta_pp_min": -2.0, "nofp_rise_pp_max": 1.0, "valid_drop_pp_max": None,
            "token_identity_min_pct": None, "mean_kld_max": 0.03, "top1_agreement_min_pct": None},
 }
 TIER_OF_TYPE = {"Q8_0": "q8", "Q6_K": "q6_q5", "Q5_K_M": "q6_q5", "Q4_K_M": "q4", "IQ4_XS": "q4"}
@@ -118,6 +127,8 @@ def paired_metrics(reference: Sequence[Mapping[str, Any]], candidate: Sequence[M
         return bool(row["expected_noop"]) and bool(row["suggestion"])
 
     lost = sum(1 for i in ids if ref[i]["exact_region"] and not cand[i]["exact_region"])
+    valid_lost = sum(1 for i in ids if ref[i]["protocol_valid"] and not cand[i]["protocol_valid"])
+    valid_gained = sum(1 for i in ids if cand[i]["protocol_valid"] and not ref[i]["protocol_valid"])
     gained = sum(1 for i in ids if cand[i]["exact_region"] and not ref[i]["exact_region"])
     identical = sum(1 for i in ids if list(ref[i]["generated_ids"]) == list(cand[i]["generated_ids"]))
     exact_ref, exact_cand = count(ref, lambda r: r["exact_region"]), count(cand, lambda r: r["exact_region"])
@@ -130,7 +141,9 @@ def paired_metrics(reference: Sequence[Mapping[str, Any]], candidate: Sequence[M
                   "lost": lost, "gained": gained, "mcnemar_p_two_sided": mcnemar_exact(lost, gained),
                   "net_loss_pp": 100.0 * (lost - gained) / n,
                   "net_loss_upper_bound_pp": net_loss_upper_bound_pp(lost, gained, n)},
-        "valid": {"reference": valid_ref, "candidate": valid_cand, "drop_pp": 100.0 * (valid_ref - valid_cand) / n},
+        "valid": {"reference": valid_ref, "candidate": valid_cand, "drop_pp": 100.0 * (valid_ref - valid_cand) / n,
+                  "lost": valid_lost, "gained": valid_gained,
+                  "mcnemar_p_two_sided": mcnemar_exact(valid_lost, valid_gained)},
         "nofp": {"reference": nofp_ref, "candidate": nofp_cand, "rise_pp": 100.0 * (nofp_cand - nofp_ref) / n,
                  "rise_pp_of_noop_cases": 100.0 * (nofp_cand - nofp_ref) / noop_cases if noop_cases else None},
         "cap": {"reference": count(ref, lambda r: r["cap_hit"]), "candidate": count(cand, lambda r: r["cap_hit"])},
@@ -172,6 +185,15 @@ def gate_checks(tier: str, metrics: Mapping[str, Any] | None, kld: Mapping[str, 
                              "outcome": NOT_MEASURED}
     add("nofp_rise_pp", metrics["nofp"]["rise_pp"] if metrics else None, limits["nofp_rise_pp_max"], False, "<=")
     add("valid_drop_pp", metrics["valid"]["drop_pp"] if metrics else None, limits["valid_drop_pp_max"], False, "<=")
+    if metrics:
+        valid = metrics["valid"]
+        p, losing = valid["mcnemar_p_two_sided"], valid["lost"] > valid["gained"]
+        checks["valid_mcnemar"] = {"value": p, "threshold": MCNEMAR_ALPHA, "rule": "fail if p <= 0.05 and lost > gained",
+                                   "lost": valid["lost"], "gained": valid["gained"],
+                                   "outcome": FAIL if (p <= MCNEMAR_ALPHA and losing) else PASS}
+    else:
+        checks["valid_mcnemar"] = {"value": None, "threshold": MCNEMAR_ALPHA, "rule": "fail if p <= 0.05 and lost > gained",
+                                   "outcome": NOT_MEASURED}
     add("token_identity_pct", metrics["token_identity"]["pct"] if metrics else None,
         limits["token_identity_min_pct"], True, ">=")
     add("mean_kld", kld.get("mean_kld") if kld else None, limits["mean_kld_max"], False, "<=")
