@@ -1,0 +1,1 @@
+{"name": "ngmapk-n2m4", "server_args": ["--spec-type", "ngram-map-k", "--spec-ngram-map-k-size-n", "2", "--spec-ngram-map-k-size-m", "4"]}
