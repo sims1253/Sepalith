@@ -1,7 +1,7 @@
 {
   "card": "C12",
-  "state": "needs_user",
-  "updated": "2026-10-17T11:00:00+02:00",
+  "state": "in_progress",
+  "updated": "2026-10-17T12:00:00+02:00",
   "branch": "plan/C12-vllm-trial",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/65",
   "outputs": {
@@ -19,10 +19,16 @@
       "sampling": "k=8 (n=8), temperature 1.0, top_p 1.0, top_k off, cap 1024, seed 3407 + prompt index, stop ids 1 and 130073",
       "throughput": {
         "session_tokens_per_second": 1142.9,
-        "per_worker_tokens_per_second": [535.4, 647.7],
+        "per_worker_tokens_per_second": [
+          535.4,
+          647.7
+        ],
         "full_chunk_session_tokens_per_second": 1266,
         "speedup_vs_bound_batching_106": 10.78,
-        "bound_batching_on_arm_a_c03_today": {"dev75_greedy_b32": 14.6, "train200_greedy_b32": 29.8},
+        "bound_batching_on_arm_a_c03_today": {
+          "dev75_greedy_b32": 14.6,
+          "train200_greedy_b32": 29.8
+        },
         "samples": 4096,
         "generated_tokens": 539019,
         "mean_tokens_per_sample": 131.6,
@@ -30,19 +36,96 @@
       },
       "projection_gpu_hours": {
         "k8_cap1024": 3.96,
-        "k8_cap512": 3.70,
+        "k8_cap512": 3.7,
         "k4_cap1024": 2.04,
         "k4_cap512": 1.91,
-        "bound_batching_c03": [67, 133]
+        "bound_batching_c03": [
+          67,
+          133
+        ]
       },
       "parity_fp16": {
-        "vllm_vs_hf_fp16_dev75": {"identical": "75/75", "r1_diff": {"valid": 0, "cap": 0, "edit": 0, "nofp": 0}},
-        "vllm_vs_hf_fp16_train200": {"identical": "195/200", "cap_hits": [8, 8]},
-        "vllm_vs_bf16_dev75": {"identical": "63/75", "r1": {"valid": [74, 74], "cap": [1, 1], "edit": [27, 27], "nofp": [8, 9]}},
-        "hf_fp16_vs_bf16_dev75": {"identical": "63/75", "nofp": [8, 9]},
-        "vllm_vs_bf16_dev250": {"identical": "176/250", "valid": [234, 239], "cap": [16, 11], "edit": [79, 79], "nofp": [12, 12], "score250": [117, 117]},
+        "vllm_vs_hf_fp16_dev75": {
+          "identical": "75/75",
+          "r1_diff": {
+            "valid": 0,
+            "cap": 0,
+            "edit": 0,
+            "nofp": 0
+          }
+        },
+        "vllm_vs_hf_fp16_train200": {
+          "identical": "195/200",
+          "cap_hits": [
+            8,
+            8
+          ]
+        },
+        "vllm_vs_bf16_dev75": {
+          "identical": "63/75",
+          "r1": {
+            "valid": [
+              74,
+              74
+            ],
+            "cap": [
+              1,
+              1
+            ],
+            "edit": [
+              27,
+              27
+            ],
+            "nofp": [
+              8,
+              9
+            ]
+          }
+        },
+        "hf_fp16_vs_bf16_dev75": {
+          "identical": "63/75",
+          "nofp": [
+            8,
+            9
+          ]
+        },
+        "vllm_vs_bf16_dev250": {
+          "identical": "176/250",
+          "valid": [
+            234,
+            239
+          ],
+          "cap": [
+            16,
+            11
+          ],
+          "edit": [
+            79,
+            79
+          ],
+          "nofp": [
+            12,
+            12
+          ],
+          "score250": [
+            117,
+            117
+          ]
+        },
         "vllm_self_dev75": "74/75 identical, counts equal",
-        "target_nll": {"bf16": {"dev75": 1.0211, "dev250": 0.7993}, "hf_fp16": {"dev75": 1.0219}, "vllm_fp16": {"dev75": 1.0217, "dev250": 0.7992}},
+        "target_nll": {
+          "bf16": {
+            "dev75": 1.0211,
+            "dev250": 0.7993
+          },
+          "hf_fp16": {
+            "dev75": 1.0219
+          },
+          "vllm_fp16": {
+            "dev75": 1.0217,
+            "dev250": 0.7992
+          }
+        },
         "nonfinite": "none"
       },
       "gpu_hours": 0.33,
@@ -52,15 +135,35 @@
   "rule_decisions": [
     {
       "rule": "user decision 2026-10-16 (status/C03.json)",
-      "inputs": {"bound_session_tokens_per_second": 106, "threshold": "about 5x (530)", "vllm_session_tokens_per_second": 1142.9},
+      "inputs": {
+        "bound_session_tokens_per_second": 106,
+        "threshold": "about 5x (530)",
+        "vllm_session_tokens_per_second": 1142.9
+      },
       "outcome": "threshold met (10.8x); full census (k=8, cap 1,024) projects to about 4.0 Kaggle GPU-h; no reduction needed"
     },
     {
       "rule": "R7",
-      "inputs": {"kaggle_gpu_hours_used_this_week": 0.72, "c12_trial": 0.33, "c03": 0.39, "limit": 20},
+      "inputs": {
+        "kaggle_gpu_hours_used_this_week": 0.72,
+        "c12_trial": 0.33,
+        "c03": 0.39,
+        "limit": 20
+      },
       "outcome": "within limit"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "vllm_tok_s_per_session": 1143,
+        "speedup": 10.8,
+        "projected_full_census_gpu_h": 4.0,
+        "fp16_parity_vs_old_path": "DEV75 75/75, TRAIN-200 195/200"
+      },
+      "outcome": "approve vLLM for census sampling; run the full census (15,006 TRAIN prompts x 8 samples, cap 1,024); align reward v2.1 to the v4-braceindent TRAIN rows before scoring"
     }
   ],
-  "question_for_user": "The vLLM trial reached 1,143 tokens/s per two-T4 session (10.8x the 106 baseline). vLLM fp16 equals the bound-batching transformers fp16 path on DEV75 (75/75 tokens, all R1 counts) and 97.5% on TRAIN-200, and target NLL matches bf16 within 0.0006. The full census (15,006 x 8, cap 1,024) projects to about 4.0 Kaggle GPU-h. Adopt vLLM (fp16) for the C12 census sampling at full size, with the bound-batching path staying the parity/evaluation reference? Recommended: yes, full census on vLLM in two shards of about 2 h; first point reward v2.1 at the v4-braceindent rows (it still reads v3).",
-  "notes": "Bounded trial per the user's 2026-10-16 decision; 0.33 of 1 GPU-h used. The census itself (full prompt file, shards, reward v2.1 scoring, RFT/DPO candidates, R4) has not started. Follow-up before scoring: reward_v21.TRAIN_INPUTS points at DAT10 v3; arm A and the census use v4-braceindent."
+  "question_for_user": null,
+  "notes": "Bounded trial per the user's 2026-10-16 decision; 0.33 of 1 GPU-h used. The census itself (full prompt file, shards, reward v2.1 scoring, RFT/DPO candidates, R4) has not started. Follow-up before scoring: reward_v21.TRAIN_INPUTS points at DAT10 v3; arm A and the census use v4-braceindent. 2026-10-17: user approved the full census on vLLM."
 }
