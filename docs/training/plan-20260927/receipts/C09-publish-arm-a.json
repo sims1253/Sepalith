@@ -1,0 +1,196 @@
+{
+  "schema": "sepalith.c09.publish-arm-a.v1",
+  "created_utc": "2026-10-17T07:29:28+00:00",
+  "repo": "scholzmx/sepalith-2b-edit-sft",
+  "commit": "5f1eacee21d02df6992387b7c4260d1804d2a934",
+  "commit_url": "https://huggingface.co/scholzmx/sepalith-2b-edit-sft/commit/5f1eacee21d02df6992387b7c4260d1804d2a934",
+  "files": [
+    {
+      "path_in_repo": "arm-a/config.json",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/config.json"
+    },
+    {
+      "path_in_repo": "arm-a/generation_config.json",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/generation_config.json"
+    },
+    {
+      "path_in_repo": "arm-a/model.safetensors",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/model.safetensors"
+    },
+    {
+      "path_in_repo": "arm-a/tokenizer.json",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/tokenizer.json"
+    },
+    {
+      "path_in_repo": "arm-a/tokenizer_config.json",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/tokenizer_config.json"
+    },
+    {
+      "path_in_repo": "arm-a/chat_template.jinja",
+      "source": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/chat_template.jinja"
+    },
+    {
+      "path_in_repo": "arm-a/arm-a-Q8_0.gguf",
+      "source": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf"
+    },
+    {
+      "path_in_repo": "arm-a/arm-a-Q4_K_M.gguf",
+      "source": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-imat-Q4_K_M.gguf"
+    },
+    {
+      "path_in_repo": "arm-a/README.md",
+      "source": "<rendered>"
+    },
+    {
+      "path_in_repo": "README.md",
+      "source": "<rendered>"
+    }
+  ],
+  "checkpoint_files": {
+    "config.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/config.json",
+      "bytes": 892,
+      "sha256": "49ffaed87528c7fc3c1795f41a1b50a4621e577d4719e7a62ff54833d6452563"
+    },
+    "generation_config.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/generation_config.json",
+      "bytes": 237,
+      "sha256": "0f9e07ed38da2371971f322d8ad8d2f77da32514b66798d089e55faba704844b"
+    },
+    "model.safetensors": {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/model.safetensors",
+      "bytes": 5033904496,
+      "sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030"
+    },
+    "tokenizer.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/tokenizer.json",
+      "bytes": 9894271,
+      "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+    },
+    "tokenizer_config.json": {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/tokenizer_config.json",
+      "bytes": 94377,
+      "sha256": "0888551b46656b68bdb4402b79598f49ee6bb7b7e8be5f60a89278c439fe6896"
+    },
+    "chat_template.jinja": {
+      "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536/chat_template.jinja",
+      "bytes": 9060,
+      "sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c"
+    }
+  },
+  "ggufs": {
+    "Q8_0": {
+      "path": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf",
+      "remote": "arm-a-Q8_0.gguf",
+      "bytes": 2679710528,
+      "sha256": "44b01828b21cd6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe"
+    },
+    "Q4_K_M": {
+      "path": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-imat-Q4_K_M.gguf",
+      "remote": "arm-a-Q4_K_M.gguf",
+      "bytes": 1759769728,
+      "sha256": "19bf6c6796fd0da5ec7f49ba4d0a7f480312bc7f97e32821f5f75cf6a1600257"
+    }
+  },
+  "results": {
+    "bf16": {
+      "valid": 74,
+      "cap": 1,
+      "edit": 27,
+      "nofp": 9,
+      "score250": 117,
+      "edit250": 79,
+      "noop250": 38
+    },
+    "Q8_0": {
+      "valid": 74,
+      "cap": 1,
+      "edit": 27,
+      "nofp": 9,
+      "score250": 119,
+      "edit250": 79,
+      "noop250": 40,
+      "kld": {
+        "mean_kld": 0.000914,
+        "mean_kld_uncertainty": 1.1e-05,
+        "median_kld": 0.000141,
+        "p99_kld": 0.009298,
+        "max_kld": 0.067066,
+        "same_top_p_pct": 99.058,
+        "same_top_p_pct_uncertainty": 0.053,
+        "rms_dp_pct": 0.937,
+        "rms_dp_pct_uncertainty": 0.011,
+        "mean_ppl_q": 3.32471,
+        "mean_ppl_q_uncertainty": 0.048397,
+        "mean_ppl_base": 3.292805,
+        "mean_ppl_base_uncertainty": 0.046702
+      },
+      "gate_verdict": "fail",
+      "shippable": false,
+      "token_identity_pct": 66.8
+    },
+    "Q4_K_M": {
+      "valid": 72,
+      "cap": 3,
+      "edit": 28,
+      "nofp": 12,
+      "score250": 117,
+      "edit250": 78,
+      "noop250": 39,
+      "kld": {
+        "mean_kld": 0.034197,
+        "mean_kld_uncertainty": 0.000488,
+        "median_kld": 0.005087,
+        "p99_kld": 0.39433,
+        "max_kld": 3.378459,
+        "same_top_p_pct": 94.432,
+        "same_top_p_pct_uncertainty": 0.127,
+        "rms_dp_pct": 5.715,
+        "rms_dp_pct_uncertainty": 0.08,
+        "mean_ppl_q": 3.383084,
+        "mean_ppl_q_uncertainty": 0.049144,
+        "mean_ppl_base": 3.292805,
+        "mean_ppl_base_uncertainty": 0.046702
+      },
+      "gate_verdict": "fail",
+      "shippable": false,
+      "token_identity_pct": 51.2
+    }
+  },
+  "gate_receipt": {
+    "path": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt.json",
+    "sha256": "845831544575784efad7d34873073119358e8ccef3187e0b91ac4bce94531f01",
+    "smallest_shippable": null
+  },
+  "forgetting": {
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/cpt-forgetting-536.json",
+    "sha256": "6449552646a706990a621e24e004b42683d1bfc9ca1ddfa049dcf3c7c3dc8ef4",
+    "nll": 0.9944465497263282,
+    "parent_reproduction": {
+      "recorded": 0.9419698406022244,
+      "this_harness": 0.9420238097399172,
+      "offset": 5.396913769273315e-05
+    },
+    "comparison": {
+      "label": "arm-a-536",
+      "reference": "parent",
+      "delta_vs_reference": 0.052422739986411004,
+      "relative_change_percent_vs_reference": 5.564906050610798,
+      "package_bootstrap95_delta": [
+        0.04794010862236943,
+        0.05711857399868544
+      ],
+      "rows_lower_than_reference": 10,
+      "rows": 499,
+      "delta_vs_recorded_parent": 0.05247670912410374,
+      "relative_change_percent_vs_recorded_parent": 5.570954277108712
+    }
+  },
+  "sha256_verified": {
+    "arm-a/model.safetensors": true,
+    "arm-a/arm-a-Q8_0.gguf": true,
+    "arm-a/arm-a-Q4_K_M.gguf": true
+  },
+  "optimizer_state_uploaded": false,
+  "final_set_access": false
+}
