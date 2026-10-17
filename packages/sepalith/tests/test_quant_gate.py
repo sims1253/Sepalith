@@ -104,6 +104,19 @@ class PairedTest(unittest.TestCase):
         self.assertLess(improving["value"], 0.05)
         self.assertEqual(improving["outcome"], gate.PASS)
 
+    def test_valid_is_paired(self):
+        # C09 2026-10-17: Q8_0 lost 9 valid outputs (run-ons) and gained 3 -> p 0.146, recorded drop 2.4 pp, pass.
+        n = 250
+        ref = [case(f"c{i}", False, valid=not 9 <= i < 12) for i in range(n)]
+        q8 = [case(f"c{i}", False, valid=not i < 9) for i in range(n)]
+        checks = gate.gate_checks("q8", gate.paired_metrics(ref, q8), None)
+        self.assertEqual((checks["valid_mcnemar"]["lost"], checks["valid_mcnemar"]["gained"]), (9, 3))
+        self.assertEqual(checks["valid_mcnemar"]["outcome"], gate.PASS)
+        self.assertAlmostEqual(checks["valid_drop_pp"]["value"], 2.4)
+        self.assertEqual(checks["valid_drop_pp"]["outcome"], gate.RECORDED)
+        worse = [case(f"c{i}", False, valid=not i < 20) for i in range(n)]
+        self.assertEqual(gate.gate_checks("q8", gate.paired_metrics(ref, worse), None)["valid_mcnemar"]["outcome"], gate.FAIL)
+
     def test_ship_bound(self):
         n = 250
         ref = [case(f"c{i}", True) for i in range(n)]
