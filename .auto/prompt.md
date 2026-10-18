@@ -78,8 +78,36 @@ final gate table.
 - Smoke (4 traces): stream `tokens` arrive incrementally per SSE chunk (fixed
   parser). ngram-simple (12,8) drafts NOTHING (size_m < size_n quirk) —
   verified against b10453 source and reproduced by exact offline port.
-- Offline sim on 4 reference outputs: ngram-simple small-n dominates
-  (n=2-4, m=6-16): tok/step 1.75–3.3 on real edits vs 1.0–1.4 for defaults.
+- Offline sim (exact ports of ngram-simple/mod + region-copy oracle, 221 refs):
+  sim == server counters bit-exact on matched traces. Region-copy oracle
+  DOMINATED by ngram-simple everywhere (1.11 pooled vs 2.3) → brief direction 2
+  (C++ patch) closed as unjustified.
+- WALL-COST LAW (llama-batched-bench + runs): verify batch of k+1 costs real
+  CPU — B=1 131ms/tok (slow mat-vec), B>=4 ~27ms/tok (GEMM path), i.e.
+  c(9)~=2xc(1). Wall speedup tracks SHORT PRECISE drafts (high accept rate ×
+  small batches), NOT tok/step. Deeper is worse after m~4.
+- Sweep results (60-trace subset, cap 256, paired): n1m8 1.04×, n1m4 1.17×,
+  n1m6 1.24×, n2m2 1.17×, mapk-n2m4 1.40×, mapk4v-n2m4 1.18×,
+  **n2m4 1.40-1.44× median (pooled 1.24-1.25)** — champion.
+- Full-set gate run n2m4 @ cap 1024, 221 traces, cold+warm (load 15-19):
+  warm median 1.294×, p95 1.458×, pooled 1.567×; cold 1.057× (prefill-bound:
+  11.8s median cold prefill vs 2.0s decode); decode median 1.328×; TTFT ~82ms
+  both arms. By family (warm median): na_rm 1.58, format 1.28, pipe 1.21,
+  roxy 1.17, no_op 1.15, rename 1.13, finish_block 0.96 (median; tail helped).
+- PARITY (the binding finding): baseline warm-repeat = 1.000 (server fully
+  deterministic under identical batch shapes). ANY drafting flips near-ties:
+  n1m1 5/60, n2m2 8/60, n2m3 8/60, n3m3 5/60, warm runs 7-8/60, n1m8 3/56.
+  ~9-13% of requests diverge; divergence positions early (1-100).
+  Calibration: baseline warm-vs-cold (KV-cache reuse alone) drifts 0.851 —
+  the product's warm-up flow ALREADY accepts this drift class; Q8 quantization
+  itself only matches bf16 greedy on 66.8% of DEV250 (quant gate receipt).
+  Minimal repro: parity_repro.py + runs/parity_repro_cases.txt — e.g.
+  "ling" -0.688 vs "led" -0.701 near-tie flips under a verify batch of 2.
+  → NO lossless spec config exists at b10453 CPU; promotion gate (100%
+  parity) unattainable. Writeup required, not a workaround.
+- Footgun learned: log_experiment auto-revert on discard/checks_failed
+  restores TRACKED files — commit large artifacts (refs) immediately or lose
+  working-tree copies.
 
 ## Rig facts
 - Ports 18601 (baseline) / 18602 (candidate); `--metrics` enabled; tracked
