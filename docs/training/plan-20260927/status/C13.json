@@ -1,0 +1,95 @@
+{
+  "card": "C13",
+  "state": "in_progress",
+  "updated": "2026-10-18T23:30:00+02:00",
+  "branch": "plan/C13-rft-dpo",
+  "pull_request": null,
+  "outputs": {
+    "doc": "docs/training/plan-20260927/c13/selection-and-gates.md",
+    "code": {
+      "package": "packages/sepalith/src/sepalith/training/offline/ (rules, data, dpo, recipe, trainer, reference, dev_generation, night, jobs)",
+      "commands": "docs/training/plan-20260927/c13/build_c13.sh (data | templates | bind | jobs)",
+      "upload": "docs/training/plan-20260927/c13/upload_c13.py",
+      "bound_code_untouched": "no file under recipe_v2.SOURCE_GLOBS changed, so the arm A and arm B recipes still verify against main (arm B resumes from main)",
+      "tests": [
+        "packages/sepalith/tests/test_c13_offline.py (core: R1-offline gate rows, R5 outcomes, selection, caps, RFT rows, pairs, pair schedule, end-to-end build)",
+        "packages/sepalith/tests/training/test_c13_dpo.py (tiny CPU Llama: completion log-probabilities and masking, sigmoid loss, stored references load exactly, misaligned references abort before update 1, loss falls from log 2, deadline save and exact resume)",
+        "packages/sepalith/tests/training/test_c13_night.py (driver with a fake launcher: gates, override, rollback, R5 adopt / stop / discard, noedit_dodge, DPO reference requirement and chosen-collapse guard)",
+        "packages/sepalith/tests/training/test_c13_recipe.py (bound recipes load and preflight on the real data with a stand-in parent; validation refuses changes; jobs are valid)"
+      ]
+    },
+    "data": {
+      "census": "C12 arm A census (PR #65, unmerged): ~/.local/state/sepalith/c12/census-arm-a/census-summary.json sha256 eaeadf7b9640ddd069cff093d92fedb8831042ca53f79415b0e0187bf3269171; HF campaign-20260915/C12/sepalith-2b-edit-sft-arm-a/ (commit 19a879d6)",
+      "local": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/",
+      "manifest": {"path": "docs/training/plan-20260927/receipts/C13-data-manifest-arm-a.json", "sha256": "c84d2dbc277411dfd6fe16bc72d3b7a5047e8693c53359fdc913471fe9ea13e9"},
+      "rft_rows": {"rows": 4413, "by_family": {"finish_block": 1181, "pipe_rewrite": 994, "format_propagation": 810, "rename_propagation": 791, "no_op": 548, "na_rm_propagation": 68, "roxygen_drafting": 21}, "first_samples": 4324, "second_samples": 89, "from_mixed_prompts": 1952, "token_identical_to_gold": 4275},
+      "rft_cohort": {"path": "rft/rft-cohort-rows.jsonl", "sha256": "07117e8d844879c466bdb31fc7e1b578eec6adb91ff75b69f8e80daa8effa765", "rows": 6304, "train_mix_rows": 1891, "train_mix_share": 0.3, "noop_rows": 651, "max_sequence_tokens": 2986},
+      "rft_schedule": {"path": "rft/draw-schedule-v2-rft.json", "sha256": "0ac538149f8a25ae7968a18f36c43703c1301a3d57bcdfa033ccef18f1b2e441", "updates": 435, "draws": 6960, "noop_share": 0.1875, "noop_exposures": {"2": 648, "3": 3}, "edit_exposures": {"1": 5651, "2": 2}, "gates": [218, 435], "scheduled_input_tokens": 7093869},
+      "dpo_pairs": {"path": "dpo/dpo-pairs.jsonl", "sha256": "9faa4b9e254b7aa066af52287b9b8ea866e1b58cf3917434ec381b797ff3a3d1", "pairs": 18268, "prompts": 9497, "chosen": {"gold": 15210, "model": 3058}, "rejected": {"near_miss": 16782, "wrong_parse_unverified": 1155, "missed_edit": 164, "applied_syntax_invalid": 157, "false_positive_edit": 10}, "tokens": {"prompt": 7858441, "chosen": 2906577, "rejected": 3215491}, "max_sequence_tokens": 2987},
+      "dpo_pair_schedule": {"path": "dpo/pair-schedule.json", "sha256": "07497856a068fe48df9f3395b36714f53c691f5cc37847dc5328362caed6deb4", "updates": 1142, "draws": 18272, "replays": 4, "gates": [571, 1142]},
+      "hf_paths": ["campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/"],
+      "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/966f585a9cc039036063e663305271887136dacd",
+      "hf_receipt": {"path": "docs/training/plan-20260927/receipts/C13-hf-upload.json", "files": 8, "single_commit": true},
+      "scope": "TRAIN only: census samples on TRAIN prompts and the public v4 TRAIN rows; no DEV row, no sealed-set access"
+    },
+    "recipes": {
+      "source_manifest": {"path": "docs/training/plan-20260927/c13/bound/source-manifest.json", "sha256": "1067ff05a94bc450a842288efa0620b3b067e054298c42771c77171b47fbdf65"},
+      "templates": {
+        "rft": {"path": "docs/training/plan-20260927/c13/templates/rft-1-arm-a-census.template.json", "sha256": "ee74129f255807fc15fafa5006d9c2a4627ea0ad5c01e16d490daeb94b283f74"},
+        "dpo": {"path": "docs/training/plan-20260927/c13/templates/dpo-1-arm-a-census.template.json", "sha256": "de689ea66818b3f77c3e062d97e29bc9e9cc6e75899302ec95d78d9c9f514339"}
+      },
+      "rft_arm_a_536": {"path": "docs/training/plan-20260927/c13/bound/rft-1-arm-a-536.json", "sha256": "29f0105604264ccb972b2be0218e57e74f37db4b1c2d04df0a54340b5c49c4a3", "lr": 3.33333e-06, "side_lr": 3.33333e-07, "gates": [218, 435]},
+      "dpo_arm_a_536": {"path": "docs/training/plan-20260927/c13/bound/dpo-1-arm-a-536.json", "sha256": "c4e18abd4bd95928d1c32d35eb416e229ec9681132b65360f7fd1f8c9990e2bc", "lr": 1e-06, "side_lr": 1e-07, "beta": 0.1, "gates": [571, 1142], "use": "only if RFT is discarded (DPO then starts from arm A 536); after an adopted RFT step, rebind the DPO template on the RFT result"},
+      "starting_model": "arm A = /mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536 (model.safetensors befe587a...6030 = scholzmx/sepalith-2b-edit-sft/arm-a); reference = its gate decision decision-step-536-1.json (score250 117, valid 74, cap 1, edit 27, nofp 8, noedit 1, exact edits DEV75+DEV250 106)",
+      "verification": "recipe verify passes for both (DPO with --no-reference until the reference job has run)"
+    },
+    "gate_plan": {
+      "gates": "DEV75 + DEV250 at half and at the end of each step (RFT 218/435, DPO 571/1,142), batch-32 dynamic-cache greedy, bf16, the settings gate 536 used",
+      "rule": "R1-offline: the R1 later-gate table at every gate; reference = the starting model's gate result at the first gate, the previous gate after that (R1's first-gate 'edit beats the parent' floor is not used: the start model is already gated)",
+      "extra_rows": "noedit_dodge (stop-for-user if [NO_EDIT] on edit cases rises by >= 3 while exact edits do not rise); dpo_chosen_collapse (DPO; stop-for-user if the 50-update chosen log-ratio means fall three times in a row to below 0 while score250 <= the start's)",
+      "adoption": "R5 at the step's result (final gate, or the last good gate after a rollback): adopt if score250 >= start + 5, nofp <= start + 1, valid >= start - 1; 1-4 is stop-for-user; else discard. For RFT from arm A 536: adopt needs score250 >= 122, nofp <= 9, valid >= 73",
+      "pre_update_gates": "RFT: the SFT masking gate; DPO: pair-batch gate and reference alignment (step-0 policy within mean 0.5 / max 2.0 nats of the stored reference)",
+      "overrides": "override-step-<step>.json in the evidence directory, as in C04"
+    },
+    "night_jobs": {
+      "files": {
+        "C13-rft-1-arm-a-536": {"path": "docs/training/plan-20260927/c13/jobs/C13-rft-1-arm-a-536.json", "sha256": "309bea6e72abf3ebc5173f069ff0edc7851e467736295d58b3c1c8d17506beee", "estimated_minutes": 141, "priority": 50},
+        "C13-dpo-1-arm-a-536-reference": {"path": "docs/training/plan-20260927/c13/jobs/C13-dpo-1-arm-a-536-reference.json", "sha256": "6306110ff2a40e454e1e5eddbf00807fe90e0c616632e9ebf90e991cc6141c42", "estimated_minutes": 121, "priority": 55},
+        "C13-dpo-1-arm-a-536": {"path": "docs/training/plan-20260927/c13/jobs/C13-dpo-1-arm-a-536.json", "sha256": "4141768ed740bca35a0091cf06eab622f197e3f710daf4e179fc2b61c0a11dff", "estimated_minutes": 379, "priority": 55, "requires": ["C13-dpo-1-arm-a-536-reference"]}
+      },
+      "enqueued": false,
+      "enqueue_after_merge_if_R3_keeps_arm_a": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c13/jobs/C13-rft-1-arm-a-536.json",
+      "after_rft_r5": "discard: enqueue C13-dpo-1-arm-a-536-reference.json, then C13-dpo-1-arm-a-536.json. adopt: publish the RFT result to scholzmx/sepalith-2b-edit-sft/rft-1/ (R8), then DECIDED_BY=... build_c13.sh bind dpo rft-1-arm-a-536-435 <archive>/full/checkpoint-435 <evidence>/decisions/decision-step-435-<n>.json docs/training/plan-20260927/c13/bound/rft-1-arm-a-536.json, build_c13.sh jobs, merge, enqueue reference then DPO",
+      "if_R3_adopts_arm_b": "R4: rerun the C12 census on arm B 684, then build_c13.sh data / templates with MODEL_ID=sepalith-2b-edit-sft-arm-b TAG=arm-b and bind on the arm-B checkpoint, its gate-684 decision and c10/bound/sft-v2-arm-b-lr1e-5.json"
+    },
+    "night_estimate": {
+      "basis": "arm A measured about 1,030 trained tokens/s (13,586 tokens per update in 12.4-13.9 s), gates 10-13 min each",
+      "rft": "7.09 M scheduled tokens: about 1.9 h training + 2 gates = about 2.3 h; one night",
+      "dpo_reference": "21.8 M tokens forward only (prompt counted for chosen and rejected): about 1.5-2.5 h",
+      "dpo": "21.8 M tokens with gradients + 2 gates: about 6.3 h",
+      "total": "three nights (RFT one; DPO reference + training two, resumable), then the R4 step 2 re-census on Kaggle (about 3.3 GPU-h)",
+      "memory": "DPO keeps two micro-batch graphs (chosen and rejected, each at most 2,987 tokens) with gradient checkpointing; expected below the 24.2 GB measured for one 4K SFT sequence plus one more sequence's checkpoints, not yet measured"
+    },
+    "checks": {
+      "check_training": "174/174 pass on CPU with .venv-sft (includes the 4 C13 test files)",
+      "check_core": "148 run, 4 known failures (test_c08_select_r2 live tests, identical on main)",
+      "check_quality": "ruff and ty pass"
+    }
+  },
+  "rule_decisions": [
+    {
+      "rule": "R4 step 1 + user decision",
+      "at": "2026-10-17",
+      "inputs": {"verified_correct_samples": 52145, "dpo_pairs": 18268, "rft_family_capped": 4413},
+      "outcome": "offline route: RFT on the family-capped set (4,413), then DPO on all 18,268 pairs; parent arm A 536 unless R3 adopts arm B"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "Data built (TRAIN only), uploaded in one HF commit; RFT and DPO recipes bound on arm A 536 with the new training/offline package (DPO in-repo on the full-weight runtime, trl untouched); night jobs written, nothing enqueued. Waiting for R3 (arm B gate 684, morning of 2026-10-19) and for this PR to merge. Interpretations recorded for the user: the 30% TRAIN mix is 30% of the cohort drawn from TRAIN rows without an RFT row; the offline gates apply R1's later-gate table from the first gate on; DPO with all 18,268 pairs needs two nights, not the card's one. 4,275 of the 4,413 RFT rows are token-identical to their gold targets, so RFT mostly re-weights prompts the model already solves; R5 needs +5 score250 to adopt.",
+  "next_steps": [
+    "User: merge this PR (and PR #65 for the C12 records).",
+    "Morning of 2026-10-19: apply R3. If arm A stays: enqueue C13-rft-1-arm-a-536 (command above). If arm B is adopted: rerun C12 on B first (R4).",
+    "After the RFT night: read evaluation-gates/C13-rft-1-arm-a-536/r5-decision.json; publish under R8 if adopted; bind and enqueue DPO as in night_jobs.after_rft_r5.",
+    "After the adopted offline step(s): R4 step 2, re-run the C12 census on the latest adopted model."
+  ]
+}
