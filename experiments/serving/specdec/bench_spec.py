@@ -141,26 +141,55 @@ def stream_completion(port: int, ids: list[int], n_predict: int,
     return res
 
 
-def warmup(port: int, ids: list[int], timeout: float = 900.0) -> None:
+def warmup(port: int, ids: list[int], timeout: float = 900.0,
+          abort_ms: int = 0) -> None:
+    """Prefill-only request (n_predict=0). With abort_ms > 0, stream it and
+    close the client socket after abort_ms — mirroring the extension's
+    pause-abort of the warm-up (PR #66), which frees the slot and keeps the
+    partially-prefilled KV for the real request."""
+    if abort_ms <= 0:
+        body = json.dumps(
+            {
+                "prompt": ids, "n_predict": 0, "temperature": 0.0,
+                "top_k": 1, "seed": 3407, "cache_prompt": True,
+                "stream": False,
+            }
+        ).encode()
+        conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
+        try:
+            conn.request("POST", "/completion", body=body,
+                         headers={"Content-Type": "application/json"})
+            resp = conn.getresponse()
+            if resp.status != 200:
+                raise RuntimeError(f"warmup {resp.status}: {resp.read()[:300]!r}")
+            resp.read()
+        finally:
+            conn.close()
+        return
+    # aborted variant: stream, then close mid-prefill when the connection
+    # goes idle past the deadline (SSE sends nothing during prefill, so the
+    # deadline must be enforced at the socket level, not around readline)
     body = json.dumps(
         {
-            "prompt": ids,
-            "n_predict": 0,
-            "temperature": 0.0,
-            "top_k": 1,
-            "seed": 3407,
-            "cache_prompt": True,
-            "stream": False,
+            "prompt": ids, "n_predict": 0, "temperature": 0.0,
+            "top_k": 1, "seed": 3407, "cache_prompt": True,
+            "stream": True,
         }
     ).encode()
-    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
+    conn = http.client.HTTPConnection("127.0.0.1", port,
+                                      timeout=abort_ms / 1000.0 + 1.0)
     try:
         conn.request("POST", "/completion", body=body,
                      headers={"Content-Type": "application/json"})
         resp = conn.getresponse()
-        if resp.status != 200:
-            raise RuntimeError(f"warmup {resp.status}: {resp.read()[:300]!r}")
-        resp.read()
+        deadline = time.monotonic() + abort_ms / 1000.0
+        if conn.sock is not None:
+            conn.sock.settimeout(max(0.05, deadline - time.monotonic()))
+        while True:
+            if resp.readline() == b"":
+                break  # completed before the abort deadline
+    except OSError:
+        pass  # idle past the deadline (or connection error): abort point
     finally:
         conn.close()
 
@@ -289,7 +318,7 @@ def tokens_equal(a: list[int] | None, b: list[int] | None) -> bool:
 
 
 def run_arm_trace(server: Server, tr: dict, do_cold: bool, n_predict: int,
-                  repeat: bool = False) -> dict:
+                  repeat: bool = False, warmup_abort_ms: int = 0) -> dict:
     row: dict[str, Any] = {
         "arm": server.name, "trace_id": tr["trace_id"],
         "family": tr["family"], "band": tr["band"], "is_noop": tr["is_noop"],
@@ -306,7 +335,7 @@ def run_arm_trace(server: Server, tr: dict, do_cold: bool, n_predict: int,
         )
         if cold.error:
             row["error"] = cold.error
-    warmup(server.port, tr["prompt_ids"])
+    warmup(server.port, tr["prompt_ids"], abort_ms=warmup_abort_ms)
     w = stream_completion(server.port, tr["prompt_ids"], n_predict,
                           cache_prompt=True)
     t = w.timings or {}
@@ -377,6 +406,9 @@ def main() -> None:
                     help="also time a cold (cache_prompt=false) pass per trace")
     ap.add_argument("--n-predict", type=int, default=N_PREDICT,
                     help="generation cap (product=1024; sweeps may lower)")
+    ap.add_argument("--warmup-abort-ms", type=int, default=0,
+                    help="abort the warm-up request after this many ms "
+                         "(PR #66 pause-abort flow; partial KV kept)")
     ap.add_argument("--reference", type=Path, default=None,
                     help="reference_outputs.json for cross-session parity")
     ap.add_argument("--model", type=Path, default=None,
@@ -417,7 +449,8 @@ def main() -> None:
             arms = [base, cand] if i % 2 == 0 else [cand, base]
             for srv in arms:
                 row = run_arm_trace(srv, tr, do_cold=a.cold, n_predict=a.n_predict,
-                                    repeat=(srv is base))
+                                    repeat=(srv is base),
+                                    warmup_abort_ms=a.warmup_abort_ms)
                 row["i"] = i
                 rows.append(row)
                 out_fh.write(json.dumps(row) + "\n")
@@ -505,6 +538,7 @@ def main() -> None:
         "server_args": cand_args, "n_traces": len(traces),
         "n_predict": n_predict_global[0],
         "threads": a.threads, "cold": a.cold,
+        "warmup_abort_ms": a.warmup_abort_ms,
         "model": str(DEFAULT_MODEL),
         "load_start": load0[0], "load_end": load1[0],
         "baseline": bs, "candidate_summary": cs,
