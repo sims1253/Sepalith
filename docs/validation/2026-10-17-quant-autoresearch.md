@@ -180,11 +180,13 @@ bf16 CPU reference; `panel/agreement-*.json`):
 | Q4_K_M-mixA | **78.1%** | **+1** | 1 | 0 | 0 | +1 |
 | Q4_K_M-mixB | 77.6% | **−2** | 0 | 2 | 0 | 0 |
 | Q4_K_M-mixA-e4 (ship) | 76.0% | **0** | 1 | 1 | 0 | +2 |
+| Q4_K_M-mixC (fidelity) | **78.1%** | **0** | 1 | 1 | 0 | +1 |
 
 **Honesty finding (baseline panel, 2026-10-18):** the incumbent baseline scores
 76.0% identity / net cap rise 0 on this panel — statistically indistinguishable
 from mixA-e4 (76.0%/0; 44 of their 47 changed cases are even the same cases),
-with the mixes at 77–78%. A −21% KLD improvement does **not** translate to
+with the mixes at 77–78% (mixC tops the set at 78.1% with zero net cap rise
+— the −44% KLD buys +2 pp greedy identity, modest but monotone). A −21% KLD improvement does **not** translate to
 materially better greedy agreement at TRAIN-length generations. What the
 recipes measurably buy is: the **KLD gate check** (baseline 0.0340 **fails**
 0.03; every mix passes with 11–23% margin), **size** (−68 to −193 MB), the

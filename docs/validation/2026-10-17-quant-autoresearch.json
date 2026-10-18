@@ -224,6 +224,12 @@
       "bytes": 1726700000,
       "mean_kld": 0.021451,
       "note": "dominated by mixC at identical size; completes the map: kv 2.0 > ao 1.5 > up 0.57 > down 0.48 > gate 0.38 (e-4 KLD/MB)"
+    },
+    "mixCu22-late-band": {
+      "recipe": "mixA-e4 + ffn_up q6 on contiguous layers 20-41",
+      "bytes": 1661800000,
+      "mean_kld": 0.02282,
+      "note": "linearity generalizes to ffn_up (mildly sub-linear); imatrix hot-layers do NOT concentrate the gain; lateral vs mixB-e4 at the mid slot"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -365,6 +371,14 @@
         "length_delta_median": 0,
         "length_delta_p90": 0,
         "honesty": "baseline indistinguishable from mixA-e4 on this panel (76.0% both; 44/47 changed cases shared); KLD gains do not translate to materially better TRAIN-length greedy agreement; the recipes' measurable wins are the KLD gate check, size, exact/nofp/ship-bound"
+      },
+      "Q4_K_M-mixC": {
+        "identical_pct": 78.06,
+        "net_cap_rise": 0,
+        "done_to_cap": 1,
+        "cap_to_done": 1,
+        "length_delta_median": 0,
+        "length_delta_p90": 1
       }
     }
   },

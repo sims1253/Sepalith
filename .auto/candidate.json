@@ -1,9 +1,9 @@
 {
-  "label": "mixCg-ao6kv8-ffngate6-emb4-head5",
+  "label": "mixCu21-ao6kv8-ffnup6top21-emb4-head5",
   "tier": "Q4_K_M",
   "output_type": "q5_K",
   "embedding_type": "q4_K",
   "imatrix": true,
-  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "ffn_gate\\.weight=q6_K"],
+  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "blk\\.(20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41)\\.ffn_up\\.weight=q6_K", "ffn_up\\.weight=q4_K"],
   "kld_chunks": 64
 }
