@@ -10,14 +10,17 @@ Four mixed-precision Q4_K_M recipes Pareto-dominate the current Q4_K_M imatrix
 baseline (1,759.8 MB, CPU KLD 0.033973) — each smaller, more faithful to bf16,
 and decode-equal to the baseline within measurement noise. The two "e4"
 variants take another ~33 MB off for ≈free (token_embd q4_K costs only
-+0.0002 mean KLD; the q4_K penalty is ~98% the output head).
++0.0002 mean KLD; the q4_K penalty is ~98% the output head). **Q4_K_M-mixA-e4
+passes the entire gate — the first tier in the campaign to do so** (including
+`valid_drop`, by a 0.2 pp margin; see the honesty note in §7 on why that
+margin is partly cap-flip luck).
 
-| recipe | MB | mean KLD (CPU) | top-1 | DEV250 exact Δ | nofp Δ | decode vs Q4_K_M |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| **Q4_K_M-mixA-e4 "speed"** | **1,590.4** | 0.026692 | 94.92 | ⏳ (3rd slot) | | ≈ baseline (±noise) |
-| Q4_K_M-mixA | 1,623.8 | 0.026501 | 95.00 | **+0.8** | −1.6 | ≈ baseline (±noise) |
-| **Q4_K_M-mixB-e4 "fidelity"** | 1,658.5 | 0.023328 | 95.18 | TRAIN-only | | ≈ baseline (±noise) |
-| Q4_K_M-mixB | 1,692.0 | 0.022949 | 95.31 | 0.0 | −0.8 | ≈ baseline (±noise) |
+| recipe | MB | mean KLD (CPU) | top-1 | DEV250 gate | exact Δ | nofp Δ |
+| --- | ---: | ---: | ---: | --- | ---: | ---: |
+| **Q4_K_M-mixA-e4 "ship"** | **1,590.4** | 0.026692 | 94.92 | **ALL CHECKS PASS** | +0.4 | −1.2 |
+| Q4_K_M-mixA | 1,623.8 | 0.026501 | 95.00 | all but valid_drop (2.4) | +0.8 | −1.6 |
+| **Q4_K_M-mixB-e4 "fidelity"** | 1,658.5 | 0.023328 | 95.18 | TRAIN-only evidence | | |
+| Q4_K_M-mixB | 1,692.0 | 0.022949 | 95.31 | all but valid_drop (2.4) | 0.0 | −0.8 |
 
 `valid_drop_pp` fails for the confirmed tiers (2.4 pp) — like **every tier in
 the 2026-10-17 night run, including Q8_0** (and the CPU-vs-CUDA bf16 references
@@ -197,27 +200,46 @@ backends, more evidence for §6).
 | token identity % | 52.4 recorded | **54.8** recorded | recorded |
 | DEV75 parity | out (nofp +3, recorded) | within tolerance | recorded |
 
-The single failing check is the one §6 shows no quantization can pass
-(Q8_0 itself fails it by the same margin). Notably, on the KLD/checks that
-are passable, the mixes strictly dominate the Q4_K_M baseline profile
-(baseline CUDA: exact 0.0, nofp −0.4, KLD 0.0342 **fail**, identity 51.2).
+The single failing check for mixA/mixB is the one §6 shows no quantization can
+pass reliably (Q8_0 itself fails it by the same margin). mixA-e4 landed on
+the right side of it (§7). Notably, on the KLD/checks that are passable, the
+mixes strictly dominate the Q4_K_M baseline profile (baseline CUDA: exact
+0.0, nofp −0.4, KLD 0.0342 **fail**, identity 51.2).
+
+**Q4_K_M-mixA-e4 (third and final slot, 2026-10-18): FULL GATE PASS —
+verdict `pass`, shippable `True`.** exact +0.4 pp (117→118, 1 lost / 2
+gained), McNemar 1.0, nofp −1.2 pp, **valid_drop 0.8 pp (caps 16→17, net
++1)**, mean KLD 0.026692, ship bound 1.06 pp, token identity 53.6%, DEV75
+parity within tolerance.
+
+Honesty note on that valid_drop pass: the margin (net +1 cap vs mixA's +6 on
+the same reference) is inside the cap-flip noise band §6 quantifies; mixA has
+slightly *lower* KLD than mixA-e4, so the pass is not attributable to the
+embedding trim. The receipt is the receipt — but the threshold's
+noise-dominance (and Q8_0's own failure) still warrants the user decision in
+§9. The deterministic claims for mixA-e4 are: −169.4 MB vs baseline, KLD
+−21% vs baseline and under the 0.03 gate with margin, exact/nofp/ship-bound
+all passing.
 
 | run | date | panel | build | purpose |
 | --- | --- | --- | --- | --- |
 | bf16 dev250+dev75 | 2026-10-17/18 | dev250, dev75 | cpu | gate reference |
 | Q4_K_M-mixA dev250+dev75 | 2026-10-18 | dev250, dev75 | cpu | confirmation 1 of 3 |
 | Q4_K_M-mixB dev250+dev75 | 2026-10-18 | dev250, dev75 | cpu | confirmation 2 of 3 |
+| Q4_K_M-mixA-e4 dev250+dev75 | 2026-10-18 | dev250, dev75 | cpu | confirmation 3 of 3 — **full pass** |
 
 ## 8. Recommendation
 
-Ship **Q8_0 + Q4_K_M-mixA-e4** as the small tier (pending the valid_drop
-decision above and the running third DEV slot): −169.4 MB vs Q4_K_M, KLD
-0.0267 ≤ 0.03 with 11% margin, decode baseline-equal. If fidelity outranks
-size for the small tier, **mixB-e4** (−101.3 MB, KLD 0.0233, TRAIN-measured;
-its DEV slot was not spent — the emb-lever delta vs confirmed mixB is
-+0.0004, validated twice on CPU and by the night run's pattern). The emb-q5
-variants (mixA/mixB) remain in `variant_specs()` as the DEV-confirmed forms.
-Q6_K stays the quality fallback at 2.2 GB.
+Ship **Q8_0 + Q4_K_M-mixA-e4** as the small tier: **the only tier to pass the
+entire gate** (DEV250 receipt in the work dir), −169.4 MB vs Q4_K_M, KLD
+0.0267 ≤ 0.03 with 11% margin, exact +0.4, decode baseline-equal. If the
+user prefers more fidelity headroom and accepts a TRAIN-evidenced (not
+DEV-confirmed) variant, **mixB-e4** (−101.3 MB, KLD 0.0233; its emb-lever
+delta vs confirmed mixB is +0.0004, validated twice on CPU). The emb-q5
+variants (mixA/mixB) remain in `variant_specs()` as the DEV-confirmed forms;
+Q6_K stays the quality fallback at 2.2 GB. Given the §7 honesty note, treat
+mixA-e4's valid_drop pass as real-but-lucky; the standing §9 question about
+that threshold remains worth deciding anyway.
 
 ## 9. Open questions for the user
 

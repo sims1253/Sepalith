@@ -320,6 +320,13 @@
         "build": "cpu",
         "label": "Q4_K_M-mixB",
         "purpose": "confirmation 2 of 3"
+      },
+      {
+        "date": "2026-10-18",
+        "panel": "dev250+dev75",
+        "build": "cpu",
+        "label": "Q4_K_M-mixA-e4",
+        "purpose": "confirmation 3 of 3 \u2014 full pass"
       }
     ],
     "reference_counts_dev250": {
@@ -369,6 +376,29 @@
         "ship_net_loss_bound_pp": 1.3054393864694223,
         "dev75_within_tolerance": true,
         "gguf_sha256": "d94c8ae8a74103bad75e161b8b20623872d69d5258a5c48b644da1494ee33a92"
+      },
+      "Q4_K_M-mixA-e4": {
+        "verdict": "pass",
+        "checks_verdict": "pass",
+        "shippable": true,
+        "exact_delta_pp": 0.4,
+        "mcnemar_p": 1.0,
+        "lost_gained": [
+          1,
+          2
+        ],
+        "nofp_rise_pp": -1.2,
+        "valid_drop_pp": 0.8,
+        "caps_ref_cand": [
+          16,
+          17
+        ],
+        "mean_kld": 0.026692,
+        "token_identity_pct": 53.6,
+        "ship_net_loss_bound_pp": 1.0621209157114522,
+        "dev75_within_tolerance": true,
+        "gguf_sha256": "8a9cce5940ca6302a0a0780d6dd0398e4e495d15faf8528c3d86723c4007bbae",
+        "note": "first tier to pass the entire gate; valid_drop margin (net +1 cap) is inside the cap-flip noise band \u2014 see report \u00a77 honesty note"
       }
     }
   },
