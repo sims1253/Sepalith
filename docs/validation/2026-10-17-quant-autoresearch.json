@@ -154,6 +154,15 @@
       "p99_kld": 0.257722,
       "ppl_gap": 0.0831,
       "note": "dominated by mixB (smaller and lower KLD); probe closed the sensitivity map"
+    },
+    "mixA11-ffndown6-top11": {
+      "recipe": "mixA + ffn_down q6_K on the 11 highest-imatrix-importance middle layers (complete-category override)",
+      "bytes": 1659500000,
+      "mean_kld": 0.024964,
+      "same_top_p_pct": 95.098,
+      "p99_kld": 0.278615,
+      "ppl_gap": 0.0797,
+      "note": "43% of mixB's KLD gain for 52% of its size; with the 17-layer contaminated probe (0.023730 @ 1679.0) this shows ffn_down q6 gain is ~linear in upgraded-layer count and NOT concentrated by imatrix importance; interior point, direction closed"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -189,6 +198,10 @@
       "delta_mb": 88.1,
       "delta_kld": -0.0031,
       "note": "attn_q is 2048x2048; same cost as attn_output q8 with less gain"
+    },
+    "ffn_down_q6_top11_of_21": {
+      "delta_mb": 35.7,
+      "delta_kld": -0.00154
     }
   },
   "b10453_tool_finding": {

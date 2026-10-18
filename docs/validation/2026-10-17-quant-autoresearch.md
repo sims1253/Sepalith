@@ -73,6 +73,7 @@ Recipe definitions (see `variant_specs()`):
 | token_embd+output → q5_K | −71.1 | +0.0017 | 0.24e-4 | still cheap |
 | token_embd+output → q4_K | −66.9 | +0.0079 | 1.2e-4 | too expensive; q5_K is the floor |
 | IQ4_XS base (anchor) | −129.5 | +0.0097 | 0.07e-4 | direction closed (dominated by mixes) |
+| ffn_down → q6_K, imatrix-top-11 of 21 | +35.7 | −0.00154 | 0.4e-4 | interior point; gain ~linear in layers, not importance-ranked |
 
 Boosts are sub-additive (measured composites land 5–10% above the sum of
 deltas).
