@@ -1,7 +1,7 @@
 {
   "card": "C03",
-  "state": "in_progress",
-  "updated": "2026-10-17T12:00:00+02:00",
+  "state": "done",
+  "updated": "2026-10-18T22:20:00+02:00",
   "branch": "plan/C03-arm-a-parity",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/64",
   "outputs": {
@@ -135,7 +135,8 @@
         "train200_greedy": "0.27 s per decode step at 32 rows (worker with batches 1,3,5: 3,072 steps in 816 s); 5 of 7 static batches ran to 1,024 steps because one or two rows capped",
         "census_projection": "about 210 s per 32-row batch -> 3,752 batches for 15,006 x 8 = about 219 T4-h = about 110 two-T4 session-h at the bound batching: confirms the 2026-10-16 decision (C12 vLLM trial or reduced census)"
       }
-    }
+    },
+    "hf_upload_arm_a_parity": "scholzmx/sepalith dataset commit 6ef398a1132c0f8b5ae91cf8f728fe0297030434 (campaign-20260915/C03/parity-references/20261018T024449/ and inference/c03-arma-*-fp16-b32/)"
   },
   "rule_decisions": [
     {
@@ -170,10 +171,26 @@
         "pc_bf16_batch1_vs_batch32_identity_pct": 54
       },
       "outcome": "accept fp16 on Kaggle T4 if TRAIN-200/DEV75 token identity misses 90% but valid/cap/edit/nofp stay within 1 of bf16; no fp32 fallback"
+    },
+    {
+      "rule": "card C03 parity + user decision 2026-10-17",
+      "at": "2026-10-18",
+      "inputs": {
+        "combined_identity": "219/275 (79.6%; DEV75 63/75, TRAIN-200 156/200)",
+        "dev75_count_diff_vs_bf16": {
+          "valid": 0,
+          "cap": 0,
+          "edit": 0,
+          "nofp": 1
+        },
+        "bf16_night_to_night_identity": 1.0,
+        "receipt": "docs/training/plan-20260927/receipts/C03-parity-arm-a-fp16.json"
+      },
+      "outcome": "card verdict fail on token identity (< 90%), counts within 1; accepted per the user's pre-decision: Kaggle fp16 on T4 is usable for census and extra evaluations; no fp32 fallback"
     }
   ],
   "question_for_user": null,
-  "notes": "Arm A (checkpoint 536) is public, so Kaggle ran the representative SFT parity on it today. fp16 DEV75 against the night's bf16 R1 gate result for step 536: no non-finite values, all four R1 counts within 1 (nofp 9 vs 8, one case), 84% token-identical (63/75). The card verdict combines DEV75 and TRAIN-200, and the TRAIN-200 bf16 references for arm A come from the night job enqueued for 2026-10-18; next_steps has the exact commands. Earlier history: harness merged in #55; parent pre-check 57% identity (run-on drift on the CPT parent); bf16 references for the parent and gate 268 done 2026-10-14 and now public under campaign-20260915/C03/. 2026-10-17: user pre-decided acceptance of fp16 when counts stay within 1; verdict after tonight's C03-parity-references-arm-a.",
+  "notes": "Arm A (checkpoint 536) is public, so Kaggle ran the representative SFT parity on it today. fp16 DEV75 against the night's bf16 R1 gate result for step 536: no non-finite values, all four R1 counts within 1 (nofp 9 vs 8, one case), 84% token-identical (63/75). The card verdict combines DEV75 and TRAIN-200, and the TRAIN-200 bf16 references for arm A come from the night job enqueued for 2026-10-18; next_steps has the exact commands. Earlier history: harness merged in #55; parent pre-check 57% identity (run-on drift on the CPT parent); bf16 references for the parent and gate 268 done 2026-10-14 and now public under campaign-20260915/C03/. 2026-10-17: user pre-decided acceptance of fp16 when counts stay within 1; verdict after tonight's C03-parity-references-arm-a. 2026-10-18: arm A parity done; fp16 accepted (79.6% identity, counts within 1).",
   "previous_pull_requests": [
     "https://github.com/sims1253/Sepalith/pull/55"
   ],

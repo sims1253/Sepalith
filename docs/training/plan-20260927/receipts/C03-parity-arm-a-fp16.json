@@ -1,0 +1,635 @@
+{
+  "checks": {
+    "dev75_counts_within_1": true,
+    "identity_at_least_90pct": false,
+    "no_nonfinite": true,
+    "prompts_identical": true
+  },
+  "combined_identity": {
+    "cases": 275,
+    "identical": 219,
+    "identity_rate": 0.7963636363636364
+  },
+  "criteria": {
+    "count_tolerance": 1,
+    "identity_floor": 0.9,
+    "nonfinite": "none allowed"
+  },
+  "reference_dir": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C03-parity-references-arm-a/20261018T024449/arm-a-536",
+  "reference_settings": {
+    "attention": "sdpa (transformers default)",
+    "batch_size": 32,
+    "bound_generation_batching": {
+      "batch_size": 32,
+      "kv_cache": "dynamic",
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "padding_side": "left",
+      "policy": "the parent baseline and every gate use these settings; a result whose generation runtime differs from its R1 reference is stop-for-user"
+    },
+    "cap": 1024,
+    "dtype": "bf16",
+    "kv_cache": "dynamic",
+    "stop_ids": [
+      1,
+      130073
+    ]
+  },
+  "schema": "sepalith.c03.parity-comparison.v1",
+  "sets": {
+    "dev75": {
+      "candidate": {
+        "calls_with_nonfinite_logits": 0,
+        "generation": {
+          "attention": "sdpa (transformers default)",
+          "batch_size": 32,
+          "decoding": "greedy",
+          "dtype": "fp16",
+          "kv_cache": "dynamic",
+          "max_new_tokens": 1024,
+          "ordering": "prompt_tokens_descending_then_case_id_ascending",
+          "pad_token_id": 1,
+          "padding_side": "left",
+          "pytorch_cuda_alloc_conf": "expandable_segments:True",
+          "stop_ids": [
+            1,
+            130073
+          ],
+          "work_split": "whole global batches per shard and worker"
+        },
+        "gpus": [
+          "Tesla T4",
+          "Tesla T4"
+        ],
+        "model": {
+          "model_safetensors_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030",
+          "path": "/tmp/sepalith-inference/hf/scholzmx--sepalith-2b-edit-sft/arm-a",
+          "source": "hf:scholzmx/sepalith-2b-edit-sft/arm-a",
+          "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+        },
+        "nll_finite": true,
+        "runtime": {
+          "accelerate": "1.14.0",
+          "huggingface_hub": "1.29.0",
+          "python": "3.13.15",
+          "safetensors": "0.8.0",
+          "tokenizers": "0.22.2",
+          "torch": "2.11.0+cu128",
+          "transformers": "5.5.0"
+        }
+      },
+      "candidate_dir": "/home/m0hawk/.local/state/sepalith/kaggle/runs/c03-arma-dev75-fp16-b32/c03-arma-dev75-fp16-b32",
+      "identity": {
+        "cases": 75,
+        "divergent": [
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 21,
+            "id": "04834fef4fe59742f13677a9",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 57,
+            "first_divergence": 22,
+            "id": "4f08633513b5c525240d2540",
+            "reference_cap_hit": false,
+            "reference_tokens": 97
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 95,
+            "first_divergence": 63,
+            "id": "dat07-existing-152d62f7a57472f8abb30ca9",
+            "reference_cap_hit": false,
+            "reference_tokens": 86
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 206,
+            "first_divergence": 56,
+            "id": "dat07-existing-2838b904f1e44b7440e6da9f",
+            "reference_cap_hit": false,
+            "reference_tokens": 217
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 92,
+            "first_divergence": 17,
+            "id": "dat07-existing-5b5e844d3a8795c52149f848",
+            "reference_cap_hit": false,
+            "reference_tokens": 148
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 123,
+            "first_divergence": 46,
+            "id": "dat07-existing-81ddc4c6ddd226b04dcf0910",
+            "reference_cap_hit": false,
+            "reference_tokens": 113
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 11,
+            "first_divergence": 0,
+            "id": "dat07-existing-a1b63fee525fbc1373bb82c3",
+            "reference_cap_hit": false,
+            "reference_tokens": 12
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 121,
+            "first_divergence": 65,
+            "id": "dat07-existing-acac075364038a6979bb0631",
+            "reference_cap_hit": false,
+            "reference_tokens": 120
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 79,
+            "first_divergence": 19,
+            "id": "dat07-existing-c54ed09efae0ca38cff22981",
+            "reference_cap_hit": false,
+            "reference_tokens": 80
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 127,
+            "first_divergence": 11,
+            "id": "dat07-existing-d38a792699b4cccded445dc0",
+            "reference_cap_hit": false,
+            "reference_tokens": 128
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 89,
+            "first_divergence": 10,
+            "id": "e623a61b5a4c066358a477f2",
+            "reference_cap_hit": false,
+            "reference_tokens": 140
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 450,
+            "first_divergence": 181,
+            "id": "f43de3e77f2d92ed7b223464",
+            "reference_cap_hit": false,
+            "reference_tokens": 497
+          }
+        ],
+        "extra_in_candidate": [],
+        "first_divergence": {
+          "max": 181,
+          "median": 21.5,
+          "min": 0
+        },
+        "identical": 63,
+        "identity_rate": 0.84,
+        "missing_in_candidate": [],
+        "prompt_mismatches": []
+      },
+      "r1": {
+        "candidate": {
+          "cap": 1,
+          "edit": 27,
+          "nofp": 9,
+          "valid": 74
+        },
+        "cases": 75,
+        "difference": {
+          "cap": 0,
+          "edit": 0,
+          "nofp": 1,
+          "valid": 0
+        },
+        "per_case_agreement": {
+          "cap": 75,
+          "edit": 75,
+          "nofp": 74,
+          "valid": 75
+        },
+        "reference": {
+          "cap": 1,
+          "edit": 27,
+          "nofp": 8,
+          "valid": 74
+        },
+        "within_tolerance": true
+      },
+      "same_batching": true
+    },
+    "train200": {
+      "candidate": {
+        "calls_with_nonfinite_logits": 0,
+        "generation": {
+          "attention": "sdpa (transformers default)",
+          "batch_size": 32,
+          "decoding": "greedy",
+          "dtype": "fp16",
+          "kv_cache": "dynamic",
+          "max_new_tokens": 1024,
+          "ordering": "prompt_tokens_descending_then_case_id_ascending",
+          "pad_token_id": 1,
+          "padding_side": "left",
+          "pytorch_cuda_alloc_conf": "expandable_segments:True",
+          "stop_ids": [
+            1,
+            130073
+          ],
+          "work_split": "whole global batches per shard and worker"
+        },
+        "gpus": [
+          "Tesla T4",
+          "Tesla T4"
+        ],
+        "model": {
+          "model_safetensors_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030",
+          "path": "/tmp/sepalith-inference/hf/scholzmx--sepalith-2b-edit-sft/arm-a",
+          "source": "hf:scholzmx/sepalith-2b-edit-sft/arm-a",
+          "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+        },
+        "nll_finite": null,
+        "runtime": {
+          "accelerate": "1.14.0",
+          "huggingface_hub": "1.29.0",
+          "python": "3.13.15",
+          "safetensors": "0.8.0",
+          "tokenizers": "0.22.2",
+          "torch": "2.11.0+cu128",
+          "transformers": "5.5.0"
+        }
+      },
+      "candidate_dir": "/home/m0hawk/.local/state/sepalith/kaggle/runs/c03-arma-train200-fp16-b32/c03-arma-train200-fp16-b32",
+      "identity": {
+        "cases": 200,
+        "divergent": [
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 54,
+            "first_divergence": 24,
+            "id": "00356db4e29a6dba13b432be",
+            "reference_cap_hit": false,
+            "reference_tokens": 56
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 13,
+            "id": "00b481da348b3c20d760acd2",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 140,
+            "first_divergence": 90,
+            "id": "01cb298d3ba489166ece771e",
+            "reference_cap_hit": false,
+            "reference_tokens": 139
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 193,
+            "first_divergence": 62,
+            "id": "03d4b2aa37ba610ab59fb2e2",
+            "reference_cap_hit": false,
+            "reference_tokens": 183
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 249,
+            "first_divergence": 84,
+            "id": "08712771003084c0ab3b7972",
+            "reference_cap_hit": false,
+            "reference_tokens": 272
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 222,
+            "first_divergence": 81,
+            "id": "08ebae4d7d5901b520ae6cc0",
+            "reference_cap_hit": false,
+            "reference_tokens": 273
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 302,
+            "first_divergence": 158,
+            "id": "0b60cc2c250b7937a2b0bfde",
+            "reference_cap_hit": false,
+            "reference_tokens": 294
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 479,
+            "first_divergence": 57,
+            "id": "0e10a6e89e22ca6cc6ee056e",
+            "reference_cap_hit": false,
+            "reference_tokens": 465
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 329,
+            "first_divergence": 29,
+            "id": "109de8831b3ac35144b9815b",
+            "reference_cap_hit": false,
+            "reference_tokens": 341
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 840,
+            "first_divergence": 591,
+            "id": "12afd294d15c7af9e036f695",
+            "reference_cap_hit": false,
+            "reference_tokens": 846
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 279,
+            "first_divergence": 38,
+            "id": "13a62ac5024797916756d493",
+            "reference_cap_hit": false,
+            "reference_tokens": 192
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 5,
+            "id": "18f891d773efefaa036594e4",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 130,
+            "first_divergence": 57,
+            "id": "1d8fc4957e845bc4a4f22733",
+            "reference_cap_hit": false,
+            "reference_tokens": 408
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 323,
+            "first_divergence": 162,
+            "id": "1f2353be980b8ed3cd46bc51",
+            "reference_cap_hit": false,
+            "reference_tokens": 325
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 96,
+            "first_divergence": 88,
+            "id": "2420d31d70957d53c0bc207b",
+            "reference_cap_hit": false,
+            "reference_tokens": 102
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 538,
+            "first_divergence": 69,
+            "id": "25e84ae5bd73d7150af391c1",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 190,
+            "first_divergence": 76,
+            "id": "27fb74d4b6ebbab03d3c1dc8",
+            "reference_cap_hit": false,
+            "reference_tokens": 185
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 118,
+            "first_divergence": 56,
+            "id": "2c03f8d5404e08ba548e9a49",
+            "reference_cap_hit": false,
+            "reference_tokens": 118
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 160,
+            "first_divergence": 134,
+            "id": "328af4c2e4df9b62dcb3adf7",
+            "reference_cap_hit": false,
+            "reference_tokens": 371
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 118,
+            "id": "34433853830160dcf5960fdb",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 52,
+            "first_divergence": 5,
+            "id": "3594e25f764d71b90bf8b7e8",
+            "reference_cap_hit": false,
+            "reference_tokens": 66
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 244,
+            "first_divergence": 189,
+            "id": "35f9c3f60c7f51f731defaa5",
+            "reference_cap_hit": false,
+            "reference_tokens": 249
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 375,
+            "first_divergence": 30,
+            "id": "3667d9ed17acaec2babbe364",
+            "reference_cap_hit": false,
+            "reference_tokens": 256
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 335,
+            "first_divergence": 2,
+            "id": "3683a2062b73f403ebd467c8",
+            "reference_cap_hit": false,
+            "reference_tokens": 350
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 83,
+            "first_divergence": 15,
+            "id": "48ef879d03da376ccbfa7c34",
+            "reference_cap_hit": false,
+            "reference_tokens": 237
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 25,
+            "id": "4cdb3e5710ab4f72fcdc6015",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 198,
+            "first_divergence": 132,
+            "id": "51598ff380bd687db5407795",
+            "reference_cap_hit": false,
+            "reference_tokens": 186
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 322,
+            "first_divergence": 216,
+            "id": "56af2ff4c57f187068bce954",
+            "reference_cap_hit": false,
+            "reference_tokens": 331
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 7,
+            "id": "59450847a81516b198dd036e",
+            "reference_cap_hit": false,
+            "reference_tokens": 140
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 95,
+            "id": "597bdb8478584a5e59e37c9e",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 275,
+            "first_divergence": 44,
+            "id": "5c1a3278ceae79371b1f2d4b",
+            "reference_cap_hit": false,
+            "reference_tokens": 264
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 155,
+            "first_divergence": 93,
+            "id": "5ce85d1f0985d152d4741753",
+            "reference_cap_hit": false,
+            "reference_tokens": 126
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 151,
+            "first_divergence": 49,
+            "id": "5f9f84bfe64dac396cf8dd85",
+            "reference_cap_hit": false,
+            "reference_tokens": 144
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 118,
+            "first_divergence": 8,
+            "id": "657c498a050a1be73f2e590f",
+            "reference_cap_hit": false,
+            "reference_tokens": 53
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 147,
+            "first_divergence": 5,
+            "id": "66f32c059b6d140502c13c7c",
+            "reference_cap_hit": false,
+            "reference_tokens": 152
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 38,
+            "first_divergence": 1,
+            "id": "677442b8a6332f151b27bbf8",
+            "reference_cap_hit": false,
+            "reference_tokens": 143
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 124,
+            "first_divergence": 30,
+            "id": "6a86f6ad547a9e6e06b10e97",
+            "reference_cap_hit": false,
+            "reference_tokens": 153
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 241,
+            "first_divergence": 52,
+            "id": "6c75a07f20920c98f2ce466c",
+            "reference_cap_hit": false,
+            "reference_tokens": 274
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 129,
+            "first_divergence": 10,
+            "id": "78b79c05dc6c23f5203615a6",
+            "reference_cap_hit": true,
+            "reference_tokens": 1024
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 67,
+            "first_divergence": 23,
+            "id": "7f3e09900efcf4f870d6fd9d",
+            "reference_cap_hit": false,
+            "reference_tokens": 63
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 188,
+            "first_divergence": 87,
+            "id": "836a7196de27e09cc2a9af7c",
+            "reference_cap_hit": false,
+            "reference_tokens": 198
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 64,
+            "first_divergence": 9,
+            "id": "851f3e06b3edfa4c4de662d1",
+            "reference_cap_hit": false,
+            "reference_tokens": 134
+          },
+          {
+            "candidate_cap_hit": true,
+            "candidate_tokens": 1024,
+            "first_divergence": 26,
+            "id": "934ff9fc83133986a6de5004",
+            "reference_cap_hit": false,
+            "reference_tokens": 94
+          },
+          {
+            "candidate_cap_hit": false,
+            "candidate_tokens": 232,
+            "first_divergence": 91,
+            "id": "e06fa03505f103c0363c47fb",
+            "reference_cap_hit": false,
+            "reference_tokens": 216
+          }
+        ],
+        "extra_in_candidate": [],
+        "first_divergence": {
+          "max": 591,
+          "median": 54.0,
+          "min": 1
+        },
+        "identical": 156,
+        "identity_rate": 0.78,
+        "missing_in_candidate": [],
+        "prompt_mismatches": []
+      },
+      "same_batching": true
+    }
+  },
+  "verdict": "fail"
+}
