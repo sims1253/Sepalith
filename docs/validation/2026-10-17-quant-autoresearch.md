@@ -1,24 +1,27 @@
 # Quant autoresearch: a smaller, faster, more faithful arm-A GGUF tier
 
 Branch `research/quant-autoresearch-20261017` (from `main` @ `c42dc8a`).
-Report date: 2026-10-17 (session in progress; sections marked ⏳ fill as runs
-complete). Mission brief: `/home/m0hawk/sandbox/sepalith-quant-autoresearch-brief.md`.
+Report date: 2026-10-17/18 (DEV confirmations completed 06:45 on the 18th).
+Mission brief: `/home/m0hawk/sandbox/sepalith-quant-autoresearch-brief.md`.
 
 ## TL;DR
 
 Two mixed-precision Q4_K_M recipes Pareto-dominate the current Q4_K_M imatrix
 baseline (1,759.8 MB, CPU KLD 0.033973) — each is smaller, more faithful to
-bf16, and no slower (one markedly faster) on CPU:
+bf16, and no slower (one markedly faster) on CPU. Both were confirmed on
+DEV250/DEV75 (CPU build): each passes every gate check **except**
+`valid_drop_pp`, which no quantization passes (see TL;DR note and §6).
 
-| recipe | MB | mean KLD (CPU) | top-1 | tg32 vs Q4_K_M | verdict |
-| --- | ---: | ---: | ---: | ---: | --- |
-| **Q4_K_M-mixA "speed"** | 1,623.8 | 0.026501 | 95.00 | **+42%** | passes every gate check except valid_drop |
-| **Q4_K_M-mixB "fidelity"** | 1,692.0 | 0.022949 | 95.31 | −1% | passes every gate check except valid_drop |
+| recipe | MB | mean KLD (CPU) | top-1 | DEV250 exact Δ | nofp Δ | tg32 vs Q4_K_M | verdict |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| **Q4_K_M-mixA "speed"** | 1,623.8 | 0.026501 | 95.00 | **+0.8** | −1.6 | **+42%** | all checks pass except valid_drop |
+| **Q4_K_M-mixB "fidelity"** | 1,692.0 | 0.022949 | 95.31 | 0.0 | −0.8 | −1% | all checks pass except valid_drop |
 
-Both fail `valid_drop_pp` — like **every tier in the 2026-10-17 night run,
-including Q8_0**. Section 6 shows that check is structurally unpassable for any
-quantization of this model at DEV250's cap rate; it needs a user decision, not
-a recipe.
+`valid_drop_pp` fails for both (2.4 pp) — like **every tier in the
+2026-10-17 night run, including Q8_0** (and the CPU-vs-CUDA bf16 references
+differ by 5 cap cases with zero quantization). Section 6 shows that check is
+structurally unpassable for any quantization of this model at DEV250's cap
+rate; it needs a user decision, not a recipe.
 
 Recipe definitions (see `variant_specs()`):
 
@@ -141,7 +144,7 @@ bf16 CPU reference; `panel/agreement-*.json`):
 | candidate | identical with bf16 | net cap rise | done→cap | cap→done | median Δlen | p90 Δlen |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Q4_K_M-mixA | **78.1%** | **+1** | 1 | 0 | 0 | +1 |
-| Q4_K_M-mixB | ⏳ | | | | | |
+| Q4_K_M-mixB | 77.6% | **−2** | 0 | 2 | 0 | 0 |
 
 For scale: on the night run's DEV250 (CUDA), Q4_K_M was 51.2% identical with
 bf16 (+10 net caps) and Q8_0 66.8% (+6). mixA's TRAIN-panel fidelity is far
@@ -149,16 +152,42 @@ above the baseline's, consistent with its KLD.
 
 ## 7. DEV confirmations (≤3; every DEV read logged here)
 
-⏳ Planned: mixA and mixB on DEV250+DEV75, CPU build, via `quant_gate.py`
-against a CPU bf16 reference (the search build; not comparable to the night
-CUDA receipt). A night-queue job JSON
-(`c09/jobs/C09-arm-a-quant-mix-confirmation.json`) is included for a CUDA
-confirmation that IS comparable with the night receipt — queued by the user,
-not by this session.
+Gate runs on the **CPU build** (the search build) with a CPU bf16 reference,
+via `quantize_and_gate.py`/`quant_gate.py`; receipt:
+`quant-work/autoresearch-20261017/gate-receipt.json`. CPU numbers are not
+comparable with the night CUDA receipt (the CUDA-confirmation night job is
+included for that: `c09/jobs/C09-arm-a-quant-mix-confirmation.json`).
+
+Every DEV read this session (all CPU, 2026-10-17/18, gate-eligible full
+panels, cap 1,024): bf16 dev250+dev75 (reference), Q4_K_M-mixA dev250+dev75,
+Q4_K_M-mixB dev250+dev75. **Two candidate confirmations of the three
+allowed; the third slot is unused.** No other DEV access; no gold scoring.
+
+CPU bf16 reference: exact 117, valid 234, caps 16 (the CUDA night reference
+had 117/239/11 — same exacts; the cap boundary itself moves 5 cases between
+backends, more evidence for §6).
+
+| check | Q4_K_M-mixA | Q4_K_M-mixB | q4 threshold |
+| --- | ---: | ---: | ---: |
+| exact Δpp (lost/gained) | **+0.8** (2/4) | 0.0 (1/1) | ≥ −2.0 pass |
+| McNemar p | 0.69 pass | 1.0 pass | fail only if p≤.05 and lost>gained |
+| nofp rise pp | **−1.6** pass | −0.8 pass | ≤ 1 pass |
+| valid_drop pp (caps 16→) | 2.4 (→22) **fail** | 2.4 (→21) **fail** | ≤ 1 |
+| mean KLD (gate re-measure) | 0.026501 pass | 0.022949 pass | ≤ 0.03 pass |
+| ship net-loss bound pp | 1.05 pass | 1.31 pass | ≤ 3 pass |
+| token identity % | 52.4 recorded | **54.8** recorded | recorded |
+| DEV75 parity | out (nofp +3, recorded) | within tolerance | recorded |
+
+The single failing check is the one §6 shows no quantization can pass
+(Q8_0 itself fails it by the same margin). Notably, on the KLD/checks that
+are passable, the mixes strictly dominate the Q4_K_M baseline profile
+(baseline CUDA: exact 0.0, nofp −0.4, KLD 0.0342 **fail**, identity 51.2).
 
 | run | date | panel | build | purpose |
 | --- | --- | --- | --- | --- |
-| ⏳ | | | | |
+| bf16 dev250+dev75 | 2026-10-17/18 | dev250, dev75 | cpu | gate reference |
+| Q4_K_M-mixA dev250+dev75 | 2026-10-18 | dev250, dev75 | cpu | confirmation 1 of 3 |
+| Q4_K_M-mixB dev250+dev75 | 2026-10-18 | dev250, dev75 | cpu | confirmation 2 of 3 |
 
 ## 8. Recommendation
 

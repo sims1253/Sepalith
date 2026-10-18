@@ -249,13 +249,86 @@
     }
   },
   "dev_confirmations": {
-    "reads": [],
-    "results": "pending"
+    "build": "cpu",
+    "reference": "bf16 dev250+dev75 (CPU)",
+    "reads": [
+      {
+        "date": "2026-10-17/18",
+        "panel": "dev250+dev75",
+        "build": "cpu",
+        "label": "bf16",
+        "purpose": "gate reference"
+      },
+      {
+        "date": "2026-10-18",
+        "panel": "dev250+dev75",
+        "build": "cpu",
+        "label": "Q4_K_M-mixA",
+        "purpose": "confirmation 1 of 3"
+      },
+      {
+        "date": "2026-10-18",
+        "panel": "dev250+dev75",
+        "build": "cpu",
+        "label": "Q4_K_M-mixB",
+        "purpose": "confirmation 2 of 3"
+      }
+    ],
+    "reference_counts_dev250": {
+      "exact": 117,
+      "valid": 234,
+      "caps": 16
+    },
+    "tiers": {
+      "Q4_K_M-mixA": {
+        "verdict": "fail",
+        "checks_verdict": "fail",
+        "exact_delta_pp": 0.8,
+        "mcnemar_p": 0.6875000000000013,
+        "lost_gained": [
+          2,
+          4
+        ],
+        "nofp_rise_pp": -1.6,
+        "valid_drop_pp": 2.4,
+        "caps_ref_cand": [
+          16,
+          22
+        ],
+        "mean_kld": 0.026501,
+        "token_identity_pct": 52.4,
+        "ship_net_loss_bound_pp": 1.0506868642151654,
+        "dev75_within_tolerance": false,
+        "gguf_sha256": "76d91baca137ca3e2de4a179e804cba2dd13a5854e1ffd919cc14bc89270e2e3"
+      },
+      "Q4_K_M-mixB": {
+        "verdict": "fail",
+        "checks_verdict": "fail",
+        "exact_delta_pp": 0.0,
+        "mcnemar_p": 1.0,
+        "lost_gained": [
+          1,
+          1
+        ],
+        "nofp_rise_pp": -0.8,
+        "valid_drop_pp": 2.4,
+        "caps_ref_cand": [
+          16,
+          21
+        ],
+        "mean_kld": 0.022949,
+        "token_identity_pct": 54.8,
+        "ship_net_loss_bound_pp": 1.3054393864694223,
+        "dev75_within_tolerance": true,
+        "gguf_sha256": "d94c8ae8a74103bad75e161b8b20623872d69d5258a5c48b644da1494ee33a92"
+      }
+    }
   },
   "artifacts": {
     "ggufs": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/ggufs/",
     "kld": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/kld/",
     "panel": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/panel/",
-    "bench": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/bench-finalists.csv"
+    "bench": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/bench-finalists.csv",
+    "gate_receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/gate-receipt.json"
   }
 }
