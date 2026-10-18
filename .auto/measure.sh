@@ -18,11 +18,16 @@ ABORT_ARGS=()
 if [[ "${SPECDEC_WARMUP_ABORT_MS:-0}" != "0" ]]; then
   ABORT_ARGS=(--warmup-abort-ms "${SPECDEC_WARMUP_ABORT_MS}")
 fi
+MODEL_ARGS=()
+if [[ -n "${SPECDEC_MODEL:-}" ]]; then
+  MODEL_ARGS=(--model "${SPECDEC_MODEL}")
+fi
 exec python3 experiments/serving/specdec/bench_spec.py \
   --config "$CONFIG" \
   --n-traces "$N_TRACES" \
   --n-predict "$N_PREDICT" \
   --threads "$THREADS" \
   "${ABORT_ARGS[@]}" \
+  "${MODEL_ARGS[@]}" \
   --reference experiments/serving/specdec/reference_outputs.json \
   "${COLD_ARGS[@]}"
