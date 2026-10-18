@@ -29,7 +29,7 @@ def main() -> None:
     ap.add_argument("--threads", type=int, default=8)
     a = ap.parse_args()
 
-    traces = [json.loads(l) for l in DEFAULT_TRACES.read_text().splitlines() if l.strip()]
+    traces = [json.loads(line) for line in DEFAULT_TRACES.read_text().splitlines() if line.strip()]
     if a.n_traces < len(traces):
         step = len(traces) / a.n_traces
         traces = [traces[int(i * step)] for i in range(a.n_traces)]
