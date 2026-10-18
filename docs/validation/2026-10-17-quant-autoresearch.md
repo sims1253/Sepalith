@@ -87,11 +87,16 @@ Recipe definitions (see `variant_specs()`):
 | attn_k+attn_v → q8_0 (all 42) | +19.2 | −0.00379 | 2.0e-4 | cheapest boost |
 | attn_output → q6_K (all 42) | +45.2 | −0.00674 | 1.5e-4 | 93% of the q8_0 gain at 52% of its cost |
 | attn_output → q8_0 (all 42) | +88.1 | −0.00722 | 0.8e-4 | HINT4's sensitive module, confirmed |
-| ffn_down → q6_K (all 42) | +68.1 | −0.00330 | 0.5e-4 | but −30% CPU decode (bandwidth) |
+| **ffn_up → q6_K (all 42)** | +136.3 | **−0.00782** | **0.57e-4** | **surprise: the FFN sensitivity hotspot — inverts the usual down>up convention; powers mixC** |
+| ffn_gate → q6_K (all 42) | +136.3 | −0.00524 | 0.38e-4 | 67% of ffn_up's gain; FFN order settled: up > down > gate |
+| ffn_down → q6_K (all 42) | +68.1 | −0.00330 | 0.48e-4 | but −30% CPU decode (bandwidth) |
 | token_embd q8_0 → q6_K | −64.8 | +0.00021 | 0.03e-4 | essentially free |
 | token_embd+output → q5_K | −71.1 | +0.0017 | 0.24e-4 | still cheap |
+| token_embd q5_K → q4_K | −33.4 | +0.00019 | 0.06e-4 | free (the q4 penalty is ~98% the head) |
 | token_embd+output → q4_K | −66.9 | +0.0079 | 1.2e-4 | too expensive; q5_K is the floor |
+| attn_output q6_K → q5_K | −23.4 | +0.00136 | 0.58e-4 | gate-passing floor lever (1567.0 MB) |
 | IQ4_XS base (anchor) | −129.5 | +0.0097 | 0.07e-4 | direction closed (dominated by mixes) |
+| ffn_gate+ffn_up → iq4_xs | −33.0 | +0.0035 | 1.1e-4 | fails gate; the FFN halves at iq4_xs are where the IQ4_XS base lost fidelity |
 | ffn_down → q6_K, imatrix-top-11 of 21 | +35.7 | −0.00154 | 0.4e-4 | interior point; gain ~linear in layers, not importance-ranked |
 
 Boosts are sub-additive (measured composites land 5–10% above the sum of
