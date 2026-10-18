@@ -130,9 +130,15 @@ llama-bench (matched load 16, 8T): Q4_K_M 10.09 tg32; C2 11.63; **mixA
 14.29 (+42%)**; mixB 9.97 (−1%). ffn_down q6 is a decode tax; head q5_K
 is the decode win. Prefill ~equal across the set.
 
-Finalists: **mixA** (speed) and **mixB** (fidelity). DEV250+DEV75 CPU
-confirmation running (quantize_and_gate via --existing, gate receipt into
-the work dir). Third DEV slot unused.
+Finalists: **mixA** (speed) and **mixB** (fidelity), both DEV-confirmed on CPU
+(gate receipt in the work dir): every check passes except valid_drop (2.4pp;
+Q8_0 fails it too — structural, documented for the user). attn_q q8 probe
+dominated by mixB; sensitivity map complete (per-MB ranking:
+k/v q8 > ao q6 >> ffn_down q6 ~ ao q8 ~ attn_q q8; trims: emb/head q5_K
+floor). Third DEV slot intentionally left for the user's post-threshold
+confirmation. PR #67 open against main; board verdict posted. Session
+search complete — remaining ideas in .auto/ideas.md are for a future
+session (layer-band ffn_down, asymmetric head/emb, imatrix variants).
 
 ## Plan
 1. CPU KLD anchors: Q4_K_M baseline, Q6_K (bf16 CPU base computed once).
