@@ -379,6 +379,8 @@ def main() -> None:
                     help="generation cap (product=1024; sweeps may lower)")
     ap.add_argument("--reference", type=Path, default=None,
                     help="reference_outputs.json for cross-session parity")
+    ap.add_argument("--model", type=Path, default=None,
+                    help="override target GGUF (e.g. Q4 cross-check)")
     ap.add_argument("--save-reference", action="store_true",
                     help="write this session's baseline outputs as reference")
     a = ap.parse_args()
@@ -386,6 +388,10 @@ def main() -> None:
     cfg = json.loads(a.config.read_text())
     cand_args: list[str] = list(cfg.get("server_args", []))
     cand_name = str(cfg.get("name", a.config.stem))
+    if a.model is not None:
+        global DEFAULT_MODEL
+        DEFAULT_MODEL = a.model
+        cand_name = f"{cand_name}@{a.model.stem}"
 
     traces = [json.loads(line) for line in a.traces.read_text().splitlines() if line.strip()]
     if a.n_traces and a.n_traces < len(traces):
