@@ -1,10 +1,9 @@
 {
-  "label": "s2-mixBe4",
+  "label": "mixC-ao6kv8-ffnup6-emb4-head5",
   "tier": "Q4_K_M",
   "output_type": "q5_K",
   "embedding_type": "q4_K",
   "imatrix": true,
-  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "ffn_down\\.weight=q6_K"],
-  "kld_chunks": 32,
-  "existing_gguf": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/ggufs/mixBe4-ao6kv8-ffndown6-emb4-head5-Q4_K_M.gguf"
+  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "ffn_up\\.weight=q6_K"],
+  "kld_chunks": 64
 }
