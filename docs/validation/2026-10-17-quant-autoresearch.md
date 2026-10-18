@@ -255,11 +255,15 @@ Ship **Q8_0 + Q4_K_M-mixA-e4** as the small tier: **the only tier to pass the
 entire gate** (DEV250 receipt in the work dir), −169.4 MB vs Q4_K_M, KLD
 0.0267 ≤ 0.03 with 11% margin, exact +0.4, decode baseline-equal. If the
 user prefers more fidelity headroom and accepts a TRAIN-evidenced (not
-DEV-confirmed) variant, **mixB-e4** (−101.3 MB, KLD 0.0233; its emb-lever
-delta vs confirmed mixB is +0.0004, validated twice on CPU). The emb-q5
+DEV-confirmed) variant, **mixC** (2026-10-18 late: 1,726.7 MB, −33 vs
+baseline; KLD 0.0189, **−44% vs baseline** and 37% under the gate;
+reproduced on slice-2 at 0.0182) supersedes mixB-e4 as the fidelity option —
+it differs from the DEV-confirmed mixA-e4 by exactly one lever (ffn_up q6_K,
+−0.0078 on both slices); mixB-e4 (−101.3 MB, 0.0233) remains the mid choice.
+The emb-q5
 variants (mixA/mixB) remain in `variant_specs()` as the DEV-confirmed forms;
 Q6_K stays the quality fallback at 2.2 GB. Given the §7 honesty note, treat
-mixA-e4's valid_drop pass as real-but-lucky; the standing §9 question about
+mixA-e4's valid_drop pass as real-but-lucky; the standing §10 question about
 that threshold remains worth deciding anyway.
 
 ## 9. Robustness: the frontier is not slice-specific
@@ -276,6 +280,7 @@ tokenize round-trip verified) re-measured the frontier:
 | mixA-e4-ao5 | 0.028049 | 0.027803 | 3 → 3 |
 | mixA-e4 | 0.026692 | 0.026057 | 2 → 2 |
 | mixB-e4 | 0.023328 | 0.022751 | 1 → 1 |
+| **mixC** | **0.018876** | **0.018214** | rank 1 of the extended set, both slices |
 
 Rank order and pairwise deltas reproduce (deltas within 8%; e.g. baseline →
 mixA-e4: −21.4% vs −22.1%). The ship tier's fidelity margin is a property of

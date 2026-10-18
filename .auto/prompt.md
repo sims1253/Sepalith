@@ -143,7 +143,11 @@ greedy agreement; differentiators = KLD gate check, size, exact/nofp/ship).
 Slice-2 robustness (2026-10-18): disjoint TRAIN slice reproduces the frontier
 rank order and deltas (max deviation 8%) — search did not overfit the KLD slice
 (build_kld_slice2.py + kld2/ artifacts; measure.sh now takes KLD_DIR/KLD_TEXT/
-KLD_BASE/KLD_IDS overrides). Session
+KLD_BASE/KLD_IDS overrides). ffn_up INVERSION (2026-10-18 late): ffn_up q6_K is MORE sensitive than ffn_down
+(0.57e-4 vs 0.48e-5 KLD/MB; -0.0078 for +136.3MB) — mixC = mixA-e4 + ffn_up q6_K
+= 1726.7 MB @ 0.018876 (slice-2: 0.018214), in-budget fidelity king (-44% vs
+baseline), TRAIN-only (DEV slots gone); spec added; ffn_gate q6 unprobed
+(over-budget at 1863; map note). Session
 search complete — remaining ideas in .auto/ideas.md are for a future
 session (layer-band ffn_down, asymmetric head/emb, imatrix variants).
 
