@@ -325,8 +325,23 @@
  },
  "flow_fidelity": {
   "warm_endpoint_subset_60": 1.503,
-  "abort_700ms": "complete-warmup re-measure (idle host prefill ~3k tok/s)",
-  "abort_150ms": "effectively-cold; decode speedup intact (1.68x observed); no e2e regression",
-  "reading": "continuum bracketed by measured endpoints; decode gain flow-independent"
+  "mid_abort_120ms": {
+   "e2e_median": 1.039,
+   "ci": [
+    0.974,
+    1.11
+   ],
+   "decode_ratio": 1.55,
+   "mechanism": "aborted warm-up drains server-side; TTFT ~8.8s both arms",
+   "partial_kv_reuse": "confirmed (2105/2359 tokens after one abort)"
+  },
+  "cold": {
+   "e2e_median": [
+    1.057,
+    1.035
+   ],
+   "decode": 1.328
+  },
+  "reading": "speculation never hurts at any pause point; visible e2e gain scales with decode share"
  }
 }

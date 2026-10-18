@@ -267,14 +267,18 @@ TRAIN).
 ## 8. Recommendation
 
 **Flow fidelity (PR #66 interaction)**: the extension aborts warm-ups
-mid-prefill when the user pauses. Two abort-timing runs bracket that
-continuum: complete warm-up (700 ms abort on an idle host — n_predict=0
-warm-ups prefill ≈3 k tok/s) gives the warm numbers above, best subset
-point **1.503×** (CI95 lo 1.28, load ~8); an early abort (150 ms) leaves
-effectively no reusable KV, the request runs cold-like, and the *decode*
-speedup is fully intact (1.68× observed on individual traces) with no e2e
-regression in either arm. Speculation never hurts at any point on the
-continuum; where the pause lands sets how much of the gain is visible.
+mid-prefill when the user pauses. Three abort-timing runs (raw-socket
+close, the prefill mission's probe recipe) map the continuum:
+
+| pause point | warm e2e median | decode | note |
+|---|---:|---:|---|
+| after warm-up completes (normal settle→pause) | **1.50×** (CI95 lo 1.28) | 1.27× | best subset point, load ~8 |
+| mid-warm-up (120 ms abort) | 1.04× (CI 0.97–1.11) | **1.55×** | aborted warm-up *drains* server-side: TTFT ≈ 8.8 s in both arms — the prefill work completes before the real request runs, so e2e compresses toward cold while decode still gains |
+| no warm-up (cold) | 1.03–1.06× | 1.33× | §6 |
+
+Partial KV retention is real (measured: 2105/2359 tokens reused after one
+abort). Speculation never hurts at any point on the continuum; the visible
+e2e gain scales with the decode share of the pause-time request.
 
 **Conditional recommendation** — the decision belongs to the user because the
 gate's lossless clause conflicts with the measured numerics:

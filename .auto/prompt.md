@@ -116,6 +116,11 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Mid-abort flow (run #18, raw-socket close 120ms): e2e 1.039x — aborted
+  warm-ups DRAIN server-side (TTFT 8.8s both arms; prefill completes before
+  the real request); decode still +1.55x; partial KV retention confirmed
+  (2105/2359). Flow continuum fully mapped: 1.50x warm / 1.04x mid / 1.03x
+  cold; speculation never hurts.
 - Aborted-warmup flow (run #17): 700ms abort = complete-warmup endpoint
   (1.503x subset, best yet); 150ms = effectively-cold reuse with decode
   speedup intact (1.68x) and no regression. Continuum bracketed; spec
