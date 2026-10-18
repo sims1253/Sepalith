@@ -67,7 +67,17 @@
     "cold_e2e_1.4x": "FAIL (prefill-bound, 1.06x)",
     "no_p95_regression": "PASS (p95 improves everywhere)",
     "token_identity_100pct": "FAIL (0.87-0.93; verify-batch numerics, see parity section)"
-   }
+   },
+   "warm_e2e_median_221_rep2": 1.418,
+   "warm_p95_221_rep2": 1.401,
+   "warm_pooled_221_rep2": 1.577,
+   "decode_median_221_rep2": 1.44,
+   "acceptance_fullset_rep2": [
+    1.813,
+    0.472
+   ],
+   "parity_warm_221_rep2": 0.8688,
+   "repetitions": "two full-set paired runs (1.294x load 15-19; 1.418x load 12); parity flip set identical (192/221 both)"
   }
  },
  "parity": {

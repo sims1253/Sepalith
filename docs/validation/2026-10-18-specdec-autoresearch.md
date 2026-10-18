@@ -178,17 +178,26 @@ determinism fix lands in llama.cpp (see proposals).
 
 ## 6. Full-set gate table (champion n2m4, 221 traces, cap 1024, cold+warm)
 
-Two paired sessions merged (147+74 traces; per-request JSONL retained).
+Two independent paired repetitions: rep 1 = two merged sessions (147+74
+traces, host load 15–19); rep 2 = one session (load ~12). Per-request JSONL
+retained for both under `runs/`.
 
-| metric | baseline | n2m4 | ratio |
-|---|---:|---:|---:|
-| warm e2e median | 2104 ms | 1625 ms | **1.294×** |
-| warm e2e p95 | 24545 ms | 16837 ms | **1.458×** |
-| warm e2e pooled (Σt) | — | — | **1.567×** |
-| decode median | 2027 ms | 1527 ms | 1.328× |
-| TTFT median | 83 ms | 82 ms | 1.01× |
-| cold e2e median | 17748 ms | 16788 ms | 1.057× |
-| parity (warm, vs same-session base) | — | 192/221 | 0.869 |
+| metric | baseline | n2m4 | ratio rep 1 | ratio rep 2 |
+|---|---:|---:|---:|---:|
+| warm e2e median | 2104 / 2308 ms | 1625 / 1628 ms | **1.294×** | **1.418×** (CI95 lo 1.265) |
+| warm e2e p95 | 24545 / 23846 ms | 16837 / 17021 ms | **1.458×** | **1.401×** |
+| warm e2e pooled (Σt) | — | — | **1.567×** | **1.577×** |
+| decode median | 2027 / 2202 ms | 1527 / 1529 ms | 1.328× | 1.440× |
+| decode tok/s (median) | ~12–12.8 | ~15.0 | 1.18× | 1.25× |
+| TTFT median | 83 / 88 ms | 82 / 88 ms | 1.01× | 1.00× |
+| cold e2e median | 17748 / 15720 ms | 16788 / 15181 ms | 1.057× | 1.035× |
+| acceptance | — | — | 1.52 tok/step @ 0.42 (60-sub) | 1.81 tok/step @ 0.47 |
+| parity (warm, vs same-session base) | — | 192/221 | 0.869 | **0.869 (same 192 — deterministic flip set)** |
+| baseline warm-vs-cold (control) | — | — | 0.851 | 0.8507 |
+| baseline warm-repeat (control) | — | — | 1.000 | 1.000 |
+
+Acceptance on the full set is higher than on the 60-trace sweep subset
+(1.81 vs 1.52 tok/step): the full set carries more long, copy-heavy outputs.
 
 By band (warm e2e median): short ≤1k 1.34× / long ≥1k 1.36×; edit 1.35× /
 no-op 1.15×. By family: na_rm 1.58×, format 1.28×, pipe 1.21×, roxygen
