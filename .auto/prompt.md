@@ -136,7 +136,11 @@ Q8_0 fails it too — structural, documented for the user). attn_q q8 probe
 dominated by mixB; sensitivity map complete (per-MB ranking:
 k/v q8 > ao q6 >> ffn_down q6 ~ ao q8 ~ attn_q q8; trims: emb/head q5_K
 floor). Third DEV slot intentionally left for the user's post-threshold
-confirmation. PR #67 open against main; board verdict posted. Session
+confirmation. PR #67 open against main; board verdict posted. Final frontier (2026-10-18 PM): ao ladder bounded (q4 0.0337@1545 FAIL /
+q5 0.0280@1567 PASS floor / q6 0.0267@1590 DEV-confirmed full pass); baseline
+TRAIN panel shows 76.0% identity = mixA-e4 (KLD gains don't move TRAIN-length
+greedy agreement; differentiators = KLD gate check, size, exact/nofp/ship).
+Session
 search complete — remaining ideas in .auto/ideas.md are for a future
 session (layer-band ffn_down, asymmetric head/emb, imatrix variants).
 

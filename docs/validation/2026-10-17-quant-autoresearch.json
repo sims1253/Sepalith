@@ -188,6 +188,21 @@
       "p99_kld": 0.34114,
       "ppl_gap": 0.0984,
       "note": "fails 0.03 gate; iq4_xs on the FFN halves costs +0.0035 for -33 MB (5x the emb exchange rate); size floor for gate-passing recipes remains 1590.4 MB"
+    },
+    "Q4_K_M-mixA-e4-ao5": {
+      "recipe": "mixA-e4 with attn_output q5_K",
+      "bytes": 1567000000,
+      "mean_kld": 0.028049,
+      "same_top_p_pct": 94.738,
+      "p99_kld": 0.308686,
+      "ppl_gap": 0.0854,
+      "note": "gate-passing size floor; TRAIN-evidenced only (DEV slots exhausted)"
+    },
+    "mixAe4ao4": {
+      "recipe": "mixA-e4 with attn_output q4_K",
+      "bytes": 1545000000,
+      "mean_kld": 0.033667,
+      "note": "fails gate; ao ladder bounded: q4 fail / q5 pass @1567 / q6 pass @1590 (DEV-confirmed)"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -311,6 +326,15 @@
         "length_delta_median": 0,
         "length_delta_p90": 2,
         "note": "corroborates the DEV valid_drop pass: zero net cap rise on independent TRAIN data"
+      },
+      "Q4_K_M-baseline": {
+        "identical_pct": 76.02,
+        "net_cap_rise": 0,
+        "done_to_cap": 0,
+        "cap_to_done": 0,
+        "length_delta_median": 0,
+        "length_delta_p90": 0,
+        "honesty": "baseline indistinguishable from mixA-e4 on this panel (76.0% both; 44/47 changed cases shared); KLD gains do not translate to materially better TRAIN-length greedy agreement; the recipes' measurable wins are the KLD gate check, size, exact/nofp/ship-bound"
       }
     }
   },

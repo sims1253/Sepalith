@@ -18,6 +18,7 @@ margin is partly cap-flip luck).
 | recipe | MB | mean KLD (CPU) | top-1 | DEV250 gate | exact Δ | nofp Δ |
 | --- | ---: | ---: | ---: | --- | ---: | ---: |
 | **Q4_K_M-mixA-e4 "ship"** | **1,590.4** | 0.026692 | 94.92 | **ALL CHECKS PASS** | +0.4 | −1.2 |
+| Q4_K_M-mixA-e4-ao5 (TRAIN-only) | 1,567.0 | 0.028049 | 94.74 | gate-passing floor, no DEV slot | | |
 | Q4_K_M-mixA | 1,623.8 | 0.026501 | 95.00 | all but valid_drop (2.4) | +0.8 | −1.6 |
 | **Q4_K_M-mixB-e4 "fidelity"** | 1,658.5 | 0.023328 | 95.18 | TRAIN-only evidence | | |
 | Q4_K_M-mixB | 1,692.0 | 0.022949 | 95.31 | all but valid_drop (2.4) | 0.0 | −0.8 |
@@ -165,14 +166,23 @@ bf16 CPU reference; `panel/agreement-*.json`):
 
 | candidate | identical with bf16 | net cap rise | done→cap | cap→done | median Δlen | p90 Δlen |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **Q4_K_M baseline (incumbent)** | 76.0% | **0** | 0 | 0 | 0 | 0 |
 | Q4_K_M-mixA | **78.1%** | **+1** | 1 | 0 | 0 | +1 |
 | Q4_K_M-mixB | 77.6% | **−2** | 0 | 2 | 0 | 0 |
 | Q4_K_M-mixA-e4 (ship) | 76.0% | **0** | 1 | 1 | 0 | +2 |
 
-All three sits within ~2 pp of each other on identity and within one flip of
-zero net cap rise — mixA-e4's zero on independent TRAIN data corroborates its
-DEV valid_drop pass (§7): the recipe is at the good end of the cap-flip
-distribution on both panels, not just the gate panel.
+**Honesty finding (baseline panel, 2026-10-18):** the incumbent baseline scores
+76.0% identity / net cap rise 0 on this panel — statistically indistinguishable
+from mixA-e4 (76.0%/0; 44 of their 47 changed cases are even the same cases),
+with the mixes at 77–78%. A −21% KLD improvement does **not** translate to
+materially better greedy agreement at TRAIN-length generations. What the
+recipes measurably buy is: the **KLD gate check** (baseline 0.0340 **fails**
+0.03; every mix passes with 11–23% margin), **size** (−68 to −193 MB), the
+exact/nofp/ship-bound checks (all pass, some improved), and — for mixA-e4 —
+the first full gate pass. Cap behavior specifically is stochastic per
+quantization (the baseline nets +10 caps on DEV250/CUDA but 0 on TRAIN).
+Corroboration caveat updated accordingly: mixA-e4's zero net cap rise on TRAIN
+matches the baseline's, so it neither strengthens nor weakens the §7 pass.
 
 For scale: on the night run's DEV250 (CUDA), Q4_K_M was 51.2% identical with
 bf16 (+10 net caps) and Q8_0 66.8% (+6). mixA's TRAIN-panel fidelity is far
