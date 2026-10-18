@@ -11,8 +11,8 @@ token on every non-typing event, because the PRM03 prompt's volatile middle
 (edit history) and window shifts force llama.cpp's byte-prefix cache to
 recompute 55–90% of a 0.3–2.4 k-token prompt. **A request-flow change —
 prefill-as-you-settle warm-up (`n_predict: 0` requests issued right after
-every document change, aborted instantly if the user pauses mid-warm-up) —
-cuts every event type to the 64–65 ms floor** (1 fresh prompt token + the
+every document change; a pause that races one simply interleaves with it,
+§3) — cuts every event type to the 64–65 ms floor** (1 fresh prompt token + the
 first decode step) at 8 threads, **5.9× on the pooled median edit event and
 up to 64× on cursor moves**, with no server-flag or model change. Output
 token-identity vs a cold reference is 94.6% — but the shipped caching
@@ -20,11 +20,20 @@ behavior is itself only 95.5% cold-identical, because any prefix-cache split
 reorders floating-point reductions; the mechanism and magnitude of drift are
 the same as today's product.
 
+**Validated on the target laptop (m0pad, Ryzen 5 PRO 5650U, 6 threads, §8):
+the same frozen set, same build, same flow gives pooled edit p50 690.9 →
+74.3 ms (9.3×; p95 16.9 s → 88 ms) on real notebook hardware** — a *larger*
+relative win than the desktop proxy, because the baseline is prefill-bound
+(2.1× slower prefill on the laptop) while the warm-up floor is
+bandwidth-bound (only 1.15× above the desktop floor). No server-flag or
+model change on either host; output drift reproduces at the same magnitude
+(−3.6 pp vs the same reference, desktop −3.2 pp).
+
 ## 1. Setup and hashes
 
 | Item | Value |
 | --- | --- |
-| Host | AMD Ryzen 9 5900X (12C/24T), WSL2, ~47 GB RAM — a proxy for an analyst laptop; all runs `nice -n 10`, ≤ 8 threads, `CUDA_VISIBLE_DEVICES=""` (CPU build only) |
+| Host | §2–§7: AMD Ryzen 9 5900X (12C/24T), WSL2, ~47 GB RAM — the desktop proxy. §8 (the product-representative validation) runs on the target notebook: Ryzen 5 PRO 5650U (6C/12T), 14.9 GiB, CachyOS 7.2.9-2, `amd-pstate-epp` powersave, AC. All runs `nice -n 10`, CPU-only (`CUDA_VISIBLE_DEVICES=""`) |
 | llama.cpp | b10453, commit `3cb7ffb1a`, `~/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-server` (read-only) |
 | Model | `arm-a-Q8_0.gguf` sha256 `44b01828b21d6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe` (2.49 GiB, 2.52 B params), staged read-only copy in `/tmp/prefill-models/` |
 | Tokenizer | checkpoint-536 `tokenizer.json` sha256 `3e065a558a034185fe299917398685c1facd0169a9eea1e629eb30c171fed81`; prompts tokenized HF-side (`add_special_tokens=False`) with manual BOS 0 and sent as token IDs — byte-exact vs TRAIN `input_ids` (50/50 rows verified at freeze; every event re-verified against the manifest sha at bench load) |
@@ -94,14 +103,26 @@ Notes:
   benches), with the mechanism intact (1 processed token everywhere).
   Further TTFT gains now require faster decode (quant tier — §6 — or
   speculative decoding), not more caching.
+  *Mechanism correction (§8, from server timings on two hosts):* the floor
+  is one **single-token prompt evaluation**, not a prefill plus a decode
+  step — the logits that the sampler reads come out of that pass, so the
+  first streamed token costs exactly the 1-token prompt eval (client TTFT
+  70.1 ms vs `prompt eval time = 68.98 ms / 1 tokens` in the server log).
+  It is memory-bound: fixed ≈59 ms (desktop) to load the weights and run one
+  forward, plus ≈4 µs per cached token to read back the f16 KV cache
+  (`prompt_ms ≈ 59.0 + 0.0041·cache_n`, n=430 events, desktop). That is why
+  the same floor is only 15% higher on a laptop whose prefill *throughput* is
+  2.1× lower.
 * Full-response time is decode-dominated: with this harness's 64-token cap
   the median wall is ~3.9 s (the synthetic continuations often reach the
   cap); with the product's real output lengths (median ≈ 26 tokens on DEV)
   expect ≈ 0.2 s prefill-free + ~1.7 s decode. The DEV75 run below uses the
   real panel.
-* 4-thread (laptop-like) row for the recommended flow: TTFT p50 67.0 ms
-  (vs 64.6 at 8 threads — the floor survives), warm-up CPU +58%
-  (661 s vs 418–441 s per 220-event pass), wall p50 2.15 s.
+* 4-thread (laptop-like) row for the recommended flow on the desktop proxy:
+  TTFT p50 67.0 ms (vs 64.6 at 8 threads — the floor survives), warm-up CPU
+  +58% (661 s vs 418–441 s per 220-event pass), wall p50 2.15 s (freeze v1,
+  run 8). The real-laptop rows that supersede this proxy are §8 (6-thread
+  headline pair plus a matching 4-thread arm).
 
 Warm-up CPU cost: 440.6 s per pass (200 warm-ups, ≈ 2.0 s average; every
 prefill the baseline would have done at pause time, done earlier). The
@@ -204,6 +225,17 @@ reference:
 | Baseline session flow (today's effective behavior) | 0.9455 (freeze v2) | 1.0 |
 | Recommended (eager warm-up) | 0.9136 (freeze v2) | 0.9455 |
 | `--cache-reuse 256` (freeze v1) | — | 0.9909 |
+| Laptop (m0pad §8) baseline session flow | 0.9318 | 0.9409 (vs desktop) |
+| Laptop (m0pad §8) recommended eager | 0.8955 | 0.9318 (vs desktop) / 0.9364 (vs its own baseline) |
+
+The two laptop rows are the same experiment on different hardware: the
+m0pad-vs-desktop columns contain the cross-host component, and measured
+against the same external reference the two arms sit 0.9 pp apart (0.9318
+vs 0.9409). Against *its own host's* baseline the eager flow costs 6.4 pp on
+the laptop (1.0 → 0.9364) — the same order as the desktop's 5.5 pp (1.0 →
+0.9455) — and vs a cold reference it costs −3.6 pp on the laptop vs −3.2 pp
+on the desktop. A different CPU of the same class (Zen 3, AVX2, byte-identical
+binary) does not add a new failure mode.
 
 Mismatching outputs are alternative near-tie continuations (verified by
 decoding; both sides protocol-valid), not truncations or degeneration. The
@@ -285,7 +317,132 @@ these are big prompts under load) — all of it movable to idle time before
 the pause. This is the number the PRM03 port should advertise: real DEV
 prompts, no cross-file reuse assumed.
 
-## 8. Proposals needing a user decision
+## 8. Laptop validation (m0pad — the target notebook itself)
+
+§2–§7 were measured on the 5900X desktop as a proxy for an analyst laptop.
+This section replaces that caveat with the product-representative hardware:
+**m0pad**, an AMD notebook (Ryzen 5 PRO 5650U, 6C/12T Zen 3, 14.9 GiB RAM,
+CachyOS kernel 7.2.9-2-cachyos / glibc 2.44, `amd-pstate-epp` at the default
+`powersave` governor, on AC), measured 2026-10-18 00:56–02:58 CEST. Everything
+runs `nice -n 10`, CPU-only (`CUDA_VISIBLE_DEVICES=""`).
+
+*Same frozen set* (`sessions.jsonl` sha256 `7e1711e5…`, re-verified against
+the manifest on the laptop), *same model* (`arm-a-Q8_0.gguf` sha256
+`44b01828…` re-verified after transfer), *same binary* (b10453 commit
+`3cb7ffb1a`; `llama-server` sha256 `984253bd…` is byte-identical on both
+hosts — the desktop's CPU build ran unmodified on the newer glibc; on m0pad
+the binary needs `LD_LIBRARY_PATH` to the copied `libggml*/libllama*`). The
+only config deviation: **`-t 6`** (all 6 physical cores) instead
+of `-t 8` — comparing an 8-thread oversubscribed laptop against the desktop
+would not be laptop-representative.
+
+**Method (drift-aware interleaving).** Four single-pass runs in the order
+eager → baseline → eager → baseline, each preceded by the *same* fixed
+`llama-bench -p 512` pre-burn (≈2.7 min) so both arms enter the timed section
+from the same thermal state; a 30 s sampler logs load/Tctl/clock/memory
+alongside. (The `-t 4` arm of the thread-scaling paragraph below is a fifth
+single-pass run, added after the pair.) Host state was stable and quiet:
+`load1` 6.0–7.6 (essentially all
+of it the bench's own nice-10 threads — the idle desktop session contributes
+~1%), package temperature 70–76 °C, no other process touched. (The 30 s
+sampler's all-core mean clock, 1.3–2.3 GHz, mixes the six busy threads with
+six idle SMT siblings and is *not* a throttle metric; the drift check below
+is the evidence that no thermal/host drift entered the measurement.)
+**Drift check:** eager 74.4 → 74.2 ms and baseline
+696.8 → 690.9 ms across their two passes (±1%), with the eager arm's warm-up
+total also flat (888.7 s → 884.7 s) despite the later pass running hotter —
+no host drift to correct,
+so both arms are in one matched band (`load1` 7.16/7.04, 6.80/6.00).
+
+| Event | n | Baseline TTFT p50 | Recommended TTFT p50 | Speed-up | Baseline cached fraction | Recommended cached fraction |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| type (typing burst) | 200 | 466.0 ms | 74.4 ms | 6.3× | 0.954 | 0.998 |
+| accept | 40 | 5074.5 ms | 74.0 ms | 69× | 0.453 | 0.999 |
+| diag | 40 | 4020.0 ms | 73.9 ms | 54× | 0.661 | 0.999 |
+| cursor_move | 40 | 7022.9 ms | 74.9 ms | 94× | 0.233 | 0.999 |
+| open (cold file) | 40 | 3339.1 ms | 71.2 ms | 47× | 0.177 | 0.997 |
+| file_switch | 40 | 9838.8 ms | 73.4 ms | 134× | 0.080 | 0.999 |
+| switch_back | 40 | 99.8 ms | 131.1 ms | 0.8× | 0.998 | 0.998 |
+| **pooled edit events** | 320 | **690.9 ms** | **74.3 ms** | **9.3×** | — | — |
+| pooled edit p95 | 320 | 16881.5 ms | 88.0 ms | 192× | — | — |
+
+Pooled medians over the two interleaved passes; `processed_n = 1` on every
+one of the 440 recommended-flow events (and the cached fractions are the same
+as the desktop baseline's, confirming the laptop sees identical cache
+behavior). The baseline itself is 1.80× the desktop's (690.9 vs 382.8 ms) —
+the laptop's prefill throughput is 2.1× lower (62.1 vs 132.1 tok/s pp2048,
+llama-bench, both at all-physical-core threads) — while the recommended
+floor is only **1.15×** the desktop floor (74.3 vs 64.6 ms). That is the
+whole story of the larger relative win: **the baseline is prefill-bound and
+the laptop is slower at prefill; the warm-up floor is bandwidth/weight-read
+bound and the two machines are close there** (in-run decode 70.3 vs 59.4 ms
+per token, i.e. 14.2 vs 16.8 tok/s — 1.18× apart, against prefill's 2.1×).
+A slower machine therefore gains *more* from the flow, not less: 9.3× vs
+5.9× pooled, 192× vs 114× on p95.
+
+Floor mechanism, measured on the laptop (430 fast events, §2 note):
+`prompt_ms ≈ 67.5 + 0.0084·cache_n` — a fixed ≈68 ms plus a
+context-length term, i.e. same shape as the desktop's
+`59.0 + 0.0041·cache_n`, with a 1.14× intercept and a 2.0× per-token KV-read
+slope. The floor grows from ~69 ms at a 300-token document to ~89 ms at
+2.4 k tokens; even the worst case is two orders of magnitude below the
+baseline's slow-edit events.
+
+**Thread scaling (4-thread arm).** One extra single-pass run at `-t 4` (cold
+package start, 1.7 min pre-burn, `load1` 4.0–5.2, Tctl 64–70 °C): floor
+**76.5 ms p50** (p95 95.7) vs 74.3 at 6 threads — the floor is nearly
+thread-invariant (+3.0%, decode 72.7 vs 70.3 ms/token), because it is a
+memory/weight-read pass, not a compute pass. The *warm-up* cost is not
+invariant: 1 275.8 s/pass at ≈6.4 s per warm-up (+44% over the 6T arm's
+886.7 s), and pass wall grows 1 686 → 2 114 s (+25%) — the same trade-off
+shape the desktop's 4T proxy row showed (+3.7% floor, +58% warm-up). Parity
+of the 4T arm: 0.9455 vs both the 6T baseline and the desktop reference
+(same band; thread count changes reduction orders, so near-tie continuations
+move, but no new mechanism). Product read: on a 4-core-visible laptop the
+flow still lands at ~76 ms — the warm-up CPU is the reason to prefer
+`-t <physical cores>` when the battery matters, not the TTFT.
+
+**Cost on the laptop.** Eager warm-up CPU: 888.7 s / 884.7 s per 220-event
+pass (200 warm-ups, ≈4.4 s each) vs 447 s on the desktop (≈2.2 s each) —
+again ≈2× because it is the same FLOPs on a 2.1×-slower prefill engine, all
+moved into idle time. Total pass wall time 1690 s / 1682 s (vs 1665 s / 1645 s
+for the baseline, which does the same prefills at pause time — the eager arm
+is nearly free in wall-clock terms because the warm-up replaces the prefill
+the baseline would have done anyway; ≈12.6 min of that pass is decode
+(21 194 tokens over two passes at 71.3 ms/token) and dominates both arms
+equally). The §4 battery trade-off is not re-measured here: the settle-only
+variant would put typing events back on the per-pause prefill, and the
+laptop's own baseline typing p50 (466 ms) is the order of magnitude of that
+cost — bigger in TTFT terms than the desktop's 230 ms, for the same ~6% of
+warm-up CPU saved.
+
+**Two laptop-specific findings.**
+
+1. **`switch_back` pool hits are content-determined, not host- or RAM-dependent.**
+   On m0pad 4 of 20 switch_back events missed the KV-pool LCP restore
+   (2.4–6.7 s TTFT, 175–430 tokens recomputed) while the other 16 were at the
+   floor (78–183 ms). The *same five sessions* (`132ed739`, `1535cb43`,
+   `3054429e`, `7335a1b4`, `b18b887a`) are the misses in **every** desktop
+   freeze-v2 run (5/20, ~3.3 s each) and the same 0/20 in the freeze-v1 runs —
+   a property of those sessions' file sizes/turnover against the
+   16384-token slot, not of the laptop's RAM. Practical read: the §2 line
+   "switch_back is already nearly free" is true at p50 but its p95 is ~3–7 s
+   whenever the LCP search misses; this is pre-existing b10453 pool behavior
+   that the warm-up flow neither fixes nor worsens (the misses also occur in
+   the baseline arm). If it matters in the product, the §3 slot-persistence
+   mechanism (save/restore) is the targeted fix.
+2. **Parity and cross-host determinism.** §5.
+
+**Verdict.** The primary claim survives the move to real hardware, with a
+bigger margin: same flags, same build, same frozen set, `-t 6`, and the
+recommended flow lands every edit event at 71–75 ms p50 / 88 ms p95 on the
+target laptop. Nothing in §3/§4 changes as a result; the `--cache-ram 2048`
+laptop cap (§3, run 17) is *not* required on this machine — the default pool
+never came under memory pressure (≥8.7 GiB available throughout, 14.9 GiB
+total) — but it remains the right advice for 8–16 GiB machines running a
+different workload mix.
+
+## 9. Proposals needing a user decision
 
 1. **Prompt-layout retraining: recommend NOT for ordering alone.** The
    simulation (§3) shows section reordering buys ~nothing under byte-prefix
@@ -308,7 +465,7 @@ prompts, no cross-file reuse assumed.
 5. **Quant tier for serving:** hand §6 to the quant mission; Q6_K is the
    latency-favorable candidate if its gate passes.
 
-## 9. Artifacts
+## 10. Artifacts
 
 * Code: `experiments/serving/prefill/` (build_sessions.py, bench.py,
   parity.py, probe_interrupt.py, layout_sim.py, build_dev_panel.py,
@@ -316,7 +473,9 @@ prompts, no cross-file reuse assumed.
 * Frozen workload: `experiments/serving/prefill/sessions.jsonl` +
   `manifest.json` (seed 20261018; TRAIN-only sources, hashes pinned).
 * Run records, summaries, server logs, sweep CSVs:
-  `/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/`.
+  `/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/`;
+  the §8 laptop runs (records, summaries, 30 s host-state CSVs, server logs,
+  driver log) are in `…/prefill-20261017/m0pad-laptop/`.
 * Machine-readable results:
   `docs/validation/2026-10-17-prefill-autoresearch.json`.
 * Parity references: `experiments/serving/prefill/reference_outputs.json`

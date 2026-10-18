@@ -136,3 +136,24 @@ documented: interleaving is robust to drift, not to scheduler starvation (observ
 between load ~20 and ~29). Parked for quiet window: clean-host floor row + (immaterial)
 8T Q4-vs-Q8 wash. HOST NOTE: box saturated by other missions since ~16:00; no timing work
 possible.
+
+Run 25: CLEAN-HOST ROW CLOSED — laptop validation on m0pad itself (Ryzen 5 PRO 5650U
+6C/12T, 14.9 GiB, CachyOS 7.2.9-2, -t 6 = all physical cores, CPU-only, AC, default
+powersave governor), same frozen set/model/binary (hashes re-verified on host; llama-server
+byte-identical to the desktop build). Four single-pass runs interleaved
+eager/baseline/eager/baseline, fixed 2.7-min preburn before each, 30 s host-state sampler.
+Pooled edit p50 690.9 -> 74.3 ms (9.3x; p95 16.9 s -> 88 ms; processed_n=1 on all 440
+recommended-flow events). Drift <1% across passes (74.4/74.2, 696.8/690.9; warm-up totals
+888.7/884.7 s); load1 6.0-7.6 (all own nice-10 threads), Tctl 70-76 C, desktop session
+untouched. Warm-up CPU 887 s/pass vs desktop 447 s (~2x = the same FLOPs on a 2.1x-slower
+prefill engine), all in idle time; wall per pass not higher than baseline (1690/1682 vs
+1665/1645 s). Floor is bandwidth-bound, so the laptop only pays 1.15x (74.3 vs 64.6 ms):
+prompt_ms = 67.5 + 0.0084*cache_n vs desktop 59.0 + 0.0041 — prefill is 2.1x worse, the
+floor 1.15x, hence a LARGER win on slower hardware. Cross-host parity: eager 0.9318 vs
+desktop session-flow ref (baseline 0.9409; eager vs own baseline 0.9364); flow costs
+-3.6pp vs cold (desktop -3.2pp), -6.4pp vs own-host baseline (desktop -5.5pp) — same band. Bonus: the switch_back pool misses (4-5/20)
+are content-determined — the identical five sessions miss on both hosts and in every
+desktop freeze-v2 run; not a laptop RAM effect. Fifth arm -t 4: floor 76.5 ms p50 (+3.0% vs
+6T; decode 72.7 ms/tok) but warm-up 1276 s/pass (+44%) and wall +25% — floor nearly
+thread-invariant, warm-up cost is not (desktop 4T proxy showed +3.7%/+58%). Report §8 +
+JSON `laptop_m0pad` updated; proxy caveat removed everywhere.

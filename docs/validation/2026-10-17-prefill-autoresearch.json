@@ -2,7 +2,7 @@
  "schema": "sepalith.prefill.autoresearch.v1",
  "created_utc": "2026-10-17T11:30+02:00",
  "setup": {
-  "host": "AMD Ryzen 9 5900X 12C/24T WSL2 (laptop proxy), nice -n 10, <=8 threads, CPU-only (CUDA_VISIBLE_DEVICES='')",
+  "host": "sections 2-7 rows: AMD Ryzen 9 5900X 12C/24T WSL2 (desktop proxy), nice -n 10, <=8 threads, CPU-only (CUDA_VISIBLE_DEVICES=''); section 8 laptop validation on m0pad: see laptop_m0pad",
   "llama_cpp": "b10453 commit 3cb7ffb1a build-cpu",
   "model": "arm-a-Q8_0.gguf sha256=44b01828b21d6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe",
   "tokenizer_json_sha256": "3e065a558a034185fe299917398685c1facd0169a9eea1e629eb30c171fed81",
@@ -234,7 +234,7 @@
     "favoring_q6k": 7,
     "median_ratio": 1.251
    },
-   "verdict": "4T decode ordering Q4_K_M > Q6_K > Q8_0; 8T ordering Q6_K > Q8_0 ~ Q4_K_M \u2014 tier recommendation flips by thread count (laptop: Q4_K_M, desktop: Q6_K), pending fidelity gates"
+   "verdict": "4T decode ordering Q4_K_M > Q6_K > Q8_0; 8T ordering Q6_K > Q8_0 ~ Q4_K_M — tier recommendation flips by thread count (laptop: Q4_K_M, desktop: Q6_K), pending fidelity gates"
   }
  },
  "layout_simulation_v2": {
@@ -413,5 +413,211 @@
   "id_parity_exact": "220/220 (no auto-BOS)",
   "load_band": 26,
   "verdict": "send token IDs: faster and training-exact; text path identical but ~5-23ms slower per request"
+ },
+ "laptop_m0pad": {
+  "host": "AMD Ryzen 5 PRO 5650U 6C/12T (Zen 3), 14.9 GiB RAM, CachyOS kernel 7.2.9-2-cachyos, glibc 2.44, amd-pstate-epp 'powersave' (default), on AC, nice -n 10, CPU-only (CUDA_VISIBLE_DEVICES='')",
+  "threads": 6,
+  "config_deviation": "-t 6 (all physical cores) instead of -t 8; all other flags identical to the desktop runs",
+  "hashes_reverified_on_host": {
+   "sessions_jsonl_sha256": "7e1711e5fc113715bae14098ec91cfab275035f39e308dce4590c89ba8da2d45",
+   "model_sha256_prefix": "44b01828",
+   "llama_server_sha256": "984253bd1a0ff2e26f966b0e2853f5e8c5349a5eccd5a279262de014a54eeaf1",
+   "note": "sessions/model re-hashed on m0pad; llama-server byte-identical to the desktop build-cpu binary"
+  },
+  "method": "4 single-pass runs interleaved eager/baseline/eager/baseline + 1 extra -t 4 arm; fixed llama-bench -p 512 pre-burn before every run; 30 s host-state sampler (load1/Tctl/clock/mem)",
+  "host_state": {
+   "load1_band": [
+    6.0,
+    7.6
+   ],
+   "tctl_c_band": [
+    70,
+    76
+   ],
+   "mem_available_min_mb": 8718,
+   "other_processes": "idle desktop session (~1% of threads) untouched; Tctl 70-76 C with flat timings across passes (the sampler's all-core mean clock mixes busy and idle SMT siblings and is not a throttle metric)"
+  },
+  "drift_check": {
+   "eager_p0_ms": 74.4,
+   "eager_p1_ms": 74.2,
+   "baseline_p0_ms": 696.8,
+   "baseline_p1_ms": 690.9,
+   "verdict": "both arms inside 1% across passes; no drift to correct, one matched band"
+  },
+  "pooled_edit": {
+   "baseline_ttft_p50_ms": 690.9,
+   "baseline_ttft_p95_ms": 16881.5,
+   "recommended_ttft_p50_ms": 74.3,
+   "recommended_ttft_p95_ms": 88.0,
+   "speedup_p50": 9.3,
+   "speedup_p95": 191.8,
+   "recommended_processed_n_all_events": 1
+  },
+  "per_type": {
+   "baseline_ms": {
+    "type": 466.0,
+    "accept": 5074.5,
+    "diag": 4020.0,
+    "cursor_move": 7022.9,
+    "open": 3339.1,
+    "file_switch": 9838.8,
+    "switch_back": 99.8
+   },
+   "recommended_ms": {
+    "type": 74.4,
+    "accept": 74.0,
+    "diag": 73.9,
+    "cursor_move": 74.9,
+    "open": 71.2,
+    "file_switch": 73.4,
+    "switch_back": 131.1
+   },
+   "speedup": {
+    "type": 6.3,
+    "accept": 68.6,
+    "diag": 54.4,
+    "cursor_move": 93.8,
+    "open": 46.9,
+    "file_switch": 134.0,
+    "switch_back": 0.8
+   },
+   "baseline_cached_frac": {
+    "type": 0.954,
+    "accept": 0.453,
+    "diag": 0.661,
+    "cursor_move": 0.233,
+    "open": 0.177,
+    "file_switch": 0.08,
+    "switch_back": 0.998
+   },
+   "recommended_cached_frac": {
+    "type": 0.998,
+    "accept": 0.999,
+    "diag": 0.999,
+    "cursor_move": 0.999,
+    "open": 0.997,
+    "file_switch": 0.999,
+    "switch_back": 0.998
+   }
+  },
+  "floor_mechanism": {
+   "fit": "prompt_ms ~= 67.5 + 0.0084 * cache_n (n=430 fast events)",
+   "desktop_fit": "prompt_ms ~= 59.0 + 0.0041 * cache_n (n=430)",
+   "note": "floor = one single-token prompt eval (logits for the first sampled token come from that pass); memory-bound: fixed weight-read pass + KV readback"
+  },
+  "decode": {
+   "recommended_ms_per_tok_p50": 70.3,
+   "desktop_ms_per_tok_p50": 59.4
+  },
+  "cost": {
+   "warmup_total_s_per_pass": [
+    888.67,
+    884.69
+   ],
+   "warmup_count_per_pass": 200,
+   "desktop_warmup_total_s": [
+    447.2,
+    440.6
+   ],
+   "wall_s_per_pass": {
+    "eager": [
+     1690,
+     1682
+    ],
+    "baseline": [
+     1665,
+     1645
+    ]
+   },
+   "decode_s_per_pass": 755
+  },
+  "parity": {
+   "eager_vs_own_baseline_same_host": 0.9364,
+   "eager_vs_desktop_session_flow": 0.9318,
+   "baseline_vs_desktop_session_flow": 0.9409,
+   "eager_vs_desktop_cold": 0.8955,
+   "baseline_vs_desktop_cold": 0.9318,
+   "flow_cost_vs_cold_pp": -3.6,
+   "desktop_flow_cost_vs_cold_pp": -3.2,
+   "flow_cost_vs_own_host_baseline_pp": {
+    "laptop": -6.4,
+    "desktop": -5.5
+   },
+   "cross_arm_gap_vs_same_external_reference_pp": 0.9
+  },
+  "switch_back_pool_miss": {
+   "n_miss_of_20": 5,
+   "sessions": [
+    "132ed739",
+    "1535cb43",
+    "3054429e",
+    "7335a1b4",
+    "b18b887a"
+   ],
+   "laptop_ttft_s_range": [
+    2.4,
+    6.7
+   ],
+   "desktop_ttft_s": 3.3,
+   "note": "identical five sessions on every desktop freeze-v2 run; content-determined (LCP restore miss), not host/RAM"
+  },
+  "calibration_llama_bench_q8_0": {
+   "@6T": {
+    "pp512": 69.34,
+    "pp2048": 62.07,
+    "tg32": 15.38
+   },
+   "@4T": {
+    "pp512": 50.2,
+    "pp2048": 45.34,
+    "tg32": 15.3
+   }
+  },
+  "artifacts": "/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/m0pad-laptop/",
+  "eager_4t_arm": {
+   "server_args": "same as 6T arm with -t 4",
+   "edit_ttft_p50_ms": 76.5,
+   "edit_ttft_p95_ms": 95.7,
+   "floor_delta_vs_6t_pct": 3.0,
+   "desktop_4t_floor_delta_pct": 3.7,
+   "decode_ms_per_tok_p50": 72.7,
+   "warmup_total_s": 1275.76,
+   "warmup_per_call_s": 6.4,
+   "warmup_delta_vs_6t_pct": 44,
+   "wall_s": 2114,
+   "wall_delta_vs_6t_pct": 25,
+   "host_state": {
+    "load1_band": [
+     4.0,
+     5.2
+    ],
+    "tctl_c_band": [
+     64,
+     70
+    ],
+    "note": "cold package start (32.6 C) with a 1.7 min pre-burn"
+   },
+   "parity_vs_6t_baseline_same_host": 0.9455,
+   "parity_vs_desktop_session_flow": 0.9455,
+   "per_type_ttft_p50_ms": {
+    "accept": 76.7,
+    "cursor_move": 76.9,
+    "diag": 76.7,
+    "file_switch": 76.2,
+    "open": 73.9,
+    "switch_back": 131.2,
+    "type": 76.5
+   },
+   "cached_frac_p50": {
+    "accept": 0.999,
+    "cursor_move": 0.999,
+    "diag": 0.999,
+    "file_switch": 0.999,
+    "open": 0.997,
+    "switch_back": 0.998,
+    "type": 0.998
+   },
+   "artifacts": "m0pad-laptop/run-m0pad-eager-4t-p0-20261018T084658.*"
+  }
  }
 }

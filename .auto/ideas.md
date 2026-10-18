@@ -19,4 +19,6 @@ evaluated and closed:
   quality risk without latency payoff now that warm-up exists.
 - Open for OTHER missions: quant tier choice (Q6_K decode +31%, table in
   report §6), speculative decoding (decode floor is now the bottleneck),
-  Vulkan iGPU prefill/decode on a real laptop (untestable here).
+  Vulkan iGPU prefill/decode on a real laptop — now available: m0pad has
+  a Radeon iGPU under CachyOS/RADV and was validated for CPU runs (report
+  §8); the iGPU path itself was NOT tested by this mission.
