@@ -507,7 +507,7 @@ def main() -> None:
         "threads": a.threads, "cold": a.cold,
         "model": str(DEFAULT_MODEL),
         "load_start": load0[0], "load_end": load1[0],
-        "baseline": bs, "candidate": cs,
+        "baseline": bs, "candidate_summary": cs,
         "speedup_warm": speedup,
         "speedup_warm_pooled": speedup_pooled,
         "speedup_warm_ci95": [ci_lo, ci_hi],
