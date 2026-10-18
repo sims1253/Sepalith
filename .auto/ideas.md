@@ -9,8 +9,9 @@ Resolved this session — see `docs/validation/2026-10-17-quant-autoresearch.md`
 - Search-panel + DEV confirmation of both finalists: done.
 
 Not pursued (candidates for a future session):
-- Layer-band sensitivity for ffn_down q6 (spend on the ~10 worst layers only) — could keep most of mixB's KLD gain without its decode tax; needs a KLD probe ladder over layer subsets (~6 runs).
-- attn_q q8_0 (+11 MB) — unprobed cheap boost; marginal expected gain.
+- ~~Layer-band sensitivity for ffn_down q6~~ RESOLVED 2026-10-18: imatrix-top-11 band got 43% of the gain for 52% of the size; a 17-layer accidental variant (0.023730 @ 1679.0) shows the gain is ~linear in upgraded-layer count and NOT concentrated by imatrix importance. Interior points only; closed.
+- attn_q q8_0 (+88.1 MB — it is 2048×2048): RESOLVED — dominated by mixB.
 - Q6_K with q5_K/q6_K emb+head (~2.07 GB "safe small tier") — not needed to beat the baseline; Q6_K is already the quality fallback.
 - imatrix variants (1M tokens, prompts-only, ctx 2048) — the current calibration is fine at these fidelities; revisit only if a future tier targets KLD < 0.01 at < 1.8 GB.
 - A new llama.cpp build with faster Q5_K/Q6_K head matvec would directly move mixB's decode; user decision (upgrade is out of scope here).
+- Complete-category override idiom for llama-quantize --tensor-type (q6 list first, catch-all q4_K second) — now proven; note it whenever partial attn_v/ffn_down mixes are needed, since ANY unmatched tensor re-enters the default mix at shifted counter positions (bit twice this session: night-run Q4_K_M+, and the first top-11 probe).
