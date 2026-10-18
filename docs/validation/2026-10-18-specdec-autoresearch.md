@@ -151,7 +151,12 @@ deterministic; only wall time varies with load.
 
 Any drafting flips ~5–13 % of requests; the rate scales with the number of
 drafted steps, not depth. There is **no lossless n-gram configuration** on
-this build.
+this build. Moreover, *which* requests flip is **environment-dependent**:
+the 4-thread and 8-thread full-set runs flip 31 vs 29 of 221 requests with
+only 20 in common — the flipped set is a per-environment numerics coin-flip
+on near-ties (thread partition changes the GEMM reduction order), while the
+~13 % rate is stable. A fixed "spec changes these requests" list does not
+exist.
 
 ### 5.3 Minimal reproduction + mechanism
 
@@ -210,8 +215,10 @@ no-op 1.15×. By family: na_rm 1.58×, format 1.28×, pipe 1.21×, roxygen
 1.17×, no_op 1.15×, rename 1.13×, finish_block 0.96× (median trace; its long
 tail is what drives pooled to 1.57×).
 
-**4-thread band** (laptop-representative, same 60-trace subset, cap 256):
-1.233× median (CI95 lo 1.09), acceptance identical (1.54 tok/step @ 0.418).
+**4-thread band** (laptop-representative; 60-trace subset cap 256: 1.233×
+median, CI95 lo 1.09; full 221-trace set cap 1024 at load ~4: **1.276×**
+median, CI95 lo 1.198, decode 1.303×, TTFT unchanged, p95 1.099× — the tail
+improves less at 4 threads). Acceptance transfers (1.83 tok/step @ 0.47).
 
 ## 7. DEV75 final panel (the single recorded DEV use)
 

@@ -77,7 +77,9 @@
     0.472
    ],
    "parity_warm_221_rep2": 0.8688,
-   "repetitions": "two full-set paired runs (1.294x load 15-19; 1.418x load 12); parity flip set identical (192/221 both)"
+   "repetitions": "two full-set paired runs (1.294x load 15-19; 1.418x load 12); parity flip set identical (192/221 both)",
+   "four_thread_median_221": 1.276,
+   "four_thread_ci_lo": 1.198
   }
  },
  "parity": {
@@ -95,7 +97,13 @@
    "q4_n2m4_60": 0.9
   },
   "repro": "runs/parity_repro_cases.txt (near-tie logprob gaps 0.0036-0.013 flip under verify batch of 2)",
-  "mechanism": "batched verify GEMM reduction order differs from single-token path; same class as KV-cache warm/cold drift (0.851) and much smaller than Q8-vs-bf16 drift (0.668, quant gate)"
+  "mechanism": "batched verify GEMM reduction order differs from single-token path; same class as KV-cache warm/cold drift (0.851) and much smaller than Q8-vs-bf16 drift (0.668, quant gate)",
+  "flip_set_thread_dependence": {
+   "flips_4T": 31,
+   "flips_8T": 29,
+   "overlap": 20,
+   "reading": "which requests flip depends on thread partition (reduction order); rate ~13% stable; no stable changed-request set exists across environments"
+  }
  },
  "verify_cost_law": {
   "batched_bench_tg_tps": {

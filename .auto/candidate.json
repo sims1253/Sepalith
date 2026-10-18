@@ -1,1 +1,1 @@
-{"name": "ngsimple-plus-mapk-n2m4", "server_args": ["--spec-type", "ngram-simple,ngram-map-k", "--spec-ngram-simple-size-n", "2", "--spec-ngram-simple-size-m", "4", "--spec-ngram-map-k-size-n", "2", "--spec-ngram-map-k-size-m", "4"]}
+{"name": "ngsimple-n2m4", "server_args": ["--spec-type", "ngram-simple", "--spec-ngram-simple-size-n", "2", "--spec-ngram-simple-size-m", "4"]}
