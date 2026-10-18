@@ -25,9 +25,9 @@
     "--source-gguf",
     "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-bf16.gguf",
     "--variants",
-    "Q4_K_M-mixA",
-    "Q4_K_M-mixB",
+    "Q4_K_M-mixA-e4",
+    "Q4_K_M-mixC",
     "--gpu-window"
   ],
-  "note": "2026-10-17 quant autoresearch confirmation: gate the two mixed-precision q4 tiers (mixA speed / mixB fidelity; specs in variant_specs()) on the CUDA build so the receipt is comparable with the 2026-10-17 night run's gate-receipt.json. Needs the research/quant-autoresearch-20261017 branch (variant_specs additions) merged to main first. Writes only to the new arm-a-mix-confirmation work dir."
+  "note": "2026-10-17/18 quant autoresearch confirmation: gate the final mixed-precision q4 tiers (mixA-e4, the CPU-DEV-confirmed full-pass ship pick at 1590.4 MB, and mixC, the in-budget fidelity tier at 1726.7 MB) on the CUDA build so the receipt is comparable with the 2026-10-17 night run's gate-receipt.json. mixB-e4 can be added the same way if wanted. Needs the research/quant-autoresearch-20261017 branch (variant_specs additions) merged to main first. Writes only to the new arm-a-mix-confirmation work dir."
 }

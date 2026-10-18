@@ -206,7 +206,7 @@ Gate runs on the **CPU build** (the search build) with a CPU bf16 reference,
 via `quantize_and_gate.py`/`quant_gate.py`; receipt:
 `quant-work/autoresearch-20261017/gate-receipt.json`. CPU numbers are not
 comparable with the night CUDA receipt (the CUDA-confirmation night job is
-included for that: `c09/jobs/C09-arm-a-quant-mix-confirmation.json`).
+included for that: `c09/jobs/C09-arm-a-quant-mix-confirmation.json`, updated 2026-10-18 to confirm **mixA-e4 and mixC** — the final recommendations).
 
 Every DEV read this session (all CPU, 2026-10-17/18, gate-eligible full
 panels, cap 1,024): bf16 dev250+dev75 (reference), Q4_K_M-mixA dev250+dev75,
@@ -299,7 +299,7 @@ the recipes, not of the slice they were tuned on.
    including for Q8_0. Proposal: relax to ≤3 pp for every tier (≈ the Q8_0
    noise floor), or drop the check in favor of exact/McNemar/nofp/KLD.
 2. **Night-queue job** for CUDA confirmation of mixA/mixB (comparability with
-   the night receipt) — `C09-arm-a-quant-mix-confirmation.json`.
+   the night receipt) — `C09-arm-a-quant-mix-confirmation.json` (now covering mixA-e4 + mixC).
 3. llama.cpp upgrade: not needed for these recipes (b10453 suffices); revisit
    only if a future build ships faster Q6_K/Q5_K head matvec paths (would move
    mixB's decode).
