@@ -114,8 +114,13 @@ final gate table.
   long outputs than the 60-subset); parity 0.869 with the SAME 192/221
   matches as rep #1 (deterministic flip set). Two reps: 1.294x (load 15-19)
   and 1.418x (load 12).
-- PR #68 open (not merged), comms registered (rzcode-specdec), DEV use
-  recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
+  DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Full-set 4T band (run #13, load ~4): warm median 1.276x (CI lo 1.198),
+  decode 1.303x, p95 1.099x. NEW MECHANISM FINDING: flip SET is thread-
+  dependent (4T 31 flips vs 8T 29, only 20 overlap) — per-environment
+  numerics coin-flips, rate ~13% stable. Measurement matrix now complete:
+  8T/4T x subset/full x Q8/Q4 + DEV75.
 - Full-set rep #3 was INTERRUPTED at ~130/221 traces by user request (host
   needed for gaming) — partial per_request.jsonl retained in runs/20261018T*;
   two complete full-set reps + DEV75 + subset doubles already satisfy the
