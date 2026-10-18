@@ -21,3 +21,5 @@ Still open / future:
   unchanged — all tooling is config-driven.
 - If spec ships despite near-tie drift: run the C09-style quality gate
   (DEV250 exact-match/no-fp) with speculation enabled (report §10.3).
+- [CLOSED run #14] -fa on: inert on b10453 CPU (parity 1.0000, speed
+  0.99x) — not a lever for parity or verify cost.

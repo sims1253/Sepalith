@@ -290,7 +290,9 @@ speculation can recover.
 ## 10. Proposals needing user decisions
 
 1. **llama.cpp determinism / upgrade.** The parity blocker is b10453 CPU
-   batch-verify numerics. Proposals: (a) ask upstream / patch so the greedy
+   batch-verify numerics. (Ruled out at b10453: `-fa on` — bit-identical
+   outputs and speed-neutral on this CPU build, so the attention flag is
+   not a lever; kernel-path changes must come from a different build.) Proposals: (a) ask upstream / patch so the greedy
    verification path uses the same matmul path as single-token decode (e.g.
    force per-row vec-mat for verify batches ≤ some size), making speculation
    bitwise-lossless; (b) evaluate a newer llama.cpp — release notes/PRs

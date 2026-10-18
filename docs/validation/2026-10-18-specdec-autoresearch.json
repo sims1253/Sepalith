@@ -271,5 +271,10 @@
    "n_traces": 60,
    "n_predict": 256
   }
+ },
+ "fa_probe": {
+  "verdict": "inert",
+  "parity_vs_fa_off": 1.0,
+  "speedup": 0.991
  }
 }
