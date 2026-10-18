@@ -105,6 +105,17 @@ final gate table.
   "ling" -0.688 vs "led" -0.701 near-tie flips under a verify batch of 2.
   → NO lossless spec config exists at b10453 CPU; promotion gate (100%
   parity) unattainable. Writeup required, not a workaround.
+- Multi-type fallback chain (simple,ngram-map-k): counters bit-identical to
+  plain n2m4 — fallback NEVER fires (simple drafts every step). Stacking
+  closed. ngram-cache closed by bound (fixed depth 8 = wall ceiling
+  1.04-1.24x, cannot exceed simple's draft frequency).
+- Full-set gate rep #2 (load ~12): warm median 1.418x (CI lo 1.265), pooled
+  1.577x, decode 1.44x, acceptance 1.81 tok/step @0.472 (full set richer in
+  long outputs than the 60-subset); parity 0.869 with the SAME 192/221
+  matches as rep #1 (deterministic flip set). Two reps: 1.294x (load 15-19)
+  and 1.418x (load 12).
+- PR #68 open (not merged), comms registered (rzcode-specdec), DEV use
+  recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
 - Footgun learned: log_experiment auto-revert on discard/checks_failed
   restores TRACKED files — commit large artifacts (refs) immediately or lose
   working-tree copies.

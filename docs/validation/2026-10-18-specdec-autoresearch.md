@@ -111,9 +111,15 @@ Findings that shaped the sweep:
 | mapk4v n2m4 | `--spec-type ngram-map-k4v` n=2 m=4 | 1.18× | 1.17 | 1.25 @ 0.56 | 0.45 |
 | **n2m4 (champion)** | `--spec-type ngram-simple --spec-ngram-simple-size-n 2 --spec-ngram-simple-size-m 4` | **1.40–1.44×** (CI95 1.15–1.55, two runs) | **1.24–1.25×** | **1.52 @ 0.42** | **1.26** |
 
-`ngram-mod` (all n_match/n_min/n_max grids), `ngram-cache`, deeper m, and
-n≥3 were closed by simulation + spot server runs (mod never fires on short
-outputs at sane settings; its best pooled sim ≈1.5 with median 1.00).
+`ngram-mod` (all n_match/n_min/n_max grids) and n≥3 were closed by
+simulation + spot server runs (mod never fires on short outputs at sane
+settings; its best pooled sim ≈1.5 with median 1.00). `ngram-cache` was
+closed by bound rather than a dedicated run: its draft depth is fixed at 8,
+where the measured wall ceiling is 1.04–1.24× (§3 cost law), and its
+conservative firing thresholds cannot exceed ngram-simple's draft
+frequency. Multi-type stacking (`ngram-simple,ngram-map-k`) was run and
+closed: the fallback never fires (simple n2m4 drafts on every step;
+acceptance counters bit-identical), 1.379× vs 1.40–1.44×.
 
 Acceptance counters reproduce bit-exactly across runs (1.525 tok/step,
 0.417 rate, both n2m4 sessions) — drafting and greedy acceptance are
