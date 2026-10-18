@@ -135,7 +135,30 @@
    "B9": 37.3,
    "B17": 47.0
   },
-  "implication": "verify step of k+1 costs up to ~2x a single-token step; wall optimum is short precise drafts (m~4), not tok/step optimum (m 8-24)"
+  "implication": "verify step of k+1 costs up to ~2x a single-token step; wall optimum is short precise drafts (m~4), not tok/step optimum (m 8-24)",
+  "batched_bench_tg_tps_idle": {
+   "B1": 14.86,
+   "B2": 26.99,
+   "B3": 27.73,
+   "B4": 45.88,
+   "B5": 44.63,
+   "B6": 58.03,
+   "B9": 62.67,
+   "B17": 83.4
+  },
+  "per_step_ms_idle": {
+   "c1": 67.3,
+   "c5": 112.1,
+   "c9": 143.6
+  },
+  "per_position_acceptance_n2": {
+   "pos1": 0.382,
+   "pos2": 0.26,
+   "pos3": 0.214,
+   "pos4": 0.176,
+   "pos5": 0.078,
+   "reading": "m=5 adds ~0.0003 tok/step; m=3 loses ~0.004; m refinement closed by mechanism"
+  }
  },
  "offline_sim": {
   "tool": "experiments/serving/specdec/sim_draft.py",

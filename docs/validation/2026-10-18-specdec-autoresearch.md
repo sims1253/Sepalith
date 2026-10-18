@@ -92,11 +92,17 @@ Findings that shaped the sweep:
   contract text), not just the CURRENT region, and generic unigram/bigram
   lookup captures it. The brief's direction 2 (C++ drafter patch) is closed
   as unjustified by evidence.
-- **CPU verify-cost law** (`llama-batched-bench`, TG t/s at batch B):
-  B=1: 7.6, B=2: 15.6, B=4: 40.9, B=9: 37.3, B=17: 47.0 — a verify step with
-  k+1 rows costs ~2× a single-token step at k=8. Wall speedup therefore
-  tracks **short, high-precision drafts**, not tok/step. The tok/step-optimal
-  configs (n=1, m=8–24; sim ceiling 2.2–2.3×) are wall-optimal nowhere.
+- **CPU verify-cost law** (`llama-batched-bench`; idle-host remeasurement,
+  TG t/s at decode batch B): B=1: 14.9, B=2: 27.0, B=3: 27.7, B=4: 45.9,
+  B=5: 44.6, B=6: 58.0, B=9: 62.7, B=17: 83.4 — per-STEP cost
+  c(1)=67 ms, c(5)=112 ms (1.66×), c(9)=144 ms (2.13×), with a real B=4
+  GEMM-tile dip (87.8 ms). A verify step with k+1 rows costs real compute;
+  wall speedup therefore tracks **short, high-precision drafts**, not
+  tok/step. The tok/step-optimal configs (n=1, m=8–24; sim ceiling
+  2.2–2.3×) are wall-optimal nowhere. Per-position acceptance closes the
+  m-refinement question by mechanism: draft position 5 accepts only 7.8 %
+  and is *reached* on <0.4 % of steps, so m=5 adds ≈0.0003 tokens/step and
+  m=3 loses ≈0.004 — the m±1 neighborhood of the optimum is dead.
 
 ## 4. Configuration sweep (60-trace subset, cap 256, paired, load recorded)
 
