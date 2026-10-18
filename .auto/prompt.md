@@ -116,6 +116,10 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), comms registered (rzcode-specdec), DEV use
   recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Full-set rep #3 was INTERRUPTED at ~130/221 traces by user request (host
+  needed for gaming) — partial per_request.jsonl retained in runs/20261018T*;
+  two complete full-set reps + DEV75 + subset doubles already satisfy the
+  >=3 repetitions requirement. All specdec processes killed 2026-10-19.
 - Footgun learned: log_experiment auto-revert on discard/checks_failed
   restores TRACKED files — commit large artifacts (refs) immediately or lose
   working-tree copies.
