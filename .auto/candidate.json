@@ -1,9 +1,9 @@
 {
-  "label": "mixAe4iq-ao6kv8-gateupiq4xs-emb4-head5",
+  "label": "mixAe4ao4-kv8-ao4-emb4-head5",
   "tier": "Q4_K_M",
   "output_type": "q5_K",
   "embedding_type": "q4_K",
   "imatrix": true,
-  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "ffn_gate\\.weight=iq4_xs", "ffn_up\\.weight=iq4_xs"],
+  "tensor_types": ["attn_output\\.weight=q4_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0"],
   "kld_chunks": 64
 }
