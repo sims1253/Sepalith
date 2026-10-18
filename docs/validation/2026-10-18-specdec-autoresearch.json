@@ -77,9 +77,10 @@
     0.472
    ],
    "parity_warm_221_rep2": 0.8688,
-   "repetitions": "two full-set paired runs (1.294x load 15-19; 1.418x load 12); parity flip set identical (192/221 both)",
+   "repetitions": "three full-set paired 8T reps: 1.294 (load 15-19), 1.418 (load 12), 1.429 (load ~8); median-of-medians ~1.42x; pooled 1.567/1.577/1.578; parity 192/221 all three",
    "four_thread_median_221": 1.276,
-   "four_thread_ci_lo": 1.198
+   "four_thread_ci_lo": 1.198,
+   "warm_e2e_median_221_rep3": 1.429
   }
  },
  "parity": {

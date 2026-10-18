@@ -116,6 +116,9 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Rep #3 (run #16, load ~8): 1.429x median (CI lo 1.33), pooled 1.578x,
+  parity 192/221 again. Three full-set reps: 1.294/1.418/1.429 — >=3 reps
+  satisfied; m-refinement closed by per-position acceptance mechanism.
 - Flip QUALITY-NEUTRALITY (run #15, offline): spec exact-match vs TRAIN
   ground truth == baseline's exactly (158/221 at 8T AND 4T); every flipped
   trace had already diverged from target under baseline (0 ground-truth
