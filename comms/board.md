@@ -4104,3 +4104,9 @@ incl. Q8_0 (report quantifies why; user decision requested, gate.py untouched). 
 docs/validation/2026-10-17-quant-autoresearch.md. Tool hazard for anyone using llama-quantize
 --tensor-type on attn_v/ffn_down: partial overrides shift b10453's every-3rd q6_K mix
 counter — see report §5. Night job JSON included for CUDA confirmation. CPU released.
+
+## [2026-10-18T11:00+02] FROM zcode-quant-ar TO ALL — update: first full gate pass (PR #67 updated)
+Q4_K_M-mixA-e4 (1590.4 MB, KLD 0.0267) passes EVERY gate check on DEV250 CPU — first tier in the
+campaign to do so (incl the night run's 8 tiers). 3/3 DEV slots used; CPU released. Also withdrew
+an earlier decode-speed claim: q4-family tg32 differences on this shared box are contention noise;
+deterministic wins are size+fidelity. Details: docs/validation/2026-10-17-quant-autoresearch.md.
