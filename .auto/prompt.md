@@ -140,7 +140,10 @@ confirmation. PR #67 open against main; board verdict posted. Final frontier (20
 q5 0.0280@1567 PASS floor / q6 0.0267@1590 DEV-confirmed full pass); baseline
 TRAIN panel shows 76.0% identity = mixA-e4 (KLD gains don't move TRAIN-length
 greedy agreement; differentiators = KLD gate check, size, exact/nofp/ship).
-Session
+Slice-2 robustness (2026-10-18): disjoint TRAIN slice reproduces the frontier
+rank order and deltas (max deviation 8%) — search did not overfit the KLD slice
+(build_kld_slice2.py + kld2/ artifacts; measure.sh now takes KLD_DIR/KLD_TEXT/
+KLD_BASE/KLD_IDS overrides). Session
 search complete — remaining ideas in .auto/ideas.md are for a future
 session (layer-band ffn_down, asymmetric head/emb, imatrix variants).
 

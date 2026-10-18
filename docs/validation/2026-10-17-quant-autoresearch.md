@@ -257,7 +257,26 @@ Q6_K stays the quality fallback at 2.2 GB. Given the §7 honesty note, treat
 mixA-e4's valid_drop pass as real-but-lucky; the standing §9 question about
 that threshold remains worth deciding anyway.
 
-## 9. Open questions for the user
+## 9. Robustness: the frontier is not slice-specific
+
+Every search decision above was made on the v1 held-out KLD slice. To rule
+out slice-specific overfitting of the *search*, a **second, disjoint TRAIN
+slice** (32 × 1,024, seed 20261018, same builder machinery, excluding all
+calibration + v1-KLD + search-panel rows; `c09/build_kld_slice2.py`, llama-
+tokenize round-trip verified) re-measured the frontier:
+
+| variant | slice-1 KLD | slice-2 KLD | rank s1 → s2 |
+| --- | ---: | ---: | --- |
+| Q4_K_M baseline | 0.033973 | 0.033500 | 4 → 4 |
+| mixA-e4-ao5 | 0.028049 | 0.027803 | 3 → 3 |
+| mixA-e4 | 0.026692 | 0.026057 | 2 → 2 |
+| mixB-e4 | 0.023328 | 0.022751 | 1 → 1 |
+
+Rank order and pairwise deltas reproduce (deltas within 8%; e.g. baseline →
+mixA-e4: −21.4% vs −22.1%). The ship tier's fidelity margin is a property of
+the recipes, not of the slice they were tuned on.
+
+## 10. Open questions for the user
 
 1. **valid_drop threshold** (section 6): structurally unpassable as written,
    including for Q8_0. Proposal: relax to ≤3 pp for every tier (≈ the Q8_0
@@ -269,7 +288,7 @@ that threshold remains worth deciding anyway.
    mixB's decode).
 4. IQ4_XS: closed here (dominated); not worth thresholds.
 
-## 10. Artifacts
+## 11. Artifacts
 
 - GGUFs + receipts + KLD logs + benches:
   `/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/`
