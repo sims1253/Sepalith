@@ -64,10 +64,11 @@ EXPORT = REPO / "experiments" / "training" / "export_gguf.py"
 CALIBRATION_DIR = Path("/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1")
 EMBEDDING = "q8_0"
 VARIANT_LABELS = ("Q8_0", "Q6_K", "Q5_K_M", "Q4_K_M", "Q4_K_M-head-q6_k", "Q4_K_M-uncalibrated", "Q4_K_M+",
-                  "Q4_K_M-attn-out-q8_0", "Q4_K_M-mixA", "Q4_K_M-mixB")
+                  "Q4_K_M-attn-out-q8_0", "Q4_K_M-mixA", "Q4_K_M-mixB", "Q4_K_M-mixA-e4", "Q4_K_M-mixB-e4")
 QUANT_TYPE = {"Q8_0": "Q8_0", "Q6_K": "Q6_K", "Q5_K_M": "Q5_K_M", "Q4_K_M": "Q4_K_M",
               "Q4_K_M-head-q6_k": "Q4_K_M", "Q4_K_M-uncalibrated": "Q4_K_M", "Q4_K_M+": "Q4_K_M",
-              "Q4_K_M-attn-out-q8_0": "Q4_K_M", "Q4_K_M-mixA": "Q4_K_M", "Q4_K_M-mixB": "Q4_K_M"}
+              "Q4_K_M-attn-out-q8_0": "Q4_K_M", "Q4_K_M-mixA": "Q4_K_M", "Q4_K_M-mixB": "Q4_K_M",
+              "Q4_K_M-mixA-e4": "Q4_K_M", "Q4_K_M-mixB-e4": "Q4_K_M"}
 
 IMATRIX_CHECK = r"""
 import json, sys
@@ -116,6 +117,14 @@ def variant_specs(n_layers: int) -> dict[str, dict]:
         "Q4_K_M-mixB": {"stem": "mixb", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q5_K",
                         "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
                                           r"ffn_down\.weight=q6_K"]},
+        # e4 refinements (2026-10-18): token_embd q4_K costs only +0.0002..0.0004 mean KLD (the q4_K
+        # penalty is ~98% the output head), so both mixes take another ~33 MB off for free. Decode is
+        # unaffected (token_embd is prefill-only).
+        "Q4_K_M-mixA-e4": {"stem": "mixa-e4", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
+                          "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0"]},
+        "Q4_K_M-mixB-e4": {"stem": "mixb-e4", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
+                          "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
+                                            r"ffn_down\.weight=q6_K"]},
     }
 
 
