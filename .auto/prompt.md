@@ -116,6 +116,11 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Flip QUALITY-NEUTRALITY (run #15, offline): spec exact-match vs TRAIN
+  ground truth == baseline's exactly (158/221 at 8T AND 4T); every flipped
+  trace had already diverged from target under baseline (0 ground-truth
+  matches gained/lost); spec outputs at least as well-formed (terminal
+  28/29 vs 24/29). Flips land only on already-diverged generations.
 - Full-set 4T band (run #13, load ~4): warm median 1.276x (CI lo 1.198),
   decode 1.303x, p95 1.099x. NEW MECHANISM FINDING: flip SET is thread-
   dependent (4T 31 flips vs 8T 29, only 20 overlap) — per-environment
