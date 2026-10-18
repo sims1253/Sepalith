@@ -17,6 +17,12 @@ label=$($PY -c "import json;print(json.load(open('$CAND'))['label'])")
 tier=$($PY -c "import json;print(json.load(open('$CAND'))['tier'])")
 chunks=$($PY -c "import json;print(json.load(open('$CAND')).get('kld_chunks',64))")
 existing=$($PY -c "import json;print(json.load(open('$CAND')).get('existing_gguf','') or '')")
+# Slice-2 robustness pass: KLD_DIR/KLD_TEXT/KLD_BASE/KLD_IDS override the v1 slice
+# (defaults reproduce the session's primary measurements exactly).
+KLD_DIR=${KLD_DIR:-$WORK/kld}
+KLD_TEXT=${KLD_TEXT:-$CAL/kld-heldout.txt}
+KLD_BASE=${KLD_BASE:-$WORK/kld/bf16-base-cpu.kld}
+KLD_IDS=${KLD_IDS:-$CAL/kld-heldout.ids.json}
 
 # Be a good citizen on a shared box: wait (bounded) only when truly saturated.
 for _ in $(seq 1 20); do
@@ -25,19 +31,20 @@ for _ in $(seq 1 20); do
   sleep 60
 done
 
-mkdir -p "$WORK/ggufs" "$WORK/kld" "$WORK/logs"
+mkdir -p "$WORK/ggufs" "$KLD_DIR" "$WORK/logs"
 export CUDA_VISIBLE_DEVICES="" NO_LORA=1 SEPALITH_LLAMA_CPP=/home/m0hawk/.local/opt/llama.cpp-b10453
 
-# 1. One-time CPU bf16 KLD base + token-stream check.
-if [ ! -f "$WORK/kld/bf16-base-cpu.kld" ]; then
-  echo "computing CPU bf16 KLD base (one-time)..." >&2
-  nice -n 10 "$LLAMA/llama-perplexity" -m "$BF16" -f "$CAL/kld-heldout.txt" \
-    --kl-divergence-base "$WORK/kld/bf16-base-cpu.kld" \
-    -c 1024 -b 1024 --chunks 64 --no-escape -t 8 -ngl 0 \
-    > "$WORK/logs/kld-base-cpu.log" 2>&1
+# 1. One-time bf16 KLD base + token-stream check (for the active slice).
+if [ ! -f "$KLD_BASE" ]; then
+  echo "computing bf16 KLD base (one-time) for $KLD_TEXT..." >&2
+  nice -n 10 "$LLAMA/llama-perplexity" -m "$BF16" -f "$KLD_TEXT" \
+    --kl-divergence-base "$KLD_BASE" \
+    -c 1024 -b 1024 --chunks "$chunks" --no-escape -t 8 -ngl 0 \
+    > "$WORK/logs/$(basename "$KLD_BASE").log" 2>&1
 fi
-if [ ! -f "$WORK/kld/bf16-base-cpu.check.json" ]; then
-  PYTHONPATH=packages/sepalith/src "$PY" - "$WORK/kld/bf16-base-cpu.kld" "$CAL/kld-heldout.ids.json" > "$WORK/kld/bf16-base-cpu.check.json" <<'EOF'
+CHECK_JSON="$KLD_DIR/$(basename "$KLD_BASE").check.json"
+if [ ! -f "$CHECK_JSON" ]; then
+  PYTHONPATH=packages/sepalith/src "$PY" - "$KLD_BASE" "$KLD_IDS" > "$CHECK_JSON" <<'EOF'
 import json, sys
 sys.path.insert(0, "packages/sepalith/src")
 from sepalith.quant.llama_tools import read_kld_base_tokens
@@ -48,7 +55,7 @@ mm = first_mismatch(stored["tokens"], expected)
 print(json.dumps({"identical": mm is None, "first_mismatch": mm, "n_chunk": stored["n_chunk"]}))
 EOF
 fi
-$PY -c "import json;d=json.load(open('$WORK/kld/bf16-base-cpu.check.json'));assert d['identical'],d"
+$PY -c "import json;d=json.load(open('$CHECK_JSON'));assert d['identical'],d"
 
 # 2. Quantize the candidate unless it reuses an existing GGUF.
 if [ -n "$existing" ]; then
@@ -72,14 +79,14 @@ else
   fi
 fi
 
-# 3. KLD vs the CPU base.
+# 3. KLD vs the active base.
 log="$WORK/logs/kld-$label-c$chunks.log"
-if [ ! -f "$WORK/kld/$label-c$chunks.json" ]; then
+if [ ! -f "$KLD_DIR/$label-c$chunks.json" ]; then
   nice -n 10 "$LLAMA/llama-perplexity" -m "$gguf" \
-    --kl-divergence-base "$WORK/kld/bf16-base-cpu.kld" --kl-divergence \
+    --kl-divergence-base "$KLD_BASE" --kl-divergence \
     -c 1024 -b 1024 --chunks "$chunks" --no-escape -t 8 -ngl 0 \
     > "$log" 2>&1
-  PYTHONPATH=packages/sepalith/src "$PY" - "$log" "$label" "$chunks" "$gguf" > "$WORK/kld/$label-c$chunks.json" <<'EOF'
+  PYTHONPATH=packages/sepalith/src "$PY" - "$log" "$label" "$chunks" "$gguf" > "$KLD_DIR/$label-c$chunks.json" <<'EOF'
 import json, sys
 sys.path.insert(0, "packages/sepalith/src")
 from sepalith.quant.llama_tools import parse_kld_log
@@ -90,7 +97,7 @@ EOF
 fi
 
 # 4. Emit metrics.
-$PY - "$WORK/kld/$label-c$chunks.json" <<'EOF'
+$PY - "$KLD_DIR/$label-c$chunks.json" <<'EOF'
 import json, os, sys
 r = json.load(open(sys.argv[1]))
 s = r["statistics"]
