@@ -179,6 +179,15 @@
       "same_top_p_pct": 95.175,
       "p99_kld": 0.257556,
       "ppl_gap": 0.0702
+    },
+    "mixAe4iq-gateup-iq4xs": {
+      "recipe": "mixA-e4 with ffn_gate+ffn_up iq4_xs",
+      "bytes": 1557400000,
+      "mean_kld": 0.030208,
+      "same_top_p_pct": 94.768,
+      "p99_kld": 0.34114,
+      "ppl_gap": 0.0984,
+      "note": "fails 0.03 gate; iq4_xs on the FFN halves costs +0.0035 for -33 MB (5x the emb exchange rate); size floor for gate-passing recipes remains 1590.4 MB"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -293,6 +302,15 @@
         "length_delta_p90": 0,
         "mean_generated_tokens": 67.61,
         "wall_seconds": 2149.2
+      },
+      "Q4_K_M-mixA-e4": {
+        "identical_pct": 76.02,
+        "net_cap_rise": 0,
+        "done_to_cap": 1,
+        "cap_to_done": 1,
+        "length_delta_median": 0,
+        "length_delta_p90": 2,
+        "note": "corroborates the DEV valid_drop pass: zero net cap rise on independent TRAIN data"
       }
     }
   },

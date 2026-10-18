@@ -13,5 +13,6 @@ Not pursued (candidates for a future session):
 - attn_q q8_0 (+88.1 MB — it is 2048×2048): RESOLVED — dominated by mixB.
 - Q6_K with q5_K/q6_K emb+head (~2.07 GB "safe small tier") — not needed to beat the baseline; Q6_K is already the quality fallback.
 - imatrix variants (1M tokens, prompts-only, ctx 2048) — the current calibration is fine at these fidelities; revisit only if a future tier targets KLD < 0.01 at < 1.8 GB.
+- ~~Selective IQ4_XS on ffn_gate/ffn_up~~ RESOLVED 2026-10-18: +0.0035 KLD for −33 MB on mixA-e4 (fails gate); the IQ4_XS base's poor KLD is largely the FFN halves at iq4_xs; size floor for gate-passing recipes = mixA-e4 1590.4 MB.
 - A new llama.cpp build with faster Q5_K/Q6_K head matvec would directly move mixB's decode; user decision (upgrade is out of scope here).
 - Complete-category override idiom for llama-quantize --tensor-type (q6 list first, catch-all q4_K second) — now proven; note it whenever partial attn_v/ffn_down mixes are needed, since ANY unmatched tensor re-enters the default mix at shifted counter positions (bit twice this session: night-run Q4_K_M+, and the first top-11 probe).

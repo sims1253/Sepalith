@@ -167,6 +167,12 @@ bf16 CPU reference; `panel/agreement-*.json`):
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Q4_K_M-mixA | **78.1%** | **+1** | 1 | 0 | 0 | +1 |
 | Q4_K_M-mixB | 77.6% | **−2** | 0 | 2 | 0 | 0 |
+| Q4_K_M-mixA-e4 (ship) | 76.0% | **0** | 1 | 1 | 0 | +2 |
+
+All three sits within ~2 pp of each other on identity and within one flip of
+zero net cap rise — mixA-e4's zero on independent TRAIN data corroborates its
+DEV valid_drop pass (§7): the recipe is at the good end of the cap-flip
+distribution on both panels, not just the gate panel.
 
 For scale: on the night run's DEV250 (CUDA), Q4_K_M was 51.2% identical with
 bf16 (+10 net caps) and Q8_0 66.8% (+6). mixA's TRAIN-panel fidelity is far
