@@ -238,7 +238,7 @@ the same reference) is inside the cap-flip noise band §6 quantifies; mixA has
 slightly *lower* KLD than mixA-e4, so the pass is not attributable to the
 embedding trim. The receipt is the receipt — but the threshold's
 noise-dominance (and Q8_0's own failure) still warrants the user decision in
-§9. The deterministic claims for mixA-e4 are: −169.4 MB vs baseline, KLD
+§7. The deterministic claims for mixA-e4 are: −169.4 MB vs baseline, KLD
 −21% vs baseline and under the 0.03 gate with margin, exact/nofp/ship-bound
 all passing.
 
