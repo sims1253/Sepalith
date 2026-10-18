@@ -206,7 +206,24 @@ recorded), converted with `build_dev75_traces.py` (BOS + PRM03 render,
 cold+warm, speed only — recorded in `runs/dev75-final.log` and
 `runs/dev_use_record.json`.
 
-<!-- DEV75_RESULTS -->
+| metric | baseline | n2m4 | ratio |
+|---|---:|---:|---:|
+| warm e2e median | 2530 ms | 1728 ms | **1.464×** (bootstrap 95 % CI ≥ 1.227) |
+| warm e2e p95 | 34526 ms | 19515 ms | **1.77×** |
+| warm e2e pooled | — | — | 1.306× |
+| decode median | 2446 ms | 1646 ms | 1.486× |
+| decode tok/s (median) | 12.8 | 15.5 | 1.21× |
+| TTFT median | 83 ms | 82 ms | 1.01× |
+| cold e2e median | 16945 ms | 17002 ms | 1.003× |
+| acceptance | — | — | 1.725 tok/step @ 0.484 |
+| parity (vs same-session base) | — | 66/75 | 0.880 |
+| baseline warm-vs-cold (control) | — | 65/75 | 0.867 |
+| baseline warm-repeat (control) | — | — | 1.000 |
+
+Acceptance on real DEV prompts is *higher* than on the TRAIN subset (1.73 vs
+1.53 tok/step): real edit outputs copy more. The warm median speedup on DEV75
+crosses the 1.4× gate level; parity and cold e2e do not (same reasons as
+TRAIN).
 
 ## 8. Recommendation
 
@@ -228,7 +245,25 @@ flip set changes but the class of drift is the same).
 
 ## 9. Quant cross-check (imat-Q4_K_M, provisional tier)
 
-<!-- Q4_RESULTS -->
+Ran the champion unchanged on `arm-a-imat-Q4_K_M.gguf` (60-trace sweep
+subset, cap 256, paired; note: **no Q4 tier had passed the C09 quant gate at
+report time** — this is a provisional cross-check, not a shipping
+recommendation):
+
+| metric | Q4 base | Q4 + n2m4 | ratio |
+|---|---:|---:|---:|
+| warm e2e median | 1334 ms | 988 ms | **1.350×** (CI95 lo 1.15) |
+| warm e2e pooled | — | — | 1.162× |
+| decode tok/s | 20.2 | 23.2 | 1.15× |
+| acceptance | — | — | 1.475 tok/step @ 0.376 |
+| parity vs same-session base | — | 54/60 | 0.900 |
+
+The n-gram drafter reads token ids, not weights, so the *drafting* is
+quant-independent; the quantized verifier flips a different but
+same-magnitude set of near-ties (0.90 vs 0.88–0.92 on Q8). Wall speedup is
+slightly lower on Q4 (1.35× vs 1.40–1.44×) because Q4's baseline decode is
+already faster (20.2 vs ~12.8 tok/s at comparable load), shrinking the head
+speculation can recover.
 
 ## 10. Proposals needing user decisions
 
