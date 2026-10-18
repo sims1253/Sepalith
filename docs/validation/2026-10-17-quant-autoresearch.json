@@ -203,6 +203,21 @@
       "bytes": 1545000000,
       "mean_kld": 0.033667,
       "note": "fails gate; ao ladder bounded: q4 fail / q5 pass @1567 / q6 pass @1590 (DEV-confirmed)"
+    },
+    "Q4_K_M-mixC": {
+      "recipe": "mixA-e4 + ffn_up q6_K (ffn_down default mix)",
+      "bytes": 1726700000,
+      "mean_kld": 0.018876,
+      "same_top_p_pct": 95.673,
+      "p99_kld": 0.210684,
+      "ppl_gap": 0.0637,
+      "note": "in-budget fidelity king (-44% KLD vs baseline at -33MB); TRAIN-evidenced, slice-2 reproduced (0.018214)"
+    },
+    "mixBe4up6-map-probe": {
+      "recipe": "mixB-e4 + ffn_up q6_K",
+      "bytes": 1794800000,
+      "mean_kld": 0.01544,
+      "note": "over-budget map probe that revealed ffn_up > ffn_down sensitivity inversion"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -247,6 +262,11 @@
       "delta_mb": -33.4,
       "delta_kld": 0.000191,
       "note": "the q4_K penalty is ~98% the output head; emb q4_K is free like q6_K"
+    },
+    "ffn_up_q6_all": {
+      "delta_mb": 136.3,
+      "delta_kld": -0.00782,
+      "note": "MORE sensitive than ffn_down (0.57e-4 vs 0.48e-4 KLD/MB) \u2014 inverts the usual convention; measured standalone on mixA-e4 base and additive on mixB-e4"
     }
   },
   "b10453_tool_finding": {
@@ -490,7 +510,8 @@
       "Q4_K_M": 0.0335,
       "Q4_K_M-mixA-e4-ao5": 0.027803,
       "Q4_K_M-mixA-e4": 0.026057,
-      "Q4_K_M-mixB-e4": 0.022751
+      "Q4_K_M-mixB-e4": 0.022751,
+      "Q4_K_M-mixC": 0.018214
     },
     "finding": "rank order identical to slice-1; pairwise deltas within 8%; frontier is slice-independent"
   }

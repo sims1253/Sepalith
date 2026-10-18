@@ -64,11 +64,11 @@ EXPORT = REPO / "experiments" / "training" / "export_gguf.py"
 CALIBRATION_DIR = Path("/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1")
 EMBEDDING = "q8_0"
 VARIANT_LABELS = ("Q8_0", "Q6_K", "Q5_K_M", "Q4_K_M", "Q4_K_M-head-q6_k", "Q4_K_M-uncalibrated", "Q4_K_M+",
-                  "Q4_K_M-attn-out-q8_0", "Q4_K_M-mixA", "Q4_K_M-mixB", "Q4_K_M-mixA-e4", "Q4_K_M-mixB-e4")
+                  "Q4_K_M-attn-out-q8_0", "Q4_K_M-mixA", "Q4_K_M-mixB", "Q4_K_M-mixA-e4", "Q4_K_M-mixB-e4", "Q4_K_M-mixC")
 QUANT_TYPE = {"Q8_0": "Q8_0", "Q6_K": "Q6_K", "Q5_K_M": "Q5_K_M", "Q4_K_M": "Q4_K_M",
               "Q4_K_M-head-q6_k": "Q4_K_M", "Q4_K_M-uncalibrated": "Q4_K_M", "Q4_K_M+": "Q4_K_M",
               "Q4_K_M-attn-out-q8_0": "Q4_K_M", "Q4_K_M-mixA": "Q4_K_M", "Q4_K_M-mixB": "Q4_K_M",
-              "Q4_K_M-mixA-e4": "Q4_K_M", "Q4_K_M-mixB-e4": "Q4_K_M"}
+              "Q4_K_M-mixA-e4": "Q4_K_M", "Q4_K_M-mixB-e4": "Q4_K_M", "Q4_K_M-mixC": "Q4_K_M"}
 
 IMATRIX_CHECK = r"""
 import json, sys
@@ -125,6 +125,13 @@ def variant_specs(n_layers: int) -> dict[str, dict]:
         "Q4_K_M-mixB-e4": {"stem": "mixb-e4", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
                           "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
                                             r"ffn_down\.weight=q6_K"]},
+        # mixC (2026-10-18 late): the ffn_up surprise — ffn_up is MORE sensitive than ffn_down on
+        # this model (5.8e-5 vs 4.8e-5 KLD/MB), so the in-budget fidelity king spends the FFN bits
+        # there instead: mixA-e4 + ffn_up q6_K (ffn_down keeps the Q4_K_M default mix).
+        # 1726.7 MB, mean KLD 0.0189 (slice-1) / 0.0182 (slice-2) — 44% below the baseline at -33 MB.
+        "Q4_K_M-mixC": {"stem": "mixc", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
+                        "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
+                                          r"ffn_up\.weight=q6_K"]},
     }
 
 
