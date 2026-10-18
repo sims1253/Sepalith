@@ -218,6 +218,12 @@
       "bytes": 1794800000,
       "mean_kld": 0.01544,
       "note": "over-budget map probe that revealed ffn_up > ffn_down sensitivity inversion"
+    },
+    "mixAe4-gate6-map-probe": {
+      "recipe": "mixA-e4 + ffn_gate q6_K",
+      "bytes": 1726700000,
+      "mean_kld": 0.021451,
+      "note": "dominated by mixC at identical size; completes the map: kv 2.0 > ao 1.5 > up 0.57 > down 0.48 > gate 0.38 (e-4 KLD/MB)"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -267,6 +273,10 @@
       "delta_mb": 136.3,
       "delta_kld": -0.00782,
       "note": "MORE sensitive than ffn_down (0.57e-4 vs 0.48e-4 KLD/MB) \u2014 inverts the usual convention; measured standalone on mixA-e4 base and additive on mixB-e4"
+    },
+    "ffn_gate_q6_all": {
+      "delta_mb": 136.3,
+      "delta_kld": -0.00524
     }
   },
   "b10453_tool_finding": {
