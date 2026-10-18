@@ -116,6 +116,11 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Aborted-warmup flow (run #17): 700ms abort = complete-warmup endpoint
+  (1.503x subset, best yet); 150ms = effectively-cold reuse with decode
+  speedup intact (1.68x) and no regression. Continuum bracketed; spec
+  never hurts. Instrument limit: true mid-prefill aborts need raw-socket
+  close timing (prefill mission's probe owns that mechanics).
 - Rep #3 (run #16, load ~8): 1.429x median (CI lo 1.33), pooled 1.578x,
   parity 192/221 again. Three full-set reps: 1.294/1.418/1.429 — >=3 reps
   satisfied; m-refinement closed by per-position acceptance mechanism.

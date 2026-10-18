@@ -322,5 +322,11 @@
   "verdict": "inert",
   "parity_vs_fa_off": 1.0,
   "speedup": 0.991
+ },
+ "flow_fidelity": {
+  "warm_endpoint_subset_60": 1.503,
+  "abort_700ms": "complete-warmup re-measure (idle host prefill ~3k tok/s)",
+  "abort_150ms": "effectively-cold; decode speedup intact (1.68x observed); no e2e regression",
+  "reading": "continuum bracketed by measured endpoints; decode gain flow-independent"
  }
 }
