@@ -180,6 +180,7 @@ bf16 CPU reference; `panel/agreement-*.json`):
 | Q4_K_M-mixA | **78.1%** | **+1** | 1 | 0 | 0 | +1 |
 | Q4_K_M-mixB | 77.6% | **−2** | 0 | 2 | 0 | 0 |
 | Q4_K_M-mixA-e4 (ship) | 76.0% | **0** | 1 | 1 | 0 | +2 |
+| Q4_K_M-mixA-e4-ao5 (size floor) | 76.0% | **0** | 2 | 2 | 0 | +1 |
 | Q4_K_M-mixC (fidelity) | **78.1%** | **0** | 1 | 1 | 0 | +1 |
 
 **Honesty finding (baseline panel, 2026-10-18):** the incumbent baseline scores

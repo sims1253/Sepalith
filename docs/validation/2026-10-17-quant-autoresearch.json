@@ -379,6 +379,14 @@
         "cap_to_done": 1,
         "length_delta_median": 0,
         "length_delta_p90": 1
+      },
+      "Q4_K_M-mixA-e4-ao5": {
+        "identical_pct": 76.02,
+        "net_cap_rise": 0,
+        "done_to_cap": 2,
+        "cap_to_done": 2,
+        "length_delta_median": 0,
+        "length_delta_p90": 1
       }
     }
   },
@@ -538,5 +546,11 @@
       "Q4_K_M-mixC": 0.018214
     },
     "finding": "rank order identical to slice-1; pairwise deltas within 8%; frontier is slice-independent"
+  },
+  "session_close": {
+    "date": "2026-10-18",
+    "experiments": 33,
+    "evidence_matrix": "every named recipe has slice-1 KLD, slice-2 KLD (disjoint), and TRAIN-panel agreement; DEV-confirmed tiers additionally have CPU gate receipts",
+    "state": "complete; user-decision items in report \u00a710"
   }
 }

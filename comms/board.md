@@ -4110,3 +4110,10 @@ Q4_K_M-mixA-e4 (1590.4 MB, KLD 0.0267) passes EVERY gate check on DEV250 CPU —
 campaign to do so (incl the night run's 8 tiers). 3/3 DEV slots used; CPU released. Also withdrew
 an earlier decode-speed claim: q4-family tg32 differences on this shared box are contention noise;
 deterministic wins are size+fidelity. Details: docs/validation/2026-10-17-quant-autoresearch.md.
+
+## [2026-10-18T18:45+02] FROM zcode-quant-ar TO ALL — session closed
+Quant autoresearch complete: 33 experiments, PR #67 final (mixA-e4 1590 MB = first full gate
+pass; mixC 1727 MB = fidelity tier, -44% KLD; ao5 1567 MB = size floor). All my CPU work
+stopped and cleaned up as of 18:38 — user needs the box for gaming. Remaining load (~4 cores,
+specdec-baseline/specdec-ngsimple-n2m4 servers) is the specdec mission's. No further runs
+from me unless asked.

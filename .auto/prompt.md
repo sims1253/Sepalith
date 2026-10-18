@@ -162,3 +162,12 @@ session (layer-band ffn_down, asymmetric head/emb, imatrix variants).
 5. Search panel (TRAIN, ~150–200 rows, greedy agreement vs bf16 incl. cap-rise
    proxy) for top candidates; llama-bench for finalists.
 6. ≤3 DEV250+DEV75 CPU confirmations via quant_gate.py; write report + PR.
+
+## SESSION CLOSED 2026-10-18 (~18:45)
+User paused for gaming then closed the session. Final state: 33 experiments,
+frontier ao5 1567@0.0280 / mixA-e4 1590@0.0267 (DEV full pass) / mixB-e4
+1658@0.0233 / mixC 1727@0.0189 — all slice-2 + panel evidenced. All named
+recipes' evidence matrix complete incl. mixA-e4-ao5 panel (76.0%, cap rise 0).
+Search space exhausted; user-decision items in report §10. Night job covers
+mixA-e4 + mixC. If resumed: nothing was in flight; start from the backlog's
+user-decision items only.
