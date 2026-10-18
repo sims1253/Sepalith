@@ -21,7 +21,7 @@ OUTROOT = Path(
 )
 
 
-def probs_at(port: int, ids: list[int], n_predict: int, pos: int) -> dict:
+def probs_at(port: int, ids: list[int], n_predict: int, pos: int) -> list[dict]:
     """Run with n_probs and return the top-2 probs at output position pos."""
     body = json.dumps({
         "prompt": ids, "n_predict": n_predict, "temperature": 0.0, "top_k": 1,
@@ -34,10 +34,14 @@ def probs_at(port: int, ids: list[int], n_predict: int, pos: int) -> dict:
     d = json.loads(conn.getresponse().read())
     conn.close()
     probs = d.get("completion_probabilities") or []
-    if pos < len(probs):
-        top = probs[pos].get("probs") or probs[pos].get("top_probs") or []
-        return {p.get("tok"): p.get("prob") for p in top[:3]}
-    return {}
+    if 0 <= pos < len(probs):
+        top = probs[pos].get("top_logprobs") or []
+        return [
+            {"id": p.get("id"), "token": p.get("token"),
+             "logprob": p.get("logprob")}
+            for p in top[:3]
+        ]
+    return []
 
 
 def main() -> None:
@@ -67,13 +71,13 @@ def main() -> None:
             i = 0
             while i < min(len(b), len(s)) and b[i] == s[i]:
                 i += 1
-            top2 = probs_at(base.port, tr["prompt_ids"], 128, i - 1)
+            top2 = probs_at(base.port, tr["prompt_ids"], 128, i)
             report["cases"].append({
                 "trace_id": tr["trace_id"], "family": tr["family"],
                 "diverge_pos": i,
                 "baseline_token": b[i] if i < len(b) else None,
                 "spec_token": s[i] if i < len(s) else None,
-                "baseline_top_probs_at_prev_pos": top2,
+                "baseline_top3_logprobs_at_prev_pos": top2,
                 "n_base": len(b), "n_spec": len(s),
             })
             print(json.dumps(report["cases"][-1], indent=1), flush=True)
