@@ -6,29 +6,44 @@ Mission brief: `/home/m0hawk/sandbox/sepalith-quant-autoresearch-brief.md`.
 
 ## TL;DR
 
-Two mixed-precision Q4_K_M recipes Pareto-dominate the current Q4_K_M imatrix
-baseline (1,759.8 MB, CPU KLD 0.033973) — each is smaller, more faithful to
-bf16, and no slower (one markedly faster) on CPU. Both were confirmed on
-DEV250/DEV75 (CPU build): each passes every gate check **except**
-`valid_drop_pp`, which no quantization passes (see TL;DR note and §6).
+Four mixed-precision Q4_K_M recipes Pareto-dominate the current Q4_K_M imatrix
+baseline (1,759.8 MB, CPU KLD 0.033973) — each smaller, more faithful to bf16,
+and decode-equal to the baseline within measurement noise. The two "e4"
+variants take another ~33 MB off for ≈free (token_embd q4_K costs only
++0.0002 mean KLD; the q4_K penalty is ~98% the output head).
 
-| recipe | MB | mean KLD (CPU) | top-1 | DEV250 exact Δ | nofp Δ | tg32 vs Q4_K_M | verdict |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| **Q4_K_M-mixA "speed"** | 1,623.8 | 0.026501 | 95.00 | **+0.8** | −1.6 | **+42%** | all checks pass except valid_drop |
-| **Q4_K_M-mixB "fidelity"** | 1,692.0 | 0.022949 | 95.31 | 0.0 | −0.8 | −1% | all checks pass except valid_drop |
+| recipe | MB | mean KLD (CPU) | top-1 | DEV250 exact Δ | nofp Δ | decode vs Q4_K_M |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **Q4_K_M-mixA-e4 "speed"** | **1,590.4** | 0.026692 | 94.92 | ⏳ (3rd slot) | | ≈ baseline (±noise) |
+| Q4_K_M-mixA | 1,623.8 | 0.026501 | 95.00 | **+0.8** | −1.6 | ≈ baseline (±noise) |
+| **Q4_K_M-mixB-e4 "fidelity"** | 1,658.5 | 0.023328 | 95.18 | TRAIN-only | | ≈ baseline (±noise) |
+| Q4_K_M-mixB | 1,692.0 | 0.022949 | 95.31 | 0.0 | −0.8 | ≈ baseline (±noise) |
 
-`valid_drop_pp` fails for both (2.4 pp) — like **every tier in the
-2026-10-17 night run, including Q8_0** (and the CPU-vs-CUDA bf16 references
+`valid_drop_pp` fails for the confirmed tiers (2.4 pp) — like **every tier in
+the 2026-10-17 night run, including Q8_0** (and the CPU-vs-CUDA bf16 references
 differ by 5 cap cases with zero quantization). Section 6 shows that check is
 structurally unpassable for any quantization of this model at DEV250's cap
 rate; it needs a user decision, not a recipe.
+
+**Speed honesty note (2026-10-18 correction):** an earlier revision claimed
+"mixA +42% decode" from a bench set taken while two other missions' servers
+saturated the box. Interleaved same-conditions reruns show the q4 family's
+decode differences are **within shared-box contention noise** (run-to-run
+flips of ±5–15%; the bytes-per-token mechanism bound is ±4%): one quiet-ish
+interleaved set measured Q4_K_M 23.5 / mixA 24.4 / mixA-e4 24.3 tok/s, a later
+set flipped orderings. The prefill mission's low-load table (their conditions)
+still shows the head *type* matters (q8_0 head: Q4_K_M 15.8 vs head-q6_k 20.6
+tg32 — a llama.cpp matvec-path effect, not bandwidth). The mixes' surviving
+claims are the deterministic ones — **size and fidelity**; decode is at worst
+baseline-equal.
 
 Recipe definitions (see `variant_specs()`):
 
 - **mixA**: `token_embd`/`output` **q5_K**, `attn_output` **q6_K**, `attn_k`/`attn_v`
   **q8_0** (all 42 layers), everything else Q4_K_M default.
-- **mixB**: mixA + `ffn_down` **q6_K** on all 42 layers (the decode-costly
-  fidelity spend; llama-bench shows ~30% slower decode than mixA).
+- **mixB**: mixA + `ffn_down` **q6_K** on all 42 layers.
+- **-e4**: the same with `token_embd` **q4_K** (output head stays q5_K — the
+  head is where the q4_K penalty lives).
 
 ## 1. Setup and method
 
@@ -91,19 +106,22 @@ deltas).
 | Q4_K_M baseline | 1,759.8 | 0.033973 | 94.35 | 0.386 | +0.093 | 0 |
 | C7 (mixB w/ emb+head q4_K) | 1,625.1 | 0.030851 | 94.05 | 0.289 | +0.095 | −135 |
 
-llama-bench (8T, load ≈ 16, matched within the set):
+llama-bench (8T, `-fa on`, r≥2; **shared box — relative reading only; see the
+speed honesty note in the TL;DR**):
 
-| model | pp512 | pp2048 | tg32 |
+| model | pp2048 (load ~16) | tg32 (load ~16) | tg32 interleaved (load ~11) |
 | --- | ---: | ---: | ---: |
-| Q4_K_M baseline | 97.6 | 87.8 | 10.09 |
-| C2 | 89.0 | 79.5 | 11.63 |
-| **mixA** | 90.3 | 83.1 | **14.29** |
-| mixB | 88.2 | 80.5 | 9.97 |
+| Q4_K_M baseline | 87.8 | 10.09 | 22.2–23.6 |
+| mixA | 83.1 | 14.29 | 17.0–24.5 |
+| mixA-e4 | — | — | 20.8–24.6 |
+| mixB | 80.5 | 9.97 | — |
+| Q8_0 (context) | — | — | 13.4–15.1 |
 
-Reading: with the prefill mission's warm-up flow, laptop TTFT is decode-bound,
-so **mixA's +42% decode is the latency win**; mixB trades it back for KLD.
-Q4_K_M itself decodes no faster than Q8_0 on this build (prefill §6), so the
-baseline was a poor latency choice regardless of fidelity.
+Reading: q4-family decode differences do not separate from contention noise
+on this host (orderings flip between interleaved reps); Q8_0 reads consistently
+slower than every q4 mix in the interleaved sets; prefill is flat across the
+q4 family. The prefill mission's §6 table (their low-load conditions) remains
+the reference for tier-level comparisons.
 
 ## 5. b10453 `--tensor-type` counter semantics (tool hazard)
 
@@ -192,12 +210,14 @@ are passable, the mixes strictly dominate the Q4_K_M baseline profile
 
 ## 8. Recommendation
 
-Ship **Q8_0 + Q4_K_M-mixA** as the small tier (pending the valid_drop
-decision above): −136 MB vs Q4_K_M, KLD 0.0265 ≤ 0.03 with margin, +42% CPU
-decode, prefill on par. If fidelity outranks latency for the small tier,
-**mixB** instead (−68 MB, KLD 0.0229). Q6_K remains the quality fallback tier
-at 2.2 GB with the best decode (21 tok/s at low load) — a Q6_K with q5_K
-emb/head (~2.07 GB) was not needed to beat the baseline and was not pursued.
+Ship **Q8_0 + Q4_K_M-mixA-e4** as the small tier (pending the valid_drop
+decision above and the running third DEV slot): −169.4 MB vs Q4_K_M, KLD
+0.0267 ≤ 0.03 with 11% margin, decode baseline-equal. If fidelity outranks
+size for the small tier, **mixB-e4** (−101.3 MB, KLD 0.0233, TRAIN-measured;
+its DEV slot was not spent — the emb-lever delta vs confirmed mixB is
++0.0004, validated twice on CPU and by the night run's pattern). The emb-q5
+variants (mixA/mixB) remain in `variant_specs()` as the DEV-confirmed forms.
+Q6_K stays the quality fallback at 2.2 GB.
 
 ## 9. Open questions for the user
 

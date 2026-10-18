@@ -163,6 +163,22 @@
       "p99_kld": 0.278615,
       "ppl_gap": 0.0797,
       "note": "43% of mixB's KLD gain for 52% of its size; with the 17-layer contaminated probe (0.023730 @ 1679.0) this shows ffn_down q6 gain is ~linear in upgraded-layer count and NOT concentrated by imatrix importance; interior point, direction closed"
+    },
+    "Q4_K_M-mixA-e4": {
+      "recipe": "mixA with token_embd q4_K (head q5_K)",
+      "bytes": 1590400000,
+      "mean_kld": 0.026692,
+      "same_top_p_pct": 94.915,
+      "p99_kld": 0.289156,
+      "ppl_gap": 0.086
+    },
+    "Q4_K_M-mixB-e4": {
+      "recipe": "mixB with token_embd q4_K (head q5_K)",
+      "bytes": 1658500000,
+      "mean_kld": 0.023328,
+      "same_top_p_pct": 95.175,
+      "p99_kld": 0.257556,
+      "ppl_gap": 0.0702
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -202,6 +218,11 @@
     "ffn_down_q6_top11_of_21": {
       "delta_mb": 35.7,
       "delta_kld": -0.00154
+    },
+    "token_embd_q4_from_q5": {
+      "delta_mb": -33.4,
+      "delta_kld": 0.000191,
+      "note": "the q4_K penalty is ~98% the output head; emb q4_K is free like q6_K"
     }
   },
   "b10453_tool_finding": {
@@ -357,5 +378,37 @@
     "panel": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/panel/",
     "bench": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/bench-finalists.csv",
     "gate_receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/autoresearch-20261017/gate-receipt.json"
+  },
+  "speed_correction_20261018": {
+    "finding": "q4-family decode differences within shared-box contention noise (interleaved sets flip orderings +-15%); the earlier +42% claim was a contention artifact and is withdrawn",
+    "interleaved_tg32": {
+      "Q4_K_M": [
+        23.6,
+        23.3,
+        23.9,
+        20.4
+      ],
+      "mixA": [
+        24.4,
+        24.5,
+        24.5,
+        17.0
+      ],
+      "mixA-e4": [
+        24.0,
+        24.5,
+        20.8,
+        24.6
+      ],
+      "mixB-e4": [
+        23.5,
+        23.8
+      ],
+      "Q8_0": [
+        13.4,
+        15.1
+      ]
+    },
+    "bytes_per_token_bound": "q4 family within +-3.5%"
   }
 }
