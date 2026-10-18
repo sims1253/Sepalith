@@ -103,6 +103,28 @@
    "flips_8T": 29,
    "overlap": 20,
    "reading": "which requests flip depends on thread partition (reduction order); rate ~13% stable; no stable changed-request set exists across environments"
+  },
+  "flip_quality_neutrality": {
+   "tool": "experiments/serving/specdec/analyze_flip_quality.py",
+   "spec_exact_match": 0.7149,
+   "base_exact_match": 0.7149,
+   "on_flips": {
+    "base_exact": 0,
+    "spec_exact": 0,
+    "n_flips": [
+     29,
+     31
+    ],
+    "reading": "every flipped trace already diverged from the TRAIN target under the baseline; no ground-truth match is gained or lost",
+    "spec_wellformed": [
+     28,
+     28
+    ],
+    "base_wellformed": [
+     24,
+     28
+    ]
+   }
   }
  },
  "verify_cost_law": {

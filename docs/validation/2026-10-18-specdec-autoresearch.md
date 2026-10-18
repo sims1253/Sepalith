@@ -174,9 +174,17 @@ the CPU backend's batched matmuls use a different reduction order than the
 single-row path, so logits differ in the last ulps and near-tie argmaxes can
 flip. The same mechanism explains the 0.851 warm-vs-cold drift (prefill batch
 shape differs) and — at much larger magnitude — the 66.8 % token identity of
-Q8_0 vs bf16 on DEV250 (quant gate receipt). **Flipped ≠ wrong**: these are
-ties by construction; but the gate as written demands identity, so this is a
-decision point, not something to work around.
+Q8_0 vs bf16 on DEV250 (quant gate receipt). **Flipped ≠ wrong — and the flips cost nothing measurable**: these are
+ties by construction; and against the TRAIN ground truth (`analyze_flip_quality.py`,
+both full-set runs), spec and baseline have *identical* exact-match counts
+(158/221 at 8T and 4T) — every flipped trace was one where greedy had
+already diverged from the dataset target (0/29 and 0/31 flips had
+baseline==target), so no ground-truth match is gained or lost. On the
+flipped subset the spec outputs are as well-formed as the baseline's
+(terminal line present in 28/29 vs 24/29 at 8T; 28/31 vs 28/31 at 4T).
+In-distribution caveat applies; the DEV-side check is the §10.3 proposal.
+The gate as written still demands identity — a decision point, not
+something to work around.
 
 ### 5.4 Consequence for draft-model directions
 
