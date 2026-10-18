@@ -1,9 +1,9 @@
 {
-  "label": "anchor-IQ4_XS",
-  "tier": "IQ4_XS",
-  "output_type": "q8_0",
-  "embedding_type": "q8_0",
+  "label": "mixAq-ao6kv8q8-emb5-head5",
+  "tier": "Q4_K_M",
+  "output_type": "q5_K",
+  "embedding_type": "q5_K",
   "imatrix": true,
-  "tensor_types": [],
+  "tensor_types": ["attn_output\\.weight=q6_K", "attn_k\\.weight=q8_0", "attn_v\\.weight=q8_0", "attn_q\\.weight=q8_0"],
   "kld_chunks": 64
 }

@@ -145,6 +145,15 @@
       "same_top_p_pct": 93.878,
       "p99_kld": 0.508772,
       "ppl_gap": 0.1174
+    },
+    "mixAq-ao6kv8q8-emb5-head5": {
+      "recipe": "mixA + attn_q=q8_0",
+      "bytes": 1711900000,
+      "mean_kld": 0.023419,
+      "same_top_p_pct": 95.172,
+      "p99_kld": 0.257722,
+      "ppl_gap": 0.0831,
+      "note": "dominated by mixB (smaller and lower KLD); probe closed the sensitivity map"
     }
   },
   "sensitivity_marginals_from_Q4_K_M": {
@@ -175,6 +184,11 @@
     "emb_head_q4_from_q5": {
       "delta_mb": -66.9,
       "delta_kld": 0.0079
+    },
+    "attn_q_q8_on_mixA": {
+      "delta_mb": 88.1,
+      "delta_kld": -0.0031,
+      "note": "attn_q is 2048x2048; same cost as attn_output q8 with less gain"
     }
   },
   "b10453_tool_finding": {
