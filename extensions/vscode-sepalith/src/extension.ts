@@ -471,8 +471,9 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
 
   private async fetchSymbols(document: vscode.TextDocument): Promise<RawSymbol[] | null> {
     const key = document.uri.toString();
+    const version = document.version; // the state queried, not whatever the document is at when the answer arrives
     const hit = this.symCache.get(key);
-    if (hit && hit.version === document.version) return hit.symbols;
+    if (hit && hit.version === version) return hit.symbols;
     let symbols: RawSymbol[] | null = null;
     try {
       // huge files can make the symbol provider slow: race it, never let it
@@ -487,7 +488,7 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
       symbols = null;
     }
     if (this.symCache.size > 16) this.symCache.clear(); // a few open files is the real working set
-    this.symCache.set(key, { version: document.version, symbols });
+    this.symCache.set(key, { version, symbols });
     return symbols;
   }
 
@@ -517,8 +518,16 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
     const editor = vscode.window.activeTextEditor;
     if (!editor || editor.document.languageId !== "r") return null;
     if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") return null;
-    if (editor.document.getText().trim().length < MIN_DOCUMENT_CHARS) return null;
-    return (await this.renderPrompt(editor.document, editor.selection.active, cfg().scopeContext)).prompt;
+    const { document } = editor;
+    if (document.getText().trim().length < MIN_DOCUMENT_CHARS) return null;
+    const version = document.version;
+    const position = editor.selection.active;
+    const { prompt } = await this.renderPrompt(document, position, cfg().scopeContext);
+    // the state moved while symbols were fetched: this render may mix old and new text, and the change
+    // that moved it has already scheduled the next warm-up
+    if (vscode.window.activeTextEditor !== editor || document.version !== version || !editor.selection.active.isEqual(position)) return null;
+    if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") return null;
+    return prompt;
   }
 
   private skipLogRateLimited(msg: string): void {

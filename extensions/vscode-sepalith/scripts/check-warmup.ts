@@ -92,6 +92,38 @@ async function main() {
     assert.equal(h.sent.length, 3, 'dispose cancels the pending timer');
     console.log('PASS failure, reset and dispose');
   }
+  // a follow-up waits for the newest change to settle instead of firing on a stale dirty flag
+  {
+    const h = new Harness();
+    h.hold = true;
+    h.scheduler.schedule(); await delay(DEBOUNCE * 2);
+    h.prompt = 'q1'; h.scheduler.schedule(); await delay(DEBOUNCE * 2); // settled while in flight: dirty
+    h.prompt = 'q2'; h.scheduler.schedule(); // still typing: its debounce is pending
+    h.hold = false; h.releaseAll(); await delay(5);
+    assert.deepEqual(h.sent, ['p0'], 'no follow-up while the newest change has not settled');
+    await delay(DEBOUNCE * 2);
+    assert.deepEqual(h.sent, ['p0', 'q2'], 'one follow-up after it settles, newest state');
+    console.log('PASS follow-up waits for the latest debounce');
+  }
+  // disabled or disposed while a warm-up is rendering or in flight: nothing more is sent
+  {
+    let finishRender: () => void = () => {};
+    let on = true;
+    const sent: string[] = [];
+    const s = new WarmupScheduler(async () => { await new Promise<void>(r => { finishRender = r; }); return 'r'; },
+      async prompt => { sent.push(prompt); }, () => on, DEBOUNCE);
+    s.schedule(); await delay(DEBOUNCE * 2);
+    on = false; finishRender(); await delay(10);
+    assert.deepEqual(sent, [], 'disabling during the render drops that warm-up');
+    const h = new Harness();
+    h.hold = true;
+    h.scheduler.schedule(); await delay(DEBOUNCE * 2);
+    h.prompt = 'q1'; h.scheduler.schedule(); await delay(DEBOUNCE * 2);
+    h.scheduler.dispose(); h.hold = false; h.releaseAll(); await delay(DEBOUNCE * 2);
+    h.scheduler.schedule(); await delay(DEBOUNCE * 2);
+    assert.deepEqual(h.sent, ['p0'], 'dispose lets the in-flight warm-up finish and starts nothing new');
+    console.log('PASS disable during render, dispose during flight');
+  }
   // body: the warm-up is the real request with zero generation
   {
     const lines = ['library(stats)', 'fit_model <- function(df) {', '  model <- lm(y ~ x, data = df)', '  ', '}', 'summary(fit_model(cars))'];

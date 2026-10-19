@@ -20,6 +20,7 @@ export class WarmupScheduler {
   private timer: ReturnType<typeof setTimeout> | null = null;
   private running = false;
   private dirty = false;
+  private disposed = false;
   private lastWarmed = "";
   // null = nothing to warm (no R editor, server not ready, empty document)
   private readonly render: () => Promise<string | null>;
@@ -37,7 +38,7 @@ export class WarmupScheduler {
 
   /** Note a prompt-changing event; warms after `delayMs` without further events. */
   schedule(): void {
-    if (!this.enabled()) return;
+    if (this.disposed || !this.enabled()) return;
     if (this.timer !== null) clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.timer = null;
@@ -51,6 +52,7 @@ export class WarmupScheduler {
   }
 
   dispose(): void {
+    this.disposed = true; // an in-flight warm-up finishes, nothing new starts
     if (this.timer !== null) clearTimeout(this.timer);
     this.timer = null;
   }
@@ -64,17 +66,19 @@ export class WarmupScheduler {
     try {
       do {
         this.dirty = false;
-        if (!this.enabled()) break;
+        if (this.disposed || !this.enabled()) break;
         try {
           const prompt = await this.render();
           // an unchanged prompt (e.g. a cursor settle that moved nothing) is already warm
           if (prompt === null || prompt === this.lastWarmed) continue;
+          if (this.disposed || !this.enabled()) break; // disabled or disposed while rendering
           await this.send(prompt);
           this.lastWarmed = prompt;
         } catch {
           // best effort: the real request still works cold; `send` logs
         }
-      } while (this.dirty);
+        // a change whose debounce is still pending has not settled: its timer starts the next warm-up
+      } while (this.dirty && this.timer === null);
     } finally {
       this.running = false;
     }
