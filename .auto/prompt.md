@@ -182,6 +182,15 @@ final gate table.
   restores TRACKED files — commit large artifacts (refs) immediately or lose
   working-tree copies.
 
+## Session status: MEASUREMENT PROGRAM COMPLETE (2026-10-19)
+27 experiments logged. Final synthesis: pooled 1.560x CI [1.464, 1.659] over
+1326 paired full-set requests; median-of-medians 1.423x; DEV75 1.464x.
+Champion: ngram-simple n=2 m=4 (extension drop-in verified). Parity blocker
+characterized + quality-neutral; patch space closed by measurement/sim.
+PRs: #68 MERGED, #71 open (post-merge evidence, watched). Remaining items
+are user decisions (report §8/§10) — see .auto/ideas.md reopen triggers.
+Post-merge harness verification: 1.477x, counters bit-identical (run #27).
+
 ## Rig facts
 - Ports 18601 (baseline) / 18602 (candidate); `--metrics` enabled; tracked
   PIDs; servers spawn under `nice -n 10` with `CUDA_VISIBLE_DEVICES=""`.
