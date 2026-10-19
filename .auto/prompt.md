@@ -121,6 +121,10 @@ final gate table.
   matrix, no-op safety, integration, manifest) -> follow-up PR #71 (open,
   watched). Branch rebased onto post-#66 main; .auto harness restored after
   the merge tried to delete it (origin/main removed .auto in #66's cleanup).
+- llama.cpp master evaluation (run #28): parity blocker PERSISTS upstream
+  (identical flip counts f3fb2fc vs b10453); champion flags unchanged,
+  acceptance bit-identical; wall equal/slightly better (1.548x @ load 17).
+  Evidence recorded for §10.1 upgrade proposal.
 - Voting-drafter closure (run #26): most-frequent continuation UNDERPERFORMS
   most-recent (1.707 vs 1.779 ceiling) despite higher accept rate — recency
   encodes positional context, frequency is context-blind. Patch space

@@ -372,10 +372,19 @@ confident, so the drafter never changes them.
 
 ## 10. Proposals needing user decisions
 
-1. **llama.cpp determinism / upgrade.** The parity blocker is b10453 CPU
-   batch-verify numerics. (Ruled out at b10453: `-fa on` — bit-identical
-   outputs and speed-neutral on this CPU build, so the attention flag is
-   not a lever; kernel-path changes must come from a different build.) Proposals: (a) ask upstream / patch so the greedy
+1. **llama.cpp determinism / upgrade.** The parity blocker is CPU
+   batch-verify numerics — **and it persists upstream**: an evaluation on
+   current master (`f3fb2fc`, built in the work dir, parity probe + paired
+   champion run) shows identical flip counts (n1m1 5/60, n2m4 8/60) and
+   bit-identical acceptance counters (1.525 tok/step @ 0.417), with the
+   wall equal or slightly better (1.548× median at load 17 — the best
+   subset wall despite the heaviest load; decode tok/s ratio 1.28 vs
+   1.22–1.26). So an upgrade alone does **not** unlock the lossless gate;
+   the determinism fix must be a code change (route greedy verification
+   through the same matmul path as single-token decode), and the small
+   decode win from upgrading would need its own validation cycle.
+   (Ruled out at b10453: `-fa on` — bit-identical outputs and
+   speed-neutral, so the attention flag is not a lever.) Proposals: (a) ask upstream / patch so the greedy
    verification path uses the same matmul path as single-token decode (e.g.
    force per-row vec-mat for verify batches ≤ some size), making speculation
    bitwise-lossless; (b) evaluate a newer llama.cpp — release notes/PRs
