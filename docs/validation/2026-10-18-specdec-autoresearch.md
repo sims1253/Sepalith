@@ -385,7 +385,13 @@ confident, so the drafter never changes them.
    1.22–1.26). So an upgrade alone does **not** unlock the lossless gate;
    the determinism fix must be a code change (route greedy verification
    through the same matmul path as single-token decode), and the small
-   decode win from upgrading would need its own validation cycle.
+   decode win from upgrading would need its own validation cycle. The
+   optimal flags do not change with the upgrade: the per-position
+   reachability bound (draft position 5 reached on <0.4 % of steps) is a
+   property of the workload and draft algorithm, not of the binary, so
+   deeper `m` adds ≈nothing on any build, and master's effective verify
+   cost at the champion's mean batch (≈1.19× vs 1.22×) shows no
+   cliff-flattening that could shift the optimum.
    (Ruled out at b10453: `-fa on` — bit-identical outputs and
    speed-neutral, so the attention flag is not a lever.) Proposals: (a) ask upstream / patch so the greedy
    verification path uses the same matmul path as single-token decode (e.g.
