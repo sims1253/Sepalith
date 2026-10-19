@@ -13,9 +13,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from d3_client import PROCESS_QUESTIONS, StubJudge            # noqa: E402
 from env import (EnvConfig, EpisodeRow, TypingRLEnv,          # noqa: E402
                  bracket_ok, extract_code, glm_style_score, judge_parse,
-                 parse_pass_fail, perf_score, repeated_line)
+                 parse_pass_fail, perf_score, repeated_line, run_r)
 from policy import MockTypist                                 # noqa: E402
-from tasks import Task, TASKS                                 # noqa: E402
+from tasks import Task, TASKS, build_test_program            # noqa: E402
 
 HAVE_R = shutil.which("Rscript") is not None
 
@@ -146,7 +146,7 @@ TINY_TASK = Task(
 ''',
     bench_r='''
 .data <- c(rnorm(200000), NA)
-invisible(midpoint(.data))
+.check(midpoint(.data), naive_impl(.data))
 .bench(naive_impl(.data), tag = "BASE")
 .bench(midpoint(.data))
 ''',
@@ -182,6 +182,8 @@ class EndToEndR(unittest.TestCase):
         self.assertIsNotNone(row.perf)
         self.assertGreater(row.perf, 0.0)      # vectorized beats the loop
         self.assertGreater(row.scalar, 0.4)
+        self.assertTrue(row.process_checks)
+        self.assertEqual(row.process_checks, env.process_checks)
 
     def test_broken_code_gated(self):
         bad = "```r\nmidpoint <- function(x) { x[1] }\n```\n"
@@ -199,6 +201,37 @@ class EndToEndR(unittest.TestCase):
         row = env.finalize()
         self.assertLess(row.correctness, 1.0)
         self.assertLess(row.scalar, 0.2)
+
+    def _finalize(self, task, code):
+        env = TypingRLEnv(task, judge=StubJudge(), cfg=EnvConfig(max_chars=2000))
+        env.reset()
+        env.step(code)
+        return env.finalize()
+
+    def test_wrong_but_fast_earns_no_perf(self):
+        # correct on the short tests, returns 0 on the long bench vector
+        fast_wrong = ("```r\nmidpoint <- function(x) {\n"
+                      "  if (length(x) > 1000) return(0)\n"
+                      "  (min(x, na.rm = TRUE) + max(x, na.rm = TRUE)) / 2\n"
+                      "}\n```\n")
+        row = self._finalize(TINY_TASK, fast_wrong)
+        self.assertEqual(row.correctness, 1.0)
+        self.assertEqual(row.perf, -0.5)
+        self.assertIn("differs", row.bench_error)
+
+    def test_visible_hardcoder_fails_heldout(self):
+        hardcoder = """rolling_mean <- function(x, w) {
+  if (w > length(x)) return(numeric(0))
+  if (w == 1) return(c(3, -1, 7))
+  if (length(x) == 3) return(c(NA_real_, NA_real_))
+  if (length(x) == 4) return(c(NA, NA, 3.5))
+  if (length(x) == 5) return(c(1.5, 2.5, 3.5, 4.5))
+  numeric(8)
+}"""
+        task = TASKS["rolling_mean"]
+        visible = parse_pass_fail(*run_r(build_test_program(task, hardcoder), 60)[:2])[0]
+        heldout = parse_pass_fail(*run_r(build_test_program(task, hardcoder, heldout=True), 60)[:2])[0]
+        self.assertEqual((visible, heldout), (1.0, 0.0))
 
 
 if __name__ == "__main__":

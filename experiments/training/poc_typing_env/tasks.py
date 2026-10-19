@@ -16,7 +16,8 @@ Tasks are chosen so the reward components SEPARATE:
   - style/idiom differences -> the judge component discriminates.
 
 Everything runs under Rscript --vanilla with timeouts (see env.py). The
-harness protocol is byte-stable: the runner greps PASS/FAIL/BASE lines.
+harness protocol is byte-stable: the runner greps PASS/FAIL/BASE/BENCH/MATCH lines; MATCH 1 means the
+candidate returned the naive reference's output on the bench data.
 """
 from __future__ import annotations
 
@@ -66,6 +67,7 @@ _PRELUDE = r'''
   }
   cat(sprintf("%s %.8f", tag, median(ts)), "\n")
 }
+.check <- function(got, want) cat("MATCH", as.integer(isTRUE(all.equal(got, want))), "\n")
 invisible(.t)
 '''
 
@@ -129,7 +131,7 @@ pool <- c("alpha", "beta", "gamma", "delta", "eps", "zeta", "eta", "theta",
           "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi")
 .data <- paste0(sample(pool, 300000, replace = TRUE),
                 sample(c(" ", ", ", "! ", "; ", "\n"), 300000, replace = TRUE))
-invisible(top_k_words(.data, 5))      # warm-up
+.check(top_k_words(.data, 5), naive_impl(.data, 5))      # warm-up + output check
 .bench(naive_impl(.data, 5), tag = "BASE")
 .bench(top_k_words(.data, 5))
 ''',
@@ -192,7 +194,7 @@ _reg(Task(
     bench_r=r'''
 set.seed(1)
 .data <- c(rnorm(100000), NA, rnorm(100000))
-invisible(rolling_mean(.data, 50))    # warm-up
+.check(rolling_mean(.data, 50), naive_impl(.data, 50))    # warm-up + output check
 .bench(naive_impl(.data, 50), tag = "BASE")
 .bench(rolling_mean(.data, 50))
 ''',
@@ -253,7 +255,7 @@ _reg(Task(
 set.seed(1)
 .data_x <- c(rnorm(1000000), NA)
 .data_g <- c(sample(paste0("grp", sprintf("%04d", 1:250)), 1000000, TRUE), NA)
-invisible(grouped_total(.data_x, .data_g))   # warm-up
+.check(grouped_total(.data_x, .data_g), naive_impl(.data_x, .data_g))   # warm-up + output check
 .bench(naive_impl(.data_x, .data_g), tag = "BASE")
 .bench(grouped_total(.data_x, .data_g))
 ''',

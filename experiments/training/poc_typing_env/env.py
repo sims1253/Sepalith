@@ -202,9 +202,11 @@ def glm_style_score(j: dict) -> float | None:
 
 def cascade_decision(correctness: float, d3_terminal: dict,
                      *, route_skip_clean: bool = True) -> str:
-    """Which tier judges this artifact? 'dead' -> no LLM judge (exec failed
-    AND decision tier says unusable/poor); 'clean' -> flash only (exec
-    passed AND decision tier confident); 'run' -> full glm-5.3 rubric.
+    """Which tier judges this artifact? Routes the glm-5.3 rubric only;
+    the glm-5.3-flash second opinion runs on every rollout when enabled.
+    'dead' -> no glm-5.3 rubric (exec failed AND decision tier says
+    unusable/poor); 'clean' -> no glm-5.3 rubric (exec passed AND decision
+    tier confident); 'run' -> full glm-5.3 rubric.
 
     model-routing (wiki): let the cheap tier trigger the expensive one
     only on ambiguity — Prism-style per-call routing at boundaries.
@@ -333,7 +335,13 @@ class TypingRLEnv:
         t["bench_s_wall"] = round(time.time() - t0, 2)
         base = re.search(r"BASE\s+([\d.eE+-]+)", bout)
         bench = re.search(r"BENCH\s+([\d.eE+-]+)", bout)
-        if base and bench:
+        match = re.search(r"MATCH\s+([01])", bout)
+        if match is None or match.group(1) != "1":
+            # wrong-but-fast code must not earn perf credit
+            row.perf, row.bench_error = -0.5, (
+                "bench output differs from the naive reference"
+                if match else (berr or bout)[:160])
+        elif base and bench:
             row.base_s, row.bench_s = float(base.group(1)), float(
                 bench.group(1))
             row.perf = perf_score(row.base_s, row.bench_s)
@@ -389,6 +397,7 @@ class TypingRLEnv:
         row.guard = self._guard(row)
         row.scalar = self._scalar(row)
         row.process_reward = self.process_reward
+        row.process_checks = self.process_checks
         row.backend = getattr(self.judge, "backend", "none")
         row.scalar_total = round(row.scalar + self.process_reward, 4)
         return row

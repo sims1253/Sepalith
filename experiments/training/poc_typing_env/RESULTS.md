@@ -2,6 +2,8 @@
 
 Generated route-replay of the 2026-10-16 run (component-time sum; run wall was 1705s) · 3 rounds × 3 rollouts · typer glm-5.3 · decision tier `d3` · wall 531.4s · glm usage 32682p/14904c tokens (79 calls)
 
+> Note (2026-10-19): this run predates the held-out composition tier, the bench output check (`MATCH`) and the `process_checks` row fix. Held-out columns are empty, and round winners were picked on scalar. All 8 positive-perf correct rollouts were re-benched and return the naive reference's output (MATCH 1), so the perf numbers stand.
+
 ## top_k_words
 
 | round | mean scalar | mean corr | mean perf | mean proc |
