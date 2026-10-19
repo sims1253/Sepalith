@@ -8,8 +8,8 @@
 
 Unlike ``gguf_dev_eval.py`` (DEV75/DEV250, gate confirmations only), this tool
 evaluates the TRAIN-derived search panel from
-``sepalith.quant.search_panel``: family-balanced rows excluded from both the
-imatrix calibration set and the held-out KLD slice.  Prompts are the rows'
+``sepalith.quant.search_panel``: family-balanced rows excluded from the
+imatrix calibration set, the held-out KLD slice and the DEV-excluded rows.  Prompts are the rows'
 pre-tokenized ``input_ids[:target_start]``, sent as token ids — the same
 request semantics as the DEV evaluator (greedy, cap, stop ids 1 and 130073,
 fresh request per case, no prompt caching).
@@ -45,11 +45,11 @@ def build(args) -> dict:
         for line in stream:
             if line.strip():
                 rows.append(json.loads(line))
-    cal = sp._row_ids(Path(args.calibration_ids))
-    kld = sp._row_ids(Path(args.kld_ids))
-    cases = sp.build_panel(rows, per_family=args.per_family, seed=args.seed, calibration_ids=cal, kld_ids=kld)
+    reserved = sp.manifest_row_ids(Path(args.calibration_manifest))
+    cases = sp.build_panel(rows, per_family=args.per_family, seed=args.seed, calibration_ids=reserved["calibration"],
+                           kld_ids=reserved["kld"], dev_excluded_ids=reserved["dev_excluded"])
     payload = {"schema": sp.SCHEMA, "seed": args.seed, "per_family": args.per_family,
-               "train_rows": str(args.train_rows), "excluded": {"calibration": len(cal), "kld": len(kld)},
+               "train_rows": str(args.train_rows), "excluded": {k: len(v) for k, v in reserved.items()},
                "cases": cases}
     Path(args.panel).write_text(json.dumps(payload, indent=2) + "\n")
     return {"panel": str(args.panel), "cases": len(cases),
@@ -133,10 +133,8 @@ def parse_args(argv=None):
     b = sub.add_parser("build", help="build the TRAIN search panel file")
     b.add_argument("--train-rows",
                    default="/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl")
-    b.add_argument("--calibration-ids",
-                   default="/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1/calibration.ids.json")
-    b.add_argument("--kld-ids",
-                   default="/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1/kld-heldout.ids.json")
+    b.add_argument("--calibration-manifest",
+                   default="/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1/manifest.json")
     b.add_argument("--panel", required=True)
     b.add_argument("--per-family", type=int, default=28)
     b.add_argument("--seed", type=int, default=20261017)

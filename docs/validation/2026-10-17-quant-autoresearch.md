@@ -294,6 +294,19 @@ Rank order and pairwise deltas reproduce (deltas within 8%; e.g. baseline →
 mixA-e4: −21.4% vs −22.1%). The ship tier's fidelity margin is a property of
 the recipes, not of the slice they were tuned on.
 
+**Erratum (2026-10-19, merge review).** The exclusion helpers used to build
+the search panel and slice-2 read `calibration.ids.json` /
+`kld-heldout.ids.json`, which hold *token* ids, so they excluded no rows.
+As built, the 196-case search panel shares 20 rows with the imatrix
+calibration set and 3 with the slice-1 KLD rows. Slice-2 shares 5 of its 32
+window rows with slice-1 (windows may cover different token spans) and 4 with
+calibration, so it is not fully disjoint as stated above. No DEV-excluded row
+entered either. The DEV250 gate results (sections 5 and 7) do not depend on
+these files. The helpers now read the calibration `manifest.json`
+(`sepalith.quant.search_panel.manifest_row_ids`, which also applies the DEV
+exclusion). The panel and slice-2 numbers above were not rerun with the fixed
+builders.
+
 ## 10. Open questions for the user
 
 1. **valid_drop threshold** (section 6): structurally unpassable as written,

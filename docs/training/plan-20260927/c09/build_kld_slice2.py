@@ -9,8 +9,8 @@ search decision — guarding against slice-specific overfitting of the *search*,
 not the gate (the gate keeps its own slice).
 
 Exclusions (TRAIN-only, no DEV reads): the v1 manifest's excluded row, every
-row in ``calibration.ids.json`` (imatrix calibration, including fillers),
-``kld-heldout.ids.json`` (the v1 slice) and the search panel's row ids.
+calibration row (imatrix, including fillers), every v1 KLD window row
+(both read from the v1 ``manifest.json``) and the search panel's row ids.
 
     uv run python docs/training/plan-20260927/c09/build_kld_slice2.py \\
         --out-dir /mnt/e/.../autoresearch-20261017/kld2 \\
@@ -27,24 +27,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[4] / "packages" / "sepal
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sepalith.quant import calibration as cal
 from sepalith.quant.llama_tools import file_sha256
+from sepalith.quant.search_panel import manifest_row_ids
 from build_calibration import TRAIN_ROWS, TRAIN_ROWS_SHA256, TOKENIZER_JSON, TOKENIZER_JSON_SHA256, llama_tokenize, load_tokenizer
 
 V1_DIR = Path("/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1")
-
-
-def row_ids(path: Path) -> set[str]:
-    data = json.loads(path.read_text())
-    flat: set[str] = set()
-
-    def walk(value: object) -> None:
-        if isinstance(value, str):
-            flat.add(value)
-        elif isinstance(value, (list, tuple)):
-            for item in value:
-                walk(item)
-
-    walk(data)
-    return flat
 
 
 def main(argv=None) -> int:
@@ -64,9 +50,9 @@ def main(argv=None) -> int:
     if file_sha256(TOKENIZER_JSON) != TOKENIZER_JSON_SHA256:
         raise SystemExit("tokenizer.json differs from the pinned tokenizer")
 
-    manifest = json.loads((V1_DIR / "manifest.json").read_text())
-    excluded = set(manifest["exclusion"]["excluded_row_ids"])
-    used = row_ids(V1_DIR / "calibration.ids.json") | row_ids(V1_DIR / "kld-heldout.ids.json")
+    reserved = manifest_row_ids(V1_DIR / "manifest.json")
+    excluded = reserved["dev_excluded"]
+    used = reserved["calibration"] | reserved["kld"]
     if args.panel_ids_from.is_file():
         used |= {case["id"] for case in json.loads(args.panel_ids_from.read_text())["cases"]}
     decode, round_trips, added = load_tokenizer(TOKENIZER_JSON)

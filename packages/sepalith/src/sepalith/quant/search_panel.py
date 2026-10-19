@@ -6,12 +6,16 @@ TRAIN token rows so recipe iterations can measure greedy agreement with the
 bf16 GGUF (identical generations, cap runaways, length drift) without touching
 DEV data.
 
-Rows are TRAIN-only and family-balanced.  A row enters only if it is in neither
-the imatrix calibration set nor the held-out KLD slice:
+Rows are TRAIN-only and family-balanced.  A row enters only if it is in none
+of the calibration manifest's row sets (``manifest.json``, read by
+:func:`manifest_row_ids`):
 
-- ``calibration.ids.json`` lists every row whose tokens contributed to
-  ``calibration.txt`` (whole rows and filler prefixes);
-- ``kld-heldout.ids.json`` lists the KLD window rows.
+- ``calibration.selected_row_ids`` and ``calibration.filler_row_ids``: every row
+  whose tokens contributed to ``calibration.txt``;
+- ``kld.windows``: the held-out KLD window rows;
+- ``exclusion.excluded_row_ids``: TRAIN rows excluded for DEV overlap.
+
+(``calibration.ids.json`` and ``kld-heldout.ids.json`` hold token ids, not row ids.)
 
 The panel stores the pre-tokenized prompt (``input_ids[:target_start]``) and
 metadata per case; generation reuses ``sepalith.quant.gguf_dev`` request
@@ -34,31 +38,25 @@ from sepalith.quant.gate import load_cases
 SCHEMA = "sepalith.c09.quant-search-panel.v1"
 
 
-def _row_ids(path: Path) -> set[str]:
-    """Row ids recorded in a calibration/KLD ids file (nested lists tolerated)."""
-    data = json.loads(path.read_text())
-    flat: set[str] = set()
-
-    def walk(value: object) -> None:
-        if isinstance(value, str):
-            flat.add(value)
-        elif isinstance(value, (list, tuple)):
-            for item in value:
-                walk(item)
-
-    walk(data)
-    return flat
+def manifest_row_ids(path: Path) -> dict[str, set[str]]:
+    """Row ids a calibration ``manifest.json`` reserves: calibration, KLD windows, DEV-excluded."""
+    manifest = json.loads(path.read_text())
+    calibration = manifest["calibration"]
+    return {
+        "calibration": {str(i) for i in (*calibration["selected_row_ids"], *calibration["filler_row_ids"])},
+        "kld": {str(window[0]) for window in manifest["kld"]["windows"]},
+        "dev_excluded": {str(i) for i in manifest["exclusion"]["excluded_row_ids"]},
+    }
 
 
 def build_panel(rows: Sequence[Mapping[str, Any]], *, per_family: int, seed: int,
-                calibration_ids: set[str], kld_ids: set[str]) -> list[dict[str, Any]]:
-    """Family-balanced TRAIN panel excluding calibration and KLD rows.
+                calibration_ids: set[str], kld_ids: set[str], dev_excluded_ids: set[str]) -> list[dict[str, Any]]:
+    """Family-balanced TRAIN panel excluding calibration, KLD and DEV-excluded rows.
 
-    Rows must already be eligible TRAIN rows (``split == "train"``, DEV
-    exclusion applied upstream by the caller).  Within a family, rows are
+    Rows must be TRAIN rows (``split == "train"``).  Within a family, rows are
     ordered by id and shuffled with a seeded permutation.
     """
-    excluded = calibration_ids | kld_ids
+    excluded = calibration_ids | kld_ids | dev_excluded_ids
     by_family: dict[str, list[Mapping[str, Any]]] = {}
     for row in rows:
         if str(row.get("split")) != "train":
