@@ -1,14 +1,14 @@
-"""Run queued GPU jobs inside the nightly window (01:00 to 09:00 Europe/Berlin).
+"""Run queued GPU jobs inside the GPU window (00:00 to 17:00 Europe/Berlin).
 
 The runner starts jobs one at a time and only while the window is open and the
 machine is idle: no GPU compute processes, little GPU memory in use, enough
 host memory and at least 150 GB free on the checkpoint disk. Every job gets:
 
-- ``SEPALITH_DEADLINE_EPOCH`` (08:40): save and stop at the next safe boundary
+- ``SEPALITH_DEADLINE_EPOCH`` (16:40): save and stop at the next safe boundary
   once this passes, then exit 75 if work remains or 0 if the job is finished.
-- a graceful-stop request at 08:50: ``SEPALITH_STOP_REQUEST_FILE`` is written
+- a graceful-stop request at 16:50: ``SEPALITH_STOP_REQUEST_FILE`` is written
   and SIGTERM goes to the job's leader process only.
-- a hard stop at 09:00: every process the job started is killed with SIGKILL,
+- a hard stop at 17:00: every process the job started is killed with SIGKILL,
   including processes that moved to their own session.
 
 Jobs may write JSON to ``SEPALITH_JOB_RESULT`` with ``checkpoints``,
@@ -48,10 +48,11 @@ from sepalith.ops.night_queue import (DEFAULT_STATE_ROOT, EXIT_DEFERRED, Job, Qu
                                       attempts_of)
 
 BERLIN = ZoneInfo("Europe/Berlin")
-START = clock_time(1, 0)
-DEADLINE = clock_time(8, 40)
-GRACEFUL = clock_time(8, 50)
-HARD = clock_time(9, 0)
+# 00:00 to 17:00 since 2026-10-19 (user decision: the PC is free during working days too); 01:00 to 09:00 before.
+START = clock_time(0, 0)
+DEADLINE = clock_time(16, 40)
+GRACEFUL = clock_time(16, 50)
+HARD = clock_time(17, 0)
 REPORT_SCHEMA = "sepalith.night-report.v1"
 POWERSHELL = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
 CUDA_LOCK = Path.home() / ".local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock"

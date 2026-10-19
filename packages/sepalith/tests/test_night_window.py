@@ -180,16 +180,18 @@ class NightTests(unittest.TestCase):
 
     # Window and checks -----------------------------------------------------
     def test_night_window_uses_berlin_time_across_dst(self):
-        noon = datetime(2026, 10, 24, 12, 0, tzinfo=BERLIN).timestamp()
-        window = night_window(noon)  # after 09:00, so the next night
+        evening = datetime(2026, 10, 24, 18, 0, tzinfo=BERLIN).timestamp()
+        window = night_window(evening)  # after 17:00, so the next window
         self.assertEqual(window.night, "2026-10-25")
-        self.assertEqual(datetime.fromtimestamp(window.start, BERLIN).hour, 1)
-        # Clocks go back at 03:00 that night: the window lasts nine hours.
-        self.assertEqual(window.hard - window.start, 9 * 3600)
-        self.assertEqual(window.deadline - window.start, 8 * 3600 + 40 * 60)
+        self.assertEqual(datetime.fromtimestamp(window.start, BERLIN).hour, 0)
+        # Clocks go back at 03:00 that night: the window lasts eighteen hours.
+        self.assertEqual(window.hard - window.start, 18 * 3600)
+        self.assertEqual(window.deadline - window.start, 17 * 3600 + 40 * 60)
+        noon = datetime(2026, 10, 24, 12, 0, tzinfo=BERLIN).timestamp()
+        self.assertEqual(night_window(noon).night, "2026-10-24")  # noon is inside the window
         inside = datetime(2026, 9, 29, 3, 0, tzinfo=BERLIN).timestamp()
         self.assertEqual(night_window(inside).night, "2026-09-29")
-        self.assertEqual(night_window(inside).hard - night_window(inside).start, 8 * 3600)
+        self.assertEqual(night_window(inside).hard - night_window(inside).start, 17 * 3600)
         compressed = test_window(inside, 10, 12.5, 15)
         self.assertEqual((compressed.deadline - inside, compressed.hard - inside), (600, 900))
         self.assertTrue(compressed.label.startswith("2026-09-29-test-"))
@@ -424,10 +426,10 @@ class NightTests(unittest.TestCase):
         self.assertEqual(setting("SepalithNightCheck", "WakeToRun"), "true")
         limit = setting("SepalithNightWake", "ExecutionTimeLimit")
         self.assertRegex(limit, r"^PT\d+H$")
-        # The hold ends at 09:05; on 2026-10-25 the clocks go back, so that is 9 h 10 min after 00:55.
-        wake = datetime(2026, 10, 25, 0, 55, tzinfo=BERLIN).timestamp()
+        # The hold ends at 17:05; on 2026-10-25 the clocks go back, so that is 18 h 10 min after 23:55 the evening before.
+        wake = datetime(2026, 10, 24, 23, 55, tzinfo=BERLIN).timestamp()
         hold_end = night_window(wake).hard + 300
-        self.assertEqual(hold_end - wake, 9 * 3600 + 600)
+        self.assertEqual(hold_end - wake, 18 * 3600 + 600)
         self.assertGreater(timedelta(hours=int(limit[2:-1])).total_seconds(), hold_end - wake)
 
     def test_runner_cli_prints_window(self):

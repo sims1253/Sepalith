@@ -1,4 +1,4 @@
-# Started by the "Sepalith\NightCheck" task at 09:05. Logs whether anything
+# Started by the "Sepalith\NightCheck" task at 17:05. Logs whether anything
 # from the night window is still running. It never stops anything.
 param(
     [Parameter(Mandatory = $true)][string]$Distro,

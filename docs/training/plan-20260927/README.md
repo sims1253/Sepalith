@@ -17,7 +17,7 @@ without waiting for the user. Borderline results stop and ask.
 
 - CPT checkpoint 11,586 is the parent for editing SFT.
 - Compute: free resources plus the PC's nightly window only. The window is
-  01:00 to 09:00 Europe/Berlin, and no paid compute is allowed. Prefer free
+  00:00 to 17:00 Europe/Berlin (since 2026-10-19; 01:00 to 09:00 before), and no paid compute is allowed. Prefer free
   Kaggle or Colab resources where they work.
 - SFT gates continue automatically when pre-registered rules pass. Borderline
   results stop for the user.
@@ -25,7 +25,7 @@ without waiting for the user. Borderline results stop and ask.
   public Hugging Face repositories. The sealed final set is never uploaded.
   At most one model upload per night (R8).
 - Claude Code agents execute the cards.
-- The PC trains every night, 01:00 to 09:00.
+- The PC trains every day, 00:00 to 17:00 (01:00 to 09:00 until 2026-10-19).
 - SFT schedule v2 uses 18.75% no-op cases, with each no-op row seen at most
   3 times. The learning-rate pilot compares 3e-6, 1e-5 and 3e-5.
 - Roxygen admission and arm B run in parallel with arm A (C10).

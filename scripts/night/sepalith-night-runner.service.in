@@ -1,5 +1,5 @@
 [Unit]
-Description=Sepalith nightly GPU window runner (01:00-09:00 Europe/Berlin)
+Description=Sepalith nightly GPU window runner (00:00-17:00 Europe/Berlin)
 Documentation=file://@REPO@/docs/training/plan-20260927/NIGHT-WINDOW.md
 
 [Service]
@@ -13,5 +13,5 @@ KillMode=mixed
 # systemd user services default to a soft limit of 1,024 open files; the trainer needs more.
 LimitNOFILE=1048576
 TimeoutStopSec=120
-# Backstop: the runner itself kills its job at 09:00.
-RuntimeMaxSec=9h
+# Backstop: the runner itself kills its job at 17:00.
+RuntimeMaxSec=17h30min
