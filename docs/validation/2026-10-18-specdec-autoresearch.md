@@ -382,7 +382,9 @@ confident, so the drafter never changes them.
    bit-identical acceptance counters (1.525 tok/step @ 0.417), with the
    wall equal or slightly better (1.548× median at load 17 — the best
    subset wall despite the heaviest load; decode tok/s ratio 1.28 vs
-   1.22–1.26). So an upgrade alone does **not** unlock the lossless gate;
+   1.22–1.26), and **baseline outputs are bit-identical across builds**
+   (master cold greedy vs the pinned cold references: 60/60 on the frozen
+   subset — cross-build comparability verified directly). So an upgrade alone does **not** unlock the lossless gate;
    the determinism fix must be a code change (route greedy verification
    through the same matmul path as single-token decode), and the small
    decode win from upgrading would need its own validation cycle. The
