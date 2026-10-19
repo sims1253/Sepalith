@@ -80,7 +80,20 @@
    "repetitions": "three full-set paired 8T reps: 1.294 (load 15-19), 1.418 (load 12), 1.429 (load ~8); median-of-medians ~1.42x; pooled 1.567/1.577/1.578; parity 192/221 all three",
    "four_thread_median_221": 1.276,
    "four_thread_ci_lo": 1.198,
-   "warm_e2e_median_221_rep3": 1.429
+   "warm_e2e_median_221_rep3": 1.429,
+   "recommendation_matrix": {
+    "Q8_0": {
+     "8t": "1.40-1.50 subset / 1.29-1.43 full",
+     "4t": "1.276 full"
+    },
+    "Q6_K": {
+     "8t": "1.549",
+     "4t": "1.294"
+    },
+    "Q4_K_M": {
+     "8t": "1.350"
+    }
+   }
   }
  },
  "parity": {
@@ -359,6 +372,16 @@
    "Q6_K": "1.55x",
    "Q4_K_M": "1.35x"
   },
-  "note": "Q6_K is the likeliest ship tier per prefill PR decode finding; flags quant-robust"
+  "note": "Q6_K is the likeliest ship tier per prefill PR decode finding; flags quant-robust",
+  "four_thread": {
+   "warm_e2e_median_60": 1.294,
+   "ci_lo": 1.019,
+   "decode_ratio": 1.313,
+   "acceptance": [
+    1.522,
+    0.401
+   ],
+   "parity": 0.8667
+  }
  }
 }

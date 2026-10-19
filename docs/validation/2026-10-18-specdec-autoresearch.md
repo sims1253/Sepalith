@@ -319,13 +319,24 @@ already faster (20.2 vs ~12.8 tok/s at comparable load), shrinking the head
 speculation can recover.
 
 **Q6_K (imat)** — the likeliest ship tier given the prefill mission's
-decode finding — carries the champion best of all (60-trace subset, cap
-256, load ~9): warm e2e median **1.549×** (CI95 lo 1.26), decode 1.60×,
-TTFT unchanged (68 ms), acceptance 1.517 tok/step @ 0.401, parity 0.900
-vs same-session baseline. Cross-tier summary of the same flags:
-**Q8_0 1.40–1.50× · Q6_K 1.55× · Q4_K_M 1.35×** — the recommendation is
-quant-robust, with verifier near-tie rejections rising mildly as the quant
-coarsens (0.417 → 0.401 → 0.376 accept rate).
+decode finding — carries the champion best of all at 8 threads (60-trace
+subset, cap 256, load ~9): warm e2e median **1.549×** (CI95 lo 1.26),
+decode 1.60×, TTFT unchanged (68 ms), acceptance 1.517 tok/step @ 0.401,
+parity 0.900 vs same-session baseline. At 4 threads (load ~4) the same
+flags give **1.294×** (CI95 lo 1.02) with acceptance bit-identical
+(1.522 @ 0.401) — drafting is thread-independent; only the verify cost
+changes (effective ~1.41× per step at 4T vs ~1.26× at 8T), and m = 4
+remains the optimum at 4T by first-order cost/acceptance arithmetic.
+Full recommendation matrix (warm e2e median):
+
+| | 8 threads | 4 threads |
+|---|---:|---:|
+| Q8_0 | 1.40–1.50× (subset) · 1.29–1.43× (full set) | 1.276× (full set) |
+| Q6_K (imat) | **1.549×** | 1.294× |
+| Q4_K_M (imat) | 1.350× | — |
+
+The recommendation is quant-robust, with verifier near-tie rejections
+rising mildly as the quant coarsens (0.417 → 0.401 → 0.376 accept rate).
 
 ## 10. Proposals needing user decisions
 

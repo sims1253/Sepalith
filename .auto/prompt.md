@@ -116,6 +116,10 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- 4T x Q6_K cell (run #20): 1.294x (CI lo 1.02), acceptance bit-identical
+  to 8T Q6_K. Recommendation matrix complete: Q8 1.40-1.50/1.28, Q6_K
+  1.55/1.29, Q4 1.35. 4T verify-cost penalty ~1.41x/step vs 1.26x at 8T;
+  m=4 stays optimal at 4T by arithmetic.
 - Q6_K cross-check (run #19): n2m4 warm median 1.549x (CI lo 1.26), decode
   1.60x, acceptance 1.517@0.401, parity 0.90. Cross-tier: Q8 1.40-1.50x /
   Q6_K 1.55x / Q4 1.35x — flags quant-robust; Q6_K is the likeliest ship
