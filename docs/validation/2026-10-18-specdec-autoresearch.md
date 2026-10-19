@@ -168,8 +168,13 @@ deterministic; only wall time varies with load.
 | n2m4 (cold-vs-cold, 221) | — | 0.873 | — |
 | n1m8 | 3/56 | 0.946 | — |
 
-Any drafting flips ~5–13 % of requests; the rate scales with the number of
-drafted steps, not depth. There is **no lossless n-gram configuration** on
+Any drafting flips ~5–14 % of requests; the rate scales with the number of
+drafted steps, not depth. Pooled over all six full-set sessions (183 flips
+of 1 326 paired requests), the first divergence lands at a median of 36
+tokens / 33 % through the output (p25/p75 = 20/84; only 21 % in the first
+decile) — flips track output length rather than clustering at the head,
+consistent with arising wherever near-ties occur on already-diverged
+generations. There is **no lossless n-gram configuration** on
 this build. Moreover, *which* requests flip is **environment-dependent**:
 the 4-thread and 8-thread full-set runs flip 31 vs 29 of 221 requests with
 only 20 in common — the flipped set is a per-environment numerics coin-flip
@@ -382,7 +387,9 @@ confident, so the drafter never changes them.
    bit-identical acceptance counters (1.525 tok/step @ 0.417), with the
    wall equal or slightly better (1.548× median at load 17 — the best
    subset wall despite the heaviest load; decode tok/s ratio 1.28 vs
-   1.22–1.26). So an upgrade alone does **not** unlock the lossless gate;
+   1.22–1.26), and **baseline outputs are bit-identical across builds**
+   (master cold greedy vs the pinned cold references: 60/60 on the frozen
+   subset — cross-build comparability verified directly). So an upgrade alone does **not** unlock the lossless gate;
    the determinism fix must be a code change (route greedy verification
    through the same matmul path as single-token decode), and the small
    decode win from upgrading would need its own validation cycle. The
