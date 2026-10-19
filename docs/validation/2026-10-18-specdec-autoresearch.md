@@ -333,10 +333,17 @@ Full recommendation matrix (warm e2e median):
 |---|---:|---:|
 | Q8_0 | 1.40–1.50× (subset) · 1.29–1.43× (full set) | 1.276× (full set) |
 | Q6_K (imat) | **1.549×** | 1.294× |
-| Q4_K_M (imat) | 1.350× | — |
+| Q4_K_M (imat) | 1.350× | 1.266× (CI lo 1.10; the only p95 regression in the grid, 0.97× — non-shippable tier) |
 
-The recommendation is quant-robust, with verifier near-tie rejections
-rising mildly as the quant coarsens (0.417 → 0.401 → 0.376 accept rate).
+At 4 threads all tiers converge to ≈1.27–1.29× (the verify-cost penalty
+dominates tier differences); at 8 threads the middle tier (Q6_K) wins. The
+recommendation is quant-robust, with verifier near-tie rejections rising
+mildly as the quant coarsens (0.417 → 0.401 → 0.384 accept rate).
+
+**No-op behavior is untouched by speculation**: across all three full-set
+runs, the 23 no-op traces show zero token flips and zero `[NO_EDIT]` ↔ edit
+mode switches in either arm — no-op outputs are short (11 tokens) and
+confident, so the drafter never changes them.
 
 ## 10. Proposals needing user decisions
 

@@ -91,7 +91,8 @@
      "4t": "1.294"
     },
     "Q4_K_M": {
-     "8t": "1.350"
+     "8t": "1.350",
+     "4t": "1.266 (p95 0.97x \u2014 only p95 regression in grid)"
     }
    }
   }
@@ -139,6 +140,13 @@
      28
     ]
    }
+  },
+  "noop_behavior": {
+   "flips": 0,
+   "mode_switches": 0,
+   "runs": 3,
+   "n_noop": 23,
+   "reading": "no-op outputs short+confident; speculation never touches them"
   }
  },
  "verify_cost_law": {

@@ -116,6 +116,10 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Q4 x 4T cell + noop analysis (run #21): matrix 6/6 complete (Q4x4T
+  1.266x, only p95 regression 0.97x, non-shippable tier). NO-OP finding:
+  zero flips, zero [NO_EDIT]<->edit mode switches across all 3 full-set
+  runs — product no-op behavior identical with spec on.
 - 4T x Q6_K cell (run #20): 1.294x (CI lo 1.02), acceptance bit-identical
   to 8T Q6_K. Recommendation matrix complete: Q8 1.40-1.50/1.28, Q6_K
   1.55/1.29, Q4 1.35. 4T verify-cost penalty ~1.41x/step vs 1.26x at 8T;
