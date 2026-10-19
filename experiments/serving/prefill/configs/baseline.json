@@ -1,0 +1,14 @@
+{
+  "name": "baseline-extension",
+  "model": "arm-a-Q8_0.gguf",
+  "server_args": [
+    "--alias", "sepalith",
+    "--temp", "0",
+    "--parallel", "1",
+    "-c", "16384",
+    "-t", "8",
+    "-ngl", "0"
+  ],
+  "warmup": { "policy": "none" },
+  "request": { "n_predict": 64, "seed": 3407 }
+}

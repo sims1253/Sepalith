@@ -1,0 +1,9 @@
+{
+  "name": "dev75-eager",
+  "model": "arm-a-Q8_0.gguf",
+  "server_args": [
+    "--alias", "sepalith", "--temp", "0", "--parallel", "1", "-c", "16384", "-t", "8", "-ngl", "0"
+  ],
+  "warmup": { "policy": "full", "events": ["open"] },
+  "request": { "n_predict": 96, "seed": 3407 }
+}
