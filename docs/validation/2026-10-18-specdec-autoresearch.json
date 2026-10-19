@@ -1,0 +1,436 @@
+{
+ "schema": "sepalith.specdec.report.v1",
+ "created_utc": "2026-10-18",
+ "target_model": {
+  "path": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf",
+  "sha256": "44b01828b21cd6156eeda2fef67a4cf4ab4a9706f4ded543d9a9b844070de290fe"
+ },
+ "llama_cpp": {
+  "commit": "b10453",
+  "build": "cpu",
+  "bin": "~/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-server"
+ },
+ "host": "AMD Ryzen 9 5900X 12c/24t WSL2 47GB, nice -n 10, CUDA disabled, concurrent missions (load 8-23 recorded)",
+ "threads": [
+  8,
+  4
+ ],
+ "traces": {
+  "file": "experiments/serving/specdec/traces.jsonl",
+  "n": 221,
+  "manifest": "experiments/serving/specdec/manifest.json"
+ },
+ "references": {
+  "file": "experiments/serving/specdec/reference_outputs.json",
+  "n": 221,
+  "cap": 1024
+ },
+ "bench": "experiments/serving/specdec/bench_spec.py (paired interleaved A/B, warm flow = warmup n_predict=0 then timed request)",
+ "recommended": {
+  "spec_type": "ngram-simple",
+  "size_n": 2,
+  "size_m": 4,
+  "flags": [
+   "--spec-type",
+   "ngram-simple",
+   "--spec-ngram-simple-size-n",
+   "2",
+   "--spec-ngram-simple-size-m",
+   "4"
+  ],
+  "gate": {
+   "warm_e2e_median_221": 1.294,
+   "warm_e2e_median_60subset": [
+    1.403,
+    1.441
+   ],
+   "warm_p95_221": 1.458,
+   "warm_pooled_221": 1.567,
+   "decode_median_221": 1.328,
+   "ttft_unchanged": true,
+   "cold_e2e_median_221": 1.057,
+   "parity_warm_221": 0.869,
+   "parity_60subset": [
+    0.883,
+    0.883
+   ],
+   "four_thread_median_60": 1.233,
+   "dev75_warm_median": 1.464,
+   "dev75_p95": 1.77,
+   "dev75_acceptance": [
+    1.725,
+    0.484
+   ],
+   "q4_crosscheck_median_60": 1.35,
+   "gate_verdict": {
+    "1.4x_warm_e2e": "DEV75 yes (1.46x), TRAIN full set 1.29x (60-subset 1.40-1.44x)",
+    "cold_e2e_1.4x": "FAIL (prefill-bound, 1.06x)",
+    "no_p95_regression": "PASS (p95 improves everywhere)",
+    "token_identity_100pct": "FAIL (0.87-0.93; verify-batch numerics, see parity section)"
+   },
+   "warm_e2e_median_221_rep2": 1.418,
+   "warm_p95_221_rep2": 1.401,
+   "warm_pooled_221_rep2": 1.577,
+   "decode_median_221_rep2": 1.44,
+   "acceptance_fullset_rep2": [
+    1.813,
+    0.472
+   ],
+   "parity_warm_221_rep2": 0.8688,
+   "repetitions": "three full-set paired 8T reps: 1.294 (load 15-19), 1.418 (load 12), 1.429 (load ~8); median-of-medians ~1.42x; pooled 1.567/1.577/1.578; parity 192/221 all three",
+   "four_thread_median_221": 1.276,
+   "four_thread_ci_lo": 1.198,
+   "warm_e2e_median_221_rep3": 1.429,
+   "recommendation_matrix": {
+    "Q8_0": {
+     "8t": "1.40-1.50 subset / 1.29-1.43 full",
+     "4t": "1.276 full"
+    },
+    "Q6_K": {
+     "8t": "1.549",
+     "4t": "1.294"
+    },
+    "Q4_K_M": {
+     "8t": "1.350",
+     "4t": "1.266 (p95 0.97x \u2014 only p95 regression in grid)"
+    }
+   }
+  }
+ },
+ "parity": {
+  "baseline_warm_repeat": 1.0,
+  "baseline_warm_vs_cold_221": 0.851,
+  "spec_vs_base": {
+   "n1m1_60": 0.917,
+   "n2m2_60": 0.867,
+   "n2m3_60": 0.867,
+   "n3m3_60": 0.917,
+   "n2m4_warm_60": 0.883,
+   "n2m4_warm_221": 0.869,
+   "n2m4_coldcold_221": 0.873,
+   "n1m8_56": 0.946,
+   "q4_n2m4_60": 0.9
+  },
+  "repro": "runs/parity_repro_cases.txt (near-tie logprob gaps 0.0036-0.013 flip under verify batch of 2)",
+  "mechanism": "batched verify GEMM reduction order differs from single-token path; same class as KV-cache warm/cold drift (0.851) and much smaller than Q8-vs-bf16 drift (0.668, quant gate)",
+  "flip_set_thread_dependence": {
+   "flips_4T": 31,
+   "flips_8T": 29,
+   "overlap": 20,
+   "reading": "which requests flip depends on thread partition (reduction order); rate ~13% stable; no stable changed-request set exists across environments"
+  },
+  "flip_quality_neutrality": {
+   "tool": "experiments/serving/specdec/analyze_flip_quality.py",
+   "spec_exact_match": 0.7149,
+   "base_exact_match": 0.7149,
+   "on_flips": {
+    "base_exact": 0,
+    "spec_exact": 0,
+    "n_flips": [
+     29,
+     31
+    ],
+    "reading": "every flipped trace already diverged from the TRAIN target under the baseline; no ground-truth match is gained or lost",
+    "spec_wellformed": [
+     28,
+     28
+    ],
+    "base_wellformed": [
+     24,
+     28
+    ]
+   }
+  },
+  "noop_behavior": {
+   "flips": 0,
+   "mode_switches": 0,
+   "runs": 3,
+   "n_noop": 23,
+   "reading": "no-op outputs short+confident; speculation never touches them"
+  }
+ },
+ "verify_cost_law": {
+  "batched_bench_tg_tps": {
+   "B1": 7.6,
+   "B2": 15.6,
+   "B4": 40.9,
+   "B9": 37.3,
+   "B17": 47.0
+  },
+  "implication": "verify step of k+1 costs up to ~2x a single-token step; wall optimum is short precise drafts (m~4), not tok/step optimum (m 8-24)",
+  "batched_bench_tg_tps_idle": {
+   "B1": 14.86,
+   "B2": 26.99,
+   "B3": 27.73,
+   "B4": 45.88,
+   "B5": 44.63,
+   "B6": 58.03,
+   "B9": 62.67,
+   "B17": 83.4
+  },
+  "per_step_ms_idle": {
+   "c1": 67.3,
+   "c5": 112.1,
+   "c9": 143.6
+  },
+  "per_position_acceptance_n2": {
+   "pos1": 0.382,
+   "pos2": 0.26,
+   "pos3": 0.214,
+   "pos4": 0.176,
+   "pos5": 0.078,
+   "reading": "m=5 adds ~0.0003 tok/step; m=3 loses ~0.004; m refinement closed by mechanism"
+  }
+ },
+ "offline_sim": {
+  "tool": "experiments/serving/specdec/sim_draft.py",
+  "fidelity": "reproduces server draft/accept counters exactly on matched traces",
+  "region_copy_oracle": {
+   "pooled": 1.11,
+   "verdict": "dominated by ngram-simple; brief direction 2 (C++ patch) closed"
+  }
+ },
+ "dev_usage_log": [
+  {
+   "date": "2026-10-18",
+   "panel": "corrected-dev75-v1 sha 7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+   "use": "final speed report, one paired session, baseline + n2m4"
+  }
+ ],
+ "runs": {
+  "ngsimple-n2m4": {
+   "speedup_warm_median": 1.440946336033864,
+   "speedup_warm_pooled": 1.252646013337913,
+   "ci95": [
+    1.337084226070406,
+    1.6674854755771025
+   ],
+   "accept_tok_per_step": 1.5247208931419458,
+   "accept_rate": 0.41698352344740175,
+   "mean_draft_len": 1.2583732057416268,
+   "parity_warm": 0.8833333333333333,
+   "parity_ref": 0.4666666666666667,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": null,
+   "ttft_ms": null,
+   "ttft_ms_base": 106.15070299536455,
+   "load_start": "15.36",
+   "n_traces": 60,
+   "n_predict": 256
+  },
+  "ngsimple-n1m6": {
+   "speedup_warm_median": 1.240810102888819,
+   "speedup_warm_pooled": 0.9824438636454866,
+   "ci95": [
+    0.9569219213252408,
+    1.4797870862892863
+   ],
+   "accept_tok_per_step": 1.757169005491153,
+   "accept_rate": 0.2003228410008071,
+   "mean_draft_len": 3.7797437461866994,
+   "parity_warm": 0.8666666666666667,
+   "parity_ref": 0.4666666666666667,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": null,
+   "ttft_ms": null,
+   "ttft_ms_base": 136.8618359992979,
+   "load_start": "11.85",
+   "n_traces": 60,
+   "n_predict": 256
+  },
+  "ngmapk-n2m4": {
+   "speedup_warm_median": 1.4019304555834753,
+   "speedup_warm_pooled": 1.2093864438437205,
+   "ci95": [
+    1.1746232760747535,
+    1.7291508207488895
+   ],
+   "accept_tok_per_step": 1.3213283442469599,
+   "accept_rate": 0.5362997658079626,
+   "mean_draft_len": 0.5991580916744621,
+   "parity_warm": 0.8666666666666667,
+   "parity_ref": 0.4666666666666667,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": null,
+   "ttft_ms": null,
+   "ttft_ms_base": 115.02113999449648,
+   "load_start": "14.22",
+   "n_traces": 60,
+   "n_predict": 256
+  },
+  "ngmapk4v-n2m4": {
+   "speedup_warm_median": 1.1822251286502274,
+   "speedup_warm_pooled": 1.1663730947849344,
+   "ci95": [
+    1.0182313147763815,
+    1.4065385731967877
+   ],
+   "accept_tok_per_step": 1.2505446623093681,
+   "accept_rate": 0.5598831548198637,
+   "mean_draft_len": 0.4474945533769063,
+   "parity_warm": 0.9333333333333333,
+   "parity_ref": 0.4666666666666667,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": null,
+   "ttft_ms": null,
+   "ttft_ms_base": 82.11821399163455,
+   "load_start": "14.28",
+   "n_traces": 60,
+   "n_predict": 256
+  },
+  "ngsimple-n2m4_2": {
+   "speedup_warm_median": 1.463932080928645,
+   "speedup_warm_pooled": 1.3061787284718493,
+   "ci95": [
+    1.2273454329882518,
+    1.586579448598955
+   ],
+   "accept_tok_per_step": 1.7250409165302782,
+   "accept_rate": 0.4844706911636045,
+   "mean_draft_len": 1.4965630114566284,
+   "parity_warm": 0.88,
+   "parity_ref": null,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": 0.8666666666666667,
+   "ttft_ms": null,
+   "ttft_ms_base": 82.95959600945935,
+   "load_start": "10.03",
+   "n_traces": 75,
+   "n_predict": 1024
+  },
+  "ngsimple-n2m2": {
+   "speedup_warm_median": 1.1715040963393308,
+   "speedup_warm_pooled": 1.1240302203777564,
+   "ci95": [
+    0.9295940976179184,
+    1.3699912165971893
+   ],
+   "accept_tok_per_step": 1.4155972359328726,
+   "accept_rate": 0.5689189189189189,
+   "mean_draft_len": 0.7305034550839091,
+   "parity_warm": 0.8833333333333333,
+   "parity_ref": 0.85,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": null,
+   "ttft_ms": null,
+   "ttft_ms_base": 81.97557750099804,
+   "load_start": "8.81",
+   "n_traces": 60,
+   "n_predict": 256
+  },
+  "ngsimple-n2m4@arm-a-imat-Q4_K_M": {
+   "speedup_warm_median": 1.3504165704782443,
+   "speedup_warm_pooled": 1.1621153360375087,
+   "ci95": [
+    1.1498583284032922,
+    1.4997650487917087
+   ],
+   "accept_tok_per_step": 1.47520184544406,
+   "accept_rate": 0.3764275925079945,
+   "mean_draft_len": 1.26239907727797,
+   "parity_warm": 0.9,
+   "parity_ref": null,
+   "parity_base_repeat": 1.0,
+   "parity_base_warmcold": null,
+   "ttft_ms": 54.138858016813174,
+   "ttft_ms_base": 53.815942505025305,
+   "load_start": "8.02",
+   "n_traces": 60,
+   "n_predict": 256
+  }
+ },
+ "fa_probe": {
+  "verdict": "inert",
+  "parity_vs_fa_off": 1.0,
+  "speedup": 0.991
+ },
+ "flow_fidelity": {
+  "warm_endpoint_subset_60": 1.503,
+  "mid_abort_120ms": {
+   "e2e_median": 1.039,
+   "ci": [
+    0.974,
+    1.11
+   ],
+   "decode_ratio": 1.55,
+   "mechanism": "aborted warm-up drains server-side; TTFT ~8.8s both arms",
+   "partial_kv_reuse": "confirmed (2105/2359 tokens after one abort)"
+  },
+  "cold": {
+   "e2e_median": [
+    1.057,
+    1.035
+   ],
+   "decode": 1.328
+  },
+  "reading": "speculation never hurts at any pause point; visible e2e gain scales with decode share"
+ },
+ "q6_crosscheck": {
+  "tier": "arm-a-imat-Q6_K.gguf",
+  "warm_e2e_median_60": 1.549,
+  "ci_lo": 1.259,
+  "decode_ratio": 1.6,
+  "acceptance": [
+   1.517,
+   0.401
+  ],
+  "parity": 0.9,
+  "cross_tier_summary": {
+   "Q8_0": "1.40-1.50x",
+   "Q6_K": "1.55x",
+   "Q4_K_M": "1.35x"
+  },
+  "note": "Q6_K is the likeliest ship tier per prefill PR decode finding; flags quant-robust",
+  "four_thread": {
+   "warm_e2e_median_60": 1.294,
+   "ci_lo": 1.019,
+   "decode_ratio": 1.313,
+   "acceptance": [
+    1.522,
+    0.401
+   ],
+   "parity": 0.8667
+  },
+  "full_set": {
+   "warm_e2e_median": 1.428,
+   "ci_lo": 1.338,
+   "pooled": [
+    1.537,
+    1.542
+   ],
+   "decode": 1.456,
+   "p95": 1.39,
+   "ttft": 61,
+   "acceptance": [
+    1.716,
+    0.421
+   ],
+   "parity": 0.855,
+   "abs_median_ms": [
+    990.4,
+    1002.0
+   ],
+   "reps": [
+    1.428,
+    1.438
+   ]
+  }
+ },
+ "extension_integration": {
+  "file": "extensions/vscode-sepalith/src/extension.ts",
+  "spawn_form": "array, no shell",
+  "conflicts": "none",
+  "action": "drop-in the two spec flags"
+ },
+ "cascade_prototype": {
+  "sim_ceiling": [
+   2.056,
+   1.861
+  ],
+  "wall_60": 1.443,
+  "accept_rate": 0.288,
+  "mean_draft_len": 2.62,
+  "verdict": "ties stock champion; cost law eats the ceiling; direction 2 closed by measurement",
+  "patch": "experiments/serving/specdec/patches/ngram-simple-cascade.patch"
+ }
+}

@@ -1,0 +1,59 @@
+--- /home/m0hawk/.local/opt/llama.cpp-b10453/src/common/ngram-map.cpp	2026-10-12 01:49:17.334864826 +0200
++++ common/ngram-map.cpp	2026-10-19 07:23:51.898860300 +0200
+@@ -46,16 +46,18 @@
+  * @param sampled   Last sampled token
+  * @return Vector of draft tokens, empty if no matching pattern is found
+  */
+-llama_tokens common_ngram_simple_draft(
+-        const common_ngram_simple_config & config,
++// Single-n search: the original b10453 algorithm, parameterized by n.
++static llama_tokens common_ngram_simple_draft_n(
++        const uint16_t n_draft_max_m,
++        const uint16_t n_lookup,
+         const llama_tokens & tokens, llama_token sampled) {
+ 
+     // Simple implementation of self-speculative decoding without a draft model.
+     //
+     const size_t cur_len = tokens.size();
+ 
+-    const size_t n_draft_min = config.size_ngram; // size of n-gram to lookup in token history
+-    const size_t n_draft_max = config.size_mgram; // the m-gram following the found n-gram is used for draft
++    const size_t n_draft_min = n_lookup; // size of n-gram to lookup in token history
++    const size_t n_draft_max = n_draft_max_m; // the m-gram following the found n-gram is used for draft
+ 
+     // vector for tokens we want to verify.
+     // return empty vector if there is no match.
+@@ -100,8 +102,7 @@
+     if (copy_max < n_draft_min) {
+         return draft_tokens;
+     }
+-    LOG_DBG("%s: #tokens = %zu: found matching pattern at pos %zu, length %zu, draft length %zu\n",
+-            __func__, cur_len,
++    LOG_DBG("%s: #tokens = %zu: found matching pattern at pos %zu, length %zu, draft length %zu\n", __func__, cur_len,
+             match_pos, pattern.size(), copy_max);
+ 
+     draft_tokens.reserve(copy_max);
+@@ -111,6 +112,23 @@
+     return draft_tokens;
+ }
+ 
++// Cascaded lookup (Sepalith specdec patch): try the configured lookup size
++// first, then progressively shorter n-grams down to unigrams, returning the
++// first non-empty draft. Long-context matches stay precise; the unigram
++// fallback fills the steps where the bigram has no earlier occurrence.
++llama_tokens common_ngram_simple_draft(
++        const common_ngram_simple_config & config,
++        const llama_tokens & tokens, llama_token sampled) {
++
++    for (uint16_t n = config.size_ngram; n >= 1; --n) {
++        llama_tokens draft = common_ngram_simple_draft_n(
++                config.size_mgram, n, tokens, sampled);
++        if (!draft.empty()) {
++            return draft;
++        }
++    }
++    return {};
++}
+ 
+ // n-gram map
+ //

@@ -4174,3 +4174,42 @@ pass; mixC 1727 MB = fidelity tier, -44% KLD; ao5 1567 MB = size floor). All my 
 stopped and cleaned up as of 18:38 — user needs the box for gaming. Remaining load (~4 cores,
 specdec-baseline/specdec-ngsimple-n2m4 servers) is the specdec mission's. No further runs
 from me unless asked.
+
+## [2026-10-18T10:49+02] FROM rzcode-specdec TO ALL — specdec mission: champion measured, parity is the gate-blocker
+
+@rzcode-prefill @rzcode-quant context: with the warm-up flow (PR #66) the
+pause-time request is decode-bound, so spec-dec targets exactly the remaining
+latency. Everything on frozen TRAIN traces (221, manifest sha-pinned),
+Q8_0 arm A, b10453 CPU build, 8 threads nice -10, paired A/B servers in one
+session; DEV75 used once for the final speed panel (recorded).
+
+Champion: `--spec-type ngram-simple --spec-ngram-simple-size-n 2
+--spec-ngram-simple-size-m 4`. Warm e2e median 1.29-1.44x (DEV75 1.46x,
+CI95 lo 1.23), p95 1.46-1.77x, decode 1.33-1.49x, TTFT unchanged, zero
+memory cost. Cold e2e only 1.06x (prefill-bound — matches your split).
+4-thread band: 1.23x. Q4_K_M cross-check: 1.35x (provisional tier).
+
+Two findings that matter beyond spec-dec:
+1. CPU verify-cost law (llama-batched-bench): a verify batch of k+1 costs up
+   to ~2x a single-token step (B=1 slow mat-vec path vs B>=4 GEMM). Wall
+   optimum is SHORT PRECISE drafts (n=2, m=4; mean draft 1.26, accept 0.42),
+   not tok/step-optimal depth. Deeper = worse.
+2. PARITY BLOCKER: any drafting flips near-tie argmaxes — verify-batch GEMM
+   reduction order differs from single-token decode. 5-13% of requests
+   diverge at every mode/depth probed (even 1 drafted token/step). Baseline
+   warm-repeat = 1.000, so it is not the rig. Calibration: warm-vs-cold
+   cache drift alone = 0.851 on the same set (PR #66 ships this class);
+   Q8-vs-bf16 = 0.668 (quant receipt). Minimal repro:
+   experiments/serving/specdec/parity_repro.py ("ling" -0.688 vs "led"
+   -0.701 flips under a batch of 2). => NO lossless spec config exists at
+   b10453; the 100%-identity gate is unattainable; decision point for the
+   user (accept near-tie drift class vs require an upstream determinism fix).
+   Trained drafters (DSpark etc.) cannot fix this — same verify path.
+
+Also closed: region-copy drafter (brief dir. 2) — oracle simulation DOMINATED
+by plain ngram-simple (1.11x vs 2.3x ceiling); no C++ patch justified.
+Offline simulator reproduces server draft/accept counters bit-exactly.
+
+Report: docs/validation/2026-10-18-specdec-autoresearch.md (+ .json).
+Artifacts: /mnt/e/sepalith/campaign-20260915/serving-work/specdec-20261017/.
+No GPU, no uploads, sealed set untouched.
