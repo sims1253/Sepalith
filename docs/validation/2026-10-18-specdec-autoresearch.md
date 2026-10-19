@@ -97,8 +97,12 @@ Findings that shaped the sweep:
   implemented as a llama.cpp fork patch and measured: wall 1.443× — a tie
   with stock n2m4. Accept rate drops 0.42 → 0.29 and mean draft length
   doubles, so the verify-cost law eats the ceiling. Even a region+cascade
-  hybrid adds nothing over the cascade (sim 2.048–2.062). The patch and
-  build instructions are kept as evidence
+  hybrid adds nothing over the cascade (sim 2.048–2.062). A
+  **precision-raising variant** (frequency-voting continuation: most-frequent
+  next token instead of most-recent) was closed by exact simulation:
+  ceiling 1.707/1.455 — *below* the champion despite a higher accept rate
+  (0.511 vs 0.465), because recency encodes positional context that raw
+  frequency discards. The patch and build instructions are kept as evidence
   (`experiments/serving/specdec/patches/`); the pinned install was never
   modified.
 - **CPU verify-cost law** (`llama-batched-bench`; idle-host remeasurement,
@@ -235,6 +239,16 @@ Acceptance on the full set is higher than on the 60-trace sweep subset
 Across the three reps the medians bracket at **1.29–1.43× (median-of-medians
 ≈ 1.42×)** with monotonically better absolute times as host load drops —
 the ratio is load-robust because of the paired design.
+
+**Combined synthesis over all six full-set champion sessions** (3× Q8_0 +
+3× Q6_K, 221 traces each = 1 326 paired requests, loads 8–19):
+per-session warm e2e medians Q8 1.294/1.418/1.429, Q6_K 1.428/1.438/1.408;
+**median-of-medians 1.423×**, the metric the 1.4× gate level applies to. The
+time-weighted pooled ratio (Σ baseline time / Σ candidate time, both tiers
+together) is 1.560×, bootstrap 95 % CI [1.464, 1.659]. It is higher because
+long requests, where speculation helps most, dominate the sums, so it is not
+comparable with the gate's median ratio. Acceptance counters are
+bit-identical within each tier across every repetition.
 
 By band (warm e2e median): short ≤1k 1.34× / long ≥1k 1.36×; edit 1.35× /
 no-op 1.15×. By family: na_rm 1.58×, format 1.28×, pipe 1.21×, roxygen

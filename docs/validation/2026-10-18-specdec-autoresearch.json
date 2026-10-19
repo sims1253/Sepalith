@@ -412,7 +412,8 @@
    ],
    "reps": [
     1.428,
-    1.438
+    1.438,
+    1.408
    ]
   }
  },
@@ -432,5 +433,36 @@
   "mean_draft_len": 2.62,
   "verdict": "ties stock champion; cost law eats the ceiling; direction 2 closed by measurement",
   "patch": "experiments/serving/specdec/patches/ngram-simple-cascade.patch"
+ },
+ "final_synthesis": {
+  "sessions": 6,
+  "paired_requests": 1326,
+  "pooled_ratio": 1.56,
+  "pooled_ci95": [
+   1.464,
+   1.659
+  ],
+  "per_session_medians": {
+   "Q8_0": [
+    1.294,
+    1.418,
+    1.429
+   ],
+   "Q6_K": [
+    1.428,
+    1.438,
+    1.408
+   ]
+  },
+  "median_of_medians": 1.423,
+  "note": "pooled_ratio is time-weighted (sum of baseline times / sum of candidate times over both tiers), not the gate metric; the 1.4x gate level applies to the warm e2e median ratio (median_of_medians 1.423); counters bit-identical per tier across reps"
+ },
+ "voting_drafter_closure": {
+  "ceiling": [
+   1.707,
+   1.455
+  ],
+  "accept_rate": 0.511,
+  "verdict": "below champion despite higher precision; recency beats frequency as the continuation prior; patch space fully closed"
  }
 }

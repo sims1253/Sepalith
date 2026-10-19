@@ -411,10 +411,19 @@ class BindingTests(unittest.TestCase):
             self.assertStops("different definition", pending=["C09-arm-a-lr1e-5"])
 
 
+def live_at_gate_268() -> bool:
+    """True while the real arms' latest durable checkpoint is still gate 268 (C08's night-2 state)."""
+    steps = [int(path.parent.name.removeprefix("checkpoint-"))
+             for path in LIVE_CHECKPOINTS.glob("SFT-v2-r4-*/full/checkpoint-*/campaign-manifest.json")
+             if path.parent.name.removeprefix("checkpoint-").isdigit()]
+    return bool(steps) and max(steps) == 268
+
+
 @unittest.skipUnless((LIVE_GATES / "SFT-v2-r4-lr1e-5/decisions/decision-step-268-1.json").is_file()
                      and (LIVE_GATES / "SFT-v2-r4-lr3e-6/decisions/decision-step-268-1.json").is_file()
-                     and (LIVE_CHECKPOINTS / "SFT-v2-r4-lr3e-5/full/checkpoint-268/campaign-manifest.json").is_file(),
-                     "needs the real C08 gate-268 decisions and checkpoints on this PC")
+                     and (LIVE_CHECKPOINTS / "SFT-v2-r4-lr3e-5/full/checkpoint-268/campaign-manifest.json").is_file()
+                     and live_at_gate_268(),
+                     "needs the real C08 gate-268 decisions and checkpoints on this PC, before any arm trained past 268")
 class LiveDecisionTests(unittest.TestCase):
     """The two real decisions (read only, copied) and a synthetic lr3e-5 decision bound to the real recipe."""
 
