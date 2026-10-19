@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.offline.night",
+    "reference",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c13/bound/dpo-1-arm-a-536.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 121,
+  "id": "C13-dpo-1-arm-a-536-reference",
+  "note": "C13 DPO reference log-probabilities of all pairs under arm-a-536 (bf16, stored and hashed); resumable: keeps its verified prefix at the deadline",
+  "priority": 55,
+  "requires": [],
+  "resumable": true
+}
