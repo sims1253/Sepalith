@@ -116,6 +116,9 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Ship-tier full-set Q6_K (run #22): 1.428x median (CI lo 1.34), pooled
+  1.537x, decode 1.46x, abs median 990ms. Extension spawn checked: no
+  conflicts, drop-in. Run-artifact manifest (sha256) committed.
 - Q4 x 4T cell + noop analysis (run #21): matrix 6/6 complete (Q4x4T
   1.266x, only p95 regression 0.97x, non-shippable tier). NO-OP finding:
   zero flips, zero [NO_EDIT]<->edit mode switches across all 3 full-set

@@ -390,6 +390,26 @@
     0.401
    ],
    "parity": 0.8667
+  },
+  "full_set": {
+   "warm_e2e_median": 1.428,
+   "ci_lo": 1.338,
+   "pooled": 1.537,
+   "decode": 1.456,
+   "p95": 1.39,
+   "ttft": 61,
+   "acceptance": [
+    1.716,
+    0.421
+   ],
+   "parity": 0.855,
+   "abs_median_ms": 990.4
   }
+ },
+ "extension_integration": {
+  "file": "extensions/vscode-sepalith/src/extension.ts",
+  "spawn_form": "array, no shell",
+  "conflicts": "none",
+  "action": "drop-in the two spec flags"
  }
 }
