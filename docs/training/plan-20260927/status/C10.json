@@ -1,9 +1,9 @@
 {
   "card": "C10",
-  "state": "done",
-  "updated": "2026-10-12T02:15:00+02:00",
-  "branch": "plan/C10-roxygen-admission",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/50",
+  "state": "in_progress",
+  "updated": "2026-10-17T12:00:00+02:00",
+  "branch": "plan/C10-arm-b-night",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/63",
   "outputs": {
     "admission_receipt": {
       "path": "docs/training/plan-20260927/receipts/C10-roxygen-admission.json",
@@ -81,7 +81,6 @@
       },
       "nights": "one night expected, two at most; C07 has not run, so rescale with C07's measured arm-A time"
     },
-    "not_done_yet": "later runs of this card: arm-B data-queue file, recipe template, admission and bind (need the R2 learning rate after C08), arm-B nights after C09, and the R3 decision",
     "hf_paths": [
       "campaign-20260915/C10/admission/",
       "campaign-20260915/C10/arm-b-v4/"
@@ -172,7 +171,102 @@
       },
       "checks": "all eligible ids drawn, no target truncation, unique-before-replay per pool, edits once except the 11 last-update replays, constant composition"
     },
-    "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/d6ddf63ca8e901cee62e838b3d4a05ca298641d1"
+    "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/d6ddf63ca8e901cee62e838b3d4a05ca298641d1",
+    "arm_b_recipe": {
+      "bound_recipe": {
+        "path": "docs/training/plan-20260927/c10/bound/sft-v2-arm-b-lr1e-5.json",
+        "sha256": "6a34485dbe047139e42df5212ee198fff6e9a4247c22fe0814a6221953a8abb8"
+      },
+      "template": {
+        "path": "docs/training/plan-20260927/c10/arm-b/sft-v2-arm-b-recipe.template.json",
+        "sha256": "04f3bf3cb2ac7804a5284cd7f281067981aeb2f3ac1b8bd47571e00a73ef62bc"
+      },
+      "admission": {
+        "path": "docs/training/plan-20260927/c10/arm-b/admission-arm-b-lr1e-5.json",
+        "sha256": "67c6699070fe874aab9141abd01374aabc80d5f1ee798f879edf8631ee1e867c"
+      },
+      "data_queue": {
+        "path": "docs/training/plan-20260927/c10/arm-b/data-queue.json",
+        "sha256": "e0bc55aa2ab40ee2d4677ec95f3097f906f82e99e69d7407251500646c1f1070",
+        "active_cohort": "18,867 rows (256a418b...92ec)",
+        "additional_roxy": "6,156 not admitted (6,114 held by the DAT-10 context review, 4,694 of them since recovered and pending admission; 42 held by the C10 admission)"
+      },
+      "source_manifest": {
+        "path": "docs/training/plan-20260927/c04/bound/source-manifest.json",
+        "sha256": "619c380826c652be4be71aaff257340fc82438fac6424143787af4745b86eb9f",
+        "note": "the same manifest arm A binds: identical package code, no source change in this PR"
+      },
+      "binder": "docs/training/plan-20260927/c10/bind_arm_b.py (recipe_v2 template/admission/bind unchanged; overrides only the two descriptive fields build_template hard-codes for the 15,006 cohort: cohort.scope and the data-queue roxygen summary)",
+      "binding": "arm \"arm-b-lr1e-5\", LR 1e-5 (side 1e-6), parent CPT 11,586 (model.safetensors 4bf617f9...3c51), cohort 256a418b...92ec, schedule 1e89713e...98d2 (1,368 updates), gates 342/684/1,026/1,368 under R1 with the step-0 parent baseline, DEV75 + DEV250 at batch 32 / dynamic cache, seed 3407, retain_all. Outputs: /mnt/e/sepalith/campaign-20260915/{training,checkpoints}/SFT-v2-arm-b-lr1e-5, evidence ~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-arm-b-lr1e-5",
+      "diff_vs_arm_a": "only arm name/purpose, cohort (rows, schedule, manifest = cohort-receipt.json, length profile, token denominators, gates), data queue, output paths, admission and template records; optimizer, LR schedule, panels, generation batching, parent, seed, retention and source manifest are identical (packages/sepalith/tests/training/test_c10_arm_b_recipe.py asserts this)",
+      "verification": {
+        "recipe_v2_verify": "verified (deploy paths mapped to the worktree); arm A sft-v2-lr1e-5.json still verifies (de4bcb0a...)",
+        "test_c10_arm_b_recipe": "4/4 pass, including load_bound + preflight on the real cohort and schedule with a stand-in parent (18,867 rows, 21,888 draws, 1,368 updates, token denominators match)",
+        "check_training": "153/153 pass on CPU with .venv-sft (scripts/check_training.py; includes test_c10_arm_b_recipe and the C04 recipe tests)",
+        "check_core": "130/134 pass; the 4 failures are test_c08_select_r2.LiveDecisionTests.test_live_two_arms_with_synthetic_third, a live test that reads the real arm-A state and fails on main too since C09 took arm A past 268 (latest durable checkpoint 1,071); unrelated to this PR",
+        "check_quality": "ruff and ty pass"
+      }
+    },
+    "night_jobs": {
+      "recommended": {
+        "path": "docs/training/plan-20260927/c10/jobs/C10-arm-b-lr1e-5.json",
+        "sha256": "55696d3ad84fa82f6a43fbdecdb2bb8a68d3618937aeafad2b3a3d8bdeea5aac",
+        "what": "night_arm arm --recipe <arm-B> --stop-after-gate 684; resumable, priority 40, about 200 min"
+      },
+      "full": {
+        "path": "docs/training/plan-20260927/c10/jobs/C10-arm-b-lr1e-5-full.json",
+        "sha256": "2c8de0d84b818ecdc3c7bae657fff1c2d5186fc985a0bb49450ae3a9a7bea2e4",
+        "what": "night_arm arm --recipe <arm-B> to 1,368; resumable, priority 40, about 360 min; resumes from the latest durable checkpoint, so it also continues a run stopped at 684"
+      },
+      "enqueue_after_merge": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c10/jobs/C10-arm-b-lr1e-5.json  (or C10-arm-b-lr1e-5-full.json; enqueue exactly one, never both at once)",
+      "enqueued": false,
+      "caveat": "night_arm treats --stop-after-gate as a pilot stop: an R1 stop-for-user at gate 684 exits 0 with the summary \"did not pass the R1 first-gate floor (R2 discards it)\" instead of exit 3; the decision record decision-step-684-*.json still says stop_for_user, so read it in the morning. Gate 342 behaves normally (exit 3 on stop-for-user)."
+    },
+    "night_cost_estimate_arm_b": {
+      "inputs": {
+        "scheduled_input_tokens": {
+          "arm_a": 14550231,
+          "arm_b": 16518389,
+          "ratio": 1.135
+        },
+        "updates": {
+          "arm_a": 1071,
+          "arm_b": 1368,
+          "ratio": 1.277
+        },
+        "tokens_per_update": {
+          "arm_a": 13586,
+          "arm_b": 12075,
+          "ratio": 0.889
+        }
+      },
+      "measured_arm_a": "C08/C09 runs (train incl. trainer start): 0-268 62.1 min, 268-536 57.2, 536-803 55.3, 803-1,071 60.2, i.e. 12.4-13.9 s/update (mean 13.15); gate evaluations 9.7-12.9 min (DEV75 + DEV250). C07 range 12.5-16.9 s/update.",
+      "per_update_arm_b": "11.7 s (token-scaled) to 13.15 s (update-bound); pessimistic 16.9 s",
+      "full_1368": "4.4-5.0 h training + 4 gates (about 45 min) = 5.2-5.8 h; pessimistic 7.2 h. The window gives at most 7.7 h (01:00-08:40): one night expected, a second (resumed) night only at the pessimistic end or if other jobs run first.",
+      "to_684": "2.2-2.5 h training + 2 gates (about 22 min) = 2.6-2.9 h; pessimistic 3.6 h. One night, leaving about 4-5 h of the window free.",
+      "disk": "about 18 GB per full checkpoint, retain_all: about 72 GB for 4 gates (36 GB to 684); /mnt/e has about 1,019 GB free"
+    },
+    "r3_reference_arm_a_536": {
+      "score250": 117,
+      "nofp": 8,
+      "dev75_edit": 27,
+      "dev250_edit_exact_of_200": 79,
+      "dev_roxygen_subset": {
+        "cases": 19,
+        "dev75": 8,
+        "dev250": 11,
+        "overlap": 0,
+        "exact_a_536": 1,
+        "exact_by_gate": {
+          "268": 1,
+          "536": 1,
+          "803": 1,
+          "1071": 1
+        },
+        "source": "exact_region of family roxygen_drafting in the SFT-v2-r4-lr1e-5 gate cases.json files"
+      },
+      "r3_thresholds_for_b": "adopt if score250(B) >= 114, roxygen exact(B) >= 4 of 19, nofp(B) <= 9; one condition missed by 1 (113, 3, or 10) is stop-for-user; otherwise keep arm A"
+    }
   },
   "rule_decisions": [
     {
@@ -201,8 +295,44 @@
         "train_rows": "DAT10-finish-source-repair-v4-braceindent (ed1c7b4e...3aef)"
       },
       "outcome": "keep 13:3 (18.75% no-ops), accept up to 4 exposures per no-op row; rebuild the cohort on the v4 TRAIN rows. 1,368 updates, gates 342/684/1,026/1,368."
+    },
+    {
+      "rule": "R3 application (proposal, not applied)",
+      "inputs": {
+        "arm_a_final": "checkpoint 536 (user choice 2026-10-16; not the end of schedule)",
+        "arm_a_progress": "536/1,071 = 50%",
+        "arm_b_gates": [
+          342,
+          684,
+          1026,
+          1368
+        ]
+      },
+      "outcome": "needs_user: R3 and the card do not say which arm-B checkpoint to compare, nor whether B runs to its end now that A's final is mid-schedule"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "arm_a_final": 536,
+        "arm_b_gates": [
+          342,
+          684,
+          1026,
+          1368
+        ]
+      },
+      "outcome": "run arm B only to gate 684 (50% of schedule, matching A-536); pick B's better gate by exact edits over both DEV panels; apply R3 as written against A-536 (B adopted if score250 >= 114, roxygen exact >= 4/19, nofp <= 9)"
     }
   ],
   "question_for_user": null,
-  "notes": "Data part of C10 is done; the arm-B recipe waits for C08's learning rate and the nights come after C09. Branch is based on origin/plan/C04-sft-recipe-v2 (PR #45, now at 5057cac); merge after #45. Context drift: the card's DAT-10 receipts and the recommended-ID ledger were not in the git snapshot (receipts came from the HF provenance tarball, sha256 1a524e78... verified). The licence ledger is /mnt/nas/home/sepalith/provenance. Out of scope but relevant to the all-eligible policy: later DAT-10 reviews recovered 4,694 more roxygen rows (full-context 3,669, loop-scope 1,024, NSE 1; DAT10-roxy8597 union, dedup-accepted). They still need semantic/split/licence admission and mostly use full-file context (2,677 over 4,096 tokens), so they are a possible later cohort. The 18 licence holds (Artistic-2.0, MPL-2.0, EUPL, Unlimited, file-only) could be admitted if the user extends the standing rule."
+  "notes": "Arm-B night part: recipe bound with the unchanged C04 machinery (same source manifest as arm A), CPU-verified, two night jobs written (to 684, or to 1,368), nothing enqueued. The jobs run from /home/m0hawk/sandbox/Sepalith at origin/main, so this PR must be merged first. R3 needs the user's answer on which B checkpoint to compare. R3's nofp condition stands as written (nofp(B) <= nofp(A) + 1) even though nofp is the user's least important metric; only the user can change it, and only before B runs. 2026-10-17: user approved the stop at gate 684; job C10-arm-b-lr1e-5 enqueued after merge.",
+  "previous_pull_requests": [
+    "https://github.com/sims1253/Sepalith/pull/50 (admission, cohort and v4 schedule)"
+  ],
+  "next_steps": [
+    "User: answer question_for_user and merge this PR.",
+    "After merge: PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c10/jobs/C10-arm-b-lr1e-5.json (or C10-arm-b-lr1e-5-full.json if the answer is the full run)",
+    "Morning after: read ~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-arm-b-lr1e-5/decisions/, count the roxygen subset from the gate cases.json files, apply R3 as agreed and record the decision here. R8: if B is adopted, publish it to scholzmx/sepalith-2b-edit-sft/arm-b/ (the one model upload of that night)."
+  ]
 }
