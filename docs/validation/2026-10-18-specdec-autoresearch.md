@@ -236,6 +236,13 @@ Across the three reps the medians bracket at **1.29–1.43× (median-of-medians
 ≈ 1.42×)** with monotonically better absolute times as host load drops —
 the ratio is load-robust because of the paired design.
 
+**Combined synthesis over all six full-set champion sessions** (3× Q8_0 +
+3× Q6_K, 221 traces each = 1 326 paired requests, loads 8–19):
+**pooled ratio 1.560×, bootstrap 95 % CI [1.464, 1.659]** — the CI sits
+entirely above the 1.4× gate level. Per-session medians: Q8 1.294/1.418/
+1.429, Q6_K 1.428/1.438/1.408; median-of-medians **1.423×**. Acceptance
+counters are bit-identical within each tier across every repetition.
+
 By band (warm e2e median): short ≤1k 1.34× / long ≥1k 1.36×; edit 1.35× /
 no-op 1.15×. By family: na_rm 1.58×, format 1.28×, pipe 1.21×, roxygen
 1.17×, no_op 1.15×, rename 1.13×, finish_block 0.96× (median trace; its long

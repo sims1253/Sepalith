@@ -116,6 +116,9 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Q6_K rep #3 + final synthesis (run #25): 1.408x; six full-set sessions
+  (1326 paired requests): pooled 1.560x [1.464, 1.659], median-of-medians
+  1.423x — CI entirely above the 1.4x gate level.
 - Cascade prototype (run #24): direction 2 closed BY MEASUREMENT — patched
   fork (bigram->unigram cascade) hits +16%/+24% tok/step ceiling but wall
   1.443x ties stock n2m4 (accept 0.29, draft len 2.62 -> cost law eats it).
