@@ -1,4 +1,4 @@
-import { parseCompletion } from "./completion";
+import { completionBody, parseCompletion, STOPS, SUGGESTION_MAX_TOKENS, WARMUP_MAX_TOKENS } from "./completion";
 import { loadManifest, provision, sharedCacheRoot } from "./runtime";
 import * as vscode from "vscode";
 import * as fs from "node:fs";
@@ -6,7 +6,8 @@ import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { terminateChild } from "./process_lifecycle";
 import { buildScopedPrompt, normalizeSymbols, scopeFromScan, scopeFromSymbols } from "./context_build";
-import type { RawSymbol, ScopeInfo } from "./context_build";
+import type { PromptBuild, RawSymbol, ScopeInfo } from "./context_build";
+import { WarmupScheduler } from "./warmup";
 
 // Sepalith v0 — see SPEC.md. This is END-TO-END PLUMBING, not suggestion
 // quality: garbage suggestions from the current weak models are acceptable.
@@ -29,6 +30,7 @@ interface Config {
   postAcceptCooldown: boolean;
   debugMode: boolean;
   scopeContext: boolean;
+  warmup: boolean;
 }
 
 function cfg(): Config {
@@ -47,6 +49,7 @@ function cfg(): Config {
     postAcceptCooldown: c.get("postAcceptCooldown", true),
     debugMode: c.get("debugMode", false),
     scopeContext: c.get("scopeContext", true),
+    warmup: c.get("warmup", true),
   };
 }
 
@@ -104,12 +107,8 @@ interface CompletionResult {
   completionTokens: number;
 }
 
-// generation stops: the UPDATED terminator plus every prompt marker the
-// model has been seen echoing (marker echo = wasted seconds of generation)
-const STOPS = [">>>>>>> UPDATED", "<<<<<<< CURRENT", "=======", "<[fim-middle]>", "<[fim-suffix]>", "<[fim-prefix]>", "<|outline|>"];
-
 async function postCompletion(port: number, prompt: string, maxTokens: number, stop: string[] | null, signal?: AbortSignal): Promise<CompletionResult> {
-  const body = JSON.stringify({ prompt, max_tokens: maxTokens, temperature: 0, stop, stream: false });
+  const body = completionBody(prompt, maxTokens, stop);
   const res = await fetch(`http://127.0.0.1:${port}/v1/completions`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -206,7 +205,7 @@ class Sidecar {
       }
     }
     this.setState("starting");
-    channel.appendLine(`sidecar: spawning ${c.serverPath} --port ${c.port} -t ${c.threads} -c ${c.contextSize} -ngl ${c.gpuLayers}`);
+    channel.appendLine(`sidecar: spawning ${c.serverPath} --port ${c.port} -t ${c.threads} -c ${c.contextSize} -ngl ${c.gpuLayers} --cache-ram 2048`);
     this.stopping = false;
     this.outRing = [];
     this.errRing = [];
@@ -223,6 +222,7 @@ class Sidecar {
         "--host", "127.0.0.1",
         "-c", String(c.contextSize),
         "--parallel", "1",
+        "--cache-ram", "2048", // cap the prompt-cache pool for 8-16 GiB laptops (prefill autoresearch §4)
         "-t", String(c.threads),
         "-ngl", String(c.gpuLayers),
       ],
@@ -440,6 +440,9 @@ class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntr
 // Inline completion provider
 // ---------------------------------------------------------------------------
 
+// an empty (or near-empty) document gives the model nothing to work with
+const MIN_DOCUMENT_CHARS = 30;
+
 export class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private controller: AbortController | null = null;
   private generation = 0;
@@ -501,6 +504,23 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
       : scopeFromScan(lines, position.line);
   }
 
+  // the exact prompt a real request sends for this cursor state — shared by
+  // the request path and the prefill warm-up so the server cache matches
+  private async renderPrompt(document: vscode.TextDocument, position: vscode.Position, scopeContext: boolean): Promise<PromptBuild & { mode: string }> {
+    const scope = scopeContext ? await this.buildScopeContext(document, position) : null;
+    return { ...buildPrompt(document, position, scope), mode: scope ? scope.mode : "off" };
+  }
+
+  // warm-up prompt for the active editor's cursor; null = nothing a real
+  // request would send (no R editor, server not usable, empty document)
+  async warmupPrompt(): Promise<string | null> {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || editor.document.languageId !== "r") return null;
+    if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") return null;
+    if (editor.document.getText().trim().length < MIN_DOCUMENT_CHARS) return null;
+    return (await this.renderPrompt(editor.document, editor.selection.active, cfg().scopeContext)).prompt;
+  }
+
   private skipLogRateLimited(msg: string): void {
     const now = Date.now();
     if (now - this.lastSkipLog > 30_000) {
@@ -521,15 +541,14 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
     }
     // an empty (or near-empty) document gives the model nothing to work
     // with and reliably produces roxygen hallucinations — propose nothing
-    if (document.getText().trim().length < 30) {
+    if (document.getText().trim().length < MIN_DOCUMENT_CHARS) {
       this.skipLogRateLimited("request skipped: document is empty");
       return [];
     }
     const c = cfg();
-    const scope = c.scopeContext ? await this.buildScopeContext(document, position) : null;
+    const { prompt, truncatedLines, truncatedSuffixLines, mode } = await this.renderPrompt(document, position, c.scopeContext);
     if (!current()) return [];
-    logScopeMode(scope ? scope.mode : "off");
-    const { prompt, truncatedLines, truncatedSuffixLines } = buildPrompt(document, position, scope);
+    logScopeMode(mode);
     if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
     if (truncatedSuffixLines > 0) {
       channel.appendLine(`prompt: truncated ${truncatedSuffixLines} lines from the end of the suffix (enclosing function protected)`);
@@ -560,7 +579,7 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
     promise = (async () => {
       try {
         const t0 = Date.now();
-        const r = await postCompletion(c.port, prompt, 320, STOPS, controller.signal);
+        const r = await postCompletion(c.port, prompt, SUGGESTION_MAX_TOKENS, STOPS, controller.signal);
         if (!current() || controller.signal.aborted) {
           requestLog.fail(entry, "aborted", "document changed or request cancelled");
           return [];
@@ -660,12 +679,31 @@ function logScopeMode(mode: string): void {
   }
 }
 
+// warm-ups are prefill only, but a cold 2.4k-token prefill on a laptop takes seconds
+const WARMUP_TIMEOUT_MS = 120_000;
+
+async function sendWarmup(prompt: string): Promise<void> {
+  const t0 = Date.now();
+  try {
+    await postCompletion(cfg().port, prompt, WARMUP_MAX_TOKENS, STOPS, AbortSignal.timeout(WARMUP_TIMEOUT_MS));
+  } catch (e) {
+    channel.appendLine(`warmup error: ${errText(e)}`);
+    throw e;
+  }
+  if (cfg().debugMode) channel.appendLine(`warmup: ${prompt.length} prompt chars prefilled in ${Date.now() - t0} ms`);
+}
+
 function triggerInlineSuggestion(): void {
   void vscode.commands.executeCommand("editor.action.inlineSuggest.trigger");
 }
 
 export function activate(context: vscode.ExtensionContext): void {
   const provider = new SepalithProvider();
+  const warmup = new WarmupScheduler(() => provider.warmupPrompt(), sendWarmup, () => cfg().warmup);
+  // prompt-changing events in the active R editor (edit, cursor settle) warm the next prompt
+  const warmActive = (document: vscode.TextDocument | undefined) => {
+    if (document && document === vscode.window.activeTextEditor?.document && document.languageId === "r") warmup.schedule();
+  };
   runtimeStorage = sharedCacheRoot();
   channel = vscode.window.createOutputChannel("Sepalith");
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
@@ -678,7 +716,11 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("sepalith.startServer", () => { provider.invalidate(); return sidecar.start(); }),
+    vscode.commands.registerCommand("sepalith.startServer", () => {
+      provider.invalidate();
+      warmup.reset(); // a new server starts with an empty prompt cache
+      return sidecar.start().then(() => warmup.schedule());
+    }),
     vscode.commands.registerCommand("sepalith.accepted", () => {
       SepalithProvider.accepted++;
       const document = vscode.window.activeTextEditor?.document;
@@ -688,6 +730,7 @@ export function activate(context: vscode.ExtensionContext): void {
         clearTimeout(debounceTimer);
         debounceTimer = null;
       }
+      warmup.schedule(); // the accepted text changes the next prompt
       renderStatusBar();
     }),
     vscode.commands.registerCommand("sepalith.stopServer", () => { provider.invalidate(); return sidecar.stop(); }),
@@ -736,11 +779,16 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     vscode.commands.registerCommand("sepalith.clearRequests", () => requestLog.clear()),
     vscode.languages.registerInlineCompletionItemProvider({ language: "r" }, provider),
-    { dispose: () => provider.invalidate() },
-    vscode.window.onDidChangeActiveTextEditor(() => provider.invalidate()),
+    { dispose: () => { provider.invalidate(); warmup.dispose(); } },
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      provider.invalidate();
+      warmActive(editor?.document); // file open / switch
+    }),
+    vscode.window.onDidChangeTextEditorSelection((e) => warmActive(e.textEditor.document)),
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (e.document.languageId !== "r") return;
       provider.invalidate();
+      warmActive(e.document);
       const ms = cfg().debounceMs;
       if (ms <= 0) return; // 0 disables auto-trigger (manual only)
       if (debounceTimer !== null) clearTimeout(debounceTimer);
@@ -752,7 +800,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   renderStatusBar();
-  if (cfg().autoStart) void sidecar.start();
+  if (cfg().autoStart) void sidecar.start().then(() => warmup.schedule());
 }
 
 export async function deactivate(): Promise<void> {

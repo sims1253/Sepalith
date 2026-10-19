@@ -7,7 +7,7 @@ const os = require('node:os');
   try {
     await fs.mkdir(path.join(root, 'user', 'User'), { recursive: true });
     await fs.writeFile(path.join(root, 'user', 'User', 'settings.json'), JSON.stringify({
-      'sepalith.autoStart': false, 'sepalith.debounceMs': 0,
+      'sepalith.autoStart': false, 'sepalith.debounceMs': 0, 'sepalith.warmup': false,
       'editor.inlineSuggest.enabled': true, 'security.workspace.trust.enabled': false,
       'telemetry.telemetryLevel': 'off', 'update.mode': 'none'
     }));

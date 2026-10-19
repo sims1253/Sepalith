@@ -8,19 +8,21 @@ async function until(check) {
   while (!check()) { if (Date.now() > end) throw Error('Timed out'); await delay(25); }
 }
 exports.run = async function () {
-  let mode = 'ok', count = 0, pending = [];
+  let mode = 'ok', count = 0, pending = [], lastReal = null;
+  const warmups = [];
   const server = http.createServer((req, res) => {
     if (req.url === '/health') { res.end('{}'); return; }
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
-      const prompt = JSON.parse(body).prompt;
+      const parsed = JSON.parse(body), prompt = parsed.prompt;
       const respond = () => {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ choices: [{ text: 'answer <- sum(values)' }], usage: { completion_tokens: 5 } }));
       };
       if (prompt === 'x') { respond(); return; }
-      count++;
+      if (parsed.max_tokens === 0) { warmups.push(parsed); respond(); return; }
+      count++; lastReal = parsed;
       if (mode === 'hold') pending.push(respond);
       else if (mode === 'error') { res.writeHead(503); res.end('unavailable'); }
       else respond();
@@ -29,7 +31,7 @@ exports.run = async function () {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   try {
     const config = vscode.workspace.getConfiguration('sepalith');
-    for (const [key, value] of Object.entries({ autoStart: false, debounceMs: 0, scopeContext: false, port: server.address().port }))
+    for (const [key, value] of Object.entries({ autoStart: false, debounceMs: 0, warmup: false, scopeContext: false, port: server.address().port }))
       await config.update(key, value, vscode.ConfigurationTarget.Global);
     await vscode.extensions.getExtension('sepalith-dev.vscode-sepalith').activate();
     await vscode.commands.executeCommand('sepalith.startServer');
@@ -111,6 +113,33 @@ exports.run = async function () {
     const result = await restarted.provideInlineCompletionItems(other, other.lineAt(1).range.end, context, new vscode.CancellationTokenSource().token);
     assert.equal(result.length, 1);
     console.log('PASS extension reconnects after stop');
+
+    // Prefill warm-up: a burst of edits sends one warm-up whose body is the next real request with zero generation.
+    await config.update('warmup', true, vscode.ConfigurationTarget.Global);
+    const warmDoc = await vscode.workspace.openTextDocument({ language: 'r', content: '# Warm-up fixture for the prompt cache\nvalues <- c(4, 5, 6)\ntotal <- ' });
+    const warmEditor = await vscode.window.showTextDocument(warmDoc);
+    await until(() => warmups.length > 0); await delay(400);
+    const afterOpen = warmups.length;
+    for (const ch of 'sum(') {
+      const end = warmDoc.lineAt(2).range.end;
+      await warmEditor.edit(edit => edit.insert(end, ch));
+      warmEditor.selection = new vscode.Selection(warmDoc.lineAt(2).range.end, warmDoc.lineAt(2).range.end);
+    }
+    await until(() => warmups.length > afterOpen); await delay(400);
+    assert.equal(warmups.length, afterOpen + 1, 'edit burst is debounced into one warm-up');
+    const cursor = warmEditor.selection.active;
+    assert.equal((await restarted.provideInlineCompletionItems(warmDoc, cursor, context, new vscode.CancellationTokenSource().token)).length, 1);
+    const warm = warmups[warmups.length - 1];
+    assert.equal(warm.prompt, lastReal.prompt, 'warm-up prompt equals the real request prompt');
+    assert.equal(warm.max_tokens, 0); assert.ok(lastReal.max_tokens > 0);
+    assert.deepEqual({ ...warm, max_tokens: lastReal.max_tokens }, lastReal, 'same body apart from generation');
+    console.log('PASS warm-up debounced and matches the real request');
+    await config.update('warmup', false, vscode.ConfigurationTarget.Global);
+    const beforeDisabled = warmups.length;
+    await warmEditor.edit(edit => edit.insert(warmDoc.lineAt(2).range.end, 'values)'));
+    await delay(600);
+    assert.equal(warmups.length, beforeDisabled, 'disabled setting sends no warm-up');
+    console.log('PASS warm-up disabled by setting');
   } finally {
     for (const respond of pending) respond();
     server.closeAllConnections(); await new Promise(resolve => server.close(resolve));

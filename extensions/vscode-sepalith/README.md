@@ -39,6 +39,7 @@ files.
 | `contextSize` | `8192` | Context window; some prompts need ~5.6k tokens. |
 | `autoStart` | `true` | Start the sidecar on activation. |
 | `debounceMs` | `1500` | Idle time before an automatic suggestion attempt; `0` disables auto-trigger (manual only). |
+| `warmup` | `true` | Prefill-as-you-settle: ~200 ms after an edit, cursor move, file switch or accepted suggestion, send the next request's exact prompt with `max_tokens: 0` so the suggestion request hits a warm prompt cache (measured pooled edit TTFT 690.9 → 74.3 ms on the target laptop). Off = every request pays its own prefill. |
 | `scopeContext` | `true` | Scope-aware prompt context: pin the enclosing function and add a top-level file outline (LSP document symbols, brace-scan fallback when no R language server is running). Off = plain prompt. |
 
 ## Managed runtimes
@@ -92,6 +93,15 @@ remain separate. See [serving and packaging](../../docs/SERVING-PACKAGING.md).
 Starts the sidecar against the configured model, waits for readiness, sends
 one rendered prompt for a tiny synthetic R buffer, and prints the parsed
 suggestion and latency.
+
+## Warm-up unit tests
+
+    npm run check-warmup
+
+Exercises the warm-up scheduler in `src/warmup.ts` (debounce, at most one
+warm-up in flight, newest-state supersede, the disable setting, and that a
+warm-up body equals the real request body except `max_tokens: 0`) under
+plain node.
 
 ## Context unit tests
 
