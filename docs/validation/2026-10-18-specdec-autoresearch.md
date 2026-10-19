@@ -287,8 +287,8 @@ gate's lossless clause conflicts with the measured numerics:
   shipping via PR #66 at 0.851; spec adds the same mechanism at 0.87–0.88),
   adopt: `llama-server … --spec-type ngram-simple --spec-ngram-simple-size-n 2
   --spec-ngram-simple-size-m 4` — warm e2e median 1.29–1.44× (Q8 full set),
-  **1.428× on the Q6_K ship tier (full set, CI lo 1.34, pooled 1.537×;
-  absolute median 990 ms)**, p95 improves on every shippable cell, TTFT
+  **1.43× on the Q6_K ship tier (full set, 2 reps: 1.428/1.438, CI lo
+  1.33, pooled 1.54×; absolute median 990–1002 ms)**, p95 improves on every shippable cell, TTFT
   unchanged, zero extra memory, no draft model. *Integration*: the
   extension's sidecar spawn (`extensions/vscode-sepalith/src/extension.ts`,
   the array-form `spawn(...)` call) carries no conflicting flags — the two
@@ -337,7 +337,7 @@ Full recommendation matrix (warm e2e median):
 | | 8 threads | 4 threads |
 |---|---:|---:|
 | Q8_0 | 1.40–1.50× (subset) · 1.29–1.43× (full set, 3 reps) | 1.276× (full set) |
-| Q6_K (imat) | **1.549×** (subset) · **1.428×** (full set, CI lo 1.34; pooled 1.537×) | 1.294× |
+| Q6_K (imat) | **1.549×** (subset) · **1.428–1.438×** (full set, 2 reps, CI lo 1.33; pooled 1.54×) | 1.294× |
 | Q4_K_M (imat) | 1.350× | 1.266× (CI lo 1.10; the only p95 regression in the grid, 0.97× — non-shippable tier) |
 
 At 4 threads all tiers converge to ≈1.27–1.29× (the verify-cost penalty

@@ -116,6 +116,9 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Q6_K full-set rep #2 (run #23): 1.438x (CI lo 1.33), pooled 1.542,
+  acceptance bit-identical, same flip set. Ship tier: 2 full reps
+  1.428-1.438x, abs median ~1000ms. ALL EVIDENCE CELLS NOW EVEN.
 - Ship-tier full-set Q6_K (run #22): 1.428x median (CI lo 1.34), pooled
   1.537x, decode 1.46x, abs median 990ms. Extension spawn checked: no
   conflicts, drop-in. Run-artifact manifest (sha256) committed.

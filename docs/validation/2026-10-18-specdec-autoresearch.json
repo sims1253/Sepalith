@@ -394,7 +394,10 @@
   "full_set": {
    "warm_e2e_median": 1.428,
    "ci_lo": 1.338,
-   "pooled": 1.537,
+   "pooled": [
+    1.537,
+    1.542
+   ],
    "decode": 1.456,
    "p95": 1.39,
    "ttft": 61,
@@ -403,7 +406,14 @@
     0.421
    ],
    "parity": 0.855,
-   "abs_median_ms": 990.4
+   "abs_median_ms": [
+    990.4,
+    1002.0
+   ],
+   "reps": [
+    1.428,
+    1.438
+   ]
   }
  },
  "extension_integration": {
