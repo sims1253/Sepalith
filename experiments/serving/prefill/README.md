@@ -4,8 +4,10 @@
 context sidecar (never DEV/final). `bench.py` replays them against a
 config-driven llama-server (spawn args + warm-up policy + request flow in
 `configs/*.json`) and reports TTFT / cached-fraction / warm-up overhead per
-event type. See `.auto/prompt.md` at the repo root for the running experiment
-log, and `docs/validation/2026-10-17-prefill-autoresearch.md` for the report.
+event type. The report, with the experiment log, is
+`docs/validation/2026-10-17-prefill-autoresearch.md`. `sessions.jsonl` is not
+committed (`*.jsonl` is gitignored): regenerate it with `build_sessions.py`, and
+`bench.py` checks it against `manifest.json`.
 
 Laptop runs: `laptop_run.sh` wraps `bench.py` (fixed thermal pre-burn before
 each timed run, 30 s host-state sampling, per-run server-log copies, driven by

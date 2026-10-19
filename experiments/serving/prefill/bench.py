@@ -550,6 +550,7 @@ def summarize(records: Sequence[dict[str, Any]], reference: Mapping[str, Sequenc
         if slow_rows
         else None,
         "slow_ttft_p50_ci": cluster_bootstrap_p50(slow_by_session) if slow_rows else None,
+        # warm-up CPU of the first pass only: a per-pass figure, not a sum over passes
         "warmup_total_s": records[0]["warmup_total_s"] if records else 0.0,
         "warmup_count": records[0]["warmup_count"] if records else 0,
         "parity_rate": round(parity_match / parity_total, 4) if parity_total else None,

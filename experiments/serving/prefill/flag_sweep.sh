@@ -3,7 +3,7 @@
 # Arms: fa on/off, ubatch size, threads (t/tb split), KV cache type.
 # Everything at nice -n 10; results to the artifacts dir as CSV.
 set -euo pipefail
-BIN=/home/m0hawk/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-bench
+BIN="${SEPALITH_LLAMA_BENCH:-/home/m0hawk/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-bench}"
 MODEL=${1:-/tmp/prefill-models/arm-a-Q8_0.gguf}
 OUT=${2:-/mnt/e/sepalith/campaign-20260915/serving-work/prefill-20261017/llama-bench-sweep.csv}
 mkdir -p "$(dirname "$OUT")"
