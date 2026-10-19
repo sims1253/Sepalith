@@ -36,7 +36,7 @@ from typing import Any
 HERE = Path(__file__).resolve().parent
 SERVER_BIN = Path(
     "/home/m0hawk/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-server"
-)
+)  # overridable via --server-bin (patched-fork cross-checks)
 DEFAULT_MODEL = Path(
     "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf"
 )
@@ -206,7 +206,9 @@ def port_open(port: int) -> bool:
 
 class Server:
     def __init__(self, name: str, port: int, server_args: list[str],
-                 log_path: Path, threads: int = 8, ctx: int = 16384) -> None:
+                 log_path: Path, threads: int = 8, ctx: int = 16384,
+                 server_bin: Path | None = None) -> None:
+        self.server_bin = Path(server_bin) if server_bin else SERVER_BIN
         self.name, self.port = name, port
         self.server_args = list(server_args)
         self.log_path, self.threads, self.ctx = log_path, threads, ctx
@@ -214,7 +216,7 @@ class Server:
 
     def cmd(self) -> list[str]:
         return [
-            "nice", "-n", "10", str(SERVER_BIN),
+            "nice", "-n", "10", str(self.server_bin),
             "-m", str(DEFAULT_MODEL),
             "--host", "127.0.0.1", "--port", str(self.port),
             "--alias", f"specdec-{self.name}",
@@ -413,6 +415,8 @@ def main() -> None:
                     help="reference_outputs.json for cross-session parity")
     ap.add_argument("--model", type=Path, default=None,
                     help="override target GGUF (e.g. Q4 cross-check)")
+    ap.add_argument("--server-bin", type=Path, default=None,
+                    help="override llama-server binary (patched-fork runs)")
     ap.add_argument("--save-reference", action="store_true",
                     help="write this session's baseline outputs as reference")
     a = ap.parse_args()
@@ -437,9 +441,10 @@ def main() -> None:
     load0 = open("/proc/loadavg").read().split()
     n_predict_global = [a.n_predict]
     base = Server("baseline", a.port_base, [], out_dir / "server-baseline.log",
-                  threads=a.threads)
+                  threads=a.threads, server_bin=a.server_bin)
     cand = Server(cand_name, a.port_base + 1, cand_args,
-                  out_dir / f"server-{cand_name}.log", threads=a.threads)
+                  out_dir / f"server-{cand_name}.log", threads=a.threads,
+                  server_bin=a.server_bin)
     rows: list[dict] = []
     out_fh = open(out_dir / "per_request.jsonl", "w")
     try:

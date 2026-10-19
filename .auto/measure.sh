@@ -22,6 +22,10 @@ MODEL_ARGS=()
 if [[ -n "${SPECDEC_MODEL:-}" ]]; then
   MODEL_ARGS=(--model "${SPECDEC_MODEL}")
 fi
+BIN_ARGS=()
+if [[ -n "${SPECDEC_SERVER_BIN:-}" ]]; then
+  BIN_ARGS=(--server-bin "${SPECDEC_SERVER_BIN}")
+fi
 exec python3 experiments/serving/specdec/bench_spec.py \
   --config "$CONFIG" \
   --n-traces "$N_TRACES" \
@@ -29,5 +33,6 @@ exec python3 experiments/serving/specdec/bench_spec.py \
   --threads "$THREADS" \
   "${ABORT_ARGS[@]}" \
   "${MODEL_ARGS[@]}" \
+  "${BIN_ARGS[@]}" \
   --reference experiments/serving/specdec/reference_outputs.json \
   "${COLD_ARGS[@]}"
