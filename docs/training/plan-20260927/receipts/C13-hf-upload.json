@@ -1,0 +1,48 @@
+{
+  "commit_url": "https://huggingface.co/datasets/scholzmx/sepalith/commit/966f585a9cc039036063e663305271887136dacd",
+  "oid": "966f585a9cc039036063e663305271887136dacd",
+  "repo": "datasets/scholzmx/sepalith",
+  "path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/",
+  "files": [
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/manifest.json",
+      "bytes": 7428,
+      "sha256": "c84d2dbc277411dfd6fe16bc72d3b7a5047e8693c53359fdc913471fe9ea13e9"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/rft/rft-cohort-rows.jsonl",
+      "bytes": 63797444,
+      "sha256": "07117e8d844879c466bdb31fc7e1b578eec6adb91ff75b69f8e80daa8effa765"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/rft/rft-selection.jsonl",
+      "bytes": 1363068,
+      "sha256": "322decb7c12548935bbcb9142513533c4858719061b386d83cf2850c72abd391"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/rft/train-mix-ids.json",
+      "bytes": 60763,
+      "sha256": "aed1c43c18499e61fbb4a777adbd27ed1a34e15025391bbd52e16a8d4e82a6ca"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/rft/draw-schedule-v2-rft.json",
+      "bytes": 3960638,
+      "sha256": "0ac538149f8a25ae7968a18f36c43703c1301a3d57bcdfa033ccef18f1b2e441"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/rft/length-profile.json",
+      "bytes": 467,
+      "sha256": "7498679c7d50b4394afc14bd1637d3040de77dfa3eb7b530681bf536b7a6a5bc"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/dpo/dpo-pairs.jsonl",
+      "bytes": 92140455,
+      "sha256": "9faa4b9e254b7aa066af52287b9b8ea866e1b58cf3917434ec381b797ff3a3d1"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/dpo/pair-schedule.json",
+      "bytes": 190296,
+      "sha256": "07497856a068fe48df9f3395b36714f53c691f5cc37847dc5328362caed6deb4"
+    }
+  ]
+}

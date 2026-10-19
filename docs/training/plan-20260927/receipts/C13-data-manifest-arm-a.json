@@ -1,0 +1,230 @@
+{
+  "cohort": {
+    "max_sequence_tokens": 2986,
+    "noop_rows": 651,
+    "rft_rows": 4413,
+    "rows": 6304,
+    "train_mix_by_family": {
+      "finish_block": 1159,
+      "format_propagation": 129,
+      "na_rm_propagation": 10,
+      "no_op": 103,
+      "pipe_rewrite": 203,
+      "rename_propagation": 139,
+      "roxygen_drafting": 148
+    },
+    "train_mix_rows": 1891,
+    "train_mix_share": 0.299968
+  },
+  "dpo": {
+    "by_family": {
+      "finish_block": 15222,
+      "format_propagation": 1301,
+      "na_rm_propagation": 17,
+      "no_op": 10,
+      "pipe_rewrite": 28,
+      "rename_propagation": 60,
+      "roxygen_drafting": 1630
+    },
+    "chosen_sources": {
+      "gold": 15210,
+      "model": 3058
+    },
+    "max_sequence_tokens": 2987,
+    "normalized_end_of_generation": 0,
+    "pairs": 18268,
+    "prompts": 9497,
+    "rejected_outcomes": {
+      "applied_syntax_invalid": 157,
+      "false_positive_edit": 10,
+      "missed_edit": 164,
+      "near_miss": 16782,
+      "wrong_parse_unverified": 1155
+    },
+    "schedule": {
+      "draw_count": 18272,
+      "effective_batch": 16,
+      "gate_updates": [
+        571,
+        1142
+      ],
+      "max_steps": 1142,
+      "replays": 4
+    },
+    "tokens": {
+      "chosen": 2906577,
+      "prompt": 7858441,
+      "rejected": 3215491
+    }
+  },
+  "final_set_access": false,
+  "inputs": {
+    "census_files": {
+      "census-prompts.jsonl": {
+        "bytes": 81219678,
+        "sha256": "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025"
+      },
+      "dpo-pair-candidates.jsonl": {
+        "bytes": 50893564,
+        "sha256": "2d52a3fc12004ad8720008660ad1f46461a23fb90f7b5947185517287cc33f3b"
+      },
+      "pass-rates.jsonl": {
+        "bytes": 4106013,
+        "sha256": "e41534e952000c085671f59f8a09cb57aeb288ba97f8872ecb0f3ba4bb37a5ac"
+      },
+      "scores.jsonl": {
+        "bytes": 233895491,
+        "sha256": "6eb129b1d5de68999880a7e4e5923e8472f40881f48df049115a2e624ffb65f5"
+      }
+    },
+    "census_summary": {
+      "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a/census-summary.json",
+      "sha256": "eaeadf7b9640ddd069cff093d92fedb8831042ca53f79415b0e0187bf3269171"
+    },
+    "train_rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "rows": 15006,
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+    }
+  },
+  "model_id": "sepalith-2b-edit-sft-arm-a",
+  "outputs": {
+    "dpo_pair_schedule": {
+      "bytes": 190296,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/dpo/pair-schedule.json",
+      "sha256": "07497856a068fe48df9f3395b36714f53c691f5cc37847dc5328362caed6deb4"
+    },
+    "dpo_pairs": {
+      "bytes": 92140455,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/dpo/dpo-pairs.jsonl",
+      "sha256": "9faa4b9e254b7aa066af52287b9b8ea866e1b58cf3917434ec381b797ff3a3d1"
+    },
+    "rft_cohort_rows": {
+      "bytes": 63797444,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/rft-cohort-rows.jsonl",
+      "sha256": "07117e8d844879c466bdb31fc7e1b578eec6adb91ff75b69f8e80daa8effa765"
+    },
+    "rft_draw_schedule": {
+      "bytes": 3960638,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/draw-schedule-v2-rft.json",
+      "sha256": "0ac538149f8a25ae7968a18f36c43703c1301a3d57bcdfa033ccef18f1b2e441"
+    },
+    "rft_length_profile": {
+      "bytes": 467,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/length-profile.json",
+      "sha256": "7498679c7d50b4394afc14bd1637d3040de77dfa3eb7b530681bf536b7a6a5bc"
+    },
+    "rft_selection": {
+      "bytes": 1363068,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/rft-selection.jsonl",
+      "sha256": "322decb7c12548935bbcb9142513533c4858719061b386d83cf2850c72abd391"
+    },
+    "train_mix_ids": {
+      "bytes": 60763,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/train-mix-ids.json",
+      "sha256": "aed1c43c18499e61fbb4a777adbd27ed1a34e15025391bbd52e16a8d4e82a6ca"
+    }
+  },
+  "rft": {
+    "caps_by_family": {
+      "finish_block": 1181,
+      "format_propagation": 810,
+      "na_rm_propagation": 68,
+      "no_op": 548,
+      "pipe_rewrite": 994,
+      "rename_propagation": 791,
+      "roxygen_drafting": 21
+    },
+    "distinct_pool_max2_per_prompt": 7528,
+    "prompts_with_correct": 7382,
+    "selected": 4413,
+    "selected_by_family": {
+      "finish_block": 1181,
+      "format_propagation": 810,
+      "na_rm_propagation": 68,
+      "no_op": 548,
+      "pipe_rewrite": 994,
+      "rename_propagation": 791,
+      "roxygen_drafting": 21
+    },
+    "selected_by_round": {
+      "1": 4324,
+      "2": 89
+    },
+    "selected_exact_raw": 4291,
+    "selected_mixed_pass_rate": 1952,
+    "selected_same_tokens_as_gold": 4275,
+    "selection_rule": "distinct exact samples per prompt ranked by line diff against the CURRENT region (then raw gold identity, fewer tokens, lower sample index), at most 2 per prompt; family cap = min(supply, floor(train share x pool)); within a family prompts by pass rate ascending, ties seeded; best samples before second samples",
+    "supply_by_family": {
+      "finish_block": 1181,
+      "format_propagation": 1505,
+      "na_rm_propagation": 137,
+      "no_op": 1100,
+      "pipe_rewrite": 1995,
+      "rename_propagation": 1589,
+      "roxygen_drafting": 21
+    },
+    "train_rows_by_family": {
+      "finish_block": 7785,
+      "format_propagation": 1615,
+      "na_rm_propagation": 136,
+      "no_op": 1094,
+      "pipe_rewrite": 1983,
+      "rename_propagation": 1578,
+      "roxygen_drafting": 815
+    },
+    "verified_correct_samples": 52145
+  },
+  "schedule": {
+    "checks": {
+      "all_eligible_ids_drawn": true,
+      "constant_batch_composition": true,
+      "edits_seen_once_except_last_update_replays": true,
+      "every_unique_edit_before_edit_replay": true,
+      "every_unique_noop_before_noop_replay": true,
+      "no_target_truncation": true,
+      "noop_exposures_at_most_cap": true,
+      "targets_over_1024_retained": 0
+    },
+    "draws": 6960,
+    "exposure_histogram_by_pool": {
+      "edit": {
+        "1": 5651,
+        "2": 2
+      },
+      "noop": {
+        "2": 648,
+        "3": 3
+      }
+    },
+    "gates": [
+      218,
+      435
+    ],
+    "noop_share": 0.1875,
+    "token_denominators": {
+      "scheduled": {
+        "input_tokens": 7093869,
+        "prompt_tokens_excluding_bos": 6705816,
+        "rows": 6960,
+        "supervised_target_tokens_including_eos": 381093,
+        "target_body_tokens": 339333,
+        "target_protocol_tokens_excluding_eos": 34800,
+        "targets_over_1024_tokens": 0
+      },
+      "unique": {
+        "input_tokens": 6846597,
+        "prompt_tokens_excluding_bos": 6467102,
+        "rows": 6304,
+        "supervised_target_tokens_including_eos": 373191,
+        "target_body_tokens": 335367,
+        "target_protocol_tokens_excluding_eos": 31520,
+        "targets_over_1024_tokens": 0
+      }
+    },
+    "updates": 435
+  },
+  "schema": "sepalith.c13.offline-data-manifest.v1",
+  "seed": 3407,
+  "split": "train"
+}
