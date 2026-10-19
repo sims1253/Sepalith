@@ -17,3 +17,7 @@ A/B/A/B sequence reports like one multi-pass run. Winner config:
 `configs/warmup-full-eager.json` (desktop 8T); the laptop validation used
 `configs/warmup-full-eager-6t.json` and `configs/baseline-extension-6t.json`
 (all physical cores on a 6C/12T notebook).
+
+`probe_abort_cancel.py` checks whether a client abort cancels an in-flight
+prefill, from server-log evidence (fresh server per scenario, `--batch`
+variants); see `docs/validation/2026-10-19-llama-upgrade-eval.md` §2.

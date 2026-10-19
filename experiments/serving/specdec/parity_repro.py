@@ -5,16 +5,17 @@ Baseline (no spec) vs ngram-simple n=1 m=1 (single drafted token per step,
 verify batch of 2) on one trace; captures the top-2 token probabilities at
 the divergence position from the baseline arm to show the near-tie.
 
-Usage: python3 parity_repro.py [trace_index]   (default: probe flip case)
+Usage: python3 parity_repro.py [trace_index] [--server-bin BIN] [--out-root DIR]
+       [--port-base PORT]   (default: scan the 60-trace subset for flip cases)
 """
 from __future__ import annotations
 
+import argparse
+import http.client
 import json
-import sys
 from pathlib import Path
 
 from bench_spec import DEFAULT_TRACES, Server, stream_completion
-import http.client
 
 OUTROOT = Path(
     "/mnt/e/sepalith/campaign-20260915/serving-work/specdec-20261017/runs"
@@ -45,26 +46,40 @@ def probs_at(port: int, ids: list[int], n_predict: int, pos: int) -> list[dict]:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("trace_index", nargs="?", type=int, default=None,
+                    help="index into the 60-trace subset (default: scan all)")
+    ap.add_argument("--server-bin", type=Path, default=None,
+                    help="llama-server binary (default: pinned b10453)")
+    ap.add_argument("--out-root", type=Path, default=OUTROOT)
+    ap.add_argument("--port-base", type=int, default=18621)
+    ap.add_argument("--max-cases", type=int, default=3)
+    a = ap.parse_args()
     traces = [json.loads(line) for line in DEFAULT_TRACES.read_text().splitlines() if line.strip()]
     # probe flip positions: subset trace index -> subset list index; use a
     # trace known to flip: find by running both arms if index not given
-    idx = int(sys.argv[1]) if len(sys.argv) > 1 else None
+    idx = a.trace_index
     step = len(traces) / 60
     subset = [traces[int(i * step)] for i in range(60)]
 
     spec_args = ["--spec-type", "ngram-simple",
                  "--spec-ngram-simple-size-n", "1",
                  "--spec-ngram-simple-size-m", "1"]
-    base = Server("rbase", 18621, [], OUTROOT / "repro-base.log")
-    spec = Server("rspec", 18622, spec_args, OUTROOT / "repro-spec.log")
+    a.out_root.mkdir(parents=True, exist_ok=True)
+    base = Server("rbase", a.port_base, [], a.out_root / "repro-base.log",
+                  server_bin=a.server_bin)
+    spec = Server("rspec", a.port_base + 1, spec_args, a.out_root / "repro-spec.log",
+                  server_bin=a.server_bin)
     base.start()
     spec.start()
-    report = {"config": "ngram-simple n=1 m=1 (verify batch of 2)", "cases": []}
+    report = {"config": "ngram-simple n=1 m=1 (verify batch of 2)",
+              "server_bin": str(base.server_bin), "n_scanned": 0, "cases": []}
     try:
         candidates = [subset[idx]] if idx is not None else subset
         for tr in candidates:
             rb = stream_completion(base.port, tr["prompt_ids"], 128, cache_prompt=False)
             rs = stream_completion(spec.port, tr["prompt_ids"], 128, cache_prompt=False)
+            report["n_scanned"] += 1
             b, s = rb.tokens or [], rs.tokens or []
             if b == s:
                 continue
@@ -81,12 +96,12 @@ def main() -> None:
                 "n_base": len(b), "n_spec": len(s),
             })
             print(json.dumps(report["cases"][-1], indent=1), flush=True)
-            if len(report["cases"]) >= 3:
+            if len(report["cases"]) >= a.max_cases:
                 break
     finally:
         spec.stop()
         base.stop()
-    out = OUTROOT / "parity_repro.json"
+    out = a.out_root / "parity_repro.json"
     out.write_text(json.dumps(report, indent=1))
     print(f"-> {out}")
 
