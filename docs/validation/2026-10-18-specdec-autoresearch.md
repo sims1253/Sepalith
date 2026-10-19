@@ -90,8 +90,17 @@ Findings that shaped the sweep:
 - **Region-copy oracle is dominated** (pooled 1.11 vs 2.3 for n-gram): the
   output copies from the *whole* prompt context (file prefix, references,
   contract text), not just the CURRENT region, and generic unigram/bigram
-  lookup captures it. The brief's direction 2 (C++ drafter patch) is closed
-  as unjustified by evidence.
+  lookup captures it.
+- **Direction 2 closed by measured prototype**, not just oracle: a cascaded
+  n-gram drafter (bigram then unigram fallback — a strictly better draft
+  source at +16 %/+24 % tok/step ceiling, 2.056/1.861 vs 1.779/1.500) was
+  implemented as a llama.cpp fork patch and measured: wall 1.443× — a tie
+  with stock n2m4. Accept rate drops 0.42 → 0.29 and mean draft length
+  doubles, so the verify-cost law eats the ceiling. Even a region+cascade
+  hybrid adds nothing over the cascade (sim 2.048–2.062). The patch and
+  build instructions are kept as evidence
+  (`experiments/serving/specdec/patches/`); the pinned install was never
+  modified.
 - **CPU verify-cost law** (`llama-batched-bench`; idle-host remeasurement,
   TG t/s at decode batch B): B=1: 14.9, B=2: 27.0, B=3: 27.7, B=4: 45.9,
   B=5: 44.6, B=6: 58.0, B=9: 62.7, B=17: 83.4 — per-STEP cost

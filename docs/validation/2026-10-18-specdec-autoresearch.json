@@ -421,5 +421,16 @@
   "spawn_form": "array, no shell",
   "conflicts": "none",
   "action": "drop-in the two spec flags"
+ },
+ "cascade_prototype": {
+  "sim_ceiling": [
+   2.056,
+   1.861
+  ],
+  "wall_60": 1.443,
+  "accept_rate": 0.288,
+  "mean_draft_len": 2.62,
+  "verdict": "ties stock champion; cost law eats the ceiling; direction 2 closed by measurement",
+  "patch": "experiments/serving/specdec/patches/ngram-simple-cascade.patch"
  }
 }

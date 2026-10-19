@@ -116,6 +116,11 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Cascade prototype (run #24): direction 2 closed BY MEASUREMENT — patched
+  fork (bigram->unigram cascade) hits +16%/+24% tok/step ceiling but wall
+  1.443x ties stock n2m4 (accept 0.29, draft len 2.62 -> cost law eats it).
+  Patch + build instructions kept in experiments/serving/specdec/patches/.
+  Bench gained --server-bin for patched-binary paired runs.
 - Q6_K full-set rep #2 (run #23): 1.438x (CI lo 1.33), pooled 1.542,
   acceptance bit-identical, same flip set. Ship tier: 2 full reps
   1.428-1.438x, abs median ~1000ms. ALL EVIDENCE CELLS NOW EVEN.
