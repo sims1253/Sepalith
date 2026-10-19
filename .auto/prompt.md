@@ -121,6 +121,10 @@ final gate table.
   matrix, no-op safety, integration, manifest) -> follow-up PR #71 (open,
   watched). Branch rebased onto post-#66 main; .auto harness restored after
   the merge tried to delete it (origin/main removed .auto in #66's cleanup).
+- Voting-drafter closure (run #26): most-frequent continuation UNDERPERFORMS
+  most-recent (1.707 vs 1.779 ceiling) despite higher accept rate — recency
+  encodes positional context, frequency is context-blind. Patch space
+  fully closed (volume: tie; precision: loss; region: dominated).
 - Q6_K rep #3 + final synthesis (run #25): 1.408x; six full-set sessions
   (1326 paired requests): pooled 1.560x [1.464, 1.659], median-of-medians
   1.423x — CI entirely above the 1.4x gate level.

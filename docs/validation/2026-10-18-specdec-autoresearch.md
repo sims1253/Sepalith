@@ -97,8 +97,12 @@ Findings that shaped the sweep:
   implemented as a llama.cpp fork patch and measured: wall 1.443× — a tie
   with stock n2m4. Accept rate drops 0.42 → 0.29 and mean draft length
   doubles, so the verify-cost law eats the ceiling. Even a region+cascade
-  hybrid adds nothing over the cascade (sim 2.048–2.062). The patch and
-  build instructions are kept as evidence
+  hybrid adds nothing over the cascade (sim 2.048–2.062). A
+  **precision-raising variant** (frequency-voting continuation: most-frequent
+  next token instead of most-recent) was closed by exact simulation:
+  ceiling 1.707/1.455 — *below* the champion despite a higher accept rate
+  (0.511 vs 0.465), because recency encodes positional context that raw
+  frequency discards. The patch and build instructions are kept as evidence
   (`experiments/serving/specdec/patches/`); the pinned install was never
   modified.
 - **CPU verify-cost law** (`llama-batched-bench`; idle-host remeasurement,

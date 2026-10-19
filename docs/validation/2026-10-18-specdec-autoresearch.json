@@ -456,5 +456,13 @@
   },
   "median_of_medians": 1.423,
   "note": "pooled CI entirely above the 1.4x gate level; counters bit-identical per tier across reps"
+ },
+ "voting_drafter_closure": {
+  "ceiling": [
+   1.707,
+   1.455
+  ],
+  "accept_rate": 0.511,
+  "verdict": "below champion despite higher precision; recency beats frequency as the continuation prior; patch space fully closed"
  }
 }
