@@ -64,10 +64,11 @@ EXPORT = REPO / "experiments" / "training" / "export_gguf.py"
 CALIBRATION_DIR = Path("/mnt/e/sepalith/campaign-20260915/quant-work/calibration-v1")
 EMBEDDING = "q8_0"
 VARIANT_LABELS = ("Q8_0", "Q6_K", "Q5_K_M", "Q4_K_M", "Q4_K_M-head-q6_k", "Q4_K_M-uncalibrated", "Q4_K_M+",
-                  "Q4_K_M-attn-out-q8_0")
+                  "Q4_K_M-attn-out-q8_0", "Q4_K_M-mixA", "Q4_K_M-mixB", "Q4_K_M-mixA-e4", "Q4_K_M-mixB-e4", "Q4_K_M-mixC")
 QUANT_TYPE = {"Q8_0": "Q8_0", "Q6_K": "Q6_K", "Q5_K_M": "Q5_K_M", "Q4_K_M": "Q4_K_M",
               "Q4_K_M-head-q6_k": "Q4_K_M", "Q4_K_M-uncalibrated": "Q4_K_M", "Q4_K_M+": "Q4_K_M",
-              "Q4_K_M-attn-out-q8_0": "Q4_K_M"}
+              "Q4_K_M-attn-out-q8_0": "Q4_K_M", "Q4_K_M-mixA": "Q4_K_M", "Q4_K_M-mixB": "Q4_K_M",
+              "Q4_K_M-mixA-e4": "Q4_K_M", "Q4_K_M-mixB-e4": "Q4_K_M", "Q4_K_M-mixC": "Q4_K_M"}
 
 IMATRIX_CHECK = r"""
 import json, sys
@@ -85,7 +86,15 @@ print(json.dumps({'chunk_count': field('imatrix.chunk_count'), 'chunk_size': fie
 
 
 def variant_specs(n_layers: int) -> dict[str, dict]:
-    """Stem suffix, tier and export flags for each label (Q8_0 comes from step 1)."""
+    """Stem suffix, tier and export flags for each label (Q8_0 comes from step 1).
+
+    ``embedding`` defaults to :data:`EMBEDDING` (q8_0) when absent.  For
+    attn_v/ffn_down, override the whole category (all 42 layers), never a
+    subset: a partial override skips the b10453 ``i_attention_wv``/
+    ``i_ffn_down`` counters and silently shifts the Q4_K_M every-3rd q6_K
+    mix for every later layer of that category (observed on the night run's
+    Q4_K_M+; see docs/validation/2026-10-17-quant-autoresearch.md).
+    """
     last = (n_layers - 2, n_layers - 1)
     edge_down = r"blk\.(0|1|%d|%d)\.ffn_down\.weight=q6_k" % last
     return {
@@ -98,6 +107,31 @@ def variant_specs(n_layers: int) -> dict[str, dict]:
                     "tensor_types": [r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0", edge_down]},
         "Q4_K_M-attn-out-q8_0": {"stem": "attn-out-q8_0", "tier": "Q4_K_M", "imatrix": True, "output": "q8_0",
                                  "tensor_types": [r"attn_output\.weight=q8_0"]},
+        # 2026-10-17 quant autoresearch (CPU search): mixed-precision q4 tiers.
+        # mixA "speed" (report Pareto: smallest + fastest CPU decode of the gate-passing
+        # recipes): token_embd/output q5_K, attn_output q6_K, attn_k/attn_v q8_0 (all layers).
+        "Q4_K_M-mixA": {"stem": "mixa", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q5_K",
+                        "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0"]},
+        # mixB "fidelity" (best KLD under the Q4_K_M size): mixA + ffn_down q6_K on all 42
+        # layers.  Note: q6_K ffn_down costs ~30% CPU decode (bandwidth) — see the report.
+        "Q4_K_M-mixB": {"stem": "mixb", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q5_K",
+                        "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
+                                          r"ffn_down\.weight=q6_K"]},
+        # e4 refinements (2026-10-18): token_embd q4_K costs only +0.0002..0.0004 mean KLD (the q4_K
+        # penalty is ~98% the output head), so both mixes take another ~33 MB off for free. Decode is
+        # unaffected (token_embd is prefill-only).
+        "Q4_K_M-mixA-e4": {"stem": "mixa-e4", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
+                          "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0"]},
+        "Q4_K_M-mixB-e4": {"stem": "mixb-e4", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
+                          "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
+                                            r"ffn_down\.weight=q6_K"]},
+        # mixC (2026-10-18 late): the ffn_up surprise — ffn_up is MORE sensitive than ffn_down on
+        # this model (5.8e-5 vs 4.8e-5 KLD/MB), so the in-budget fidelity king spends the FFN bits
+        # there instead: mixA-e4 + ffn_up q6_K (ffn_down keeps the Q4_K_M default mix).
+        # 1726.7 MB, mean KLD 0.0189 (slice-1) / 0.0182 (slice-2) — 44% below the baseline at -33 MB.
+        "Q4_K_M-mixC": {"stem": "mixc", "tier": "Q4_K_M", "imatrix": True, "output": "q5_K", "embedding": "q4_K",
+                        "tensor_types": [r"attn_output\.weight=q6_K", r"attn_k\.weight=q8_0", r"attn_v\.weight=q8_0",
+                                          r"ffn_up\.weight=q6_K"]},
     }
 
 
@@ -245,7 +279,7 @@ def main(argv=None) -> int:
         if label in existing:
             continue
         flags = ["--source-gguf", str(bf16), "--out-dir", str(work), "--tiers", spec["tier"], "--threads", str(a.threads),
-                 "--output-tensor-type", spec["output"], "--token-embedding-type", EMBEDDING]
+                 "--output-tensor-type", spec["output"], "--token-embedding-type", spec.get("embedding", EMBEDDING)]
         flags += ["--imatrix", str(imatrix)] if spec["imatrix"] else ["--uncalibrated"]
         for override in spec["tensor_types"]:
             flags += ["--tensor-type", override]

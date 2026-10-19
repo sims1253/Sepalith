@@ -1,0 +1,33 @@
+{
+  "id": "C09-arm-a-quant-mix-confirmation",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 30,
+  "resumable": false,
+  "estimated_minutes": 200,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "NO_LORA=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv/bin/python",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c09/quantize_and_gate.py",
+    "--hf-dir",
+    "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "--name",
+    "arm-a-mix",
+    "--work-dir",
+    "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a-mix-confirmation",
+    "--source-gguf",
+    "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-bf16.gguf",
+    "--variants",
+    "Q4_K_M-mixA-e4",
+    "Q4_K_M-mixC",
+    "--gpu-window"
+  ],
+  "note": "2026-10-17/18 quant autoresearch confirmation: gate the final mixed-precision q4 tiers (mixA-e4, the CPU-DEV-confirmed full-pass ship pick at 1590.4 MB, and mixC, the in-budget fidelity tier at 1726.7 MB) on the CUDA build so the receipt is comparable with the 2026-10-17 night run's gate-receipt.json. mixB-e4 can be added the same way if wanted. Needs the research/quant-autoresearch-20261017 branch (variant_specs additions) merged to main first. Writes only to the new arm-a-mix-confirmation work dir."
+}

@@ -1,0 +1,152 @@
+{
+  "cohort": {
+    "body_tokens": 335367,
+    "composition": {
+      "max_sequence_tokens": 2986,
+      "noop_rows": 651,
+      "rft_rows": 4413,
+      "rows": 6304,
+      "train_mix_by_family": {
+        "finish_block": 1159,
+        "format_propagation": 129,
+        "na_rm_propagation": 10,
+        "no_op": 103,
+        "pipe_rewrite": 203,
+        "rename_propagation": 139,
+        "roxygen_drafting": 148
+      },
+      "train_mix_rows": 1891,
+      "train_mix_share": 0.299968
+    },
+    "draw_schedule": {
+      "bytes": 3960638,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/draw-schedule-v2-rft.json",
+      "sha256": "0ac538149f8a25ae7968a18f36c43703c1301a3d57bcdfa033ccef18f1b2e441"
+    },
+    "id": "C13-rft-cohort-sepalith-2b-edit-sft-arm-a",
+    "input_tokens": 6846597,
+    "length_profile": {
+      "bytes": 467,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/length-profile.json",
+      "sha256": "7498679c7d50b4394afc14bd1637d3040de77dfa3eb7b530681bf536b7a6a5bc"
+    },
+    "loss_tokens": 373191,
+    "manifest": {
+      "bytes": 7428,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/manifest.json",
+      "sha256": "c84d2dbc277411dfd6fe16bc72d3b7a5047e8693c53359fdc913471fe9ea13e9"
+    },
+    "max_sequence_tokens": 16384,
+    "observed_max_sequence_tokens": 2986,
+    "rows": {
+      "bytes": 63797444,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/rft/rft-cohort-rows.jsonl",
+      "sha256": "07117e8d844879c466bdb31fc7e1b578eec6adb91ff75b69f8e80daa8effa765"
+    },
+    "schedule_semantics": {
+      "edit_per_batch": 13,
+      "exposure_histogram_by_pool": {
+        "edit": {
+          "1": 5651,
+          "2": 2
+        },
+        "noop": {
+          "2": 648,
+          "3": 3
+        }
+      },
+      "noop_per_batch": 3,
+      "noop_share": 0.1875,
+      "version": "sft-schedule-v2-13edit-3noop"
+    },
+    "target_truncation": false,
+    "unique_rows": 6304,
+    "updates": 435
+  },
+  "dev_panels": {
+    "dev250": {
+      "cases": 250,
+      "manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/manifest.json",
+        "sha256": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+      },
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+    },
+    "dev75": {
+      "cases": 75,
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    }
+  },
+  "development": {
+    "cases": 75,
+    "final_set_access": false,
+    "generation_budget": {
+      "default_candidate": 1024,
+      "policy": "no silent truncation; report cap hit, response completeness and stop token",
+      "prepared_max_new_tokens_bound": 8192,
+      "root_selected": true
+    },
+    "generation_evaluation": "required_for_edit_and_noop_quality",
+    "panel": {
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "teacher_forced_diagnostic": "separate_metric_not_edit_accuracy"
+  },
+  "expected_model": {
+    "dtype": "bfloat16",
+    "parameter_tensors": 381,
+    "parameters": 2516756480,
+    "peft": false
+  },
+  "kind": "rft",
+  "launch_authorized": false,
+  "optimizer_dispatch": {
+    "bytes": 90229,
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "parent": null,
+  "pre_registered": {
+    "adoption_rule": "R5 (docs/training/plan-20260927/RULES.md) at the step's result checkpoint",
+    "card": "C13",
+    "effective_batch": 16,
+    "gate_rule": "R1-offline (sepalith.training.offline.rules: R1 later-gate table vs the starting model, then vs the previous gate; noedit_dodge and, for DPO, dpo_chosen_collapse are stop-for-user)",
+    "gate_updates": [
+      218,
+      435
+    ],
+    "kind": "rft",
+    "learning_rate_ratio_to_sft": 0.3333333333333333,
+    "min_lr_rate": 0.1,
+    "optimizer_mechanics": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "scheduler": "cosine_with_min_lr",
+    "side_lr_ratio": 0.1,
+    "unit": "rows",
+    "warmup_steps": 32,
+    "weight_decay": 0.0
+  },
+  "schema": "sepalith.c13.offline-template.v1",
+  "seed": 3407,
+  "status": "template_parent_unbound",
+  "step_name": "rft-1"
+}
