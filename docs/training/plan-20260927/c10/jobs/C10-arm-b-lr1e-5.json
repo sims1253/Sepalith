@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.sft.night_arm",
+    "arm",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c10/bound/sft-v2-arm-b-lr1e-5.json",
+    "--stop-after-gate",
+    "684"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 200,
+  "id": "C10-arm-b-lr1e-5",
+  "note": "C10 arm B to gate 684 (50% of its schedule, the progress of arm A's chosen checkpoint 536), gates 342 and 684 under R1, then stop. With --stop-after-gate, an R1 stop-for-user at gate 684 exits 0 with the summary 'did not pass the R1 first-gate floor'; read decision-step-684-*.json in the morning",
+  "priority": 40,
+  "requires": [
+    "C07-baseline"
+  ],
+  "resumable": true
+}
