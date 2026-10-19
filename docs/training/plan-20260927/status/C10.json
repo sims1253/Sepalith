@@ -1,7 +1,7 @@
 {
   "card": "C10",
-  "state": "in_progress",
-  "updated": "2026-10-17T12:00:00+02:00",
+  "state": "done",
+  "updated": "2026-10-19T09:40:00+02:00",
   "branch": "plan/C10-arm-b-night",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/63",
   "outputs": {
@@ -323,10 +323,50 @@
         ]
       },
       "outcome": "run arm B only to gate 684 (50% of schedule, matching A-536); pick B's better gate by exact edits over both DEV panels; apply R3 as written against A-536 (B adopted if score250 >= 114, roxygen exact >= 4/19, nofp <= 9)"
+    },
+    {
+      "rule": "R1",
+      "step": 684,
+      "inputs": {
+        "valid": 74,
+        "cap": 1,
+        "edit": 28,
+        "nofp": 4,
+        "score250": 116
+      },
+      "outcome": "continue (pilot stop at gate 684, 2026-10-19 02:35)"
+    },
+    {
+      "rule": "R3",
+      "at": "2026-10-19",
+      "inputs": {
+        "arm_a": {
+          "step": 536,
+          "score250": 117,
+          "roxygen_exact": "1/19",
+          "nofp": 8,
+          "edit_both_panels": 106
+        },
+        "arm_b_selected_gate": {
+          "step": 342,
+          "selection": "most exact edits over both DEV panels (104 vs 101 at 684), per the user's rule",
+          "score250": 110,
+          "roxygen_exact": "1/19",
+          "nofp": 8
+        },
+        "arm_b_684_for_reference": {
+          "score250": 116,
+          "roxygen_exact": "1/19",
+          "nofp": 4,
+          "edit_both_panels": 101,
+          "dev250_cap_hits": 24
+        }
+      },
+      "outcome": "keep arm A: roxygen condition (B >= A + 3 exact on the DEV roxygen subset) fails by 3 at both gates, beyond the borderline band of 1; score250 also fails at gate 342"
     }
   ],
   "question_for_user": null,
-  "notes": "Arm-B night part: recipe bound with the unchanged C04 machinery (same source manifest as arm A), CPU-verified, two night jobs written (to 684, or to 1,368), nothing enqueued. The jobs run from /home/m0hawk/sandbox/Sepalith at origin/main, so this PR must be merged first. R3 needs the user's answer on which B checkpoint to compare. R3's nofp condition stands as written (nofp(B) <= nofp(A) + 1) even though nofp is the user's least important metric; only the user can change it, and only before B runs. 2026-10-17: user approved the stop at gate 684; job C10-arm-b-lr1e-5 enqueued after merge.",
+  "notes": "Arm-B night part: recipe bound with the unchanged C04 machinery (same source manifest as arm A), CPU-verified, two night jobs written (to 684, or to 1,368), nothing enqueued. The jobs run from /home/m0hawk/sandbox/Sepalith at origin/main, so this PR must be merged first. R3 needs the user's answer on which B checkpoint to compare. R3's nofp condition stands as written (nofp(B) <= nofp(A) + 1) even though nofp is the user's least important metric; only the user can change it, and only before B runs. 2026-10-17: user approved the stop at gate 684; job C10-arm-b-lr1e-5 enqueued after merge. 2026-10-19: R3 keeps arm A; the roxygen cohort did not improve DEV roxygen exact (1/19 at every gate). C13 builds on arm A 536.",
   "previous_pull_requests": [
     "https://github.com/sims1253/Sepalith/pull/50 (admission, cohort and v4 schedule)"
   ],
