@@ -455,7 +455,7 @@
    ]
   },
   "median_of_medians": 1.423,
-  "note": "pooled CI entirely above the 1.4x gate level; counters bit-identical per tier across reps"
+  "note": "pooled_ratio is time-weighted (sum of baseline times / sum of candidate times over both tiers), not the gate metric; the 1.4x gate level applies to the warm e2e median ratio (median_of_medians 1.423); counters bit-identical per tier across reps"
  },
  "voting_drafter_closure": {
   "ceiling": [

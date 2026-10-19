@@ -242,10 +242,13 @@ the ratio is load-robust because of the paired design.
 
 **Combined synthesis over all six full-set champion sessions** (3× Q8_0 +
 3× Q6_K, 221 traces each = 1 326 paired requests, loads 8–19):
-**pooled ratio 1.560×, bootstrap 95 % CI [1.464, 1.659]** — the CI sits
-entirely above the 1.4× gate level. Per-session medians: Q8 1.294/1.418/
-1.429, Q6_K 1.428/1.438/1.408; median-of-medians **1.423×**. Acceptance
-counters are bit-identical within each tier across every repetition.
+per-session warm e2e medians Q8 1.294/1.418/1.429, Q6_K 1.428/1.438/1.408;
+**median-of-medians 1.423×**, the metric the 1.4× gate level applies to. The
+time-weighted pooled ratio (Σ baseline time / Σ candidate time, both tiers
+together) is 1.560×, bootstrap 95 % CI [1.464, 1.659]. It is higher because
+long requests, where speculation helps most, dominate the sums, so it is not
+comparable with the gate's median ratio. Acceptance counters are
+bit-identical within each tier across every repetition.
 
 By band (warm e2e median): short ≤1k 1.34× / long ≥1k 1.36×; edit 1.35× /
 no-op 1.15×. By family: na_rm 1.58×, format 1.28×, pipe 1.21×, roxygen
