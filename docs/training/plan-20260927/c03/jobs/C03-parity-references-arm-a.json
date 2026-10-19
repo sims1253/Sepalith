@@ -1,0 +1,33 @@
+{
+  "id": "C03-parity-references-arm-a",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 50,
+  "resumable": false,
+  "estimated_minutes": 60,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c03/parity_references.py",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+    "--checkpoint",
+    "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "--checkpoint-label",
+    "arm-a-536",
+    "--determinism-reference",
+    "parent-11586=/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-parent-11586-baseline/dev-dev75-step-0.20261012T042711-411294149.cases/cases.json",
+    "--determinism-reference",
+    "arm-a-536=/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.cases/cases.json",
+    "--output-dir",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/C03-parity-references-arm-a"
+  ],
+  "note": "C03 parity references for arm A (lr1e-5 checkpoint 536, public as scholzmx/sepalith-2b-edit-sft/arm-a, model.safetensors sha256 befe587a...), bf16 at the bound batching (batch 32, dynamic cache, cap 1,024): DEV75 and the 200 TRAIN prompts (seed 3407). parity_references.py always runs parent 11,586 first, which doubles as a night-to-night determinism check against the 2026-10-14 references. The 2026-10-14 job (parent + gate 268) took 24 min; about 30 min expected, 60 estimated, 90 min guard. Low priority. Nothing is uploaded."
+}

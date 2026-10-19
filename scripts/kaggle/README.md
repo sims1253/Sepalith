@@ -10,6 +10,7 @@ parity check in `docs/training/plan-20260927/c03/` compares them with the PC.
 | `infer_push.py` | PC | Builds and pushes the kernel (T4 accelerator), polls it, fetches the outputs, records quota (R7), optionally uploads the outputs to HF |
 | `infer_entry.py` | Kaggle (or any CUDA host) | Downloads the model and inputs, splits the work across the GPUs, generates, merges, writes the outputs |
 | `lora_probe_push.py`, `lora_probe_entry.py` | PC, Kaggle | LoRA-SFT feasibility probe on T4s (research, not a plan card); see `docs/validation/2026-10-16-kaggle-lora-probe.md` |
+| `vllm_census_push.py`, `vllm_census_entry.py` | PC, Kaggle | C12 vLLM census-throughput trial (vLLM 0.31.0 in its own venv, fp16, TRITON_ATTN, CUDA graphs, one engine per T4); census sampling only, with its own fp16 parity check; see `docs/validation/2026-10-17-c12-vllm-trial.md`; `--census --shard-index i --shard-count n` runs the full C12 census (all 15,006 TRAIN prompts in a seeded order, k = 8, chunked, chunks claimed by both T4s, each chunk saved as it finishes) |
 
 ## Engine
 
@@ -22,7 +23,11 @@ bf16 outputs (batch 1 vs 32: 54% identical on the parent). Only the same
 batching on both sides gives a like-for-like parity check, and vLLM's
 continuous batching and paged attention cannot reproduce it. If C12's
 throughput turns out to be the bottleneck, vLLM can be evaluated for the
-census separately (it would need its own parity check).
+census separately (it would need its own parity check). The C12 trial
+(2026-10-17, `vllm_census_entry.py`) did that: 1,143 generated tokens/s per
+two-T4 session on arm A, and fp16 greedy output token-identical to this
+path's fp16 run on DEV75 (75/75). This path remains the parity and evaluation
+reference.
 
 ## Inputs
 
@@ -102,14 +107,18 @@ one commit with the PC's `hf` login.
 
 ## Parity procedure (C03 step 4)
 
-1. PC references (night job `docs/training/plan-20260927/c03/jobs/C03-parity-references.json`,
-   script `c03/parity_references.py`): bf16 at the bound batching for DEV75 and
-   the 200 TRAIN prompts of `c03/train_prompts.py` (seed 3407, stratified by
-   family), on parent 11,586 and on lr1e-5 gate 268.
-2. Upload the prompts file and the references to
-   `campaign-20260915/C07/parity-references/` (one commit). The gate-268
-   generations are outputs, not weights, so they may be published; the gate
-   weights stay local.
+1. PC references (night jobs `docs/training/plan-20260927/c03/jobs/C03-parity-references.json`
+   and `C03-parity-references-arm-a.json`, script `c03/parity_references.py`):
+   bf16 at the bound batching for DEV75 and the 200 TRAIN prompts of
+   `c03/train_prompts.py` (seed 3407, stratified by family), on parent 11,586
+   plus lr1e-5 gate 268 (2026-10-14) and plus arm A, checkpoint 536.
+2. The prompts file is public at
+   `hf-dataset:scholzmx/sepalith/campaign-20260915/C03/c03-train200-seed3407.jsonl`;
+   references go to `campaign-20260915/C03/parity-references/<attempt>/`
+   (one commit per batch). Generations are outputs, not weights, so they may
+   be published. Arm A's weights are public at
+   `hf:scholzmx/sepalith-2b-edit-sft/arm-a` (sha256 `befe587a...`), so Kaggle
+   runs the representative SFT check on it.
 3. Kaggle: the same prompts in fp16 with `--batch-size 32 --kv-cache dynamic`
    (the default cap of 1,024), one run for `--panel dev75` and one for
    `--prompts`, per model whose weights Kaggle can read.

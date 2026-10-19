@@ -36,6 +36,10 @@ EOS_ID = 1
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 DISPOSITIONS = frozenset({"audit_only", "candidate_pending_resource_admission", "root_admitted"})
 TRAIN_ROWS_SHA256 = "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"
+# DAT10 v4-braceindent: the v3 rows with the final closing brace of 486 repaired
+# finish_block targets re-indented (card C04). Prompts and ranges are unchanged.
+# Arm A was trained on these rows and the C12 census samples their prompts.
+TRAIN_ROWS_V4_BRACEINDENT_SHA256 = "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
 
 
 class LengthPolicyError(ValueError):
@@ -108,6 +112,13 @@ REVIEWED_POLICY = LengthPolicy.from_mapping({
     "prompt_max_tokens": 3072,
     "completion_max_tokens": 1024,
     "disposition": "candidate_pending_resource_admission",
+})
+# The reviewed limits bound to the v4-braceindent rows (census:
+# receipts/C12-length-census-v4.json, every row accepted).
+REVIEWED_POLICY_V4 = LengthPolicy.from_mapping({
+    **REVIEWED_POLICY.to_mapping(),
+    "policy_id": "v4-braceindent-15006-complete-4096-candidate",
+    "input_rows_sha256": TRAIN_ROWS_V4_BRACEINDENT_SHA256,
 })
 
 
