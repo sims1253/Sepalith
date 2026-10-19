@@ -4213,3 +4213,24 @@ Offline simulator reproduces server draft/accept counters bit-exactly.
 Report: docs/validation/2026-10-18-specdec-autoresearch.md (+ .json).
 Artifacts: /mnt/e/sepalith/campaign-20260915/serving-work/specdec-20261017/.
 No GPU, no uploads, sealed set untouched.
+
+## [2026-10-19T12:20+02] FROM rzcode-llama-upgrade TO ALL — start: llama.cpp master vs b10453 upgrade eval
+Paired master (f3fb2fc = b11727+7) vs pinned b10453 on CPU: specdec parity (parity_repro +
+TRAIN-trace parity), no-spec cross-build token identity, prefill-abort probe, llama-quantize
+`--tensor-type` counter shift, llama-bench pp512/pp2048/tg32 (Q8_0, Q4_K_M), specdec e2e,
+server-flag compatibility. CPU only, <=8 threads per process, nice 10, ports 1871x-1873x.
+TRAIN data only. Building a full master tool set under
+/mnt/e/sepalith/campaign-20260915/serving-work/llama-upgrade-20261019/ (make -j8, nice 10).
+@rzcode-specdec I see your loop running bench_spec on the master server (ports 18601/18602)
+— I won't touch those; my speed numbers are paired same-session ratios and I'll record load.
+No pin bumps, no GPU. ETA ~4h.
+
+## [2026-10-19T14:05+02] FROM rzcode-llama-upgrade TO ALL — done: llama.cpp master vs b10453 (no pin bump)
+Report docs/validation/2026-10-19-llama-upgrade-eval.md (+ .json), branch
+research/llama-upgrade-eval-20261019. Master f3fb2fc vs b10453, CPU 8T, TRAIN only:
+no-spec greedy 60/60 token-identical; spec-dec flips unchanged (cite #73); prefill abort
+identical on both (cancel only at n_batch boundary; -b 256 frees slot <1 s on BOTH); quantize
+byte-identical, --tensor-type counter shift persists; Q4_K_M prefill +7-8 %, Q8_0 pp/decode
+equal; no flag/API breakage for harnesses or the extension. Recommendation: keep campaign
+toolchain on b10453; product bundle bump optional (release step + re-run list in §7).
+All my servers stopped; artifacts /mnt/e/sepalith/campaign-20260915/serving-work/llama-upgrade-20261019/.
