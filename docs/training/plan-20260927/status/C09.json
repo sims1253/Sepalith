@@ -1,7 +1,7 @@
 {
   "card": "C09",
-  "state": "in_progress",
-  "updated": "2026-10-16T14:00:00+02:00",
+  "state": "done",
+  "updated": "2026-10-17T11:30:00+02:00",
   "branch": "plan/C09-arm-a-export",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/58",
   "outputs": {
@@ -115,14 +115,16 @@
       "card_check": "Q8_0 DEV75 valid/cap/edit/nofp within 2 of the bf16 GGUF: gate-receipt.json tiers[Q8_0].dev75_parity; Q4_K_M drift recorded only"
     },
     "cpt_forgetting": {
-      "panel": "/mnt/e/sepalith/campaign-20260915/data-work/C09-cpt-validation-2k/campaign-20260915/cpt/validation/cpt_validation-2k.jsonl (from scholzmx/sepalith, sha256 efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8, 499 rows, equals the CPT recipe's validation file)",
-      "script": "docs/training/plan-20260927/c09/cpt_forgetting.py (new in this PR, not on main yet)",
-      "job_file": "docs/training/plan-20260927/c09/jobs/C09-arm-a-cpt-forgetting.json (enqueue after merge)",
-      "output": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/cpt-forgetting-536.json",
-      "design": "evaluates the CPT parent 11,586 as a harness control (recorded 0.94197) and checkpoint 536 with the CPT trainer's package_holdout_evaluator (bf16, FP32 norms restored, bf16 autocast); reports the paired delta, rows won and a package bootstrap 95% interval",
-      "cpu_smoke": "2026-10-16, --device cpu --threads 8 --limit 2, nice 10: plumbing only, both models load (85 FP32 norms restored), 1,450 loss tokens each; parent 0.69353, 536 0.71444 on 2 rows (not meaningful); about 70 s per model on CPU",
-      "parent_value": 0.94197,
-      "result_536": null
+      "parent_this_harness": 0.94202,
+      "parent_recorded": 0.94197,
+      "arm_a_536": 0.99445,
+      "delta": 0.05242,
+      "relative_percent": 5.56,
+      "package_bootstrap95": [
+        0.04794,
+        0.05712
+      ],
+      "result": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/cpt-forgetting-536.json"
     },
     "publish": {
       "repo": "scholzmx/sepalith-2b-edit-sft (does not exist yet; the script creates it public)",
@@ -142,6 +144,36 @@
       ],
       "not_uploaded": "optimizer.pt, rng_state.pth, scheduler.pt, trainer_state.json, training_args.bin, checkpoints 268/803/1071, pilot arms",
       "uploaded": false
+    },
+    "quant_gate": {
+      "receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt.json",
+      "summary": "docs/training/plan-20260927/receipts/C09-quant-gate-summary.json",
+      "result": "under the paired valid rule Q8_0 and Q6_K pass and are shippable; smallest shippable tier Q6_K (2.20 GB). Q5_K_M fails KLD and significant run-ons; the Q4_K_M tiers fail KLD (> 0.03) and/or significant run-ons (attn-out-q8_0 passes KLD at 0.0268 but loses 20 / gains 4 valid outputs, p 0.002)",
+      "dev75_parity_q8_0": "pass (74/1/27/9 identical to bf16)",
+      "receipt_paired_valid": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt-paired-valid.json",
+      "verdicts_paired_valid": {
+        "Q8_0": "pass",
+        "Q6_K": "pass",
+        "Q5_K_M": "fail",
+        "Q4_K_M": "fail",
+        "Q4_K_M-head-q6_k": "fail",
+        "Q4_K_M-uncalibrated": "fail",
+        "Q4_K_M+": "fail",
+        "Q4_K_M-attn-out-q8_0": "fail"
+      }
+    },
+    "published": {
+      "repo": "scholzmx/sepalith-2b-edit-sft",
+      "folder": "arm-a/",
+      "commit": "5f1eacee21d02df6992387b7c4260d1804d2a934",
+      "files": [
+        "model.safetensors",
+        "arm-a-Q8_0.gguf",
+        "arm-a-Q4_K_M.gguf (imatrix)",
+        "config, tokenizer, chat template, model cards"
+      ],
+      "receipt": "docs/training/plan-20260927/receipts/C09-publish-arm-a.json",
+      "r8": "single model upload on 2026-10-17"
     }
   },
   "rule_decisions": [
@@ -229,10 +261,32 @@
         "source": "wiki entities/hint4.md (attention output projection was the quantization-sensitive module); imatrix research flagged attn_output at layers 39 and 41"
       },
       "outcome": "added tier Q4_K_M-attn-out-q8_0 (imatrix Q4_K_M, attn_output q8_0) and the contrast q4_k_m_attn_out_q8_0_vs_q4_k_m to the quant gate"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "valid_lost_gained_vs_bf16": {
+          "Q8_0": [
+            9,
+            3
+          ],
+          "Q6_K": [
+            7,
+            1
+          ],
+          "Q4_K_M": [
+            16,
+            6
+          ]
+        },
+        "engine_noise_valid_cases": 5
+      },
+      "outcome": "quant gate valid row becomes a paired test like the exact row: fail only when the exact two-sided McNemar p <= 0.05 and the quant loses more valid outputs than it gains; the pp drop is recorded"
     }
   ],
   "question_for_user": null,
-  "notes": "Arm A final = checkpoint 536 (user). Day work 2026-10-16: bf16/Q8_0/uncalibrated Q4_K_M GGUFs exported on CPU; C09-arm-a-quant enqueued for tonight; the CPT forgetting job and the publish script need this PR merged. Notebook latency check (optional) not run: the notebook was not reachable from this session.",
+  "notes": "Arm A complete and published (checkpoint 536; Q8_0 + imatrix Q4_K_M GGUFs). Forgetting +0.052 nats (+5.6%) on CPT 2K. Quant gate under the paired valid rule: ship Q8_0 + Q6_K; no Q4 tier passes yet (see the quant autoresearch mission). The published Q4_K_M is informational, not a gated tier.",
   "next_steps": [
     "User: merge this PR (it adds c09/cpt_forgetting.py and c09/publish_arm_a.py; the forgetting job needs them on main).",
     "After merge: PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c09/jobs/C09-arm-a-cpt-forgetting.json",

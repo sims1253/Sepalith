@@ -1,0 +1,362 @@
+{
+  "card": "C09",
+  "created": "2026-10-17",
+  "gate_receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt.json",
+  "backend": {
+    "engine": "llama-server",
+    "build": "cuda",
+    "commit": "3cb7ffb1a",
+    "cap": 1024
+  },
+  "smallest_shippable": null,
+  "tiers": {
+    "Q8_0": {
+      "verdict": "fail",
+      "gb": 2.68,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 0.8,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 0.5,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -0.8,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 2.4,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 66.8,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.000914,
+          "outcome": "pass"
+        },
+        "top1_agreement_pct": {
+          "value": 99.058,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q6_K": {
+      "verdict": "fail",
+      "gb": 2.2,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 1.2,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 0.25000000000000006,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -1.2,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 2.4,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 62.0,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.003205,
+          "outcome": "pass"
+        },
+        "top1_agreement_pct": {
+          "value": 98.242,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q5_K_M": {
+      "verdict": "fail",
+      "gb": 1.973,
+      "checks": {
+        "exact_delta_pp": {
+          "value": -0.4,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 1.0,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": 0.4,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 4.0,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 59.2,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.010786,
+          "outcome": "fail"
+        },
+        "top1_agreement_pct": {
+          "value": 96.896,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q4_K_M": {
+      "verdict": "fail",
+      "gb": 1.76,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 0.0,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 1.0,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -0.4,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 4.0,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 51.2,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.034197,
+          "outcome": "fail"
+        },
+        "top1_agreement_pct": {
+          "value": 94.432,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q4_K_M-head-q6_k": {
+      "verdict": "fail",
+      "gb": 1.695,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 0.0,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 1.0,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -0.4,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 5.6,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 50.4,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.034631,
+          "outcome": "fail"
+        },
+        "top1_agreement_pct": {
+          "value": 94.365,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q4_K_M-uncalibrated": {
+      "verdict": "fail",
+      "gb": 1.76,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 0.8,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 0.7265624999999989,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -0.8,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 4.0,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 51.2,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.042691,
+          "outcome": "fail"
+        },
+        "top1_agreement_pct": {
+          "value": 93.692,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q4_K_M+": {
+      "verdict": "fail",
+      "gb": 1.779,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 0.8,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 0.6249999999999994,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -1.6,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 2.4,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 53.6,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.030327,
+          "outcome": "fail"
+        },
+        "top1_agreement_pct": {
+          "value": 94.784,
+          "outcome": "recorded"
+        }
+      }
+    },
+    "Q4_K_M-attn-out-q8_0": {
+      "verdict": "fail",
+      "gb": 1.848,
+      "checks": {
+        "exact_delta_pp": {
+          "value": 0.0,
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 1.0,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": -0.4,
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 6.4,
+          "outcome": "fail"
+        },
+        "token_identity_pct": {
+          "value": 52.0,
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.026839,
+          "outcome": "pass"
+        },
+        "top1_agreement_pct": {
+          "value": 95.129,
+          "outcome": "recorded"
+        }
+      }
+    }
+  },
+  "valid_flips_vs_bf16_dev250": {
+    "columns": [
+      "lost",
+      "gained",
+      "exact_two_sided_mcnemar_p"
+    ],
+    "rows": {
+      "Q8_0": [
+        9,
+        3,
+        0.146
+      ],
+      "Q6_K": [
+        7,
+        1,
+        0.07
+      ],
+      "Q5_K_M": [
+        13,
+        3,
+        0.021
+      ],
+      "Q4_K_M": [
+        16,
+        6,
+        0.052
+      ],
+      "Q4_K_M-head-q6_k": [
+        19,
+        5,
+        0.007
+      ],
+      "Q4_K_M-uncalibrated": [
+        15,
+        5,
+        0.041
+      ],
+      "Q4_K_M+": [
+        11,
+        5,
+        0.21
+      ],
+      "Q4_K_M-attn-out-q8_0": [
+        20,
+        4,
+        0.002
+      ]
+    },
+    "note": "every lost valid case is a cap-1,024 run-on (missing_exact_terminal) on a case bf16 also got wrong; exact-match edits are unaffected (Q8_0 lost 0, gained 2)"
+  },
+  "engine_noise": {
+    "pc_hf_bf16_dev250": {
+      "protocol_valid": 234,
+      "exact_region": 117,
+      "cap_hit": 16
+    },
+    "gguf_bf16_cuda_dev250": {
+      "protocol_valid": 239,
+      "exact_region": 117,
+      "cap_hit": 11
+    }
+  },
+  "paired_valid_rule": {
+    "receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/gate-receipt-paired-valid.json",
+    "smallest_shippable": "Q6_K",
+    "verdicts": {
+      "Q8_0": "pass",
+      "Q6_K": "pass",
+      "Q5_K_M": "fail",
+      "Q4_K_M": "fail",
+      "Q4_K_M-head-q6_k": "fail",
+      "Q4_K_M-uncalibrated": "fail",
+      "Q4_K_M+": "fail",
+      "Q4_K_M-attn-out-q8_0": "fail"
+    }
+  }
+}

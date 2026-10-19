@@ -2,8 +2,8 @@
 
 **Mission:** find the fastest lossless speculative-decoding setup for the arm-A
 model on the real PRM03 workload (CPU llama.cpp b10453), measure end-to-end
-honestly, deliver setup + evidence. Autoresearch session `.auto/` at the repo
-root; all artifacts under
+honestly, deliver setup + evidence. Harness in `experiments/serving/specdec/`;
+all artifacts under
 `/mnt/e/sepalith/campaign-20260915/serving-work/specdec-20261017/`.
 
 ## Headline
