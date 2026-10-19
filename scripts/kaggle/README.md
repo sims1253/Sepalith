@@ -102,14 +102,18 @@ one commit with the PC's `hf` login.
 
 ## Parity procedure (C03 step 4)
 
-1. PC references (night job `docs/training/plan-20260927/c03/jobs/C03-parity-references.json`,
-   script `c03/parity_references.py`): bf16 at the bound batching for DEV75 and
-   the 200 TRAIN prompts of `c03/train_prompts.py` (seed 3407, stratified by
-   family), on parent 11,586 and on lr1e-5 gate 268.
-2. Upload the prompts file and the references to
-   `campaign-20260915/C07/parity-references/` (one commit). The gate-268
-   generations are outputs, not weights, so they may be published; the gate
-   weights stay local.
+1. PC references (night jobs `docs/training/plan-20260927/c03/jobs/C03-parity-references.json`
+   and `C03-parity-references-arm-a.json`, script `c03/parity_references.py`):
+   bf16 at the bound batching for DEV75 and the 200 TRAIN prompts of
+   `c03/train_prompts.py` (seed 3407, stratified by family), on parent 11,586
+   plus lr1e-5 gate 268 (2026-10-14) and plus arm A, checkpoint 536.
+2. The prompts file is public at
+   `hf-dataset:scholzmx/sepalith/campaign-20260915/C03/c03-train200-seed3407.jsonl`;
+   references go to `campaign-20260915/C03/parity-references/<attempt>/`
+   (one commit per batch). Generations are outputs, not weights, so they may
+   be published. Arm A's weights are public at
+   `hf:scholzmx/sepalith-2b-edit-sft/arm-a` (sha256 `befe587a...`), so Kaggle
+   runs the representative SFT check on it.
 3. Kaggle: the same prompts in fp16 with `--batch-size 32 --kv-cache dynamic`
    (the default cap of 1,024), one run for `--panel dev75` and one for
    `--prompts`, per model whose weights Kaggle can read.
