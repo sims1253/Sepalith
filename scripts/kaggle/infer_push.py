@@ -190,7 +190,10 @@ def mark(step):
     boot.setdefault("steps", []).append([step, round(time.monotonic() - T0, 1)]); save(); print("[bootstrap]", step, flush=True)
 try:
     mark("start")
-    boot["nvidia_smi"] = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip().splitlines()
+    try:  # CPU kernels (--cpu) have no nvidia-smi
+        boot["nvidia_smi"] = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip().splitlines()
+    except FileNotFoundError:
+        boot["nvidia_smi"] = []
     subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", *PIP_PINS], check=True, timeout=900)
     mark("pip")
     data = urllib.request.urlopen(f"https://codeload.github.com/sims1253/Sepalith/tar.gz/{COMMIT}", timeout=600).read()
@@ -318,6 +321,10 @@ def main(argv=None):
         pushed = kaggle(*push)
         receipt["push_output"] = redact(pushed.stdout.strip())[-500:]
         print(receipt["push_output"], flush=True)
+        # The CLI exits 0 on a refused push (e.g. "Kernel push error: Maximum batch GPU session count of 2
+        # reached."); nothing was launched then, so stop here instead of polling a kernel that does not run.
+        if "successfully pushed" not in pushed.stdout.lower() or "push error" in pushed.stdout.lower():
+            raise SystemExit(f"kaggle refused the push of {kernel_id}: {receipt['push_output']}")
         if args.no_wait:
             print(f"pushed {kernel_id}; later: infer_push.py --run-id {args.run_id} --fetch-only --estimate-hours 0")
             return 0

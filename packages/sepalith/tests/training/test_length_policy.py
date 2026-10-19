@@ -13,7 +13,10 @@ from sepalith.training.rl import campaign_rl_data
 from sepalith.training.rl.length_policy import (
     LEGACY_POLICY,
     REVIEWED_POLICY,
+    REVIEWED_POLICY_V4,
     SCHEMA,
+    TRAIN_ROWS_SHA256,
+    TRAIN_ROWS_V4_BRACEINDENT_SHA256,
     LengthPolicy,
     LengthPolicyError,
     assess_row,
@@ -49,6 +52,15 @@ class TestLengthPolicy(unittest.TestCase):
         self.assertEqual((campaign_rl_data.PROMPT_MAX_TOKENS, campaign_rl_data.COMPLETION_MAX_TOKENS,
                           campaign_rl_data.CONTEXT_MAX_TOKENS), (3072, 1024, 4096))
         self.assertEqual(LEGACY_POLICY.disposition, "audit_only")
+
+    def test_v4_policy_keeps_the_reviewed_limits_on_the_v4_rows(self) -> None:
+        limits = ("model_context_tokens", "prompt_max_tokens", "completion_max_tokens", "disposition")
+        self.assertEqual([getattr(REVIEWED_POLICY_V4, name) for name in limits],
+                         [getattr(REVIEWED_POLICY, name) for name in limits])
+        self.assertEqual(REVIEWED_POLICY.input_rows_sha256, TRAIN_ROWS_SHA256)
+        self.assertEqual(REVIEWED_POLICY_V4.input_rows_sha256, TRAIN_ROWS_V4_BRACEINDENT_SHA256)
+        self.assertNotEqual(REVIEWED_POLICY_V4.policy_id, REVIEWED_POLICY.policy_id)
+        self.assertNotEqual(REVIEWED_POLICY_V4.sha256, REVIEWED_POLICY.sha256)
 
     def test_complete_target_above_192_is_accepted_by_candidate(self) -> None:
         value = row(prompt=3000, completion=933)
