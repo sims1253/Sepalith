@@ -32,6 +32,8 @@ no frameworks beyond @types/vscode.
 - `autoStart` (boolean, default true): start the sidecar on activation.
 - `debounceMs` (number, default 1500): idle time before an automatic
   suggestion attempt. 0 disables auto-trigger (manual only).
+- `warmup` (boolean, default true): prefill-as-you-settle warm-up (see
+  UX below). Off = no warm-up requests.
 
 ## Commands
 
@@ -42,7 +44,10 @@ no frameworks beyond @types/vscode.
 ## Sidecar contract (hard rules — each earned by an incident)
 
 1. Spawn: `<serverPath> -m <modelPath> --port <port> --host 127.0.0.1 -c
-   <contextSize> --parallel 1 -t <threads> -ngl 0`. CPU-only on purpose:
+   <contextSize> --parallel 1 --cache-ram 2048 -t <threads> -ngl 0`.
+   `--cache-ram 2048` caps the prompt-cache pool for 8–16 GiB laptops
+   (docs/validation/2026-10-17-prefill-autoresearch.md §4); keep
+   `--parallel 1` — warm-ups and requests share the one slot. CPU-only on purpose:
    the GPU is shared with training; GPU serving misbehaves under load.
 2. Readiness: `/health` returns ok DURING model load — probe
    `POST /v1/completions` with `{"prompt":"x","max_tokens":1}` until HTTP
@@ -85,6 +90,14 @@ For the active cursor in an R document, build ONE prompt (plain text):
 - Auto-trigger: debounce on document change; manual `Alt+\` bypasses the
   debounce. Only one request in flight; cancel the previous (AbortController
   or ignore-by-request-id — simplest correct option is fine).
+- Prefill warm-up (`warmup` setting, default on): ~200 ms after the last
+  edit, cursor move, active-editor change, accepted suggestion or server
+  start, send the prompt the next real request would send for the active
+  R editor's cursor, same endpoint and body, with `max_tokens: 0` (b10453:
+  prefill only, no decode). At most one warm-up in flight; changes during
+  it collapse into one follow-up warm-up rendered from the newest state.
+  Warm-ups are never aborted — the real request queues behind the prefill
+  and then processes ~1 prompt token. Errors are logged and ignored.
 - Status bar item (left): `Sepalith: <state>` where state is one of
   `starting… | ready (model name) | external server | stopped | error`.
   On hover/tooltip: last latency + tokens.

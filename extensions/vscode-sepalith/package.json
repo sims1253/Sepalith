@@ -124,6 +124,11 @@
           "default": 1500,
           "description": "Idle ms before an automatic suggestion attempt; 0 disables auto-trigger (manual only)."
         },
+        "sepalith.warmup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Prefill-as-you-settle: ~200 ms after an edit, cursor move, file switch or accepted suggestion, send the next request's exact prompt with zero generation so the server's prompt cache is warm when the suggestion is requested. Off = every suggestion request pays its own prefill."
+        },
         "sepalith.debugMode": {
           "type": "boolean",
           "default": false,
@@ -174,6 +179,7 @@
     "check-process": "esbuild scripts/check-process.ts --bundle --platform=node --format=cjs --outfile=dist/check-process.cjs && node dist/check-process.cjs",
     "lint": "oxlint --deny-warnings src scripts",
     "check-completion": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-completion.ts",
+    "check-warmup": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-warmup.ts",
     "test:lint": "node --test tools/anti-slop/rules/*.test.ts",
     "test:editor": "npm run build && node tests/run.cjs"
   },

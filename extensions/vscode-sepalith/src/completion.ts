@@ -1,3 +1,18 @@
+// generation stops: the UPDATED terminator plus every prompt marker the
+// model has been seen echoing (marker echo = wasted seconds of generation)
+export const STOPS = [">>>>>>> UPDATED", "<<<<<<< CURRENT", "=======", "<[fim-middle]>", "<[fim-suffix]>", "<[fim-prefix]>", "<|outline|>"];
+
+/** Generation budget of a real suggestion request. */
+export const SUGGESTION_MAX_TOKENS = 320;
+
+/** Generation budget of a prefill warm-up: prompt only, no decode (b10453 `max_tokens: 0`, verified: `eval time = 0.00 ms`). */
+export const WARMUP_MAX_TOKENS = 0;
+
+/** Body for POST /v1/completions; real requests and prefill warm-ups share it so their prompts match byte for byte. */
+export function completionBody(prompt: string, maxTokens: number, stop: string[] | null): string {
+  return JSON.stringify({ prompt, max_tokens: maxTokens, temperature: 0, stop, stream: false });
+}
+
 /** Validated subset of the local server's OpenAI-compatible completion response. */
 export interface ParsedCompletion {
   text: string;
