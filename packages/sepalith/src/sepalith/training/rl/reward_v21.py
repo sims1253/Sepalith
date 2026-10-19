@@ -69,7 +69,11 @@ from sepalith.campaign_protocol import (
 from sepalith.training.rl.air_canonical import AirFormatter, normalize_lines, normalize_text
 from sepalith.training.rl.campaign_r_parse_probe import DEFAULT_HARNESS, RParseOnlyProbe, sha_file
 from sepalith.training.rl.campaign_reward_v2 import apply_region, position_offset
-from sepalith.training.rl.length_policy import REVIEWED_POLICY
+from sepalith.training.rl.length_policy import (
+    REVIEWED_POLICY,
+    REVIEWED_POLICY_V4,
+    TRAIN_ROWS_V4_BRACEINDENT_SHA256,
+)
 
 POLICY_ID = "sepalith.reward.v2.1"
 RECORD_SCHEMA = "sepalith.reward-v21.record.v1"
@@ -723,10 +727,13 @@ class CampaignPRM03RewardV21:
 # Campaign data and CLI
 # ---------------------------------------------------------------------------
 DATA_ROOT = Path(os.environ.get("SEPALITH_CAMPAIGN_DATA", "/mnt/e/sepalith/campaign-20260915/data-work"))
+# The TRAIN rows arm A was trained on (v4-braceindent; its context sidecar is
+# byte-identical to v3's). The reward buffer holds pre-edit baselines only, and
+# v4 changes no prompt, range or baseline, so the v3-era buffer still applies.
 TRAIN_INPUTS = {
-    "rows": ("DAT10-finish-source-repair-v3/train-token-rows.jsonl",
-             "3f551c446308575da84065ff2c499c09e1f631d9387ce995deb4920d72177d5e"),
-    "context": ("DAT10-finish-source-repair-v3/context-sidecar.jsonl",
+    "rows": ("DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+             TRAIN_ROWS_V4_BRACEINDENT_SHA256),
+    "context": ("DAT10-finish-source-repair-v4-braceindent/context-sidecar.jsonl",
                 "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"),
     "selected_ids": ("RL11-15006-context-v1/selected-train-ids.json",
                      "986a1f7910c44423e50988e76abb6671dedf8cd70f5542ff9efd7a03ce504462"),
@@ -748,6 +755,7 @@ def load_train_specs(
         paths["selected_ids"], TRAIN_INPUTS["selected_ids"][1],
         reward_buffer_manifest_path=paths["reward_buffer_manifest"],
         reward_buffer_manifest_sha256=TRAIN_INPUTS["reward_buffer_manifest"][1],
+        length_policy=REVIEWED_POLICY_V4,
     )
     index = RewardBufferIndex.load(paths["reward_buffer_manifest"], TRAIN_INPUTS["reward_buffer_manifest"][1],
                                    manifest.selected_ids)

@@ -1,0 +1,327 @@
+{
+  "commit": "6cc2d17833320d807888d71329d58c7acc925e1a",
+  "date": "2026-10-17",
+  "dev75_vs_night_gate_536": {
+    "checks": {
+      "dev75_counts_within_1": true,
+      "identity_at_least_90pct": false,
+      "no_nonfinite": true,
+      "prompts_identical": true
+    },
+    "divergent": [
+      {
+        "candidate_cap_hit": true,
+        "candidate_tokens": 1024,
+        "first_divergence": 21,
+        "id": "04834fef4fe59742f13677a9",
+        "reference_cap_hit": true,
+        "reference_tokens": 1024
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 57,
+        "first_divergence": 22,
+        "id": "4f08633513b5c525240d2540",
+        "reference_cap_hit": false,
+        "reference_tokens": 97
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 95,
+        "first_divergence": 63,
+        "id": "dat07-existing-152d62f7a57472f8abb30ca9",
+        "reference_cap_hit": false,
+        "reference_tokens": 86
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 206,
+        "first_divergence": 56,
+        "id": "dat07-existing-2838b904f1e44b7440e6da9f",
+        "reference_cap_hit": false,
+        "reference_tokens": 217
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 92,
+        "first_divergence": 17,
+        "id": "dat07-existing-5b5e844d3a8795c52149f848",
+        "reference_cap_hit": false,
+        "reference_tokens": 148
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 123,
+        "first_divergence": 46,
+        "id": "dat07-existing-81ddc4c6ddd226b04dcf0910",
+        "reference_cap_hit": false,
+        "reference_tokens": 113
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 11,
+        "first_divergence": 0,
+        "id": "dat07-existing-a1b63fee525fbc1373bb82c3",
+        "reference_cap_hit": false,
+        "reference_tokens": 12
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 121,
+        "first_divergence": 65,
+        "id": "dat07-existing-acac075364038a6979bb0631",
+        "reference_cap_hit": false,
+        "reference_tokens": 120
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 79,
+        "first_divergence": 19,
+        "id": "dat07-existing-c54ed09efae0ca38cff22981",
+        "reference_cap_hit": false,
+        "reference_tokens": 80
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 127,
+        "first_divergence": 11,
+        "id": "dat07-existing-d38a792699b4cccded445dc0",
+        "reference_cap_hit": false,
+        "reference_tokens": 128
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 89,
+        "first_divergence": 10,
+        "id": "e623a61b5a4c066358a477f2",
+        "reference_cap_hit": false,
+        "reference_tokens": 140
+      },
+      {
+        "candidate_cap_hit": false,
+        "candidate_tokens": 450,
+        "first_divergence": 181,
+        "id": "f43de3e77f2d92ed7b223464",
+        "reference_cap_hit": false,
+        "reference_tokens": 497
+      }
+    ],
+    "identity": {
+      "cases": 75,
+      "first_divergence": {
+        "max": 181,
+        "median": 21.5,
+        "min": 0
+      },
+      "identical": 63,
+      "identity_rate": 0.84,
+      "prompt_mismatches": []
+    },
+    "r1": {
+      "candidate": {
+        "cap": 1,
+        "edit": 27,
+        "nofp": 9,
+        "valid": 74
+      },
+      "difference": {
+        "cap": 0,
+        "edit": 0,
+        "nofp": 1,
+        "valid": 0
+      },
+      "per_case_agreement": {
+        "cap": 75,
+        "edit": 75,
+        "nofp": 74,
+        "valid": 75
+      },
+      "reference": {
+        "cap": 1,
+        "edit": 27,
+        "nofp": 8,
+        "valid": 74
+      },
+      "within_tolerance": true
+    },
+    "reference": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.json",
+    "same_batching": true,
+    "verdict_dev75_only": "fail",
+    "what": "provisional: Kaggle fp16 DEV75 vs the night bf16 R1 gate result for step 536 (2026-10-14, same bound batching). The card verdict needs the TRAIN-200 bf16 references from the night job C03-parity-references-arm-a."
+  },
+  "model": {
+    "local": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "model_safetensors_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030",
+    "note": "HF LFS sha256 equals the local campaign-manifest sha256 of checkpoint 536",
+    "source": "hf:scholzmx/sepalith-2b-edit-sft/arm-a"
+  },
+  "quota": {
+    "kaggle_used_after": 0.39,
+    "note": "both kernels ran concurrently; per-run hours are session wall times (sum 0.39)",
+    "refresh": "2026-10-24T00:00:00Z"
+  },
+  "runs": {
+    "c03-arma-dev75-fp16-b32": {
+      "bootstrap_steps": [
+        [
+          "start",
+          0.0
+        ],
+        [
+          "pip",
+          19.0
+        ],
+        [
+          "code",
+          22.6
+        ],
+        [
+          "entry",
+          476.8
+        ]
+      ],
+      "final_status": "complete",
+      "finished_at": "2026-10-17T09:50:50+0200",
+      "generation": {
+        "attention": "sdpa (transformers default)",
+        "batch_size": 32,
+        "decoding": "greedy",
+        "dtype": "fp16",
+        "kv_cache": "dynamic",
+        "max_new_tokens": 1024,
+        "ordering": "prompt_tokens_descending_then_case_id_ascending",
+        "pad_token_id": 1,
+        "padding_side": "left",
+        "pytorch_cuda_alloc_conf": "expandable_segments:True",
+        "stop_ids": [
+          1,
+          130073
+        ],
+        "work_split": "whole global batches per shard and worker"
+      },
+      "gpu_hours": 0.13,
+      "gpus": [
+        "Tesla T4",
+        "Tesla T4"
+      ],
+      "inputs": {
+        "cases": 75,
+        "panel": "dev75",
+        "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035",
+        "source": "hf-dataset:scholzmx/sepalith/campaign-20260915/dev/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl"
+      },
+      "kernel": "m0hawk/sepalith-infer-c03-arma-dev75-fp16-b32",
+      "local_outputs": "/home/m0hawk/.local/state/sepalith/kaggle/runs/c03-arma-dev75-fp16-b32/c03-arma-dev75-fp16-b32",
+      "result": {
+        "calls_with_nonfinite_logits": 0,
+        "cap_hits": 1,
+        "cases": 75,
+        "counts": {
+          "cap_hit": 1,
+          "edit_exact": 27,
+          "exact_region": 50,
+          "predicted_noop": 23,
+          "protocol_valid": 74,
+          "strict_noop_correct": 23,
+          "strict_noop_false_suggestions": 9,
+          "suggestion": 51
+        },
+        "generated_tokens": 5197,
+        "generation_wall_seconds": 356.01059244699996,
+        "nll_finite": true,
+        "prompt_nll": 1.4432786401443758,
+        "prompts": 75,
+        "r1_dev75": {
+          "cap": 1,
+          "edit": 27,
+          "nofp": 9,
+          "valid": 74
+        },
+        "records": 75,
+        "session_tokens_per_second": 14.597880260469182,
+        "target_nll": 1.021880612638654
+      },
+      "runtime": {
+        "accelerate": "1.14.0",
+        "huggingface_hub": "1.29.0",
+        "python": "3.13.15",
+        "safetensors": "0.8.0",
+        "tokenizers": "0.22.2",
+        "torch": "2.11.0+cu128",
+        "transformers": "5.5.0"
+      },
+      "session_seconds": 476.8
+    },
+    "c03-arma-train200-fp16-b32": {
+      "bootstrap_steps": [
+        [
+          "start",
+          0.0
+        ],
+        [
+          "pip",
+          16.8
+        ],
+        [
+          "code",
+          20.4
+        ],
+        [
+          "entry",
+          928.4
+        ]
+      ],
+      "final_status": "complete",
+      "finished_at": "2026-10-17T09:59:00+0200",
+      "generation": {
+        "attention": "sdpa (transformers default)",
+        "batch_size": 32,
+        "decoding": "greedy",
+        "dtype": "fp16",
+        "kv_cache": "dynamic",
+        "max_new_tokens": 1024,
+        "ordering": "prompt_tokens_descending_then_case_id_ascending",
+        "pad_token_id": 1,
+        "padding_side": "left",
+        "pytorch_cuda_alloc_conf": "expandable_segments:True",
+        "stop_ids": [
+          1,
+          130073
+        ],
+        "work_split": "whole global batches per shard and worker"
+      },
+      "gpu_hours": 0.26,
+      "gpus": [
+        "Tesla T4",
+        "Tesla T4"
+      ],
+      "inputs": {
+        "prompts": "hf-dataset:scholzmx/sepalith/campaign-20260915/C03/c03-train200-seed3407.jsonl",
+        "prompts_total": 200,
+        "sha256": "3a99e2ad6a6b04995cd52a2614d67e13e31ba8e30eae2d2fc4a6d502ff250dc2"
+      },
+      "kernel": "m0hawk/sepalith-infer-c03-arma-train200-fp16-b32",
+      "local_outputs": "/home/m0hawk/.local/state/sepalith/kaggle/runs/c03-arma-train200-fp16-b32/c03-arma-train200-fp16-b32",
+      "result": {
+        "calls_with_nonfinite_logits": 0,
+        "cap_hits": 8,
+        "generated_tokens": 24326,
+        "generation_wall_seconds": 815.8733739930001,
+        "prompts": 200,
+        "records": 200,
+        "session_tokens_per_second": 29.815901309470494
+      },
+      "runtime": {
+        "accelerate": "1.14.0",
+        "huggingface_hub": "1.29.0",
+        "python": "3.13.15",
+        "safetensors": "0.8.0",
+        "tokenizers": "0.22.2",
+        "torch": "2.11.0+cu128",
+        "transformers": "5.5.0"
+      },
+      "session_seconds": 928.4
+    }
+  },
+  "schema": "sepalith.c03.arm-a-kaggle-fp16.v1"
+}

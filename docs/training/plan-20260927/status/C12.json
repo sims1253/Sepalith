@@ -1,0 +1,308 @@
+{
+  "card": "C12",
+  "state": "done",
+  "updated": "2026-10-17T17:00:00+02:00",
+  "branch": "plan/C12-vllm-trial",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/65",
+  "outputs": {
+    "vllm_trial": {
+      "report": "docs/validation/2026-10-17-c12-vllm-trial.md",
+      "receipt": "docs/training/plan-20260927/receipts/C12-vllm-trial.json",
+      "entry": "scripts/kaggle/vllm_census_entry.py",
+      "driver": "scripts/kaggle/vllm_census_push.py (wrapper over infer_push.py; infer_push.py bootstrap now tolerates CPU kernels without nvidia-smi)",
+      "receipt_builder": "docs/training/plan-20260927/c12/vllm_trial_receipt.py",
+      "kernel": "m0hawk/sepalith-vllm-c12-vllm-trial (commit d104ad1d8cb24724cf52c08a2b052ddc3fd79b56), session 10:14:17-10:33:30",
+      "raw_outputs": "~/.local/state/sepalith/kaggle/runs/c12-vllm-trial/",
+      "model": "hf:scholzmx/sepalith-2b-edit-sft/arm-a, model.safetensors befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030 (= local checkpoint 536)",
+      "prompts": "512 TRAIN prompts, seeded subset (seed 3407) of DAT10 v4-braceindent train-token-rows.jsonl (ed1c7b4e...); greedy only: DEV75, DEV250, C03 TRAIN-200",
+      "engine": "vLLM 0.31.0, torch 2.13.0+cu130, triton 3.7.1, fp16, TRITON_ATTN (auto-selected), VLLM_COMPILE + CUDA graphs (piecewise and full), one engine per T4, max_model_len 4096, prefix caching, skip_tokenizer_init, generation_config ignored",
+      "sampling": "k=8 (n=8), temperature 1.0, top_p 1.0, top_k off, cap 1024, seed 3407 + prompt index, stop ids 1 and 130073",
+      "throughput": {
+        "session_tokens_per_second": 1142.9,
+        "per_worker_tokens_per_second": [
+          535.4,
+          647.7
+        ],
+        "full_chunk_session_tokens_per_second": 1266,
+        "speedup_vs_bound_batching_106": 10.78,
+        "bound_batching_on_arm_a_c03_today": {
+          "dev75_greedy_b32": 14.6,
+          "train200_greedy_b32": 29.8
+        },
+        "samples": 4096,
+        "generated_tokens": 539019,
+        "mean_tokens_per_sample": 131.6,
+        "cap_hit_rate": 0.0054
+      },
+      "projection_gpu_hours": {
+        "k8_cap1024": 3.96,
+        "k8_cap512": 3.7,
+        "k4_cap1024": 2.04,
+        "k4_cap512": 1.91,
+        "bound_batching_c03": [
+          67,
+          133
+        ]
+      },
+      "parity_fp16": {
+        "vllm_vs_hf_fp16_dev75": {
+          "identical": "75/75",
+          "r1_diff": {
+            "valid": 0,
+            "cap": 0,
+            "edit": 0,
+            "nofp": 0
+          }
+        },
+        "vllm_vs_hf_fp16_train200": {
+          "identical": "195/200",
+          "cap_hits": [
+            8,
+            8
+          ]
+        },
+        "vllm_vs_bf16_dev75": {
+          "identical": "63/75",
+          "r1": {
+            "valid": [
+              74,
+              74
+            ],
+            "cap": [
+              1,
+              1
+            ],
+            "edit": [
+              27,
+              27
+            ],
+            "nofp": [
+              8,
+              9
+            ]
+          }
+        },
+        "hf_fp16_vs_bf16_dev75": {
+          "identical": "63/75",
+          "nofp": [
+            8,
+            9
+          ]
+        },
+        "vllm_vs_bf16_dev250": {
+          "identical": "176/250",
+          "valid": [
+            234,
+            239
+          ],
+          "cap": [
+            16,
+            11
+          ],
+          "edit": [
+            79,
+            79
+          ],
+          "nofp": [
+            12,
+            12
+          ],
+          "score250": [
+            117,
+            117
+          ]
+        },
+        "vllm_self_dev75": "74/75 identical, counts equal",
+        "target_nll": {
+          "bf16": {
+            "dev75": 1.0211,
+            "dev250": 0.7993
+          },
+          "hf_fp16": {
+            "dev75": 1.0219
+          },
+          "vllm_fp16": {
+            "dev75": 1.0217,
+            "dev250": 0.7992
+          }
+        },
+        "nonfinite": "none"
+      },
+      "gpu_hours": 0.33,
+      "hf_uploads": "none"
+    },
+    "reward_v21_alignment": {
+      "change": "reward_v21.TRAIN_INPUTS now reads DAT10-finish-source-repair-v4-braceindent (rows ed1c7b4e..., sidecar 36ee88c6... byte-identical to v3); load_train_specs binds the new length policy REVIEWED_POLICY_V4 (same 3,072/1,024/4,096 limits, rows hash v4); reward buffer, selected ids and scoring semantics unchanged",
+      "code": [
+        "packages/sepalith/src/sepalith/training/rl/reward_v21.py",
+        "packages/sepalith/src/sepalith/training/rl/length_policy.py"
+      ],
+      "tests": "test_reward_v21.TrainInputsTests (2), test_length_policy v4 policy test (1)",
+      "test_results": "check_training 152 OK; check_quality ruff and ty clean; check_core 134 run, 4 known failures (test_c08_select_r2 live tests, identical on main)",
+      "length_census": "docs/training/plan-20260927/receipts/C12-length-census-v4.json (15,006 of 15,006 accepted, max prompt 3,000, max completion 933 incl. EOS)",
+      "self_check": "docs/training/plan-20260927/receipts/C12-reward-v21-self-check-v4.json (15,006/15,006 exact; comparison split air 11,961 / no-op 1,094 / raw formatting-only 981 / raw window fallback 970, identical to C11; probes 848/1000 reindented exact, near-miss mean 0.2217, as in C11)"
+    },
+    "census": {
+      "receipt": "docs/training/plan-20260927/receipts/C12-census.json",
+      "scorer_script": "docs/training/plan-20260927/c12/census_score.py",
+      "entry": "scripts/kaggle/vllm_census_entry.py --census (3 shards x 5,002 prompts, chunks of 256 claimed by both T4s)",
+      "kernels": "m0hawk/sepalith-vllm-c12-census-s0/s1/s2 (private; commits 6cc66d8, 50ffcc3, fabd552; all complete, no chunk missing)",
+      "model": "hf:scholzmx/sepalith-2b-edit-sft/arm-a (befe587a...), vLLM 0.31.0 fp16, engine 'auto' (TRITON_ATTN) with CUDA graphs",
+      "sampling": "k=8, temperature 1.0, top_p 1.0, cap 1,024, seed 3407 + census index (order: sorted ids shuffled with seed 3407, sha 6ce201a7...)",
+      "size": {
+        "prompts": 15006,
+        "samples": 120048,
+        "generated_tokens": 15037051
+      },
+      "throughput_session_tokens_per_second": [
+        1403.7,
+        1418.8,
+        1348.8
+      ],
+      "gpu_hours": 3.27,
+      "statistics_overall": {
+        "M_mixed_share": 0.125083,
+        "all_correct_share": 0.366853,
+        "all_wrong_share": 0.508063,
+        "mean_pass_rate": 0.434368,
+        "noop_false_suggestion_rate": 0.001371,
+        "cap_hits": 563,
+        "cap_hit_rate": 0.00469,
+        "mean_completion_tokens": 125.26
+      },
+      "per_family_M_allcorrect_allwrong": {
+        "finish_block": [
+          0.128195,
+          0.012075,
+          0.85973
+        ],
+        "format_propagation": [
+          0.466254,
+          0.450155,
+          0.083591
+        ],
+        "na_rm_propagation": [
+          0.110294,
+          0.889706,
+          0.0
+        ],
+        "no_op": [
+          0.007313,
+          0.992687,
+          0.0
+        ],
+        "pipe_rewrite": [
+          0.013111,
+          0.986889,
+          0.0
+        ],
+        "rename_propagation": [
+          0.035488,
+          0.963245,
+          0.001267
+        ],
+        "roxygen_drafting": [
+          0.025767,
+          0.0,
+          0.974233
+        ]
+      },
+      "verified_correct": {
+        "samples": 52145,
+        "distinct": 7548,
+        "distinct_max2_per_prompt": 7528
+      },
+      "rft_candidates": {
+        "balanced_to_train_mix": 384,
+        "binding_family": "roxygen_drafting (21 distinct correct samples)",
+        "supply_distinct": {
+          "finish_block": 1181,
+          "format_propagation": 1505,
+          "na_rm_propagation": 137,
+          "no_op": 1100,
+          "pipe_rewrite": 1995,
+          "rename_propagation": 1589,
+          "roxygen_drafting": 21
+        }
+      },
+      "dpo_pair_candidates": {
+        "pairs": 18268,
+        "model_chosen": 3058,
+        "gold_chosen": 15210,
+        "prompts": 9497
+      },
+      "hf": "datasets/scholzmx/sepalith campaign-20260915/C12/sepalith-2b-edit-sft-arm-a/ (one commit 19a879d6, 43 files: prompts, samples, scores, pass rates, RFT and DPO candidates, summary, shard receipts)",
+      "local": "~/.local/state/sepalith/c12/census-arm-a/ and ~/.local/state/sepalith/kaggle/runs/c12-census-s{0,1,2}/"
+    }
+  },
+  "rule_decisions": [
+    {
+      "rule": "user decision 2026-10-16 (status/C03.json)",
+      "inputs": {
+        "bound_session_tokens_per_second": 106,
+        "threshold": "about 5x (530)",
+        "vllm_session_tokens_per_second": 1142.9
+      },
+      "outcome": "threshold met (10.8x); full census (k=8, cap 1,024) projects to about 4.0 Kaggle GPU-h; no reduction needed"
+    },
+    {
+      "rule": "R7",
+      "inputs": {
+        "kaggle_gpu_hours_used_this_week": 0.72,
+        "c12_trial": 0.33,
+        "c03": 0.39,
+        "limit": 20
+      },
+      "outcome": "within limit"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "vllm_tok_s_per_session": 1143,
+        "speedup": 10.8,
+        "projected_full_census_gpu_h": 4.0,
+        "fp16_parity_vs_old_path": "DEV75 75/75, TRAIN-200 195/200"
+      },
+      "outcome": "approve vLLM for census sampling; run the full census (15,006 TRAIN prompts x 8 samples, cap 1,024); align reward v2.1 to the v4-braceindent TRAIN rows before scoring"
+    },
+    {
+      "rule": "R7",
+      "inputs": {
+        "kaggle_gpu_hours_used_this_week": 3.99,
+        "c12_census": 3.27,
+        "census_budget": 6,
+        "limit": 20
+      },
+      "outcome": "within limit"
+    },
+    {
+      "rule": "R4 step 1",
+      "inputs": {
+        "verified_correct_samples": 52145,
+        "verified_correct_distinct_max2_per_prompt": 7528,
+        "rft_candidates_balanced_to_train_mix": 384,
+        "dpo_pair_candidates": 18268,
+        "dpo_pairs_model_chosen": 3058,
+        "min_verified": 2000,
+        "min_pairs": 1000,
+        "M": 0.125083
+      },
+      "outcome": "stop-for-user (ambiguous): the literal counts pass (52,145 or 7,528 distinct verified-correct >= 2,000; 18,268 pairs >= 1,000), but the card's family-balanced RFT candidate file holds only 384 samples (< 2,000) because roxygen_drafting has 21 distinct correct samples; M = 12.5% is recorded for R4 step 3 (below 15%) but step 3 applies only after an adopted offline step"
+    },
+    {
+      "rule": "R4 step 1 + user decision",
+      "at": "2026-10-17",
+      "inputs": {
+        "verified_correct_samples": 52145,
+        "distinct_prompts_with_correct": 7528,
+        "dpo_pairs": 18268,
+        "strict_balanced_rft_rows": 384,
+        "M_pct": 12.5
+      },
+      "outcome": "start C13 (offline route): RFT on a family-capped set (each family capped at its TRAIN share of the distinct correct pool: 4,413 samples, finish_block 1,181, roxygen_drafting 21) plus DPO on the 18,268 pairs; the C13 parent is arm A 536 unless R3 adopts arm B after tonight's gate 684"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "2026-10-17: reward v2.1 aligned to the v4-braceindent rows (self-check 15,006/15,006, C11 semantics unchanged). Full census done on Kaggle (3 private sessions, 3.27 GPU-h, week at 3.99 of 20): 15,006 prompts x 8 samples, all scored. M = 12.5%, all-correct 36.7%, all-wrong 50.8%; the mixed signal sits in finish_block (M 12.8%) and format_propagation (M 46.6%). Outputs uploaded in one HF commit. R4 step 1 stops for the user (RFT balance count vs literal count). 2026-10-17: user approved starting C13 with the family-capped RFT set and all DPO pairs."
+}
