@@ -464,5 +464,16 @@
   ],
   "accept_rate": 0.511,
   "verdict": "below champion despite higher precision; recency beats frequency as the continuation prior; patch space fully closed"
+ },
+ "upgrade_evaluation": {
+  "master_commit": "f3fb2fc",
+  "built_in": "work dir (pinned untouched)",
+  "parity": {
+   "n1m1_flips": "5/60 (identical to b10453)",
+   "n2m4_flips": "8/60 (identical)"
+  },
+  "acceptance": "bit-identical (1.525@0.417)",
+  "wall_60": "1.548x median at load 17 (best subset wall despite heaviest load)",
+  "verdict": "upgrade does NOT fix determinism; small decode win possible but needs its own validation"
  }
 }
