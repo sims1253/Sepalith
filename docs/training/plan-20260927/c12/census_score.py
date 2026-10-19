@@ -281,6 +281,8 @@ def main(argv=None):
         raise SystemExit("TRAIN rows and reward specs disagree")
     samples, shards = load_samples(args.run)
     by_prompt, missing = check_coverage(samples, rows, k)
+    if missing:
+        raise SystemExit(f"census incomplete: {len(missing)} TRAIN prompts lack exactly {k} samples (first: {missing[:5]})")
     loaded = time.perf_counter()
 
     probe = RParseOnlyProbe(DEFAULT_HARNESS, sha_file(DEFAULT_HARNESS))
