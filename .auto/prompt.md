@@ -116,6 +116,10 @@ final gate table.
   and 1.418x (load 12).
 - PR #68 open (not merged), checks green, comms registered (rzcode-specdec),
   DEV use recorded. MISSION DELIVERABLES COMPLETE; remaining loop = PR babysitting.
+- Q6_K cross-check (run #19): n2m4 warm median 1.549x (CI lo 1.26), decode
+  1.60x, acceptance 1.517@0.401, parity 0.90. Cross-tier: Q8 1.40-1.50x /
+  Q6_K 1.55x / Q4 1.35x — flags quant-robust; Q6_K is the likeliest ship
+  tier (prefill mission decode finding).
 - Mid-abort flow (run #18, raw-socket close 120ms): e2e 1.039x — aborted
   warm-ups DRAIN server-side (TTFT 8.8s both arms; prefill completes before
   the real request); decode still +1.55x; partial KV retention confirmed

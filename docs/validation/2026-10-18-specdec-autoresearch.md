@@ -296,7 +296,7 @@ Q4 cross-check: see §9 (acceptance transfers across quants at n=2: the n-gram
 drafter reads token ids, not weights; the verifier's near-ties move, so the
 flip set changes but the class of drift is the same).
 
-## 9. Quant cross-check (imat-Q4_K_M, provisional tier)
+## 9. Quant cross-checks (imat-Q6_K and imat-Q4_K_M, provisional tiers)
 
 Ran the champion unchanged on `arm-a-imat-Q4_K_M.gguf` (60-trace sweep
 subset, cap 256, paired; note: **no Q4 tier had passed the C09 quant gate at
@@ -317,6 +317,15 @@ same-magnitude set of near-ties (0.90 vs 0.88–0.92 on Q8). Wall speedup is
 slightly lower on Q4 (1.35× vs 1.40–1.44×) because Q4's baseline decode is
 already faster (20.2 vs ~12.8 tok/s at comparable load), shrinking the head
 speculation can recover.
+
+**Q6_K (imat)** — the likeliest ship tier given the prefill mission's
+decode finding — carries the champion best of all (60-trace subset, cap
+256, load ~9): warm e2e median **1.549×** (CI95 lo 1.26), decode 1.60×,
+TTFT unchanged (68 ms), acceptance 1.517 tok/step @ 0.401, parity 0.900
+vs same-session baseline. Cross-tier summary of the same flags:
+**Q8_0 1.40–1.50× · Q6_K 1.55× · Q4_K_M 1.35×** — the recommendation is
+quant-robust, with verifier near-tie rejections rising mildly as the quant
+coarsens (0.417 → 0.401 → 0.376 accept rate).
 
 ## 10. Proposals needing user decisions
 

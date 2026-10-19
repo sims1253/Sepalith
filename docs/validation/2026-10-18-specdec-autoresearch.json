@@ -343,5 +343,22 @@
    "decode": 1.328
   },
   "reading": "speculation never hurts at any pause point; visible e2e gain scales with decode share"
+ },
+ "q6_crosscheck": {
+  "tier": "arm-a-imat-Q6_K.gguf",
+  "warm_e2e_median_60": 1.549,
+  "ci_lo": 1.259,
+  "decode_ratio": 1.6,
+  "acceptance": [
+   1.517,
+   0.401
+  ],
+  "parity": 0.9,
+  "cross_tier_summary": {
+   "Q8_0": "1.40-1.50x",
+   "Q6_K": "1.55x",
+   "Q4_K_M": "1.35x"
+  },
+  "note": "Q6_K is the likeliest ship tier per prefill PR decode finding; flags quant-robust"
  }
 }
