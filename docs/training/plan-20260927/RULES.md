@@ -111,7 +111,7 @@ Evaluate DEV75 every 50 updates and DEV250 every 150 updates.
 
 ## R7. Resources
 
-- GPU work runs only in the nightly window (01:00 to 09:00 Europe/Berlin) on
+- GPU work runs only in the GPU window (00:00 to 17:00 Europe/Berlin since 2026-10-19; 01:00 to 09:00 before) on
   the PC, or on Kaggle. No paid compute.
 - Kaggle GPU use above 20 hours in a quota week is stop-for-user.
 - If `/mnt/e` drops below 150 GB free, stop-for-user before writing checkpoints.

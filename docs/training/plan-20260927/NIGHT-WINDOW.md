@@ -1,7 +1,9 @@
 # Nightly GPU window
 
-GPU jobs run unattended from 01:00 to 09:00 Europe/Berlin, one at a time,
-and stop before 09:00. Resumable jobs continue the next night. Card
+GPU jobs run unattended from 00:00 to 17:00 Europe/Berlin, one at a time,
+and stop before 17:00. Resumable jobs continue in the next window. (The
+window was 01:00 to 09:00 until 2026-10-19; the user extended it because the
+PC is free during working days too.) Card
 [C02](cards/C02-night-window.md) built this. The code is in
 `packages/sepalith/src/sepalith/ops/` and `scripts/night/`.
 
@@ -9,16 +11,16 @@ and stop before 09:00. Resumable jobs continue the next night. Card
 
 | Time | What happens |
 | --- | --- |
-| 00:55 | Windows task `\Sepalith\NightWake` wakes the PC, starts WSL and keeps both awake |
-| 01:00 | systemd user timer starts `sepalith-night-runner.service` |
-| 01:00 to 08:30 | The runner starts queued jobs one after another once the preflight checks pass |
-| 08:40 | `SEPALITH_DEADLINE_EPOCH`: jobs save at the next safe boundary and exit |
-| 08:50 | Graceful-stop request: the stop file is written and SIGTERM goes to the job's leader process |
-| 09:00 | Hard stop: SIGKILL to every process the job started, including ones in their own session |
-| 09:05 | Windows task `\Sepalith\NightCheck` logs whether anything is still running |
+| 23:55 | Windows task `\Sepalith\NightWake` wakes the PC, starts WSL and keeps both awake |
+| 00:00 | systemd user timer starts `sepalith-night-runner.service` |
+| 00:00 to 16:30 | The runner starts queued jobs one after another once the preflight checks pass |
+| 16:40 | `SEPALITH_DEADLINE_EPOCH`: jobs save at the next safe boundary and exit |
+| 16:50 | Graceful-stop request: the stop file is written and SIGTERM goes to the job's leader process |
+| 17:00 | Hard stop: SIGKILL to every process the job started, including ones in their own session |
+| 17:05 | Windows task `\Sepalith\NightCheck` logs whether anything is still running |
 
 The runner starts no job within 10 minutes of the deadline. It starts a
-one-shot (non-resumable) job only if its estimated duration fits before 08:40.
+one-shot (non-resumable) job only if its estimated duration fits before 16:40.
 
 Before each job, all preflight checks must pass. If one fails, the runner
 tries again every 5 minutes until the deadline.
@@ -38,9 +40,9 @@ the variables named in the job's `env` allow-list, plus these:
 
 | Variable | Meaning |
 | --- | --- |
-| `SEPALITH_DEADLINE_EPOCH` | 08:40 as Unix seconds. After it, save and stop at the next safe boundary. |
-| `SEPALITH_STOP_REQUEST_FILE` | Written at 08:50, together with SIGTERM to the leader: save and stop now |
-| `SEPALITH_GRACEFUL_STOP_EPOCH`, `SEPALITH_HARD_STOP_EPOCH` | 08:50 and 09:00 |
+| `SEPALITH_DEADLINE_EPOCH` | 16:40 as Unix seconds. After it, save and stop at the next safe boundary. |
+| `SEPALITH_STOP_REQUEST_FILE` | Written at 16:50, together with SIGTERM to the leader: save and stop now |
+| `SEPALITH_GRACEFUL_STOP_EPOCH`, `SEPALITH_HARD_STOP_EPOCH` | 16:50 and 17:00 |
 | `SEPALITH_JOB_RESULT` | Optional JSON the job writes for the report |
 | `SEPALITH_NIGHT_ATTEMPT_DIR` | Directory for this attempt; holds `output.log` |
 
@@ -167,7 +169,7 @@ The 09:05 check is clean only if every observation (queue, runner service,
 4. **Power settings that must be on.**
    - Control Panel > Power Options > Change plan settings > Change advanced
      power settings > Sleep > Allow wake timers: **Enable** (on AC). Check
-     with `powercfg /waketimers` after 01:00 or `powercfg /q SCHEME_CURRENT SUB_SLEEP RTCWAKE`.
+     with `powercfg /waketimers` after 00:00 or `powercfg /q SCHEME_CURRENT SUB_SLEEP RTCWAKE`.
    - The PC must be asleep or hibernated, not shut down, and the user must
      stay signed in. Locking the screen is fine.
      The tasks run with the signed-in user's token, so no password is stored.

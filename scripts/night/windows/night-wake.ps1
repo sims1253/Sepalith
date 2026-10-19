@@ -1,6 +1,6 @@
-# Started by the "Sepalith\NightWake" task at 00:55. Wakes WSL, keeps the WSL
+# Started by the "Sepalith\NightWake" task at 23:55. Wakes WSL, keeps the WSL
 # session and the PC awake until the night runner is finished (at the latest
-# 09:05), then lets Windows sleep again.
+# 17:05), then lets Windows sleep again.
 param(
     [Parameter(Mandatory = $true)][string]$Distro,
     [Parameter(Mandatory = $true)][string]$LinuxUser,
