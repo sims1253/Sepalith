@@ -27,6 +27,8 @@ def main() -> None:
     ap.add_argument("--n-traces", type=int, default=60)
     ap.add_argument("--n-predict", type=int, default=128)
     ap.add_argument("--threads", type=int, default=8)
+    ap.add_argument("--server-bin", type=Path, default=None,
+                    help="override llama-server binary (upgrade probes)")
     a = ap.parse_args()
 
     traces = [json.loads(line) for line in DEFAULT_TRACES.read_text().splitlines() if line.strip()]
@@ -34,7 +36,8 @@ def main() -> None:
         step = len(traces) / a.n_traces
         traces = [traces[int(i * step)] for i in range(a.n_traces)]
 
-    base = Server("pbase", 18611, [], OUTROOT / "probe-pbase.log", threads=a.threads)
+    base = Server("pbase", 18611, [], OUTROOT / "probe-pbase.log", threads=a.threads,
+                  server_bin=a.server_bin)
     base.start()
     base_tokens: dict[str, list[int]] = {}
     try:
@@ -51,7 +54,7 @@ def main() -> None:
         name, _, flags_s = entry.partition("=")
         flags = flags_s.split(",") if flags_s else []
         srv = Server(f"p-{name}", port, flags, OUTROOT / f"probe-{name}.log",
-                     threads=a.threads)
+                     threads=a.threads, server_bin=a.server_bin)
         port += 1
         srv.start()
         flips = []
