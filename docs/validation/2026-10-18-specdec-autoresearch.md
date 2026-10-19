@@ -168,8 +168,13 @@ deterministic; only wall time varies with load.
 | n2m4 (cold-vs-cold, 221) | — | 0.873 | — |
 | n1m8 | 3/56 | 0.946 | — |
 
-Any drafting flips ~5–13 % of requests; the rate scales with the number of
-drafted steps, not depth. There is **no lossless n-gram configuration** on
+Any drafting flips ~5–14 % of requests; the rate scales with the number of
+drafted steps, not depth. Pooled over all six full-set sessions (183 flips
+of 1 326 paired requests), the first divergence lands at a median of 36
+tokens / 33 % through the output (p25/p75 = 20/84; only 21 % in the first
+decile) — flips track output length rather than clustering at the head,
+consistent with arising wherever near-ties occur on already-diverged
+generations. There is **no lossless n-gram configuration** on
 this build. Moreover, *which* requests flip is **environment-dependent**:
 the 4-thread and 8-thread full-set runs flip 31 vs 29 of 221 requests with
 only 20 in common — the flipped set is a per-environment numerics coin-flip
