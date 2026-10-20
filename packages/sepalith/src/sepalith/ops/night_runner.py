@@ -284,7 +284,8 @@ class NightRunner:
     def __init__(self, state_root: Path, window: Window, *, clock: Clock | None = None, probes: Probes | None = None,
                  limits: Limits | None = None, environ: Mapping[str, str] | None = None, poll_seconds: float = 2.0,
                  preflight_retry_seconds: float = 300.0, min_start_seconds: float = 600.0,
-                 operator_grace_seconds: float = 45.0, subreaper: bool = True) -> None:
+                 operator_grace_seconds: float = 45.0, subreaper: bool = True,
+                 idle_poll_seconds: float | None = None, notify_command: Sequence[str] | None = None) -> None:
         self.state_root = Path(state_root)
         self.queue = Queue(self.state_root / "night-queue")
         self.reports = self.state_root / "night-reports"
@@ -297,6 +298,12 @@ class NightRunner:
         self.preflight_retry_seconds = preflight_retry_seconds
         self.min_start_seconds = min_start_seconds
         self.operator_grace_seconds = operator_grace_seconds
+        # None: stop when no job is eligible (the old behaviour). A number: keep polling the queue
+        # until the deadline so jobs enqueued during the window start without a manual restart.
+        self.idle_poll_seconds = idle_poll_seconds
+        # Run on "idle" (queue empty with time left), "failed" and "needs_user" so an orchestrator can react
+        # during the window instead of after it. Event details arrive as SEPALITH_EVENT / SEPALITH_DETAIL.
+        self.notify_command = list(notify_command) if notify_command else None
         self.subreaper = become_subreaper() if subreaper else False
         self.stop_requested = False
         self.run_record: Record = {}
@@ -534,6 +541,20 @@ class NightRunner:
         finally:
             lock.close()
 
+    def notify(self, event: str, detail: str) -> None:
+        if not self.notify_command:
+            return
+        entry: Record = {"at": local_iso(self.clock.now()), "event": event, "detail": detail}
+        env = {**self.environ, "SEPALITH_EVENT": event, "SEPALITH_DETAIL": detail,
+               "SEPALITH_REPORT": str(self.report_path("md"))}
+        try:
+            done = subprocess.run(self.notify_command, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                                  stderr=subprocess.DEVNULL, timeout=60, check=False)
+            entry["exit_code"] = done.returncode
+        except (OSError, subprocess.TimeoutExpired) as error:
+            entry["error"] = f"{type(error).__name__}: {error}"
+        self.run_record.setdefault("notifications", []).append(entry)
+
     def _run(self) -> Record:
         started = self.clock.now()
         self.run_record = {"run_id": f"{os.getpid()}-{started:.0f}", "host": socket.gethostname(),
@@ -545,6 +566,7 @@ class NightRunner:
         needs.extend(self._recover_stale())
         blocked = bool(self.queue.jobs("running"))
         tried: set[str] = set()
+        idle_notified = False
         stop_reason = "stale_running_job" if blocked else ""
         while not stop_reason:
             now = self.clock.now()
@@ -563,8 +585,18 @@ class NightRunner:
             job, skipped = self.select(tried)
             self.run_record["skipped"] = skipped
             if job is None:
-                stop_reason = "no_eligible_job"
-                break
+                if self.idle_poll_seconds is None:
+                    stop_reason = "no_eligible_job"
+                    break
+                if not idle_notified:
+                    idle_notified = True
+                    self._write_report()
+                    self.notify("idle", f"queue has no eligible job; window open until {local_iso(self.window.deadline)}")
+                self.clock.sleep(max(1.0, min(self.idle_poll_seconds,
+                                              self.window.deadline - self.min_start_seconds - self.clock.now())))
+                tried.clear()  # a job retried or re-enqueued meanwhile may run again
+                continue
+            idle_notified = False
             checks = preflight(self.probes, self.limits)
             passed = all(check["ok"] for check in checks)
             self.run_record["preflight"].append(
@@ -584,6 +616,7 @@ class NightRunner:
                 self.run_record["withdrawn"].append(str(job["id"]))
                 continue
             self.run_record["jobs"].append(asdict(run))
+            before = len(needs)
             if run.outcome == "failed":
                 needs.append(f"{run.id} failed ({run.reason}); see {run.log}")
             if run.leftover_pids:
@@ -591,6 +624,8 @@ class NightRunner:
             if run.result.get("needs_user"):
                 needs.append(f"{run.id}: {run.result['needs_user']}")
             self._write_report()
+            if len(needs) > before:
+                self.notify("needs_user" if run.result.get("needs_user") else "failed", "; ".join(needs[before:]))
         self.run_record.update(ended=local_iso(self.clock.now()), stop_reason=stop_reason,
                                queue=self.queue.summary())
         self._write_report()
@@ -730,6 +765,10 @@ def _parse(argv: Sequence[str] | None) -> argparse.Namespace:
     run.add_argument("--linux-min-available-mib", type=int, default=Limits.linux_min_available_mib)
     run.add_argument("--cuda-lock", type=Path, default=Limits.cuda_lock)
     run.add_argument("--poll-seconds", type=float, default=2.0)
+    run.add_argument("--idle-poll-seconds", type=float, default=300.0,
+                     help="poll an empty queue this often until the deadline; 0 stops when no job is eligible")
+    run.add_argument("--notify-command", nargs="+", default=None,
+                     help="run on idle/failed/needs_user events (env SEPALITH_EVENT, SEPALITH_DETAIL, SEPALITH_REPORT)")
     run.add_argument("--preflight-retry-seconds", type=float, default=300.0)
     run.add_argument("--min-start-minutes", type=float, default=10.0,
                      help="start no job later than this many minutes before the deadline")
@@ -758,7 +797,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     linux_min_available_mib=args.linux_min_available_mib, cuda_lock=args.cuda_lock)
     runner = NightRunner(args.state_root, window, limits=limits, poll_seconds=args.poll_seconds,
                          preflight_retry_seconds=args.preflight_retry_seconds,
-                         min_start_seconds=args.min_start_minutes * 60)
+                         min_start_seconds=args.min_start_minutes * 60,
+                         idle_poll_seconds=args.idle_poll_seconds or None, notify_command=args.notify_command)
     signal.signal(signal.SIGTERM, runner.request_stop)
     signal.signal(signal.SIGINT, runner.request_stop)
     print(json.dumps({"window": window.describe(), "state_root": str(args.state_root)}), flush=True)

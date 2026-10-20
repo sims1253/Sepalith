@@ -25,6 +25,16 @@ one-shot (non-resumable) job only if its estimated duration fits before 16:40.
 Before each job, all preflight checks must pass. If one fails, the runner
 tries again every 5 minutes until the deadline.
 
+The runner does not exit when the queue is empty (since 2026-10-20): it polls
+every 5 minutes (`--idle-poll-seconds 300`) until 10 minutes before the
+deadline, so a job enqueued during the window starts without a manual
+restart. On `idle` (once per idle stretch), `failed` and `needs_user` events
+it runs `--notify-command`. The service uses `scripts/night/notify-webhook.py`,
+which POSTs the event to `SEPALITH_NOTIFY_URL` from
+`~/.config/sepalith/secrets.env`: a T3 webhook that wakes the orchestrating
+thread, which then enqueues the next rule-decided step or asks the user right
+away instead of at the 17:20 daily run.
+
 | Check | Limit |
 | --- | --- |
 | GPU | no compute processes, and less than 6,144 MiB used (`--max-gpu-used-mib`; the service passes 6,144 since 2026-10-17 because an active desktop session holds 3.4 to 5.4 GB with no compute processes (it was 3,072 from 2026-10-12, when the idle desktop held about 2.2 GB); the full-weight SFT peak of 24.7 GB plus 6 GB still fits the 32 GB card; the code default stays 2,048) |

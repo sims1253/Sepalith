@@ -211,6 +211,39 @@ class NightTests(unittest.TestCase):
                 self.assertEqual([name for name, ok in checks.items() if not ok], [failing])
 
     # Runner ----------------------------------------------------------------
+    def test_idle_runner_waits_for_new_jobs_and_notifies(self):
+        events = self.root / "events.txt"
+        notify = [sys.executable, "-c", "import os; open(os.environ['EVENTS'], 'a').write("
+                                        "os.environ['SEPALITH_EVENT'] + '\\n')"]
+        test = self
+
+        class EnqueueWhileIdle(FakeClock):
+            def sleep(self, seconds):
+                super().sleep(seconds)
+                if not test.queue.jobs("pending") and not test.queue.jobs("done"):
+                    test.add("late", ["true"])
+
+        runner = self.runner(clock=EnqueueWhileIdle(self.window.start), idle_poll_seconds=300.0,
+                             notify_command=notify)
+        runner.environ["EVENTS"] = str(events)
+        record = self.run_quietly(runner)
+        self.assertEqual([(job["id"], job["outcome"]) for job in record["jobs"]], [("late", "done")])
+        self.assertEqual(record["stop_reason"], "too_close_to_deadline")
+        # One notification per idle episode: before "late" arrived and after it finished.
+        self.assertEqual(events.read_text().split(), ["idle", "idle"])
+        self.assertEqual([entry["event"] for entry in record["notifications"]], ["idle", "idle"])
+
+    def test_failed_job_notifies(self):
+        events = self.root / "events.txt"
+        notify = [sys.executable, "-c", "import os; open(os.environ['EVENTS'], 'a').write("
+                                        "os.environ['SEPALITH_EVENT'] + '\\n')"]
+        self.add("broken", [sys.executable, "-c", "raise SystemExit(2)"])
+        runner = self.runner(notify_command=notify)
+        runner.environ["EVENTS"] = str(events)
+        record = self.run_quietly(runner)
+        self.assertEqual(record["stop_reason"], "no_eligible_job")  # no idle polling without idle_poll_seconds
+        self.assertEqual(events.read_text().split(), ["failed"])
+
     def test_finished_job_is_done_with_minimal_environment(self):
         env_file = self.root / "env.json"
         self.add("quick", [sys.executable, "-c", "import json, os, sys; open(sys.argv[1], 'w').write("
