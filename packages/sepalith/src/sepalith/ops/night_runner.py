@@ -37,6 +37,7 @@ from pathlib import Path
 import shutil
 import signal
 import socket
+import shlex
 import subprocess
 import sys
 import time
@@ -767,8 +768,11 @@ def _parse(argv: Sequence[str] | None) -> argparse.Namespace:
     run.add_argument("--poll-seconds", type=float, default=2.0)
     run.add_argument("--idle-poll-seconds", type=float, default=300.0,
                      help="poll an empty queue this often until the deadline; 0 stops when no job is eligible")
-    run.add_argument("--notify-command", nargs="+", default=None,
-                     help="run on idle/failed/needs_user events (env SEPALITH_EVENT, SEPALITH_DETAIL, SEPALITH_REPORT)")
+    # One shell-quoted string, split with shlex: nargs="+" rejected values starting with "-" (python3 -I -B ...)
+    # and the runner died at startup on 2026-10-21.
+    run.add_argument("--notify-command", type=shlex.split, default=None,
+                     help='one quoted command run on idle/failed/needs_user events, e.g. "python3 -I -B notify.py" '
+                          "(env SEPALITH_EVENT, SEPALITH_DETAIL, SEPALITH_REPORT)")
     run.add_argument("--preflight-retry-seconds", type=float, default=300.0)
     run.add_argument("--min-start-minutes", type=float, default=10.0,
                      help="start no job later than this many minutes before the deadline")

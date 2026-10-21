@@ -13,4 +13,15 @@ export PATH="/usr/lib/wsl/lib:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"
 export PYTHONPATH="$repo/packages/sepalith/src"
 export PYTHONDONTWRITEBYTECODE=1
 export TZ=Europe/Berlin
+if [[ "${1:-}" == notify-exit ]]; then
+  # ExecStopPost: systemd sets EXIT_CODE/EXIT_STATUS/SERVICE_RESULT. Exit 0 and 1 (needs_user, already
+  # notified by the runner) are normal; anything else means the runner died and nobody was told.
+  if [[ "${EXIT_CODE:-}" == exited && ( "${EXIT_STATUS:-}" == 0 || "${EXIT_STATUS:-}" == 1 ) ]]; then
+    exit 0
+  fi
+  export SEPALITH_EVENT=runner_exit
+  export SEPALITH_DETAIL="night runner stopped abnormally: ${SERVICE_RESULT:-?} ${EXIT_CODE:-?} ${EXIT_STATUS:-?}; see journalctl --user -u sepalith-night-runner.service"
+  export SEPALITH_REPORT=none
+  exec /usr/bin/python3 -I -B "$repo/scripts/night/notify-webhook.py"
+fi
 exec /usr/bin/python3 -B -s -m sepalith.ops.night_runner "$@"
