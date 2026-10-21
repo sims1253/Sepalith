@@ -1,5 +1,6 @@
 """Night queue and runner tests with fake jobs, a fake clock and fake probes."""
 from datetime import datetime, timedelta
+import shlex
 import io
 import json
 import os
@@ -464,6 +465,17 @@ class NightTests(unittest.TestCase):
         hold_end = night_window(wake).hard + 300
         self.assertEqual(hold_end - wake, 18 * 3600 + 600)
         self.assertGreater(timedelta(hours=int(limit[2:-1])).total_seconds(), hold_end - wake)
+
+    def test_service_execstart_parses(self):
+        # 2026-10-21: the runner died at startup because the unit's arguments did not parse; check the real line.
+        unit = (Path(__file__).resolve().parents[3] / "scripts/night/sepalith-night-runner.service.in").read_text()
+        line = next(row for row in unit.splitlines() if row.startswith("ExecStart="))
+        argv = shlex.split(line.removeprefix("ExecStart=").replace("@REPO@", "/repo"))
+        self.assertTrue(argv[0].endswith("night-runner.sh"))
+        args = night_runner._parse(argv[1:])
+        self.assertEqual(args.action, "run")
+        self.assertEqual(args.idle_poll_seconds, 300.0)
+        self.assertEqual(args.notify_command, ["/usr/bin/python3", "-I", "-B", "/repo/scripts/night/notify-webhook.py"])
 
     def test_runner_cli_prints_window(self):
         out = io.StringIO()
