@@ -5,6 +5,7 @@ from pathlib import Path
 
 SCRIPT = Path(__file__).resolve().parents[4] / "docs/training/plan-20260927/decode-time/ws_nearmiss.py"
 spec = importlib.util.spec_from_file_location("ws_nearmiss", SCRIPT)
+assert spec is not None and spec.loader is not None
 ws = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ws)
 
