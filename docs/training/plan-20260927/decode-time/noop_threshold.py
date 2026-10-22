@@ -221,6 +221,8 @@ def cuda_report(reset=False):
     import torch
 
     if reset:
+        # reset_peak_memory_stats raises "Invalid device argument" before the CUDA context exists (2026-10-22 run).
+        torch.empty(0, device=torch.device("cuda", 0))
         torch.cuda.reset_peak_memory_stats(0)
         return None
     return {"name": torch.cuda.get_device_name(0), "peak_allocated_mib": round(torch.cuda.max_memory_allocated(0) / 2**20),
