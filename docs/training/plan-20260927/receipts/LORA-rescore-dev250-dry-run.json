@@ -1,0 +1,449 @@
+{
+  "arm_a": {
+    "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "detail": {
+      "dev250": {
+        "cap": 16,
+        "edit_exact_of_200": 79,
+        "nofp": 12,
+        "noop_correct_of_50": 38,
+        "prompt_nll": 1.5617494622783945,
+        "score250": 117,
+        "target_nll": 0.7993151007164738,
+        "valid": 234
+      },
+      "dev75": {
+        "cap": 1,
+        "edit_exact_of_43": 27,
+        "nofp": 8,
+        "noop_correct_of_32": 24,
+        "prompt_nll": 1.4438238964787267,
+        "target_nll": 1.0211312695079444,
+        "valid": 74
+      }
+    },
+    "label": "arm-a-536",
+    "metrics": {
+      "cap": 1,
+      "edit": 27,
+      "nofp": 8,
+      "score250": 117,
+      "valid": 74
+    },
+    "name": "arm A 536",
+    "results": {
+      "dev250": {
+        "elapsed_seconds": 371.35073663799994,
+        "generation_runtime": {
+          "batch_size": 32,
+          "cuda_visible_devices": "0",
+          "dtype": "bf16",
+          "generation_seconds": "batch_wall_seconds_split_evenly_across_its_cases",
+          "kv_cache": "dynamic",
+          "ordering": "prompt_tokens_descending_then_case_id_ascending",
+          "pad_token_id": 1,
+          "padding_side": "left",
+          "teacher_forced_forward": "per_case_unpadded_use_cache_false"
+        },
+        "panel": {
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+          "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+        },
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-536.20261014T021133-673743425.json",
+        "sha256": "0a1dbbd903dedc4ec392b2848f8b2ea89641e5228a466ca3a79fe1c4936ab9d3"
+      },
+      "dev75": {
+        "elapsed_seconds": 170.6376608760038,
+        "generation_runtime": {
+          "batch_size": 32,
+          "cuda_visible_devices": "0",
+          "dtype": "bf16",
+          "generation_seconds": "batch_wall_seconds_split_evenly_across_its_cases",
+          "kv_cache": "dynamic",
+          "ordering": "prompt_tokens_descending_then_case_id_ascending",
+          "pad_token_id": 1,
+          "padding_side": "left",
+          "teacher_forced_forward": "per_case_unpadded_use_cache_false"
+        },
+        "panel": {
+          "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+          "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+        },
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.json",
+        "sha256": "c6e77e49f8fc6323244b576fe2d0ee730c7c524c844490872ca0b0f0c3796e67"
+      }
+    },
+    "status": "complete",
+    "training": "full-weight SFT on CPT 11,586, lr 1e-5, target-only loss (exact_target_body_terminal_eos_only), bound recipe sft-v2-lr1e-5"
+  },
+  "cpu_smoke": {
+    "batch_size": 32,
+    "cap": 16,
+    "case_ids": [
+      "d11581e9cfa4e3971aa1466e",
+      "e623a61b5a4c066358a477f2"
+    ],
+    "counts": {
+      "cap_hit": 2,
+      "edit_exact": 0,
+      "exact_region": 0,
+      "predicted_noop": 0,
+      "protocol_valid": 0,
+      "strict_noop_correct": 0,
+      "strict_noop_false_suggestions": 0,
+      "suggestion": 0
+    },
+    "generated_tokens": [
+      16,
+      16
+    ],
+    "model": "theta0-sft1000",
+    "note": "pipeline check only (CPU bf16, 16-token cap); the counts are not a score",
+    "prompt_tokens": [
+      133,
+      132
+    ],
+    "seconds": 52.1,
+    "status": "complete",
+    "target_nll": 1.3230378658740551,
+    "tokenizer_contract": {
+      "bos": 0,
+      "embeddings": {
+        "input": {
+          "dtype": "torch.bfloat16",
+          "numel": 267386880,
+          "shape": [
+            130560,
+            2048
+          ]
+        },
+        "output": {
+          "dtype": "torch.bfloat16",
+          "numel": 267386880,
+          "shape": [
+            130560,
+            2048
+          ]
+        }
+      },
+      "eos": 1,
+      "pad": 1,
+      "stage": "lora_rescore_cpu_smoke",
+      "vocab_entries": 130560
+    },
+    "tokenizer_repair_changed": false
+  },
+  "cuda_started": false,
+  "elapsed_seconds": 258.6,
+  "final_set_access": false,
+  "finished": "2026-10-22T08:59:49+0200",
+  "models": {
+    "control250": {
+      "architecture": "LlamaForCausalLM",
+      "dtype": "BF16",
+      "expected_weights_sha256": "8a9aa65a0f7bc8f169a9e4336494042ac748d2eef23ca349d0a7d26069d7bcdb",
+      "files": {
+        "config.json": {
+          "bytes": 748,
+          "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+        },
+        "generation_config.json": {
+          "bytes": 213,
+          "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+        },
+        "model.safetensors": {
+          "bytes": 5033557128,
+          "sha256": "8a9aa65a0f7bc8f169a9e4336494042ac748d2eef23ca349d0a7d26069d7bcdb"
+        },
+        "tokenizer.json": {
+          "bytes": 9894271,
+          "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+        },
+        "tokenizer_config.json": {
+          "bytes": 94391,
+          "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+        }
+      },
+      "hash_seconds": 32.4,
+      "own_tokenizer": {
+        "render_parity": {
+          "dev250": {
+            "cases": 250,
+            "differ": [],
+            "identical_prompt_and_target_ids": 250
+          },
+          "dev75": {
+            "cases": 75,
+            "differ": [],
+            "identical_prompt_and_target_ids": 75
+          }
+        },
+        "same_bytes_as_pinned": false,
+        "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "vocab_equal_pinned": true
+      },
+      "parameters": 2516756480,
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT11-control250-merged",
+      "status": "ok",
+      "tensors": 381,
+      "weights_bytes": 5033557128,
+      "weights_mtime_ns": 1789352607000000000,
+      "weights_sha256": "8a9aa65a0f7bc8f169a9e4336494042ac748d2eef23ca349d0a7d26069d7bcdb"
+    },
+    "e750": {
+      "architecture": "LlamaForCausalLM",
+      "dtype": "BF16",
+      "expected_weights_sha256": "51232c1c491a4857c55c61669e383e72770b9d1ca49c021b4c7d69bd11ac3c21",
+      "files": {
+        "config.json": {
+          "bytes": 748,
+          "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+        },
+        "generation_config.json": {
+          "bytes": 213,
+          "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+        },
+        "model.safetensors": {
+          "bytes": 5033557128,
+          "sha256": "51232c1c491a4857c55c61669e383e72770b9d1ca49c021b4c7d69bd11ac3c21"
+        },
+        "tokenizer.json": {
+          "bytes": 9894271,
+          "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+        },
+        "tokenizer_config.json": {
+          "bytes": 94391,
+          "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+        }
+      },
+      "hash_seconds": 26.9,
+      "own_tokenizer": {
+        "render_parity": {
+          "dev250": {
+            "cases": 250,
+            "differ": [],
+            "identical_prompt_and_target_ids": 250
+          },
+          "dev75": {
+            "cases": 75,
+            "differ": [],
+            "identical_prompt_and_target_ids": 75
+          }
+        },
+        "same_bytes_as_pinned": false,
+        "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "vocab_equal_pinned": true
+      },
+      "parameters": 2516756480,
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged",
+      "status": "ok",
+      "tensors": 381,
+      "weights_bytes": 5033557128,
+      "weights_mtime_ns": 1789383612597890800,
+      "weights_sha256": "51232c1c491a4857c55c61669e383e72770b9d1ca49c021b4c7d69bd11ac3c21"
+    },
+    "r2-task-global-b-500": {
+      "architecture": "LlamaForCausalLM",
+      "dtype": "BF16",
+      "expected_weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+      "files": {
+        "config.json": {
+          "bytes": 748,
+          "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+        },
+        "generation_config.json": {
+          "bytes": 213,
+          "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+        },
+        "model.safetensors": {
+          "bytes": 5033557128,
+          "sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c"
+        },
+        "tokenizer.json": {
+          "bytes": 9894271,
+          "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+        },
+        "tokenizer_config.json": {
+          "bytes": 94391,
+          "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+        }
+      },
+      "hash_seconds": 42.1,
+      "own_tokenizer": {
+        "render_parity": {
+          "dev250": {
+            "cases": 250,
+            "differ": [],
+            "identical_prompt_and_target_ids": 250
+          },
+          "dev75": {
+            "cases": 75,
+            "differ": [],
+            "identical_prompt_and_target_ids": 75
+          }
+        },
+        "same_bytes_as_pinned": false,
+        "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "vocab_equal_pinned": true
+      },
+      "parameters": 2516756480,
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT11-task-global-b-500-merged",
+      "status": "ok",
+      "tensors": 381,
+      "weights_bytes": 5033557128,
+      "weights_mtime_ns": 1789348954000000000,
+      "weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c"
+    },
+    "r2-task-global-c-1000": {
+      "architecture": "LlamaForCausalLM",
+      "dtype": "BF16",
+      "expected_weights_sha256": "1a7e9638284d303beb17bb9b625d2898320436e32a37384523b6316e63c973b0",
+      "files": {
+        "config.json": {
+          "bytes": 748,
+          "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+        },
+        "generation_config.json": {
+          "bytes": 213,
+          "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+        },
+        "model.safetensors": {
+          "bytes": 5033557128,
+          "sha256": "1a7e9638284d303beb17bb9b625d2898320436e32a37384523b6316e63c973b0"
+        },
+        "tokenizer.json": {
+          "bytes": 9894271,
+          "sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+        },
+        "tokenizer_config.json": {
+          "bytes": 94391,
+          "sha256": "e9b1064649e771d7a8e15637c68b2d2749724877ba3648bd74a4ece31c26303b"
+        }
+      },
+      "hash_seconds": 41.0,
+      "own_tokenizer": {
+        "render_parity": {
+          "dev250": {
+            "cases": 250,
+            "differ": [],
+            "identical_prompt_and_target_ids": 250
+          },
+          "dev75": {
+            "cases": 75,
+            "differ": [],
+            "identical_prompt_and_target_ids": 75
+          }
+        },
+        "same_bytes_as_pinned": false,
+        "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+        "vocab_equal_pinned": true
+      },
+      "parameters": 2516756480,
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT11-task-global-c-1000-merged",
+      "status": "ok",
+      "tensors": 381,
+      "weights_bytes": 5033557128,
+      "weights_mtime_ns": 1789358931000000000,
+      "weights_sha256": "1a7e9638284d303beb17bb9b625d2898320436e32a37384523b6316e63c973b0"
+    },
+    "theta0-sft1000": {
+      "architecture": "LlamaForCausalLM",
+      "dtype": "BF16",
+      "expected_weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+      "files": {
+        "config.json": {
+          "bytes": 748,
+          "sha256": "f1b9bfce12195f72a1a64847dfb6c97adba5200a16f3dd6cf1b4075755851991"
+        },
+        "generation_config.json": {
+          "bytes": 213,
+          "sha256": "7fd42fdf451ae26258ea1d30a6efa4f1871642110b208e8a4a631c77ad9dc269"
+        },
+        "model.safetensors": {
+          "bytes": 5033557128,
+          "sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d"
+        },
+        "tokenizer.json": {
+          "bytes": 9894271,
+          "sha256": "d5ede0bcd21e0676a58b176937262fb80a06a32b5cb4ed8bfed8b7d11e45b0e1"
+        },
+        "tokenizer_config.json": {
+          "bytes": 455,
+          "sha256": "008ba8266b590ba3bdac81fbd6dc263b7eda279089a46d51309f63aa43477c24"
+        }
+      },
+      "hash_seconds": 46.1,
+      "own_tokenizer": {
+        "render_parity": {
+          "dev250": {
+            "cases": 250,
+            "differ": [],
+            "identical_prompt_and_target_ids": 250
+          },
+          "dev75": {
+            "cases": 75,
+            "differ": [],
+            "identical_prompt_and_target_ids": 75
+          }
+        },
+        "same_bytes_as_pinned": false,
+        "tokenizer_json_sha256": "d5ede0bcd21e0676a58b176937262fb80a06a32b5cb4ed8bfed8b7d11e45b0e1",
+        "vocab_equal_pinned": true
+      },
+      "parameters": 2516756480,
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT-primary-step1000-merged",
+      "status": "ok",
+      "tensors": 381,
+      "weights_bytes": 5033557128,
+      "weights_mtime_ns": 1789225932000000000,
+      "weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d"
+    }
+  },
+  "models_file": {
+    "path": "/home/m0hawk/sandbox/sep-lora-rescore/docs/training/plan-20260927/lora-baseline/models.json",
+    "sha256": "9f07a9e1d4b1ac7fee4424137327fd7e1fffe7ea454a7e364871e8cee906744a"
+  },
+  "panels": {
+    "dev250": {
+      "cases": 250,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+    },
+    "dev75": {
+      "cases": 75,
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    }
+  },
+  "problems": [],
+  "prompt_tokens": {
+    "dev250": {
+      "max": 2944,
+      "median": 733,
+      "min": 124
+    },
+    "dev75": {
+      "max": 2619,
+      "median": 1169,
+      "min": 132
+    }
+  },
+  "recipe": {
+    "path": "/home/m0hawk/sandbox/sep-lora-rescore/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+    "sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e"
+  },
+  "schema": "sepalith.lora-baseline.rescore-dry-run.v1",
+  "settings": {
+    "batch_size": 32,
+    "cap": 1024,
+    "dtype": "bf16",
+    "evaluator": "sepalith.training.eval.campaign_eval.development_evaluator",
+    "kv_cache": "dynamic",
+    "max_sequence_tokens": 16384,
+    "metrics": "sepalith.training.sft.gate_rule.metrics_from_summaries",
+    "renderer_id": "zeta2-prm03-v1",
+    "tokenizer": "pinned tokenizer of the recipe parent (/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586), byte-identical to arm A 536's"
+  },
+  "started": "2026-10-22T08:55:34+0200",
+  "status": "pass"
+}
