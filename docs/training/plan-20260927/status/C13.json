@@ -611,5 +611,5 @@
     "Optional: upload the T = 1.2 census outputs under campaign-20260915/C12/sepalith-2b-edit-sft-arm-a-t12/ in one commit (C12 card step 6)."
   ],
   "pull_request_iteration_1": "https://github.com/sims1253/Sepalith/pull/69",
-  "pull_request": null
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/84"
 }
