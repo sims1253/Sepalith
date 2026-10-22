@@ -1,0 +1,18 @@
+# skipped: needs check_dna()/check_count() from sequence.R (write_fasta,
+#   translate_dna, read_fasta with validate = TRUE)
+lines <- c("; old comment", ">seq1 first record", "ACGT", "acgt", "", ">seq2", "NNA", ">empty")
+seqs <- parse_fasta(lines)
+stopifnot(identical(seqs, c(seq1 = "ACGTacgt", seq2 = "NNA", empty = "")))
+stopifnot(inherits(try(parse_fasta(c("ACGT", ">x")), silent = TRUE), "try-error"))
+stopifnot(identical(parse_fasta(character(0)), stats::setNames(character(0), character(0))))
+out <- format_fasta(c(a = "ACGTACG", b = ""), line_width = 3L)
+stopifnot(identical(out, c(">a", "ACG", "TAC", "G", ">b")))
+stopifnot(inherits(try(format_fasta(c("ACGT")), silent = TRUE), "try-error"))
+path <- tempfile(fileext = ".fa")
+writeLines(c(">r1", "acgtn", ">r2", "GG"), path)
+stopifnot(identical(read_fasta(path, validate = FALSE), c(r1 = "ACGTN", r2 = "GG")))
+stopifnot(inherits(try(read_fasta(tempfile()), silent = TRUE), "try-error"))
+code <- codon_table()
+stopifnot(length(code) == 64L, identical(unname(code[c("ATG", "TAA", "TGG", "GGG")]),
+                                         c("M", "*", "W", "G")))
+stopifnot(sum(code == "*") == 3L)

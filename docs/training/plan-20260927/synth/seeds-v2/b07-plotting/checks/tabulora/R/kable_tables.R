@@ -1,0 +1,8 @@
+# skipped: needs knitr (kable_summary, kable_coefficients, kable_crosstab, kable_report)
+df <- data.frame(g = c("a", "b"), n = c(1234.5, NA), k = c(2L, 3L))
+out <- format_numeric_cols(df, digits = 1)
+stopifnot(identical(out$n, c("1,234.5", "")), identical(out$k, c("2.0", "3.0")))
+out <- format_numeric_cols(df, digits = c(k = 0, n = 2), big_mark = "")
+stopifnot(identical(out$n, c("1234.50", "")), identical(out$k, c("2", "3")))
+stopifnot(identical(out$g, df$g))
+stopifnot(identical(unname(column_alignment(df)), c("l", "r", "r")))

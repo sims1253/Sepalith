@@ -1,0 +1,12 @@
+# skipped: needs readr (read_wave_csv, read_wave_tsv, read_wave_csv2, read_wave)
+# skipped: needs purrr (read_all_waves)
+# skipped: needs stringr (rename_survey_cols)
+# skipped: needs lubridate (parse_wave_times)
+
+tmp <- tempfile(fileext = ".csv")
+writeLines("a,b", tmp)
+stopifnot(identical(check_wave_path(tmp), tmp))
+stopifnot(inherits(try(check_wave_path(c(tmp, tmp)), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_wave_path(NA_character_), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_wave_path(tempfile()), silent = TRUE), "try-error"))
+unlink(tmp)

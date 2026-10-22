@@ -1,0 +1,65 @@
+{
+  "admitted": true,
+  "artifacts": {
+    "behaviour-ledger.jsonl": {
+      "bytes": 60881,
+      "sha256": "f6fa66d5c2bc3ba37cff5f805fadf0eeb6ff3dd7bbdf3c6f6cf5177ad07f70c9"
+    },
+    "build-summary.json": {
+      "bytes": 23432,
+      "sha256": "ba73abd74724cc7865e5dba93d3369142113fa0adbc8cca764d083c83496bac9"
+    },
+    "cases.jsonl": {
+      "bytes": 2508509,
+      "sha256": "0298b568449adac4a5571e1dda995d636098a3a19804f1252ab45dadb651cc2f"
+    },
+    "context-sidecar.jsonl": {
+      "bytes": 2196742,
+      "sha256": "1b902885177813b582e5958b2bb320ca8cd06645ccbce68e5f7a921a426a0cfa"
+    },
+    "cpt-hits.json": {
+      "bytes": 218120,
+      "sha256": "29d608b7065f9ea9640850b700871199c557c0c842fa424dd3ebd2488ef6a363"
+    },
+    "dev-inputs.json": {
+      "bytes": 372756,
+      "sha256": "06f4739184359a5198af06b8f9654263a64160bbee00e18b9f84f4158a8fca7e"
+    },
+    "normalisation-ledger.jsonl": {
+      "bytes": 79548,
+      "sha256": "0ed5d64e86c42bd023a35ae663a02f4546e438ea7e5070a379b65982fa118bb0"
+    },
+    "train-token-rows.jsonl": {
+      "bytes": 4482474,
+      "sha256": "4326866ad0811033a98c8848d203cf85031eee73676a32e19742216b5756f375"
+    },
+    "verification-ledger.jsonl": {
+      "bytes": 2371103,
+      "sha256": "f8057d911827bce45e9876de4df83f0de24f1a3f7c3d8c602c824390318ce330"
+    }
+  },
+  "created_at_utc": "2026-10-22T15:09:52.930975+00:00",
+  "families": {
+    "finish_block": 579,
+    "roxygen_drafting": 64
+  },
+  "generator": {
+    "code": "packages/sepalith/src/sepalith/data/synth/",
+    "git_head": "a28b3ffc576d782a55a40088a7e5dbc04b92fb26",
+    "id": "sepalith.synth.v1",
+    "version": "2.0.0"
+  },
+  "hf_uploaded": false,
+  "location": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2",
+  "mechanical_pass_rate": 0.9971,
+  "renderer_id": "zeta2-prm03-v1",
+  "rows": 643,
+  "schema": "sepalith.synth.manifest.v2",
+  "seed_tree": "docs/training/plan-20260927/synth/seeds-v2",
+  "sources": {
+    "files": 336,
+    "sha256_of_tree": "fbcbc37ce88275133e6e32760c91cf9fc48a6390b6cdc62faf7106b3ad508db6"
+  },
+  "split": "train",
+  "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+}

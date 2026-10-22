@@ -1,0 +1,25 @@
+res <- cusum.tabular(c(rep(0, 5), rep(2, 5)), target = 0, sigma = 1, k = 0.5, h = 4)
+stopifnot(inherits(res, "qc_cusum"), identical(res$upper[6:8], c(1.5, 3, 4.5)))
+stopifnot(identical(res$signals.upper, 8:10), length(res$signals.lower) == 0)
+na <- cusum.tabular(c(0, 2, NA, 2), target = 0, sigma = 1)
+stopifnot(identical(na$upper, c(0, 1.5, 1.5, 3)))
+stopifnot(inherits(try(cusum.tabular(1, 0), silent = TRUE), "try-error"))
+
+rs <- cusum.restart(c(rep(3, 4), rep(0, 4)), target = 0, sigma = 1, k = 0.5, h = 4)
+stopifnot(identical(rs$signals.upper, c(2L, 4L)), rs$upper[3] == 2.5)
+rn <- cusum.restart(c(3, NA, 3), target = 0, sigma = 1, h = 4)
+stopifnot(identical(rn$upper, c(2.5, 2.5, 5)), identical(rn$signals.upper, 3L))
+
+sig <- cusum.signals(res)
+stopifnot(nrow(sig) == 1, sig$change.point == 6, sig$side == "upper", sig$shift == 2)
+none <- cusum.signals(cusum.tabular(rep(0, 4), 0, sigma = 1))
+stopifnot(nrow(none) == 0, identical(names(none), c("side", "alarm", "change.point", "shift")))
+
+stopifnot(cusum.arl(delta = 0) > 300, cusum.arl(delta = 1) < cusum.arl(delta = 0))
+d <- cusum.design(target.arl = 200, k = 0.5)
+stopifnot(abs(d$arl.in.control - 200) < 0.1, d$h > 3, d$h < 5)
+
+out <- capture.output(pr <- print(res))
+stopifnot(identical(pr, res), length(out) == 5, grepl("upper alarms: 3", out[4]))
+sm <- summary(res)
+stopifnot(inherits(sm, "summary.qc_cusum"), !sm$in.control, sm$max.upper == 7.5)

@@ -1,0 +1,25 @@
+po <- offspring.poisson(2)
+nb <- offspring.negbin(1.5, size = 0.5)
+ge <- offspring.geometric(1)
+stopifnot(inherits(po, "offspring"), po$pgf(1) == 1, isTRUE(all.equal(nb$pgf(1), 1)))
+stopifnot(isTRUE(all.equal(ge$pgf(0), 0.5)))
+stopifnot(inherits(try(offspring.negbin(1, size = 0), silent = TRUE), "try-error"))
+
+out <- capture.output(res <- print(offspring.poisson(0.5)))
+stopifnot(identical(res$mean, 0.5), grepl("subcritical", out))
+stopifnot(grepl("(critical)", capture.output(print(ge)), fixed = TRUE))
+
+set.seed(8)
+dead <- bp.simulate(offspring.poisson(0), generations = 10, founders = 3)
+stopifnot(dead$extinct, !dead$capped, identical(dead$sizes, c(3, 0)), dead$total == 3)
+big <- bp.simulate(offspring.poisson(5), generations = 50, cap = 100)
+stopifnot(big$capped, !big$extinct)
+
+stopifnot(bp.extinction.prob(offspring.poisson(0.8)) == 1)
+q <- bp.extinction.prob(offspring.poisson(2))
+stopifnot(abs(q - exp(2 * (q - 1))) < 1e-8, q > 0.2, q < 0.21)
+stopifnot(isTRUE(all.equal(bp.extinction.prob(offspring.poisson(2), founders = 2), q^2)))
+
+set.seed(9)
+ce <- bp.check.extinction(offspring.poisson(2), reps = 200, generations = 30)
+stopifnot(abs(ce$simulated - ce$theoretical) < 4 * ce$se + 0.01, all(ce$totals >= 1))

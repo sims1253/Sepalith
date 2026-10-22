@@ -1,0 +1,10 @@
+# skipped: needs ggplot2 (label_plot, add_caption_source)
+stopifnot(identical(humanise_name("mean_temp_c"), "Mean temp c"))
+stopifnot(identical(humanise_name(c("x.y", NA)), c("X y", NA)))
+stopifnot(identical(label_with_unit("Yield", "kg"), "Yield (kg)"))
+stopifnot(identical(label_with_unit("Depth", "mm", style = "brackets"), "Depth [mm]"))
+stopifnot(identical(format_p_value(c(0.0421, 0.00001, NA)), c("0.042", "< 0.001", "")))
+stopifnot(identical(format_estimate_ci(1.234, 0.98, 1.512), "1.23 (0.98, 1.51)"))
+stopifnot(identical(format_estimate_ci(NA_real_, 1, 2), ""))
+stopifnot(identical(format_percent_change(c(100, 50, 0), c(104.2, 45, 3)),
+                    c("+4.2%", "-10.0%", "")))

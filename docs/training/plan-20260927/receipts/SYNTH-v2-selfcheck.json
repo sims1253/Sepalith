@@ -1,0 +1,54 @@
+{
+  "comparisons": {
+    "finish_block:air": 579,
+    "roxygen_drafting:air": 64
+  },
+  "data": {
+    "context-sidecar.jsonl": "1b902885177813b582e5958b2bb320ca8cd06645ccbce68e5f7a921a426a0cfa",
+    "train-token-rows.jsonl": "4326866ad0811033a98c8848d203cf85031eee73676a32e19742216b5756f375"
+  },
+  "gold_exact_reward_1": 643,
+  "outcomes": {
+    "finish_block:exact": 579,
+    "roxygen_drafting:exact": 64
+  },
+  "problems": {
+    "duplicate_ids": 0,
+    "ids_in_train": 0
+  },
+  "reference_flags": {},
+  "rows": 643,
+  "schema": "sepalith.synth.selfcheck.v1",
+  "scorer": {
+    "config": {
+      "max_completion_tokens": 1024,
+      "partial_credit": "gain",
+      "partial_weight": 0.5
+    },
+    "formatter": {
+      "arguments": "format --no-configuration --stdin-file-path",
+      "command": "air",
+      "version": "air 0.12.0"
+    },
+    "parser": {
+      "command": "Rscript --vanilla",
+      "generated_r_executed": false,
+      "harness_sha256": "175cd35a7a825dc0362348bf168a8406f8751ad82a8b58d975af667a48c28f6c",
+      "operation": "base::parse(file=...,keep.source=FALSE)",
+      "r_version": "R 4.6.1 (2026-06-24)",
+      "syntax_error_exit_code": 3
+    },
+    "policy": "sepalith.reward.v2.1",
+    "rewards": {
+      "cap_hit": -0.5,
+      "correct_no_edit": 1.0,
+      "exact": 1.0,
+      "false_positive_edit": -0.5,
+      "missed_edit": 0.0,
+      "protocol_invalid": -0.5,
+      "syntax_invalid": 0.0,
+      "unverified_wrong": 0.0
+    }
+  },
+  "status": "pass"
+}
