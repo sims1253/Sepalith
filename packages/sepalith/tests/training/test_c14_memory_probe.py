@@ -51,6 +51,19 @@ def write_rows(path, rows):
     path.write_text("".join(json.dumps(row) + "\n" for row in rows))
 
 
+class ResolveDeviceTests(unittest.TestCase):
+    # 2026-10-22: every configuration crashed on torch.cuda.set_device("cuda") (no index).
+    def test_bare_cuda_gets_index_zero(self):
+        self.assertEqual(probe.resolve_device("cuda"), torch.device("cuda", 0))
+        self.assertEqual(probe.resolve_device("cuda:1"), torch.device("cuda", 1))
+        self.assertEqual(probe.resolve_device("cpu"), torch.device("cpu"))
+
+    def test_all_crashed_is_a_job_failure(self):
+        self.assertEqual(probe.probe_exit_code({"attempts": [{"status": "crashed"}, {"status": "crashed"}]}), 1)
+        self.assertEqual(probe.probe_exit_code({"attempts": [{"status": "crashed"}, {"status": "oom"}]}), 0)
+        self.assertEqual(probe.probe_exit_code({"attempts": []}), 0)
+
+
 class ChunkedLogProbTests(unittest.TestCase):
     def setUp(self):
         generator = torch.Generator().manual_seed(1)
