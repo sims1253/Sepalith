@@ -168,3 +168,20 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def train_finish_geometry() -> list[tuple[int, int]]:
+    """(prefix lines, prompt tokens) of every TRAIN finish_block row."""
+    tokens = {}
+    with TRAIN_ROWS.open(encoding="utf-8") as stream:
+        for line in stream:
+            row = json.loads(line)
+            if row["family"] == "finish_block":
+                tokens[row["id"]] = row["prompt_token_count"]
+    out = []
+    with TRAIN_SIDECAR.open(encoding="utf-8") as stream:
+        for line in stream:
+            side = json.loads(line)
+            if side["row_id"] in tokens:
+                out.append((len(side["context"]["prefix"]), tokens[side["row_id"]]))
+    return out

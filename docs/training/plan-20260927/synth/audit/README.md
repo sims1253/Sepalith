@@ -29,8 +29,8 @@ in the findings table (copied from STATS.md / receipts at commit time).
 | P1 determinacy overstated: string literal = one token, numbers ignored, `#'` bug; undetermined medium/long cuts | `common.novelty` counts string words and numbers > 2; comments split off before lexing (`#'` fixed); classes `constrained_short` / `sibling` (masked-structure support >= 0.5), `author_choice` rejected (13,541 cuts); verification reported in three layers; 99.7% is called a mechanical pass rate | determinacy table; `author_choice` rejections; v1 examples: `spiral.order` 30-line full body no longer admitted (only mirrored-branch tails with support >= 0.5); `validateLintRule` and `parse_percent_col` produce no v2 case |
 | P1 decontamination bypassable (line-format sensitive, < 15 shingles exempt, renaming, CPT line-only) | Formatting-invariant token 12-gram fingerprints over context+target edit spans (no length exemption) vs TRAIN, DEV, CPT; identifier-masked structural containment reported; CPT hits on token fingerprints too, bound to source tree, corpus and tokenizer sha256 + fingerprint parameters, build refuses a mismatched binding (`admitted` flag) | Decontamination section; tests `test_synth_v2.TokenFingerprintTests` (reformatted copy containment 1.0; renamed copy caught by masked check) |
 | P1 `split_package_names()` read DAT-02 unguarded | Removed: C00's forbidden list does not name DAT-02, but the read existed only to obtain final-group package names, which is not sanctioned anywhere; v2 does not open the split file (`split_file_read: false`). `guard_path` checks resolved paths (symlinks) and forbidden prefixes from CONTEXT.md | `test_synth_v2.GuardPathTests` (symlink into a `final` directory refused) |
-| P1 no-op exposure: 13+3 default gave 4-5 exposures; schedule_v2 check tautological | `make_cohort.py` defaults to 14+2, asserts <= 3 from the draws (`synth/cohort.py`), rewrites the schedule label to `sft-schedule-v2-14edit-2noop`, writes the length profile and (with `--compare-13-3`) the 13+3 comparison | `receipts/SYNTH-v2-cohort-proposal.json`: 14+2 max 2 exposures (pass); 13+3 has 96 rows at 4 (fail, marked); `test_synth_v2.NoopCapTests` |
-| P2 semantic bugs (safeEquals, looksNumeric, summary.herd_population, quickRasterMap) | Fixed in seeds-v2 together with many more found in the review; 219 base-R behavioural check scripts run by the build; a failing check drops the file's cases | `safeEquals("\u00e9","a")` is FALSE, `looksNumeric(c("1", NA))` is TRUE; behaviour table (checked / unexercised / no_check) |
+| P1 no-op exposure: 13+3 default gave 4-5 exposures; schedule_v2 check tautological | `make_cohort.py` defaults to 14+2, asserts <= 3 from the draws (`synth/cohort.py`), rewrites the schedule label to `sft-schedule-v2-14edit-2noop`, writes the length profile and (with `--compare-13-3`) the 13+3 comparison | `receipts/SYNTH-v2-cohort-proposal.json`: 14+2 max 2 exposures (pass); 13+3 has 78 rows at 4 (fail, marked); `test_synth_v2.NoopCapTests` |
+| P2 semantic bugs (safeEquals, looksNumeric, summary.herd_population, quickRasterMap) | Fixed in seeds-v2 together with many more found in the review; 219 base-R behavioural check scripts run by the build; a failing check drops the file's cases | `safeEquals("\u00e9","a")` is FALSE, `looksNumeric(c("1", NA))` is TRUE; behaviour table (entered / file_checked_not_entered / unit_not_traceable / no_check; traced execution since round 2) |
 | format_propagation narrow and solved | Not built in v2 | families table |
 | Roxygen monotony (`@family` 82%, `@export` 88%, one order 302/435), trivial blocks, roxy_tags | Seeds revised toward TRAIN tag mix; greedy tag-frequency selection; order cap 20%; blocks <= 2 lines dropped; roxy_tags off | `@family` 4.7%, `@return` 57.8%, `@rdname` 20.3%, `@noRd` 20.3%; `@export` 64.1% (TRAIN 43.6%, the authored public APIs keep it); 28 distinct orders, top order 18.8% |
 | Stale audit counts; audit/probe sample overlap | STATS.md generated from build-summary + manifest + profile; audit sample bound to the manifest hash; audit seed 20261022, probe excludes audit ids | audit header; probe receipt `overlap_with_excluded: 0` |
@@ -59,23 +59,35 @@ in the findings table (copied from STATS.md / receipts at commit time).
 
 ## Known limitations
 
-1. **Volume vs determinacy.** Only demonstrably constrained cuts are kept;
-   context-determined medium and long completions are scarce, so the
+1. **Volume vs determinacy proxies.** Only cuts that pass the determinacy
+   proxies are kept; medium and long completions that pass them are scarce, so the
    cohort-level length rule binds and v2 is far smaller than v1. Long
    buckets (21-45 lines) remain heavily under-represented in SYNTH alone;
    the TRAIN + SYNTH cohort stays within 3 points of TRAIN per bucket.
    Relaxing the SYNTH-alone 2x ratio cap roughly doubles volume (see
    PR text); that is a mixing decision, not a quality change.
-2. **Determinacy is a proxy.** `constrained_short` bounds what is new
-   lexically, not every structural choice; `sibling` relies on masked
-   8-gram support from the prompt. The arm A probe shows how hard the cases
-   are.
+2. **Determinacy classes are proxies.** `constrained_short` bounds what is
+   new lexically, not every structural choice; `sibling` relies on masked
+   8-gram support from the prompt. Known holes (target comments, non-verbatim
+   strings, glue-string code, helper names) are listed in ../README.md and
+   measured in `receipts/SYNTH-v2-determinacy-holes.json`; a stricter v3
+   novelty would drop 100 of 579 finish rows. The arm A probe shows how hard
+   the cases are.
 3. **Blank lines and comments.** Within short buckets the (blank, comment)
    mix matches TRAIN; within the medium buckets SYNTH has more blank lines and
    fewer comments than TRAIN because every qualified medium case is used.
-4. **Behavioural coverage is partial.** Code needing add-on packages
-   (dplyr, data.table, shiny, R6, ...) is parse-checked only; per-case
-   evidence is in `meta.behaviour`.
+4. **Behavioural coverage is partial, and "entered" is not "asserted".** Code
+   needing add-on packages (dplyr, data.table, shiny, R6, ...) is
+   parse-checked only. `meta.behaviour = entered` means the unit's body ran
+   during a passing check (traced execution), not that the completed lines'
+   behaviour was asserted.
+4a. **Prompt geometry.** v2 finish prompts are longer than TRAIN's (median
+   40 prefix lines / 495 tokens vs 11 / 229; 41% over 60 prefix lines vs
+   3.8%); 52% use the `file` packaging, including 111 of 122 `sibling`
+   cases (retry-with-file). Table in STATS.md.
+4b. **Bucket definition.** Shaping counts SYNTH targets raw and TRAIN targets
+   with the leading blank removed; under raw TRAIN counts two buckets exceed
+   2x (2 lines 2.19x, 5-8 lines 2.04x). Both are tabulated in STATS.md.
 5. **Roxygen prose is still free text.** Roxygen is kept small (<= 10%);
    tag frequencies are matched where the available blocks allow.
 6. **Residual contamination risk:** LLM-memorised paraphrase cannot be

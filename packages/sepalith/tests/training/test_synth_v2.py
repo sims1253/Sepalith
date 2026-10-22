@@ -123,5 +123,23 @@ class VerifyTests(unittest.TestCase):
         self.assertIn("target_does_not_end_with_close", family_checks(open_end))
 
 
+@unittest.skipUnless(HAS_R, "Rscript not available")
+class BehaviourHarnessTests(unittest.TestCase):
+    def test_entered_units_come_from_execution_not_text(self):
+        import subprocess
+        from sepalith.data.synth.build import BEHAVIOUR_HARNESS
+        seed = ("f <- function(x) g(x)\ng <- function(x) x + 1\nh <- function() 1\n"
+                "print.box <- function(x, ...) invisible(x)\n")
+        check = "# skipped: h() needs a package\nstopifnot(f(1) == 2)\nprint(structure(1, class = 'box'))\n"
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "seed.R").write_text(seed)
+            (Path(tmp) / "check.R").write_text(check)
+            out = subprocess.run(["Rscript", "--vanilla", str(BEHAVIOUR_HARNESS), str(Path(tmp) / "seed.R"),
+                                  str(Path(tmp) / "check.R")], capture_output=True, text=True, check=True).stdout
+        lines = dict(line.split("\t", 1) for line in out.strip().split("\n"))
+        self.assertEqual(lines["status"], "ok")
+        self.assertEqual(lines["entered"].split(","), ["f", "g", "print.box"])  # g indirectly, print.box via S3
+
+
 if __name__ == "__main__":
     unittest.main()

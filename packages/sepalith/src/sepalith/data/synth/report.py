@@ -10,7 +10,10 @@ import hashlib
 import json
 from pathlib import Path
 
+from collections import Counter
+
 from sepalith.data.synth.profile import BUCKETS
+from sepalith.data.synth.profile import bucket as profile_bucket
 
 
 def pct(x: float | None) -> str:
@@ -63,8 +66,11 @@ def main() -> int:
     pv = summary["protocol_verification"]
     lines += [f"- Mechanical checks ({pv['meaning']}): {pv['passed']} / {pv['candidates']} "
               f"= {pct(pv['mechanical_pass_rate'])}. Failures: `{json.dumps(pv['failures'])}`.",
-              "- Determinacy: the class table above (generator filter, not a mechanical check).",
-              "- Semantic correctness: the behavioural-evidence table above (base-R check scripts).", ""]
+              "- Determinacy: the class table above. The classes are *proxies* (generator filters), not proofs "
+              "that a completion is determined; known holes are listed in the audit README and measured in "
+              "receipts/SYNTH-v2-determinacy-holes.json.",
+              "- Behavioural evidence: the table above. `entered` means the unit's body executed during a passing "
+              "base-R check script; it does not mean the check asserted the target's behaviour.", ""]
 
     for family in ("finish_block", "roxygen_drafting"):
         present = [k for k in keys if family in prof[k]]
@@ -113,7 +119,59 @@ def main() -> int:
                             ["most common order share", *[pct(get(k)["top_tag_orders"][0][1] / get(k)["cases"])
                                                           for k in present]]])
 
-    lines += ["## Length shaping (finish_block)", "", "```json", json.dumps(summary["shaping"], indent=1), "```", ""]
+    # Prompt geometry: finish_block prompts by packaging variant vs TRAIN.
+    from sepalith.data.synth.profile import train_finish_geometry
+    import statistics
+    cases = [json.loads(x) for x in (args.data / "cases.jsonl").open(encoding="utf-8")]
+    tokens = {json.loads(x)["id"]: json.loads(x)["prompt_token_count"]
+              for x in (args.data / "train-token-rows.jsonl").open(encoding="utf-8")}
+    finish = [c for c in cases if c["family"] == "finish_block"]
+
+    def geo_row(label: str, pairs: list[tuple[int, int]]) -> list:
+        if not pairs:
+            return [label, 0, "-", "-", "-"]
+        return [label, len(pairs), statistics.median(p for p, _ in pairs), statistics.median(t for _, t in pairs),
+                pct(sum(p > 60 for p, _ in pairs) / len(pairs))]
+
+    geo = [geo_row("TRAIN", train_finish_geometry()),
+           geo_row("SYNTH all", [(len(c["context"]["prefix"]), tokens[c["row_id"]]) for c in finish])]
+    for variant in sorted({c["meta"]["variant"] for c in finish}):
+        geo.append(geo_row(f"SYNTH {variant}", [(len(c["context"]["prefix"]), tokens[c["row_id"]])
+                                                for c in finish if c["meta"]["variant"] == variant]))
+    sib = Counter(c["meta"]["variant"] for c in finish if c["meta"].get("determinacy") == "sibling")
+    lines += ["## Prompt geometry (finish_block)", "",
+              "The `file` variant shows the preceding file (siblings); when a cut fails the determinacy proxy in "
+              "its first packaging, the generator retries it as `file` (finish_block.py, retry-with-file), so "
+              "`file` dominates and prompts are longer than TRAIN's.", ""]
+    lines += table(["prompts", "cases", "median prefix lines", "median prompt tokens", "prefix > 60 lines"], geo)
+    lines += [f"`sibling` cases by variant: `{json.dumps(dict(sib))}`.", ""]
+
+    # Masked structural overlap, retained set vs all verified candidates.
+    def masked_row(ref: str) -> list:
+        values = [c["meta"]["decontamination"][f"masked_{ref}_containment"] for c in cases]
+        high = [c for c in cases if c["meta"]["decontamination"][f"masked_{ref}_containment"] >= 0.8]
+        lengths = Counter(profile_bucket(len(c["region_new"])) for c in high)
+        return [ref, len(values), sum(v >= 0.5 for v in values), len(high), sum(v >= 1.0 for v in values),
+                json.dumps(dict(sorted(lengths.items())))]
+
+    lines += ["Identifier-masked structural containment on the **retained** rows (candidate-level numbers are "
+              "in the Decontamination section):", ""]
+    lines += table(["reference", "rows", ">= 0.5", ">= 0.8", "= 1.0", "target lengths of >= 0.8 rows"],
+                   [masked_row("train"), masked_row("dev")])
+
+    lines += ["## Length shaping (finish_block)", "",
+              "Bucket definition used by the shaping rules: SYNTH targets are counted raw (`len(region_new)`, "
+              "including the restated signature line of signature-region cases); TRAIN targets are counted with "
+              "their leading blank line removed (a TRAIN-only artefact, see receipts/DT-ws-nearmiss.json). "
+              "Ratios of SYNTH share to TRAIN share under both TRAIN definitions:", ""]
+    raw_train = prof["train"]["finish_block"]["target_length_buckets"]
+    synth_share = summary["shaping"]["synth_share"]
+    stripped = summary["shaping"]["train_share"]
+    lines += table(["bucket", "SYNTH share", "TRAIN (leading blank stripped)", "ratio", "TRAIN (raw)", "ratio"],
+                   [[b, pct(synth_share[b]), pct(stripped[b]), f"{synth_share[b] / stripped[b]:.2f}x",
+                     pct(raw_train.get(b, 0)),
+                     f"{synth_share[b] / raw_train[b]:.2f}x" if raw_train.get(b) else "-"] for b in synth_share])
+    lines += ["```json", json.dumps(summary["shaping"], indent=1), "```", ""]
     lines += ["## Decontamination", ""]
     dc = summary["decontamination"]
     lines += table(["family:reason", "removed"], [[k, v] for k, v in sorted(dc["removed"].items())])
@@ -137,6 +195,11 @@ def main() -> int:
         lines += ["## Arm A probe (Q8_0, greedy, CPU)", ""]
         lines += table(["stratum", "exact", "cases", "mean reward"],
                        [[k, v["exact"], v["cases"], v["mean_reward"]] for k, v in probe["by_stratum"].items()])
+        rows_now = hashlib.sha256((args.data / "train-token-rows.jsonl").read_bytes()).hexdigest()
+        rows_probe = probe["data"]["train-token-rows.jsonl"]
+        lines += [f"Probe bound to train-token-rows.jsonl sha256 `{rows_probe}`; current rows `{rows_now}` "
+                  f"(identical: {rows_probe == rows_now}). The probe receipt's manifest hash predates later "
+                  "metadata-only rebuilds; rows are the binding input.", ""]
         lines += [f"Sample seed {probe['sample']['seed']}, ids excluded from the audit sample: "
                   f"{probe['sample'].get('excluded_ids')}, overlap: {probe['sample'].get('overlap_with_excluded')}.", ""]
     args.out.write_text("\n".join(lines) + "\n")

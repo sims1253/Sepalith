@@ -167,9 +167,6 @@ def package_and_path(relative: str) -> tuple[str, str]:
     return f"synth:{parts[1]}", "/".join(parts[2:])
 
 
-CALL_RE = re.compile(r"([A-Za-z.][A-Za-z0-9._]*)\s*\(")
-
-
 def behaviour_checks(seeds: Path, normalised: list[tuple[Path, str]]) -> dict[str, dict]:
     """Run ``<batch>/checks/<rest>`` against each normalised source that has one."""
     out: dict[str, dict] = {}
@@ -177,18 +174,21 @@ def behaviour_checks(seeds: Path, normalised: list[tuple[Path, str]]) -> dict[st
         batch, rest = relative.split("/", 1)
         check = seeds / batch / "checks" / rest
         if not check.is_file():
-            out[relative] = {"status": "no_check", "functions": []}
+            out[relative] = {"status": "no_check", "entered": []}
             continue
         try:
             proc = subprocess.run(["nice", "-n", "10", "Rscript", "--vanilla", str(BEHAVIOUR_HARNESS),
                                    str(source), str(check)], capture_output=True, text=True, timeout=180,
                                   check=False)
-            status = proc.stdout.strip().split("\n")[-1] if proc.stdout.strip() else "fail\tno output"
+            lines = dict(line.split("\t", 1) for line in proc.stdout.strip().split("\n") if "\t" in line)
+            status = lines.get("status", "fail\tno output")
+            entered = [name for name in lines.get("entered", "").split(",") if name]
         except subprocess.TimeoutExpired:
-            status = "fail\ttimeout"
-        called = sorted(set(CALL_RE.findall(check.read_text(encoding="utf-8"))))
+            status, entered = "fail\ttimeout", []
+        # pass/fail comes from the plain run; ``entered`` from the traced run (trace() on every
+        # closure the seed defines), i.e. units whose body executed while the check ran.
         out[relative] = {"status": "pass" if status == "ok" else "fail", "detail": status[:200],
-                         "check": str(check.relative_to(seeds)), "functions": called}
+                         "check": str(check.relative_to(seeds)), "entered": entered}
     return out
 
 
@@ -524,13 +524,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     cases = generate_cases(normalised, formatter, families)
     rejected = Counter((c.family, c.meta["rejected"]) for c in cases if c.meta.get("rejected"))
     candidates = [c for c in cases if not c.meta.get("rejected")]
-    # behavioural evidence per case: the seed file's checks passed and called the unit
+    # Behavioural evidence per case. "entered" = the seed file's check passed and the unit's
+    # function body executed during the traced run; it does not mean the check asserted the
+    # behaviour of the completed code. Call units (setMethod, test_that, R6Class, ...) are
+    # not functions bound by name and cannot be traced.
     for case in candidates:
-        record = behaviour.get(case.meta["seed"], {"status": "no_check", "functions": []})
+        record = behaviour.get(case.meta["seed"], {"status": "no_check", "entered": []})
         unit = case.meta.get("unit", "")
+        traceable = case.meta.get("unit_kind") == "assign_function"
         case.meta["behaviour"] = ("fail" if record["status"] == "fail" else
-                                  "checked" if record["status"] == "pass" and unit in record["functions"] else
-                                  "file_checked_unit_unexercised" if record["status"] == "pass" else "no_check")
+                                  "no_check" if record["status"] == "no_check" else
+                                  "unit_not_traceable" if not traceable else
+                                  "entered" if unit in record["entered"] else "file_checked_not_entered")
     failing = [c for c in candidates if c.meta["behaviour"] == "fail"]
     for case in failing:
         rejected[(case.family, "behaviour_check_failed")] += 1
@@ -669,7 +674,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         },
         "determinacy": stats["determinacy"],
         "behaviour": {"seed_files": dict(behaviour_summary), "final_cases": stats["behaviour"],
-                      "meaning": "checked = the seed file's base-R check script passed and called this unit"},
+                      "meaning": ("entered = the seed file's base-R check passed and the unit's function body "
+                                  "executed during the traced run (trace() on every closure; indirect calls and "
+                                  "S3 dispatch count). Entered is not 'target behaviour asserted'.")},
         "decontamination": {
             "removed": {f"{f}:{r}": n for (f, r), n in sorted(decon.items())},
             "masked_structural_containment": {k: dict(v) for k, v in masked_report.items()},

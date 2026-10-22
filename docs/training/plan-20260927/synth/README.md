@@ -48,10 +48,13 @@ approximates v1's generation but not its selection).
 3. **Cases.**
    - `finish_block.py`: cuts at statement starts (any depth), comment-run
      tops and nested closing lines; final-close-only and closers-only targets
-     are not generated. No target starts with a blank line (TRAIN has ~9%
-     such targets; DEV golds never do). Full-body cuts use TRAIN's
+     are not generated. No target starts with a blank line: in the merged
+     decode-time analysis (`receipts/DT-ws-nearmiss.json`, PR #85), 732 of
+     7,514 TRAIN insert-at-column-0 golds (9.7%) start with a blank line,
+     against 0 of 87 in DEV250 and 0 of 11 in DEV75. Full-body cuts use TRAIN's
      signature-line region 90% of the time.
-     **Determinacy** (`common.novelty`, `common.structural_support`):
+     **Determinacy proxies** (`common.novelty`, `common.structural_support`;
+     these are heuristic filters, not proofs that a completion is determined):
      `novelty` counts target identifiers, words inside string literals and
      numbers > 2 that the prompt does not contain (comments are split off
      first, so roxygen `'` no longer opens a string). A cut is admitted only
@@ -73,10 +76,16 @@ approximates v1's generation but not its selection).
      reward 1.0, family checks. This is a mechanical-check pass rate, not a
      correctness claim;
    - *determinacy*: the generator classes above;
-   - *semantic*: `behaviour` per case: `checked` (the seed file's base-R check
-     script passed and calls this unit), `file_checked_unit_unexercised`,
-     `no_check` (needs add-on packages). A seed file whose check fails drops
-     all its cases.
+   - *behavioural evidence*: `behaviour` per case. The harness
+     (`r_behaviour.R`) runs each check twice: a plain run decides pass/fail; a
+     traced run `trace()`s every closure the seed defines and records which
+     bodies executed (indirect calls and S3 dispatch through those bindings
+     count). Labels: `entered` (check passed and the unit's body executed),
+     `file_checked_not_entered`, `unit_not_traceable` (call units such as
+     `setMethod`, `test_that`, `R6Class`), `no_check` (needs add-on
+     packages). `entered` is *not* "target behaviour asserted": a check may
+     execute a function without asserting anything about the completed lines.
+     A seed file whose check fails drops all its cases.
 5. **Dedup and decontamination** (`dedup.py`, `cpt_check.py`):
    - formatting-invariant token fingerprints: code tokens (no whitespace or
      layout) plus comment words, 12-grams over the *edit span* (the last 40
@@ -108,6 +117,45 @@ approximates v1's generation but not its selection).
    (has blank line, has comment) mix; full-body cuts <= 6%, test-file cuts
    <= 1%. Roxygen is <= 10% of the set, chosen greedily toward TRAIN's tag
    frequencies with no tag order above 20%.
+
+## Known holes in the determinacy proxies (v3 work)
+
+Measured on the retained finish_block rows by `determinacy_holes.py`
+(`receipts/SYNTH-v2-determinacy-holes.json`; reviewers' counts in brackets,
+from a slightly different definition):
+
+- novelty ignores target comments: 66 targets carry a comment and 63 of them
+  need words absent from the prompt [64 of 66], i.e. invented prose;
+- 177 targets contain a string literal that is not in the prompt verbatim
+  [181/579]; novelty counts unseen *words*, so recombined known words pass;
+- code inside glue-style strings (`"{x}"`) is not counted as identifiers
+  (7 targets use identifiers there that the prompt lacks);
+- helper names absent from the prompt pass within the novelty budget,
+  most often in the non-`file` packagings (96 such targets).
+
+Counting target-comment words and identifiers inside strings (a cheap v3
+novelty) would reclassify 100 of 579 retained finish_block rows as
+`author_choice` (65 `constrained_short`, 35 `sibling`). That is not a small
+change, so v2 keeps its rows and this is listed as v3 work.
+
+## Prompt geometry (limitation)
+
+v2 finish prompts are longer than TRAIN's: median 40 prefix lines / 495
+prompt tokens against 11 / 229, and 41% have more than 60 prefix lines
+against 3.8%. 52% use the `file` packaging (preceding file content), including
+111 of 122 `sibling` cases, because a cut that fails the proxy in its first
+packaging is retried as `file` (`finish_block.generate`, retry-with-file),
+which is where sibling functions become visible. See the geometry table in
+[audit/STATS.md](audit/STATS.md). v3 should balance packagings toward TRAIN's
+short, function-only prompts.
+
+## Length-bucket definition used for shaping
+
+SYNTH targets are counted raw (`len(region_new)`, including the restated
+signature line of signature-region cases); TRAIN targets are counted with
+their leading blank line removed. Under raw TRAIN counts the SYNTH-alone
+ratios exceed 2x in two buckets (2 lines: 2.19x, 5-8 lines: 2.04x); both
+definitions are tabulated in STATS.md.
 
 ## Residual risk (stated plainly)
 
