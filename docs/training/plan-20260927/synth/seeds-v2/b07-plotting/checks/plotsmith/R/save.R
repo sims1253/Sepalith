@@ -1,0 +1,7 @@
+# skipped: needs ggplot2 (save_plot_png, save_plot_pdf, save_plot, save_plot_set)
+stopifnot(identical(plot_dimensions(), c(width = 10, height = 5.625)))
+stopifnot(identical(plot_dimensions("square"), c(width = 6, height = 6)))
+stopifnot(identical(plot_file_name("Yield Trend (2024)", "png"), "yield_trend_2024.png"))
+stopifnot(identical(plot_file_name("by-block", "pdf"), "by-block.pdf"))
+stopifnot(inherits(try(plot_file_name("!!!", "png"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(plot_file_name(NA_character_, "png"), silent = TRUE), "try-error"))

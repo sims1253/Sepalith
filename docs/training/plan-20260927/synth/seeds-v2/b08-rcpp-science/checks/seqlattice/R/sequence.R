@@ -1,0 +1,12 @@
+# skipped: needs compiled seqlattice code (gc_content, gc_skew, gc_profile,
+#   reverse_complement, kmer_table)
+stopifnot(identical(check_dna(c(a = "acgt", b = "NNA")), c(a = "ACGT", b = "NNA")))
+err <- try(check_dna(c("ACGT", "ACGU")), silent = TRUE)
+stopifnot(inherits(err, "try-error"), grepl("position\\(s\\) 2", err))
+stopifnot(inherits(try(check_dna(c("A", NA)), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_dna(1:3), silent = TRUE), "try-error"))
+stopifnot(identical(check_count(4, "k"), 4L))
+stopifnot(inherits(try(check_count(2.5, "k"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_count(0, "k"), silent = TRUE), "try-error"))
+err <- try(check_count(20, "k", max = 16), silent = TRUE)
+stopifnot(inherits(err, "try-error"), grepl("at most 16", err))

@@ -1,0 +1,12 @@
+# skipped: needs compiled geodrift code (rollMean, rollSd, rollMax, rollSum,
+#   rollBySite, rollAnomaly)
+a <- checkRollArgs(1:5, 3, "centre")
+stopifnot(identical(a$x, as.double(1:5)), identical(a$width, 3L), identical(a$alignCode, 1L))
+stopifnot(identical(checkRollArgs(c(1, 2), 2, "right")$alignCode, 2L))
+stopifnot(inherits(try(checkRollArgs(letters, 2, "left"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(checkRollArgs(1:3, 4, "left"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(checkRollArgs(1:3, NA, "left"), silent = TRUE), "try-error"))
+x <- ts(1:6, start = c(2020, 3), frequency = 4)
+out <- restoreTs(as.numeric(1:6) * 2, x)
+stopifnot(is.ts(out), identical(tsp(out), tsp(x)))
+stopifnot(identical(restoreTs(c(1, 2), c(a = 5, b = 6)), c(a = 1, b = 2)))
