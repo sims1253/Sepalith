@@ -1,0 +1,61 @@
+{
+  "artifacts": {
+    "build-summary.json": {
+      "bytes": 7408,
+      "sha256": "f240d1f567b8b691e05591a2dfcffdb6fe7ec5fefdc3263415a7ebeb1d3d15bf"
+    },
+    "cases.jsonl": {
+      "bytes": 19148580,
+      "sha256": "e2df4eb1b9d56174dfff8a42b728a2f0a3d586392171ab8ca103a5123f168a42"
+    },
+    "context-sidecar.jsonl": {
+      "bytes": 18404909,
+      "sha256": "83a4f8f54366535f6c9520cd2030f613f7593dac2dc82a434d3c6a4c58186cbd"
+    },
+    "cpt-hits.json": {
+      "bytes": 1112,
+      "sha256": "a98e8c65a3b1218fce5f1b4ee0186568fd3c7f21cf7a26c6de56eecfe7dec5c5"
+    },
+    "dev-inputs.json": {
+      "bytes": 372756,
+      "sha256": "06f4739184359a5198af06b8f9654263a64160bbee00e18b9f84f4158a8fca7e"
+    },
+    "normalisation-ledger.jsonl": {
+      "bytes": 78960,
+      "sha256": "9a3ae3d074a005db13e671badc81d536aaf82adc876ab5d23f0b5ef90922c96e"
+    },
+    "train-token-rows.jsonl": {
+      "bytes": 36077835,
+      "sha256": "8cc5533721dbfedf79c3e03d78ac640ff912e8ccc2dca2722668515134b2894f"
+    },
+    "verification-ledger.jsonl": {
+      "bytes": 2944996,
+      "sha256": "6e3a8afb73846f6b29df78e80d1629f822c45a721289a0328107d0badf04da74"
+    }
+  },
+  "created_at_utc": "2026-10-22T07:24:50.174880+00:00",
+  "families": {
+    "finish_block": 4099,
+    "format_propagation": 836,
+    "roxygen_drafting": 435
+  },
+  "generator": {
+    "code": "packages/sepalith/src/sepalith/data/synth/",
+    "git_head": "bd816d771d411d91d117733a4d1eb53c50beb90b",
+    "id": "sepalith.synth.v1",
+    "version": "1.0.0"
+  },
+  "hf_uploaded": false,
+  "location": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1",
+  "renderer_id": "zeta2-prm03-v1",
+  "rows": 5370,
+  "schema": "sepalith.synth.manifest.v1",
+  "seed_tree": "docs/training/plan-20260927/synth/seeds",
+  "sources": {
+    "files": 336,
+    "sha256_of_tree": "1d9a9d90f7cd1f3003e4309099369a1ca291d91a311ef2003b73bb36309c52c6"
+  },
+  "split": "train",
+  "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+  "verification_pass_rate": 0.9975
+}

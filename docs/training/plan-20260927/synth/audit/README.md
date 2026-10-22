@@ -1,0 +1,177 @@
+# SYNTH-v1 audit pack
+
+For the independent reviewers. Method and rebuild steps are in [../README.md](../README.md).
+
+## What to review
+
+| Item | Path |
+| --- | --- |
+| Stratified sample of 60 cases (diff, target, verification, exact rendered prompt) | [audit-sample-60.md](audit-sample-60.md) (ids: [audit-sample-60-ids.json](audit-sample-60-ids.json)) |
+| Full data (not in git) | `/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/` |
+| Manifest (sha256 of every artifact) | [../../receipts/SYNTH-v1-manifest.json](../../receipts/SYNTH-v1-manifest.json) |
+| Build summary (counts, rejections, decontamination, distributions) | [../../receipts/SYNTH-v1-build-summary.json](../../receipts/SYNTH-v1-build-summary.json) |
+| Independent self-check of the written files | [../../receipts/SYNTH-v1-selfcheck.json](../../receipts/SYNTH-v1-selfcheck.json) |
+| Arm A difficulty probe (Q8_0, greedy) | [../../receipts/SYNTH-v1-arm-a-probe.json](../../receipts/SYNTH-v1-arm-a-probe.json) |
+| Cohort and schedule proposal (TRAIN v4 + SYNTH) | [../../receipts/SYNTH-v1-cohort-proposal.json](../../receipts/SYNTH-v1-cohort-proposal.json) |
+| Seeds (generator inputs) | [../seeds/](../seeds/), brief: [../AUTHORING-BRIEF.md](../AUTHORING-BRIEF.md) |
+
+Every case in `cases.jsonl` carries its generator metadata (rule, packaging
+variant, length bucket, novel tokens, determined share, seed file, blank-line
+style) and its full verification record. `verification-ledger.jsonl` also
+lists the candidates that failed.
+
+## Generator scripts
+
+| Script | Role |
+| --- | --- |
+| `packages/sepalith/src/sepalith/data/synth/r_structure.R` | Parse-structure dump (getParseData; never evaluates) |
+| `.../synth/structure.py` | Units, braced blocks, statements, formals, roxygen spans |
+| `.../synth/normalize.py` | Blank-line policy + `air format`, idempotence check |
+| `.../synth/cases.py` | Case model, PRM03 context, history events (TRAIN `event_diff` format) |
+| `.../synth/finish_block.py` | Cut points, TRAIN outline/diagnostics headers, packaging, novelty |
+| `.../synth/roxygen.py` | Block checks against the signature, determined-share filter |
+| `.../synth/format_propagation.py` | Layout collapse with byte-exact air round trip, history |
+| `.../synth/verify.py`, `r_parse_status.R` | Per-case verification |
+| `.../synth/dedup.py`, `cpt_check.py` | Near duplicates, TRAIN/DEV/CPT decontamination |
+| `.../synth/build.py` | End-to-end build, ledgers, manifest |
+| `.../synth/selfcheck.py` | Re-reads the output files; reward v2.1 on every gold row |
+| `.../synth/audit.py` | This sample |
+| `docs/training/plan-20260927/synth/make_cohort.py` | TRAIN + SYNTH cohort, schedule_v2 |
+| `docs/training/plan-20260927/synth/probe_arm_a.py` | Arm A greedy probe (CPU llama.cpp) |
+| `packages/sepalith/tests/test_synth.py` | Unit tests (geometry, headers, cuts, roxygen checks, collapses) |
+
+## Counts
+
+5,370 rows: finish_block 4,099, format_propagation 836, roxygen_drafting 435,
+from 334 seed files in 75 fictional packages (24 domain batches).
+
+Target length in lines (share of the family):
+
+| finish_block | 1 | 2 | 3-4 | 5-8 | 9-12 | 13-20 | 21-30 | 31-45 | >45 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SYNTH (4,099) | 2.5% | 22.7% | 28.9% | 22.8% | 13.1% | 7.6% | 2.1% | 0.3% | 0.0% |
+| TRAIN (7,785) | 0.0% | 10.3% | 9.6% | 18.7% | 12.1% | 18.7% | 15.0% | 15.3% | 0.4% |
+
+| roxygen_drafting | 1 | 2 | 3-4 | 5-8 | 9-12 | 13-20 | 21-30 | >30 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SYNTH (435) | 1.6% | 0.7% | 11.5% | 56.1% | 29.0% | 1.1% | 0.0% | 0.0% |
+| TRAIN (815) | 0.0% | 0.0% | 7.7% | 30.1% | 27.1% | 24.9% | 6.9% | 3.3% |
+
+| format_propagation | 1 | 2 | 3-4 | 5-8 | 9-12 | >12 |
+| --- | --- | --- | --- | --- | --- |
+| SYNTH (836) | 0.0% | 2.0% | 21.2% | 65.0% | 10.6% | 1.2% |
+| TRAIN (1,615) | 25.2% | 11.3% | 24.1% | 25.3% | 9.9% | 4.1% |
+
+finish_block packaging: plain 1,438 (35%), file context 1,351 (33%), roxygen
+stripped 475 (12%), outline header 463 (11%), diagnostics header 424 (10%);
+51 use the signature-line region. Cut kinds: statement 3,205, nested close
+(target starts with `}`) 834, final close only 106, comment lead 6. Novel
+tokens per target: short median 1 (max 4), medium max 8, long max 14.
+Blank-line style: dense 72%, sectioned 28%. Prompt tokens (median / p90):
+finish_block 329 / 1,187, roxygen 440 / 576, format 1,480 / 1,843; max 2,192.
+
+roxygen: `roxy_full` 252, `roxy_tags` 189; determined share median 0.75
+(min 0.667). format_propagation: `aligned` 624, `one_line` 241.
+
+## Verification results
+
+- 12,469 generated candidates; generator filters removed 5,313 (finish_block
+  novelty 2,698, roxygen determinacy 2,529, roxygen signature check 45,
+  exact duplicates 41). 7,156 were verified.
+- 7,138 of 7,156 passed every check (**99.75%**). The 18 failures are all air
+  idempotence: generated `RcppExports.R` files that air leaves in their
+  4-space style when the window keeps the "Generated by" header, and
+  reformats when the window crops it.
+- Self-check on the written files: 5,370 of 5,370 gold completions are
+  `exact` under reward v2.1 with reward 1.0. Prompts re-render and re-encode
+  to the stored token IDs, no row ID repeats, and none collides with a TRAIN ID.
+- A dry run of the unchanged `schedule_v2` on TRAIN v4 + SYNTH passes all of
+  its checks (proof that the rows are drop-in).
+
+## Decontamination results (aggregate counts only)
+
+| Check | Reference | Removed |
+| --- | --- | --- |
+| DEV shared 4-line verbatim run (window) | DEV75, DEV250, C05 DEV pools, DAT-07 DEV sources: 1,943 files, 111,053 strings hashed | finish_block 31 |
+| DEV target-shingle containment >= 0.5 | same | finish_block 110, format 51, roxygen 1 |
+| TRAIN target 4-line verbatim run | 15,006 v4 rows | format 2 |
+| TRAIN target-shingle containment >= 0.6 | 15,006 v4 rows | finish_block 232, format 93, roxygen 15 |
+| CPT line 4-gram in window | all 185,318 CPT rows decoded; 17 of 37,403 seed 4-grams found (13 files, max 2 per file) | finish_block 90, format 57, roxygen 6 |
+| Package name in a DEV or final split group | DAT-02 identity forms (metadata) | 0 |
+| Near duplicates within SYNTH (Jaccard >= 0.8) | itself | finish_block 841, format 400, roxygen 29 |
+
+The sealed final set was never opened: `build.guard_path` refuses any path
+containing `final` or `sealed`, and the DEV list in `build.DEV_SOURCES`
+contains none. DEV content was hashed only; nothing from DEV was printed,
+stored or used to design cases.
+
+## Arm A difficulty probe
+
+Arm A (checkpoint 536 as Q8_0 GGUF, llama.cpp CPU, greedy, cap 1,024) on a
+stratified sample of 150 SYNTH prompts, scored with reward v2.1
+([receipt](../../receipts/SYNTH-v1-arm-a-probe.json)):
+
+| Stratum | Exact | Mean reward |
+| --- | --- | --- |
+| finish_block short (<= 8 lines) | 10 / 50 | 0.40 |
+| finish_block medium (9-20) | 0 / 30 | 0.11 |
+| finish_block long (> 20) | 0 / 20 | 0.06 |
+| roxygen_drafting | 1 / 25 | 0.35 |
+| format_propagation | 22 / 25 | 0.90 |
+
+finish_block and roxygen are mostly unsolved by arm A, so they carry learning
+signal. Short finish_block cases sit in the learnable middle (20% exact,
+40% mean reward). format_propagation is largely solved already (88%) and adds
+little; it can be down-weighted or dropped.
+
+## `dev-inputs.json`
+
+`SYNTH-v1/dev-inputs.json` maps each of the 1,943 DEV files hashed by the
+overlap check to that file's sha256: paths and file digests only, with no DEV
+text, shingles or case content. It exists so a reviewer can confirm which
+DEV inputs the decontamination covered and that they did not change. The
+DEV shingle and 4-gram hashes live in memory during the build and are never
+written. No DEV text appears in any training file, the sidecar, `cases.jsonl`,
+the receipts or this audit pack; `build-summary.json` reports only aggregate
+counts. The file is not referenced by any training or schedule input.
+
+## Known limitations
+
+1. **Determinacy is approximate.** finish_block exactness needs the model to
+   reproduce the author's code. The novelty filter is lexical: it counts
+   target tokens absent from the prompt, so a word seen only in prose also
+   counts as seen. Short cuts are well determined (median 1 novel token).
+   Medium and long cuts still contain author choices. The arm A probe above
+   (0/50 exact on medium and long cuts) measures how hard the cases are.
+2. **Roxygen prose is still unpredictable.** Arm B's 3,861 extra rows did
+   not move DEV roxygen (1/19), so roxygen is kept small (8%) and admitted
+   only when at least two thirds of the target lines are skeleton or appear
+   verbatim in the prompt (median 0.75). The remaining title and
+   description lines are free prose, which no generator can make exact. The
+   `roxy_tags` geometry (title already typed) is not a TRAIN geometry.
+3. **Distribution shift against TRAIN.** By design, short finish_block
+   targets dominate (77% at 8 lines or fewer, against 39% in TRAIN). Few
+   long targets survive the novelty limit, and only 51 cases (1.2%) use the
+   signature-line region, against about 10% in TRAIN. format_propagation
+   targets are multi-line statements only (2-14 lines), with no single-line
+   formatting edits. Every source is air-formatted and blank lines follow
+   two fixed styles, so prompts are cleaner than real-world TRAIN code.
+4. **One author model.** All seeds come from the same model family, under
+   one brief. The 24 domain batches, style mixing (snake/camel/dot case, `<-`
+   and `=`, both pipes, explicit and implicit returns) and the
+   near-duplicate filter reduce, but do not remove, a shared house style.
+   Unlike the CRAN-derived TRAIN, the seeds are not real-world code. The add-on
+   packages are not installed, so seed code is parse-checked but was not
+   executed, except for spot checks by some authoring agents.
+5. **No pipe, rename, na_rm or no-op cases.** Each of these families is at
+   least 96% all-correct in the arm A census, so they carry no signal. No-op
+   is also the lowest priority.
+6. **The format_propagation window is not air-stable by design.** Its suffix
+   holds later statements in the old layout. The target is proven by a
+   byte-exact air round trip of the collapsed file, not by window
+   idempotence; reward v2.1 compares it raw (`formatting_only_reference`),
+   as it does for the TRAIN rows of this family.
+7. **Decontamination thresholds are heuristic.** Line 4-gram and shingle
+   containment catch verbatim and near-verbatim overlap, not paraphrase.
+   DEV containment is conservative: it removed 162 cases that most likely
+   share only common idioms.

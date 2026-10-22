@@ -1,0 +1,292 @@
+{
+  "decontamination": {
+    "cpt_reference": {
+      "cpt_rows_scanned": 185318,
+      "hit_gram_count": 17,
+      "seed_files_with_hits": {
+        "b01-tidyverse/surveyscrub/R/import.R": 2,
+        "b06-infra-tests/tallyhook/R/checks.R": 2,
+        "b07-plotting/tabulora/R/palettes.R": 1,
+        "b08-rcpp-science/trophicstan/R/standata.R": 1,
+        "b10-text/glyphgauge/R/distance.R": 1,
+        "b14-pipelines/taskrelay/R/batch.R": 1,
+        "b17-bioc/rangeweft/R/reduce.R": 2,
+        "b20-environment/gaugewise/R/flow_duration.R": 1,
+        "b20-environment/gaugewise/R/return_period.R": 2,
+        "b21-applied-analytics/staffroom/R/rubric.R": 1,
+        "b22-devtools/lintfern/R/report.R": 1,
+        "b22-devtools/newsreel/R/watch.R": 1,
+        "b24-modelling/priorcraft/R/gamPlots.R": 2
+      },
+      "seed_grams": 37403
+    },
+    "dev_reference": {
+      "documents_hashed": 111053,
+      "files": 1943
+    },
+    "removed": {
+      "finish_block:cpt_line_4gram": 90,
+      "finish_block:dev_line_4gram": 31,
+      "finish_block:dev_target_containment": 110,
+      "finish_block:train_target_containment": 232,
+      "format_propagation:cpt_line_4gram": 57,
+      "format_propagation:dev_target_containment": 51,
+      "format_propagation:train_target_containment": 93,
+      "format_propagation:train_target_line_4gram": 2,
+      "roxygen_drafting:cpt_line_4gram": 6,
+      "roxygen_drafting:dev_target_containment": 1,
+      "roxygen_drafting:train_target_containment": 15
+    },
+    "thresholds": {
+      "dev_target_containment": 0.5,
+      "line_4gram": "any shared 4-gram of non-trivial lines",
+      "min_shingles_for_containment": 15,
+      "near_duplicate_jaccard": 0.8,
+      "train_target_containment": 0.6
+    },
+    "train_reference": {
+      "rows": 15006,
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+    }
+  },
+  "final": 5370,
+  "generated": 12469,
+  "generator_rejections": {
+    "finish_block:exact_duplicate": 41,
+    "finish_block:near_duplicate": 815,
+    "finish_block:novelty": 2698,
+    "format_propagation:near_duplicate": 387,
+    "roxygen_drafting:determinacy": 2529,
+    "roxygen_drafting:near_duplicate": 29,
+    "roxygen_drafting:roxygen_check": 45
+  },
+  "stats": {
+    "batch": {
+      "finish_block": {
+        "b01-tidyverse": 87,
+        "b02-base-stats": 190,
+        "b03-datatable-io": 173,
+        "b04-shiny": 155,
+        "b05-oop": 163,
+        "b06-infra-tests": 165,
+        "b07-plotting": 125,
+        "b08-rcpp-science": 140,
+        "b09-finance": 187,
+        "b10-text": 176,
+        "b11-ml": 199,
+        "b12-db": 172,
+        "b13-geo": 151,
+        "b14-pipelines": 154,
+        "b15-psych-trials": 150,
+        "b16-classic": 207,
+        "b17-bioc": 172,
+        "b18-web": 192,
+        "b19-graphs-or": 205,
+        "b20-environment": 213,
+        "b21-applied-analytics": 168,
+        "b22-devtools": 174,
+        "b23-simulation": 197,
+        "b24-modelling": 184
+      },
+      "format_propagation": {
+        "b01-tidyverse": 25,
+        "b02-base-stats": 26,
+        "b03-datatable-io": 54,
+        "b04-shiny": 53,
+        "b05-oop": 50,
+        "b06-infra-tests": 23,
+        "b07-plotting": 44,
+        "b08-rcpp-science": 25,
+        "b09-finance": 30,
+        "b10-text": 14,
+        "b11-ml": 42,
+        "b12-db": 28,
+        "b13-geo": 24,
+        "b14-pipelines": 57,
+        "b15-psych-trials": 17,
+        "b16-classic": 5,
+        "b17-bioc": 29,
+        "b18-web": 60,
+        "b19-graphs-or": 25,
+        "b20-environment": 53,
+        "b21-applied-analytics": 37,
+        "b22-devtools": 39,
+        "b23-simulation": 28,
+        "b24-modelling": 48
+      },
+      "roxygen_drafting": {
+        "b01-tidyverse": 33,
+        "b02-base-stats": 26,
+        "b03-datatable-io": 13,
+        "b04-shiny": 6,
+        "b05-oop": 21,
+        "b06-infra-tests": 4,
+        "b07-plotting": 16,
+        "b08-rcpp-science": 11,
+        "b09-finance": 35,
+        "b10-text": 25,
+        "b11-ml": 17,
+        "b12-db": 22,
+        "b13-geo": 12,
+        "b14-pipelines": 13,
+        "b15-psych-trials": 21,
+        "b16-classic": 13,
+        "b17-bioc": 28,
+        "b18-web": 17,
+        "b19-graphs-or": 14,
+        "b20-environment": 16,
+        "b21-applied-analytics": 11,
+        "b22-devtools": 35,
+        "b23-simulation": 14,
+        "b24-modelling": 12
+      }
+    },
+    "bucket": {
+      "finish_block": {
+        "long": 100,
+        "medium": 844,
+        "short": 3155
+      }
+    },
+    "families": {
+      "finish_block": 4099,
+      "format_propagation": 836,
+      "roxygen_drafting": 435
+    },
+    "packages": 75,
+    "rule": {
+      "finish_block": {
+        "fb_comment_lead": 6,
+        "fb_final_close": 104,
+        "fb_nested_close": 821,
+        "fb_statement": 3168
+      },
+      "format_propagation": {
+        "fmt_aligned": 606,
+        "fmt_one_line": 230
+      },
+      "roxygen_drafting": {
+        "roxy_full": 250,
+        "roxy_tags": 185
+      }
+    },
+    "seed_files": 334,
+    "style": {
+      "finish_block": {
+        "dense": 2953,
+        "sectioned": 1146
+      },
+      "format_propagation": {
+        "dense": 576,
+        "sectioned": 260
+      },
+      "roxygen_drafting": {
+        "dense": 317,
+        "sectioned": 118
+      }
+    },
+    "target_lines": {
+      "finish_block": {
+        "<=1": 104,
+        "<=12": 536,
+        "<=2": 931,
+        "<=20": 310,
+        "<=30": 87,
+        "<=4": 1184,
+        "<=45": 13,
+        "<=8": 934
+      },
+      "format_propagation": {
+        "<=12": 89,
+        "<=2": 17,
+        "<=20": 10,
+        "<=4": 177,
+        "<=8": 543
+      },
+      "roxygen_drafting": {
+        "<=1": 7,
+        "<=12": 126,
+        "<=2": 3,
+        "<=20": 5,
+        "<=4": 50,
+        "<=8": 244
+      }
+    },
+    "tokens": {
+      "finish_block": {
+        "prompt_max": 1638,
+        "prompt_mean": 478.5,
+        "target_max": 335,
+        "target_mean": 50.1
+      },
+      "format_propagation": {
+        "prompt_max": 2192,
+        "prompt_mean": 1473.6,
+        "target_max": 160,
+        "target_mean": 49.6
+      },
+      "roxygen_drafting": {
+        "prompt_max": 1521,
+        "prompt_mean": 454.6,
+        "target_max": 178,
+        "target_mean": 79.3
+      }
+    },
+    "train_target_lines": {
+      "finish_block": {
+        "<=12": 941,
+        "<=2": 803,
+        "<=20": 1459,
+        "<=30": 1166,
+        "<=4": 746,
+        "<=45": 1188,
+        "<=8": 1453,
+        ">45": 29
+      },
+      "format_propagation": {
+        "<=1": 407,
+        "<=12": 160,
+        "<=2": 183,
+        "<=20": 67,
+        "<=4": 389,
+        "<=8": 409
+      },
+      "na_rm_propagation": {
+        "<=1": 136
+      },
+      "pipe_rewrite": {
+        "<=1": 1983
+      },
+      "rename_propagation": {
+        "<=1": 1578
+      },
+      "roxygen_drafting": {
+        "<=12": 221,
+        "<=20": 203,
+        "<=30": 56,
+        "<=4": 63,
+        "<=45": 18,
+        "<=8": 245,
+        ">45": 9
+      }
+    },
+    "variant": {
+      "finish_block": {
+        "diag": 417,
+        "file": 1316,
+        "outline": 456,
+        "plain": 1438,
+        "strip": 472
+      }
+    }
+  },
+  "verification": {
+    "candidates": 7156,
+    "failures": {
+      "finish_block:air_idempotent": 13,
+      "roxygen_drafting:air_idempotent": 5
+    },
+    "pass_rate": 0.9975,
+    "passed": 7138
+  }
+}

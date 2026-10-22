@@ -1,0 +1,141 @@
+{
+  "cohort": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/cohort-proposal/train-plus-synth-cohort-rows.jsonl",
+    "sha256": "6aaaeab0b2bce15dd3ef3b8589f613b1cd305cea7efd004a3bc620cd91455f9b"
+  },
+  "length_profile": {
+    "max_sequence_tokens": 3064,
+    "observed_fit_without_truncation": true,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/cohort-proposal/length-profile.json",
+    "sha256": "4f31d8f2566b519ae16db896472fea2aa1049d1a7e66fe073e3ab0ef933e288f"
+  },
+  "note": "13+3 (18.75% no-op) gives no-op exposures 4-5, above the standing <=3 rule; 14+2 (12.5%) keeps 2-3. User decision.",
+  "schedule": {
+    "builder": "sepalith.training.sft.schedule_v2",
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/cohort-proposal/draw-schedule-v2-train-plus-synth.json",
+    "seed": 3407,
+    "sha256": "013dcb6a347904e49685227f28dd2a3ea665641b37ad7843f37e4a18d89e3aa8",
+    "summary": {
+      "checks": {
+        "all_eligible_ids_drawn": true,
+        "constant_batch_composition": true,
+        "edits_seen_once_except_last_update_replays": true,
+        "every_unique_edit_before_edit_replay": true,
+        "every_unique_noop_before_noop_replay": true,
+        "no_target_truncation": true,
+        "noop_exposures_at_most_cap": true,
+        "targets_over_1024_retained": 0
+      },
+      "coverage": {
+        "distinct_rows_drawn": 20376,
+        "edit_chunk_batches": {
+          "cross_bucket_leftover_chunk": 1,
+          "homogeneous_bucket_1024": 352,
+          "homogeneous_bucket_2048": 369,
+          "homogeneous_bucket_4096": 113,
+          "homogeneous_bucket_512": 648,
+          "terminal_partial_unique_chunk": 1
+        },
+        "edit_replays": 10,
+        "eligible_edit_rows": 19282,
+        "eligible_noop_rows": 1094,
+        "eligible_rows": 20376,
+        "exposure_histogram": {
+          "1": 19272,
+          "2": 10,
+          "4": 1018,
+          "5": 76
+        },
+        "exposure_histogram_by_pool": {
+          "edit": {
+            "1": 19272,
+            "2": 10
+          },
+          "noop": {
+            "4": 1018,
+            "5": 76
+          }
+        },
+        "first_all_rows_step": 1484,
+        "first_replay_draw_by_pool": {
+          "edit": 23731,
+          "noop": 5839
+        },
+        "last_unique_draw_by_pool": {
+          "edit": 23730,
+          "noop": 5827
+        },
+        "max_row_exposures": 5,
+        "min_row_exposures": 1,
+        "noop_draws": 4452,
+        "noop_draws_per_update": [
+          3
+        ],
+        "noop_passes": {
+          "passes": 5,
+          "rows_per_pass": [
+            1094,
+            1094,
+            1094,
+            1094,
+            76
+          ]
+        },
+        "noop_share": 0.1875,
+        "replay_draws_by_reason": {
+          "edit_batch_completion_alignment_replay": 10,
+          "noop_pass_replay": 3358
+        }
+      },
+      "draw_count": 23744,
+      "max_steps": 1484
+    }
+  },
+  "schedule_alternative_noop2": {
+    "exposure_histogram_by_pool": {
+      "edit": {
+        "1": 19272,
+        "2": 10
+      },
+      "noop": {
+        "2": 526,
+        "3": 568
+      }
+    },
+    "noop_per_batch": 2,
+    "noop_share": 0.125,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/cohort-proposal/draw-schedule-v2-train-plus-synth-noop2.json",
+    "sha256": "ae59ed9aba47a888e4686c1db0b44d5d61f20c3808822070ec89c6ee28f6e593",
+    "summary": {
+      "checks": {
+        "all_eligible_ids_drawn": true,
+        "constant_batch_composition": true,
+        "edits_seen_once_except_last_update_replays": true,
+        "every_unique_edit_before_edit_replay": true,
+        "every_unique_noop_before_noop_replay": true,
+        "no_target_truncation": true,
+        "noop_exposures_at_most_cap": true,
+        "targets_over_1024_retained": 0
+      },
+      "draw_count": 22048,
+      "max_steps": 1378
+    }
+  },
+  "schema": "sepalith.synth.cohort-proposal.v1",
+  "status": "proposal; not bound to a recipe, not enqueued",
+  "synth_rows": {
+    "families": {
+      "finish_block": 4099,
+      "format_propagation": 836,
+      "roxygen_drafting": 435
+    },
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/train-token-rows.jsonl",
+    "rows": 5370,
+    "sha256": "8cc5533721dbfedf79c3e03d78ac640ff912e8ccc2dca2722668515134b2894f"
+  },
+  "train_rows": {
+    "copied_byte_for_byte": true,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+    "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+  }
+}
