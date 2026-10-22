@@ -25,10 +25,10 @@ from sepalith.quant.llama_tools import gpu_layers, llama_bin, tool_env
 from sepalith.training.rl.reward_v21 import Evidence, ReferenceSpec, Sample
 
 GGUF = Path("/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf")
-STRATA = {("finish_block", "short"): 50, ("finish_block", "medium"): 30, ("finish_block", "long"): 20,
-          ("roxygen_drafting", None): 25, ("format_propagation", None): 25}
+STRATA = {("finish_block", "short"): 60, ("finish_block", "medium"): 50, ("finish_block", "long"): 10,
+          ("roxygen_drafting", None): 30}
 CAP = 1024
-SEED = 3407
+SEED = 3407  # sampling seed; the audit pack uses 20261022 and its ids are excluded here
 
 
 def main() -> int:
@@ -36,13 +36,17 @@ def main() -> int:
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--threads", type=int, default=8)
+    parser.add_argument("--exclude-ids", type=Path, default=None, help="JSON list of row ids to leave out")
     args = parser.parse_args()
     if args.threads > 8:
         raise SystemExit("at most 8 threads")
     records = {r["row_id"]: r for r in map(json.loads, (args.data / "cases.jsonl").open())}
     rows = {r["id"]: r for r in map(json.loads, (args.data / "train-token-rows.jsonl").open())}
+    excluded = set(json.loads(args.exclude_ids.read_text())) if args.exclude_ids else set()
     pools = defaultdict(list)
     for rid, record in sorted(records.items()):
+        if rid in excluded:
+            continue
         bucket = record["meta"].get("bucket") if record["family"] == "finish_block" else None
         pools[(record["family"], bucket)].append(rid)
     rng = random.Random(SEED)
@@ -83,11 +87,13 @@ def main() -> int:
         "model": {"gguf": str(GGUF), "sha256": sha256_file(GGUF), "note": "arm A checkpoint 536, Q8_0"},
         "decoding": {"greedy": True, "cap": CAP, "engine": "llama.cpp CPU llama-server", "threads": args.threads},
         "sample": {"seed": SEED, "strata": {f"{k[0]}:{k[1] or 'all'}": n for k, n in STRATA.items()},
+                   "excluded_ids": len(excluded), "overlap_with_excluded": len(excluded & {rid for _, rid in chosen}),
                    "row_ids": [rid for _, rid in chosen]},
         "by_stratum": table,
         "total": {"cases": len(chosen), "exact": sum(bool(r["exact"]) for r in scored.values())},
         "wall_seconds": round(time.monotonic() - started, 1),
-        "data": {"train-token-rows.jsonl": sha256_file(args.data / "train-token-rows.jsonl")},
+        "data": {"train-token-rows.jsonl": sha256_file(args.data / "train-token-rows.jsonl"),
+                 "manifest.json": sha256_file(args.data / "manifest.json")},
     }
     args.out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"by_stratum": {k: (v["exact"], v["cases"]) for k, v in table.items()},

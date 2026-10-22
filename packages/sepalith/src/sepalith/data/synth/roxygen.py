@@ -87,7 +87,12 @@ def determined_share(target: Sequence[str], prompt_lines: Sequence[str]) -> floa
     return good / len(target) if target else 0.0
 
 
-def generate(lines: Sequence[str], structure: FileStructure, package_id: str, path: str) -> list[Case]:
+MIN_TARGET_LINES = 3  # v2: no trivial blocks such as a lone `#' @export`
+
+
+def generate(lines: Sequence[str], structure: FileStructure, package_id: str, path: str, *,
+             allow_tags: bool = False) -> list[Case]:
+    """TRAIN geometry only by default (v2); ``allow_tags`` restores v1's tags-only geometry."""
     out: list[Case] = []
     inside: set[int] = set()
     for unit in structure.units:
@@ -106,7 +111,7 @@ def generate(lines: Sequence[str], structure: FileStructure, package_id: str, pa
         rng = rng_for("roxy", package_id, path, unit.start)
         first_tag = next((i for i, line in enumerate(block) if line.lstrip().startswith("#' @")), None)
         geometries = ["full"]
-        if first_tag is not None and first_tag >= 2 and rng.random() < 0.5:
+        if allow_tags and first_tag is not None and first_tag >= 2 and rng.random() < 0.5:
             geometries.append("tags")
         for geometry in geometries:
             cut = r0 if geometry == "full" or first_tag is None else r0 + first_tag
@@ -121,8 +126,11 @@ def generate(lines: Sequence[str], structure: FileStructure, package_id: str, pa
             prompt = list(doc[start:])
             share = determined_share(target, prompt)
             case.meta.update(determined_share=round(share, 3), roxygen_problems=problems)
+            case.meta["tag_order"] = " ".join(dict.fromkeys(t for t, _ in tags_of(target)))
             if problems:
                 case.meta["rejected"] = "roxygen_check"
+            elif len(target) < MIN_TARGET_LINES:
+                case.meta["rejected"] = "trivial_block"
             elif share < MIN_SHARE[geometry]:
                 case.meta["rejected"] = "determinacy"
             out.append(case)

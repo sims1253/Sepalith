@@ -1,13 +1,18 @@
-"""Build SYNTH-v1: seeds -> normalised sources -> cases -> verified, deduplicated,
-decontaminated drop-in TRAIN rows plus sidecar, ledgers and manifest.
+"""Build SYNTH data: seeds -> normalised sources -> cases -> verified, deduplicated,
+decontaminated, distribution-shaped drop-in TRAIN rows plus sidecar, ledgers
+and manifest.
 
-    PYTHONPATH=packages/sepalith/src nice -n 10 .venv-sft/bin/python -m sepalith.data.synth.build \
-        --seeds docs/training/plan-20260927/synth/seeds \
-        --out /mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1
+    # 1. normalise only (writes sources/), 2. CPT check on sources/, 3. full build
+    PYTHONPATH=packages/sepalith/src nice -n 10 .venv-sft/bin/python -m sepalith.data.synth.build \\
+        --seeds docs/training/plan-20260927/synth/seeds-v2 --out .../SYNTH-v2 --normalise-only
+    PYTHONPATH=... python -m sepalith.data.synth.cpt_check --sources .../SYNTH-v2/sources --out .../SYNTH-v2/cpt-hits.json
+    PYTHONPATH=... python -m sepalith.data.synth.build --seeds ... --out .../SYNTH-v2 --cpt-hits .../SYNTH-v2/cpt-hits.json
 
-The DEV check hashes the DEV panels and DEV-split source files listed in
-``DEV_SOURCES`` and reports aggregate counts only. No path containing
-``final`` is ever opened (``guard_path``).
+Sealed data: ``guard_path`` resolves every path (symlinks included) and refuses
+anything under the sealed-final locations named in CONTEXT.md or containing a
+``final``/``sealed`` path component. The DEV check hashes the DEV panels and
+DEV-split construction sources in ``DEV_SOURCES``; only aggregate counts are
+reported. v2 does not read the DAT-02 split file (v1 read it for package names).
 """
 from __future__ import annotations
 
@@ -18,14 +23,18 @@ import datetime
 import glob
 import hashlib
 import json
+import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 from typing import Any
 
-from sepalith.data.synth import GENERATOR_ID, GENERATOR_VERSION
-from sepalith.data.synth import dedup, finish_block, format_propagation, normalize, roxygen
+import numpy as np
+
 from sepalith.campaign_protocol import TokenEncoder
+from sepalith.data.synth import GENERATOR_ID, GENERATOR_VERSION
+from sepalith.data.synth import cpt_check, dedup, finish_block, format_propagation, normalize, profile, roxygen
 from sepalith.data.synth.cases import Case
 from sepalith.data.synth.structure import describe
 from sepalith.training.rl.air_canonical import AirFormatter
@@ -47,18 +56,44 @@ DEV_SOURCES = (
     str(DATA / "DAT-07-dev-panel-candidates.json"),
     str(DATA / "DAT-07-dev-completion-candidates-v1.jsonl"),
 )
-SPLIT = DATA / "DAT-02-global-split-v2.json"
-FAMILY_SHARE_CAPS = {"roxygen_drafting": 0.15, "format_propagation": 0.20}
+# Sealed-final locations named in docs/training/plan-20260927/CONTEXT.md.
+FORBIDDEN_PREFIXES = (
+    str(DATA / "DAT-07-final-"),
+    os.path.expanduser("~/.local/state/sepalith/campaign-20260915/sealed-final"),
+)
+FORBIDDEN_COMPONENT_RE = re.compile(r"final|sealed", re.IGNORECASE)
+BEHAVIOUR_HARNESS = Path(__file__).with_name("r_behaviour.R")
+
+# Decontamination thresholds (token fingerprints over the edit span; k = 12).
+DEV_CONTAINMENT_MAX = 0.3
+DEV_RUN_MAX = 24
+TRAIN_CONTAINMENT_MAX = 0.5
+TRAIN_RUN_MAX = 40
+CPT_CONTAINMENT_MAX = 0.5
+CPT_RUN_MAX = 40
 NEAR_DUP_THRESHOLD = 0.8
-TRAIN_CONTAINMENT_MAX = 0.6
-DEV_CONTAINMENT_MAX = 0.5
-MIN_SHINGLES_FOR_CONTAINMENT = 15
+
+# Selection shaping (finish_block) and family mix.
+PER_UNIT_MAX = 2
+TEST_FILE_MAX_SHARE = 0.01
+FULL_BODY_MAX_SHARE = 0.06
+ROXYGEN_MAX_SHARE = 0.10
+ROXYGEN_TAG_ORDER_MAX_SHARE = 0.2
+FB_BUCKETS = ("2", "3-4", "5-8", "9-12", "13-20", "21-30", "31-45")
+COHORT_SHIFT_MAX = 0.03  # max change of any finish_block length-bucket share in TRAIN + SYNTH
+SYNTH_BUCKET_RATIO_MAX = 2.0  # SYNTH alone: no bucket above twice its TRAIN share
 
 
-def guard_path(path: str) -> str:
-    if "final" in path.lower() or "sealed" in path.lower():
-        raise SystemExit(f"refusing to open a sealed/final path: {path}")
-    return path
+def guard_path(path: str | os.PathLike[str]) -> str:
+    """Refuse sealed/final data by string and by resolved path (symlinks followed)."""
+    text = os.path.expanduser(str(path))
+    resolved = os.path.realpath(text)
+    for candidate in (text, resolved):
+        if any(candidate.startswith(prefix) for prefix in FORBIDDEN_PREFIXES):
+            raise SystemExit(f"refusing to open a sealed path: {path}")
+        if any(FORBIDDEN_COMPONENT_RE.search(part) for part in Path(candidate).parts):
+            raise SystemExit(f"refusing to open a path with a final/sealed component: {path}")
+    return text
 
 
 def sha256_file(path: Path) -> str:
@@ -93,21 +128,29 @@ def make_scorer(workers: int) -> tuple[Any, AirFormatter, Any]:
     return scorer, formatter, tokenizer_decoder(PARENT / "tokenizer.json")
 
 
+def git_head() -> str | None:
+    proc = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+    return proc.stdout.strip() or None
+
+
 # ---------------------------------------------------------------------------
-# Stage 1: seeds -> normalised sources
+# Stage 1: seeds -> normalised sources, behavioural checks
 # ---------------------------------------------------------------------------
 def seed_files(seeds: Path) -> list[Path]:
-    return sorted(p for p in seeds.rglob("*.R") if p.is_file())
+    """Seed sources; ``<batch>/checks/`` holds behavioural checks, not seeds."""
+    return sorted(p for p in seeds.rglob("*.R") if p.is_file() and p.relative_to(seeds).parts[1] != "checks")
 
 
-def normalise(seeds: Path, out: Path, formatter: AirFormatter) -> tuple[list[dict], list[tuple[Path, str]]]:
+def normalise(seeds: Path, out: Path, formatter: AirFormatter, blank_policy: str
+              ) -> tuple[list[dict], list[tuple[Path, str]]]:
     files = seed_files(seeds)
     structures = describe(files)
     ledger = []
     normalised = []
     for path in files:
         relative = str(path.relative_to(seeds))
-        text, info = normalize.normalise_file(path, relative, structures[str(path)], formatter)
+        text, info = normalize.normalise_file(path, relative, structures[str(path)], formatter,
+                                              blank_policy=blank_policy)
         ledger.append(info)
         if text is None:
             continue
@@ -124,10 +167,35 @@ def package_and_path(relative: str) -> tuple[str, str]:
     return f"synth:{parts[1]}", "/".join(parts[2:])
 
 
+CALL_RE = re.compile(r"([A-Za-z.][A-Za-z0-9._]*)\s*\(")
+
+
+def behaviour_checks(seeds: Path, normalised: list[tuple[Path, str]]) -> dict[str, dict]:
+    """Run ``<batch>/checks/<rest>`` against each normalised source that has one."""
+    out: dict[str, dict] = {}
+    for source, relative in normalised:
+        batch, rest = relative.split("/", 1)
+        check = seeds / batch / "checks" / rest
+        if not check.is_file():
+            out[relative] = {"status": "no_check", "functions": []}
+            continue
+        try:
+            proc = subprocess.run(["nice", "-n", "10", "Rscript", "--vanilla", str(BEHAVIOUR_HARNESS),
+                                   str(source), str(check)], capture_output=True, text=True, timeout=180,
+                                  check=False)
+            status = proc.stdout.strip().split("\n")[-1] if proc.stdout.strip() else "fail\tno output"
+        except subprocess.TimeoutExpired:
+            status = "fail\ttimeout"
+        called = sorted(set(CALL_RE.findall(check.read_text(encoding="utf-8"))))
+        out[relative] = {"status": "pass" if status == "ok" else "fail", "detail": status[:200],
+                         "check": str(check.relative_to(seeds)), "functions": called}
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Stage 2: cases
 # ---------------------------------------------------------------------------
-def generate_cases(normalised: list[tuple[Path, str]], formatter: AirFormatter) -> list[Case]:
+def generate_cases(normalised: list[tuple[Path, str]], formatter: AirFormatter, families: set[str]) -> list[Case]:
     structures = describe([p for p, _ in normalised])
     cases: list[Case] = []
     for path, relative in normalised:
@@ -136,34 +204,46 @@ def generate_cases(normalised: list[tuple[Path, str]], formatter: AirFormatter) 
             continue
         lines = path.read_text(encoding="utf-8").rstrip("\n").split("\n")
         package_id, rel_path = package_and_path(relative)
-        produced = (finish_block.generate(lines, structure, package_id, rel_path)
-                    + roxygen.generate(lines, structure, package_id, rel_path)
-                    + format_propagation.generate(lines, structure, package_id, rel_path, formatter))
+        produced: list[Case] = []
+        if "finish_block" in families:
+            produced += finish_block.generate(lines, structure, package_id, rel_path)
+        if "roxygen_drafting" in families:
+            produced += roxygen.generate(lines, structure, package_id, rel_path)
+        if "format_propagation" in families:
+            produced += format_propagation.generate(lines, structure, package_id, rel_path, formatter)
         for case in produced:
             case.meta["seed"] = relative
             case.meta["batch"] = relative.split("/")[0]
-            case.meta["style"] = normalize.style_for(relative)
+            case.meta["unit_key"] = f"{relative}:{case.meta.get('unit_lines', [0])[0]}"
         cases += produced
     return cases
 
 
 # ---------------------------------------------------------------------------
-# Stage 4: dedup and decontamination
+# Stage 4: decontamination references
 # ---------------------------------------------------------------------------
-def train_index() -> dedup.ReferenceIndex:
+def train_indexes() -> tuple[dedup.ReferenceIndex, dedup.TokenIndex, dedup.TokenIndex]:
     if sha256_file(TRAIN_ROWS) != TRAIN_ROWS_SHA256:
         raise SystemExit("TRAIN rows hash mismatch")
-    index = dedup.ReferenceIndex("train")
+    lines4 = dedup.ReferenceIndex("train")
+    exact = dedup.TokenIndex("train")
+    masked = dedup.TokenIndex("train-masked", masked=True)
     with TRAIN_ROWS.open(encoding="utf-8") as stream:
         for line in stream:
             row = json.loads(line)
-            index.add(row["prompt_text"] + "\n" + row["target_body_text"])
-    index.freeze()
-    return index
+            text = row["prompt_text"] + "\n" + row["target_body_text"]
+            lines4.grams |= dedup.line_4grams(text)
+            exact.add(text)
+            masked.add(text)
+    exact.freeze()
+    masked.freeze()
+    return lines4, exact, masked
 
 
-def dev_index() -> tuple[dedup.ReferenceIndex, dict]:
-    index = dedup.ReferenceIndex("dev")
+def dev_indexes() -> tuple[dedup.ReferenceIndex, dedup.TokenIndex, dedup.TokenIndex, dict]:
+    lines4 = dedup.ReferenceIndex("dev")
+    exact = dedup.TokenIndex("dev")
+    masked = dedup.TokenIndex("dev-masked", masked=True)
     files: list[str] = []
     for pattern in DEV_SOURCES:
         files += sorted(glob.glob(guard_path(pattern)))
@@ -172,25 +252,184 @@ def dev_index() -> tuple[dedup.ReferenceIndex, dict]:
         guard_path(path)
         inputs[path] = sha256_file(Path(path))
         for text in dedup.texts_of_file(path):
-            index.add(text)
+            lines4.documents += 1
+            lines4.grams |= dedup.line_4grams(text)
+            exact.add(text)
+            masked.add(text)
+    exact.freeze()
+    masked.freeze()
+    return lines4, exact, masked, {"files": len(files), "documents_hashed": lines4.documents, "sha256": inputs}
+
+
+def load_cpt(path: Path | None, sources: Path) -> tuple[set[int], dedup.TokenIndex, dict | None, bool]:
+    """CPT hits, bound to the current source tree, the pinned corpus and tokenizer."""
+    index = dedup.TokenIndex("cpt")
+    if path is None:
+        return set(), index, None, False
+    data = json.loads(guard_path(path) and path.read_text())
+    expected = cpt_check.binding(sources)
+    if data.get("schema") != cpt_check.SCHEMA or data.get("binding") != expected:
+        raise SystemExit(f"CPT hit file binding differs: {data.get('binding')} != {expected}")
+    index.add_hashes(np.array(data["hit_token_grams"], dtype=np.uint64))
     index.freeze()
-    return index, {"files": len(files), "documents_hashed": index.documents, "sha256": inputs}
-
-
-def split_package_names() -> dict[str, set[str]]:
-    """Normalised package names per DAT-02 split (identity metadata only)."""
-    data = json.loads(SPLIT.read_text())
-    out: dict[str, set[str]] = defaultdict(set)
-    for group in data["groups"]:
-        for form in group.get("identity_forms", []):
-            if form.startswith("pkg:"):
-                out[group["split"]].add(form.split(":", 1)[1])
-    return out
+    info = {k: v for k, v in data.items() if not k.startswith("hit_") or k.endswith("_count")}
+    return set(data["hit_line_grams"]), index, info, True
 
 
 def dedup_key(case: Case) -> set[int]:
     lead = case.doc[max(case.window_start, case.region_start - 3):case.region_start]
     return dedup.shingles("\n".join([*lead, *case.region_old, "=>", *case.target]))
+
+
+# ---------------------------------------------------------------------------
+# Stage 5: distribution shaping
+# ---------------------------------------------------------------------------
+def train_cells() -> dict[str, dict[tuple[bool, bool], float]]:
+    """TRAIN finish_block: per length bucket, the share of (has blank, has comment)."""
+    counts: dict[str, Counter] = defaultdict(Counter)
+    for _family, _context, target in profile.train_items({"finish_block"}):
+        if target and not target[0].strip():
+            target = target[1:]  # the leading blank line is a TRAIN-only artefact
+        counts[profile.bucket(len(target))][(any(not x.strip() for x in target),
+                                             any(profile.is_comment(x) for x in target))] += 1
+    return {b: {cell: n / sum(c.values()) for cell, n in c.items()} for b, c in counts.items()}
+
+
+def train_bucket_counts() -> Counter:
+    """TRAIN finish_block target-length buckets (the TRAIN-only leading blank line removed)."""
+    return Counter(profile.bucket(len(t[1:] if t and not t[0].strip() else t))
+                   for _f, _c, t in profile.train_items({"finish_block"}))
+
+
+def cell_order(candidates: list, cells: dict[tuple[bool, bool], float]) -> list:
+    """Interleave a bucket's candidates so any prefix follows TRAIN's (blank, comment) cell mix."""
+    by_cell: dict[tuple[bool, bool], list] = defaultdict(list)
+    for it in candidates:
+        target = it[0].target
+        by_cell[(any(not x.strip() for x in target), any(profile.is_comment(x) for x in target))].append(it)
+    taken: Counter = Counter()
+    ordered = []
+    while any(by_cell.values()):
+        # the cell furthest below its TRAIN share (among non-empty cells) goes next
+        n = len(ordered) + 1
+        cell = max((c for c in by_cell if by_cell[c]), key=lambda c: cells.get(c, 0.0) * n - taken[c])
+        ordered.append(by_cell[cell].pop(0))
+        taken[cell] += 1
+    return ordered
+
+
+def shape_finish(items: list, rejected: Counter) -> tuple[list, dict]:
+    """Per-unit cap, then a greedy cohort-level length rule: SYNTH is added only
+    while the TRAIN + SYNTH finish_block length distribution stays within
+    COHORT_SHIFT_MAX of TRAIN's in every bucket (both directions); inside each
+    bucket candidates follow TRAIN's (blank line, comment) mix; finally the
+    full-body and test-file caps. ``items`` are (case, result)."""
+    from sepalith.data.synth.common import rng_for
+    report: dict = {}
+    by_unit: dict[str, list] = defaultdict(list)
+    for item in sorted(items, key=lambda it: it[0].row_id()):
+        by_unit[item[0].meta["unit_key"]].append(item)
+    pool = []
+    for unit_items in by_unit.values():
+        seen_buckets: set[str] = set()
+        kept = []
+        for item in unit_items:
+            b = profile.bucket(len(item[0].target))
+            if len(kept) < PER_UNIT_MAX and b not in seen_buckets:
+                kept.append(item)
+                seen_buckets.add(b)
+        rejected[("finish_block", "per_unit_cap")] += len(unit_items) - len(kept)
+        pool += kept
+    for item in pool:
+        item[0].meta["length_bucket"] = profile.bucket(len(item[0].target))
+    outside = [it for it in pool if it[0].meta["length_bucket"] not in FB_BUCKETS]
+    rejected[("finish_block", "length_bucket_outside_train_range")] += len(outside)
+    pool = [it for it in pool if it[0].meta["length_bucket"] in FB_BUCKETS]
+    train = train_bucket_counts()
+    train_total = sum(train[b] for b in FB_BUCKETS)
+    train_share = {b: train[b] / train_total for b in FB_BUCKETS}
+    cells = train_cells()
+    queues = {}
+    for b in FB_BUCKETS:
+        candidates = [it for it in pool if it[0].meta["length_bucket"] == b]
+        rng_for("shape", b).shuffle(candidates)
+        queues[b] = cell_order(candidates, cells.get(b, {}))
+    added: Counter = Counter()
+
+    def within(extra: str) -> bool:
+        total = train_total + sum(added.values()) + 1
+        if any(abs((train[b] + added[b] + (b == extra)) / total - train_share[b]) > COHORT_SHIFT_MAX
+               for b in FB_BUCKETS):
+            return False
+        synth_total = sum(added.values()) + 1
+        # the ratio cap binds once SYNTH has a meaningful size (first 50 picks are exempt)
+        return synth_total < 50 or (added[extra] + 1) / synth_total <= SYNTH_BUCKET_RATIO_MAX * train_share[extra]
+
+    chosen = []
+    progress = True
+    while progress:
+        progress = False
+        for b in reversed(FB_BUCKETS):  # longest buckets first
+            if queues[b] and within(b):
+                chosen.append(queues[b].pop(0))
+                added[b] += 1
+                progress = True
+    for b in FB_BUCKETS:
+        rejected[("finish_block", "cohort_length_rule")] += len(queues[b])
+    for flag, cap, reason in (("full_body", FULL_BODY_MAX_SHARE, "full_body_cap"),
+                              ("test_file", TEST_FILE_MAX_SHARE, "test_file_cap")):
+        flagged = sorted((it for it in chosen if it[0].meta.get(flag)), key=lambda it: it[0].row_id())
+        others = len(chosen) - len(flagged)
+        limit = int(cap * others / (1 - cap))  # flagged / (others + flagged) <= cap after dropping
+        if len(flagged) > limit:
+            drop = {id(it) for it in flagged[limit:]}
+            chosen = [it for it in chosen if id(it) not in drop]
+            rejected[("finish_block", reason)] += len(drop)
+    final = Counter(it[0].meta["length_bucket"] for it in chosen)
+    combined_total = train_total + sum(final.values())
+    report.update(
+        rule=(f"TRAIN+SYNTH finish_block length shares within {COHORT_SHIFT_MAX:.0%} of TRAIN in every bucket, and "
+              f"SYNTH alone at most {SYNTH_BUCKET_RATIO_MAX:g}x TRAIN's share in every bucket"),
+        train_counts={b: train[b] for b in FB_BUCKETS}, available={b: sum(1 for it in pool if it[0].meta["length_bucket"] == b) for b in FB_BUCKETS},
+        selected=dict(final),
+        synth_share={b: round(final[b] / max(1, sum(final.values())), 4) for b in FB_BUCKETS},
+        train_share={b: round(train_share[b], 4) for b in FB_BUCKETS},
+        combined_share={b: round((train[b] + final[b]) / combined_total, 4) for b in FB_BUCKETS})
+    return chosen, report
+
+
+ROXYGEN_MATCH_TAGS = ("export", "keywords", "noRd", "rdname", "return", "description", "title", "family",
+                      "inheritParams", "details", "importFrom")
+
+
+def shape_roxygen(items: list, finish_total: int, rejected: Counter) -> list:
+    """Cap roxygen at ROXYGEN_MAX_SHARE of the set and choose the blocks greedily so
+    the selected tag frequencies approach TRAIN's (and no tag order dominates)."""
+    limit = int(ROXYGEN_MAX_SHARE / (1 - ROXYGEN_MAX_SHARE) * finish_total)
+    train_freq = profile.profile(profile.train_items({"roxygen_drafting"}))["roxygen_drafting"]["tag_frequency"]
+    target = {t: train_freq.get(t, 0.0) for t in ROXYGEN_MATCH_TAGS}
+    pool = sorted(items, key=lambda it: it[0].row_id())
+    tags_of = {id(it): {m.group(1) for m in map(profile.TAG_RE.match, (x.strip() for x in it[0].target)) if m}
+               for it in pool}
+    chosen: list = []
+    counts: Counter = Counter()
+    orders: Counter = Counter()
+    order_cap = max(1, int(ROXYGEN_TAG_ORDER_MAX_SHARE * min(limit, len(pool))))
+
+    def distance(extra_tags: set[str], n: int) -> float:
+        return sum(abs((counts[t] + (t in extra_tags)) / n - target[t]) for t in ROXYGEN_MATCH_TAGS)
+
+    while pool and len(chosen) < limit:
+        options = [it for it in pool if orders[it[0].meta.get("tag_order", "")] < order_cap]
+        if not options:
+            break
+        best = min(options, key=lambda it: (distance(tags_of[id(it)], len(chosen) + 1), it[0].row_id()))
+        pool.remove(best)
+        chosen.append(best)
+        counts.update(tags_of[id(best)])
+        orders[best[0].meta.get("tag_order", "")] += 1
+    rejected[("roxygen_drafting", "tag_frequency_selection_or_cap")] += len(pool)
+    return chosen
 
 
 # ---------------------------------------------------------------------------
@@ -207,7 +446,7 @@ def sidecar_record(case: Case, context: dict, row: dict) -> dict:
         "row_id": row["id"],
         "selection_geometry": {
             "availability": "synthetic_document",
-            "policy_id": "synth-v1-window",
+            "policy_id": "synth-window",
             "document_sha256": context["replacement_range"]["content_sha256"],
             "spans": [{"kind": "prefix", "start_line": case.window_start, "end_line": case.region_start - 1},
                       {"kind": "region", "start_line": case.region_start, "end_line": case.region_end},
@@ -235,53 +474,51 @@ def case_record(case: Case, context: dict, row: dict, checks: dict) -> dict:
     }
 
 
-def git_head() -> str | None:
-    proc = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
-    return proc.stdout.strip() or None
-
-
-def length_bucket(n: int) -> str:
-    for bound in (1, 2, 4, 8, 12, 20, 30, 45):
-        if n <= bound:
-            return f"<={bound}"
-    return ">45"
-
-
-def train_target_lengths() -> dict[str, Counter]:
-    out: dict[str, Counter] = defaultdict(Counter)
-    with TRAIN_ROWS.open(encoding="utf-8") as stream:
-        for line in stream:
-            row = json.loads(line)
-            if row["target_operation"] == "replace":
-                out[row["family"]][length_bucket(row["target_body_text"].count("\n") + 1)] += 1
-    return out
-
-
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seeds", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument("--families", default="finish_block,roxygen_drafting")
+    parser.add_argument("--blank-policy", default="authored", choices=("authored", "v1"))
     parser.add_argument("--cpt-hits", type=Path, default=None,
-                        help="JSON from cpt_check.py: line 4-gram hashes found in the CPT corpus")
-    parser.add_argument("--limit-files", type=int, default=0)
+                        help="cpt_check.py output bound to this build's sources; required for an admitted build")
+    parser.add_argument("--normalise-only", action="store_true")
     args = parser.parse_args(argv)
     if args.workers > 8:
         raise SystemExit("at most 8 workers (RULES operating rule 8)")
+    families = set(args.families.split(","))
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
     scorer, formatter, decoder = make_scorer(args.workers)
-    log = lambda message: print(f"[{datetime.datetime.now():%H:%M:%S}] {message}", file=sys.stderr, flush=True)  # noqa: E731
+
+    def log(message: str) -> None:
+        print(f"[{datetime.datetime.now():%H:%M:%S}] {message}", file=sys.stderr, flush=True)
 
     log("normalise seeds")
-    norm_ledger, normalised = normalise(args.seeds, out, formatter)
-    if args.limit_files:
-        normalised = normalised[:args.limit_files]
+    norm_ledger, normalised = normalise(args.seeds, out, formatter, args.blank_policy)
+    if args.normalise_only:
+        write_jsonl(out / "normalisation-ledger.jsonl", norm_ledger)
+        log(f"{len(normalised)} sources written; stop (--normalise-only)")
+        return 0
+    cpt_lines, cpt_tokens, cpt_info, admitted = load_cpt(args.cpt_hits, out / "sources")
+    log("behavioural checks")
+    behaviour = behaviour_checks(args.seeds, normalised)
     log(f"{len(normalised)} sources; generate cases")
-    cases = generate_cases(normalised, formatter)
+    cases = generate_cases(normalised, formatter, families)
     rejected = Counter((c.family, c.meta["rejected"]) for c in cases if c.meta.get("rejected"))
     candidates = [c for c in cases if not c.meta.get("rejected")]
-    # exact duplicates (same id = same content)
+    # behavioural evidence per case: the seed file's checks passed and called the unit
+    for case in candidates:
+        record = behaviour.get(case.meta["seed"], {"status": "no_check", "functions": []})
+        unit = case.meta.get("unit", "")
+        case.meta["behaviour"] = ("fail" if record["status"] == "fail" else
+                                  "checked" if record["status"] == "pass" and unit in record["functions"] else
+                                  "file_checked_unit_unexercised" if record["status"] == "pass" else "no_check")
+    failing = [c for c in candidates if c.meta["behaviour"] == "fail"]
+    for case in failing:
+        rejected[(case.family, "behaviour_check_failed")] += 1
+    candidates = [c for c in candidates if c.meta["behaviour"] != "fail"]
     seen = set()
     unique = []
     for case in candidates:
@@ -297,7 +534,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     results = verify(unique, tokenizer, scorer, formatter, decoder, workers=args.workers)
     verification_ledger = [{"row_id": c.row_id(), "family": c.family, "rule": c.meta["rule"], **checks}
                            for c, (_r, _x, checks) in zip(unique, results, strict=True)]
-    failures = Counter()
+    failures: Counter = Counter()
     for c, (_r, _x, checks) in zip(unique, results, strict=True):
         if not checks["passed"]:
             for key in ("render", "length", "parse_after", "parse_before", "history_parses", "air_idempotent",
@@ -309,127 +546,129 @@ def main(argv: Sequence[str] | None = None) -> int:
     verified = [(c, r) for c, r in zip(unique, results, strict=True) if r[2]["passed"]]
     log(f"verified {len(verified)}/{len(unique)}; decontaminate")
 
-    # decontamination
-    train = train_index()
-    dev, dev_info = dev_index()
-    cpt_grams: set[int] = set()
-    cpt_info = None
-    if args.cpt_hits:
-        cpt_data = json.loads(args.cpt_hits.read_text())
-        cpt_grams = set(cpt_data["hit_grams"])
-        cpt_info = {k: v for k, v in cpt_data.items() if k != "hit_grams"}
-    names = split_package_names()
-    decon = Counter()
+    train4, train_exact, train_masked = train_indexes()
+    dev4, dev_exact, dev_masked, dev_info = dev_indexes()
+    decon: Counter = Counter()
+    masked_report: dict[str, Counter] = {"train": Counter(), "dev": Counter()}
     clean = []
     for case, result in verified:
+        prompt = list(case.doc[case.window_start:case.region_start]) + list(case.region_old)
         window = "\n".join(case.window_after())
         grams = dedup.line_4grams(window)
-        target_shingles = dedup.shingles("\n".join(case.target))
+        span = dedup.span_hashes(prompt, case.target)
+        span_masked = dedup.span_hashes(prompt, case.target, masked=True)
+        dev_c, dev_run = dedup.overlap(dev_exact.hits(span))
+        train_c, train_run = dedup.overlap(train_exact.hits(span))
+        cpt_c, cpt_run = dedup.overlap(cpt_tokens.hits(span))
+        masked = {"train": dedup.overlap(train_masked.hits(span_masked))[0],
+                  "dev": dedup.overlap(dev_masked.hits(span_masked))[0]}
         reasons = []
-        if dev.gram_hits(grams):
+        if dev4.gram_hits(grams):
             reasons.append("dev_line_4gram")
-        if len(target_shingles) >= MIN_SHINGLES_FOR_CONTAINMENT and dev.containment(target_shingles) >= DEV_CONTAINMENT_MAX:
-            reasons.append("dev_target_containment")
-        if train.gram_hits(dedup.line_4grams("\n".join(case.target))):
+        if dev_c >= DEV_CONTAINMENT_MAX or dev_run >= DEV_RUN_MAX:
+            reasons.append("dev_token_overlap")
+        if train4.gram_hits(dedup.line_4grams("\n".join(case.target))):
             reasons.append("train_target_line_4gram")
-        if (len(target_shingles) >= MIN_SHINGLES_FOR_CONTAINMENT
-                and train.containment(target_shingles) >= TRAIN_CONTAINMENT_MAX):
-            reasons.append("train_target_containment")
-        if grams & cpt_grams:
+        if train_c >= TRAIN_CONTAINMENT_MAX or train_run >= TRAIN_RUN_MAX:
+            reasons.append("train_token_overlap")
+        if grams & cpt_lines:
             reasons.append("cpt_line_4gram")
-        package = case.package_id.split(":", 1)[1].lower()
-        if any(package in names[s] for s in names if s != "train_group"):
-            reasons.append("package_name_in_dev_or_final_split")
-        case.meta["decontamination"] = reasons
+        if cpt_c >= CPT_CONTAINMENT_MAX or cpt_run >= CPT_RUN_MAX:
+            reasons.append("cpt_token_overlap")
+        case.meta["decontamination"] = {
+            "reasons": reasons, "dev_containment": round(dev_c, 3), "dev_run": dev_run,
+            "train_containment": round(train_c, 3), "train_run": train_run,
+            "cpt_containment": round(cpt_c, 3), "cpt_run": cpt_run,
+            "masked_train_containment": round(masked["train"], 3), "masked_dev_containment": round(masked["dev"], 3)}
+        for ref in ("train", "dev"):
+            value = masked[ref]
+            masked_report[ref]["cases"] += 1
+            masked_report[ref][">=0.5"] += value >= 0.5
+            masked_report[ref][">=0.8"] += value >= 0.8
+            masked_report[ref]["==1.0"] += value >= 1.0
         for reason in reasons:
             decon[(case.family, reason)] += 1
         if not reasons:
             clean.append((case, result))
     log(f"{len(clean)} clean; near-duplicate filter")
     clean.sort(key=lambda item: item[0].row_id())
-    keys = [dedup_key(c) for c, _ in clean]
-    dup_of = dedup.near_duplicates(keys, NEAR_DUP_THRESHOLD)
+    dup_of = dedup.near_duplicates([dedup_key(c) for c, _ in clean], NEAR_DUP_THRESHOLD)
     kept = []
     for (case, result), dup in zip(clean, dup_of, strict=True):
         if dup is None:
             kept.append((case, result))
         else:
             rejected[(case.family, "near_duplicate")] += 1
-    # family share caps
-    by_family: dict[str, list] = defaultdict(list)
-    for item in kept:
-        by_family[item[0].family].append(item)
-    finish = len(by_family["finish_block"])
-    capped = list(by_family["finish_block"])
-    for family, items in by_family.items():
-        if family == "finish_block":
-            continue
-        share = FAMILY_SHARE_CAPS.get(family, 1.0)
-        # family <= share of the final total, with finish_block as the anchor
-        limit = int(share / (1 - sum(FAMILY_SHARE_CAPS.values())) * finish)
-        if len(items) > limit:
-            rejected[(family, "family_share_cap")] += len(items) - limit
-            items = sorted(items, key=lambda item: item[0].row_id())[:limit]
-        capped += items
-    capped.sort(key=lambda item: (item[0].family, item[0].row_id()))
-    log(f"final {len(capped)}; write outputs")
+    finish, shaping = shape_finish([it for it in kept if it[0].family == "finish_block"], rejected)
+    final = finish + shape_roxygen([it for it in kept if it[0].family == "roxygen_drafting"], len(finish), rejected)
+    final.sort(key=lambda item: (item[0].family, item[0].row_id()))
+    log(f"final {len(final)}; write outputs")
 
-    rows = [result[0] for _, result in capped]
-    sidecar = [sidecar_record(case, result[1], result[0]) for case, result in capped]
-    records = [case_record(case, result[1], result[0], result[2]) for case, result in capped]
+    rows = [result[0] for _, result in final]
+    sidecar = [sidecar_record(case, result[1], result[0]) for case, result in final]
+    records = [case_record(case, result[1], result[0], result[2]) for case, result in final]
     paths = {
         "train-token-rows.jsonl": rows,
         "context-sidecar.jsonl": sidecar,
         "cases.jsonl": records,
         "verification-ledger.jsonl": verification_ledger,
         "normalisation-ledger.jsonl": norm_ledger,
+        "behaviour-ledger.jsonl": [{"seed": k, **v} for k, v in sorted(behaviour.items())],
     }
     for name, payload in paths.items():
         write_jsonl(out / name, payload)
 
-    # statistics
-    stats: dict = {"families": Counter(c.family for c, _ in capped)}
-    lengths: dict[str, Counter] = defaultdict(Counter)
-    for case, _ in capped:
-        lengths[case.family][length_bucket(len(case.target))] += 1
-    stats["target_lines"] = {f: dict(sorted(v.items())) for f, v in lengths.items()}
-    stats["train_target_lines"] = {f: dict(sorted(v.items())) for f, v in train_target_lengths().items()}
-    for key in ("rule", "variant", "bucket", "batch", "style"):
+    stats: dict = {"families": Counter(c.family for c, _ in final)}
+    for key in ("rule", "variant", "determinacy", "behaviour", "length_bucket", "batch"):
         table: dict[str, Counter] = defaultdict(Counter)
-        for case, _ in capped:
+        for case, _ in final:
             if key in case.meta:
                 table[case.family][str(case.meta[key])] += 1
         stats[key] = {f: dict(sorted(v.items())) for f, v in table.items()}
+    stats["full_body"] = sum(bool(c.meta.get("full_body")) for c, _ in final if c.family == "finish_block")
+    stats["signature_region"] = sum(bool(c.meta.get("signature_region")) for c, _ in final)
+    stats["test_file"] = sum(bool(c.meta.get("test_file")) for c, _ in final if c.family == "finish_block")
     tokens = defaultdict(list)
-    for case, result in capped:
+    for case, result in final:
         tokens[case.family].append((result[0]["prompt_token_count"], result[0]["target_token_count"]))
-    stats["tokens"] = {f: {"prompt_mean": round(sum(p for p, _ in v) / len(v), 1),
-                           "prompt_max": max(p for p, _ in v),
-                           "target_mean": round(sum(t for _, t in v) / len(v), 1),
-                           "target_max": max(t for _, t in v)} for f, v in tokens.items()}
-    stats["packages"] = len({c.package_id for c, _ in capped})
-    stats["seed_files"] = len({c.meta["seed"] for c, _ in capped})
+    stats["tokens"] = {f: {"prompt_mean": round(sum(p for p, _ in v) / len(v), 1), "prompt_max": max(p for p, _ in v),
+                           "target_mean": round(sum(t for _, t in v) / len(v), 1), "target_max": max(t for _, t in v)}
+                       for f, v in tokens.items()}
+    units = {c.meta["unit_key"] for c, _ in final}
+    stats["diversity"] = {"cases": len(final), "distinct_units": len(units),
+                          "cases_per_unit": round(len(final) / max(1, len(units)), 3),
+                          "seed_files": len({c.meta["seed"] for c, _ in final}),
+                          "packages": len({c.package_id for c, _ in final})}
+    behaviour_summary = Counter(v["status"] for v in behaviour.values())
     summary = {
         "generated": len(cases),
+        "families_built": sorted(families),
+        "blank_policy": args.blank_policy,
         "generator_rejections": {f"{f}:{r}": n for (f, r), n in sorted(rejected.items())},
-        "verification": {
-            "candidates": len(unique),
-            "passed": len(verified),
-            "pass_rate": round(len(verified) / max(1, len(unique)), 4),
+        "protocol_verification": {
+            "meaning": "mechanical checks only: render, length, R parse, air, reward v2.1 exact, family checks",
+            "candidates": len(unique), "passed": len(verified),
+            "mechanical_pass_rate": round(len(verified) / max(1, len(unique)), 4),
             "failures": {f"{f}:{k}": n for (f, k), n in sorted(failures.items())},
         },
+        "determinacy": stats["determinacy"],
+        "behaviour": {"seed_files": dict(behaviour_summary), "final_cases": stats["behaviour"],
+                      "meaning": "checked = the seed file's base-R check script passed and called this unit"},
         "decontamination": {
             "removed": {f"{f}:{r}": n for (f, r), n in sorted(decon.items())},
+            "masked_structural_containment": {k: dict(v) for k, v in masked_report.items()},
             "dev_reference": {"files": dev_info["files"], "documents_hashed": dev_info["documents_hashed"]},
-            "train_reference": {"rows": train.documents, "sha256": TRAIN_ROWS_SHA256},
+            "train_reference": {"rows": TRAIN_ROWS_SHA256},
             "cpt_reference": cpt_info,
-            "thresholds": {"line_4gram": "any shared 4-gram of non-trivial lines",
-                           "dev_target_containment": DEV_CONTAINMENT_MAX,
-                           "train_target_containment": TRAIN_CONTAINMENT_MAX,
-                           "min_shingles_for_containment": MIN_SHINGLES_FOR_CONTAINMENT,
-                           "near_duplicate_jaccard": NEAR_DUP_THRESHOLD},
+            "fingerprint": dict(dedup.FINGERPRINT),
+            "thresholds": {"dev": [DEV_CONTAINMENT_MAX, DEV_RUN_MAX], "train": [TRAIN_CONTAINMENT_MAX, TRAIN_RUN_MAX],
+                           "cpt": [CPT_CONTAINMENT_MAX, CPT_RUN_MAX], "near_duplicate_jaccard": NEAR_DUP_THRESHOLD,
+                           "line_4gram": "any shared 4-gram of non-trivial lines (DEV window, TRAIN target, CPT window)"},
+            "split_file_read": False,
         },
-        "final": len(capped),
+        "shaping": shaping,
+        "final": len(final),
+        "admitted": admitted,
         "stats": stats,
     }
     (out / "build-summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True, default=dict) + "\n")
@@ -438,31 +677,27 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.cpt_hits and args.cpt_hits.resolve().parent == out.resolve():
         names.append(args.cpt_hits.name)
     artifacts = {name: {"sha256": sha256_file(out / name), "bytes": (out / name).stat().st_size} for name in names}
-    sources = sorted((out / "sources").rglob("*.R"))
-    source_digest = hashlib.sha256()
-    for path in sources:
-        source_digest.update(str(path.relative_to(out)).encode() + b"\0" + path.read_bytes())
     manifest = {
-        "schema": "sepalith.synth.manifest.v1",
+        "schema": "sepalith.synth.manifest.v2",
         "generator": {"id": GENERATOR_ID, "version": GENERATOR_VERSION,
-                      "code": "packages/sepalith/src/sepalith/data/synth/",
-                      "git_head": git_head()},
+                      "code": "packages/sepalith/src/sepalith/data/synth/", "git_head": git_head()},
         "created_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "renderer_id": "zeta2-prm03-v1",
         "tokenizer_json_sha256": rows[0]["tokenizer_json_sha256"] if rows else None,
         "rows": len(rows),
         "families": dict(stats["families"]),
-        "verification_pass_rate": summary["verification"]["pass_rate"],
+        "mechanical_pass_rate": summary["protocol_verification"]["mechanical_pass_rate"],
+        "admitted": admitted,
         "artifacts": artifacts,
-        "sources": {"files": len(sources), "sha256_of_tree": source_digest.hexdigest()},
+        "sources": {"files": len(normalised), "sha256_of_tree": cpt_check.tree_sha256(out / "sources")},
         "seed_tree": str(args.seeds),
         "location": str(out),
         "split": "train",
         "hf_uploaded": False,
     }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({k: summary[k] for k in ("generated", "final")} | {"families": dict(stats["families"]),
-                      "pass_rate": summary["verification"]["pass_rate"]}, indent=1))
+    print(json.dumps({"generated": len(cases), "final": len(final), "families": dict(stats["families"]),
+                      "mechanical_pass_rate": manifest["mechanical_pass_rate"], "admitted": admitted}, indent=1))
     return 0
 
 

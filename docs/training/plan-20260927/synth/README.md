@@ -1,135 +1,158 @@
-# SYNTH-v1: synthetic, verified editing cases for the weak families
+# SYNTH: synthetic, verified editing cases for the weak families
 
-SYNTH-v1 adds original, mechanically verified PRM03 editing cases for the
-families where arm A is capped by data:
+SYNTH adds original, mechanically verified PRM03 editing cases for the
+families where arm A is capped by data (C12 census, arm A, k=8, T=1.0):
 
-| Family | Arm A TRAIN census (k=8, T=1.0): mixed / all-correct / all-wrong |
+| Family | mixed / all-correct / all-wrong |
 | --- | --- |
 | finish_block | 12.8% / 1.2% / 86.0% |
 | roxygen_drafting | 2.6% / 0.0% / 97.4% |
-| format_propagation | 46.6% / 45.0% / 8.4% |
-| pipe, rename, na_rm, no_op | at least 96% all-correct (no learning signal, not generated) |
+| format_propagation, pipe, rename, na_rm, no_op | mostly or entirely solved; not generated in v2 |
 
-The output is drop-in: rows render through
-`sepalith.campaign_protocol.build_training_row` (renderer `zeta2-prm03-v1`,
-pinned tokenizer), and the sidecar uses the DAT10 v4 context schema. Data
-lives on E: (not in git); this directory holds the generator inputs, the
-manifest and the audit pack.
+Rows are drop-in: they render through `campaign_protocol.build_training_row`
+(renderer `zeta2-prm03-v1`, pinned tokenizer) with the DAT10 v4 sidecar
+schema. Data lives on E: (not in git). This directory holds the generator
+inputs, the cohort and probe scripts and the audit pack.
 
-- Data: `/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/`
-- Manifest (committed copy): `docs/training/plan-20260927/receipts/SYNTH-v1-manifest.json`
-- Audit pack: [audit/](audit/)
-- Code: `packages/sepalith/src/sepalith/data/synth/`, tests in
-  `packages/sepalith/tests/test_synth.py`
+| Version | Data | Seeds | Status |
+| --- | --- | --- | --- |
+| v1 | `/mnt/e/.../data-work/SYNTH-v1/` (kept for comparison) | `seeds/` | superseded after review round 1 (whitespace/comment style, overstated determinacy, bypassable filters) |
+| **v2** | `/mnt/e/.../data-work/SYNTH-v2/` | `seeds-v2/` | current; numbers in [audit/STATS.md](audit/STATS.md) |
 
-## Method
+v1 is reproducible from commit `77232ef` (generator 1.0.0); this tree builds
+v2 (generator 2.0.0; `--blank-policy v1 --families finish_block,roxygen_drafting,format_propagation`
+approximates v1's generation but not its selection).
 
-1. **Seeds.** 24 batches of original R source (`seeds/b01-*` ... `seeds/b24-*`),
-   written by authoring agents to [AUTHORING-BRIEF.md](AUTHORING-BRIEF.md):
-   fictional packages, scripts, Shiny apps and test files across tidyverse,
-   base R, data.table, Shiny, R6/S4/S3, testthat, Rcpp glue, plotting,
-   modelling, databases, geospatial, text, ML and more. Every file parses. The
-   brief asks for sibling functions that mirror each other and for endings
-   that are predictable from what precedes them, so that cut-off code has a
-   context-determined continuation.
-2. **Normalisation** (`normalize.py`). Each file gets one of two
-   deterministic blank-line styles inside top-level expressions (`dense`: none;
-   `sectioned`: one blank line before each full-line comment), then `air
-   format`. Rationale: in the C12 census, 434 of 477 whitespace-only
-   finish_block near misses differ from gold only in blank-line placement,
-   which air keeps. Gold whitespace is therefore air-canonical with a
-   predictable blank-line rule, and the final brace sits at the header column
-   (the v4-braceindent convention).
-3. **Cases.** One generator per family:
-   - `finish_block.py`: cuts a braced top-level expression (function,
-     `test_that`, `setMethod`, ...) at a line boundary: a statement start at
-     any depth, the top of a comment run above a statement, or a nested
-     closing line (`fb_nested_close`; the target starts with `}`). The
-     packaging matches TRAIN: roxygen kept (`plain`) or stripped (`strip`),
-     the TRAIN `outline` or `diagnostics (static)` header above it,
-     or the preceding file content (`file`), with an empty region and an empty
-     suffix; for full-body cuts, sometimes the signature line is the region
-     with the cursor at its end. Per unit it picks up to 2 short (2-8 lines),
-     1 medium (9-20) and at most 1 long cut, so short completions dominate.
-     Cuts whose target introduces too many tokens absent from the prompt are
-     dropped (`novelty` limits 4 / 8 / 14 by length bucket); the novel tokens
-     are recorded per case.
-   - `roxygen.py`: TRAIN geometry (<= 30 prefix lines, empty region, the
-     definition as suffix, the block as target, `roxy_full`) and a tags-only
-     geometry where the title and description are already typed
-     (`roxy_tags`). A block is admitted only if its tags are valid, its
-     `@param` names match the signature in order (or it inherits them), and
-     most target lines are skeleton lines or appear verbatim in the prompt
-     (`determined_share` >= 0.65 full, >= 0.7 tags).
-   - `format_propagation.py`: the user reformats a file statement by
-     statement. A multi-line statement is collapsed into an older layout
-     (`one_line`, or `aligned` arguments under the opening parenthesis); a
-     collapse is used only if air turns it back into the source byte for byte.
-     The history shows the previous statement reformatted; the region is the
-     next collapsed statement, and the target is its air layout. Later
-     statements stay in the old layout.
-4. **Verification** (`verify.py`), per case, recorded in
-   `verification-ledger.jsonl` and in each `cases.jsonl` record:
-   - the case renders through `build_training_row` and `validate_training_row`;
-   - prompt <= 3,072 tokens and completion (with EOS) <= 1,024 (the v4
-     length policy);
-   - the edited window parses in R. The pre-edit window parses (roxygen,
-     format) or is exactly incomplete (`unexpected end of input`,
-     finish_block);
-   - air leaves the edited window unchanged (format_propagation: the
-     byte-exact air round trip proven at generation);
-   - reward v2.1 scores the gold tokens `exact`, reward 1.0, with no reference
-     flags (format_propagation: only `formatting_only_reference`, as for its
-     TRAIN rows);
-   - family checks: finish_block ends on a closing line at the header column;
-     roxygen tags and `@param` names match the signature; the
-     format_propagation region differs from its target and its history edit
-     parses.
+## Method (v2)
+
+1. **Seeds.** `seeds-v2/` are the v1 seeds (`seeds/`, 336 original R files in
+   24 domain batches, [AUTHORING-BRIEF.md](AUTHORING-BRIEF.md)) revised by
+   [REVISION-BRIEF-v2.md](REVISION-BRIEF-v2.md):
+   - TRAIN-like interior blank lines and full-line comments (TRAIN finish
+     targets: 7.3% blank lines, 4.6% comment lines; both rise with length);
+   - a correctness review that fixed the reviewers' findings and many more
+     bugs (NA handling, bytes vs characters, empty inputs);
+   - base-R behavioural check scripts (`seeds-v2/<batch>/checks/`, 219 files)
+     with `stopifnot()` assertions;
+   - roxygen tags moved toward TRAIN's frequencies (`@family` almost gone,
+     `@noRd`/`@keywords internal`/`@rdname`/`@title`/`@description` varied).
+2. **Normalisation** (`normalize.py`): authored blank lines and comments are
+   kept; `air format` canonicalises everything else (air collapses blank
+   runs to one). Blank-line placement matters for exact match: C12 records
+   309 finish_block near misses whose air-canonical region equals gold but
+   whose file differs, e.g. by an extra blank line
+   (`receipts/C12-census.json`, `observations.near_miss_with_canonical_region_equal`).
+   A looser supplementary count (477 samples equal to gold after deleting all
+   whitespace, 434 of them blank lines only) is reproduced by
+   `census_whitespace.py` -> `receipts/SYNTH-census-whitespace.json`.
+3. **Cases.**
+   - `finish_block.py`: cuts at statement starts (any depth), comment-run
+     tops and nested closing lines; final-close-only and closers-only targets
+     are not generated. No target starts with a blank line (TRAIN has ~9%
+     such targets; DEV golds never do). Full-body cuts use TRAIN's
+     signature-line region 90% of the time.
+     **Determinacy** (`common.novelty`, `common.structural_support`):
+     `novelty` counts target identifiers, words inside string literals and
+     numbers > 2 that the prompt does not contain (comments are split off
+     first, so roxygen `'` no longer opens a string). A cut is admitted only
+     as `constrained_short` (<= 8 lines, <= 2 novel items) or `sibling` (the
+     prompt shows >= 50% of the target's call-preserving masked 8-grams, e.g.
+     a sibling function or mirrored branch, and <= 3 novel items). Everything
+     else is `author_choice` and rejected; if the preferred packaging fails,
+     the file-context packaging (which shows siblings) is tried.
+   - `roxygen.py`: TRAIN geometry only (v1's tags-only geometry is off);
+     blocks of <= 2 lines are dropped; tags must be valid and `@param` must
+     match the signature; >= 2/3 of target lines must be skeleton or appear
+     verbatim in the prompt.
+   - format_propagation is not built in v2 (token-identical rebreaking only,
+     and arm A already solves 22/25 in the v1 probe).
+4. **Verification, reported in three separate layers** (`verify.py`):
+   - *mechanical / protocol*: render + `validate_training_row`, v4 length
+     limits, R parse (edited window parses; finish_block's pre-edit window is
+     exactly incomplete), air idempotence, reward v2.1 gold = exact with
+     reward 1.0, family checks. This is a mechanical-check pass rate, not a
+     correctness claim;
+   - *determinacy*: the generator classes above;
+   - *semantic*: `behaviour` per case: `checked` (the seed file's base-R check
+     script passed and calls this unit), `file_checked_unit_unexercised`,
+     `no_check` (needs add-on packages). A seed file whose check fails drops
+     all its cases.
 5. **Dedup and decontamination** (`dedup.py`, `cpt_check.py`):
-   - exact duplicates, then MinHash/LSH near duplicates (Jaccard >= 0.8 on 5-token
-     shingles of the 3 lines before the cut plus region and target);
-   - TRAIN: drop if a target shares a 4-line verbatim run with a TRAIN row or
-     >= 60% of its shingles are in TRAIN;
-   - DEV: hashes of DEV75, DEV250, the C05 DEV construction pools and the
-     DAT-07 DEV sources (no file with `final` in its path is opened, enforced
-     by `guard_path`); drop on any shared 4-line run in the window, or >= 50%
-     target-shingle containment. Only aggregate counts are reported;
-   - CPT: every CPT row is decoded and its line 4-grams are matched against
-     the seed sources; windows containing a hit are dropped;
-   - package names: no synthetic package name occurs in a DEV or final split
-     group (DAT-02 identity forms; metadata only).
-6. **Family caps.** roxygen_drafting <= 15% and format_propagation <= 20% of
-   the set.
+   - formatting-invariant token fingerprints: code tokens (no whitespace or
+     layout) plus comment words, 12-grams over the *edit span* (the last 40
+     context tokens plus the target, keeping only grams that touch the
+     target, so 1-2 line targets are covered). Per reference: containment
+     and longest verbatim token run. Drop rules: DEV containment >= 0.3 or a
+     run >= 24 tokens; TRAIN >= 0.5 or >= 40; CPT >= 0.5 or >= 40;
+   - line 4-grams (v1 measure) kept as an extra filter;
+   - identifier-masked structural containment against TRAIN and DEV,
+     reported as an aggregate (it flags shared idioms and renamed copies;
+     not a filter);
+   - CPT: every CPT row is decoded; hits are stored as hashes in
+     `cpt-hits.json`, bound to the sha256 of the source tree, the CPT corpus
+     (pinned from `receipts/C05-cpt-overlap.json`) and the tokenizer plus the
+     fingerprint parameters. `build.py` refuses a hit file whose binding
+     differs, and a build without one is marked `admitted: false`;
+   - sealed data: `build.guard_path` checks the string and the resolved path
+     (symlinks followed) against the sealed locations in CONTEXT.md and any
+     `final`/`sealed` path component. v2 no longer reads
+     `DAT-02-global-split-v2.json` (v1 read it to compare package names with
+     final groups; that read was not sanctioned by C00 and is removed);
+   - near duplicates within the set: MinHash/LSH, Jaccard >= 0.8.
+6. **Distribution shaping** (`build.shape_finish`, `build.shape_roxygen`):
+   at most 2 cases per unit (distinct length buckets); finish_block cases
+   are added greedily, longest buckets first, only while (a) the TRAIN +
+   SYNTH finish_block length distribution stays within 3 percentage points
+   of TRAIN's in every bucket and (b) SYNTH alone has at most twice TRAIN's
+   share in any bucket; within a bucket, candidates follow TRAIN's
+   (has blank line, has comment) mix; full-body cuts <= 6%, test-file cuts
+   <= 1%. Roxygen is <= 10% of the set, chosen greedily toward TRAIN's tag
+   frequencies with no tag order above 20%.
+
+## Residual risk (stated plainly)
+
+All seeds were written by LLM agents. The filters catch verbatim and
+near-verbatim overlap with TRAIN, DEV and CPT, reformatted copies and (as a
+reported aggregate) identifier-renamed copies. They cannot catch an
+LLM-memorised *paraphrase* of existing code (same logic, different names and
+structure). Seeds are fictional packages written to a brief, and CPT hits are
+rare (see STATS.md), but this risk is not zero. Seeds share one author family
+and one brief, so a residual house style remains.
 
 ## Rebuild
 
 ```bash
-PYTHONPATH=packages/sepalith/src nice -n 10 /home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python \
-  -m sepalith.data.synth.build --seeds docs/training/plan-20260927/synth/seeds \
-  --out /mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1 --cpt-hits <cpt-hits.json>
-PYTHONPATH=packages/sepalith/src nice -n 10 .../python -m sepalith.data.synth.cpt_check \
-  --sources /mnt/e/.../SYNTH-v1/sources --out /mnt/e/.../SYNTH-v1/cpt-hits.json
-PYTHONPATH=packages/sepalith/src .../python -m sepalith.data.synth.audit \
-  --data /mnt/e/.../SYNTH-v1 --out docs/training/plan-20260927/synth/audit/audit-sample-60.md
-PYTHONPATH=packages/sepalith/src .../python docs/training/plan-20260927/synth/make_cohort.py \
-  --synth /mnt/e/.../SYNTH-v1 --out /mnt/e/.../SYNTH-v1/cohort-proposal
+PY=/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python; export PYTHONPATH=packages/sepalith/src
+S=/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2; SEEDS=docs/training/plan-20260927/synth/seeds-v2
+nice -n 10 $PY -m sepalith.data.synth.build --seeds $SEEDS --out $S --normalise-only
+nice -n 10 $PY -m sepalith.data.synth.cpt_check --sources $S/sources --out $S/cpt-hits.json
+nice -n 10 $PY -m sepalith.data.synth.build --seeds $SEEDS --out $S --cpt-hits $S/cpt-hits.json
+nice -n 10 $PY -m sepalith.data.synth.selfcheck --data $S --out docs/training/plan-20260927/receipts/SYNTH-v2-selfcheck.json
+nice -n 10 $PY docs/training/plan-20260927/synth/make_cohort.py --synth $S --out $S/cohort-proposal --compare-13-3
+nice -n 10 $PY -m sepalith.data.synth.audit --data $S --out docs/training/plan-20260927/synth/audit/audit-sample-60.md \
+  --ids-out docs/training/plan-20260927/synth/audit/audit-sample-60-ids.json
+$PY docs/training/plan-20260927/synth/probe_arm_a.py --data $S --exclude-ids docs/training/plan-20260927/synth/audit/audit-sample-60-ids.json \
+  --out docs/training/plan-20260927/receipts/SYNTH-v2-arm-a-probe.json
+$PY -m sepalith.data.synth.profile --cases /mnt/e/.../SYNTH-v1/cases.jsonl --cases $S/cases.jsonl --out $S/profile.json
+$PY -m sepalith.data.synth.report --data $S --profile $S/profile.json \
+  --probe docs/training/plan-20260927/receipts/SYNTH-v2-arm-a-probe.json --out docs/training/plan-20260927/synth/audit/STATS.md
 ```
 
-The build is deterministic given the seeds (seeded per unit), R 4.6.1 and air
-0.12.0. The CPT hit file comes from a first build's `sources/`, since
-normalisation does not depend on it.
+The build is deterministic given the seeds, R 4.6.1 and air 0.12.0.
 
-## Output files (`SYNTH-v1/`)
+## Output files (`SYNTH-v2/`)
 
 | File | Content |
 | --- | --- |
-| `train-token-rows.jsonl` | Drop-in TRAIN rows (`ROW_KEYS` schema, `split` = `train`) |
-| `context-sidecar.jsonl` | DAT10-style sidecar: `context` (PromptContext), `selection_geometry`, `source_identity` |
-| `cases.jsonl` | Raw case records: context, `region_new`, generator metadata, verification |
-| `verification-ledger.jsonl` | Verification record of every candidate, passed or not |
-| `normalisation-ledger.jsonl` | Seed -> normalised source hashes and styles |
-| `build-summary.json` | Counts, rejections by reason, decontamination counts, distributions |
-| `sources/` | The normalised seed files the cases are cut from |
-| `cpt-hits.json` | CPT line 4-gram hits (hashes and counts only) |
-| `cohort-proposal/` | TRAIN v4 + SYNTH cohort and its schedule_v2 schedule (proposal, unbound) |
-| `manifest.json` | sha256 of every artifact, generator id/version, git head |
+| `train-token-rows.jsonl` | Drop-in TRAIN rows |
+| `context-sidecar.jsonl` | DAT10-style sidecar |
+| `cases.jsonl` | Raw cases: context, `region_new`, generator metadata (determinacy, behaviour, decontamination measures), verification |
+| `verification-ledger.jsonl` | Mechanical verification of every candidate |
+| `behaviour-ledger.jsonl` | Behavioural check result per seed file |
+| `normalisation-ledger.jsonl` | Seed -> normalised source hashes |
+| `build-summary.json` | Counts, rejections, decontamination, shaping, distributions |
+| `dev-inputs.json` | Paths and sha256 of the DEV files hashed (no DEV content) |
+| `cpt-hits.json` | Bound CPT hit hashes and counts (no CPT text) |
+| `profile.json` | TRAIN vs v1 vs v2 distribution profile (`profile.py`) |
+| `cohort-proposal/` | TRAIN v4 + SYNTH cohort, length profile, 14+2 schedule (default) and 13+3 comparison |
+| `manifest.json` | sha256 of every artifact, generator id/version, git head, `admitted` |

@@ -121,6 +121,25 @@ class FinishBlockTests(unittest.TestCase):
         self.assertEqual(case.meta["novel_tokens"], ["sd"])  # one-character names are ignored
 
 
+    def test_v2_generate_drops_trivial_closers_and_classifies(self):
+        cases = finish_block.generate(self.lines, self.structure, "synth:p", "R/a.R")
+        self.assertTrue(cases)
+        for case in cases:
+            self.assertNotEqual(case.meta["rule"], "fb_final_close")
+            self.assertFalse(finish_block.closers_only(case.target[1:] if case.meta["signature_region"]
+                                                       else case.target))
+            self.assertIn(case.meta["determinacy"], ("constrained_short", "sibling", "author_choice"))
+            if case.meta["determinacy"] == "author_choice":
+                self.assertEqual(case.meta.get("rejected"), "author_choice")
+
+    def test_signature_region_does_not_count_formals_as_novel(self):
+        unit = self.structure.units[0]
+        case = finish_block.build_case(unit, finish_block.Cut(10, "statement", 7), "strip", self.lines,
+                                       self.structure, "synth:p", "R/a.R", signature_region=True)
+        self.assertEqual(case.region_old, ("scale_vec <- function(x, center = TRUE) {",))
+        self.assertNotIn("center", case.meta["novel_tokens"])
+
+
 @unittest.skipUnless(HAS_R, "Rscript not available")
 class RoxygenTests(unittest.TestCase):
     def test_block_checks_signature(self):

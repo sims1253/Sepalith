@@ -11,22 +11,28 @@ from __future__ import annotations
 import argparse
 from collections import defaultdict
 import difflib
+import hashlib
 import json
 from pathlib import Path
 import random
 
-# family -> stratum key -> sample count (60 in total)
+# family -> stratum key -> sample count (60 in total). Strata with fewer cases
+# than requested are taken whole and the remainder goes to the largest stratum.
 STRATA = {
-    "finish_block": {"short": 18, "medium": 10, "long": 8},
-    "roxygen_drafting": {"roxy_full": 6, "roxy_tags": 6},
-    "format_propagation": {"fmt_one_line": 6, "fmt_aligned": 6},
+    "finish_block": {"constrained_short": 22, "sibling:short": 6, "sibling:medium": 16, "sibling:long": 4},
+    "roxygen_drafting": {"roxy_full": 12},
 }
-SEED = 3407
+# Independent of the arm A probe's seed (3407); the probe also excludes these ids.
+SEED = 20261022
 
 
 def stratum(record: dict) -> str:
     meta = record["meta"]
-    return meta["bucket"] if record["family"] == "finish_block" else meta["rule"]
+    if record["family"] != "finish_block":
+        return meta["rule"]
+    if meta.get("determinacy") == "constrained_short":
+        return "constrained_short"
+    return f"{meta.get('determinacy')}:{meta.get('bucket')}"
 
 
 def windows(record: dict) -> tuple[list[str], list[str]]:
@@ -42,7 +48,8 @@ def render_case(index: int, record: dict, row: dict) -> str:
     before, after = windows(record)
     diff = "\n".join(difflib.unified_diff(before, after, "before", "after", lineterm="", n=3))
     keep = {k: meta[k] for k in ("rule", "variant", "bucket", "target_lines", "novelty", "novel_tokens",
-                                 "determined_share", "unit", "seed", "style", "signature_region") if k in meta}
+                                 "structural_support", "determinacy", "behaviour", "full_body", "test_file",
+                                 "determined_share", "tag_order", "unit", "seed", "signature_region") if k in meta}
     verdict = {k: checks[k] for k in ("passed", "parse_after", "parse_before_status", "air_idempotent",
                                       "reward_exact", "reward", "reward_comparison", "reward_flags",
                                       "prompt_tokens", "completion_tokens", "family_problems") if k in checks}
@@ -95,14 +102,26 @@ def main() -> int:
     rng = random.Random(SEED)
     chosen = []
     for family, strata in STRATA.items():
+        spare = 0
         for key, count in strata.items():
             pool = sorted(pools.get((family, key), []), key=lambda r: r["row_id"])
-            chosen += rng.sample(pool, min(count, len(pool)))
+            take = min(count, len(pool))
+            spare += count - take
+            chosen += rng.sample(pool, take)
+        if spare:
+            largest = max(strata, key=lambda k: len(pools.get((family, k), [])))
+            rest = [r for r in sorted(pools.get((family, largest), []), key=lambda r: r["row_id"]) if r not in chosen]
+            chosen += rng.sample(rest, min(spare, len(rest)))
+    manifest_sha = hashlib.sha256((args.data / "manifest.json").read_bytes()).hexdigest()
+    summary_sha = hashlib.sha256((args.data / "build-summary.json").read_bytes()).hexdigest()
     header = [
-        "# SYNTH-v1 audit sample",
+        f"# {args.data.name} audit sample",
         "",
-        f"Stratified random sample (seed {SEED}) of {len(chosen)} of {len(records)} cases, drawn from "
-        f"`{args.data}`. Strata: {json.dumps(STRATA)}.",
+        f"Bound to `{args.data}/manifest.json` sha256 `{manifest_sha}` "
+        f"(build-summary.json `{summary_sha}`).",
+        "",
+        f"Stratified random sample (seed {SEED}) of {len(chosen)} of {len(records)} cases. "
+        f"Strata: {json.dumps(STRATA)}.",
         "",
         "Each case shows the edited window as a diff (prefix + region + suffix, before and after the gold edit),",
         "the gold target, the verification record and the exact rendered prompt of the drop-in TRAIN row.",

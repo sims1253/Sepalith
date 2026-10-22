@@ -1,17 +1,17 @@
-"""Seed normalisation: deterministic blank-line policy, then `air format`.
+"""Seed normalisation: optional blank-line policy, then `air format`.
 
-The C12 census showed that 434 of 477 whitespace-only finish_block near
-misses differ from gold only in blank-line placement (air keeps single blank
-lines, so they survive canonical comparison). SYNTH-v1 therefore gives every
-seed file one of two predictable body styles before formatting:
+v2 (default ``authored``): blank lines and comments are kept as the seed
+authors wrote them (the v2 seeds were revised to TRAIN-like density), and
+air collapses runs of blank lines to one. The C12 census records 309
+finish_block near misses (156 prompts) whose canonical region equals gold
+but whose file differs, e.g. by an extra blank line
+(receipts/C12-census.json, observations.near_miss_with_canonical_region_equal),
+so blank-line placement in golds matters; v2 matches TRAIN's distribution
+instead of v1's dense house style.
 
-- ``dense``: no blank lines inside top-level expressions;
-- ``sectioned``: inside top-level expressions, a blank line before every
-  full-line ``#`` comment whose previous line neither opens a block nor is
-  itself a comment, and nowhere else.
-
-Blank lines inside multi-line strings are never touched. The style is a pure
-function of the seed path, so it is reproducible.
+v1 policies (kept for reproducing SYNTH-v1): ``dense`` removes blank lines
+inside top-level expressions; ``sectioned`` puts one blank line before each
+full-line comment. Blank lines inside multi-line strings are never touched.
 """
 from __future__ import annotations
 
@@ -60,7 +60,8 @@ def format_text(formatter: AirFormatter, text: str) -> str | None:
     return formatted
 
 
-def normalise_file(source: Path, relative: str, structure: FileStructure, formatter: AirFormatter) -> tuple[str | None, dict]:
+def normalise_file(source: Path, relative: str, structure: FileStructure, formatter: AirFormatter, *,
+                   blank_policy: str = "authored") -> tuple[str | None, dict]:
     text = source.read_text(encoding="utf-8")
     info: dict = {"seed": relative, "seed_sha256": hashlib.sha256(text.encode()).hexdigest()}
     problems = []
@@ -76,9 +77,13 @@ def normalise_file(source: Path, relative: str, structure: FileStructure, format
     if problems:
         info["rejected"] = sorted(set(problems))
         return None, info
-    style = style_for(relative)
     lines = text.rstrip("\n").split("\n")
-    styled = "\n".join(apply_blank_policy(lines, structure, style)) + "\n"
+    if blank_policy == "authored":
+        style = "authored"
+        styled = "\n".join(lines) + "\n"
+    else:
+        style = style_for(relative)
+        styled = "\n".join(apply_blank_policy(lines, structure, style)) + "\n"
     formatted = format_text(formatter, styled)
     if formatted is None:
         info["rejected"] = ["air_failed"]

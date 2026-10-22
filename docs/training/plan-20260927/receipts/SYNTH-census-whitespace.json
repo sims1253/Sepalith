@@ -1,0 +1,17 @@
+{
+  "by_kind": {
+    "blank_lines_only": 434,
+    "indentation": 1,
+    "intra_line": 42
+  },
+  "c12_committed_figure": "receipts/C12-census.json observations.near_miss_with_canonical_region_equal: finish_block 309 samples (156 prompts across families)",
+  "criterion": "equal after deleting all whitespace",
+  "inputs": {
+    "samples.jsonl": "ae18ed28074ee80d1c8c2eeaa276715d033c98b31130cfdeb96f3bcc128165d3",
+    "scores.jsonl": "6eb129b1d5de68999880a7e4e5923e8472f40881f48df049115a2e624ffb65f5",
+    "train_rows": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+  },
+  "prompts": 249,
+  "samples": 477,
+  "schema": "sepalith.synth.census-whitespace.v1"
+}

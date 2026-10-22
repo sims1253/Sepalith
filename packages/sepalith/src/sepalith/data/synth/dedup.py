@@ -145,3 +145,113 @@ def near_duplicates(keys: Sequence[set[int]], threshold: float, seed: int = 3407
             for band in bands:
                 buckets[band].append(index)
     return out
+
+
+# ---------------------------------------------------------------------------
+# v2: formatting-invariant token fingerprints over edit spans
+# ---------------------------------------------------------------------------
+FINGERPRINT = {"lexer": "sepalith.synth.common.LEX_RE+comment-words.v1", "k": 12, "context_tokens": 40}
+_TOKEN_IDS: dict[str, int] = {}
+
+
+def text_tokens(lines: Iterable[str], *, masked: bool = False) -> list[str]:
+    """Code tokens (whitespace- and layout-free) plus lower-cased comment words.
+
+    air only changes whitespace and line breaks, so an air-reformatted copy has
+    the same stream. With ``masked``, identifiers, strings and numbers become
+    placeholders (an identifier-renamed copy has the same masked stream).
+    """
+    from sepalith.data.synth.common import WORD_RE as WORDS, masked_tokens, split_comment
+    from sepalith.data.synth.common import LEX_RE
+    out: list[str] = []
+    for line in lines:
+        code, comment = split_comment(line)
+        out.extend(masked_tokens([code]) if masked else LEX_RE.findall(code))
+        if comment and not masked:
+            out.extend("#" + w.lower() for w in WORDS.findall(comment))
+    return out
+
+
+def token_ids(tokens: Sequence[str]) -> np.ndarray:
+    ids = np.empty(len(tokens), dtype=np.uint64)
+    for index, token in enumerate(tokens):
+        value = _TOKEN_IDS.get(token)
+        if value is None:
+            value = h64("tok\x00" + token)
+            _TOKEN_IDS[token] = value
+        ids[index] = value
+    return ids
+
+
+def kgram_hashes(ids: np.ndarray, k: int = FINGERPRINT["k"]) -> np.ndarray:
+    """Polynomial rolling hash (mod 2**64) of every k-gram of ``ids``."""
+    n = len(ids) - k + 1
+    if n <= 0:
+        return np.zeros(0, dtype=np.uint64)
+    out = np.zeros(n, dtype=np.uint64)
+    base = np.uint64(0x100000001B3)
+    with np.errstate(over="ignore"):
+        for j in range(k):
+            out = out * base + ids[j:j + n]
+    return out
+
+
+def span_hashes(prompt_lines: Sequence[str], target_lines: Sequence[str], *, masked: bool = False,
+                k: int = FINGERPRINT["k"], context: int = FINGERPRINT["context_tokens"]) -> np.ndarray:
+    """Hashes of the k-grams that touch the target, over context tail + target.
+
+    Short targets are covered because each k-gram may extend into the context.
+    """
+    ctx = text_tokens(prompt_lines, masked=masked)[-context:]
+    tgt = text_tokens(target_lines, masked=masked)
+    if not tgt:
+        return np.zeros(0, dtype=np.uint64)
+    tokens = ctx + tgt
+    if len(tokens) < k:
+        return kgram_hashes(token_ids(tokens), len(tokens))
+    hashes = kgram_hashes(token_ids(tokens), k)
+    first = max(0, len(ctx) - k + 1)
+    return hashes[first:]
+
+
+class TokenIndex:
+    """Sorted uint64 k-gram hashes of a reference corpus (exact or masked)."""
+
+    def __init__(self, name: str, *, masked: bool = False) -> None:
+        self.name, self.masked = name, masked
+        self._parts: list[np.ndarray] = []
+        self.array = np.zeros(0, dtype=np.uint64)
+        self.documents = 0
+
+    def add(self, text: str) -> None:
+        self.documents += 1
+        tokens = text_tokens(text.split("\n"), masked=self.masked)
+        self._parts.append(kgram_hashes(token_ids(tokens)))
+        if len(self._parts) >= 2000:
+            self.freeze()
+
+    def add_hashes(self, hashes: np.ndarray) -> None:
+        self._parts.append(hashes)
+
+    def freeze(self) -> None:
+        if self._parts:
+            self.array = np.unique(np.concatenate([self.array, *self._parts]))
+            self._parts = []
+
+    def hits(self, hashes: np.ndarray) -> np.ndarray:
+        if hashes.size == 0 or self.array.size == 0:
+            return np.zeros(hashes.size, dtype=bool)
+        position = np.searchsorted(self.array, hashes)
+        position[position >= self.array.size] = 0
+        return self.array[position] == hashes
+
+
+def overlap(hits: np.ndarray, k: int = FINGERPRINT["k"]) -> tuple[float, int]:
+    """(containment, longest verbatim token run) from per-k-gram hit flags."""
+    if hits.size == 0:
+        return 0.0, 0
+    longest = run = 0
+    for flag in hits.tolist():
+        run = run + 1 if flag else 0
+        longest = max(longest, run)
+    return float(hits.mean()), (longest + k - 1) if longest else 0

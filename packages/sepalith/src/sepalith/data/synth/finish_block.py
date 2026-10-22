@@ -16,16 +16,19 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-import random
 import re
 
 from sepalith.data.synth.cases import Case, window_start_for
-from sepalith.data.synth.common import novelty, rng_for, strip_comment, word_in
+from sepalith.data.synth.common import novelty, rng_for, strip_comment, structural_support, word_in
 from sepalith.data.synth.structure import FileStructure, Unit
 
 CLOSE_RE = re.compile(r"^\}[)\]]*$")
 WINDOW_BUDGET = 4500
-NOVELTY_LIMITS = {"short": 4, "medium": 8, "long": 14}
+SHORT_NOVELTY_MAX = 2  # constrained_short: <= 8 lines, at most 2 novel items
+SIBLING_NOVELTY_MAX = 3  # sibling: structure shown in the prompt, at most 3 novel items
+SIBLING_SUPPORT_MIN = 0.5
+MAX_CANDIDATES_PER_UNIT = 4
+SIGNATURE_REGION_SHARE = 0.9
 VARIANT_WEIGHTS = {"plain": 0.35, "file": 0.25, "strip": 0.15, "outline": 0.125, "diag": 0.125}
 
 
@@ -139,63 +142,71 @@ def build_case(unit: Unit, cut: Cut, variant: str, lines: Sequence[str], structu
         sig = doc[-1]
         case = Case("finish_block", package_id, path, doc, len(doc) - 1, len(doc), (sig, *target),
                     window_start=start, cursor=(0, len(sig)), meta=meta)
-    prompt = "\n".join(doc[start:])
+    prompt = list(case.doc[start:])  # everything the model sees, including a signature-line region
     novel = novelty(target, prompt)
-    case.meta.update(novel_tokens=novel[:20], novelty=len(novel))
+    support = structural_support(target, prompt)
+    if cut.length <= 8 and len(novel) <= SHORT_NOVELTY_MAX:
+        determinacy = "constrained_short"
+    elif support >= SIBLING_SUPPORT_MIN and len(novel) <= SIBLING_NOVELTY_MAX:
+        determinacy = "sibling"
+    else:
+        determinacy = "author_choice"
+    case.meta.update(novel_tokens=novel[:20], novelty=len(novel), structural_support=round(support, 3),
+                     determinacy=determinacy, test_file="test" in path.lower() or unit.name == "test_that")
     return case
 
 
-def select_cuts(unit: Unit, cuts: list[Cut], rng: random.Random) -> list[Cut]:
-    outer = unit.outer_block()
-    assert outer is not None
-    shorts = [c for c in cuts if 2 <= c.length <= 8]
-    mediums = [c for c in cuts if c.bucket == "medium"]
-    longs = [c for c in cuts if c.bucket == "long"]
-    chosen: list[Cut] = []
-    nested = [c for c in shorts if c.kind == "nested_close"]
-    if nested and rng.random() < 0.5:
-        chosen.append(rng.choice(nested))
-    pool = [c for c in shorts if c not in chosen]
-    rng.shuffle(pool)
-    chosen += pool[:max(0, 2 - len(chosen))]
-    if mediums:
-        chosen.append(rng.choice(mediums))
-    first = min(cuts, key=lambda c: c.line)
-    if first.length > 20 and first.length <= 45 and rng.random() < 0.6:
-        chosen.append(first)
-    elif longs and rng.random() < 0.3:
-        chosen.append(rng.choice(longs))
-    finals = [c for c in cuts if c.kind == "final_close"]
-    if finals and rng.random() < 0.04:
-        chosen.append(finals[0])
-    if first.length <= 20 and first not in chosen and rng.random() < 0.5:
-        chosen.append(first)  # full body of a short function
-    return sorted(set(chosen), key=lambda c: c.line)
+def closers_only(lines: Sequence[str]) -> bool:
+    return all(not line.strip() or re.fullmatch(r"[})\]\s,]*", line.strip()) for line in lines)
 
 
 def generate(lines: Sequence[str], structure: FileStructure, package_id: str, path: str) -> list[Case]:
+    """Determinacy-qualified candidates (<= MAX_CANDIDATES_PER_UNIT per unit) plus
+    rejected ones (``meta["rejected"]``) for the ledger."""
     out: list[Case] = []
     for unit in structure.units:
         if not eligible(unit, lines):
             continue
-        cuts = cuts_for(unit, lines, structure)
-        rng = rng_for("fb", package_id, path, unit.start)
         outer = unit.outer_block()
-        is_fun = unit.main_function() is not None and outer is not None and outer.open_line >= unit.start
+        assert outer is not None
+        is_fun = unit.main_function() is not None and outer.open_line >= unit.start
+        rng = rng_for("fb2", package_id, path, unit.start)
+        cuts = cuts_for(unit, lines, structure)
         first_line = min(c.line for c in cuts)
-        for cut in select_cuts(unit, cuts, rng):
-            weights = {k: w for k, w in VARIANT_WEIGHTS.items()
-                       if (k != "strip" or unit.roxygen) and (k not in ("outline", "diag") or is_fun)}
-            variants = [rng.choices(list(weights), weights=list(weights.values()))[0]]
-            if rng.random() < 0.2:
-                rest = {k: w for k, w in weights.items() if k not in variants}
-                if rest:
-                    variants.append(rng.choices(list(rest), weights=list(rest.values()))[0])
-            for variant in variants:
-                signature = cut.line == first_line and variant != "file" and rng.random() < 0.12
-                case = build_case(unit, cut, variant, lines, structure, package_id, path,
-                                  signature_region=signature)
-                if case.meta["novelty"] > NOVELTY_LIMITS[cut.bucket]:
-                    case.meta["rejected"] = "novelty"
+        weights = {k: w for k, w in VARIANT_WEIGHTS.items()
+                   if (k != "strip" or unit.roxygen) and (k not in ("outline", "diag") or is_fun)}
+        qualified: list[Case] = []
+        for cut in cuts:
+            target = lines[cut.line - 1:unit.end]
+            if cut.kind == "final_close" or closers_only(target):
+                continue
+            full = cut.line == first_line
+            variant = rng.choices(list(weights), weights=list(weights.values()))[0]
+            signature = full and rng.random() < SIGNATURE_REGION_SHARE
+            case = build_case(unit, cut, variant, lines, structure, package_id, path, signature_region=signature)
+            if case.meta["determinacy"] == "author_choice" and variant != "file":
+                retry = build_case(unit, cut, "file", lines, structure, package_id, path, signature_region=signature)
+                if retry.meta["determinacy"] != "author_choice":
+                    case = retry
+            case.meta["full_body"] = full
+            if case.meta["determinacy"] == "author_choice":
+                case.meta["rejected"] = "author_choice"
                 out.append(case)
+            else:
+                qualified.append(case)
+        # Keep a diverse handful per unit: one per length bucket first, longest buckets first.
+        rng.shuffle(qualified)
+        order = {"long": 0, "medium": 1, "short": 2}
+        qualified.sort(key=lambda c: order[c.meta["bucket"]])
+        kept: list[Case] = []
+        for case in qualified:
+            if len(kept) < MAX_CANDIDATES_PER_UNIT and case.meta["bucket"] not in {k.meta["bucket"] for k in kept}:
+                kept.append(case)
+        for case in qualified:
+            if len(kept) < MAX_CANDIDATES_PER_UNIT and case not in kept:
+                kept.append(case)
+        for case in qualified:
+            if case not in kept:
+                case.meta["rejected"] = "unit_candidate_cap"
+        out += qualified
     return out
