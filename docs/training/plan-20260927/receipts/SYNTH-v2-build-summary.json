@@ -3,17 +3,18 @@
   "behaviour": {
     "final_cases": {
       "finish_block": {
-        "checked": 346,
-        "file_checked_unit_unexercised": 118,
-        "no_check": 115
+        "entered": 342,
+        "file_checked_not_entered": 116,
+        "no_check": 115,
+        "unit_not_traceable": 6
       },
       "roxygen_drafting": {
-        "checked": 37,
-        "file_checked_unit_unexercised": 5,
+        "entered": 31,
+        "file_checked_not_entered": 11,
         "no_check": 22
       }
     },
-    "meaning": "checked = the seed file's base-R check script passed and called this unit",
+    "meaning": "entered = the seed file's base-R check passed and the unit's function body executed during the traced run (trace() on every closure; indirect calls and S3 dispatch count). Entered is not 'target behaviour asserted'.",
     "seed_files": {
       "no_check": 117,
       "pass": 219
@@ -538,13 +539,14 @@
     },
     "behaviour": {
       "finish_block": {
-        "checked": 346,
-        "file_checked_unit_unexercised": 118,
-        "no_check": 115
+        "entered": 342,
+        "file_checked_not_entered": 116,
+        "no_check": 115,
+        "unit_not_traceable": 6
       },
       "roxygen_drafting": {
-        "checked": 37,
-        "file_checked_unit_unexercised": 5,
+        "entered": 31,
+        "file_checked_not_entered": 11,
         "no_check": 22
       }
     },

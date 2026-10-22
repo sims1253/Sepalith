@@ -19,6 +19,21 @@ in the findings table (copied from STATS.md / receipts at commit time).
 | Seeds v2, revision brief, behavioural checks | [../seeds-v2/](../seeds-v2/), [../REVISION-BRIEF-v2.md](../REVISION-BRIEF-v2.md), `../seeds-v2/<batch>/checks/` |
 | v1 (kept for comparison) | `/mnt/e/.../SYNTH-v1/`, `../seeds/`, `../../receipts/SYNTH-v1-*` |
 
+## Review round 2: finding -> change -> evidence
+
+Rows and sidecar are byte-identical to round 1 (`train-token-rows.jsonl`
+sha256 `4326866a...f375`); only case metadata, ledgers, summaries and docs changed.
+
+| Finding | Change | Evidence |
+| --- | --- | --- |
+| Sol P1: behavioural "called" = regex over the check text (comments included) | `r_behaviour.R` runs each check twice: a plain run decides pass/fail (unchanged), a traced run `trace()`s every closure the seed defines and reports the bodies entered (indirect calls, S3 dispatch). Labels: `entered`, `file_checked_not_entered`, `unit_not_traceable`, `no_check`; "entered" is documented as not "asserted" | 30 round-1 `checked` rows were never entered (incl. seir.solve, plot_box_grid, intersectSpans), 20 `unexercised` rows are entered, 6 call units untraceable; final: entered 373, not entered 127, untraceable 6, no check 137 (STATS); `test_synth_v2.BehaviourHarnessTests` |
+| Sol P2 / Muse F2: determinacy overclaimed; holes | Wording changed to "proxies" everywhere; holes listed in ../README.md; cheap v3 novelty evaluated and not applied (changes the set by 100/579) | `receipts/SYNTH-v2-determinacy-holes.json`: 63/66 comment-bearing targets with novel prose, 177 non-verbatim string literals, 7 glue-string targets, 96 non-file helper names |
+| Muse F1: prompt geometry | Limitation added; geometry table by packaging in STATS | median 40 prefix lines / 495 tokens vs TRAIN 11 / 229; 41.1% > 60 lines vs 3.8%; `file` 300/579, 111/122 sibling cases |
+| Muse F4: bucket definition for the 2x cap | Stated in README/STATS with ratios under both TRAIN definitions | 2 lines 1.99x (stripped) / 2.19x (raw); 5-8 2.00x / 2.04x |
+| Stale 13+3 count | Corrected from the receipt | 78 rows at 4 exposures |
+| Muse F7: DEV leading-blank claim | Cited `receipts/DT-ws-nearmiss.json` (PR #85) with aggregate counts | TRAIN 732/7,514 insert-at-col-0 golds start blank; DEV250 0/87, DEV75 0/11 |
+| Sol P4: masked overlap on the retained set | Reported next to candidate-level numbers | retained TRAIN >=0.8 92, =1.0 35; DEV >=0.8 18, =1.0 6 (targets of 2-12 lines) |
+
 ## Review round 1: finding -> change -> evidence
 
 | Finding | Change | Evidence (STATS.md unless noted) |

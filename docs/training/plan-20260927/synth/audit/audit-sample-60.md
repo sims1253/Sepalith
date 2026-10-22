@@ -1,6 +1,6 @@
 # SYNTH-v2 audit sample
 
-Bound to `/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2/manifest.json` sha256 `afada370d54d584bb20377f6c74047199b0e5398a8686e605c936f47b444599f` (build-summary.json `3987382c6353a1ee51f736392175a34959d3760cc6adb51efc3e511053f0da2d`).
+Bound to `/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2/manifest.json` sha256 `15aa7d643e982e7587fb5de1916afceac5a1e07f7170d870f5a25eaa455a990c` (build-summary.json `ba73abd74724cc7865e5dba93d3369142113fa0adbc8cca764d083c83496bac9`).
 
 Stratified random sample (seed 20261022) of 60 of 643 cases. Strata: {"finish_block": {"constrained_short": 22, "sibling:short": 6, "sibling:medium": 16, "sibling:long": 4}, "roxygen_drafting": {"roxy_full": 12}}.
 
@@ -10,7 +10,7 @@ the gold target, the verification record and the exact rendered prompt of the dr
 ## 1. `9ae71fa0af815b9db3a167c3` finish_block / constrained_short
 
 - package `synth:herdwalk`, path `R/movement.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["apply_boundary"], "novelty": 1, "rule": "fb_statement", "seed": "b23-simulation/herdwalk/R/movement.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "move_random", "variant": "plain"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["apply_boundary"], "novelty": 1, "rule": "fb_statement", "seed": "b23-simulation/herdwalk/R/movement.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "move_random", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 16, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 334, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -72,7 +72,7 @@ move_random <- function(pop, step_sd = 1, boundary = "wrap") {
 ## 2. `38e3c80569c493b5c96896ed` finish_block / constrained_short
 
 - package `synth:glyphgauge`, path `R/extract.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["base", "sub"], "novelty": 2, "rule": "fb_statement", "seed": "b10-text/glyphgauge/R/extract.R", "signature_region": false, "structural_support": 0.0, "target_lines": 6, "test_file": false, "unit": "extractUrls", "variant": "outline"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["base", "sub"], "novelty": 2, "rule": "fb_statement", "seed": "b10-text/glyphgauge/R/extract.R", "signature_region": false, "structural_support": 0.0, "target_lines": 6, "test_file": false, "unit": "extractUrls", "variant": "outline"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 55, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 266, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -139,7 +139,7 @@ extractUrls <- function(text, unique = TRUE) {
 ## 3. `6ef973882deccee9262b502d` finish_block / constrained_short
 
 - package `synth:qcwatch`, path `R/chart-plot.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b24-modelling/qcwatch/R/chart-plot.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "plot.qc_ewma", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b24-modelling/qcwatch/R/chart-plot.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "plot.qc_ewma", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 11, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1596, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -346,7 +346,7 @@ plot.qc_ewma <- function(x, main = NULL, ...) {
 ## 4. `2a89991cd9e9ea8908aac0ac` finish_block / constrained_short
 
 - package `synth:trophicstan`, path `R/standata.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b08-rcpp-science/trophicstan/R/standata.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "check_counts", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b08-rcpp-science/trophicstan/R/standata.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "check_counts", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 16, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 271, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -577,7 +577,7 @@ countDistinctRemote <- function(lazy, column) {
 ## 6. `19428fdb9c4ca9350e882753` finish_block / constrained_short
 
 - package `synth:quantia`, path `R/accessors.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "short", "determinacy": "constrained_short", "full_body": true, "novel_tokens": [".Data"], "novelty": 1, "rule": "fb_statement", "seed": "b05-oop/quantia/R/accessors.R", "signature_region": true, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "setMethod", "variant": "file"}`
+- generator: `{"behaviour": "unit_not_traceable", "bucket": "short", "determinacy": "constrained_short", "full_body": true, "novel_tokens": [".Data"], "novelty": 1, "rule": "fb_statement", "seed": "b05-oop/quantia/R/accessors.R", "signature_region": true, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "setMethod", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 28, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 473, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -721,7 +721,7 @@ build_select <- function(con, table, cols = NULL, where = list()) {
 ## 8. `d41f4900ecef1c552e850a81` finish_block / constrained_short
 
 - package `synth:seqlattice`, path `R/sequence.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["end", "start"], "novelty": 2, "rule": "fb_statement", "seed": "b08-rcpp-science/seqlattice/R/sequence.R", "signature_region": false, "structural_support": 0.0, "target_lines": 6, "test_file": false, "unit": "gc_profile", "variant": "diag"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["end", "start"], "novelty": 2, "rule": "fb_statement", "seed": "b08-rcpp-science/seqlattice/R/sequence.R", "signature_region": false, "structural_support": 0.0, "target_lines": 6, "test_file": false, "unit": "gc_profile", "variant": "diag"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 38, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 415, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -801,7 +801,7 @@ gc_profile <- function(seq, width = 1000L, step = width) {
 ## 9. `24f001d8a9493ec81c887e73` finish_block / constrained_short
 
 - package `synth:diffledger`, path `R/annotate.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [".tidy_annotation"], "novelty": 1, "rule": "fb_statement", "seed": "b17-bioc/diffledger/R/annotate.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "read_annotation_tsv", "variant": "outline"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [".tidy_annotation"], "novelty": 1, "rule": "fb_statement", "seed": "b17-bioc/diffledger/R/annotate.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "read_annotation_tsv", "variant": "outline"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 19, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 287, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -922,7 +922,7 @@ vertex_names <- function(g) {
 ## 11. `238d4b2a16f39d644376c691` finish_block / constrained_short
 
 - package `synth:shiftplan`, path `R/scheduling.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["rownames"], "novelty": 1, "rule": "fb_statement", "seed": "b19-graphs-or/shiftplan/R/scheduling.R", "signature_region": false, "structural_support": 0.0, "target_lines": 3, "test_file": false, "unit": "evaluateSequence", "variant": "strip"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["rownames"], "novelty": 1, "rule": "fb_statement", "seed": "b19-graphs-or/shiftplan/R/scheduling.R", "signature_region": false, "structural_support": 0.0, "target_lines": 3, "test_file": false, "unit": "evaluateSequence", "variant": "strip"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 19, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 298, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -988,7 +988,7 @@ evaluateSequence <- function(jobs, sequence) {
 ## 12. `00177c51512525376f76c1d3` finish_block / constrained_short
 
 - package `synth:cellarlink`, path `R/upsert.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b12-db/cellarlink/R/upsert.R", "signature_region": false, "structural_support": 0.0, "target_lines": 3, "test_file": false, "unit": "upsert_batched", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b12-db/cellarlink/R/upsert.R", "signature_region": false, "structural_support": 0.0, "target_lines": 3, "test_file": false, "unit": "upsert_batched", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 31, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1293, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1161,7 +1161,7 @@ upsert_batched <- function(
 ## 13. `a631be9f6f34728b3b909752` finish_block / constrained_short
 
 - package `synth:parcelwise`, path `R/read.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["st_transform"], "novelty": 1, "rule": "fb_statement", "seed": "b13-geo/parcelwise/R/read.R", "signature_region": false, "structural_support": 0.0, "target_lines": 5, "test_file": false, "unit": "finalize_layer", "variant": "plain"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["st_transform"], "novelty": 1, "rule": "fb_statement", "seed": "b13-geo/parcelwise/R/read.R", "signature_region": false, "structural_support": 0.0, "target_lines": 5, "test_file": false, "unit": "finalize_layer", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 34, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 315, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1229,7 +1229,7 @@ finalize_layer <- function(x, crs) {
 ## 14. `d50ba25ad364dd9e5f0a30cf` finish_block / constrained_short
 
 - package `synth:termsmith`, path `R/compare-models.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b24-modelling/termsmith/R/compare-models.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "lr_sequence", "variant": "plain"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b24-modelling/termsmith/R/compare-models.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "lr_sequence", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 10, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 443, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1309,7 +1309,7 @@ lr_sequence <- function(models) {
 ## 15. `665307d771b02eaf505bc03e` finish_block / constrained_short
 
 - package `synth:newsreel`, path `R/gitlog.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_comment_lead", "seed": "b22-devtools/newsreel/R/gitlog.R", "signature_region": false, "structural_support": 0.0, "target_lines": 3, "test_file": false, "unit": "summarise_by_author", "variant": "plain"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_comment_lead", "seed": "b22-devtools/newsreel/R/gitlog.R", "signature_region": false, "structural_support": 0.0, "target_lines": 3, "test_file": false, "unit": "summarise_by_author", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 38, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 345, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1436,7 +1436,7 @@ pop_within <- function(pop, zones, id_col) {
 ## 17. `05fc9bbd67739e1703e60a89` finish_block / constrained_short
 
 - package `synth:nestwalk`, path `R/registry.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b16-classic/nestwalk/R/registry.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "print.nw_registry", "variant": "diag"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b16-classic/nestwalk/R/registry.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "print.nw_registry", "variant": "diag"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 13, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 316, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1502,7 +1502,7 @@ print.nw_registry <- function(x, ...) {
 ## 18. `1e8321cf97c93e1a6dc14642` finish_block / constrained_short
 
 - package `synth:taskrelay`, path `R/parallel.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["workers"], "novelty": 1, "rule": "fb_statement", "seed": "b14-pipelines/taskrelay/R/parallel.R", "signature_region": false, "structural_support": 0.0, "target_lines": 6, "test_file": false, "unit": "detect_workers", "variant": "diag"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": ["workers"], "novelty": 1, "rule": "fb_statement", "seed": "b14-pipelines/taskrelay/R/parallel.R", "signature_region": false, "structural_support": 0.0, "target_lines": 6, "test_file": false, "unit": "detect_workers", "variant": "diag"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 52, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 410, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1676,7 +1676,7 @@ station_year_summary <- function(df, min_coverage = 0.9) {
 ## 20. `2e684f0b72e6fd733a5bf146` finish_block / constrained_short
 
 - package `synth:pathwren`, path `R/strings.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_nested_close", "seed": "b06-infra-tests/pathwren/R/strings.R", "signature_region": false, "structural_support": 0.643, "target_lines": 8, "test_file": false, "unit": "strToCamel", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_nested_close", "seed": "b06-infra-tests/pathwren/R/strings.R", "signature_region": false, "structural_support": 0.643, "target_lines": 8, "test_file": false, "unit": "strToCamel", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 53, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1187, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1839,7 +1839,7 @@ strToCamel <- function(x) {
 ## 21. `8e61ed50682172e8065a238b` finish_block / constrained_short
 
 - package `synth:tallyhook`, path `R/zzz.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b06-infra-tests/tallyhook/R/zzz.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "tallyhook_max_retries", "variant": "diag"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b06-infra-tests/tallyhook/R/zzz.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "tallyhook_max_retries", "variant": "diag"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 11, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 194, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1891,7 +1891,7 @@ tallyhook_max_retries <- function() {
 ## 22. `a00a7a0242dca722cb3c16b2` finish_block / constrained_short
 
 - package `synth:tabulora`, path `R/base_plots.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b07-plotting/tabulora/R/base_plots.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "legend_outside", "variant": "plain"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b07-plotting/tabulora/R/base_plots.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "legend_outside", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 11, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 315, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -1959,7 +1959,7 @@ legend_outside <- function(legend, col, ...) {
 ## 23. `0a673d53b49b273dc39c8b8d` finish_block / sibling:short
 
 - package `synth:numquill`, path `R/optimise.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "sibling", "full_body": false, "novel_tokens": ["diag", "rate", "shape"], "novelty": 3, "rule": "fb_statement", "seed": "b02-base-stats/numquill/R/optimise.R", "signature_region": false, "structural_support": 0.526, "target_lines": 8, "test_file": false, "unit": "mle.gamma", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "sibling", "full_body": false, "novel_tokens": ["diag", "rate", "shape"], "novelty": 3, "rule": "fb_statement", "seed": "b02-base-stats/numquill/R/optimise.R", "signature_region": false, "structural_support": 0.526, "target_lines": 8, "test_file": false, "unit": "mle.gamma", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 112, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1547, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -2169,7 +2169,7 @@ mle.gamma <- function(x) {
 ## 24. `1a4f2c883b3412d86239613d` finish_block / sibling:short
 
 - package `synth:quantia`, path `R/convert.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "sibling", "full_body": false, "novel_tokens": ["str:See", "str:Unknown", "str:listUnits"], "novelty": 3, "rule": "fb_statement", "seed": "b05-oop/quantia/R/convert.R", "signature_region": false, "structural_support": 0.75, "target_lines": 5, "test_file": false, "unit": "lookupUnit", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "short", "determinacy": "sibling", "full_body": false, "novel_tokens": ["str:See", "str:Unknown", "str:listUnits"], "novelty": 3, "rule": "fb_statement", "seed": "b05-oop/quantia/R/convert.R", "signature_region": false, "structural_support": 0.75, "target_lines": 5, "test_file": false, "unit": "lookupUnit", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 44, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 441, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -2408,7 +2408,7 @@ build_update <- function(con, table, values, where) {
 ## 26. `1665f9e5e6524142b0820bc7` finish_block / sibling:short
 
 - package `synth:lintfern`, path `R/parseTools.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "sibling", "full_body": false, "novel_tokens": ["inner", "str:CALL", "syms"], "novelty": 3, "rule": "fb_statement", "seed": "b22-devtools/lintfern/R/parseTools.R", "signature_region": false, "structural_support": 0.522, "target_lines": 4, "test_file": false, "unit": "functionBodySymbols", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "short", "determinacy": "sibling", "full_body": false, "novel_tokens": ["inner", "str:CALL", "syms"], "novelty": 3, "rule": "fb_statement", "seed": "b22-devtools/lintfern/R/parseTools.R", "signature_region": false, "structural_support": 0.522, "target_lines": 4, "test_file": false, "unit": "functionBodySymbols", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 52, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1318, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -2572,7 +2572,7 @@ functionBodySymbols <- function(pd, fnId) {
 ## 27. `63939cb5fb58d2472f60d96a` finish_block / sibling:medium
 
 - package `synth:rakewell`, path `R/design.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["vartype"], "novelty": 1, "rule": "fb_nested_close", "seed": "b21-applied-analytics/rakewell/R/design.R", "signature_region": false, "structural_support": 0.568, "target_lines": 14, "test_file": false, "unit": "weighted_prop_by", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["vartype"], "novelty": 1, "rule": "fb_nested_close", "seed": "b21-applied-analytics/rakewell/R/design.R", "signature_region": false, "structural_support": 0.568, "target_lines": 14, "test_file": false, "unit": "weighted_prop_by", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 79, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1324, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -2774,7 +2774,7 @@ weighted_prop_by <- function(design, variable, by = NULL, level = 0.95) {
 ## 28. `0ef82d81cf15dbb950d9d16c` finish_block / sibling:medium
 
 - package `synth:burrowlog`, path `R/messages.R`
-- generator: `{"behaviour": "checked", "bucket": "medium", "determinacy": "sibling", "full_body": true, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b06-infra-tests/burrowlog/R/messages.R", "signature_region": true, "structural_support": 1.0, "target_lines": 9, "test_file": false, "unit": "burrow_warn", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "medium", "determinacy": "sibling", "full_body": true, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b06-infra-tests/burrowlog/R/messages.R", "signature_region": true, "structural_support": 1.0, "target_lines": 9, "test_file": false, "unit": "burrow_warn", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 74, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 538, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -2878,7 +2878,7 @@ burrow_warn <- function(message, .envir = parent.frame()) {<|user_cursor|>
 ## 29. `2331867bc13a324554993d79` finish_block / sibling:medium
 
 - package `synth:seqlattice`, path `R/sequence.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["skew", "total"], "novelty": 2, "rule": "fb_statement", "seed": "b08-rcpp-science/seqlattice/R/sequence.R", "signature_region": false, "structural_support": 0.686, "target_lines": 13, "test_file": false, "unit": "gc_skew", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["skew", "total"], "novelty": 2, "rule": "fb_statement", "seed": "b08-rcpp-science/seqlattice/R/sequence.R", "signature_region": false, "structural_support": 0.686, "target_lines": 13, "test_file": false, "unit": "gc_skew", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 109, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1038, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -3042,7 +3042,7 @@ gc_skew <- function(seqs, na_if_empty = TRUE) {
 ## 30. `7c1ec202ca3dee71a35b8b18` finish_block / sibling:medium
 
 - package `synth:assayshelf`, path `R/accessors.R`
-- generator: `{"behaviour": "checked", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b17-bioc/assayshelf/R/accessors.R", "signature_region": false, "structural_support": 1.0, "target_lines": 10, "test_file": false, "unit": "colInfo", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b17-bioc/assayshelf/R/accessors.R", "signature_region": false, "structural_support": 1.0, "target_lines": 10, "test_file": false, "unit": "colInfo", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 76, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 960, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -3206,7 +3206,7 @@ colInfo <- function(x, columns = NULL) {
 ## 31. `4ce66886e6b44c046e04abdc` finish_block / sibling:medium
 
 - package `synth:assayshelf`, path `R/accessors.R`
-- generator: `{"behaviour": "checked", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b17-bioc/assayshelf/R/accessors.R", "signature_region": false, "structural_support": 1.0, "target_lines": 14, "test_file": false, "unit": "colInfo", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b17-bioc/assayshelf/R/accessors.R", "signature_region": false, "structural_support": 1.0, "target_lines": 14, "test_file": false, "unit": "colInfo", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 93, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 943, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -3374,7 +3374,7 @@ colInfo <- function(x, columns = NULL) {
 ## 32. `00548bf23e3ff8c13a23ebf0` finish_block / sibling:medium
 
 - package `synth:cellwright`, path `R/puzzles.R`
-- generator: `{"behaviour": "checked", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b16-classic/cellwright/R/puzzles.R", "signature_region": false, "structural_support": 0.667, "target_lines": 14, "test_file": false, "unit": "spiral.order", "variant": "diag"}`
+- generator: `{"behaviour": "entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b16-classic/cellwright/R/puzzles.R", "signature_region": false, "structural_support": 0.667, "target_lines": 14, "test_file": false, "unit": "spiral.order", "variant": "diag"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 90, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 451, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -3587,7 +3587,7 @@ addReturnRate <- function(sales) {<|user_cursor|>
 ## 34. `13938de3caf095efba8caa84` finish_block / sibling:medium
 
 - package `synth:driftbook`, path `R/reconcile.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": true, "novel_tokens": ["payment_id", "received", "reference"], "novelty": 3, "rule": "fb_statement", "seed": "b09-finance/driftbook/R/reconcile.R", "signature_region": true, "structural_support": 0.772, "target_lines": 9, "test_file": false, "unit": "clean_payments", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": true, "novel_tokens": ["payment_id", "received", "reference"], "novelty": 3, "rule": "fb_statement", "seed": "b09-finance/driftbook/R/reconcile.R", "signature_region": true, "structural_support": 0.772, "target_lines": 9, "test_file": false, "unit": "clean_payments", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 98, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 489, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -3678,7 +3678,7 @@ clean_payments <- function(payments) {<|user_cursor|>
 ## 35. `7ba6a3a2533ef9ef496a41bd` finish_block / sibling:medium
 
 - package `synth:graphwalk`, path `R/toposort.R`
-- generator: `{"behaviour": "checked", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["latest_finish", "latest_start", "succ"], "novelty": 3, "rule": "fb_statement", "seed": "b19-graphs-or/graphwalk/R/toposort.R", "signature_region": false, "structural_support": 0.512, "target_lines": 16, "test_file": false, "unit": "cpm_backward", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["latest_finish", "latest_start", "succ"], "novelty": 3, "rule": "fb_statement", "seed": "b19-graphs-or/graphwalk/R/toposort.R", "signature_region": false, "structural_support": 0.512, "target_lines": 16, "test_file": false, "unit": "cpm_backward", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 111, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1429, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -3908,7 +3908,7 @@ cpm_backward <- function(adj, duration) {
 ## 36. `37cb80bc073fbc50f1db50ab` finish_block / sibling:medium
 
 - package `synth:ledgerkeel`, path `R/quality_checks.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["AND", "IN"], "novelty": 2, "rule": "fb_nested_close", "seed": "b12-db/ledgerkeel/R/quality_checks.R", "signature_region": false, "structural_support": 0.576, "target_lines": 10, "test_file": false, "unit": "check.accepted.values", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["AND", "IN"], "novelty": 2, "rule": "fb_nested_close", "seed": "b12-db/ledgerkeel/R/quality_checks.R", "signature_region": false, "structural_support": 0.576, "target_lines": 10, "test_file": false, "unit": "check.accepted.values", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 95, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 757, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -4034,7 +4034,7 @@ check.accepted.values <- function(con, table, column, allowed) {
 ## 37. `5213b709a755f22381de40cc` finish_block / sibling:medium
 
 - package `synth:herdwalk`, path `R/movement.R`
-- generator: `{"behaviour": "checked", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["dx", "dy"], "novelty": 2, "rule": "fb_statement", "seed": "b23-simulation/herdwalk/R/movement.R", "signature_region": false, "structural_support": 0.519, "target_lines": 15, "test_file": false, "unit": "move_toward", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["dx", "dy"], "novelty": 2, "rule": "fb_statement", "seed": "b23-simulation/herdwalk/R/movement.R", "signature_region": false, "structural_support": 0.519, "target_lines": 15, "test_file": false, "unit": "move_toward", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 136, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1312, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -4226,7 +4226,7 @@ move_toward <- function(
 ## 38. `0513f41134419e3489c3211a` finish_block / sibling:medium
 
 - package `synth:querywright`, path `R/xml.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b18-web/querywright/R/xml.R", "signature_region": false, "structural_support": 0.918, "target_lines": 16, "test_file": false, "unit": "read_sitemap_index", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b18-web/querywright/R/xml.R", "signature_region": false, "structural_support": 0.918, "target_lines": 16, "test_file": false, "unit": "read_sitemap_index", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 118, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1172, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -4403,7 +4403,7 @@ read_sitemap_index <- function(x) {
 ## 39. `4dc16add5549947c1cc16e63` finish_block / sibling:medium
 
 - package `synth:inkplate`, path `R/template.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["escape.for"], "novelty": 1, "rule": "fb_statement", "seed": "b10-text/inkplate/R/template.R", "signature_region": false, "structural_support": 0.718, "target_lines": 12, "test_file": false, "unit": "render.braces", "variant": "plain"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["escape.for"], "novelty": 1, "rule": "fb_statement", "seed": "b10-text/inkplate/R/template.R", "signature_region": false, "structural_support": 0.718, "target_lines": 12, "test_file": false, "unit": "render.braces", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 105, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 447, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -4495,7 +4495,7 @@ render.braces <- function(
 ## 40. `0b39e5a26402c26353689926` finish_block / sibling:medium
 
 - package `synth:assayshelf`, path `R/show-methods.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["meta", "str:meta"], "novelty": 2, "rule": "fb_statement", "seed": "b17-bioc/assayshelf/R/show-methods.R", "signature_region": false, "structural_support": 0.509, "target_lines": 11, "test_file": false, "unit": "setMethod", "variant": "plain"}`
+- generator: `{"behaviour": "unit_not_traceable", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["meta", "str:meta"], "novelty": 2, "rule": "fb_statement", "seed": "b17-bioc/assayshelf/R/show-methods.R", "signature_region": false, "structural_support": 0.509, "target_lines": 11, "test_file": false, "unit": "setMethod", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 86, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 341, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -4579,7 +4579,7 @@ setMethod("show", "AssayShelf", function(object) {
 ## 41. `0ed4ddc29d673588da5e5c57` finish_block / sibling:medium
 
 - package `synth:querywright`, path `R/xml.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["num:19", "str:dT", "str:updated"], "novelty": 3, "rule": "fb_statement", "seed": "b18-web/querywright/R/xml.R", "signature_region": false, "structural_support": 0.821, "target_lines": 13, "test_file": false, "unit": "parse_atom_entries", "variant": "file"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "medium", "determinacy": "sibling", "full_body": false, "novel_tokens": ["num:19", "str:dT", "str:updated"], "novelty": 3, "rule": "fb_statement", "seed": "b18-web/querywright/R/xml.R", "signature_region": false, "structural_support": 0.821, "target_lines": 13, "test_file": false, "unit": "parse_atom_entries", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 127, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1543, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -4908,7 +4908,7 @@ build_delete <- function(con, table, where) {
 ## 43. `3538a03c045f70e20110ca89` finish_block / sibling:long
 
 - package `synth:driftbook`, path `R/smoothing.R`
-- generator: `{"behaviour": "checked", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["prev_level", "prev_trend"], "novelty": 2, "rule": "fb_nested_close", "seed": "b09-finance/driftbook/R/smoothing.R", "signature_region": false, "structural_support": 0.519, "target_lines": 28, "test_file": false, "unit": "holt_filter", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["prev_level", "prev_trend"], "novelty": 2, "rule": "fb_nested_close", "seed": "b09-finance/driftbook/R/smoothing.R", "signature_region": false, "structural_support": 0.519, "target_lines": 28, "test_file": false, "unit": "holt_filter", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 206, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 651, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -5063,7 +5063,7 @@ holt_filter <- function(y, alpha, beta) {
 ## 44. `6537fd3d6b25da5f270a7ca3` finish_block / sibling:long
 
 - package `synth:priorcraft`, path `R/gamSpecs.R`
-- generator: `{"behaviour": "checked", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["str:warned", "suppressWarnings"], "novelty": 2, "rule": "fb_nested_close", "seed": "b24-modelling/priorcraft/R/gamSpecs.R", "signature_region": false, "structural_support": 0.509, "target_lines": 21, "test_file": false, "unit": "fitGamSpec", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["str:warned", "suppressWarnings"], "novelty": 2, "rule": "fb_nested_close", "seed": "b24-modelling/priorcraft/R/gamSpecs.R", "signature_region": false, "structural_support": 0.509, "target_lines": 21, "test_file": false, "unit": "fitGamSpec", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 102, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1329, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -5283,7 +5283,7 @@ fitGamSpec <- function(
 ## 45. `394ed97e9cd6f9c58e405a2b` finish_block / sibling:long
 
 - package `synth:shiftplan`, path `R/packing.R`
-- generator: `{"behaviour": "checked", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["which.min"], "novelty": 1, "rule": "fb_statement", "seed": "b19-graphs-or/shiftplan/R/packing.R", "signature_region": false, "structural_support": 0.861, "target_lines": 21, "test_file": false, "unit": "binpack.best.fit", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["which.min"], "novelty": 1, "rule": "fb_statement", "seed": "b19-graphs-or/shiftplan/R/packing.R", "signature_region": false, "structural_support": 0.861, "target_lines": 21, "test_file": false, "unit": "binpack.best.fit", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 172, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 1448, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -5517,7 +5517,7 @@ binpack.best.fit <- function(size, capacity, decreasing = TRUE) {
 ## 46. `07740d55cee9741e1295796f` finish_block / sibling:long
 
 - package `synth:inkplate`, path `R/escape.R`
-- generator: `{"behaviour": "checked", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["str:textasciicircum", "str:textasciitilde", "str:textbackslash"], "novelty": 3, "rule": "fb_comment_lead", "seed": "b10-text/inkplate/R/escape.R", "signature_region": false, "structural_support": 0.623, "target_lines": 21, "test_file": false, "unit": "escape.latex", "variant": "file"}`
+- generator: `{"behaviour": "entered", "bucket": "long", "determinacy": "sibling", "full_body": false, "novel_tokens": ["str:textasciicircum", "str:textasciitilde", "str:textbackslash"], "novelty": 3, "rule": "fb_comment_lead", "seed": "b10-text/inkplate/R/escape.R", "signature_region": false, "structural_support": 0.623, "target_lines": 21, "test_file": false, "unit": "escape.latex", "variant": "file"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 178, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 851, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -5795,7 +5795,7 @@ diffBy <- function(dt, vars, id, time, n = 1L) {
 ## 48. `1b7d42af1857da7bc2466fe0` finish_block / constrained_short
 
 - package `synth:markovine`, path `R/montecarlo.R`
-- generator: `{"behaviour": "checked", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b23-simulation/markovine/R/montecarlo.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "mc.design", "variant": "plain"}`
+- generator: `{"behaviour": "file_checked_not_entered", "bucket": "short", "determinacy": "constrained_short", "full_body": false, "novel_tokens": [], "novelty": 0, "rule": "fb_statement", "seed": "b23-simulation/markovine/R/montecarlo.R", "signature_region": false, "structural_support": 0.0, "target_lines": 2, "test_file": false, "unit": "mc.design", "variant": "plain"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 12, "family_problems": [], "parse_after": true, "parse_before_status": "incomplete", "passed": true, "prompt_tokens": 388, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -5862,7 +5862,7 @@ mc.design <- function(..., base.seed = 1L) {
 ## 49. `bf970712f60cf8d5533c78fb` roxygen_drafting / roxy_full
 
 - package `synth:rangeweft`, path `R/reduce.R`
-- generator: `{"behaviour": "checked", "determined_share": 0.667, "rule": "roxy_full", "seed": "b17-bioc/rangeweft/R/reduce.R", "tag_order": "export param return", "target_lines": 6, "unit": "setdiffSpans"}`
+- generator: `{"behaviour": "file_checked_not_entered", "determined_share": 0.667, "rule": "roxy_full", "seed": "b17-bioc/rangeweft/R/reduce.R", "tag_order": "export param return", "target_lines": 6, "unit": "setdiffSpans"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 67, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 821, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -5990,7 +5990,7 @@ setdiffSpans <- function(x, y, ignoreStrand = FALSE) {
 ## 50. `6b727b5dd3652648ab22639a` roxygen_drafting / roxy_full
 
 - package `synth:apiclerk`, path `R/cache.R`
-- generator: `{"behaviour": "checked", "determined_share": 0.667, "rule": "roxy_full", "seed": "b03-datatable-io/apiclerk/R/cache.R", "tag_order": "rdname param export", "target_lines": 3, "unit": "cache_set"}`
+- generator: `{"behaviour": "entered", "determined_share": 0.667, "rule": "roxy_full", "seed": "b03-datatable-io/apiclerk/R/cache.R", "tag_order": "rdname param export", "target_lines": 3, "unit": "cache_set"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 31, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 465, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -6165,7 +6165,7 @@ asRasterVector <- function(aoi, r) {
 ## 52. `3e0a1bfa990c03fb17337b8f` roxygen_drafting / roxy_full
 
 - package `synth:taskrelay`, path `R/parallel.R`
-- generator: `{"behaviour": "file_checked_unit_unexercised", "determined_share": 0.727, "rule": "roxy_full", "seed": "b14-pipelines/taskrelay/R/parallel.R", "tag_order": "keywords param return", "target_lines": 11, "unit": "par_map_furrr"}`
+- generator: `{"behaviour": "file_checked_not_entered", "determined_share": 0.727, "rule": "roxy_full", "seed": "b14-pipelines/taskrelay/R/parallel.R", "tag_order": "keywords param return", "target_lines": 11, "unit": "par_map_furrr"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 125, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 472, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -6277,7 +6277,7 @@ par_map_furrr <- function(x, fun, workers, ...) {
 ## 53. `15b444946f6a9d823be180a3` roxygen_drafting / roxy_full
 
 - package `synth:taskrelay`, path `R/logging.R`
-- generator: `{"behaviour": "checked", "determined_share": 0.714, "rule": "roxy_full", "seed": "b14-pipelines/taskrelay/R/logging.R", "tag_order": "export inheritParams rdname", "target_lines": 7, "unit": "log_error"}`
+- generator: `{"behaviour": "entered", "determined_share": 0.714, "rule": "roxy_full", "seed": "b14-pipelines/taskrelay/R/logging.R", "tag_order": "export inheritParams rdname", "target_lines": 7, "unit": "log_error"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 57, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 317, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -6526,7 +6526,7 @@ vec_cast.double.foliokit_money <- function(x, to, ...) {
 ## 56. `8375b8c8986df690f4732e7b` roxygen_drafting / roxy_full
 
 - package `synth:rangeweft`, path `R/overlaps.R`
-- generator: `{"behaviour": "checked", "determined_share": 0.667, "rule": "roxy_full", "seed": "b17-bioc/rangeweft/R/overlaps.R", "tag_order": "export inheritParams param return", "target_lines": 6, "unit": "overlapsAnySpan"}`
+- generator: `{"behaviour": "file_checked_not_entered", "determined_share": 0.667, "rule": "roxy_full", "seed": "b17-bioc/rangeweft/R/overlaps.R", "tag_order": "export inheritParams param return", "target_lines": 6, "unit": "overlapsAnySpan"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 65, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 273, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -6645,7 +6645,7 @@ hook_events <- function() {
 ## 58. `8e50f7da258b95fbb91a7842` roxygen_drafting / roxy_full
 
 - package `synth:relaydesk`, path `R/validate.R`
-- generator: `{"behaviour": "checked", "determined_share": 0.667, "rule": "roxy_full", "seed": "b18-web/relaydesk/R/validate.R", "tag_order": "rdname param keywords", "target_lines": 3, "unit": "requireChoice"}`
+- generator: `{"behaviour": "entered", "determined_share": 0.667, "rule": "roxy_full", "seed": "b18-web/relaydesk/R/validate.R", "tag_order": "rdname param keywords", "target_lines": 3, "unit": "requireChoice"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 32, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 513, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**
@@ -6735,7 +6735,7 @@ requireChoice <- function(value, name, choices) {
 ## 59. `1305f77b1a121b0d0d666a5e` roxygen_drafting / roxy_full
 
 - package `synth:trophicstan`, path `R/standata.R`
-- generator: `{"behaviour": "checked", "determined_share": 0.8, "rule": "roxy_full", "seed": "b08-rcpp-science/trophicstan/R/standata.R", "tag_order": "param noRd", "target_lines": 5, "unit": "check_exposure"}`
+- generator: `{"behaviour": "entered", "determined_share": 0.8, "rule": "roxy_full", "seed": "b08-rcpp-science/trophicstan/R/standata.R", "tag_order": "param noRd", "target_lines": 5, "unit": "check_exposure"}`
 - verification: `{"air_idempotent": true, "completion_tokens": 47, "family_problems": [], "parse_after": true, "parse_before_status": "ok", "passed": true, "prompt_tokens": 380, "reward": 1.0, "reward_comparison": "air", "reward_exact": true, "reward_flags": []}`
 
 **Edit (window diff, before -> after)**

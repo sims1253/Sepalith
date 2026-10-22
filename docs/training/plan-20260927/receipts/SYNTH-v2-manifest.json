@@ -2,16 +2,16 @@
   "admitted": true,
   "artifacts": {
     "behaviour-ledger.jsonl": {
-      "bytes": 89886,
-      "sha256": "56b3b2c6dc9c37f9ac7cb9d64c93d916211b0f3ac1fdee6a62e1d31016b14124"
+      "bytes": 60881,
+      "sha256": "f6fa66d5c2bc3ba37cff5f805fadf0eeb6ff3dd7bbdf3c6f6cf5177ad07f70c9"
     },
     "build-summary.json": {
-      "bytes": 23242,
-      "sha256": "3987382c6353a1ee51f736392175a34959d3760cc6adb51efc3e511053f0da2d"
+      "bytes": 23432,
+      "sha256": "ba73abd74724cc7865e5dba93d3369142113fa0adbc8cca764d083c83496bac9"
     },
     "cases.jsonl": {
-      "bytes": 2508990,
-      "sha256": "e2868336f4564b8427f7d8f7610da82bf7807f589b8bdc845cc39c96fec6d8ca"
+      "bytes": 2508509,
+      "sha256": "0298b568449adac4a5571e1dda995d636098a3a19804f1252ab45dadb651cc2f"
     },
     "context-sidecar.jsonl": {
       "bytes": 2196742,
@@ -38,14 +38,14 @@
       "sha256": "f8057d911827bce45e9876de4df83f0de24f1a3f7c3d8c602c824390318ce330"
     }
   },
-  "created_at_utc": "2026-10-22T11:19:19.135757+00:00",
+  "created_at_utc": "2026-10-22T15:09:52.930975+00:00",
   "families": {
     "finish_block": 579,
     "roxygen_drafting": 64
   },
   "generator": {
     "code": "packages/sepalith/src/sepalith/data/synth/",
-    "git_head": "5f57b2c7071be50d03f57a53c162656d6a7f0c06",
+    "git_head": "a28b3ffc576d782a55a40088a7e5dbc04b92fb26",
     "id": "sepalith.synth.v1",
     "version": "2.0.0"
   },
