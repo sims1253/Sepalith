@@ -1,0 +1,92 @@
+{
+  "schema": "sepalith.lora-baseline.models.v1",
+  "note": "Old LoRA-SFT models (merged bf16 weights), re-scored on the current plan evaluator. Measurement only: no adoption decision, no rule change. Paths are local copies on /mnt/e; the archive source and the merge manifest's recorded weights sha256 are listed for each.",
+  "models": [
+    {
+      "label": "theta0-sft1000",
+      "name": "θ0 SFT1000",
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT-primary-step1000-merged",
+      "source": "/mnt/nas/home/sepalith/archive/2026-09-29/state/campaign-20260915/models/SFT-primary-step1000-merged",
+      "weights_sha256": "499b7fdadfa701c04a4fba8f1717eb3ce02acc453237718562f002486d09840d",
+      "step": 1000,
+      "training": {
+        "run": "SFT-primary-3000-a checkpoint-1000 (stage broad_SFT_3000, 3,000-step cosine schedule)",
+        "base": "MiniCPM5-2B-Midtrain native, revision 8dc5f605, weights sha256 38a28680 (no CPT)",
+        "adapter": "LoRA r32 alpha 64, lr 2e-4, batch 4 x 4, max sequence 4,096",
+        "loss": "full_text_labels true: loss on prompt and target tokens",
+        "renderer": "zeta2-prm03-v1 (contract 173577c7)",
+        "train_rows_sha256": "7641bbdc8f609aca1e0ad72177561edddfdbdae1b49a8444c15470652bf5ebb6",
+        "training_dev_panel_sha256": "b16c5892635d6e9a5e9e789677057c85a5e875c907c163e91d39f25bc6ad3d21 (older DEV75, before the finish correction)",
+        "tokenizer_files": "tokenizer.json sha256 d5ede0bc and a 455-byte tokenizer_config.json (re-saved; differ in bytes from the pinned 3e065a55); the evaluation uses the pinned tokenizer, see the dry run for vocabulary and prompt-id parity"
+      }
+    },
+    {
+      "label": "r2-task-global-b-500",
+      "name": "R2 task-global 500",
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT11-task-global-b-500-merged",
+      "source": "/mnt/nas/home/sepalith/archive/2026-09-29/state/campaign-20260915/models/SFT11-task-global-b-500-merged",
+      "weights_sha256": "631b97966d3432ab751785660bb3c8cfe6f984b3524be0169b5bc12d5362752c",
+      "step": 500,
+      "training": {
+        "run": "SFT11-task-global-b checkpoint-500 (stage task_sft_prm03_v1, 1,000-step cosine schedule)",
+        "base": "SFT11-CPT-global-a-250 merged (LoRA CPT, 250 steps on MiniCPM5-2B-Midtrain), weights sha256 5f128106",
+        "adapter": "LoRA r32 alpha 64, lr 2e-4, batch 2 x 8, max sequence 4,096",
+        "loss": "prm03_target_only_next_token_v1 (target tokens only)",
+        "renderer": "zeta2-prm03-v1 (contract 173577c7)",
+        "train_rows_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e",
+        "training_dev_panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035 (the current DEV75; it was used to select this checkpoint)"
+      }
+    },
+    {
+      "label": "e750",
+      "name": "E750",
+      "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged",
+      "source": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged (already local)",
+      "weights_sha256": "51232c1c491a4857c55c61669e383e72770b9d1ca49c021b4c7d69bd11ac3c21",
+      "step": 750,
+      "training": {
+        "run": "SFT11-expanded-postsft500-e checkpoint-750 (stage expanded_task_sft_v1, 1,000-step cosine schedule)",
+        "base": "fresh LoRA on the merged R2 task-global 500 (weights sha256 631b9796)",
+        "adapter": "LoRA r32 alpha 64, lr 2e-4, batch 2 x 8, max sequence 4,096, train max target tokens 1,024",
+        "loss": "expanded_target_only_next_token_v1 (target tokens only)",
+        "renderer": "zeta2-prm03-v1 (contract 173577c7)",
+        "train_rows_sha256": "fa247ae7dbbf0b5a66538e8993d9fdd70624ce1c81ae54ae4d6f3d62b2368889 (11,505 rows: 10,411 edit, 1,094 no-op)",
+        "training_dev_panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035 (the current DEV75; it was used to select this checkpoint)"
+      }
+    },
+    {
+      "label": "r2-task-global-c-1000",
+      "name": "R2 task-global 1000",
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT11-task-global-c-1000-merged",
+      "source": "weights: /mnt/e/sepalith/campaign-20260915/intermediate-hf/SFT11-task-global-c-1000-merged/model.safetensors (sha256 equals the archived merge manifest); config, tokenizer and manifest: /mnt/nas/home/sepalith/archive/2026-09-29/state/campaign-20260915/models/SFT11-task-global-c-1000-merged (the archive copy has no weights). Not re-merged: the adapter checkpoint-1000's base (adapter_config base_model_name_or_path) is SFT11-CPT-global-a-250-merged, whose local copy matches weights sha256 5f128106.",
+      "weights_sha256": "1a7e9638284d303beb17bb9b625d2898320436e32a37384523b6316e63c973b0",
+      "step": 1000,
+      "training": {
+        "run": "SFT11-task-global-c checkpoint-1000 (stage task_sft_prm03_v1, end of the 1,000-step cosine schedule)",
+        "base": "SFT11-CPT-global-a-250 merged (LoRA CPT, 250 steps on MiniCPM5-2B-Midtrain), weights sha256 5f128106",
+        "adapter": "LoRA r32 alpha 64, lr 2e-4, batch 2 x 8, max sequence 4,096",
+        "loss": "prm03_target_only_next_token_v1 (target tokens only)",
+        "renderer": "zeta2-prm03-v1 (contract 173577c7)",
+        "train_rows_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e",
+        "training_dev_panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035 (the current DEV75)"
+      }
+    },
+    {
+      "label": "control250",
+      "name": "control250",
+      "path": "/mnt/e/sepalith/lora-rescore-20261022/models/SFT11-control250-merged",
+      "source": "weights: /mnt/e/sepalith/campaign-20260915/intermediate-hf/SFT11-control250-merged/model.safetensors (sha256 equals the archived merge manifest); config, tokenizer and manifest: /mnt/nas/home/sepalith/archive/2026-09-29/state/campaign-20260915/models/SFT11-control250-merged (no weights, no chat_template.jinja; the evaluator renders PRM03 itself and never uses the chat template)",
+      "weights_sha256": "8a9aa65a0f7bc8f169a9e4336494042ac748d2eef23ca349d0a7d26069d7bcdb",
+      "step": 250,
+      "training": {
+        "run": "SFT11-control250 (cloud r2-control run, checkpoint-250, stage task_sft_prm03_v1, 1,000-step cosine schedule)",
+        "base": "MiniCPM5-2B-Midtrain native, revision 8dc5f605, weights sha256 38a28680 (no CPT: the control for the CPT parent)",
+        "adapter": "LoRA r32 alpha 64, lr 2e-4, batch 2 x 8, max sequence 4,096",
+        "loss": "prm03_target_only_next_token_v1 (target tokens only)",
+        "renderer": "zeta2-prm03-v1 (contract 173577c7)",
+        "train_rows_sha256": "85e2d86d4d2fc7f17cae9659dbc62d6eaa679ca49594537a9f317d68a120204e",
+        "training_dev_panel_sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035 (the current DEV75)"
+      }
+    }
+  ]
+}

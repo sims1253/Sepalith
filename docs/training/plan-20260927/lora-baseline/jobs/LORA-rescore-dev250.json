@@ -1,0 +1,31 @@
+{
+  "id": "LORA-rescore-dev250",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 60,
+  "resumable": false,
+  "estimated_minutes": 90,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/lora-baseline/rescore_lora.py",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+    "--models",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/lora-baseline/models.json",
+    "--dry-run-output",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/receipts/LORA-rescore-dev250-dry-run.json",
+    "--output-dir",
+    "/home/m0hawk/.local/state/sepalith/campaign-20260915/lora-rescore-dev250",
+    "--summary-dir",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/lora-baseline/results"
+  ],
+  "note": "Measurement only (no adoption, no rule change): five old LoRA-SFT merged models (theta0 SFT1000, R2 task-global 500, E750, R2 task-global 1000, control250) on DEV75 + DEV250 with arm A's gate evaluator and settings (bf16, cap 1,024, batch 32 dynamic, pinned parent tokenizer); arm A 536 is read back alongside. Per model: 9 min if it stops like arm A, 23 min if it runs to the cap like the parent (C07 validation); about 60 to 75 min expected, 90 estimated, 150 min guard. A model starts only with 25 min left before the deadline. Results in the attempt directory; receipt JSON and markdown table in lora-baseline/results/."
+}
