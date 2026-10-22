@@ -1,0 +1,27 @@
+{
+  "id": "C14-grpo-memory-probe",
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "priority": 30,
+  "resumable": false,
+  "estimated_minutes": 120,
+  "requires": [],
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.rl.grpo_memory_probe",
+    "run",
+    "--docs-dir",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c14"
+  ],
+  "note": "C14 step 2, measurement only (user approved running it before the R4 M >= 15% gate; no adoption, no gate decision). Full-weight GRPO memory probe on arm A checkpoint 536: per configuration a guarded subprocess measures rollout (G=8/G=4, KV cache, 1,024-token cap), chunked scoring, micro-batch-1 backward and the aurora_mix step; card ladder (smaller rollout micro-batches, optimizer offload, G=6), OOM is a recorded result. Internal budget 170 min and the window deadline. Receipt and summary: docs/training/plan-20260927/c14/C14-memory-probe.{json,md}; raw: ~/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/<UTC stamp>/"
+}
