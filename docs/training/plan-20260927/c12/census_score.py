@@ -123,8 +123,17 @@ def load_samples(runs):
                        "model": summary.get("model"), "throughput": summary.get("throughput"),
                        "vllm": [w.get("vllm") for w in summary.get("vllm_workers", [])],
                        "engine": [w.get("config", {}).get("name") for w in summary.get("vllm_workers", [])],
-                       "elapsed_seconds": summary.get("elapsed_seconds")})
+                       "elapsed_seconds": summary.get("elapsed_seconds"), "sampling": sampling_of(summary)})
+    if len({json.dumps(shard["sampling"], sort_keys=True) for shard in shards}) != 1:
+        raise SystemExit("census shards were sampled with different settings")
     return samples, shards
+
+
+def sampling_of(summary):
+    """The shard's sampling settings from its recorded entry arguments (strings in the kernel summary)."""
+    args = summary.get("args", {})
+    return {"temperature": float(args["temperature"]), "top_p": float(args["top_p"]), "samples": int(args["samples"]),
+            "max_new_tokens": int(args["max_new_tokens"]), "seed": int(args["seed"])}
 
 
 def check_coverage(samples, rows, k):
@@ -366,7 +375,7 @@ def main(argv=None):
              for name in ("census-prompts.jsonl", "samples.jsonl", "scores.jsonl", "pass-rates.jsonl",
                           "rft-candidates.jsonl", "dpo-pair-candidates.jsonl")}
     summary = {
-        "schema": SCHEMA, "model_id": args.model_id, "samples_per_prompt": k,
+        "schema": SCHEMA, "model_id": args.model_id, "samples_per_prompt": k, "sampling": shards[0]["sampling"],
         "census": {"train_rows": TRAIN_ROWS, "prompts_scored": len(covered), "prompts_missing": len(missing),
                    "missing_ids": missing[:50], "samples_scored": len(score_rows)},
         "shards": shards, "data": data_identity, "scorer": scorer.identity(),

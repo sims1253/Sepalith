@@ -1,9 +1,8 @@
 {
   "card": "C13",
   "state": "in_progress",
-  "updated": "2026-10-18T23:30:00+02:00",
-  "branch": "plan/C13-rft-dpo",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/69",
+  "updated": "2026-10-22T12:00:00+02:00",
+  "branch": "plan/C13-iter2-t12",
   "outputs": {
     "doc": "docs/training/plan-20260927/c13/selection-and-gates.md",
     "code": {
@@ -21,25 +20,137 @@
     "data": {
       "census": "C12 arm A census (PR #65, unmerged): ~/.local/state/sepalith/c12/census-arm-a/census-summary.json sha256 eaeadf7b9640ddd069cff093d92fedb8831042ca53f79415b0e0187bf3269171; HF campaign-20260915/C12/sepalith-2b-edit-sft-arm-a/ (commit 19a879d6)",
       "local": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a/",
-      "manifest": {"path": "docs/training/plan-20260927/receipts/C13-data-manifest-arm-a.json", "sha256": "c84d2dbc277411dfd6fe16bc72d3b7a5047e8693c53359fdc913471fe9ea13e9"},
-      "rft_rows": {"rows": 4413, "by_family": {"finish_block": 1181, "pipe_rewrite": 994, "format_propagation": 810, "rename_propagation": 791, "no_op": 548, "na_rm_propagation": 68, "roxygen_drafting": 21}, "first_samples": 4324, "second_samples": 89, "from_mixed_prompts": 1952, "token_identical_to_gold": 4275},
-      "rft_cohort": {"path": "rft/rft-cohort-rows.jsonl", "sha256": "07117e8d844879c466bdb31fc7e1b578eec6adb91ff75b69f8e80daa8effa765", "rows": 6304, "train_mix_rows": 1891, "train_mix_share": 0.3, "noop_rows": 651, "max_sequence_tokens": 2986},
-      "rft_schedule": {"path": "rft/draw-schedule-v2-rft.json", "sha256": "0ac538149f8a25ae7968a18f36c43703c1301a3d57bcdfa033ccef18f1b2e441", "updates": 435, "draws": 6960, "noop_share": 0.1875, "noop_exposures": {"2": 648, "3": 3}, "edit_exposures": {"1": 5651, "2": 2}, "gates": [218, 435], "scheduled_input_tokens": 7093869},
-      "dpo_pairs": {"path": "dpo/dpo-pairs.jsonl", "sha256": "9faa4b9e254b7aa066af52287b9b8ea866e1b58cf3917434ec381b797ff3a3d1", "pairs": 18268, "prompts": 9497, "chosen": {"gold": 15210, "model": 3058}, "rejected": {"near_miss": 16782, "wrong_parse_unverified": 1155, "missed_edit": 164, "applied_syntax_invalid": 157, "false_positive_edit": 10}, "tokens": {"prompt": 7858441, "chosen": 2906577, "rejected": 3215491}, "max_sequence_tokens": 2987},
-      "dpo_pair_schedule": {"path": "dpo/pair-schedule.json", "sha256": "07497856a068fe48df9f3395b36714f53c691f5cc37847dc5328362caed6deb4", "updates": 1142, "draws": 18272, "replays": 4, "gates": [571, 1142]},
-      "hf_paths": ["campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/"],
+      "manifest": {
+        "path": "docs/training/plan-20260927/receipts/C13-data-manifest-arm-a.json",
+        "sha256": "c84d2dbc277411dfd6fe16bc72d3b7a5047e8693c53359fdc913471fe9ea13e9"
+      },
+      "rft_rows": {
+        "rows": 4413,
+        "by_family": {
+          "finish_block": 1181,
+          "pipe_rewrite": 994,
+          "format_propagation": 810,
+          "rename_propagation": 791,
+          "no_op": 548,
+          "na_rm_propagation": 68,
+          "roxygen_drafting": 21
+        },
+        "first_samples": 4324,
+        "second_samples": 89,
+        "from_mixed_prompts": 1952,
+        "token_identical_to_gold": 4275
+      },
+      "rft_cohort": {
+        "path": "rft/rft-cohort-rows.jsonl",
+        "sha256": "07117e8d844879c466bdb31fc7e1b578eec6adb91ff75b69f8e80daa8effa765",
+        "rows": 6304,
+        "train_mix_rows": 1891,
+        "train_mix_share": 0.3,
+        "noop_rows": 651,
+        "max_sequence_tokens": 2986
+      },
+      "rft_schedule": {
+        "path": "rft/draw-schedule-v2-rft.json",
+        "sha256": "0ac538149f8a25ae7968a18f36c43703c1301a3d57bcdfa033ccef18f1b2e441",
+        "updates": 435,
+        "draws": 6960,
+        "noop_share": 0.1875,
+        "noop_exposures": {
+          "2": 648,
+          "3": 3
+        },
+        "edit_exposures": {
+          "1": 5651,
+          "2": 2
+        },
+        "gates": [
+          218,
+          435
+        ],
+        "scheduled_input_tokens": 7093869
+      },
+      "dpo_pairs": {
+        "path": "dpo/dpo-pairs.jsonl",
+        "sha256": "9faa4b9e254b7aa066af52287b9b8ea866e1b58cf3917434ec381b797ff3a3d1",
+        "pairs": 18268,
+        "prompts": 9497,
+        "chosen": {
+          "gold": 15210,
+          "model": 3058
+        },
+        "rejected": {
+          "near_miss": 16782,
+          "wrong_parse_unverified": 1155,
+          "missed_edit": 164,
+          "applied_syntax_invalid": 157,
+          "false_positive_edit": 10
+        },
+        "tokens": {
+          "prompt": 7858441,
+          "chosen": 2906577,
+          "rejected": 3215491
+        },
+        "max_sequence_tokens": 2987
+      },
+      "dpo_pair_schedule": {
+        "path": "dpo/pair-schedule.json",
+        "sha256": "07497856a068fe48df9f3395b36714f53c691f5cc37847dc5328362caed6deb4",
+        "updates": 1142,
+        "draws": 18272,
+        "replays": 4,
+        "gates": [
+          571,
+          1142
+        ]
+      },
+      "hf_paths": [
+        "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a/"
+      ],
       "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/966f585a9cc039036063e663305271887136dacd",
-      "hf_receipt": {"path": "docs/training/plan-20260927/receipts/C13-hf-upload.json", "files": 8, "single_commit": true},
+      "hf_receipt": {
+        "path": "docs/training/plan-20260927/receipts/C13-hf-upload.json",
+        "files": 8,
+        "single_commit": true
+      },
       "scope": "TRAIN only: census samples on TRAIN prompts and the public v4 TRAIN rows; no DEV row, no sealed-set access"
     },
     "recipes": {
-      "source_manifest": {"path": "docs/training/plan-20260927/c13/bound/source-manifest.json", "sha256": "1067ff05a94bc450a842288efa0620b3b067e054298c42771c77171b47fbdf65"},
-      "templates": {
-        "rft": {"path": "docs/training/plan-20260927/c13/templates/rft-1-arm-a-census.template.json", "sha256": "ee74129f255807fc15fafa5006d9c2a4627ea0ad5c01e16d490daeb94b283f74"},
-        "dpo": {"path": "docs/training/plan-20260927/c13/templates/dpo-1-arm-a-census.template.json", "sha256": "de689ea66818b3f77c3e062d97e29bc9e9cc6e75899302ec95d78d9c9f514339"}
+      "source_manifest": {
+        "path": "docs/training/plan-20260927/c13/bound/source-manifest.json",
+        "sha256": "1067ff05a94bc450a842288efa0620b3b067e054298c42771c77171b47fbdf65"
       },
-      "rft_arm_a_536": {"path": "docs/training/plan-20260927/c13/bound/rft-1-arm-a-536.json", "sha256": "29f0105604264ccb972b2be0218e57e74f37db4b1c2d04df0a54340b5c49c4a3", "lr": 3.33333e-06, "side_lr": 3.33333e-07, "gates": [218, 435]},
-      "dpo_arm_a_536": {"path": "docs/training/plan-20260927/c13/bound/dpo-1-arm-a-536.json", "sha256": "c4e18abd4bd95928d1c32d35eb416e229ec9681132b65360f7fd1f8c9990e2bc", "lr": 1e-06, "side_lr": 1e-07, "beta": 0.1, "gates": [571, 1142], "use": "only if RFT is discarded (DPO then starts from arm A 536); after an adopted RFT step, rebind the DPO template on the RFT result"},
+      "templates": {
+        "rft": {
+          "path": "docs/training/plan-20260927/c13/templates/rft-1-arm-a-census.template.json",
+          "sha256": "ee74129f255807fc15fafa5006d9c2a4627ea0ad5c01e16d490daeb94b283f74"
+        },
+        "dpo": {
+          "path": "docs/training/plan-20260927/c13/templates/dpo-1-arm-a-census.template.json",
+          "sha256": "de689ea66818b3f77c3e062d97e29bc9e9cc6e75899302ec95d78d9c9f514339"
+        }
+      },
+      "rft_arm_a_536": {
+        "path": "docs/training/plan-20260927/c13/bound/rft-1-arm-a-536.json",
+        "sha256": "29f0105604264ccb972b2be0218e57e74f37db4b1c2d04df0a54340b5c49c4a3",
+        "lr": 3.33333e-06,
+        "side_lr": 3.33333e-07,
+        "gates": [
+          218,
+          435
+        ]
+      },
+      "dpo_arm_a_536": {
+        "path": "docs/training/plan-20260927/c13/bound/dpo-1-arm-a-536.json",
+        "sha256": "c4e18abd4bd95928d1c32d35eb416e229ec9681132b65360f7fd1f8c9990e2bc",
+        "lr": 1e-06,
+        "side_lr": 1e-07,
+        "beta": 0.1,
+        "gates": [
+          571,
+          1142
+        ],
+        "use": "only if RFT is discarded (DPO then starts from arm A 536); after an adopted RFT step, rebind the DPO template on the RFT result"
+      },
       "starting_model": "arm A = /mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536 (model.safetensors befe587a...6030 = scholzmx/sepalith-2b-edit-sft/arm-a); reference = its gate decision decision-step-536-1.json (score250 117, valid 74, cap 1, edit 27, nofp 8, noedit 1, exact edits DEV75+DEV250 106)",
       "verification": "recipe verify passes for both (DPO with --no-reference until the reference job has run)"
     },
@@ -53,11 +164,29 @@
     },
     "night_jobs": {
       "files": {
-        "C13-rft-1-arm-a-536": {"path": "docs/training/plan-20260927/c13/jobs/C13-rft-1-arm-a-536.json", "sha256": "309bea6e72abf3ebc5173f069ff0edc7851e467736295d58b3c1c8d17506beee", "estimated_minutes": 141, "priority": 50},
-        "C13-dpo-1-arm-a-536-reference": {"path": "docs/training/plan-20260927/c13/jobs/C13-dpo-1-arm-a-536-reference.json", "sha256": "6306110ff2a40e454e1e5eddbf00807fe90e0c616632e9ebf90e991cc6141c42", "estimated_minutes": 121, "priority": 55},
-        "C13-dpo-1-arm-a-536": {"path": "docs/training/plan-20260927/c13/jobs/C13-dpo-1-arm-a-536.json", "sha256": "4141768ed740bca35a0091cf06eab622f197e3f710daf4e179fc2b61c0a11dff", "estimated_minutes": 379, "priority": 55, "requires": ["C13-dpo-1-arm-a-536-reference"]}
+        "C13-rft-1-arm-a-536": {
+          "path": "docs/training/plan-20260927/c13/jobs/C13-rft-1-arm-a-536.json",
+          "sha256": "309bea6e72abf3ebc5173f069ff0edc7851e467736295d58b3c1c8d17506beee",
+          "estimated_minutes": 141,
+          "priority": 50
+        },
+        "C13-dpo-1-arm-a-536-reference": {
+          "path": "docs/training/plan-20260927/c13/jobs/C13-dpo-1-arm-a-536-reference.json",
+          "sha256": "6306110ff2a40e454e1e5eddbf00807fe90e0c616632e9ebf90e991cc6141c42",
+          "estimated_minutes": 121,
+          "priority": 55
+        },
+        "C13-dpo-1-arm-a-536": {
+          "path": "docs/training/plan-20260927/c13/jobs/C13-dpo-1-arm-a-536.json",
+          "sha256": "4141768ed740bca35a0091cf06eab622f197e3f710daf4e179fc2b61c0a11dff",
+          "estimated_minutes": 379,
+          "priority": 55,
+          "requires": [
+            "C13-dpo-1-arm-a-536-reference"
+          ]
+        }
       },
-      "enqueued": false,
+      "enqueued": "iteration 1: C13-rft-1-arm-a-536 ran 2026-10-19/20, C13-dpo-1-arm-a-536-reference and C13-dpo-1-arm-a-536 ran until 2026-10-22 03:39 (both discarded under R5, see iteration_1_outcomes)",
       "enqueue_after_merge_if_R3_keeps_arm_a": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c13/jobs/C13-rft-1-arm-a-536.json",
       "after_rft_r5": "discard: enqueue C13-dpo-1-arm-a-536-reference.json, then C13-dpo-1-arm-a-536.json. adopt: publish the RFT result to scholzmx/sepalith-2b-edit-sft/rft-1/ (R8), then DECIDED_BY=... build_c13.sh bind dpo rft-1-arm-a-536-435 <archive>/full/checkpoint-435 <evidence>/decisions/decision-step-435-<n>.json docs/training/plan-20260927/c13/bound/rft-1-arm-a-536.json, build_c13.sh jobs, merge, enqueue reference then DPO",
       "if_R3_adopts_arm_b": "R4: rerun the C12 census on arm B 684, then build_c13.sh data / templates with MODEL_ID=sepalith-2b-edit-sft-arm-b TAG=arm-b and bind on the arm-B checkpoint, its gate-684 decision and c10/bound/sft-v2-arm-b-lr1e-5.json"
@@ -74,22 +203,413 @@
       "check_training": "174/174 pass on CPU with .venv-sft (includes the 4 C13 test files)",
       "check_core": "148 run, 4 known failures (test_c08_select_r2 live tests, identical on main)",
       "check_quality": "ruff and ty pass"
+    },
+    "iteration_1_outcomes": {
+      "start": {
+        "model": "arm A 536",
+        "score250": 117,
+        "valid": 74,
+        "cap": 1,
+        "edit": 27,
+        "nofp": 8,
+        "noedit": 1,
+        "edit_total": 106
+      },
+      "C13-rft-1-arm-a-536": {
+        "gate_218": {
+          "score250": 105,
+          "valid": 72,
+          "cap": 3,
+          "edit": 27,
+          "nofp": 12,
+          "noedit": 1,
+          "edit_total": 105,
+          "loss": 0.00631,
+          "outcome": "rollback (R1-offline: nofp rise 4; valid drop 2 and cap 3 stop-for-user)"
+        },
+        "r5": "discard (rolled back to the starting model, no offline result to adopt)",
+        "evidence": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/C13-rft-1-arm-a-536/ (decisions/decision-step-218-1.json, r5-decision.json at 2026-10-20T01:00:15+02:00)"
+      },
+      "C13-dpo-1-arm-a-536": {
+        "gate_571": {
+          "score250": 101,
+          "valid": 73,
+          "cap": 2,
+          "edit": 28,
+          "nofp": 13,
+          "noedit": 3,
+          "edit_total": 101,
+          "loss": 0.315,
+          "outcome": "rollback (R1-offline: nofp rise 5; cap 2 stop-for-user)"
+        },
+        "telemetry": {
+          "chosen_log_ratio": {
+            "step_286": 0.42,
+            "step_571": -1.35
+          },
+          "rejected_log_ratio_step_571": -26.6,
+          "margin_step_571": 25.2,
+          "reading": "the margin grows mostly by pushing rejected completions down while the chosen log-probability also falls after mid-run; nofp rises"
+        },
+        "r5": "discard (rolled back to the starting model, no offline result to adopt)",
+        "evidence": "~/.local/state/sepalith/campaign-20260915/evaluation-gates/C13-dpo-1-arm-a-536/ (decisions/decision-step-571-1.json, r5-decision.json at 2026-10-22T03:39:16+02:00); /mnt/e/sepalith/campaign-20260915/checkpoints/C13-dpo-1-arm-a-536/telemetry.jsonl"
+      },
+      "result": "no adopted offline step; arm A 536 stays the model; R4 step 4 applied with M = 12.5% (< 15%): stop-for-user, user chose the second offline iteration at temperature 1.2"
+    },
+    "iteration_2": {
+      "decision": "user decision 2026-10-22 ~03:45 (R4 step 4): second offline iteration at census temperature 1.2, from arm A 536",
+      "what_changes": "only the census temperature (1.0 -> 1.2). Same prompts (all 15,006 TRAIN), k = 8, top_p 1.0, cap 1,024, fp16 vLLM 0.31.0 on Kaggle T4x2, seed scheme 3407 + census index (same seeds), reward v2.1, R4 step 1 minimums, the 2026-10-17 family-capped RFT selection, 30% TRAIN mix, schedule v2, all DPO pair candidates, the pre-registered RFT (LR SFT/3) and DPO (LR SFT/10, beta 0.1) recipes, gates at halves under R1-offline, R5 against arm A 536",
+      "census": {
+        "receipt": "docs/training/plan-20260927/receipts/C12-census-arm-a-t12.json",
+        "summary": {
+          "path": "~/.local/state/sepalith/c12/census-arm-a-t12/census-summary.json",
+          "sha256": "78350adfe14f59904d7fb2892f8a275af2a1448b4012abd1ebcefdeed1f71d39"
+        },
+        "raw_outputs": "~/.local/state/sepalith/kaggle/runs/c12-census-t12-s{0,1,2}/ (kernels m0hawk/sepalith-vllm-c12-census-t12-s0/s1/s2, private, commit bd816d7, all 60 chunks complete)",
+        "sampling": {
+          "temperature": 1.2,
+          "top_p": 1.0,
+          "samples": 8,
+          "max_new_tokens": 1024,
+          "seed": 3407
+        },
+        "kaggle_gpu_hours": 3.33,
+        "generated_tokens": 15042300,
+        "statistics_vs_t10": {
+          "M_mixed_share": [
+            0.125083,
+            0.147474
+          ],
+          "all_correct_share": [
+            0.366853,
+            0.329801
+          ],
+          "all_wrong_share": [
+            0.508063,
+            0.522724
+          ],
+          "mean_pass_rate": [
+            0.434368,
+            0.414801
+          ],
+          "exact_samples": [
+            52145,
+            49796
+          ],
+          "protocol_invalid_samples": [
+            438,
+            18771
+          ],
+          "cap_hits": [
+            563,
+            128
+          ],
+          "noop_false_suggestion_rate": [
+            0.001371,
+            0.002742
+          ],
+          "mean_completion_tokens": [
+            125.26,
+            125.3
+          ]
+        },
+        "per_family_M_t12": {
+          "finish_block": 0.109284,
+          "format_propagation": 0.63839,
+          "na_rm_propagation": 0.198529,
+          "no_op": 0.028336,
+          "pipe_rewrite": 0.050933,
+          "rename_propagation": 0.104563,
+          "roxygen_drafting": 0.008589
+        },
+        "observation": "at T = 1.2 protocol-invalid samples rise from 438 to 18,771, almost all finish_block (17,338) and roxygen_drafting (1,311); M rises in the propagation families and falls in finish_block",
+        "hf": "not uploaded (the task scoped HF uploads to the C13 data); the C12 card's step 6 would put it under campaign-20260915/C12/sepalith-2b-edit-sft-arm-a-t12/ in one commit"
+      },
+      "data": {
+        "local": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/",
+        "manifest": {
+          "path": "docs/training/plan-20260927/receipts/C13-data-manifest-arm-a-t12.json",
+          "sha256": "957c00f692252759573b0e9c52c7d19ea14e0cd8e811167c70484286b1dbad62"
+        },
+        "rft_pool": {
+          "verified_correct_samples": 49796,
+          "distinct_max2_per_prompt": 7340,
+          "prompts_with_correct": 7162,
+          "supply_by_family": {
+            "finish_block": 976,
+            "format_propagation": 1508,
+            "na_rm_propagation": 141,
+            "no_op": 1101,
+            "pipe_rewrite": 2004,
+            "rename_propagation": 1603,
+            "roxygen_drafting": 7
+          }
+        },
+        "rft_rows": {
+          "rows": 4113,
+          "by_family": {
+            "finish_block": 976,
+            "pipe_rewrite": 969,
+            "format_propagation": 789,
+            "rename_propagation": 771,
+            "no_op": 535,
+            "na_rm_propagation": 66,
+            "roxygen_drafting": 7
+          },
+          "first_samples": 4028,
+          "second_samples": 85,
+          "from_mixed_prompts": 2050,
+          "token_identical_to_gold": 3974
+        },
+        "rft_cohort": {
+          "path": "rft/rft-cohort-rows.jsonl",
+          "sha256": "fbc7dc037e9d9d3dfbe1656bcb1df9799124edbe67267e0b777e0e97c68eac0d",
+          "rows": 5876,
+          "train_mix_rows": 1763,
+          "train_mix_share": 0.300034,
+          "noop_rows": 635,
+          "max_sequence_tokens": 3064
+        },
+        "rft_schedule": {
+          "path": "rft/draw-schedule-v2-rft.json",
+          "sha256": "e48a05197a1e2eddf05f6d20f37c89b66c74f614431039d2948a9fcf3e07ad8b",
+          "updates": 404,
+          "draws": 6464,
+          "noop_share": 0.1875,
+          "noop_exposures": {
+            "1": 58,
+            "2": 577
+          },
+          "edit_exposures": {
+            "1": 5230,
+            "2": 11
+          },
+          "gates": [
+            202,
+            404
+          ],
+          "scheduled_input_tokens": 6755567
+        },
+        "dpo_pairs": {
+          "path": "dpo/dpo-pairs.jsonl",
+          "sha256": "c75778e0ea88721f53ee7447268f313ae2e9f708527c3fff8dd4aa355ffaa2d3",
+          "pairs": 18888,
+          "prompts": 9966,
+          "chosen": {
+            "gold": 15383,
+            "model": 3505
+          },
+          "rejected": {
+            "near_miss": 13103,
+            "applied_syntax_invalid": 4217,
+            "wrong_parse_unverified": 1327,
+            "missed_edit": 219,
+            "false_positive_edit": 22
+          },
+          "tokens": {
+            "prompt": 9065780,
+            "chosen": 2832258,
+            "rejected": 2601661
+          },
+          "max_sequence_tokens": 3064
+        },
+        "dpo_pair_schedule": {
+          "path": "dpo/pair-schedule.json",
+          "sha256": "2a2fec977562c764e2ca0d9ea3b07f3b2e77f93fb942a953b3f30d668fcb807a",
+          "updates": 1181,
+          "draws": 18896,
+          "replays": 8,
+          "gates": [
+            590,
+            1181
+          ]
+        },
+        "hf_paths": [
+          "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/"
+        ],
+        "hf_commit": "https://huggingface.co/datasets/scholzmx/sepalith/commit/f981590289a7135f4a39ed2ab6dc035fbf3d4c17",
+        "hf_receipt": {
+          "path": "docs/training/plan-20260927/receipts/C13-hf-upload-arm-a-t12.json",
+          "files": 8,
+          "single_commit": true
+        },
+        "scope": "TRAIN only: census samples on TRAIN prompts and the public v4 TRAIN rows; no DEV row, no sealed-set access"
+      },
+      "recipes": {
+        "source_manifest": "unchanged: docs/training/plan-20260927/c13/bound/source-manifest.json (1067ff05..., regenerated identically)",
+        "templates": {
+          "rft": {
+            "path": "docs/training/plan-20260927/c13/templates/rft-2-arm-a-t12-census.template.json",
+            "sha256": "1954f51fd0e3c8dcea3fb82929e6cab525c211289483beddd372eb7a9c4b23d8"
+          },
+          "dpo": {
+            "path": "docs/training/plan-20260927/c13/templates/dpo-2-arm-a-t12-census.template.json",
+            "sha256": "2b6e5d854df4eea9d48fe67dd71f90fa8218e5beb6d471f708641f5f98f6329a"
+          }
+        },
+        "rft_arm_a_536_t12": {
+          "path": "docs/training/plan-20260927/c13/bound/rft-2-arm-a-536-t12.json",
+          "sha256": "bba74aad5f7d207c2bbee122ce9ac49734a097c89d98bb89a368adad34da73ff",
+          "arm": "C13-rft-2-arm-a-536-t12",
+          "lr": 3.33333e-06,
+          "side_lr": 3.33333e-07,
+          "gates": [
+            202,
+            404
+          ]
+        },
+        "dpo_arm_a_536_t12": {
+          "path": "docs/training/plan-20260927/c13/bound/dpo-2-arm-a-536-t12.json",
+          "sha256": "900c99705806e75873700553e3ca7933408787b9df5bb361ad9b8d8abcd2f613",
+          "arm": "C13-dpo-2-arm-a-536-t12",
+          "lr": 1e-06,
+          "side_lr": 1e-07,
+          "beta": 0.1,
+          "gates": [
+            590,
+            1181
+          ],
+          "use": "only if RFT-2 is discarded (DPO then starts from arm A 536); after an adopted RFT-2 step, rebind the dpo-2 template on the RFT-2 result"
+        },
+        "starting_model": "arm A 536 (befe587a...6030), reference = gate decision decision-step-536-1.json (score250 117, valid 74, cap 1, edit 27, nofp 8)",
+        "adoption_r5": "adopt needs score250 >= 122, nofp <= 9, valid >= 73 (as iteration 1)",
+        "verification": "recipe verify passes for both (DPO with --no-reference until its reference job has run)"
+      },
+      "night_jobs": {
+        "files": {
+          "C13-rft-2-arm-a-536-t12": {
+            "path": "docs/training/plan-20260927/c13/jobs/C13-rft-2-arm-a-536-t12.json",
+            "sha256": "31a96fa6470fe461c7cc2b83d8c5e82ccdf5acaca9bfda096e119b0342af5bdf",
+            "estimated_minutes": 135,
+            "priority": 50
+          },
+          "C13-dpo-2-arm-a-536-t12-reference": {
+            "path": "docs/training/plan-20260927/c13/jobs/C13-dpo-2-arm-a-536-t12-reference.json",
+            "sha256": "2b74e682496c5b0a8af9368d39dd8fa52771c6b95b65533bcffd048dccf466fb",
+            "estimated_minutes": 131,
+            "priority": 55
+          },
+          "C13-dpo-2-arm-a-536-t12": {
+            "path": "docs/training/plan-20260927/c13/jobs/C13-dpo-2-arm-a-536-t12.json",
+            "sha256": "c54262ea354af80f39952058e95d4751149c8d7f074fc569c412959d4ae30e66",
+            "estimated_minutes": 407,
+            "priority": 55,
+            "requires": [
+              "C13-dpo-2-arm-a-536-t12-reference"
+            ]
+          }
+        },
+        "enqueued": false,
+        "enqueue_after_merge": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c13/jobs/C13-rft-2-arm-a-536-t12.json",
+        "after_rft_r5": "discard: enqueue C13-dpo-2-arm-a-536-t12-reference.json, then C13-dpo-2-arm-a-536-t12.json. adopt: publish the RFT-2 result under R8 (stable folder rft-2/ -- the card names rft-1/ for the first adopted step; no RFT step has been adopted yet), then ITER=2 TAG=arm-a-t12 DECIDED_BY=... build_c13.sh bind dpo rft-2-arm-a-536-t12-404 <archive>/full/checkpoint-404 <evidence>/decisions/decision-step-404-<n>.json docs/training/plan-20260927/c13/bound/rft-2-arm-a-536-t12.json, build_c13.sh jobs, merge, enqueue reference then DPO"
+      },
+      "choices_recorded": [
+        "Seeds: the same scheme and therefore the same seeds as iteration 1 (3407 + census index, order sha 6ce201a7...); only the temperature differs",
+        "Kaggle layout as iteration 1: 3 shards x 5,002 prompts, chunks of 256, 105-minute session budget, both T4s",
+        "RFT selection: the user's 2026-10-17 family-capped rule applied unchanged (4,113 rows). The census scorer's strict TRAIN-mix-balanced file holds 125 samples (roxygen_drafting supplies 7), the same ambiguity as iteration 1, which that decision resolved",
+        "Names: data and HF model id sepalith-2b-edit-sft-arm-a-t12 (the iteration-1 directory is write-once), step names rft-2 / dpo-2, parent tag arm-a-536-t12 (same checkpoint; the tag only names the iteration)",
+        "Gates stay at the halves of each step's own schedule: RFT 202/404 (404 updates), DPO 590/1,181 (1,181 updates)",
+        "DPO bound on arm A 536 like iteration 1 (used only if RFT-2 is discarded)",
+        "census_score.py now records the shards' sampling settings (metadata only, scoring unchanged) and refuses shards sampled with different settings"
+      ]
     }
   },
   "rule_decisions": [
     {
       "rule": "R4 step 1 + user decision",
       "at": "2026-10-17",
-      "inputs": {"verified_correct_samples": 52145, "dpo_pairs": 18268, "rft_family_capped": 4413},
+      "inputs": {
+        "verified_correct_samples": 52145,
+        "dpo_pairs": 18268,
+        "rft_family_capped": 4413
+      },
       "outcome": "offline route: RFT on the family-capped set (4,413), then DPO on all 18,268 pairs; parent arm A 536 unless R3 adopts arm B"
+    },
+    {
+      "rule": "R5",
+      "at": "2026-10-20T01:00:15+02:00",
+      "step": "C13-rft-1-arm-a-536",
+      "inputs": {
+        "start": {
+          "score250": 117,
+          "nofp": 8,
+          "valid": 74
+        },
+        "gate_218": {
+          "score250": 105,
+          "nofp": 12,
+          "valid": 72,
+          "cap": 3
+        }
+      },
+      "outcome": "discard (gate 218 R1-offline rollback, nofp rise 4)"
+    },
+    {
+      "rule": "R5",
+      "at": "2026-10-22T03:39:16+02:00",
+      "step": "C13-dpo-1-arm-a-536",
+      "inputs": {
+        "start": {
+          "score250": 117,
+          "nofp": 8,
+          "valid": 74
+        },
+        "gate_571": {
+          "score250": 101,
+          "nofp": 13,
+          "valid": 73,
+          "cap": 2
+        }
+      },
+      "outcome": "discard (gate 571 R1-offline rollback, nofp rise 5)"
+    },
+    {
+      "rule": "R4 step 4 + user decision",
+      "at": "2026-10-22T03:45:00+02:00",
+      "inputs": {
+        "adopted_offline_steps": 0,
+        "latest_census_M": 0.125083,
+        "threshold": 0.15
+      },
+      "outcome": "stop-for-user (M < 15%); user chose the second offline iteration at temperature 1.2 from arm A 536"
+    },
+    {
+      "rule": "R7",
+      "at": "2026-10-22T09:59:16+02:00",
+      "inputs": {
+        "kaggle_gpu_hours_week_before": 3.99,
+        "census_t12": 3.33,
+        "week_after": 7.32,
+        "limit": 20,
+        "quota_week_refresh": "2026-10-24T00:00:00"
+      },
+      "outcome": "within limit"
+    },
+    {
+      "rule": "R4 step 1 (iteration 2) + user decision 2026-10-17",
+      "at": "2026-10-22T10:30:00+02:00",
+      "inputs": {
+        "verified_correct_samples": 49796,
+        "verified_correct_distinct_max2_per_prompt": 7340,
+        "rft_family_capped": 4113,
+        "rft_strict_balanced": 125,
+        "dpo_pairs": 18888,
+        "dpo_pairs_model_chosen": 3505,
+        "min_verified": 2000,
+        "min_pairs": 1000,
+        "M": 0.147474
+      },
+      "outcome": "continue: the minimums hold on the counts the 2026-10-17 decision uses (49,796 / 7,340 verified >= 2,000; family-capped RFT 4,113 >= 2,000; 18,888 pairs >= 1,000); the strict balanced file (125) is the iteration-1 ambiguity that decision resolved"
     }
   ],
   "question_for_user": null,
-  "notes": "Data built (TRAIN only), uploaded in one HF commit; RFT and DPO recipes bound on arm A 536 with the new training/offline package (DPO in-repo on the full-weight runtime, trl untouched); night jobs written, nothing enqueued. Waiting for R3 (arm B gate 684, morning of 2026-10-19) and for this PR to merge. Interpretations recorded for the user: the 30% TRAIN mix is 30% of the cohort drawn from TRAIN rows without an RFT row; the offline gates apply R1's later-gate table from the first gate on; DPO with all 18,268 pairs needs two nights, not the card's one. 4,275 of the 4,413 RFT rows are token-identical to their gold targets, so RFT mostly re-weights prompts the model already solves; R5 needs +5 score250 to adopt.",
+  "notes": "Data built (TRAIN only), uploaded in one HF commit; RFT and DPO recipes bound on arm A 536 with the new training/offline package (DPO in-repo on the full-weight runtime, trl untouched); night jobs written, nothing enqueued. Waiting for R3 (arm B gate 684, morning of 2026-10-19) and for this PR to merge. Interpretations recorded for the user: the 30% TRAIN mix is 30% of the cohort drawn from TRAIN rows without an RFT row; the offline gates apply R1's later-gate table from the first gate on; DPO with all 18,268 pairs needs two nights, not the card's one. 4,275 of the 4,413 RFT rows are token-identical to their gold targets, so RFT mostly re-weights prompts the model already solves; R5 needs +5 score250 to adopt. 2026-10-22: iteration 1 ended with no adopted step (RFT-1 and DPO-1 both rolled back at their first gate on nofp, R5 discard). User decision (R4 step 4): second offline iteration at temperature 1.2. Census at T = 1.2 on Kaggle (3.33 GPU-h, week 7.32 of 20): M 14.7%, all-wrong 52.3%, 49,796 verified-correct samples, 18,888 pairs. Iteration-2 data built and uploaded in one HF commit, recipes bound on arm A 536, jobs written, nothing enqueued.",
   "next_steps": [
-    "User: merge this PR (and PR #65 for the C12 records).",
-    "Morning of 2026-10-19: apply R3. If arm A stays: enqueue C13-rft-1-arm-a-536 (command above). If arm B is adopted: rerun C12 on B first (R4).",
-    "After the RFT night: read evaluation-gates/C13-rft-1-arm-a-536/r5-decision.json; publish under R8 if adopted; bind and enqueue DPO as in night_jobs.after_rft_r5.",
-    "After the adopted offline step(s): R4 step 2, re-run the C12 census on the latest adopted model."
-  ]
+    "Orchestrator: merge this PR, fast-forward /home/m0hawk/sandbox/Sepalith, enqueue C13-rft-2-arm-a-536-t12 (outputs.iteration_2.night_jobs.enqueue_after_merge).",
+    "After the RFT-2 night: read evaluation-gates/C13-rft-2-arm-a-536-t12/r5-decision.json; discard -> enqueue the DPO-2 reference then DPO-2; adopt -> publish under R8 and rebind DPO-2 on the result.",
+    "After an adopted offline step: R4 step 2 (re-census the adopted model), then R4 step 3.",
+    "Optional: upload the T = 1.2 census outputs under campaign-20260915/C12/sepalith-2b-edit-sft-arm-a-t12/ in one commit (C12 card step 6)."
+  ],
+  "pull_request_iteration_1": "https://github.com/sims1253/Sepalith/pull/69",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/84"
 }

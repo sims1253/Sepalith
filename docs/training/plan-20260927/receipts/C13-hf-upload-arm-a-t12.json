@@ -1,0 +1,48 @@
+{
+  "commit_url": "https://huggingface.co/datasets/scholzmx/sepalith/commit/f981590289a7135f4a39ed2ab6dc035fbf3d4c17",
+  "oid": "f981590289a7135f4a39ed2ab6dc035fbf3d4c17",
+  "repo": "datasets/scholzmx/sepalith",
+  "path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/",
+  "files": [
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/manifest.json",
+      "bytes": 7461,
+      "sha256": "957c00f692252759573b0e9c52c7d19ea14e0cd8e811167c70484286b1dbad62"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/rft/rft-cohort-rows.jsonl",
+      "bytes": 60510820,
+      "sha256": "fbc7dc037e9d9d3dfbe1656bcb1df9799124edbe67267e0b777e0e97c68eac0d"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/rft/rft-selection.jsonl",
+      "bytes": 1289669,
+      "sha256": "ecdf47fdbda55aa748830bd042ca587f501cdec409cb8a6f939bb4446ed181de"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/rft/train-mix-ids.json",
+      "bytes": 56667,
+      "sha256": "6373e3fc4e6b4cd88313534c2de4675c41489ac801f595c7d942adda8c8bd3fd"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/rft/draw-schedule-v2-rft.json",
+      "bytes": 3679772,
+      "sha256": "e48a05197a1e2eddf05f6d20f37c89b66c74f614431039d2948a9fcf3e07ad8b"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/rft/length-profile.json",
+      "bytes": 467,
+      "sha256": "3435a2feda4ad1a2d47be760677a7c582c37d63cb97973a18449460482b1381c"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/dpo/dpo-pairs.jsonl",
+      "bytes": 93349159,
+      "sha256": "c75778e0ea88721f53ee7447268f313ae2e9f708527c3fff8dd4aa355ffaa2d3"
+    },
+    {
+      "repo_path": "campaign-20260915/C13/sepalith-2b-edit-sft-arm-a-t12/dpo/pair-schedule.json",
+      "bytes": 197156,
+      "sha256": "2a2fec977562c764e2ca0d9ea3b07f3b2e77f93fb942a953b3f30d668fcb807a"
+    }
+  ]
+}

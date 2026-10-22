@@ -128,3 +128,35 @@ another model (arm B, per R4) also needs `build_c13.sh data` and `templates`.
 DPO therefore needs two nights. The jobs are resumable and the reference pass
 keeps its verified prefix. Total: three nights, then the R4 step 2 re-census on
 Kaggle (about 3.3 GPU-h).
+
+## Iteration 2: census at temperature 1.2 (user decision 2026-10-22)
+
+Iteration 1 adopted nothing. RFT-1 and DPO-1 both rolled back at their first
+gate because `nofp` rose by 4 and 5, so R5 discarded both. R4 step 4 then
+stopped for the user, with `M` at 12.5%. The user chose a second offline
+iteration at temperature 1.2, again from arm A 536.
+
+Only the census temperature changes. The prompts, k = 8, top_p 1.0, cap 1,024
+and the seed scheme (3407 + census index, so the same seeds) stay as they were.
+So do reward v2.1, the selection rules above, the TRAIN mix, schedule v2, the
+recipes and the gates. The commands are the iteration-1 ones with
+`ITER=2 MODEL_ID=sepalith-2b-edit-sft-arm-a-t12 TAG=arm-a-t12`, parent tag
+`arm-a-536-t12` (see [build_c13.sh](build_c13.sh)).
+
+| | Iteration 1 (T = 1.0) | Iteration 2 (T = 1.2) |
+| --- | ---: | ---: |
+| `M` | 12.5% | 14.7% |
+| All-wrong share | 50.8% | 52.3% |
+| Exact samples | 52,145 | 49,796 |
+| Protocol-invalid samples | 438 | 18,771 (17,338 finish_block) |
+| Distinct pool (at most 2 per prompt) | 7,528 | 7,340 |
+| RFT rows (family-capped) | 4,413 | 4,113 (roxygen_drafting 7) |
+| Cohort rows (30% TRAIN) | 6,304 | 5,876 |
+| RFT updates, gates | 435; 218, 435 | 404; 202, 404 |
+| DPO pairs (model-chosen) | 18,268 (3,058) | 18,888 (3,505) |
+| DPO updates, gates | 1,142; 571, 1,142 | 1,181; 590, 1,181 |
+
+The recipes are `bound/rft-2-arm-a-536-t12.json` and
+`bound/dpo-2-arm-a-536-t12.json`. The jobs are `C13-rft-2-arm-a-536-t12`,
+`C13-dpo-2-arm-a-536-t12-reference` and `C13-dpo-2-arm-a-536-t12`. As in
+iteration 1, DPO from arm A 536 runs only if RFT-2 is discarded.
