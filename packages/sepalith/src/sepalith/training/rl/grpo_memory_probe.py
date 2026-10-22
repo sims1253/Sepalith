@@ -768,12 +768,18 @@ def _synthetic_rows(state: ChildState) -> list[tuple[list[int], list[int]]]:
     return rows
 
 
+def resolve_device(name: str) -> torch.device:
+    """torch.cuda.set_device and friends reject a bare "cuda"; pin it to the first visible GPU."""
+    device = torch.device(name)
+    return torch.device("cuda", 0) if device.type == "cuda" and device.index is None else device
+
+
 def child_main(config_path: Path, inputs_path: Path, result_path: Path) -> int:
     config = ProbeConfig.from_mapping(json.loads(config_path.read_text()))
     inputs = cast(Json, json.loads(inputs_path.read_text()))
     if inputs.get("schema") != INPUTS_SCHEMA:
         raise ProbeError("inputs schema mismatch")
-    device = torch.device(str(inputs["device"]))
+    device = resolve_device(str(inputs["device"]))
     state = ChildState(config=config, inputs=inputs, result_path=result_path, device=device)
     state.result = {"schema": RESULT_SCHEMA, "config": config.to_mapping(), "status": "running", "started": utc_now(),
                     "pid": os.getpid(), "phases": {}, "phase_order": [],
@@ -1384,7 +1390,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     receipt = probe.run()
     print(json.dumps({"status": receipt["status"], "run_dir": str(settings.run_dir),
                       "ladders": receipt["ladders"]}, indent=2))
-    return 0
+    return probe_exit_code(receipt)
+
+
+def probe_exit_code(receipt: Mapping[str, object]) -> int:
+    """1 when attempts ran but none produced a result (an OOM is a result; a crash before any phase is not)."""
+    attempts = cast(Sequence[Mapping[str, object]], receipt.get("attempts") or [])
+    produced = [a for a in attempts if a.get("status") not in ("crashed", "not_launched")]
+    return 1 if attempts and not produced else 0
 
 
 
