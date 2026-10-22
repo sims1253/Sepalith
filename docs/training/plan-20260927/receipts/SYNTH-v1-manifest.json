@@ -33,7 +33,7 @@
       "sha256": "6e3a8afb73846f6b29df78e80d1629f822c45a721289a0328107d0badf04da74"
     }
   },
-  "created_at_utc": "2026-10-22T07:24:50.174880+00:00",
+  "created_at_utc": "2026-10-22T08:47:57.972040+00:00",
   "families": {
     "finish_block": 4099,
     "format_propagation": 836,
@@ -41,7 +41,7 @@
   },
   "generator": {
     "code": "packages/sepalith/src/sepalith/data/synth/",
-    "git_head": "bd816d771d411d91d117733a4d1eb53c50beb90b",
+    "git_head": "7a4264885c2303c8aa27ea507ab60fe323f1d31b",
     "id": "sepalith.synth.v1",
     "version": "1.0.0"
   },
