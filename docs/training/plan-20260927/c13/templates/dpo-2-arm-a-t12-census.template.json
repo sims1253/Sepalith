@@ -1,0 +1,142 @@
+{
+  "cohort": {
+    "composition": {
+      "by_family": {
+        "finish_block": 15111,
+        "format_propagation": 1823,
+        "na_rm_propagation": 33,
+        "no_op": 22,
+        "pipe_rewrite": 98,
+        "rename_propagation": 177,
+        "roxygen_drafting": 1624
+      },
+      "chosen_sources": {
+        "gold": 15383,
+        "model": 3505
+      },
+      "rejected_outcomes": {
+        "applied_syntax_invalid": 4217,
+        "false_positive_edit": 22,
+        "missed_edit": 219,
+        "near_miss": 13103,
+        "wrong_parse_unverified": 1327
+      }
+    },
+    "draw_schedule": {
+      "bytes": 197156,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/dpo/pair-schedule.json",
+      "sha256": "2a2fec977562c764e2ca0d9ea3b07f3b2e77f93fb942a953b3f30d668fcb807a"
+    },
+    "draws": 18896,
+    "id": "C13-dpo-pairs-sepalith-2b-edit-sft-arm-a-t12",
+    "manifest": {
+      "bytes": 7461,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/manifest.json",
+      "sha256": "957c00f692252759573b0e9c52c7d19ea14e0cd8e811167c70484286b1dbad62"
+    },
+    "max_sequence_tokens": 4096,
+    "observed_max_sequence_tokens": 3064,
+    "rows": {
+      "bytes": 93349159,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/dpo/dpo-pairs.jsonl",
+      "sha256": "c75778e0ea88721f53ee7447268f313ae2e9f708527c3fff8dd4aa355ffaa2d3"
+    },
+    "target_truncation": false,
+    "tokens": {
+      "chosen": 2832258,
+      "prompt": 9065780,
+      "rejected": 2601661
+    },
+    "unique_rows": 18888,
+    "updates": 1181
+  },
+  "dev_panels": {
+    "dev250": {
+      "cases": 250,
+      "manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/manifest.json",
+        "sha256": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+      },
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+    },
+    "dev75": {
+      "cases": 75,
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    }
+  },
+  "development": {
+    "cases": 75,
+    "final_set_access": false,
+    "generation_budget": {
+      "default_candidate": 1024,
+      "policy": "no silent truncation; report cap hit, response completeness and stop token",
+      "prepared_max_new_tokens_bound": 8192,
+      "root_selected": true
+    },
+    "generation_evaluation": "required_for_edit_and_noop_quality",
+    "panel": {
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "teacher_forced_diagnostic": "separate_metric_not_edit_accuracy"
+  },
+  "expected_model": {
+    "dtype": "bfloat16",
+    "parameter_tensors": 381,
+    "parameters": 2516756480,
+    "peft": false
+  },
+  "kind": "dpo",
+  "launch_authorized": false,
+  "optimizer_dispatch": {
+    "bytes": 90229,
+    "ordered_rows_sha256": "4b2f51ccaaa4e106ac42a8429d7b2df5e6282d19253d6436d08a49063dd27365",
+    "path": "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/lead/r2-full-weight-hybrid-smoke-root-v3/expected-aurora-mix-manifest.json",
+    "sha256": "246c8a52d985f836273f57a79207a265fd0f294498a1a493994c584c28de4ac7"
+  },
+  "parent": null,
+  "pre_registered": {
+    "adoption_rule": "R5 (docs/training/plan-20260927/RULES.md) at the step's result checkpoint",
+    "beta": 0.1,
+    "card": "C13",
+    "effective_batch": 16,
+    "gate_rule": "R1-offline (sepalith.training.offline.rules: R1 later-gate table vs the starting model, then vs the previous gate; noedit_dodge and, for DPO, dpo_chosen_collapse are stop-for-user)",
+    "gate_updates": [
+      590,
+      1181
+    ],
+    "kind": "dpo",
+    "learning_rate_ratio_to_sft": 0.1,
+    "loss": "sigmoid",
+    "min_lr_rate": 0.1,
+    "optimizer_mechanics": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "reference": "starting model, bf16, precomputed and hashed",
+    "scheduler": "cosine_with_min_lr",
+    "side_lr_ratio": 0.1,
+    "unit": "pairs",
+    "warmup_steps": 32,
+    "weight_decay": 0.0
+  },
+  "schema": "sepalith.c13.offline-template.v1",
+  "seed": 3407,
+  "status": "template_parent_unbound",
+  "step_name": "dpo-2"
+}

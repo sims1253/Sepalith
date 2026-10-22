@@ -1,0 +1,380 @@
+{
+  "census": {
+    "missing_ids": [],
+    "prompts_missing": 0,
+    "prompts_scored": 15006,
+    "samples_scored": 120048,
+    "train_rows": 15006
+  },
+  "data": {
+    "context": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/context-sidecar.jsonl",
+      "sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"
+    },
+    "length_policy": "v4-braceindent-15006-complete-4096-candidate",
+    "reward_buffer_manifest": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-finish-source-repair-buffer-v1/materialization.json",
+      "sha256": "84f19b3011501b9614f6794dd6635b0e0aef56d8a853cb94fbbda4f8aa0467d4"
+    },
+    "rows": 15006,
+    "selected_ids": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/RL11-15006-context-v1/selected-train-ids.json",
+      "sha256": "986a1f7910c44423e50988e76abb6671dedf8cd70f5542ff9efd7a03ce504462"
+    }
+  },
+  "dpo": {
+    "chosen_sources": {
+      "gold": 15383,
+      "model": 3505
+    },
+    "pairs": 18888,
+    "prompts_with_pairs": 9966,
+    "rejected_outcomes": {
+      "applied_syntax_invalid": 4217,
+      "false_positive_edit": 22,
+      "missed_edit": 219,
+      "near_miss": 13103,
+      "wrong_parse_unverified": 1327
+    }
+  },
+  "files": {
+    "census-prompts.jsonl": {
+      "bytes": 81219678,
+      "sha256": "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025"
+    },
+    "dpo-pair-candidates.jsonl": {
+      "bytes": 45956361,
+      "sha256": "dba61f64fcb53ade9f5f865011b9e0e4d84cbe0e4988a487988066332228ab22"
+    },
+    "pass-rates.jsonl": {
+      "bytes": 4309553,
+      "sha256": "3c2ad5e1fd42cd54b3d4003a564505342aa91f5ba829341357977fcdb70af7fd"
+    },
+    "rft-candidates.jsonl": {
+      "bytes": 46969,
+      "sha256": "addbb19008dd975c264e216fb6d9c8328df163240d6aa017a68d78feab235131"
+    },
+    "samples.jsonl": {
+      "bytes": 132567620,
+      "sha256": "d1e3076558ad25ca09b185c1bea867a080f247f1ebe446e00e88fb726fe622f1"
+    },
+    "scores.jsonl": {
+      "bytes": 240214481,
+      "sha256": "6a28a92109430c2a99912259ea2b16a452a8d81843dc54d43cce9ef7fcd84508"
+    }
+  },
+  "final_set_access": false,
+  "hf_upload": null,
+  "infrastructure_failures": {
+    "air": 0,
+    "r": 0
+  },
+  "kaggle": {
+    "accelerator": "2x Tesla T4 per session, one vLLM engine per T4",
+    "entry_args": "--census --shard-index i --shard-count 3 --chunk-prompts 256 --session-budget-minutes 105 --temperature 1.2",
+    "gpu_hours_census": 3.33,
+    "private": true,
+    "quota_week_refresh": "2026-10-24T00:00:00",
+    "r7_limit": 20,
+    "raw_outputs": "~/.local/state/sepalith/kaggle/runs/c12-census-t12-s{0,1,2}/",
+    "runs": {
+      "c12-census-t12-s0": {
+        "chunks_missing": [],
+        "commit": "bd816d771d411d91d117733a4d1eb53c50beb90b",
+        "driver_gpu_hours": 2.24,
+        "finished_at": "2026-10-22T08:53:19+0200",
+        "generated_tokens": 4992101,
+        "pushed_at": "2026-10-22T07:44:51+0200",
+        "session_gpu_hours": 1.12,
+        "session_seconds": 4022.2,
+        "tokens_per_second": 1365.4,
+        "weekly_after": 6.23
+      },
+      "c12-census-t12-s1": {
+        "chunks_missing": [],
+        "commit": "bd816d771d411d91d117733a4d1eb53c50beb90b",
+        "driver_gpu_hours": 2.21,
+        "finished_at": "2026-10-22T08:52:03+0200",
+        "generated_tokens": 5099128,
+        "pushed_at": "2026-10-22T07:45:36+0200",
+        "session_gpu_hours": 1.09,
+        "session_seconds": 3924.3,
+        "tokens_per_second": 1428.3,
+        "weekly_after": 6.21
+      },
+      "c12-census-t12-s2": {
+        "chunks_missing": [],
+        "commit": "bd816d771d411d91d117733a4d1eb53c50beb90b",
+        "driver_gpu_hours": 1.11,
+        "finished_at": "2026-10-22T09:59:16+0200",
+        "generated_tokens": 4951071,
+        "pushed_at": "2026-10-22T08:52:43+0200",
+        "session_gpu_hours": 1.09,
+        "session_seconds": 3938.5,
+        "tokens_per_second": 1402.9,
+        "weekly_after": 7.32
+      }
+    },
+    "weekly_gpu_hours_after": 7.32,
+    "weekly_gpu_hours_before": 3.99
+  },
+  "model_id": "sepalith-2b-edit-sft/arm-a",
+  "purpose": "C13 iteration 2 (R4 step 4, user decision 2026-10-22): census of arm A 536 at temperature 1.2; everything else as the C12 census (receipts/C12-census.json)",
+  "r4_step1": {
+    "inputs": {
+      "M": 0.147474,
+      "dpo_pair_candidates": 18888,
+      "dpo_pairs_gold_chosen": 15383,
+      "dpo_pairs_model_chosen": 3505,
+      "min_pairs": 1000,
+      "min_verified": 2000,
+      "rft_candidates_balanced": 125,
+      "verified_correct_distinct": 7357,
+      "verified_correct_distinct_max2_per_prompt": 7340,
+      "verified_correct_samples": 49796
+    },
+    "offline_route_counts_met": false
+  },
+  "rft": {
+    "balanced_total": 125,
+    "binding_family": "roxygen_drafting",
+    "supply_distinct_capped": {
+      "finish_block": 976,
+      "format_propagation": 1508,
+      "na_rm_propagation": 141,
+      "no_op": 1101,
+      "pipe_rewrite": 2004,
+      "rename_propagation": 1603,
+      "roxygen_drafting": 7
+    }
+  },
+  "sampling": {
+    "max_new_tokens": 1024,
+    "samples": 8,
+    "seed": 3407,
+    "temperature": 1.2,
+    "top_p": 1.0
+  },
+  "schema": "sepalith.c12.census-receipt.v1",
+  "scorer": {
+    "config": {
+      "max_completion_tokens": 1024,
+      "partial_credit": "gain",
+      "partial_weight": 0.5
+    },
+    "formatter": {
+      "arguments": "format --no-configuration --stdin-file-path",
+      "command": "air",
+      "version": "air 0.12.0"
+    },
+    "parser": {
+      "command": "Rscript --vanilla",
+      "generated_r_executed": false,
+      "harness_sha256": "175cd35a7a825dc0362348bf168a8406f8751ad82a8b58d975af667a48c28f6c",
+      "operation": "base::parse(file=...,keep.source=FALSE)",
+      "r_version": "R 4.6.1 (2026-06-24)",
+      "syntax_error_exit_code": 3
+    },
+    "policy": "sepalith.reward.v2.1",
+    "rewards": {
+      "cap_hit": -0.5,
+      "correct_no_edit": 1.0,
+      "exact": 1.0,
+      "false_positive_edit": -0.5,
+      "missed_edit": 0.0,
+      "protocol_invalid": -0.5,
+      "syntax_invalid": 0.0,
+      "unverified_wrong": 0.0
+    }
+  },
+  "statistics": {
+    "finish_block": {
+      "M_mixed_share": 0.109313,
+      "all_correct_share": 0.005138,
+      "all_wrong_share": 0.885549,
+      "cap_hit_rate": 0.001413,
+      "cap_hits": 88,
+      "exact_samples": 2979,
+      "mean_completion_tokens": 199.32,
+      "mean_pass_rate": 0.047832,
+      "noop_false_suggestion_rate": null,
+      "pass_count_histogram": {
+        "0": 6894,
+        "1": 241,
+        "2": 154,
+        "3": 125,
+        "4": 115,
+        "5": 81,
+        "6": 75,
+        "7": 60,
+        "8": 40
+      },
+      "protocol_invalid": 17338
+    },
+    "format_propagation": {
+      "M_mixed_share": 0.63839,
+      "all_correct_share": 0.274303,
+      "all_wrong_share": 0.087307,
+      "cap_hit_rate": 0.0,
+      "cap_hits": 0,
+      "exact_samples": 8907,
+      "mean_completion_tokens": 46.97,
+      "mean_pass_rate": 0.689396,
+      "noop_false_suggestion_rate": null,
+      "pass_count_histogram": {
+        "0": 141,
+        "1": 72,
+        "2": 70,
+        "3": 62,
+        "4": 103,
+        "5": 155,
+        "6": 205,
+        "7": 364,
+        "8": 443
+      },
+      "protocol_invalid": 81
+    },
+    "na_rm_propagation": {
+      "M_mixed_share": 0.198529,
+      "all_correct_share": 0.801471,
+      "all_wrong_share": 0.0,
+      "cap_hit_rate": 0.0,
+      "cap_hits": 0,
+      "exact_samples": 1042,
+      "mean_completion_tokens": 27.62,
+      "mean_pass_rate": 0.957721,
+      "noop_false_suggestion_rate": null,
+      "pass_count_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 2,
+        "4": 1,
+        "5": 2,
+        "6": 4,
+        "7": 18,
+        "8": 109
+      },
+      "protocol_invalid": 3
+    },
+    "no_op": {
+      "M_mixed_share": 0.028336,
+      "all_correct_share": 0.971664,
+      "all_wrong_share": 0.0,
+      "cap_hit_rate": 0.000114,
+      "cap_hits": 1,
+      "exact_samples": 8714,
+      "mean_completion_tokens": 12.19,
+      "mean_pass_rate": 0.995658,
+      "noop_false_suggestion_rate": 0.002742,
+      "pass_count_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 1,
+        "7": 28,
+        "8": 1063
+      },
+      "protocol_invalid": 13
+    },
+    "overall": {
+      "M_mixed_share": 0.147474,
+      "all_correct_share": 0.329801,
+      "all_wrong_share": 0.522724,
+      "cap_hit_rate": 0.001066,
+      "cap_hits": 128,
+      "exact_samples": 49796,
+      "mean_completion_tokens": 125.3,
+      "mean_pass_rate": 0.414801,
+      "noop_false_suggestion_rate": 0.002742,
+      "pass_count_histogram": {
+        "0": 7844,
+        "1": 317,
+        "2": 227,
+        "3": 194,
+        "4": 222,
+        "5": 248,
+        "6": 312,
+        "7": 693,
+        "8": 4949
+      },
+      "protocol_invalid": 18771
+    },
+    "pipe_rewrite": {
+      "M_mixed_share": 0.050933,
+      "all_correct_share": 0.949067,
+      "all_wrong_share": 0.0,
+      "cap_hit_rate": 0.0,
+      "cap_hits": 0,
+      "exact_samples": 15745,
+      "mean_completion_tokens": 17.29,
+      "mean_pass_rate": 0.992499,
+      "noop_false_suggestion_rate": null,
+      "pass_count_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 1,
+        "5": 3,
+        "6": 5,
+        "7": 91,
+        "8": 1882
+      },
+      "protocol_invalid": 11
+    },
+    "rename_propagation": {
+      "M_mixed_share": 0.104563,
+      "all_correct_share": 0.894804,
+      "all_wrong_share": 0.000634,
+      "cap_hit_rate": 0.0,
+      "cap_hits": 0,
+      "exact_samples": 12396,
+      "mean_completion_tokens": 20.04,
+      "mean_pass_rate": 0.981939,
+      "noop_false_suggestion_rate": null,
+      "pass_count_histogram": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 2,
+        "5": 6,
+        "6": 22,
+        "7": 132,
+        "8": 1412
+      },
+      "protocol_invalid": 14
+    },
+    "roxygen_drafting": {
+      "M_mixed_share": 0.008589,
+      "all_correct_share": 0.0,
+      "all_wrong_share": 0.991411,
+      "cap_hit_rate": 0.005982,
+      "cap_hits": 39,
+      "exact_samples": 13,
+      "mean_completion_tokens": 208.31,
+      "mean_pass_rate": 0.001994,
+      "noop_false_suggestion_rate": null,
+      "pass_count_histogram": {
+        "0": 808,
+        "1": 3,
+        "2": 2,
+        "3": 2,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0
+      },
+      "protocol_invalid": 1311
+    }
+  },
+  "summary": {
+    "path": "~/.local/state/sepalith/c12/census-arm-a-t12/census-summary.json",
+    "sha256": "78350adfe14f59904d7fb2892f8a275af2a1448b4012abd1ebcefdeed1f71d39"
+  }
+}

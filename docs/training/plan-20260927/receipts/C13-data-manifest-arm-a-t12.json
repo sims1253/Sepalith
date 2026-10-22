@@ -1,0 +1,230 @@
+{
+  "cohort": {
+    "max_sequence_tokens": 3064,
+    "noop_rows": 635,
+    "rft_rows": 4113,
+    "rows": 5876,
+    "train_mix_by_family": {
+      "finish_block": 1090,
+      "format_propagation": 114,
+      "na_rm_propagation": 8,
+      "no_op": 100,
+      "pipe_rewrite": 185,
+      "rename_propagation": 130,
+      "roxygen_drafting": 136
+    },
+    "train_mix_rows": 1763,
+    "train_mix_share": 0.300034
+  },
+  "dpo": {
+    "by_family": {
+      "finish_block": 15111,
+      "format_propagation": 1823,
+      "na_rm_propagation": 33,
+      "no_op": 22,
+      "pipe_rewrite": 98,
+      "rename_propagation": 177,
+      "roxygen_drafting": 1624
+    },
+    "chosen_sources": {
+      "gold": 15383,
+      "model": 3505
+    },
+    "max_sequence_tokens": 3064,
+    "normalized_end_of_generation": 0,
+    "pairs": 18888,
+    "prompts": 9966,
+    "rejected_outcomes": {
+      "applied_syntax_invalid": 4217,
+      "false_positive_edit": 22,
+      "missed_edit": 219,
+      "near_miss": 13103,
+      "wrong_parse_unverified": 1327
+    },
+    "schedule": {
+      "draw_count": 18896,
+      "effective_batch": 16,
+      "gate_updates": [
+        590,
+        1181
+      ],
+      "max_steps": 1181,
+      "replays": 8
+    },
+    "tokens": {
+      "chosen": 2832258,
+      "prompt": 9065780,
+      "rejected": 2601661
+    }
+  },
+  "final_set_access": false,
+  "inputs": {
+    "census_files": {
+      "census-prompts.jsonl": {
+        "bytes": 81219678,
+        "sha256": "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025"
+      },
+      "dpo-pair-candidates.jsonl": {
+        "bytes": 45956361,
+        "sha256": "dba61f64fcb53ade9f5f865011b9e0e4d84cbe0e4988a487988066332228ab22"
+      },
+      "pass-rates.jsonl": {
+        "bytes": 4309553,
+        "sha256": "3c2ad5e1fd42cd54b3d4003a564505342aa91f5ba829341357977fcdb70af7fd"
+      },
+      "scores.jsonl": {
+        "bytes": 240214481,
+        "sha256": "6a28a92109430c2a99912259ea2b16a452a8d81843dc54d43cce9ef7fcd84508"
+      }
+    },
+    "census_summary": {
+      "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a-t12/census-summary.json",
+      "sha256": "78350adfe14f59904d7fb2892f8a275af2a1448b4012abd1ebcefdeed1f71d39"
+    },
+    "train_rows": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "rows": 15006,
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+    }
+  },
+  "model_id": "sepalith-2b-edit-sft-arm-a-t12",
+  "outputs": {
+    "dpo_pair_schedule": {
+      "bytes": 197156,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/dpo/pair-schedule.json",
+      "sha256": "2a2fec977562c764e2ca0d9ea3b07f3b2e77f93fb942a953b3f30d668fcb807a"
+    },
+    "dpo_pairs": {
+      "bytes": 93349159,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/dpo/dpo-pairs.jsonl",
+      "sha256": "c75778e0ea88721f53ee7447268f313ae2e9f708527c3fff8dd4aa355ffaa2d3"
+    },
+    "rft_cohort_rows": {
+      "bytes": 60510820,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/rft/rft-cohort-rows.jsonl",
+      "sha256": "fbc7dc037e9d9d3dfbe1656bcb1df9799124edbe67267e0b777e0e97c68eac0d"
+    },
+    "rft_draw_schedule": {
+      "bytes": 3679772,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/rft/draw-schedule-v2-rft.json",
+      "sha256": "e48a05197a1e2eddf05f6d20f37c89b66c74f614431039d2948a9fcf3e07ad8b"
+    },
+    "rft_length_profile": {
+      "bytes": 467,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/rft/length-profile.json",
+      "sha256": "3435a2feda4ad1a2d47be760677a7c582c37d63cb97973a18449460482b1381c"
+    },
+    "rft_selection": {
+      "bytes": 1289669,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/rft/rft-selection.jsonl",
+      "sha256": "ecdf47fdbda55aa748830bd042ca587f501cdec409cb8a6f939bb4446ed181de"
+    },
+    "train_mix_ids": {
+      "bytes": 56667,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C13-offline-v1/sepalith-2b-edit-sft-arm-a-t12/rft/train-mix-ids.json",
+      "sha256": "6373e3fc4e6b4cd88313534c2de4675c41489ac801f595c7d942adda8c8bd3fd"
+    }
+  },
+  "rft": {
+    "caps_by_family": {
+      "finish_block": 976,
+      "format_propagation": 789,
+      "na_rm_propagation": 66,
+      "no_op": 535,
+      "pipe_rewrite": 969,
+      "rename_propagation": 771,
+      "roxygen_drafting": 7
+    },
+    "distinct_pool_max2_per_prompt": 7340,
+    "prompts_with_correct": 7162,
+    "selected": 4113,
+    "selected_by_family": {
+      "finish_block": 976,
+      "format_propagation": 789,
+      "na_rm_propagation": 66,
+      "no_op": 535,
+      "pipe_rewrite": 969,
+      "rename_propagation": 771,
+      "roxygen_drafting": 7
+    },
+    "selected_by_round": {
+      "1": 4028,
+      "2": 85
+    },
+    "selected_exact_raw": 3989,
+    "selected_mixed_pass_rate": 2050,
+    "selected_same_tokens_as_gold": 3974,
+    "selection_rule": "distinct exact samples per prompt ranked by line diff against the CURRENT region (then raw gold identity, fewer tokens, lower sample index), at most 2 per prompt; family cap = min(supply, floor(train share x pool)); within a family prompts by pass rate ascending, ties seeded; best samples before second samples",
+    "supply_by_family": {
+      "finish_block": 976,
+      "format_propagation": 1508,
+      "na_rm_propagation": 141,
+      "no_op": 1101,
+      "pipe_rewrite": 2004,
+      "rename_propagation": 1603,
+      "roxygen_drafting": 7
+    },
+    "train_rows_by_family": {
+      "finish_block": 7785,
+      "format_propagation": 1615,
+      "na_rm_propagation": 136,
+      "no_op": 1094,
+      "pipe_rewrite": 1983,
+      "rename_propagation": 1578,
+      "roxygen_drafting": 815
+    },
+    "verified_correct_samples": 49796
+  },
+  "schedule": {
+    "checks": {
+      "all_eligible_ids_drawn": true,
+      "constant_batch_composition": true,
+      "edits_seen_once_except_last_update_replays": true,
+      "every_unique_edit_before_edit_replay": true,
+      "every_unique_noop_before_noop_replay": true,
+      "no_target_truncation": true,
+      "noop_exposures_at_most_cap": true,
+      "targets_over_1024_retained": 0
+    },
+    "draws": 6464,
+    "exposure_histogram_by_pool": {
+      "edit": {
+        "1": 5230,
+        "2": 11
+      },
+      "noop": {
+        "1": 58,
+        "2": 577
+      }
+    },
+    "gates": [
+      202,
+      404
+    ],
+    "noop_share": 0.1875,
+    "token_denominators": {
+      "scheduled": {
+        "input_tokens": 6755567,
+        "prompt_tokens_excluding_bos": 6402954,
+        "rows": 6464,
+        "supervised_target_tokens_including_eos": 346149,
+        "target_body_tokens": 307365,
+        "target_protocol_tokens_excluding_eos": 32320,
+        "targets_over_1024_tokens": 0
+      },
+      "unique": {
+        "input_tokens": 6516107,
+        "prompt_tokens_excluding_bos": 6171471,
+        "rows": 5876,
+        "supervised_target_tokens_including_eos": 338760,
+        "target_body_tokens": 303504,
+        "target_protocol_tokens_excluding_eos": 29380,
+        "targets_over_1024_tokens": 0
+      }
+    },
+    "updates": 404
+  },
+  "schema": "sepalith.c13.offline-data-manifest.v1",
+  "seed": 3407,
+  "split": "train"
+}
