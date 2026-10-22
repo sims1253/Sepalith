@@ -80,7 +80,10 @@ def _scan(span: tuple[int, int]) -> tuple[int, list[int], list[int]]:
             line_hits |= line_4grams(text) & grams
             hashes = kgram_hashes(token_ids(text_tokens(text.split("\n"))))
             if hashes.size:
-                found = hashes[np.isin(hashes, tokens)]
+                # ``tokens`` is sorted and unique; searchsorted is ~1000x faster than np.isin here
+                position = np.searchsorted(tokens, hashes)
+                position[position >= tokens.size] = 0
+                found = hashes[tokens[position] == hashes]
                 token_hits.update(int(h) for h in np.unique(found))
             rows += 1
     return rows, sorted(line_hits), sorted(token_hits)

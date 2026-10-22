@@ -33,7 +33,8 @@ def main() -> int:
     summary = json.loads((args.data / "build-summary.json").read_text())
     manifest_sha = hashlib.sha256((args.data / "manifest.json").read_bytes()).hexdigest()
     prof = json.loads(args.profile.read_text())
-    keys = list(prof)  # train first, then the SYNTH builds in the order given
+    # TRAIN first, then the SYNTH builds (the profile file has sorted keys)
+    keys = ["train"] + sorted(k for k in prof if k != "train")
     names = ["TRAIN"] + [Path(k).parent.name for k in keys[1:]]
     stats = summary["stats"]
     lines = [f"# {args.data.name}: generated statistics", "",
@@ -89,6 +90,18 @@ def main() -> int:
         lines += ["Target length buckets (lines):", ""]
         lines += table(["bucket", *cols], [[b, *[pct(get(k)["target_length_buckets"].get(b, 0)) for k in present]]
                                            for b in bucket_names])
+        if family == "finish_block":
+            lines += ["Blank line / full-line comment share inside each length bucket "
+                      "(TRAIN's leading blank line removed):", ""]
+            rows = []
+            for b in bucket_names:
+                cells = []
+                for k in present:
+                    entry = get(k)["by_bucket_blank_comment"].get(b)
+                    cells.append(f"{pct(entry['blank'])} / {pct(entry['comment'])} (n={entry['cases']})"
+                                 if entry else "-")
+                rows.append([b, *cells])
+            lines += table(["bucket", *cols], rows)
         if family == "roxygen_drafting":
             tags = sorted({t for k in present for t in get(k)["tag_frequency"]},
                           key=lambda t: -get(keys[0])["tag_frequency"].get(t, 0))

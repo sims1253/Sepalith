@@ -376,15 +376,31 @@ def shape_finish(items: list, rejected: Counter) -> tuple[list, dict]:
                 progress = True
     for b in FB_BUCKETS:
         rejected[("finish_block", "cohort_length_rule")] += len(queues[b])
-    for flag, cap, reason in (("full_body", FULL_BODY_MAX_SHARE, "full_body_cap"),
-                              ("test_file", TEST_FILE_MAX_SHARE, "test_file_cap")):
-        flagged = sorted((it for it in chosen if it[0].meta.get(flag)), key=lambda it: it[0].row_id())
-        others = len(chosen) - len(flagged)
-        limit = int(cap * others / (1 - cap))  # flagged / (others + flagged) <= cap after dropping
-        if len(flagged) > limit:
-            drop = {id(it) for it in flagged[limit:]}
-            chosen = [it for it in chosen if id(it) not in drop]
-            rejected[("finish_block", reason)] += len(drop)
+    # Apply the caps until nothing changes, so all hold on the final set: test-file and
+    # full-body shares, and the SYNTH-alone bucket ratio (drops can shift bucket shares).
+    changed = True
+    while changed:
+        changed = False
+        for b in FB_BUCKETS:
+            in_b = [it for it in chosen if it[0].meta["length_bucket"] == b]
+            others = len(chosen) - len(in_b)
+            share = SYNTH_BUCKET_RATIO_MAX * train_share[b]
+            limit = int(share * others / (1 - share)) if share < 1 else len(in_b)
+            if len(in_b) > limit:
+                drop = {id(it) for it in in_b[limit:]}  # latest-added go first
+                chosen = [it for it in chosen if id(it) not in drop]
+                rejected[("finish_block", "synth_bucket_ratio_cap")] += len(drop)
+                changed = True
+        for flag, cap, reason in (("test_file", TEST_FILE_MAX_SHARE, "test_file_cap"),
+                                  ("full_body", FULL_BODY_MAX_SHARE, "full_body_cap")):
+            flagged = sorted((it for it in chosen if it[0].meta.get(flag)), key=lambda it: it[0].row_id())
+            others = len(chosen) - len(flagged)
+            limit = int(cap * others / (1 - cap))  # flagged / (others + flagged) <= cap after dropping
+            if len(flagged) > limit:
+                drop = {id(it) for it in flagged[limit:]}
+                chosen = [it for it in chosen if id(it) not in drop]
+                rejected[("finish_block", reason)] += len(drop)
+                changed = True
     final = Counter(it[0].meta["length_bucket"] for it in chosen)
     combined_total = train_total + sum(final.values())
     report.update(
