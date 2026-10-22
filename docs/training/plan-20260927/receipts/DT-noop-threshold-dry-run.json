@@ -1,0 +1,370 @@
+{
+  "checkpoint": {
+    "load_dtype": "bf16 (campaign_eval.load_development_model casts the 85 F32 norm weights to bf16)",
+    "parameters": 2516756480,
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "saved_dtypes": {
+      "BF16": 296,
+      "F32": 85
+    },
+    "tensors": 381,
+    "weights_bytes": 5033904496,
+    "weights_mtime_ns": 1791936471727427000,
+    "weights_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030"
+  },
+  "cpu_smoke": {
+    "cap": 16,
+    "cases": {
+      "dev75": [
+        {
+          "argmax_id": 80,
+          "expected_noop": true,
+          "forced_first_token": 20389,
+          "forced_generated_tokens": 11,
+          "id": "dat07-existing-a1b63fee525fbc1373bb82c3",
+          "noop_chain_greedy": true,
+          "p_noop": 0.43321003782895673
+        },
+        {
+          "argmax_id": 242,
+          "expected_noop": false,
+          "forced_first_token": 242,
+          "forced_generated_tokens": 16,
+          "id": "d11581e9cfa4e3971aa1466e",
+          "noop_chain_greedy": false,
+          "p_noop": 4.9184548885474315e-08
+        }
+      ],
+      "train1000": [
+        {
+          "argmax_id": 80,
+          "expected_noop": true,
+          "forced_first_token": 24,
+          "forced_generated_tokens": 16,
+          "id": "1e48aaeb96d47e561c4a95a8",
+          "noop_chain_greedy": true,
+          "p_noop": 0.9999717481958249
+        },
+        {
+          "argmax_id": 26871,
+          "expected_noop": false,
+          "forced_first_token": 26871,
+          "forced_generated_tokens": 16,
+          "id": "72f74f91838f78f9646094ba",
+          "noop_chain_greedy": false,
+          "p_noop": 6.143269033769381e-06
+        }
+      ]
+    },
+    "note": "pipeline check only (CPU bf16, 16-token cap); not a measurement",
+    "panels": {
+      "dev75": {
+        "batches": 1,
+        "cases": 2,
+        "done": 2,
+        "new": 2,
+        "seconds": 48.0,
+        "status": "complete",
+        "stop_reason": null
+      },
+      "train1000": {
+        "batches": 1,
+        "cases": 2,
+        "done": 2,
+        "new": 2,
+        "seconds": 25.9,
+        "status": "complete",
+        "stop_reason": null
+      }
+    },
+    "resume_new_cases": {
+      "dev75": 0,
+      "train1000": 0
+    },
+    "seconds": 76.8,
+    "status": "complete",
+    "summary_calibration": {
+      "complete": true,
+      "dev75_at_tau": {
+        "cap": 1,
+        "cases": 2,
+        "edit_cases": 1,
+        "edit_exact": 0,
+        "edit_exact_rate": 0.0,
+        "missed_edit": 0,
+        "nofp": 1,
+        "noop_cases": 1,
+        "noop_correct": 0,
+        "noop_recall": 0.0,
+        "predicted_noop": 0,
+        "score": 0,
+        "suggestions": 1,
+        "valid": 1
+      },
+      "edit_max_tau": 0.0,
+      "objective": "exact edits + correct no-ops on TRAIN1000 (800 edit / 200 no-op); ties -> higher tau (more proposals)",
+      "on": "train1000",
+      "recommended_tau": 0.9999,
+      "train_at_tau": {
+        "cap": 1,
+        "cases": 2,
+        "edit_cases": 1,
+        "edit_exact": 0,
+        "edit_exact_rate": 0.0,
+        "missed_edit": 0,
+        "nofp": 0,
+        "noop_cases": 1,
+        "noop_correct": 1,
+        "noop_recall": 1.0,
+        "predicted_noop": 1,
+        "score": 1,
+        "suggestions": 0,
+        "valid": 1
+      },
+      "train_greedy": {
+        "cap": 1,
+        "cases": 2,
+        "edit_cases": 1,
+        "edit_exact": 0,
+        "edit_exact_rate": 0.0,
+        "missed_edit": 0,
+        "nofp": 0,
+        "noop_cases": 1,
+        "noop_correct": 1,
+        "noop_recall": 1.0,
+        "predicted_noop": 1,
+        "score": 1,
+        "suggestions": 0,
+        "valid": 1
+      }
+    },
+    "tokenizer_contract": {
+      "bos": 0,
+      "embeddings": {
+        "input": {
+          "dtype": "torch.bfloat16",
+          "numel": 267386880,
+          "shape": [
+            130560,
+            2048
+          ]
+        },
+        "output": {
+          "dtype": "torch.bfloat16",
+          "numel": 267386880,
+          "shape": [
+            130560,
+            2048
+          ]
+        }
+      },
+      "eos": 1,
+      "pad": 1,
+      "stage": "noop_threshold_load",
+      "vocab_entries": 130560
+    },
+    "tokenizer_repair_changed": false
+  },
+  "cuda_started": false,
+  "elapsed_seconds": 107.6,
+  "final_set_access": false,
+  "finished": "2026-10-22T11:15:54+0200",
+  "gate_reference": {
+    "files": {
+      "dev250": {
+        "cases": {
+          "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-536.20261014T021133-673743425.cases/cases.json",
+          "sha256": "acf100e69ef9066a206548da9bf9575660efd43ec584f8b02bb763f472ae8d22"
+        },
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-536.20261014T021133-673743425.json",
+        "sha256": "0a1dbbd903dedc4ec392b2848f8b2ea89641e5228a466ca3a79fe1c4936ab9d3"
+      },
+      "dev75": {
+        "cases": {
+          "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.cases/cases.json",
+          "sha256": "d02948d3bb94584c53e547fb677a6e8b04ba0a6e12d9ca1dea7a1288480846cc"
+        },
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.json",
+        "sha256": "c6e77e49f8fc6323244b576fe2d0ee730c7c524c844490872ca0b0f0c3796e67"
+      }
+    },
+    "metrics": {
+      "cap": 1,
+      "edit": 27,
+      "nofp": 8,
+      "score250": 117,
+      "valid": 74
+    }
+  },
+  "noop_signal_check": {
+    "dev250:edit_target_starts_with_80": 0,
+    "dev250:noop_cases": 50,
+    "dev250:noop_target_is_NOOP_TARGET": 50,
+    "dev75:edit_target_starts_with_80": 0,
+    "dev75:noop_cases": 32,
+    "dev75:noop_target_is_NOOP_TARGET": 32,
+    "train1000:edit_target_starts_with_80": 0,
+    "train1000:noop_cases": 200,
+    "train1000:noop_target_is_NOOP_TARGET": 200
+  },
+  "noop_target_ids": [
+    80,
+    12991,
+    84,
+    2747,
+    2091,
+    1618,
+    97666,
+    24779,
+    651,
+    8089,
+    23877,
+    1
+  ],
+  "panels": {
+    "dev250": {
+      "cases": 250,
+      "families": {
+        "finish_block": 111,
+        "format_propagation": 24,
+        "na_rm_propagation": 3,
+        "no_op": 50,
+        "pipe_rewrite": 28,
+        "rename_propagation": 23,
+        "roxygen_drafting": 11
+      },
+      "noop_cases": 50,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+      "prompt_tokens": {
+        "max": 2944,
+        "median": 733,
+        "min": 124,
+        "sum": 248552
+      },
+      "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+    },
+    "dev75": {
+      "cases": 75,
+      "families": {
+        "finish_block": 6,
+        "format_propagation": 7,
+        "na_rm_propagation": 6,
+        "no_op": 32,
+        "pipe_rewrite": 8,
+        "rename_propagation": 8,
+        "roxygen_drafting": 8
+      },
+      "noop_cases": 32,
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "prompt_tokens": {
+        "max": 2619,
+        "median": 1169,
+        "min": 132,
+        "sum": 91255
+      },
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "train1000": {
+      "cases": 1000,
+      "families": {
+        "finish_block": 447,
+        "format_propagation": 93,
+        "na_rm_propagation": 8,
+        "no_op": 200,
+        "pipe_rewrite": 114,
+        "rename_propagation": 91,
+        "roxygen_drafting": 47
+      },
+      "noop_cases": 200,
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/decode-time/noop-train-subset.jsonl",
+      "prompt_tokens": {
+        "max": 2702,
+        "median": 382,
+        "min": 123,
+        "sum": 733542
+      },
+      "sha256": "dd09db71ba1d8aba09b503d80c2d4be4a8e2bf9a280121bad6ccf73d0b855932"
+    }
+  },
+  "problems": [],
+  "recipe": {
+    "path": "/home/m0hawk/sandbox/sep-decode-time/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+    "sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e"
+  },
+  "schema": "sepalith.decode-time.noop-threshold-dry-run.v1",
+  "settings": {
+    "batch_size": 32,
+    "cap": 1024,
+    "classification": "sepalith.training.eval.campaign_eval.classify",
+    "device": "cuda:0 (CUDA_VISIBLE_DEVICES=0)",
+    "dtype": "bf16",
+    "generation": "sepalith.training.eval.campaign_eval.batched_greedy_generate + begin_suppress_tokens=[80]",
+    "kv_cache": "dynamic",
+    "max_sequence_tokens": 16384,
+    "renderer_id": "zeta2-prm03-v1",
+    "tokenizer": "pinned tokenizer of the recipe parent (/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586), byte-identical to arm A 536's"
+  },
+  "started": "2026-10-22T11:14:09+0200",
+  "status": "pass",
+  "tau_grid": [
+    0.0,
+    0.001,
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    0.95,
+    0.98,
+    0.99,
+    0.995,
+    0.999,
+    0.9999,
+    null
+  ],
+  "train_subset": {
+    "families": {
+      "finish_block": 447,
+      "format_propagation": 93,
+      "na_rm_propagation": 8,
+      "no_op": 200,
+      "pipe_rewrite": 114,
+      "rename_propagation": 91,
+      "roxygen_drafting": 47
+    },
+    "ids_sha256": "821436c35bd91df51cd1f105ef5e358994cbe080834edd322579eef8ab7dbd2a",
+    "note": "seeded stratified TRAIN sample: 200 no-op + 800 edit prompts (edits by family share), DEV250's 4:1 mix; build_training_row reproduces the census prompt and target ids for every row",
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/decode-time/noop-train-subset.jsonl",
+    "quota": {
+      "finish_block": 447,
+      "format_propagation": 93,
+      "na_rm_propagation": 8,
+      "no_op": 200,
+      "pipe_rewrite": 114,
+      "rename_propagation": 91,
+      "roxygen_drafting": 47
+    },
+    "rejected_candidates": {},
+    "rows": 1000,
+    "seed": 20261022,
+    "sha256": "dd09db71ba1d8aba09b503d80c2d4be4a8e2bf9a280121bad6ccf73d0b855932",
+    "sources": {
+      "census_prompts": {
+        "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a/census-prompts.jsonl",
+        "sha256": "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025"
+      },
+      "context_sidecar": {
+        "note": "identity from census-summary.json",
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/context-sidecar.jsonl",
+        "sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"
+      }
+    }
+  }
+}

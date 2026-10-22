@@ -1,0 +1,1716 @@
+{
+ "dev": {
+  "dev250": {
+   "gold_whitespace_conventions": {
+    "insert_col0:edits": 87,
+    "insert_col0:gold_trailing_whitespace": 8,
+    "replace:edits": 113,
+    "replace:gold_tab_indent": 3,
+    "replace:gold_trailing_whitespace": 1
+   },
+   "identity": {
+    "cases": {
+     "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-536.20261014T021133-673743425.cases/cases.json",
+     "sha256": "acf100e69ef9066a206548da9bf9575660efd43ec584f8b02bb763f472ae8d22"
+    },
+    "panel": {
+     "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+     "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+    },
+    "result": {
+     "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-536.20261014T021133-673743425.json",
+     "sha256": "0a1dbbd903dedc4ec392b2848f8b2ea89641e5228a466ca3a79fe1c4936ab9d3"
+    }
+   },
+   "misses": {
+    "kinds": {
+     "edit_case_ws_only_vs_gold": 1,
+     "noop_case_ws_only_suggestion": 6
+    },
+    "per_combination": {
+     "indentation": 1,
+     "intra_line_whitespace": 3,
+     "line_wrapping": 3
+    },
+    "per_family": {
+     "format_propagation": {
+      "edit_case_ws_only_vs_gold": 1
+     },
+     "no_op": {
+      "noop_case_ws_only_suggestion": 6
+     }
+    },
+    "per_type": {
+     "indent:uniform_offset": 1,
+     "indentation": 1,
+     "intra_line_whitespace": 3,
+     "line_wrapping": 3
+    }
+   },
+   "reproduced_official_counts": {
+    "edit_exact": 79,
+    "protocol_valid": 234,
+    "strict_noop_correct": 38,
+    "strict_noop_false_suggestions": 12
+   },
+   "variants": {
+    "G1": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 2,
+     "gained": [
+      {
+       "expected_noop": false,
+       "family": "format_propagation",
+       "id": "dat07p-b901863fecd813feac7eb6245bf8",
+       "types": [
+        "indent:uniform_offset",
+        "indentation"
+       ]
+      },
+      {
+       "expected_noop": true,
+       "family": "no_op",
+       "id": "c05-noop-14950963bfcd650b995093b1",
+       "types": [
+        "intra_line_whitespace"
+       ]
+      },
+      {
+       "expected_noop": true,
+       "family": "no_op",
+       "id": "c05-noop-255b9c34735cc1a51774500e",
+       "types": [
+        "intra_line_whitespace"
+       ]
+      }
+     ],
+     "lost": [
+      {
+       "expected_noop": false,
+       "family": "format_propagation",
+       "id": "dat07p-f688750de67bdcc13691b39d3ef6",
+       "types": null
+      }
+     ],
+     "nofp": 10,
+     "noop_cases": 50,
+     "noop_correct": 40,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 40,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 119,
+     "valid": 234
+    },
+    "G2": {
+     "edit_cases": 200,
+     "edit_exact": 80,
+     "edit_missed_as_noop": 1,
+     "gained": [
+      {
+       "expected_noop": false,
+       "family": "format_propagation",
+       "id": "dat07p-b901863fecd813feac7eb6245bf8",
+       "types": [
+        "indent:uniform_offset",
+        "indentation"
+       ]
+      }
+     ],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 23,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 118,
+     "valid": 234
+    },
+    "G3": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    },
+    "L0": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    },
+    "L1": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    },
+    "L2": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    },
+    "L2s": {
+     "edit_cases": 200,
+     "edit_exact": 78,
+     "edit_missed_as_noop": 2,
+     "gained": [
+      {
+       "expected_noop": true,
+       "family": "no_op",
+       "id": "c05-noop-14950963bfcd650b995093b1",
+       "types": [
+        "intra_line_whitespace"
+       ]
+      },
+      {
+       "expected_noop": true,
+       "family": "no_op",
+       "id": "c05-noop-255b9c34735cc1a51774500e",
+       "types": [
+        "intra_line_whitespace"
+       ]
+      }
+     ],
+     "lost": [
+      {
+       "expected_noop": false,
+       "family": "format_propagation",
+       "id": "dat07p-f688750de67bdcc13691b39d3ef6",
+       "types": null
+      }
+     ],
+     "nofp": 10,
+     "noop_cases": 50,
+     "noop_correct": 40,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 21,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 40,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 118,
+     "valid": 234
+    },
+    "L3": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    },
+    "L3a": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    },
+    "raw": {
+     "edit_cases": 200,
+     "edit_exact": 79,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [],
+     "nofp": 12,
+     "noop_cases": 50,
+     "noop_correct": 38,
+     "per_family": {
+      "finish_block": {
+       "correct": 2,
+       "n": 111
+      },
+      "format_propagation": {
+       "correct": 22,
+       "n": 24
+      },
+      "na_rm_propagation": {
+       "correct": 3,
+       "n": 3
+      },
+      "no_op": {
+       "correct": 38,
+       "n": 50
+      },
+      "pipe_rewrite": {
+       "correct": 28,
+       "n": 28
+      },
+      "rename_propagation": {
+       "correct": 23,
+       "n": 23
+      },
+      "roxygen_drafting": {
+       "correct": 1,
+       "n": 11
+      }
+     },
+     "score": 117,
+     "valid": 234
+    }
+   }
+  },
+  "dev75": {
+   "gold_whitespace_conventions": {
+    "insert_col0:edits": 11,
+    "replace:edits": 32,
+    "replace:gold_trailing_whitespace": 1
+   },
+   "identity": {
+    "cases": {
+     "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.cases/cases.json",
+     "sha256": "d02948d3bb94584c53e547fb677a6e8b04ba0a6e12d9ca1dea7a1288480846cc"
+    },
+    "panel": {
+     "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+     "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "result": {
+     "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.json",
+     "sha256": "c6e77e49f8fc6323244b576fe2d0ee730c7c524c844490872ca0b0f0c3796e67"
+    }
+   },
+   "misses": {
+    "kinds": {
+     "edit_case_ws_only_vs_gold": 1
+    },
+    "per_combination": {
+     "line_wrapping": 1
+    },
+    "per_family": {
+     "format_propagation": {
+      "edit_case_ws_only_vs_gold": 1
+     }
+    },
+    "per_type": {
+     "line_wrapping": 1
+    }
+   },
+   "reproduced_official_counts": {
+    "edit_exact": 27,
+    "protocol_valid": 74,
+    "strict_noop_false_suggestions": 8
+   },
+   "variants": {
+    "G1": {
+     "edit_cases": 43,
+     "edit_exact": 26,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [
+      {
+       "expected_noop": false,
+       "family": "format_propagation",
+       "id": "dat07p-3d06cbc3baf45cbd4418eaec21ff",
+       "types": null
+      }
+     ],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 5,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 50,
+     "valid": 74
+    },
+    "G2": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "G3": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "L0": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "L1": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "L2": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "L2s": {
+     "edit_cases": 43,
+     "edit_exact": 26,
+     "edit_missed_as_noop": 1,
+     "gained": [],
+     "lost": [
+      {
+       "expected_noop": false,
+       "family": "format_propagation",
+       "id": "dat07p-3d06cbc3baf45cbd4418eaec21ff",
+       "types": null
+      }
+     ],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 5,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 50,
+     "valid": 74
+    },
+    "L3": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "L3a": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    },
+    "raw": {
+     "edit_cases": 43,
+     "edit_exact": 27,
+     "edit_missed_as_noop": 0,
+     "gained": [],
+     "lost": [],
+     "nofp": 8,
+     "noop_cases": 32,
+     "noop_correct": 24,
+     "per_family": {
+      "finish_block": {
+       "correct": 0,
+       "n": 6
+      },
+      "format_propagation": {
+       "correct": 6,
+       "n": 7
+      },
+      "na_rm_propagation": {
+       "correct": 5,
+       "n": 6
+      },
+      "no_op": {
+       "correct": 24,
+       "n": 32
+      },
+      "pipe_rewrite": {
+       "correct": 8,
+       "n": 8
+      },
+      "rename_propagation": {
+       "correct": 8,
+       "n": 8
+      },
+      "roxygen_drafting": {
+       "correct": 0,
+       "n": 8
+      }
+     },
+     "score": 51,
+     "valid": 74
+    }
+   }
+  }
+ },
+ "elapsed_seconds": 58.2,
+ "exactness": "evaluator raw region rule (campaign_eval.classify); no-op via parse_output",
+ "final_set_access": false,
+ "line_endings_note": "split_wire_lines strips a trailing CR from every wire line and region lines are LF-free by contract, so CRLF differences cannot reach the comparison; the document EOL is applied at insertion (map_wire_to_document_eol)",
+ "model": "arm A checkpoint 536 (DEV gate outputs, greedy cap 1024); TRAIN = C12 census of the arm-a upload (same weights), k=8 at T=1.0",
+ "product": {
+  "editor_settings": "files.trimTrailingWhitespace, files.trimFinalNewlines, files.insertFinalNewline act on save and are off by default; editor.detectIndentation sets the indent style but is not applied to inline-completion text",
+  "extension": "extensions/vscode-sepalith/src/extension.ts parsePrediction: cuts at first '>>>>>>>', removes <|user_cursor|> and marker lines, strips trailing CR, drops leading and trailing whitespace-only lines, cuts at the third identical consecutive line; inserted as a plain-string vscode.InlineCompletionItem (VS Code inserts it verbatim: no re-indent, no format, no trailing-whitespace trim)",
+  "prompt": "the extension still renders the older cursor-only zeta2 prompt (context_build.ts) and has no [NO_EDIT] handling; PRM03 is not wired into the client yet"
+ },
+ "purpose": "measurement only: no model or selection decision on DEV; variants defined in code before DEV was read and run on TRAIN first",
+ "recipe": {
+  "path": "/home/m0hawk/sandbox/sep-decode-time/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+  "sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e"
+ },
+ "schema": "sepalith.decode-time.ws-nearmiss.v1",
+ "tokenizer": {
+  "decode": "tokenizers.decode(skip_special_tokens=False), final stop id dropped",
+  "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586/tokenizer.json"
+ },
+ "train": {
+  "census_exact_raw_agreement_on_valid_edit_samples": {
+   "agree": 109855,
+   "disagree": 0
+  },
+  "gold_whitespace_conventions": {
+   "insert_col0:edits": 7514,
+   "insert_col0:gold_leading_blank": 732,
+   "insert_col0:gold_tab_indent": 70,
+   "insert_col0:gold_trailing_whitespace": 181,
+   "replace:edits": 6398,
+   "replace:gold_tab_indent": 4,
+   "replace:gold_trailing_whitespace": 23
+  },
+  "identity": {
+   "census-prompts.jsonl": {
+    "bytes": 81219678,
+    "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a/census-prompts.jsonl",
+    "sha256": "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025"
+   },
+   "census-summary.json": {
+    "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a/census-summary.json",
+    "sha256": "eaeadf7b9640ddd069cff093d92fedb8831042ca53f79415b0e0187bf3269171"
+   },
+   "context_sidecar": {
+    "note": "identity taken from census-summary.json; file read in full",
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/context-sidecar.jsonl",
+    "sha256": "36ee88c60e4d6d2ac95c425669f8d0c717ebfb79efda893eafb3262b131f6d1a"
+   },
+   "samples.jsonl": {
+    "bytes": 130203278,
+    "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a/samples.jsonl",
+    "sha256": "ae18ed28074ee80d1c8c2eeaa276715d033c98b31130cfdeb96f3bcc128165d3"
+   },
+   "scores.jsonl": {
+    "bytes": 233895491,
+    "path": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a/scores.jsonl",
+    "sha256": "6eb129b1d5de68999880a7e4e5923e8472f40881f48df049115a2e624ffb65f5"
+   }
+  },
+  "misses": {
+   "kinds": {
+    "edit_case_pred_equals_old_mod_ws": 59,
+    "edit_case_ws_only_vs_gold": 2464
+   },
+   "per_combination": {
+    "indentation": 377,
+    "indentation+interior_blank_lines": 2,
+    "indentation+interior_blank_lines+intra_line_whitespace": 2,
+    "indentation+intra_line_whitespace": 16,
+    "indentation+intra_line_whitespace+trailing_whitespace": 1,
+    "indentation+trailing_whitespace": 3,
+    "interior_blank_lines": 169,
+    "interior_blank_lines+intra_line_whitespace": 2,
+    "interior_blank_lines+leading_blank_lines": 29,
+    "interior_blank_lines+trailing_whitespace": 4,
+    "intra_line_whitespace": 104,
+    "intra_line_whitespace+trailing_whitespace": 1,
+    "leading_blank_lines": 334,
+    "leading_blank_lines+line_wrapping": 7,
+    "line_wrapping": 1394,
+    "trailing_blank_lines": 1,
+    "trailing_whitespace": 18
+   },
+   "per_family": {
+    "finish_block": {
+     "edit_case_ws_only_vs_gold": 683
+    },
+    "format_propagation": {
+     "edit_case_ws_only_vs_gold": 1745,
+     "pred_equals_old_mod_ws": 59
+    },
+    "na_rm_propagation": {
+     "edit_case_ws_only_vs_gold": 3
+    },
+    "pipe_rewrite": {
+     "edit_case_ws_only_vs_gold": 15
+    },
+    "rename_propagation": {
+     "edit_case_ws_only_vs_gold": 18
+    }
+   },
+   "per_type": {
+    "indent:partial": 84,
+    "indent:scale": 7,
+    "indent:tabs_vs_spaces": 17,
+    "indent:uniform_offset": 310,
+    "indentation": 401,
+    "interior_blank_lines": 208,
+    "intra_line_whitespace": 126,
+    "leading_blank_lines": 370,
+    "line_wrapping": 1401,
+    "trailing_blank_lines": 1,
+    "trailing_whitespace": 27
+   }
+  },
+  "receipt_309_crosscheck": {
+   "near_miss_with_canonical_region_line_f1_1": {
+    "finish_block": 309,
+    "pipe_rewrite": 1
+   },
+   "raw_whitespace_types": {
+    "interior_blank_lines+leading_blank_lines": 1,
+    "leading_blank_lines": 304,
+    "leading_blank_lines+line_wrapping": 3,
+    "not_ws_only": 2
+   },
+   "receipt": {
+    "finish_block": 309,
+    "pipe_rewrite": 1
+   }
+  },
+  "variants": {
+   "G1": {
+    "M_share_mixed_prompts": 0.119752,
+    "correct": 51559,
+    "edit_exact": 42819,
+    "edit_samples": 111296,
+    "exact_rate": 0.429487,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 4584,
+      "n": 62280,
+      "rate": 0.073603
+     },
+     "format_propagation": {
+      "correct": 8768,
+      "n": 12920,
+      "rate": 0.678638
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15822,
+      "n": 15864,
+      "rate": 0.997352
+     },
+     "rename_propagation": {
+      "correct": 12532,
+      "n": 12624,
+      "rate": 0.992712
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "G2": {
+    "M_share_mixed_prompts": 0.11562,
+    "correct": 52212,
+    "edit_exact": 43472,
+    "edit_samples": 111296,
+    "exact_rate": 0.434926,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 3961,
+      "n": 62280,
+      "rate": 0.0636
+     },
+     "format_propagation": {
+      "correct": 10044,
+      "n": 12920,
+      "rate": 0.777399
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15822,
+      "n": 15864,
+      "rate": 0.997352
+     },
+     "rename_propagation": {
+      "correct": 12532,
+      "n": 12624,
+      "rate": 0.992712
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "G3": {
+    "M_share_mixed_prompts": 0.125083,
+    "correct": 52145,
+    "edit_exact": 43405,
+    "edit_samples": 111296,
+    "exact_rate": 0.434368,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 4221,
+      "n": 62280,
+      "rate": 0.067775
+     },
+     "format_propagation": {
+      "correct": 9711,
+      "n": 12920,
+      "rate": 0.751625
+     },
+     "na_rm_propagation": {
+      "correct": 1066,
+      "n": 1088,
+      "rate": 0.979779
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15827,
+      "n": 15864,
+      "rate": 0.997668
+     },
+     "rename_propagation": {
+      "correct": 12532,
+      "n": 12624,
+      "rate": 0.992712
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "L0": {
+    "M_share_mixed_prompts": 0.118553,
+    "correct": 51814,
+    "edit_exact": 43074,
+    "edit_samples": 111296,
+    "exact_rate": 0.431611,
+    "gain_types": {
+     "leading_blank_lines": 138,
+     "trailing_blank_lines": 1
+    },
+    "gains_vs_raw": 139,
+    "losses_by_family": {
+     "finish_block": 223
+    },
+    "losses_vs_raw": 223,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 3922,
+      "n": 62280,
+      "rate": 0.062974
+     },
+     "format_propagation": {
+      "correct": 9698,
+      "n": 12920,
+      "rate": 0.750619
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15816,
+      "n": 15864,
+      "rate": 0.996974
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "L1": {
+    "M_share_mixed_prompts": 0.12495,
+    "correct": 51899,
+    "edit_exact": 43159,
+    "edit_samples": 111296,
+    "exact_rate": 0.432319,
+    "gain_types": {
+     "trailing_blank_lines": 1
+    },
+    "gains_vs_raw": 1,
+    "losses_by_family": {},
+    "losses_vs_raw": 0,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 4009,
+      "n": 62280,
+      "rate": 0.064371
+     },
+     "format_propagation": {
+      "correct": 9697,
+      "n": 12920,
+      "rate": 0.750542
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15815,
+      "n": 15864,
+      "rate": 0.996911
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "L2": {
+    "M_share_mixed_prompts": 0.12435,
+    "correct": 51901,
+    "edit_exact": 43161,
+    "edit_samples": 111296,
+    "exact_rate": 0.432335,
+    "gain_types": {
+     "trailing_blank_lines": 1,
+     "trailing_whitespace": 13
+    },
+    "gains_vs_raw": 14,
+    "losses_by_family": {
+     "finish_block": 11
+    },
+    "losses_vs_raw": 11,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 4003,
+      "n": 62280,
+      "rate": 0.064274
+     },
+     "format_propagation": {
+      "correct": 9705,
+      "n": 12920,
+      "rate": 0.751161
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15815,
+      "n": 15864,
+      "rate": 0.996911
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "L2s": {
+    "M_share_mixed_prompts": 0.119752,
+    "correct": 50685,
+    "edit_exact": 41945,
+    "edit_samples": 111296,
+    "exact_rate": 0.422206,
+    "gain_types": {
+     "trailing_blank_lines": 1,
+     "trailing_whitespace": 9
+    },
+    "gains_vs_raw": 10,
+    "losses_by_family": {
+     "finish_block": 11,
+     "format_propagation": 1212
+    },
+    "losses_vs_raw": 1223,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 4003,
+      "n": 62280,
+      "rate": 0.064274
+     },
+     "format_propagation": {
+      "correct": 8489,
+      "n": 12920,
+      "rate": 0.657043
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15815,
+      "n": 15864,
+      "rate": 0.996911
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "L3": {
+    "M_share_mixed_prompts": 0.118752,
+    "correct": 51082,
+    "edit_exact": 42342,
+    "edit_samples": 111296,
+    "exact_rate": 0.425513,
+    "gain_types": {
+     "trailing_blank_lines": 1,
+     "trailing_whitespace": 12
+    },
+    "gains_vs_raw": 13,
+    "losses_by_family": {
+     "finish_block": 20,
+     "format_propagation": 809
+    },
+    "losses_vs_raw": 829,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 3994,
+      "n": 62280,
+      "rate": 0.06413
+     },
+     "format_propagation": {
+      "correct": 8895,
+      "n": 12920,
+      "rate": 0.688467
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15815,
+      "n": 15864,
+      "rate": 0.996911
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "L3a": {
+    "M_share_mixed_prompts": 0.115021,
+    "correct": 50188,
+    "edit_exact": 41448,
+    "edit_samples": 111296,
+    "exact_rate": 0.418066,
+    "gain_types": {
+     "trailing_blank_lines": 1,
+     "trailing_whitespace": 8
+    },
+    "gains_vs_raw": 9,
+    "losses_by_family": {
+     "finish_block": 20,
+     "format_propagation": 1699
+    },
+    "losses_vs_raw": 1719,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 3994,
+      "n": 62280,
+      "rate": 0.06413
+     },
+     "format_propagation": {
+      "correct": 8001,
+      "n": 12920,
+      "rate": 0.619272
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15815,
+      "n": 15864,
+      "rate": 0.996911
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   },
+   "raw": {
+    "M_share_mixed_prompts": 0.12495,
+    "correct": 51898,
+    "edit_exact": 43158,
+    "edit_samples": 111296,
+    "exact_rate": 0.43231,
+    "nofp": 12,
+    "noop_correct": 8740,
+    "noop_samples": 8752,
+    "per_family": {
+     "finish_block": {
+      "correct": 4009,
+      "n": 62280,
+      "rate": 0.064371
+     },
+     "format_propagation": {
+      "correct": 9696,
+      "n": 12920,
+      "rate": 0.750464
+     },
+     "na_rm_propagation": {
+      "correct": 1065,
+      "n": 1088,
+      "rate": 0.97886
+     },
+     "no_op": {
+      "correct": 8740,
+      "n": 8752,
+      "rate": 0.998629
+     },
+     "pipe_rewrite": {
+      "correct": 15815,
+      "n": 15864,
+      "rate": 0.996911
+     },
+     "rename_propagation": {
+      "correct": 12525,
+      "n": 12624,
+      "rate": 0.992158
+     },
+     "roxygen_drafting": {
+      "correct": 48,
+      "n": 6520,
+      "rate": 0.007362
+     }
+    },
+    "samples": 120048,
+    "valid": 119047
+   }
+  }
+ },
+ "variants": {
+  "G1": "GAMING: whitespace-insensitive comparison on both sides",
+  "G2": "GAMING: re-indent with the gold's per-line indentation",
+  "G3": "GAMING: air formatter on both sides (TRAIN: census reward v2.1 exact; DEV: context window)",
+  "L0": "extension-literal: drop every leading and trailing whitespace-only body line (parsePrediction in the shipped extension)",
+  "L1": "drop trailing whitespace-only body lines only (leading blank lines are kept: TRAIN golds open an insertion with a blank line in about 15% of finish_block rows, so L0's leading trim is gold-dependent)",
+  "L2": "L1 + strip trailing whitespace per line",
+  "L2s": "L2 + suppress (treat as no suggestion) any prediction that differs from region_old only in whitespace; prediction and context only, but it also suppresses correct formatting-only edits",
+  "L3": "L2 + re-indent to the document's detected indentation (tabs/spaces; indent unit rescaled relative to the block's first line)",
+  "L3a": "L3 + shift the block so its first line keeps region_old's first-line indent when it re-emits that line",
+  "raw": "official evaluator"
+ }
+}
