@@ -124,8 +124,12 @@ def main() -> int:
     lines += table(["reference", "cases", ">= 0.5", ">= 0.8", "= 1.0"],
                    [[ref, v["cases"], v.get(">=0.5", 0), v.get(">=0.8", 0), v.get("==1.0", 0)]
                     for ref, v in dc["masked_structural_containment"].items()])
+    cpt = dict(dc["cpt_reference"] or {})
+    files_with_hits = cpt.pop("seed_files_with_hits", {})
+    cpt["seed_files_with_hits"] = len(files_with_hits)
     lines += [f"DEV reference: {dc['dev_reference']['files']} files, {dc['dev_reference']['documents_hashed']} strings "
-              f"hashed. CPT reference: `{json.dumps(dc['cpt_reference'])}`. Split file read: {dc['split_file_read']}.", ""]
+              f"hashed. CPT reference (per-file hits in cpt-hits.json): `{json.dumps(cpt)}`. "
+              f"Split file read: {dc['split_file_read']}.", ""]
     lines += ["## Rejections", ""] + table(["family:reason", "count"],
                                             [[k, v] for k, v in sorted(summary["generator_rejections"].items())])
     if args.probe and args.probe.exists():

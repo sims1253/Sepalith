@@ -1,6 +1,6 @@
 # SYNTH-v2 audit sample
 
-Bound to `/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2/manifest.json` sha256 `c3c7d743ab4f90fd6789823b30aec3f8c562156488cd31106b963d6c1649f280` (build-summary.json `3987382c6353a1ee51f736392175a34959d3760cc6adb51efc3e511053f0da2d`).
+Bound to `/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2/manifest.json` sha256 `afada370d54d584bb20377f6c74047199b0e5398a8686e605c936f47b444599f` (build-summary.json `3987382c6353a1ee51f736392175a34959d3760cc6adb51efc3e511053f0da2d`).
 
 Stratified random sample (seed 20261022) of 60 of 643 cases. Strata: {"finish_block": {"constrained_short": 22, "sibling:short": 6, "sibling:medium": 16, "sibling:long": 4}, "roxygen_drafting": {"roxy_full": 12}}.
 

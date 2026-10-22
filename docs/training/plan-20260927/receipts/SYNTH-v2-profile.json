@@ -1,0 +1,612 @@
+{
+  "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v1/cases.jsonl": {
+    "finish_block": {
+      "any_blank_line": 0.001,
+      "any_full_line_comment": 0.0063,
+      "by_bucket_blank_comment": {
+        "1": {
+          "blank": 0.0,
+          "cases": 104,
+          "comment": 0.0
+        },
+        "13-20": {
+          "blank": 0.0065,
+          "cases": 310,
+          "comment": 0.0226
+        },
+        "2": {
+          "blank": 0.0,
+          "cases": 931,
+          "comment": 0.0
+        },
+        "21-30": {
+          "blank": 0.0,
+          "cases": 87,
+          "comment": 0.023
+        },
+        "3-4": {
+          "blank": 0.0,
+          "cases": 1184,
+          "comment": 0.0008
+        },
+        "31-45": {
+          "blank": 0.0,
+          "cases": 13,
+          "comment": 0.1538
+        },
+        "5-8": {
+          "blank": 0.0011,
+          "cases": 934,
+          "comment": 0.0075
+        },
+        "9-12": {
+          "blank": 0.0019,
+          "cases": 536,
+          "comment": 0.0131
+        }
+      },
+      "cases": 4099,
+      "full_body": 0.1361,
+      "full_body_empty_region": 0.1237,
+      "full_body_signature_region": 0.0124,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 4,
+      "prefix_without_blank_line": 0.7148,
+      "single_close_brace": 90,
+      "target_length_buckets": {
+        "1": 0.0254,
+        "13-20": 0.0756,
+        "2": 0.2271,
+        "21-30": 0.0212,
+        "3-4": 0.2889,
+        "31-45": 0.0032,
+        "5-8": 0.2279,
+        "9-12": 0.1308,
+        ">45": 0.0
+      },
+      "test_file": 0.1166
+    },
+    "format_propagation": {
+      "any_blank_line": 0.0,
+      "any_full_line_comment": 0.0,
+      "by_bucket_blank_comment": {
+        "13-20": {
+          "blank": 0.0,
+          "cases": 10,
+          "comment": 0.0
+        },
+        "2": {
+          "blank": 0.0,
+          "cases": 17,
+          "comment": 0.0
+        },
+        "3-4": {
+          "blank": 0.0,
+          "cases": 177,
+          "comment": 0.0
+        },
+        "5-8": {
+          "blank": 0.0,
+          "cases": 543,
+          "comment": 0.0
+        },
+        "9-12": {
+          "blank": 0.0,
+          "cases": 89,
+          "comment": 0.0
+        }
+      },
+      "cases": 836,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 6.0,
+      "prefix_without_blank_line": 0.0227,
+      "single_close_brace": 0,
+      "target_length_buckets": {
+        "1": 0.0,
+        "13-20": 0.012,
+        "2": 0.0203,
+        "21-30": 0.0,
+        "3-4": 0.2117,
+        "31-45": 0.0,
+        "5-8": 0.6495,
+        "9-12": 0.1065,
+        ">45": 0.0
+      }
+    },
+    "roxygen_drafting": {
+      "any_blank_line": 0.0,
+      "any_full_line_comment": 0.0,
+      "by_bucket_blank_comment": {
+        "1": {
+          "blank": 0.0,
+          "cases": 7,
+          "comment": 0.0
+        },
+        "13-20": {
+          "blank": 0.0,
+          "cases": 5,
+          "comment": 0.0
+        },
+        "2": {
+          "blank": 0.0,
+          "cases": 3,
+          "comment": 0.0
+        },
+        "3-4": {
+          "blank": 0.0,
+          "cases": 50,
+          "comment": 0.0
+        },
+        "5-8": {
+          "blank": 0.0,
+          "cases": 244,
+          "comment": 0.0
+        },
+        "9-12": {
+          "blank": 0.0,
+          "cases": 126,
+          "comment": 0.0
+        }
+      },
+      "cases": 435,
+      "distinct_tag_orders": 15,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 7,
+      "prefix_without_blank_line": 0.0023,
+      "single_close_brace": 0,
+      "tag_frequency": {
+        "export": 0.8759,
+        "family": 0.8184,
+        "importFrom": 0.0391,
+        "inheritParams": 0.0299,
+        "keywords": 0.092,
+        "noRd": 0.0391,
+        "param": 0.9517,
+        "rdname": 0.0138,
+        "return": 0.977
+      },
+      "target_length_buckets": {
+        "1": 0.0161,
+        "13-20": 0.0115,
+        "2": 0.0069,
+        "21-30": 0.0,
+        "3-4": 0.1149,
+        "31-45": 0.0,
+        "5-8": 0.5609,
+        "9-12": 0.2897,
+        ">45": 0.0
+      },
+      "top_tag_orders": [
+        [
+          "param return family export",
+          302
+        ],
+        [
+          "param return export",
+          22
+        ],
+        [
+          "param return keywords",
+          18
+        ],
+        [
+          "param return noRd",
+          17
+        ],
+        [
+          "param return family keywords",
+          16
+        ],
+        [
+          "param return family importFrom export",
+          15
+        ],
+        [
+          "param return export family",
+          14
+        ],
+        [
+          "inheritParams return family export",
+          9
+        ]
+      ]
+    }
+  },
+  "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v2/cases.jsonl": {
+    "finish_block": {
+      "any_blank_line": 0.2332,
+      "any_full_line_comment": 0.114,
+      "by_bucket_blank_comment": {
+        "13-20": {
+          "blank": 0.7778,
+          "cases": 36,
+          "comment": 0.1667
+        },
+        "2": {
+          "blank": 0.0,
+          "cases": 131,
+          "comment": 0.0
+        },
+        "21-30": {
+          "blank": 0.9375,
+          "cases": 16,
+          "comment": 0.5625
+        },
+        "3-4": {
+          "blank": 0.0874,
+          "cases": 103,
+          "comment": 0.0291
+        },
+        "31-45": {
+          "blank": 1.0,
+          "cases": 2,
+          "comment": 0.0
+        },
+        "5-8": {
+          "blank": 0.1773,
+          "cases": 220,
+          "comment": 0.1864
+        },
+        "9-12": {
+          "blank": 0.5915,
+          "cases": 71,
+          "comment": 0.0986
+        }
+      },
+      "cases": 579,
+      "full_body": 0.0604,
+      "full_body_empty_region": 0.0052,
+      "full_body_signature_region": 0.0553,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 5,
+      "prefix_without_blank_line": 0.1364,
+      "single_close_brace": 0,
+      "target_length_buckets": {
+        "1": 0.0,
+        "13-20": 0.0622,
+        "2": 0.2263,
+        "21-30": 0.0276,
+        "3-4": 0.1779,
+        "31-45": 0.0035,
+        "5-8": 0.38,
+        "9-12": 0.1226,
+        ">45": 0.0
+      },
+      "test_file": 0.0086
+    },
+    "roxygen_drafting": {
+      "any_blank_line": 0.0,
+      "any_full_line_comment": 0.0,
+      "by_bucket_blank_comment": {
+        "13-20": {
+          "blank": 0.0,
+          "cases": 1,
+          "comment": 0.0
+        },
+        "3-4": {
+          "blank": 0.0,
+          "cases": 12,
+          "comment": 0.0
+        },
+        "5-8": {
+          "blank": 0.0,
+          "cases": 31,
+          "comment": 0.0
+        },
+        "9-12": {
+          "blank": 0.0,
+          "cases": 20,
+          "comment": 0.0
+        }
+      },
+      "cases": 64,
+      "distinct_tag_orders": 28,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 6.0,
+      "prefix_without_blank_line": 0.0469,
+      "single_close_brace": 0,
+      "tag_frequency": {
+        "description": 0.1406,
+        "export": 0.6406,
+        "family": 0.0469,
+        "importFrom": 0.0312,
+        "inheritParams": 0.0625,
+        "keywords": 0.2031,
+        "noRd": 0.2031,
+        "param": 0.9062,
+        "rdname": 0.2031,
+        "return": 0.5781,
+        "title": 0.1406
+      },
+      "target_length_buckets": {
+        "1": 0.0,
+        "13-20": 0.0156,
+        "2": 0.0,
+        "21-30": 0.0,
+        "3-4": 0.1875,
+        "31-45": 0.0,
+        "5-8": 0.4844,
+        "9-12": 0.3125,
+        ">45": 0.0
+      },
+      "top_tag_orders": [
+        [
+          "param return export",
+          12
+        ],
+        [
+          "param noRd",
+          5
+        ],
+        [
+          "title description param return export",
+          3
+        ],
+        [
+          "export param return",
+          3
+        ],
+        [
+          "param return family export",
+          3
+        ],
+        [
+          "title param noRd",
+          3
+        ],
+        [
+          "noRd",
+          3
+        ],
+        [
+          "param rdname export",
+          3
+        ]
+      ]
+    }
+  },
+  "train": {
+    "finish_block": {
+      "any_blank_line": 0.3883,
+      "any_full_line_comment": 0.3107,
+      "by_bucket_blank_comment": {
+        "13-20": {
+          "blank": 0.4598,
+          "cases": 1444,
+          "comment": 0.3871
+        },
+        "2": {
+          "blank": 0.0,
+          "cases": 881,
+          "comment": 0.0
+        },
+        "21-30": {
+          "blank": 0.5938,
+          "cases": 1157,
+          "comment": 0.4831
+        },
+        "3-4": {
+          "blank": 0.0652,
+          "cases": 690,
+          "comment": 0.0362
+        },
+        "31-45": {
+          "blank": 0.6895,
+          "cases": 1182,
+          "comment": 0.6235
+        },
+        "5-8": {
+          "blank": 0.1558,
+          "cases": 1476,
+          "comment": 0.187
+        },
+        "9-12": {
+          "blank": 0.2981,
+          "cases": 926,
+          "comment": 0.257
+        },
+        ">45": {
+          "blank": 1.0,
+          "cases": 29,
+          "comment": 0.8621
+        }
+      },
+      "cases": 7785,
+      "full_body": 0.1477,
+      "full_body_empty_region": 0.0083,
+      "full_body_signature_region": 0.1394,
+      "leading_blank_line": 0.094,
+      "median_target_lines": 12,
+      "prefix_without_blank_line": 0.1602,
+      "single_close_brace": 0,
+      "target_length_buckets": {
+        "1": 0.0,
+        "13-20": 0.1874,
+        "2": 0.1031,
+        "21-30": 0.1498,
+        "3-4": 0.0958,
+        "31-45": 0.1526,
+        "5-8": 0.1866,
+        "9-12": 0.1209,
+        ">45": 0.0037
+      },
+      "test_file": 0.0086
+    },
+    "format_propagation": {
+      "any_blank_line": 0.0,
+      "any_full_line_comment": 0.0774,
+      "by_bucket_blank_comment": {
+        "1": {
+          "blank": 0.0,
+          "cases": 407,
+          "comment": 0.0344
+        },
+        "13-20": {
+          "blank": 0.0,
+          "cases": 67,
+          "comment": 0.1194
+        },
+        "2": {
+          "blank": 0.0,
+          "cases": 183,
+          "comment": 0.153
+        },
+        "3-4": {
+          "blank": 0.0,
+          "cases": 389,
+          "comment": 0.0488
+        },
+        "5-8": {
+          "blank": 0.0,
+          "cases": 409,
+          "comment": 0.0782
+        },
+        "9-12": {
+          "blank": 0.0,
+          "cases": 160,
+          "comment": 0.15
+        }
+      },
+      "cases": 1615,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 3,
+      "prefix_without_blank_line": 0.0985,
+      "single_close_brace": 3,
+      "target_length_buckets": {
+        "1": 0.252,
+        "13-20": 0.0415,
+        "2": 0.1133,
+        "21-30": 0.0,
+        "3-4": 0.2409,
+        "31-45": 0.0,
+        "5-8": 0.2533,
+        "9-12": 0.0991,
+        ">45": 0.0
+      }
+    },
+    "roxygen_drafting": {
+      "any_blank_line": 0.0,
+      "any_full_line_comment": 0.0,
+      "by_bucket_blank_comment": {
+        "13-20": {
+          "blank": 0.0,
+          "cases": 203,
+          "comment": 0.0
+        },
+        "21-30": {
+          "blank": 0.0,
+          "cases": 56,
+          "comment": 0.0
+        },
+        "3-4": {
+          "blank": 0.0,
+          "cases": 63,
+          "comment": 0.0
+        },
+        "31-45": {
+          "blank": 0.0,
+          "cases": 18,
+          "comment": 0.0
+        },
+        "5-8": {
+          "blank": 0.0,
+          "cases": 245,
+          "comment": 0.0
+        },
+        "9-12": {
+          "blank": 0.0,
+          "cases": 221,
+          "comment": 0.0
+        },
+        ">45": {
+          "blank": 0.0,
+          "cases": 9,
+          "comment": 0.0
+        }
+      },
+      "cases": 815,
+      "distinct_tag_orders": 278,
+      "leading_blank_line": 0.0,
+      "median_target_lines": 10,
+      "prefix_without_blank_line": 0.1669,
+      "single_close_brace": 0,
+      "tag_frequency": {
+        "aliases": 0.0049,
+        "concept": 0.0037,
+        "describeIn": 0.0147,
+        "description": 0.2626,
+        "details": 0.065,
+        "eval": 0.0012,
+        "example": 0.0123,
+        "export": 0.4356,
+        "family": 0.0442,
+        "import": 0.0135,
+        "importFrom": 0.0601,
+        "inherit": 0.0061,
+        "inheritDotParams": 0.0025,
+        "inheritParams": 0.0552,
+        "keywords": 0.384,
+        "method": 0.0245,
+        "name": 0.0245,
+        "noRd": 0.216,
+        "note": 0.011,
+        "order": 0.0012,
+        "param": 0.9313,
+        "rdname": 0.211,
+        "return": 0.6012,
+        "returns": 0.0466,
+        "section": 0.016,
+        "template": 0.0135,
+        "templateVar": 0.0012,
+        "tether": 0.0037,
+        "title": 0.0994,
+        "usage": 0.0049
+      },
+      "target_length_buckets": {
+        "1": 0.0,
+        "13-20": 0.2491,
+        "2": 0.0,
+        "21-30": 0.0687,
+        "3-4": 0.0773,
+        "31-45": 0.0221,
+        "5-8": 0.3006,
+        "9-12": 0.2712,
+        ">45": 0.011
+      },
+      "top_tag_orders": [
+        [
+          "description param keywords rdname",
+          102
+        ],
+        [
+          "param return export",
+          82
+        ],
+        [
+          "param return keywords",
+          60
+        ],
+        [
+          "param return noRd",
+          44
+        ],
+        [
+          "param return keywords noRd",
+          25
+        ],
+        [
+          "param return",
+          25
+        ],
+        [
+          "param noRd",
+          22
+        ],
+        [
+          "param export",
+          19
+        ]
+      ]
+    }
+  }
+}
