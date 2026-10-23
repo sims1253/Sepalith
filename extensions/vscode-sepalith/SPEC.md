@@ -1,6 +1,8 @@
 # Sepalith VS Code extension — v0 spec ("prove the plumbing")
 
-Historical v0 contract. The serving/packaging upgrade in
+Historical v0 contract. The prompt, output and request sections below are
+superseded by the PRM03 port (0.1.0): see the README ("How a suggestion is
+made") and `src/prm03.ts`. The serving/packaging upgrade in
 [docs/SERVING-PACKAGING.md](../../docs/SERVING-PACKAGING.md) supersedes
 the fixed paths, CPU-only managed serving, and no-download restrictions below.
 

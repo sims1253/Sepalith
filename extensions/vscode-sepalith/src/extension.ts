@@ -1,16 +1,21 @@
-import { completionBody, parseCompletion, STOPS, SUGGESTION_MAX_TOKENS, WARMUP_MAX_TOKENS } from "./completion";
-import { loadManifest, provision, sharedCacheRoot } from "./runtime";
+import { completionBody, generateSuggestion, interpretCompletion, parseNativeCompletion, parseTokenize, promptIds, SUGGESTION_MAX_TOKENS, tokenizeBody, WARMUP_MAX_TOKENS } from "./completion";
+import type { Interpretation, NativeCompletion } from "./completion";
+import { ensureDefaultModel, loadManifest, provision, sharedCacheRoot } from "./runtime";
 import * as vscode from "vscode";
 import * as fs from "node:fs";
 import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { terminateChild } from "./process_lifecycle";
-import { buildScopedPrompt, normalizeSymbols, scopeFromScan, scopeFromSymbols } from "./context_build";
-import type { PromptBuild, RawSymbol, ScopeInfo } from "./context_build";
+import { BOS_ID, makeApplicationPlan, ProtocolError } from "./prm03";
+import { buildEditorRequest, EditHistory, logicalLines, presentEdit, promptPath, sha256Text } from "./prm03_context";
+import type { EditorRequest, Presentation } from "./prm03_context";
+import { DEFAULT_CONTEXT_SIZE, llamaServerArgs } from "./server_args";
 import { WarmupScheduler } from "./warmup";
 
-// Sepalith v0 — see SPEC.md. This is END-TO-END PLUMBING, not suggestion
-// quality: garbage suggestions from the current weak models are acceptable.
+// Sepalith: PRM03 (`zeta2-prm03-v1`) next-edit suggestions for R from a local
+// llama-server sidecar running the arm A GGUF. The prompt and output contract
+// live in ./prm03 (a port of sepalith.campaign_protocol), the editor-to-context
+// rules in ./prm03_context, the request bodies in ./completion.
 
 const DEFAULT_MODEL = "";
 let runtimeStorage = "";
@@ -29,8 +34,9 @@ interface Config {
   debounceMs: number;
   postAcceptCooldown: boolean;
   debugMode: boolean;
-  scopeContext: boolean;
   warmup: boolean;
+  allowNoEdit: boolean;
+  speculative: boolean;
 }
 
 function cfg(): Config {
@@ -43,82 +49,101 @@ function cfg(): Config {
     serverPath: c.get("serverPath", DEFAULT_SERVER),
     port: c.get("port", 18099),
     threads: c.get("threads", 8),
-    contextSize: c.get("contextSize", 8192),
+    contextSize: c.get("contextSize", DEFAULT_CONTEXT_SIZE),
     autoStart: c.get("autoStart", true),
     debounceMs: c.get("debounceMs", 1500),
     postAcceptCooldown: c.get("postAcceptCooldown", true),
     debugMode: c.get("debugMode", false),
-    scopeContext: c.get("scopeContext", true),
     warmup: c.get("warmup", true),
+    allowNoEdit: c.get("allowNoEdit", true),
+    speculative: c.get("speculative", false),
   };
 }
 
 // ---------------------------------------------------------------------------
-// Prompt render (must match experiments/eval/run_eval.py render_zeta2) and
-// the scope-aware context additions live in ./context_build — pure, so
-// scripts/check-context.ts can exercise them under plain node. This wrapper
-// supplies only the vscode bits (document text, relative path).
-// scope === null renders the byte-identical v0.0.6 prompt.
+// Recent-edit history per open R document (./prm03_context EditHistory)
 // ---------------------------------------------------------------------------
 
-function buildPrompt(document: vscode.TextDocument, position: vscode.Position, scope: ScopeInfo | null) {
-  return buildScopedPrompt(
-    document.getText().split("\n"),
-    position.line,
-    position.character,
-    vscode.workspace.asRelativePath(document.uri),
-    scope,
-  );
+interface Tracked { history: EditHistory; lines: string[]; version: number }
+const tracked = new Map<string, Tracked>();
+
+function modelPath(uri: vscode.Uri): string {
+  const relative = vscode.workspace.asRelativePath(uri, false);
+  // outside the workspace asRelativePath returns the absolute path: use the file name
+  return promptPath(relative === uri.fsPath || relative.startsWith("/") ? uri.path.slice(uri.path.lastIndexOf("/") + 1) : relative);
 }
 
-// marker lines the model sometimes echoes from the prompt back into its
-// completion (seen live: an empty-file proposal consisting mostly of
-// "<<<<<<< CURRENT / ======= / <[fim-middle]" lines)
-const MARKER_LINE = /^\s*(<<<<<<<\s*CURRENT|=======|>>>>>>>\s*UPDATED|<\[fim-(middle|prefix|suffix)\]>|<\|user_cursor\|>|<\|outline\|>)\s*$/;
-
-function parsePrediction(text: string): string[] {
-  // everything before the first ">>>>>>>" is the predicted region
-  if (text.includes(">>>>>>>")) text = text.split(">>>>>>>")[0];
-  text = text.split("<|user_cursor|>").join("");
-  const lines = text
-    .split("\n")
-    .map((l) => l.replace(/\r$/, ""))
-    .filter((l) => !MARKER_LINE.test(l));
-  // strip leading blank lines (and trailing, matching run_eval.py norm())
-  while (lines.length && lines[0].trim() === "") lines.shift();
-  while (lines.length && lines[lines.length - 1].trim() === "") lines.pop();
-  // degenerate repetition (temp-0 small models: "  return(x^2)" x N) —
-  // cut at the third identical consecutive line, keeping the first two
-  for (let i = 2; i < lines.length; i++) {
-    if (lines[i] === lines[i - 1] && lines[i] === lines[i - 2]) {
-      lines.length = i;
-      break;
-    }
+function track(document: vscode.TextDocument): Tracked {
+  const key = document.uri.toString();
+  let entry = tracked.get(key);
+  if (!entry) {
+    entry = { history: new EditHistory(key, () => modelPath(document.uri)), lines: logicalLines(document.getText()), version: document.version };
+    tracked.set(key, entry);
   }
-  return lines;
+  return entry;
+}
+
+function observeChange(document: vscode.TextDocument): void {
+  const known = tracked.get(document.uri.toString());
+  const after = logicalLines(document.getText());
+  if (!known) { track(document); return; }
+  known.history.observe(known.lines, after, known.version);
+  known.lines = after;
+  known.version = document.version;
+}
+
+// ---------------------------------------------------------------------------
+// Request construction
+// ---------------------------------------------------------------------------
+
+function editorRequest(document: vscode.TextDocument, position: vscode.Position): EditorRequest {
+  const text = document.getText();
+  return buildEditorRequest({
+    lines: logicalLines(text),
+    eol: document.eol === vscode.EndOfLine.CRLF ? "crlf" : "lf",
+    cursorLine: position.line,
+    cursorUtf16: position.character,
+    path: modelPath(document.uri),
+    uri: document.uri.toString(),
+    version: document.version,
+    contentSha256: sha256Text(text),
+    history: track(document).history.events(),
+  });
 }
 
 // ---------------------------------------------------------------------------
 // HTTP (llama-server on 127.0.0.1)
 // ---------------------------------------------------------------------------
 
-interface CompletionResult {
-  text: string;
-  completionTokens: number;
-}
-
-async function postCompletion(port: number, prompt: string, maxTokens: number, stop: string[] | null, signal?: AbortSignal): Promise<CompletionResult> {
-  const body = completionBody(prompt, maxTokens, stop);
-  const res = await fetch(`http://127.0.0.1:${port}/v1/completions`, {
+async function postJson(port: number, endpoint: string, body: string, signal?: AbortSignal): Promise<Response> {
+  const res = await fetch(`http://127.0.0.1:${port}${endpoint}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body,
     signal,
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = parseCompletion(await res.json());
-  return data;
+  return res;
 }
+
+// rendered prompt -> prompt IDs; warm-ups and the real request render the same
+// prompt, so the request usually reuses the warm-up's tokenization
+const tokenCache = new Map<string, number[]>();
+
+async function promptTokenIds(port: number, prompt: string, signal?: AbortSignal): Promise<number[]> {
+  const hit = tokenCache.get(prompt);
+  if (hit) return hit;
+  const ids = promptIds(parseTokenize(await (await postJson(port, "/tokenize", tokenizeBody(prompt), signal)).json()));
+  tokenCache.set(prompt, ids);
+  if (tokenCache.size > 8) tokenCache.delete(tokenCache.keys().next().value ?? "");
+  return ids;
+}
+
+async function postCompletion(port: number, body: string, signal?: AbortSignal): Promise<NativeCompletion> {
+  return parseNativeCompletion(await (await postJson(port, "/completion", body, signal)).json());
+}
+
+const PROBE_BODY = completionBody([BOS_ID], 1);
 
 async function portAnswers(port: number): Promise<boolean> {
   try {
@@ -170,6 +195,7 @@ class Sidecar {
     if (this.child || this.state === "starting" || this.state === "ready" || this.state === "external") return;
     const c = cfg();
     this.setState("starting");
+    tokenCache.clear(); // a different server may use a different tokenizer
     this.setup = new AbortController();
     const setup = this.setup;
     // rule 4: if the port is already answering, treat the server as external — use it, never spawn, never kill
@@ -177,7 +203,7 @@ class Sidecar {
     if (setup.signal.aborted) return;
     if (occupied) {
       try {
-        await postCompletion(c.port, "x", 1, null, AbortSignal.timeout(5000));
+        await postCompletion(c.port, PROBE_BODY, AbortSignal.timeout(5000));
         if (setup.signal.aborted) return;
         channel.appendLine(`sidecar: port ${c.port} passed completion probe — treating server as external`);
         this.setState("external");
@@ -196,6 +222,14 @@ class Sidecar {
         return;
       }
     }
+    if (!c.modelPath && c.serverPath && fs.existsSync(c.serverPath)) {
+      try {
+        c.modelPath = await ensureDefaultModel(runtimeStorage, setup.signal, message => channel.appendLine(message));
+      } catch (e) {
+        if (!setup.signal.aborted) this.fail(`default model download failed: ${errText(e)}`);
+        return;
+      }
+    }
     if (setup.signal.aborted) return;
     for (const p of [c.serverPath, c.modelPath]) {
       if (!fs.existsSync(p)) {
@@ -205,27 +239,19 @@ class Sidecar {
       }
     }
     this.setState("starting");
-    channel.appendLine(`sidecar: spawning ${c.serverPath} --port ${c.port} -t ${c.threads} -c ${c.contextSize} -ngl ${c.gpuLayers} --cache-ram 2048`);
+    const args = llamaServerArgs({ modelPath: c.modelPath, port: c.port, threads: c.threads, contextSize: c.contextSize,
+      gpuLayers: c.gpuLayers, speculative: c.speculative });
+    channel.appendLine(`sidecar: spawning ${c.serverPath} ${args.join(" ")}`);
     this.stopping = false;
     this.outRing = [];
     this.errRing = [];
     this.pendingOut = "";
     this.pendingErr = "";
-    // rule 1: exact spawn args, array form, no shell — WSL/Remote-safe
+    tokenCache.clear();
+    // array form, no shell — WSL/Remote-safe
     const child = spawn(
       c.serverPath,
-      [
-        "-m", c.modelPath,
-        "--alias", "sepalith",
-        "--temp", "0",
-        "--port", String(c.port),
-        "--host", "127.0.0.1",
-        "-c", String(c.contextSize),
-        "--parallel", "1",
-        "--cache-ram", "2048", // cap the prompt-cache pool for 8-16 GiB laptops (prefill autoresearch §4)
-        "-t", String(c.threads),
-        "-ngl", String(c.gpuLayers),
-      ],
+      args,
       { stdio: ["ignore", "pipe", "pipe"] },
     );
     this.child = child;
@@ -269,7 +295,7 @@ class Sidecar {
         return;
       }
       try {
-        await postCompletion(c.port, "x", 1, null, AbortSignal.timeout(5000));
+        await postCompletion(c.port, PROBE_BODY, AbortSignal.timeout(5000));
         break;
       } catch (e) {
         channel.appendLine(`sidecar: not ready (${Math.round((Date.now() - t0) / 1000)} s): ${errText(e)}`);
@@ -279,6 +305,7 @@ class Sidecar {
     if (setup.signal.aborted || this.child !== child) return;
     channel.appendLine(`sidecar: ready after ${Math.round((Date.now() - t0) / 1000)} s`);
     this.setState("ready", c.modelPath);
+    activeModel = c.modelPath;
   }
 
   async stop(): Promise<void> {
@@ -374,12 +401,13 @@ class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntr
     return e;
   }
 
-  finish(e: ReqEntry, latencyMs: number, completionTokens: number, raw: string, parsed: string[]): void {
+  finish(e: ReqEntry, latencyMs: number, completionTokens: number, raw: string, parsed: string[], note: string): void {
     e.latencyMs = latencyMs;
     e.completionTokens = completionTokens;
     e.outcome = "ok";
     e.raw = raw;
     e.parsed = parsed;
+    e.note = note;
     this.emitter.fire();
   }
 
@@ -422,7 +450,7 @@ class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntr
     const item = new vscode.TreeItem(
       `#${e.id} ${e.time} · ${e.outcome} · ${stat}${e.completionTokens !== null ? ` · ${e.completionTokens} tok` : ""}`,
     );
-    item.description = `${e.promptChars} prompt chars`;
+    item.description = `${e.promptChars} prompt chars${e.note ? ` · ${e.note}` : ""}`;
     item.tooltip = e.note || e.outcome;
     item.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
     item.contextValue = "request";
@@ -437,11 +465,87 @@ class RequestLog implements vscode.TreeDataProvider<ReqEntry | { parent: ReqEntr
 }
 
 // ---------------------------------------------------------------------------
+// Edit preview: replacements that ghost text cannot show (renames, rewrites,
+// deletions) appear as an after-line hint with the full change on hover;
+// Alt+Enter applies it, Escape dismisses it.
+// ---------------------------------------------------------------------------
+
+interface PendingEdit {
+  uri: string;
+  version: number;
+  sha256: string;
+  edit: Extract<Presentation, { kind: "replace" }>;
+}
+
+class EditPreview {
+  private pending: PendingEdit | null = null;
+  private readonly decoration = vscode.window.createTextEditorDecorationType({
+    after: { margin: "0 0 0 2em", color: new vscode.ThemeColor("editorGhostText.foreground"), fontStyle: "italic" },
+    isWholeLine: true,
+  });
+
+  get line(): number | null {
+    return this.pending ? this.pending.edit.line : null;
+  }
+
+  show(editor: vscode.TextEditor, edit: PendingEdit["edit"]): void {
+    const document = editor.document;
+    this.pending = { uri: document.uri.toString(), version: document.version, sha256: sha256Text(document.getText()), edit };
+    const newLines = edit.text.split(/\r?\n/);
+    const summary = edit.text === "" ? "delete line content" : `${newLines[0].trim()}${newLines.length > 1 ? ` (+${newLines.length - 1} lines)` : ""}`;
+    const hover = new vscode.MarkdownString();
+    hover.appendMarkdown("**Sepalith edit** (Alt+Enter to apply, Escape to dismiss)\n");
+    hover.appendCodeblock([...edit.oldText.split("\n").map(l => `-${l}`), ...(edit.text === "" ? [] : newLines.map(l => `+${l}`))].join("\n"), "diff");
+    editor.setDecorations(this.decoration, [{
+      range: new vscode.Range(edit.line, 0, edit.line, 0),
+      hoverMessage: hover,
+      renderOptions: { after: { contentText: `\u21e2 ${summary.length > 80 ? summary.slice(0, 79) + "\u2026" : summary}` } },
+    }]);
+    void vscode.commands.executeCommand("setContext", "sepalith.editPending", true);
+  }
+
+  clear(): void {
+    if (!this.pending) return;
+    this.pending = null;
+    for (const editor of vscode.window.visibleTextEditors) editor.setDecorations(this.decoration, []);
+    void vscode.commands.executeCommand("setContext", "sepalith.editPending", false);
+  }
+
+  /** Apply the pending edit if the document is still exactly the one it was computed for. */
+  async accept(): Promise<boolean> {
+    const pending = this.pending;
+    this.clear();
+    const editor = vscode.window.activeTextEditor;
+    if (!pending || !editor) return false;
+    const document = editor.document;
+    if (document.uri.toString() !== pending.uri || document.version !== pending.version || sha256Text(document.getText()) !== pending.sha256) {
+      channel.appendLine("edit preview: document changed, edit discarded");
+      return false;
+    }
+    const { line, endCharacter, text } = pending.edit;
+    const edit = new vscode.WorkspaceEdit();
+    edit.replace(document.uri, new vscode.Range(line, 0, line, endCharacter), text);
+    return vscode.workspace.applyEdit(edit);
+  }
+
+  dispose(): void {
+    this.clear();
+    this.decoration.dispose();
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Inline completion provider
 // ---------------------------------------------------------------------------
 
 // an empty (or near-empty) document gives the model nothing to work with
 const MIN_DOCUMENT_CHARS = 30;
+
+function describe(outcome: Interpretation): string {
+  if (outcome.outcome === "invalid") return `no suggestion (${outcome.reason})`;
+  if (outcome.outcome === "no_edit") return "no edit";
+  return `${outcome.result.operation} (${outcome.result.body.length} lines)`;
+}
 
 export class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private controller: AbortController | null = null;
@@ -451,8 +555,7 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
   static offered = 0;
   static accepted = 0;
   // identical prompts: reuse the in-flight promise or the cached result —
-  // VS Code re-invokes the provider on every cursor move, which previously
-  // aborted and re-sent the SAME request dozens of times per keystroke
+  // VS Code re-invokes the provider on every cursor move
   private lastPrompt = "";
 
   invalidate(): void {
@@ -464,53 +567,6 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
   private lastItems: vscode.InlineCompletionItem[] | null = null;
   private inFlight: { prompt: string; promise: Promise<vscode.InlineCompletionItem[]> } | null = null;
   private lastSkipLog = 0;
-  // LSP document symbols, cached per document VERSION (a pure cursor move
-  // reuses them; any edit invalidates) — the scope path never re-queries
-  // the language server for the same document state
-  private symCache = new Map<string, { version: number; symbols: RawSymbol[] | null }>();
-
-  private async fetchSymbols(document: vscode.TextDocument): Promise<RawSymbol[] | null> {
-    const key = document.uri.toString();
-    const version = document.version; // the state queried, not whatever the document is at when the answer arrives
-    const hit = this.symCache.get(key);
-    if (hit && hit.version === version) return hit.symbols;
-    let symbols: RawSymbol[] | null = null;
-    try {
-      // huge files can make the symbol provider slow: race it, never let it
-      // stall the request path longer than 500 ms
-      const raw = await Promise.race([
-        vscode.commands.executeCommand("vscode.executeDocumentSymbolProvider", document.uri),
-        sleep(500).then(() => null),
-      ]);
-      symbols = normalizeSymbols(raw);
-      if (symbols.length === 0) symbols = null; // no R LSP answering — brace-scan fallback
-    } catch {
-      symbols = null;
-    }
-    if (this.symCache.size > 16) this.symCache.clear(); // a few open files is the real working set
-    this.symCache.set(key, { version, symbols });
-    return symbols;
-  }
-
-  // scope-aware context (docs/prompt-format.md): enclosing-function pin +
-  // file outline, from the R language server's document symbols when it
-  // answers, from the brace-scan heuristic when it does not. Computed here
-  // — inside the debounced request path — so the symbol fetch never blocks
-  // anything outside this request.
-  private async buildScopeContext(document: vscode.TextDocument, position: vscode.Position): Promise<ScopeInfo> {
-    const lines = document.getText().split("\n");
-    const symbols = await this.fetchSymbols(document);
-    return symbols
-      ? scopeFromSymbols(symbols, lines, position.line, position.character)
-      : scopeFromScan(lines, position.line);
-  }
-
-  // the exact prompt a real request sends for this cursor state — shared by
-  // the request path and the prefill warm-up so the server cache matches
-  private async renderPrompt(document: vscode.TextDocument, position: vscode.Position, scopeContext: boolean): Promise<PromptBuild & { mode: string }> {
-    const scope = scopeContext ? await this.buildScopeContext(document, position) : null;
-    return { ...buildPrompt(document, position, scope), mode: scope ? scope.mode : "off" };
-  }
 
   // warm-up prompt for the active editor's cursor; null = nothing a real
   // request would send (no R editor, server not usable, empty document)
@@ -520,14 +576,11 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
     if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") return null;
     const { document } = editor;
     if (document.getText().trim().length < MIN_DOCUMENT_CHARS) return null;
-    const version = document.version;
-    const position = editor.selection.active;
-    const { prompt } = await this.renderPrompt(document, position, cfg().scopeContext);
-    // the state moved while symbols were fetched: this render may mix old and new text, and the change
-    // that moved it has already scheduled the next warm-up
-    if (vscode.window.activeTextEditor !== editor || document.version !== version || !editor.selection.active.isEqual(position)) return null;
-    if (sidecar.currentState !== "ready" && sidecar.currentState !== "external") return null;
-    return prompt;
+    try {
+      return editorRequest(document, editor.selection.active).prompt;
+    } catch {
+      return null; // a context the protocol rejects is never requested either
+    }
   }
 
   private skipLogRateLimited(msg: string): void {
@@ -548,20 +601,21 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
       this.skipLogRateLimited(`request skipped: sidecar is ${sidecar.currentState}`);
       return [];
     }
-    // an empty (or near-empty) document gives the model nothing to work
-    // with and reliably produces roxygen hallucinations — propose nothing
+    // an empty (or near-empty) document gives the model nothing to work with
     if (document.getText().trim().length < MIN_DOCUMENT_CHARS) {
       this.skipLogRateLimited("request skipped: document is empty");
       return [];
     }
     const c = cfg();
-    const { prompt, truncatedLines, truncatedSuffixLines, mode } = await this.renderPrompt(document, position, c.scopeContext);
-    if (!current()) return [];
-    logScopeMode(mode);
-    if (truncatedLines > 0) channel.appendLine(`prompt: truncated ${truncatedLines} lines from the start of the prefix`);
-    if (truncatedSuffixLines > 0) {
-      channel.appendLine(`prompt: truncated ${truncatedSuffixLines} lines from the end of the suffix (enclosing function protected)`);
+    let request: EditorRequest;
+    try {
+      request = editorRequest(document, position);
+    } catch (e) {
+      this.skipLogRateLimited(`request skipped: ${errText(e)}`);
+      return [];
     }
+    const prompt = request.prompt;
+    if (request.omittedLines > 0 && c.debugMode) channel.appendLine(`prompt: ${request.omittedLines} source lines outside the 6,000-unit window`);
 
     lastPrompt = prompt;
     const key = JSON.stringify([document.uri.toString(), version, position.line, position.character, c, prompt]);
@@ -588,52 +642,53 @@ export class SepalithProvider implements vscode.InlineCompletionItemProvider {
     promise = (async () => {
       try {
         const t0 = Date.now();
-        const r = await postCompletion(c.port, prompt, SUGGESTION_MAX_TOKENS, STOPS, controller.signal);
+        const ids = await promptTokenIds(c.port, prompt, controller.signal);
+        if (ids.length + SUGGESTION_MAX_TOKENS > c.contextSize) {
+          requestLog.fail(entry, "skipped", `prompt ${ids.length} tokens + cap ${SUGGESTION_MAX_TOKENS} exceeds context ${c.contextSize}`);
+          return [];
+        }
+        const r = await generateSuggestion(body => postCompletion(c.port, body, controller.signal), ids, c.allowNoEdit);
         if (!current() || controller.signal.aborted) {
           requestLog.fail(entry, "aborted", "document changed or request cancelled");
           return [];
         }
-        lastStats = `latency ${Date.now() - t0} ms, completion tokens ${r.completionTokens}`;
+        const outcome = interpretCompletion(request.context, r.content, r.tokens, SUGGESTION_MAX_TOKENS);
+        lastStats = `latency ${Date.now() - t0} ms, prompt ${ids.length} tok, completion ${r.tokens.length} tok, ${describe(outcome)}`;
         channel.appendLine(`response: ${lastStats}`);
         if (c.debugMode) {
-          channel.appendLine(`--- prompt (${prompt.length} chars) ---\n${prompt}\n--- raw completion ---\n${r.text}`);
+          channel.appendLine(`--- prompt (${prompt.length} chars, ${ids.length} tokens) ---\n${prompt}--- raw completion ---\n${r.content}`);
         }
         renderStatusBar();
-        const lines = parsePrediction(r.text);
-        requestLog.finish(entry, Date.now() - t0, r.completionTokens, r.text, lines);
-        if (lines.length === 0) {
-          this.lastPrompt = key;
-          this.lastItems = [];
-          return [];
-        }
-        // cursor on a non-empty comment line + code-looking first prediction:
-        // start the prediction on the NEXT line instead of gluing code into
-        // the comment (seen live: roxygen title + "  if (is.list(x)) {")
-        const currentLine = document.lineAt(position.line).text.trim();
-        const codeFirst = /^[A-Za-z.][\w.$]*\s*(<-|=|\()/.test(lines[0].trim());
-        if (currentLine.startsWith("#") && currentLine !== "#" && codeFirst) {
-          lines.unshift("");
-        }
-        // the dominant finish-block training convention re-emits the WHOLE
-        // region (typed partial included) as the target. If the prediction
-        // starts with the typed partial, it is a full-region output: make
-        // Tab replace the entire cursor line instead of appending after the
-        // partial (which produced "sum(x) / length(x)  sum(x) / length(x)").
-        const typedPartial = document.lineAt(position.line).text.slice(0, position.character).trim();
-        let rangeStart = position;
-        if (typedPartial.length >= 4 && lines[0].trim().startsWith(typedPartial)) {
-          rangeStart = position.with({ character: 0 });
-        }
-        const eol = document.lineAt(position.line).range.end;
-        const item = new vscode.InlineCompletionItem(lines.join("\n"), new vscode.Range(rangeStart, eol));
-        item.command = { command: "sepalith.accepted", title: "Record accepted suggestion" };
-        SepalithProvider.offered++;
+        requestLog.finish(entry, Date.now() - t0, r.tokens.length, r.content, outcome.result.body, describe(outcome));
         this.lastPrompt = key;
-        this.lastItems = [item];
-        return [item];
+        this.lastItems = [];
+        if (outcome.outcome !== "edit") return [];
+        // the protocol's stale check: the document is still the one the context captured
+        makeApplicationPlan(outcome.result, request.context, document.uri.toString(), document.version, sha256Text(document.getText()));
+        const shown = presentEdit(request, outcome.result);
+        if (shown.kind === "ghost") {
+          const at = new vscode.Position(shown.line, shown.character);
+          const item = new vscode.InlineCompletionItem(shown.text, new vscode.Range(at, at));
+          item.command = { command: "sepalith.accepted", title: "Record accepted suggestion" };
+          SepalithProvider.offered++;
+          this.lastItems = [item];
+          return [item];
+        }
+        if (shown.kind === "replace") {
+          const editor = vscode.window.activeTextEditor;
+          if (editor && editor.document === document && editor.selection.active.line === shown.line) {
+            preview.show(editor, shown);
+            SepalithProvider.offered++;
+          }
+        }
+        return [];
       } catch (e) {
         if (controller.signal.aborted) {
           requestLog.fail(entry, "aborted", "superseded by a new request");
+          return [];
+        }
+        if (e instanceof ProtocolError) {
+          requestLog.fail(entry, "skipped", errText(e));
           return [];
         }
         requestLog.fail(entry, "error", errText(e));
@@ -662,9 +717,11 @@ let lastPrompt = "(no request yet)";
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 let acceptedDocument: { uri: string; version: number } | null = null;
 const sidecar = new Sidecar();
+let preview: EditPreview;
 
+let activeModel = "";
 function modelName(): string {
-  const m = cfg().modelPath;
+  const m = activeModel || cfg().modelPath;
   return m.slice(m.lastIndexOf("/") + 1); // basename is enough for the status bar
 }
 
@@ -675,26 +732,15 @@ function renderStatusBar(): void {
   statusBarItem.tooltip = `Sepalith sidecar\nstate: ${s}${sidecar.detailText ? `\n${sidecar.detailText}` : ""}\nlast request: ${lastStats}\nsuggestions offered ${SepalithProvider.offered} / accepted ${SepalithProvider.accepted}`;
 }
 
-// which context mode built the prompt (scope:pin+outline / scope:outline /
-// scope:off) — one line per mode CHANGE, or every 50 requests, never per
-// request
-let lastScopeMode = "";
-let scopeModeRequests = 0;
-function logScopeMode(mode: string): void {
-  scopeModeRequests++;
-  if (mode !== lastScopeMode || scopeModeRequests % 50 === 0) {
-    lastScopeMode = mode;
-    channel.appendLine(`scope:${mode}`);
-  }
-}
-
 // warm-ups are prefill only, but a cold 2.4k-token prefill on a laptop takes seconds
 const WARMUP_TIMEOUT_MS = 120_000;
 
 async function sendWarmup(prompt: string): Promise<void> {
   const t0 = Date.now();
   try {
-    await postCompletion(cfg().port, prompt, WARMUP_MAX_TOKENS, STOPS, AbortSignal.timeout(WARMUP_TIMEOUT_MS));
+    const signal = AbortSignal.timeout(WARMUP_TIMEOUT_MS);
+    const ids = await promptTokenIds(cfg().port, prompt, signal);
+    await postCompletion(cfg().port, completionBody(ids, WARMUP_MAX_TOKENS), signal);
   } catch (e) {
     channel.appendLine(`warmup error: ${errText(e)}`);
     throw e;
@@ -715,12 +761,15 @@ export function activate(context: vscode.ExtensionContext): void {
   };
   runtimeStorage = sharedCacheRoot();
   channel = vscode.window.createOutputChannel("Sepalith");
+  preview = new EditPreview();
+  for (const document of vscode.workspace.textDocuments) if (document.languageId === "r") track(document);
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   statusBarItem.show();
   requestLog = new RequestLog();
   context.subscriptions.push(
     channel,
     statusBarItem,
+    preview,
     vscode.window.createTreeView("sepalith.requests", { treeDataProvider: requestLog }),
   );
 
@@ -730,6 +779,10 @@ export function activate(context: vscode.ExtensionContext): void {
       warmup.reset(); // a new server starts with an empty prompt cache
       return sidecar.start().then(() => warmup.schedule());
     }),
+    vscode.commands.registerCommand("sepalith.acceptEdit", async () => {
+      if (await preview.accept()) void vscode.commands.executeCommand("sepalith.accepted");
+    }),
+    vscode.commands.registerCommand("sepalith.dismissEdit", () => preview.clear()),
     vscode.commands.registerCommand("sepalith.accepted", () => {
       SepalithProvider.accepted++;
       const document = vscode.window.activeTextEditor?.document;
@@ -791,12 +844,26 @@ export function activate(context: vscode.ExtensionContext): void {
     { dispose: () => { provider.invalidate(); warmup.dispose(); } },
     vscode.window.onDidChangeActiveTextEditor((editor) => {
       provider.invalidate();
+      preview.clear();
+      if (editor?.document.languageId === "r") track(editor.document);
       warmActive(editor?.document); // file open / switch
     }),
-    vscode.window.onDidChangeTextEditorSelection((e) => warmActive(e.textEditor.document)),
+    vscode.window.onDidChangeTextEditorSelection((e) => {
+      const document = e.textEditor.document;
+      if (document.languageId !== "r") return;
+      const line = e.selections[0]?.active.line ?? 0;
+      if (preview.line !== null && preview.line !== line) preview.clear();
+      const entry = track(document);
+      entry.history.cursorAt(line, entry.lines); // leaving an edited line commits it to the history
+      warmActive(document);
+    }),
+    vscode.workspace.onDidOpenTextDocument((document) => { if (document.languageId === "r") track(document); }),
+    vscode.workspace.onDidCloseTextDocument((document) => { tracked.delete(document.uri.toString()); }),
     vscode.workspace.onDidChangeTextDocument((e) => {
-      if (e.document.languageId !== "r") return;
+      if (e.document.languageId !== "r" || e.contentChanges.length === 0) return;
+      observeChange(e.document);
       provider.invalidate();
+      preview.clear();
       warmActive(e.document);
       const ms = cfg().debounceMs;
       if (ms <= 0) return; // 0 disables auto-trigger (manual only)

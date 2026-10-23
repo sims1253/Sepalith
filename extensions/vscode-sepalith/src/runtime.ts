@@ -21,7 +21,7 @@ interface Asset { name: string; url: string; sha256: string; bytes: number; exec
 interface Bundle { platform: string; arch: string; backend: Backend; server: string; files: Asset[] }
 export interface Manifest {
   schema: 1; build: string; model: Asset; bundles: Bundle[];
-  modelProfile: { renderer: 'zeta2-v1'; task: 'r-next-edit'; tokenizerRevision: string; modelRevision: string };
+  modelProfile: { renderer: 'zeta2-prm03-v1'; task: 'r-next-edit'; tokenizerRevision: string; modelRevision: string };
 }
 
 function keysOnly(value: unknown, keys: string[]): boolean {
@@ -59,10 +59,10 @@ export function validateManifest(value: unknown): Manifest {
     throw new Error('Invalid runtime manifest');
   validAsset(m.model);
   const profile = m.modelProfile;
-  if (!keysOnly(profile, ['renderer', 'task', 'tokenizerRevision', 'modelRevision']) || profile.renderer !== 'zeta2-v1' || profile.task !== 'r-next-edit' ||
+  if (!keysOnly(profile, ['renderer', 'task', 'tokenizerRevision', 'modelRevision']) || profile.renderer !== 'zeta2-prm03-v1' || profile.task !== 'r-next-edit' ||
       typeof profile.tokenizerRevision !== 'string' || !profile.tokenizerRevision.trim() ||
       typeof profile.modelRevision !== 'string' || !profile.modelRevision.trim())
-    throw new Error('Unsupported model profile: require zeta2-v1/r-next-edit and pinned model/tokenizer revisions');
+    throw new Error('Unsupported model profile: require zeta2-prm03-v1/r-next-edit and pinned model/tokenizer revisions');
   const keys = new Set<string>();
   for (const b of m.bundles) {
     if (!keysOnly(b, ['platform', 'arch', 'backend', 'server', 'files'])) throw new Error('Invalid runtime bundle');
@@ -156,6 +156,25 @@ export async function install(a: Asset, directory: string, signal: AbortSignal, 
     await fs.rename(temporary, target);
     return target;
   }); } finally { await fs.rm(temporary, { force: true }); }
+}
+
+/**
+ * Default model: arm A (SFT-v2-r4-lr1e-5, checkpoint 536) Q8_0, as published
+ * in scholzmx/sepalith-2b-edit-sft at commit 5f1eace (folder arm-a). Q8_0 and
+ * Q6_K passed the C09 quant gate; Q6_K and the Q4_K_M-mixA-e4 tier (quant
+ * autoresearch, PR #67) are not published and are used through `modelPath`.
+ */
+export const DEFAULT_MODEL_ASSET: Asset = {
+  name: 'arm-a-Q8_0.gguf',
+  url: 'https://huggingface.co/scholzmx/sepalith-2b-edit-sft/resolve/5f1eacee21d02df6992387b7c4260d1804d2a934/arm-a/arm-a-Q8_0.gguf',
+  sha256: '44b01828b21cd6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe',
+  bytes: 2679710528,
+};
+
+/** Install (or reuse a verified cached copy of) the default model; 2.7 GB on first use. */
+export async function ensureDefaultModel(storage: string, signal: AbortSignal, log: (message: string) => void): Promise<string> {
+  log(`Checking default model ${DEFAULT_MODEL_ASSET.name} (${(DEFAULT_MODEL_ASSET.bytes / 1e9).toFixed(1)} GB, sha256 ${DEFAULT_MODEL_ASSET.sha256.slice(0, 12)})`);
+  return install(DEFAULT_MODEL_ASSET, path.join(storage, 'models', DEFAULT_MODEL_ASSET.sha256), signal, 3 * 3600_000);
 }
 
 export interface ProvisionOptions { refreshManifest?: boolean; manifestTimeoutMs?: number; assetTimeoutMs?: number }
