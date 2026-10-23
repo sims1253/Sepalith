@@ -1,0 +1,37 @@
+df = data.frame(name = c("a", NA), value = c(1.5, NA), n = 1:2)
+tb = newTable(df, caption = "Demo", digits = 1)
+stopifnot(inherits(tb, "tm_table"), identical(tb$align, c("left", "right", "right")))
+stopifnot(identical(tb$cells[, 1], c("a", "")), identical(tb$cells[, 2], c("1.5", "")))
+stopifnot(identical(tb$cells[, 3], c("1", "2")), identical(tb$header, names(df)))
+stopifnot(inherits(try(newTable(1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(newTable(df, caption = 1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(newTable(df, align = "left"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(newTable(df, digits = -1), silent = TRUE), "try-error"))
+
+stopifnot(identical(markdownRow(c("a", "b")), "| a | b |"))
+stopifnot(identical(htmlRow("x", "th", "centre"),
+                    "    <tr><th style=\"text-align: center\">x</th></tr>"))
+stopifnot(identical(latexRow(c("a", "b")), "a & b \\\\"))
+
+md = asMarkdown(tb)
+stopifnot(identical(md[1:2], c("| name | value | n |", "| :--- | ---: | ---: |")))
+stopifnot(identical(md[4], "|  |  | 2 |"), identical(md[6], "Table: Demo"))
+stopifnot(length(asMarkdown(newTable(df))) == 4L)
+
+ht = asHtml(tb)
+stopifnot(identical(ht[c(1, length(ht))], c("<table>", "</table>")))
+stopifnot(identical(ht[2], "  <caption>Demo</caption>"), length(ht) == 10L)
+
+lx = asLatex(tb)
+stopifnot(identical(lx[3:4], c("\\caption{Demo}", "\\begin{tabular}{lrr}")))
+stopifnot(identical(lx[6], "name & value & n \\\\"), identical(tail(lx, 1), "\\end{table}"))
+
+path = tempfile(fileext = ".md")
+stopifnot(identical(writeTable(tb, path), path), identical(readLines(path), md))
+path = tempfile(fileext = ".html")
+writeTable(tb, path)
+stopifnot(identical(readLines(path), ht))
+path = tempfile(fileext = ".txt")
+writeTable(tb, path, "latex")
+stopifnot(identical(readLines(path), lx))
+stopifnot(inherits(try(writeTable(tb, path), silent = TRUE), "try-error"))
