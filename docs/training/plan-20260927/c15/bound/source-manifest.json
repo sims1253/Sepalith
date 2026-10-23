@@ -1,0 +1,151 @@
+{
+  "evaluator_files": [
+    "packages/sepalith/src/sepalith/training/grpo/dev_generation.py",
+    "packages/sepalith/src/sepalith/training/eval/campaign_eval.py",
+    "packages/sepalith/src/sepalith/training/eval/milestone_gate.py"
+  ],
+  "files": [
+    {
+      "bytes": 40345,
+      "path": "packages/sepalith/src/sepalith/campaign_protocol.py",
+      "sha256": "2731068effc608cb46e261030f533e7c07e1c13c6ff64aaf103e4fc94d5e10cd"
+    },
+    {
+      "bytes": 757,
+      "path": "packages/sepalith/src/sepalith/training/grpo/__init__.py",
+      "sha256": "483b83479d3af777c5e159c87245df6b55fed935770e93841bf905d53e7acb45"
+    },
+    {
+      "bytes": 6196,
+      "path": "packages/sepalith/src/sepalith/training/grpo/algorithm.py",
+      "sha256": "883fdf55bcd207d3054052dfb007375063b99a414b4888176dbc23af24dbbd62"
+    },
+    {
+      "bytes": 8204,
+      "path": "packages/sepalith/src/sepalith/training/grpo/dev_generation.py",
+      "sha256": "f0ae2c77f661980f7c5ab2c60bc82e6f01859a82d3e8d2aa8f554485eef871f9"
+    },
+    {
+      "bytes": 3971,
+      "path": "packages/sepalith/src/sepalith/training/grpo/loss.py",
+      "sha256": "f279a620ecd25b6278d49682cb502cd4c4c93a006f2b14c3fe70204acc51aede"
+    },
+    {
+      "bytes": 32918,
+      "path": "packages/sepalith/src/sepalith/training/grpo/night.py",
+      "sha256": "9fdf93a1f4625e9904efdea59350643906409a28bbeeace2b1f4ba2b4e9d3d24"
+    },
+    {
+      "bytes": 18107,
+      "path": "packages/sepalith/src/sepalith/training/grpo/pool.py",
+      "sha256": "5f63e7b9961f4fe2a8d0982705b7ed1500b8867bbf2f59a813fb51deb42356fb"
+    },
+    {
+      "bytes": 20465,
+      "path": "packages/sepalith/src/sepalith/training/grpo/recipe.py",
+      "sha256": "b3fd682a725551f6b78adc1c883d92eedd4a4d607184e59021d768f14610d823"
+    },
+    {
+      "bytes": 11491,
+      "path": "packages/sepalith/src/sepalith/training/grpo/rules.py",
+      "sha256": "47cd6f9b039ed99bd248719ed95c37deabb813909b25429b41c2a67ab0facbaf"
+    },
+    {
+      "bytes": 4158,
+      "path": "packages/sepalith/src/sepalith/training/grpo/state.py",
+      "sha256": "24c65fba81514e4d69f998ccab7dc65ef186529d5c8f7ee5c3e2738fcd4486fa"
+    },
+    {
+      "bytes": 37335,
+      "path": "packages/sepalith/src/sepalith/training/grpo/trainer.py",
+      "sha256": "ddf32e68d3a2471e28dae18a2b071e47a26860215dc859110211eab26305173f"
+    },
+    {
+      "bytes": 75150,
+      "path": "packages/sepalith/src/sepalith/training/rl/grpo_memory_probe.py",
+      "sha256": "a871615e409d7024bc37a87d9c2ee270920feb9922ef0beefba68116b0aa2d61"
+    },
+    {
+      "bytes": 44528,
+      "path": "packages/sepalith/src/sepalith/training/rl/reward_v21.py",
+      "sha256": "cc490083de7971920fe6c1c77022ad4477194a05d7fe3def58c308a2a2112c19"
+    },
+    {
+      "bytes": 4893,
+      "path": "packages/sepalith/src/sepalith/training/rl/air_canonical.py",
+      "sha256": "5b52ccf3dcfa776bc956d7dd382b102cc59e3269c06cf5e5a9178f32b3e87392"
+    },
+    {
+      "bytes": 8181,
+      "path": "packages/sepalith/src/sepalith/training/rl/campaign_r_parse_probe.py",
+      "sha256": "94a203f6fb7968477dec2521aa734c48cbb7c8a057fd22f98379e58f81482c91"
+    },
+    {
+      "bytes": 2237,
+      "path": "packages/sepalith/src/sepalith/training/rl/reward_parse_only.R",
+      "sha256": "175cd35a7a825dc0362348bf168a8406f8751ad82a8b58d975af667a48c28f6c"
+    },
+    {
+      "bytes": 9490,
+      "path": "packages/sepalith/src/sepalith/training/rl/campaign_reward_v2.py",
+      "sha256": "b2ce979d8bc9a3112c7ae1810de8c271c180b3d916e98af0998c347bdf7669a7"
+    },
+    {
+      "bytes": 40073,
+      "path": "packages/sepalith/src/sepalith/training/rl/campaign_rl_profile.py",
+      "sha256": "52dac9ed75a9ef491394e2e1c47013f23678ef9901e960b602ed754622de181c"
+    },
+    {
+      "bytes": 107596,
+      "path": "packages/sepalith/src/sepalith/training/rl/campaign_rl_train.py",
+      "sha256": "383235e066532843449b36319cf83ac5f9730ae4329f68a97b57b7d8becae361"
+    },
+    {
+      "bytes": 12887,
+      "path": "packages/sepalith/src/sepalith/training/rl/length_policy.py",
+      "sha256": "e2893850d5b9ab6f7fee4c6b9992a49a167cd1f94139b426e8a1e4d10ebefb9e"
+    },
+    {
+      "bytes": 19886,
+      "path": "packages/sepalith/src/sepalith/training/optim/full_weight_optimizer.py",
+      "sha256": "25591fc3cc3cbfafb08ad845567aed690fea3dec03adbd5811dc91022fd6641f"
+    },
+    {
+      "bytes": 14539,
+      "path": "packages/sepalith/src/sepalith/training/checkpoint/campaign_checkpoint.py",
+      "sha256": "d361150d2efe69ebc2066dfb3d20fa7dff787d2a0b04858f11b66c551ba5cc66"
+    },
+    {
+      "bytes": 23774,
+      "path": "packages/sepalith/src/sepalith/training/eval/campaign_eval.py",
+      "sha256": "81856179ee3395f0154d5d113391ed6c3ab711d23f7b47870ff97cb376aeaf65"
+    },
+    {
+      "bytes": 6745,
+      "path": "packages/sepalith/src/sepalith/training/eval/milestone_gate.py",
+      "sha256": "758f6f7d71de0257343a620e762127d89f3e2987d3ce2cd410aae0fb0afb59bd"
+    },
+    {
+      "bytes": 15044,
+      "path": "packages/sepalith/src/sepalith/training/contracts/campaign_tokenizer_contract.py",
+      "sha256": "cb3f8d5e54a655580b636c31237cf59b08b72b49b1a11d3f542e7fa9f9be1332"
+    },
+    {
+      "bytes": 7899,
+      "path": "packages/sepalith/src/sepalith/training/contracts/trainer_tokenizer_alignment.py",
+      "sha256": "5ad5273441514548a75e101cd6973e05203a11a372db8bc99e8be2420bff6c37"
+    },
+    {
+      "bytes": 9776,
+      "path": "packages/sepalith/src/sepalith/training/guards/cuda_host_guard.py",
+      "sha256": "a69e9a2dc3a9718f10ba0b716ed2448efa0b7cf4375f705ad5ef084f81bddcec"
+    },
+    {
+      "bytes": 41667,
+      "path": "packages/sepalith/src/sepalith/training/sft/night_arm.py",
+      "sha256": "0da385de62942823fe206bda71003d5302786b53562bae9fc5fcafc2238e8b30"
+    }
+  ],
+  "root": "repository",
+  "schema": "sepalith.c15.grpo-source.v1"
+}

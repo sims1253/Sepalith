@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo.night",
+    "smoke",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c15/bound/grpo-smoke-arm-a-536.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 40,
+  "id": "C15-grpo-smoke",
+  "note": "C15 smoke on the real CUDA path (cuda:0): GRPO from arm A 536 on the C14 pool, train to update 4 and save, DEV75 on checkpoint 4, resume to update 6 and save; checks telemetry, resume and the evaluator result. Exit 0 pass, 1 fail (nothing done is a failure). Outputs: /mnt/e/.../checkpoints/C15-grpo-smoke/smoke-receipt.json",
+  "priority": 40,
+  "requires": [],
+  "resumable": false
+}

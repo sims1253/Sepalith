@@ -1,0 +1,143 @@
+{
+  "card": "C14",
+  "state": "done",
+  "updated": "2026-10-23T13:30:00+02:00",
+  "branch": "plan/C14-C15-grpo-pilot",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/88",
+  "outputs": {
+    "step1_pool": {
+      "manifest": {
+        "path": "docs/training/plan-20260927/c14/C14-grpo-pool-arm-a-536.json",
+        "sha256": "c9a78a9122cdcd288739e6b98cec7af701ebbc3e46dec8c823f1c95e7bec491f"
+      },
+      "pool": {
+        "path": "docs/training/plan-20260927/c14/pool/C14-grpo-pool-arm-a-536.jsonl",
+        "rows": 2086,
+        "sha256": "359275d6a3919db9a9161d1ea264be899e3ce252b5b8f13c92e4552a125c3e98"
+      },
+      "bundle": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C14-grpo-pool-v1/sepalith-2b-edit-sft-arm-a/bundle.jsonl",
+        "sha256": "307cddda50f1c047339c71264600a8c225d2f6c49750bdf000a40f4f515eb2b7",
+        "rows": 2086
+      },
+      "census": "C12 arm A census at T = 1.0 (~/.local/state/sepalith/c12/census-arm-a/, summary eaeadf7b..., pass-rates e41534e9...), reward v2.1, k = 8",
+      "rule": {
+        "all_correct": "10% of the finished pool, round(band / 9), allocated to families in proportion to the all-correct set (largest remainder), seeded sample per family",
+        "band": "1 <= exact <= 7 of 8 (0.125 <= pass <= 0.875)",
+        "noop": "natural share inside the band (no re-weighting)",
+        "seed": 3407
+      },
+      "counts": {
+        "train_prompts": 15006,
+        "band": 1877,
+        "all_correct_available": 5505,
+        "all_correct_sampled": 209,
+        "pool": 2086,
+        "M": 0.125083,
+        "noop_share_in_band": 0.004262,
+        "noop_share_of_pool": 0.02349
+      },
+      "by_family": {
+        "finish_block": {
+          "band": 998,
+          "all_correct_sampled": 3,
+          "pool": 1001,
+          "M_family": 0.128195
+        },
+        "format_propagation": {
+          "band": 753,
+          "all_correct_sampled": 28,
+          "pool": 781,
+          "M_family": 0.466254
+        },
+        "na_rm_propagation": {
+          "band": 15,
+          "all_correct_sampled": 5,
+          "pool": 20,
+          "M_family": 0.110294
+        },
+        "no_op": {
+          "band": 8,
+          "all_correct_sampled": 41,
+          "pool": 49,
+          "M_family": 0.007313
+        },
+        "pipe_rewrite": {
+          "band": 26,
+          "all_correct_sampled": 74,
+          "pool": 100,
+          "M_family": 0.013111
+        },
+        "rename_propagation": {
+          "band": 56,
+          "all_correct_sampled": 58,
+          "pool": 114,
+          "M_family": 0.035488
+        },
+        "roxygen_drafting": {
+          "band": 21,
+          "all_correct_sampled": 0,
+          "pool": 21,
+          "M_family": 0.025767
+        }
+      },
+      "scope": "TRAIN only: C12 census pass rates on TRAIN prompts and the v4 TRAIN rows; no DEV row, no sealed-set access",
+      "code": "packages/sepalith/src/sepalith/training/grpo/pool.py (python -m sepalith.training.grpo.pool build)"
+    },
+    "step2_memory_probe": {
+      "receipt": {
+        "path": "docs/training/plan-20260927/c14/C14-memory-probe-20261022T082309Z.json",
+        "sha256": "af7a66b5e669507276cbbca93c6b76a80e345955a39baef31153de2ec16d4332"
+      },
+      "summary": {
+        "path": "docs/training/plan-20260927/c14/C14-memory-probe-20261022T082309Z.md",
+        "sha256": "b27bf2052b886333829b407f57bb8666e4622984f853a6c03484496c13b78163"
+      },
+      "pull_requests": [
+        "https://github.com/sims1253/Sepalith/pull/80",
+        "https://github.com/sims1253/Sepalith/pull/82"
+      ],
+      "run": "~/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z",
+      "first_fit": "g8-r16-resident: G = 8, 32 rows per update (4 prompts), 16-row generate calls, optimizer resident, micro-batch 1, chunked log-probabilities",
+      "peak_mib": 23110,
+      "headroom_at_6144_mib_desktop_budget_mib": 3325,
+      "update_seconds": {
+        "at_1024_cap": 155.2,
+        "natural_lengths": 32.2
+      }
+    },
+    "step3_decision": {
+      "memory_fit": true,
+      "update_seconds_at_cap": 155.2,
+      "limit_seconds": 240,
+      "updates_per_night_at_cap": "about 370 per 16 h",
+      "outcome": "go (under the user's R4 override)"
+    }
+  },
+  "rule_decisions": [
+    {
+      "rule": "R4 step 3 (M >= 15% on the latest census) + user decision",
+      "at": "2026-10-23T11:45:00+02:00",
+      "inputs": {
+        "latest_census_M_t1.0": 0.125083,
+        "census_M_t1.2": 0.147474,
+        "threshold": 0.15,
+        "adopted_offline_steps": 0,
+        "offline_iterations": "RFT-1/DPO-1 (T = 1.0) and RFT-2/DPO-2 (T = 1.2) discarded at every gate (status/C13.json)"
+      },
+      "outcome": "user override: start online GRPO (C14/C15) anyway; every other pre-registered rule stays: the C15 recipe, R6 stop and continue rules, R8 (at most one model upload per night)"
+    },
+    {
+      "rule": "C14 step 3",
+      "inputs": {
+        "fits": true,
+        "config": "g8-r16-resident",
+        "update_seconds_cap": 155.2,
+        "limit_seconds": 240
+      },
+      "outcome": "go: a configuration fits with 3.3 GB to spare at the desktop budget and one update takes at most 155 s (<= 4 min)"
+    }
+  ],
+  "question_for_user": null,
+  "notes": "C14 complete. The R4 M >= 15% gate was not met (T = 1.0 census M = 12.5%, T = 1.2 census 14.7%); the user overrode it on 2026-10-23 ~11:45 after both offline iterations were discarded. Step 1 pool from the T = 1.0 census: 1,877 band prompts (1-7 of 8 exact) + 209 all-correct (10% of the pool) = 2,086 TRAIN prompts; no-op prompts at their natural share (8 in the band). Step 2 probe passed on 2026-10-22 (PRs #80, #82); its receipt is committed here. Step 3: go. C15 carries the pilot."
+}
