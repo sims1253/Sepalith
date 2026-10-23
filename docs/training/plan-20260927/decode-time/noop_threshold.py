@@ -217,12 +217,18 @@ def require_one_gpu():
         raise SystemExit("exactly one visible CUDA device required")
 
 
+def touch_cuda():
+    """Create the CUDA context; reset_peak_memory_stats raises "Invalid device argument" before it exists (2026-10-22 run)."""
+    import torch
+
+    torch.empty(0, device=torch.device("cuda", 0))
+
+
 def cuda_report(reset=False):
     import torch
 
     if reset:
-        # reset_peak_memory_stats raises "Invalid device argument" before the CUDA context exists (2026-10-22 run).
-        torch.empty(0, device=torch.device("cuda", 0))
+        touch_cuda()
         torch.cuda.reset_peak_memory_stats(0)
         return None
     return {"name": torch.cuda.get_device_name(0), "peak_allocated_mib": round(torch.cuda.max_memory_allocated(0) / 2**20),
