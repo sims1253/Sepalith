@@ -140,9 +140,10 @@ def main() -> int:
                                                 for c in finish if c["meta"]["variant"] == variant]))
     sib = Counter(c["meta"]["variant"] for c in finish if c["meta"].get("determinacy") == "sibling")
     lines += ["## Prompt geometry (finish_block)", "",
-              "The `file` variant shows the preceding file (siblings); when a cut fails the determinacy proxy in "
-              "its first packaging, the generator retries it as `file` (finish_block.py, retry-with-file), so "
-              "`file` dominates and prompts are longer than TRAIN's.", ""]
+              "Packagings: `plain` (roxygen + head), `strip` (head only), `outline`/`diag` (TRAIN header + "
+              "roxygen + head), `file` (preceding file content, shows siblings). From generator 3.0.0 on, `file` "
+              "is used only when no function-only packaging passes the proxies and shows at most 60 prefix lines; "
+              "in 2.0.0 every failing cut was retried as `file`.", ""]
     lines += table(["prompts", "cases", "median prefix lines", "median prompt tokens", "prefix > 60 lines"], geo)
     lines += [f"`sibling` cases by variant: `{json.dumps(dict(sib))}`.", ""]
 
