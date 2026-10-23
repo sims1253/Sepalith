@@ -323,6 +323,7 @@ class MockedCudaInnerTests(unittest.TestCase):
         recipe = self.m.load_recipe(self.m.DEFAULT_RECIPE)
         self.recipe = {**recipe, "cap": 3}
         self.loads = []
+        self.touched = mock.Mock(return_value=None)
 
         def fake_load(parent, reference, device_name):
             self.loads.append(device_name)
@@ -336,6 +337,7 @@ class MockedCudaInnerTests(unittest.TestCase):
             mock.patch.object(self.m, "load_recipe", lambda path: self.recipe),
             mock.patch.object(self.m, "load_model_and_tokenizer", fake_load),
             mock.patch.object(self.m, "gpu_device", lambda: torch.device("cpu")),
+            mock.patch.object(self.m, "touch_cuda", self.touched),
             mock.patch.object(self.m, "verify_weights", lambda dry: {"method": "mock"}),
             mock.patch.object(self.m, "dev_cases", lambda *a: real_dev(*a)[:3]),
             mock.patch.object(self.m, "train_cases", lambda *a: real_train(*a)[-3:]),
@@ -360,6 +362,7 @@ class MockedCudaInnerTests(unittest.TestCase):
         receipt = json.loads((self.attempt / "receipt.json").read_text())
         self.assertEqual(receipt["status"], "complete")
         self.assertEqual(receipt["runs"][0]["cuda"], {"name": "Mock GPU", "peak_allocated_mib": 1024, "peak_reserved_mib": 2048})
+        self.touched.assert_called()  # the context exists before the reset
         self.cuda["reset_peak_memory_stats"].assert_called_with(0)
         self.cuda["empty_cache"].assert_called()
         for name in ("dev75", "dev250", "train1000"):
