@@ -37,6 +37,7 @@ from sepalith.training.sft.schedule_v2 import write_schedule
 TRAIN = Path("/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl")
 TRAIN_SHA256 = "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
 EFFECTIVE_BATCH = 16
+SYNTH_IDS: set[str] = set()
 
 
 def sha256(path: Path) -> str:
@@ -62,6 +63,14 @@ def build_schedule(cohort: Path, cohort_sha: str, out: Path, noop_per_batch: int
     except AssertionError as error:
         cap = {"passes": False, "error": str(error), "histogram": dict(sorted(Counter(noop_exposures(result).values()).items()))}
     summary = {key: result[key] for key in ("max_steps", "draw_count", "checks") if key in result}
+    finish = [d for d in result["draws"] if d.get("family") == "finish_block"]
+    synth_ids = SYNTH_IDS
+    summary["finish_draw_share"] = {
+        "finish_draws": len(finish),
+        "synth_finish_draws": sum(d["row_id"] in synth_ids for d in finish),
+        "synth_share_of_finish_draws": round(sum(d["row_id"] in synth_ids for d in finish) / max(1, len(finish)), 4),
+        "synth_share_of_all_draws": round(sum(d["row_id"] in synth_ids for d in result["draws"])
+                                          / max(1, len(result["draws"])), 4)}
     summary["noop_share"] = result["coverage"]["noop_share"]
     return {"path": str(path), "sha256": sha256(path), "schedule_version": label, "noop_per_batch": noop_per_batch,
             "summary": summary, "noop_exposure_rule": cap}, result
@@ -80,6 +89,7 @@ def main() -> int:
     synth_rows = args.synth / "train-token-rows.jsonl"
     synth_lines = synth_rows.read_text(encoding="utf-8").splitlines(keepends=True)
     synth_lines.sort(key=lambda line: json.loads(line)["id"])
+    SYNTH_IDS.update(json.loads(line)["id"] for line in synth_lines)
     families = Counter()
     for line in synth_lines:
         families[validate_training_row(json.loads(line))["family"]] += 1

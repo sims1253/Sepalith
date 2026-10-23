@@ -159,18 +159,19 @@ def main() -> int:
     lines += table(["reference", "rows", ">= 0.5", ">= 0.8", "= 1.0", "target lengths of >= 0.8 rows"],
                    [masked_row("train"), masked_row("dev")])
 
-    lines += ["## Length shaping (finish_block)", "",
-              "Bucket definition used by the shaping rules: SYNTH targets are counted raw (`len(region_new)`, "
-              "including the restated signature line of signature-region cases); TRAIN targets are counted with "
-              "their leading blank line removed (a TRAIN-only artefact, see receipts/DT-ws-nearmiss.json). "
-              "Ratios of SYNTH share to TRAIN share under both TRAIN definitions:", ""]
-    raw_train = prof["train"]["finish_block"]["target_length_buckets"]
-    synth_share = summary["shaping"]["synth_share"]
-    stripped = summary["shaping"]["train_share"]
-    lines += table(["bucket", "SYNTH share", "TRAIN (leading blank stripped)", "ratio", "TRAIN (raw)", "ratio"],
-                   [[b, pct(synth_share[b]), pct(stripped[b]), f"{synth_share[b] / stripped[b]:.2f}x",
-                     pct(raw_train.get(b, 0)),
-                     f"{synth_share[b] / raw_train[b]:.2f}x" if raw_train.get(b) else "-"] for b in synth_share])
+    shaping = summary["shaping"]
+    lines += ["## Length and prompt shaping (finish_block)", "",
+              f"One length definition for TRAIN and SYNTH: `{shaping.get('length_definition', 'see build.py')}`. "
+              f"Rules: {shaping['rule']}; {shaping.get('prefix_rule', '')}.", ""]
+    lines += table(["length bucket", "TRAIN share", "SYNTH share", "ratio", "TRAIN+SYNTH share", "available", "selected"],
+                   [[b, pct(shaping["train_share"][b]), pct(shaping["synth_share"][b]),
+                     f"{shaping['synth_share'][b] / shaping['train_share'][b]:.2f}x", pct(shaping["combined_share"][b]),
+                     shaping["available"][b], shaping["selected"].get(b, 0)] for b in shaping["synth_share"]])
+    if "prefix_synth_share" in shaping:
+        lines += table(["prefix-line bucket", "TRAIN share", "SYNTH share", "ratio"],
+                       [[b, pct(shaping["prefix_train_share"][b]), pct(shaping["prefix_synth_share"][b]),
+                         f"{shaping['prefix_synth_share'][b] / shaping['prefix_train_share'][b]:.2f}x"]
+                        for b in shaping["prefix_synth_share"]])
     lines += ["```json", json.dumps(summary["shaping"], indent=1), "```", ""]
     lines += ["## Decontamination", ""]
     dc = summary["decontamination"]
@@ -190,6 +191,13 @@ def main() -> int:
               f"Split file read: {dc['split_file_read']}.", ""]
     lines += ["## Rejections", ""] + table(["family:reason", "count"],
                                             [[k, v] for k, v in sorted(summary["generator_rejections"].items())])
+    cohort_receipt = args.data / "cohort-proposal" / "cohort-receipt.json"
+    if cohort_receipt.exists():
+        cohort = json.loads(cohort_receipt.read_text())
+        draws = cohort["schedule"]["summary"].get("finish_draw_share")
+        if draws:
+            lines += ["## Exposure", "", f"Default schedule `{cohort['schedule']['schedule_version']}`: "
+                      f"`{json.dumps(draws)}`.", ""]
     if args.probe and args.probe.exists():
         probe = json.loads(args.probe.read_text())
         lines += ["## Arm A probe (Q8_0, greedy, CPU)", ""]

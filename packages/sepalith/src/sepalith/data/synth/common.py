@@ -152,3 +152,58 @@ def structural_support(target_lines: Sequence[str], prompt_lines: Sequence[str],
 
 def word_in(name: str, text: str) -> bool:
     return re.search(r"(?<![A-Za-z0-9._])" + re.escape(name) + r"(?![A-Za-z0-9._])", text) is not None
+
+
+CALL_NAME_RE = re.compile(r"([A-Za-z.][A-Za-z0-9._]*)\s*\(")
+
+
+def assess(target_lines: Sequence[str], prompt_lines: Sequence[str],
+           package_functions: Iterable[str] = ()) -> tuple[list[str], list[str]]:
+    """v3 determinacy evidence: (novel items, hard rejections).
+
+    Novel items (budgeted by the determinacy class): code identifiers of two or
+    more characters absent from the prompt (``COMMON`` names excepted) and
+    numbers other than 0-2 absent from the prompt.
+
+    Hard rejections (the target needs content the prompt does not specify):
+    - ``unspecified_comment:<word>``: a target comment uses a word that occurs
+      nowhere in the prompt (comments verbatim in the prompt, or recombining
+      prompt words, are allowed);
+    - ``unspecified_literal:<word>``: a string literal (including glue, sprintf
+      and SQL text, whose embedded identifiers are words here) uses a word that
+      occurs nowhere in the prompt;
+    - ``invisible_helper:<name>``: the target calls a function defined in the
+      seed package that the prompt never mentions.
+    """
+    p_idents, p_words, p_numbers = lexical_items(prompt_lines)
+    seen_words = p_words | {i.lower() for i in p_idents}
+    prompt_text = "\n".join(prompt_lines)
+    helpers = set(package_functions)
+    novel: list[str] = []
+    hard: list[str] = []
+    for line in target_lines:
+        code, comment = split_comment(line)
+        if comment and comment.strip()[1:].strip() not in prompt_text:
+            for word in WORD_RE.findall(comment):
+                if word.lower() not in seen_words:
+                    hard.append("unspecified_comment:" + word)
+        for literal in STRING_RE.findall(code):
+            if literal in prompt_text:
+                continue
+            for word in WORD_RE.findall(literal[1:-1]):
+                if word.lower() not in seen_words:
+                    hard.append("unspecified_literal:" + word)
+        bare = STRING_RE.sub(" ", code)
+        for number in NUMBER_RE.findall(bare):
+            if number not in TRIVIAL_NUMBERS and number not in p_numbers:
+                novel.append("num:" + number)
+        for ident in IDENT_RE.findall(bare):
+            # A name the prompt shows as an identifier, or as a word in a string or comment
+            # (e.g. the choices of match.arg(), column names, list element names), is visible.
+            if (len(ident) >= 2 and ident not in KEYWORDS and ident not in COMMON and ident not in p_idents
+                    and ident.lower() not in p_words):
+                novel.append(ident)
+        for call in CALL_NAME_RE.findall(bare):
+            if call in helpers and call not in p_idents:
+                hard.append("invisible_helper:" + call)
+    return sorted(set(novel)), sorted(set(hard))

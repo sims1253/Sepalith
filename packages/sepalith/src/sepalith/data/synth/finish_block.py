@@ -19,7 +19,7 @@ from dataclasses import dataclass
 import re
 
 from sepalith.data.synth.cases import Case, window_start_for
-from sepalith.data.synth.common import novelty, rng_for, strip_comment, structural_support, word_in
+from sepalith.data.synth.common import assess, rng_for, strip_comment, structural_support, word_in
 from sepalith.data.synth.structure import FileStructure, Unit
 
 CLOSE_RE = re.compile(r"^\}[)\]]*$")
@@ -27,9 +27,11 @@ WINDOW_BUDGET = 4500
 SHORT_NOVELTY_MAX = 2  # constrained_short: <= 8 lines, at most 2 novel items
 SIBLING_NOVELTY_MAX = 3  # sibling: structure shown in the prompt, at most 3 novel items
 SIBLING_SUPPORT_MIN = 0.5
-MAX_CANDIDATES_PER_UNIT = 4
+MAX_CANDIDATES_PER_UNIT = 6
 SIGNATURE_REGION_SHARE = 0.9
 VARIANT_WEIGHTS = {"plain": 0.35, "file": 0.25, "strip": 0.15, "outline": 0.125, "diag": 0.125}
+FUNCTION_ONLY_WEIGHTS = {"plain": 0.47, "strip": 0.2, "outline": 0.165, "diag": 0.165}
+FILE_WINDOW_MAX_LINES = 60  # v3: a `file` prompt shows at most 60 prefix lines
 
 
 @dataclass(frozen=True)
@@ -114,7 +116,8 @@ def safe_lines(structure: FileStructure) -> set[int]:
 
 
 def build_case(unit: Unit, cut: Cut, variant: str, lines: Sequence[str], structure: FileStructure,
-               package_id: str, path: str, *, signature_region: bool = False) -> Case:
+               package_id: str, path: str, *, signature_region: bool = False,
+               package_functions: frozenset[str] = frozenset()) -> Case:
     outer = unit.outer_block()
     assert outer is not None
     head = list(lines[unit.start - 1:cut.line - 1])
@@ -126,7 +129,8 @@ def build_case(unit: Unit, cut: Cut, variant: str, lines: Sequence[str], structu
     if variant == "file":
         doc = tuple(lines[:cut.line - 1])
         first = (unit.roxygen[0] if unit.roxygen else unit.start) - 1
-        start = window_start_for(doc, len(doc), WINDOW_BUDGET, safe_lines(structure))
+        start = window_start_for(doc, len(doc), WINDOW_BUDGET, safe_lines(structure),
+                                 max_lines=FILE_WINDOW_MAX_LINES)
         start = min(start, first)
     else:
         prefix: list[str] = []
@@ -143,15 +147,18 @@ def build_case(unit: Unit, cut: Cut, variant: str, lines: Sequence[str], structu
         case = Case("finish_block", package_id, path, doc, len(doc) - 1, len(doc), (sig, *target),
                     window_start=start, cursor=(0, len(sig)), meta=meta)
     prompt = list(case.doc[start:])  # everything the model sees, including a signature-line region
-    novel = novelty(target, prompt)
+    novel, hard = assess(target, prompt, package_functions)
     support = structural_support(target, prompt)
-    if cut.length <= 8 and len(novel) <= SHORT_NOVELTY_MAX:
+    if hard:
+        determinacy = "author_choice"
+    elif cut.length <= 8 and len(novel) <= SHORT_NOVELTY_MAX:
         determinacy = "constrained_short"
     elif support >= SIBLING_SUPPORT_MIN and len(novel) <= SIBLING_NOVELTY_MAX:
         determinacy = "sibling"
     else:
         determinacy = "author_choice"
-    case.meta.update(novel_tokens=novel[:20], novelty=len(novel), structural_support=round(support, 3),
+    case.meta.update(novel_tokens=novel[:20], novelty=len(novel), hard_rejections=hard[:20],
+                     structural_support=round(support, 3),
                      determinacy=determinacy, test_file="test" in path.lower() or unit.name == "test_that")
     return case
 
@@ -160,7 +167,8 @@ def closers_only(lines: Sequence[str]) -> bool:
     return all(not line.strip() or re.fullmatch(r"[})\]\s,]*", line.strip()) for line in lines)
 
 
-def generate(lines: Sequence[str], structure: FileStructure, package_id: str, path: str) -> list[Case]:
+def generate(lines: Sequence[str], structure: FileStructure, package_id: str, path: str,
+             package_functions: frozenset[str] = frozenset()) -> list[Case]:
     """Determinacy-qualified candidates (<= MAX_CANDIDATES_PER_UNIT per unit) plus
     rejected ones (``meta["rejected"]``) for the ledger."""
     out: list[Case] = []
@@ -170,43 +178,62 @@ def generate(lines: Sequence[str], structure: FileStructure, package_id: str, pa
         outer = unit.outer_block()
         assert outer is not None
         is_fun = unit.main_function() is not None and outer.open_line >= unit.start
-        rng = rng_for("fb2", package_id, path, unit.start)
+        rng = rng_for("fb3", package_id, path, unit.start)
         cuts = cuts_for(unit, lines, structure)
         first_line = min(c.line for c in cuts)
-        weights = {k: w for k, w in VARIANT_WEIGHTS.items()
+        weights = {k: w for k, w in FUNCTION_ONLY_WEIGHTS.items()
                    if (k != "strip" or unit.roxygen) and (k not in ("outline", "diag") or is_fun)}
-        qualified: list[Case] = []
+        qualified: list[list[Case]] = []
         for cut in cuts:
             target = lines[cut.line - 1:unit.end]
             if cut.kind == "final_close" or closers_only(target):
                 continue
             full = cut.line == first_line
-            variant = rng.choices(list(weights), weights=list(weights.values()))[0]
             signature = full and rng.random() < SIGNATURE_REGION_SHARE
-            case = build_case(unit, cut, variant, lines, structure, package_id, path, signature_region=signature)
-            if case.meta["determinacy"] == "author_choice" and variant != "file":
-                retry = build_case(unit, cut, "file", lines, structure, package_id, path, signature_region=signature)
-                if retry.meta["determinacy"] != "author_choice":
-                    case = retry
-            case.meta["full_body"] = full
-            if case.meta["determinacy"] == "author_choice":
-                case.meta["rejected"] = "author_choice"
-                out.append(case)
-            else:
-                qualified.append(case)
-        # Keep a diverse handful per unit: one per length bucket first, longest buckets first.
+            # v3: every function-only packaging that passes the proxies is kept as an
+            # alternative of this cut (the shaper later picks at most one per cut, by prompt
+            # length headroom); the 60-line `file` window only if none of them qualifies.
+            pool = dict(weights)
+            order = []
+            while pool:
+                pick = rng.choices(list(pool), weights=list(pool.values()))[0]
+                order.append(pick)
+                del pool[pick]
+            alternatives = []
+            first_attempt = None
+            for variant in order:
+                attempt = build_case(unit, cut, variant, lines, structure, package_id, path,
+                                     signature_region=signature, package_functions=package_functions)
+                first_attempt = first_attempt or attempt
+                if attempt.meta["determinacy"] != "author_choice":
+                    alternatives.append(attempt)
+            if not alternatives:
+                attempt = build_case(unit, cut, "file", lines, structure, package_id, path,
+                                     signature_region=signature, package_functions=package_functions)
+                if attempt.meta["determinacy"] != "author_choice":
+                    alternatives.append(attempt)
+            if not alternatives:
+                assert first_attempt is not None
+                first_attempt.meta.update(full_body=full, rejected="author_choice")
+                out.append(first_attempt)
+                continue
+            for rank, case in enumerate(alternatives):
+                case.meta.update(full_body=full, cut_key=f"{package_id}/{path}:{unit.start}:{cut.line}", alt_rank=rank)
+            qualified.append(alternatives)
+        # Keep a diverse handful of cuts per unit: one per length bucket first, longest first.
         rng.shuffle(qualified)
-        order = {"long": 0, "medium": 1, "short": 2}
-        qualified.sort(key=lambda c: order[c.meta["bucket"]])
-        kept: list[Case] = []
-        for case in qualified:
-            if len(kept) < MAX_CANDIDATES_PER_UNIT and case.meta["bucket"] not in {k.meta["bucket"] for k in kept}:
-                kept.append(case)
-        for case in qualified:
-            if len(kept) < MAX_CANDIDATES_PER_UNIT and case not in kept:
-                kept.append(case)
-        for case in qualified:
-            if case not in kept:
-                case.meta["rejected"] = "unit_candidate_cap"
-        out += qualified
+        order_rank = {"long": 0, "medium": 1, "short": 2}
+        qualified.sort(key=lambda alts: order_rank[alts[0].meta["bucket"]])
+        kept: list[list[Case]] = []
+        for alts in qualified:
+            if len(kept) < MAX_CANDIDATES_PER_UNIT and alts[0].meta["bucket"] not in {k[0].meta["bucket"] for k in kept}:
+                kept.append(alts)
+        for alts in qualified:
+            if len(kept) < MAX_CANDIDATES_PER_UNIT and alts not in kept:
+                kept.append(alts)
+        for alts in qualified:
+            if alts not in kept:
+                for case in alts:
+                    case.meta["rejected"] = "unit_candidate_cap"
+            out += alts
     return out

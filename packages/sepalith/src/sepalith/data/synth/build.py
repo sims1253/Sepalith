@@ -74,12 +74,15 @@ CPT_RUN_MAX = 40
 NEAR_DUP_THRESHOLD = 0.8
 
 # Selection shaping (finish_block) and family mix.
-PER_UNIT_MAX = 2
+PER_UNIT_MAX = 3  # v3: up to 3 cuts per function, at most PER_UNIT_BUCKET_MAX in one length bucket
+PER_UNIT_BUCKET_MAX = 2
 TEST_FILE_MAX_SHARE = 0.01
-FULL_BODY_MAX_SHARE = 0.06
+FULL_BODY_MAX_SHARE = 0.148  # v3: TRAIN's measured full-body share (confirmed by both reviewers in round 2)
 ROXYGEN_MAX_SHARE = 0.10
 ROXYGEN_TAG_ORDER_MAX_SHARE = 0.2
 FB_BUCKETS = ("2", "3-4", "5-8", "9-12", "13-20", "21-30", "31-45")
+PREFIX_BUCKET_NAMES = ("<=10", "11-20", "21-40", "41-60", ">60")
+DEV_MASKED_LONG_MAX = 0.8  # drop masked-DEV containment >= 0.8 when the target has >= 9 lines
 COHORT_SHIFT_MAX = 0.03  # max change of any finish_block length-bucket share in TRAIN + SYNTH
 SYNTH_BUCKET_RATIO_MAX = 2.0  # SYNTH alone: no bucket above twice its TRAIN share
 
@@ -141,14 +144,26 @@ def seed_files(seeds: Path) -> list[Path]:
     return sorted(p for p in seeds.rglob("*.R") if p.is_file() and p.relative_to(seeds).parts[1] != "checks")
 
 
-def normalise(seeds: Path, out: Path, formatter: AirFormatter, blank_policy: str
+def batch_roots(roots: Sequence[Path]) -> dict[str, Path]:
+    """Batch directory -> seed root; batch names must be unique across roots."""
+    out: dict[str, Path] = {}
+    for root in roots:
+        for batch in sorted(p.name for p in root.iterdir() if p.is_dir()):
+            if batch in out:
+                raise SystemExit(f"batch {batch} appears in two seed roots")
+            out[batch] = root
+    return out
+
+
+def normalise(roots: Sequence[Path], out: Path, formatter: AirFormatter, blank_policy: str
               ) -> tuple[list[dict], list[tuple[Path, str]]]:
-    files = seed_files(seeds)
-    structures = describe(files)
+    batch_roots(roots)
+    files = [(root, path) for root in roots for path in seed_files(root)]
+    structures = describe([path for _root, path in files])
     ledger = []
     normalised = []
-    for path in files:
-        relative = str(path.relative_to(seeds))
+    for root, path in files:
+        relative = str(path.relative_to(root))
         text, info = normalize.normalise_file(path, relative, structures[str(path)], formatter,
                                               blank_policy=blank_policy)
         ledger.append(info)
@@ -167,11 +182,13 @@ def package_and_path(relative: str) -> tuple[str, str]:
     return f"synth:{parts[1]}", "/".join(parts[2:])
 
 
-def behaviour_checks(seeds: Path, normalised: list[tuple[Path, str]]) -> dict[str, dict]:
+def behaviour_checks(roots: Sequence[Path], normalised: list[tuple[Path, str]]) -> dict[str, dict]:
     """Run ``<batch>/checks/<rest>`` against each normalised source that has one."""
     out: dict[str, dict] = {}
+    by_batch = batch_roots(roots)
     for source, relative in normalised:
         batch, rest = relative.split("/", 1)
+        seeds = by_batch[batch]
         check = seeds / batch / "checks" / rest
         if not check.is_file():
             out[relative] = {"status": "no_check", "entered": []}
@@ -197,6 +214,12 @@ def behaviour_checks(seeds: Path, normalised: list[tuple[Path, str]]) -> dict[st
 # ---------------------------------------------------------------------------
 def generate_cases(normalised: list[tuple[Path, str]], formatter: AirFormatter, families: set[str]) -> list[Case]:
     structures = describe([p for p, _ in normalised])
+    # Function names defined anywhere in each package (for the invisible-helper rule).
+    package_functions: dict[str, set[str]] = defaultdict(set)
+    for path, relative in normalised:
+        if structures[str(path)].ok:
+            package_functions[package_and_path(relative)[0]].update(
+                u.name for u in structures[str(path)].units if u.kind == "assign_function" and u.name)
     cases: list[Case] = []
     for path, relative in normalised:
         structure = structures[str(path)]
@@ -206,7 +229,8 @@ def generate_cases(normalised: list[tuple[Path, str]], formatter: AirFormatter, 
         package_id, rel_path = package_and_path(relative)
         produced: list[Case] = []
         if "finish_block" in families:
-            produced += finish_block.generate(lines, structure, package_id, rel_path)
+            produced += finish_block.generate(lines, structure, package_id, rel_path,
+                                              frozenset(package_functions[package_id]))
         if "roxygen_drafting" in families:
             produced += roxygen.generate(lines, structure, package_id, rel_path)
         if "format_propagation" in families:
@@ -288,24 +312,40 @@ def train_cells() -> dict[str, dict[tuple[bool, bool], float]]:
     """TRAIN finish_block: per length bucket, the share of (has blank, has comment)."""
     counts: dict[str, Counter] = defaultdict(Counter)
     for _family, _context, target in profile.train_items({"finish_block"}):
+        n_lines = profile.target_length(_context["region_old"], target)
         if target and not target[0].strip():
             target = target[1:]  # the leading blank line is a TRAIN-only artefact
-        counts[profile.bucket(len(target))][(any(not x.strip() for x in target),
+        counts[profile.bucket(n_lines)][(any(not x.strip() for x in target),
                                              any(profile.is_comment(x) for x in target))] += 1
     return {b: {cell: n / sum(c.values()) for cell, n in c.items()} for b, c in counts.items()}
 
 
 def train_bucket_counts() -> Counter:
-    """TRAIN finish_block target-length buckets (the TRAIN-only leading blank line removed)."""
-    return Counter(profile.bucket(len(t[1:] if t and not t[0].strip() else t))
-                   for _f, _c, t in profile.train_items({"finish_block"}))
+    """TRAIN finish_block target-length buckets under ``profile.target_length``."""
+    return Counter(profile.bucket(profile.target_length(c["region_old"], t))
+                   for _f, c, t in profile.train_items({"finish_block"}))
+
+
+def case_length(case: Case) -> int:
+    return profile.target_length(case.region_old, case.target)
+
+
+def case_prefix_bucket(case: Case) -> str:
+    return profile.prefix_bucket(case.region_start - case.window_start)
+
+
+def train_prefix_shares() -> dict[str, float]:
+    counts = Counter(profile.prefix_bucket(p) for p, _t in profile.train_finish_geometry())
+    total = sum(counts.values())
+    return {name: counts[name] / total for name in PREFIX_BUCKET_NAMES}
 
 
 def cell_order(candidates: list, cells: dict[tuple[bool, bool], float]) -> list:
-    """Interleave a bucket's candidates so any prefix follows TRAIN's (blank, comment) cell mix."""
+    """Interleave a bucket's candidates (cut groups) so any prefix follows TRAIN's
+    (blank, comment) cell mix."""
     by_cell: dict[tuple[bool, bool], list] = defaultdict(list)
     for it in candidates:
-        target = it[0].target
+        target = it[0][0].target
         by_cell[(any(not x.strip() for x in target), any(profile.is_comment(x) for x in target))].append(it)
     taken: Counter = Counter()
     ordered = []
@@ -326,35 +366,49 @@ def shape_finish(items: list, rejected: Counter) -> tuple[list, dict]:
     full-body and test-file caps. ``items`` are (case, result)."""
     from sepalith.data.synth.common import rng_for
     report: dict = {}
+    for item in items:
+        item[0].meta["length_bucket"] = profile.bucket(case_length(item[0]))
+        item[0].meta["prefix_bucket"] = case_prefix_bucket(item[0])
+    # Cut groups: the packaging alternatives of one cut (same target).
+    cut_groups: dict[str, list] = defaultdict(list)
+    for item in sorted(items, key=lambda it: (it[0].meta.get("alt_rank", 0), it[0].row_id())):
+        cut_groups[item[0].meta.get("cut_key") or item[0].row_id()].append(item)
     by_unit: dict[str, list] = defaultdict(list)
-    for item in sorted(items, key=lambda it: it[0].row_id()):
-        by_unit[item[0].meta["unit_key"]].append(item)
+    for key in sorted(cut_groups, key=lambda k: cut_groups[k][0][0].row_id()):
+        by_unit[cut_groups[key][0][0].meta["unit_key"]].append(cut_groups[key])
     pool = []
     for unit_items in by_unit.values():
-        seen_buckets: set[str] = set()
+        seen_buckets: Counter = Counter()
         kept = []
-        for item in unit_items:
-            b = profile.bucket(len(item[0].target))
-            if len(kept) < PER_UNIT_MAX and b not in seen_buckets:
-                kept.append(item)
-                seen_buckets.add(b)
+        # distinct length buckets first, then a second cut in an already used bucket
+        for allowance in (1, PER_UNIT_BUCKET_MAX):
+            for item in unit_items:
+                b = item[0][0].meta["length_bucket"]
+                if item not in kept and len(kept) < PER_UNIT_MAX and seen_buckets[b] < allowance:
+                    kept.append(item)
+                    seen_buckets[b] += 1
         rejected[("finish_block", "per_unit_cap")] += len(unit_items) - len(kept)
         pool += kept
-    for item in pool:
-        item[0].meta["length_bucket"] = profile.bucket(len(item[0].target))
-    outside = [it for it in pool if it[0].meta["length_bucket"] not in FB_BUCKETS]
+    outside = [g for g in pool if g[0][0].meta["length_bucket"] not in FB_BUCKETS]
     rejected[("finish_block", "length_bucket_outside_train_range")] += len(outside)
-    pool = [it for it in pool if it[0].meta["length_bucket"] in FB_BUCKETS]
+    pool = [g for g in pool if g[0][0].meta["length_bucket"] in FB_BUCKETS]
     train = train_bucket_counts()
     train_total = sum(train[b] for b in FB_BUCKETS)
     train_share = {b: train[b] / train_total for b in FB_BUCKETS}
     cells = train_cells()
     queues = {}
     for b in FB_BUCKETS:
-        candidates = [it for it in pool if it[0].meta["length_bucket"] == b]
+        candidates = [g for g in pool if g[0][0].meta["length_bucket"] == b]
         rng_for("shape", b).shuffle(candidates)
         queues[b] = cell_order(candidates, cells.get(b, {}))
     added: Counter = Counter()
+    added_prefix: Counter = Counter()
+    prefix_share = train_prefix_shares()
+
+    def prefix_ok(item: tuple) -> bool:
+        synth_total = sum(added.values()) + 1
+        pb = item[0].meta["prefix_bucket"]
+        return synth_total < 50 or (added_prefix[pb] + 1) / synth_total <= SYNTH_BUCKET_RATIO_MAX * prefix_share[pb]
 
     def within(extra: str) -> bool:
         total = train_total + sum(added.values()) + 1
@@ -370,10 +424,20 @@ def shape_finish(items: list, rejected: Counter) -> tuple[list, dict]:
     while progress:
         progress = False
         for b in reversed(FB_BUCKETS):  # longest buckets first
-            if queues[b] and within(b):
-                chosen.append(queues[b].pop(0))
-                added[b] += 1
-                progress = True
+            if not queues[b] or not within(b):
+                continue
+            group = next((g for g in queues[b] if any(prefix_ok(it) for it in g)), None)
+            if group is None:
+                continue
+            # the alternative whose prompt-length bucket has the most headroom vs TRAIN
+            pick = min((it for it in group if prefix_ok(it)),
+                       key=lambda it: ((added_prefix[it[0].meta["prefix_bucket"]] + 1)
+                                       / prefix_share[it[0].meta["prefix_bucket"]], it[0].meta.get("alt_rank", 0)))
+            queues[b].remove(group)
+            chosen.append(pick)
+            added[b] += 1
+            added_prefix[pick[0].meta["prefix_bucket"]] += 1
+            progress = True
     for b in FB_BUCKETS:
         rejected[("finish_block", "cohort_length_rule")] += len(queues[b])
     # Apply the caps until nothing changes, so all hold on the final set: test-file and
@@ -391,6 +455,16 @@ def shape_finish(items: list, rejected: Counter) -> tuple[list, dict]:
                 chosen = [it for it in chosen if id(it) not in drop]
                 rejected[("finish_block", "synth_bucket_ratio_cap")] += len(drop)
                 changed = True
+        for pb in PREFIX_BUCKET_NAMES:
+            in_pb = [it for it in chosen if it[0].meta["prefix_bucket"] == pb]
+            others = len(chosen) - len(in_pb)
+            share = SYNTH_BUCKET_RATIO_MAX * prefix_share[pb]
+            limit = int(share * others / (1 - share)) if share < 1 else len(in_pb)
+            if len(in_pb) > limit:
+                drop = {id(it) for it in in_pb[limit:]}
+                chosen = [it for it in chosen if id(it) not in drop]
+                rejected[("finish_block", "synth_prefix_ratio_cap")] += len(drop)
+                changed = True
         for flag, cap, reason in (("test_file", TEST_FILE_MAX_SHARE, "test_file_cap"),
                                   ("full_body", FULL_BODY_MAX_SHARE, "full_body_cap")):
             flagged = sorted((it for it in chosen if it[0].meta.get(flag)), key=lambda it: it[0].row_id())
@@ -402,11 +476,19 @@ def shape_finish(items: list, rejected: Counter) -> tuple[list, dict]:
                 rejected[("finish_block", reason)] += len(drop)
                 changed = True
     final = Counter(it[0].meta["length_bucket"] for it in chosen)
+    final_prefix = Counter(it[0].meta["prefix_bucket"] for it in chosen)
     combined_total = train_total + sum(final.values())
+    report.update(prefix_rule=f"SYNTH alone at most {SYNTH_BUCKET_RATIO_MAX:g}x TRAIN's share in every prompt "
+                              "prefix-line bucket",
+                  prefix_train_share={k: round(v, 4) for k, v in prefix_share.items()},
+                  prefix_synth_share={k: round(final_prefix[k] / max(1, len(chosen)), 4) for k in PREFIX_BUCKET_NAMES},
+                  length_definition="profile.target_length (leading blank and restated signature line removed), "
+                                    "same for TRAIN and SYNTH")
     report.update(
         rule=(f"TRAIN+SYNTH finish_block length shares within {COHORT_SHIFT_MAX:.0%} of TRAIN in every bucket, and "
               f"SYNTH alone at most {SYNTH_BUCKET_RATIO_MAX:g}x TRAIN's share in every bucket"),
-        train_counts={b: train[b] for b in FB_BUCKETS}, available={b: sum(1 for it in pool if it[0].meta["length_bucket"] == b) for b in FB_BUCKETS},
+        train_counts={b: train[b] for b in FB_BUCKETS},
+        available={b: sum(1 for g in pool if g[0][0].meta["length_bucket"] == b) for b in FB_BUCKETS},
         selected=dict(final),
         synth_share={b: round(final[b] / max(1, sum(final.values())), 4) for b in FB_BUCKETS},
         train_share={b: round(train_share[b], 4) for b in FB_BUCKETS},
@@ -492,7 +574,8 @@ def case_record(case: Case, context: dict, row: dict, checks: dict) -> dict:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--seeds", type=Path, required=True)
+    parser.add_argument("--seeds", type=Path, action="append", required=True,
+                        help="seed root; repeat for several (batch names must be unique)")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--families", default="finish_block,roxygen_drafting")
@@ -588,6 +671,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             reasons.append("dev_line_4gram")
         if dev_c >= DEV_CONTAINMENT_MAX or dev_run >= DEV_RUN_MAX:
             reasons.append("dev_token_overlap")
+        if masked["dev"] >= DEV_MASKED_LONG_MAX and case_length(case) >= 9:
+            reasons.append("dev_masked_structure_long_target")
         if train4.gram_hits(dedup.line_4grams("\n".join(case.target))):
             reasons.append("train_target_line_4gram")
         if train_c >= TRAIN_CONTAINMENT_MAX or train_run >= TRAIN_RUN_MAX:
@@ -612,14 +697,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         if not reasons:
             clean.append((case, result))
     log(f"{len(clean)} clean; near-duplicate filter")
-    clean.sort(key=lambda item: item[0].row_id())
-    dup_of = dedup.near_duplicates([dedup_key(c) for c, _ in clean], NEAR_DUP_THRESHOLD)
+    # Packaging alternatives of one finish_block cut share their target: deduplicate one
+    # representative per cut and keep or drop the cut's alternatives together.
+    groups: dict[str, list] = defaultdict(list)
+    for item in sorted(clean, key=lambda it: it[0].row_id()):
+        groups[item[0].meta.get("cut_key") or item[0].row_id()].append(item)
+    group_keys = sorted(groups, key=lambda k: min(it[0].row_id() for it in groups[k]))
+    reps = [min(groups[k], key=lambda it: (it[0].meta.get("alt_rank", 0), it[0].row_id())) for k in group_keys]
+    dup_of = dedup.near_duplicates([dedup_key(c) for c, _ in reps], NEAR_DUP_THRESHOLD)
     kept = []
-    for (case, result), dup in zip(clean, dup_of, strict=True):
+    for key, dup in zip(group_keys, dup_of, strict=True):
         if dup is None:
-            kept.append((case, result))
+            kept += groups[key]
         else:
-            rejected[(case.family, "near_duplicate")] += 1
+            rejected[(groups[key][0][0].family, "near_duplicate")] += 1
     finish, shaping = shape_finish([it for it in kept if it[0].family == "finish_block"], rejected)
     final = finish + shape_roxygen([it for it in kept if it[0].family == "roxygen_drafting"], len(finish), rejected)
     final.sort(key=lambda item: (item[0].family, item[0].row_id()))
@@ -713,7 +804,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "admitted": admitted,
         "artifacts": artifacts,
         "sources": {"files": len(normalised), "sha256_of_tree": cpt_check.tree_sha256(out / "sources")},
-        "seed_tree": str(args.seeds),
+        "seed_tree": [str(root) for root in args.seeds],
         "location": str(out),
         "split": "train",
         "hf_uploaded": False,
