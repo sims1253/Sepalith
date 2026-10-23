@@ -3,7 +3,7 @@
   "state": "done",
   "updated": "2026-10-23T13:30:00+02:00",
   "branch": "plan/C14-C15-grpo-pilot",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/88",
   "outputs": {
     "step1_pool": {
       "manifest": {
