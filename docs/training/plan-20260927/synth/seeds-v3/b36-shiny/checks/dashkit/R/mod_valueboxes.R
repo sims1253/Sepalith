@@ -33,8 +33,15 @@ stopifnot(identical(kpi_status(k, list(revenue = 51), tolerance = 0.1)[["revenue
 tg <- kpi_targets(revenue = 100, orders = NA, customers = 5, conversion = 0.1, order_value = 20)
 stopifnot(identical(names(tg), c("revenue", "customers", "conversion", "order_value")))
 stopifnot(identical(kpi_targets(), list()))
-for (arg in c("revenue", "orders", "customers", "conversion", "order_value")) {
+for (arg in c("revenue", "orders", "customers", "order_value")) {
   msg <- tryCatch(do.call(kpi_targets, stats::setNames(list(-1), arg)),
                   error = conditionMessage)
   stopifnot(identical(msg, sprintf("The `%s` target must not be negative.", arg)))
 }
+# Range boundaries for the share `conversion`: 0 and 1 are valid, outside is an error.
+stopifnot(identical(kpi_targets(conversion = 0)$conversion, 0))
+stopifnot(identical(kpi_targets(conversion = 1)$conversion, 1))
+stopifnot(inherits(try(kpi_targets(conversion = 2), silent = TRUE), "try-error"))
+stopifnot(inherits(try(kpi_targets(conversion = -0.1), silent = TRUE), "try-error"))
+msg <- tryCatch(kpi_targets(conversion = -1), error = conditionMessage)
+stopifnot(identical(msg, "The `conversion` target must be a share between 0 and 1."))

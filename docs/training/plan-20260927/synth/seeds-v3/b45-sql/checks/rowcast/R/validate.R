@@ -59,3 +59,10 @@ bad$default[1] <- ""
 stopifnot(grepl("spec$default", tryCatch(validate.column.spec(bad), error = conditionMessage),
                 fixed = TRUE))
 stopifnot(inherits(try(validate.column.spec(spec[, 1:2]), silent = TRUE), "try-error"))
+# Placeholders inside string literals or comments are not parameters.
+ok <- check.params("SELECT ':ghost' AS x WHERE id = :id", list(id = 1), "colon")
+stopifnot(identical(ok, list(id = 1)))
+ok <- check.params("SELECT 1 -- :ghost\nWHERE id = :id", list(id = 1), "colon")
+stopifnot(identical(ok, list(id = 1)))
+ok <- check.params("SELECT '@ghost' AS x WHERE id = @id", list(id = 1), "at")
+stopifnot(identical(ok, list(id = 1)))

@@ -24,6 +24,13 @@ stopifnot(identical(c1$volume[1], 60), identical(c1$status[1], "in_use"))
 c2 <- samples.consume(c1, "BL-2024-00001", 60, time = t1)
 stopifnot(identical(c2$status[1], "depleted"), identical(c2$volume[1], 0))
 stopifnot(fails(samples.consume(s, "BL-2024-00001", 500)), fails(samples.consume(s, "x", 1)))
+# Range boundaries for `amount`: 0 and the whole volume are valid, outside is an error.
+stopifnot(identical(samples.consume(s, "BL-2024-00001", 0, time = t1)$volume[1], 100))
+stopifnot(identical(samples.consume(s, "BL-2024-00001", 100, time = t1)$volume[1], 0))
+stopifnot(fails(samples.consume(s, "BL-2024-00001", -1)))
+stopifnot(fails(samples.consume(s, "BL-2024-00001", 100.5)))
+msg <- tryCatch(samples.consume(s, "BL-2024-00001", -0.5), error = conditionMessage)
+stopifnot(identical(msg, "Sample BL-2024-00001 cannot give a negative amount."))
 
 d <- samples.discard(s, "BL-2024-00002", time = t1)
 stopifnot(identical(d$status, c("received", "discarded")), identical(d$volume, c(100, 0)))

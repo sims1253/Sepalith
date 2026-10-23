@@ -3,9 +3,10 @@
 #' Blanks out quoted strings and comments so rule checks only see SQL syntax.
 #'
 #' @param sql A single SQL string.
-#' @return The cleaned SQL string, upper-cased and with whitespace squeezed.
+#' @param keep.case Whether to keep the original letter case.
+#' @return The cleaned SQL string, upper-cased unless `keep.case` and with whitespace squeezed.
 #' @keywords internal
-strip.sql.noise <- function(sql) {
+strip.sql.noise <- function(sql, keep.case = FALSE) {
   # Line comments, then block comments
   sql <- gsub("--[^\n]*", " ", sql)
   sql <- gsub("/\\*.*?\\*/", " ", sql, perl = TRUE)
@@ -13,7 +14,7 @@ strip.sql.noise <- function(sql) {
   sql <- gsub("'([^']|'')*'", "''", sql)
   sql <- gsub("\"([^\"]|\"\")*\"", "\"\"", sql)
   sql <- gsub("\\s+", " ", sql)
-  toupper(trimws(sql))
+  if (keep.case) trimws(sql) else toupper(trimws(sql))
 }
 
 #' Validate a SQL query against house rules
@@ -125,6 +126,8 @@ check.identifiers <- function(names, dialect = c("postgres", "mysql", "sqlite"),
 check.params <- function(sql, params, style = c("qmark", "dollar", "colon", "at")) {
   style <- match.arg(style)
   text <- strip.sql.noise(sql)
+  # Named placeholders keep their case, so match them on a case-preserving clean copy
+  named <- strip.sql.noise(sql, keep.case = TRUE)
   mismatch <- "Query has %d placeholder(s) but %d parameter(s)."
   switch(style,
     qmark = {
@@ -142,7 +145,8 @@ check.params <- function(sql, params, style = c("qmark", "dollar", "colon", "at"
       }
     },
     colon = {
-      tokens <- regmatches(sql, gregexpr("(?<!:):[A-Za-z_][A-Za-z0-9_]*", sql, perl = TRUE))[[1]]
+      pattern <- "(?<!:):[A-Za-z_][A-Za-z0-9_]*"
+      tokens <- regmatches(named, gregexpr(pattern, named, perl = TRUE))[[1]]
       keys <- unique(sub("^:", "", tokens))
       missing <- setdiff(keys, names(params))
       if (length(missing) > 0) {
@@ -151,7 +155,8 @@ check.params <- function(sql, params, style = c("qmark", "dollar", "colon", "at"
       params <- params[keys]
     },
     at = {
-      tokens <- regmatches(sql, gregexpr("(?<!@)@[A-Za-z_][A-Za-z0-9_]*", sql, perl = TRUE))[[1]]
+      pattern <- "(?<!@)@[A-Za-z_][A-Za-z0-9_]*"
+      tokens <- regmatches(named, gregexpr(pattern, named, perl = TRUE))[[1]]
       keys <- unique(sub("^@", "", tokens))
       missing <- setdiff(keys, names(params))
       if (length(missing) > 0) {

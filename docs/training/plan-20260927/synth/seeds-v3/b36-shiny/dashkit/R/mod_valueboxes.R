@@ -116,8 +116,11 @@ kpi_targets <- function(revenue = NULL, orders = NULL, customers = NULL,
 
   # Target for `conversion`
   if (length(conversion) == 1L && !is.na(conversion)) {
-    if (conversion < 0) {
-      stop(sprintf("The `%s` target must not be negative.", "conversion"), call. = FALSE)
+    if (conversion < 0 || conversion > 1) {
+      stop(
+        sprintf("The `%s` target must be a share between 0 and 1.", "conversion"),
+        call. = FALSE
+      )
     }
     targets$conversion <- conversion
   }

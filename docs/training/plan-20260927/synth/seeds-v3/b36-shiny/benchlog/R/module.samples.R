@@ -76,6 +76,9 @@ samples.consume <- function(samples, sample_id, amount, time = Sys.time()) {
   if (is.na(row)) {
     stop("Sample ", sample_id, " does not exist.", call. = FALSE)
   }
+  if (amount < 0) {
+    stop("Sample ", sample_id, " cannot give a negative amount.", call. = FALSE)
+  }
   if (amount > samples$volume[row]) {
     stop("Sample ", sample_id, " has only ", samples$volume[row], " uL left.", call. = FALSE)
   }
