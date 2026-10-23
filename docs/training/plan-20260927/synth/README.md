@@ -18,11 +18,65 @@ inputs, the cohort and probe scripts and the audit pack.
 | --- | --- | --- | --- |
 | v1 | `/mnt/e/.../data-work/SYNTH-v1/` (kept for comparison) | `seeds/` | superseded after review round 1 (whitespace/comment style, overstated determinacy, bypassable filters) |
 | v2 | `/mnt/e/.../data-work/SYNTH-v2/` | `seeds-v2/` | merged (PR #83); not used for training (user decision 2026-10-23); numbers in [audit/STATS.md](audit/STATS.md) |
-| **v3** | `/mnt/e/.../data-work/SYNTH-v3/` | `seeds-v2/` + `seeds-v3/` | current; numbers in [audit-v3/STATS.md](audit-v3/STATS.md) |
+| v3 | `/mnt/e/.../data-work/SYNTH-v3/` | `seeds-v2/` + `seeds-v3/` | superseded by v3.1 after review round 1 (PR #87); numbers in [audit-v3/STATS.md](audit-v3/STATS.md) |
+| **v3.1** | `/mnt/e/.../data-work/SYNTH-v3.1/` | `seeds-v2/` + `seeds-v3/` (3 seed fixes) | current; numbers in [audit-v3.1/STATS.md](audit-v3.1/STATS.md), review notes in [audit-v3.1/README.md](audit-v3.1/README.md) |
 
 v1 is reproducible from commit `77232ef` (generator 1.0.0); this tree builds
 v2 (generator 2.0.0; `--blank-policy v1 --families finish_block,roxygen_drafting,format_propagation`
 approximates v1's generation but not its selection).
+
+## v3.1 changes (generator 3.1.0)
+
+Review round 1 on v3 (PR #87). Finding -> change -> evidence is in
+[audit-v3.1/README.md](audit-v3.1/README.md); the main changes:
+
+- **Seed fixes** (`kpi_targets`, `check.params`, `samples.consume`) with
+  boundary and literal/comment counterexample checks, after a sweep of all
+  v3 seeds for the two bug classes ([audit-v3.1/SEED-SWEEP.md](audit-v3.1/SEED-SWEEP.md)).
+- **Determinacy** (`common.assess`): string digits must be visible; code
+  constants other than 0-2 must be visible; regex-like literals need a
+  verbatim occurrence in the prompt; names inside `list()`/`c()`/
+  `data.frame()`/... (output schemas) must be visible as elements or doc
+  words; compound names inside strings must be visible; `$name` elements
+  and `name = <literal>` defaults the prompt never shows count as novel.
+  Effect on the v3 rows: `rule_ablation.py` ->
+  `receipts/SYNTH-v3.1-rule-ablation.json`.
+- **No test-file cuts** (v3 kept 17 under a 1% cap).
+- **`call. = FALSE` thinned** per seed file (kept in 12% of files), to move
+  its frequency toward TRAIN.
+- **Roxygen** selection stops at the size where tag frequencies are closest
+  to TRAIN's.
+- **Diagnostics**: the binding cap per length bucket, the cohort shift in
+  percentage points with one stated denominator, and a counterfactual
+  medium-only relaxation of the prompt prefix cap (reported, not applied).
+- **Dose**: `make_cohort.py` reports token shares next to draw shares and
+  writes the 2-exposure variant (`--exposures 2`).
+- **Held-out manipulation-check set** in `heldout-manipulation/` (not
+  training data).
+- **Probe** keeps per-case records and runs a paired function-only vs
+  `file` packaging diagnostic.
+
+## Rebuild (v3.1)
+
+```bash
+PY=/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python; export PYTHONPATH=packages/sepalith/src
+S=/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3.1; SD=docs/training/plan-20260927/synth; R=docs/training/plan-20260927/receipts
+nice -n 10 $PY -m sepalith.data.synth.build --seeds $SD/seeds-v2 --seeds $SD/seeds-v3 --out $S --normalise-only
+nice -n 10 $PY -m sepalith.data.synth.cpt_check --sources $S/sources --out $S/cpt-hits.json
+nice -n 10 $PY -m sepalith.data.synth.build --seeds $SD/seeds-v2 --seeds $SD/seeds-v3 --out $S --cpt-hits $S/cpt-hits.json
+nice -n 10 $PY -m sepalith.data.synth.selfcheck --data $S --out $R/SYNTH-v3.1-selfcheck.json
+nice -n 10 $PY $SD/make_cohort.py --synth $S --out $S/cohort-proposal --compare-13-3
+nice -n 10 $PY $SD/make_cohort.py --synth $S --out $S/cohort-proposal-x2 --exposures 2
+nice -n 10 $PY -m sepalith.data.synth.audit --data $S --out $SD/audit-v3.1/audit-sample-60.md --ids-out $SD/audit-v3.1/audit-sample-60-ids.json
+$PY $SD/probe_arm_a.py --data $S --exclude-ids $SD/audit-v3.1/audit-sample-60-ids.json --diagnostic-pairs 40 --out $R/SYNTH-v3.1-arm-a-probe.json
+$PY $SD/probe_arm_a.py --data $S --heldout --out $R/SYNTH-v3.1-heldout-arm-a-probe.json
+nice -n 10 $PY $SD/rule_ablation.py --data /mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3 --out $R/SYNTH-v3.1-rule-ablation.json
+$PY -m sepalith.data.synth.profile --cases /mnt/e/.../SYNTH-v3/cases.jsonl --cases $S/cases.jsonl --out $S/profile.json
+$PY -m sepalith.data.synth.report --data $S --profile $S/profile.json --probe $R/SYNTH-v3.1-arm-a-probe.json \
+  --heldout-probe $R/SYNTH-v3.1-heldout-arm-a-probe.json --rule-ablation $R/SYNTH-v3.1-rule-ablation.json --out $SD/audit-v3.1/STATS.md
+```
+
+v3 is reproducible from commit `08c5217` (generator 3.0.0).
 
 ## v3 changes (generator 3.0.0)
 

@@ -5,4 +5,4 @@ See docs/training/plan-20260927/synth/README.md for the method and audit notes.
 """
 
 GENERATOR_ID = "sepalith.synth.v1"
-GENERATOR_VERSION = "3.0.0"
+GENERATOR_VERSION = "3.1.0"

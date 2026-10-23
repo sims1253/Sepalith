@@ -6,14 +6,17 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+import re
 
-from collections import Counter
-
-from sepalith.data.synth.profile import BUCKETS
+from sepalith.data.synth.profile import BUCKETS, target_length, train_items
 from sepalith.data.synth.profile import bucket as profile_bucket
+
+CALL_FALSE_RE = re.compile(r"call\.\s*=\s*FALSE")
+STOP_RE = re.compile(r"\b(?:stop|warning)\(")
 
 
 def pct(x: float | None) -> str:
@@ -31,6 +34,8 @@ def main() -> int:
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--profile", type=Path, required=True, help="profile.py output with train, v1 and v2 keys")
     parser.add_argument("--probe", type=Path, default=None)
+    parser.add_argument("--heldout-probe", type=Path, default=None)
+    parser.add_argument("--rule-ablation", type=Path, default=None)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     summary = json.loads((args.data / "build-summary.json").read_text())
@@ -68,7 +73,7 @@ def main() -> int:
               f"= {pct(pv['mechanical_pass_rate'])}. Failures: `{json.dumps(pv['failures'])}`.",
               "- Determinacy: the class table above. The classes are *proxies* (generator filters), not proofs "
               "that a completion is determined; known holes are listed in the audit README and measured in "
-              "receipts/SYNTH-v2-determinacy-holes.json.",
+              "the receipts (SYNTH-v2/v3 determinacy holes, SYNTH-v3.1 rule ablation).",
               "- Behavioural evidence: the table above. `entered` means the unit's body executed during a passing "
               "base-R check script; it does not mean the check asserted the target's behaviour.", ""]
 
@@ -151,7 +156,7 @@ def main() -> int:
     def masked_row(ref: str) -> list:
         values = [c["meta"]["decontamination"][f"masked_{ref}_containment"] for c in cases]
         high = [c for c in cases if c["meta"]["decontamination"][f"masked_{ref}_containment"] >= 0.8]
-        lengths = Counter(profile_bucket(len(c["region_new"])) for c in high)
+        lengths = Counter(profile_bucket(target_length(c["context"]["region_old"], c["region_new"])) for c in high)
         return [ref, len(values), sum(v >= 0.5 for v in values), len(high), sum(v >= 1.0 for v in values),
                 json.dumps(dict(sorted(lengths.items())))]
 
@@ -160,20 +165,76 @@ def main() -> int:
     lines += table(["reference", "rows", ">= 0.5", ">= 0.8", "= 1.0", "target lengths of >= 0.8 rows"],
                    [masked_row("train"), masked_row("dev")])
 
+    def short_masked(threshold: float) -> int:
+        return sum(c["meta"]["decontamination"]["masked_dev_containment"] >= threshold
+                   and target_length(c["context"]["region_old"], c["region_new"]) <= 8 for c in cases)
+
+    lines += [f"Short rows (<= 8 target lines) with masked-DEV containment >= 0.8: {short_masked(0.8)} "
+              f"({short_masked(1.0)} at 1.0). They are kept: identifier-masked 12-grams of a few short templated "
+              "lines (`if (...) stop(...)`, `}`) match many unrelated files, the exact-token DEV filters pass, and "
+              "the length-aware masked filter applies only from 9 target lines on.", ""]
+
     shaping = summary["shaping"]
     lines += ["## Length and prompt shaping (finish_block)", "",
               f"One length definition for TRAIN and SYNTH: `{shaping.get('length_definition', 'see build.py')}`. "
               f"Rules: {shaping['rule']}; {shaping.get('prefix_rule', '')}.", ""]
-    lines += table(["length bucket", "TRAIN share", "SYNTH share", "ratio", "TRAIN+SYNTH share", "available", "selected"],
+    shift = shaping.get("cohort_shift_pp", {})
+    binding = shaping.get("binding_cap", {})
+    lines += table(["length bucket", "TRAIN share", "SYNTH share", "ratio", "TRAIN+SYNTH share", "shift (pp)",
+                    "available", "selected", "binding cap"],
                    [[b, pct(shaping["train_share"][b]), pct(shaping["synth_share"][b]),
                      f"{shaping['synth_share'][b] / shaping['train_share'][b]:.2f}x", pct(shaping["combined_share"][b]),
-                     shaping["available"][b], shaping["selected"].get(b, 0)] for b in shaping["synth_share"]])
+                     f"{shift[b]:+.2f}" if b in shift else "-",
+                     shaping["available"][b], shaping["selected"].get(b, 0), binding.get(b, "-")]
+                    for b in shaping["synth_share"]])
+    if "cohort_shift_denominator" in shaping:
+        lines += [f"Shift denominator: {shaping['cohort_shift_denominator']}. `available` = cut groups that "
+                  "survived the proxies, behaviour, verification, decontamination, near-duplicate and per-unit "
+                  f"filters. Caps applied after the greedy pass (dropped rows by cap:bucket): "
+                  f"`{json.dumps(shaping.get('post_cap_drops', {}))}`.", ""]
     if "prefix_synth_share" in shaping:
         lines += table(["prefix-line bucket", "TRAIN share", "SYNTH share", "ratio"],
                        [[b, pct(shaping["prefix_train_share"][b]), pct(shaping["prefix_synth_share"][b]),
                          f"{shaping['prefix_synth_share'][b] / shaping['prefix_train_share'][b]:.2f}x"]
                         for b in shaping["prefix_synth_share"]])
-    lines += ["```json", json.dumps(summary["shaping"], indent=1), "```", ""]
+    cf = shaping.get("counterfactual_medium_prefix_cap_relaxed")
+    if cf:
+        lines += ["Counterfactual, **not applied**: medium buckets (9-12, 13-20) exempt from the prompt prefix-bucket "
+                  f"cap. Extra medium rows: {cf['extra_medium_rows']}; finish rows {cf['rows_total']} "
+                  f"(applied: {sum(shaping['selected'].values())}); median prefix lines {cf['median_prefix_lines']} "
+                  f"(applied: {cf['median_prefix_lines_applied']}).", ""]
+        lines += table(["prefix-line bucket", "TRAIN share", "SYNTH share applied", "SYNTH share relaxed"],
+                       [[b, pct(shaping["prefix_train_share"][b]), pct(shaping["prefix_synth_share"][b]),
+                         pct(cf["prefix_synth_share"][b])] for b in shaping["prefix_synth_share"]])
+        lines += table(["length bucket", "selected applied", "selected relaxed", "binding cap relaxed"],
+                       [[b, shaping["selected"].get(b, 0), cf["selected"].get(b, 0), cf["binding_cap"].get(b, "-")]
+                        for b in shaping["synth_share"]])
+    rox = shaping.get("roxygen")
+    if rox:
+        lines += [f"Roxygen shaping: cap {rox['cap']}, available {rox['available']}, greedy pass {rox['greedy_selected']}, "
+                  f"kept {rox['kept_after_truncation']} (tag-distance {rox['distance_at_greedy_end']} -> "
+                  f"{rox['distance_kept']}).", ""]
+        lines += table(["tag", "TRAIN", "available", "selected"],
+                       [[t, pct(rox["tag_frequency_train"][t]), pct(rox["tag_frequency_available"][t]),
+                         pct(rox["tag_frequency_selected"][t])] for t in rox["tag_frequency_train"]])
+
+    def call_false(items: list[tuple[list[str], list[str]]]) -> list:
+        rows_with = sum(bool(CALL_FALSE_RE.search("\n".join(p + t))) for p, t in items)
+        text = "\n".join("\n".join(t) for _p, t in items)
+        stops = len(STOP_RE.findall(text))
+        return [len(items), pct(rows_with / max(1, len(items))),
+                pct(len(CALL_FALSE_RE.findall(text)) / max(1, stops)) if stops else "-"]
+
+    train_fb = [(list(c.get("prefix", [])), list(t)) for _f, c, t in train_items({"finish_block"})]
+    synth_fb = [(c["context"]["prefix"], c["region_new"]) for c in finish]
+    lines += ["`call. = FALSE` (finish_block): share of rows whose prompt or target contains it, and share of "
+              f"`stop()`/`warning()` calls in targets that carry it. Seed files: "
+              f"`{json.dumps(stats.get('call_false_sources', {}))}` (v3.1 thins it per file).", ""]
+    lines += table(["set", "rows", "rows with call. = FALSE", "per stop/warning call"],
+                   [["TRAIN", *call_false(train_fb)], [args.data.name, *call_false(synth_fb)]])
+    lines += ["```json", json.dumps({k: v for k, v in shaping.items()
+                                     if k not in ("counterfactual_medium_prefix_cap_relaxed", "roxygen")}, indent=1),
+              "```", ""]
     lines += ["## Decontamination", ""]
     dc = summary["decontamination"]
     lines += table(["family:reason", "removed"], [[k, v] for k, v in sorted(dc["removed"].items())])
@@ -192,18 +253,63 @@ def main() -> int:
               f"Split file read: {dc['split_file_read']}.", ""]
     lines += ["## Rejections", ""] + table(["family:reason", "count"],
                                             [[k, v] for k, v in sorted(summary["generator_rejections"].items())])
-    cohort_receipt = args.data / "cohort-proposal" / "cohort-receipt.json"
-    if cohort_receipt.exists():
-        cohort = json.loads(cohort_receipt.read_text())
-        draws = cohort["schedule"]["summary"].get("finish_draw_share")
-        if draws:
-            lines += ["## Exposure", "", f"Default schedule `{cohort['schedule']['schedule_version']}`: "
-                      f"`{json.dumps(draws)}`.", ""]
+    if args.rule_ablation and args.rule_ablation.exists():
+        abl = json.loads(args.rule_ablation.read_text())
+        lines += ["## Generator 3.1 rules on the v3 rows (ablation)", "",
+                  f"Re-assessing the {abl['finish_block_rows']} retained v3 finish_block rows with the 3.1 rules "
+                  f"removes {abl['rows_removed_by_3_1_rules']}. Strict v3 recount: {abl['strict_recount_rows']} rows, "
+                  f"{abl['strict_recount_rows_removed_by_3_1_rules']} removed by 3.1, the rest justified in the "
+                  f"receipt. Test-file rows: {abl['test_file_rows']} (all excluded in 3.1; "
+                  f"{abl['test_file_rows_not_otherwise_removed']} not caught by another rule).", ""]
+        lines += table(["rule", "rows hit", "rows removed by this rule only"],
+                       [[r, n, abl["rows_removed_by_this_rule_only"].get(r, 0)] for r, n in abl["rows_per_rule"].items()])
+    exposures = []
+    for label, folder in (("1x", "cohort-proposal"), ("2x", "cohort-proposal-x2")):
+        receipt_path = args.data / folder / "cohort-receipt.json"
+        if receipt_path.exists():
+            exposures.append((label, json.loads(receipt_path.read_text())))
+    if exposures:
+        lines += ["## Exposure (dose not decided here)", ""]
+        dose_rows = []
+        for label, cohort in exposures:
+            d = cohort["schedule"]["summary"]["dose"]
+            ml = d["tokens"]["medium_long_share_of_finish_target_tokens"]
+            dose_rows.append([label, cohort["schedule"]["schedule_version"], cohort["cohort"]["rows"],
+                              cohort["schedule"]["summary"].get("max_steps", "-"),
+                              cohort["schedule"]["noop_exposure_rule"].get("max_noop_exposures", "-"),
+                              pct(d["draws"]["synth_share_of_finish_draws"]), pct(d["draws"]["synth_share_of_all_draws"]),
+                              pct(d["tokens"]["synth_share_of_finish_target_tokens"]),
+                              pct(d["tokens"]["synth_share_of_all_supervised_tokens"]),
+                              pct(d["tokens"]["synth_share_of_finish_prompt_tokens"]),
+                              f"{pct(ml['cohort'])} (TRAIN {pct(ml['train'])}, SYNTH {pct(ml['synth'])})",
+                              pct(d["tokens"]["synth_share_of_medium_long_finish_target_tokens"])])
+        lines += table(["SYNTH exposures", "schedule", "cohort rows", "updates", "max no-op exposures",
+                        "SYNTH / finish draws", "SYNTH / all draws", "SYNTH / finish target tokens",
+                        "SYNTH / all supervised tokens", "SYNTH / finish prompt tokens",
+                        "medium+long / finish target tokens", "SYNTH / medium+long finish target tokens"], dose_rows)
     if args.probe and args.probe.exists():
         probe = json.loads(args.probe.read_text())
         lines += ["## Arm A probe (Q8_0, greedy, CPU)", ""]
         lines += table(["stratum", "exact", "cases", "mean reward"],
                        [[k, v["exact"], v["cases"], v["mean_reward"]] for k, v in probe["by_stratum"].items()])
+        per_case = [c for c in probe.get("cases", []) if c["family"] == "finish_block"]
+        for key in ("variant", "seed_wave", "determinacy"):
+            groups: dict[tuple[str, str], list] = {}
+            for c in per_case:
+                groups.setdefault((c["stratum"].split(":")[1], str(c[key])), []).append(c)
+            lines += table(["length", key, "exact", "cases", "median prefix lines"],
+                           [[length, value, sum(c["exact"] for c in members), len(members),
+                             sorted(c["prefix_lines"] for c in members)[len(members) // 2]]
+                            for (length, value), members in sorted(groups.items())])
+        diag = probe.get("diagnostic_function_only_vs_file")
+        if diag:
+            lines += ["Paired diagnostic (same medium sibling cut and target, packaging `plain` vs `file`, same "
+                      "model and greedy decoding):", ""]
+            lines += table(["packaging", "exact", "pairs", "mean reward", "median prefix lines", "median prompt tokens"],
+                           [[v, diag[f"exact_{v}"], diag["pairs"], diag[f"mean_reward_{v}"],
+                             diag["median_prefix_lines"][v], diag["median_prompt_tokens"][v]] for v in ("plain", "file")])
+            lines += [f"Discordant pairs: exact only with `plain` {diag['only_plain']}, only with `file` "
+                      f"{diag['only_file']}; both {diag['both']}, neither {diag['neither']}.", ""]
         rows_now = hashlib.sha256((args.data / "train-token-rows.jsonl").read_bytes()).hexdigest()
         rows_probe = probe["data"]["train-token-rows.jsonl"]
         lines += [f"Probe bound to train-token-rows.jsonl sha256 `{rows_probe}`; current rows `{rows_now}` "
@@ -211,6 +317,19 @@ def main() -> int:
                   "metadata-only rebuilds; rows are the binding input.", ""]
         lines += [f"Sample seed {probe['sample']['seed']}, ids excluded from the audit sample: "
                   f"{probe['sample'].get('excluded_ids')}, overlap: {probe['sample'].get('overlap_with_excluded')}.", ""]
+    heldout_manifest = args.data / "heldout-manipulation" / "manifest.json"
+    if heldout_manifest.exists():
+        held = json.loads(heldout_manifest.read_text())
+        lines += ["## Held-out manipulation-check set (not training data)", "",
+                  f"{held['rows']} finish_block cases in `heldout-manipulation/` (rows carry `split=heldout_probe`). "
+                  f"By length: `{json.dumps(held['by_length_class'])}`; determinacy: "
+                  f"`{json.dumps(held['by_determinacy'])}`; packaging: `{json.dumps(held['by_variant'])}`; seed wave: "
+                  f"`{json.dumps(held['by_seed_wave'])}`. Selection: `{json.dumps(held['selection'])}`.", ""]
+        if args.heldout_probe and args.heldout_probe.exists():
+            hp = json.loads(args.heldout_probe.read_text())
+            lines += ["Arm A on the held-out set (baseline for a later manipulation check):", ""]
+            lines += table(["stratum", "exact", "cases", "mean reward"],
+                           [[k, v["exact"], v["cases"], v["mean_reward"]] for k, v in hp["by_stratum"].items()])
     args.out.write_text("\n".join(lines) + "\n")
     return 0
 

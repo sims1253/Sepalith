@@ -40,8 +40,10 @@ v2) and `seeds-v3/` (24 new batches, b25-b48, 272 files, 272 check scripts).
    and domain constants), and recombined visible words in strings and
    comments are allowed by design. `sibling` relies on masked 8-gram support.
 2. **Supply limits volume.** Medium and long determined cuts are still the
-   binding constraint: every surviving medium/long cut is used, and the
-   +-3 pp cohort rule binds on the 5-8-line bucket. Long buckets (21-45
+   binding constraint, and the +-3 pp cohort rule binds on the 5-8-line
+   bucket. *Corrected in v3.1:* not every surviving medium cut was used
+   (9-12: 158 of 277, 13-20: 133 of 212; the prompt prefix-bucket cap binds
+   there); see [../audit-v3.1/README.md](../audit-v3.1/README.md). Long buckets (21-45
    lines) are under-represented in SYNTH alone; the TRAIN+SYNTH cohort stays
    within 3 points of TRAIN in every bucket.
 3. **Prompt geometry is closer to TRAIN but not equal.** Median 28 prefix
