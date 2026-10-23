@@ -1,0 +1,761 @@
+{
+  "attempts": [
+    {
+      "assessment": {
+        "binding_phase": "rollout",
+        "completed": true,
+        "desktop_budget_mib": 6144,
+        "failed_phases": [],
+        "fits": false,
+        "headroom_at_desktop_budget_mib": 763.0,
+        "headroom_at_observed_desktop_mib": 4549.0,
+        "limit_mib": 24899.4,
+        "margin_mib": 1536,
+        "measured": true,
+        "phase_process_peak_mib": {
+          "backward": 23110.4,
+          "load": 4340.4,
+          "natural_rollout": 25670.4,
+          "rollout": 25672.4,
+          "scoring": 17884.4,
+          "step": 21872.4,
+          "warm_step": 20914.4
+        },
+        "physical_overflow": false,
+        "process_peak_mib": 25672.4
+      },
+      "config": {
+        "backward_rows": null,
+        "candidate_count": 8,
+        "groups_per_call": 4,
+        "inject_oom_phase": null,
+        "logprob_impl": "chunked",
+        "name": "g8-r32-resident",
+        "offload_optimizer": false,
+        "phases": [
+          "rollout",
+          "scoring",
+          "backward",
+          "step",
+          "natural_rollout"
+        ],
+        "role": "ladder",
+        "rows_per_update": 32,
+        "score_rows": null,
+        "seq_chunk": 512,
+        "trick": "baseline",
+        "vocab_chunk": 16384
+      },
+      "device": {
+        "allocator_cap_mib": 30511.0,
+        "allocator_cap_note": "set_per_process_memory_fraction at the free memory after CUDA init minus 256 MiB, so an overflow raises OOM instead of spilling into Windows system memory",
+        "context_mib": -545.6,
+        "context_mib_source": "nvidia-smi before CUDA init",
+        "name": "NVIDIA GeForce RTX 5090",
+        "other_used_mib_at_start": 2358.0,
+        "total_mib": 32579.4,
+        "used_mib_after_context": 1812.4
+      },
+      "directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/01-g8-r32-resident",
+      "exit_code": 0,
+      "failed_phase": null,
+      "finished": "2026-10-22T08:26:59+00:00",
+      "guard": {
+        "at": "2026-10-22T08:26:59.674115+00:00",
+        "child_exit_code": 0,
+        "reason": null,
+        "seconds": 181.45595588197466,
+        "status": "completed"
+      },
+      "name": "g8-r32-resident",
+      "phases": {
+        "backward": {
+          "device_used_peak_mib": 25919.0,
+          "micro_batches": 32,
+          "peak_allocated_mib": 22941.7,
+          "peak_reserved_mib": 23656.0,
+          "seconds": 17.249,
+          "seconds_per_micro_batch_median": 0.531,
+          "seconds_total": 17.176,
+          "sequence_tokens_max": 4024,
+          "status": "ok"
+        },
+        "load": {
+          "device_used_peak_mib": 6676.4,
+          "peak_allocated_mib": 4808.5,
+          "peak_reserved_mib": 4886.0,
+          "seconds": 20.826,
+          "status": "ok"
+        },
+        "natural_rollout": {
+          "device_used_peak_mib": 28479.0,
+          "generated_tokens": 1544,
+          "generation_seconds": 9.525,
+          "mean_completion_tokens": 48.2,
+          "peak_allocated_mib": 25594.9,
+          "peak_reserved_mib": 26216.0,
+          "seconds": 9.541,
+          "status": "ok",
+          "tokens_per_second": 162.1
+        },
+        "rollout": {
+          "device_used_peak_mib": 28481.0,
+          "generated_tokens": 32768,
+          "generation_seconds": 111.081,
+          "mean_completion_tokens": 1024.0,
+          "peak_allocated_mib": 25594.9,
+          "peak_reserved_mib": 26218.0,
+          "seconds": 111.103,
+          "status": "ok",
+          "tokens_per_second": 295.0
+        },
+        "scoring": {
+          "device_used_peak_mib": 20234.4,
+          "peak_allocated_mib": 18095.1,
+          "peak_reserved_mib": 18430.0,
+          "seconds": 4.528,
+          "status": "ok"
+        },
+        "step": {
+          "device_used_peak_mib": 24222.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21706.3,
+          "peak_reserved_mib": 22418.0,
+          "seconds": 5.287,
+          "status": "ok"
+        },
+        "warm_step": {
+          "device_used_peak_mib": 23260.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21373.0,
+          "peak_reserved_mib": 21460.0,
+          "seconds": 7.114,
+          "status": "ok"
+        }
+      },
+      "result": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/01-g8-r32-resident/result.json",
+      "seconds": 182.2,
+      "started": "2026-10-22T08:23:57+00:00",
+      "status": "completed",
+      "timing": {
+        "backward_seconds_per_update": 17.2,
+        "natural_mean_completion_tokens": 48.2,
+        "rollout_seconds_natural": 9.5,
+        "rollout_seconds_worst_case": 111.1,
+        "rollout_tokens_per_second": 295.0,
+        "scoring_seconds": 4.5,
+        "step_seconds": 5.3,
+        "update_seconds_natural_rollout": 32.0,
+        "update_seconds_note": "natural = natural-length rollout + backward at cap-length rows (an upper bound for the backward) + step; scoring is excluded because the driver at beta 0 and num_iterations 1 does not compute old log-probs",
+        "update_seconds_worst_case": 133.6,
+        "update_seconds_worst_case_with_scoring": 138.1
+      }
+    },
+    {
+      "assessment": {
+        "binding_phase": null,
+        "completed": true,
+        "desktop_budget_mib": 6144,
+        "failed_phases": [],
+        "fits": true,
+        "headroom_at_desktop_budget_mib": 3325.0,
+        "headroom_at_observed_desktop_mib": 7111.0,
+        "limit_mib": 24899.4,
+        "margin_mib": 1536,
+        "measured": true,
+        "phase_process_peak_mib": {
+          "backward": 23110.4,
+          "load": 4340.4,
+          "natural_rollout": 21106.4,
+          "rollout": 21106.4,
+          "scoring": 17884.4,
+          "step": 21872.4,
+          "warm_step": 20914.4
+        },
+        "physical_overflow": false,
+        "process_peak_mib": 23110.4
+      },
+      "config": {
+        "backward_rows": null,
+        "candidate_count": 8,
+        "groups_per_call": 2,
+        "inject_oom_phase": null,
+        "logprob_impl": "chunked",
+        "name": "g8-r16-resident",
+        "offload_optimizer": false,
+        "phases": [
+          "rollout",
+          "scoring",
+          "backward",
+          "step",
+          "natural_rollout"
+        ],
+        "role": "ladder",
+        "rows_per_update": 32,
+        "score_rows": null,
+        "seq_chunk": 512,
+        "trick": "smaller_rollout_microbatch",
+        "vocab_chunk": 16384
+      },
+      "device": {
+        "allocator_cap_mib": 30511.0,
+        "allocator_cap_note": "set_per_process_memory_fraction at the free memory after CUDA init minus 256 MiB, so an overflow raises OOM instead of spilling into Windows system memory",
+        "context_mib": -545.6,
+        "context_mib_source": "nvidia-smi before CUDA init",
+        "name": "NVIDIA GeForce RTX 5090",
+        "other_used_mib_at_start": 2358.0,
+        "total_mib": 32579.4,
+        "used_mib_after_context": 1812.4
+      },
+      "directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/02-g8-r16-resident",
+      "exit_code": 0,
+      "failed_phase": null,
+      "finished": "2026-10-22T08:30:29+00:00",
+      "guard": {
+        "at": "2026-10-22T08:30:29.052723+00:00",
+        "child_exit_code": 0,
+        "reason": null,
+        "seconds": 208.62194928200915,
+        "status": "completed"
+      },
+      "name": "g8-r16-resident",
+      "phases": {
+        "backward": {
+          "device_used_peak_mib": 25919.0,
+          "micro_batches": 32,
+          "peak_allocated_mib": 22941.7,
+          "peak_reserved_mib": 23656.0,
+          "seconds": 17.079,
+          "seconds_per_micro_batch_median": 0.526,
+          "seconds_total": 17.053,
+          "sequence_tokens_max": 4024,
+          "status": "ok"
+        },
+        "load": {
+          "device_used_peak_mib": 6676.4,
+          "peak_allocated_mib": 4808.5,
+          "peak_reserved_mib": 4886.0,
+          "seconds": 20.79,
+          "status": "ok"
+        },
+        "natural_rollout": {
+          "device_used_peak_mib": 23456.4,
+          "generated_tokens": 1544,
+          "generation_seconds": 9.768,
+          "mean_completion_tokens": 48.2,
+          "peak_allocated_mib": 21026.4,
+          "peak_reserved_mib": 21652.0,
+          "seconds": 9.787,
+          "status": "ok",
+          "tokens_per_second": 158.1
+        },
+        "rollout": {
+          "device_used_peak_mib": 23456.4,
+          "generated_tokens": 32768,
+          "generation_seconds": 132.729,
+          "mean_completion_tokens": 1024.0,
+          "peak_allocated_mib": 21026.4,
+          "peak_reserved_mib": 21652.0,
+          "seconds": 132.755,
+          "status": "ok",
+          "tokens_per_second": 246.9
+        },
+        "scoring": {
+          "device_used_peak_mib": 20234.4,
+          "peak_allocated_mib": 18095.1,
+          "peak_reserved_mib": 18430.0,
+          "seconds": 4.203,
+          "status": "ok"
+        },
+        "step": {
+          "device_used_peak_mib": 24222.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21706.3,
+          "peak_reserved_mib": 22418.0,
+          "seconds": 5.314,
+          "status": "ok"
+        },
+        "warm_step": {
+          "device_used_peak_mib": 23260.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21373.0,
+          "peak_reserved_mib": 21460.0,
+          "seconds": 14.639,
+          "status": "ok"
+        }
+      },
+      "result": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/02-g8-r16-resident/result.json",
+      "seconds": 209.4,
+      "started": "2026-10-22T08:26:59+00:00",
+      "status": "completed",
+      "timing": {
+        "backward_seconds_per_update": 17.1,
+        "natural_mean_completion_tokens": 48.2,
+        "rollout_seconds_natural": 9.8,
+        "rollout_seconds_worst_case": 132.8,
+        "rollout_tokens_per_second": 246.9,
+        "scoring_seconds": 4.2,
+        "step_seconds": 5.3,
+        "update_seconds_natural_rollout": 32.2,
+        "update_seconds_note": "natural = natural-length rollout + backward at cap-length rows (an upper bound for the backward) + step; scoring is excluded because the driver at beta 0 and num_iterations 1 does not compute old log-probs",
+        "update_seconds_worst_case": 155.2,
+        "update_seconds_worst_case_with_scoring": 159.4
+      }
+    },
+    {
+      "config": {
+        "backward_rows": null,
+        "candidate_count": 4,
+        "groups_per_call": 8,
+        "inject_oom_phase": null,
+        "logprob_impl": "chunked",
+        "name": "g4-r32-resident",
+        "offload_optimizer": false,
+        "phases": [
+          "rollout",
+          "scoring",
+          "backward",
+          "step",
+          "natural_rollout"
+        ],
+        "role": "ladder",
+        "rows_per_update": 32,
+        "score_rows": null,
+        "seq_chunk": 512,
+        "trick": "baseline",
+        "vocab_chunk": 16384
+      },
+      "name": "g4-r32-resident",
+      "reason": "dominated by g8-r32-resident: the rollout did not fit at 32 rows per call with the same optimizer placement, and this configuration generates 32 rows per call from prompts at least as long",
+      "status": "skipped"
+    },
+    {
+      "assessment": {
+        "binding_phase": null,
+        "completed": true,
+        "desktop_budget_mib": 6144,
+        "failed_phases": [],
+        "fits": true,
+        "headroom_at_desktop_budget_mib": 3325.0,
+        "headroom_at_observed_desktop_mib": 7111.0,
+        "limit_mib": 24899.4,
+        "margin_mib": 1536,
+        "measured": true,
+        "phase_process_peak_mib": {
+          "backward": 23110.4,
+          "load": 4340.4,
+          "natural_rollout": 21106.4,
+          "rollout": 21106.4,
+          "scoring": 16984.4,
+          "step": 21872.4,
+          "warm_step": 20914.4
+        },
+        "physical_overflow": false,
+        "process_peak_mib": 23110.4
+      },
+      "config": {
+        "backward_rows": null,
+        "candidate_count": 4,
+        "groups_per_call": 4,
+        "inject_oom_phase": null,
+        "logprob_impl": "chunked",
+        "name": "g4-r16-resident",
+        "offload_optimizer": false,
+        "phases": [
+          "rollout",
+          "scoring",
+          "backward",
+          "step",
+          "natural_rollout"
+        ],
+        "role": "ladder",
+        "rows_per_update": 32,
+        "score_rows": null,
+        "seq_chunk": 512,
+        "trick": "smaller_rollout_microbatch",
+        "vocab_chunk": 16384
+      },
+      "device": {
+        "allocator_cap_mib": 30511.0,
+        "allocator_cap_note": "set_per_process_memory_fraction at the free memory after CUDA init minus 256 MiB, so an overflow raises OOM instead of spilling into Windows system memory",
+        "context_mib": -545.6,
+        "context_mib_source": "nvidia-smi before CUDA init",
+        "name": "NVIDIA GeForce RTX 5090",
+        "other_used_mib_at_start": 2358.0,
+        "total_mib": 32579.4,
+        "used_mib_after_context": 1812.4
+      },
+      "directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/03-g4-r16-resident",
+      "exit_code": 0,
+      "failed_phase": null,
+      "finished": "2026-10-22T08:34:19+00:00",
+      "guard": {
+        "at": "2026-10-22T08:34:19.092416+00:00",
+        "child_exit_code": 0,
+        "reason": null,
+        "seconds": 229.2681720260298,
+        "status": "completed"
+      },
+      "name": "g4-r16-resident",
+      "phases": {
+        "backward": {
+          "device_used_peak_mib": 25919.0,
+          "micro_batches": 32,
+          "peak_allocated_mib": 22941.7,
+          "peak_reserved_mib": 23656.0,
+          "seconds": 16.836,
+          "seconds_per_micro_batch_median": 0.522,
+          "seconds_total": 16.809,
+          "sequence_tokens_max": 4024,
+          "status": "ok"
+        },
+        "load": {
+          "device_used_peak_mib": 6676.4,
+          "peak_allocated_mib": 4808.5,
+          "peak_reserved_mib": 4886.0,
+          "seconds": 21.157,
+          "status": "ok"
+        },
+        "natural_rollout": {
+          "device_used_peak_mib": 23456.4,
+          "generated_tokens": 1276,
+          "generation_seconds": 12.268,
+          "mean_completion_tokens": 39.9,
+          "peak_allocated_mib": 21026.4,
+          "peak_reserved_mib": 21652.0,
+          "seconds": 12.285,
+          "status": "ok",
+          "tokens_per_second": 104.0
+        },
+        "rollout": {
+          "device_used_peak_mib": 23456.4,
+          "generated_tokens": 32768,
+          "generation_seconds": 155.591,
+          "mean_completion_tokens": 1024.0,
+          "peak_allocated_mib": 21026.4,
+          "peak_reserved_mib": 21652.0,
+          "seconds": 155.616,
+          "status": "ok",
+          "tokens_per_second": 210.6
+        },
+        "scoring": {
+          "device_used_peak_mib": 19334.4,
+          "peak_allocated_mib": 17277.5,
+          "peak_reserved_mib": 17530.0,
+          "seconds": 4.125,
+          "status": "ok"
+        },
+        "step": {
+          "device_used_peak_mib": 24222.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21706.3,
+          "peak_reserved_mib": 22418.0,
+          "seconds": 5.489,
+          "status": "ok"
+        },
+        "warm_step": {
+          "device_used_peak_mib": 23260.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21373.0,
+          "peak_reserved_mib": 21460.0,
+          "seconds": 9.826,
+          "status": "ok"
+        }
+      },
+      "result": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/03-g4-r16-resident/result.json",
+      "seconds": 230.0,
+      "started": "2026-10-22T08:30:29+00:00",
+      "status": "completed",
+      "timing": {
+        "backward_seconds_per_update": 16.8,
+        "natural_mean_completion_tokens": 39.9,
+        "rollout_seconds_natural": 12.3,
+        "rollout_seconds_worst_case": 155.6,
+        "rollout_tokens_per_second": 210.6,
+        "scoring_seconds": 4.1,
+        "step_seconds": 5.5,
+        "update_seconds_natural_rollout": 34.6,
+        "update_seconds_note": "natural = natural-length rollout + backward at cap-length rows (an upper bound for the backward) + step; scoring is excluded because the driver at beta 0 and num_iterations 1 does not compute old log-probs",
+        "update_seconds_worst_case": 177.9,
+        "update_seconds_worst_case_with_scoring": 182.0
+      }
+    },
+    {
+      "assessment": {
+        "binding_phase": null,
+        "completed": true,
+        "desktop_budget_mib": 6144,
+        "failed_phases": [],
+        "fits": true,
+        "headroom_at_desktop_budget_mib": 2745.0,
+        "headroom_at_observed_desktop_mib": 6531.0,
+        "limit_mib": 24899.4,
+        "margin_mib": 1536,
+        "measured": true,
+        "phase_process_peak_mib": {
+          "backward": 23690.4,
+          "load": 4340.4,
+          "step": 21832.4,
+          "warm_step": 20914.4
+        },
+        "physical_overflow": false,
+        "process_peak_mib": 23690.4
+      },
+      "config": {
+        "backward_rows": 8,
+        "candidate_count": 8,
+        "groups_per_call": 1,
+        "inject_oom_phase": null,
+        "logprob_impl": "full_logits",
+        "name": "info-full-logits-mb1",
+        "offload_optimizer": false,
+        "phases": [
+          "backward",
+          "step"
+        ],
+        "role": "informational",
+        "rows_per_update": 32,
+        "score_rows": null,
+        "seq_chunk": 512,
+        "trick": "stock_trl_logprob_path",
+        "vocab_chunk": 16384
+      },
+      "device": {
+        "allocator_cap_mib": 30511.0,
+        "allocator_cap_note": "set_per_process_memory_fraction at the free memory after CUDA init minus 256 MiB, so an overflow raises OOM instead of spilling into Windows system memory",
+        "context_mib": -545.6,
+        "context_mib_source": "nvidia-smi before CUDA init",
+        "name": "NVIDIA GeForce RTX 5090",
+        "other_used_mib_at_start": 2358.0,
+        "total_mib": 32579.4,
+        "used_mib_after_context": 1812.4
+      },
+      "directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/04-info-full-logits-mb1",
+      "exit_code": 0,
+      "failed_phase": null,
+      "finished": "2026-10-22T08:35:01+00:00",
+      "guard": {
+        "at": "2026-10-22T08:35:01.687394+00:00",
+        "child_exit_code": 0,
+        "reason": null,
+        "seconds": 41.82634806097485,
+        "status": "completed"
+      },
+      "name": "info-full-logits-mb1",
+      "phases": {
+        "backward": {
+          "device_used_peak_mib": 26495.0,
+          "micro_batches": 8,
+          "peak_allocated_mib": 23513.4,
+          "peak_reserved_mib": 24236.0,
+          "seconds": 4.21,
+          "seconds_per_micro_batch_median": 0.509,
+          "seconds_total": 4.179,
+          "sequence_tokens_max": 4024,
+          "status": "ok"
+        },
+        "load": {
+          "device_used_peak_mib": 6676.4,
+          "peak_allocated_mib": 4808.5,
+          "peak_reserved_mib": 4886.0,
+          "seconds": 21.162,
+          "status": "ok"
+        },
+        "step": {
+          "device_used_peak_mib": 24178.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21706.3,
+          "peak_reserved_mib": 22378.0,
+          "seconds": 5.808,
+          "status": "ok"
+        },
+        "warm_step": {
+          "device_used_peak_mib": 23260.4,
+          "optimizer_state_bytes": 12206817280,
+          "peak_allocated_mib": 21373.0,
+          "peak_reserved_mib": 21460.0,
+          "seconds": 6.931,
+          "status": "ok"
+        }
+      },
+      "result": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z/configs/04-info-full-logits-mb1/result.json",
+      "seconds": 42.6,
+      "started": "2026-10-22T08:34:19+00:00",
+      "status": "completed",
+      "timing": {
+        "backward_seconds_per_update": 16.7
+      }
+    }
+  ],
+  "card": "C14",
+  "driver_reuse": {
+    "generation_kwargs": {
+      "do_sample": true,
+      "repetition_penalty": 1.0,
+      "temperature": 0.7,
+      "top_p": 0.95
+    },
+    "length_policy": "v4-braceindent-15006-complete-4096-candidate",
+    "loss": "TRL 0.24 GRPO with loss_type bnpo, beta 0, num_iterations 1 has the gradient -advantage * grad log p / update tokens; the probe uses that loss directly",
+    "module": "sepalith.training.rl.campaign_rl_train",
+    "prompt_contract": "FixedIDGRPOTrainerMixin._prompt_ids and _padded_prompt_tensors (left padding, pad id 1)",
+    "rows_per_update": 32,
+    "trim": "campaign_rl_profile.trim_generated_sequence at the 1,024-token cap"
+  },
+  "finished": "2026-10-22T08:35:01+00:00",
+  "fit_rule": {
+    "desktop_budget_mib": 6144,
+    "margin_mib": 1536,
+    "rule": "process peak (max peak reserved over phases + CUDA context) <= total - desktop budget - margin"
+  },
+  "inputs": {
+    "attn_implementation": "sdpa",
+    "completion_tokens": 1024,
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "eog_ids": [
+      1,
+      130073
+    ],
+    "generation_kwargs": {
+      "do_sample": true,
+      "repetition_penalty": 1.0,
+      "temperature": 0.7,
+      "top_p": 0.95
+    },
+    "model_path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536",
+    "model_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030",
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 1e-05,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 1e-06,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "prompt_source": {
+      "distinct_prompts": 15006,
+      "length_policy": "v4-braceindent-15006-complete-4096-candidate",
+      "length_policy_sha256": "a843df773c2f644a5ab9bc59f386151bfe248801ae3a371d6a5e7ff57a592f4d",
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "rows": 15006,
+      "selection": "8 longest distinct prompts, ties by row id",
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef",
+      "split": "train"
+    },
+    "prompts": [
+      {
+        "family": "format_propagation",
+        "id": "7fa670c507f5da645780bb59",
+        "prompt_length": 3000
+      },
+      {
+        "family": "format_propagation",
+        "id": "8565a973a6d747591274259b",
+        "prompt_length": 2946
+      },
+      {
+        "family": "format_propagation",
+        "id": "4777dad97587c296b882feaf",
+        "prompt_length": 2934
+      },
+      {
+        "family": "format_propagation",
+        "id": "833325b936da74ee3ab58519",
+        "prompt_length": 2934
+      },
+      {
+        "family": "format_propagation",
+        "id": "6ec089589bd8e10af29aa7d2",
+        "prompt_length": 2839
+      },
+      {
+        "family": "format_propagation",
+        "id": "91f6a29610dcdcfa507430df",
+        "prompt_length": 2817
+      },
+      {
+        "family": "format_propagation",
+        "id": "48ed944dac5465ee83caf8e6",
+        "prompt_length": 2802
+      },
+      {
+        "family": "format_propagation",
+        "id": "394eab8ced9e30cb0f9a8567",
+        "prompt_length": 2770
+      }
+    ],
+    "schema": "sepalith.c14.grpo-memory-probe-inputs.v1",
+    "sft_recipe": {
+      "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+      "sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e"
+    }
+  },
+  "ladders": {
+    "g4": {
+      "attempts": [
+        "g4-r32-resident",
+        "g4-r16-resident"
+      ],
+      "first_fit": "g4-r16-resident",
+      "stopped": null
+    },
+    "g8": {
+      "attempts": [
+        "g8-r32-resident",
+        "g8-r16-resident"
+      ],
+      "first_fit": "g8-r16-resident",
+      "stopped": null
+    },
+    "informational": {
+      "attempts": [
+        "info-full-logits-mb1"
+      ],
+      "first_fit": null,
+      "stopped": null
+    }
+  },
+  "projection": [
+    {
+      "name": "g8-r16-resident",
+      "update_seconds_natural_rollout": 32.2,
+      "update_seconds_natural_rollout_updates_per_16h": 1788,
+      "update_seconds_natural_rollout_updates_per_8h": 894,
+      "update_seconds_worst_case": 155.2,
+      "update_seconds_worst_case_updates_per_16h": 371,
+      "update_seconds_worst_case_updates_per_8h": 185
+    },
+    {
+      "name": "g4-r16-resident",
+      "update_seconds_natural_rollout": 34.6,
+      "update_seconds_natural_rollout_updates_per_16h": 1664,
+      "update_seconds_natural_rollout_updates_per_8h": 832,
+      "update_seconds_worst_case": 177.9,
+      "update_seconds_worst_case_updates_per_16h": 323,
+      "update_seconds_worst_case_updates_per_8h": 161
+    },
+    {
+      "name": "info-full-logits-mb1"
+    }
+  ],
+  "purpose": "measurement only: no adoption, no M-gate decision; the R4 M >= 15% gate is unchanged",
+  "run_dir": "/home/m0hawk/.local/state/sepalith/campaign-20260915/C14-grpo-memory-probe/20261022T082309Z",
+  "schema": "sepalith.c14.grpo-memory-probe.v1",
+  "seconds": 712.6,
+  "started": "2026-10-22T08:23:09+00:00",
+  "status": "complete",
+  "step": 2,
+  "stop_reason": null
+}

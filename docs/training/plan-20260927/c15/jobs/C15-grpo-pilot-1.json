@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo.night",
+    "run",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c15/bound/grpo-pilot-1-arm-a-536.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 960,
+  "id": "C15-grpo-pilot-1",
+  "note": "C15 GRPO pilot from arm A 536 (R4 M >= 15% gate overridden by the user on 2026-10-23): DEV75 every 50 updates, DEV250 every 150, R6 decides (stop-for-user exits 3: write override-step-<n>.json in the evidence directory and retry; rollback ends the pilot), 1,500 updates at most; resumable at rollout-buffer boundaries (exit 75 at the deadline). Re-enqueue is automatic while it exits 75; R8 publishing is morning work.",
+  "priority": 45,
+  "requires": [
+    "C15-grpo-smoke"
+  ],
+  "resumable": true
+}

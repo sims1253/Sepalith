@@ -1,0 +1,105 @@
+{
+  "bundle": {
+    "content": "prompt token IDs (TRAIN input_ids[:target_start], equal to the census prompts) and reward v2.1 reference specs; local only",
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C14-grpo-pool-v1/sepalith-2b-edit-sft-arm-a/bundle.jsonl",
+    "rows": 2086,
+    "sha256": "307cddda50f1c047339c71264600a8c225d2f6c49750bdf000a40f4f515eb2b7"
+  },
+  "card": "C14",
+  "census": {
+    "census_prompts_sha256": "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025",
+    "directory": "/home/m0hawk/.local/state/sepalith/c12/census-arm-a",
+    "model_id": "sepalith-2b-edit-sft/arm-a",
+    "model_safetensors_sha256": "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030",
+    "pass_rates_sha256": "e41534e952000c085671f59f8a09cb57aeb288ba97f8872ecb0f3ba4bb37a5ac",
+    "reward": "sepalith.reward.v2.1",
+    "sampling": {
+      "max_new_tokens": 1024,
+      "samples": 8,
+      "seed": 3407,
+      "source": "docs/training/plan-20260927/status/C12.json outputs.census.sampling",
+      "temperature": 1.0,
+      "top_p": 1.0
+    },
+    "summary_sha256": "eaeadf7b9640ddd069cff093d92fedb8831042ca53f79415b0e0187bf3269171"
+  },
+  "counts": {
+    "M": 0.125083,
+    "all_correct_available": 5505,
+    "all_correct_sampled": 209,
+    "all_correct_share_of_pool": 0.100192,
+    "band": 1877,
+    "by_family": {
+      "finish_block": {
+        "all_correct_available": 94,
+        "all_correct_sampled": 3,
+        "band": 998,
+        "pool": 1001,
+        "train_prompts": 7785
+      },
+      "format_propagation": {
+        "all_correct_available": 727,
+        "all_correct_sampled": 28,
+        "band": 753,
+        "pool": 781,
+        "train_prompts": 1615
+      },
+      "na_rm_propagation": {
+        "all_correct_available": 121,
+        "all_correct_sampled": 5,
+        "band": 15,
+        "pool": 20,
+        "train_prompts": 136
+      },
+      "no_op": {
+        "all_correct_available": 1086,
+        "all_correct_sampled": 41,
+        "band": 8,
+        "pool": 49,
+        "train_prompts": 1094
+      },
+      "pipe_rewrite": {
+        "all_correct_available": 1957,
+        "all_correct_sampled": 74,
+        "band": 26,
+        "pool": 100,
+        "train_prompts": 1983
+      },
+      "rename_propagation": {
+        "all_correct_available": 1520,
+        "all_correct_sampled": 58,
+        "band": 56,
+        "pool": 114,
+        "train_prompts": 1578
+      },
+      "roxygen_drafting": {
+        "all_correct_available": 0,
+        "all_correct_sampled": 0,
+        "band": 21,
+        "pool": 21,
+        "train_prompts": 815
+      }
+    },
+    "noop_share_in_band": 0.004262,
+    "noop_share_of_pool": 0.02349,
+    "pool": 2086,
+    "train_prompts": 15006
+  },
+  "created": "2026-10-23T09:48:20+00:00",
+  "final_set_access": false,
+  "name": "C14-grpo-pool-arm-a-536",
+  "pool": {
+    "path": "docs/training/plan-20260927/c14/pool/C14-grpo-pool-arm-a-536.jsonl",
+    "rows": 2086,
+    "sha256": "359275d6a3919db9a9161d1ea264be899e3ce252b5b8f13c92e4552a125c3e98"
+  },
+  "rule": {
+    "all_correct": "10% of the finished pool, round(band / 9), allocated to families in proportion to the all-correct set (largest remainder), seeded sample per family",
+    "band": "1 <= exact <= 7 of 8 (0.125 <= pass <= 0.875)",
+    "noop": "natural share inside the band (no re-weighting)",
+    "seed": 3407
+  },
+  "schema": "sepalith.c14.grpo-pool.v1",
+  "scope": "TRAIN only: C12 census pass rates on TRAIN prompts and the v4 TRAIN rows; no DEV row, no sealed-set access",
+  "step": 1
+}

@@ -1,0 +1,179 @@
+{
+  "card": "C15",
+  "state": "in_progress",
+  "updated": "2026-10-23T13:30:00+02:00",
+  "branch": "plan/C14-C15-grpo-pilot",
+  "pull_request": null,
+  "outputs": {
+    "code": {
+      "package": "packages/sepalith/src/sepalith/training/grpo/ (pool, algorithm, loss, rules, state, recipe, trainer, dev_generation, night, jobs)",
+      "reused": "chunked log-probabilities and the micro-batch-1 forward/backward of rl/grpo_memory_probe.py; fixed-ID left padding (rl/campaign_rl_train.py) and trimming (rl/campaign_rl_profile.py); reward v2.1; aurora_mix (optim/full_weight_optimizer.py); the campaign evaluator (eval/campaign_eval.py); sft/night_arm.py (launcher, overrides, stop handling, exit codes)",
+      "tests": [
+        "packages/sepalith/tests/test_c15_grpo_core.py (core, stdlib)",
+        "packages/sepalith/tests/training/test_c15_grpo.py (CPU torch, tiny Llama with the real 130,560 vocabulary)"
+      ]
+    },
+    "recipes": {
+      "pilot": {
+        "path": "docs/training/plan-20260927/c15/bound/grpo-pilot-1-arm-a-536.json",
+        "sha256": "bf535bae79112141d4301a934b23053086b9b8849ea1e19f3247807bb3b37470",
+        "arm": "C15-grpo-pilot-1"
+      },
+      "smoke": {
+        "path": "docs/training/plan-20260927/c15/bound/grpo-smoke-arm-a-536.json",
+        "sha256": "5f0f8344fbcc7292460be3f9ceb7a5f4b854cece6bad4d72f459c2eba4686e90",
+        "arm": "C15-grpo-smoke"
+      },
+      "source_manifest": {
+        "path": "docs/training/plan-20260927/c15/bound/source-manifest.json",
+        "sha256": "dfcd5191e54235e2bed7b748d67f7cbd7ba68138354ca02b8a3b8f5889e5f62b"
+      },
+      "start": "arm A checkpoint 536 (befe587a...6030; no offline step was adopted); R6 reference = its gate-536 result (score250 117, valid 74, cap 1, edit 27, nofp 8)",
+      "pre_registered": {
+        "beta": 0.0,
+        "card": "C15",
+        "dynamic_sampling": {
+          "drop": "groups whose rewards are all equal",
+          "max_draw_factor": 4.0,
+          "max_rounds": 4,
+          "oversample": 1.5,
+          "refill": "before each rollout buffer",
+          "surplus": "discarded"
+        },
+        "epsilon_high": 0.28,
+        "epsilon_low": 0.2,
+        "evaluation": {
+          "dev250_every": 150,
+          "dev75_every": 50,
+          "rule": "R6"
+        },
+        "group_size": 8,
+        "learning_rate_ratio_to_sft": 0.1,
+        "loss_type": "dapo",
+        "mask_truncated_completions": true,
+        "max_grad_norm": 0.0,
+        "max_updates": 1500,
+        "optimizer": "the SFT recipe's aurora_mix (same family), fresh state",
+        "prompts": "the C14 pool",
+        "reference_model": null,
+        "reward": {
+          "advantage_signal": "reward",
+          "partial_credit": "gain",
+          "partial_weight": 0.5,
+          "pass_signal": "exact",
+          "policy": "sepalith.reward.v2.1"
+        },
+        "save": "full state at every update boundary that ends a rollout buffer; the deadline stop happens on such a boundary",
+        "scale_rewards": "none",
+        "scheduler": "linear warmup over 10 updates (update u uses min(1, u / 10) x LR), then constant",
+        "start": "latest adopted offline model, or the SFT model if none was adopted: arm A checkpoint 536",
+        "temperature": 1.0,
+        "top_k": 0,
+        "top_p": 1.0,
+        "warmup_updates": 10
+      },
+      "runtime": {
+        "group_size": 8,
+        "groups_per_update": 4,
+        "rows_per_update": 32,
+        "updates_per_buffer": 2,
+        "rollout_rows_per_call": 16,
+        "learning_rate": 1e-06,
+        "optimizer_dispatch_sha256": "162a62e5e3c07030ed401dcb6e0f28b37c931d6af45150386989cb739e1afbf4",
+        "device": "cuda:0"
+      },
+      "lr": {
+        "hidden": 1e-06,
+        "side": 1e-07,
+        "sft": {
+          "hidden": 1e-05,
+          "side": 1e-06
+        }
+      },
+      "outputs": {
+        "pilot": {
+          "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C15-grpo-pilot-1",
+          "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/C15-grpo-pilot-1-save-stop.json",
+          "trainer": "/mnt/e/sepalith/campaign-20260915/checkpoints/C15-grpo-pilot-1/runtime"
+        },
+        "pilot_evidence": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C15-grpo-pilot-1",
+        "smoke": {
+          "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C15-grpo-smoke",
+          "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/C15-grpo-smoke-save-stop.json",
+          "trainer": "/mnt/e/sepalith/campaign-20260915/checkpoints/C15-grpo-smoke/runtime"
+        }
+      }
+    },
+    "night_jobs": {
+      "C15-grpo-smoke": {
+        "path": "docs/training/plan-20260927/c15/jobs/C15-grpo-smoke.json",
+        "sha256": "28ff4b9d044a09e2ca68a8be773080f6c17d1c0c38fdd86e26b1f16e1793193b",
+        "priority": 40,
+        "resumable": false,
+        "estimated_minutes": 40,
+        "requires": []
+      },
+      "C15-grpo-pilot-1": {
+        "path": "docs/training/plan-20260927/c15/jobs/C15-grpo-pilot-1.json",
+        "sha256": "139d9644d3c0362096a26cdf8b36dff193c92d58266d2c117475db907e65b6f0",
+        "priority": 45,
+        "resumable": true,
+        "estimated_minutes": 960,
+        "requires": [
+          "C15-grpo-smoke"
+        ]
+      }
+    },
+    "enqueue_after_merge": [
+      "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c15/jobs/C15-grpo-smoke.json",
+      "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c15/jobs/C15-grpo-pilot-1.json"
+    ],
+    "projections": {
+      "smoke_minutes": "about 25 (load 21 s; 3 buffers at about 70 s; two full saves at about 4.8 min each as in C07; DEV75 about 4 min; resume verification and optimizer load about 3 min); job estimate 40",
+      "seconds_per_update": "about 35 at the pool's natural lengths (pool prompts mean 1,036 tokens, census completions mean 44 tokens; probe: 32 s natural, 155 s at the cap)",
+      "overhead": "per 50 updates: full save about 4.8 min, DEV75 about 4 min, restart and resume verification about 3 min; DEV250 about 8 min every 150 updates",
+      "updates_per_night": "about 1,100 to 1,200 in an uncontended 00:00-16:40 window; about 330 if every completion ran to the 1,024 cap; the 1,500-update limit needs about 1.3 to 1.5 nights",
+      "disk": "each save about 17.7 GB, retain-all (R7): about 30 evaluation saves for 1,500 updates plus one deadline save per night, about 550-600 GB; /mnt/e had 864 GB free on 2026-10-23; the trainer stops for the user (exit 3) before a save that would leave less than 150 GB"
+    },
+    "checks": {
+      "check_core": "195 tests OK (1 skipped), incl. test_c15_grpo_core.py (27)",
+      "check_training": "281 run: all C15 tests pass (35, incl. the real-vocab tiny-Llama trainer, bit-exact resume, mocked CUDA, real reward v2.1 on pool prompts with the pinned air/Rscript); 3 failures in test_noop_threshold.MockedCudaInnerTests are pre-existing on main (decode-time noop_threshold.py calls torch.empty on cuda under CUDA_VISIBLE_DEVICES='')",
+      "check_quality": "ruff and ty pass",
+      "job_commands": "both job files pass night_queue.validate_job; their argv parses with sepalith.training.grpo.night's parser in .venv-sft; both recipes verify (source manifest, pool, bundle, probe receipt, air/Rscript executables); trainer, dev_generation and night import and print --help in .venv-sft",
+      "gpu": "not used"
+    }
+  },
+  "rule_decisions": [
+    {
+      "rule": "R4 step 3 (M >= 15% on the latest census) + user decision",
+      "at": "2026-10-23T11:45:00+02:00",
+      "inputs": {
+        "latest_census_M_t1.0": 0.125083,
+        "census_M_t1.2": 0.147474,
+        "threshold": 0.15,
+        "adopted_offline_steps": 0,
+        "offline_iterations": "RFT-1/DPO-1 (T = 1.0) and RFT-2/DPO-2 (T = 1.2) discarded at every gate (status/C13.json)"
+      },
+      "outcome": "user override: start online GRPO (C14/C15) anyway; every other pre-registered rule stays: the C15 recipe, R6 stop and continue rules, R8 (at most one model upload per night)"
+    }
+  ],
+  "decisions_where_the_cards_were_open": [
+    "Pool: the all-correct sample is 10% of the finished pool (209 = round(1,877 / 9)), not 10% of the 5,505 all-correct prompts; allocated to families in proportion to the all-correct set (largest remainder), seeded (3407) within each family. Built from the T = 1.0 census as instructed.",
+    "Reward for advantages: reward v2.1's graded reward (partial credit 'gain', weight 0.5, as the census); 'exact' is logged alongside. All-correct guard prompts are zero-variance until the policy fails one, so they only contribute when forgetting starts.",
+    "Rollout buffer: 2 optimizer updates (8 groups = 64 rows). The first update of a buffer is on-policy (ratio exactly 1, TRL's old = logp.detach()); the second uses rollout-time log-probabilities (no grad, micro-batch 1), so the 0.2/0.28 clip is active. Every evaluation step (multiples of 50) and the 1,500 limit end a buffer.",
+    "Dynamic sampling: 1.5 x the needed groups per buffer, zero-variance groups dropped, refill up to 4 rounds or 4 x the needed prompts; surplus signal groups are discarded (no carry-over across a save). If refill is exhausted the update trains on the signal groups it has and its empty slots count as 'zero-variance after filtering' (the R6 quantity); an update without any signal group skips the optimizer step but counts.",
+    "DAPO normaliser: completion tokens (EOS included) of the update's rows that enter the loss; truncated rows (no end-of-generation before 1,024) are excluded from loss and normaliser but their -0.5 reward stays in the group mean (TRL 0.24 mask_truncated_completions + loss_type dapo). Zero-advantage rows count in the normaliser but skip forward/backward (zero gradient).",
+    "LR: hidden 1e-6 / side 1e-7 (a tenth of SFT's 1e-5 / 1e-6), linear warmup where update u uses min(1, u / 10), then constant (the card names no decay). Fresh aurora_mix state, max_grad_norm 0 as in the SFT recipe.",
+    "Sampling: temperature 1.0, top_p 1.0 and top_k 0 passed explicitly; the arm A checkpoint's generation_config has top_p 0.95 and transformers defaults top_k to 50.",
+    "Model load: plain transformers bf16 with SDPA and non-reentrant checkpointing (the probe's measured path). Its 85 layer-norm weights are bf16, while unsloth kept them fp32 in SFT/C13 (arm A stores them as F32); the DEV evaluator also loads them as bf16, so step 0 equals the evaluated model. The optimizer dispatch hash for this load (162a62e5...) is bound in the recipe and checked at start.",
+    "R6 at DEV75-only evaluations (50, 100, 200, ...): the R1 rows edit/nofp/valid/cap against the previous evaluation; score250 is compared at the DEV250 evaluations (every 150) against the previous DEV250 evaluation; the first references are arm A 536's gate-536 results. The loss row uses the window's mean update loss.",
+    "R6 zero-variance streak: the after-filter share averaged over each evaluation's window of updates, above 50% at three evaluations in a row. Length factor: the window's mean completion length (all generated rows) against the mean over the first 10 updates; beyond x2 or /2 is stop-for-user. Reward hacking (DEV250 evaluations): window reward since the previous DEV250 evaluation above the first-10-update reward while score250 is >= 10 below the starting model's (117) -> rollback.",
+    "Saves: full state (weights, optimizer, RNG, sampler cursor) at every evaluation step and at the deadline / stop request, retain-all (R7); the trainer stops for the user (exit 3 via the driver) before a save that would leave < 150 GB on /mnt/e. A deadline stop picks the last buffer boundary where one more buffer + a save + 90 s fits before SEPALITH_DEADLINE_EPOCH; the trainer also honours the runner's stop file directly.",
+    "Pilot end: R6 rollback ends the pilot with the last evaluation checkpoint R6 continued from (or arm A 536); R6 stop-for-user exits 3 (override-step-<n>.json + night_queue retry); after the update-1,500 evaluation the pilot is complete. The driver writes pilot-summary.json but does not adopt; adoption for grpo-<n>/ is a morning decision (no rule names an adoption threshold for GRPO). R8: the job summary names the latest DEV250-evaluated checkpoint that passes R1 against the starting model as the nightly candidate.",
+    "Smoke: same pre-registered values and code, separate archive and evidence directory; train to update 4 (2 buffers) and save, full DEV75 on checkpoint 4, resume to update 6 and save; exit 1 if any update is missing, the resume is not from checkpoint 4, no optimizer step ran, a checkpoint does not verify, or the DEV75 result does not bind.",
+    "Evaluation scheduling: an evaluation starts only with >= 15 min (DEV75) or 45 min (DEV75 + DEV250) before the deadline, a trainer segment only with >= 20 min; otherwise exit 75.",
+    "Job priorities: smoke 40, pilot 45 (ahead of the C13 jobs' 50/55; the queue is empty). Absolute air and Rscript paths are bound in the recipe because the systemd runner's PATH lacks ~/.local/bin."
+  ],
+  "question_for_user": null,
+  "notes": "Built and tested, nothing enqueued, no GPU used. The orchestrator reviews, merges, then enqueues the smoke and the pilot (the pilot requires the smoke). After each pilot night: copy the R6 decisions from the job result and the evidence directory here; R8 nightly upload of the night's candidate is morning work."
+}
