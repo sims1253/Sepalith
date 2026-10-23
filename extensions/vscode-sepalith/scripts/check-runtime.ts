@@ -7,7 +7,7 @@ for (const example of fixtures.cases) {
 }
 console.log(`${fixtures.cases.length} shared release manifest fixtures passed`);
 const asset = { name: 'llama-server', url: 'https://example.com/server', sha256: 'a'.repeat(64), bytes: 100, executable: true };
-const manifest = { schema: 1, build: 'b10453', modelProfile: {renderer: 'zeta2-v1', task: 'r-next-edit', tokenizerRevision: 'tokenizer@sha256:fixture', modelRevision: 'model@sha256:fixture'}, model: {...asset, name: 'model.gguf'}, bundles: [
+const manifest = { schema: 1, build: 'b10453', modelProfile: {renderer: 'zeta2-prm03-v1', task: 'r-next-edit', tokenizerRevision: 'tokenizer@sha256:fixture', modelRevision: 'model@sha256:fixture'}, model: {...asset, name: 'model.gguf'}, bundles: [
   { platform: 'linux', arch: 'x64', backend: 'cpu', server: asset.name, files: [asset] },
   { platform: 'darwin', arch: 'arm64', backend: 'metal', server: asset.name, files: [asset] },
 ] };
@@ -81,6 +81,8 @@ async function testManifestCache() {
     globalThis.fetch = async () => { calls++; return response(value); };
     value = {...manifest, modelProfile: {...manifest.modelProfile, renderer: 'psm'}};
     await assert.rejects(loadManifest(url, dir, signal, {refreshManifest: true}), /profile/);
+    value = {...manifest, modelProfile: {...manifest.modelProfile, renderer: 'zeta2-v1'}};
+    await assert.rejects(loadManifest(url, dir, signal, {refreshManifest: true}), /profile/, 'pre-PRM03 models are rejected');
     assert.deepEqual(await loadManifest(url, dir, signal), manifest);
     value = {...manifest, build: 'b10454'};
     await loadManifest(url, dir, signal, {refreshManifest: true});
@@ -94,7 +96,7 @@ async function testManifestCache() {
     await loadManifest(url, dir, signal, {refreshManifest: true});
     const override = path.join(dir, 'override.gguf'); await fs.writeFile(override, 'wrong model');
     await assert.rejects(provision(url, dir, 'cpu', signal, () => {}, override), /manual serverPath/);
-    assert.equal(calls, 4, 'cache hits do not fetch');
+    assert.equal(calls, 5, 'cache hits do not fetch (five explicit refreshes)');
     globalThis.fetch = (_url, options) => new Promise((_resolve, reject) => {
       const bounded = options?.signal;
       bounded?.addEventListener('abort', () => reject(bounded.reason), {once: true});
