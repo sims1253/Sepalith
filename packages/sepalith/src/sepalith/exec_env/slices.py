@@ -120,6 +120,24 @@ def materialize(manifest: dict, rows: list[dict], root: Path, only: set[str] | N
     return written
 
 
+def audit_sample(root: Path, out: Path, share: float = 0.05) -> int:
+    """A uniform random ``share`` of gate-passed functions per slice (at least one) for human audit."""
+    import random
+
+    rows = []
+    for slice_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+        passed = sorted(g.parent.name for g in slice_dir.glob("*/gate.json")
+                        if json.loads(g.read_text()).get("verdict") == "pass")
+        if not passed:
+            continue
+        rng = random.Random(f"exec-env-audit-v1:{slice_dir.name}")
+        for fid in sorted(rng.sample(passed, max(1, round(share * len(passed))))):
+            rows.append({"slice": slice_dir.name, "function_id": fid, "dir": str(slice_dir / fid)})
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    return len(rows)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--pool", type=Path, required=True)
@@ -128,7 +146,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--slice-size", type=int, default=100)
     parser.add_argument("--materialize", type=Path)
     parser.add_argument("--only", default="")
+    parser.add_argument("--audit-root", type=Path, help="write a human-audit sample of gate-passed functions")
+    parser.add_argument("--audit-out", type=Path)
     args = parser.parse_args(argv)
+    if args.audit_root:
+        print(json.dumps({"audit_sampled": audit_sample(args.audit_root, args.audit_out)}))
+        return 0
     rows = [json.loads(line) for line in args.pool.open()]
     if args.out.exists():
         manifest = json.loads(args.out.read_text())

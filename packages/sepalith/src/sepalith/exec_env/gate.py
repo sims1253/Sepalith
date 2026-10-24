@@ -45,7 +45,7 @@ import subprocess
 import tempfile
 
 from sepalith.exec_env import mutants as mutants_module
-from sepalith.exec_env.harness import SANDBOX, ExecHarness, ExecJob, ExecResult, namespaces_available
+from sepalith.exec_env.harness import SANDBOX, TESTLIB, ExecHarness, ExecJob, ExecResult, namespaces_available
 
 GATE_SCHEMA = "sepalith.exec-env.gate.v1"
 MIN_CHECKS = 6
@@ -167,7 +167,10 @@ def frozen_cases(unit: str, test: str, target: str, *, timeout: float = 30.0) ->
 args <- commandArgs(trailingOnly = TRUE)
 e <- new.env(parent = globalenv())
 sys.source(args[[1]], envir = e)
-t <- new.env(parent = e)
+lib <- new.env(parent = globalenv())
+sys.source(args[[4]], envir = lib)
+t <- new.env(parent = lib)
+for (n in ls(e, all.names = TRUE)) assign(n, get(n, envir = e), envir = t)
 for (h in c("check", "check_true", "check_equal", "check_identical", "check_error", "check_warning"))
   assign(h, function(...) invisible(NULL), envir = t)
 sys.source(args[[2]], envir = t)
@@ -190,7 +193,7 @@ writeLines(out)
         for name, text in (("unit.R", unit), ("test.R", test), ("freeze.R", script)):
             (Path(tmp) / name).write_text(text, encoding="utf-8")
         cmd = ["Rscript", "--vanilla", str(Path(tmp) / "freeze.R"), str(Path(tmp) / "unit.R"), str(Path(tmp) / "test.R"),
-               target]
+               target, str(TESTLIB)]
         if namespaces_available():
             cmd = ["unshare", "-rnm", "--propagation", "private", "sh", str(SANDBOX), str(work), "64", "--", *cmd]
         try:
@@ -227,8 +230,16 @@ def declared_equivalents(directory: Path) -> dict[str, str]:
     return out
 
 
+OUTPUT_ONLY = re.compile(r"^(print|plot|autoplot|show|lines|points|image|persp|text|cat)\.|^(show|display)$")
+
+
 def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = MUTANT_LIMIT) -> dict:
     meta = json.loads((directory / "meta.json").read_text())
+    if OUTPUT_ONLY.search(meta["name"]):
+        report = {"schema": GATE_SCHEMA, "id": meta["id"], "name": meta["name"], "verdict": "skip",
+                  "problems": ["output_only_method"]}
+        (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
+        return report
     unit = (directory / "source.R").read_text(encoding="utf-8")
     test = (directory / "test.R").read_text(encoding="utf-8")
     expect = (*meta["helpers"], meta["name"])
@@ -243,7 +254,7 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
         report["problems"].append(error)
     if frozen is not None:
         (directory / "frozen.R").write_text(frozen, encoding="utf-8")
-        report["frozen_cases"] = frozen.count("\n")
+        report["frozen_cases"] = frozen.count('check_equal("differential"')
     elif (directory / "frozen.R").exists():
         (directory / "frozen.R").unlink()
     suite = test + ("\n" + frozen if frozen else "")
@@ -254,8 +265,19 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     categories = sorted({c for c, _ in first_run.checks})
     report["checks"] = first_run.total
     report["categories"] = dict(Counter(c for c, _ in first_run.checks))
-    if first_run.status != "ok" or first_run.error_class or first_run.passed != first_run.total:
+    original_ok = first_run.status == "ok" and not first_run.error_class and first_run.passed == first_run.total
+    if not original_ok:
         report["problems"].append(f"original_fails:{first_run.error_class or ''}:{first_run.passed}/{first_run.total}")
+        statements = check_statements(test)
+        failing = [i for i, (_c, ok) in enumerate(first_run.checks) if not ok]
+        # assertion i maps to the i-th assertion statement when every statement ran exactly once
+        aligned = len(statements) + (frozen or "").count('check_equal("differential"') == first_run.total
+        report["original_failing_assertions"] = [
+            {"index": i + 1, "category": first_run.checks[i][0],
+             **({"statement": statements[i][1][:300]} if aligned and i < len(statements) else {})}
+            for i in failing[:20]]
+        if first_run.error:
+            report["original_error"] = first_run.error
     if len(outcomes) != 1:
         report["problems"].append("nondeterministic_original")
     if first_run.total < MIN_CHECKS:
@@ -263,6 +285,11 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     if len(categories) < MIN_CATEGORIES:
         report["problems"].append(f"too_few_categories:{len(categories)}")
     expected = first_run.total
+    if not original_ok:
+        report["verdict"] = "fail"
+        report["mutants"] = {"note": "not run: the original fails"}
+        (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
+        return report
     stub = harness.run(ExecJob(stub_unit(unit), suite, expect, TIMEOUT, "stub"))
     stub_share = stub.passed / expected if expected else 1.0
     report["stub_pass_share"] = round(stub_share, 3)
@@ -294,8 +321,8 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
             kills += 1
             cell[0] += 1
         else:
-            changed = [line for line in mutant.text.split("\n")[mutant.line1 - 1:mutant.line1 + 1]][:2]
-            survivors.append({**mutant.to_dict(), "mutated_lines": changed})
+            survivors.append({**mutant.to_dict(), "original_lines": list(mutant.original),
+                              "mutated_lines": list(mutant.replacement)})
     rate = kills / valid if valid else 0.0
     report["mutants"] = {"generated": len(all_mutants), "sampled": len(chosen), "invalid": invalid,
                          "declared_equivalent": declared, "valid": valid, "killed": kills,
@@ -315,10 +342,11 @@ def function_dirs(paths: Sequence[Path]) -> list[Path]:
     out = []
     for path in paths:
         if (path / "source.R").is_file() and (path / "meta.json").is_file():
-            if (path / "test.R").is_file():
+            if (path / "test.R").is_file() and not (path / "SKIP").exists():
                 out.append(path)
         else:
-            out += sorted(p.parent for p in path.glob("*/test.R") if (p.parent / "source.R").is_file())
+            out += sorted(p.parent for p in path.glob("*/test.R")
+                          if (p.parent / "source.R").is_file() and not (p.parent / "SKIP").exists())
     return out
 
 
@@ -337,7 +365,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             except Exception as error:  # noqa: BLE001 - one broken directory must not stop a slice
                 report = {"verdict": "error", "problems": [f"{type(error).__name__}: {error}"]}
                 (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
-            passed += report["verdict"] == "pass"
+            passed += report["verdict"] in ("pass", "skip")
             mutants = report.get("mutants", {})
             print(f"{report['verdict']:5} {directory.name} checks={report.get('checks')} "
                   f"kill={mutants.get('killed')}/{mutants.get('valid')} stub={report.get('stub_pass_share')} "

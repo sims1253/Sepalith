@@ -41,6 +41,12 @@ REL = {"<": ">=", ">=": "<", ">": "<=", "<=": ">", "==": "!=", "!=": "=="}
 ARITH = {"+": "-", "-": "+", "*": "/", "/": "*", "^": "*", "%%": "%/%", "%/%": "%%"}
 LOGIC = {"&&": "||", "||": "&&", "&": "|", "|": "&"}
 NA_FUNS = {"is.na", "complete.cases", "anyNA", "is.null", "is.finite", "is.nan"}
+SYMMETRIC = {"max", "min", "sum", "prod", "pmax", "pmin", "all", "any", "identical", "range", "isTRUE", "xor",
+             "all.equal", "setequal", "intersect", "union", "rbind", "cbind"}
+# calls whose string and logical arguments are message text or message options (`call. = FALSE`): their
+# mutants only change wording or printing (tests pin a distinctive word at most), so they are not generated
+MESSAGE_CALLS = {"stop", "warning", "message", "cat", "print", "simpleError", "simpleWarning", "warningCondition",
+                 "errorCondition", "packageStartupMessage", "signalCondition", "stopifnot"}
 STMT_TOKENS = {"expr", "equal_assign", "expr_or_assign_or_help"}
 
 
@@ -64,6 +70,8 @@ class Mutant:
     line2: int
     description: str
     text: str
+    original: tuple[str, ...] = ()
+    replacement: tuple[str, ...] = ()
 
     def to_dict(self) -> dict:
         return {"id": self.id, "op": self.op, "lines": [self.line1, self.line2], "description": self.description}
@@ -117,7 +125,8 @@ class _Builder:
             return
         self.seen.add(key)
         mid = hashlib.sha256(f"{op}\0{line1}\0{line2}\0{description}".encode()).hexdigest()[:10]
-        self.out[mid] = Mutant(mid, op, line1, line2, description, text if text.endswith("\n") else text + "\n")
+        self.out[mid] = Mutant(mid, op, line1, line2, description, text if text.endswith("\n") else text + "\n",
+                               tuple(self.lines[line1 - 1:line2]), tuple(new_lines))
 
     def replace_span(self, op: str, tok: Token, replacement: str, description: str) -> None:
         if tok.line1 != tok.line2:
@@ -162,6 +171,8 @@ def generate(unit: str, tokens: list[Token]) -> list[Mutant]:
         elif tok.token == "'!'":
             b.replace_span("logical", tok, "", "drop !")
         elif tok.token == "NUM_CONST":
+            if text in ("TRUE", "FALSE") and _in_message_call(tok, by_id, children, b):
+                continue
             if text in ("TRUE", "FALSE"):
                 flip = "FALSE" if text == "TRUE" else "TRUE"
                 b.replace_span("constant", tok, flip, f"{text} -> {flip}")
@@ -170,7 +181,8 @@ def generate(unit: str, tokens: list[Token]) -> list[Mutant]:
                 b.replace_span("constant", tok, f"{value}{'L' if text.endswith('L') else ''}", f"{text} -> +1")
             elif re.fullmatch(r"(\d+\.\d*|\.\d+|\d+)([eE][-+]?\d+)?", text):
                 b.replace_span("constant", tok, f"({text} * 2)", f"{text} -> x2")
-        elif tok.token == "STR_CONST" and len(text) >= 2 and text[0] in "\"'":
+        elif tok.token == "STR_CONST" and len(text) >= 2 and text[0] in "\"'" \
+                and not _in_message_call(tok, by_id, children, b):
             q = text[0]
             b.replace_span("constant", tok, f"{text[:-1]}_m{q}" if len(text) > 2 else f"{q}m{q}", "string altered")
         elif tok.token == "SYMBOL_FUNCTION_CALL" and text in NA_FUNS:
@@ -200,16 +212,23 @@ def generate(unit: str, tokens: list[Token]) -> list[Mutant]:
                 if not whole:
                     continue
                 block = lines[stmt.line1 - 1:stmt.line2]
-                b.add("statement_delete", stmt.line1, stmt.line2, [], f"delete statement at line {stmt.line1}")
+                stmt_text = b.text_of(stmt).strip()
+                returned = re.fullmatch(r"(?:return\()?\s*([A-Za-z.][A-Za-z0-9._]*)\s*\)?", stmt_text)
+                previous = b.text_of(stmts[position - 1]) if position > 0 else ""
+                trailing_echo = (position == len(stmts) - 1 and returned is not None and previous
+                                 and re.match(r"^\s*" + re.escape(returned.group(1)) + r"\s*(<-|=)(?!=)", previous))
+                if not trailing_echo:
+                    b.add("statement_delete", stmt.line1, stmt.line2, [], f"delete statement at line {stmt.line1}")
                 if stmt.line2 - stmt.line1 <= 2 and _self_update(b.text_of(stmt)):
                     b.add("statement_duplicate", stmt.line1, stmt.line2, [*block, *block],
                           f"duplicate statement at line {stmt.line1}")
                 if node.parent and by_id.get(node.parent) and _is_function_body(node, by_id, children) and position > 0:
                     indent = re.match(r"\s*", first).group(0)  # type: ignore[union-attr]
-                    b.add("early_return", stmt.line1, stmt.line1, [indent + "return(NULL)", first],
-                          f"return(NULL) before line {stmt.line1}")
-                    if formals:
-                        name = b.text_of(formals[0])
+                    if stmt_text not in ("NULL", "return(NULL)", "invisible(NULL)"):
+                        b.add("early_return", stmt.line1, stmt.line1, [indent + "return(NULL)", first],
+                              f"return(NULL) before line {stmt.line1}")
+                    name = b.text_of(formals[0]) if formals else None
+                    if name and stmt_text not in (name, f"return({name})", f"invisible({name})"):
                         b.add("early_return", stmt.line1, stmt.line1, [indent + f"return({name})", first],
                               f"return({name}) before line {stmt.line1}")
         # calls: swap the first two positional arguments; subscripts
@@ -223,6 +242,10 @@ def generate(unit: str, tokens: list[Token]) -> list[Mutant]:
                 elif k.token == "expr" and not named:
                     args.append(k)
             depth += 1
+            head = children.get(kids[0].id, [])
+            fname = b.text_of(head[0]) if head and head[0].token == "SYMBOL_FUNCTION_CALL" else ""
+            if fname in SYMMETRIC:
+                args = []
             if len(args) >= 2 and args[0].line1 == args[0].line2 == args[1].line1 == args[1].line2:
                 a, c = args[0], args[1]
                 line = lines[a.line1 - 1]
@@ -234,6 +257,21 @@ def generate(unit: str, tokens: list[Token]) -> list[Mutant]:
             if len(inner) == 1 and inner[0].token in ("SYMBOL", "NUM_CONST") and sub.line1 == sub.line2:
                 b.replace_span("indexing", sub, f"{b.text_of(sub)} + 1", "subscript + 1")
     return list(b.out.values())
+
+
+def _in_message_call(tok: Token, by_id: dict[int, Token], children: dict[int, list[Token]], b: _Builder) -> bool:
+    """True when the token sits (within 4 levels) inside a stop()/warning()/message()-style call."""
+    node = by_id.get(tok.parent)
+    for _ in range(5):
+        if node is None:
+            return False
+        kids = children.get(node.id, [])
+        if len(kids) >= 2 and kids[0].token == "expr" and kids[1].token == "'('":
+            head = children.get(kids[0].id, [])
+            if head and head[0].token == "SYMBOL_FUNCTION_CALL" and b.text_of(head[0]) in MESSAGE_CALLS:
+                return True
+        node = by_id.get(node.parent)
+    return False
 
 
 def _self_update(text: str) -> bool:

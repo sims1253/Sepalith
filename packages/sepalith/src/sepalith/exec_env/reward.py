@@ -75,6 +75,11 @@ class ExecRewardConfig:
     w_all: float = 0.5
     exact_bonus: float = 0.0
     max_completion_tokens: int = 1024
+    # completions much longer than the reference remainder are scaled down: code that is dead under the
+    # suite (extra branches, attribute writes from fields fake inputs lack) would otherwise pass for free
+    overlong_factor: float = 2.0
+    overlong_slack: int = 6
+    overlong_scale: float = 0.5
 
     def __post_init__(self) -> None:
         if min(self.w_behaviour, self.w_all, self.exact_bonus) < 0 or self.w_behaviour + self.w_all <= 0:
@@ -238,11 +243,17 @@ class ExecReward:
                 continue
             pending.append((index, task, body))
             jobs.append(ExecJob(task.splice(body), task.suite, task.expect, task.timeout, f"{task_id}:{index}"))
-        for (index, task, _body), result in zip(pending, self.harness.run_many(jobs), strict=True):
+        for (index, task, body_lines), result in zip(pending, self.harness.run_many(jobs), strict=True):
             record = records[index]
             reward, outcome, info = score_result(task, result, self.config)
             if self.config.exact_bonus and record["exact_match"]:
                 reward += self.config.exact_bonus
+            lines = sum(1 for line in body_lines if line.strip())
+            gold_lines = sum(1 for line in task.target_body_text.split("\n") if line.strip())
+            if self.config.overlong_scale < 1 and lines > max(self.config.overlong_factor * gold_lines,
+                                                               gold_lines + self.config.overlong_slack):
+                reward *= self.config.overlong_scale
+                record["overlong"] = {"lines": lines, "gold_lines": gold_lines}
             record.update(reward=round(min(1.0, reward), 6), outcome=outcome, exact=bool(info.get("all_pass")),
                           execution=info)
         return records

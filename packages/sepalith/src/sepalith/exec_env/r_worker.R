@@ -117,7 +117,10 @@ local({
     tests <- new.env(parent = lib)
     for (n in ls(cand, all.names = TRUE)) assign(n, get(n, envir = cand), envir = tests)
     lockEnvironment(lib, bindings = TRUE)
-    lockEnvironment(globalenv(), bindings = TRUE)
+    # No new global bindings (a candidate cannot plant replacements for test helpers there); the
+    # RNG state `.Random.seed` must exist first and stays writable so tests can call set.seed().
+    if (!exists(".Random.seed", envir = globalenv(), inherits = FALSE)) set.seed(0L)
+    lockEnvironment(globalenv())
     texprs <- tryCatch(parse(text = test, keep.source = FALSE), error = function(e) e)
     if (inherits(texprs, "error")) return(fail("test_parse_error", texprs))
     first <- NULL

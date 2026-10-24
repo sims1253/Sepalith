@@ -12,6 +12,10 @@
 #   check_error(cat, expr, class=, pattern=) expr must signal an error of that class
 #                                            and/or with a message matching pattern
 #   check_warning(cat, expr, pattern=)       expr must signal a matching warning
+#
+# strict(x, class = NULL): a fake object (list) whose `$` and `[[` raise an error for
+# any field it does not have, so code that reads fields the real object would carry
+# cannot pass silently on NULL. Its class is c(class, "exec_strict").
 .exec_state <- new.env(parent = emptyenv())
 .exec_state$category <- character()
 .exec_state$ok <- logical()
@@ -77,5 +81,21 @@ check_warning <- function(category, expr, pattern = NULL) {
   ok <- !is.null(cond) && (is.null(pattern) || grepl(pattern, conditionMessage(cond)))
   .exec_record(category, ok)
 }
+
+strict <- function(x, class = NULL) {
+  if (!is.list(x)) stop("strict() needs a list", call. = FALSE)
+  structure(x, class = unique(c(class, "exec_strict")))
+}
+
+.exec_strict_get <- function(x, i) {
+  fields <- names(unclass(x))
+  if (is.character(i) && length(i) == 1L && !i %in% fields) {
+    stop("exec-env strict object has no field '", i, "'", call. = FALSE)
+  }
+  unclass(x)[[i]]
+}
+
+registerS3method("$", "exec_strict", function(x, name) .exec_strict_get(x, name), envir = baseenv())
+registerS3method("[[", "exec_strict", function(x, i, ...) .exec_strict_get(x, i), envir = baseenv())
 
 .exec_log <- function() list(category = .exec_state$category, ok = .exec_state$ok)

@@ -25,6 +25,15 @@ share a package. The materialised working tree is
     meta.json   package, path, name, helpers, formals, shape. Read-only.
 ```
 
+The manifest holds 472 training slices (`S000`-`S471`, 74-198 functions,
+median 100; 47,607 functions from 6,590 packages) and 8 hold-out slices
+(`H000`-`H007`, 800 functions from 206 packages). Take slices in id order:
+the order is a hash shuffle, so the first slices are a representative mix.
+At about 10 surviving cuts per gated function, 15 to 30 slices give the
+12k-30k tasks a ~1,500-update GRPO run needs. Functions with a `PILOT` file
+already have tests from the pilot: re-run the gate and review them, rewrite
+only if they fail.
+
 Claim exactly one slice at a time, atomically:
 
 ```sh
@@ -44,7 +53,8 @@ apart).
 No git. Don't copy files elsewhere. Don't edit `source.R` or `meta.json`. If a
 function is unusable, write `SKIP` in its directory with one line saying why
 (`nondeterministic`, `needs a package that is not installed`, `function is
-broken on every input`, `trivial: no behaviour to test`), and move on.
+broken on every input`, `output only: behaviour is printed text`, `trivial: no
+behaviour to test`), and move on. The gate ignores directories with `SKIP`.
 
 ## 2. What to write
 
@@ -131,6 +141,15 @@ requires:
    (`mutants.survivors`, with the mutated line): read them, then add an input
    that tells the mutant apart from the original.
 
+The gate does not generate mutants that only change message wording (strings
+and `call.` flags inside `stop()`, `warning()`, `message()`, `cat()`,
+`print()`, ...), swaps of symmetric arguments (`max`, `sum`, `identical`,
+...), or deletions of a trailing `x` / `return(x)` right after `x <- ...`.
+Output-only methods (`print.*`, `plot.*`, `show`, ...) are skipped
+automatically (`verdict: skip`). When the original fails, `gate.json` lists
+the failing assertions (`original_failing_assertions`, with the statement text
+when it can be mapped) and does not run mutants.
+
 ## 4. Quality bar
 
 - **Assert values, not shapes.** Compute expected outputs by reading the code
@@ -159,6 +178,36 @@ requires:
   such assertions (they are often the behaviour that matters), but prefer
   assertions about values over assertions about exact message text, so more
   cuts survive.
+- **The original is the specification, within reason.** Pin what the visible
+  code clearly intends and callers rely on. Leave accidental quirks of the
+  original untested (an `NA` column name past some size, an obviously wrong
+  corner case): a correct rewrite should not be punished for fixing them.
+- **Fake objects and S3**: build minimal lists/data frames with exactly the
+  fields the function reads and set `class()` as needed. Prefer
+  `strict(list(...), class = "foo")` (from `testlib.R`): its `$` and `[[`
+  raise an error for any field the fake lacks. With a plain list, a completion
+  that reads fields the real object would carry (and writes them into
+  attributes, say) sees `NULL` and passes; in the pilot, arm A did exactly
+  that. Use a plain list only when the function itself probes for optional
+  fields (`is.null(x$opt)`).
+- **Dead code**: model completions sometimes add branches that never run on
+  your inputs. Cover every argument the function reads with at least one
+  non-default value, so code guarded by those arguments is exercised. Methods you define in
+  `test.R` are not visible to dispatch from the function; register them with
+  `registerS3method("generic", "class", function(...) ...)` or use real base
+  or stats objects.
+- **Messages and warnings**: the helpers suppress warnings (except
+  `check_warning`), so `options(warn = ...)` effects are not observable; don't
+  try. A `message()` can be made observable with
+  `withCallingHandlers(expr, message = function(m) stop(conditionMessage(m)))`
+  inside `check_error`.
+- **Randomness**: call `set.seed()` in `test.R` before any random draw (also
+  before calling a function that draws internally).
+- **Visibility**: `withVisible(f(x))$visible` is allowed when callers depend
+  on invisible returns; otherwise don't test it.
+- **Names in tests**: don't give test variables the names of base functions
+  (`single`, `c`, `t`, `df`): if an earlier statement fails, the base object
+  is found instead and assertions can pass by accident.
 - Keep the suite fast: well under 1 s for the whole file. No large
   simulations, no `Sys.sleep`.
 - Tests are hidden from the model and never appear in prompts. Do not put

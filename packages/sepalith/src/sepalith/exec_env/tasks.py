@@ -162,6 +162,25 @@ def finish_cases(meta: dict, unit_text: str) -> list[tuple[Case, int, int]]:
     return out
 
 
+def _code_part(line: str) -> str:
+    """The line's code with string literals blanked and the comment removed."""
+    from sepalith.data.synth.common import STRING_RE
+    return STRING_RE.sub(lambda m: '"' + " " * (len(m.group(0)) - 2) + '"', split_comment(line)[0])
+
+
+def _rename_code(line: str, pattern: re.Pattern[str], new: str) -> str:
+    """Rename matches outside string literals and comments."""
+    from sepalith.data.synth.common import STRING_RE
+    code, comment = split_comment(line)
+    out, last = [], 0
+    for literal in STRING_RE.finditer(code):
+        out.append(pattern.sub(new, code[last:literal.start()]))
+        out.append(literal.group(0))
+        last = literal.end()
+    out.append(pattern.sub(new, code[last:]))
+    return "".join(out) + comment
+
+
 RENAME_STYLES = ("{}2", "{}_new", "new_{}", "{}_val")
 
 
@@ -190,9 +209,8 @@ def rename_cases(meta: dict, unit_text: str, limit: int = 2) -> list[tuple[Case,
         old = match.group(2)
         seen.add(old)
         pattern = re.compile(word.format(re.escape(old)))
-        uses = [j for j in range(index + 1, unit.end) if pattern.search(split_comment(lines[j])[0])
-                and '"' not in lines[j] and "'" not in lines[j]]
-        if len(uses) < 2 or '"' in lines[index] or "'" in lines[index]:
+        uses = [j for j in range(index + 1, unit.end) if pattern.search(_code_part(lines[j]))]
+        if len(uses) < 2 or pattern.search(_code_part(lines[index])[match.end():]):
             continue
         new = rng.choice(RENAME_STYLES).format(old)
         if re.search(word.format(re.escape(new)), unit_text):
@@ -203,12 +221,12 @@ def rename_cases(meta: dict, unit_text: str, limit: int = 2) -> list[tuple[Case,
     package_id, rel_path = f"exec:{meta['package']}", meta["path"]
     for index, old, new, uses in found[:limit]:
         pattern = re.compile(word.format(re.escape(old)))
-        renamed_def = re.sub(r"^(\s*)" + re.escape(old), lambda m: m.group(1) + new, lines[index], count=1)
+        renamed_def = re.sub(r"^(\s*)" + re.escape(old), lambda m, new=new: m.group(1) + new, lines[index], count=1)
         before = (*lines,)
         after_event = list(lines)
         after_event[index] = renamed_def
         region = uses[0]
-        target_line = pattern.sub(new, lines[region])
+        target_line = _rename_code(lines[region], pattern, new)
         event = Event(rel_path, before, index, (lines[index],), (renamed_def,))
         start = (unit.roxygen[0] if unit.roxygen else unit.start) - 1
         doc = tuple(after_event)
@@ -219,7 +237,7 @@ def rename_cases(meta: dict, unit_text: str, limit: int = 2) -> list[tuple[Case,
                           "bucket": "short", "variant": "history"})
         exec_lines = list(after_event)
         for j in uses[1:]:
-            exec_lines[j] = pattern.sub(new, exec_lines[j])
+            exec_lines[j] = _rename_code(exec_lines[j], pattern, new)
         out.append((case, region, region + 1, {"exec_lines": exec_lines, "old": old, "new": new}))
     return out
 

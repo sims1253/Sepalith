@@ -35,8 +35,8 @@ import time
 from sepalith.campaign_protocol import serialize_target
 from sepalith.data.synth.common import split_comment
 from sepalith.exec_env import mutants as mutants_module
-from sepalith.exec_env.harness import ExecHarness, ExecJob
-from sepalith.exec_env.reward import ExecReward, ExecTask, load_tasks
+from sepalith.exec_env.harness import ExecHarness
+from sepalith.exec_env.reward import ExecReward, load_tasks
 
 GGUF = Path("/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf")
 PARENT_TOKENIZER = Path("/mnt/e/sepalith/campaign-20260915/checkpoints/SFT11-resume-20260921/full/checkpoint-11586/tokenizer.json")
@@ -70,19 +70,19 @@ def alt_variants(task: dict) -> dict[str, list[str]]:
         if word.search(prefix) or word.search(after) or len(name) < 2:
             continue
         new = name + "_v"
-        alt = [word.sub(new, l) if '"' not in l and "'" not in l else None for l in target]
+        alt = [word.sub(new, ln) if '"' not in ln and "'" not in ln else None for ln in target]
         if None in alt or alt == target:
             continue
         out["alt_rename"] = alt  # type: ignore[assignment]
         break
-    lasts = [i for i, l in enumerate(target) if not CLOSER.match(l)]
+    lasts = [i for i, ln in enumerate(target) if not CLOSER.match(ln)]
     if lasts:
         i = lasts[-1]
         indent = re.match(r"\s*", target[i]).group(0)  # type: ignore[union-attr]
         out["alt_comment"] = [*target[:i], f"{indent}# result", *target[i:]]
         last = target[i]
         code = split_comment(last)[0].strip()
-        is_final = i + 1 < len(target) and target[i + 1] == "}" and all(CLOSER.match(l) for l in target[i + 1:])
+        is_final = i + 1 < len(target) and target[i + 1] == "}" and all(CLOSER.match(ln) for ln in target[i + 1:])
         if (is_final and re.fullmatch(r"[A-Za-z.][A-Za-z0-9._]*(\[[^\]]*\])?|[A-Za-z.][\w.]*\([^()]*\)", code)
                 and not code.startswith(("return(", "stop(", "invisible(", "warning(", "message("))):
             out["alt_return"] = [*target[:i], f"{indent}return({code})", *target[i + 1:]]
@@ -92,7 +92,7 @@ def alt_variants(task: dict) -> dict[str, list[str]]:
 def broken_variants(task: dict, unit_cache: dict[str, list]) -> dict[str, list[str] | str]:
     target = body_lines(task)
     out: dict[str, list[str] | str] = {}
-    closers = [l for l in target if CLOSER.match(l) and l.strip()]
+    closers = [ln for ln in target if CLOSER.match(ln) and ln.strip()]
     if closers and task["family"] == "finish_block":
         out["broken_truncated"] = closers
     gold = task["exec"]["gold_text"]
@@ -126,6 +126,50 @@ def text_for(lines: list[str] | str, task: dict) -> str:
     if lines == "INVALID":
         return task["target_body_text"] + "\n"
     return serialize_target("replace", lines)  # type: ignore[arg-type]
+
+
+# --------------------------------------------------------------------------- gate statistics
+def gate_stats(root: Path) -> dict:
+    """Aggregate gate.json files: verdicts, assertion counts, kill rates with and without declared equivalents."""
+    verdicts: Counter = Counter()
+    skips: Counter = Counter()
+    checks, rates, raw_rates, stubs = [], [], [], []
+    by_op: dict[str, list[int]] = defaultdict(lambda: [0, 0])
+    totals = Counter()
+    for directory in sorted(p for p in root.glob("*/*") if (p / "meta.json").is_file()):
+        if (directory / "SKIP").exists():
+            verdicts["skip"] += 1
+            skips[(directory / "SKIP").read_text().strip().split(":")[0].split()[0].lower()[:40]] += 1
+            continue
+        gate_path = directory / "gate.json"
+        if not gate_path.is_file():
+            verdicts["no_test"] += 1
+            continue
+        gate = json.loads(gate_path.read_text())
+        verdicts[gate["verdict"]] += 1
+        if gate["verdict"] == "skip":
+            skips[";".join(gate["problems"])] += 1
+        if gate["verdict"] != "pass":
+            continue
+        m = gate["mutants"]
+        checks.append(gate["checks"])
+        stubs.append(gate["stub_pass_share"])
+        rates.append(m["kill_rate"])
+        raw_rates.append(m["killed"] / (m["valid"] + m["declared_equivalent"]))
+        for key in ("generated", "sampled", "invalid", "declared_equivalent", "valid", "killed"):
+            totals[key] += m[key]
+        for op, cell in m["by_op"].items():
+            by_op[op][0] += cell["killed"]
+            by_op[op][1] += cell["valid"]
+    return {"verdicts": dict(verdicts), "skip_reasons": dict(skips),
+            "assertions_median": statistics.median(checks) if checks else None,
+            "assertions_min": min(checks, default=None),
+            "kill_rate_median": statistics.median(rates) if rates else None, "kill_rate_min": min(rates, default=None),
+            "kill_rate_with_equivalents_as_survivors_median": statistics.median(raw_rates) if raw_rates else None,
+            "kill_rate_with_equivalents_as_survivors_min": round(min(raw_rates), 3) if raw_rates else None,
+            "stub_pass_share_max": max(stubs, default=None), "mutant_totals": dict(totals),
+            "pooled_kill_rate": round(totals["killed"] / totals["valid"], 4) if totals["valid"] else None,
+            "kill_by_op": {op: {"killed": k, "valid": v, "rate": round(k / v, 3)} for op, (k, v) in sorted(by_op.items())}}
 
 
 # --------------------------------------------------------------------------- pilot selection
@@ -284,6 +328,8 @@ def command_score(args: argparse.Namespace) -> int:
     job_walls = sorted(r.get("execution", {}).get("elapsed", 0.0) for r in results if r.get("execution"))
     harness.close()
     receipt = summarize(rows, results, gold_token, latencies, job_walls, text_seconds, len(text_items), harness)
+    if args.root:
+        receipt["gate"] = gate_stats(args.root)
     args.receipt.write_text(json.dumps(receipt, indent=1) + "\n")
     if args.records:
         with args.records.open("w") as stream:
@@ -362,6 +408,7 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--records", type=Path)
     c.add_argument("--workers", type=int, default=8)
     c.add_argument("--batches", type=int, default=30)
+    c.add_argument("--root", type=Path, help="author root whose gate.json files are summarised")
     p = sub.add_parser("select")
     p.add_argument("--pool", type=Path, required=True)
     p.add_argument("--slices", type=Path, required=True)

@@ -60,12 +60,12 @@ def replace_body(unit: str, old: str, new: str) -> str:
 @unittest.skipUnless(HAS_R, "needs Rscript")
 class HarnessTests(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         from sepalith.exec_env.harness import ExecHarness
         cls.harness = ExecHarness(workers=2)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         cls.harness.close()
 
     def run_one(self, source: str, timeout: float = 3.0):
@@ -101,6 +101,20 @@ class HarnessTests(unittest.TestCase):
         # empty-input early return (which never reaches the plant) still pass
         self.assertEqual(self.run_one(planted).passed, 2)
 
+    def test_seeded_rng_works_in_tests(self):
+        from sepalith.exec_env.harness import ExecJob
+        test = 'set.seed(1)\nx <- runif(3)\nset.seed(1)\ncheck("rng", identical(runif(3), x))\n'
+        result = self.harness.run(ExecJob(UNIT, test, EXPECT, 3.0, "rng"))
+        self.assertEqual((result.passed, result.total), (1, 1))
+
+    def test_strict_fakes_reject_unknown_fields(self):
+        from sepalith.exec_env.harness import ExecJob
+        src = "f <- function(o) {\n  o$a + 1\n}\ng <- function(o) {\n  o$a + length(o$extra)\n}\n"
+        test = ('o <- strict(list(a = 1), class = "thing")\ncheck_equal("s", f(o), 2)\ncheck_error("s", g(o))\n'
+                'check_equal("s", g(list(a = 1)), 1)\ncheck("s", inherits(o, "thing"))\n')
+        result = self.harness.run(ExecJob(src, test, ("f", "g"), 3.0, "strict"))
+        self.assertEqual((result.passed, result.total), (4, 4))
+
     def test_filesystem_and_network_are_closed(self):
         if not self.harness.sandbox:
             self.skipTest("no user namespaces")
@@ -131,7 +145,7 @@ class MutantTests(unittest.TestCase):
 @unittest.skipUnless(HAS_R and HAS_AIR, "needs Rscript and air")
 class GateTaskRewardTests(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         from sepalith.exec_env.harness import ExecHarness
         cls.harness = ExecHarness(workers=2)
         cls.tmp = tempfile.mkdtemp(prefix="sepalith-exec-test-")
@@ -143,7 +157,7 @@ class GateTaskRewardTests(unittest.TestCase):
                                                           "formals": ["scores", "cut"]}))
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         cls.harness.close()
         shutil.rmtree(cls.tmp, ignore_errors=True)
 
@@ -196,6 +210,8 @@ class GateTaskRewardTests(unittest.TestCase):
             "quit": serialize_target("replace", ['  quit("no")', "}"]),
             "escape": serialize_target("replace", [*target, "identical <- function(...) TRUE"]),
             "syntax": serialize_target("replace", [*target[:-1], "  out(", "}"]),
+            "padded": serialize_target("replace", [target[0], "  if (FALSE) {",
+                                                   *[f"    unused_{i} <- {i}" for i in range(10)], "  }", *target[1:]]),
             "noop": serialize_target("no_op", []),
             "invalid": "  total <- length(scores)\n",
         }
@@ -209,6 +225,8 @@ class GateTaskRewardTests(unittest.TestCase):
         self.assertEqual(records["escape"]["outcome"], "structure_violation")
         self.assertEqual(records["syntax"]["outcome"], "applied_syntax_invalid")
         self.assertEqual(records["noop"]["outcome"], "missed_edit")
+        self.assertEqual(records["padded"]["reward"], 0.5)  # all assertions pass, overlong guard halves it
+        self.assertIn("overlong", records["padded"])
         self.assertEqual(records["invalid"]["reward"], -0.5)
 
 
