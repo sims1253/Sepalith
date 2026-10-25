@@ -221,6 +221,14 @@ class GateTaskRewardTests(unittest.TestCase):
                                       ("check_error", 'check_error("v", f(1), class = "myPkgError")')])
         self.assertEqual(found, ["class=simpleError without a pattern", "length"])
 
+    def test_own_and_anchored_messages_allowed(self):
+        from sepalith.exec_env.gate import loose_error_patterns
+        unit = 'f <- function(x) {\n  if (all(is.na(x))) stop("all times contain an NA")\n  x\n}\n'
+        statements = [("check_error", 'check_error("v", f(NA), pattern = "all times contain an NA")'),
+                      ("check_error", 'check_error("v", f(NA), pattern = "^missing values and NaN\'s not allowed if \'na.rm\' is FALSE$")'),
+                      ("check_error", 'check_error("v", f(NA), pattern = "NA")')]
+        self.assertEqual(loose_error_patterns(statements, unit), ["NA"])
+
     def test_loose_error_pattern_flagged(self):
         report = self.gate(TEST.replace('pattern = "scores must be numeric"', 'pattern = "numeric"'))
         self.assertTrue(any(p.startswith("error_pattern_matches_r_message") for p in report["problems"]))

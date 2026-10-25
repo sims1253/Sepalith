@@ -39,12 +39,17 @@ A test file passes when all of these hold:
    the function is recorded and perturbed. Each declared equivalent must match
    the original on all of these inputs (value, class, attributes, NA/NaN,
    error vs value, warning or not; inputs the original rejects and inputs
-   inside a ``SCOPED[cond]``/``BUGFIX[cond]`` condition are excluded). Every
+   inside a ``SCOPED[cond]``/``BUGFIX[cond]``/``QUIRK[cond]`` condition are excluded; PRINT
+   entries are replayed too). Every
    argument the body reads takes 2+ distinct supplied values (a logical flag:
    its non-default value once), no two arguments are always equal, and
    one-nonzero-per-row/column matrix fixtures draw a warning. A generic
    condition class (``simpleError``, ...) does not exempt a ``check_error``
-   pattern from the R-message check.
+   pattern from the R-message check; the function's own message text (2+ words
+   matching a literal in the unit) and anchored full messages (3+ words) do.
+   Returned closures are compared by behaviour on probe inputs; ``call``,
+   ``terms`` and ``heading`` values are ignored unless the suite reads them.
+   ``gate.json`` records ``gate_version`` (name, commit, source fingerprint).
 
 Optional frozen differential cases: if ``test.R`` defines
 ``exec_cases <- function() list(list(<args>), ...)`` (seeded RNG allowed), the
@@ -69,6 +74,28 @@ from sepalith.exec_env import mutants as mutants_module
 from sepalith.exec_env.harness import SANDBOX, TESTLIB, ExecHarness, ExecJob, ExecResult, namespaces_available
 
 GATE_SCHEMA = "sepalith.exec-env.gate.v1"
+GATE_VERSION_NAME = "v3"
+_GATE_VERSION: dict | None = None
+
+
+def gate_version() -> dict:
+    """The gate's identity for freezes: name, git commit (and whether exec_env files differ from it) and a
+    sha256 fingerprint of the exec_env sources (gate, mutants, harness, R scripts, testlib, sandbox)."""
+    global _GATE_VERSION
+    if _GATE_VERSION is None:
+        import hashlib
+        here = Path(__file__).resolve().parent
+        digest = hashlib.sha256()
+        for path in sorted(here.iterdir()):
+            if path.suffix in (".py", ".R", ".sh"):
+                digest.update(path.name.encode() + b"\0" + path.read_bytes() + b"\0")
+        commit = subprocess.run(["git", "-C", str(here), "rev-parse", "HEAD"], capture_output=True, text=True,
+                                check=False).stdout.strip() or None
+        dirty = subprocess.run(["git", "-C", str(here), "status", "--porcelain", "--", "."], capture_output=True,
+                               text=True, check=False).stdout.strip()
+        _GATE_VERSION = {"name": GATE_VERSION_NAME, "commit": commit, "exec_env_modified": bool(dirty),
+                         "fingerprint": digest.hexdigest()[:16]}
+    return _GATE_VERSION
 MIN_HAND_CHECKS = 12  # hand-written assertions; frozen differential cases do not count
 MIN_CATEGORIES = 3  # hand-written categories ("differential" does not count)
 MIN_PER_CATEGORY = 2
@@ -155,9 +182,26 @@ def r_messages() -> list[str]:
 ERROR_PATTERN = re.compile(r"pattern\s*=\s*\"((?:[^\"\\]|\\.)*)\"")
 
 
-def loose_error_patterns(statements: list[tuple[str, str]]) -> list[str]:
-    """``check_error`` patterns (without ``class``) that also match one of R's own messages."""
+def _pattern_words(pattern: str) -> int:
+    return len(re.sub(r"\\.|[\^$.*+?()\[\]{}|]", " ", pattern).split())
+
+
+def _own_literals(unit: str) -> list[str]:
+    """String literals in the unit's code (comments removed): the messages the function itself raises."""
+    from sepalith.data.synth.common import STRING_RE, strip_comment
+    return [m[1:-1] for line in unit.split("\n") for m in STRING_RE.findall(strip_comment(line))]
+
+
+def loose_error_patterns(statements: list[tuple[str, str]], unit: str = "") -> list[str]:
+    """``check_error`` patterns (without a specific ``class``) that also match one of R's own messages.
+
+    Allowed despite a catalog match: a pattern of 2+ words that matches a string literal of the
+    function's own file (its own ``stop()``/``stopifnot``/``match.arg`` text), and an anchored
+    pattern (``^...$``) of 3+ words that spells out a full message (a deliberately delegated error).
+    Bare generic words are always rejected.
+    """
     messages = r_messages()
+    literals = _own_literals(unit)
     out = []
     for helper, text in statements:
         if helper != "check_error":
@@ -175,6 +219,11 @@ def loose_error_patterns(statements: list[tuple[str, str]]) -> list[str]:
                 compiled = re.compile(pattern)
             except re.error:
                 continue
+            words = _pattern_words(pattern)
+            if words >= 2 and any(compiled.search(literal) for literal in literals):
+                continue  # the function's own message
+            if words >= 3 and pattern.startswith("^") and pattern.endswith("$"):
+                continue  # an anchored full message (a deliberately delegated error)
             if any(compiled.search(message) for message in messages):
                 out.append(raw)
     return sorted(set(out))
@@ -195,7 +244,7 @@ def static_checks(test: str, unit: str, target_text: str) -> tuple[list[str], di
     share = shape / len(statements) if statements else 1.0
     if statements and share > MAX_SHAPE_SHARE:
         problems.append(f"shape_only_share:{share:.2f}")
-    loose = loose_error_patterns(statements)
+    loose = loose_error_patterns(statements, unit)
     if loose:
         problems.append("error_pattern_matches_r_message:" + "|".join(loose)[:200])
     body_tokens = dedup.text_tokens([line for line in target_text.split("\n") if not line.lstrip().startswith("#")])
@@ -239,12 +288,13 @@ def top_names(unit: str, names: Sequence[str]) -> tuple[str, ...]:
 
 R_DIFF = Path(__file__).with_name("r_diff.R")
 DIFF_MAX_INPUTS = 150
-CONDITION_PREFIX = re.compile(r"^(SCOPED|BUGFIX)\[(.+?)\]\s*:")
+CONDITION_PREFIX = re.compile(r"^(SCOPED|BUGFIX|QUIRK)\[(.+?)\]\s*:")
 GENERIC_CONDITION_CLASSES = {"simpleError", "error", "condition", "simpleCondition", "simpleWarning", "warning"}
 
 
 def declared_conditions(equivalents: dict[str, str]) -> dict[str, str]:
-    """``SCOPED[cond]:`` / ``BUGFIX[cond]:`` input conditions (R expressions over the arguments)."""
+    """``SCOPED[cond]:`` / ``BUGFIX[cond]:`` / ``QUIRK[cond]:`` input conditions (R expressions over the
+    arguments). Every other declaration (plain, PRINT, unconditioned QUIRK) must hold on every replayed input."""
     out = {}
     for mid, reason in equivalents.items():
         match = CONDITION_PREFIX.match(reason.strip())
@@ -378,7 +428,7 @@ OUTPUT_ONLY = re.compile(r"^(print|plot|autoplot|show|lines|points|image|persp|t
 def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = MUTANT_LIMIT) -> dict:
     meta = json.loads((directory / "meta.json").read_text())
     if OUTPUT_ONLY.search(meta["name"]):
-        report = {"schema": GATE_SCHEMA, "id": meta["id"], "name": meta["name"], "verdict": "skip",
+        report = {"schema": GATE_SCHEMA, "gate_version": gate_version(), "id": meta["id"], "name": meta["name"], "verdict": "skip",
                   "problems": ["output_only_method"]}
         (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
         return report
@@ -387,7 +437,8 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     expect = (*meta["helpers"], meta["name"])
     first, _brace, last = target_span(unit)
     target_text = "\n".join(unit.split("\n")[first - 1:last])
-    report: dict = {"schema": GATE_SCHEMA, "id": meta["id"], "name": meta["name"], "problems": []}
+    report: dict = {"schema": GATE_SCHEMA, "gate_version": gate_version(), "id": meta["id"], "name": meta["name"],
+                    "problems": []}
     problems, stats = static_checks(test, unit, target_text)
     report["static"] = stats
     report["problems"] += problems

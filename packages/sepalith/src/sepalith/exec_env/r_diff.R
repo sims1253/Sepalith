@@ -11,7 +11,7 @@
 #    and on every perturbed input the original accepts (inputs on which the original errors are
 #    out of contract), on return value (all.equal plus class, attributes and NA/NaN pattern),
 #    error versus value, and whether a warning fires. Inputs matching the mutant's stated
-#    condition (SCOPED/BUGFIX[...]) are excluded.
+#    condition (SCOPED/BUGFIX/QUIRK[...]) are excluded.
 # 4. Reports, per formal argument the function body reads, how many distinct values it takes
 #    across the recorded calls (distinct supplied values; whether the default is used), argument pairs that
 #    are always equal, and matrix-like arguments that never have more than one nonzero cell
@@ -58,7 +58,8 @@ result <- tryCatch({
   tryCatch({
   # argument diversity across the recorded calls
   for (a in setdiff(read, "...")) {
-    vals <- vapply(rec, function(r) if (a %in% names(r)) show(r[[a]]) else "<default>", "")
+    used_default <- any(vapply(rec, function(r) !(a %in% names(r)), TRUE))
+    given_vals <- lapply(Filter(function(r) a %in% names(r), rec), function(r) r[[a]])
     sparse <- NA
     mats <- Filter(function(v) (is.matrix(v) || is.data.frame(v) || is.table(v)) &&
                      is.numeric(as.matrix(v)) && length(dim(v)) == 2L,
@@ -69,9 +70,8 @@ result <- tryCatch({
         all(rowSums(nz) <= 1) && all(colSums(nz) <= 1)
       }, TRUE))
     }
-    given <- unique(vals[vals != "<default>"])
     flag <- all(vapply(rec, function(r) !(a %in% names(r)) || (is.logical(r[[a]]) && length(r[[a]]) == 1), TRUE))
-    emit("ARG", a, length(given), any(vals == "<default>"), flag, sparse)
+    emit("ARG", a, length(unique(given_vals)), used_default, flag, sparse)
   }
   supplied <- unique(unlist(lapply(rec, names)))
   both_read <- intersect(supplied, read)
@@ -144,6 +144,21 @@ result <- tryCatch({
     set.seed(1L)
     r <- tryCatch(withCallingHandlers({
       setTimeLimit(elapsed = 2, transient = TRUE)
+      ev <- new.env(parent = globalenv())
+      assign(fn, f, envir = ev)
+      v <- eval(as.call(c(list(as.name(fn)), a)), ev)
+      setTimeLimit(elapsed = Inf)
+      list(ok = TRUE, value = v)
+    }, warning = function(w) { warned <<- TRUE; invokeRestart("muffleWarning") },
+    message = function(m) invokeRestart("muffleMessage")),
+    error = function(err) { setTimeLimit(elapsed = Inf); list(ok = FALSE, value = conditionMessage(err)) })
+    r$warn <- warned
+    r
+  }
+  outcome1 <- function(f, a) {
+    warned <- FALSE
+    r <- tryCatch(withCallingHandlers({
+      setTimeLimit(elapsed = 1, transient = TRUE)
       v <- do.call(f, a, quote = TRUE)
       setTimeLimit(elapsed = Inf)
       list(ok = TRUE, value = v)
@@ -157,15 +172,58 @@ result <- tryCatch({
     u <- tryCatch(unlist(x, use.names = FALSE), error = function(err) NULL)
     if (is.numeric(u) || is.complex(u)) list(is.na(u), is.nan(u)) else NULL
   }
-  same_value <- function(a, b) {
+  suite_text <- paste(readLines(suite, warn = FALSE), collapse = "\n")
+  # stored calls, terms and headings are presentation; they count only if the suite reads them ($call, "call")
+  ignorable <- Filter(function(n) !grepl(paste0("\\$\\s*", n, "\\b|[\"']", n, "[\"']"), suite_text),
+                      c("call", "terms", "heading"))
+  strip <- function(x) {
+    for (n in ignorable) if (!is.null(attr(x, n, exact = TRUE))) attr(x, n) <- NULL
+    if (is.list(x) && !is.data.frame(x) && !is.null(names(x))) {
+      drop <- names(x) %in% ignorable & vapply(x, function(v) is.language(v) || is.character(v), TRUE)
+      if (any(drop)) {
+        keep_attr <- attributes(x)[setdiff(names(attributes(x)), "names")]
+        x <- x[!drop]
+        attributes(x) <- c(attributes(x), keep_attr)
+      }
+    }
+    x
+  }
+  probes <- list(c(-2, -0.5, 0, 0.3, 1, 2.5), 0.5, c(0, 1), NA_real_, 1:3)
+  same_closure <- function(a, b, depth) {
+    if (!identical(names(formals(a)), names(formals(b)))) return(FALSE)
+    for (x in probes) {
+      oa <- outcome1(a, list(x)); ob <- outcome1(b, list(x))
+      if (oa$ok != ob$ok || oa$warn != ob$warn || (oa$ok && !same_value(oa$value, ob$value, depth + 1L))) return(FALSE)
+    }
+    TRUE
+  }
+  same_value <- function(a, b, depth = 0L) {
+    a <- strip(a); b <- strip(b)
     if (identical(a, b)) return(TRUE)
-    if (is.function(a) && is.function(b)) return(identical(deparse(a), deparse(b)))
+    if (depth > 3L) return(FALSE)
+    if (is.function(a) && is.function(b)) return(same_closure(a, b, depth))
     if (is.environment(a) && is.environment(b)) return(isTRUE(all.equal(as.list(a), as.list(b))))
-    identical(class(a), class(b)) && identical(names(attributes(a)), names(attributes(b))) &&
-      isTRUE(all.equal(a, b, tolerance = 1e-8)) && identical(na_pattern(a), na_pattern(b))
+    if (is.language(a) && is.language(b)) return(identical(deparse(a), deparse(b)))
+    if (!identical(class(a), class(b)) || !identical(sort(names(attributes(a))), sort(names(attributes(b))))) return(FALSE)
+    if (is.list(a) && is.list(b) && !is.data.frame(a)) {
+      if (length(a) != length(b) || !identical(names(a), names(b))) return(FALSE)
+      for (k in seq_along(a)) if (!same_value(a[[k]], b[[k]], depth + 1L)) return(FALSE)
+      other <- setdiff(names(attributes(a)), c("names", "class"))
+      for (n in other) if (!same_value(attr(a, n, exact = TRUE), attr(b, n, exact = TRUE), depth + 1L)) return(FALSE)
+      return(TRUE)
+    }
+    isTRUE(all.equal(a, b, tolerance = 1e-8)) && identical(na_pattern(a), na_pattern(b))
   }
   summary_of <- function(o) {
     paste0(if (o$ok) show(o$value) else paste("error:", clean(o$value)), if (o$warn) " [warning]" else "")
+  }
+  cond_env <- function(a) {
+    env <- new.env(parent = e)
+    nm <- names(a)
+    if (is.null(nm)) nm <- rep("", length(a))
+    for (k in seq_along(a)) if (nzchar(nm[k])) assign(nm[k], a[[k]], envir = env)
+    assign("dots", unname(a[!nzchar(nm)]), envir = env)
+    env
   }
   baseline <- lapply(inputs, function(i) outcome(orig, i$args))
   conds <- if (file.exists(file.path(mdir, "conditions.tsv"))) {
@@ -186,7 +244,7 @@ result <- tryCatch({
       base <- baseline[[j]]
       if (!inp$recorded && !base$ok) next  # out of contract: the original rejects this input
       if (!is.na(cond) && nzchar(cond)) {
-        excluded <- tryCatch(isTRUE(eval(parse(text = cond)[[1]], envir = list2env(inp$args, parent = e))),
+        excluded <- tryCatch(isTRUE(eval(parse(text = cond)[[1]], envir = cond_env(inp$args))),
                              error = function(err) FALSE)
         if (excluded) next
       }

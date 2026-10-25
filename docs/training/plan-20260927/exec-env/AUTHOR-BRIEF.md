@@ -151,7 +151,11 @@ requires:
    would still pass if the function's own check were deleted. Use the
    function's specific wording (`"scores must be numeric"`) or a specific
    `class =`. A generic class (`"simpleError"`, `"error"`, `"condition"`) does
-   not count: it needs a specific pattern as well.
+   not count: it needs a specific pattern as well. Two exemptions: a pattern
+   of 2+ words that matches a string literal in `source.R` (the function's own
+   message, even if R has the same text), and an anchored full message of 3+
+   words (`"^f\\(\\) values at end points not of opposite sign$"`) for an error
+   the function deliberately delegates to base R. Bare words never pass.
 3. **The tests reach the function**: a stub whose body is
    `stop("exec-env stub")` may pass at most 20% of the assertions.
 4. **Mutation sensitivity**: up to 60 mutants of the function (flipped
@@ -275,10 +279,12 @@ Some mutants cannot be told apart from the original by any input (for
 example deleting a statement whose result is never used, or forcing an `if`
 whose two arms compute the same value). List those in `equivalent.txt`, one
 per line: `<mutant id> <one-line reason>`. Typed reasons start with `PRINT:`
-(printed or message text only), `QUIRK:` (incidental behaviour a correct
-rewrite may differ on), `SCOPED[<cond>]:` (only inside a verified-broken
-branch) or `BUGFIX[<cond>]:` (only fixes a verified bug). `<cond>` is an R
-expression over the arguments, e.g. `SCOPED[nrow(x) != ncol(x)]:`.
+(printed or message text only; value, warnings and errors must be
+identical), `QUIRK[<cond>]:` (incidental behaviour a correct rewrite may
+differ on), `SCOPED[<cond>]:` (only inside a verified-broken branch) or
+`BUGFIX[<cond>]:` (only fixes a verified bug). `<cond>` is an R expression
+over the arguments, e.g. `SCOPED[nrow(x) != ncol(x)]:`; a `QUIRK:` without a
+condition must hold on every replayed input.
 
 **The gate checks every declaration (v3).** It replays every call your tests
 make, plus perturbations of them: numbers scaled, negated, shifted and
@@ -287,9 +293,13 @@ the other `match.arg` choices, and swaps of equal-typed arguments. It
 compares original and mutant on value, class, attributes, `NA`/`NaN`, error
 versus value, and **whether a warning fires**. Inputs on which the original
 errors count as out of contract and are skipped, and so are inputs matching
-a `SCOPED`/`BUGFIX` condition. Any other difference fails the declaration
+a `SCOPED`/`BUGFIX`/`QUIRK` condition. `PRINT` and plain entries are replayed
+on everything. Any other difference fails the declaration
 (`equivalence_refuted`), and `gate.json` (`differential.diff`) shows the
-distinguishing input. A mutant that adds or removes a warning is never
+distinguishing input. Returned closures are compared by calling them on probe
+inputs, and stored `call`, `terms` and `heading` values are ignored unless your
+suite reads them (`$call`, `"heading"`). Unnamed `...` arguments are available
+to conditions as the list `dots`. A mutant that adds or removes a warning is never
 `PRINT`: kill it with `check_warning`, or on the silent path assert that no
 warning fires (`withCallingHandlers(f(x), warning = function(w) stop("unexpected warning"))`
 inside `check_identical`). Passing the replay is necessary, not sufficient:
