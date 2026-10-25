@@ -282,14 +282,19 @@ per line: `<mutant id> <one-line reason>`. Typed reasons start with `PRINT:`
 (printed or message text only; value, warnings and errors must be
 identical), `QUIRK[<cond>]:` (incidental behaviour a correct rewrite may
 differ on), `SCOPED[<cond>]:` (only inside a verified-broken branch) or
-`BUGFIX[<cond>]:` (only fixes a verified bug), or `NUMTOL[<tol>]:` (only
-iterative-solver noise, e.g. an `optim()` start point: numbers are compared
-with absolute or relative tolerance `tol <= 1e-2`, everything else exactly).
-`<cond>` is an R expression over the arguments, with brackets allowed
-(`SCOPED[x[1] > 0]:`). All formals are bound when it runs: supplied values,
-otherwise their defaults. Unnamed `...` arguments are in `dots`. A condition
-that excludes every replayed input (`QUIRK[TRUE]`) is rejected as a blanket
-exemption, and `gate.json` reports the share each condition excludes. A
+`BUGFIX[<cond>]:` (only fixes a verified bug), `NUMTOL[<tol>]:` (only
+iterative-solver noise, e.g. an `optim()` start point: numbers, including
+those in list elements, S4 slots and environments, are compared with absolute
+or relative tolerance `tol <= 1e-2`, everything else exactly), or `NAMES:`
+(only incidental `names`, `dimnames` or row names differ; values, order,
+class and other attributes stay exact). `<cond>` is an R expression over the
+arguments, with brackets allowed (`SCOPED[x[1] > 0]:`). All formals are bound
+when it runs: supplied values, otherwise their defaults; unnamed `...`
+arguments are in `dots`. It must parse and return a single `TRUE`/`FALSE` on
+every replayed input (use `isTRUE()` for degenerate inputs), otherwise the
+declaration fails. A condition that excludes every replayed input
+(`QUIRK[TRUE]`) is rejected as a blanket exemption, and `gate.json` reports
+the share each condition excludes. A
 `QUIRK:` without a condition must hold on every replayed input.
 
 **The gate checks every declaration (v3).** It replays every call your tests

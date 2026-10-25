@@ -19,6 +19,7 @@
 # Output (stdout, tab-separated): CALLS n | INPUTS n | ARG name distinct_supplied default_used logical sparse |
 #   EQUAL a b |
 #   SAME id n | DIFF id input orig mut | FAIL message
+local({
 args <- commandArgs(trailingOnly = TRUE)
 unit <- args[[1]]; suite <- args[[2]]; testlib <- args[[3]]; fn <- args[[4]]
 mdir <- args[[5]]; max_inputs <- as.integer(args[[6]])
@@ -146,7 +147,8 @@ result <- tryCatch({
       setTimeLimit(elapsed = 2, transient = TRUE)
       ev <- new.env(parent = globalenv())
       assign(fn, f, envir = ev)
-      v <- eval(as.call(c(list(as.name(fn)), a)), ev)
+      quoted <- lapply(a, function(x) if (is.language(x)) call("quote", x) else x)
+      v <- eval(as.call(c(list(as.name(fn)), quoted)), ev)
       setTimeLimit(elapsed = Inf)
       list(ok = TRUE, value = v)
     }, warning = function(w) { warned <<- TRUE; invokeRestart("muffleWarning") },
@@ -176,7 +178,18 @@ result <- tryCatch({
   # stored calls, terms and headings are presentation; they count only if the suite reads them ($call, "call")
   ignorable <- Filter(function(n) !grepl(paste0("\\$\\s*", n, "\\b|[\"']", n, "[\"']"), suite_text),
                       c("call", "terms", "heading"))
+  ignore_names <- FALSE
   strip <- function(x) {
+    if (ignore_names && !isS4(x) && !is.environment(x) && !is.function(x) && !is.language(x) && !is.null(x)) {
+      # NAMES: names, dimnames and row names are incidental; values, order, class and other attributes count
+      if (is.data.frame(x)) {
+        attr(x, "row.names") <- .set_row_names(nrow(x))
+        names(x) <- NULL
+      } else {
+        if (!is.null(dim(x))) dimnames(x) <- NULL
+        if (!is.null(names(x))) names(x) <- NULL
+      }
+    }
     for (n in ignorable) if (!is.null(attr(x, n, exact = TRUE))) attr(x, n) <- NULL
     if (is.list(x) && !is.data.frame(x) && !is.null(names(x))) {
       drop <- names(x) %in% ignorable & vapply(x, function(v) is.language(v) || is.character(v), TRUE)
@@ -200,9 +213,21 @@ result <- tryCatch({
   same_value <- function(a, b, depth = 0L) {
     a <- strip(a); b <- strip(b)
     if (identical(a, b)) return(TRUE)
-    if (depth > 3L) return(FALSE)
+    if (depth > 6L) return(FALSE)
     if (is.function(a) && is.function(b)) return(same_closure(a, b, depth))
-    if (is.environment(a) && is.environment(b)) return(isTRUE(all.equal(as.list(a), as.list(b))))
+    if (is.environment(a) && is.environment(b)) {
+      la <- as.list(a, all.names = TRUE); lb <- as.list(b, all.names = TRUE)
+      if (!identical(sort(names(la)), sort(names(lb)))) return(FALSE)
+      for (n in names(la)) if (!same_value(la[[n]], lb[[n]], depth + 1L)) return(FALSE)
+      return(TRUE)
+    }
+    if (isS4(a) || isS4(b)) {
+      if (!isS4(a) || !isS4(b) || !identical(class(a), class(b))) return(FALSE)
+      for (n in methods::slotNames(a)) {
+        if (!same_value(methods::slot(a, n), methods::slot(b, n), depth + 1L)) return(FALSE)
+      }
+      return(TRUE)
+    }
     if (is.language(a) && is.language(b)) return(identical(deparse(a), deparse(b)))
     if (!identical(class(a), class(b)) || !identical(sort(names(attributes(a))), sort(names(attributes(b))))) return(FALSE)
     if (is.list(a) && is.list(b) && !is.data.frame(a)) {
@@ -257,12 +282,24 @@ result <- tryCatch({
     num_tol <- if (identical(kind, "numtol")) as.numeric(spec[[id]][2]) else 0
     # which eligible inputs the condition excludes (reported; a condition excluding all is a blanket)
     eligible <- which(vapply(seq_along(inputs), function(j) inputs[[j]]$recorded || baseline[[j]]$ok, TRUE))
-    excluded_set <- if (nzchar(cond)) {
-      expr <- tryCatch(parse(text = cond)[[1]], error = function(err) NULL)
-      if (is.null(expr)) { emit("BADCOND", id); integer() } else
-        Filter(function(j) tryCatch(isTRUE(eval(expr, envir = cond_env(inputs[[j]]$args))),
-                                    error = function(err) FALSE), eligible)
-    } else integer()
+    ignore_names <- identical(kind, "names")
+    excluded_set <- integer()
+    if (nzchar(cond)) {
+      expr <- tryCatch({ px <- parse(text = cond, keep.source = FALSE); if (length(px) != 1L) stop("one expression"); px[[1]] },
+                       error = function(err) NULL)
+      if (is.null(expr)) { emit("BADCOND", id, "does not parse as one R expression"); next }
+      bad <- NULL
+      for (j in eligible) {
+        v <- tryCatch(eval(expr, envir = cond_env(inputs[[j]]$args)), error = function(err) err)
+        if (inherits(v, "error") || !is.logical(v) || length(v) != 1L || is.na(v)) {
+          bad <- paste0(inputs[[j]]$tag, ": ", if (inherits(v, "error")) clean(conditionMessage(v)) else
+            paste("not TRUE/FALSE:", show(v)))
+          break
+        }
+        if (v) excluded_set <- c(excluded_set, j)
+      }
+      if (!is.null(bad)) { emit("BADCOND", id, bad); next }
+    }
     emit("EXCL", id, length(excluded_set), length(eligible))
     compared <- 0L
     found <- FALSE
@@ -286,3 +323,4 @@ result <- tryCatch({
 sink(type = "message")
 sink()
 writeLines(lines)
+})

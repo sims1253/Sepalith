@@ -296,13 +296,16 @@ NUMTOL_MAX = 1e-2
 
 def declared_conditions(equivalents: dict[str, str]) -> dict[str, tuple[str, str]]:
     """Per declared mutant: ``("cond", <R condition>)`` for ``SCOPED/BUGFIX/QUIRK[cond]:``,
-    ``("numtol", <tolerance>)`` for ``NUMTOL[tol]:``, else ``("", "")``. Every declaration without a
+    ``("numtol", <tolerance>)`` for ``NUMTOL[tol]:``, ``("names", "")`` for ``NAMES:`` (names, dimnames and
+    row names ignored), else ``("", "")``. Every declaration without a
     condition (plain, PRINT, unconditioned QUIRK, NUMTOL) must hold on every replayed input."""
     out = {}
     for mid, reason in equivalents.items():
         tol = re.match(r"^NUMTOL\[\s*([^\]]+?)\s*\]\s*:", reason.strip())
         if tol:
             out[mid] = ("numtol", tol.group(1))
+        elif re.match(r"^NAMES\s*:", reason.strip()):
+            out[mid] = ("names", "")
         else:
             cond = condition_of(reason)
             out[mid] = ("cond", cond) if cond else ("", "")
@@ -363,7 +366,7 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
         except subprocess.TimeoutExpired:
             return {"error": "differential check timed out"}
     out: dict = {"calls": None, "inputs": None, "args": {}, "always_equal": [], "same": {}, "diff": {},
-                 "excluded": {}, "bad_conditions": []}
+                 "excluded": {}, "bad_conditions": {}}
     for line in proc.stdout.splitlines():
         parts = line.split("\t")
         kind = parts[0]
@@ -384,7 +387,7 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
             out["excluded"][parts[1]] = {"excluded": int(parts[2]), "eligible": int(parts[3]),
                                          "share": round(int(parts[2]) / int(parts[3]), 3) if int(parts[3]) else None}
         elif kind == "BADCOND":
-            out["bad_conditions"].append(parts[1])
+            out["bad_conditions"][parts[1]] = parts[2] if len(parts) > 2 else "invalid"
         elif kind == "FAIL":
             out["error"] = parts[1]
         elif kind == "WARN":
@@ -603,8 +606,8 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     report["warnings"] += diff.get("warnings", [])
     for mid in sorted(diff.get("diff", {})):
         report["problems"].append(f"equivalence_refuted:{mid}")
-    for mid in diff.get("bad_conditions", []):
-        report["problems"].append(f"condition_does_not_parse:{mid}")
+    for mid, why in sorted(diff.get("bad_conditions", {}).items()):
+        report["problems"].append(f"condition_invalid:{mid} ({why[:120]})")
     for mid, cell in sorted(diff.get("excluded", {}).items()):
         if conditions.get(mid, ("", ""))[0] == "cond" and cell["eligible"] and cell["excluded"] == cell["eligible"]:
             report["problems"].append(f"blanket_condition:{mid} (excludes all {cell['eligible']} replayed inputs)")

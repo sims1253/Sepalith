@@ -176,6 +176,54 @@ class NumericToleranceTests(unittest.TestCase):
         self.assertTrue(any(p.startswith(f"numtol_invalid:{bump.id}") for p in outcomes["0.5"]))
 
 
+@unittest.skipUnless(HAS_R and HAS_AIR, "needs Rscript and air")
+class DeclarationKindTests(unittest.TestCase):
+    """NUMTOL through S4 slots, NAMES, and invalid conditions."""
+
+    def run_gate(self, unit: str, name: str, formals: list[str], test: str, declarations: list[str]) -> list[list[str]]:
+        from sepalith.exec_env.gate import gate_function
+        from sepalith.exec_env.harness import ExecHarness
+        out = []
+        with tempfile.TemporaryDirectory() as tmp, ExecHarness(workers=2) as harness:
+            d = Path(tmp) / "f"
+            d.mkdir()
+            (d / "source.R").write_text(unit)
+            (d / "test.R").write_text(test)
+            (d / "meta.json").write_text(json.dumps({"id": "f", "package": "p", "path": "R/f.R", "name": name,
+                                                      "helpers": [], "formals": formals}))
+            for line in declarations:
+                (d / "equivalent.txt").write_text(line + "\n")
+                out.append(gate_function(d, harness)["problems"])
+        return out
+
+    def test_numtol_reaches_s4_slots(self):
+        from sepalith.exec_env import mutants
+        unit = "fit <- function(x, k = 2) {\n  y <- x * k\n  z <- y + 0.00001\n  Matrix::Matrix(z, nrow = 1)\n}\n"
+        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0])
+                    if m.op == "constant" and "0.00001 * 2" in m.text)
+        test = "".join(f'check_equal("{c}", as.numeric(fit(c({x}, 1), k = {k})), c({x}, 1) * {k}, tolerance = 1e-3)\n'
+                       for c, x, k in [("a", 1, 2), ("a", 2, 3), ("b", 3, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
+        ok, tight = self.run_gate(unit, "fit", ["x", "k"], test,
+                                  [f"{bump.id} NUMTOL[1e-4]: offset noise", f"{bump.id} NUMTOL[1e-7]: offset noise"])
+        self.assertFalse(any(bump.id in p for p in ok), ok)
+        self.assertIn(f"equivalence_refuted:{bump.id}", tight)
+
+    def test_names_declaration(self):
+        from sepalith.exec_env import mutants
+        unit = 'lab <- function(x, k = 2) {\n  out <- x * k\n  names(out) <- paste0("v", seq_along(x))\n  out\n}\n'
+        rename = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0]) if m.description == "string altered")
+        test = "".join(f'check_identical("{c}", unname(lab({x}, k = {k})), unname({x} * {k}))\n'
+                       for c, x, k in [("a", "1:2", 2), ("a", "3", 3), ("b", "c(2, 5)", 1), ("b", "4", 5), ("c", "-1", 2),
+                                       ("c", "c(0.5, 1)", 4)])
+        names_ok, plain, bad = self.run_gate(unit, "lab", ["x", "k"], test,
+                                             [f"{rename.id} NAMES: label prefix only",
+                                              f"{rename.id} labels only",
+                                              f"{rename.id} QUIRK[k \\&\\& TRUE]: escaped operator"])
+        self.assertFalse(any(rename.id in p for p in names_ok), names_ok)
+        self.assertIn(f"equivalence_refuted:{rename.id}", plain)
+        self.assertTrue(any(p.startswith(f"condition_invalid:{rename.id}") for p in bad), bad)
+
+
 class MutantTests(unittest.TestCase):
     def test_classes_and_spans(self):
         from sepalith.exec_env import mutants
@@ -250,7 +298,11 @@ class GateTaskRewardTests(unittest.TestCase):
         first = EQUIVALENT.splitlines()[0].split()[0]
         rest = "\n".join(EQUIVALENT.splitlines()[1:]) + "\n"
         try:
+            # a condition must give one TRUE/FALSE on every replayed input (here also the empty `cut`)
             (self.fdir / "equivalent.txt").write_text(f"{first} QUIRK[cut == 0.5]: default cut only\n" + rest)
+            report = self.gate(TEST)
+            self.assertTrue(any(p.startswith(f"condition_invalid:{first}") for p in report["problems"]))
+            (self.fdir / "equivalent.txt").write_text(f"{first} QUIRK[isTRUE(cut == 0.5)]: default cut only\n" + rest)
             report = self.gate(TEST)
             share = report["differential"]["excluded"][first]["share"]
             self.assertTrue(0 < share < 1, share)  # `cut` is unbound in calls relying on its default
