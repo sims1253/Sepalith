@@ -229,22 +229,36 @@ class DeclarationKindTests(unittest.TestCase):
         bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0]) if "7L" in m.text)
         test = "".join(f'check_identical("{c}", as.vector(root({x}, k = {k})), {x} * {k})\n'
                        for c, x, k in [("a", 1, 2), ("a", 3, 3), ("b", 2, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
-        attr_ok, other_attr, plain = self.run_gate(unit, "root", ["x", "k"], test,
-                                                   [f"{bump.id} ATTR[iter]: iteration count is undocumented",
-                                                    f"{bump.id} ATTR[names]: wrong attribute",
-                                                    f"{bump.id} only the iteration count"])
+        attr_ok, other_attr, plain, combined, malformed = self.run_gate(
+            unit, "root", ["x", "k"], test,
+            [f"{bump.id} ATTR[iter]: iteration count is undocumented",
+             f"{bump.id} ATTR[names]: wrong attribute",
+             f"{bump.id} only the iteration count",
+             f"{bump.id} BUGFIX[isTRUE(k == 5)] ATTR[iter]: condition plus modifier",
+             f"{bump.id} BUGFIX[isTRUE(k == 5)] QUIRK[TRUE]: two conditions"])
         self.assertFalse(any(bump.id in p for p in attr_ok), attr_ok)
+        self.assertFalse(any(bump.id in p for p in combined), combined)
+        self.assertTrue(any(p.startswith(f"declaration_malformed:{bump.id}") for p in malformed), malformed)
         self.assertIn(f"equivalence_refuted:{bump.id}", other_attr)
         self.assertIn(f"equivalence_refuted:{bump.id}", plain)
 
 
 class RelaxationParsingTests(unittest.TestCase):
     def test_tags(self):
-        from sepalith.exec_env.gate import declared_conditions
-        got = declared_conditions({"a": "NAMES: labels", "b": "ATTR[iter] NUMTOL[1e-6]: solver",
-                                   "c": "ATTR[names,dimnames]: x", "d": "QUIRK[x[1] > 0]: y", "e": "plain reason"})
-        self.assertEqual(got, {"a": ("relax", "|dimnames,names,row.names"), "b": ("relax", "1e-6|iter"),
-                               "c": ("relax", "|dimnames,names"), "d": ("cond", "x[1] > 0"), "e": ("", "")})
+        from sepalith.exec_env.gate import parse_declaration
+        def tags(reason):
+            d = parse_declaration(reason)
+            return (d["cond"], d["tol"], ",".join(d["attrs"]), d["error"])
+        self.assertEqual(tags("NAMES: labels"), ("", "", "dimnames,names,row.names", ""))
+        self.assertEqual(tags("ATTR[iter] NUMTOL[1e-6]: solver"), ("", "1e-6", "iter", ""))
+        self.assertEqual(tags("BUGFIX[x[1] > cap] ATTR[iter]: cap binds"), ("x[1] > cap", "", "iter", ""))
+        self.assertEqual(tags("ATTR[iter], QUIRK[isTRUE(k == 2)] NUMTOL[1e-2]: any order"),
+                         ("isTRUE(k == 2)", "1e-2", "iter", ""))
+        self.assertEqual(tags("QUIRK[a] SCOPED[b]: two conditions")[3], "more than one condition tag")
+        self.assertEqual(tags("SCOPED[x > 0] because: text before colon")[3], "text between the tags and the colon")
+        self.assertEqual(tags("QUIRK: unconditioned"), ("", "", "", ""))
+        self.assertEqual(tags("PRINT: message only"), ("", "", "", ""))
+        self.assertEqual(tags("plain reason"), ("", "", "", ""))
 
 
 class MutantTests(unittest.TestCase):

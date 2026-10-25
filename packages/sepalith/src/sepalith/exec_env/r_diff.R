@@ -267,10 +267,10 @@ result <- tryCatch({
     env
   }
   baseline <- lapply(inputs, function(i) outcome(orig, i$args))
-  # conditions.tsv: <id>\t<kind>\t<value>; kind "cond" (an R condition) or "numtol" (a tolerance)
+  # conditions.tsv: <id>\t<condition>\t<tolerance>\t<attr,attr> (any field may be empty)
   spec <- if (file.exists(file.path(mdir, "conditions.tsv"))) {
     x <- strsplit(readLines(file.path(mdir, "conditions.tsv"), warn = FALSE), "\t", fixed = TRUE)
-    stats::setNames(lapply(x, function(v) c(v[2], paste(v[-(1:2)], collapse = "\t"))), vapply(x, `[`, "", 1))
+    stats::setNames(lapply(x, function(v) trimws(c(v, "", "", "")[2:4])), vapply(x, `[`, "", 1))
   } else list()
   for (mf in sort(list.files(mdir, pattern = "\\.R$", full.names = TRUE))) {
     id <- sub("\\.R$", "", basename(mf))
@@ -278,11 +278,10 @@ result <- tryCatch({
     ok <- tryCatch({ sys.source(mf, envir = m); TRUE }, error = function(err) FALSE)
     if (!ok) { emit("DIFF", id, "<sourcing the mutant>", "sources", "error"); next }
     mutant <- get(fn, envir = m)
-    kind <- if (is.null(spec[[id]])) "" else spec[[id]][1]
-    cond <- if (identical(kind, "cond")) spec[[id]][2] else ""
-    relax <- if (identical(kind, "relax")) strsplit(spec[[id]][2], "|", fixed = TRUE)[[1]] else c("", "")
-    num_tol <- if (nzchar(relax[1])) as.numeric(relax[1]) else 0
-    ignore_attrs <- if (length(relax) > 1 && nzchar(relax[2])) strsplit(relax[2], ",", fixed = TRUE)[[1]] else character()
+    sp <- if (is.null(spec[[id]])) c("", "", "") else spec[[id]]
+    cond <- sp[1]
+    num_tol <- if (nzchar(sp[2])) as.numeric(sp[2]) else 0
+    ignore_attrs <- if (nzchar(sp[3])) strsplit(sp[3], ",", fixed = TRUE)[[1]] else character()
     # which eligible inputs the condition excludes (reported; a condition excluding all is a blanket)
     eligible <- which(vapply(seq_along(inputs), function(j) inputs[[j]]$recorded || baseline[[j]]$ok, TRUE))
     excluded_set <- integer()

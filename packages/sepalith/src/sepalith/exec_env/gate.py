@@ -294,49 +294,15 @@ GENERIC_CONDITION_CLASSES = {"simpleError", "error", "condition", "simpleConditi
 NUMTOL_MAX = 1e-2
 
 
-RELAX_TAGS = re.compile(r"^((?:\s*(?:NUMTOL\[[^\]]*\]|ATTR\[[^\]]*\]|NAMES)\s*,?)+)\s*:")
 NAMES_ATTRS = ("names", "dimnames", "row.names")
+CONDITION_TAGS = ("SCOPED", "BUGFIX", "QUIRK")
+MODIFIER_TAGS = ("NUMTOL", "ATTR")
 
 
-def relaxation_of(reason: str) -> tuple[str, list[str]] | None:
-    """``(tolerance, attributes)`` from leading ``NUMTOL[tol]`` / ``ATTR[a,b]`` / ``NAMES`` tags (combinable,
-    e.g. ``ATTR[iter] NUMTOL[1e-6]:``), or None. ``NAMES`` is ``ATTR[names,dimnames,row.names]``."""
-    match = RELAX_TAGS.match(reason.strip())
-    if not match:
-        return None
-    tags = match.group(1)
-    tol = re.findall(r"NUMTOL\[\s*([^\]]*?)\s*\]", tags)
-    attrs = [a.strip() for group in re.findall(r"ATTR\[([^\]]*)\]", tags) for a in group.split(",") if a.strip()]
-    if re.search(r"\bNAMES\b", tags):
-        attrs += list(NAMES_ATTRS)
-    return (tol[-1] if tol else ""), sorted(set(attrs))
-
-
-def declared_conditions(equivalents: dict[str, str]) -> dict[str, tuple[str, str]]:
-    """Per declared mutant: ``("cond", <R condition>)`` for ``SCOPED/BUGFIX/QUIRK[cond]:``;
-    ``("relax", "<tol>|<attr,attr>")`` for ``NUMTOL[tol]`` / ``ATTR[attrs]`` / ``NAMES`` tags (numbers compared
-    with the tolerance, the listed attributes ignored, everything else exact); else ``("", "")``. Every
-    declaration without a condition must hold on every replayed input."""
-    out = {}
-    for mid, reason in equivalents.items():
-        relax = relaxation_of(reason)
-        if relax is not None:
-            out[mid] = ("relax", f"{relax[0]}|{','.join(relax[1])}")
-        else:
-            cond = condition_of(reason)
-            out[mid] = ("cond", cond) if cond else ("", "")
-    return out
-
-
-def condition_of(reason: str) -> str:
-    """The ``<cond>`` of ``SCOPED[<cond>]:`` / ``BUGFIX[...]`` / ``QUIRK[...]``, brackets balanced (so
-    ``x[1] > 0`` and ``nrow(m[, 1, drop = FALSE]) == 0`` work), quotes respected; "" if none."""
-    text = reason.strip()
-    head = re.match(r"^(SCOPED|BUGFIX|QUIRK)\[", text)
-    if not head:
-        return ""
-    depth, quote, escaped = 1, "", False
-    for index in range(head.end(), len(text)):
+def _bracket_end(text: str, start: int) -> int | None:
+    """Index of the ``]`` closing the ``[`` at ``start`` (balanced, quote-aware), or None."""
+    depth, quote, escaped = 0, "", False
+    for index in range(start, len(text)):
         ch = text[index]
         if quote:
             if escaped:
@@ -353,13 +319,76 @@ def condition_of(reason: str) -> str:
         elif ch == "]":
             depth -= 1
             if depth == 0:
-                rest = text[index + 1:].lstrip()
-                return text[head.end():index].strip() if rest.startswith(":") else ""
-    return ""
+                return index
+    return None
+
+
+def parse_declaration(reason: str) -> dict:
+    """Leading tags of an ``equivalent.txt`` reason, in any order before the first ``:``.
+
+    At most one condition tag (``SCOPED[cond]`` / ``BUGFIX[cond]`` / ``QUIRK[cond]``, brackets balanced) plus
+    any number of modifiers (``NUMTOL[tol]``, ``ATTR[a,b]``, ``NAMES`` = ``ATTR[names,dimnames,row.names]``),
+    separated by spaces or commas. Returns ``{"cond", "tol", "attrs", "error"}``; a reason without tags
+    (plain, ``PRINT:``, an unconditioned ``QUIRK:``) has empty fields. ``error`` is set when tags are present
+    but malformed (unbalanced brackets, two conditions, text between the tags and the colon)."""
+    text = reason.strip()
+    out = {"cond": "", "tol": "", "attrs": [], "error": ""}
+    index, seen = 0, False
+    while index < len(text):
+        while index < len(text) and text[index] in " ,\t":
+            index += 1
+        match = re.match(r"(SCOPED|BUGFIX|QUIRK|NUMTOL|ATTR|NAMES)(?=[\[\s,:])", text[index:])
+        if not match:
+            if seen and not text[index:].startswith(":"):
+                out["error"] = "text between the tags and the colon"
+            break
+        name = match.group(1)
+        index += len(name)
+        if name == "NAMES":
+            out["attrs"] += list(NAMES_ATTRS)
+            seen = True
+            continue
+        if index >= len(text) or text[index] != "[":
+            if name == "QUIRK" and not seen:  # an unconditioned QUIRK: no tags
+                break
+            out["error"] = f"{name} needs [...]"
+            break
+        close = _bracket_end(text, index)
+        if close is None:
+            out["error"] = f"unbalanced brackets after {name}"
+            break
+        body = text[index + 1:close].strip()
+        index = close + 1
+        seen = True
+        if name in CONDITION_TAGS:
+            if out["cond"]:
+                out["error"] = "more than one condition tag"
+                break
+            out["cond"] = body
+        elif name == "NUMTOL":
+            out["tol"] = body
+        else:
+            out["attrs"] += [a.strip() for a in body.split(",") if a.strip()]
+    if seen and not out["error"] and not text[index:].lstrip(" ,").startswith(":"):
+        out["error"] = "tags must be followed by ':'"
+    out["attrs"] = sorted(set(out["attrs"]))
+    return out
+
+
+def condition_of(reason: str) -> str:
+    """The condition of a declaration (see ``parse_declaration``), or ""."""
+    parsed = parse_declaration(reason)
+    return "" if parsed["error"] else parsed["cond"]
+
+
+def declared_conditions(equivalents: dict[str, str]) -> dict[str, dict]:
+    """Per declared mutant: the parsed tags (``cond``, ``tol``, ``attrs``, ``error``). Inputs matching the
+    condition are excluded; elsewhere numbers are compared with ``tol`` and the listed attributes ignored."""
+    return {mid: parse_declaration(reason) for mid, reason in equivalents.items()}
 
 
 def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mutants_module.Mutant],
-                        conditions: dict[str, tuple[str, str]], *, timeout: float = 240.0) -> dict:
+                        conditions: dict[str, dict], *, timeout: float = 240.0) -> dict:
     """Run r_diff.R in the sandbox: recorded test calls, perturbed inputs, declared-mutant comparisons."""
     with tempfile.TemporaryDirectory(prefix="sepalith-diff-") as tmp:
         root = Path(tmp)
@@ -370,7 +399,8 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
         for mutant in mutants:
             (root / "mutants" / f"{mutant.id}.R").write_text(mutant.text, encoding="utf-8")
         (root / "mutants" / "conditions.tsv").write_text(
-            "".join(f"{mid}\t{kind}\t{value}\n" for mid, (kind, value) in conditions.items()), encoding="utf-8")
+            "".join(f"{mid}\t{c['cond']}\t{c['tol']}\t{','.join(c['attrs'])}\n".replace("\t\n", "\t \n")
+                    for mid, c in conditions.items()), encoding="utf-8")
         cmd = ["Rscript", "--vanilla", str(R_DIFF), str(root / "unit.R"), str(root / "suite.R"), str(TESTLIB), target,
                str(root / "mutants"), str(DIFF_MAX_INPUTS)]
         if namespaces_available():
@@ -601,19 +631,17 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     # v3: differential verification of every declared equivalent, argument diversity, fixture density
     declared_mutants = [m for m in all_mutants if m.id in equivalents]
     conditions = declared_conditions(equivalents)
-    for mid, (kind, value) in sorted(conditions.items()):
-        if kind == "relax":
-            tol_text, attrs = value.split("|", 1)
-            if tol_text:
-                try:
-                    tolerance = float(tol_text)
-                except ValueError:
-                    tolerance = float("nan")
-                if not 0 < tolerance <= NUMTOL_MAX:
-                    report["problems"].append(f"numtol_invalid:{mid}={tol_text} (0 < tol <= {NUMTOL_MAX})")
-                    conditions[mid] = ("relax", f"|{attrs}")
-            if not tol_text and not attrs:
-                report["problems"].append(f"relaxation_empty:{mid}")
+    for mid, parsed in sorted(conditions.items()):
+        if parsed["error"]:
+            report["problems"].append(f"declaration_malformed:{mid} ({parsed['error']})")
+        if parsed["tol"]:
+            try:
+                tolerance = float(parsed["tol"])
+            except ValueError:
+                tolerance = float("nan")
+            if not 0 < tolerance <= NUMTOL_MAX:
+                report["problems"].append(f"numtol_invalid:{mid}={parsed['tol']} (0 < tol <= {NUMTOL_MAX})")
+                parsed["tol"] = ""
     diff = differential_checks(unit, suite, meta["name"], declared_mutants, conditions)
     report["differential"] = diff
     report.setdefault("warnings", [])
@@ -629,7 +657,7 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     for mid, why in sorted(diff.get("bad_conditions", {}).items()):
         report["problems"].append(f"condition_invalid:{mid} ({why[:120]})")
     for mid, cell in sorted(diff.get("excluded", {}).items()):
-        if conditions.get(mid, ("", ""))[0] == "cond" and cell["eligible"] and cell["excluded"] == cell["eligible"]:
+        if conditions.get(mid, {}).get("cond") and cell["eligible"] and cell["excluded"] == cell["eligible"]:
             report["problems"].append(f"blanket_condition:{mid} (excludes all {cell['eligible']} replayed inputs)")
     if diff.get("calls"):
         # each argument the body reads takes 2+ distinct supplied values (a logical flag: its

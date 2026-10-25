@@ -288,8 +288,11 @@ those in list elements, S4 slots and environments, are compared with absolute
 or relative tolerance `tol <= 1e-2`, everything else exactly), or
 `ATTR[<attr,attr>]:` (only the listed incidental attributes differ, e.g.
 `ATTR[iter]:`; values, order, class and other attributes stay exact).
-`NAMES:` is short for `ATTR[names,dimnames,row.names]:`, and tags combine:
-`ATTR[iter] NUMTOL[1e-6]:`. `<cond>` is an R expression over the
+`NAMES:` is short for `ATTR[names,dimnames,row.names]:`. Tags combine in
+any order before the colon: at most one condition tag plus any number of
+modifiers, e.g. `BUGFIX[<cond>] ATTR[iter]:` (excluded inside the condition;
+outside it, everything but `iter` is compared) or
+`QUIRK[<cond>] ATTR[iter] NUMTOL[1e-2]:`. Malformed tags fail the declaration. `<cond>` is an R expression over the
 arguments, with brackets allowed (`SCOPED[x[1] > 0]:`). All formals are bound
 when it runs: supplied values, otherwise their defaults; unnamed `...`
 arguments are in `dots`. It must parse and return a single `TRUE`/`FALSE` on
