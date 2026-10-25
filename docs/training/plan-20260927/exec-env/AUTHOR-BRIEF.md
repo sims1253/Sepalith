@@ -29,8 +29,9 @@ The manifest holds 472 training slices (`S000`-`S471`, 74-198 functions,
 median 100; 47,607 functions from 6,590 packages) and 8 hold-out slices
 (`H000`-`H007`, 800 functions from 206 packages). Take slices in id order:
 the order is a hash shuffle, so the first slices are a representative mix.
-At about 10 surviving cuts per gated function, 15 to 30 slices give the
-12k-30k tasks a ~1,500-update GRPO run needs. Functions with a `PILOT` file
+In the pilot about 81% of functions gated and each gave about 11 tasks, so
+roughly 17 to 42 slices give the 12k-30k tasks a ~1,500-update GRPO run
+needs. Functions with a `PILOT` file
 already have tests from the pilot: re-run the gate and review them, rewrite
 only if they fail.
 

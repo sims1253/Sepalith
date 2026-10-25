@@ -1,0 +1,337 @@
+{
+ "schema": "sepalith.exec-env.pilot.v1",
+ "tasks": 438,
+ "functions": 39,
+ "packages": 39,
+ "families": {
+  "finish_block": 378,
+  "rename_propagation": 60
+ },
+ "completions_scored": 5191,
+ "gold_token_path_reward_1": 438,
+ "gold_token_path_n": 438,
+ "by_kind": {
+  "alt": {
+   "n": 949,
+   "outcome:all_pass": 949,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 949,
+   "mean_reward": 1.0,
+   "reward_1.0": 949
+  },
+  "alt_assign": {
+   "n": 281,
+   "outcome:all_pass": 281,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 281,
+   "mean_reward": 1.0,
+   "reward_1.0": 281
+  },
+  "alt_comment": {
+   "n": 438,
+   "outcome:all_pass": 438,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 438,
+   "mean_reward": 1.0,
+   "reward_1.0": 438
+  },
+  "alt_rename": {
+   "n": 80,
+   "outcome:all_pass": 80,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 80,
+   "mean_reward": 1.0,
+   "reward_1.0": 80
+  },
+  "alt_return": {
+   "n": 150,
+   "outcome:all_pass": 150,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 150,
+   "mean_reward": 1.0,
+   "reward_1.0": 150
+  },
+  "arm_a_greedy": {
+   "n": 43,
+   "outcome:all_pass": 17,
+   "n_exact_match": 8,
+   "n_exec_all_pass": 17,
+   "outcome:partial": 20,
+   "outcome:cap_hit": 2,
+   "outcome:fail": 4,
+   "mean_reward": 0.4539,
+   "reward_1.0": 17
+  },
+  "arm_a_t1": {
+   "n": 172,
+   "outcome:all_pass": 52,
+   "n_exact_match": 25,
+   "n_exec_all_pass": 52,
+   "outcome:forbidden_construct": 3,
+   "outcome:partial": 77,
+   "outcome:applied_syntax_invalid": 15,
+   "outcome:fail": 24,
+   "outcome:cap_hit": 1,
+   "mean_reward": 0.3655,
+   "reward_1.0": 52
+  },
+  "broken": {
+   "n": 3589,
+   "outcome:partial": 1060,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 36,
+   "outcome:applied_syntax_invalid": 593,
+   "outcome:forbidden_construct": 438,
+   "outcome:structure_violation": 378,
+   "outcome:missed_edit": 438,
+   "outcome:protocol_invalid": 438,
+   "outcome:fail": 208,
+   "outcome:all_pass": 36,
+   "mean_reward": 0.0032,
+   "reward_1.0": 36
+  },
+  "broken_escape": {
+   "n": 378,
+   "outcome:structure_violation": 378,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 0,
+   "mean_reward": 0.0,
+   "reward_1.0": 0
+  },
+  "broken_mutant_0": {
+   "n": 378,
+   "outcome:partial": 317,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 6,
+   "outcome:fail": 55,
+   "outcome:all_pass": 6,
+   "mean_reward": 0.1813,
+   "reward_1.0": 6
+  },
+  "broken_mutant_1": {
+   "n": 376,
+   "outcome:partial": 312,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 7,
+   "outcome:fail": 57,
+   "outcome:all_pass": 7,
+   "mean_reward": 0.1788,
+   "reward_1.0": 7
+  },
+  "broken_mutant_2": {
+   "n": 366,
+   "outcome:partial": 311,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 8,
+   "outcome:fail": 47,
+   "outcome:all_pass": 8,
+   "mean_reward": 0.1782,
+   "reward_1.0": 8
+  },
+  "broken_noop": {
+   "n": 438,
+   "outcome:missed_edit": 438,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 0,
+   "mean_reward": 0.0,
+   "reward_1.0": 0
+  },
+  "broken_protocol": {
+   "n": 438,
+   "outcome:protocol_invalid": 438,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 0,
+   "mean_reward": -0.5,
+   "reward_1.0": 0
+  },
+  "broken_quit": {
+   "n": 438,
+   "outcome:forbidden_construct": 438,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 0,
+   "mean_reward": 0.0,
+   "reward_1.0": 0
+  },
+  "broken_syntax": {
+   "n": 399,
+   "outcome:applied_syntax_invalid": 383,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 15,
+   "outcome:partial": 1,
+   "outcome:all_pass": 15,
+   "mean_reward": 0.038,
+   "reward_1.0": 15
+  },
+  "broken_truncated": {
+   "n": 378,
+   "outcome:partial": 119,
+   "n_exact_match": 0,
+   "n_exec_all_pass": 0,
+   "outcome:fail": 49,
+   "outcome:applied_syntax_invalid": 210,
+   "mean_reward": 0.0376,
+   "reward_1.0": 0
+  },
+  "gold": {
+   "n": 438,
+   "outcome:all_pass": 438,
+   "n_exact_match": 438,
+   "n_exec_all_pass": 438,
+   "mean_reward": 1.0,
+   "reward_1.0": 438
+  }
+ },
+ "key_numbers": {
+  "alt_correct_nonexact_accepted": [
+   949,
+   949
+  ],
+  "arm_a_samples": 215,
+  "arm_a_v21_exact": 33,
+  "arm_a_exec_all_pass": 69,
+  "arm_a_nonexact_valid_edits": 179,
+  "arm_a_nonexact_accepted_by_exec": 36,
+  "arm_a_v21_exact_but_exec_fail": 0
+ },
+ "throughput": {
+  "workers": 8,
+  "sandbox": "unshare-rnm+ro-remount+tmpfs",
+  "text_completions": 4976,
+  "text_seconds": 10.87,
+  "rewards_per_second": 457.7,
+  "batch32_seconds_p50": 0.141,
+  "batch32_seconds_p95": 0.206,
+  "job_seconds_p50": 0.015,
+  "job_seconds_p95": 0.046
+ },
+ "gate": {
+  "verdicts": {
+   "pass": 39,
+   "skip": 9
+  },
+  "skip_reasons": {
+   "trivial": 7,
+   "output_only_method": 1,
+   "needs": 1
+  },
+  "assertions_median": 23,
+  "assertions_min": 12,
+  "kill_rate_median": 1.0,
+  "kill_rate_min": 0.851,
+  "kill_rate_with_equivalents_as_survivors_median": 0.972972972972973,
+  "kill_rate_with_equivalents_as_survivors_min": 0.667,
+  "stub_pass_share_max": 0.1,
+  "mutant_totals": {
+   "generated": 2173,
+   "sampled": 1830,
+   "invalid": 0,
+   "declared_equivalent": 73,
+   "valid": 1757,
+   "killed": 1732
+  },
+  "pooled_kill_rate": 0.9858,
+  "kill_by_op": {
+   "arithmetic": {
+    "killed": 87,
+    "valid": 89,
+    "rate": 0.978
+   },
+   "branch": {
+    "killed": 168,
+    "valid": 173,
+    "rate": 0.971
+   },
+   "constant": {
+    "killed": 318,
+    "valid": 325,
+    "rate": 0.978
+   },
+   "early_return": {
+    "killed": 438,
+    "valid": 438,
+    "rate": 1.0
+   },
+   "indexing": {
+    "killed": 38,
+    "valid": 38,
+    "rate": 1.0
+   },
+   "logical": {
+    "killed": 51,
+    "valid": 51,
+    "rate": 1.0
+   },
+   "na_handling": {
+    "killed": 17,
+    "valid": 17,
+    "rate": 1.0
+   },
+   "relational": {
+    "killed": 79,
+    "valid": 80,
+    "rate": 0.988
+   },
+   "statement_delete": {
+    "killed": 409,
+    "valid": 419,
+    "rate": 0.976
+   },
+   "statement_duplicate": {
+    "killed": 14,
+    "valid": 14,
+    "rate": 1.0
+   },
+   "swap_args": {
+    "killed": 113,
+    "valid": 113,
+    "rate": 1.0
+   }
+  }
+ },
+ "task_build": {
+  "cut_local_kill_rate": 10,
+  "cuts_seen": 779,
+  "function_gate_not_passed": 1,
+  "render_failed": 4,
+  "tasks": 438,
+  "tasks_finish_block": 378,
+  "tasks_rename_propagation": 60,
+  "tests_require_unseen_choice": 314,
+  "truncated_passes_unobservable": 13,
+  "finish_block_buckets": {
+   "medium": 163,
+   "short": 134,
+   "long": 81
+  },
+  "finish_block_target_lines_5wide": {
+   "0": 61,
+   "5": 87,
+   "10": 75,
+   "15": 64,
+   "20": 44,
+   "25": 25,
+   "30": 22
+  }
+ },
+ "manual_review_accepted_nonexact": {
+  "accepted_nonexact": 36,
+  "behaviourally_correct": 36,
+  "false_accepts": 0,
+  "trivial_variants": {
+   "return_vs_bare_value": 27,
+   "blank_line_or_comment_only": 6
+  },
+  "substantive_alternatives": 3,
+  "notes": [
+   "transpColor: different but equivalent rgb() call (vectorised over colours, single-colour behaviour identical)",
+   "warcolak.convert x2: extra column copy that is a no-op because df <- w",
+   "first test round (plain-list fakes, 50 samples): 2 false accepts (attributes copied from fields the fake lacked; a dead branch under an untested argument); after strict() fakes and non-default-argument coverage both score 0.06-0.08"
+  ]
+ },
+ "inputs": {
+  "tasks.jsonl": "d0c0f637ecf250a5a47d1bb42bf27c5df222d8a11b76e775784ef8f374c5959f",
+  "arm-a-samples.jsonl": "da9704e3512267565ac78522e95294acf69728211da2b05af1f88faa056b8ad3",
+  "gguf": "/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf (arm A checkpoint 536, sha256 44b01828...)",
+  "decoding": "llama.cpp b10453 CPU, 8 threads, nice 10; greedy + 4 samples at T=1.0 (top_k 0, top_p 1) per task, one or two finish_block tasks per function"
+ }
+}

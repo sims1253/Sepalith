@@ -59,8 +59,9 @@ Protocol checks as reward v2.1 (-0.5 for invalid output or cap); no edit 0;
 region-only splice; tamper-capable constructs not used by the original
 refused (0); parse/structure/source failures 0; otherwise
 `0.5 x behaviour-weighted pass fraction + 0.5 x all-pass` (per-category pass
-shares averaged; assertions that never ran count as failed), exact bonus 0 by
-default and exact match logged separately. `ExecReward` has the GRPO trainer's
+shares averaged; assertions that never ran count as failed), halved when the
+completion has more than max(2 x, +6) the gold's non-blank lines (dead code
+under the suite), exact bonus 0 by default and exact match logged separately. `ExecReward` has the GRPO trainer's
 reward signature; `RoutedReward` sends exec tasks to it and everything else
 (legacy TRAIN replay) to reward v2.1. Nothing in the trainer, its default
 reward or any bound recipe changes.
@@ -71,7 +72,12 @@ reward or any bound recipe changes.
   stack-inspection attacks; the static screen refuses those constructs and
   the sandbox bounds the damage. Infrastructure faults raise instead of scoring.
 - The inferability check (tests referencing strings or names that only the
-  hidden remainder introduces) is lexical.
+  hidden remainder introduces) is lexical; it drops about 40% of cuts.
+- Tests only see the inputs they build. Plain-list fakes let completions that
+  read nonexistent fields pass; the brief requires `strict()` fakes and
+  non-default argument coverage, and the overlong guard limits dead-code padding.
+- The pool is a candidate pool: in the pilot 81% of sampled functions could be
+  gated (most others were print-only methods).
 - na_rm_propagation, pipe_rewrite, formatting and roxygen are not built:
   na.rm changes behaviour on purpose and needs NA-targeted suites; the TRAIN
   pipe family rewrites `%>%`, which needs magrittr (not installed in the
