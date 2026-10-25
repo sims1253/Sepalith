@@ -31,8 +31,7 @@ median 100; 47,607 functions from 6,590 packages) and 8 hold-out slices
 the order is a hash shuffle, so the first slices are a representative mix.
 In the pilot about 81% of functions gated and each gave about 11 tasks, so
 roughly 17 to 42 slices give the 12k-30k tasks a ~1,500-update GRPO run
-needs. Functions with a `PILOT` file
-already have tests from the pilot: re-run the gate and review them, rewrite
+needs. Functions with a `PILOT` file already have tests from the pilot: re-run the gate and review them, rewrite
 only if they fail.
 
 Claim exactly one slice at a time, atomically:
@@ -139,7 +138,7 @@ requires:
    statements, duplicated self-updates, swapped arguments, `x[i + 1]`, early
    `return(NULL)` / `return(<first argument>)`). At least **70%** of the valid
    ones must fail at least one assertion. Survivors are listed in `gate.json`
-   (`mutants.survivors`, with the mutated line): read them, then add an input
+   (`mutants.survivors`, with `original_lines` and `mutated_lines`): read them, then add an input
    that tells the mutant apart from the original.
 
 The gate does not generate mutants that only change message wording (strings
@@ -195,8 +194,9 @@ when it can be mapped) and does not run mutants.
   data frame (its own `$` method wins).
 - **Dead code**: model completions sometimes add branches that never run on
   your inputs. Cover every argument the function reads with at least one
-  non-default value, so code guarded by those arguments is exercised. Methods you define in
-  `test.R` are not visible to dispatch from the function; register them with
+  non-default value, so code guarded by those arguments is exercised.
+- **S3 methods** you define in `test.R` are not visible to dispatch from the
+  function; register them with
   `registerS3method("generic", "class", function(...) ...)` or use real base
   or stats objects.
 - **Messages and warnings**: the helpers suppress warnings (except
@@ -226,8 +226,8 @@ per line: `<mutant id> <one-line reason>`. They leave the kill-rate
 denominator. Mutant ids are bound to the edit (span and replacement text);
 `gate.json` lists `stale_equivalent_ids` (no longer generated) and
 `declared_equivalent_but_killed` (your tests kill it, so it was not
-equivalent): delete those lines. Reviewers check every entry; an entry that is not genuinely
-equivalent fails the function. Do not use this file to get past the gate.
+equivalent): delete those lines. Reviewers check every entry; an entry that
+is not genuinely equivalent fails the function. Do not use this file to get past the gate.
 
 ## 6. Anti-patterns (each fails review even if the gate passes)
 
@@ -251,7 +251,8 @@ reviewed by a GPT-6.1-Sol reviewer and vice versa). Reviewers read
 `source.R`, `test.R`, `gate.json` and `equivalent.txt`, re-run the gate, and
 reject functions that hit an anti-pattern. A uniform random 5% of passed
 functions per slice goes to a human audit list
-(`EXEC-ENV-v1/audit/human-sample.jsonl`). Hold-out (`H`) slices are reviewed
+(`EXEC-ENV-v1/audit/human-sample.jsonl`, written by
+`python -m sepalith.exec_env.slices --pool ... --out ... --audit-root EXEC-ENV-v1/authors --audit-out ...`). Hold-out (`H`) slices are reviewed
 in full.
 
 ## 8. Rules
