@@ -119,9 +119,25 @@ functions let at least one through. In response, the gate now requires:
 The brief adds rules on fixture variation, defaults, returned classes and
 fields, and skips.
 
-Re-gating the 39 pilot functions under v2: **16 pass, 23 fail**.
-Reasons: 15 loose error patterns (`"length"`, `"singular"`,
-`"should be one of"`, ...), 9 unkilled survivors (1 to 7 each), 4
-single-assertion categories, 1 with 11 hand-written assertions. The pilot
-reward numbers above were measured under v1. Tasks build only from functions
-that pass, so these suites need another pass before reuse.
+Re-gating the 39 pilot functions under v2 gave **16 pass, 23 fail**: 15
+loose error patterns (`"length"`, `"singular"`, `"should be one of"`, ...), 9
+unkilled survivors (1 to 7 each), 4 single-assertion categories, 1 with 11
+hand-written assertions.
+
+**After migration (same three authors): 39 of 39 pass v2.**
+- Hand-written assertions: median 18, min 12.
+- Mutants: 1,733 of 1,733 valid mutants killed, plus 97 declared equivalent,
+  each with a reason. The reasons were unobservable `options(warn)` toggles,
+  print-only diagnostics, no-op guards, and offsets that centring cancels.
+- Self-probes: **95 on 36 functions, all rejected.** Only one passed on its
+  first run, and it turned out to be equivalent, so it was replaced.
+- Fixes: error patterns now quote the function's own wording or use
+  `class =`. Checks that only caught R's own errors (`solve()`, `%*%`) were
+  removed, and one accidental quirk is no longer pinned.
+- Tasks rebuilt from the migrated suites: 433 (373 finish_block, 60
+  rename_propagation), saved as `pilot/tasks-v2.jsonl`. The reward numbers
+  above were measured on the v1 suites.
+
+To migrate a finished slice, run
+`python -m sepalith.exec_env.gate --summary <slice>` (or `--report-only` to
+summarise the existing `gate.json` files without re-running).
