@@ -55,6 +55,7 @@ result <- tryCatch({
 
   fmls <- formals(orig)
   read <- intersect(names(fmls), all.names(body(orig)))
+  tryCatch({
   # argument diversity across the recorded calls
   for (a in setdiff(read, "...")) {
     vals <- vapply(rec, function(r) if (a %in% names(r)) show(r[[a]]) else "<default>", "")
@@ -73,8 +74,8 @@ result <- tryCatch({
     emit("ARG", a, length(given), any(vals == "<default>"), flag, sparse)
   }
   supplied <- unique(unlist(lapply(rec, names)))
-  pairs <- utils::combn(intersect(supplied, read), 2, simplify = FALSE)
-  if (length(intersect(supplied, read)) < 2) pairs <- list()
+  both_read <- intersect(supplied, read)
+  pairs <- if (length(both_read) >= 2) utils::combn(both_read, 2, simplify = FALSE) else list()
   for (p in pairs) {
     both <- Filter(function(r) all(p %in% names(r)), rec)
     if (length(both) && all(vapply(both, function(r) identical(r[[p[1]]], r[[p[2]]]), TRUE)) &&
@@ -82,6 +83,8 @@ result <- tryCatch({
       emit("EQUAL", p[1], p[2])
     }
   }
+
+  }, error = function(err) emit("WARN", paste("argument checks:", clean(conditionMessage(err)))))
 
   # perturbed inputs
   inputs <- lapply(rec, function(r) list(args = r, tag = "test call", recorded = TRUE))

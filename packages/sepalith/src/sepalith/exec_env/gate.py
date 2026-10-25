@@ -294,6 +294,8 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
             out["diff"][parts[1]] = {"input": parts[2], "original": parts[3], "mutant": parts[4]}
         elif kind == "FAIL":
             out["error"] = parts[1]
+        elif kind == "WARN":
+            out.setdefault("warnings", []).append(parts[1])
     if out["calls"] is None and "error" not in out:
         out["error"] = "differential check produced no output: " + proc.stderr.strip()[-200:]
     return out
@@ -489,7 +491,12 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     report["differential"] = diff
     report.setdefault("warnings", [])
     if "error" in diff:
-        report["warnings"].append("differential_check_unavailable: " + str(diff["error"])[:150])
+        if declared_mutants:
+            # unverified declarations must not pass silently
+            report["problems"].append("equivalence_unverified: " + str(diff["error"])[:150])
+        else:
+            report["warnings"].append("differential_check_unavailable: " + str(diff["error"])[:150])
+    report["warnings"] += diff.get("warnings", [])
     for mid in sorted(diff.get("diff", {})):
         report["problems"].append(f"equivalence_refuted:{mid}")
     if diff.get("calls"):
