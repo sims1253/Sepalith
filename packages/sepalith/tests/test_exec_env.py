@@ -138,6 +138,17 @@ class HarnessTests(unittest.TestCase):
 
 
 @unittest.skipUnless(HAS_R, "needs Rscript")
+class ConditionParsingTests(unittest.TestCase):
+    def test_nested_brackets_and_quotes(self):
+        from sepalith.exec_env.gate import condition_of
+        self.assertEqual(condition_of("SCOPED[x[1] > 0]: only positive starts"), "x[1] > 0")
+        self.assertEqual(condition_of("QUIRK[nrow(m[, 1, drop = FALSE]) == 0]: empty"), "nrow(m[, 1, drop = FALSE]) == 0")
+        self.assertEqual(condition_of('BUGFIX[any(x == "]")]: literal bracket'), 'any(x == "]")')
+        self.assertEqual(condition_of("BUGFIX[l[[\"a\"]][2] < 0] : spaced colon"), 'l[["a"]][2] < 0')
+        self.assertEqual(condition_of("PRINT: no condition"), "")
+        self.assertEqual(condition_of("SCOPED[x[1] > 0 no colon"), "")
+
+
 class MutantTests(unittest.TestCase):
     def test_classes_and_spans(self):
         from sepalith.exec_env import mutants

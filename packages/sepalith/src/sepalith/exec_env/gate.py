@@ -288,7 +288,6 @@ def top_names(unit: str, names: Sequence[str]) -> tuple[str, ...]:
 
 R_DIFF = Path(__file__).with_name("r_diff.R")
 DIFF_MAX_INPUTS = 150
-CONDITION_PREFIX = re.compile(r"^(SCOPED|BUGFIX|QUIRK)\[(.+?)\]\s*:")
 GENERIC_CONDITION_CLASSES = {"simpleError", "error", "condition", "simpleCondition", "simpleWarning", "warning"}
 
 
@@ -297,9 +296,38 @@ def declared_conditions(equivalents: dict[str, str]) -> dict[str, str]:
     arguments). Every other declaration (plain, PRINT, unconditioned QUIRK) must hold on every replayed input."""
     out = {}
     for mid, reason in equivalents.items():
-        match = CONDITION_PREFIX.match(reason.strip())
-        out[mid] = match.group(2) if match else ""
+        out[mid] = condition_of(reason)
     return out
+
+
+def condition_of(reason: str) -> str:
+    """The ``<cond>`` of ``SCOPED[<cond>]:`` / ``BUGFIX[...]`` / ``QUIRK[...]``, brackets balanced (so
+    ``x[1] > 0`` and ``nrow(m[, 1, drop = FALSE]) == 0`` work), quotes respected; "" if none."""
+    text = reason.strip()
+    head = re.match(r"^(SCOPED|BUGFIX|QUIRK)\[", text)
+    if not head:
+        return ""
+    depth, quote, escaped = 1, "", False
+    for index in range(head.end(), len(text)):
+        ch = text[index]
+        if quote:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = ""
+            continue
+        if ch in "\"'`":
+            quote = ch
+        elif ch == "[":
+            depth += 1
+        elif ch == "]":
+            depth -= 1
+            if depth == 0:
+                rest = text[index + 1:].lstrip()
+                return text[head.end():index].strip() if rest.startswith(":") else ""
+    return ""
 
 
 def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mutants_module.Mutant],
