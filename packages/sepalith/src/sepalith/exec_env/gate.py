@@ -291,12 +291,21 @@ DIFF_MAX_INPUTS = 150
 GENERIC_CONDITION_CLASSES = {"simpleError", "error", "condition", "simpleCondition", "simpleWarning", "warning"}
 
 
-def declared_conditions(equivalents: dict[str, str]) -> dict[str, str]:
-    """``SCOPED[cond]:`` / ``BUGFIX[cond]:`` / ``QUIRK[cond]:`` input conditions (R expressions over the
-    arguments). Every other declaration (plain, PRINT, unconditioned QUIRK) must hold on every replayed input."""
+NUMTOL_MAX = 1e-2
+
+
+def declared_conditions(equivalents: dict[str, str]) -> dict[str, tuple[str, str]]:
+    """Per declared mutant: ``("cond", <R condition>)`` for ``SCOPED/BUGFIX/QUIRK[cond]:``,
+    ``("numtol", <tolerance>)`` for ``NUMTOL[tol]:``, else ``("", "")``. Every declaration without a
+    condition (plain, PRINT, unconditioned QUIRK, NUMTOL) must hold on every replayed input."""
     out = {}
     for mid, reason in equivalents.items():
-        out[mid] = condition_of(reason)
+        tol = re.match(r"^NUMTOL\[\s*([^\]]+?)\s*\]\s*:", reason.strip())
+        if tol:
+            out[mid] = ("numtol", tol.group(1))
+        else:
+            cond = condition_of(reason)
+            out[mid] = ("cond", cond) if cond else ("", "")
     return out
 
 
@@ -331,7 +340,7 @@ def condition_of(reason: str) -> str:
 
 
 def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mutants_module.Mutant],
-                        conditions: dict[str, str], *, timeout: float = 240.0) -> dict:
+                        conditions: dict[str, tuple[str, str]], *, timeout: float = 240.0) -> dict:
     """Run r_diff.R in the sandbox: recorded test calls, perturbed inputs, declared-mutant comparisons."""
     with tempfile.TemporaryDirectory(prefix="sepalith-diff-") as tmp:
         root = Path(tmp)
@@ -342,7 +351,7 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
         for mutant in mutants:
             (root / "mutants" / f"{mutant.id}.R").write_text(mutant.text, encoding="utf-8")
         (root / "mutants" / "conditions.tsv").write_text(
-            "".join(f"{mid}\t{cond}\n" for mid, cond in conditions.items()), encoding="utf-8")
+            "".join(f"{mid}\t{kind}\t{value}\n" for mid, (kind, value) in conditions.items()), encoding="utf-8")
         cmd = ["Rscript", "--vanilla", str(R_DIFF), str(root / "unit.R"), str(root / "suite.R"), str(TESTLIB), target,
                str(root / "mutants"), str(DIFF_MAX_INPUTS)]
         if namespaces_available():
@@ -353,7 +362,8 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=False)
         except subprocess.TimeoutExpired:
             return {"error": "differential check timed out"}
-    out: dict = {"calls": None, "inputs": None, "args": {}, "always_equal": [], "same": {}, "diff": {}}
+    out: dict = {"calls": None, "inputs": None, "args": {}, "always_equal": [], "same": {}, "diff": {},
+                 "excluded": {}, "bad_conditions": []}
     for line in proc.stdout.splitlines():
         parts = line.split("\t")
         kind = parts[0]
@@ -370,6 +380,11 @@ def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mu
             out["same"][parts[1]] = int(parts[2])
         elif kind == "DIFF":
             out["diff"][parts[1]] = {"input": parts[2], "original": parts[3], "mutant": parts[4]}
+        elif kind == "EXCL":
+            out["excluded"][parts[1]] = {"excluded": int(parts[2]), "eligible": int(parts[3]),
+                                         "share": round(int(parts[2]) / int(parts[3]), 3) if int(parts[3]) else None}
+        elif kind == "BADCOND":
+            out["bad_conditions"].append(parts[1])
         elif kind == "FAIL":
             out["error"] = parts[1]
         elif kind == "WARN":
@@ -566,7 +581,17 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
         report["problems"].append(f"unkilled_survivors:{valid - kills} (kill or declare each; rate {rate:.2f})")
     # v3: differential verification of every declared equivalent, argument diversity, fixture density
     declared_mutants = [m for m in all_mutants if m.id in equivalents]
-    diff = differential_checks(unit, suite, meta["name"], declared_mutants, declared_conditions(equivalents))
+    conditions = declared_conditions(equivalents)
+    for mid, (kind, value) in sorted(conditions.items()):
+        if kind == "numtol":
+            try:
+                tolerance = float(value)
+            except ValueError:
+                tolerance = float("nan")
+            if not 0 < tolerance <= NUMTOL_MAX:
+                report["problems"].append(f"numtol_invalid:{mid}={value} (0 < tol <= {NUMTOL_MAX})")
+                conditions[mid] = ("", "")
+    diff = differential_checks(unit, suite, meta["name"], declared_mutants, conditions)
     report["differential"] = diff
     report.setdefault("warnings", [])
     if "error" in diff:
@@ -578,6 +603,11 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     report["warnings"] += diff.get("warnings", [])
     for mid in sorted(diff.get("diff", {})):
         report["problems"].append(f"equivalence_refuted:{mid}")
+    for mid in diff.get("bad_conditions", []):
+        report["problems"].append(f"condition_does_not_parse:{mid}")
+    for mid, cell in sorted(diff.get("excluded", {}).items()):
+        if conditions.get(mid, ("", ""))[0] == "cond" and cell["eligible"] and cell["excluded"] == cell["eligible"]:
+            report["problems"].append(f"blanket_condition:{mid} (excludes all {cell['eligible']} replayed inputs)")
     if diff.get("calls"):
         # each argument the body reads takes 2+ distinct supplied values (a logical flag: its
         # non-default value at least once)

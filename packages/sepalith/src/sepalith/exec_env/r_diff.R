@@ -212,8 +212,16 @@ result <- tryCatch({
       for (n in other) if (!same_value(attr(a, n, exact = TRUE), attr(b, n, exact = TRUE), depth + 1L)) return(FALSE)
       return(TRUE)
     }
-    isTRUE(all.equal(a, b, tolerance = 1e-8)) && identical(na_pattern(a), na_pattern(b))
+    if (!identical(na_pattern(a), na_pattern(b))) return(FALSE)
+    if (num_tol > 0 && (is.numeric(a) || is.complex(a)) && (is.numeric(b) || is.complex(b))) {
+      # NUMTOL[tol]: absolute or relative tolerance per element; shape and attributes still exact
+      if (!identical(dim(a), dim(b)) || length(a) != length(b) || !identical(names(a), names(b))) return(FALSE)
+      ok <- is.na(a) | abs(a - b) <= num_tol | abs(a - b) <= num_tol * abs(a)
+      return(all(ok | (is.na(a) & is.na(b))))
+    }
+    isTRUE(all.equal(a, b, tolerance = 1e-8))
   }
+  num_tol <- 0
   summary_of <- function(o) {
     paste0(if (o$ok) show(o$value) else paste("error:", clean(o$value)), if (o$warn) " [warning]" else "")
   }
@@ -223,31 +231,45 @@ result <- tryCatch({
     if (is.null(nm)) nm <- rep("", length(a))
     for (k in seq_along(a)) if (nzchar(nm[k])) assign(nm[k], a[[k]], envir = env)
     assign("dots", unname(a[!nzchar(nm)]), envir = env)
+    # formals not supplied: their defaults, evaluated lazily in this environment (as R would)
+    for (f in setdiff(names(fmls), c(nm, "..."))) {
+      d <- fmls[[f]]
+      if (!(is.name(d) && !nzchar(as.character(d)))) {
+        eval(call("delayedAssign", f, d, env, env))
+      }
+    }
     env
   }
   baseline <- lapply(inputs, function(i) outcome(orig, i$args))
-  conds <- if (file.exists(file.path(mdir, "conditions.tsv"))) {
-    x <- readLines(file.path(mdir, "conditions.tsv"), warn = FALSE)
-    stats::setNames(sub("^[^\t]*\t", "", x), sub("\t.*$", "", x))
-  } else character()
+  # conditions.tsv: <id>\t<kind>\t<value>; kind "cond" (an R condition) or "numtol" (a tolerance)
+  spec <- if (file.exists(file.path(mdir, "conditions.tsv"))) {
+    x <- strsplit(readLines(file.path(mdir, "conditions.tsv"), warn = FALSE), "\t", fixed = TRUE)
+    stats::setNames(lapply(x, function(v) c(v[2], paste(v[-(1:2)], collapse = "\t"))), vapply(x, `[`, "", 1))
+  } else list()
   for (mf in sort(list.files(mdir, pattern = "\\.R$", full.names = TRUE))) {
     id <- sub("\\.R$", "", basename(mf))
     m <- new.env(parent = globalenv())
     ok <- tryCatch({ sys.source(mf, envir = m); TRUE }, error = function(err) FALSE)
     if (!ok) { emit("DIFF", id, "<sourcing the mutant>", "sources", "error"); next }
     mutant <- get(fn, envir = m)
-    cond <- conds[id]
+    kind <- if (is.null(spec[[id]])) "" else spec[[id]][1]
+    cond <- if (identical(kind, "cond")) spec[[id]][2] else ""
+    num_tol <- if (identical(kind, "numtol")) as.numeric(spec[[id]][2]) else 0
+    # which eligible inputs the condition excludes (reported; a condition excluding all is a blanket)
+    eligible <- which(vapply(seq_along(inputs), function(j) inputs[[j]]$recorded || baseline[[j]]$ok, TRUE))
+    excluded_set <- if (nzchar(cond)) {
+      expr <- tryCatch(parse(text = cond)[[1]], error = function(err) NULL)
+      if (is.null(expr)) { emit("BADCOND", id); integer() } else
+        Filter(function(j) tryCatch(isTRUE(eval(expr, envir = cond_env(inputs[[j]]$args))),
+                                    error = function(err) FALSE), eligible)
+    } else integer()
+    emit("EXCL", id, length(excluded_set), length(eligible))
     compared <- 0L
     found <- FALSE
-    for (j in seq_along(inputs)) {
+    for (j in eligible) {
       inp <- inputs[[j]]
       base <- baseline[[j]]
-      if (!inp$recorded && !base$ok) next  # out of contract: the original rejects this input
-      if (!is.na(cond) && nzchar(cond)) {
-        excluded <- tryCatch(isTRUE(eval(parse(text = cond)[[1]], envir = cond_env(inp$args))),
-                             error = function(err) FALSE)
-        if (excluded) next
-      }
+      if (j %in% excluded_set) next
       mo <- outcome(mutant, inp$args)
       compared <- compared + 1L
       differs <- base$ok != mo$ok || base$warn != mo$warn || (base$ok && !same_value(base$value, mo$value))

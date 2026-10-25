@@ -282,9 +282,15 @@ per line: `<mutant id> <one-line reason>`. Typed reasons start with `PRINT:`
 (printed or message text only; value, warnings and errors must be
 identical), `QUIRK[<cond>]:` (incidental behaviour a correct rewrite may
 differ on), `SCOPED[<cond>]:` (only inside a verified-broken branch) or
-`BUGFIX[<cond>]:` (only fixes a verified bug). `<cond>` is an R expression
-over the arguments, e.g. `SCOPED[nrow(x) != ncol(x)]:`; a `QUIRK:` without a
-condition must hold on every replayed input.
+`BUGFIX[<cond>]:` (only fixes a verified bug), or `NUMTOL[<tol>]:` (only
+iterative-solver noise, e.g. an `optim()` start point: numbers are compared
+with absolute or relative tolerance `tol <= 1e-2`, everything else exactly).
+`<cond>` is an R expression over the arguments, with brackets allowed
+(`SCOPED[x[1] > 0]:`). All formals are bound when it runs: supplied values,
+otherwise their defaults. Unnamed `...` arguments are in `dots`. A condition
+that excludes every replayed input (`QUIRK[TRUE]`) is rejected as a blanket
+exemption, and `gate.json` reports the share each condition excludes. A
+`QUIRK:` without a condition must hold on every replayed input.
 
 **The gate checks every declaration (v3).** It replays every call your tests
 make, plus perturbations of them: numbers scaled, negated, shifted and
@@ -298,8 +304,7 @@ on everything. Any other difference fails the declaration
 (`equivalence_refuted`), and `gate.json` (`differential.diff`) shows the
 distinguishing input. Returned closures are compared by calling them on probe
 inputs, and stored `call`, `terms` and `heading` values are ignored unless your
-suite reads them (`$call`, `"heading"`). Unnamed `...` arguments are available
-to conditions as the list `dots`. A mutant that adds or removes a warning is never
+suite reads them (`$call`, `"heading"`). A mutant that adds or removes a warning is never
 `PRINT`: kill it with `check_warning`, or on the silent path assert that no
 warning fires (`withCallingHandlers(f(x), warning = function(w) stop("unexpected warning"))`
 inside `check_identical`). Passing the replay is necessary, not sufficient:

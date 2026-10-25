@@ -149,6 +149,33 @@ class ConditionParsingTests(unittest.TestCase):
         self.assertEqual(condition_of("SCOPED[x[1] > 0 no colon"), "")
 
 
+@unittest.skipUnless(HAS_R and HAS_AIR, "needs Rscript and air")
+class NumericToleranceTests(unittest.TestCase):
+    def test_numtol_declarations(self):
+        from sepalith.exec_env import mutants
+        from sepalith.exec_env.gate import gate_function
+        from sepalith.exec_env.harness import ExecHarness
+        unit = "fit <- function(x, k = 2) {\n  y <- x * k\n  z <- y + 0.00001\n  z\n}\n"
+        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0])
+                    if m.op == "constant" and "0.00001 * 2" in m.text)
+        test = "".join(f'check_equal("{c}", fit({x}, k = {k}), {x} * {k}, tolerance = 1e-3)\n'
+                       for c, x, k in [("a", 1, 2), ("a", 2, 3), ("b", 3, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
+        with tempfile.TemporaryDirectory() as tmp, ExecHarness(workers=2) as harness:
+            d = Path(tmp) / "f"
+            d.mkdir()
+            (d / "source.R").write_text(unit)
+            (d / "test.R").write_text(test)
+            (d / "meta.json").write_text(json.dumps({"id": "f", "package": "p", "path": "R/f.R", "name": "fit",
+                                                      "helpers": [], "formals": ["x", "k"]}))
+            outcomes = {}
+            for tol in ("1e-4", "1e-7", "0.5"):
+                (d / "equivalent.txt").write_text(f"{bump.id} NUMTOL[{tol}]: offset noise\n")
+                outcomes[tol] = gate_function(d, harness)["problems"]
+        self.assertFalse(any(bump.id in p for p in outcomes["1e-4"]), outcomes["1e-4"])
+        self.assertIn(f"equivalence_refuted:{bump.id}", outcomes["1e-7"])
+        self.assertTrue(any(p.startswith(f"numtol_invalid:{bump.id}") for p in outcomes["0.5"]))
+
+
 class MutantTests(unittest.TestCase):
     def test_classes_and_spans(self):
         from sepalith.exec_env import mutants
@@ -218,6 +245,21 @@ class GateTaskRewardTests(unittest.TestCase):
         self.assertIn(f"equivalence_refuted:{flip.id}", report["problems"])
         self.assertIn("input", report["differential"]["diff"][flip.id])
         self.assertEqual(len(report["differential"]["same"]), 5)  # the genuine equivalents survive the check
+
+    def test_conditions_see_defaults_and_blankets_fail(self):
+        first = EQUIVALENT.splitlines()[0].split()[0]
+        rest = "\n".join(EQUIVALENT.splitlines()[1:]) + "\n"
+        try:
+            (self.fdir / "equivalent.txt").write_text(f"{first} QUIRK[cut == 0.5]: default cut only\n" + rest)
+            report = self.gate(TEST)
+            share = report["differential"]["excluded"][first]["share"]
+            self.assertTrue(0 < share < 1, share)  # `cut` is unbound in calls relying on its default
+            self.assertFalse(any(p.startswith("blanket_condition") for p in report["problems"]))
+            (self.fdir / "equivalent.txt").write_text(f"{first} QUIRK[TRUE]: anything goes\n" + rest)
+            report = self.gate(TEST)
+            self.assertTrue(any(p.startswith(f"blanket_condition:{first}") for p in report["problems"]))
+        finally:
+            (self.fdir / "equivalent.txt").write_text(EQUIVALENT)
 
     def test_unvaried_argument_flagged(self):
         fixed = "\n".join(line for line in TEST.splitlines() if "cut = " not in line or "exec_cases" in line)
