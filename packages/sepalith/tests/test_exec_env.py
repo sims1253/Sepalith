@@ -196,6 +196,31 @@ class GateTaskRewardTests(unittest.TestCase):
         finally:
             shutil.rmtree(probes)
 
+    def test_false_equivalence_is_refuted(self):
+        from sepalith.exec_env import mutants
+        flip = next(m for m in mutants.generate(UNIT, mutants.parse_tokens([UNIT])[0]) if m.description == "< -> >=")
+        (self.fdir / "equivalent.txt").write_text(EQUIVALENT + f"{flip.id} PRINT: only changes output\n")
+        try:
+            report = self.gate(TEST)
+        finally:
+            (self.fdir / "equivalent.txt").write_text(EQUIVALENT)
+        self.assertIn(f"equivalence_refuted:{flip.id}", report["problems"])
+        self.assertIn("input", report["differential"]["diff"][flip.id])
+        self.assertEqual(len(report["differential"]["same"]), 5)  # the genuine equivalents survive the check
+
+    def test_unvaried_argument_flagged(self):
+        fixed = "\n".join(line for line in TEST.splitlines() if "cut = " not in line or "exec_cases" in line)
+        report = self.gate(fixed.replace("lapply(1:6, function(i) list(scores = round(runif(8, -0.5, 1.5), 2), "
+                                         "cut = round(runif(1), 2)))", "lapply(1:6, function(i) list(scores = runif(8)))"))
+        self.assertTrue(any(p.startswith("argument_not_varied:cut") for p in report["problems"]), report["problems"])
+
+    def test_generic_class_does_not_bypass_pattern_check(self):
+        from sepalith.exec_env.gate import loose_error_patterns
+        found = loose_error_patterns([("check_error", 'check_error("v", f(1), class = "simpleError", pattern = "length")'),
+                                      ("check_error", 'check_error("v", f(1), class = "simpleError")'),
+                                      ("check_error", 'check_error("v", f(1), class = "myPkgError")')])
+        self.assertEqual(found, ["class=simpleError without a pattern", "length"])
+
     def test_loose_error_pattern_flagged(self):
         report = self.gate(TEST.replace('pattern = "scores must be numeric"', 'pattern = "numeric"'))
         self.assertTrue(any(p.startswith("error_pattern_matches_r_message") for p in report["problems"]))

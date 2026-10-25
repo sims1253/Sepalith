@@ -149,7 +149,9 @@ requires:
    any of R's own messages (the gate checks it against R's message catalogs):
    `"length"`, `"minimum"` or `"numeric"` also match R's errors, so the test
    would still pass if the function's own check were deleted. Use the
-   function's specific wording (`"scores must be numeric"`) or `class =`.
+   function's specific wording (`"scores must be numeric"`) or a specific
+   `class =`. A generic class (`"simpleError"`, `"error"`, `"condition"`) does
+   not count: it needs a specific pattern as well.
 3. **The tests reach the function**: a stub whose body is
    `stop("exec-env stub")` may pass at most 20% of the assertions.
 4. **Mutation sensitivity**: up to 60 mutants of the function (flipped
@@ -168,6 +170,13 @@ requires:
    function. The gate runs every `probes/*.R` and fails if one passes all
    assertions (`gate.json` `probes`). This is how reviewers probe your suite:
    in the first review, 12% of their wrong versions passed every assertion.
+6. **Argument diversity** (v3): every formal argument the function body reads
+   takes at least 2 distinct supplied values across the suite's calls
+   (`exec_cases` included). A logical flag needs its non-default value at least
+   once. Two arguments that always get the same value (both index arguments
+   `"attr"`) fail. Matrix, network and table fixtures with at most one nonzero
+   cell per row and column draw a warning.
+7. **Declared equivalents are verified** (v3, section 5).
 
 The gate does not generate mutants that only change message wording (strings
 and `call.` flags inside `stop()`, `warning()`, `message()`, `cat()`,
@@ -265,12 +274,30 @@ when it can be mapped) and does not run mutants.
 Some mutants cannot be told apart from the original by any input (for
 example deleting a statement whose result is never used, or forcing an `if`
 whose two arms compute the same value). List those in `equivalent.txt`, one
-per line: `<mutant id> <one-line reason>`. They leave the kill-rate
-denominator. Mutant ids are bound to the edit (span and replacement text);
-`gate.json` lists `stale_equivalent_ids` (no longer generated) and
+per line: `<mutant id> <one-line reason>`. Typed reasons start with `PRINT:`
+(printed or message text only), `QUIRK:` (incidental behaviour a correct
+rewrite may differ on), `SCOPED[<cond>]:` (only inside a verified-broken
+branch) or `BUGFIX[<cond>]:` (only fixes a verified bug). `<cond>` is an R
+expression over the arguments, e.g. `SCOPED[nrow(x) != ncol(x)]:`.
+
+**The gate checks every declaration (v3).** It replays every call your tests
+make, plus perturbations of them: numbers scaled, negated, shifted and
+reversed, single and empty vectors, ties, `NA`, blank strings, flipped flags,
+the other `match.arg` choices, and swaps of equal-typed arguments. It
+compares original and mutant on value, class, attributes, `NA`/`NaN`, error
+versus value, and **whether a warning fires**. Inputs on which the original
+errors count as out of contract and are skipped, and so are inputs matching
+a `SCOPED`/`BUGFIX` condition. Any other difference fails the declaration
+(`equivalence_refuted`), and `gate.json` (`differential.diff`) shows the
+distinguishing input. A mutant that adds or removes a warning is never
+`PRINT`: kill it with `check_warning`, or on the silent path assert that no
+warning fires (`withCallingHandlers(f(x), warning = function(w) stop("unexpected warning"))`
+inside `check_identical`). Passing the replay is necessary, not sufficient:
+reviewers still read every entry.
+
+`gate.json` also lists `stale_equivalent_ids` (no longer generated) and
 `declared_equivalent_but_killed` (your tests kill it, so it was not
-equivalent): delete those lines. Reviewers check every entry; an entry that
-is not genuinely equivalent fails the function. Do not use this file to get past the gate.
+equivalent): delete those lines.
 
 ## 6. Anti-patterns (each fails review even if the gate passes)
 

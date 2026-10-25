@@ -35,6 +35,16 @@ A test file passes when all of these hold:
 5. **Self-probes** (optional): every ``probes/*.R`` in the function directory
    (a full plausible-but-wrong copy of ``source.R``) must fail at least one
    assertion.
+6. **Differential checks** (v3, ``r_diff.R``): every call the suite makes to
+   the function is recorded and perturbed. Each declared equivalent must match
+   the original on all of these inputs (value, class, attributes, NA/NaN,
+   error vs value, warning or not; inputs the original rejects and inputs
+   inside a ``SCOPED[cond]``/``BUGFIX[cond]`` condition are excluded). Every
+   argument the body reads takes 2+ distinct supplied values (a logical flag:
+   its non-default value once), no two arguments are always equal, and
+   one-nonzero-per-row/column matrix fixtures draw a warning. A generic
+   condition class (``simpleError``, ...) does not exempt a ``check_error``
+   pattern from the R-message check.
 
 Optional frozen differential cases: if ``test.R`` defines
 ``exec_cases <- function() list(list(<args>), ...)`` (seeded RNG allowed), the
@@ -51,6 +61,7 @@ from collections.abc import Sequence
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 
@@ -149,9 +160,16 @@ def loose_error_patterns(statements: list[tuple[str, str]]) -> list[str]:
     messages = r_messages()
     out = []
     for helper, text in statements:
-        if helper != "check_error" or re.search(r"\bclass\s*=", text):
+        if helper != "check_error":
             continue
-        for raw in ERROR_PATTERN.findall(text):
+        classes = re.findall(r"\bclass\s*=\s*(?:c\()?\s*\"([^\"]+)\"", text)
+        if classes and not set(classes) <= GENERIC_CONDITION_CLASSES:
+            continue  # a specific condition class identifies the function's own error
+        patterns = ERROR_PATTERN.findall(text)
+        if classes and not patterns:
+            out.append(f"class={classes[0]} without a pattern")
+            continue
+        for raw in patterns:
             pattern = raw.encode().decode("unicode_escape")
             try:
                 compiled = re.compile(pattern)
@@ -217,6 +235,68 @@ def stub_unit(unit: str) -> str:
 
 def top_names(unit: str, names: Sequence[str]) -> tuple[str, ...]:
     return tuple(names)
+
+
+R_DIFF = Path(__file__).with_name("r_diff.R")
+DIFF_MAX_INPUTS = 150
+CONDITION_PREFIX = re.compile(r"^(SCOPED|BUGFIX)\[(.+?)\]\s*:")
+GENERIC_CONDITION_CLASSES = {"simpleError", "error", "condition", "simpleCondition", "simpleWarning", "warning"}
+
+
+def declared_conditions(equivalents: dict[str, str]) -> dict[str, str]:
+    """``SCOPED[cond]:`` / ``BUGFIX[cond]:`` input conditions (R expressions over the arguments)."""
+    out = {}
+    for mid, reason in equivalents.items():
+        match = CONDITION_PREFIX.match(reason.strip())
+        out[mid] = match.group(2) if match else ""
+    return out
+
+
+def differential_checks(unit: str, suite: str, target: str, mutants: Sequence[mutants_module.Mutant],
+                        conditions: dict[str, str], *, timeout: float = 240.0) -> dict:
+    """Run r_diff.R in the sandbox: recorded test calls, perturbed inputs, declared-mutant comparisons."""
+    with tempfile.TemporaryDirectory(prefix="sepalith-diff-") as tmp:
+        root = Path(tmp)
+        (root / "work").mkdir()
+        (root / "mutants").mkdir()
+        (root / "unit.R").write_text(unit, encoding="utf-8")
+        (root / "suite.R").write_text(suite, encoding="utf-8")
+        for mutant in mutants:
+            (root / "mutants" / f"{mutant.id}.R").write_text(mutant.text, encoding="utf-8")
+        (root / "mutants" / "conditions.tsv").write_text(
+            "".join(f"{mid}\t{cond}\n" for mid, cond in conditions.items()), encoding="utf-8")
+        cmd = ["Rscript", "--vanilla", str(R_DIFF), str(root / "unit.R"), str(root / "suite.R"), str(TESTLIB), target,
+               str(root / "mutants"), str(DIFF_MAX_INPUTS)]
+        if namespaces_available():
+            cmd = ["unshare", "-rnm", "--propagation", "private", "sh", str(SANDBOX), str(root / "work"), "256", "--", *cmd]
+        if shutil.which("prlimit"):
+            cmd = ["prlimit", "--as=4294967296", *cmd]
+        try:
+            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=False)
+        except subprocess.TimeoutExpired:
+            return {"error": "differential check timed out"}
+    out: dict = {"calls": None, "inputs": None, "args": {}, "always_equal": [], "same": {}, "diff": {}}
+    for line in proc.stdout.splitlines():
+        parts = line.split("\t")
+        kind = parts[0]
+        if kind == "CALLS":
+            out["calls"] = int(parts[1])
+        elif kind == "INPUTS":
+            out["inputs"] = int(parts[1])
+        elif kind == "ARG":
+            out["args"][parts[1]] = {"distinct_supplied": int(parts[2]), "default_used": parts[3] == "TRUE",
+                                     "logical_flag": parts[4] == "TRUE", "sparse": parts[5] == "TRUE"}
+        elif kind == "EQUAL":
+            out["always_equal"].append([parts[1], parts[2]])
+        elif kind == "SAME":
+            out["same"][parts[1]] = int(parts[2])
+        elif kind == "DIFF":
+            out["diff"][parts[1]] = {"input": parts[2], "original": parts[3], "mutant": parts[4]}
+        elif kind == "FAIL":
+            out["error"] = parts[1]
+    if out["calls"] is None and "error" not in out:
+        out["error"] = "differential check produced no output: " + proc.stderr.strip()[-200:]
+    return out
 
 
 def frozen_cases(unit: str, test: str, target: str, *, timeout: float = 30.0) -> tuple[str | None, str | None]:
@@ -403,6 +483,29 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
         report["problems"].append(f"too_few_valid_mutants:{valid}")
     elif rate < MIN_KILL_RATE:
         report["problems"].append(f"unkilled_survivors:{valid - kills} (kill or declare each; rate {rate:.2f})")
+    # v3: differential verification of every declared equivalent, argument diversity, fixture density
+    declared_mutants = [m for m in all_mutants if m.id in equivalents]
+    diff = differential_checks(unit, suite, meta["name"], declared_mutants, declared_conditions(equivalents))
+    report["differential"] = diff
+    report.setdefault("warnings", [])
+    if "error" in diff:
+        report["warnings"].append("differential_check_unavailable: " + str(diff["error"])[:150])
+    for mid in sorted(diff.get("diff", {})):
+        report["problems"].append(f"equivalence_refuted:{mid}")
+    if diff.get("calls"):
+        # each argument the body reads takes 2+ distinct supplied values (a logical flag: its
+        # non-default value at least once)
+        narrow = sorted(a for a, v in diff["args"].items()
+                        if (v["distinct_supplied"] < 1 if v["logical_flag"] else v["distinct_supplied"] < 2))
+        if narrow:
+            report["problems"].append("argument_not_varied:" + ",".join(narrow)[:200])
+        for a, b in diff["always_equal"]:
+            report["problems"].append(f"arguments_always_equal:{a}={b}")
+        sparse = sorted(a for a, v in diff["args"].items() if v["sparse"])
+        if sparse:
+            report["warnings"].append("sparse_matrix_fixtures:" + ",".join(sparse))
+    elif "error" not in diff:
+        report["warnings"].append("no_recorded_calls: the suite never calls the function by name")
     probes = sorted((directory / "probes").glob("*.R")) if (directory / "probes").is_dir() else []
     if probes:
         outcomes = harness.run_many([ExecJob(p.read_text(encoding="utf-8"), suite, expect, TIMEOUT, p.name) for p in probes])
