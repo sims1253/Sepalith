@@ -46,6 +46,14 @@ from sepalith.exec_env.gate import parse_declaration
 
 DATA = Path("/mnt/e/sepalith/campaign-20260915/data-work/EXEC-ENV-v1")
 SCHEMA = "sepalith.exec-env.holdout-freeze.v1"
+LOW_REPLAY_CALLS = 3
+KNOWN_LIMITATIONS = [
+    "Gate v3's call recorder (r_diff.R) silently drops a test call whose arguments do not evaluate in the "
+    "test frame (non-standard evaluation, e.g. an unevaluated `expr`); gate.json records only the calls it "
+    "kept (differential.calls), not the dropped ones. Dropped calls are missing from the equivalence replay "
+    "and the argument-diversity check. Functions with fewer than 3 recorded calls are listed under "
+    "low_replay_coverage as a proxy.",
+]
 EXEC_ENV = Path(__file__).resolve().parent
 INPUTS = ("source.R", "meta.json", "test.R", "equivalent.txt")
 HASHED = ("source.R", "meta.json", "test.R", "frozen.R", "equivalent.txt", "gate.json")
@@ -157,7 +165,9 @@ def check_function(directory: Path, commit: str, fingerprint: str) -> tuple[dict
         gate={"checks": gate.get("checks"), "hand_written": gate.get("hand_written_checks"),
               "categories": gate.get("categories"),
               "mutants": {k: mutants.get(k) for k in ("generated", "sampled", "valid", "killed", "declared_equivalent")},
-              "probes": gate.get("probes"), "warnings": gate.get("warnings", [])},
+              "probes": gate.get("probes"), "warnings": gate.get("warnings", []),
+              "recorded_calls": (gate.get("differential") or {}).get("calls"),
+              "condition_exclusions": (gate.get("differential") or {}).get("excluded", {})},
         conditioned_declarations=conditioned_declarations(directory / "equivalent.txt"))
     if problems:
         record["status"] = "blocked"
@@ -186,6 +196,11 @@ def build_manifest(root: Path, slices: Sequence[str], commit: str, fingerprint: 
         "skipped": [{"slice": r["slice"], "function": r["function"], "name": r["name"], "reason": r["skip_reason"]}
                     for r in records if r.get("status") == "skipped"],
         "untested_branches": untested,
+        "low_replay_coverage": [{"slice": r["slice"], "function": r["function"], "name": r["name"],
+                                 "recorded_calls": r["gate"]["recorded_calls"]}
+                                for r in records if r.get("status") == "frozen"
+                                and (r["gate"]["recorded_calls"] or 0) < LOW_REPLAY_CALLS],
+        "known_limitations": KNOWN_LIMITATIONS,
         "functions": [r for r in records if r.get("status") == "frozen"],
     }
     return manifest, problems
@@ -222,7 +237,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     fingerprint = args.fingerprint or fingerprint_at(commit)
     manifest, problems = build_manifest(args.root, slices, commit, fingerprint)
     print(json.dumps({"slices": slices, "gate": manifest["gate"], "counts": manifest["counts"],
-                      "untested_branches": len(manifest["untested_branches"]), "problems": len(problems)}, indent=1))
+                      "untested_branches": len(manifest["untested_branches"]),
+                      "low_replay_coverage": len(manifest["low_replay_coverage"]), "problems": len(problems)}, indent=1))
     for problem in problems[:200]:
         print("PROBLEM", problem)
     if args.check:

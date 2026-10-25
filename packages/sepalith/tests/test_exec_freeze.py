@@ -75,6 +75,9 @@ class FreezeTests(unittest.TestCase):
         self.assertEqual({d["tag"] for d in a1["conditioned_declarations"]}, {"SCOPED", "QUIRK"})
         self.assertEqual(set(a1["sha256"]), {"source.R", "meta.json", "test.R", "equivalent.txt", "gate.json"})
         self.assertIn("p1.R", a1["probes"])
+        # fake gate.json has no differential record: counted as low replay coverage, limitation noted
+        self.assertEqual(len(manifest["low_replay_coverage"]), 2)
+        self.assertTrue(manifest["known_limitations"])
         copy = Path(self.tmp.name) / "frozen"
         self.assertTrue((copy / "H000" / "a1" / "test.R").is_file())
         self.assertFalse((copy / "H000" / ".claim").exists())

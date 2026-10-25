@@ -141,3 +141,25 @@ hand-written assertions.
 To migrate a finished slice, run
 `python -m sepalith.exec_env.gate --summary <slice>` (or `--report-only` to
 summarise the existing `gate.json` files without re-running).
+
+## Hold-out freeze tool (gate v3 frozen at c631141)
+
+`python -m sepalith.exec_env.freeze --slices H000..H007 --gate c631141`
+checks, without running anything, that every function in the slices is
+either skipped (with its reason) or has a passing `gate.json`. That
+`gate.json` must have been written at the pinned commit, with an unmodified
+tree and the source fingerprint recomputed from git, after every file it
+judged and with no stale or killed equivalent declarations. The tool then
+writes `EXEC-ENV-v1/holdout-freeze-v1.json` and a read-only copy of the
+slices. The manifest lists per function the sha256 of each file, the gate
+summary, conditioned declarations (`SCOPED`/`BUGFIX` mark untested branches
+that task building must avoid), skips, low-replay-coverage functions, and
+known limitations. `--check` only reports problems.
+
+Known limitation (gate v3): the replay's call recorder silently drops a test
+call whose arguments don't evaluate in the test frame (non-standard
+evaluation such as an unevaluated `expr`). `gate.json` records only the
+calls it kept (`differential.calls`), so dropped calls are missing from the
+equivalence replay and from the argument-diversity check. The freeze
+manifest lists functions with fewer than 3 recorded calls under
+`low_replay_coverage` as a proxy.
