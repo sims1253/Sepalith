@@ -119,7 +119,7 @@ functions let at least one through. In response, the gate now requires:
 The brief adds rules on fixture variation, defaults, returned classes and
 fields, and skips.
 
-Re-gating the 39 pilot functions under v2: **17 pass, 22 fail** (1 skip).
+Re-gating the 39 pilot functions under v2: **16 pass, 23 fail**.
 Reasons: 15 loose error patterns (`"length"`, `"singular"`,
 `"should be one of"`, ...), 9 unkilled survivors (1 to 7 each), 4
 single-assertion categories, 1 with 11 hand-written assertions. The pilot
