@@ -102,3 +102,26 @@ At about 11 tasks per gated function and 81% of pilot functions gating,
 12k-30k tasks need roughly 1,350-3,400 gated functions, about 17-42 slices
 (sibling cuts of one function are correlated, so prefer more slices with
 fewer cuts each over many cuts per function).
+
+## Gate v2 after the first cross-family review (S000, S002, S004, S006)
+
+An Opus reviewer probed four slices written by Sol with plausible-but-wrong
+versions: 29 of 241 (12%) passed every assertion, and 21 of 81 sampled
+functions let at least one through. In response, the gate now requires:
+
+- 12 hand-written assertions in 3 or more categories of 2 or more each;
+  frozen differential cases don't count;
+- every surviving mutant killed or declared equivalent (was: 70% kill rate);
+- `check_error` patterns without `class =` that match none of R's own
+  messages (5,825 msgids from R's catalogs);
+- optional `probes/*.R` self-probes, which must all be rejected.
+
+The brief adds rules on fixture variation, defaults, returned classes and
+fields, and skips.
+
+Re-gating the 39 pilot functions under v2: **17 pass, 22 fail** (1 skip).
+Reasons: 15 loose error patterns (`"length"`, `"singular"`,
+`"should be one of"`, ...), 9 unkilled survivors (1 to 7 each), 4
+single-assertion categories, 1 with 11 hand-written assertions. The pilot
+reward numbers above were measured under v1. Tasks build only from functions
+that pass, so these suites need another pass before reuse.

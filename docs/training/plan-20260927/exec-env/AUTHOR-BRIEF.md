@@ -55,6 +55,10 @@ function is unusable, write `SKIP` in its directory with one line saying why
 (`nondeterministic`, `needs a package that is not installed`, `function is
 broken on every input`, `output only: behaviour is printed text`, `trivial: no
 behaviour to test`), and move on. The gate ignores directories with `SKIP`.
+A bug in one branch is not a reason to skip: test the working branches and
+leave the quirk untested. Verify every "broken" or "missing helper" claim by
+running the code first (two of the first skips were false). The sandbox runs
+**R 4.6.1** with base and recommended packages only; `%||%` is in base.
 
 ## 2. What to write
 
@@ -78,23 +82,30 @@ exit status count for nothing.
 Categories group assertions by behaviour (`basic`, `edge`, `boundary`, `na`,
 `empty`, `validation`, `types`, `options`, ...). The reward averages the pass
 share **per category** first, so twenty easy assertions in one category cannot
-outweigh one hard behaviour. Use 3 to 6 categories that match what the function
-actually does.
+outweigh one hard behaviour. The gate requires at least **12 hand-written
+assertions** (frozen differential cases don't count) in at least **3
+categories with at least 2 assertions each**. Use 3 to 5 categories that
+match what the function actually does, never one category per assertion.
 
 Example (`band_counts(scores, cut = 0.5)` returns named integer counts):
 
 ```r
 # exec-test v1: band_counts
-check_identical("basic", band_counts(c(0.1, 0.6, 0.9)), c(low = 1L, high = 2L, total = 3L))
-check_identical("basic", band_counts(c(0.2, 0.3), cut = 0.25), c(low = 1L, high = 1L, total = 2L))
+check_identical("counts", band_counts(c(0.1, 0.6, 0.9)), c(low = 1L, high = 2L, total = 3L))
+check_identical("counts", band_counts(c(0.2, 0.3), cut = 0.25), c(low = 1L, high = 1L, total = 2L))
+check_identical("counts", band_counts(c(0.9, 0.8, 0.7, 0.1), cut = 0.75), c(low = 2L, high = 2L, total = 4L))
+check_identical("counts", band_counts(0.3), c(low = 1L, high = 0L, total = 1L))   # default cut pinned
 check_identical("boundary", band_counts(c(0.5, 0.49999)), c(low = 1L, high = 1L, total = 2L))
-check_identical("clamp", band_counts(c(-3, 7)), c(low = 1L, high = 1L, total = 2L))
-check_identical("na", band_counts(c(NA, 0.7, NA)), c(low = 0L, high = 1L, total = 1L))
-check_identical("empty", band_counts(numeric()), c(low = 0L, high = 0L, total = 0L))
-check_error("validation", band_counts("a"), pattern = "numeric")
+check_identical("boundary", band_counts(c(0.25, 0.25), cut = 0.25), c(low = 0L, high = 2L, total = 2L))
+check_identical("boundary", band_counts(c(-3, 7)), c(low = 1L, high = 1L, total = 2L))  # outside [0, 1]
+check_identical("boundary", band_counts(c(1.5, 2), cut = 1), c(low = 0L, high = 2L, total = 2L))
+check_identical("missing", band_counts(c(NA, 0.7, NA)), c(low = 0L, high = 1L, total = 1L))
+check_identical("missing", band_counts(numeric()), c(low = 0L, high = 0L, total = 0L))
+check_identical("missing", band_counts(c(NA_real_)), c(low = 0L, high = 0L, total = 0L))
+check_error("missing", band_counts("a"), pattern = "scores must be numeric")
 exec_cases <- function() {
-  set.seed(42)
-  lapply(1:8, function(i) list(scores = round(runif(8, -0.5, 1.5), 2), cut = round(runif(1), 2)))
+  set.seed(42)  # every argument varies, including values outside [0, 1]
+  lapply(1:10, function(i) list(scores = round(runif(sample(1:12, 1), -0.5, 1.5), 2), cut = round(runif(1), 2)))
 }
 ```
 
@@ -106,7 +117,8 @@ original once on each case, in the sandbox, and writes `frozen.R` with one
 `check_equal("differential", ...)` per case. These cover inputs you did not
 think of and defeat lookup-table answers. Cases on which the original errors
 are dropped. Keep each case small (the frozen file holds the outputs) and use
-8 to 20 cases.
+8 to 20 cases. **Vary every argument** across the cases (sizes, values,
+options), not just the main input.
 
 ## 3. Run the gate (until it passes)
 
@@ -128,18 +140,30 @@ requires:
    containment of the function body in your test at most 0.25 (do not paste
    the implementation).
 2. **The original passes every assertion in 3 fresh runs** with identical
-   outcomes, with at least 6 assertions in at least 2 categories (aim for 10
-   to 25 assertions plus differential cases).
+   outcomes; at least 12 hand-written assertions in at least 3 categories of
+   at least 2 each. A `check_error` pattern without `class =` must not match
+   any of R's own messages (the gate checks it against R's message catalogs):
+   `"length"`, `"minimum"` or `"numeric"` also match R's errors, so the test
+   would still pass if the function's own check were deleted. Use the
+   function's specific wording (`"scores must be numeric"`) or `class =`.
 3. **The tests reach the function**: a stub whose body is
    `stop("exec-env stub")` may pass at most 20% of the assertions.
 4. **Mutation sensitivity**: up to 60 mutants of the function (flipped
    comparisons and arithmetic, `&&`/`||`, dropped `!`, changed constants and
    strings, `TRUE`/`FALSE`, negated `is.na`, `if` conditions forced, deleted
    statements, duplicated self-updates, swapped arguments, `x[i + 1]`, early
-   `return(NULL)` / `return(<first argument>)`). At least **70%** of the valid
-   ones must fail at least one assertion. Survivors are listed in `gate.json`
-   (`mutants.survivors`, with `original_lines` and `mutated_lines`): read them, then add an input
-   that tells the mutant apart from the original.
+   `return(NULL)` / `return(<first argument>)`). **Every surviving mutant is
+   must-kill**: add an input that tells it apart from the original, or, only if
+   none exists, declare it in `equivalent.txt` with a one-line reason
+   (section 5). Survivors are listed in `gate.json` (`mutants.survivors`, with
+   `original_lines` and `mutated_lines`).
+5. **Self-probes** (optional, recommended): copy `source.R` to
+   `probes/p1.R` (`mkdir -p probes && cp source.R probes/p1.R`) and make one
+   plausible mistake a model could make: a wrong boundary, a dropped clamp or
+   `...` forwarding, the wrong element, a missing branch. Write 2 or 3 per
+   function. The gate runs every `probes/*.R` and fails if one passes all
+   assertions (`gate.json` `probes`). This is how reviewers probe your suite:
+   in the first review, 12% of their wrong versions passed every assertion.
 
 The gate does not generate mutants that only change message wording (strings
 and `call.` flags inside `stop()`, `warning()`, `message()`, `cat()`,
@@ -158,13 +182,28 @@ when it can be mapped) and does not run mutants.
   `check_equal` for doubles.
 - **Cover every branch** the function has: each `if`/`else`, each `switch`
   arm, loop bodies that run zero, one and many times, early returns.
+- **Vary fixtures until every intermediate value matters.** Most reviewer
+  false accepts came from fixtures that never reach a branch or make two
+  computations coincide: a propensity of exactly 0.5, two folds where median
+  equals mean, only a path graph, no ties, no blanks, nothing outside
+  [0, 1]. For each intermediate value, include an input that changes it, and
+  at least one input outside the comfortable range (overshooting, negative,
+  tied, duplicated, empty strings).
+- **Defaults and secondary arguments**: pin each default with an absolute
+  expected value (a call that relies on the default), and give every other
+  argument at least one non-default value, including `...` forwarding.
+- **Assert what the function sets**: the returned S3 class
+  (`check_identical(cat, class(res), c("foo", "list"))`), the names and values
+  of returned fields and attributes, and stored side objects (a fitted tree
+  kept in `res$cluster`). Three reviewer rejects were class-only gaps.
 - **Edges**: empty input, length one, `NA`/`NaN` where the function handles or
   propagates them, boundaries of every comparison (both sides of `<` vs `<=`),
   zero and negative values where meaningful, factors vs characters where the
   function cares.
 - **Errors**: test that invalid input errors, with `class =` where the function
-  signals a classed condition, otherwise a `pattern =` of a word or two that
-  identify the check (not the full sentence).
+  signals a classed condition, otherwise a `pattern =` specific to the
+  function's own message (a distinctive phrase, not a generic word that R's
+  own errors also contain).
 - **Varied inputs**: never test with a single input family; mix sizes, orders
   and values so constants or lookup tables cannot pass.
 - **Behaviour, not spelling.** Tests must accept any implementation that
@@ -240,7 +279,9 @@ is not genuinely equivalent fails the function. Do not use this file to get past
 - Tests that depend on printing, timing, locale, the working directory, the
   random seed of the session, or on each other's side effects.
 - Tests wrapped in `tryCatch`/`try` that turn failures into passes.
-- Asserting the full text of an error message or warning.
+- Asserting the full text of an error message or warning; or the opposite, a
+  generic pattern (`"length"`) that R's own errors also match.
+- Fixtures that leave a branch or an argument unexercised.
 - One giant category, or a category per assertion.
 - `exec_cases` that are trivial (all-zero, all-identical) or huge.
 

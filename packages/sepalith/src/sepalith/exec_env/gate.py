@@ -10,7 +10,11 @@ A test file passes when all of these hold:
 
 1. **Static**: it parses; it uses the assertion helpers only (no printing,
    timing, I/O, sourcing or package loading, RNG only after ``set.seed``); at
-   least ``MIN_CHECKS`` assertions in at least ``MIN_CATEGORIES`` categories;
+   least ``MIN_HAND_CHECKS`` hand-written assertions in at least
+   ``MIN_CATEGORIES`` categories of at least ``MIN_PER_CATEGORY`` each;
+   ``check_error`` patterns without ``class`` must not match R's own messages
+   (the msgids of R's message catalogs), so deleting the function's own check
+   cannot pass on a generic R error;
    at most ``MAX_SHAPE_SHARE`` of the assertions only check type, class,
    length or NULL-ness, or are ``check_error`` without ``class``/``pattern``;
    it does not copy the implementation (token 12-gram containment of the
@@ -23,8 +27,11 @@ A test file passes when all of these hold:
    the target function (``mutants.py``); invalid mutants (do not parse or do
    not source) and mutants the author declared equivalent in
    ``equivalent.txt`` (``<mutant id> <reason>`` per line) leave the
-   denominator; at least ``MIN_KILL_RATE`` of the rest must fail at least one
-   assertion (or time out / crash). Survivors are listed in ``gate.json``.
+   denominator; every other valid mutant must fail at least one assertion (or
+   time out / crash). Survivors are listed in ``gate.json``.
+5. **Self-probes** (optional): every ``probes/*.R`` in the function directory
+   (a full plausible-but-wrong copy of ``source.R``) must fail at least one
+   assertion.
 
 Optional frozen differential cases: if ``test.R`` defines
 ``exec_cases <- function() list(list(<args>), ...)`` (seeded RNG allowed), the
@@ -48,15 +55,16 @@ from sepalith.exec_env import mutants as mutants_module
 from sepalith.exec_env.harness import SANDBOX, TESTLIB, ExecHarness, ExecJob, ExecResult, namespaces_available
 
 GATE_SCHEMA = "sepalith.exec-env.gate.v1"
-MIN_CHECKS = 6
-MIN_CATEGORIES = 2
+MIN_HAND_CHECKS = 12  # hand-written assertions; frozen differential cases do not count
+MIN_CATEGORIES = 3  # hand-written categories ("differential" does not count)
+MIN_PER_CATEGORY = 2
 MAX_SHAPE_SHARE = 0.3
 MAX_COPY_CONTAINMENT = 0.25
 RUNS_ORIGINAL = 3
 MAX_STUB_PASS_SHARE = 0.2
 MUTANT_LIMIT = 60
 MIN_VALID_MUTANTS = 5
-MIN_KILL_RATE = 0.7
+MIN_KILL_RATE = 1.0  # every valid survivor must be killed or declared equivalent (with a reason)
 TIMEOUT = 5.0
 
 FORBIDDEN_TEST_CALLS = re.compile(
@@ -105,6 +113,52 @@ def shape_only(helper: str, text: str) -> bool:
     return bool(SHAPE_EXPR.match(inner))
 
 
+_R_MESSAGES: list[str] | None = None
+
+
+def r_messages() -> list[str]:
+    """English msgids of R's message catalogs (base, stats, utils, methods, ...), read from the .mo files."""
+    global _R_MESSAGES
+    if _R_MESSAGES is None:
+        import struct
+        out: set[str] = set()
+        proc = subprocess.run(["Rscript", "--vanilla", "-e", "cat(R.home())"], capture_output=True, text=True, check=False)
+        root = Path(proc.stdout.strip() or "/usr/lib/R") / "library" / "translations" / "en@quot" / "LC_MESSAGES"
+        for mo in sorted(root.glob("*.mo")):
+            data = mo.read_bytes()
+            magic = struct.unpack("<I", data[:4])[0]
+            order = "<" if magic == 0x950412DE else ">"
+            n, offset = struct.unpack(order + "II", data[8:16])
+            for i in range(n):
+                length, start = struct.unpack(order + "II", data[offset + 8 * i:offset + 8 * i + 8])
+                for msg in data[start:start + length].split(b"\0"):
+                    if msg:
+                        out.add(msg.decode("utf-8", "replace"))
+        _R_MESSAGES = sorted(out)
+    return _R_MESSAGES
+
+
+ERROR_PATTERN = re.compile(r"pattern\s*=\s*\"((?:[^\"\\]|\\.)*)\"")
+
+
+def loose_error_patterns(statements: list[tuple[str, str]]) -> list[str]:
+    """``check_error`` patterns (without ``class``) that also match one of R's own messages."""
+    messages = r_messages()
+    out = []
+    for helper, text in statements:
+        if helper != "check_error" or re.search(r"\bclass\s*=", text):
+            continue
+        for raw in ERROR_PATTERN.findall(text):
+            pattern = raw.encode().decode("unicode_escape")
+            try:
+                compiled = re.compile(pattern)
+            except re.error:
+                continue
+            if any(compiled.search(message) for message in messages):
+                out.append(raw)
+    return sorted(set(out))
+
+
 def static_checks(test: str, unit: str, target_text: str) -> tuple[list[str], dict]:
     from sepalith.data.synth import dedup
     problems = []
@@ -120,6 +174,9 @@ def static_checks(test: str, unit: str, target_text: str) -> tuple[list[str], di
     share = shape / len(statements) if statements else 1.0
     if statements and share > MAX_SHAPE_SHARE:
         problems.append(f"shape_only_share:{share:.2f}")
+    loose = loose_error_patterns(statements)
+    if loose:
+        problems.append("error_pattern_matches_r_message:" + "|".join(loose)[:200])
     body_tokens = dedup.text_tokens([line for line in target_text.split("\n") if not line.lstrip().startswith("#")])
     hashes = dedup.kgram_hashes(dedup.token_ids(body_tokens))
     index = dedup.TokenIndex("test")
@@ -262,7 +319,6 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     first_run = originals[0]
     report["original"] = first_run.to_dict()
     outcomes = {tuple(r.checks) for r in originals}
-    categories = sorted({c for c, _ in first_run.checks})
     report["checks"] = first_run.total
     report["categories"] = dict(Counter(c for c, _ in first_run.checks))
     original_ok = first_run.status == "ok" and not first_run.error_class and first_run.passed == first_run.total
@@ -280,10 +336,15 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
             report["original_error"] = first_run.error
     if len(outcomes) != 1:
         report["problems"].append("nondeterministic_original")
-    if first_run.total < MIN_CHECKS:
-        report["problems"].append(f"too_few_assertions:{first_run.total}")
-    if len(categories) < MIN_CATEGORIES:
-        report["problems"].append(f"too_few_categories:{len(categories)}")
+    hand = Counter(c for c, _ in first_run.checks if c != "differential")
+    report["hand_written_checks"] = sum(hand.values())
+    if sum(hand.values()) < MIN_HAND_CHECKS:
+        report["problems"].append(f"too_few_hand_written_assertions:{sum(hand.values())}")
+    if len(hand) < MIN_CATEGORIES:
+        report["problems"].append(f"too_few_categories:{len(hand)}")
+    thin = sorted(c for c, n in hand.items() if n < MIN_PER_CATEGORY)
+    if thin:
+        report["problems"].append("categories_with_one_assertion:" + ",".join(thin)[:200])
     expected = first_run.total
     if not original_ok:
         report["verdict"] = "fail"
@@ -338,7 +399,19 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     if valid < MIN_VALID_MUTANTS:
         report["problems"].append(f"too_few_valid_mutants:{valid}")
     elif rate < MIN_KILL_RATE:
-        report["problems"].append(f"kill_rate:{rate:.2f}")
+        report["problems"].append(f"unkilled_survivors:{valid - kills} (kill or declare each; rate {rate:.2f})")
+    probes = sorted((directory / "probes").glob("*.R")) if (directory / "probes").is_dir() else []
+    if probes:
+        outcomes = harness.run_many([ExecJob(p.read_text(encoding="utf-8"), suite, expect, TIMEOUT, p.name) for p in probes])
+        report["probes"] = {}
+        for probe, result in zip(probes, outcomes, strict=True):
+            if result.parse_ok is False or result.structure_ok is False:
+                verdict = "invalid"
+            else:
+                verdict = "rejected" if killed(result, expected) else "passes"
+            report["probes"][probe.name] = verdict
+            if verdict == "passes":
+                report["problems"].append(f"probe_passes:{probe.name}")
     report["verdict"] = "pass" if not report["problems"] else "fail"
     (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
     return report

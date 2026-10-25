@@ -37,19 +37,30 @@ band_counts <- function(scores, cut = 0.5) {
   out
 }
 '''
-TEST = '''check_identical("basic", band_counts(c(0.1, 0.6, 0.9)), c(low = 1L, high = 2L, total = 3L))
-check_identical("basic", band_counts(c(0.2, 0.3), cut = 0.25), c(low = 1L, high = 1L, total = 2L))
+TEST = '''check_identical("counts", band_counts(c(0.1, 0.6, 0.9)), c(low = 1L, high = 2L, total = 3L))
+check_identical("counts", band_counts(c(0.2, 0.3), cut = 0.25), c(low = 1L, high = 1L, total = 2L))
+check_identical("counts", band_counts(c(0.9, 0.8, 0.7, 0.1), cut = 0.75), c(low = 2L, high = 2L, total = 4L))
+check_identical("counts", band_counts(0.3), c(low = 1L, high = 0L, total = 1L))
 check_identical("boundary", band_counts(c(0.5, 0.49999)), c(low = 1L, high = 1L, total = 2L))
-check_identical("clamp", band_counts(c(-3, 7)), c(low = 1L, high = 1L, total = 2L))
-check_identical("na", band_counts(c(NA, 0.7, NA)), c(low = 0L, high = 1L, total = 1L))
-check_identical("empty", band_counts(numeric()), c(low = 0L, high = 0L, total = 0L))
-check_error("validation", band_counts("a"), pattern = "numeric")
+check_identical("boundary", band_counts(c(0.25, 0.25), cut = 0.25), c(low = 0L, high = 2L, total = 2L))
+check_identical("boundary", band_counts(c(-3, 7)), c(low = 1L, high = 1L, total = 2L))
+check_identical("boundary", band_counts(c(1.5, 2), cut = 1), c(low = 0L, high = 2L, total = 2L))
+check_identical("missing", band_counts(c(NA, 0.7, NA)), c(low = 0L, high = 1L, total = 1L))
+check_identical("missing", band_counts(numeric()), c(low = 0L, high = 0L, total = 0L))
+check_identical("missing", band_counts(c(NA_real_)), c(low = 0L, high = 0L, total = 0L))
+check_error("missing", band_counts("a"), pattern = "scores must be numeric")
 exec_cases <- function() {
   set.seed(42)
   lapply(1:6, function(i) list(scores = round(runif(8, -0.5, 1.5), 2), cut = round(runif(1), 2)))
 }
 '''
 EXPECT = ("clamp_unit", "band_counts")
+EQUIVALENT = """b9bb95e29d clamping twice is idempotent
+6fc928b60f sum() of an empty logical and length() are already 0L, so the general path returns the same vector
+de02ee2c26 same as deleting the empty-input branch
+80ac0b2942 same as deleting the empty-input branch
+973faa667a sum() of logicals and length() are already integer
+"""
 
 
 def replace_body(unit: str, old: str, new: str) -> str:
@@ -74,8 +85,8 @@ class HarnessTests(unittest.TestCase):
 
     def test_gold_passes_every_assertion(self):
         result = self.run_one(UNIT)
-        self.assertEqual((result.passed, result.total), (7, 7))
-        self.assertEqual(result.by_category()["basic"], (2, 2))
+        self.assertEqual((result.passed, result.total), (12, 12))
+        self.assertEqual(result.by_category()["counts"], (4, 4))
 
     def test_wrong_code_fails_some(self):
         result = self.run_one(replace_body(UNIT, "scores < cut", "scores <= cut"))
@@ -84,7 +95,7 @@ class HarnessTests(unittest.TestCase):
     def test_quit_ends_only_the_child(self):
         result = self.run_one(replace_body(UNIT, "  out\n}", '  quit("no")\n}'))
         self.assertEqual(result.status, "candidate_exit")
-        self.assertEqual(self.run_one(UNIT).passed, 7)
+        self.assertEqual(self.run_one(UNIT).passed, 12)
 
     def test_hang_times_out(self):
         result = self.run_one(replace_body(UNIT, "  out\n}", "  repeat {}\n}"), timeout=1.0)
@@ -98,8 +109,8 @@ class HarnessTests(unittest.TestCase):
     def test_global_planting_cannot_hijack_assertions(self):
         planted = replace_body(UNIT, "  out\n}", "  identical <<- function(...) TRUE\n  NULL\n}")
         # the locked global environment makes `<<-` an error: only the validation assertion and the
-        # empty-input early return (which never reaches the plant) still pass
-        self.assertEqual(self.run_one(planted).passed, 2)
+        # empty-input early returns (which never reach the plant) still pass
+        self.assertEqual(self.run_one(planted).passed, 3)
 
     def test_seeded_rng_works_in_tests(self):
         from sepalith.exec_env.harness import ExecJob
@@ -120,10 +131,10 @@ class HarnessTests(unittest.TestCase):
             self.skipTest("no user namespaces")
         probe = Path(tempfile.gettempdir()) / "sepalith-exec-probe.txt"
         writes = replace_body(UNIT, "  out\n}", f'  writeLines("x", "{probe}")\n  out\n}}')
-        self.assertLess(self.run_one(writes).passed, 7)
+        self.assertLess(self.run_one(writes).passed, 12)
         self.assertFalse(probe.exists())
         net = replace_body(UNIT, "  out\n}", '  readLines(url("http://example.com"))\n  out\n}')
-        self.assertLess(self.run_one(net).passed, 7)
+        self.assertLess(self.run_one(net).passed, 12)
 
 
 @unittest.skipUnless(HAS_R, "needs Rscript")
@@ -155,6 +166,7 @@ class GateTaskRewardTests(unittest.TestCase):
         (cls.fdir / "meta.json").write_text(json.dumps({"id": "fx", "package": "fixture", "path": "R/bands.R",
                                                           "name": "band_counts", "helpers": ["clamp_unit"],
                                                           "formals": ["scores", "cut"]}))
+        (cls.fdir / "equivalent.txt").write_text(EQUIVALENT)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -172,13 +184,29 @@ class GateTaskRewardTests(unittest.TestCase):
         self.assertEqual(report["categories"]["differential"], 6)
         self.assertGreaterEqual(report["mutants"]["kill_rate"], 0.7)
 
+    def test_self_probes_must_be_rejected(self):
+        probes = self.fdir / "probes"
+        probes.mkdir(exist_ok=True)
+        try:
+            (probes / "caught.R").write_text(UNIT.replace("scores < cut", "scores <= cut"))
+            (probes / "missed.R").write_text(UNIT.replace("  out\n}", "  out[] <- out\n  out\n}"))
+            report = self.gate(TEST)
+            self.assertEqual(report["probes"], {"caught.R": "rejected", "missed.R": "passes"})
+            self.assertIn("probe_passes:missed.R", report["problems"])
+        finally:
+            shutil.rmtree(probes)
+
+    def test_loose_error_pattern_flagged(self):
+        report = self.gate(TEST.replace('pattern = "scores must be numeric"', 'pattern = "numeric"'))
+        self.assertTrue(any(p.startswith("error_pattern_matches_r_message") for p in report["problems"]))
+
     def test_shape_only_suite_fails(self):
         weak = "\n".join(f'check("{c}", is.integer(band_counts(c(0.{i}, 0.9))))' for i, c in
                          enumerate(["a", "a", "b", "b", "b", "a"], 1)) + "\n"
         report = self.gate(weak)
         self.assertEqual(report["verdict"], "fail")
         self.assertTrue(any(p.startswith("shape_only_share") for p in report["problems"]))
-        self.assertTrue(any(p.startswith(("kill_rate", "tests_do_not_reach")) for p in report["problems"]))
+        self.assertTrue(any(p.startswith(("unkilled_survivors", "tests_do_not_reach")) for p in report["problems"]))
 
     def test_forbidden_test_calls(self):
         from sepalith.exec_env.gate import static_checks
