@@ -230,16 +230,27 @@ def command_sample(args: argparse.Namespace) -> int:
     if args.threads > 8:
         raise SystemExit("at most 8 threads")
     tasks = [json.loads(line) for line in args.tasks.open()]
-    rng = random.Random(SEED)
     by_function: dict[str, list[dict]] = defaultdict(list)
     for task in tasks:
         if task["family"] == "finish_block":
             by_function[task["function_id"]].append(task)
     chosen = []
     for fid in sorted(by_function):
-        group = by_function[fid]
-        rng.shuffle(group)
+        group = sorted(by_function[fid], key=lambda t: t["id"])
+        random.Random(f"{SEED}:{fid}").shuffle(group)
         chosen += group[:args.per_function]
+    chosen = chosen[:args.max_tasks] if args.max_tasks else chosen
+    done: Counter = Counter()
+    if args.out.exists():  # resume: keep complete tasks, regenerate partial ones
+        kept = [line for line in args.out.read_text().splitlines() if line.strip()]
+        for line in kept:
+            done[json.loads(line)["task_id"]] += 1
+        complete = {t for t, n in done.items() if n == 1 + args.k}
+        args.out.write_text("".join(line + "\n" for line in kept if json.loads(line)["task_id"] in complete))
+        chosen = [t for t in chosen if t["id"] not in complete]
+    if not chosen:
+        print(json.dumps({"tasks": 0, "note": "all chosen tasks already sampled"}))
+        return 0
     prompt_max = max(len(t["prompt_ids"]) for t in chosen)
     ctx = -(-(prompt_max + CAP) // 256) * 256
     port = gd.free_port()
@@ -247,7 +258,7 @@ def command_sample(args: argparse.Namespace) -> int:
             "-t", str(args.threads), "-tb", str(args.threads), *gpu_layers("cpu"), "--host", "127.0.0.1",
             "--port", str(port), "--no-webui", "--seed", str(SEED), "--no-context-shift", "--no-cache-prompt"]
     started = time.monotonic()
-    with tempfile.TemporaryDirectory(prefix="exec-pilot-") as tmp, args.out.open("w") as stream:
+    with tempfile.TemporaryDirectory(prefix="exec-pilot-") as tmp, args.out.open("a") as stream:
         with gd.llama_server(argv, port, tool_env("cpu"), Path(tmp) / "server.log") as url:
             for index, task in enumerate(chosen):
                 prompt = task["prompt_ids"]
@@ -310,6 +321,7 @@ def command_score(args: argparse.Namespace) -> int:
     gold_ids = [(tid, tuple(rows[tid]["gold_completion_ids"])) for tid in sorted(rows)]
     gold_token = reward([t for t, _ in gold_ids], [c for _, c in gold_ids])
     samples = [json.loads(line) for line in args.samples.open()] if args.samples and args.samples.exists() else []
+    samples = [sample for sample in samples if sample["task_id"] in tasks]
     if samples:
         model_records = reward([s["task_id"] for s in samples], [tuple(s["completion_ids"]) for s in samples])
         exact21 = v21_exact(rows, samples)
@@ -401,6 +413,7 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--per-function", type=int, default=2)
     s.add_argument("--k", type=int, default=4)
     s.add_argument("--threads", type=int, default=8)
+    s.add_argument("--max-tasks", type=int, default=0)
     c = sub.add_parser("score")
     c.add_argument("--tasks", type=Path, required=True)
     c.add_argument("--samples", type=Path)

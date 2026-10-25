@@ -303,6 +303,7 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     equivalents = declared_equivalents(directory)
     by_op: dict[str, list[int]] = {}
     survivors, invalid, valid, kills, declared = [], 0, 0, 0, 0
+    declared_killed: list[str] = []
     records = []
     for mutant, result in zip(chosen, results, strict=True):
         if result.parse_ok is False or result.structure_ok is False or (result.sourced_ok is False
@@ -311,9 +312,11 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
             continue
         dead = killed(result, expected)
         records.append({**mutant.to_dict(), "killed": dead})
-        if mutant.id in equivalents and not dead:
-            declared += 1
-            continue
+        if mutant.id in equivalents:
+            if not dead:
+                declared += 1
+                continue
+            declared_killed.append(mutant.id)
         valid += 1
         cell = by_op.setdefault(mutant.op, [0, 0])
         cell[1] += 1
@@ -323,11 +326,14 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
         else:
             survivors.append({**mutant.to_dict(), "original_lines": list(mutant.original),
                               "mutated_lines": list(mutant.replacement)})
+    generated_ids = {m.id for m in all_mutants}
+    stale = sorted(set(equivalents) - generated_ids)
     rate = kills / valid if valid else 0.0
     report["mutants"] = {"generated": len(all_mutants), "sampled": len(chosen), "invalid": invalid,
                          "declared_equivalent": declared, "valid": valid, "killed": kills,
                          "kill_rate": round(rate, 3), "by_op": {k: {"killed": v[0], "valid": v[1]} for k, v in sorted(by_op.items())},
-                         "survivors": survivors}
+                         "survivors": survivors, "stale_equivalent_ids": stale,
+                         "declared_equivalent_but_killed": declared_killed}
     report["mutant_outcomes"] = records
     if valid < MIN_VALID_MUTANTS:
         report["problems"].append(f"too_few_valid_mutants:{valid}")

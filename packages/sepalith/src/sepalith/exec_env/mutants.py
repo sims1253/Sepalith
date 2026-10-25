@@ -45,8 +45,9 @@ SYMMETRIC = {"max", "min", "sum", "prod", "pmax", "pmin", "all", "any", "identic
              "all.equal", "setequal", "intersect", "union", "rbind", "cbind"}
 # calls whose string and logical arguments are message text or message options (`call. = FALSE`): their
 # mutants only change wording or printing (tests pin a distinctive word at most), so they are not generated
-MESSAGE_CALLS = {"stop", "warning", "message", "cat", "print", "simpleError", "simpleWarning", "warningCondition",
-                 "errorCondition", "packageStartupMessage", "signalCondition", "stopifnot"}
+MESSAGE_CALLS = {"stop", "warning", "message", "cat", "print", "simpleError", "simpleWarning", "simpleMessage",
+                 "warningCondition", "errorCondition", "packageStartupMessage", "signalCondition", "stopifnot",
+                 ".handleSimpleError", "gettextf", "ngettext"}
 STMT_TOKENS = {"expr", "equal_assign", "expr_or_assign_or_help"}
 
 
@@ -124,7 +125,9 @@ class _Builder:
         if key in self.seen:
             return
         self.seen.add(key)
-        mid = hashlib.sha256(f"{op}\0{line1}\0{line2}\0{description}".encode()).hexdigest()[:10]
+        # the id binds the edit itself (span and replacement text), so a declared equivalent can never
+        # silently point at a different mutant of the same line
+        mid = hashlib.sha256(f"{op}\0{line1}\0{line2}\0{chr(10).join(new_lines)}".encode()).hexdigest()[:10]
         self.out[mid] = Mutant(mid, op, line1, line2, description, text if text.endswith("\n") else text + "\n",
                                tuple(self.lines[line1 - 1:line2]), tuple(new_lines))
 

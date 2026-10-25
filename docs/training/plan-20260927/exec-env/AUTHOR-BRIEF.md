@@ -189,7 +189,9 @@ when it can be mapped) and does not run mutants.
   that reads fields the real object would carry (and writes them into
   attributes, say) sees `NULL` and passes; in the pilot, arm A did exactly
   that. Use a plain list only when the function itself probes for optional
-  fields (`is.null(x$opt)`).
+  fields (`is.null(x$opt)`). `strict()` appends `"exec_strict"` to the class
+  (account for it in `class()`/`identical()` assertions) and cannot wrap a
+  data frame (its own `$` method wins).
 - **Dead code**: model completions sometimes add branches that never run on
   your inputs. Cover every argument the function reads with at least one
   non-default value, so code guarded by those arguments is exercised. Methods you define in
@@ -220,7 +222,10 @@ Some mutants cannot be told apart from the original by any input (for
 example deleting a statement whose result is never used, or forcing an `if`
 whose two arms compute the same value). List those in `equivalent.txt`, one
 per line: `<mutant id> <one-line reason>`. They leave the kill-rate
-denominator. Reviewers check every entry; an entry that is not genuinely
+denominator. Mutant ids are bound to the edit (span and replacement text);
+`gate.json` lists `stale_equivalent_ids` (no longer generated) and
+`declared_equivalent_but_killed` (your tests kill it, so it was not
+equivalent): delete those lines. Reviewers check every entry; an entry that is not genuinely
 equivalent fails the function. Do not use this file to get past the gate.
 
 ## 6. Anti-patterns (each fails review even if the gate passes)
