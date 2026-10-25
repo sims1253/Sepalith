@@ -5,6 +5,9 @@
 ``DIR`` is a function directory (``source.R`` + ``test.R``) or a directory of
 them (a slice). For each function the gate writes ``gate.json`` (and
 ``frozen.R`` when the test defines ``exec_cases``) and prints one line.
+``--summary`` adds a per-function table of failing rules and a rule tally;
+``--report-only`` prints that table from existing ``gate.json`` files without
+re-running (to migrate a finished slice: run with ``--summary``, fix, repeat).
 
 A test file passes when all of these hold:
 
@@ -429,28 +432,69 @@ def function_dirs(paths: Sequence[Path]) -> list[Path]:
     return out
 
 
+def rule_of(problem: str) -> str:
+    """The rule name of a gate problem (``kill_rate:0.5`` -> ``kill_rate``)."""
+    return problem.split(":", 1)[0].split(" ", 1)[0]
+
+
+def summarize_slice(dirs: Sequence[Path]) -> dict:
+    """Per-function verdicts and failing rules from existing ``gate.json`` files (no re-run)."""
+    rows, rules, verdicts = [], Counter(), Counter()
+    for directory in dirs:
+        path = directory / "gate.json"
+        report = json.loads(path.read_text()) if path.is_file() else {"verdict": "not_gated", "problems": []}
+        failing = sorted({rule_of(p) for p in report.get("problems", [])})
+        verdicts[report["verdict"]] += 1
+        rules.update(failing if report["verdict"] not in ("pass", "skip") else [])
+        name = report.get("name") or (json.loads((directory / "meta.json").read_text()).get("name")
+                                      if (directory / "meta.json").is_file() else "")
+        rows.append({"function": directory.name, "name": name, "verdict": report["verdict"],
+                     "hand_written": report.get("hand_written_checks"), "rules": failing})
+    return {"verdicts": dict(verdicts), "failing_rules": dict(rules.most_common()), "functions": rows}
+
+
+def print_summary(summary: dict) -> None:
+    print("\n== summary ==")
+    for row in summary["functions"]:
+        rules = ",".join(row["rules"]) if row["verdict"] not in ("pass", "skip") else ""
+        print(f"{row['verdict']:9} {row['function']}  {row['name'][:40]:40}  {rules}")
+    print("verdicts: " + ", ".join(f"{k} {v}" for k, v in sorted(summary["verdicts"].items())))
+    if summary["failing_rules"]:
+        print("failing rules: " + ", ".join(f"{k} {v}" for k, v in summary["failing_rules"].items()))
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("dirs", nargs="+", type=Path)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--mutants", type=int, default=MUTANT_LIMIT)
+    parser.add_argument("--summary", action="store_true",
+                        help="after gating, print one line per function with its failing rules and a rule tally")
+    parser.add_argument("--report-only", action="store_true",
+                        help="do not run anything: summarise the existing gate.json files")
+    parser.add_argument("--json", type=Path, help="also write the summary as JSON")
     args = parser.parse_args(argv)
     dirs = function_dirs(args.dirs)
-    passed = 0
-    with ExecHarness(workers=min(args.workers, 8)) as harness:
-        for directory in dirs:
-            try:
-                report = gate_function(directory, harness, mutant_limit=args.mutants)
-            except Exception as error:  # noqa: BLE001 - one broken directory must not stop a slice
-                report = {"verdict": "error", "problems": [f"{type(error).__name__}: {error}"]}
-                (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
-            passed += report["verdict"] in ("pass", "skip")
-            mutants = report.get("mutants", {})
-            print(f"{report['verdict']:5} {directory.name} checks={report.get('checks')} "
-                  f"kill={mutants.get('killed')}/{mutants.get('valid')} stub={report.get('stub_pass_share')} "
-                  f"{';'.join(report['problems'])}", flush=True)
-    print(json.dumps({"functions": len(dirs), "passed": passed}))
-    return 0 if passed == len(dirs) else 1
+    if not args.report_only:
+        with ExecHarness(workers=min(args.workers, 8)) as harness:
+            for directory in dirs:
+                try:
+                    report = gate_function(directory, harness, mutant_limit=args.mutants)
+                except Exception as error:  # noqa: BLE001 - one broken directory must not stop a slice
+                    report = {"verdict": "error", "problems": [f"{type(error).__name__}: {error}"]}
+                    (directory / "gate.json").write_text(json.dumps(report, indent=1) + "\n")
+                mutants = report.get("mutants", {})
+                print(f"{report['verdict']:5} {directory.name} checks={report.get('checks')} "
+                      f"kill={mutants.get('killed')}/{mutants.get('valid')} stub={report.get('stub_pass_share')} "
+                      f"{';'.join(report['problems'])}", flush=True)
+    summary = summarize_slice(dirs)
+    if args.summary or args.report_only:
+        print_summary(summary)
+    if args.json:
+        args.json.write_text(json.dumps(summary, indent=1) + "\n")
+    ok = sum(v for k, v in summary["verdicts"].items() if k in ("pass", "skip"))
+    print(json.dumps({"functions": len(dirs), "passed": ok}))
+    return 0 if ok == len(dirs) else 1
 
 
 if __name__ == "__main__":

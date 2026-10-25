@@ -128,7 +128,11 @@ PYTHONPATH=packages/sepalith/src nice -n 10 \
   /home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python -m sepalith.exec_env.gate --workers 2 "$ROOT/S017/<function id>"
 ```
 
-Pass a slice directory to gate all its functions. The gate writes
+Pass a slice directory to gate all its functions; add `--summary` for a
+table of failing rules per function and a rule tally, or `--report-only` to
+print that table from the existing `gate.json` files without re-running. To
+migrate a slice finished under an older gate: `--summary`, fix the listed
+rules, repeat. The gate writes
 `gate.json` next to `test.R` and prints `pass`/`fail` with reasons. It
 requires:
 
