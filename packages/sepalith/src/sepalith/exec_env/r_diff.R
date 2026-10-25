@@ -178,16 +178,17 @@ result <- tryCatch({
   # stored calls, terms and headings are presentation; they count only if the suite reads them ($call, "call")
   ignorable <- Filter(function(n) !grepl(paste0("\\$\\s*", n, "\\b|[\"']", n, "[\"']"), suite_text),
                       c("call", "terms", "heading"))
-  ignore_names <- FALSE
+  ignore_attrs <- character()
   strip <- function(x) {
-    if (ignore_names && !isS4(x) && !is.environment(x) && !is.function(x) && !is.language(x) && !is.null(x)) {
-      # NAMES: names, dimnames and row names are incidental; values, order, class and other attributes count
-      if (is.data.frame(x)) {
-        attr(x, "row.names") <- .set_row_names(nrow(x))
-        names(x) <- NULL
-      } else {
-        if (!is.null(dim(x))) dimnames(x) <- NULL
-        if (!is.null(names(x))) names(x) <- NULL
+    if (length(ignore_attrs) && !isS4(x) && !is.environment(x) && !is.function(x) && !is.language(x) && !is.null(x)) {
+      # ATTR[...] / NAMES: the listed attributes are incidental; values, order, class and other attributes count
+      for (n in ignore_attrs) {
+        if (n == "row.names" && is.data.frame(x)) attr(x, "row.names") <- .set_row_names(nrow(x))
+        else if (n == "names" && is.data.frame(x)) names(x) <- NULL
+        else if (n == "dimnames" && !is.null(dim(x)) && !is.data.frame(x)) dimnames(x) <- NULL
+        else if (n == "names" && !is.null(names(x))) names(x) <- NULL
+        else if (!(n %in% c("names", "dimnames", "row.names", "class", "dim")) &&
+                 !is.null(attr(x, n, exact = TRUE))) attr(x, n) <- NULL
       }
     }
     for (n in ignorable) if (!is.null(attr(x, n, exact = TRUE))) attr(x, n) <- NULL
@@ -279,10 +280,11 @@ result <- tryCatch({
     mutant <- get(fn, envir = m)
     kind <- if (is.null(spec[[id]])) "" else spec[[id]][1]
     cond <- if (identical(kind, "cond")) spec[[id]][2] else ""
-    num_tol <- if (identical(kind, "numtol")) as.numeric(spec[[id]][2]) else 0
+    relax <- if (identical(kind, "relax")) strsplit(spec[[id]][2], "|", fixed = TRUE)[[1]] else c("", "")
+    num_tol <- if (nzchar(relax[1])) as.numeric(relax[1]) else 0
+    ignore_attrs <- if (length(relax) > 1 && nzchar(relax[2])) strsplit(relax[2], ",", fixed = TRUE)[[1]] else character()
     # which eligible inputs the condition excludes (reported; a condition excluding all is a blanket)
     eligible <- which(vapply(seq_along(inputs), function(j) inputs[[j]]$recorded || baseline[[j]]$ok, TRUE))
-    ignore_names <- identical(kind, "names")
     excluded_set <- integer()
     if (nzchar(cond)) {
       expr <- tryCatch({ px <- parse(text = cond, keep.source = FALSE); if (length(px) != 1L) stop("one expression"); px[[1]] },

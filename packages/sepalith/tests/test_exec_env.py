@@ -223,6 +223,29 @@ class DeclarationKindTests(unittest.TestCase):
         self.assertIn(f"equivalence_refuted:{rename.id}", plain)
         self.assertTrue(any(p.startswith(f"condition_invalid:{rename.id}") for p in bad), bad)
 
+    def test_attr_declaration(self):
+        from sepalith.exec_env import mutants
+        unit = 'root <- function(x, k = 2) {\n  out <- x * k\n  attr(out, "iter") <- 6L\n  out\n}\n'
+        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0]) if "7L" in m.text)
+        test = "".join(f'check_identical("{c}", as.vector(root({x}, k = {k})), {x} * {k})\n'
+                       for c, x, k in [("a", 1, 2), ("a", 3, 3), ("b", 2, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
+        attr_ok, other_attr, plain = self.run_gate(unit, "root", ["x", "k"], test,
+                                                   [f"{bump.id} ATTR[iter]: iteration count is undocumented",
+                                                    f"{bump.id} ATTR[names]: wrong attribute",
+                                                    f"{bump.id} only the iteration count"])
+        self.assertFalse(any(bump.id in p for p in attr_ok), attr_ok)
+        self.assertIn(f"equivalence_refuted:{bump.id}", other_attr)
+        self.assertIn(f"equivalence_refuted:{bump.id}", plain)
+
+
+class RelaxationParsingTests(unittest.TestCase):
+    def test_tags(self):
+        from sepalith.exec_env.gate import declared_conditions
+        got = declared_conditions({"a": "NAMES: labels", "b": "ATTR[iter] NUMTOL[1e-6]: solver",
+                                   "c": "ATTR[names,dimnames]: x", "d": "QUIRK[x[1] > 0]: y", "e": "plain reason"})
+        self.assertEqual(got, {"a": ("relax", "|dimnames,names,row.names"), "b": ("relax", "1e-6|iter"),
+                               "c": ("relax", "|dimnames,names"), "d": ("cond", "x[1] > 0"), "e": ("", "")})
+
 
 class MutantTests(unittest.TestCase):
     def test_classes_and_spans(self):

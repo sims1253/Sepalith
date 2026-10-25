@@ -285,9 +285,11 @@ differ on), `SCOPED[<cond>]:` (only inside a verified-broken branch) or
 `BUGFIX[<cond>]:` (only fixes a verified bug), `NUMTOL[<tol>]:` (only
 iterative-solver noise, e.g. an `optim()` start point: numbers, including
 those in list elements, S4 slots and environments, are compared with absolute
-or relative tolerance `tol <= 1e-2`, everything else exactly), or `NAMES:`
-(only incidental `names`, `dimnames` or row names differ; values, order,
-class and other attributes stay exact). `<cond>` is an R expression over the
+or relative tolerance `tol <= 1e-2`, everything else exactly), or
+`ATTR[<attr,attr>]:` (only the listed incidental attributes differ, e.g.
+`ATTR[iter]:`; values, order, class and other attributes stay exact).
+`NAMES:` is short for `ATTR[names,dimnames,row.names]:`, and tags combine:
+`ATTR[iter] NUMTOL[1e-6]:`. `<cond>` is an R expression over the
 arguments, with brackets allowed (`SCOPED[x[1] > 0]:`). All formals are bound
 when it runs: supplied values, otherwise their defaults; unnamed `...`
 arguments are in `dots`. It must parse and return a single `TRUE`/`FALSE` on

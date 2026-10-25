@@ -294,18 +294,34 @@ GENERIC_CONDITION_CLASSES = {"simpleError", "error", "condition", "simpleConditi
 NUMTOL_MAX = 1e-2
 
 
+RELAX_TAGS = re.compile(r"^((?:\s*(?:NUMTOL\[[^\]]*\]|ATTR\[[^\]]*\]|NAMES)\s*,?)+)\s*:")
+NAMES_ATTRS = ("names", "dimnames", "row.names")
+
+
+def relaxation_of(reason: str) -> tuple[str, list[str]] | None:
+    """``(tolerance, attributes)`` from leading ``NUMTOL[tol]`` / ``ATTR[a,b]`` / ``NAMES`` tags (combinable,
+    e.g. ``ATTR[iter] NUMTOL[1e-6]:``), or None. ``NAMES`` is ``ATTR[names,dimnames,row.names]``."""
+    match = RELAX_TAGS.match(reason.strip())
+    if not match:
+        return None
+    tags = match.group(1)
+    tol = re.findall(r"NUMTOL\[\s*([^\]]*?)\s*\]", tags)
+    attrs = [a.strip() for group in re.findall(r"ATTR\[([^\]]*)\]", tags) for a in group.split(",") if a.strip()]
+    if re.search(r"\bNAMES\b", tags):
+        attrs += list(NAMES_ATTRS)
+    return (tol[-1] if tol else ""), sorted(set(attrs))
+
+
 def declared_conditions(equivalents: dict[str, str]) -> dict[str, tuple[str, str]]:
-    """Per declared mutant: ``("cond", <R condition>)`` for ``SCOPED/BUGFIX/QUIRK[cond]:``,
-    ``("numtol", <tolerance>)`` for ``NUMTOL[tol]:``, ``("names", "")`` for ``NAMES:`` (names, dimnames and
-    row names ignored), else ``("", "")``. Every declaration without a
-    condition (plain, PRINT, unconditioned QUIRK, NUMTOL) must hold on every replayed input."""
+    """Per declared mutant: ``("cond", <R condition>)`` for ``SCOPED/BUGFIX/QUIRK[cond]:``;
+    ``("relax", "<tol>|<attr,attr>")`` for ``NUMTOL[tol]`` / ``ATTR[attrs]`` / ``NAMES`` tags (numbers compared
+    with the tolerance, the listed attributes ignored, everything else exact); else ``("", "")``. Every
+    declaration without a condition must hold on every replayed input."""
     out = {}
     for mid, reason in equivalents.items():
-        tol = re.match(r"^NUMTOL\[\s*([^\]]+?)\s*\]\s*:", reason.strip())
-        if tol:
-            out[mid] = ("numtol", tol.group(1))
-        elif re.match(r"^NAMES\s*:", reason.strip()):
-            out[mid] = ("names", "")
+        relax = relaxation_of(reason)
+        if relax is not None:
+            out[mid] = ("relax", f"{relax[0]}|{','.join(relax[1])}")
         else:
             cond = condition_of(reason)
             out[mid] = ("cond", cond) if cond else ("", "")
@@ -586,14 +602,18 @@ def gate_function(directory: Path, harness: ExecHarness, *, mutant_limit: int = 
     declared_mutants = [m for m in all_mutants if m.id in equivalents]
     conditions = declared_conditions(equivalents)
     for mid, (kind, value) in sorted(conditions.items()):
-        if kind == "numtol":
-            try:
-                tolerance = float(value)
-            except ValueError:
-                tolerance = float("nan")
-            if not 0 < tolerance <= NUMTOL_MAX:
-                report["problems"].append(f"numtol_invalid:{mid}={value} (0 < tol <= {NUMTOL_MAX})")
-                conditions[mid] = ("", "")
+        if kind == "relax":
+            tol_text, attrs = value.split("|", 1)
+            if tol_text:
+                try:
+                    tolerance = float(tol_text)
+                except ValueError:
+                    tolerance = float("nan")
+                if not 0 < tolerance <= NUMTOL_MAX:
+                    report["problems"].append(f"numtol_invalid:{mid}={tol_text} (0 < tol <= {NUMTOL_MAX})")
+                    conditions[mid] = ("relax", f"|{attrs}")
+            if not tol_text and not attrs:
+                report["problems"].append(f"relaxation_empty:{mid}")
     diff = differential_checks(unit, suite, meta["name"], declared_mutants, conditions)
     report["differential"] = diff
     report.setdefault("warnings", [])
