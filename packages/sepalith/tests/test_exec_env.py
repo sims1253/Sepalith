@@ -264,6 +264,7 @@ class RelaxationParsingTests(unittest.TestCase):
         self.assertEqual(tags("plain reason"), ("", "", "", ""))
 
 
+@unittest.skipUnless(HAS_R, "needs Rscript (the R tokenizer)")
 class MutantTests(unittest.TestCase):
     def test_classes_and_spans(self):
         from sepalith.exec_env import mutants

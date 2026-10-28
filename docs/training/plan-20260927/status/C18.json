@@ -125,7 +125,7 @@
       "disk": "about 23 saves x 17.7 GB = 410 GB of 456 GB usable"
     },
     "checks": {
-      "core": "scripts/check_core.py 255 OK on Python 3.10 and 3.12 without dependencies (21 skipped: the exec_env gate tests need Rscript, air and numpy; two exec-eval tests need torch), and 255 OK (1 skipped) in the local .venv",
+      "core": "scripts/check_core.py 255 OK on Python 3.10 and 3.12 without dependencies and without Rscript/air on PATH (40 skipped: exec_env tests that need Rscript, air or numpy, and two exec-eval tests that need torch); 255 OK (1 skipped) in the local .venv",
       "training": "test_c18_grpo_exec.py 18 OK and test_exec_eval_jobs.py 9 OK on CPU in .venv-sft",
       "quality": "scripts/check_quality.py passes: ruff clean; ty clean with exec_env/ excluded in ty.toml (pinned at c631141, fingerprint 7f8e073fbedb4b9d); exec_eval/ type issues fixed",
       "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
