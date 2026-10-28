@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -17,6 +18,9 @@ def fake_task(i: int, family: str = "finish_block", bucket: str = "short", funct
     return {"id": f"t{i:03d}", "function_id": function or f"f{i % 5}", "family": family,
             "prompt_ids": [0] + list(range(2, 2 + 5 + i % 7)), "curriculum": {"bucket": bucket, "target_lines": 3},
             "exec": {"before": "a\nb", "after": ""}}
+
+
+HAS_TORCH = importlib.util.find_spec("torch") is not None
 
 
 class GenerationTests(unittest.TestCase):
@@ -42,6 +46,7 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(second["generated"], 4)  # only the remaining tasks
             self.assertEqual(len(jobs.read_jsonl(out)), 10)
 
+    @unittest.skipUnless(HAS_TORCH, "needs torch")
     def test_sampling_regroups_and_truncates(self):
         import torch
 
@@ -58,6 +63,7 @@ class GenerationTests(unittest.TestCase):
         self.assertEqual((model.kwargs["do_sample"], model.kwargs["temperature"], model.kwargs["top_k"]), (True, 1.0, 0))
 
 
+@unittest.skipUnless(HAS_TORCH, "the inner job imports torch")
 class InnerExitCodeTests(unittest.TestCase):
     """The GPU entry point with CUDA, model loading and scoring mocked."""
 
@@ -160,7 +166,7 @@ class MetricsTests(unittest.TestCase):
         lo, hi = m["overall"]["mean_reward"]["ci95"]
         self.assertTrue(lo <= m["overall"]["mean_reward"]["mean"] <= hi)
         self.assertEqual(m["overall"]["functions"], 8)
-        diff = jobs.paired_difference(records, [{**r, "reward": r["reward"] + 0.1} for r in records], "reward", "s")
+        diff = jobs.paired_difference(records, [{**r, "reward": float(r["reward"]) + 0.1} for r in records], "reward", "s")
         self.assertAlmostEqual(diff["mean"], 0.1, places=4)
         census = []
         for t in range(6):

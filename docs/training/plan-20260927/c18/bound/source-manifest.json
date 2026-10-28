@@ -225,9 +225,9 @@
       "sha256": "2f6e6888c001424816ede425f3c39748c9e691bf3fcf807ad0b5b393100eb76c"
     },
     {
-      "bytes": 43338,
+      "bytes": 43366,
       "path": "packages/sepalith/src/sepalith/exec_eval/jobs.py",
-      "sha256": "f301e77105d3e1e61db1fd63c0681fc5c0adb9cebf957afc57734069f64c4448"
+      "sha256": "107f562c85efb12935f1548d7059f8dae65d79586f47f6da51cd372749869731"
     },
     {
       "bytes": 4664,

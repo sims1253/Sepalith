@@ -1,6 +1,7 @@
 """Exec-env: sandboxed harness, mutants, gate, per-cut tasks and the execution reward."""
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
 import shutil
@@ -12,6 +13,8 @@ from sepalith.data.synth.cases import Case
 
 HAS_R = shutil.which("Rscript") is not None
 HAS_AIR = shutil.which("air") is not None
+# the gate's static checks use the synth dedup (numpy); the stdlib core suite skips them without it
+HAS_NUMPY = importlib.util.find_spec("numpy") is not None
 
 UNIT = '''clamp_unit <- function(x) {
   pmin(pmax(x, 0), 1)
@@ -149,14 +152,14 @@ class ConditionParsingTests(unittest.TestCase):
         self.assertEqual(condition_of("SCOPED[x[1] > 0 no colon"), "")
 
 
-@unittest.skipUnless(HAS_R and HAS_AIR, "needs Rscript and air")
+@unittest.skipUnless(HAS_R and HAS_AIR and HAS_NUMPY, "needs Rscript, air and numpy")
 class NumericToleranceTests(unittest.TestCase):
     def test_numtol_declarations(self):
         from sepalith.exec_env import mutants
         from sepalith.exec_env.gate import gate_function
         from sepalith.exec_env.harness import ExecHarness
         unit = "fit <- function(x, k = 2) {\n  y <- x * k\n  z <- y + 0.00001\n  z\n}\n"
-        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0])
+        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0] or [])
                     if m.op == "constant" and "0.00001 * 2" in m.text)
         test = "".join(f'check_equal("{c}", fit({x}, k = {k}), {x} * {k}, tolerance = 1e-3)\n'
                        for c, x, k in [("a", 1, 2), ("a", 2, 3), ("b", 3, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
@@ -176,7 +179,7 @@ class NumericToleranceTests(unittest.TestCase):
         self.assertTrue(any(p.startswith(f"numtol_invalid:{bump.id}") for p in outcomes["0.5"]))
 
 
-@unittest.skipUnless(HAS_R and HAS_AIR, "needs Rscript and air")
+@unittest.skipUnless(HAS_R and HAS_AIR and HAS_NUMPY, "needs Rscript, air and numpy")
 class DeclarationKindTests(unittest.TestCase):
     """NUMTOL through S4 slots, NAMES, and invalid conditions."""
 
@@ -199,7 +202,7 @@ class DeclarationKindTests(unittest.TestCase):
     def test_numtol_reaches_s4_slots(self):
         from sepalith.exec_env import mutants
         unit = "fit <- function(x, k = 2) {\n  y <- x * k\n  z <- y + 0.00001\n  Matrix::Matrix(z, nrow = 1)\n}\n"
-        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0])
+        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0] or [])
                     if m.op == "constant" and "0.00001 * 2" in m.text)
         test = "".join(f'check_equal("{c}", as.numeric(fit(c({x}, 1), k = {k})), c({x}, 1) * {k}, tolerance = 1e-3)\n'
                        for c, x, k in [("a", 1, 2), ("a", 2, 3), ("b", 3, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
@@ -211,7 +214,7 @@ class DeclarationKindTests(unittest.TestCase):
     def test_names_declaration(self):
         from sepalith.exec_env import mutants
         unit = 'lab <- function(x, k = 2) {\n  out <- x * k\n  names(out) <- paste0("v", seq_along(x))\n  out\n}\n'
-        rename = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0]) if m.description == "string altered")
+        rename = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0] or []) if m.description == "string altered")
         test = "".join(f'check_identical("{c}", unname(lab({x}, k = {k})), unname({x} * {k}))\n'
                        for c, x, k in [("a", "1:2", 2), ("a", "3", 3), ("b", "c(2, 5)", 1), ("b", "4", 5), ("c", "-1", 2),
                                        ("c", "c(0.5, 1)", 4)])
@@ -226,7 +229,7 @@ class DeclarationKindTests(unittest.TestCase):
     def test_attr_declaration(self):
         from sepalith.exec_env import mutants
         unit = 'root <- function(x, k = 2) {\n  out <- x * k\n  attr(out, "iter") <- 6L\n  out\n}\n'
-        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0]) if "7L" in m.text)
+        bump = next(m for m in mutants.generate(unit, mutants.parse_tokens([unit])[0] or []) if "7L" in m.text)
         test = "".join(f'check_identical("{c}", as.vector(root({x}, k = {k})), {x} * {k})\n'
                        for c, x, k in [("a", 1, 2), ("a", 3, 3), ("b", 2, 1), ("b", 4, 5), ("c", -1, 2), ("c", 0.5, 4)])
         attr_ok, other_attr, plain, combined, malformed = self.run_gate(
@@ -264,7 +267,7 @@ class RelaxationParsingTests(unittest.TestCase):
 class MutantTests(unittest.TestCase):
     def test_classes_and_spans(self):
         from sepalith.exec_env import mutants
-        tokens = mutants.parse_tokens([UNIT])[0]
+        tokens = mutants.parse_tokens([UNIT])[0] or []
         found = mutants.generate(UNIT, tokens)
         ops = {m.op for m in found}
         self.assertTrue({"relational", "constant", "statement_delete", "early_return", "branch", "logical"}
@@ -276,7 +279,7 @@ class MutantTests(unittest.TestCase):
         self.assertEqual([m.id for m in picked], [m.id for m in mutants.sample(found, 10, "seed")])
 
 
-@unittest.skipUnless(HAS_R and HAS_AIR, "needs Rscript and air")
+@unittest.skipUnless(HAS_R and HAS_AIR and HAS_NUMPY, "needs Rscript, air and numpy")
 class GateTaskRewardTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -321,7 +324,7 @@ class GateTaskRewardTests(unittest.TestCase):
 
     def test_false_equivalence_is_refuted(self):
         from sepalith.exec_env import mutants
-        flip = next(m for m in mutants.generate(UNIT, mutants.parse_tokens([UNIT])[0]) if m.description == "< -> >=")
+        flip = next(m for m in mutants.generate(UNIT, mutants.parse_tokens([UNIT])[0] or []) if m.description == "< -> >=")
         (self.fdir / "equivalent.txt").write_text(EQUIVALENT + f"{flip.id} PRINT: only changes output\n")
         try:
             report = self.gate(TEST)

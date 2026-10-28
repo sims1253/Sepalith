@@ -4,7 +4,7 @@
     "purpose": "C18 GRPO on the exec environment from arm A 803 under R6x"
   },
   "card": "C18",
-  "decided_by": "user go-ahead 2026-10-28: GRPO on the exec env from arm A 803; built for sign-off, not launched",
+  "decided_by": "user approved the C18 pilot 2026-10-28 (start 00:00) with the standing auto-continue rule for nofp/cap-only stop bands",
   "dev_gate": {
     "cpt": {
       "load": "plain bf16 as the trainer and the DEV evaluator (no FP32 norm restore), bf16 autocast",
@@ -422,7 +422,7 @@
   "smoke": null,
   "source": {
     "manifest_path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
-    "manifest_sha256": "dbc4b7566b25ba055a7902b57b3a6a12bbdba9a6bbf5c89b15c8040308e1bd55",
+    "manifest_sha256": "6e28655b07886bdd6d723498968dc90d8fb88d0ff16892609bf2478a00580547",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "status": "bound_not_launched"

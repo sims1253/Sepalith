@@ -50,6 +50,7 @@ import signal
 import subprocess
 import sys
 import time
+from typing import Any
 
 DATA = Path("/mnt/e/sepalith/campaign-20260915/data-work/EXEC-ENV-v1")
 MANIFEST = DATA / "holdout-freeze-v1.json"
@@ -354,7 +355,7 @@ def batched_sample_generate(model: object, prompts: list[list[int]], *, k: int, 
         input_ids[row, width - len(prompt):] = torch.tensor(prompt, dtype=torch.long, device=device)
         attention[row, width - len(prompt):] = 1
     torch.manual_seed(seed)
-    sequence = model.generate(input_ids=input_ids, attention_mask=attention, do_sample=True, temperature=1.0,  # type: ignore[attr-defined]
+    sequence = getattr(model, "generate")(input_ids=input_ids, attention_mask=attention, do_sample=True, temperature=1.0,  # noqa: B009
                               top_p=1.0, top_k=0, max_new_tokens=cap, eos_token_id=list(STOP_IDS),
                               pad_token_id=GENERATION_PAD_TOKEN_ID, bos_token_id=GENERATION_BOS_TOKEN_ID,
                               repetition_penalty=1.0, use_cache=True)
@@ -384,7 +385,7 @@ def load_model(path: Path, device: str) -> tuple[object, dict]:
 
 
 # scoring (CPU) ------------------------------------------------------------------------------------------
-def score_model(label: str, tasks_path: Path, work: Path, reward: object, by_id: dict[str, dict]) -> list[dict]:
+def score_model(label: str, tasks_path: Path, work: Path, reward: Callable[..., list[dict]], by_id: dict[str, dict]) -> list[dict]:
     rows = read_jsonl(work / f"completions-{label}.jsonl")
     seen: set[tuple[str, int]] = set()
     unique = []
@@ -396,7 +397,7 @@ def score_model(label: str, tasks_path: Path, work: Path, reward: object, by_id:
     records: list[dict] = []
     for start in range(0, len(unique), 512):
         chunk = unique[start:start + 512]
-        scored = reward([r["task_id"] for r in chunk], [tuple(r["completion_ids"]) for r in chunk])  # type: ignore[operator]
+        scored = reward([r["task_id"] for r in chunk], [tuple(r["completion_ids"]) for r in chunk])
         for row, record in zip(chunk, scored, strict=True):
             task = by_id[row["task_id"]]
             records.append({"model": label, "task_id": row["task_id"], "sample": row["sample"],
@@ -559,7 +560,7 @@ def inner(args: argparse.Namespace) -> int:
     if args.kind == "census":
         models = models[:1]
     receipt_path = work / "receipt.json"
-    receipt = json.loads(receipt_path.read_text()) if receipt_path.is_file() else {
+    receipt: dict[str, Any] = json.loads(receipt_path.read_text()) if receipt_path.is_file() else {
         "schema": RECEIPT_SCHEMA, "job": args.job_id, "kind": args.kind, "started": now(),
         "purpose": "measurement only: no training, no adoption decision", "attempts": [], "models": {}}
     receipt.update(status="running", tasks={"path": str(args.tasks), "sha256": args.tasks_sha256, "n_tasks": len(tasks),

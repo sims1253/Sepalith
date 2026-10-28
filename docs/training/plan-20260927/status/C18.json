@@ -1,7 +1,7 @@
 {
   "card": "C18",
-  "state": "needs_user",
-  "updated": "2026-10-28T05:00:00+01:00",
+  "state": "in_progress",
+  "updated": "2026-10-28T21:40:00+01:00",
   "branch": "plan/C18-grpo-exec-env",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/92",
   "outputs": {
@@ -57,22 +57,22 @@
     "recipes": {
       "pilot": {
         "path": "docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json",
-        "sha256": "31d9ab2e748be2d96a58f70b613736c904fd3f36b7f504acd1d01f8933a821db",
+        "sha256": "cca09f08d7b7b20dad091426795fb34927aaf372b020c7f453af8539ccf85d57",
         "arm": "C18-grpo-exec-pilot-1"
       },
       "smoke": {
         "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json",
-        "sha256": "4cb214f206ef0cbda48b664f933e0d25f712ee1d66ef6b71176371e48f0a0e04",
+        "sha256": "ba1c6d2956123a01275e0001212cc7effccb4d181a22d1e307c136ca1a3c3291",
         "arm": "C18-grpo-exec-smoke"
       },
       "source_manifest": {
         "path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
-        "sha256": "dbc4b7566b25ba055a7902b57b3a6a12bbdba9a6bbf5c89b15c8040308e1bd55"
+        "sha256": "6e28655b07886bdd6d723498968dc90d8fb88d0ff16892609bf2478a00580547"
       },
       "start": "arm A checkpoint 803 (model 6c1505b8...1b37); references: DEV75 valid 75, cap 0, edit 28, nofp 9; DEV250 score250 109; hold-out all-pass 0.310",
       "smoke_worktree": {
         "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-worktree-arm-a-803.json",
-        "sha256": "92491b782c0ebd01a9ffaacd378119e76af5eae86c6f17ca473053545a85eb3f",
+        "sha256": "81306b3d5aaa730de6fe69a270d776bcc5864628ec013c694e219b8224377881",
         "arm": "C18-grpo-exec-smoke-worktree",
         "repository_root": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
         "purpose": "pre-merge smoke from the worktree (PRs #91/#92 unmerged); same data, model and settings as C18-grpo-exec-smoke, own archive and evidence directory"
@@ -125,15 +125,25 @@
       "disk": "about 23 saves x 17.7 GB = 410 GB of 456 GB usable"
     },
     "checks": {
-      "core": "check_core 255 OK (1 skipped)",
-      "training": "test_c18_grpo_exec.py 18 OK on CPU in .venv-sft",
-      "quality": "ruff clean; ty clean on the new package and tests (pre-existing ty diagnostics in exec_env/ and exec_eval/ from the base branch are untouched because exec_env is pinned)",
+      "core": "scripts/check_core.py 255 OK on Python 3.10 and 3.12 without dependencies (21 skipped: the exec_env gate tests need Rscript, air and numpy; two exec-eval tests need torch), and 255 OK (1 skipped) in the local .venv",
+      "training": "test_c18_grpo_exec.py 18 OK and test_exec_eval_jobs.py 9 OK on CPU in .venv-sft",
+      "quality": "scripts/check_quality.py passes: ruff clean; ty clean with exec_env/ excluded in ty.toml (pinned at c631141, fingerprint 7f8e073fbedb4b9d); exec_eval/ type issues fixed",
       "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
       "gpu": "not used"
     },
     "enqueue_pre_merge_smoke": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json"
   },
-  "rule_decisions": [],
-  "question_for_user": "Sign off card C18 (GRPO on the exec env from arm A 803; recipe, R6x bands, endpoints) so the orchestrator can merge and enqueue the smoke, then the pilot? Recommended: yes, as written (replay coefficient 0.1, legacy share 20%, max 1,000 updates with the 6-evaluation plateau).",
+  "rule_decisions": [
+    {
+      "rule": "sign-off",
+      "at": "2026-10-28",
+      "inputs": {
+        "card": "C18",
+        "via": "coordinator"
+      },
+      "outcome": "user approved the C18 pilot to start at 00:00 on 2026-10-29, with the standing auto-continue rule: an R6x stop-for-user whose only stop-band rows are nofp_rise and/or cap (no rollback, all other rows continue) is overridden to continue"
+    }
+  ],
+  "question_for_user": null,
   "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke)."
 }
