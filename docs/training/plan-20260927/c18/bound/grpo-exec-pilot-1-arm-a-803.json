@@ -422,7 +422,7 @@
   "smoke": null,
   "source": {
     "manifest_path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
-    "manifest_sha256": "056b67166e60a1dc3306c0836c26035dbce57d92b06a19c706123f9ff8f607cb",
+    "manifest_sha256": "dbc4b7566b25ba055a7902b57b3a6a12bbdba9a6bbf5c89b15c8040308e1bd55",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "status": "bound_not_launched"

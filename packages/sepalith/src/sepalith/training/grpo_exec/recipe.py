@@ -182,8 +182,11 @@ def external(path: Path, digest: str, label: str) -> Json:
     return {"path": str(path), "sha256": digest}
 
 
-def bind(kind: str, local_root: Path, *, deploy_root: Path = DEPLOY_ROOT, decided_by: str) -> Json:
-    """A pilot or smoke recipe from the pinned inputs under ``local_root`` (paths recorded for ``deploy_root``)."""
+def bind(kind: str, local_root: Path, *, deploy_root: Path = DEPLOY_ROOT, decided_by: str, name: str | None = None) -> Json:
+    """A pilot or smoke recipe from the pinned inputs under ``local_root`` (paths recorded for ``deploy_root``).
+
+    ``name`` overrides the arm name, and with it the archive, stop file and evidence directory (a smoke run
+    from a pre-merge worktree must not share outputs with the main-rooted smoke)."""
     from sepalith.training.offline import rules as offline_rules
 
     require(kind in ("pilot", "smoke"), "kind is pilot or smoke")
@@ -206,7 +209,7 @@ def bind(kind: str, local_root: Path, *, deploy_root: Path = DEPLOY_ROOT, decide
     optimizer["side_lr"] = round(cast(float, optimizer["side_lr"]) * ratio, 12)
     sft_gate = obj(sft["dev_gate"], "SFT dev_gate")
     panels = copy.deepcopy(obj(sft["dev_panels"], "SFT dev_panels"))
-    name = "C18-grpo-exec-pilot-1" if kind == "pilot" else "C18-grpo-exec-smoke"
+    name = name or ("C18-grpo-exec-pilot-1" if kind == "pilot" else "C18-grpo-exec-smoke")
     out = outputs(name)
     steps = rules.evaluation_steps()
     train, val = obj(pool["train"], "train"), obj(pool["validation"], "validation")
@@ -363,6 +366,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     binder.add_argument("--local-root", type=Path, default=Path(__file__).resolve().parents[6])
     binder.add_argument("--deploy-root", type=Path, default=DEPLOY_ROOT)
     binder.add_argument("--decided-by", required=True)
+    binder.add_argument("--name", help="arm name (default C18-grpo-exec-pilot-1 / C18-grpo-exec-smoke)")
     verify = sub.add_parser("verify")
     verify.add_argument("--recipe", type=Path, required=True)
     verify.add_argument("--repository-root", type=Path)
@@ -370,7 +374,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "source-manifest":
         write_new(args.output, build_source_manifest(args.local_root.resolve()))
     elif args.command == "bind":
-        write_new(args.output, bind(args.kind, args.local_root, deploy_root=args.deploy_root, decided_by=args.decided_by))
+        write_new(args.output, bind(args.kind, args.local_root, deploy_root=args.deploy_root, decided_by=args.decided_by,
+                                       name=args.name))
     else:
         recipe = load(args.recipe, root_override=args.repository_root)
         print(json.dumps({"status": "verified", "arm": obj(recipe["arm"], "arm")["name"], "sha256": sha256(args.recipe)}))

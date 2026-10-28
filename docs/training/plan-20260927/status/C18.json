@@ -1,7 +1,7 @@
 {
   "card": "C18",
   "state": "needs_user",
-  "updated": "2026-10-28T04:00:00+01:00",
+  "updated": "2026-10-28T05:00:00+01:00",
   "branch": "plan/C18-grpo-exec-env",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/92",
   "outputs": {
@@ -16,11 +16,37 @@
       ]
     },
     "pool": {
-      "manifest": {"path": "docs/training/plan-20260927/c18/C18-exec-pool.json", "sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984"},
+      "manifest": {
+        "path": "docs/training/plan-20260927/c18/C18-exec-pool.json",
+        "sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984"
+      },
       "data": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/ (all/tasks.jsonl 15,659 tasks, train-tasks.jsonl, val-tasks.jsonl, sft-replay.jsonl)",
-      "functions": {"gated_used": 1466, "with_tasks": 1416, "skipped": 278, "other_gate_version": 44, "gate_not_pass": 10, "stale_equivalents": 2},
-      "train": {"tasks": 7752, "functions": 1274, "packages": 141, "finish_block_short": 3264, "finish_block_medium": 2111, "finish_block_long": 623, "rename": 1754},
-      "validation": {"tasks": 403, "functions": 142, "packages": 16, "finish_block_short": 163, "finish_block_medium": 115, "finish_block_long": 66, "rename": 59},
+      "functions": {
+        "gated_used": 1466,
+        "with_tasks": 1416,
+        "skipped": 278,
+        "other_gate_version": 44,
+        "gate_not_pass": 10,
+        "stale_equivalents": 2
+      },
+      "train": {
+        "tasks": 7752,
+        "functions": 1274,
+        "packages": 141,
+        "finish_block_short": 3264,
+        "finish_block_medium": 2111,
+        "finish_block_long": 623,
+        "rename": 1754
+      },
+      "validation": {
+        "tasks": 403,
+        "functions": 142,
+        "packages": 16,
+        "finish_block_short": 163,
+        "finish_block_medium": 115,
+        "finish_block_long": 66,
+        "rename": 59
+      },
       "legacy_replay": "C14 pool, 2,086 TRAIN prompts, reward v2.1, 1 in 5 drawn prompts",
       "sft_replay": "8,000 v4 TRAIN rows (sha256 74ed5d0d...), 8 rows per update, coefficient 0.1"
     },
@@ -29,14 +55,58 @@
       "kl_ruled_out": "bf16 803 reference 4,800 MiB; C14 probe peak 23,110 + 4,800 = 27,910 MiB > fit limit 24,899 (32,579 - 6,144 desktop - 1,536 margin); C15 pilot measured peak allocated 27,452 + 4,800 = 32,252 MiB > allocator cap 30,669 (peak reserved 28,360)"
     },
     "recipes": {
-      "pilot": {"path": "docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json", "sha256": "aa150c0e98fc2e8dfd54ef7621baf62c3e6d95d26d632d29e6a94af2cfc43fd9", "arm": "C18-grpo-exec-pilot-1"},
-      "smoke": {"path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json", "sha256": "80eb428ec43db7c01ca58a7f355b06b638e2d0f919344473ccf074c65e48e00f", "arm": "C18-grpo-exec-smoke"},
-      "source_manifest": {"path": "docs/training/plan-20260927/c18/bound/source-manifest.json", "sha256": "056b67166e60a1dc3306c0836c26035dbce57d92b06a19c706123f9ff8f607cb"},
-      "start": "arm A checkpoint 803 (model 6c1505b8...1b37); references: DEV75 valid 75, cap 0, edit 28, nofp 9; DEV250 score250 109; hold-out all-pass 0.310"
+      "pilot": {
+        "path": "docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json",
+        "sha256": "31d9ab2e748be2d96a58f70b613736c904fd3f36b7f504acd1d01f8933a821db",
+        "arm": "C18-grpo-exec-pilot-1"
+      },
+      "smoke": {
+        "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json",
+        "sha256": "4cb214f206ef0cbda48b664f933e0d25f712ee1d66ef6b71176371e48f0a0e04",
+        "arm": "C18-grpo-exec-smoke"
+      },
+      "source_manifest": {
+        "path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
+        "sha256": "dbc4b7566b25ba055a7902b57b3a6a12bbdba9a6bbf5c89b15c8040308e1bd55"
+      },
+      "start": "arm A checkpoint 803 (model 6c1505b8...1b37); references: DEV75 valid 75, cap 0, edit 28, nofp 9; DEV250 score250 109; hold-out all-pass 0.310",
+      "smoke_worktree": {
+        "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-worktree-arm-a-803.json",
+        "sha256": "92491b782c0ebd01a9ffaacd378119e76af5eae86c6f17ca473053545a85eb3f",
+        "arm": "C18-grpo-exec-smoke-worktree",
+        "repository_root": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
+        "purpose": "pre-merge smoke from the worktree (PRs #91/#92 unmerged); same data, model and settings as C18-grpo-exec-smoke, own archive and evidence directory"
+      }
     },
     "night_jobs": {
-      "C18-grpo-exec-smoke": {"path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json", "sha256": "b2dfbbcf087490652b56836ce20368ac47e1f0d175c420fe6ccdf7a93b3ca61d", "priority": 40, "resumable": false, "estimated_minutes": 45, "requires": []},
-      "C18-grpo-exec-pilot-1": {"path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json", "sha256": "13979a1cd4d97270f00e94ebe1e3574055812a5c5b6bee3e548a787525196e59", "priority": 45, "resumable": true, "estimated_minutes": 960, "requires": ["C18-grpo-exec-smoke"]}
+      "C18-grpo-exec-smoke": {
+        "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
+        "sha256": "b2dfbbcf087490652b56836ce20368ac47e1f0d175c420fe6ccdf7a93b3ca61d",
+        "priority": 40,
+        "resumable": false,
+        "estimated_minutes": 45,
+        "requires": []
+      },
+      "C18-grpo-exec-pilot-1": {
+        "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json",
+        "sha256": "13979a1cd4d97270f00e94ebe1e3574055812a5c5b6bee3e548a787525196e59",
+        "priority": 45,
+        "resumable": true,
+        "estimated_minutes": 960,
+        "requires": [
+          "C18-grpo-exec-smoke"
+        ]
+      },
+      "C18-grpo-exec-smoke-worktree": {
+        "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json",
+        "sha256": "94fd09a7d5470bf7d1311a7fbf8809d4910526af340d85921fe4fffe1bc3c866",
+        "priority": 40,
+        "resumable": false,
+        "estimated_minutes": 45,
+        "requires": [],
+        "cwd": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
+        "python": "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python"
+      }
     },
     "enqueue_after_merge_and_sign_off": [
       "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
@@ -45,7 +115,8 @@
     "outputs_paths": {
       "smoke_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke (smoke-receipt.json)",
       "pilot_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1 (telemetry.jsonl, pilot-summary.json)",
-      "pilot_evidence": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1 (start/, results/, decisions/, final-holdout-job.json)"
+      "pilot_evidence": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1 (start/, results/, decisions/, final-holdout-job.json)",
+      "smoke_worktree_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke-worktree (smoke-receipt.json)"
     },
     "projections": {
       "seconds_per_update": "about 100 (exec completions 107 sampled tokens on average vs C15's 40; rollout about 2.5x C15's 62 s per buffer)",
@@ -59,9 +130,10 @@
       "quality": "ruff clean; ty clean on the new package and tests (pre-existing ty diagnostics in exec_env/ and exec_eval/ from the base branch are untouched because exec_env is pinned)",
       "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
       "gpu": "not used"
-    }
+    },
+    "enqueue_pre_merge_smoke": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json"
   },
   "rule_decisions": [],
   "question_for_user": "Sign off card C18 (GRPO on the exec env from arm A 803; recipe, R6x bands, endpoints) so the orchestrator can merge and enqueue the smoke, then the pilot? Recommended: yes, as written (replay coefficient 0.1, legacy share 20%, max 1,000 updates with the 6-evaluation plateau).",
-  "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits."
+  "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke)."
 }

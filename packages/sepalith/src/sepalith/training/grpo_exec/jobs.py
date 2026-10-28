@@ -31,8 +31,25 @@ ENV = ("PYTHONDONTWRITEBYTECODE=1", "CUDA_VISIBLE_DEVICES=0", "HF_HUB_OFFLINE=1"
        "MKL_NUM_THREADS=8", "TOKENIZERS_PARALLELISM=false", "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True")
 
 
-def command(root: Path, module: str, *args: str) -> list[str]:
-    return ["/usr/bin/env", f"PYTHONPATH={root}/packages/sepalith/src", *ENV, str(root / PYTHON), "-B", "-m", module, *args]
+WORKTREE_SMOKE_RECIPE = f"{BOUND}/grpo-exec-smoke-worktree-arm-a-803.json"
+
+
+def command(root: Path, module: str, *args: str, python: Path | None = None) -> list[str]:
+    return ["/usr/bin/env", f"PYTHONPATH={root}/packages/sepalith/src", *ENV, str(python or root / PYTHON), "-B", "-m", module, *args]
+
+
+def worktree_smoke_job(root: Path, python: Path) -> Json:
+    """The smoke from an unmerged worktree: cwd, PYTHONPATH and recipe in ``root``, the interpreter from the main checkout."""
+    job = jobs(root)["C18-grpo-exec-smoke"]
+    job.update(id="C18-grpo-exec-smoke-worktree",
+               command=command(root, "sepalith.training.grpo_exec.night", "smoke", "--recipe", str(root / WORKTREE_SMOKE_RECIPE),
+                               python=python),
+               note=(f"Pre-merge run of the C18 smoke from the worktree {root} (PRs #91/#92 unmerged): same data, model and "
+                     "settings as C18-grpo-exec-smoke (train to update 4 and save; DEV75, 96 validation tasks and CPT 2K on "
+                     "checkpoint 4 plus the 803 CPT reference; resume to update 6 and save), its own outputs. Exit 0 pass, 1 fail. "
+                     "Receipt: /mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke-worktree/smoke-receipt.json "
+                     "(seconds per update, projected updates per night, peak memory and headroom)."))
+    return job
 
 
 def jobs(root: Path = recipe_module.DEPLOY_ROOT) -> dict[str, Json]:
@@ -112,6 +129,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     write = sub.add_parser("write")
     write.add_argument("--output", type=Path, required=True)
     write.add_argument("--deploy-root", type=Path, default=recipe_module.DEPLOY_ROOT)
+    tree = sub.add_parser("write-worktree-smoke")
+    tree.add_argument("--root", type=Path, required=True)
+    tree.add_argument("--python", type=Path, default=recipe_module.DEPLOY_ROOT / PYTHON)
+    tree.add_argument("--output", type=Path, required=True)
     check = sub.add_parser("verdict")
     check.add_argument("--summary", type=Path, required=True)
     check.add_argument("--metrics", type=Path, required=True)
@@ -122,6 +143,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             recipe_module.write_new(args.output / f"{identifier}.json", job)
             written.append(identifier)
         print(json.dumps(written))
+    elif args.command == "write-worktree-smoke":
+        job = worktree_smoke_job(args.root.resolve(), args.python)
+        recipe_module.write_new(args.output / f"{job['id']}.json", job)
+        print(json.dumps([job["id"]]))
     else:
         print(json.dumps(verdict(args.summary, args.metrics), indent=1, sort_keys=True))
     return 0
