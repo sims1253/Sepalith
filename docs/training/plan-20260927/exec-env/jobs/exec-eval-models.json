@@ -1,0 +1,12 @@
+{
+  "schema": "sepalith.exec-eval.models.v1",
+  "note": "Models for EXEC-holdout-baseline, in run order (arm A first; the others only if time allows). EXEC-train-census uses the first model only.",
+  "models": [
+    {"label": "arm-a-536", "name": "arm A 536 (full SFT, lr 1e-5)",
+     "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536"},
+    {"label": "grpo-600", "name": "C15 GRPO pilot checkpoint 600 (from arm A 536)",
+     "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/C15-grpo-pilot-1/full/checkpoint-600"},
+    {"label": "e750", "name": "LoRA E750 (merged, SFT11 expanded post-SFT 500)",
+     "path": "/mnt/e/sepalith/campaign-20260915/models/SFT11-expanded-postsft500-e-750-merged"}
+  ]
+}

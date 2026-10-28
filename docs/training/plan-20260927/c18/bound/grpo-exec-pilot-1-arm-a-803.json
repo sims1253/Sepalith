@@ -1,0 +1,429 @@
+{
+  "arm": {
+    "name": "C18-grpo-exec-pilot-1",
+    "purpose": "C18 GRPO on the exec environment from arm A 803 under R6x"
+  },
+  "card": "C18",
+  "decided_by": "user approved the C18 pilot 2026-10-28 (start 00:00) with the standing auto-continue rule for nofp/cap-only stop bands",
+  "dev_gate": {
+    "cpt": {
+      "load": "plain bf16 as the trainer and the DEV evaluator (no FP32 norm restore), bf16 autocast",
+      "max_sequence_tokens": 2048,
+      "panel": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C09-cpt-validation-2k/campaign-20260915/cpt/validation/cpt_validation-2k.jsonl",
+        "sha256": "efb434950dcaab38432b61891e87de64ef1cffb80a6054c2dc739ae3801d28d8"
+      },
+      "rows": 499
+    },
+    "evaluation_steps": [
+      50,
+      100,
+      150,
+      200,
+      250,
+      300,
+      350,
+      400,
+      450,
+      500,
+      550,
+      600,
+      650,
+      700,
+      750,
+      800,
+      850,
+      900,
+      950,
+      1000
+    ],
+    "evidence_directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1",
+    "generation_batching": {
+      "batch_size": 32,
+      "kv_cache": "dynamic",
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "padding_side": "left",
+      "policy": "the parent baseline and every gate use these settings; a result whose generation runtime differs from its R1 reference is stop-for-user"
+    },
+    "generation_max_new_tokens": 1024,
+    "mandatory_steps": [
+      50,
+      100,
+      150,
+      200,
+      250,
+      300,
+      350,
+      400,
+      450,
+      500,
+      550,
+      600,
+      650,
+      700,
+      750,
+      800,
+      850,
+      900,
+      950,
+      1000
+    ],
+    "override_file_pattern": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/override-step-<step>.json",
+    "panel": {
+      "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+      "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+    },
+    "panels": {
+      "dev250": {
+        "cases": 250,
+        "manifest": {
+          "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/manifest.json",
+          "sha256": "07e370a8675f0c2578f822950df99a59ae704b48e17786013dccf638faba230a"
+        },
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+        "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+      },
+      "dev75": {
+        "cases": 75,
+        "path": "/mnt/e/sepalith/campaign-20260915/campaign-overlay/work/lead/corrected-dev75-v1/dev75-corrected-finish-v1.jsonl",
+        "sha256": "7c144bcd20570b1b1b1a232a5d90589c281ac2955d5fc2ef4b4b01fed8d57035"
+      }
+    },
+    "panels_by_step": "DEV75 + validation exec + CPT 2K every 50 updates, DEV250 too every 150",
+    "rule": "R6x",
+    "val": {
+      "batch_size": 32,
+      "cap": 1024,
+      "decoding": "greedy",
+      "limit": null,
+      "n_tasks": 403,
+      "tasks": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/val-tasks.jsonl",
+        "sha256": "ba1bbcfe23388b5fca745933601bac952b195c6a06f834b36ed25f1d9fb1ada7"
+      }
+    }
+  },
+  "expected_model": {
+    "dtype": "bfloat16",
+    "parameter_tensors": 381,
+    "parameters": 2516756480,
+    "peft": false
+  },
+  "final_evaluation": {
+    "freeze_manifest_sha256": "9e74c1644c96576693b48a5fb37cfdd5af93c7501c505943a5fc31852e0eca19",
+    "holdout_tasks": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/EXEC-holdout-baseline/inputs/tasks.jsonl",
+      "sha256": "4d9a1a36bc266e4c193257f5f22a1d4c5dc23b2305e63d4ff1ab7203d7d139be"
+    },
+    "job": "sepalith.exec_eval.jobs run --kind holdout, models [arm-a-803, c18-selected]",
+    "start_completions": {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/EXEC-holdout-checkpoints/completions-arm-a-803.jsonl",
+      "sha256": "a876037106cea9b84e878e458f238ea9b0aaca506996fca2fccbb0793cdef02e"
+    }
+  },
+  "final_set_access": false,
+  "holdout_in_training": false,
+  "kind": "pilot",
+  "memory_fit": {
+    "bf16_reference_weights_mib": 4800.0,
+    "c15_pilot_allocator_cap_mib": 30669.0,
+    "c15_pilot_peak_allocated_mib": 27451.8,
+    "c15_pilot_peak_reserved_mib": 28360.0,
+    "card_total_mib": 32579.4,
+    "config": "g8-r16-resident",
+    "fit_limit_mib": 24899.4,
+    "kl_reference_fits": false,
+    "note": "probe peak + reference = 27,910 MiB > the 24,899 MiB limit (6,144 desktop + 1,536 margin); C15's measured peak allocated + reference = 32,252 MiB > the 30,669 MiB allocator cap",
+    "probe_process_peak_mib": 23110.4,
+    "receipt": {
+      "path": "docs/training/plan-20260927/c14/C14-memory-probe-20261022T082309Z.json",
+      "sha256": "af7a66b5e669507276cbbca93c6b76a80e345955a39baef31153de2ec16d4332"
+    }
+  },
+  "outputs": {
+    "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1",
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/C18-grpo-exec-pilot-1-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/runtime"
+  },
+  "parent": {
+    "candidate_id": "SFT-v2-r4-lr1e-5-803",
+    "files": {
+      "campaign-manifest.json": "b4690e4d13d125ff1cb3c20ee197888c89b964c8afcf4d4bf4038bf4c72d8971",
+      "chat_template.jinja": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c",
+      "config.json": "49ffaed87528c7fc3c1795f41a1b50a4621e577d4719e7a62ff54833d6452563",
+      "generation_config.json": "0f9e07ed38da2371971f322d8ad8d2f77da32514b66798d089e55faba704844b",
+      "model.safetensors": "6c1505b842a0c9ca0d8d8502c3b541dbaec4b9aa5a54de1905097a24d4c21b37",
+      "tokenizer.json": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81",
+      "tokenizer_config.json": "0888551b46656b68bdb4402b79598f49ee6bb7b7e8be5f60a89278c439fe6896"
+    },
+    "kind": "gated_full_weight_checkpoint",
+    "path": "/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-803",
+    "step": 803,
+    "tag": "arm-a-803"
+  },
+  "parent_reference": {
+    "cpt_recorded_nll_fp32_norms": 1.003412254762526,
+    "exec_holdout": {
+      "all_pass": 0.3098,
+      "completions": {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/EXEC-holdout-checkpoints/completions-arm-a-803.jsonl",
+        "sha256": "a876037106cea9b84e878e458f238ea9b0aaca506996fca2fccbb0793cdef02e"
+      },
+      "exact_match": 0.2275,
+      "mean_reward": 0.3793,
+      "protocol_valid": 0.9727,
+      "records": {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/EXEC-holdout-checkpoints/records-arm-a-803.jsonl",
+        "sha256": "95fa2f4e0f2899f40ba84f5f088e173f0e378de7542a4ad4327a620af32e643a"
+      }
+    },
+    "generation_runtime": {
+      "batch_size": 32,
+      "dtype": "bf16",
+      "kv_cache": "dynamic",
+      "max_new_tokens": 1024,
+      "ordering": "prompt_tokens_descending_then_case_id_ascending",
+      "pad_token_id": 1,
+      "padding_side": "left"
+    },
+    "metrics": {
+      "cap": 0,
+      "edit": 28,
+      "edit_total": 104,
+      "noedit": 1,
+      "nofp": 9,
+      "score250": 109,
+      "valid": 75
+    },
+    "results": {
+      "dev250": {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-803.20261014T031828-959466265.json",
+        "sha256": "608371cc128409812c923bb53ca9bfa2837f7ef69538b61f9c0ca20913bb654a"
+      },
+      "dev75": {
+        "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-803.20261014T031828-959466265.json",
+        "sha256": "762d9b5ee92dab4028a791546c05be3b5c20f26f89f551f2da5b77e75b12ecea"
+      }
+    }
+  },
+  "pool": {
+    "legacy": {
+      "bundle": {
+        "content": "prompt token IDs (TRAIN input_ids[:target_start], equal to the census prompts) and reward v2.1 reference specs; local only",
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/C14-grpo-pool-v1/sepalith-2b-edit-sft-arm-a/bundle.jsonl",
+        "rows": 2086,
+        "sha256": "307cddda50f1c047339c71264600a8c225d2f6c49750bdf000a40f4f515eb2b7"
+      },
+      "manifest": {
+        "path": "docs/training/plan-20260927/c14/C14-grpo-pool-arm-a-536.json",
+        "sha256": "c9a78a9122cdcd288739e6b98cec7af701ebbc3e46dec8c823f1c95e7bec491f"
+      },
+      "pool": {
+        "path": "docs/training/plan-20260927/c14/pool/C14-grpo-pool-arm-a-536.jsonl",
+        "rows": 2086,
+        "sha256": "359275d6a3919db9a9161d1ea264be899e3ce252b5b8f13c92e4552a125c3e98"
+      }
+    },
+    "manifest": {
+      "path": "docs/training/plan-20260927/c18/C18-exec-pool.json",
+      "sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984"
+    },
+    "replay": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/sft-replay.jsonl",
+      "rows": 8000,
+      "sha256": "74ed5d0d9af3929e620e3cce2087bfd7d9dc86933c8bab7a91a97c529113c24a"
+    },
+    "train": {
+      "functions": 1274,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/train-tasks.jsonl",
+      "sha256": "cd7ba4f528b62b321a2f2a6f11980432347d5c4fe9a6334274635bbd2b21b5a4",
+      "tasks": 7752
+    },
+    "val": {
+      "functions": 142,
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/val-tasks.jsonl",
+      "sha256": "ba1bbcfe23388b5fca745933601bac952b195c6a06f834b36ed25f1d9fb1ada7",
+      "tasks": 403
+    }
+  },
+  "pre_registered": {
+    "anti_forgetting": {
+      "coefficient": 0.1,
+      "kind": "sft_cross_entropy_replay",
+      "loss": "coefficient x token-mean NLL of the update's replay rows' target tokens, added to the DAPO loss before the optimizer step (updates without a signal group take no step)",
+      "rows": "seeded 8,000-row sample of the v4 TRAIN rows arm A was trained on",
+      "rows_per_update": 8,
+      "why_not_kl": "a frozen bf16 803 reference (4,800 MiB) does not fit next to the measured GRPO peak"
+    },
+    "beta": 0.0,
+    "card": "C18",
+    "dynamic_sampling": {
+      "drop": "groups whose rewards are all equal",
+      "max_draw_factor": 4.0,
+      "max_rounds": 4,
+      "oversample": 1.5,
+      "refill": "before each rollout buffer",
+      "surplus": "discarded"
+    },
+    "epsilon_high": 0.28,
+    "epsilon_low": 0.2,
+    "evaluation": {
+      "dev250_every": 150,
+      "every": 50,
+      "panels": "DEV75 + validation exec (greedy) + CPT 2K",
+      "plateau": {
+        "evaluations": 6,
+        "gain": 0.01
+      },
+      "rule": "R6x"
+    },
+    "final_evaluation": {
+      "adopt": "primary met, DEV250 non-inferior and CPT within the limit",
+      "comparison": "selected checkpoint vs arm A 803, paired by task, function-clustered bootstrap (2,000 resamples)",
+      "primary": "all-pass difference with 95% CI lower bound > 0",
+      "secondary": [
+        "mean exec reward difference",
+        "exact-match difference",
+        "protocol validity",
+        "DEV250 score250 >= 803's 109 - 4",
+        "CPT 2K NLL rise <= 0.03 nats"
+      ],
+      "set": "frozen exec hold-out (holdout-freeze-v1, 3,803 tasks from 630 functions), greedy, exec reward at c631141"
+    },
+    "group_size": 8,
+    "learning_rate_ratio_to_sft": 0.1,
+    "legacy_every": 5,
+    "loss_type": "dapo",
+    "mask_truncated_completions": true,
+    "max_grad_norm": 0.0,
+    "max_updates": 1000,
+    "optimizer": "the SFT recipe's aurora_mix (same family), fresh state",
+    "prompts": "the C18 exec training split; 1 in 5 drawn prompts from the C14 TRAIN pool (legacy replay, reward v2.1)",
+    "reference_model": null,
+    "reward": {
+      "advantage_signal": "reward",
+      "exec": {
+        "exact_bonus": 0.0,
+        "gate": {
+          "commit": "c631141b0b58cbd9135a424c2cd59f1305fe634e",
+          "fingerprint": "7f8e073fbedb4b9d"
+        },
+        "overlong_factor": 2.0,
+        "overlong_scale": 0.5,
+        "overlong_slack": 6,
+        "policy": "sepalith.reward.exec.v1",
+        "w_all": 0.5,
+        "w_behaviour": 0.5
+      },
+      "legacy": {
+        "partial_credit": "gain",
+        "partial_weight": 0.5,
+        "policy": "sepalith.reward.v2.1"
+      },
+      "pass_signal": "exec all-pass / legacy exact"
+    },
+    "save": "full state at every update boundary that ends a rollout buffer; the deadline stop happens on such a boundary",
+    "scale_rewards": "none",
+    "scheduler": "linear warmup over 10 updates (update u uses min(1, u / 10) x LR), then constant",
+    "selection": "the accepted evaluation checkpoint with the highest validation all-pass (then validation mean reward, then the earliest)",
+    "start": "arm A checkpoint 803 (user go-ahead 2026-10-28)",
+    "temperature": 1.0,
+    "top_k": 0,
+    "top_p": 1.0,
+    "warmup_updates": 10
+  },
+  "runtime": {
+    "allocator_safety_mib": 256,
+    "attn_implementation": "sdpa",
+    "bos_id": 0,
+    "buffer_seconds_prior": 240.0,
+    "checkpoint_bytes_estimate": 17700000000,
+    "completion_max_tokens": 1024,
+    "deadline_margin_seconds": 90.0,
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "eog_ids": [
+      1,
+      130073
+    ],
+    "gradient_checkpointing": true,
+    "group_size": 8,
+    "groups_per_update": 4,
+    "learning_rate": 1e-06,
+    "legacy_every": 5,
+    "micro_batch": 1,
+    "min_free_disk_bytes": 150000000000,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 1e-06,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 1e-07,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "optimizer_dispatch_sha256": "162a62e5e3c07030ed401dcb6e0f28b37c931d6af45150386989cb739e1afbf4",
+    "optimizer_placement": "resident",
+    "pad_id": 1,
+    "prompt_max_tokens": 3072,
+    "replay_coefficient": 0.1,
+    "replay_rows_per_update": 8,
+    "reward": {
+      "air": "/home/m0hawk/.local/bin/air",
+      "exec_nice": 10,
+      "exec_workers": 8,
+      "rscript": "/usr/bin/Rscript",
+      "workers": 8
+    },
+    "rollout_rows_per_call": 16,
+    "rows_per_update": 32,
+    "save_seconds_prior": 300.0,
+    "seed": 3407,
+    "seq_chunk": 512,
+    "updates_per_buffer": 2,
+    "vocab_chunk": 16384
+  },
+  "schema": "sepalith.c18.grpo-exec-bound.v1",
+  "seed": 3407,
+  "sft_recipe": {
+    "learning_rate": 1e-05,
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "arm": "aurora_mix",
+      "aurora_K": 2,
+      "aurora_beta": 0.5,
+      "bf16_update_policy": "stochastic_round",
+      "hidden_lr": 1e-05,
+      "momentum": 0.95,
+      "ns_steps": 5,
+      "rms_scale": 0.2,
+      "side_lr": 1e-06,
+      "state_dtype": "float32",
+      "stochastic_round_chunk_elements": 1048576,
+      "weight_decay": 0.0
+    },
+    "path": "docs/training/plan-20260927/c04/bound/sft-v2-lr1e-5.json",
+    "sha256": "de4bcb0a6da1f3481874aeb82a19d80eae0ec6389b87ba18d1e4a9ca25bf2a4e"
+  },
+  "smoke": null,
+  "source": {
+    "manifest_path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
+    "manifest_sha256": "6e28655b07886bdd6d723498968dc90d8fb88d0ff16892609bf2478a00580547",
+    "repository_root": "/home/m0hawk/sandbox/Sepalith"
+  },
+  "status": "bound_not_launched"
+}

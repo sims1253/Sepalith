@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/sep-c18-grpo-exec/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.night",
+    "smoke",
+    "--recipe",
+    "/home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/bound/grpo-exec-smoke-worktree-arm-a-803.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
+  "env": [],
+  "estimated_minutes": 45,
+  "id": "C18-grpo-exec-smoke-worktree",
+  "note": "Pre-merge run of the C18 smoke from the worktree /home/m0hawk/sandbox/sep-c18-grpo-exec (PRs #91/#92 unmerged): same data, model and settings as C18-grpo-exec-smoke (train to update 4 and save; DEV75, 96 validation tasks and CPT 2K on checkpoint 4 plus the 803 CPT reference; resume to update 6 and save), its own outputs. Exit 0 pass, 1 fail. Receipt: /mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke-worktree/smoke-receipt.json (seconds per update, projected updates per night, peak memory and headroom).",
+  "priority": 40,
+  "requires": [],
+  "resumable": false
+}

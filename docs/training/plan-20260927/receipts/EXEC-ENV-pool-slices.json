@@ -1,0 +1,2975 @@
+{
+ "schema": "sepalith.exec-env.pool-receipt.v1",
+ "pool": {
+  "functions": 48414,
+  "packages": 6797,
+  "functions_per_package": {
+   "max": 198,
+   "median": 4
+  },
+  "body_buckets": {
+   "16-30": 16819,
+   "31-50": 8295,
+   "51-80": 4296,
+   "8-15": 19004
+  },
+  "with_helpers": 8403,
+  "with_loops": 13076,
+  "with_if": 37837,
+  "rename_candidates_any": 40972,
+  "na_rm_calls_any": 13898,
+  "nested_call_chains_any": 6899,
+  "sft_train_containment_over_0.5": 1091,
+  "selection": {
+   "functions_seen": 548846,
+   "body_length_outside_8_80": 237086,
+   "unresolved_global": 62767,
+   "global_from_pkg": 2933,
+   "forbidden_call": 41623,
+   "fewer_than_3_statements": 43620,
+   "name_redefined_or_nonsyntactic": 54919,
+   "namespace_unavailable": 43320,
+   "helper_unresolved_global": 3292,
+   "helper_forbidden_call": 2188,
+   "forbidden_namespace": 1141,
+   "non_ascii_or_tab": 2019,
+   "uses_file_level_variable": 941,
+   "helper_namespace_unavailable": 1568,
+   "helper_uses_file_level_variable": 164,
+   "unit_too_long": 214,
+   "helper_global_from_pkg": 104,
+   "helper_unavailable": 26,
+   "helper_forbidden_namespace": 47,
+   "analysis_error": 216,
+   "file_does_not_parse": 24,
+   "candidates_before_format": 50658,
+   "exact_duplicate": 740,
+   "near_duplicate": 1464,
+   "dev_overlap_over_0.3": 40
+  },
+  "inputs": {
+   "cpt_rows": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-cpt-train-ctx16384.jsonl",
+   "cpt_rows_sha256": "7b3edfd052de4be5d1180144f75497aef5e862eeed816b372c5d751a855425bf",
+   "extract": {
+    "rows": 185318,
+    "counts": {
+     "rows": 185318,
+     "sha_match": 176161,
+     "files": 176162,
+     "skip_multi_row_document": 9156,
+     "sha_mismatch": 1
+    },
+    "packages": 9946,
+    "cpt_rows_sha256_verified": true
+   }
+  }
+ },
+ "pool_jsonl": {
+  "path": "/mnt/e/sepalith/campaign-20260915/data-work/EXEC-ENV-v1/pool.jsonl",
+  "sha256": "a25f5fd6d55cd523ad093deba2a121e3157ff61342ffb1f4a5a4a587d3a12ef7"
+ },
+ "slices_json": {
+  "path": "/mnt/e/sepalith/campaign-20260915/data-work/EXEC-ENV-v1/slices.json",
+  "sha256": "006146918505edbf3854f92311fd48deed5d7e1c910f2966bdfb39a2cf08aad2"
+ },
+ "slices": {
+  "schema": "sepalith.exec-env.slices.v1",
+  "pool_functions": 48414,
+  "holdout": {
+   "packages": 206,
+   "functions": 800,
+   "train_near_duplicates_dropped": 7,
+   "leak_jaccard": 0.6
+  },
+  "train": {
+   "packages": 6590,
+   "functions": 47607,
+   "slices": 472,
+   "slice_functions_min": 74,
+   "slice_functions_max": 198
+  },
+  "slice_size_target": 100
+ },
+ "slice_table": [
+  {
+   "slice": "H000",
+   "role": "holdout",
+   "packages": 11,
+   "functions": 100
+  },
+  {
+   "slice": "H001",
+   "role": "holdout",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "H002",
+   "role": "holdout",
+   "packages": 75,
+   "functions": 100
+  },
+  {
+   "slice": "H003",
+   "role": "holdout",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "H004",
+   "role": "holdout",
+   "packages": 39,
+   "functions": 100
+  },
+  {
+   "slice": "H005",
+   "role": "holdout",
+   "packages": 18,
+   "functions": 100
+  },
+  {
+   "slice": "H006",
+   "role": "holdout",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "H007",
+   "role": "holdout",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S000",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S001",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S002",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S003",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S004",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S005",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S006",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S007",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S008",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S009",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S010",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S011",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S012",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S013",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S014",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S015",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S016",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S017",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S018",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S019",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S020",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S021",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S022",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S023",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S024",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S025",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S026",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S027",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S028",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S029",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S030",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S031",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S032",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S033",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S034",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S035",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S036",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S037",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S038",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S039",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S040",
+   "role": "train",
+   "packages": 1,
+   "functions": 192
+  },
+  {
+   "slice": "S041",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S042",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S043",
+   "role": "train",
+   "packages": 18,
+   "functions": 100
+  },
+  {
+   "slice": "S044",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S045",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S046",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S047",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S048",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S049",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S050",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S051",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S052",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S053",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S054",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S055",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S056",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S057",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S058",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S059",
+   "role": "train",
+   "packages": 21,
+   "functions": 100
+  },
+  {
+   "slice": "S060",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S061",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S062",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S063",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S064",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S065",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S066",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S067",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S068",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S069",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S070",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S071",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S072",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S073",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S074",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S075",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S076",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S077",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S078",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S079",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S080",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S081",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S082",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S083",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S084",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S085",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S086",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S087",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S088",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S089",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S090",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S091",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S092",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S093",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S094",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S095",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S096",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S097",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S098",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S099",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S100",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S101",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S102",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S103",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S104",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S105",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S106",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S107",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S108",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S109",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S110",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S111",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S112",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S113",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S114",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S115",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S116",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S117",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S118",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S119",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S120",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S121",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S122",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S123",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S124",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S125",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S126",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S127",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S128",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S129",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S130",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S131",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S132",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S133",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S134",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S135",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S136",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S137",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S138",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S139",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S140",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S141",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S142",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S143",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S144",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S145",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S146",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S147",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S148",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S149",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S150",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S151",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S152",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S153",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S154",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S155",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S156",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S157",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S158",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S159",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S160",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S161",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S162",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S163",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S164",
+   "role": "train",
+   "packages": 1,
+   "functions": 188
+  },
+  {
+   "slice": "S165",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S166",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S167",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S168",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S169",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S170",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S171",
+   "role": "train",
+   "packages": 11,
+   "functions": 100
+  },
+  {
+   "slice": "S172",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S173",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S174",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S175",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S176",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S177",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S178",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S179",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S180",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S181",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S182",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S183",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S184",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S185",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S186",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S187",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S188",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S189",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S190",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S191",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S192",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S193",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S194",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S195",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S196",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S197",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S198",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S199",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S200",
+   "role": "train",
+   "packages": 1,
+   "functions": 115
+  },
+  {
+   "slice": "S201",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S202",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S203",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S204",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S205",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S206",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S207",
+   "role": "train",
+   "packages": 74,
+   "functions": 74
+  },
+  {
+   "slice": "S208",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S209",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S210",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S211",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S212",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S213",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S214",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S215",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S216",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S217",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S218",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S219",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S220",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S221",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S222",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S223",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S224",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S225",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S226",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S227",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S228",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S229",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S230",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S231",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S232",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S233",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S234",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S235",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S236",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S237",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S238",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S239",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S240",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S241",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S242",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S243",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S244",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S245",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S246",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S247",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S248",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S249",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S250",
+   "role": "train",
+   "packages": 1,
+   "functions": 198
+  },
+  {
+   "slice": "S251",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S252",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S253",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S254",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S255",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S256",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S257",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S258",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S259",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S260",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S261",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S262",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S263",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S264",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S265",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S266",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S267",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S268",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S269",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S270",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S271",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S272",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S273",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S274",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S275",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S276",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S277",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S278",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S279",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S280",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S281",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S282",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S283",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S284",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S285",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S286",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S287",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S288",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S289",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S290",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S291",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S292",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S293",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S294",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S295",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S296",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S297",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S298",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S299",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S300",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S301",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S302",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S303",
+   "role": "train",
+   "packages": 42,
+   "functions": 100
+  },
+  {
+   "slice": "S304",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S305",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S306",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S307",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S308",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S309",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S310",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S311",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S312",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S313",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S314",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S315",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S316",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S317",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S318",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S319",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S320",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S321",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S322",
+   "role": "train",
+   "packages": 16,
+   "functions": 100
+  },
+  {
+   "slice": "S323",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S324",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S325",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S326",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S327",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S328",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S329",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S330",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S331",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S332",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S333",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S334",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S335",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S336",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S337",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S338",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S339",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S340",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S341",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S342",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S343",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S344",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S345",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S346",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S347",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S348",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S349",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S350",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S351",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S352",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S353",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S354",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S355",
+   "role": "train",
+   "packages": 1,
+   "functions": 174
+  },
+  {
+   "slice": "S356",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S357",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S358",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S359",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S360",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S361",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S362",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S363",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S364",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S365",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S366",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S367",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S368",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S369",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S370",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S371",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S372",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S373",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S374",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S375",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S376",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S377",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S378",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S379",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S380",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S381",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S382",
+   "role": "train",
+   "packages": 1,
+   "functions": 160
+  },
+  {
+   "slice": "S383",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S384",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S385",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S386",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S387",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S388",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S389",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S390",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S391",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S392",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S393",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S394",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S395",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S396",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S397",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S398",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S399",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S400",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S401",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S402",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S403",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S404",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S405",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S406",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S407",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S408",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S409",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S410",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S411",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S412",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S413",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S414",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S415",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S416",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S417",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S418",
+   "role": "train",
+   "packages": 69,
+   "functions": 100
+  },
+  {
+   "slice": "S419",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S420",
+   "role": "train",
+   "packages": 1,
+   "functions": 106
+  },
+  {
+   "slice": "S421",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S422",
+   "role": "train",
+   "packages": 1,
+   "functions": 100
+  },
+  {
+   "slice": "S423",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S424",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S425",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S426",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S427",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S428",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S429",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S430",
+   "role": "train",
+   "packages": 33,
+   "functions": 100
+  },
+  {
+   "slice": "S431",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S432",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S433",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S434",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S435",
+   "role": "train",
+   "packages": 25,
+   "functions": 100
+  },
+  {
+   "slice": "S436",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S437",
+   "role": "train",
+   "packages": 6,
+   "functions": 100
+  },
+  {
+   "slice": "S438",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  },
+  {
+   "slice": "S439",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S440",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S441",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S442",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S443",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S444",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S445",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S446",
+   "role": "train",
+   "packages": 8,
+   "functions": 100
+  },
+  {
+   "slice": "S447",
+   "role": "train",
+   "packages": 50,
+   "functions": 100
+  },
+  {
+   "slice": "S448",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S449",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S450",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S451",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S452",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S453",
+   "role": "train",
+   "packages": 12,
+   "functions": 100
+  },
+  {
+   "slice": "S454",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S455",
+   "role": "train",
+   "packages": 4,
+   "functions": 100
+  },
+  {
+   "slice": "S456",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S457",
+   "role": "train",
+   "packages": 17,
+   "functions": 100
+  },
+  {
+   "slice": "S458",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S459",
+   "role": "train",
+   "packages": 20,
+   "functions": 100
+  },
+  {
+   "slice": "S460",
+   "role": "train",
+   "packages": 100,
+   "functions": 100
+  },
+  {
+   "slice": "S461",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S462",
+   "role": "train",
+   "packages": 13,
+   "functions": 100
+  },
+  {
+   "slice": "S463",
+   "role": "train",
+   "packages": 15,
+   "functions": 100
+  },
+  {
+   "slice": "S464",
+   "role": "train",
+   "packages": 9,
+   "functions": 100
+  },
+  {
+   "slice": "S465",
+   "role": "train",
+   "packages": 3,
+   "functions": 100
+  },
+  {
+   "slice": "S466",
+   "role": "train",
+   "packages": 5,
+   "functions": 100
+  },
+  {
+   "slice": "S467",
+   "role": "train",
+   "packages": 10,
+   "functions": 100
+  },
+  {
+   "slice": "S468",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S469",
+   "role": "train",
+   "packages": 2,
+   "functions": 100
+  },
+  {
+   "slice": "S470",
+   "role": "train",
+   "packages": 7,
+   "functions": 100
+  },
+  {
+   "slice": "S471",
+   "role": "train",
+   "packages": 34,
+   "functions": 100
+  }
+ ]
+}

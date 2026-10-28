@@ -4,6 +4,11 @@ extra-paths = ["packages/sepalith/src", "packages/sepalith/tests"]
 
 [src]
 include = ["packages/sepalith"]
+# sepalith.exec_env is pinned: the frozen exec hold-out (holdout-freeze-v1.json) and every task file
+# were gated at commit c631141, and gate.gate_version() fingerprints this package's sources
+# (7f8e073fbedb4b9d). Any edit, even a type annotation, changes the fingerprint and invalidates the
+# freeze, so the package is not type-checked here; new code goes outside it (exec_eval/, grpo_exec/).
+exclude = ["packages/sepalith/src/sepalith/exec_env/"]
 
 [rules]
 # Keep ty's default correctness rules, and fail on these optional escape hatches.
