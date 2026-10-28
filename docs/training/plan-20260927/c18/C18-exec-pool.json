@@ -1,0 +1,191 @@
+{
+  "built": {
+    "builder": "sepalith.exec_env.tasks.build_for_function (finish_block + rename_propagation)",
+    "builder_reasons": {
+      "cut_local_kill_rate": 194,
+      "cut_local_survivor": 5,
+      "cut_touches_untested_branch": 419,
+      "cuts_seen": 28688,
+      "dropped_by_per_function_cap": 0,
+      "gold_fails": 8,
+      "length_policy": 12,
+      "render_failed": 49,
+      "tasks": 16078,
+      "tasks_finish_block": 14130,
+      "tasks_rename_propagation": 1948,
+      "tests_require_unseen_choice": 12004,
+      "truncated_passes_unobservable": 338
+    },
+    "gate_version": {
+      "commit": "41a10b50896bfc620fd069fdcebe4cd2598b2ec8",
+      "exec_env_modified": false,
+      "fingerprint": "7f8e073fbedb4b9d",
+      "name": "v3"
+    },
+    "n_functions": 1416,
+    "n_tasks": 15659,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/all/tasks.jsonl",
+    "receipt": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/all/tasks-receipt.json",
+    "receipt_sha256": "50efc9a0dfd7bc7f0fa3e1a2935055fbdcfbf1572364d8f2bbac7307bb8872ed",
+    "sha256": "f29cc511fbdf808506b9009225b9ca6c00c007cb64f3d3ef72283c28d9ea5bbc",
+    "source": {
+      "freeze_manifest": {
+        "path": "/mnt/e/sepalith/campaign-20260915/data-work/EXEC-ENV-v1/holdout-freeze-v1.json",
+        "read_for": "exclusion only",
+        "sha256": "9e74c1644c96576693b48a5fb37cfdd5af93c7501c505943a5fc31852e0eca19"
+      },
+      "function_counts": {
+        "gate_not_pass": 10,
+        "gated_at_other_version": 44,
+        "skipped": 278,
+        "stale_equivalents": 2,
+        "used": 1466
+      },
+      "holdout_functions_excluded_by_id": 800,
+      "holdout_packages_excluded": 206,
+      "kind": "c18-train",
+      "root": "/mnt/e/sepalith/campaign-20260915/data-work/EXEC-ENV-v1/authors",
+      "slices": [
+        "S000",
+        "S001",
+        "S002",
+        "S003",
+        "S004",
+        "S005",
+        "S006",
+        "S007",
+        "S008",
+        "S009",
+        "S010",
+        "S011",
+        "S012",
+        "S013",
+        "S014",
+        "S015",
+        "S016",
+        "S017"
+      ],
+      "untested_branch_declarations": 238
+    }
+  },
+  "card": "C18",
+  "census_context": {
+    "records": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/EXEC-train-census/records-arm-a-536.jsonl",
+    "sha256": "84351540971b36f748e9675def869df6612c3b51ba60eeeec28aef3fec9a5ebf",
+    "train": {
+      "tasks_in_census": 844,
+      "zero_reward_variance_at_k8": 265,
+      "zero_variance_share": 0.314
+    },
+    "use": "context only: the census covers a small share of the pool, so zero-variance tasks are left to dynamic sampling",
+    "validation": {
+      "tasks_in_census": 43,
+      "zero_reward_variance_at_k8": 10,
+      "zero_variance_share": 0.2326
+    }
+  },
+  "final_set_access": false,
+  "functions_with_tasks": 1416,
+  "rule": {
+    "holdout": "frozen hold-out functions and every hold-out-slice package excluded (manifest read for ids only)",
+    "per_function_selection": "exec_eval.jobs.select_tasks: round-robin over (family, cut length) strata, seeded by function id",
+    "train_per_function": 8,
+    "untested_branches": "cuts touching a SCOPED/BUGFIX-declared branch dropped at build time",
+    "val_per_function": 3,
+    "validation": "whole packages in sha256('c18-val-split-v1:' + package) order until >= 10% of the functions with tasks"
+  },
+  "schema": "sepalith.c18.exec-pool.v1",
+  "tasks_available": 15659,
+  "train": {
+    "functions": 1274,
+    "functions_by_family": {
+      "finish_block": 1168,
+      "rename_propagation": 1052
+    },
+    "functions_by_stratum": {
+      "finish_block:long": 272,
+      "finish_block:medium": 810,
+      "finish_block:short": 1112,
+      "rename_propagation:short": 1052
+    },
+    "gold_completion_tokens": {
+      "max": 913,
+      "mean": 73.6,
+      "median": 44
+    },
+    "packages": 141,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/train-tasks.jsonl",
+    "prompt_tokens": {
+      "max": 1943,
+      "mean": 423.6,
+      "median": 355
+    },
+    "sha256": "cd7ba4f528b62b321a2f2a6f11980432347d5c4fe9a6334274635bbd2b21b5a4",
+    "tasks": 7752,
+    "tasks_by_family": {
+      "finish_block": 5998,
+      "rename_propagation": 1754
+    },
+    "tasks_by_stratum": {
+      "finish_block:long": 623,
+      "finish_block:medium": 2111,
+      "finish_block:short": 3264,
+      "rename_propagation:short": 1754
+    }
+  },
+  "validation": {
+    "functions": 142,
+    "functions_by_family": {
+      "finish_block": 137,
+      "rename_propagation": 55
+    },
+    "functions_by_stratum": {
+      "finish_block:long": 62,
+      "finish_block:medium": 105,
+      "finish_block:short": 133,
+      "rename_propagation:short": 55
+    },
+    "gold_completion_tokens": {
+      "max": 483,
+      "mean": 89.2,
+      "median": 58
+    },
+    "package_names": [
+      "MoNAn",
+      "PTXQC",
+      "SIMle",
+      "TDApplied",
+      "comphy",
+      "cranly",
+      "evolved",
+      "gRain",
+      "lyubishchev",
+      "mascarade",
+      "mcmapper",
+      "modelscompete4",
+      "mtsta",
+      "pomp",
+      "restrictR",
+      "statsr"
+    ],
+    "packages": 16,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/val-tasks.jsonl",
+    "prompt_tokens": {
+      "max": 1729,
+      "mean": 539.5,
+      "median": 489
+    },
+    "sha256": "ba1bbcfe23388b5fca745933601bac952b195c6a06f834b36ed25f1d9fb1ada7",
+    "tasks": 403,
+    "tasks_by_family": {
+      "finish_block": 344,
+      "rename_propagation": 59
+    },
+    "tasks_by_stratum": {
+      "finish_block:long": 66,
+      "finish_block:medium": 115,
+      "finish_block:short": 163,
+      "rename_propagation:short": 59
+    }
+  }
+}

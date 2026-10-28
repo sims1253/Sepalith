@@ -1,0 +1,67 @@
+{
+  "card": "C18",
+  "state": "needs_user",
+  "updated": "2026-10-28T04:00:00+01:00",
+  "branch": "plan/C18-grpo-exec-env",
+  "pull_request": null,
+  "outputs": {
+    "card": "docs/training/plan-20260927/cards/C18-grpo-exec-env.md",
+    "code": {
+      "package": "packages/sepalith/src/sepalith/training/grpo_exec/ (pool, mix, rules, recipe, trainer, val_eval, cpt_probe, dev_generation, night, jobs)",
+      "reused": "C15 GRPOTrainer (rollout, dynamic sampling, DAPO loss, saves, deadline, DeviceOps), grpo.state, grpo.night.GRPOArm, the C15 DEV evaluator, exec_env.reward (ExecReward, RoutedReward), exec_eval.jobs (task builder use, load_model, the hold-out job), reward v2.1, c09 CPT evaluator",
+      "exec_env_unchanged": "gate fingerprint 7f8e073fbedb4b9d",
+      "tests": [
+        "packages/sepalith/tests/test_c18_grpo_exec_core.py (stdlib, 24)",
+        "packages/sepalith/tests/training/test_c18_grpo_exec.py (CPU torch, 18: tiny Llama trainer segments, bit-exact resume with the replay term, replay gradient vs autograd, mocked CUDA, driver with fake launcher, real exec + v2.1 scoring of gold completions)"
+      ]
+    },
+    "pool": {
+      "manifest": {"path": "docs/training/plan-20260927/c18/C18-exec-pool.json", "sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984"},
+      "data": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/ (all/tasks.jsonl 15,659 tasks, train-tasks.jsonl, val-tasks.jsonl, sft-replay.jsonl)",
+      "functions": {"gated_used": 1466, "with_tasks": 1416, "skipped": 278, "other_gate_version": 44, "gate_not_pass": 10, "stale_equivalents": 2},
+      "train": {"tasks": 7752, "functions": 1274, "packages": 141, "finish_block_short": 3264, "finish_block_medium": 2111, "finish_block_long": 623, "rename": 1754},
+      "validation": {"tasks": 403, "functions": 142, "packages": 16, "finish_block_short": 163, "finish_block_medium": 115, "finish_block_long": 66, "rename": 59},
+      "legacy_replay": "C14 pool, 2,086 TRAIN prompts, reward v2.1, 1 in 5 drawn prompts",
+      "sft_replay": "8,000 v4 TRAIN rows (sha256 74ed5d0d...), 8 rows per update, coefficient 0.1"
+    },
+    "anti_forgetting": {
+      "choice": "SFT cross-entropy replay",
+      "kl_ruled_out": "bf16 803 reference 4,800 MiB; C14 probe peak 23,110 + 4,800 = 27,910 MiB > fit limit 24,899 (32,579 - 6,144 desktop - 1,536 margin); C15 pilot measured peak allocated 27,452 + 4,800 = 32,252 MiB > allocator cap 30,669 (peak reserved 28,360)"
+    },
+    "recipes": {
+      "pilot": {"path": "docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json", "sha256": "aa150c0e98fc2e8dfd54ef7621baf62c3e6d95d26d632d29e6a94af2cfc43fd9", "arm": "C18-grpo-exec-pilot-1"},
+      "smoke": {"path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json", "sha256": "80eb428ec43db7c01ca58a7f355b06b638e2d0f919344473ccf074c65e48e00f", "arm": "C18-grpo-exec-smoke"},
+      "source_manifest": {"path": "docs/training/plan-20260927/c18/bound/source-manifest.json", "sha256": "056b67166e60a1dc3306c0836c26035dbce57d92b06a19c706123f9ff8f607cb"},
+      "start": "arm A checkpoint 803 (model 6c1505b8...1b37); references: DEV75 valid 75, cap 0, edit 28, nofp 9; DEV250 score250 109; hold-out all-pass 0.310"
+    },
+    "night_jobs": {
+      "C18-grpo-exec-smoke": {"path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json", "sha256": "b2dfbbcf087490652b56836ce20368ac47e1f0d175c420fe6ccdf7a93b3ca61d", "priority": 40, "resumable": false, "estimated_minutes": 45, "requires": []},
+      "C18-grpo-exec-pilot-1": {"path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json", "sha256": "13979a1cd4d97270f00e94ebe1e3574055812a5c5b6bee3e548a787525196e59", "priority": 45, "resumable": true, "estimated_minutes": 960, "requires": ["C18-grpo-exec-smoke"]}
+    },
+    "enqueue_after_merge_and_sign_off": [
+      "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
+      "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json"
+    ],
+    "outputs_paths": {
+      "smoke_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke (smoke-receipt.json)",
+      "pilot_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1 (telemetry.jsonl, pilot-summary.json)",
+      "pilot_evidence": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1 (start/, results/, decisions/, final-holdout-job.json)"
+    },
+    "projections": {
+      "seconds_per_update": "about 100 (exec completions 107 sampled tokens on average vs C15's 40; rollout about 2.5x C15's 62 s per buffer)",
+      "gate_overhead": "about 22 min per 50 updates (save 4, DEV75 4, validation about 9, CPT 2, restart 3) plus DEV250 every 150; 803 references once (about 12 min)",
+      "updates_per_night": "about 430-480; 1,000 updates in about 2.2 nights unless a plateau ends earlier",
+      "disk": "about 23 saves x 17.7 GB = 410 GB of 456 GB usable"
+    },
+    "checks": {
+      "core": "check_core 255 OK (1 skipped)",
+      "training": "test_c18_grpo_exec.py 18 OK on CPU in .venv-sft",
+      "quality": "ruff clean; ty clean on the new package and tests (pre-existing ty diagnostics in exec_env/ and exec_eval/ from the base branch are untouched because exec_env is pinned)",
+      "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
+      "gpu": "not used"
+    }
+  },
+  "rule_decisions": [],
+  "question_for_user": "Sign off card C18 (GRPO on the exec env from arm A 803; recipe, R6x bands, endpoints) so the orchestrator can merge and enqueue the smoke, then the pilot? Recommended: yes, as written (replay coefficient 0.1, legacy share 20%, max 1,000 updates with the 6-evaluation plateau).",
+  "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits."
+}

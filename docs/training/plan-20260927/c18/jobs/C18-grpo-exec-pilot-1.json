@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.night",
+    "run",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 960,
+  "id": "C18-grpo-exec-pilot-1",
+  "note": "C18 GRPO pilot on the exec environment from arm A 803 (card C18, pre-registered): first the 803 validation and CPT references, then DEV75 + validation exec + CPT 2K every 50 updates and DEV250 every 150; R6x decides (stop-for-user exits 3: write override-step-<n>.json in the evidence directory and retry; rollback ends the pilot); complete at update 1,000 or a plateau; then selects the best accepted checkpoint by validation all-pass and writes final-holdout-job.json for the orchestrator. Resumable at buffer boundaries (exit 75).",
+  "priority": 45,
+  "requires": [
+    "C18-grpo-exec-smoke"
+  ],
+  "resumable": true
+}

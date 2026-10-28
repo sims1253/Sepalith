@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.night",
+    "smoke",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 45,
+  "id": "C18-grpo-exec-smoke",
+  "note": "C18 smoke on the real CUDA path (cuda:0): GRPO on the exec environment from arm A 803 (exec reward + 1-in-5 legacy v2.1 replay, SFT cross-entropy replay 0.1 x 8 rows), train to update 4 and save; DEV75, the first 96 validation tasks (exec reward) and the CPT 2K probe on checkpoint 4 plus the 803 CPT reference; resume to update 6 and save. Exit 0 pass, 1 fail. Receipt: /mnt/e/.../checkpoints/C18-grpo-exec-smoke/smoke-receipt.json (seconds per update, projected updates per night, peak memory and headroom).",
+  "priority": 40,
+  "requires": [],
+  "resumable": false
+}
