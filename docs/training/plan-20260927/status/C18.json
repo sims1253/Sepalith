@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-10-28T04:00:00+01:00",
   "branch": "plan/C18-grpo-exec-env",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/92",
   "outputs": {
     "card": "docs/training/plan-20260927/cards/C18-grpo-exec-env.md",
     "code": {
