@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/sep-c18-final/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.final",
+    "dev250",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json",
+    "--step",
+    "100"
+  ],
+  "cwd": "/home/m0hawk/sandbox/sep-c18-final",
+  "env": [],
+  "estimated_minutes": 25,
+  "id": "C18-final-dev250-step-100",
+  "note": "C18 user-stop result (checkpoint 100): DEV250 with the driver's evaluator (bound to the pilot recipe, cuda:0 under cuda_host_guard), then pilot-summary.json for the pre-registered verdict (secondary endpoint score250 >= 105). Exit 0 done, 75 deferred, 3 an input check failed, 1 evaluator failure.",
+  "priority": 30,
+  "requires": [],
+  "resumable": false
+}
