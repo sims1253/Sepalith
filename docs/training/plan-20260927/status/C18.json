@@ -1,235 +1,213 @@
 {
-  "card": "C18",
-  "state": "needs_user",
-  "updated": "2026-10-29T12:00:00+01:00",
-  "branch": "plan/C18-grpo-exec-env",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/92 (C18), https://github.com/sims1253/Sepalith/pull/93 (final DEV250), https://github.com/sims1253/Sepalith/pull/94 (C18b)",
-  "outputs": {
-    "card": "docs/training/plan-20260927/cards/C18-grpo-exec-env.md",
-    "code": {
-      "package": "packages/sepalith/src/sepalith/training/grpo_exec/ (pool, mix, rules, recipe, trainer, val_eval, cpt_probe, dev_generation, night, jobs)",
-      "reused": "C15 GRPOTrainer (rollout, dynamic sampling, DAPO loss, saves, deadline, DeviceOps), grpo.state, grpo.night.GRPOArm, the C15 DEV evaluator, exec_env.reward (ExecReward, RoutedReward), exec_eval.jobs (task builder use, load_model, the hold-out job), reward v2.1, c09 CPT evaluator",
-      "exec_env_unchanged": "gate fingerprint 7f8e073fbedb4b9d",
-      "tests": [
-        "packages/sepalith/tests/test_c18_grpo_exec_core.py (stdlib, 24)",
-        "packages/sepalith/tests/training/test_c18_grpo_exec.py (CPU torch, 18: tiny Llama trainer segments, bit-exact resume with the replay term, replay gradient vs autograd, mocked CUDA, driver with fake launcher, real exec + v2.1 scoring of gold completions)"
-      ]
-    },
-    "pool": {
-      "manifest": {
-        "path": "docs/training/plan-20260927/c18/C18-exec-pool.json",
-        "sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984"
-      },
-      "data": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/ (all/tasks.jsonl 15,659 tasks, train-tasks.jsonl, val-tasks.jsonl, sft-replay.jsonl)",
-      "functions": {
-        "gated_used": 1466,
-        "with_tasks": 1416,
-        "skipped": 278,
-        "other_gate_version": 44,
-        "gate_not_pass": 10,
-        "stale_equivalents": 2
-      },
-      "train": {
-        "tasks": 7752,
-        "functions": 1274,
-        "packages": 141,
-        "finish_block_short": 3264,
-        "finish_block_medium": 2111,
-        "finish_block_long": 623,
-        "rename": 1754
-      },
-      "validation": {
-        "tasks": 403,
-        "functions": 142,
-        "packages": 16,
-        "finish_block_short": 163,
-        "finish_block_medium": 115,
-        "finish_block_long": 66,
-        "rename": 59
-      },
-      "legacy_replay": "C14 pool, 2,086 TRAIN prompts, reward v2.1, 1 in 5 drawn prompts",
-      "sft_replay": "8,000 v4 TRAIN rows (sha256 74ed5d0d...), 8 rows per update, coefficient 0.1"
-    },
-    "anti_forgetting": {
-      "choice": "SFT cross-entropy replay",
-      "kl_ruled_out": "bf16 803 reference 4,800 MiB; C14 probe peak 23,110 + 4,800 = 27,910 MiB > fit limit 24,899 (32,579 - 6,144 desktop - 1,536 margin); C15 pilot measured peak allocated 27,452 + 4,800 = 32,252 MiB > allocator cap 30,669 (peak reserved 28,360)"
-    },
-    "recipes": {
-      "pilot": {
-        "path": "docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json",
-        "sha256": "cca09f08d7b7b20dad091426795fb34927aaf372b020c7f453af8539ccf85d57",
-        "arm": "C18-grpo-exec-pilot-1"
-      },
-      "smoke": {
-        "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json",
-        "sha256": "ba1c6d2956123a01275e0001212cc7effccb4d181a22d1e307c136ca1a3c3291",
-        "arm": "C18-grpo-exec-smoke"
-      },
-      "source_manifest": {
-        "path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
-        "sha256": "6e28655b07886bdd6d723498968dc90d8fb88d0ff16892609bf2478a00580547"
-      },
-      "start": "arm A checkpoint 803 (model 6c1505b8...1b37); references: DEV75 valid 75, cap 0, edit 28, nofp 9; DEV250 score250 109; hold-out all-pass 0.310",
-      "smoke_worktree": {
-        "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-worktree-arm-a-803.json",
-        "sha256": "81306b3d5aaa730de6fe69a270d776bcc5864628ec013c694e219b8224377881",
-        "arm": "C18-grpo-exec-smoke-worktree",
-        "repository_root": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
-        "purpose": "pre-merge smoke from the worktree (PRs #91/#92 unmerged); same data, model and settings as C18-grpo-exec-smoke, own archive and evidence directory"
-      }
-    },
-    "night_jobs": {
-      "C18-grpo-exec-smoke": {
-        "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
-        "sha256": "b2dfbbcf087490652b56836ce20368ac47e1f0d175c420fe6ccdf7a93b3ca61d",
-        "priority": 40,
-        "resumable": false,
-        "estimated_minutes": 45,
-        "requires": []
-      },
-      "C18-grpo-exec-pilot-1": {
-        "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json",
-        "sha256": "13979a1cd4d97270f00e94ebe1e3574055812a5c5b6bee3e548a787525196e59",
-        "priority": 45,
-        "resumable": true,
-        "estimated_minutes": 960,
-        "requires": [
-          "C18-grpo-exec-smoke"
-        ]
-      },
-      "C18-grpo-exec-smoke-worktree": {
-        "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json",
-        "sha256": "94fd09a7d5470bf7d1311a7fbf8809d4910526af340d85921fe4fffe1bc3c866",
-        "priority": 40,
-        "resumable": false,
-        "estimated_minutes": 45,
-        "requires": [],
-        "cwd": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
-        "python": "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python"
-      }
-    },
-    "enqueue_after_merge_and_sign_off": [
-      "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
-      "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json"
-    ],
-    "outputs_paths": {
-      "smoke_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke (smoke-receipt.json)",
-      "pilot_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1 (telemetry.jsonl, pilot-summary.json)",
-      "pilot_evidence": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1 (start/, results/, decisions/, final-holdout-job.json)",
-      "smoke_worktree_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke-worktree (smoke-receipt.json)"
-    },
-    "projections": {
-      "seconds_per_update": "about 100 (exec completions 107 sampled tokens on average vs C15's 40; rollout about 2.5x C15's 62 s per buffer)",
-      "gate_overhead": "about 22 min per 50 updates (save 4, DEV75 4, validation about 9, CPT 2, restart 3) plus DEV250 every 150; 803 references once (about 12 min)",
-      "updates_per_night": "about 430-480; 1,000 updates in about 2.2 nights unless a plateau ends earlier",
-      "disk": "about 23 saves x 17.7 GB = 410 GB of 456 GB usable"
-    },
-    "checks": {
-      "core": "scripts/check_core.py 255 OK on Python 3.10 and 3.12 without dependencies and without Rscript/air on PATH (40 skipped: exec_env tests that need Rscript, air or numpy, and two exec-eval tests that need torch); 255 OK (1 skipped) in the local .venv",
-      "training": "test_c18_grpo_exec.py 18 OK and test_exec_eval_jobs.py 9 OK on CPU in .venv-sft",
-      "quality": "scripts/check_quality.py passes: ruff clean; ty clean with exec_env/ excluded in ty.toml (pinned at c631141, fingerprint 7f8e073fbedb4b9d); exec_eval/ type issues fixed",
-      "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
-      "gpu": "not used"
-    },
-    "enqueue_pre_merge_smoke": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json",
-    "c18_result": {
-      "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/full/checkpoint-100",
-      "telemetry": {
-        "seconds_per_update": 69.9,
-        "peak_reserved_mib": 23224,
-        "replay_nll_windows": [
-          0.2155,
-          0.2144,
-          0.2628,
-          0.2032,
-          0.1762
-        ],
-        "cpt_rows_worse_at_100": "485/499, all 50 packages"
-      },
-      "final": {
-        "holdout_job": "C18-final-holdout (enqueued by the orchestrator)",
-        "dev250_job": "docs/training/plan-20260927/c18/jobs/C18-final-dev250-step-100.json (PR #93)",
-        "verdict": "python -m sepalith.training.grpo_exec.jobs verdict --summary /mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/pilot-summary.json --metrics /home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/metrics.json"
-      }
-    },
-    "c18b": {
-      "card_addendum": "cards/C18-grpo-exec-env.md#addendum-c18b",
-      "change": "adds 0.2 x token-mean NLL of 4 CPT training chunks per update (8,000-row cpt_train sample, sha256 080dbba8..., 3,418 packages, hold-out-slice and CPT 2K validation packages excluded); everything else as C18; start arm A 803",
-      "recipes": {
-        "pilot": {
-          "path": "docs/training/plan-20260927/c18b/bound/grpo-exec-pilot-1-arm-a-803.json",
-          "sha256": "d6c7164593fadaa378db69d09b67897d847c80efa6817300725c018b31ebc466"
-        },
-        "smoke": {
-          "path": "docs/training/plan-20260927/c18b/bound/grpo-exec-smoke-arm-a-803.json",
-          "sha256": "e3405a4d2a56d2998e7dc8be1e0c92ee903a298ff04450ad179271df0e32fabb"
-        },
-        "source_manifest": {
-          "path": "docs/training/plan-20260927/c18b/bound/source-manifest.json",
-          "sha256": "f7fc7aa197f54eecbf1fcaafad80e5f1875075f5e3b0e9e26879a9c98edd4de5"
-        }
-      },
-      "jobs": {
-        "C18b-grpo-exec-smoke": {
-          "path": "docs/training/plan-20260927/c18b/jobs/C18b-grpo-exec-smoke.json",
-          "sha256": "b4135e5e39e04896d7968923551fcc5290c70d4f4c647adbfb6fecb12e6661b4"
-        },
-        "C18b-grpo-exec-pilot-1": {
-          "path": "docs/training/plan-20260927/c18b/jobs/C18b-grpo-exec-pilot-1.json",
-          "sha256": "6ac6291eaea07c00ad6e6575dae9d751db5740cf0358a052a9fab5d43e5002a6",
-          "requires": [
-            "C18b-grpo-exec-smoke"
-          ]
-        }
-      },
-      "status": "built and pre-registered; not launched (needs user sign-off)"
-    }
+ "card": "C18",
+ "state": "done",
+ "updated": "2026-10-29T20:29:00+01:00",
+ "branch": "plan/C18-grpo-exec-env",
+ "pull_request": "https://github.com/sims1253/Sepalith/pull/92 (C18), https://github.com/sims1253/Sepalith/pull/93 (final DEV250), https://github.com/sims1253/Sepalith/pull/94 (C18b), https://github.com/sims1253/Sepalith/pull/95 (verdict close-out)",
+ "outputs": {
+  "card": "docs/training/plan-20260927/cards/C18-grpo-exec-env.md",
+  "code": {
+   "package": "packages/sepalith/src/sepalith/training/grpo_exec/ (pool, mix, rules, recipe, trainer, val_eval, cpt_probe, dev_generation, night, jobs)",
+   "reused": "C15 GRPOTrainer (rollout, dynamic sampling, DAPO loss, saves, deadline, DeviceOps), grpo.state, grpo.night.GRPOArm, the C15 DEV evaluator, exec_env.reward (ExecReward, RoutedReward), exec_eval.jobs (task builder use, load_model, the hold-out job), reward v2.1, c09 CPT evaluator",
+   "exec_env_unchanged": "gate fingerprint 7f8e073fbedb4b9d",
+   "tests": [
+    "packages/sepalith/tests/test_c18_grpo_exec_core.py (stdlib, 24)",
+    "packages/sepalith/tests/training/test_c18_grpo_exec.py (CPU torch, 18: tiny Llama trainer segments, bit-exact resume with the replay term, replay gradient vs autograd, mocked CUDA, driver with fake launcher, real exec + v2.1 scoring of gold completions)"
+   ]
   },
-  "rule_decisions": [
-    {
-      "rule": "sign-off",
-      "at": "2026-10-28",
-      "inputs": {
-        "card": "C18",
-        "via": "coordinator"
-      },
-      "outcome": "user approved the C18 pilot to start at 00:00 on 2026-10-29, with the standing auto-continue rule: an R6x stop-for-user whose only stop-band rows are nofp_rise and/or cap (no rollback, all other rows continue) is overridden to continue"
-    },
-    {
-      "rule": "R6x + standing nofp/cap rule",
-      "step": 50,
-      "inputs": {
-        "nofp_rise": 2,
-        "cpt_rise": 0.011716,
-        "val_all_pass": 0.297767
-      },
-      "outcome": "stop_for_user on nofp only; continued by the standing rule (override-step-50.json)"
-    },
-    {
-      "rule": "R6x",
-      "step": 100,
-      "inputs": {
-        "cpt_rise": 0.023766,
-        "val_all_pass": 0.305211,
-        "val_mean_reward": 0.423878,
-        "dev75": {
-          "valid": 75,
-          "cap": 0,
-          "edit": 28,
-          "nofp": 11
-        }
-      },
-      "outcome": "stop_for_user (CPT row)"
-    },
-    {
-      "rule": "user decision",
-      "at": "2026-10-29",
-      "inputs": {
-        "file": "evaluation-gates/C18-grpo-exec-pilot-1/user-stop-step-100.json"
-      },
-      "outcome": "stop the pilot; checkpoint 100 is the C18 result (user selection, not the plateau rule); run the pre-registered hold-out evaluation (C18-final-holdout) and DEV250 (C18-final-dev250-step-100, PR #93); prepare C18b"
-    }
+  "pool": {
+   "manifest": {
+    "path": "docs/training/plan-20260927/c18/C18-exec-pool.json",
+    "sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984"
+   },
+   "data": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/ (all/tasks.jsonl 15,659 tasks, train-tasks.jsonl, val-tasks.jsonl, sft-replay.jsonl)",
+   "functions": {
+    "gated_used": 1466,
+    "with_tasks": 1416,
+    "skipped": 278,
+    "other_gate_version": 44,
+    "gate_not_pass": 10,
+    "stale_equivalents": 2
+   },
+   "train": {
+    "tasks": 7752,
+    "functions": 1274,
+    "packages": 141,
+    "finish_block_short": 3264,
+    "finish_block_medium": 2111,
+    "finish_block_long": 623,
+    "rename": 1754
+   },
+   "validation": {
+    "tasks": 403,
+    "functions": 142,
+    "packages": 16,
+    "finish_block_short": 163,
+    "finish_block_medium": 115,
+    "finish_block_long": 66,
+    "rename": 59
+   },
+   "legacy_replay": "C14 pool, 2,086 TRAIN prompts, reward v2.1, 1 in 5 drawn prompts",
+   "sft_replay": "8,000 v4 TRAIN rows (sha256 74ed5d0d...), 8 rows per update, coefficient 0.1"
+  },
+  "anti_forgetting": {
+   "choice": "SFT cross-entropy replay",
+   "kl_ruled_out": "bf16 803 reference 4,800 MiB; C14 probe peak 23,110 + 4,800 = 27,910 MiB > fit limit 24,899 (32,579 - 6,144 desktop - 1,536 margin); C15 pilot measured peak allocated 27,452 + 4,800 = 32,252 MiB > allocator cap 30,669 (peak reserved 28,360)"
+  },
+  "recipes": {
+   "pilot": {
+    "path": "docs/training/plan-20260927/c18/bound/grpo-exec-pilot-1-arm-a-803.json",
+    "sha256": "cca09f08d7b7b20dad091426795fb34927aaf372b020c7f453af8539ccf85d57",
+    "arm": "C18-grpo-exec-pilot-1"
+   },
+   "smoke": {
+    "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-arm-a-803.json",
+    "sha256": "ba1c6d2956123a01275e0001212cc7effccb4d181a22d1e307c136ca1a3c3291",
+    "arm": "C18-grpo-exec-smoke"
+   },
+   "source_manifest": {
+    "path": "docs/training/plan-20260927/c18/bound/source-manifest.json",
+    "sha256": "6e28655b07886bdd6d723498968dc90d8fb88d0ff16892609bf2478a00580547"
+   },
+   "start": "arm A checkpoint 803 (model 6c1505b8...1b37); references: DEV75 valid 75, cap 0, edit 28, nofp 9; DEV250 score250 109; hold-out all-pass 0.310",
+   "smoke_worktree": {
+    "path": "docs/training/plan-20260927/c18/bound/grpo-exec-smoke-worktree-arm-a-803.json",
+    "sha256": "81306b3d5aaa730de6fe69a270d776bcc5864628ec013c694e219b8224377881",
+    "arm": "C18-grpo-exec-smoke-worktree",
+    "repository_root": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
+    "purpose": "pre-merge smoke from the worktree (PRs #91/#92 unmerged); same data, model and settings as C18-grpo-exec-smoke, own archive and evidence directory"
+   }
+  },
+  "night_jobs": {
+   "C18-grpo-exec-smoke": {
+    "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
+    "sha256": "b2dfbbcf087490652b56836ce20368ac47e1f0d175c420fe6ccdf7a93b3ca61d",
+    "priority": 40,
+    "resumable": false,
+    "estimated_minutes": 45,
+    "requires": []
+   },
+   "C18-grpo-exec-pilot-1": {
+    "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json",
+    "sha256": "13979a1cd4d97270f00e94ebe1e3574055812a5c5b6bee3e548a787525196e59",
+    "priority": 45,
+    "resumable": true,
+    "estimated_minutes": 960,
+    "requires": [
+     "C18-grpo-exec-smoke"
+    ]
+   },
+   "C18-grpo-exec-smoke-worktree": {
+    "path": "docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json",
+    "sha256": "94fd09a7d5470bf7d1311a7fbf8809d4910526af340d85921fe4fffe1bc3c866",
+    "priority": 40,
+    "resumable": false,
+    "estimated_minutes": 45,
+    "requires": [],
+    "cwd": "/home/m0hawk/sandbox/sep-c18-grpo-exec",
+    "python": "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python"
+   }
+  },
+  "enqueue_after_merge_and_sign_off": [
+   "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke.json",
+   "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-pilot-1.json"
   ],
-  "question_for_user": "Sign off C18b (C18 plus 0.2 x 4 CPT-text chunks per update, from 803, same bands) so the orchestrator can merge PR #93 and the C18b PR and enqueue C18b-grpo-exec-smoke, then C18b-grpo-exec-pilot-1? Recommended: yes.",
-  "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke)."
+  "outputs_paths": {
+   "smoke_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke (smoke-receipt.json)",
+   "pilot_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1 (telemetry.jsonl, pilot-summary.json)",
+   "pilot_evidence": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1 (start/, results/, decisions/, final-holdout-job.json)",
+   "smoke_worktree_archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-smoke-worktree (smoke-receipt.json)"
+  },
+  "projections": {
+   "seconds_per_update": "about 100 (exec completions 107 sampled tokens on average vs C15's 40; rollout about 2.5x C15's 62 s per buffer)",
+   "gate_overhead": "about 22 min per 50 updates (save 4, DEV75 4, validation about 9, CPT 2, restart 3) plus DEV250 every 150; 803 references once (about 12 min)",
+   "updates_per_night": "about 430-480; 1,000 updates in about 2.2 nights unless a plateau ends earlier",
+   "disk": "about 23 saves x 17.7 GB = 410 GB of 456 GB usable"
+  },
+  "checks": {
+   "core": "scripts/check_core.py 255 OK on Python 3.10 and 3.12 without dependencies and without Rscript/air on PATH (40 skipped: exec_env tests that need Rscript, air or numpy, and two exec-eval tests that need torch); 255 OK (1 skipped) in the local .venv",
+   "training": "test_c18_grpo_exec.py 18 OK and test_exec_eval_jobs.py 9 OK on CPU in .venv-sft",
+   "quality": "scripts/check_quality.py passes: ruff clean; ty clean with exec_env/ excluded in ty.toml (pinned at c631141, fingerprint 7f8e073fbedb4b9d); exec_eval/ type issues fixed",
+   "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
+   "gpu": "not used"
+  },
+  "enqueue_pre_merge_smoke": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json"
+ },
+ "rule_decisions": [
+  {
+   "rule": "sign-off",
+   "at": "2026-10-28",
+   "inputs": {
+    "card": "C18",
+    "via": "coordinator"
+   },
+   "outcome": "user approved the C18 pilot to start at 00:00 on 2026-10-29, with the standing auto-continue rule: an R6x stop-for-user whose only stop-band rows are nofp_rise and/or cap (no rollback, all other rows continue) is overridden to continue"
+  },
+  {
+   "rule": "final verdict",
+   "at": "2026-10-29",
+   "inputs": {
+    "pilot_end": {
+     "status": "user_stop",
+     "updates_completed": 100,
+     "cpt_2k_rise": 0.0238,
+     "cpt_band": "0.015-0.03 stop band; the standing nofp/cap auto-continue rule did not apply",
+     "selected": "checkpoint 100 by user decision (stop file user-stop-step-100.json), not the pre-registered best-validation or plateau rule",
+     "pilot_summary": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/pilot-summary.json (schema sepalith.c18.grpo-exec-pilot-summary.v1)"
+    },
+    "final_holdout_job": {
+     "job": "C18-final-holdout",
+     "gate": "c631141 pinned (fingerprint 7f8e073fbedb4b9d)",
+     "freeze": "holdout-freeze-v1 (tasks sha256 4d9a1a36)",
+     "tasks": 3803,
+     "functions": 630,
+     "run": "2026-10-29T10:54-11:54+0100"
+    },
+    "arm_a_803": {
+     "mean_reward": 0.379,
+     "mean_reward_ci95": [
+      0.359,
+      0.4
+     ],
+     "all_pass": 0.31,
+     "all_pass_ci95": [
+      0.291,
+      0.329
+     ],
+     "exact": 0.228,
+     "exact_ci95": [
+      0.212,
+      0.243
+     ],
+     "protocol_valid": 0.973
+    },
+    "c18_selected_checkpoint_100": {
+     "mean_reward": 0.436,
+     "mean_reward_ci95": [
+      0.417,
+      0.455
+     ],
+     "all_pass": 0.355,
+     "all_pass_ci95": [
+      0.336,
+      0.374
+     ],
+     "exact": 0.276,
+     "exact_ci95": [
+      0.26,
+      0.291
+     ],
+     "protocol_valid": 0.99
+    },
+    "receipts": [
+     "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/receipt.json",
+     "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/receipt.md"
+    ],
+    "verdict_tool": "python -m sepalith.training.grpo_exec.jobs verdict (merged in PR #93)"
+   },
+   "outcome": "adopt=true. Primary endpoint met: hold-out all-pass difference +0.0455, CI95 [0.038, 0.0528] (paired by task, function-clustered bootstrap, 2,000 resamples). Secondaries all pass: mean reward difference +0.0568 [0.0486, 0.065]; exact match difference +0.0481 [0.0411, 0.0554]; DEV250 score250 105 >= 105 (start 109, bar = 109 - 4); CPT 2K rise 0.0238 <= 0.03. Consequence: C18 checkpoint 100 (/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/full/checkpoint-100) is ADOPTED over arm A 803 as the campaign's best model. Follow-up C18b is pre-registered in PR #94 (CPT-text replay), not launched. Results note: docs/training/plan-20260927/c18/RESULTS.md"
+  }
+ ],
+ "question_for_user": null,
+ "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke). 2026-10-29: pilot ended by user stop at update 100 (CPT 2K rise 0.0238, stop band); the pre-registered final hold-out verdict is adopt=true (all-pass +0.0455 [0.038, 0.0528]), checkpoint 100 adopted over arm A 803 as the campaign's best model; C18b pre-registered in PR #94, not launched. Verdict note: docs/training/plan-20260927/c18/RESULTS.md."
 }

@@ -118,6 +118,7 @@ correction.)
 | zcode-queue-mgr | primary researcher — owns `docs/EXPERIMENT-QUEUE.md`; B-series chain execution + eval-strategy v2 (user activation 2026-09-01T23:4x) | prior session | done 2026-09-04 22:3x (gates B-α/B-β landed, D-grid closed, production plan v0 open; handoff /tmp/sepalith-queue-mgr-handoff-2026-09-04.md) |
 | zcode-o3-telemetry | O3-S0 suffix-entropy + length telemetry on banked RL runs (queue §3 O3) | this session | done 2026-09-05 (verdict NOT LAND; O3-S1 closed; readout O3_S0_RESULTS.md) |
 | zcode-queue-mgr-2 | primary researcher — owns docs/EXPERIMENT-QUEUE.md; round-1 working set (P12/TU1/O3-S0/S0/E1/O1/B8-patch) | this session | active 2026-09-05 |
+| zcode-hillclimb | coordinator: resume session for C18 verdict close-out, C18b launch, PRs #87/#89/#93/#94/#95 (continues the dead weekly-limited session) | this session | active 2026-10-29 |
 | zcode-p12-roofline | P12 roofline bench (build+run, quiet window) | subagent of zcode-queue-mgr-2 | active |
 | zcode-tu1-sufficiency | TU1 judge-sufficiency validation (glm-5.3, CPU/API) | subagent of zcode-queue-mgr-2 | done 2026-09-05 — VERDICT: DEAD (pooled gap +56.6pp but direction 1/5; TU2 arm (d) cancelled; doc_sync suff 0.267); TU1_RESULTS.md |
 | zcode-o3-telemetry | O3-S0 suffix-entropy/advantage telemetry on banked RL runs | subagent of zcode-queue-mgr-2 | active |
@@ -134,3 +135,4 @@ correction.)
 | zcode-quant-ar | C09 quant autoresearch: GGUF recipe search (CPU, branch research/quant-autoresearch-20261017) | this session | done 2026-10-18 — PR #67, mixA-e4 full gate pass + mixC fidelity tier; CPU released |
 | rzcode-specdec | speculative-decoding autoresearch (lossless CPU spec-dec; brief `/home/m0hawk/sandbox/sepalith-specdec-autoresearch-brief.md`) | t3 worktree t3-e9d28410, branch research/specdec-autoresearch-20261017 | active 2026-10-18 (report drafted; PR pending) |
 | rzcode-llama-upgrade | llama.cpp master (f3fb2fc) vs pinned b10453 upgrade evaluation (CPU only, 8T, nice 10, ports 186xx-reserved-avoid → 1871x/1872x; artifacts /mnt/e/sepalith/campaign-20260915/serving-work/llama-upgrade-20261019/) | agent worktree agent-addf034012873e212, branch research/llama-upgrade-eval-20261019 | done 2026-10-19 (report docs/validation/2026-10-19-llama-upgrade-eval.md) |
+| zcode-c18-closeout | C18 final-verdict closeout: status/C18.json → done, c18/RESULTS.md, board verdict (branch plan/c18-verdict-closeout) | this session (t3 worktree t3-e068e3cc) | done 2026-10-29 — VERDICT: ADOPT checkpoint 100 over arm A 803; PR open |
