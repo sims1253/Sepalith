@@ -62,6 +62,7 @@ CPT_REPLAY = Path("/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/
 CPT_REPLAY_SCHEMA = "sepalith.c18b.cpt-replay-row.v1"
 CPT_MAX_TOKENS = 2048
 CPT_SEED_OFFSET = 101
+FINAL_HOLDOUT_JOB_ID = "C18b-final-holdout"
 SOURCE_FILES = (
     *c18.SOURCE_FILES,
     "packages/sepalith/src/sepalith/training/grpo_exec/c18b.py",
@@ -138,15 +139,14 @@ def cpt_row(row: Mapping[str, object]) -> Json | None:
 
 def cpt_replay_rows(path: Path, expected_sha: str, total: int, count: int, excluded_packages: set[str],
                     seed: int = 3407) -> tuple[list[Json], Json]:
-    """A seeded sample: candidate line numbers first (1.5x), then the first ``count`` eligible ones in line order."""
+    """A seeded uniform sample: reservoir sampling over every eligible row in line order (Algorithm R)."""
     require(sha256(path) == expected_sha, f"{path} differs from its pin")
-    candidates = set(random.Random(f"c18b-cpt-replay:{seed}").sample(range(total), min(total, int(count * 1.5))))
+    rng = random.Random(f"c18b-cpt-replay:{seed}")
     rows: list[Json] = []
+    eligible = 0
     reasons: Counter = Counter()
     with path.open(encoding="utf-8") as stream:
-        for number, line in enumerate(stream):
-            if number not in candidates:
-                continue
+        for line in stream:
             row = json.loads(line)
             if row.get("cpt_partition") != "cpt_train":
                 reasons["not_cpt_train"] += 1
@@ -158,11 +158,18 @@ def cpt_replay_rows(path: Path, expected_sha: str, total: int, count: int, exclu
             if value is None:
                 reasons["shape"] += 1
                 continue
-            rows.append({"schema": CPT_REPLAY_SCHEMA, "id": str(row["row_id"]), "package": str(row["package"]), **value})
-    require(len(rows) >= count, f"only {len(rows)} eligible CPT rows for {count}")
-    rows = rows[:count]
+            item = {"schema": CPT_REPLAY_SCHEMA, "id": str(row["row_id"]), "package": str(row["package"]), **value}
+            eligible += 1
+            if len(rows) < count:
+                rows.append(item)
+            else:
+                replace = rng.randrange(eligible)
+                if replace < count:
+                    rows[replace] = item
+    require(eligible >= count, f"only {eligible} eligible CPT rows for {count}")
     tokens = [len(cast(list, r["target_ids"])) for r in rows]
-    return rows, {"source": str(path), "source_sha256": expected_sha, "lines": total, "candidates": len(candidates),
+    return rows, {"source": str(path), "source_sha256": expected_sha, "lines": total, "eligible": eligible,
+                  "sampling": "seeded reservoir over all eligible rows in line order",
                   "sampled": len(rows), "seed": seed, "skipped": dict(reasons), "packages": len({r["package"] for r in rows}),
                   "target_tokens_mean": round(sum(tokens) / len(tokens), 1), "excluded_packages": len(excluded_packages)}
 
@@ -247,7 +254,7 @@ def load(path: Path, *, root_override: Path | None = None, check_source: bool = 
 
 def install() -> None:
     """Point the C18 driver, trainer and evaluators at this recipe module and the C18b entry modules."""
-    from sepalith.training.grpo_exec import c18b_trainer, cpt_probe, dev_generation, night, trainer, val_eval
+    from sepalith.training.grpo_exec import c18b_trainer, cpt_probe, dev_generation, jobs as jobs_module, night, trainer, val_eval
 
     this = sys.modules[__name__]
     for module in (night, trainer, val_eval, cpt_probe, dev_generation):
@@ -257,6 +264,18 @@ def install() -> None:
     for name, value in hooks.items():  # module constants the C18 driver reads at call time
         setattr(night, name, value)
     trainer.ExecGRPOTrainer = c18b_trainer.CptReplayTrainer  # ty: ignore[invalid-assignment]
+    c18_final_holdout_job = jobs_module.final_holdout_job
+
+    def c18b_final_holdout_job(recipe: Mapping[str, object], selected: str, work_dir: Path, root: Path) -> Json:
+        """C18's final-holdout job under C18b's own queue id, so enqueueing cannot collide with C18's completed job."""
+        job = c18_final_holdout_job(recipe, selected, work_dir, root)
+        job["id"] = FINAL_HOLDOUT_JOB_ID
+        command = list(cast(list, job["command"]))
+        job["command"] = [FINAL_HOLDOUT_JOB_ID if i and command[i - 1] == "--job-id" else value for i, value in enumerate(command)]
+        job["note"] = str(job.get("note", "")).replace("C18 pre-registered", "C18b pre-registered", 1)
+        return job
+
+    jobs_module.final_holdout_job = c18b_final_holdout_job  # ty: ignore[invalid-assignment]
 
 
 def jobs(root: Path = DEPLOY_ROOT) -> dict[str, Json]:

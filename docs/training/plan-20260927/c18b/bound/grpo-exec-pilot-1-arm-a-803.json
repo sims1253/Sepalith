@@ -17,7 +17,7 @@
     }
   },
   "card": "C18b",
-  "decided_by": "user decision 2026-10-29: prepare a C18 follow-up with stronger forgetting protection; built for sign-off, not launched",
+  "decided_by": "user decision 2026-10-29: prepare a C18 follow-up with stronger forgetting protection; built for sign-off, not launched; r1 review fixes (uniform reservoir CPT sample, C18b-final-holdout job id) applied 2026-10-29 before launch",
   "dev_gate": {
     "cpt": {
       "load": "plain bf16 as the trainer and the DEV evaluator (no FP32 norm restore), bf16 autocast",
@@ -223,7 +223,7 @@
     "cpt_replay": {
       "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/cpt-replay.jsonl",
       "rows": 8000,
-      "sha256": "080dbba822550ff7ce477590c67c3452f30ae39474b4cc963acf4786f02358bc"
+      "sha256": "e355e9cf797e58be6ba5a1d0b10a21468dcc8d3751ff468c3980fcd504bd434b"
     },
     "legacy": {
       "bundle": {
@@ -451,7 +451,7 @@
   "smoke": null,
   "source": {
     "manifest_path": "docs/training/plan-20260927/c18b/bound/source-manifest.json",
-    "manifest_sha256": "f7fc7aa197f54eecbf1fcaafad80e5f1875075f5e3b0e9e26879a9c98edd4de5",
+    "manifest_sha256": "a0fa331e2be6cec1dc08d66f44416488f080017d3bcecce3988cb7ebf9669733",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "status": "bound_not_launched"

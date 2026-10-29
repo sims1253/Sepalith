@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 import tempfile
+from typing import cast
 import unittest
 
 import torch
@@ -119,6 +120,8 @@ class ShapeAndHookTests(unittest.TestCase):
     def test_install_points_the_driver_and_trainer_at_the_c18b_modules(self):
         saved = {name: getattr(night, name) for name in ("TRAINER", "DEV_EVALUATOR", "VAL_EVALUATOR", "CPT_PROBE", "UPDATE_FIELDS")}
         saved_trainer, saved_recipe = trainer.ExecGRPOTrainer, night.recipe_module
+        from sepalith.training.grpo_exec import jobs as jobs_module
+        saved_final = jobs_module.final_holdout_job
         try:
             c18b.install()
             self.assertEqual(night.TRAINER, "sepalith.training.grpo_exec.c18b_trainer")
@@ -126,6 +129,7 @@ class ShapeAndHookTests(unittest.TestCase):
             self.assertIs(night.recipe_module, c18b)
             self.assertIs(trainer.ExecGRPOTrainer, c18b_trainer.CptReplayTrainer)
             self.assertIn("cpt_replay_nll", night.UPDATE_FIELDS)
+            self.assertIsNot(jobs_module.final_holdout_job, saved_final)
             for name in c18b.ENTRY.values():
                 __import__(name)
         finally:
@@ -134,6 +138,78 @@ class ShapeAndHookTests(unittest.TestCase):
             trainer.ExecGRPOTrainer = saved_trainer
             for module in (night, trainer):
                 module.recipe_module = saved_recipe
+            jobs_module.final_holdout_job = saved_final
+
+    def test_install_rebinds_the_final_holdout_job_id(self):
+        from sepalith.training.grpo_exec import jobs as jobs_module
+
+        def stub(recipe, selected, work_dir, root):
+            return {"id": "C18-final-holdout",
+                    "command": ["python", "-m", "sepalith.exec_eval.jobs", "run", "--kind", "holdout",
+                                "--job-id", "C18-final-holdout", "--work-dir", str(work_dir)],
+                    "note": "C18 pre-registered final evaluation: greedy completions"}
+
+        saved = {name: getattr(night, name) for name in ("TRAINER", "DEV_EVALUATOR", "VAL_EVALUATOR", "CPT_PROBE", "UPDATE_FIELDS")}
+        saved_trainer, saved_recipe, saved_final = trainer.ExecGRPOTrainer, night.recipe_module, jobs_module.final_holdout_job
+        jobs_module.final_holdout_job = stub  # ty: ignore[invalid-assignment]
+        try:
+            c18b.install()
+            job = jobs_module.final_holdout_job({}, "sel", Path("/tmp/x"), Path("/repo"))
+        finally:
+            for name, value in saved.items():
+                setattr(night, name, value)
+            trainer.ExecGRPOTrainer = saved_trainer
+            for module in (night, trainer):
+                module.recipe_module = saved_recipe
+            jobs_module.final_holdout_job = saved_final
+        self.assertEqual(job["id"], "C18b-final-holdout")
+        command = list(cast(list, job["command"]))
+        self.assertEqual(command[command.index("--job-id") + 1], "C18b-final-holdout")
+        self.assertNotIn("C18-final-holdout", command)
+        self.assertTrue(str(job["note"]).startswith("C18b pre-registered final evaluation"))
+
+    def test_cpt_replay_rows_sample_spans_the_whole_union(self):
+        lines, expected_eligible = [], 0
+        for position in range(240):
+            if position % 6 == 5:
+                lines.append({"row_id": f"v{position}", "package": "p", "cpt_partition": "cpt_val",
+                              "input_ids": [0, *range(100, 120)], "labels": [-100, *range(100, 120)]})
+                continue
+            if position % 10 == 3:
+                lines.append({"row_id": f"x{position}", "package": "excluded", "cpt_partition": "cpt_train",
+                              "input_ids": [0, *range(100, 120)], "labels": [-100, *range(100, 120)]})
+                continue
+            expected_eligible += 1
+            lines.append({"row_id": f"r{position}", "package": f"p{position % 7}", "cpt_partition": "cpt_train",
+                          "input_ids": [0, *range(100, 124)], "labels": [-100, *range(100, 124)]})
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "cpt_train.jsonl"
+            path.write_text("".join(json.dumps(row) + "\n" for row in lines), encoding="utf-8")
+            from sepalith.training.grpo_exec.recipe import sha256
+            rows, info = c18b.cpt_replay_rows(path, sha256(path), len(lines), 20, {"excluded"})
+            again, _ = c18b.cpt_replay_rows(path, sha256(path), len(lines), 20, {"excluded"})
+        self.assertEqual([row["id"] for row in rows], [row["id"] for row in again])
+        self.assertEqual(len(rows), 20)
+        self.assertEqual(info["eligible"], expected_eligible)
+        self.assertEqual(info["sampled"], 20)
+        self.assertIn("reservoir", str(info["sampling"]))
+        positions = sorted(int(str(row["id"])[1:]) for row in rows)
+        self.assertGreaterEqual(len([p for p in positions if p >= 180]), 3, f"tail of the union under-sampled: {positions}")
+
+    def test_cpt_replay_rows_reach_rows_clustered_at_the_end_of_the_union(self):
+        """The candidate-line shortcut could not reach ``count`` when eligible rows cluster late (tail omitted entirely)."""
+        lines = [{"row_id": f"n{position}", "package": "p", "cpt_partition": "cpt_hold",
+                  "input_ids": [0, *range(100, 120)], "labels": [-100, *range(100, 120)]} for position in range(200)]
+        lines += [{"row_id": f"r{position}", "package": f"p{position % 7}", "cpt_partition": "cpt_train",
+                   "input_ids": [0, *range(100, 124)], "labels": [-100, *range(100, 124)]} for position in range(200, 240)]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "cpt_train.jsonl"
+            path.write_text("".join(json.dumps(row) + "\n" for row in lines), encoding="utf-8")
+            from sepalith.training.grpo_exec.recipe import sha256
+            rows, info = c18b.cpt_replay_rows(path, sha256(path), len(lines), 20, set())
+        self.assertEqual(len(rows), 20)
+        self.assertEqual(info["eligible"], 40)
+        self.assertTrue(all(int(str(row["id"])[1:]) >= 200 for row in rows))
 
     def test_pre_registration_differs_from_c18_only_where_intended(self):
         changed = {k for k in c18b.PRE_REGISTERED if c18b.PRE_REGISTERED[k] != c18_recipe.PRE_REGISTERED.get(k)}
