@@ -5,7 +5,7 @@ by construction, so it cannot enforce this rule."""
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 import json
 
 NOOP_EXPOSURE_MAX = 3
@@ -45,7 +45,7 @@ def base_id(row_id: str) -> str:
     return row_id.split(REPEAT_SEPARATOR, 1)[0]
 
 
-def dose(draws: list[Mapping], synth_ids: set[str], length_class: Mapping[str, str]) -> dict:
+def dose(draws: Sequence[Mapping], synth_ids: set[str], length_class: Mapping[str, str]) -> dict:
     """Draw and token shares of SYNTH. ``length_class`` maps finish_block row ids
     (TRAIN and SYNTH, base ids) to short (<= 8 target lines), medium (9-20), long (> 20)."""
     def share(part: float, whole: float) -> float:
