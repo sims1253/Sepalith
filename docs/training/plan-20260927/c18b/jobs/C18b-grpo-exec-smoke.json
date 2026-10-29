@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.c18b_night",
+    "smoke",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18b/bound/grpo-exec-smoke-arm-a-803.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 45,
+  "id": "C18b-grpo-exec-smoke",
+  "note": "C18b smoke (cuda:0): C18 plus CPT-text replay (0.2 x 4 CPT chunks per update) from arm A 803; updates 1-4, save, DEV75 + 96 validation tasks + CPT 2K on checkpoint 4 and the 803 CPT reference, resume to 6. Exit 0 pass, 1 fail. Receipt: /mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-smoke/smoke-receipt.json",
+  "priority": 40,
+  "requires": [],
+  "resumable": false
+}
