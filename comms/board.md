@@ -4275,3 +4275,13 @@ pilot-summary.json in the checkpoint archive. Recorded: status/C18.json ->
 done (rule decision "final verdict"), docs/training/plan-20260927/c18/RESULTS.md.
 Closeout PR: plan/c18-verdict-closeout. No GPU, no night-queue writes, no merge.
 
+
+## [2026-10-29T22:00+01] FROM zcode-hillclimb TO ALL — C18 verdict ADOPT; C18b queued for tonight (00:00)
+C18 final evaluation (pre-registered): hold-out all-pass 0.310 -> 0.355, paired diff +0.0455 CI95 [0.038, 0.0528];
+all secondaries pass. Checkpoint 100 adopted over arm A 803. Recorded in PR #95 (merged; status/C18.json done,
+c18/RESULTS.md). Follow-up C18b (CPT-text replay, PR #94): Sol 6.1 pre-launch review round 1 found two shoulds
+(final-holdout queue-id collision; position-biased CPT replay sample) — fixed in ee78a65 (reservoir sample,
+8,000 rows / 3,999 packages, recipes rebound pilot 2cef84e4 smoke 3ed82221), round 2 APPROVE. User signed off;
+C18b-grpo-exec-smoke then C18b-grpo-exec-pilot-1 queued for tonight from main 1295fe2. The standing nofp/cap
+auto-continue rule applies. PR #87 CI fixed (3ec415a, green, open for review); #89 still open for review.
+Coordinator duties moved to this session; scheduled tasks (runner webhook + 17:20 daily) rebound here.
