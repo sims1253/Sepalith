@@ -1,7 +1,7 @@
 {
   "card": "C18",
-  "state": "in_progress",
-  "updated": "2026-10-28T21:40:00+01:00",
+  "state": "needs_user",
+  "updated": "2026-10-29T12:00:00+01:00",
   "branch": "plan/C18-grpo-exec-env",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/92",
   "outputs": {
@@ -131,7 +131,59 @@
       "cli": "trainer, night, val_eval, cpt_probe, dev_generation, jobs, recipe, pool print --help in .venv-sft; job argv parses with the driver; both job files pass night_queue.validate_job; both recipes verify",
       "gpu": "not used"
     },
-    "enqueue_pre_merge_smoke": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json"
+    "enqueue_pre_merge_smoke": "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue --file /home/m0hawk/sandbox/sep-c18-grpo-exec/docs/training/plan-20260927/c18/jobs/C18-grpo-exec-smoke-worktree.json",
+    "c18_result": {
+      "checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/full/checkpoint-100",
+      "telemetry": {
+        "seconds_per_update": 69.9,
+        "peak_reserved_mib": 23224,
+        "replay_nll_windows": [
+          0.2155,
+          0.2144,
+          0.2628,
+          0.2032,
+          0.1762
+        ],
+        "cpt_rows_worse_at_100": "485/499, all 50 packages"
+      },
+      "final": {
+        "holdout_job": "C18-final-holdout (enqueued by the orchestrator)",
+        "dev250_job": "docs/training/plan-20260927/c18/jobs/C18-final-dev250-step-100.json (PR #93)",
+        "verdict": "python -m sepalith.training.grpo_exec.jobs verdict --summary /mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/pilot-summary.json --metrics /home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/metrics.json"
+      }
+    },
+    "c18b": {
+      "card_addendum": "cards/C18-grpo-exec-env.md#addendum-c18b",
+      "change": "adds 0.2 x token-mean NLL of 4 CPT training chunks per update (8,000-row cpt_train sample, sha256 080dbba8..., 3,418 packages, hold-out-slice and CPT 2K validation packages excluded); everything else as C18; start arm A 803",
+      "recipes": {
+        "pilot": {
+          "path": "docs/training/plan-20260927/c18b/bound/grpo-exec-pilot-1-arm-a-803.json",
+          "sha256": "d6c7164593fadaa378db69d09b67897d847c80efa6817300725c018b31ebc466"
+        },
+        "smoke": {
+          "path": "docs/training/plan-20260927/c18b/bound/grpo-exec-smoke-arm-a-803.json",
+          "sha256": "e3405a4d2a56d2998e7dc8be1e0c92ee903a298ff04450ad179271df0e32fabb"
+        },
+        "source_manifest": {
+          "path": "docs/training/plan-20260927/c18b/bound/source-manifest.json",
+          "sha256": "f7fc7aa197f54eecbf1fcaafad80e5f1875075f5e3b0e9e26879a9c98edd4de5"
+        }
+      },
+      "jobs": {
+        "C18b-grpo-exec-smoke": {
+          "path": "docs/training/plan-20260927/c18b/jobs/C18b-grpo-exec-smoke.json",
+          "sha256": "b4135e5e39e04896d7968923551fcc5290c70d4f4c647adbfb6fecb12e6661b4"
+        },
+        "C18b-grpo-exec-pilot-1": {
+          "path": "docs/training/plan-20260927/c18b/jobs/C18b-grpo-exec-pilot-1.json",
+          "sha256": "6ac6291eaea07c00ad6e6575dae9d751db5740cf0358a052a9fab5d43e5002a6",
+          "requires": [
+            "C18b-grpo-exec-smoke"
+          ]
+        }
+      },
+      "status": "built and pre-registered; not launched (needs user sign-off)"
+    }
   },
   "rule_decisions": [
     {
@@ -142,8 +194,42 @@
         "via": "coordinator"
       },
       "outcome": "user approved the C18 pilot to start at 00:00 on 2026-10-29, with the standing auto-continue rule: an R6x stop-for-user whose only stop-band rows are nofp_rise and/or cap (no rollback, all other rows continue) is overridden to continue"
+    },
+    {
+      "rule": "R6x + standing nofp/cap rule",
+      "step": 50,
+      "inputs": {
+        "nofp_rise": 2,
+        "cpt_rise": 0.011716,
+        "val_all_pass": 0.297767
+      },
+      "outcome": "stop_for_user on nofp only; continued by the standing rule (override-step-50.json)"
+    },
+    {
+      "rule": "R6x",
+      "step": 100,
+      "inputs": {
+        "cpt_rise": 0.023766,
+        "val_all_pass": 0.305211,
+        "val_mean_reward": 0.423878,
+        "dev75": {
+          "valid": 75,
+          "cap": 0,
+          "edit": 28,
+          "nofp": 11
+        }
+      },
+      "outcome": "stop_for_user (CPT row)"
+    },
+    {
+      "rule": "user decision",
+      "at": "2026-10-29",
+      "inputs": {
+        "file": "evaluation-gates/C18-grpo-exec-pilot-1/user-stop-step-100.json"
+      },
+      "outcome": "stop the pilot; checkpoint 100 is the C18 result (user selection, not the plateau rule); run the pre-registered hold-out evaluation (C18-final-holdout) and DEV250 (C18-final-dev250-step-100, PR #93); prepare C18b"
     }
   ],
-  "question_for_user": null,
+  "question_for_user": "Sign off C18b (C18 plus 0.2 x 4 CPT-text chunks per update, from 803, same bands) so the orchestrator can merge PR #93 and the C18b PR and enqueue C18b-grpo-exec-smoke, then C18b-grpo-exec-pilot-1? Recommended: yes.",
   "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke)."
 }

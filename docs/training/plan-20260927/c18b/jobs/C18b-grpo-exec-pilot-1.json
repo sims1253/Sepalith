@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.c18b_night",
+    "run",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c18b/bound/grpo-exec-pilot-1-arm-a-803.json"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 960,
+  "id": "C18b-grpo-exec-pilot-1",
+  "note": "C18b GRPO pilot on the exec environment from arm A 803 with SFT and CPT-text replay (card C18 addendum C18b): the 803 references, then DEV75 + validation exec + CPT 2K every 50 updates, DEV250 every 150, R6x as C18 (stop-for-user exits 3; the standing nofp/cap rule applies); complete at 1,000 updates or a plateau; writes final-holdout-job.json. Resumable (exit 75).",
+  "priority": 45,
+  "requires": [
+    "C18b-grpo-exec-smoke"
+  ],
+  "resumable": true
+}

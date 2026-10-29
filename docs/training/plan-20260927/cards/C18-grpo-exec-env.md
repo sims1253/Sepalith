@@ -168,3 +168,52 @@ sha256 `4d9a1a36`), run as one job:
 - **Disk.** Retain-all leaves little slack at 1,000 updates (see above).
 - The legacy pool saturated under C15 and its groups may turn zero-variance. They are then
   dropped and only act as a guard. That is intended.
+
+## Addendum C18b: CPT-text replay (pre-registered 2026-10-29, not launched)
+
+**C18 outcome.** At update 100, R6x stopped for the user on the CPT 2K rise. The rise was
++0.0117 at update 50 and +0.0238 at 100, and the forgetting was uniform: 485 of 499 rows and all
+50 packages got worse. Validation all-pass went 0.283 → 0.298 → 0.305, validation reward
+0.396 → 0.424, and DEV75 did not change (edit 28, valid 75, cap 0). The user ended the pilot with
+checkpoint 100 as the C18 result. That checkpoint gets the pre-registered hold-out evaluation and
+DEV250 (`grpo_exec/final.py`). The selection was the user's, not the plateau rule.
+
+**Why not a stronger SFT replay.** The SFT replay NLL did not rise: 0.215 at updates 1-10, 0.214,
+0.263, 0.203, then 0.176 at updates 76-100. The term held its own distribution while raw R code
+drifted. It already contributed a sizeable gradient: the norm went from 0.99 for GRPO alone to 1.17
+with replay. SFT itself moved CPT NLL +0.052 from the CPT parent to arm A 536. Raising its weight
+to 0.3 or 0.5 would scale a gradient that points at the wrong distribution.
+
+**Change (one variable).** Everything in C18 stays the same, including SFT replay 0.1 x 8 rows,
+LR 1e-6 and the R6x bands. C18b adds this term before the optimizer step:
+
+    0.2 x token-mean NLL of 4 CPT training chunks per update
+
+The chunks come from a seeded sample of 8,000 rows drawn from 3,418 packages of the `cpt_train`
+union. Each chunk is at most 2,048 tokens, with 1,382 supervised tokens on average. Hold-out-slice
+packages and the 50 CPT 2K validation packages are excluded, so the probe still measures held-out
+code.
+
+- **Coefficient.** 0.2 gives the CPT term an effective learning rate of 2e-7, a fifteenth of the CPT
+  run's 3e-6. Its gradient should be comparable to the GRPO gradient: SFT replay at 0.1 added a
+  component of about 0.6 against GRPO's 1.0.
+- **Cost.** About 5,500 tokens of extra forward and backward per update, roughly +7 s on C18's 70 s,
+  so about 400-440 updates per night.
+- **Memory.** C18 peaked at 23.2 GB reserved, and the chunks are shorter than the 4,096-token GRPO
+  bound.
+
+**Start: arm A 803 again, not C18 checkpoint 100.**
+- Checkpoint 100 has already used 0.024 of the 0.03 CPT budget.
+- It is the C18 result under its own final evaluation.
+- Restarting from 803 makes C18 a matched control at updates 50 and 100.
+
+**Bands and endpoints.** Identical to C18: R6x, the stop rules, selection and the final hold-out
+evaluation against 803. A descriptive expectation is also pre-registered: a CPT rise of at most 0.006
+at update 50 (C18: 0.0117), with the validation all-pass at update 100 within 1 point of C18's 0.305.
+If the rise at update 50 is still above 0.009, the term is too weak. The next step would then be the
+coefficient (0.4), not the SFT weight.
+
+**Code.** `grpo_exec/c18b.py` (recipe module, CPT rows, `install()`), `c18b_trainer.py`
+(`CptReplayTrainer`), and entry modules `c18b_{night,val_eval,cpt_probe,dev_generation}.py`. No C18
+file changed, so the C18 recipes still verify. Recipes are in `c18b/bound/` and jobs in
+`c18b/jobs/` (the smoke, about 45 minutes, then the pilot).
