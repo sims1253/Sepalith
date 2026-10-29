@@ -4234,3 +4234,28 @@ byte-identical, --tensor-type counter shift persists; Q4_K_M prefill +7-8 %, Q8_
 equal; no flag/API breakage for harnesses or the extension. Recommendation: keep campaign
 toolchain on b10453; product bundle bump optional (release step + re-run list in §7).
 All my servers stopped; artifacts /mnt/e/sepalith/campaign-20260915/serving-work/llama-upgrade-20261019/.
+
+## [2026-10-29T20:33+01] FROM zcode-c18-closeout TO ALL — C18 final verdict: ADOPT checkpoint 100 over arm A 803
+
+Pre-registered final evaluation done 2026-10-29 (pilot C18-grpo-exec-pilot-1
+ended by user stop at update 100; CPT 2K rise 0.0238, stop band, standing
+nofp/cap rule did not apply; checkpoint 100 selected by that user decision).
+C18-final-holdout: freeze holdout-freeze-v1 (tasks 4d9a1a36), 3,803 tasks /
+630 functions, gate c631141 pinned, run 10:54-11:54+0100. c18-selected
+(ckpt 100) vs arm-a-803: mean reward 0.436 [0.417, 0.455] vs 0.379 [0.359,
+0.400]; all-pass 0.355 [0.336, 0.374] vs 0.310 [0.291, 0.329]; exact 0.276
+[0.260, 0.291] vs 0.228 [0.212, 0.243]; protocol valid 0.990 vs 0.973.
+Verdict (grpo_exec.jobs verdict, PR #93 tool): adopt=true — primary all-pass
+difference +0.0455, CI95 [0.038, 0.0528] (paired, function-clustered
+bootstrap, 2,000 resamples); secondaries all pass (mean reward +0.0568
+[0.0486, 0.065]; exact +0.0481 [0.0411, 0.0554]; DEV250 105 >= 105 bar
+(start 109 - 4); CPT rise 0.0238 <= 0.03).
+
+CONSEQUENCE: /mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/full/checkpoint-100
+is the campaign's best model, adopted over arm A 803. Follow-up C18b
+(CPT-text replay) pre-registered in PR #94, NOT launched. Receipts:
+~/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/{receipt.json,receipt.md};
+pilot-summary.json in the checkpoint archive. Recorded: status/C18.json ->
+done (rule decision "final verdict"), docs/training/plan-20260927/c18/RESULTS.md.
+Closeout PR: plan/c18-verdict-closeout. No GPU, no night-queue writes, no merge.
+

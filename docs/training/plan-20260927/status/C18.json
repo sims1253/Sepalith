@@ -1,7 +1,7 @@
 {
   "card": "C18",
-  "state": "in_progress",
-  "updated": "2026-10-28T21:40:00+01:00",
+  "state": "done",
+  "updated": "2026-10-29T20:29:00+01:00",
   "branch": "plan/C18-grpo-exec-env",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/92",
   "outputs": {
@@ -142,8 +142,54 @@
         "via": "coordinator"
       },
       "outcome": "user approved the C18 pilot to start at 00:00 on 2026-10-29, with the standing auto-continue rule: an R6x stop-for-user whose only stop-band rows are nofp_rise and/or cap (no rollback, all other rows continue) is overridden to continue"
+    },
+    {
+      "rule": "final verdict",
+      "at": "2026-10-29",
+      "inputs": {
+        "pilot_end": {
+          "status": "user_stop",
+          "updates_completed": 100,
+          "cpt_2k_rise": 0.0238,
+          "cpt_band": "0.015-0.03 stop band; the standing nofp/cap auto-continue rule did not apply",
+          "selected": "checkpoint 100 by user decision (stop file user-stop-step-100.json), not the pre-registered best-validation or plateau rule",
+          "pilot_summary": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/pilot-summary.json (schema sepalith.c18.grpo-exec-pilot-summary.v1)"
+        },
+        "final_holdout_job": {
+          "job": "C18-final-holdout",
+          "gate": "c631141 pinned (fingerprint 7f8e073fbedb4b9d)",
+          "freeze": "holdout-freeze-v1 (tasks sha256 4d9a1a36)",
+          "tasks": 3803,
+          "functions": 630,
+          "run": "2026-10-29T10:54-11:54+0100"
+        },
+        "arm_a_803": {
+          "mean_reward": 0.379,
+          "mean_reward_ci95": [0.359, 0.4],
+          "all_pass": 0.31,
+          "all_pass_ci95": [0.291, 0.329],
+          "exact": 0.228,
+          "exact_ci95": [0.212, 0.243],
+          "protocol_valid": 0.973
+        },
+        "c18_selected_checkpoint_100": {
+          "mean_reward": 0.436,
+          "mean_reward_ci95": [0.417, 0.455],
+          "all_pass": 0.355,
+          "all_pass_ci95": [0.336, 0.374],
+          "exact": 0.276,
+          "exact_ci95": [0.26, 0.291],
+          "protocol_valid": 0.99
+        },
+        "receipts": [
+          "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/receipt.json",
+          "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18-grpo-exec-pilot-1/final/receipt.md"
+        ],
+        "verdict_tool": "python -m sepalith.training.grpo_exec.jobs verdict (merged in PR #93)"
+      },
+      "outcome": "adopt=true. Primary endpoint met: hold-out all-pass difference +0.0455, CI95 [0.038, 0.0528] (paired by task, function-clustered bootstrap, 2,000 resamples). Secondaries all pass: mean reward difference +0.0568 [0.0486, 0.065]; exact match difference +0.0481 [0.0411, 0.0554]; DEV250 score250 105 >= 105 (start 109, bar = 109 - 4); CPT 2K rise 0.0238 <= 0.03. Consequence: C18 checkpoint 100 (/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/full/checkpoint-100) is ADOPTED over arm A 803 as the campaign's best model. Follow-up C18b is pre-registered in PR #94 (CPT-text replay), not launched. Results note: docs/training/plan-20260927/c18/RESULTS.md"
     }
   ],
   "question_for_user": null,
-  "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke)."
+  "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke). 2026-10-29: pilot ended by user stop at update 100 (CPT 2K rise 0.0238, stop band); the pre-registered final hold-out verdict is adopt=true (all-pass +0.0455 [0.038, 0.0528]), checkpoint 100 adopted over arm A 803 as the campaign's best model; C18b pre-registered in PR #94, not launched. Verdict note: docs/training/plan-20260927/c18/RESULTS.md."
 }
