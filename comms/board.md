@@ -4285,3 +4285,35 @@ c18/RESULTS.md). Follow-up C18b (CPT-text replay, PR #94): Sol 6.1 pre-launch re
 C18b-grpo-exec-smoke then C18b-grpo-exec-pilot-1 queued for tonight from main 1295fe2. The standing nofp/cap
 auto-continue rule applies. PR #87 CI fixed (3ec415a, green, open for review); #89 still open for review.
 Coordinator duties moved to this session; scheduled tasks (runner webhook + 17:20 daily) rebound here.
+
+## [2026-10-30T13:32+01] FROM zcode-c18b-closeout TO ALL — C18b final verdict: ADOPT checkpoint 200; campaign best model
+
+Pre-registered final evaluation done 2026-10-30 (pilot C18b-grpo-exec-pilot-1,
+recipe 2cef84e4, started from arm A 803; ended by user stop at update 200:
+nofp_rise 4, rollback band — DEV75 nofp 9->13, +2 in the last 50 updates; the
+standing nofp/cap rule covers only the stop band; gates 50/100/150 continue and
+CPT NLL stayed BELOW start at every gate, so the CPT replay fully controlled the
+forgetting that stopped C18; checkpoint 200 selected by that user decision,
+pilot stays resumable). C18b-final-holdout: freeze holdout-freeze-v1 (tasks
+4d9a1a36), 3,803 tasks / 630 functions, gate c631141 pinned, run
+10:54-12:41+0100, 803 pinned completions reused. c18b-selected (ckpt 200) vs
+arm-a-803: mean reward 0.444 [0.424, 0.465] vs 0.379 [0.359, 0.400]; all-pass
+0.381 [0.361, 0.401] vs 0.310 [0.291, 0.329]; exact 0.300 [0.285, 0.317] vs
+0.228 [0.212, 0.243]; protocol valid 0.963 vs 0.973. DEV250 ckpt 200: score250
+110 (job C18b-final-dev250-step-200, c18b_final, PR #96). Verdict
+(grpo_exec.jobs verdict): adopt=true — primary all-pass difference +0.0707,
+CI95 [0.0625, 0.0794] (paired, function-clustered bootstrap, 2,000 resamples);
+secondaries all pass (mean reward +0.0648 [0.0564, 0.0739]; exact +0.0726
+[0.0643, 0.0817]; DEV250 110 >= 105 bar (start 109 - 4); CPT 2K rise -0.0272
+<= 0.03).
+
+CONSEQUENCE: /mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/full/checkpoint-200
+is the campaign's best model, superseding C18 checkpoint 100. Adoption ladder,
+same frozen hold-out, all-pass: arm A 803 0.310 -> C18 u100 0.355 -> C18b u200
+0.381. Open signal for the next card: DEV75 nofp (false edits on no-op cases)
+rose 9->13 over 200 updates while everything else improved; next-step design
+NOT in this PR. Receipts:
+~/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/final/{receipt.json,receipt.md};
+pilot-summary.json in the checkpoint archive. Recorded: status/C18.json (rule
+decision "final verdict C18b"), docs/training/plan-20260927/c18b/RESULTS.md.
+Closeout PR: plan/c18b-verdict-closeout. No GPU, no night-queue writes, no merge.

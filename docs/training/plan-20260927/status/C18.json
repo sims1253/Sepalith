@@ -1,9 +1,9 @@
 {
  "card": "C18",
  "state": "done",
- "updated": "2026-10-29T20:29:00+01:00",
+ "updated": "2026-10-30T13:30:00+01:00",
  "branch": "plan/C18-grpo-exec-env",
- "pull_request": "https://github.com/sims1253/Sepalith/pull/92 (C18), https://github.com/sims1253/Sepalith/pull/93 (final DEV250), https://github.com/sims1253/Sepalith/pull/94 (C18b), https://github.com/sims1253/Sepalith/pull/95 (verdict close-out)",
+ "pull_request": "https://github.com/sims1253/Sepalith/pull/92 (C18), https://github.com/sims1253/Sepalith/pull/93 (final DEV250), https://github.com/sims1253/Sepalith/pull/94 (C18b), https://github.com/sims1253/Sepalith/pull/95 (verdict close-out), https://github.com/sims1253/Sepalith/pull/96 (C18b final entry), https://github.com/sims1253/Sepalith/pull/97 (C18b verdict close-out)",
  "outputs": {
   "card": "docs/training/plan-20260927/cards/C18-grpo-exec-env.md",
   "code": {
@@ -206,8 +206,83 @@
     "verdict_tool": "python -m sepalith.training.grpo_exec.jobs verdict (merged in PR #93)"
    },
    "outcome": "adopt=true. Primary endpoint met: hold-out all-pass difference +0.0455, CI95 [0.038, 0.0528] (paired by task, function-clustered bootstrap, 2,000 resamples). Secondaries all pass: mean reward difference +0.0568 [0.0486, 0.065]; exact match difference +0.0481 [0.0411, 0.0554]; DEV250 score250 105 >= 105 (start 109, bar = 109 - 4); CPT 2K rise 0.0238 <= 0.03. Consequence: C18 checkpoint 100 (/mnt/e/sepalith/campaign-20260915/checkpoints/C18-grpo-exec-pilot-1/full/checkpoint-100) is ADOPTED over arm A 803 as the campaign's best model. Follow-up C18b is pre-registered in PR #94 (CPT-text replay), not launched. Results note: docs/training/plan-20260927/c18/RESULTS.md"
+  },
+  {
+   "rule": "final verdict C18b",
+   "at": "2026-10-30",
+   "inputs": {
+    "pilot_end": {
+     "arm": "C18b-grpo-exec-pilot-1",
+     "recipe_sha256": "2cef84e46fd5dd3f997a58d36fe94feb7768c3be9bcfe29db0b5860dcc235169",
+     "change": "C18 recipe + 0.2 x token-mean NLL of 4 CPT training chunks per update (seeded 8,000-row reservoir over 3,999 packages)",
+     "start": "arm A checkpoint 803 (same as C18: matched control)",
+     "status": "user_stop",
+     "updates_completed": 200,
+     "gates": "50/100/150 continue; CPT 2K NLL below start at every gate (start 1.0033; 0.9892 / 0.9820 / 0.9798)",
+     "stop": "R6x stop-for-user at update 200 on nofp_rise 4 (rollback band >= 4; DEV75 nofp 9->13, +2 in the last 50 updates; the standing nofp/cap auto-continue rule covers only the stop band)",
+     "selected": "checkpoint 200 by user decision (user-stop-step-200.json), not the pre-registered best-validation or plateau rule; the pilot stays resumable",
+     "pilot_summary": "/mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/pilot-summary.json (schema sepalith.c18.grpo-exec-pilot-summary.v1)"
+    },
+    "final_holdout_job": {
+     "job": "C18b-final-holdout",
+     "gate": "c631141 pinned (fingerprint 7f8e073fbedb4b9d)",
+     "freeze": "holdout-freeze-v1 (tasks sha256 4d9a1a36)",
+     "tasks": 3803,
+     "functions": 630,
+     "run": "2026-10-30T10:54-12:41+0100"
+    },
+    "arm_a_803": {
+     "mean_reward": 0.379,
+     "mean_reward_ci95": [
+      0.359,
+      0.4
+     ],
+     "all_pass": 0.31,
+     "all_pass_ci95": [
+      0.291,
+      0.329
+     ],
+     "exact": 0.228,
+     "exact_ci95": [
+      0.212,
+      0.243
+     ],
+     "protocol_valid": 0.973
+    },
+    "c18b_selected_checkpoint_200": {
+     "mean_reward": 0.444,
+     "mean_reward_ci95": [
+      0.424,
+      0.465
+     ],
+     "all_pass": 0.381,
+     "all_pass_ci95": [
+      0.361,
+      0.401
+     ],
+     "exact": 0.3,
+     "exact_ci95": [
+      0.285,
+      0.317
+     ],
+     "protocol_valid": 0.963
+    },
+    "dev250": {
+     "job": "C18b-final-dev250-step-200",
+     "entry": "sepalith.training.grpo_exec.c18b_final (PR #96)",
+     "score250": 110,
+     "start": 109,
+     "bar": ">= 105 (109 - 4)"
+    },
+    "receipts": [
+     "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/final/receipt.json",
+     "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/final/receipt.md"
+    ],
+    "verdict_tool": "python -m sepalith.training.grpo_exec.jobs verdict --summary /mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/pilot-summary.json --metrics /home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/final/metrics.json"
+   },
+   "outcome": "adopt=true. Primary endpoint met: hold-out all-pass difference +0.0707, CI95 [0.0625, 0.0794] (paired by task, function-clustered bootstrap, 2,000 resamples). Secondaries all pass: mean reward difference +0.0648 [0.0564, 0.0739]; exact match difference +0.0726 [0.0643, 0.0817]; DEV250 score250 110 >= 105 (start 109, bar = 109 - 4); CPT 2K rise -0.0272 <= 0.03 (below start: the CPT replay fully controlled forgetting). Consequence: C18b checkpoint 200 (/mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/full/checkpoint-200) is ADOPTED as the campaign's best model, superseding C18 checkpoint 100. Ladder on the same frozen hold-out, all-pass: 803 0.310 -> C18 u100 0.355 -> C18b u200 0.381. Open signal for the next card: DEV75 nofp rose 9->13 over 200 updates (rollback band at 200) while everything else improved; next-step design is not part of this PR. Results note: docs/training/plan-20260927/c18b/RESULTS.md"
   }
  ],
  "question_for_user": null,
- "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke). 2026-10-29: pilot ended by user stop at update 100 (CPT 2K rise 0.0238, stop band); the pre-registered final hold-out verdict is adopt=true (all-pass +0.0455 [0.038, 0.0528]), checkpoint 100 adopted over arm A 803 as the campaign's best model; C18b pre-registered in PR #94, not launched. Verdict note: docs/training/plan-20260927/c18/RESULTS.md."
+ "notes": "Built, smoke-ready and pre-registered; nothing enqueued, no GPU used. The PR is based on feat/exec-eval-jobs, so it also carries PR #91 (exec env) and the exec-eval job commits. A worktree-rooted smoke (C18-grpo-exec-smoke-worktree) lets the coordinator run the smoke before the merge; the main-rooted recipes and jobs stay for after the merge (the pilot still requires C18-grpo-exec-smoke). 2026-10-29: pilot ended by user stop at update 100 (CPT 2K rise 0.0238, stop band); the pre-registered final hold-out verdict is adopt=true (all-pass +0.0455 [0.038, 0.0528]), checkpoint 100 adopted over arm A 803 as the campaign's best model; C18b pre-registered in PR #94, not launched. Verdict note: docs/training/plan-20260927/c18/RESULTS.md. 2026-10-30: C18b pilot ended by user stop at update 200 (nofp_rise 4, rollback band; CPT NLL below start at every gate); the pre-registered final hold-out verdict is adopt=true (all-pass +0.0707 [0.0625, 0.0794] over arm A 803), C18b checkpoint 200 adopted as the campaign's best model, superseding C18 checkpoint 100 (hold-out all-pass ladder 803 0.310 -> C18 0.355 -> C18b 0.381). Verdict note: docs/training/plan-20260927/c18b/RESULTS.md."
 }
