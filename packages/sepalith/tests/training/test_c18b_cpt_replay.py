@@ -110,6 +110,24 @@ class CptReplayTrainerTests(unittest.TestCase):
 
 
 class ShapeAndHookTests(unittest.TestCase):
+    def test_c18b_final_entry_module_installs_and_delegates(self):
+        from sepalith.training.grpo_exec import c18b_final
+        from sepalith.training.grpo_exec import jobs as jobs_module
+
+        saved = {name: getattr(night, name) for name in ("TRAINER", "DEV_EVALUATOR", "VAL_EVALUATOR", "CPT_PROBE", "UPDATE_FIELDS")}
+        saved_recipe, saved_final, saved_trainer = night.recipe_module, jobs_module.final_holdout_job, trainer.ExecGRPOTrainer
+        try:
+            with self.assertRaises(SystemExit):  # argparse rejects the bogus subcommand after install() ran
+                c18b_final.main(["bogus-subcommand"])
+            self.assertIs(night.recipe_module, c18b)
+            self.assertIsNot(jobs_module.final_holdout_job, saved_final)
+        finally:
+            for name, value in saved.items():
+                setattr(night, name, value)
+            night.recipe_module = saved_recipe
+            jobs_module.final_holdout_job = saved_final
+            trainer.ExecGRPOTrainer = saved_trainer
+
     def test_cpt_row_splits_head_and_supervised_span(self):
         row = {"input_ids": [0, 5, *range(100, 120), 1], "labels": [-100, -100, *range(100, 120), -100]}
         self.assertEqual(c18b.cpt_row(row), {"prompt_ids": [0, 5], "target_ids": list(range(100, 120))})
