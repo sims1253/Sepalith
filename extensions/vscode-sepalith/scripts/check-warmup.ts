@@ -3,8 +3,7 @@
 // that a warm-up body is the real request body with zero generation.
 // No vscode import, plain node. Run: npm run check-warmup
 import * as assert from 'node:assert/strict';
-import { completionBody, STOPS, SUGGESTION_MAX_TOKENS, WARMUP_MAX_TOKENS } from '../src/completion.ts';
-import { buildScopedPrompt } from '../src/context_build.ts';
+import { completionBody, promptIds, SUGGESTION_MAX_TOKENS, WARMUP_MAX_TOKENS } from '../src/completion.ts';
 import { WarmupScheduler } from '../src/warmup.ts';
 
 const delay = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
@@ -126,14 +125,16 @@ async function main() {
   }
   // body: the warm-up is the real request with zero generation
   {
-    const lines = ['library(stats)', 'fit_model <- function(df) {', '  model <- lm(y ~ x, data = df)', '  ', '}', 'summary(fit_model(cars))'];
-    const { prompt } = buildScopedPrompt(lines, 3, 2, 'R/model.R', null);
-    const real = JSON.parse(completionBody(prompt, SUGGESTION_MAX_TOKENS, STOPS));
-    const warm = JSON.parse(completionBody(prompt, WARMUP_MAX_TOKENS, STOPS));
-    assert.equal(warm.prompt, real.prompt, 'identical prompt text');
-    assert.equal(warm.max_tokens, 0, 'zero generation');
-    assert.deepEqual({ ...warm, max_tokens: real.max_tokens }, real, 'otherwise the same request');
-    console.log('PASS warm-up body equals the real request prompt with max_tokens 0');
+    const ids = promptIds([3150, 242, 801, 343]);
+    const real = JSON.parse(completionBody(ids, SUGGESTION_MAX_TOKENS));
+    const warm = JSON.parse(completionBody(ids, WARMUP_MAX_TOKENS));
+    assert.deepEqual(warm.prompt, real.prompt, 'identical prompt token IDs');
+    assert.equal(warm.prompt[0], 0, 'manual BOS 0');
+    assert.equal(warm.n_predict, 0, 'zero generation');
+    assert.equal(real.n_predict, 1024, 'gate cap');
+    assert.equal(real.cache_prompt, true, 'prompt cache on so the warm-up is reused');
+    assert.deepEqual({ ...warm, n_predict: real.n_predict }, real, 'otherwise the same request');
+    console.log('PASS warm-up body equals the real request prompt with n_predict 0');
   }
   console.log('Warm-up checks passed');
 }

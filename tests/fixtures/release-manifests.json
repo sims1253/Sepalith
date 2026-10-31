@@ -13,7 +13,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -50,7 +50,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -93,7 +93,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -130,7 +130,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -167,7 +167,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -204,7 +204,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -241,7 +241,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -278,7 +278,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -384,7 +384,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "generic-completion",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -421,7 +421,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": " \t",
           "modelRevision": "model:rev2"
@@ -458,7 +458,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": 42
@@ -495,7 +495,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2",
@@ -533,7 +533,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -554,7 +554,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -575,7 +575,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -627,7 +627,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -671,7 +671,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -708,7 +708,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -746,7 +746,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -775,7 +775,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -819,7 +819,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -863,7 +863,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -900,7 +900,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -937,7 +937,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -974,7 +974,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1011,7 +1011,7 @@
           "executable": 1
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1048,7 +1048,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1085,7 +1085,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1122,7 +1122,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1159,7 +1159,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1196,7 +1196,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1233,7 +1233,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1270,7 +1270,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1307,7 +1307,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1344,7 +1344,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1381,7 +1381,7 @@
           "bytes": true
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1418,7 +1418,7 @@
           "bytes": 0
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1455,7 +1455,7 @@
           "bytes": 1.5
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1492,7 +1492,7 @@
           "bytes": 9007199254740992
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1530,7 +1530,7 @@
           "extra": true
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1567,7 +1567,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1604,7 +1604,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1641,7 +1641,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1678,7 +1678,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1715,7 +1715,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1752,7 +1752,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1789,7 +1789,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1826,7 +1826,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1863,7 +1863,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1900,7 +1900,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1937,7 +1937,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -1974,7 +1974,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -2011,7 +2011,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -2048,7 +2048,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -2087,7 +2087,7 @@
           "bytes": 7
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"
@@ -2124,7 +2124,7 @@
           "bytes": 7.0
         },
         "modelProfile": {
-          "renderer": "zeta2-v1",
+          "renderer": "zeta2-prm03-v1",
           "task": "r-next-edit",
           "tokenizerRevision": "tokenizer:rev1",
           "modelRevision": "model:rev2"

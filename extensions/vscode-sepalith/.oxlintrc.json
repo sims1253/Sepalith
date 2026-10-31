@@ -40,8 +40,7 @@
   "overrides": [
     {
       "files": [
-        "src/runtime.ts",
-        "src/context_build.ts"
+        "src/runtime.ts"
       ],
       "rules": {
         "anti-slop/no-unknown-parameters": "off"
