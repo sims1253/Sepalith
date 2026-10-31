@@ -8,6 +8,10 @@ After the October 10 WSL reinstall, read
 [RECOVERY-20261011.md](RECOVERY-20261011.md) first: it records the current
 host paths, what survived and what was rebuilt.
 
+The R interpreter is pinned outside pacman: read
+[R-ENVIRONMENT.md](R-ENVIRONMENT.md) before binding a new recipe, and do not
+rebind the C18/C18b recipes that are already in flight.
+
 The work is split into cards. Each card is a self-contained hand-off for one
 Claude Code agent. No single session has to stay open across days. Decisions
 between steps follow [pre-registered rules](RULES.md), so agents can continue
