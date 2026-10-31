@@ -1,0 +1,33 @@
+stopifnot(identical(shift.alphabet("abcd", 1L), "bcda"))
+stopifnot(identical(shift.alphabet("abcd", -1L), "dabc"))
+stopifnot(identical(shift.alphabet("0123456789", 13L), "3456789012"))
+stopifnot(inherits(tryCatch(shift.alphabet("aab", 1L), error = identity), "error"))
+
+stopifnot(identical(rot.encode("Hello, World 42"), "Uryyb, Jbeyq 42"))
+stopifnot(identical(rot.encode("az09", k = 1L, digits = TRUE), "ba10"))
+stopifnot(inherits(tryCatch(rot.encode("a", k = NA), error = identity), "error"))
+stopifnot(identical(rot.decode("Uryyb, Jbeyq 42"), "Hello, World 42"))
+stopifnot(identical(rot.decode("ba10", k = 1L, digits = TRUE), "az09"))
+stopifnot(inherits(tryCatch(rot.decode("a", k = "x"), error = identity), "error"))
+
+stopifnot(identical(cipher.text("abc", "rot", k = 1L), "bcd"))
+stopifnot(identical(cipher.text("bcd", "rot", decode = TRUE, k = 1L), "abc"))
+stopifnot(identical(cipher.text("a9", "digits", k = 2L), "c1"))
+stopifnot(identical(cipher.text("c1", "digits", decode = TRUE, k = 2L), "a9"))
+stopifnot(identical(cipher.text("Abc xyz", "atbash"), "Zyx cba"))
+stopifnot(identical(cipher.text(c("f(x)", NA), "mirror"), c("(x)f", NA)))
+stopifnot(identical(cipher.text("Banana", "vowels"), "Benene"))
+stopifnot(identical(cipher.text("Benene", "vowels", decode = TRUE), "Banana"))
+
+lf <- letter.frequency(c("aab", NA, "B!"))
+stopifnot(identical(names(lf), letters), lf[["a"]] == 0.5, lf[["b"]] == 0.5)
+stopifnot(all(letter.frequency("123") == 0))
+
+secret <- rot.encode("there is nothing on the horizon this evening", k = 7L)
+g <- guess.rotation(secret)
+stopifnot(g$k == 7L, length(g$scores) == 26L)
+stopifnot(g$score == max(g$scores), identical(names(g$scores)[1], "0"))
+
+rt <- cipher.roundtrip(c("Some text (1)", "x"))
+stopifnot(all(rt), identical(names(rt), c("rot", "digits", "atbash", "mirror", "vowels")))
+stopifnot(identical(names(cipher.roundtrip("a", methods = "atbash")), "atbash"))

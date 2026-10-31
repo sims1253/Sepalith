@@ -1,0 +1,58 @@
+methods = c("none", "gzip", "bzip2", "xz")
+x = charToRaw(strrep("stash ", 50))
+for (m in methods) {
+  packed = compressRaw(x, m)
+  stopifnot(is.raw(packed), identical(decompressRaw(packed, m, size = length(x)), x))
+  stopifnot(identical(compressRaw(raw(), m), raw()), identical(decompressRaw(raw(), m), raw()))
+}
+stopifnot(identical(compressRaw(x, "none"), x), length(compressRaw(x, "gzip")) < length(x))
+msg = tryCatch(compressRaw("a"), error = conditionMessage)
+stopifnot(identical(msg, "`x` must be a raw vector."))
+msg = tryCatch(decompressRaw(1:3), error = conditionMessage)
+stopifnot(identical(msg, "`x` must be a raw vector."))
+msg = tryCatch(decompressRaw(x, "none", size = 5), error = conditionMessage)
+stopifnot(identical(msg, "Expected 5 bytes after decompression, got 300."))
+
+obj = list(a = 1:10, b = letters)
+for (i in seq_along(methods)) {
+  blob = toBlob(obj, methods[i])
+  stopifnot(identical(rawToChar(blob[1:4]), "SPT1"), identical(as.integer(blob[5]), 1L))
+  stopifnot(identical(as.integer(blob[6]), i - 1L))
+  stopifnot(identical(readBin(blob[11:14], "integer", size = 4, endian = "little"),
+    length(blob) - 14L))
+  stopifnot(identical(fromBlob(blob), obj))
+}
+msg = tryCatch(fromBlob(as.raw(1:3)), error = conditionMessage)
+stopifnot(identical(msg, "`blob` is too short to hold a stash header."))
+bad = toBlob(obj)
+bad[1] = as.raw(0)
+stopifnot(grepl("magic bytes", tryCatch(fromBlob(bad), error = conditionMessage)))
+bad = toBlob(obj)
+bad[5] = as.raw(2)
+stopifnot(identical(tryCatch(fromBlob(bad), error = conditionMessage),
+  "Unsupported stash version 2."))
+bad = toBlob(obj)
+bad[6] = as.raw(9)
+stopifnot(identical(tryCatch(fromBlob(bad), error = conditionMessage),
+  "Unknown compression code 9."))
+bad = toBlob(obj)
+msg = tryCatch(fromBlob(bad[-length(bad)]), error = conditionMessage)
+stopifnot(grepl("^Expected \\d+ stored bytes", msg))
+
+path = tempfile(fileext = ".spt")
+n = writeBlob(obj, path, method = "xz")
+stopifnot(identical(n, as.integer(file.size(path))), identical(readBlob(path), obj))
+writeBlob(mtcars, path)
+stopifnot(identical(readBlob(path), mtcars), !file.exists(paste0(path, ".part")))
+msg = tryCatch(writeBlob(1, path, overwrite = FALSE), error = conditionMessage)
+stopifnot(grepl("already exists", msg))
+unlink(path)
+msg = tryCatch(readBlob(path), error = conditionMessage)
+stopifnot(grepl("does not exist", msg))
+
+cmp = compareMethods(rep(1, 1000))
+stopifnot(setequal(cmp$method, methods), identical(cmp$method[4], "none"))
+stopifnot(!is.unsorted(cmp$bytes), all(cmp$seconds >= 0))
+stopifnot(identical(compareMethods(1:3, methods = "none")$ratio, 1))
+msg = tryCatch(compareMethods(1, methods = "lz4"), error = conditionMessage)
+stopifnot(is.character(msg), grepl("should be one of", msg))

@@ -1,0 +1,31 @@
+# skipped: needs purrr (group.sections)
+
+s = new.section("x")
+stopifnot(inherits(s, "mill_section"), isTRUE(s$empty), !new.section("x", c(a = "1"))$empty)
+
+df = data.frame(v = c(2, NA, 8, 5))
+ov = section.overview(df, "v")
+stopifnot(identical(ov$name, "overview"))
+stopifnot(identical(names(ov$items), c("rows", "mean", "median", "sd", "cv")))
+stopifnot(identical(unname(ov$items), c("4", "5.0", "5.0", "3.0", "0.6")))
+stopifnot(section.overview(data.frame(v = NA_real_), "v")$empty)
+stopifnot(identical(section.overview(data.frame(v = 3), "v")$items[["sd"]], "-"))
+
+ds = section.distribution(df, "v")
+stopifnot(identical(unname(ds$items), c("2.0", "3.5", "5.0", "6.5", "8.0")))
+stopifnot(identical(names(ds$items), c("min", "q1", "median", "q3", "max")))
+stopifnot(section.distribution(data.frame(v = NA_real_), "v")$empty)
+
+ms = section.missing(df, "v", digits = 0L)
+stopifnot(identical(unname(ms$items), c("3", "1", "25", "2", "2")))
+stopifnot(identical(section.missing(data.frame(v = 1), "v")$items[["first_missing"]], "-"))
+stopifnot(section.missing(data.frame(v = numeric()), "v")$empty)
+
+ex = section.extremes(df, "v")
+stopifnot(identical(unname(ex$items), c("3", "8.0", "1", "2.0", "6.0")))
+stopifnot(section.extremes(data.frame(v = c(NA, NA)), "v")$empty)
+stopifnot(identical(attr(ov, "rows"), 4L), identical(attr(ex, "rows"), 4L))
+stopifnot(inherits(try(section.overview(df, "zz"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(section.distribution(df, "zz"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(section.missing(df, "zz"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(section.extremes(df, "zz"), silent = TRUE), "try-error"))
