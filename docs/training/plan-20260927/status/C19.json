@@ -1,0 +1,21 @@
+{
+  "card": "C19",
+  "state": "blocked",
+  "updated": "2026-11-02T19:47:00+01:00",
+  "branch": "plan/C19-hard-mix",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/101",
+  "outputs": {
+    "mix_manifest": "docs/training/plan-20260927/c19/mix-manifest.json",
+    "mix_sha256": "ffc49bdef55a2b1585ab34b3448f1eb61e18f49f23d71b1c97cde20bb9eed67b",
+    "worktree": "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b",
+    "jobs": [
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/docs/training/plan-20260927/c19/jobs/C19-grpo-exec-pilot-1.json",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/docs/training/plan-20260927/c19/jobs/C19-grpo-exec-smoke.json"
+    ],
+    "source_commit": "b186b77c4b1c41e48b3ae98a1d5a3fea16c5422e",
+    "validation": "docs/training/plan-20260927/c19/validation.json"
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "Implementation and CPU binding complete; blocked only on external rig R installation for strict verify and enqueue readiness. Smoke and pilot not enqueued, smoke unrun. See readiness.json for disk/build uncertainty and the initial unmasked test-suite deviation."
+}
