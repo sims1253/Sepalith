@@ -102,6 +102,8 @@ one agent-day per preparation card:
 | [C16](cards/C16-hf-dataset-resync.md) | Re-sync the public HF dataset | C00 | no |
 | [C17](cards/C17-release-prep.md) | Release preparation (user-gated) | the post-training decision | later |
 
+| [C19](cards/C19-hard-mix-grpo.md) | Hard-mix GRPO from C18b 300 | C18b 300, smoke | PC nights |
+
 ## Operating rules for every agent
 
 1. **Read first.** Read [CONTEXT.md](CONTEXT.md), [RULES.md](RULES.md) and

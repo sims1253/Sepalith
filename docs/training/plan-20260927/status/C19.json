@@ -1,0 +1,14 @@
+{
+  "card": "C19",
+  "state": "blocked",
+  "updated": "2026-11-02",
+  "branch": "plan/C19-hard-mix",
+  "pull_request": null,
+  "outputs": {
+    "mix_manifest": "docs/training/plan-20260927/c19/mix-manifest.json",
+    "mix_sha256": "ffc49bdef55a2b1585ab34b3448f1eb61e18f49f23d71b1c97cde20bb9eed67b"
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "Prepared without enqueue, merge or GPU. Rig R installation is an external readiness blocker; user has been asked to install it. Full verify remains strict. Required smoke is unrun."
+}

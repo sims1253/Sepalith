@@ -1,0 +1,57 @@
+{
+  "bucket": {
+    "medium": 786,
+    "short": 1506
+  },
+  "eligible_strata": {
+    "HARD": 1375,
+    "MIXED": 738,
+    "SOLVED": 1697
+  },
+  "family": {
+    "finish_block": 1908,
+    "rename_propagation": 384
+  },
+  "functions": 868,
+  "incomplete_tasks": 0,
+  "inputs": [
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/C18b-300-train-census/records-c18b-300.jsonl",
+      "sha256": "d43c2eca63c639fde9576bb6d5332859094bedb9baf281f11b07c97cdb2d67b7"
+    },
+    {
+      "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/C18b-300-pool-census/records-c18b-300.jsonl",
+      "sha256": "76b8f88f6dbb2732ff66bdccb9e8fc65e225fd8cfc138f31563d15596e119255"
+    }
+  ],
+  "lines_bin": {
+    "1": 384,
+    "2": 112,
+    "3-4": 366,
+    "5-8": 644,
+    "9-16": 786
+  },
+  "non_pool_tasks": 357,
+  "path": "/mnt/e/sepalith/campaign-20260915/data-work/C19-hard-mix-v1/train.jsonl",
+  "rule": "complete k=8; in C18 train only; HARD finish_block 0/8 lines 3..16; MIXED 1..7/8 <=16; SOLVED 8/8 <=16; all HARD, round(N*25/60) MIXED, round(N*15/60) SOLVED; seeded draw over sorted ids; legacy on top",
+  "seed": 3407,
+  "sha256": "ffc49bdef55a2b1585ab34b3448f1eb61e18f49f23d71b1c97cde20bb9eed67b",
+  "source_train": {
+    "functions": 1274,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/train-tasks.jsonl",
+    "sha256": "cd7ba4f528b62b321a2f2a6f11980432347d5c4fe9a6334274635bbd2b21b5a4",
+    "tasks": 7752
+  },
+  "strata": {
+    "HARD": 1375,
+    "MIXED": 573,
+    "SOLVED": 344
+  },
+  "tasks": 2292,
+  "validation": {
+    "functions": 142,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/val-tasks.jsonl",
+    "sha256": "ba1bbcfe23388b5fca745933601bac952b195c6a06f834b36ed25f1d9fb1ada7",
+    "tasks": 403
+  }
+}
