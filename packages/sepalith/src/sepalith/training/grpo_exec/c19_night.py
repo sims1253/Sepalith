@@ -38,7 +38,7 @@ class C19Arm(night.ExecGRPOArm):
         grouped = {}
         for row in records:
             task = tasks[row['task_id']]
-            key = lines_bin(len(str(task['target_body_text']).splitlines()))
+            key = lines_bin(int(cast(dict, task['curriculum'])['target_lines']))
             grouped.setdefault(key, []).append(row)
         report = {k: val['metrics'][k] for k in ('by_bucket', 'by_family')}
         report['by_target_lines'] = {k: {'n': len(rows), 'all_pass': sum(r['all_pass'] for r in rows) / len(rows),
