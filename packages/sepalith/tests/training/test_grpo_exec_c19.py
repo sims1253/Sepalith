@@ -118,3 +118,25 @@ class C19MixTests(unittest.TestCase):
              patch('sepalith.exec_eval.jobs.main', return_value=75) as run:
             self.assertEqual(c19_jobs.main(), 75)
             self.assertEqual(run.call_args.args[0][0], 'run')
+
+
+def _key_paths(value, prefix=''):
+    paths = set()
+    if isinstance(value, dict):
+        for key, item in value.items():
+            paths |= {f'{prefix}/{key}'} | _key_paths(item, f'{prefix}/{key}')
+    return paths
+
+
+def test_bound_recipes_keep_every_key_the_c18b_driver_reads():
+    """Regression for a hand-rewritten block dropping keys only the driver and CPT probe read."""
+    root = Path(__file__).resolve().parents[4] / 'docs/training/plan-20260927'
+    allowed = {'/c18_reference', '/parent_reference/exec_holdout'}
+    for parent, child in (('grpo-exec-pilot-1-arm-a-803', 'grpo-exec-pilot-1-c18b-300'),
+                          ('grpo-exec-smoke-arm-a-803', 'grpo-exec-smoke-c18b-300')):
+        old = json.loads((root / f'c18b/bound/{parent}.json').read_text())
+        new = json.loads((root / f'c19/bound/{child}.json').read_text())
+        missing = {path for path in _key_paths(old) - _key_paths(new)
+                   if not any(path == a or path.startswith(a + '/') for a in allowed)}
+        assert not missing
+        assert new['outputs']['trainer'] == new['outputs']['archive'] + '/runtime'

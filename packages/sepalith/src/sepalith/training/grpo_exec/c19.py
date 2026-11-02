@@ -72,6 +72,8 @@ def validate(recipe: Mapping) -> None:
     require(recipe['runtime']['prompt_max_tokens'] == 3072 and recipe['runtime']['completion_max_tokens'] == 1024, 'caps differ')
     require(recipe['runtime']['learning_rate'] == 1e-6, 'LR differs')
     require(recipe['runtime']['min_free_disk_bytes'] == 150_000_000_000, 'disk floor differs')
+    require(recipe['outputs'].get('trainer') == f"{recipe['outputs']['archive']}/runtime", 'trainer output is not bound')
+    require(isinstance(recipe['parent_reference'].get('cpt_recorded_nll_fp32_norms'), float), 'CPT anchor is not bound')
     require(recipe['final_evaluation']['labels'] == ['c18b-300', 'c19-selected'], 'final labels differ')
 
 
@@ -100,11 +102,14 @@ def bind(kind: str, root: Path) -> dict:
         results[panel] = {'path': str(p), 'sha256': sha256(p)}
     values = {k: json.loads(Path(v['path']).read_text()) for k, v in results.items()}
     recipe['parent_reference'] = {'results': results, 'metrics': offline_metrics(values['dev75']['summary'], values['dev250']['summary']),
-                                  'generation_runtime': recipe['parent_reference']['generation_runtime']}
+                                  'generation_runtime': recipe['parent_reference']['generation_runtime'],
+                                  # read by every CPT probe; descriptive anchor only, R6x uses the bound start result
+                                  'cpt_recorded_nll_fp32_norms': values['cpt']['mean_causal_nll']}
     receipt = json.loads((root / 'docs/training/plan-20260927/c19/mix-manifest.json').read_text())
     recipe['pool']['train'] = {k: receipt[k] for k in ('path', 'sha256', 'tasks', 'functions')}
     recipe['pool']['c19_mix_receipt'] = file_record(root, 'docs/training/plan-20260927/c19/mix-manifest.json')
-    recipe['outputs'] = c18.outputs(name)
+    recipe['outputs'] = {**c18.outputs(name)}
+    recipe['outputs']['trainer'] = f"{recipe['outputs']['archive']}/runtime"
     gate = recipe['dev_gate']
     gate['evidence_directory'] = recipe['outputs']['evidence_directory']
     gate['override_file_pattern'] = f"{gate['evidence_directory']}/override-step-<step>.json"
