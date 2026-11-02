@@ -71,7 +71,7 @@ def guard() -> None:
     version = subprocess.run([c19.R_PATH, '--version'], check=True, capture_output=True, text=True)
     c19.require((version.stdout or version.stderr).splitlines()[0] == 'Rscript (R) version 4.6.1 (2026-06-24)',
                 'rig Rscript version line differs')
-    os.environ['PATH'] = '/opt/R/4.6.1/bin:' + os.environ.get('PATH', '')
+    os.environ['PATH'] = c19.R_BIN + ':' + os.environ.get('PATH', '')
 
 
 def main(argv: Sequence[str] | None = None) -> int:

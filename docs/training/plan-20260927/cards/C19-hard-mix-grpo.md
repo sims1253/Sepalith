@@ -131,8 +131,8 @@ floor permits 23 saves at the recipe estimate; smoke saves also consume this
 budget. The 20 evaluation saves plus three deadline saves and two smoke saves
 exceed it. No cleanup or floor change is authorized. R7 may stop a long run.
 
-R binds `/opt/R/4.6.1/bin/Rscript`, parser identity `R 4.6.1 (2026-06-24)`.
-Jobs prepend `/opt/R/4.6.1/bin` to PATH for ExecHarness and all children.
+R binds rig's user-mode install `/home/m0hawk/.local/share/rig/r/4.6.1/bin/Rscript`, parser identity `R 4.6.1 (2026-06-24)`. This differs from the `/opt/R` path in R-ENVIRONMENT.md: `/opt` needs sudo, and on 2026-11-03 the user approved installing or using the version needed. It is rig's portable build, which pacman cannot move, so the note's purpose holds.
+Jobs prepend that `bin` directory to PATH for ExecHarness and all children.
 Every C19 entry checks the exact Rscript version line before launching.
 The rig installation is absent at preparation time and requires the user's sudo
 password. Enqueueing waits on that installation and a successful strict verify.

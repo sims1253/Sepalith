@@ -21,7 +21,9 @@ SOURCE_SCHEMA = 'sepalith.c19.grpo-exec-source.v1'
 BOUND = 'docs/training/plan-20260927/c19/bound'
 SOURCE_MANIFEST = f'{BOUND}/source-manifest.json'
 START = CHECKPOINTS / 'C18b-grpo-exec-pilot-1/full/checkpoint-300'
-R_PATH = '/opt/R/4.6.1/bin/Rscript'
+# rig user mode (2026-11-03 user: install/use the version needed; /opt needs sudo). Portable build, same as admin mode's.
+R_BIN = '/home/m0hawk/.local/share/rig/r/4.6.1/bin'
+R_PATH = f'{R_BIN}/Rscript'
 R_VERSION = 'R 4.6.1 (2026-06-24)'
 PYTHON = Path('/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python')
 FINAL_HOLDOUT_JOB_ID = 'C19-final-holdout'
@@ -116,7 +118,7 @@ def bind(kind: str, root: Path) -> dict:
     gate['val']['limit'] = 96 if kind == 'smoke' else None
     recipe['smoke'] = {'stops': [4, 6], 'eval_step': 4, 'eval_panels': ['dev75', 'val', 'cpt']} if kind == 'smoke' else None
     recipe['runtime']['reward'].update(rscript=R_PATH, rscript_version=R_VERSION,
-        exec_harness_r='PATH=/opt/R/4.6.1/bin:$PATH; c19_night checks exact Rscript --version line before launching; reward parser checks buffer version')
+        exec_harness_r=f'PATH={R_BIN}:$PATH; c19_night checks exact Rscript --version line before launching; reward parser checks buffer version')
     recipe['source'] = {'repository_root': str(root), 'manifest_path': SOURCE_MANIFEST, 'manifest_sha256': sha256(root / SOURCE_MANIFEST)}
     final = recipe['final_evaluation']
     p = STATE / 'evaluation-gates/C18b-grpo-exec-pilot-1/final-step-300/completions-c18-selected.jsonl'

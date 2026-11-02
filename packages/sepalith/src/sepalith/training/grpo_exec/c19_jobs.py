@@ -15,7 +15,7 @@ START_LABEL, CANDIDATE_LABEL = 'c18b-300', 'c19-selected'
 
 def command(root: Path, module: str, *args: str) -> list[str]:
     return base.command(root, module, *args, python=c19.PYTHON)[:1] + [
-        'PATH=/opt/R/4.6.1/bin:' + os.environ.get('PATH', '')] + base.command(root, module, *args, python=c19.PYTHON)[1:]
+        f'PATH={c19.R_BIN}:' + os.environ.get('PATH', '')] + base.command(root, module, *args, python=c19.PYTHON)[1:]
 
 
 def jobs(root: Path) -> dict:
