@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 import unittest
 from sepalith.training.grpo_exec import c19_mix
 
@@ -128,15 +130,16 @@ def _key_paths(value, prefix=''):
     return paths
 
 
-def test_bound_recipes_keep_every_key_the_c18b_driver_reads():
-    """Regression for a hand-rewritten block dropping keys only the driver and CPT probe read."""
-    root = Path(__file__).resolve().parents[4] / 'docs/training/plan-20260927'
-    allowed = {'/c18_reference', '/parent_reference/exec_holdout'}
-    for parent, child in (('grpo-exec-pilot-1-arm-a-803', 'grpo-exec-pilot-1-c18b-300'),
-                          ('grpo-exec-smoke-arm-a-803', 'grpo-exec-smoke-c18b-300')):
-        old = json.loads((root / f'c18b/bound/{parent}.json').read_text())
-        new = json.loads((root / f'c19/bound/{child}.json').read_text())
-        missing = {path for path in _key_paths(old) - _key_paths(new)
-                   if not any(path == a or path.startswith(a + '/') for a in allowed)}
-        assert not missing
-        assert new['outputs']['trainer'] == new['outputs']['archive'] + '/runtime'
+class C19BoundRecipeTests(unittest.TestCase):
+    def test_bound_recipes_keep_every_key_the_c18b_driver_reads(self):
+        """Regression for a hand-rewritten block dropping keys only the driver and CPT probe read."""
+        root = Path(__file__).resolve().parents[4] / 'docs/training/plan-20260927'
+        allowed = {'/c18_reference', '/parent_reference/exec_holdout'}
+        for parent, child in (('grpo-exec-pilot-1-arm-a-803', 'grpo-exec-pilot-1-c18b-300'),
+                              ('grpo-exec-smoke-arm-a-803', 'grpo-exec-smoke-c18b-300')):
+            old = json.loads((root / f'c18b/bound/{parent}.json').read_text())
+            new = json.loads((root / f'c19/bound/{child}.json').read_text())
+            missing = {path for path in _key_paths(old) - _key_paths(new)
+                       if not any(path == a or path.startswith(a + '/') for a in allowed)}
+            self.assertFalse(missing)
+            self.assertEqual(new['outputs']['trainer'], new['outputs']['archive'] + '/runtime')

@@ -1,7 +1,7 @@
 {
   "command": [
     "/usr/bin/env",
-    "PATH=/opt/R/4.6.1/bin:/home/m0hawk/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/m0hawk/.local/bin:/home/m0hawk/.cargo/bin:/home/m0hawk/.bun/bin:/home/m0hawk/.local/bin:/home/m0hawk/.bun/bin:/home/m0hawk/.local/bin:/home/m0hawk/.cargo/bin:/home/m0hawk/.bun/bin:/home/m0hawk/.codex/tmp/arg0-linux/codex-arg0KWZvnU:/home/m0hawk/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/m0hawk/.bun/bin:/home/m0hawk/.local/bin:/usr/local/bin:/usr/bin:/opt/cuda/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/usr/local/sbin",
+    "PATH=/opt/R/4.6.1/bin:/home/m0hawk/.local/bin:/usr/local/bin:/usr/bin:/opt/cuda/bin",
     "PYTHONPATH=/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/packages/sepalith/src",
     "PYTHONDONTWRITEBYTECODE=1",
     "CUDA_VISIBLE_DEVICES=0",

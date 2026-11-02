@@ -17,5 +17,6 @@
   "deviations": [
     "First CPU-intended training-suite invocation omitted CUDA_VISIBLE_DEVICES and a test dependency initialized CUDA. No campaign or smoke launched. Suite rerun with CUDA hidden."
   ],
-  "prepared_before_deadline": "2026-11-03T00:00:00+01:00"
+  "prepared_before_deadline": "2026-11-03T00:00:00+01:00",
+  "review_fixes": "GLM review of 93dd917f: restored outputs.trainer and parent_reference.cpt_recorded_nll_fp32_norms (300's CPT NLL, descriptive only); recipes rebound, job PATH cleaned"
 }

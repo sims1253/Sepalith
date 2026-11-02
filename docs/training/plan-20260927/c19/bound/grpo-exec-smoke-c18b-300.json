@@ -147,7 +147,8 @@
   "outputs": {
     "archive": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-smoke",
     "evidence_directory": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C19-grpo-exec-smoke",
-    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/C19-grpo-exec-smoke-save-stop.json"
+    "graceful_stop": "/home/m0hawk/.local/state/sepalith/campaign-20260915/control/C19-grpo-exec-smoke-save-stop.json",
+    "trainer": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-smoke/runtime"
   },
   "parent": {
     "candidate_id": "C18b-300",
@@ -166,6 +167,7 @@
     "tag": "c18b-300"
   },
   "parent_reference": {
+    "cpt_recorded_nll_fp32_norms": 0.971963850662087,
     "generation_runtime": {
       "batch_size": 32,
       "dtype": "bf16",
@@ -452,7 +454,7 @@
   },
   "source": {
     "manifest_path": "docs/training/plan-20260927/c19/bound/source-manifest.json",
-    "manifest_sha256": "b5dc5a8730ced6fe552a2f0ffb83d5fb11b5d9394667e4ab43a492d4c0e48454",
+    "manifest_sha256": "b0702c947baff24ab0060d065aa6be0ea5df01bd594b8c5a266441da823964d1",
     "repository_root": "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b"
   },
   "status": "bound_not_launched"
