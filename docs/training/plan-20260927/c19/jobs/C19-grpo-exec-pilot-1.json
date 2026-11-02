@@ -1,7 +1,7 @@
 {
   "command": [
     "/usr/bin/env",
-    "PATH=/opt/R/4.6.1/bin:/home/m0hawk/.local/bin:/usr/local/bin:/usr/bin:/opt/cuda/bin",
+    "PATH=/home/m0hawk/.local/share/rig/r/4.6.1/bin:/home/m0hawk/.local/bin:/usr/local/bin:/usr/bin:/opt/cuda/bin",
     "PYTHONPATH=/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/packages/sepalith/src",
     "PYTHONDONTWRITEBYTECODE=1",
     "CUDA_VISIBLE_DEVICES=0",

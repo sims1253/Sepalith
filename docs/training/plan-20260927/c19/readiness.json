@@ -10,10 +10,10 @@
   "frozen_prompt_tokens_max": 1944,
   "frozen_gold_tokens_max": 239,
   "expected_mean_completion_length": "higher; generation not measured",
-  "rig_installation": "absent; user installation required; no fallback",
+  "rig_installation": "rig 0.11.1 user mode, /home/m0hawk/.local/share/rig/r/4.6.1 (2026-11-03, user approved; /opt needs sudo)",
   "exec_gate_fingerprint": "7f8e073fbedb4b9d; source bytes only; no binary/build hash",
   "parser_identity": "harness source SHA256 and version string, no R executable hash",
-  "cross_build_behaviour_parity": "not established; C18b used pacman R, C19 requires rig R of the identical version",
+  "cross_build_behaviour_parity": "800 seeded census completions rescored under rig R vs records from pacman R: outcome, all-pass and reward identical on 800/800 (252 passes)",
   "deviations": [
     "First CPU-intended training-suite invocation omitted CUDA_VISIBLE_DEVICES and a test dependency initialized CUDA. No campaign or smoke launched. Suite rerun with CUDA hidden."
   ],
