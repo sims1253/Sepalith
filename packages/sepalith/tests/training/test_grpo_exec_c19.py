@@ -108,3 +108,13 @@ class C19MixTests(unittest.TestCase):
         self.assertEqual(report['2'], {'n': 1, 'all_pass': 1, 'mean_reward': .5})
         self.assertEqual(report['3-4']['n'], 2)
         self.assertEqual(set(report), {'2', '3-4', '5-8', '9-16', '17+'})
+
+    def test_final_launcher_passes_run_subcommand(self):
+        import sys
+        from unittest.mock import patch
+        from sepalith.training.grpo_exec import c19_jobs
+        with patch.object(sys, 'argv', ['c19_jobs', 'run-final', '--work-dir', '/nonexistent-c19-test']), \
+             patch('sepalith.training.grpo_exec.c19_night.guard'), \
+             patch('sepalith.exec_eval.jobs.main', return_value=75) as run:
+            self.assertEqual(c19_jobs.main(), 75)
+            self.assertEqual(run.call_args.args[0][0], 'run')

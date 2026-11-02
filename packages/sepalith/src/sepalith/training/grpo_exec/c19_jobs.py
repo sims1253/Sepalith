@@ -95,7 +95,7 @@ def main() -> int:
     if sys.argv[1:2] == ['run-final']:
         from sepalith.exec_eval import jobs as evaluator
         guard()
-        code = evaluator.main(sys.argv[2:])
+        code = evaluator.main(['run', *sys.argv[2:]])
         work = Path(sys.argv[sys.argv.index('--work-dir') + 1])
         metrics_path = work / 'metrics.json'
         if metrics_path.exists():
