@@ -1,9 +1,9 @@
 {
  "card": "C18",
  "state": "done",
- "updated": "2026-10-30T13:30:00+01:00",
+ "updated": "2026-11-02T03:30:00+01:00",
  "branch": "plan/C18-grpo-exec-env",
- "pull_request": "https://github.com/sims1253/Sepalith/pull/92 (C18), https://github.com/sims1253/Sepalith/pull/93 (final DEV250), https://github.com/sims1253/Sepalith/pull/94 (C18b), https://github.com/sims1253/Sepalith/pull/95 (verdict close-out), https://github.com/sims1253/Sepalith/pull/96 (C18b final entry), https://github.com/sims1253/Sepalith/pull/97 (C18b verdict close-out)",
+ "pull_request": "https://github.com/sims1253/Sepalith/pull/92 (C18), https://github.com/sims1253/Sepalith/pull/93 (final DEV250), https://github.com/sims1253/Sepalith/pull/94 (C18b), https://github.com/sims1253/Sepalith/pull/95 (verdict close-out), https://github.com/sims1253/Sepalith/pull/96 (C18b final entry), https://github.com/sims1253/Sepalith/pull/97 (C18b verdict close-out), PR: plan/c18b-step-300-closeout",
  "outputs": {
   "card": "docs/training/plan-20260927/cards/C18-grpo-exec-env.md",
   "code": {
@@ -281,6 +281,29 @@
     "verdict_tool": "python -m sepalith.training.grpo_exec.jobs verdict --summary /mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/pilot-summary.json --metrics /home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/final/metrics.json"
    },
    "outcome": "adopt=true. Primary endpoint met: hold-out all-pass difference +0.0707, CI95 [0.0625, 0.0794] (paired by task, function-clustered bootstrap, 2,000 resamples). Secondaries all pass: mean reward difference +0.0648 [0.0564, 0.0739]; exact match difference +0.0726 [0.0643, 0.0817]; DEV250 score250 110 >= 105 (start 109, bar = 109 - 4); CPT 2K rise -0.0272 <= 0.03 (below start: the CPT replay fully controlled forgetting). Consequence: C18b checkpoint 200 (/mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/full/checkpoint-200) is ADOPTED as the campaign's best model, superseding C18 checkpoint 100. Ladder on the same frozen hold-out, all-pass: 803 0.310 -> C18 u100 0.355 -> C18b u200 0.381. Open signal for the next card: DEV75 nofp rose 9->13 over 200 updates (rollback band at 200) while everything else improved; next-step design is not part of this PR. Results note: docs/training/plan-20260927/c18b/RESULTS.md"
+  },
+  {
+   "rule": "final verdict C18b checkpoint 300",
+   "at": "2026-11-02",
+   "inputs": {
+    "pilot_end": {
+     "status": "plateau",
+     "updates_completed": 500,
+     "selected": "checkpoint 300 by the pre-registered validation all-pass selection (0.325062)",
+     "note": "resumed from 200 by user decision (override-step-200.json); all gates 250-500 R6x continue"
+    },
+    "final_holdout_job": {
+     "job": "C18b-final-holdout-step-300",
+     "work_dir": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/final-step-300",
+     "why_new_id": "final/ held checkpoint 200 completions that a resume would have reused"
+    },
+    "quant": {
+     "job": "C18b-quant-step-300",
+     "summary": "docs/training/plan-20260927/receipts/C18b-quant-gate-summary.json",
+     "decision": "/mnt/e/sepalith/campaign-20260915/quant-work/c18b-300/release-tiers-decision.json"
+    }
+   },
+   "outcome": "adopt=true. Hold-out all-pass difference vs 803 +0.0818, CI95 [0.0726, 0.0913]; mean reward +0.0836 [0.0744, 0.0933]; exact +0.0836 [0.0749, 0.0926]; DEV250 111 >= 105; CPT 2K rise -0.0314. Supersedes checkpoint 200. Release tiers by user decision: Q6_K (gate pass) and Q4_K_M+ (user exception, nofp_rise_pp 1.2 vs 1.0). Publishing not authorized."
   }
  ],
  "question_for_user": null,
