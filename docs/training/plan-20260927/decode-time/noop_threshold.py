@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-op threshold for arm A 536: decode-time, no training, measurement only.
+"""No-op threshold for a pinned checkpoint: decode-time, no training, measurement only.
 
 PRM03 spells a no-op as ``[NO_EDIT]`` + LF + ``>>>>>>> UPDATED`` + EOS. Its first token is
 ``[`` (id 80). In the C12 census every TRAIN gold target starts with 80 exactly when it is
@@ -7,7 +7,7 @@ a no-op, and 8,759 of the 8,767 arm A samples that start with 80 are ``[NO_EDIT]
 first generated token is the no-op decision, and its probability ``p_noop`` can be exposed
 as a user threshold: stay silent only when ``p_noop >= tau``, otherwise propose an edit.
 
-For every case this job records, with arm A checkpoint 536 in bf16:
+For every case this job records, with the selected checkpoint in bf16:
 
 - the first-token distribution after the prompt (one unpadded forward over the prompt
   plus the no-op target): ``log p(80)``, the log-mass of every other token, the best
@@ -38,10 +38,11 @@ reported at that threshold and along the whole grid; nothing is selected on DEV.
 Modes:
 
 - ``--dry-run`` (CPU only, no CUDA): checks the checkpoint (config, size, full sha256),
-  the recipe, the pinned parent tokenizer, the DEV panels and arm A's gate results
+  the recipe, the pinned parent tokenizer, the DEV panels and the target's gate results
   (official counts recomputed); selects TRAIN1000, checks that ``build_training_row``
   reproduces the census prompt and target ids for every selected row and writes the
-  subset file; checks the no-op target ids. ``--cpu-smoke`` then runs the real model on
+  subset file (arm-a-536) or verifies the existing file unchanged (c18b-300); checks the
+  no-op target ids. ``--cpu-smoke`` then runs the real model on
   the CPU through the same measurement code as the GPU run (2 DEV75 + 2 TRAIN cases,
   cap 16), summarises it and re-runs it to prove the resume path skips finished batches.
 - default (GPU, night window only): resumes the latest unfinished attempt under
@@ -74,6 +75,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from typing import NamedTuple
 
 HERE = Path(__file__).resolve().parent
 PLAN = HERE.parent
@@ -89,23 +91,67 @@ STATE = Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/decode-time")
 DEFAULT_SUBSET = STATE / "noop-train-subset.jsonl"
 CUDA_LOCK = Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock")
 
-CHECKPOINT = Path("/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536")
-STEP = 536
-# HF LFS hash == local manifest (C03 status, C12 census receipt).
-WEIGHTS_SHA256 = "befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030"
-WEIGHTS_BYTES = 5033904496
-TENSORS = 381
-PARAMETERS = 2516756480
-SAVED_DTYPES = {"BF16": 296, "F32": 85}  # the trainer saved the RMSNorm weights in F32
-GATES = Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results")
-GATE_RESULTS = {
-    "dev75": (GATES / "dev-dev75-step-536.20261014T021133-673743425.json",
-              "c6e77e49f8fc6323244b576fe2d0ee730c7c524c844490872ca0b0f0c3796e67"),
-    "dev250": (GATES / "dev-dev250-step-536.20261014T021133-673743425.json",
-               "0a1dbbd903dedc4ec392b2848f8b2ea89641e5228a466ca3a79fe1c4936ab9d3"),
+DEFAULT_TARGET = "arm-a-536"
+
+
+class TargetProfile(NamedTuple):
+    label: str
+    checkpoint: Path
+    step: int
+    weights_sha256: str
+    weights_bytes: int
+    tensors: int
+    parameters: int
+    saved_dtypes: dict[str, int]
+    gate_results: dict[str, tuple[Path, str]]
+    gate_recorded: dict[str, int]
+
+
+# Gate counts use exactly gate_rule.METRICS. C18b counts are from decision-step-300-1.json.
+TARGETS = {
+    "arm-a-536": TargetProfile(
+        label="arm A 536",
+        checkpoint=Path("/mnt/e/sepalith/campaign-20260915/checkpoints/SFT-v2-r4-lr1e-5/full/checkpoint-536"),
+        step=536,
+        weights_sha256="befe587a0d4969e33b0daaa8fe66247371ec32f331616db74724616878ad6030",
+        weights_bytes=5033904496,
+        tensors=381,
+        parameters=2516756480,
+        saved_dtypes={"BF16": 296, "F32": 85},
+        gate_results={
+            "dev75": (
+                Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev75-step-536.20261014T021133-673743425.json"),
+                "c6e77e49f8fc6323244b576fe2d0ee730c7c524c844490872ca0b0f0c3796e67",
+            ),
+            "dev250": (
+                Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-536.20261014T021133-673743425.json"),
+                "0a1dbbd903dedc4ec392b2848f8b2ea89641e5228a466ca3a79fe1c4936ab9d3",
+            ),
+        },
+        gate_recorded={"valid": 74, "cap": 1, "edit": 27, "nofp": 8, "score250": 117},
+    ),
+    "c18b-300": TargetProfile(
+        label="C18b 300",
+        checkpoint=Path("/mnt/e/sepalith/campaign-20260915/checkpoints/C18b-grpo-exec-pilot-1/full/checkpoint-300"),
+        step=300,
+        weights_sha256="3111edf529394e5a92659d9e25523c18230ed7dda63ac33cee4a9596f47cf804",
+        weights_bytes=5033557128,
+        tensors=381,
+        parameters=2516756480,
+        saved_dtypes={"BF16": 381},
+        gate_results={
+            "dev75": (
+                Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/results/dev75-step-300.20261101T042643-680777113.json"),
+                "95eeaad73a7fe718350b35b9c33c4b6cafabee2f4de2c9ae5e0c23b50298d2a5",
+            ),
+            "dev250": (
+                Path("/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C18b-grpo-exec-pilot-1/results/dev250-step-300.20261101T042643-680777113.json"),
+                "6a8498297fd24c1cf5914ecaa08b974c61c575e8a63388fdef30a16db88060a1",
+            ),
+        },
+        gate_recorded={"valid": 74, "cap": 1, "edit": 28, "nofp": 13, "score250": 111},
+    ),
 }
-# C09 gate table, decision-step-536.
-GATE_RECORDED = {"valid": 74, "cap": 1, "edit": 27, "nofp": 8, "score250": 117}
 CENSUS = Path("/home/m0hawk/.local/state/sepalith/c12/census-arm-a")
 CENSUS_PROMPTS_SHA256 = "55194312168f7d636d78c8c1728b7f7457b06b07bd7bdad7fb4d65b93f445025"
 SIDECAR = Path("/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/context-sidecar.jsonl")
@@ -130,9 +176,10 @@ SMOKE_CAP = 16
 
 def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--target", choices=TARGETS, default=DEFAULT_TARGET)
     p.add_argument("--recipe", type=Path, default=DEFAULT_RECIPE, help="arm A's bound recipe (panels, cap, batching, tokenizer)")
     p.add_argument("--dry-run", action="store_true", help="CPU checks only; writes --dry-run-output and the TRAIN subset")
-    p.add_argument("--dry-run-output", type=Path, default=DEFAULT_DRY_RUN)
+    p.add_argument("--dry-run-output", type=Path)
     p.add_argument("--train-subset", type=Path, default=DEFAULT_SUBSET, help="TRAIN1000 rows (written by --dry-run)")
     p.add_argument("--cpu-smoke", action="store_true", help="with --dry-run: run the real model on the CPU on 4 cases")
     p.add_argument("--threads", type=int, default=8, help="CPU threads for --dry-run (1 to 8)")
@@ -146,6 +193,9 @@ def parse_args(argv=None):
     p.add_argument("--inner", action="store_true", help=argparse.SUPPRESS)
     p.add_argument("--attempt-dir", type=Path, help=argparse.SUPPRESS)
     args = p.parse_args(argv)
+    if args.dry_run_output is None:
+        args.dry_run_output = (DEFAULT_DRY_RUN if args.target == DEFAULT_TARGET else
+                               PLAN / f"receipts/DT-noop-threshold-{args.target}-dry-run.json")
     if not args.dry_run and args.output_dir is None:
         p.error("--output-dir is required without --dry-run")
     if args.cpu_smoke and not args.dry_run:
@@ -267,8 +317,9 @@ def check_parent_tokenizer(recipe):
     return parent
 
 
-def check_checkpoint(full_hash=True):
-    path = CHECKPOINT
+def check_checkpoint(full_hash=True, target=DEFAULT_TARGET):
+    profile = TARGETS[target]
+    path = profile.checkpoint
     for name in ("config.json", "generation_config.json", "model.safetensors"):
         if not (path / name).is_file():
             raise SystemExit(f"checkpoint lacks {name}")
@@ -278,37 +329,38 @@ def check_checkpoint(full_hash=True):
         raise SystemExit("checkpoint config differs")
     weights = path / "model.safetensors"
     stat = weights.stat()
-    if stat.st_size != WEIGHTS_BYTES:
-        raise SystemExit(f"model.safetensors has {stat.st_size} bytes, expected {WEIGHTS_BYTES}")
+    if stat.st_size != profile.weights_bytes:
+        raise SystemExit(f"model.safetensors has {stat.st_size} bytes, expected {profile.weights_bytes}")
     with weights.open("rb") as stream:
         (size,) = struct.unpack("<Q", stream.read(8))
         header = json.loads(stream.read(size))
     header.pop("__metadata__", None)
     numel = sum(math.prod(v["shape"]) for v in header.values())
     dtypes = dict(Counter(v["dtype"] for v in header.values()))
-    if len(header) != TENSORS or numel != PARAMETERS or dtypes != SAVED_DTYPES:
+    if len(header) != profile.tensors or numel != profile.parameters or dtypes != profile.saved_dtypes:
         raise SystemExit(f"checkpoint tensors differ: {len(header)} tensors, {numel} parameters, dtypes {dtypes}")
-    record = {"path": str(path), "weights_bytes": stat.st_size, "weights_mtime_ns": stat.st_mtime_ns,
+    record = {"path": str(path), "step": profile.step, "weights_bytes": stat.st_size, "weights_mtime_ns": stat.st_mtime_ns,
               "tensors": len(header), "parameters": numel, "saved_dtypes": dtypes,
-              "load_dtype": "bf16 (campaign_eval.load_development_model casts the 85 F32 norm weights to bf16)"}
+              "load_dtype": "bf16 (campaign_eval.load_development_model casts saved F32 weights to bf16)"}
     if full_hash:
         actual = sha256(weights)
-        if actual != WEIGHTS_SHA256:
-            raise SystemExit(f"weights sha256 {actual} differs from {WEIGHTS_SHA256}")
+        if actual != profile.weights_sha256:
+            raise SystemExit(f"weights sha256 {actual} differs from {profile.weights_sha256}")
         record["weights_sha256"] = actual
     return record
 
 
-def verify_weights(dry):
+def verify_weights(dry, target=DEFAULT_TARGET):
     """Size and mtime against the dry-run receipt; a full sha256 when either differs."""
+    profile = TARGETS[target]
     record = dry.get("checkpoint") or {}
-    stat = (CHECKPOINT / "model.safetensors").stat()
-    if (record.get("weights_sha256") == WEIGHTS_SHA256 and record.get("weights_bytes") == stat.st_size
+    stat = (profile.checkpoint / "model.safetensors").stat()
+    if (record.get("weights_sha256") == profile.weights_sha256 and record.get("weights_bytes") == stat.st_size
             and record.get("weights_mtime_ns") == stat.st_mtime_ns):
-        return {"method": "dry-run receipt (sha256, size, mtime_ns unchanged)", "sha256": WEIGHTS_SHA256}
-    actual = sha256(CHECKPOINT / "model.safetensors")
-    if actual != WEIGHTS_SHA256:
-        raise SystemExit(f"weights sha256 {actual} differs from {WEIGHTS_SHA256}")
+        return {"method": "dry-run receipt (sha256, size, mtime_ns unchanged)", "sha256": profile.weights_sha256}
+    actual = sha256(profile.checkpoint / "model.safetensors")
+    if actual != profile.weights_sha256:
+        raise SystemExit(f"weights sha256 {actual} differs from {profile.weights_sha256}")
     return {"method": "full sha256 in the job", "sha256": actual}
 
 
@@ -469,26 +521,27 @@ def select_train_subset(recipe, tokenizer, output):
                     "build_training_row reproduces the census prompt and target ids for every row"}
 
 
-def gate_reference():
-    """Arm A 536's gate results (sha256-checked) and their per-case outcomes."""
+def gate_reference(target=DEFAULT_TARGET):
+    """The target's gate results (sha256-checked) and their per-case outcomes."""
+    profile = TARGETS[target]
     from sepalith.training.sft import gate_rule
 
     summaries, outcomes, files = {}, {}, {}
-    for name, (path, digest) in GATE_RESULTS.items():
+    for name, (path, digest) in profile.gate_results.items():
         if sha256(path) != digest:
-            raise SystemExit(f"arm A {name} gate result sha256 differs")
+            raise SystemExit(f"{profile.label} {name} gate result sha256 differs")
         result = json.loads(path.read_text())
         cases = Path(result["cases"]["path"])
         if sha256(cases) != result["cases"]["sha256"]:
-            raise SystemExit(f"arm A {name} cases sha256 differs")
+            raise SystemExit(f"{profile.label} {name} cases sha256 differs")
         summaries[name] = result["summary"]
         outcomes[name] = {r["id"]: {k: r[k] for k in ("protocol_valid", "exact_region", "predicted_noop", "suggestion", "cap_hit")}
                           | {"first_token": r["generated_ids"][0] if r["generated_ids"] else None}
                           for r in json.loads(cases.read_text())["results"]}
         files[name] = {"path": str(path), "sha256": digest, "cases": result["cases"]}
     metrics = gate_rule.metrics_from_summaries(summaries["dev75"], summaries["dev250"])
-    if metrics != GATE_RECORDED:
-        raise SystemExit(f"arm A 536 recomputed metrics {metrics} differ from C09 {GATE_RECORDED}")
+    if metrics != profile.gate_recorded:
+        raise SystemExit(f"{profile.label} recomputed metrics {metrics} differ from recorded {profile.gate_recorded}")
     return {"metrics": metrics, "files": files}, outcomes
 
 
@@ -721,14 +774,15 @@ def per_family(records, decide):
     return {f: metrics([r for r in records if r["family"] == f], decide) for f in families}
 
 
-def summarize(attempt, summary_dir, panels, gate=None, gate_outcomes=None):
+def summarize(attempt, summary_dir, panels, gate=None, gate_outcomes=None, target=DEFAULT_TARGET):
     """Curves from whatever records exist; rewritten after every panel and at the end."""
     records = {name: read_records(Path(attempt) / "records" / f"{name}.jsonl") for name in panels}
     receipt_path = Path(attempt) / "receipt.json"
     receipt = json.loads(receipt_path.read_text()) if receipt_path.is_file() else {}
     expected = {name: (receipt.get("panels") or {}).get(name, {}).get("cases") for name in panels}
     summary = {"schema": SUMMARY_SCHEMA, "written": now(), "attempt_dir": str(attempt),
-               "purpose": "measurement only: decode-time no-op threshold for arm A 536; calibrated on TRAIN1000; DEV is report-only",
+               "target": target,
+               "purpose": f"measurement only: decode-time no-op threshold for {TARGETS[target].label}; calibrated on TRAIN1000; DEV is report-only",
                "final_set_access": False, "status": receipt.get("status"), "tau_grid": list(TAU_GRID),
                "rule": "stay silent (no-op) iff p_noop >= tau, else greedy with the no-op first token suppressed",
                "gate_reference": gate, "panels": {}}
@@ -766,6 +820,8 @@ def summarize(attempt, summary_dir, panels, gate=None, gate_outcomes=None):
     write_json(Path(attempt) / "summary.json", summary)
     if summary_dir is not None:
         stamp = Path(attempt).name
+        if target != DEFAULT_TARGET:
+            stamp = f"{target}-{stamp}"
         write_json(Path(summary_dir) / f"noop-threshold-{stamp}.json", summary)
         (Path(summary_dir) / f"noop-threshold-{stamp}.md").write_text(markdown(summary))
     return summary
@@ -787,7 +843,7 @@ def quantiles(values):
 
 
 def markdown(summary):
-    lines = ["# No-op threshold for arm A 536 (decode-time, measurement only)", "",
+    lines = [f"# No-op threshold for {TARGETS[summary.get('target', DEFAULT_TARGET)].label} (decode-time, measurement only)", "",
              f"Status: {summary.get('status')}. Written {summary['written']}.", "",
              "Rule: stay silent (no-op) iff the first-token probability of `[NO_EDIT]` (token 80) is at least tau; "
              "otherwise generate greedily with token 80 suppressed at the first step. tau is calibrated on TRAIN1000 "
@@ -837,9 +893,9 @@ def dry_run(args):
     reference = load_pinned_reference_tokenizer(parent)
     receipt = {"schema": DRY_RUN_SCHEMA, "status": "running", "started": now(), "cuda_started": False,
                "final_set_access": False, "recipe": {"path": recipe["path"], "sha256": recipe["sha256"]},
-               "settings": settings_record(recipe), "noop_target_ids": list(NOOP_TARGET), "tau_grid": list(TAU_GRID)}
-    receipt["checkpoint"] = check_checkpoint(full_hash=True)
-    gate, _ = gate_reference()
+               "target": args.target, "settings": settings_record(recipe), "noop_target_ids": list(NOOP_TARGET), "tau_grid": list(TAU_GRID)}
+    receipt["checkpoint"] = check_checkpoint(full_hash=True, target=args.target)
+    gate, _ = gate_reference(args.target)
     receipt["gate_reference"] = gate
     problems = []
     panels = {}
@@ -847,7 +903,16 @@ def dry_run(args):
         cases = dev_cases(recipe, name, reference)
         panels[name] = cases
         receipt.setdefault("panels", {})[name] = {**recipe["panels"][name], **panel_stats(cases)}
-    receipt["train_subset"] = select_train_subset(recipe, reference, args.train_subset)
+    if args.target == DEFAULT_TARGET:
+        receipt["train_subset"] = select_train_subset(recipe, reference, args.train_subset)
+    else:
+        # Census rows contain prompts and gold targets, not checkpoint predictions.
+        # Reproduce selection/parity checks without rewriting the shared TRAIN1000 file.
+        with tempfile.TemporaryDirectory(prefix="noop-subset-check-") as tmp:
+            subset = select_train_subset(recipe, reference, Path(tmp) / "subset.jsonl")
+            if sha256(args.train_subset) != subset["sha256"]:
+                raise SystemExit("existing TRAIN1000 differs from the seeded census subset")
+        receipt["train_subset"] = {**subset, "path": str(args.train_subset)}
     panels["train1000"] = train_cases(args.train_subset, recipe, receipt["train_subset"]["sha256"])
     receipt["panels"]["train1000"] = {"path": str(args.train_subset), "sha256": receipt["train_subset"]["sha256"],
                                       "cases": len(panels["train1000"]), **panel_stats(panels["train1000"])}
@@ -891,11 +956,12 @@ def settings_record(recipe):
             "kv_cache": recipe["kv_cache"], "max_sequence_tokens": recipe["max_sequence_tokens"],
             "generation": "sepalith.training.eval.campaign_eval.batched_greedy_generate + begin_suppress_tokens=[80]",
             "classification": "sepalith.training.eval.campaign_eval.classify",
-            "tokenizer": f"pinned tokenizer of the recipe parent ({recipe['parent_path']}), byte-identical to arm A 536's",
+            "tokenizer": f"pinned tokenizer of the recipe parent ({recipe['parent_path']})",
             "device": "cuda:0 (CUDA_VISIBLE_DEVICES=0)"}
 
 
-def load_model_and_tokenizer(parent, reference, device_name):
+def load_model_and_tokenizer(parent, reference, device_name, target=DEFAULT_TARGET):
+    profile = TARGETS[target]
     from transformers import AutoTokenizer
 
     from sepalith.training.contracts.trainer_tokenizer_alignment import (
@@ -906,11 +972,11 @@ def load_model_and_tokenizer(parent, reference, device_name):
     from sepalith.training.eval import campaign_eval
 
     tokenizer = AutoTokenizer.from_pretrained(str(parent), local_files_only=True, trust_remote_code=False)
-    model = campaign_eval.load_development_model(CHECKPOINT, dtype="bf16", device=device_name)
+    model = campaign_eval.load_development_model(profile.checkpoint, dtype="bf16", device=device_name)
     repair = restore_trainer_eog_alignment(model, tokenizer, reference)
     audit = assert_runtime_tokenizer(model, tokenizer, reference, embedding_identity(model), "noop_threshold_load")
     named = list(model.named_parameters())
-    if len(named) != TENSORS or sum(x.numel() for _, x in named) != PARAMETERS:
+    if len(named) != profile.tensors or sum(x.numel() for _, x in named) != profile.parameters:
         raise ValueError("not the exact dense checkpoint")
     model.eval()
     return model, tokenizer, {"tokenizer_contract": audit, "tokenizer_repair_changed": repair["backend_repair"]["changed"]}
@@ -925,7 +991,7 @@ def cpu_smoke(args, recipe, reference, parent, panels):
 
     started = time.monotonic()
     try:
-        model, tokenizer, contract = load_model_and_tokenizer(parent, reference, "cpu")
+        model, tokenizer, contract = load_model_and_tokenizer(parent, reference, "cpu", args.target)
         device = torch.device("cpu")
         def shortest(cases):  # the shortest no-op case and the shortest edit case
             order = sorted(cases, key=lambda c: (len(c["prompt_ids"]), c["id"]))
@@ -946,7 +1012,7 @@ def cpu_smoke(args, recipe, reference, parent, panels):
                 rerun[name] = measure_panel(model, tokenizer, name, cases, device=device, cap=SMOKE_CAP,
                                             batch_size=recipe["batch_size"], kv_cache=recipe["kv_cache"],
                                             records_path=attempt / "records" / f"{name}.jsonl", should_stop=lambda: None)
-            summary = summarize(attempt, None, list(smoke))
+            summary = summarize(attempt, None, list(smoke), target=args.target)
             records = {n: read_records(attempt / "records" / f"{n}.jsonl") for n in smoke}
         if any(r["new"] for r in rerun.values()):
             raise RuntimeError("the resume re-measured finished batches")
@@ -976,8 +1042,10 @@ def inner(args):
     signal.signal(signal.SIGTERM, lambda *_: stop.__setitem__("signal", True))
     receipt_path = attempt / "receipt.json"
     receipt = json.loads(receipt_path.read_text()) if receipt_path.is_file() else {
-        "schema": RECEIPT_SCHEMA, "started": now(), "attempt_dir": str(attempt), "runs": [],
-        "purpose": "measurement only: no adoption decision, no rule change", "final_set_access": False}
+        "schema": RECEIPT_SCHEMA, "target": args.target, "started": now(), "attempt_dir": str(attempt), "runs": [],
+        "purpose": f"measurement only: {TARGETS[args.target].label}; no adoption decision, no rule change", "final_set_access": False}
+    if receipt.get("target", DEFAULT_TARGET) != args.target:
+        raise SystemExit("attempt target differs from --target")
     run = {"started": now(), "pid": os.getpid(), "budget_minutes": args.budget_minutes}
     receipt["runs"].append(run)
     receipt["status"] = "running"
@@ -1003,6 +1071,8 @@ def inner(args):
         dry = json.loads(args.dry_run_output.read_text()) if args.dry_run_output.is_file() else {}
         if dry.get("schema") != DRY_RUN_SCHEMA or dry.get("status") != "pass":
             raise SystemExit(f"a passing dry-run receipt is required: {args.dry_run_output}")
+        if dry.get("target", DEFAULT_TARGET) != args.target:
+            raise SystemExit("dry-run target differs from --target")
         require_one_gpu()
         parent = check_parent_tokenizer(recipe)
         for name in ("dev75", "dev250"):
@@ -1010,7 +1080,7 @@ def inner(args):
                 raise SystemExit(f"{name} panel differs from the dry run")
         receipt.update(recipe={"path": recipe["path"], "sha256": recipe["sha256"]}, settings=settings_record(recipe),
                        dry_run={"path": str(args.dry_run_output.resolve()), "sha256": sha256(args.dry_run_output)})
-        gate, gate_outcomes = gate_reference()
+        gate, gate_outcomes = gate_reference(args.target)
         receipt["gate_reference"] = gate
         reference = load_pinned_reference_tokenizer(parent)
         cases = {}
@@ -1021,11 +1091,11 @@ def inner(args):
         save()
         remaining = [n for n in args.panels if len(read_records(attempt / "records" / f"{n}.jsonl")) < len(cases[n])]
         if remaining and should_stop() is None:
-            run["weights"] = verify_weights(dry)
+            run["weights"] = verify_weights(dry, args.target)
             device = gpu_device()
             cuda_report(reset=True)
             t0 = time.monotonic()
-            model, tokenizer, contract = load_model_and_tokenizer(parent, reference, str(device))
+            model, tokenizer, contract = load_model_and_tokenizer(parent, reference, str(device), args.target)
             run.update(load_seconds=round(time.monotonic() - t0, 1), **contract)
             if next(model.parameters()).device != device:
                 raise RuntimeError(f"model is on {next(model.parameters()).device}, expected {device}")
@@ -1039,7 +1109,7 @@ def inner(args):
                     run.setdefault("panels", {})[name] = result
                     run["cuda"] = cuda_report()
                     save()
-                    summarize(attempt, args.summary_dir, args.panels, gate, gate_outcomes)
+                    summarize(attempt, args.summary_dir, args.panels, gate, gate_outcomes, args.target)
                     if result["status"] != "complete":
                         break
             finally:
@@ -1050,7 +1120,7 @@ def inner(args):
         receipt["status"] = "complete" if complete else "stopped"
         run.update(finished=now(), stop_reason=None if complete else should_stop() or "incomplete", done=done)
         save()
-        summarize(attempt, args.summary_dir, args.panels, gate, gate_outcomes)
+        summarize(attempt, args.summary_dir, args.panels, gate, gate_outcomes, args.target)
         print(json.dumps({"status": receipt["status"], "done": done, "attempt": str(attempt)}), flush=True)
         return 0 if complete else 75
     except BaseException as error:
@@ -1058,7 +1128,7 @@ def inner(args):
         run.update(finished=now(), error=f"{type(error).__name__}: {str(error).splitlines()[0] if str(error) else ''}")
         save()
         try:
-            summarize(attempt, args.summary_dir, args.panels, gate, gate_outcomes)
+            summarize(attempt, args.summary_dir, args.panels, gate, gate_outcomes, args.target)
         except Exception as summary_error:  # noqa: BLE001 - keep the original error
             run["summary_error"] = f"{type(summary_error).__name__}: {summary_error}"
             save()
@@ -1091,7 +1161,7 @@ def outer(args):
     before = measured(attempt, args.panels)
     run = len(list(attempt.glob("guard-*"))) + 1
     command = [sys.executable, "-B", str(Path(__file__).resolve()), "--inner", "--attempt-dir", str(attempt),
-               "--recipe", str(args.recipe), "--dry-run-output", str(args.dry_run_output), "--train-subset", str(args.train_subset),
+               "--target", args.target, "--recipe", str(args.recipe), "--dry-run-output", str(args.dry_run_output), "--train-subset", str(args.train_subset),
                "--output-dir", str(args.output_dir), "--summary-dir", str(args.summary_dir), "--panels", ",".join(args.panels),
                "--budget-minutes", str(args.budget_minutes)]
     if args.no_guard:
