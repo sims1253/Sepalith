@@ -91,7 +91,7 @@ def bind(kind: str, root: Path) -> dict:
     result_dir = STATE / 'evaluation-gates/C18b-grpo-exec-pilot-1/results'
     results = {}
     for panel in ('dev75', 'dev250', 'val', 'cpt'):
-        matches = [p for p in result_dir.glob(f'{panel}-step-300.*.json') if not p.name.endswith('.admission.json')]
+        matches = [p for p in result_dir.glob(f'{panel}-step-300.*.json') if not p.name.endswith('.admission.json') and '.rows.' not in p.name]
         require(len(matches) == 1, f'ambiguous/missing step-300 {panel}')
         p = matches[0]
         value = json.loads(p.read_text())

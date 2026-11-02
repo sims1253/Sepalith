@@ -74,6 +74,19 @@ def verdict(summary_path: Path, metrics_path: Path) -> dict:
     return out
 
 
+
+def line_metrics(records: list[dict]) -> dict:
+    """Reporting only; omit records without target-line metadata."""
+    from sepalith.training.grpo_exec.c19_mix import lines_bin
+
+    groups: dict = {}
+    for row in records:
+        if isinstance(row.get('target_lines'), int):
+            groups.setdefault(lines_bin(row['target_lines']), []).append(row)
+    return {key: {'n': len(rows), 'all_pass': sum(r['all_pass'] for r in rows) / len(rows),
+                  'mean_reward': sum(r['reward'] for r in rows) / len(rows)} for key, rows in groups.items()}
+
+
 def main() -> int:
     import argparse
     import sys
@@ -82,7 +95,17 @@ def main() -> int:
     if sys.argv[1:2] == ['run-final']:
         from sepalith.exec_eval import jobs as evaluator
         guard()
-        return evaluator.main(sys.argv[2:])
+        code = evaluator.main(sys.argv[2:])
+        work = Path(sys.argv[sys.argv.index('--work-dir') + 1])
+        metrics_path = work / 'metrics.json'
+        if metrics_path.exists():
+            metrics = json.loads(metrics_path.read_text())
+            for label in (START_LABEL, CANDIDATE_LABEL):
+                records = work / f'records-{label}.jsonl'
+                if records.exists() and label in metrics:
+                    metrics[label]['by_target_lines'] = line_metrics([json.loads(r) for r in records.read_text().splitlines()])
+            metrics_path.write_text(json.dumps(metrics, indent=2, sort_keys=True) + '\n')
+        return code
     parser = argparse.ArgumentParser()
     parser.add_argument('command', choices=('verdict',))
     parser.add_argument('--summary', type=Path, required=True)

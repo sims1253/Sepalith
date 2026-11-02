@@ -101,3 +101,10 @@ class C19MixTests(unittest.TestCase):
                 for key in ('recipe_module', 'ExecGRPOArm', 'ExecGRPOTrainer', 'TRAINER', 'DEV_EVALUATOR', 'VAL_EVALUATOR', 'CPT_PROBE', 'UPDATE_FIELDS', 'final_holdout_job'):
                     if key in snapshot:
                         setattr(module, key, snapshot[key])
+
+    def test_closeout_line_bins_are_reporting_only(self):
+        from sepalith.training.grpo_exec.c19_jobs import line_metrics
+        report = line_metrics([{'target_lines': n, 'all_pass': n == 2, 'reward': .5} for n in (2, 3, 4, 8, 16, 17)])
+        self.assertEqual(report['2'], {'n': 1, 'all_pass': 1, 'mean_reward': .5})
+        self.assertEqual(report['3-4']['n'], 2)
+        self.assertEqual(set(report), {'2', '3-4', '5-8', '9-16', '17+'})
