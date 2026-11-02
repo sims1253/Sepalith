@@ -72,3 +72,34 @@ is **adopted as the campaign's best model**, superseding C18 checkpoint 100
 DEV75 nofp (false edits on no-op cases) rose 9 → 13 over 200 updates (rollback
 band at 200) while everything else improved; the CPT replay held the CPT NLL
 below start throughout. Next-step design is not part of this note.
+
+## Update 2026-11-02: checkpoint 300 supersedes checkpoint 200
+
+By user decision the pilot resumed from update 200. It ended on the plateau rule at update 500, with
+every gate from 250 to 500 at R6x continue. Validation all-pass selected checkpoint 300 (0.3251).
+
+Job `C18b-final-holdout-step-300` ran in a fresh work dir, because `final/` still held checkpoint
+200's completions. The checkpoint 200 results in `final/` and `final-step-200/` are unchanged.
+
+| Model | Hold-out all-pass | Exact | Mean reward | Protocol valid |
+| --- | --- | --- | --- | --- |
+| arm A 803 | 0.310 | 0.228 | 0.379 | 0.973 |
+| C18 checkpoint 100 | 0.355 | | | |
+| C18b checkpoint 200 | 0.381 | 0.300 | 0.444 | 0.963 |
+| C18b checkpoint 300 | 0.392 | 0.311 | 0.463 | 0.973 |
+
+**Verdict: adopt = true.** All-pass difference vs 803 +0.0818, CI95 [0.0726, 0.0913]; mean reward
++0.0836 [0.0744, 0.0933]; exact +0.0836 [0.0749, 0.0926]; DEV250 111 >= 105; CPT 2K rise -0.0314.
+
+Checkpoint 300 vs 200, paired and function-clustered (descriptive, not pre-registered): all-pass
++0.011 [0.0058, 0.0163], reward +0.0187 [0.0126, 0.0244], protocol valid +0.0105 [0.0051, 0.0162].
+
+**Quant gate** (`C18b-quant-step-300`, CUDA build, summary in
+`receipts/C18b-quant-gate-summary.json`): Q6_K (2.20 GB) is the only tier that passes. Q8_0 fails
+exact (-1.2 pp) and nofp (+0.8 pp). The arm A pick mixA-e4 fails exact, nofp and valid.
+
+**Release tiers (user decision 2026-11-02):** Q6_K as default, and Q4_K_M+ (1.78 GB) as a user
+exception for its single miss, nofp +1.2 pp vs the 1.0 limit. Publishing still needs the user's
+go-ahead.
+
+Next-step design remains out of scope for this note.

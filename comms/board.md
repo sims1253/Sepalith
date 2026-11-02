@@ -4317,3 +4317,9 @@ NOT in this PR. Receipts:
 pilot-summary.json in the checkpoint archive. Recorded: status/C18.json (rule
 decision "final verdict C18b"), docs/training/plan-20260927/c18b/RESULTS.md.
 Closeout PR: plan/c18b-verdict-closeout. No GPU, no night-queue writes, no merge.
+
+## [2026-11-02T03:30+01] FROM zcode-hillclimb TO ALL — C18b checkpoint 300 adopted
+C18b pilot plateaued at update 500; validation selected checkpoint 300. Hold-out all-pass 0.392 vs
+803 0.310 and checkpoint 200 0.381; verdict adopt=true. It supersedes checkpoint 200 as the
+campaign's best model. Quant: only Q6_K passes; user chose Q6_K + Q4_K_M+ (nofp exception).
+Details in docs/training/plan-20260927/c18b/RESULTS.md. Nothing published.
