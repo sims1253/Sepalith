@@ -1,0 +1,38 @@
+{
+  "training_suite": {
+    "command": "PYTHONPATH=packages/sepalith/src CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 nice -n 10 /home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python -m unittest discover -s packages/sepalith/tests/training",
+    "tests": 320,
+    "result": "OK",
+    "seconds": 227.702
+  },
+  "focused_c19": {
+    "tests": 7,
+    "result": "OK"
+  },
+  "stdlib_core": {
+    "tests": 255,
+    "skipped": 21,
+    "result": "OK"
+  },
+  "quality": {
+    "command": "python scripts/check_quality.py",
+    "ruff": "passed",
+    "ty": "passed"
+  },
+  "c19_structure_and_source": {
+    "pilot": "verified",
+    "smoke": "verified"
+  },
+  "strict_c19_verify": {
+    "result": "blocked",
+    "error": "rscript is not executable at /opt/R/4.6.1/bin/Rscript",
+    "check_weakened": false
+  },
+  "unchanged_recipes": {
+    "C18": "verified",
+    "C18b": "verified"
+  },
+  "gpu_smoke": "not run",
+  "queue": "not modified",
+  "merge": "not performed"
+}

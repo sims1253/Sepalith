@@ -1,0 +1,21 @@
+{
+  "free_disk_bytes": 560060145664,
+  "min_free_disk_bytes": 150000000000,
+  "checkpoint_bytes_estimate": 17700000000,
+  "saves_fitting_above_floor": 23,
+  "smoke_saves": 2,
+  "pilot_evaluation_saves": 20,
+  "additional_deadline_saves_estimate": 3,
+  "memory_receipt_reused": "same C18b receipt; same architecture, buffers and caps; mandatory smoke unrun",
+  "frozen_prompt_tokens_max": 1944,
+  "frozen_gold_tokens_max": 239,
+  "expected_mean_completion_length": "higher; generation not measured",
+  "rig_installation": "absent; user installation required; no fallback",
+  "exec_gate_fingerprint": "7f8e073fbedb4b9d; source bytes only; no binary/build hash",
+  "parser_identity": "harness source SHA256 and version string, no R executable hash",
+  "cross_build_behaviour_parity": "not established; C18b used pacman R, C19 requires rig R of the identical version",
+  "deviations": [
+    "First CPU-intended training-suite invocation omitted CUDA_VISIBLE_DEVICES and a test dependency initialized CUDA. No campaign or smoke launched. Suite rerun with CUDA hidden."
+  ],
+  "prepared_before_deadline": "2026-11-03T00:00:00+01:00"
+}

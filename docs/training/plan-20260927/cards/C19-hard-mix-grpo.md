@@ -78,6 +78,10 @@ applies only to stop-for-user with only nofp_rise and/or cap in the stop
 band, no rollback, and all other rows continuing. This card does not widen
 that rule or implement a broader automatic override.
 
+Checkpoint 300 references are DEV75 valid 74, cap 1, edit 28, nofp 13;
+DEV250 score250 111, so the final non-inferiority floor is 107. Validation
+all-pass is 0.325062, mean reward 0.436317; CPT NLL is 0.971963850662087.
+
 Every validation evaluation writes a C19 evidence sidecar with all-pass and
 mean reward by short/medium/long bucket, family and target-line bins
 1, 2, 3-4, 5-8, 9-16 and 17+. These reports never affect selection or gates.
@@ -113,7 +117,8 @@ resumable, requires smoke, about 960 minutes. Archives and evidence are distinct
 
 Memory uses C18b's fit receipt, same model, buffers and token caps:
 prompt 3,072, completion 1,024. This is a subset of the already admitted pool;
-no prompt cap is expanded. HARD tasks are longer and mean completion length
+no prompt cap is expanded. The frozen maximum prompt is 1,944 tokens and
+maximum gold completion is 239 tokens. HARD tasks are longer and mean completion length
 is expected to rise; actual generated lengths and peak memory remain unmeasured
 until the required smoke. The receipt is a fit justification, not a new smoke pass.
 
@@ -121,7 +126,10 @@ At the stated 522 GB free, 20 saves of 17.7 GB consume 354 GB, leaving
 168 GB; 21 leave 150.3 GB. 22 saves leave 132.6 GB and cannot fit above the
 150 GB floor. The common 20 evaluation saves plus three deadline saves do
 not fit that conservative budget. Actual free space is recorded in the readiness
-receipt; no cleanup or floor change is authorized. R7 may stop a long run.
+receipt. At 560.1 billion bytes free (about 521.6 GiB), the 150 billion-byte
+floor permits 23 saves at the recipe estimate; smoke saves also consume this
+budget. The 20 evaluation saves plus three deadline saves and two smoke saves
+exceed it. No cleanup or floor change is authorized. R7 may stop a long run.
 
 R binds `/opt/R/4.6.1/bin/Rscript`, parser identity `R 4.6.1 (2026-06-24)`.
 Jobs prepend `/opt/R/4.6.1/bin` to PATH for ExecHarness and all children.
