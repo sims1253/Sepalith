@@ -1,0 +1,45 @@
+stopifnot(identical(endpoint_path("user", "ada"), c("users", "ada")))
+stopifnot(identical(endpoint_path("repo", "ada", "eng"), c("repos", "ada", "eng")))
+stopifnot(identical(endpoint_path("issues", "ada", "eng"), c("repos", "ada", "eng", "issues")))
+stopifnot(identical(endpoint_path("issue", "ada", "eng", 4), c("repos", "ada", "eng", "issues",
+  "4")))
+stopifnot(identical(endpoint_path("comments", "ada", "eng", 4)[6], "comments"))
+stopifnot(identical(endpoint_path("releases", "ada", "eng")[4], "releases"))
+msg <- tryCatch(endpoint_path("issue", "ada", "eng"), error = conditionMessage)
+stopifnot(identical(msg, "Resource `issue` needs `number`."))
+msg <- tryCatch(endpoint_path("repo", ""), error = conditionMessage)
+stopifnot(identical(msg, "Resource `repo` needs `owner`."))
+
+stopifnot(identical(endpoint_defaults("user"), list()), identical(endpoint_defaults("repo"),
+  list()))
+stopifnot(identical(endpoint_defaults("issue"), list()))
+stopifnot(identical(endpoint_defaults("issues", 30L)$per_page, 30L))
+stopifnot(identical(endpoint_defaults("issues")$state, "all"))
+stopifnot(identical(names(endpoint_defaults("comments")), c("sort", "direction", "per_page")))
+stopifnot(identical(endpoint_defaults("releases")$per_page, 50L))
+
+b <- "https://api.example.org"
+p <- parse_endpoint_url(paste0(b, "/repos/ada/eng/issues/4/comments?page=2"))
+stopifnot(identical(p, list(resource = "comments", owner = "ada", repo = "eng", number = 4L)))
+p <- parse_endpoint_url(paste0(b, "/repos/ada/eng/issues/4"))
+stopifnot(identical(p$resource, "issue"), identical(p$number, 4L))
+p <- parse_endpoint_url(paste0(b, "/repos/ada/eng/issues/"))
+stopifnot(identical(p$resource, "issues"), is.na(p$number), identical(p$repo, "eng"))
+stopifnot(identical(parse_endpoint_url(paste0(b, "/repos/a/b/releases"))$resource, "releases"))
+stopifnot(identical(parse_endpoint_url(paste0(b, "/repos/a/b"))$resource, "repo"))
+p <- parse_endpoint_url(paste0(b, "/users/ada#x"))
+stopifnot(identical(p$resource, "user"), identical(p$owner, "ada"), is.na(p$repo))
+stopifnot(is.na(parse_endpoint_url(paste0(b, "/orgs/x"))$resource))
+
+stopifnot(endpoint_cache_ttl("user") == 3600, endpoint_cache_ttl("repo") == 600)
+stopifnot(endpoint_cache_ttl("issues") == 60, endpoint_cache_ttl("issue") == 300)
+stopifnot(endpoint_cache_ttl("issue", "closed") == 3600, endpoint_cache_ttl("comments") == 60)
+stopifnot(endpoint_cache_ttl("releases", base = 2) == 60)
+
+u <- paste0(b, c("/users/ada", "/users/bo", "/repos/ada/eng", "/repos/ada/eng/issues",
+  "/repos/ada/eng/issues/1", "/repos/bo/x/issues/2/comments", "/repos/bo/x/releases"))
+eu <- endpoint_usage(u)
+stopifnot(identical(eu$resource, c("user", "repo", "issues", "issue", "comments", "releases")))
+stopifnot(identical(eu$calls, c(2L, 1L, 1L, 1L, 1L, 1L)), identical(eu$owners[1], 2L))
+w <- tryCatch(endpoint_usage(c(u, paste0(b, "/orgs/x"))), warning = conditionMessage)
+stopifnot(identical(w, "1 URL(s) did not match any resource."))

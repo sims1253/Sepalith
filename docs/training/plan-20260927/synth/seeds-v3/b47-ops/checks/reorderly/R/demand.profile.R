@@ -1,0 +1,47 @@
+x <- c(0, 4, 0, 6, 0, 2)
+p <- demand.profile(x)
+stopifnot(p$n == 6, p$mean == 2, p$adi == 2, p$zero.share == 0.5)
+stopifnot(isTRUE(all.equal(p$cv2, 0.25)), isTRUE(all.equal(p$sd, sqrt(6.4))))
+stopifnot(isTRUE(all.equal(p$cv, sqrt(6.4) / 2)))
+stopifnot(isTRUE(all.equal(p$trend, unname(coef(lm(x ~ seq_along(x)))[2]))))
+stopifnot(demand.profile(c(0, 0, 0))$adi == Inf, is.na(demand.profile(c(0, 0))$cv))
+stopifnot(inherits(try(demand.profile(1), silent = TRUE), "try-error"))
+stopifnot(demand.profile(c(1, NA, 3))$n == 2)
+
+prof <- data.frame(item = c("a", "b", "c", "d"), mean = c(70, 20, 6, 4),
+  cv = c(0.3, 0.7, 1.5, NA), adi = c(1, 1, 2, 2), cv2 = c(0.1, 0.9, 0.1, 0.9),
+  zero.share = c(0, 0.5, 0.9, 0.2))
+stopifnot(identical(classify.demand(prof, "syntetos")$class,
+  c("smooth", "erratic", "intermittent", "lumpy")))
+stopifnot(identical(classify.demand(prof, "xyz")$class, c("X", "Y", "Z", "Z")))
+stopifnot(identical(classify.demand(prof, "fsn")$class, c("fast", "slow", "non-moving", "fast")))
+stopifnot(identical(classify.demand(prof, "volume")$class, c("A", "B", "C", "C")))
+stopifnot(identical(classify.demand(prof[4:1, ], "volume")$class, c("C", "C", "B", "A")))
+
+y <- c(2, 4, 6, 8)
+stopifnot(all(forecast.demand(y, "naive", h = 2) == 8), length(forecast.demand(y, h = 3)) == 3)
+stopifnot(forecast.demand(y, "mean") == 5, forecast.demand(y, "moving") == 6)
+stopifnot(forecast.demand(y, "moving", window = 10) == 5)
+stopifnot(forecast.demand(y, "ses", alpha = 0.5) == 6.25)
+stopifnot(isTRUE(all.equal(as.numeric(forecast.demand(c(0, 4, 0, 0, 2), "croston",
+  alpha = 0.5)), 1.2)))
+stopifnot(all(forecast.demand(c(0, 0), "croston", h = 2) == 0))
+stopifnot(attr(forecast.demand(y, "ses"), "method") == "ses")
+
+fe <- forecast.errors(c(10, 12, 8), c(9, 12, 10))
+stopifnot(isTRUE(all.equal(fe$me, -1 / 3)), fe$mae == 1, isTRUE(all.equal(fe$rmse, sqrt(5 / 3))))
+stopifnot(isTRUE(all.equal(fe$mape, 100 * mean(c(0.1, 0, 0.25)))))
+stopifnot(isTRUE(all.equal(fe$smape, 200 * mean(c(1 / 19, 0, 2 / 18)))))
+stopifnot(isTRUE(all.equal(fe$mase, 1 / 3)), forecast.errors(1:2, 1:2, naive.mae = 2)$mase == 0)
+stopifnot(is.na(forecast.errors(c(0, 0), c(1, 1))$mape))
+stopifnot(forecast.errors(c(0, 0), c(0, 0))$smape == 0)
+stopifnot(inherits(try(forecast.errors(1:2, 1), silent = TRUE), "try-error"))
+
+ln <- lead.time.demand(y, 2, "normal", service = 0.5)
+stopifnot(ln$mean == 10, ln$quantile == 10, isTRUE(all.equal(ln$sd, sd(y) * sqrt(2))))
+stopifnot(lead.time.demand(y, 2, "normal")$safety > 0)
+stopifnot(lead.time.demand(y, 2, "empirical", service = 0.5)$quantile == 10)
+lp <- lead.time.demand(y, 2, "poisson", service = 0.5)
+stopifnot(lp$quantile == 10, isTRUE(all.equal(lp$sd, sqrt(10))))
+lg <- lead.time.demand(y, 2, "gamma", service = 0.5)
+stopifnot(lg$quantile < 10, lg$quantile > 9, lg$safety < 0)

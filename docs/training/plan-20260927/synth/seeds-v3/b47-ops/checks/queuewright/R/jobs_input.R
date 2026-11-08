@@ -1,0 +1,65 @@
+jobs <- data.frame(id = c("a", "b", "c"), release = c(0, 10, 20), proc_time = c(30, 5, 50),
+  due = c(60, 15, 60), weight = c(1, 2, 3), family = c("x", "y", NA))
+err <- function(expr) conditionMessage(tryCatch(expr, error = function(e) e))
+
+stopifnot(identical(validate_jobs(jobs), jobs))
+stopifnot(grepl("data frame", err(validate_jobs(list()))))
+stopifnot(grepl("weight", err(validate_jobs(jobs[, 1:4]))))
+bad <- jobs; bad$id[2] <- "a"
+stopifnot(grepl("`id`", err(validate_jobs(bad))))
+bad <- jobs; bad$release[1] <- -1
+stopifnot(grepl("`release` must be non-negative", err(validate_jobs(bad))))
+bad <- jobs; bad$proc_time[1] <- 0
+stopifnot(grepl("`proc_time` must be positive", err(validate_jobs(bad))))
+bad <- jobs; bad$due[2] <- 5
+stopifnot(grepl("`due` must not precede", err(validate_jobs(bad))))
+bad <- jobs; bad$weight <- c("1", "2", "3")
+stopifnot(grepl("`weight` must be numeric", err(validate_jobs(bad))))
+
+tmp <- tempfile()
+dir.create(tmp)
+src <- data.frame(job = c("j1", "j2"), release = c(0, 1.5), proc_time = c(2, 3))
+utils::write.csv(src, file.path(tmp, "a.csv"), row.names = FALSE)
+utils::write.table(src, file.path(tmp, "a.tsv"), sep = "\t", row.names = FALSE)
+utils::write.csv2(src, file.path(tmp, "a.txt"), row.names = FALSE)
+saveRDS(src, file.path(tmp, "a.rds"))
+r1 <- read_job_table(file.path(tmp, "a.csv"), "csv", id_col = "job")
+stopifnot(identical(r1$id, c("j1", "j2")), identical(r1$release, c(0, 1.5)))
+r2 <- read_job_table(file.path(tmp, "a.tsv"), "tsv", id_col = "job")
+stopifnot(identical(r2$proc_time, c(2L, 3L)) || identical(r2$proc_time, c(2, 3)))
+r3 <- read_job_table(file.path(tmp, "a.txt"), "semicolon", id_col = "job")
+stopifnot(identical(r3$release, c(0, 1.5)))
+r4 <- read_job_table(file.path(tmp, "a.rds"), "rds", id_col = "job")
+stopifnot("id" %in% names(r4), !is.null(attr(r4, "source")))
+stopifnot(grepl("not found", err(read_job_table(file.path(tmp, "a.csv"), "csv"))))
+stopifnot(grepl("does not exist", err(read_job_table(file.path(tmp, "none.csv")))))
+
+raw <- data.frame(id = c(" a", "b "), release = c("0", "1,5"), proc_time = c("2", "x"),
+  due = c("4", "6"), stringsAsFactors = FALSE)
+w <- character(0)
+cj <- withCallingHandlers(coerce_job_columns(raw, "hour"), warning = function(cond) {
+  w <<- c(w, conditionMessage(cond))
+  invokeRestart("muffleWarning")
+})
+stopifnot(identical(cj$id, c("a", "b")), identical(cj$release, c(0, 90)))
+stopifnot(identical(cj$due, c(240, 360)), identical(cj$weight, c(1, 1)))
+stopifnot(length(w) == 1, grepl("proc_time", w))
+raw$proc_time <- c("1", "2")
+raw$weight <- c("2", NA)
+cs <- coerce_job_columns(raw, "shift", shift_length = 1)
+stopifnot(identical(cs$proc_time, c(60, 120)), identical(cs$weight, c(2, 1)))
+stopifnot(identical(coerce_job_columns(raw)$due, c(4, 6)))
+
+sj <- summarise_jobs(jobs)
+stopifnot(identical(sj$column, c("release", "proc_time", "due", "weight", "slack")))
+stopifnot(sj$max[sj$column == "proc_time"] == 50, sj$mean[sj$column == "weight"] == 2)
+stopifnot(identical(attr(sj, "infeasible"), "c"), sj$min[5] == -10)
+
+sp <- split_jobs(jobs, "family")
+stopifnot(identical(sort(names(sp)), c("unknown", "x", "y")))
+sw <- split_jobs(jobs, "due_week", week_length = 30)
+stopifnot(identical(names(sw), c("week_1", "week_3")), nrow(sw$week_3) == 2)
+spr <- split_jobs(jobs, "priority")
+stopifnot(identical(spr$high$id, "c"), nrow(spr$normal) == 2)
+ss <- split_jobs(jobs, "size")
+stopifnot(identical(ss$long$id, "c"), identical(rownames(ss$short), c("1", "2")))

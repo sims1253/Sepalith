@@ -1,0 +1,91 @@
+{
+  "binding_note": "recipe_v2 accepts only the 13+3 schedule label; a 14+2 arm needs an approved recipe change",
+  "cohort": {
+    "copy_ids": "<id>~x2 for the second copy of every SYNTH row",
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3.1/cohort-proposal-x2/train-plus-synth-cohort-rows.jsonl",
+    "rows": 18036,
+    "sha256": "92e8fd679860cb63abc2dfe9eff3a49f7b9bdac6616ee8ac1ff475e2fe64312e",
+    "synth_exposures": 2
+  },
+  "length_profile": {
+    "max_sequence_tokens": 3064,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3.1/cohort-proposal-x2/length-profile.json",
+    "sha256": "8e3a8d68b8b7a354a9e53a5edcff8cda9a44bf645352f0455c04fe829f822c97"
+  },
+  "schedule": {
+    "noop_exposure_rule": {
+      "cap": 3,
+      "histogram": {
+        "2": 860,
+        "3": 234
+      },
+      "max_noop_exposures": 3,
+      "passes": true
+    },
+    "noop_per_batch": 2,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3.1/cohort-proposal-x2/draw-schedule-v2-train-plus-synth-14edit-2noop.json",
+    "schedule_version": "sft-schedule-v2-14edit-2noop",
+    "sha256": "7859d7825edeafeb851330bc6ecbe197af907348589b59abd694436f17706c11",
+    "summary": {
+      "checks": {
+        "all_eligible_ids_drawn": true,
+        "constant_batch_composition": true,
+        "edits_seen_once_except_last_update_replays": true,
+        "every_unique_edit_before_edit_replay": true,
+        "every_unique_noop_before_noop_replay": true,
+        "no_target_truncation": true,
+        "noop_exposures_at_most_cap": true,
+        "targets_over_1024_retained": 0
+      },
+      "dose": {
+        "draws": {
+          "all": 19376,
+          "finish": 10696,
+          "synth_all": 3033,
+          "synth_finish": 2903,
+          "synth_share_of_all_draws": 0.1565,
+          "synth_share_of_finish_draws": 0.2714
+        },
+        "tokens": {
+          "finish_target_tokens": 1456889,
+          "meaning": "supervised target tokens include the terminal line and EOS; prompt tokens exclude BOS",
+          "medium_long_share_of_finish_target_tokens": {
+            "cohort": 0.8409,
+            "synth": 0.5184,
+            "train": 0.8796
+          },
+          "synth_finish_target_tokens": 156191,
+          "synth_share_of_all_supervised_tokens": 0.0944,
+          "synth_share_of_finish_prompt_tokens": 0.3155,
+          "synth_share_of_finish_target_tokens": 0.1072,
+          "synth_share_of_medium_long_finish_target_tokens": 0.0661
+        }
+      },
+      "draw_count": 19376,
+      "finish_draw_share": {
+        "finish_draws": 10696,
+        "synth_finish_draws": 2903,
+        "synth_share_of_all_draws": 0.1565,
+        "synth_share_of_finish_draws": 0.2714
+      },
+      "max_steps": 1211,
+      "noop_share": 0.125
+    }
+  },
+  "schema": "sepalith.synth.cohort-proposal.v2",
+  "status": "proposal; not bound to a recipe, not enqueued",
+  "synth_rows": {
+    "families": {
+      "finish_block": 1450,
+      "roxygen_drafting": 65
+    },
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3.1/train-token-rows.jsonl",
+    "rows": 1515,
+    "sha256": "3fbe9fecc7319666bdb589f6ddf952b65c7882be4e1a3b20730ff70f98986a9c"
+  },
+  "train_rows": {
+    "copied_byte_for_byte": true,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+    "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+  }
+}

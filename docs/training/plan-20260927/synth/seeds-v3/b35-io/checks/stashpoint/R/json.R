@@ -1,0 +1,48 @@
+raw = "a\\b \"q\"\nx\ry\tz"
+esc = jsonEscape(raw)
+stopifnot(identical(esc, "a\\\\b \\\"q\\\"\\nx\\ry\\tz"))
+stopifnot(identical(jsonUnescape(esc), raw))
+stopifnot(identical(jsonUnescape(jsonEscape("\\n")), "\\n"))
+stopifnot(identical(jsonEscape(c("plain", "")), c("plain", "")))
+
+stopifnot(identical(jsonValue("hi"), "\"hi\""), identical(jsonValue(c("a", NA)), "[\"a\",null]"))
+stopifnot(identical(jsonValue(1.5), "1.5"), identical(jsonValue(c(1, NA)), "[1,null]"))
+stopifnot(identical(jsonValue(3L), "3"), identical(jsonValue(c(TRUE, FALSE)), "[true,false]"))
+stopifnot(identical(jsonValue(as.Date("2026-05-01")), "\"2026-05-01\""))
+stopifnot(identical(jsonValue(factor(c("lo", "hi"))), "[\"lo\",\"hi\"]"))
+stopifnot(identical(jsonValue(as.POSIXct("2026-05-01 10:00:00", tz = "UTC")),
+  "\"2026-05-01T10:00:00Z\""))
+stopifnot(identical(jsonValue(character()), "[]"))
+msg = tryCatch(jsonValue(as.complex(1)), error = conditionMessage)
+stopifnot(identical(msg, "Cannot encode an object of class `complex` as JSON."))
+
+stopifnot(is.na(parseJsonValue("null")), identical(parseJsonValue(" true"), TRUE))
+stopifnot(identical(parseJsonValue("false"), FALSE), identical(parseJsonValue("-2.5e1"), -25))
+stopifnot(identical(parseJsonValue("\"a\\\"b\""), "a\"b"))
+msg = tryCatch(parseJsonValue("{x}"), error = conditionMessage)
+stopifnot(identical(msg, "Cannot decode JSON token `{x}`."))
+
+stopifnot(identical(toJsonObject(list(a = 1L, b = "x")), "{\"a\":1,\"b\":\"x\"}"))
+stopifnot(identical(toJsonObject(list(k = c(TRUE, NA))), "{\"k\":[true,null]}"))
+stopifnot(identical(toJsonObject(list(a = NULL, b = list(c = 1))), "{\"a\":null,\"b\":{\"c\":1}}"))
+stopifnot(identical(toJsonObject(list()), "{}"))
+msg = tryCatch(toJsonObject(list(1, b = 2)), error = conditionMessage)
+stopifnot(identical(msg, "`record` must be a fully named list."))
+
+df = data.frame(id = 1:3, name = c("a,b", "c\"d", NA), score = c(1.5, NA, 3),
+  ok = c(TRUE, FALSE, TRUE), stringsAsFactors = FALSE)
+path = tempfile(fileext = ".jsonl")
+stopifnot(identical(writeJsonLines(df, path), 3L))
+stopifnot(identical(readLines(path)[1], "{\"id\":1,\"name\":\"a,b\",\"score\":1.5,\"ok\":true}"))
+back = readJsonLines(path)
+stopifnot(identical(names(back), names(df)), identical(back$name, df$name))
+stopifnot(identical(back$score, df$score),
+  identical(back$ok, df$ok), identical(back$id, c(1, 2, 3)))
+writeJsonLines(df[1, ], path, append = TRUE)
+stopifnot(nrow(readJsonLines(path)) == 4)
+msg = tryCatch(writeJsonLines(list(a = 1), path), error = conditionMessage)
+stopifnot(identical(msg, "`data` must be a data frame."))
+writeLines(c("{\"a\":1}", "", "{\"b\":\"x\"}"), path)
+ragged = readJsonLines(path)
+stopifnot(identical(names(ragged), c("a", "b")), identical(ragged$a, c(1, NA)))
+unlink(path)

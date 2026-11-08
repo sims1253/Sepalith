@@ -1,0 +1,53 @@
+stopifnot(identical(column_type(Sys.Date()), "date"))
+stopifnot(identical(column_type(TRUE), "logical"))
+stopifnot(identical(column_type(1L), "integer"))
+stopifnot(identical(column_type(1.5), "double"))
+stopifnot(identical(column_type(factor("a")), "text"))
+
+stopifnot(identical(format_column(c(1234L, NA), "integer"), c("1,234", "")))
+stopifnot(identical(format_column(1234.567, "double", digits = 1), "1,234.6"))
+stopifnot(identical(format_column(0.125, "percent", digits = 1), "12.5%"))
+stopifnot(identical(format_column(c(TRUE, FALSE, NA), "logical", na_string = "?"),
+                    c("yes", "no", "?")))
+stopifnot(identical(format_column(as.Date("2024-01-02"), "date"), "2024-01-02"))
+stopifnot(identical(format_column(factor(c("b", NA)), "text"), c("b", "")))
+
+al <- column_align(c(a = "integer", b = "text", c = "logical", d = "percent"))
+stopifnot(identical(al, c(a = "right", b = "left", c = "centre", d = "right")))
+stopifnot(identical(column_align(character()), character()))
+
+stopifnot(identical(pad_cells(c("a", "abc"), 3), c("a  ", "abc")))
+stopifnot(identical(pad_cells("a", 3, "right"), "  a"))
+stopifnot(identical(pad_cells("a", 4, "centre"), " a  "))
+stopifnot(identical(pad_cells("abcd", 2, "right"), "abcd"))
+
+stopifnot(identical(column_widths(list(c("a", "abcd"), "x"), c("hd", "header")), c(4L, 6L)))
+stopifnot(inherits(try(column_widths(list("a"), c("a", "b")), silent = TRUE), "try-error"))
+
+df <- data.frame(id = 1:2, rate = c(0.5, 0.25), ok = c(TRUE, NA), name = c("x", "yy"))
+fc <- format_columns(df, digits = 0, percent = "rate")
+stopifnot(identical(names(fc), c("cells", "types", "align")))
+stopifnot(identical(fc$cells$rate, c("50%", "25%")), identical(fc$cells$ok, c("yes", "")))
+stopifnot(identical(unname(fc$align), c("right", "right", "centre", "left")))
+stopifnot(inherits(try(format_columns(df, percent = "zz"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(format_columns(list(a = 1)), silent = TRUE), "try-error"))
+
+tt <- format_text_table(df, digits = 0, percent = "rate")
+stopifnot(length(tt) == 4L)
+stopifnot(identical(tt[1], "id  rate  ok   name"))
+stopifnot(identical(tt[2], "--  ----  ---  ----"))
+stopifnot(identical(tt[3], " 1   50%  yes  x   "))
+
+stopifnot(identical(format_column(c(0.000123, NA), "scientific", digits = 1), c("1.2e-04", "")))
+stopifnot(identical(format_column(1234.5, "double", digits = 0, big_mark = " "), "1 234"))
+stopifnot(inherits(try(format_column("a", "percent"), silent = TRUE), "try-error"))
+
+stopifnot(identical(column_defaults("integer")$min_width, 1L))
+stopifnot(column_defaults("double")$digits == 2, column_defaults("percent")$digits == 1)
+stopifnot(identical(column_defaults("scientific")$min_width, 9L))
+stopifnot(identical(column_defaults("logical")$align, "centre"))
+stopifnot(identical(column_defaults("date")$na_string, "-"))
+stopifnot(identical(column_defaults("text")$align, "left"))
+tf <- format_text_table(df, digits = 0, percent = "rate", footer = TRUE)
+stopifnot(length(tf) == 6L, identical(tf[5], tf[2]), identical(tf[6], "2 rows"))
+stopifnot(identical(tail(format_text_table(df[1, ], footer = TRUE), 1), "1 row"))

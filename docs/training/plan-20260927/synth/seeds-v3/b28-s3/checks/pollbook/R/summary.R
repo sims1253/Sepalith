@@ -1,0 +1,48 @@
+tally <- structure(c(a = 5L, b = 3L, c = 2L), contest = "mayor", class = "pb_tally")
+st <- summary(tally)
+stopifnot(inherits(st, "summary.pb_tally"), st$n_votes == 10L, st$n_options == 3L)
+stopifnot(identical(st$leader, "a"))
+stopifnot(st$margin == 2L)
+stopifnot(all.equal(st$shares, c(a = 0.5, b = 0.3, c = 0.2)))
+tied <- summary(structure(c(a = 2L, b = 2L), contest = "", class = "pb_tally"))
+stopifnot(is.na(tied$leader), tied$margin == 0L)
+none <- summary(structure(c(a = 0L), contest = "", class = "pb_tally"))
+stopifnot(is.na(none$leader), identical(none$shares, c(a = 0)))
+solo <- summary(structure(c(a = 4L), contest = "", class = "pb_tally"))
+stopifnot(identical(solo$leader, "a"), solo$margin == 4L)
+
+roster <- structure(list(voter = c("v1", "v2", "v3"), district = c("S", "N", "S"),
+  status = c("active", "active", "pending")), class = "pb_roster")
+sr <- summary(roster)
+stopifnot(inherits(sr, "summary.pb_roster"), sr$n_voters == 3L, sr$n_districts == 2L)
+stopifnot(identical(sr$by_status, c(active = 2L, pending = 1L)))
+stopifnot(identical(sr$by_district, c(N = 1L, S = 2L)))
+
+ballots <- structure(list(c("x", "y"), character(), c("y", "x", "z"), "y"),
+  options = c("x", "y", "z"), class = "pb_ballot")
+sb <- summary(ballots)
+stopifnot(inherits(sb, "summary.pb_ballot"), sb$n_ballots == 4L, sb$n_options == 3L)
+stopifnot(sb$n_blank == 1L, sb$mean_length == 1.5)
+stopifnot(identical(sb$first_choice, c(x = 1L, y = 2L, z = 0L)))
+stopifnot(is.na(summary(structure(list(), options = "x", class = "pb_ballot"))$mean_length))
+
+out <- capture.output(res <- print(st))
+stopifnot(identical(res, st))
+stopifnot(identical(out[1], "Tally: mayor"))
+stopifnot(identical(out[4], "  leader:  a by 2"))
+stopifnot(identical(out[5], "    a         50.0%"), length(out) == 7L)
+out <- capture.output(print(tied))
+stopifnot(identical(out[1], "Tally: (unnamed contest)"), identical(out[4], "  leader:  none"))
+stopifnot(length(capture.output(print(none))) == 4L)
+
+out <- capture.output(res <- print(sr))
+stopifnot(identical(res, sr), identical(out[2], "  voters:    3"), length(out) == 9L)
+stopifnot(identical(out[5], "    active    2"), identical(out[9], "    S         2"))
+stopifnot(length(capture.output(print(summary(structure(list(voter = character(),
+  district = character(), status = character()), class = "pb_roster"))))) == 3L)
+
+out <- capture.output(res <- print(sb))
+stopifnot(identical(res, sb))
+stopifnot(identical(out[4], "  blank:   1"))
+stopifnot(identical(out[5], "  mean ranked: 1.5"))
+stopifnot(identical(out[8], "    y         2"), length(out) == 9L)

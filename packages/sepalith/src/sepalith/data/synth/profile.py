@@ -27,6 +27,28 @@ TRAIN_ROWS = Path("/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-sour
 TRAIN_SIDECAR = TRAIN_ROWS.with_name("context-sidecar.jsonl")
 
 
+def target_length(region_old: Sequence[str], target: Sequence[str]) -> int:
+    """The one length definition used for TRAIN and SYNTH (v3): target lines, minus a
+    leading blank line (a TRAIN-only artefact) and minus the restated signature line
+    of signature-line-region cases (TRAIN and SYNTH both restate it)."""
+    lines = list(target)
+    if lines and not lines[0].strip():
+        lines = lines[1:]
+    if region_old and lines and lines[0] == region_old[0]:
+        lines = lines[1:]
+    return len(lines)
+
+
+PREFIX_BUCKETS = ((10, "<=10"), (20, "11-20"), (40, "21-40"), (60, "41-60"))
+
+
+def prefix_bucket(n: int) -> str:
+    for bound, name in PREFIX_BUCKETS:
+        if n <= bound:
+            return name
+    return ">60"
+
+
 def bucket(n: int) -> str:
     for bound, name in BUCKETS:
         if n <= bound:
@@ -76,14 +98,17 @@ def profile(items: Iterable[tuple[str, Mapping, Sequence[str]]]) -> dict:
                                                  "comment": 0, "leading_blank": 0, "lone_close": 0,
                                                  "prefix_no_blank": 0, "full_body": 0, "full_body_signature_region": 0, "test_file": 0,
                                                  "tags": Counter(), "orders": Counter(),
-                                                 "cells": defaultdict(lambda: [0, 0, 0])})
+                                                 "cells": defaultdict(lambda: [0, 0, 0]),
+                                                 "prefix_buckets": Counter()})
     for family, context, target in items:
         a = acc[family]
         a["n"] += 1
-        a["lengths"].append(len(target))
-        a["buckets"][bucket(len(target))] += 1
+        n_lines = target_length(context["region_old"], target)
+        a["lengths"].append(n_lines)
+        a["buckets"][bucket(n_lines)] += 1
+        a["prefix_buckets"][prefix_bucket(len(context["prefix"]))] += 1
         body = target[1:] if target and not target[0].strip() else target
-        cell = a["cells"][bucket(len(body))]
+        cell = a["cells"][bucket(n_lines)]
         cell[0] += 1
         cell[1] += any(not line.strip() for line in body)
         cell[2] += any(is_comment(line) for line in body)
@@ -116,6 +141,9 @@ def profile(items: Iterable[tuple[str, Mapping, Sequence[str]]]) -> dict:
                  "any_blank_line": share("blank"), "any_full_line_comment": share("comment"),
                  "leading_blank_line": share("leading_blank"), "single_close_brace": a["lone_close"],
                  "prefix_without_blank_line": share("prefix_no_blank"),
+                 "length_definition": "profile.target_length (leading blank and restated signature line removed)",
+                 "prefix_line_buckets": {name: round(a["prefix_buckets"][name] / n, 4)
+                                         for name in [b for _, b in PREFIX_BUCKETS] + [">60"]},
                  "by_bucket_blank_comment": {b: {"cases": c[0], "blank": round(c[1] / c[0], 4),
                                                  "comment": round(c[2] / c[0], 4)}
                                              for b, c in sorted(a["cells"].items())}}

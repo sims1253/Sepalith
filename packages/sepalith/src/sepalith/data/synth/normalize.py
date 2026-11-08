@@ -12,17 +12,39 @@ instead of v1's dense house style.
 v1 policies (kept for reproducing SYNTH-v1): ``dense`` removes blank lines
 inside top-level expressions; ``sectioned`` puts one blank line before each
 full-line comment. Blank lines inside multi-line strings are never touched.
+
+v3.1: the seeds put ``call. = FALSE`` on almost every ``stop()``/``warning()``
+(99.6% of calls; TRAIN 15%), so 36.8% of v3 finish rows show it against 4.3%
+in TRAIN. ``thin_call_false`` removes the argument from a deterministic 88% of
+seed files (whole files, so a prompt and its target always agree).
 """
 from __future__ import annotations
 
 from collections.abc import Sequence
 import hashlib
 from pathlib import Path
+import re
 
 from sepalith.data.synth.structure import FileStructure
 from sepalith.training.rl.air_canonical import AirFormatter
 
 STYLES = ("dense", "sectioned")
+CALL_FALSE_KEEP_SHARE = 0.12  # files that keep `call. = FALSE` (TRAIN: 15% of stop/warning calls carry it)
+CALL_FALSE_RE = re.compile(r",\s*call\.\s*=\s*FALSE\b")
+
+
+def keeps_call_false(relative_path: str) -> bool:
+    digest = int(hashlib.sha256(("call-false:" + relative_path).encode()).hexdigest(), 16)
+    return digest % 10_000 < CALL_FALSE_KEEP_SHARE * 10_000
+
+
+def thin_call_false(text: str, relative_path: str) -> tuple[str, str]:
+    """(text, status): status is absent, kept or thinned."""
+    if not CALL_FALSE_RE.search(text):
+        return text, "absent"
+    if keeps_call_false(relative_path):
+        return text, "kept"
+    return CALL_FALSE_RE.sub("", text), "thinned"
 
 
 def style_for(relative_path: str) -> str:
@@ -61,7 +83,7 @@ def format_text(formatter: AirFormatter, text: str) -> str | None:
 
 
 def normalise_file(source: Path, relative: str, structure: FileStructure, formatter: AirFormatter, *,
-                   blank_policy: str = "authored") -> tuple[str | None, dict]:
+                   blank_policy: str = "authored", call_false: bool = False) -> tuple[str | None, dict]:
     text = source.read_text(encoding="utf-8")
     info: dict = {"seed": relative, "seed_sha256": hashlib.sha256(text.encode()).hexdigest()}
     problems = []
@@ -84,6 +106,8 @@ def normalise_file(source: Path, relative: str, structure: FileStructure, format
     else:
         style = style_for(relative)
         styled = "\n".join(apply_blank_policy(lines, structure, style)) + "\n"
+    if call_false:
+        styled, info["call_false"] = thin_call_false(styled, relative)
     formatted = format_text(formatter, styled)
     if formatted is None:
         info["rejected"] = ["air_failed"]

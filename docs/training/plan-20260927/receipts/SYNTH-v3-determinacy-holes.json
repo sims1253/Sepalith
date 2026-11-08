@@ -1,0 +1,24 @@
+{
+  "cases": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3/cases.jsonl",
+    "sha256": "80b1704ef07790a3e5e228269878ffa2d3f53c08eacd246185f49928e1df3f28"
+  },
+  "decision": "not applied in v2 (would change the row set by more than 'a little'); listed as v3 work",
+  "finish_block_rows": 1703,
+  "holes": {
+    "comment_bearing": 204,
+    "comment_bearing_with_novel_words": 1,
+    "glue_string_identifiers_absent": 0,
+    "non_file_variant_novel_call_name": 427,
+    "non_verbatim_string_literal": 429
+  },
+  "schema": "sepalith.synth.determinacy-holes.v1",
+  "v3_novelty_reclassification": {
+    "constrained_short->author_choice": 8,
+    "constrained_short->constrained_short": 1280,
+    "constrained_short->sibling": 3,
+    "sibling->author_choice": 23,
+    "sibling->sibling": 389
+  },
+  "v3_would_reject": 31
+}

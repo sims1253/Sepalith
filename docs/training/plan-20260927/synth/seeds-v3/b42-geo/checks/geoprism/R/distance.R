@@ -1,0 +1,51 @@
+near <- function(a, b, tol = 1e-6) isTRUE(all.equal(a, b, tolerance = tol))
+q <- pi / 2
+for (m in c("haversine", "cosine", "equirect", "vincenty")) {
+  stopifnot(near(geo_distance(0, 0, 90, 0, m, radius = 1), q))
+  stopifnot(near(geo_distance(0, 0, 0, 0, m), 0))
+}
+stopifnot(near(geo_distance(0, 0, 90, 0, "chord", radius = 1), sqrt(2)))
+stopifnot(near(geo_distance(0, 0, 180, 0, "chord", radius = 1), 2))
+h <- geo_distance(13.4, 52.5, 2.35, 48.86)
+stopifnot(near(h, geo_distance(13.4, 52.5, 2.35, 48.86, "vincenty")))
+stopifnot(abs(h - geo_distance(13.4, 52.5, 2.35, 48.86, "equirect")) < 5000)
+
+stopifnot(near(geo_bearing(0, 0, 0, 10, "initial"), 0))
+stopifnot(near(geo_bearing(0, 0, 10, 0, "initial"), 90))
+stopifnot(near(geo_bearing(0, 0, 10, 0, "final"), 90))
+stopifnot(near(geo_bearing(0, 0, 10, 0, "reverse"), 270))
+stopifnot(near(geo_bearing(0, 0, -10, 0, "rhumb"), 270))
+stopifnot(near(geo_bearing(170, 0, -170, 0, "rhumb"), 90))
+b1 <- geo_bearing(0, 50, 30, 50, "initial")
+b2 <- geo_bearing(0, 50, 30, 50, "final")
+stopifnot(b1 < 90, b2 > 90)
+
+d <- geo_destination(0, 0, 90, pi / 2, "great_circle", radius = 1)
+stopifnot(near(d$lon, 90), near(d$lat, 0, 1e-8) || abs(d$lat) < 1e-8)
+r <- geo_destination(0, 0, 0, pi / 4, "rhumb", radius = 1)
+stopifnot(near(r$lat, 45), abs(r$lon) < 1e-8)
+r2 <- geo_destination(0, 0, 90, pi / 4, "rhumb", radius = 1)
+stopifnot(near(r2$lon, 45), abs(r2$lat) < 1e-8)
+f <- geo_destination(0, 60, 90, 0.1, "flat", radius = 1)
+stopifnot(near(f$lon, 0.2 * 180 / pi), near(f$lat, 60))
+
+ps <- path_stats(c(0, 90, 90), c(0, 0, 90), metric = "haversine")
+stopifnot(identical(names(ps), c("legs", "cumulative", "total", "longest", "shortest",
+  "mean_leg")))
+stopifnot(length(ps$legs) == 2, ps$cumulative[1] == 0, near(ps$total, ps$cumulative[3]))
+stopifnot(near(ps$longest, ps$shortest), near(ps$mean_leg, ps$total / 2))
+stopifnot(inherits(try(path_stats(1, 1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(path_stats(1:2, 1), silent = TRUE), "try-error"))
+
+stopifnot(near(c(convert_distance(1, "km", "m")), 1000))
+stopifnot(near(c(convert_distance(1, "mi", "ft")), 5280))
+stopifnot(near(c(convert_distance(1852, "m", "nmi")), 1))
+stopifnot(near(c(convert_distance(3, "ft", "yd")), 1))
+stopifnot(attr(convert_distance(1, "yd", "km"), "units") == "km")
+stopifnot(near(c(convert_distance(1, "nmi", "mi")), 1852 / 1609.344))
+stopifnot(inherits(try(convert_distance("1"), silent = TRUE), "try-error"))
+
+np <- nearest_point(c(0, 10, NA), c(0, 10, 0), c(1, 9, 50), c(1, 9, 50), max_dist = 5e5)
+stopifnot(identical(np$index, c(1L, 2L, NA)), is.na(np$distance[3]))
+np2 <- nearest_point(100, 0, c(1, 9), c(1, 9), max_dist = 1000)
+stopifnot(is.na(np2$index))

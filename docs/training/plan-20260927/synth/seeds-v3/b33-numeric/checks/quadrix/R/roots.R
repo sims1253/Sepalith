@@ -1,0 +1,51 @@
+ctl <- root_control(x_tol = 1e-8)
+stopifnot(identical(ctl$max_iter, 100L), ctl$x_tol == 1e-8, ctl$f_tol == 1e-12)
+stopifnot(inherits(try(root_control(x_tol = 0), silent = TRUE), "try-error"))
+stopifnot(inherits(try(root_control(f_tol = c(1, 2)), silent = TRUE), "try-error"))
+stopifnot(inherits(try(root_control(max_iter = 0), silent = TRUE), "try-error"))
+stopifnot(inherits(try(root_control(max_step = -1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(root_control(damping = 1.5), silent = TRUE), "try-error"))
+stopifnot(identical(names(ctl), c("x_tol", "f_tol", "max_iter", "max_step", "damping")))
+
+g <- function(x) x^2 - 2
+br <- check_bracket(g, 0, 2)
+stopifnot(br$f_lower == -2, br$f_upper == 2)
+stopifnot(inherits(try(check_bracket(g, NA, 2), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_bracket(g, 0, Inf), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_bracket(g, 2, 0), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_bracket(log, 0, 2), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_bracket(function(x) 1 / (x - 2), 0, 2), silent = TRUE), "try-error"))
+stopifnot(inherits(try(check_bracket(g, 2, 3), silent = TRUE), "try-error"))
+
+for (m in c("bisection", "false_position", "illinois", "ridders")) {
+  fit <- find_root(g, 0, 2, method = m, control = root_control(max_iter = 200L))
+  stopifnot(fit$converged, abs(fit$root - sqrt(2)) < 1e-8, fit$method == m)
+}
+stopifnot(find_root(g, 0, 2, "illinois")$iterations < find_root(g, 0, 2, "bisection")$iterations)
+stopifnot(!find_root(g, 0, 2, control = root_control(max_iter = 3L))$converged)
+
+stopifnot(abs(iterate_root(g, 1, df = function(x) 2 * x)$root - sqrt(2)) < 1e-12)
+stopifnot(iterate_root(g, 1, method = "secant")$converged)
+fit <- iterate_root(g, 1.5, method = "steffensen")
+stopifnot(fit$converged, abs(fit$root - sqrt(2)) < 1e-10, fit$method == "steffensen")
+stopifnot(inherits(try(iterate_root(g, 1), silent = TRUE), "try-error"))
+stopifnot(!iterate_root(g, 0, df = function(x) 2 * x)$converged)
+dg <- function(x) 2 * x
+slow <- iterate_root(g, 1, df = dg, control = root_control(damping = 0.5, max_iter = 500L))
+stopifnot(slow$converged, slow$iterations > 10L)
+capped <- iterate_root(g, 100, df = dg, control = root_control(max_step = 1, max_iter = 3L))
+stopifnot(abs(capped$root - 97) < 1e-12)
+
+eb <- expand_bracket(g, 0, step = 0.1)
+stopifnot(sign(g(eb[["lower"]])) != sign(g(eb[["upper"]])))
+stopifnot(identical(names(eb), c("lower", "upper")))
+eb <- expand_bracket(function(x) x + 5, 0)
+stopifnot(eb[["lower"]] < -5)
+stopifnot(inherits(try(expand_bracket(function(x) x^2 + 1, 0), silent = TRUE), "try-error"))
+stopifnot(inherits(try(expand_bracket(g, 0, step = 0), silent = TRUE), "try-error"))
+stopifnot(inherits(try(expand_bracket(g, 0, grow = NA), silent = TRUE), "try-error"))
+
+r <- find_all_roots(sin, -1, 7, n_grid = 50L)
+stopifnot(length(r) == 3L, all(abs(r - c(0, pi, 2 * pi)) < 1e-8))
+stopifnot(length(find_all_roots(g, -3, 3, method = "bisection")) == 2L)
+stopifnot(identical(find_all_roots(function(x) x^2 + 1, -1, 1), numeric(0)))

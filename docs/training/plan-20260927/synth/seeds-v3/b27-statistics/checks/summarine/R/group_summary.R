@@ -1,0 +1,37 @@
+stopifnot(is.na(safe_stat(c(NA, 1), stats::sd, min_n = 2L)))
+stopifnot(safe_stat(c(1, 2, NA, 3), mean) == 2)
+
+x <- c(1, 2, 3, 10, 20, NA)
+g <- c("a", "a", "a", "b", "b", "b")
+s <- group_summary(x, g)
+stopifnot(identical(s$group, c("a", "b")), identical(s$n, c(3L, 2L)))
+stopifnot(all.equal(s$mean, c(2, 15)), all.equal(s$max, c(3, 20)), s$sd[1] == 1)
+s2 <- group_summary(x, g, na_rm = FALSE)
+stopifnot(is.na(s2$mean[2]), s2$mean[1] == 2, is.na(s2$q3[2]))
+stopifnot(all.equal(s$se, c(1 / sqrt(3), stats::sd(c(10, 20)) / sqrt(2))))
+stopifnot(identical(s$median, c(2, 15)), identical(s$q1, c(1.5, 12.5)), s$q3[1] == 2.5)
+stopifnot(inherits(try(group_summary(letters, g), silent = TRUE), "try-error"))
+
+q <- group_quantiles(c(1:5, 11:15), rep(c("x", "y"), each = 5))
+stopifnot(identical(colnames(q), c("q25", "q50", "q75")), q["x", "q50"] == 3)
+stopifnot(q["y", "q50"] == 13)
+stopifnot(inherits(try(group_quantiles(1:3, 1:3, probs = 2), silent = TRUE), "try-error"))
+
+stopifnot(all.equal(pooled_sd(c(1, 2, 3), c(4, 5, 6)), 1), is.na(pooled_sd(1, NA)))
+
+cmp <- group_compare(c(1, 2, 3, 5, 6, 7, 2, 4, 6), rep(c("ctl", "t1", "t2"), each = 3))
+stopifnot(identical(cmp$group, c("t1", "t2")), all.equal(cmp$mean_diff, c(4, 2)))
+stopifnot(all.equal(cmp$median_diff, c(4, 2)), all.equal(cmp$sd_ratio, c(1, 2)))
+stopifnot(all.equal(cmp$effect_size[1], 4))
+stopifnot(nrow(group_compare(1:6, rep(1:2, 3), ref = "2")) == 1L)
+
+df <- data.frame(g = c("a", "a", "b", "b"), u = c(1, 3, 5, NA), w = c(2, 2, 4, 8))
+stopifnot(all.equal(summarise_by(df, c("u", "w"), "g")$u, c(2, 5)))
+stopifnot(all.equal(summarise_by(df, "w", "g", "median")$w, c(2, 6)))
+stopifnot(identical(summarise_by(df, "u", "g", "sd")$u[2], NA_real_))
+stopifnot(all.equal(summarise_by(df, "w", "g", "iqr")$w, c(0, 2)))
+stopifnot(all.equal(summarise_by(df, "w", "g", "mad")$w, c(0, stats::mad(c(4, 8)))))
+stopifnot(inherits(try(summarise_by(df, "zz", "g"), silent = TRUE), "try-error"))
+
+stopifnot(identical(group_counts(c("a", "b", "a", NA)), c(a = 2L, b = 1L)))
+stopifnot(identical(group_counts(c("a", NA), na_label = "none"), c(a = 1L, none = 1L)))

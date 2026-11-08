@@ -1,0 +1,52 @@
+stopifnot(compile_filter("age", "eq", 3) == "\"age\" = 3")
+stopifnot(compile_filter("name", "ne", "o'k") == "\"name\" <> 'o''k'")
+stopifnot(compile_filter("age", "lt", 2.5) == "\"age\" < 2.5")
+stopifnot(compile_filter("age", "gt", 10) == "\"age\" > 10")
+stopifnot(compile_filter("id", "in", 1:3) == "\"id\" IN (1, 2, 3)")
+stopifnot(compile_filter("id", "not_in", c("a", "b")) == "\"id\" NOT IN ('a', 'b')")
+stopifnot(compile_filter("x", "between", c(1, 5)) == "\"x\" BETWEEN 1 AND 5")
+stopifnot(compile_filter("s", "like", "a%") == "\"s\" LIKE 'a%'")
+stopifnot(compile_filter("s", "is_null") == "\"s\" IS NULL")
+stopifnot(compile_filter("s", "not_null") == "\"s\" IS NOT NULL")
+stopifnot(inherits(try(compile_filter("x", "eq", 1:2), silent = TRUE), "try-error"))
+stopifnot(inherits(try(compile_filter("x", "between", 1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(compile_filter("x", "in", NULL), silent = TRUE), "try-error"))
+
+stopifnot(compile_aggregate("*") == "COUNT(*) AS \"count_all\"")
+stopifnot(compile_aggregate("id", "count_distinct") ==
+            "COUNT(DISTINCT \"id\") AS \"count_distinct_id\"")
+stopifnot(compile_aggregate("x", "sum", "total", "mysql") == "SUM(`x`) AS `total`")
+stopifnot(compile_aggregate("x", "avg") == "AVG(\"x\") AS \"avg_x\"")
+stopifnot(compile_aggregate("x", "min") == "MIN(\"x\") AS \"min_x\"")
+stopifnot(compile_aggregate("x", "max") == "MAX(\"x\") AS \"max_x\"")
+stopifnot(startsWith(compile_aggregate("x", "median"), "PERCENTILE_CONT(0.5)"))
+stopifnot(inherits(try(compile_aggregate("x", "median", dialect = "sqlite"), silent = TRUE),
+                   "try-error"))
+stopifnot(inherits(try(compile_aggregate("*", "sum"), silent = TRUE), "try-error"))
+
+stopifnot(compile_window() == "ROW_NUMBER() OVER ()")
+stopifnot(compile_window("rank", partition_by = "g", order_by = "x") ==
+            "RANK() OVER (PARTITION BY \"g\" ORDER BY \"x\")")
+stopifnot(compile_window("dense_rank", order_by = "x") == "DENSE_RANK() OVER (ORDER BY \"x\")")
+stopifnot(compile_window("lag", "v", order_by = "t") == "LAG(\"v\", 1) OVER (ORDER BY \"t\")")
+stopifnot(compile_window("lead", "v", order_by = "t", offset = 2) ==
+            "LEAD(\"v\", 2) OVER (ORDER BY \"t\")")
+stopifnot(compile_window("running_sum", "v", order_by = "t") == "SUM(\"v\") OVER (ORDER BY \"t\")")
+stopifnot(inherits(try(compile_window("rank"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(compile_window("lag"), silent = TRUE), "try-error"))
+
+s <- compile_case("age", c(18, 65), c("minor", "adult", "senior"))
+lines <- strsplit(s, "\n")[[1]]
+stopifnot(length(lines) == 6L, lines[2] == "  WHEN \"age\" < 18 THEN 'minor'")
+stopifnot(lines[3] == "  WHEN \"age\" >= 18 AND \"age\" < 65 THEN 'adult'")
+stopifnot(lines[4] == "  WHEN \"age\" >= 65 THEN 'senior'", lines[6] == "END AS \"age_bin\"")
+stopifnot(length(strsplit(compile_case("x", 1, c("a", "b")), "\n")[[1]]) == 5L)
+stopifnot(inherits(try(compile_case("x", c(2, 1), 1:3), silent = TRUE), "try-error"))
+stopifnot(inherits(try(compile_case("x", 1, "a"), silent = TRUE), "try-error"))
+
+stopifnot(compile_date_part("d") == "EXTRACT(YEAR FROM \"d\")")
+stopifnot(compile_date_part("d", "month", "mysql") == "MONTH(`d`)")
+stopifnot(compile_date_part("d", "day", "sqlite") == "CAST(strftime('%d', \"d\") AS INTEGER)")
+stopifnot(compile_date_part("d", "hour") == "EXTRACT(HOUR FROM \"d\")")
+stopifnot(compile_date_part("d", "dow", "mysql") == "(DAYOFWEEK(`d`) - 1)")
+stopifnot(compile_date_part("d", "year", "sqlite") == "CAST(strftime('%Y', \"d\") AS INTEGER)")

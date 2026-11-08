@@ -1,0 +1,27 @@
+# skipped: needs dplyr (summariseSales, summariseShares)
+
+x <- c(4, NA, 1, 7)
+stopifnot(statValue(x, "n") == 3, statValue(x, "mean") == 4, statValue(x, "sd") == 3)
+stopifnot(statValue(x, "median") == 4, statValue(x, "min") == 1, statValue(x, "max") == 7)
+stopifnot(is.na(statValue(NA_real_, "mean")), statValue(numeric(), "n") == 0)
+stopifnot(is.na(statValue(5, "sd")))
+
+df <- data.frame(g = c("b", "a", "b", "a"), u = c(1, 2, 3, NA), v = c(10, 20, 30, 40))
+st <- summaryTable(df, c("u", "v"))
+stopifnot(identical(st$column, c("u", "v")), identical(st$n, c(3, 4)), st$mean[2] == 25)
+stopifnot(identical(names(st), c("column", "n", "mean", "sd", "min", "max")), st$max[1] == 3)
+stopifnot(inherits(try(summaryTable(df, "zz"), silent = TRUE), "try-error"))
+
+bg <- summariseByGroup(df, "g", c("u", "v"), overall = FALSE)
+stopifnot(identical(bg$group, c("a", "b")), identical(bg$u, c(2, 2)), identical(bg$v, c(30, 20)))
+stopifnot(identical(bg$n, c(2L, 2L)))
+ba <- summariseByGroup(df, "g", "v", "max")
+stopifnot(identical(ba$group, c("a", "b", "(all)")), identical(ba$v, c(40, 30, 40)), ba$n[3] == 4L)
+stopifnot(inherits(try(summariseByGroup(df, "zz", "v"), silent = TRUE), "try-error"))
+
+af <- data.frame(u = c(1, 2), v = c(0, 100))
+cs <- compareSummaries(df, af, c("u", "v"))
+stopifnot(identical(cs$n_change, c(-1, -2)), identical(cs$mean_after, c(1.5, 50)))
+stopifnot(identical(cs$mean_change, c(-0.5, 25)), identical(cs$median_change, c(-0.5, 25)))
+stopifnot(inherits(try(compareSummaries(df, af, "g"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(compareSummaries(af, df, "g"), silent = TRUE), "try-error"))

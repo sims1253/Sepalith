@@ -132,6 +132,18 @@ class FinishBlockTests(unittest.TestCase):
             if case.meta["determinacy"] == "author_choice":
                 self.assertEqual(case.meta.get("rejected"), "author_choice")
 
+    def test_v3_alternatives_share_a_cut_and_differ_in_packaging(self):
+        from collections import defaultdict
+        cases = [c for c in finish_block.generate(self.lines, self.structure, "synth:p", "R/a.R")
+                 if not c.meta.get("rejected")]
+        groups = defaultdict(list)
+        for case in cases:
+            groups[case.meta["cut_key"]].append(case)
+        self.assertTrue(groups)
+        for alts in groups.values():
+            self.assertEqual(len({a.target for a in alts}), 1)
+            self.assertEqual(len({a.meta["variant"] for a in alts}), len(alts))
+
     def test_signature_region_does_not_count_formals_as_novel(self):
         unit = self.structure.units[0]
         case = finish_block.build_case(unit, finish_block.Cut(10, "statement", 7), "strip", self.lines,
@@ -169,6 +181,28 @@ class FormatCollapseTests(unittest.TestCase):
 class NoveltyTests(unittest.TestCase):
     def test_comment_tokens_ignored(self):
         self.assertEqual(novelty(["  yy <- foo(x) # bar baz"], "x <- 1"), ["foo", "yy"])
+
+
+class AssessV3Tests(unittest.TestCase):
+    def test_templated_comments_and_messages_pass_new_prose_and_helpers_fail(self):
+        from sepalith.data.synth.common import assess
+        prompt = ["#' @param start,end Dates.", "span <- function(start, end) {", "  # Validate `start`",
+                  '  if (!inherits(start, "Date")) stop("`start` must be a Date.")']
+        ok = ["  # Validate `end`", '  if (!inherits(end, "Date")) stop("`end` must be a Date.")', "  end - start", "}"]
+        self.assertEqual(assess(ok, prompt, {"helperX"}), ([], []))
+        bad = ["  # Brand new prose", '  stop(sprintf("{nope} failed"))', "  helperX(end)", "}"]
+        _novel, hard = assess(bad, prompt, {"helperX"})
+        self.assertIn("unspecified_comment:Brand", hard)
+        self.assertIn("unspecified_literal:nope", hard)
+        self.assertIn("invisible_helper:helperX", hard)
+
+
+class TargetLengthTests(unittest.TestCase):
+    def test_one_definition_for_train_and_synth(self):
+        from sepalith.data.synth.profile import target_length
+        self.assertEqual(target_length([], ["", "  x", "}"]), 2)
+        self.assertEqual(target_length(["f <- function() {"], ["f <- function() {", "  x", "}"]), 2)
+        self.assertEqual(target_length([], ["  x", "}"]), 2)
 
 
 if __name__ == "__main__":

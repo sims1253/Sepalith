@@ -1,0 +1,37 @@
+st = c(S = 990, E = 5, I = 5, R = 0)
+p = list(beta = 0.4, sigma = 0.2, gamma = 0.1, xi = 0.01)
+stopifnot(rateOf(p, "mu") == 0, rateOf(p, "beta") == 0.4)
+
+d = seirDerivs(st, p)
+stopifnot(identical(names(d), c("S", "E", "I", "R")), abs(sum(d)) < 1e-12)
+stopifnot(isTRUE(all.equal(d[["S"]], -0.4 * 990 * 5 / 1000)))
+stopifnot(isTRUE(all.equal(d[["R"]], 0.5)))
+stopifnot(abs(sum(seirDerivs(st, c(p, mu = 0.05)))) < 1e-12)
+stopifnot(inherits(try(seirDerivs(st[-2], p), silent = TRUE), "try-error"))
+
+e = eulerStep(st, p, 1)
+stopifnot(isTRUE(all.equal(sum(e), 1000)), e[["S"]] < 990, isTRUE(all.equal(e[["R"]], 0.5)))
+stopifnot(isTRUE(all.equal(eulerStep(st, p, 0.5) - st, (e - st) / 2)))
+em = eulerStep(st, c(p, mu = 0.02), 1)
+stopifnot(isTRUE(all.equal(sum(em), 1000)), isTRUE(all.equal(em - st, seirDerivs(st, c(p,
+  mu = 0.02)))))
+
+r = rk4Step(st, p, 1)
+stopifnot(isTRUE(all.equal(sum(r), 1000)), abs(r[["S"]] - e[["S"]]) < 0.5)
+
+set.seed(11)
+b = binomialStep(st, p, 1)
+stopifnot(is.integer(b), sum(b) == 1000L, all(b >= 0))
+set.seed(11)
+t = tauLeapStep(st, p, 1)
+stopifnot(is.integer(t), sum(t) == 1000L, all(t >= 0))
+stopifnot(tauLeapStep(c(S = 0, E = 0, I = 0, R = 10), list(xi = 100), 1)[["R"]] == 0L)
+
+stopifnot(identical(stepModel(st, p), e), identical(stepModel(st, p, method = "rk4"), r))
+set.seed(11)
+stopifnot(identical(stepModel(st, p, method = "binomial"), b))
+set.seed(11)
+stopifnot(identical(stepModel(st, p, method = "tauleap"), t))
+stopifnot(identical(stepModel(st[c("R", "I", "E", "S")], p), e))
+stopifnot(inherits(try(stepModel(st[1:3], p), silent = TRUE), "try-error"))
+stopifnot(inherits(try(stepModel(st, p, dt = 0), silent = TRUE), "try-error"))

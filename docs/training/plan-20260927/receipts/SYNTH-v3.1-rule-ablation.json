@@ -1,0 +1,48 @@
+{
+  "cases": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3/cases.jsonl",
+    "sha256": "80b1704ef07790a3e5e228269878ffa2d3f53c08eacd246185f49928e1df3f28"
+  },
+  "finish_block_rows": 1703,
+  "note": "rows can trip several rules; v3.1 also excludes test-file finish_block cuts entirely",
+  "rows_per_rule": {
+    "novelty_budget(elt/default)": 99,
+    "unspecified_comment": 1,
+    "unspecified_constant": 68,
+    "unspecified_literal_identifier": 62,
+    "unspecified_literal_number": 12,
+    "unspecified_regex": 27,
+    "unspecified_schema": 159
+  },
+  "rows_removed_by_3_1_rules": 387,
+  "rows_removed_by_this_rule_only": {
+    "novelty_budget(elt/default)": 77,
+    "unspecified_comment": 1,
+    "unspecified_constant": 61,
+    "unspecified_literal_identifier": 49,
+    "unspecified_literal_number": 6,
+    "unspecified_regex": 21,
+    "unspecified_schema": 138
+  },
+  "schema": "sepalith.synth.rule-ablation.v1",
+  "strict_recount_kept_justification": {
+    "027e83fc8c4dcb7f4ccd80c6": "at_skew/gc_skew are visible as quoted choices in the prompt (`stats = c(..., \"gc_skew\", \"at_skew\", ...)`, also in @param); the recount counts each name twice (code identifier + string identifier). 3.1 novelty: at_skew, gc_skew, log2 = 3 <= sibling budget, support 0.54",
+    "039c9eec5d149b67457c7d27": "recount artefact: the sentence-final word `invalid.` was read as an identifier; the prompt shows the same message template (`Cursor field `%s` is invalid.`) twice",
+    "0634dc9e9405040e40759722": "recount artefact: `once.` and `value.` are sentence-final words; the prompt shows the message template (`can only be given once.`) and `value` as a formal",
+    "20ba943ca8ab31a01e0bd166": "recount artefact: `whitespace.` is a sentence-final word shown in the roxygen title (`Find lines with trailing whitespace`)",
+    "3363132a42ada2d87e12848c": "recount artefact: `tallyhook.` is the option prefix the roxygen spells out (`Prefixes each name with `tallyhook.``)",
+    "ca4d7aef7cc18938b4f64f8e": "goals_for/goals_against are visible as quoted strings in the prompt (`stats <- c(\"points\", \"won\", \"goals_for\", \"lost\", \"goals_against\")`); same double count. 3.1 novelty: 3 <= sibling budget, support 0.78"
+  },
+  "strict_recount_rows": 31,
+  "strict_recount_rows_not_removed": [
+    "027e83fc8c4dcb7f4ccd80c6",
+    "039c9eec5d149b67457c7d27",
+    "0634dc9e9405040e40759722",
+    "20ba943ca8ab31a01e0bd166",
+    "3363132a42ada2d87e12848c",
+    "ca4d7aef7cc18938b4f64f8e"
+  ],
+  "strict_recount_rows_removed_by_3_1_rules": 25,
+  "test_file_rows": 17,
+  "test_file_rows_not_otherwise_removed": 8
+}

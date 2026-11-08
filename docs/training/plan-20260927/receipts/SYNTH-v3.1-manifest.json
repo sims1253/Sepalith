@@ -1,0 +1,68 @@
+{
+  "admitted": true,
+  "artifacts": {
+    "behaviour-ledger.jsonl": {
+      "bytes": 124186,
+      "sha256": "5e3ad6a5000dd56383be538f4950ad5977c2f128d8d27450cc01ce4f975c4408"
+    },
+    "build-summary.json": {
+      "bytes": 41461,
+      "sha256": "f02f45c878e3c536d0ee3aacd028b5811e110607d731d18c4c7ac5335172cf86"
+    },
+    "cases.jsonl": {
+      "bytes": 4521286,
+      "sha256": "cdfca7a0f6062c66ee0b7dc728697a83b0faf8373fc4fa4d3babbdd87f24cc3a"
+    },
+    "context-sidecar.jsonl": {
+      "bytes": 3595907,
+      "sha256": "ad981571be5c9ca355ce08ac7e804c37d795a858eaeac4a7b79691fc1d7e7abd"
+    },
+    "cpt-hits.json": {
+      "bytes": 391624,
+      "sha256": "b694adce94de0618c55ff188f2ebc86abe2df6881fe484365ac9bfab053cfb32"
+    },
+    "dev-inputs.json": {
+      "bytes": 372756,
+      "sha256": "06f4739184359a5198af06b8f9654263a64160bbee00e18b9f84f4158a8fca7e"
+    },
+    "normalisation-ledger.jsonl": {
+      "bytes": 156221,
+      "sha256": "6b19845f0e07b5b90527ad770a56700c9c4e2fca9e59a9be3cfb203f2fd0c505"
+    },
+    "train-token-rows.jsonl": {
+      "bytes": 7107228,
+      "sha256": "3fbe9fecc7319666bdb589f6ddf952b65c7882be4e1a3b20730ff70f98986a9c"
+    },
+    "verification-ledger.jsonl": {
+      "bytes": 12680180,
+      "sha256": "20dbcc487d9ce0dc1d5dba8eb7d070189d0187c7a423b5775d308e2594732f69"
+    }
+  },
+  "created_at_utc": "2026-10-23T10:56:39.353490+00:00",
+  "families": {
+    "finish_block": 1450,
+    "roxygen_drafting": 65
+  },
+  "generator": {
+    "code": "packages/sepalith/src/sepalith/data/synth/",
+    "git_head": "08c5217ed0066dec1d5e667ad41d7937cb3a04ad",
+    "id": "sepalith.synth.v1",
+    "version": "3.1.0"
+  },
+  "hf_uploaded": false,
+  "location": "/mnt/e/sepalith/campaign-20260915/data-work/SYNTH-v3.1",
+  "mechanical_pass_rate": 0.9981,
+  "renderer_id": "zeta2-prm03-v1",
+  "rows": 1515,
+  "schema": "sepalith.synth.manifest.v2",
+  "seed_tree": [
+    "docs/training/plan-20260927/synth/seeds-v2",
+    "docs/training/plan-20260927/synth/seeds-v3"
+  ],
+  "sources": {
+    "files": 608,
+    "sha256_of_tree": "54c8db6604d5b28e14bd29eaa72e6aa6db3ac23dae0b68ed099badcdd1cc07a7"
+  },
+  "split": "train",
+  "tokenizer_json_sha256": "3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+}
