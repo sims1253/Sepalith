@@ -1,0 +1,169 @@
+{
+ "card": "C18b",
+ "created": "2026-11-02",
+ "model": "C18b-grpo-exec-pilot-1 checkpoint 300",
+ "gate_receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/c18b-300/gate-receipt.json",
+ "gate_receipt_sha256": "0feba4da8e082fab591b91371e84a5c9fb5026ddfa9479b82585c641e75ad721",
+ "backend": {
+  "engine": "llama-server",
+  "build": "cuda",
+  "commit": "3cb7ffb1a",
+  "cap": 1024
+ },
+ "smallest_shippable": "Q6_K",
+ "release_tiers": {
+  "Q6_K": "default; gate pass",
+  "Q4_K_M+": "user exception: nofp_rise_pp 1.2 vs 1.0"
+ },
+ "tiers": {
+  "Q8_0": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "nofp_rise_pp"
+   ],
+   "exact_delta_pp": -1.2,
+   "nofp_rise_pp": 0.8,
+   "net_loss_bound": 2.6447798617660645
+  },
+  "Q6_K": {
+   "verdict": "pass",
+   "shippable": true,
+   "failed": [],
+   "exact_delta_pp": -0.4,
+   "nofp_rise_pp": 0.4,
+   "net_loss_bound": 1.855771709362246
+  },
+  "Q5_K_M": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "mean_kld"
+   ],
+   "exact_delta_pp": -0.4,
+   "nofp_rise_pp": 0.0,
+   "net_loss_bound": 1.5266211071164382
+  },
+  "Q4_K_M": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "mean_kld"
+   ],
+   "exact_delta_pp": -4.4,
+   "nofp_rise_pp": 4.0,
+   "net_loss_bound": 6.852261848164204
+  },
+  "Q4_K_M-head-q6_k": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "valid_mcnemar",
+    "mean_kld"
+   ],
+   "exact_delta_pp": -4.0,
+   "nofp_rise_pp": 4.0,
+   "net_loss_bound": 6.375646185859778
+  },
+  "Q4_K_M-uncalibrated": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "nofp_rise_pp",
+    "valid_mcnemar",
+    "mean_kld"
+   ],
+   "exact_delta_pp": -2.0,
+   "nofp_rise_pp": 2.4,
+   "net_loss_bound": 3.9314638350589277
+  },
+  "Q4_K_M+": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "nofp_rise_pp"
+   ],
+   "exact_delta_pp": -1.2,
+   "nofp_rise_pp": 1.2,
+   "net_loss_bound": 2.9129990972034236
+  },
+  "Q4_K_M-attn-out-q8_0": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "valid_mcnemar"
+   ],
+   "exact_delta_pp": -4.8,
+   "nofp_rise_pp": 4.8,
+   "net_loss_bound": 7.325736820621692
+  },
+  "Q4_K_M-mixA": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "valid_mcnemar"
+   ],
+   "exact_delta_pp": -3.2,
+   "nofp_rise_pp": 3.6,
+   "net_loss_bound": 5.594603293365259
+  },
+  "Q4_K_M-mixB": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "nofp_rise_pp"
+   ],
+   "exact_delta_pp": -2.0,
+   "nofp_rise_pp": 2.4,
+   "net_loss_bound": 4.139169166282676
+  },
+  "Q4_K_M-mixA-e4": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "nofp_rise_pp",
+    "valid_mcnemar"
+   ],
+   "exact_delta_pp": -2.8,
+   "nofp_rise_pp": 3.2,
+   "net_loss_bound": 5.11352546944531
+  },
+  "Q4_K_M-mixB-e4": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "nofp_rise_pp"
+   ],
+   "exact_delta_pp": -2.4,
+   "nofp_rise_pp": 2.8,
+   "net_loss_bound": 4.628540574954453
+  },
+  "Q4_K_M-mixC": {
+   "verdict": "fail",
+   "shippable": false,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp"
+   ],
+   "exact_delta_pp": -3.2,
+   "nofp_rise_pp": 3.6,
+   "net_loss_bound": 5.594603293365259
+  }
+ }
+}
