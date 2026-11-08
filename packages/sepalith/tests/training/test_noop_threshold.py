@@ -43,6 +43,51 @@ def record(case_id, expected_noop, p_noop, *, argmax=None, exact=False, suggesti
                             "cap_hit": cap, "first_token": argmax if argmax not in (None, NOOP) else 7}}
 
 
+class TargetProfileTests(unittest.TestCase):
+    def test_default_and_c18b_profiles_keep_distinct_identities(self):
+        m = load()
+        default = m.parse_args(["--dry-run"])
+        c18b = m.parse_args(["--dry-run", "--target", "c18b-300"])
+        self.assertEqual(default.target, "arm-a-536")
+        self.assertEqual(default.dry_run_output, m.DEFAULT_DRY_RUN)
+        self.assertNotEqual(default.dry_run_output, c18b.dry_run_output)
+        a, c = m.TARGETS[default.target], m.TARGETS[c18b.target]
+        self.assertEqual((a.step, c.step), (536, 300))
+        self.assertNotEqual(a.weights_sha256, c.weights_sha256)
+        self.assertNotEqual(a.weights_bytes, c.weights_bytes)
+        self.assertEqual(a.saved_dtypes, {"BF16": 296, "F32": 85})
+        self.assertEqual(c.saved_dtypes, {"BF16": 381})
+        from sepalith.training.sft import gate_rule
+        self.assertEqual(set(c.gate_recorded), set(gate_rule.METRICS))
+
+    def test_c18b_job_has_separate_outputs_and_passes_queue_validation(self):
+        from sepalith.ops import night_queue
+        m = load()
+        job = json.loads((HERE / "jobs/DT-noop-threshold-c18b-300.json").read_text())
+        night_queue.validate_job(dict(job))
+        self.assertEqual(job["priority"], 60)
+        self.assertTrue(job["resumable"])
+        command = job["command"]
+        args = m.parse_args(command[command.index("-B") + 2:])
+        self.assertEqual(args.target, "c18b-300")
+        for path in (args.output_dir, args.dry_run_output):
+            self.assertIn("c18b-300", str(path))
+
+    def test_summary_names_and_titles_do_not_collide(self):
+        m = load()
+        with tempfile.TemporaryDirectory() as tmp:
+            attempt = Path(tmp) / "attempt"
+            attempt.mkdir()
+            output = Path(tmp) / "out"
+            a = m.summarize(attempt, output, [], target="arm-a-536")
+            c = m.summarize(attempt, output, [], target="c18b-300")
+            self.assertTrue((output / "noop-threshold-attempt.json").is_file())
+            self.assertTrue((output / "noop-threshold-c18b-300-attempt.json").is_file())
+            self.assertIn("arm A 536", m.markdown(a))
+            self.assertIn("C18b 300", m.markdown(c))
+            self.assertIn("C18b 300", c["purpose"])
+
+
 class JobFileTests(unittest.TestCase):
     def test_job_file_runs_under_the_night_queue_rules_and_parses(self):
         from sepalith.ops import night_queue
@@ -89,7 +134,7 @@ class JobFileTests(unittest.TestCase):
         self.assertEqual(dry["schema"], module.DRY_RUN_SCHEMA)
         self.assertEqual(dry["status"], "pass")
         self.assertFalse(dry["final_set_access"])
-        self.assertEqual(dry["checkpoint"]["weights_sha256"], module.WEIGHTS_SHA256)
+        self.assertEqual(dry["checkpoint"]["weights_sha256"], module.TARGETS[module.DEFAULT_TARGET].weights_sha256)
         self.assertEqual(dry["train_subset"]["path"], str(module.DEFAULT_SUBSET))
         self.assertEqual(dry["train_subset"]["families"]["no_op"], 200)
         self.assertEqual(dry["noop_target_ids"], list(module.NOOP_TARGET))
@@ -191,7 +236,7 @@ class RecordFileTests(unittest.TestCase):
 class OuterExitCodeTests(unittest.TestCase):
     """The outer process maps the inner receipt to 0 / 75 / 1 and writes the job result."""
 
-    def run_outer(self, receipt, records):
+    def run_outer(self, receipt, records, target="arm-a-536"):
         m = load()
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "out"
@@ -199,6 +244,7 @@ class OuterExitCodeTests(unittest.TestCase):
             class FakeProcess:
                 def __init__(self, launch, **_):
                     inner = m.parse_args(launch[3:])  # the inner command line the outer builds must parse
+                    assert inner.target == target
                     assert inner.inner and inner.panels == ["dev75"] and inner.budget_minutes == 140
                     attempt = Path(launch[launch.index("--attempt-dir") + 1])
                     (attempt / "records").mkdir(parents=True, exist_ok=True)
@@ -213,12 +259,17 @@ class OuterExitCodeTests(unittest.TestCase):
                     pass
 
             result = Path(tmp) / "result.json"
-            args = m.parse_args(["--output-dir", str(out), "--no-guard", "--panels", "dev75",
+            args = m.parse_args(["--target", target, "--output-dir", str(out), "--no-guard", "--panels", "dev75",
                                  "--summary-dir", str(Path(tmp) / "s")])
             with mock.patch.object(m.subprocess, "Popen", FakeProcess), \
                     mock.patch.dict(os.environ, {"SEPALITH_JOB_RESULT": str(result)}):
                 code = m.outer(args)
             return code, json.loads(result.read_text())
+
+    def test_outer_forwards_c18b_target(self):
+        code, _ = self.run_outer({"status": "complete", "panels": {"dev75": {"cases": 3}}},
+                                 {"dev75": 3}, target="c18b-300")
+        self.assertEqual(code, 0)
 
     def test_complete_stopped_and_nothing_measured(self):
         code, result = self.run_outer({"status": "complete", "panels": {"dev75": {"cases": 3}}}, {"dev75": 3})
@@ -325,7 +376,7 @@ class MockedCudaInnerTests(unittest.TestCase):
         self.loads = []
         self.touched = mock.Mock(return_value=None)
 
-        def fake_load(parent, reference, device_name):
+        def fake_load(parent, reference, device_name, target):
             self.loads.append(device_name)
             from transformers import AutoTokenizer
 
@@ -338,7 +389,7 @@ class MockedCudaInnerTests(unittest.TestCase):
             mock.patch.object(self.m, "load_model_and_tokenizer", fake_load),
             mock.patch.object(self.m, "gpu_device", lambda: torch.device("cpu")),
             mock.patch.object(self.m, "touch_cuda", self.touched),
-            mock.patch.object(self.m, "verify_weights", lambda dry: {"method": "mock"}),
+            mock.patch.object(self.m, "verify_weights", lambda dry, target: {"method": "mock"}),
             mock.patch.object(self.m, "dev_cases", lambda *a: real_dev(*a)[:3]),
             mock.patch.object(self.m, "train_cases", lambda *a: real_train(*a)[-3:]),
         ]
