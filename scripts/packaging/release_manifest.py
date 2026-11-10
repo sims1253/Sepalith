@@ -71,7 +71,7 @@ def validate_asset(asset):
 
 def validate_model_profile(profile):
     _fields(profile, {'renderer', 'task', 'tokenizerRevision', 'modelRevision'}, label='Model profile')
-    if profile['renderer'] != 'zeta2-v1' or profile['task'] != 'r-next-edit':
+    if profile['renderer'] != 'zeta2-prm03-v1' or profile['task'] != 'r-next-edit':
         raise ValueError('Unsupported model renderer/task')
     for key in ('tokenizerRevision', 'modelRevision'):
         if not isinstance(profile[key], str) or not profile[key].strip():

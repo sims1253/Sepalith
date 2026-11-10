@@ -23,7 +23,7 @@ try:
 finally:
     sys.path[:] = _old_path
 
-PROFILE = dict(renderer='zeta2-v1', task='r-next-edit',
+PROFILE = dict(renderer='zeta2-prm03-v1', task='r-next-edit',
                tokenizerRevision='tokenizer:fixture', modelRevision='model:fixture')
 
 

@@ -45,7 +45,7 @@ def main():
             digest.update(chunk)
     bundles = [json.loads(p.read_text()) for p in args.bundle]
     manifest = dict(schema=1, build='b10453', bundles=bundles,
-                    modelProfile=dict(renderer='zeta2-v1', task='r-next-edit',
+                    modelProfile=dict(renderer='zeta2-prm03-v1', task='r-next-edit',
                                       tokenizerRevision=args.tokenizer_revision,
                                       modelRevision=args.model_revision),
                     model=dict(name=args.model.name, url=args.model_url,

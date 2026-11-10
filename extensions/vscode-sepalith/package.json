@@ -2,8 +2,8 @@
   "name": "vscode-sepalith",
   "displayName": "Sepalith",
   "publisher": "sepalith-dev",
-  "version": "0.0.7",
-  "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running a Sepalith GGUF.",
+  "version": "0.1.0",
+  "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running the Sepalith arm A GGUF (PRM03 prompt contract zeta2-prm03-v1).",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -47,6 +47,14 @@
       {
         "command": "sepalith.refreshRuntime",
         "title": "Sepalith: Refresh runtime manifest"
+      },
+      {
+        "command": "sepalith.acceptEdit",
+        "title": "Sepalith: Apply previewed edit"
+      },
+      {
+        "command": "sepalith.dismissEdit",
+        "title": "Sepalith: Dismiss previewed edit"
       }
     ],
     "views": {
@@ -76,6 +84,16 @@
         "command": "sepalith.suggest",
         "key": "alt+\\",
         "when": "editorTextFocus && editorLangId == 'r'"
+      },
+      {
+        "command": "sepalith.acceptEdit",
+        "key": "alt+enter",
+        "when": "editorTextFocus && sepalith.editPending && !findWidgetVisible"
+      },
+      {
+        "command": "sepalith.dismissEdit",
+        "key": "escape",
+        "when": "editorTextFocus && sepalith.editPending && !suggestWidgetVisible && !inlineSuggestionVisible"
       }
     ],
     "configuration": {
@@ -84,7 +102,7 @@
         "sepalith.modelPath": {
           "type": "string",
           "default": "",
-          "description": "Absolute path to a GGUF model.",
+          "description": "Absolute path to a GGUF. Empty: download and use the arm A Q8_0 GGUF (scholzmx/sepalith-2b-edit-sft, folder arm-a, sha256-pinned, 2.7 GB) into the shared Sepalith cache. Other qualified tiers of the same model: Q6_K (arm-a-imat-Q6_K.gguf, smallest tier that passed the C09 quant gate) and Q4_K_M-mixA-e4 (quant autoresearch); set their path here. The model must be trained on the zeta2-prm03-v1 prompt.",
           "scope": "application"
         },
         "sepalith.serverPath": {
@@ -106,8 +124,8 @@
         },
         "sepalith.contextSize": {
           "type": "number",
-          "default": 8192,
-          "description": "Context window; some prompts need ~5.6k tokens."
+          "default": 16384,
+          "description": "Server context window (tokens). A request needs its prompt plus the 1,024-token generation cap; prompts are bounded by the 6,000-unit source window plus the recent edit."
         },
         "sepalith.autoStart": {
           "type": "boolean",
@@ -127,17 +145,23 @@
         "sepalith.warmup": {
           "type": "boolean",
           "default": true,
-          "description": "Prefill-as-you-settle: ~200 ms after an edit, cursor move, file switch or accepted suggestion, send the next request's exact prompt with zero generation so the server's prompt cache is warm when the suggestion is requested. Off = every suggestion request pays its own prefill."
+          "description": "Prefill-as-you-settle: ~200 ms after an edit, cursor move, file switch or accepted suggestion, send the next request's exact prompt token IDs with zero generation so the server's prompt cache is warm when the suggestion is requested. Off = every suggestion request pays its own prefill."
+        },
+        "sepalith.allowNoEdit": {
+          "type": "boolean",
+          "default": true,
+          "description": "Let the model answer [NO_EDIT] (shown as no suggestion). Off: when the model's answer is a no-op, ask for its best edit instead (the no-op's first token is banned for the first step only)."
+        },
+        "sepalith.speculative": {
+          "type": "boolean",
+          "default": false,
+          "scope": "application",
+          "description": "N-gram speculative decoding (--spec-type ngram-simple, n 2, m 4): about 1.4x faster warm suggestions, but outputs are not token-identical to plain greedy decoding (failed the lossless gate). Applies at the next server start."
         },
         "sepalith.debugMode": {
           "type": "boolean",
           "default": false,
-          "description": "Log the full rendered prompt and raw completion for every request."
-        },
-        "sepalith.scopeContext": {
-          "type": "boolean",
-          "default": true,
-          "description": "Scope-aware prompt context: pin the enclosing function and add a top-level file outline (LSP document symbols, brace-scan fallback when no R language server is running). Off = plain prompt."
+          "description": "Log the full rendered PRM03 prompt and raw completion for every request."
         },
         "sepalith.manifestUrl": {
           "type": "string",
@@ -172,8 +196,6 @@
     "compile": "tsc --noEmit",
     "bundle": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --platform=node --format=cjs --external:vscode",
     "build": "npm run compile && npm run bundle",
-    "smoke": "npx --yes tsx scripts/smoke.ts",
-    "check-context": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-context.ts",
     "vsix": "npm run bundle && npx --yes @vscode/vsce package --allow-missing-repository",
     "check-runtime": "esbuild scripts/check-runtime.ts --bundle --platform=node --format=cjs --outfile=dist/check-runtime.cjs && node dist/check-runtime.cjs",
     "check-process": "esbuild scripts/check-process.ts --bundle --platform=node --format=cjs --outfile=dist/check-process.cjs && node dist/check-process.cjs",
@@ -181,7 +203,10 @@
     "check-completion": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-completion.ts",
     "check-warmup": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-warmup.ts",
     "test:lint": "node --test tools/anti-slop/rules/*.test.ts",
-    "test:editor": "npm run build && node tests/run.cjs"
+    "test:editor": "npm run build && node tests/run.cjs",
+    "check-prm03": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/check-prm03.ts",
+    "check-prm03-train": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --max-old-space-size=8192 scripts/check-prm03-train.ts",
+    "e2e-cpu": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/e2e-cpu.ts"
   },
   "devDependencies": {
     "@oxlint/plugins": "1.78.0",

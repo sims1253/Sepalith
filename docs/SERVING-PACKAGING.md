@@ -165,7 +165,10 @@ native-machine smoke checks; the packaging workflow alone does not validate them
 No release is published. Before release: choose the hosted model and hosting
 account, run the full quant battery, validate backend startup/fallback on target
 machines, and validate the Zed integration in the editor. The first release targets VS Code
-and Zed. Zed uses its built-in `zeta2` OpenAI-compatible provider plus generated
+and Zed. The VS Code extension renders the PRM03 prompt itself (byte-identical to
+`sepalith.campaign_protocol.render_prompt`). Zed renders its own `zeta2` prompt,
+which is not PRM03, so arm A suggestion quality in Zed is unvalidated.
+Zed uses its built-in `zeta2` OpenAI-compatible provider plus generated
 native-shell launchers; see [the Zed setup](../extensions/zed-sepalith/README.md). Runtime and GGUF files stay outside the VSIX.
 
 Upstream reference: [b10453 release](https://github.com/ggml-org/llama.cpp/releases/tag/b10453).
@@ -181,7 +184,9 @@ uses fake downloads, small archives and tiny child processes; no real model or
 network access is needed. Core contracts have a separate
 `python3 scripts/check_core.py` command.
 
-Release manifests require `modelProfile` with `renderer: "zeta2-v1"`,
+Release manifests require `modelProfile` with `renderer: "zeta2-prm03-v1"`
+(the PRM03 prompt contract arm A was trained on; older `zeta2-v1` manifests are
+rejected),
 `task: "r-next-edit"`, and nonempty `tokenizerRevision` and `modelRevision`
 identifiers. The release author must supply immutable revisions. Hashes pin the
 distributed model bytes; a profile declaration does not itself demonstrate edit
