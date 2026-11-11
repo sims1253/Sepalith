@@ -1,0 +1,45 @@
+{
+  "primary": {
+    "endpoint": "hold-out all-pass difference vs C18b 300 (paired, function-clustered 95% CI)",
+    "estimate": 0.0076,
+    "ci95": [
+      0.0034,
+      0.0122
+    ],
+    "met": true
+  },
+  "secondary": {
+    "mean_reward_difference": {
+      "ci95": [
+        0.0086,
+        0.018
+      ],
+      "functions": 630,
+      "mean": 0.0132,
+      "n": 3803
+    },
+    "exact_match_difference": {
+      "ci95": [
+        0.0055,
+        0.0147
+      ],
+      "functions": 630,
+      "mean": 0.01,
+      "n": 3803
+    },
+    "dev250_score250": {
+      "candidate": 112,
+      "start": 111,
+      "non_inferior": true
+    },
+    "cpt_nll_rise": {
+      "value": 0.0036818010837075255,
+      "within_limit": true
+    }
+  },
+  "adopt": true,
+  "protocol_validity": {
+    "c18b-300": 0.9734,
+    "c19-selected": 0.9808
+  }
+}
