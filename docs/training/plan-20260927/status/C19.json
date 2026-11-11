@@ -1,7 +1,7 @@
 {
   "card": "C19",
-  "state": "blocked",
-  "updated": "2026-11-02T19:47:00+01:00",
+  "state": "done",
+  "updated": "2026-11-12T00:20:00+01:00",
   "branch": "plan/C19-hard-mix",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/101",
   "outputs": {
@@ -13,9 +13,24 @@
       "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/docs/training/plan-20260927/c19/jobs/C19-grpo-exec-smoke.json"
     ],
     "source_commit": "b186b77c4b1c41e48b3ae98a1d5a3fea16c5422e",
-    "validation": "docs/training/plan-20260927/c19/validation.json"
+    "validation": "docs/training/plan-20260927/c19/validation.json",
+    "results": "docs/training/plan-20260927/c19/RESULTS.md",
+    "verdict": "docs/training/plan-20260927/receipts/C19-final-verdict.json",
+    "quant_gate": "docs/training/plan-20260927/receipts/C19-quant-gate-summary.json",
+    "adopted_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100"
   },
-  "rule_decisions": [],
-  "question_for_user": null,
-  "notes": "Implementation and CPU binding complete; blocked only on external rig R installation for strict verify and enqueue readiness. Smoke and pilot not enqueued, smoke unrun. See readiness.json for disk/build uncertainty and the initial unmasked test-suite deviation."
+  "rule_decisions": [
+    {
+      "rule": "plateau",
+      "at": "2026-11-10T04:17:05+01:00",
+      "decision": "stop at update 300; validation all-pass selects checkpoint 100 (0.3151)"
+    },
+    {
+      "rule": "final verdict C19",
+      "at": "2026-11-11T00:54:07+01:00",
+      "decision": "adopt: primary met, DEV250 112 non-inferior, CPT rise 0.0037"
+    }
+  ],
+  "question_for_user": "Next step after C19 (C17 release prep on C19 100 with tier choice, a C20 GRPO round, or supervised long-block round) is a user decision.",
+  "notes": "Pilot plateau at 300, selected checkpoint 100; final hold-out verdict ADOPT (all-pass +0.0076, CI95 [0.0034, 0.0122]); quant gate: Q6_K only passing tier. See c19/RESULTS.md."
 }
