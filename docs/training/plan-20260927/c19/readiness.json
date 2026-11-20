@@ -1,0 +1,22 @@
+{
+  "free_disk_bytes": 560060145664,
+  "min_free_disk_bytes": 150000000000,
+  "checkpoint_bytes_estimate": 17700000000,
+  "saves_fitting_above_floor": 23,
+  "smoke_saves": 2,
+  "pilot_evaluation_saves": 20,
+  "additional_deadline_saves_estimate": 3,
+  "memory_receipt_reused": "same C18b receipt; same architecture, buffers and caps; mandatory smoke unrun",
+  "frozen_prompt_tokens_max": 1944,
+  "frozen_gold_tokens_max": 239,
+  "expected_mean_completion_length": "higher; generation not measured",
+  "rig_installation": "rig 0.11.1 user mode, /home/m0hawk/.local/share/rig/r/4.6.1 (2026-11-03, user approved; /opt needs sudo)",
+  "exec_gate_fingerprint": "7f8e073fbedb4b9d; source bytes only; no binary/build hash",
+  "parser_identity": "harness source SHA256 and version string, no R executable hash",
+  "cross_build_behaviour_parity": "800 seeded census completions rescored under rig R vs records from pacman R: outcome, all-pass and reward identical on 800/800 (252 passes)",
+  "deviations": [
+    "First CPU-intended training-suite invocation omitted CUDA_VISIBLE_DEVICES and a test dependency initialized CUDA. No campaign or smoke launched. Suite rerun with CUDA hidden."
+  ],
+  "prepared_before_deadline": "2026-11-03T00:00:00+01:00",
+  "review_fixes": "GLM review of 93dd917f: restored outputs.trainer and parent_reference.cpt_recorded_nll_fp32_norms (300's CPT NLL, descriptive only); recipes rebound, job PATH cleaned"
+}

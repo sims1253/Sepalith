@@ -1,0 +1,215 @@
+{
+ "card": "C19",
+ "created": "2026-11-12",
+ "model": "C19-grpo-exec-pilot-1 checkpoint 100",
+ "gate_receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/gate-receipt.json",
+ "gate_receipt_sha256": "b864c3a754d2537e604c74b832a9cda0da0feeb06bacd9f0cfce32c4999ae972",
+ "backend": {
+  "engine": "llama-server",
+  "build": "cuda",
+  "commit": "3cb7ffb1a",
+  "cap": 1024
+ },
+ "smallest_shippable": "Q6_K",
+ "release_tiers": null,
+ "tiers": {
+  "Q8_0": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 2679710528,
+   "failed": [
+    "nofp_rise_pp"
+   ],
+   "score250": 112,
+   "exact_delta_pp": 0.0,
+   "nofp_rise_pp": 0.8,
+   "valid_drop_pp": 1.2,
+   "mean_kld": 0.000992,
+   "net_loss_bound": 1.3054393864694223
+  },
+  "Q6_K": {
+   "verdict": "pass",
+   "shippable": true,
+   "bytes": 2199741568,
+   "failed": [],
+   "score250": 111,
+   "exact_delta_pp": -0.4,
+   "nofp_rise_pp": 0.4,
+   "valid_drop_pp": 1.2,
+   "mean_kld": 0.003679,
+   "net_loss_bound": 1.5266211071164382
+  },
+  "Q5_K_M": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1973089408,
+   "failed": [
+    "mean_kld"
+   ],
+   "score250": 113,
+   "exact_delta_pp": 0.4,
+   "nofp_rise_pp": 0.4,
+   "valid_drop_pp": 0.0,
+   "mean_kld": 0.01198,
+   "net_loss_bound": 1.0621209157114522
+  },
+  "Q4_K_M": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1759769728,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "mean_kld"
+   ],
+   "score250": 101,
+   "exact_delta_pp": -4.4,
+   "nofp_rise_pp": 3.6,
+   "valid_drop_pp": 1.6,
+   "mean_kld": 0.037449,
+   "net_loss_bound": 6.674622763305783
+  },
+  "Q4_K_M-head-q6_k": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1695011968,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "mean_kld"
+   ],
+   "score250": 101,
+   "exact_delta_pp": -4.4,
+   "nofp_rise_pp": 3.6,
+   "valid_drop_pp": 2.8,
+   "mean_kld": 0.037768,
+   "net_loss_bound": 6.674622763305783
+  },
+  "Q4_K_M-uncalibrated": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1759769408,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "mean_kld"
+   ],
+   "score250": 105,
+   "exact_delta_pp": -2.8,
+   "nofp_rise_pp": 2.8,
+   "valid_drop_pp": 2.4,
+   "mean_kld": 0.050044,
+   "net_loss_bound": 4.9233852170027115
+  },
+  "Q4_K_M+": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1778951296,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp",
+    "mean_kld"
+   ],
+   "score250": 104,
+   "exact_delta_pp": -3.2,
+   "nofp_rise_pp": 3.2,
+   "valid_drop_pp": -0.4,
+   "mean_kld": 0.032527,
+   "net_loss_bound": 5.411635713243521
+  },
+  "Q4_K_M-attn-out-q8_0": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1847850112,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp"
+   ],
+   "score250": 102,
+   "exact_delta_pp": -4.0,
+   "nofp_rise_pp": 4.8,
+   "valid_drop_pp": 0.8,
+   "mean_kld": 0.02942,
+   "net_loss_bound": 6.375646185859778
+  },
+  "Q4_K_M-mixA": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1623827584,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp"
+   ],
+   "score250": 106,
+   "exact_delta_pp": -2.4,
+   "nofp_rise_pp": 2.8,
+   "valid_drop_pp": 0.4,
+   "mean_kld": 0.027554,
+   "net_loss_bound": 4.210564552444426
+  },
+  "Q4_K_M-mixB": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1691952256,
+   "failed": [
+    "nofp_rise_pp"
+   ],
+   "score250": 109,
+   "exact_delta_pp": -1.2,
+   "nofp_rise_pp": 2.4,
+   "valid_drop_pp": -0.4,
+   "mean_kld": 0.023536,
+   "net_loss_bound": 3.1447461718433676
+  },
+  "Q4_K_M-mixA-e4": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1590404224,
+   "failed": [
+    "exact_delta_pp",
+    "mcnemar",
+    "nofp_rise_pp"
+   ],
+   "score250": 106,
+   "exact_delta_pp": -2.4,
+   "nofp_rise_pp": 2.8,
+   "valid_drop_pp": 1.6,
+   "mean_kld": 0.027187,
+   "net_loss_bound": 4.210564552444426
+  },
+  "Q4_K_M-mixB-e4": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1658528896,
+   "failed": [
+    "nofp_rise_pp"
+   ],
+   "score250": 110,
+   "exact_delta_pp": -0.8,
+   "nofp_rise_pp": 2.0,
+   "valid_drop_pp": 0.8,
+   "mean_kld": 0.023608,
+   "net_loss_bound": 2.6379884515167524
+  },
+  "Q4_K_M-mixC": {
+   "verdict": "fail",
+   "shippable": false,
+   "bytes": 1726653568,
+   "failed": [
+    "nofp_rise_pp"
+   ],
+   "score250": 107,
+   "exact_delta_pp": -2.0,
+   "nofp_rise_pp": 2.4,
+   "valid_drop_pp": 1.6,
+   "mean_kld": 0.019139,
+   "net_loss_bound": 3.9314638350589277
+  }
+ }
+}

@@ -1,0 +1,32 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PATH=/home/m0hawk/.local/share/rig/r/4.6.1/bin:/home/m0hawk/.local/bin:/usr/local/bin:/usr/bin:/opt/cuda/bin",
+    "PYTHONPATH=/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/packages/sepalith/src",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "TOKENIZERS_PARALLELISM=false",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.grpo_exec.c19_night",
+    "run",
+    "--recipe",
+    "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/docs/training/plan-20260927/c19/bound/grpo-exec-pilot-1-c18b-300.json"
+  ],
+  "cwd": "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b",
+  "env": [],
+  "estimated_minutes": 960,
+  "id": "C19-grpo-exec-pilot-1",
+  "note": "C19 weights-only from C18b 300; hard mix; smoke 1-4/save/gates/resume to 6; pilot R6x and selection unchanged; never auto-enqueues final holdout.",
+  "priority": 45,
+  "requires": [
+    "C19-grpo-exec-smoke"
+  ],
+  "resumable": true
+}

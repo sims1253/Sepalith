@@ -1,0 +1,36 @@
+{
+  "card": "C19",
+  "state": "done",
+  "updated": "2026-11-12T00:20:00+01:00",
+  "branch": "plan/C19-hard-mix",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/101",
+  "outputs": {
+    "mix_manifest": "docs/training/plan-20260927/c19/mix-manifest.json",
+    "mix_sha256": "ffc49bdef55a2b1585ab34b3448f1eb61e18f49f23d71b1c97cde20bb9eed67b",
+    "worktree": "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b",
+    "jobs": [
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/docs/training/plan-20260927/c19/jobs/C19-grpo-exec-pilot-1.json",
+      "/home/m0hawk/.t3/worktrees/Sepalith/t3-1e12410b/docs/training/plan-20260927/c19/jobs/C19-grpo-exec-smoke.json"
+    ],
+    "source_commit": "b186b77c4b1c41e48b3ae98a1d5a3fea16c5422e",
+    "validation": "docs/training/plan-20260927/c19/validation.json",
+    "results": "docs/training/plan-20260927/c19/RESULTS.md",
+    "verdict": "docs/training/plan-20260927/receipts/C19-final-verdict.json",
+    "quant_gate": "docs/training/plan-20260927/receipts/C19-quant-gate-summary.json",
+    "adopted_checkpoint": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100"
+  },
+  "rule_decisions": [
+    {
+      "rule": "plateau",
+      "at": "2026-11-10T04:17:05+01:00",
+      "decision": "stop at update 300; validation all-pass selects checkpoint 100 (0.3151)"
+    },
+    {
+      "rule": "final verdict C19",
+      "at": "2026-11-11T00:54:07+01:00",
+      "decision": "adopt: primary met, DEV250 112 non-inferior, CPT rise 0.0037"
+    }
+  ],
+  "question_for_user": "Next step after C19 (C17 release prep on C19 100 with tier choice, a C20 GRPO round, or supervised long-block round) is a user decision.",
+  "notes": "Pilot plateau at 300, selected checkpoint 100; final hold-out verdict ADOPT (all-pass +0.0076, CI95 [0.0034, 0.0122]); quant gate: Q6_K only passing tier. See c19/RESULTS.md."
+}
