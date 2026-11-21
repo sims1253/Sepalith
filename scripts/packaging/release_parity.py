@@ -18,6 +18,14 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def file_digest(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open('rb') as f:
+        for chunk in iter(lambda: f.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 def git_file(ref: str, name: str) -> bytes:
     return subprocess.check_output(['git', 'show', f'{ref}:{EXTENSION}{name}'])
 
@@ -67,7 +75,7 @@ def metadata(path: Path, prompts: list[str]) -> dict:
 
 def check_tiers(paths: list[Path], evidence: dict) -> None:
     expected = {t['gguf']['sha256'] for t in evidence['tiers']}
-    actual = [digest(p.read_bytes()) for p in paths]
+    actual = [file_digest(p) for p in paths]
     if len(actual) != len(set(actual)) or set(actual) != expected:
         raise ValueError('GGUF inputs must be exactly the approved release tiers')
 
