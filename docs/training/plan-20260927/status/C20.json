@@ -16,15 +16,15 @@
     "jobs": [
       {
         "path": "docs/training/plan-20260927/c20/jobs/C20-final-holdout.json",
-        "sha256": "921f9469e3c78d16dccebfa6e512315e9bff831b04cc2b91c174888ee940f913"
+        "sha256": "b91d94543b030445bd6dd32c61c9426a38e9ab3ee2ca4c12146d36fab18ba8dc"
       },
       {
         "path": "docs/training/plan-20260927/c20/jobs/C20-sft-finish-pilot.json",
-        "sha256": "3969b483cdb2eb4cb9d267a2a83bc90a45c24947875ae0a3f66ff23cdc6d9e82"
+        "sha256": "0548be6eab618c41d51321d574b27d64ee3acdcd5d68521115540a3658921537"
       },
       {
         "path": "docs/training/plan-20260927/c20/jobs/C20-sft-finish-smoke.json",
-        "sha256": "2e8c55e248d1c2365cf69115c3d7a9df2340fb2e683c01d5d1a5b0a6ccfc4d18"
+        "sha256": "aeee8e9b329118937a4f95a5442829a6c88efb2d0a2206afd73e348f3bf170e8"
       }
     ],
     "validation_tasks": 1967,
@@ -34,14 +34,15 @@
     "total_loss_tokens": 248583,
     "cpu_gold_all_pass": "4/4",
     "cpu_checks": {
-      "c20_unittest": "7 passed",
+      "c20_unittest": "10 passed",
       "core_unittest": "255 run, 21 skipped, no failures",
-      "sft_v2_unittest": "38 passed, 2 historical source-pin errors (C04)",
       "check_quality": "passed",
-      "main_bound_dry_run": "passed for smoke and pilot hashes and cohort, plus final job schema and input paths"
+      "main_bound_dry_run": "passed for smoke and pilot hashes and cohort, plus final job schema and input paths",
+      "historical_source_verification": "15 bound recipes passed across C04, C13, C18, C18b, and C19",
+      "c20_regressions": "S3-S5 each fail when the corresponding fix is reverted"
     }
   },
   "rule_decisions": [],
   "question_for_user": null,
-  "notes": "CPU data is frozen. GPU smoke, pilot and conditional final job await merge and queue submission. Use the original source revision for historical C04 bound recipes."
+  "notes": "CPU data is frozen. GPU smoke, pilot and conditional final job await merge and queue submission."
 }

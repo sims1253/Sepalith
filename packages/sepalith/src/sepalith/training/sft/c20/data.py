@@ -126,7 +126,7 @@ def build(repo: Path, out: Path = DATA) -> dict:
     from tokenizers import Tokenizer
 
     from sepalith.campaign_protocol import TERMINAL
-    from sepalith.training.sft.campaign_edit_data import inspect, validate_row
+    from sepalith.training.sft.c20.rows import inspect, validate_row
 
     source = repo / ROOT / "c18/C18-exec-pool.json"
     manifest = read(source)
@@ -182,7 +182,7 @@ def build(repo: Path, out: Path = DATA) -> dict:
 
     rows, draws = draw_batches(groups)
     for row in rows:
-        validate_row(row, CONTEXT, allow_cpt=True)
+        validate_row(row, CONTEXT)
     rows_path = out / "rows.jsonl"
     rows_record = {"path": str(rows_path), "sha256": pool.write_jsonl_new(rows_path, rows)}
     schedule_path = out / "schedule.json"
@@ -194,7 +194,7 @@ def build(repo: Path, out: Path = DATA) -> dict:
     schedule_record = recipe_v2.file_record(schedule_path)
     profile_path = out / "length-profile.json"
     pool.write_json_new(profile_path, recipe_v2.build_length_profile(rows_path, str(rows_record["sha256"])))
-    _, _, _, totals = inspect(rows_record, schedule_record, CONTEXT, allow_cpt=True)
+    _, _, _, totals = inspect(rows_record, schedule_record, CONTEXT)
     exposure = Counter(r["row_id"] for r in draws)
     capped_ids = {r["id"] for r in read_rows(checked(manifest["train"]))}
     mix = {"seed": SEED, "updates": UPDATES, "dose_per_update": DOSE,

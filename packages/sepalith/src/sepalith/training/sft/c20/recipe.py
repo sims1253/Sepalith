@@ -9,7 +9,9 @@ import shutil
 from typing import cast
 
 from sepalith.training.grpo_exec import pool
-from sepalith.training.sft import c20_data as data, recipe_v2
+from sepalith.training.sft import recipe_v2
+from sepalith.training.sft.c20 import data
+from sepalith.training.sft.full_weight_edit_sft import write_json
 
 SCHEMA = "sepalith.c20.full-weight-sft.v1"
 MAIN = Path("/home/m0hawk/sandbox/Sepalith")
@@ -20,6 +22,13 @@ CAMPAIGN = Path(recipe_v2.CHECKPOINT_BASE)
 PARENT = CAMPAIGN / "checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100"
 C19_EVIDENCE = STATE / "C19-grpo-exec-pilot-1"
 MEMORY_MIB = 14_500
+SOURCE_GLOBS = (
+    "packages/sepalith/src/sepalith/training/sft/c20/*.py",
+    "packages/sepalith/src/sepalith/exec_env/*",
+    "packages/sepalith/src/sepalith/exec_eval/*.py",
+    "packages/sepalith/src/sepalith/training/eval/*.py",
+    "packages/sepalith/src/sepalith/training/grpo_exec/*.py",
+)
 DISK_FLOOR = 150_000_000_000
 CHECKPOINT_BYTES = 19_000_000_000
 LR = 2.5e-6
@@ -37,16 +46,6 @@ JOB_IDS = {"smoke": "C20-sft-finish-smoke", "pilot": "C20-sft-finish-pilot",
 def require_disk(reserve: int = 0) -> None:
     pool.require(shutil.disk_usage(CAMPAIGN).free >= DISK_FLOOR + reserve,
                  "R7 disk floor: insufficient free space for the next full checkpoint")
-
-
-def limit_cuda(memory_mib: int) -> None:
-    import torch
-
-    pool.require(torch.cuda.is_available() and torch.cuda.device_count() == 1, "exactly one CUDA device required")
-    torch.cuda.set_device(0)
-    total = torch.cuda.get_device_properties(0).total_memory
-    budget = memory_mib * 1024**2
-    torch.cuda.set_per_process_memory_fraction(min(1.0, budget / total), device=0)
 
 
 def checkpoint_files() -> dict:
@@ -71,30 +70,30 @@ def runtime(mode: str) -> dict:
             "selected_milestones": stages(mode), "cuda_memory_limit_mib": MEMORY_MIB}
 
 
+def source_paths(repo: Path) -> list[Path]:
+    return sorted({path for pattern in SOURCE_GLOBS for path in repo.glob(pattern) if path.is_file()})
+
+
+def frozen_manifest(path: Path) -> dict:
+    frozen = data.DATA / path.name
+    if not path.exists():
+        pool.write_json_new(path, data.read(frozen))
+    pool.require(pool.sha256(path) == pool.sha256(frozen), f"frozen manifest differs: {path}")
+    return data.read(path)
+
+
 def bind(repo: Path) -> None:
     packet = repo / PACKET
     template = data.read(repo / data.ROOT / "c04/bound/sft-v2-lr1e-5.json")
     c19 = data.read(repo / data.C19_RECIPE)
     validation_path = packet / "validation-manifest.json"
     mix_path = packet / "mix-manifest.json"
-    validation = data.read(data.DATA / validation_path.name)
-    mix = data.read(data.DATA / mix_path.name)
-    pool.write_json_new(validation_path, validation)
-    pool.write_json_new(mix_path, mix)
+    validation = frozen_manifest(validation_path)
+    mix = frozen_manifest(mix_path)
     tracked = recipe_v2.build_source_manifest(repo)
-    extra_files = {}
-    for pattern in (
-        "packages/sepalith/src/sepalith/exec_env/*",
-        "packages/sepalith/src/sepalith/exec_eval/*.py",
-        "packages/sepalith/src/sepalith/training/eval/*.py",
-        "packages/sepalith/src/sepalith/training/grpo_exec/*.py",
-    ):
-        for file in sorted(repo.glob(pattern)):
-            if file.is_file():
-                extra_files[str(file.relative_to(repo))] = pool.sha256(file)
-    tracked["c20_evaluation_files"] = extra_files
+    tracked["c20_files"] = {str(path.relative_to(repo)): pool.sha256(path) for path in source_paths(repo)}
     source_manifest = packet / "source-manifest.json"
-    pool.write_json_new(source_manifest, tracked)
+    write_json(source_manifest, tracked)
     source = {"manifest_path": str(MAIN / PACKET / source_manifest.name),
               "manifest_sha256": pool.sha256(source_manifest), "repository_root": str(MAIN)}
     parent = {"path": str(PARENT), "candidate_id": START, "files": checkpoint_files()}
@@ -126,9 +125,11 @@ def bind(repo: Path) -> None:
         }
         bound["dev_gate"]["mandatory_steps"] = stages(mode)
         bound["dev_gate"]["evidence_directory"] = str(evidence)
-        pool.write_json_new(packet / f"{mode}.json", bound)
-    final = {"tasks": c19["final_evaluation"]["holdout_tasks"], "completions": COMPLETIONS, "n_tasks": 3803}
-    pool.write_json_new(packet / "final.json", final)
+        if mode == "pilot":
+            bound["smoke_recipe"] = recipe_v2.file_record(packet / "smoke.json", str(MAIN / PACKET / "smoke.json"))
+        write_json(packet / f"{mode}.json", bound)
+    final = {"source": source, "tasks": c19["final_evaluation"]["holdout_tasks"], "completions": COMPLETIONS, "n_tasks": 3803}
+    write_json(packet / "final.json", final)
     previous: list[str] = []
     for mode, priority, minutes in (("smoke", 40, 45), ("pilot", 45, 720), ("final", 30, 240)):
         identifier = JOB_IDS[mode]
@@ -138,11 +139,21 @@ def bind(repo: Path) -> None:
                "command": ["/usr/bin/env", f"PYTHONPATH={MAIN}/packages/sepalith/src", "OMP_NUM_THREADS=8",
                            "MKL_NUM_THREADS=8", "OPENBLAS_NUM_THREADS=1", "CUDA_VISIBLE_DEVICES=0",
                            "TOKENIZERS_PARALLELISM=false", "HF_HUB_OFFLINE=1", "TRANSFORMERS_OFFLINE=1",
-                           str(PYTHON), "-B", "-m", "sepalith.training.sft.c20_run", mode,
+                           str(PYTHON), "-B", "-m", "sepalith.training.sft.c20.run", mode,
                            "--recipe", str(recipe_path), "--sha256",
                            pool.sha256(packet / recipe_path.name)]}
-        pool.write_json_new(packet / "jobs" / f"{identifier}.json", job)
+        write_json(packet / "jobs" / f"{identifier}.json", job)
         previous = [identifier]
+
+
+def verify_source(record: dict) -> None:
+    manifest = recipe_v2.verify_source(record)
+    root = Path(record["repository_root"])
+    files = cast(dict[str, str], manifest["c20_files"])
+    pool.require(set(files) == {str(path.relative_to(root)) for path in source_paths(root)},
+                 "C20 source file set differs")
+    for name, digest in files.items():
+        data.checked({"path": str(root / name), "sha256": digest})
 
 
 def verify(recipe: dict) -> dict:
@@ -154,10 +165,11 @@ def verify(recipe: dict) -> dict:
     pool.require(recipe["runtime"] == runtime(mode) and recipe["seed"] == data.SEED
                  and recipe["dev_gate"]["mandatory_steps"] == stages(mode)
                  and recipe["retention"] == recipe_v2.RETENTION, "C20 runtime differs")
-    source = recipe_v2.verify_source(recipe["source"])
-    root = Path(recipe["source"]["repository_root"])
-    for name, digest in cast(dict[str, str], source["c20_evaluation_files"]).items():
-        data.checked({"path": str(root / name), "sha256": digest})
+    verify_source(recipe["source"])
+    if mode == "pilot":
+        smoke_path = data.checked(recipe["smoke_recipe"])
+        pool.require(smoke_path == Path(recipe["source"]["repository_root"]) / PACKET / "smoke.json",
+                     "C20 smoke recipe path differs")
     validate_context_and_storage(recipe)
     validation = data.read(data.checked(recipe["validation_manifest"]))
     mix = data.read(data.checked(recipe["mix_manifest"]))
@@ -185,7 +197,7 @@ def verify(recipe: dict) -> dict:
 def dry_run(repo: Path) -> None:
     from sepalith.ops.night_queue import validate_job
     from sepalith.training.grpo_exec.c19_night import guard
-    from sepalith.training.sft.full_weight_edit_sft import _validated_cohort
+    from sepalith.training.sft.c20.trainer import validated_cohort
 
     guard()
     pool.require(os.access(PYTHON, os.X_OK), "main checkout interpreter missing")
@@ -200,14 +212,16 @@ def dry_run(repo: Path) -> None:
                      and job["command"][-1] == pool.sha256(recipe_path) and str(PYTHON) in job["command"],
                      "queue job path or binding differs")
         recipe = data.read(recipe_path)
+        local = paths.localize(recipe)
+        assert isinstance(local, dict)
+        local_recipe = cast(dict, local)
         if mode == "final":
+            verify_source(local_recipe["source"])
             # The frozen tasks are opened only after the pilot passes in the queued final job.
             pool.require(Path(recipe["tasks"]["path"]).is_file() and recipe["completions"] == COMPLETIONS
                          and Path(COMPLETIONS["path"]).is_file(), "final inputs missing")
         else:
-            local = paths.localize(recipe)
-            assert isinstance(local, dict)
-            _, result = _validated_cohort(verify(local))
+            _, result = validated_cohort(verify(local_recipe))
             print(json.dumps({"mode": mode, **result}, sort_keys=True))
     require_disk(7 * CHECKPOINT_BYTES)
     print("Main-bound jobs, R, data, parent files and disk verified.")

@@ -23,14 +23,14 @@ The [mix manifest](../c20/mix-manifest.json) pins the seed, inputs, output row f
 ```bash
 export PYTHONPATH="$PWD/packages/sepalith/src"
 C20_PY=/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python
-nice -n 10 "$C20_PY" -m sepalith.training.sft.c20_recipe build
-"$C20_PY" -m sepalith.training.sft.c20_recipe bind
-"$C20_PY" -m sepalith.training.sft.c20_recipe verify
+nice -n 10 "$C20_PY" -m sepalith.training.sft.c20.recipe build
+"$C20_PY" -m sepalith.training.sft.c20.recipe bind
+"$C20_PY" -m sepalith.training.sft.c20.recipe verify
 ```
 
 ## Pilot and selection
 
-Start from C19-100 weights. Initialize the optimizer and sampler from scratch. Use the C04 full-weight trainer with micro-batch 1, gradient accumulation 16, bf16, gradient checkpointing, and the exact PRM03 target mask for edit rows. Use Aurora Mix with hidden LR 2.5e-6, side LR 2.5e-7, no weight decay, 32 warmup steps, and cosine decay to 10% of peak. Keep FP32 optimizer state in host RAM and stage one parameter's state at a time on the GPU. The trainer saves full state, including the draw cursor and RNG, every 100 steps and at the 16:40 deadline after the update in flight. Keep every durable checkpoint.
+Start from C19-100 weights. Initialize the optimizer and sampler from scratch. Use C04's full-weight training contracts through the C20 trainer with micro-batch 1, gradient accumulation 16, bf16, gradient checkpointing, and the exact PRM03 target mask for edit rows. Use Aurora Mix with hidden LR 2.5e-6, side LR 2.5e-7, no weight decay, 32 warmup steps, and cosine decay to 10% of peak. Keep FP32 optimizer state in host RAM and stage one parameter's state at a time on the GPU. The trainer saves full state, including the draw cursor and RNG, every 100 steps and at the 16:40 deadline after the update in flight. Keep every durable checkpoint.
 
 Run enlarged validation, DEV75, and CPT 2K NLL on C19-100 and after steps 100, 200, and 300. Use bf16 greedy generation, batch 32 with the dynamic cache, a 1,024-token cap, and stop IDs 1 and 130073. Compare each save against C19-100 on the same panels. A save qualifies for selection when all four conditions hold.
 
@@ -45,13 +45,13 @@ Pair by task ID and bootstrap by function with 2,000 resamples. Select the quali
 
 ## Final evaluation
 
-Run one final job after a passing pilot. Use the C19 final evaluator, the unchanged frozen hold-out, and the labels `c19-100` and `c20-selected`. Use the SHA256-pinned completions from C19's `final-step-100/completions-c19-selected.jsonl`. The job resumes generation for the selected model from any completed batches. The hold-out does not enter training, gates, or checkpoint selection.
+Run one final job after a passing pilot. Use the C19 generation and scoring helpers through the C20 evaluator. Keep the frozen hold-out and use the labels `c19-100` and `c20-selected`. Use the SHA256-pinned completions from C19's `final-step-100/completions-c19-selected.jsonl`. The job resumes generation for the selected model from any completed batches. The hold-out does not enter training, gates, or checkpoint selection.
 
 Adopt the selected save only if the paired, function-clustered 95% CI for overall all-pass difference has a lower bound above zero, DEV250 is at least 108, and CPT NLL rise is at most 0.03. Use 2,000 resamples. Report the medium and long finish-block buckets descriptively. Keep C19-100 if the final decision fails.
 
 ## Night jobs and resources
 
-Jobs bind cwd, PYTHONPATH, and the SFT interpreter to `/home/m0hawk/sandbox/Sepalith`. Merge this card before enqueueing so the source hashes match. Exec scoring uses rig R 4.6.1 at `/home/m0hawk/.local/share/rig/r/4.6.1`. The smoke requires one training update, a durable save, one resumed update, DEV75, CPT 2K, and greedy exec scoring on 24 validation tasks. Its output gates the pilot. The final job requires the pilot and skips evaluation if the pilot keeps C19-100.
+Jobs bind cwd, PYTHONPATH, and the SFT interpreter to `/home/m0hawk/sandbox/Sepalith`. Merge this card before enqueueing so the source hashes match. Exec scoring uses rig R 4.6.1 at `/home/m0hawk/.local/share/rig/r/4.6.1`. The smoke requires one training update, a durable save, one resumed update, DEV75, CPT 2K, and greedy exec scoring on 24 validation tasks. Before measuring the pilot baseline, verify the smoke receipt against the bound smoke recipe, both full checkpoints, and the step-2 gate evidence. The final job requires the pilot and skips evaluation if the pilot keeps C19-100. When the queue requests a stop, the pilot asks the trainer to save at the next update boundary. The driver waits for the save, verifies the full checkpoint, and exits with code 75 so the queue can resume the job.
 
 | Job | GPU window estimate | Resumable |
 | --- | ---: | --- |

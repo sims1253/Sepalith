@@ -176,7 +176,7 @@
   "seed": 3407,
   "source": {
     "manifest_path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/source-manifest.json",
-    "manifest_sha256": "918efe405df141fecd2ef88a75058370051553b5c2805801205ad2cec53a7f2f",
+    "manifest_sha256": "e3d5f729efe2409f0a3bb83b2168b7fa1194d61f56d82b870dd20d5f652f5fa9",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "validation": {

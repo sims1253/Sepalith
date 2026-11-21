@@ -1,5 +1,5 @@
 {
-  "c20_evaluation_files": {
+  "c20_files": {
     "packages/sepalith/src/sepalith/exec_env/__init__.py": "e6ea5f79878002cd8917cc54edd88fd2b5f35c449f7ab2b83956d1165da783d4",
     "packages/sepalith/src/sepalith/exec_env/gate.py": "daa47e48592370922439991697b345f014a3ecc4efdb47e2cee9e7608ecdf15b",
     "packages/sepalith/src/sepalith/exec_env/guard.py": "3373c96b7e5332b46a2679d9c95800f60e019ec2f0ec65e9a0e7c30d689323ce",
@@ -17,7 +17,7 @@
     "packages/sepalith/src/sepalith/exec_env/tasks.py": "37092b371d848f54f598ae9dbbea55a192b271dbcb036ae9e14d03a4407d136f",
     "packages/sepalith/src/sepalith/exec_env/testlib.R": "35a96fb8ffaa817130198cf014c98873006ec50f44073d24e3b31e49d071ac46",
     "packages/sepalith/src/sepalith/exec_eval/__init__.py": "0ad5e3d39111d8e06901367fdd61eac791b6c467e37315a674440263bb996962",
-    "packages/sepalith/src/sepalith/exec_eval/jobs.py": "367ea4e095cd76267f42d60989e24c97e8367d07e73115460a462f0e7b736ece",
+    "packages/sepalith/src/sepalith/exec_eval/jobs.py": "107f562c85efb12935f1548d7059f8dae65d79586f47f6da51cd372749869731",
     "packages/sepalith/src/sepalith/training/eval/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "packages/sepalith/src/sepalith/training/eval/campaign_cpt_eval.py": "f61f9559234374c025c369607745f4731506f85e12fc05c04e109efae998d7df",
     "packages/sepalith/src/sepalith/training/eval/campaign_eval.py": "81856179ee3395f0154d5d113391ed6c3ab711d23f7b47870ff97cb376aeaf65",
@@ -52,7 +52,16 @@
     "packages/sepalith/src/sepalith/training/grpo_exec/recipe.py": "6065f92f68e4d40394d2b78ee82cc08b03067b27f80d8cf82cf1a264d42d7dab",
     "packages/sepalith/src/sepalith/training/grpo_exec/rules.py": "52fb76844cb91b26f559db7b60bcf24a22dae553e09d5d55af2dc71edc58d6f3",
     "packages/sepalith/src/sepalith/training/grpo_exec/trainer.py": "8b35d0de27c4d43bf4305e908f9d4c43de438b3ee8eb9d9cf1c718f8622b5ae9",
-    "packages/sepalith/src/sepalith/training/grpo_exec/val_eval.py": "852a59247a0c28931618c8fde7b36ff2acd1bde980616b0864f8d4fda292a793"
+    "packages/sepalith/src/sepalith/training/grpo_exec/val_eval.py": "852a59247a0c28931618c8fde7b36ff2acd1bde980616b0864f8d4fda292a793",
+    "packages/sepalith/src/sepalith/training/sft/c20/__init__.py": "fdc795943e1382b86e0b6ec08bd523fae6e1f66334d7ea8a73221e232e2ea1d7",
+    "packages/sepalith/src/sepalith/training/sft/c20/data.py": "af647191d8b0145c013ea9428f68e7e8cc743612bbc676296c4990161a3cd9dc",
+    "packages/sepalith/src/sepalith/training/sft/c20/evaluator.py": "bae207c51fe283b526029af0c993bab3fc96523837c3d6c5fcc8f781d6bc70d8",
+    "packages/sepalith/src/sepalith/training/sft/c20/night_controls.py": "0f567ec70899b54a674b9e6edd971201c402275052f41e6cc3a23cf8365760eb",
+    "packages/sepalith/src/sepalith/training/sft/c20/optimizer.py": "28c134dbc1582ef0f6d99706b228ac21110177d31c8f294b7ead3da035f5635f",
+    "packages/sepalith/src/sepalith/training/sft/c20/recipe.py": "b27cc7a3edc0bcb3ab0980f2b1b37143a079e3489752c156cc680fc86b337b64",
+    "packages/sepalith/src/sepalith/training/sft/c20/rows.py": "1a981db791a61755590b702f5f4f352573c4a6e506261fadb5079afc220d570e",
+    "packages/sepalith/src/sepalith/training/sft/c20/run.py": "c8fbe4c2436697da440f462979c95969875dfa75ddce2205af4496e6d0c99f70",
+    "packages/sepalith/src/sepalith/training/sft/c20/trainer.py": "3e1301837e3580ee7844a47178a3bd2835e4673f37242b6e7a27d737ef15f393"
   },
   "evaluator_files_hashed_per_gate": [
     "packages/sepalith/src/sepalith/training/eval/run_dev_generation.py",
@@ -183,29 +192,9 @@
       "sha256": "b7d91411db3ce9fc7b9c13d05c153792b35fee468d0901cc9370bb5d7cbe5fd2"
     },
     {
-      "bytes": 10623,
-      "path": "packages/sepalith/src/sepalith/training/sft/c20_data.py",
-      "sha256": "52209ebbcf5b2851d984096c7f0a41dce8d3de4283cbbb5fa7d1da1e8ec3f997"
-    },
-    {
-      "bytes": 2994,
-      "path": "packages/sepalith/src/sepalith/training/sft/c20_optimizer.py",
-      "sha256": "28c134dbc1582ef0f6d99706b228ac21110177d31c8f294b7ead3da035f5635f"
-    },
-    {
-      "bytes": 11884,
-      "path": "packages/sepalith/src/sepalith/training/sft/c20_recipe.py",
-      "sha256": "f545e68e297740092f3b19f2e8a5e8c874e4976c4e7fd88fb5ff678c9f3aaf53"
-    },
-    {
-      "bytes": 23102,
-      "path": "packages/sepalith/src/sepalith/training/sft/c20_run.py",
-      "sha256": "43030f88490ee44a192ca5e886cb505fa1a636583149199be6cb043c7b7dff9e"
-    },
-    {
-      "bytes": 6431,
+      "bytes": 5494,
       "path": "packages/sepalith/src/sepalith/training/sft/campaign_edit_data.py",
-      "sha256": "fba955900bb5029fa0af09db472b92cba3ad04d3edfe9939c4f17ef16950c0ca"
+      "sha256": "d7876edc5a06e2343f76b1d7f3bc6f7a8c80d6b44f9791f7d1e8ea043f196541"
     },
     {
       "bytes": 11493,
@@ -213,9 +202,9 @@
       "sha256": "8fd6247ce6f3f22dda89735ab6c335baed68667b41879ce33ad36c55ab607aad"
     },
     {
-      "bytes": 35203,
+      "bytes": 33245,
       "path": "packages/sepalith/src/sepalith/training/sft/full_weight_edit_sft.py",
-      "sha256": "ecdc22e5bffc6d4077cb0a834f2b686a1be67fecfd460625d20035885f462c1d"
+      "sha256": "7144b2ed0a28cc8e0d4d05c1e0225e69b326e76303570296a92607e66b38a607"
     },
     {
       "bytes": 6663,
@@ -228,9 +217,9 @@
       "sha256": "0da385de62942823fe206bda71003d5302786b53562bae9fc5fcafc2238e8b30"
     },
     {
-      "bytes": 11259,
+      "bytes": 11067,
       "path": "packages/sepalith/src/sepalith/training/sft/night_controls.py",
-      "sha256": "e3872d1c2ad1ffa36b8b4d40ca820a7876fd57779e3574d0ea1fc3d238988738"
+      "sha256": "1d9bee05f62820efb78f455d250f8b1f561a7fc9d7cd35da95937a90d9b4b609"
     },
     {
       "bytes": 5967,

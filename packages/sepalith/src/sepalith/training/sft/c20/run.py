@@ -8,27 +8,46 @@ import math
 import os
 from pathlib import Path
 import shutil
+import signal
 import subprocess
 import sys
 import time
+from collections.abc import Callable
+from types import FrameType
 
 from sepalith.exec_eval import jobs as exec_jobs
 from sepalith.ops.night_queue import EXIT_DEFERRED
 from sepalith.training.checkpoint.campaign_checkpoint import verify_checkpoint
 from sepalith.training.grpo_exec.c19_night import guard
 from sepalith.training.grpo_exec.pool import read_jsonl, require, sha256, write_jsonl_new
-from sepalith.training.sft import c20_data as data, c20_recipe as config
-from sepalith.training.sft import full_weight_edit_sft as sft
+from sepalith.training.sft.c20 import data, recipe as config
+from sepalith.training.sft.c20 import trainer as sft
+from sepalith.training.sft.c20.evaluator import BATCH_SIZE, CAP, limit_cuda
+from sepalith.training.sft.c20.night_controls import stop_payload
 from sepalith.training.sft.night_controls import deadline_from_env
 
 NEEDS_USER = 3
 VERIFY_MINUTES = 10
 PANEL_MINUTES = {"dev75": 20, "cpt": 20, "dev250": 45}
-BATCH_SIZE = 32  # Matches the pinned C19 final completions and DEV references.
-CAP = 1024
 VAL_LIMIT_SMOKE = 24
-MODULE = "sepalith.training.sft.c20_run"
-TRAINER = "sepalith.training.sft.full_weight_edit_sft"
+MODULE = "sepalith.training.sft.c20.run"
+TRAINER = "sepalith.training.sft.c20.trainer"
+EVALUATOR = "sepalith.training.sft.c20.evaluator"
+
+
+class QueueStop:
+    """Translate the queue's SIGTERM and stop file into a safe boundary."""
+
+    signalled = False
+
+    def on_signal(self, _number: int, _frame: FrameType | None) -> None:
+        self.signalled = True
+
+    def requested(self) -> bool:
+        return self.signalled or exec_jobs.stop_requested()
+
+
+queue_stop = QueueStop()
 
 
 def checkpoint(recipe: dict, step: int) -> Path:
@@ -88,29 +107,44 @@ def promote(start: list[dict], candidate: list[dict], nofp_rise: int, cpt_rise: 
 def remaining(minutes: int) -> bool:
     deadline = deadline_from_env()
     assert deadline is not None
-    stop = os.environ.get("SEPALITH_STOP_REQUEST_FILE")
-    return (not stop or not Path(stop).exists()) and deadline - time.time() >= 60 * minutes
+    return not queue_stop.requested() and deadline - time.time() >= 60 * minutes
 
 
-def launch(module: str, *args: str) -> int:
-    env = dict(os.environ)
-    env.pop("SEPALITH_JOB_RESULT", None)
-    return subprocess.run([sys.executable, "-B", "-m", module, *args], env=env, check=False).returncode
-
-
-def guarded_launch(module: str, key: str, *args: str) -> int:
+def guarded_launch(module: str, key: str, *args: str, save_and_stop: Callable[[], None] | None = None) -> int:
     attempt = Path(os.environ["SEPALITH_NIGHT_ATTEMPT_DIR"])
     out = attempt / f"{key}-{time.time_ns()}"
     command = out.with_suffix(".json")
     exec_jobs.CUDA_LOCK.parent.mkdir(parents=True, exist_ok=True)
     exec_jobs.CUDA_LOCK.touch(exist_ok=True)
     exec_jobs.write_json(command, [sys.executable, "-B", "-m", module, *args])
-    seconds = max(1, int(float(os.environ["SEPALITH_HARD_STOP_EPOCH"]) - time.time() - 60))
-    launch("sepalith.training.guards.cuda_host_guard", "--command-json", str(command), "--output", str(out),
-           "--seconds", str(seconds))
+    seconds = max(1, int(float(os.environ["SEPALITH_HARD_STOP_EPOCH"]) - time.time() - 30))
+    argv = [sys.executable, "-B", "-m", "sepalith.training.guards.cuda_host_guard",
+            "--command-json", str(command), "--output", str(out), "--seconds", str(seconds)]
+    env = dict(os.environ)
+    env.pop("SEPALITH_JOB_RESULT", None)
+    stopping = False
+    with subprocess.Popen(argv, env=env) as process:
+        while True:
+            try:
+                process.wait(timeout=1)
+                break
+            except subprocess.TimeoutExpired:
+                if not stopping and queue_stop.requested():
+                    stopping = True
+                    if save_and_stop is not None:
+                        save_and_stop()
+                    else:
+                        process.terminate()
     terminal = data.read(out / "terminal.json")
-    require(terminal["status"] == "completed", f"{key} stopped in host guard: {terminal}; see {out}")
-    return terminal["child_exit_code"]
+    code = terminal.get("child_exit_code")
+    if save_and_stop is None and (
+        (stopping and terminal["reason"] == "guard_terminated")
+        or (code == EXIT_DEFERRED and terminal["reason"] is None)
+    ):
+        return EXIT_DEFERRED
+    require(terminal["status"] == "completed" and code == 0,
+            f"{key} stopped in host guard: {terminal}; see {out}")
+    return 0
 
 
 def evaluate_worker(recipe_path: Path, step: int, panel_name: str) -> None:
@@ -129,7 +163,7 @@ def evaluate_worker(recipe_path: Path, step: int, panel_name: str) -> None:
     cp = checkpoint(recipe, step)
     out = evidence(recipe, step)
     out.mkdir(parents=True, exist_ok=True)
-    config.limit_cuda(config.MEMORY_MIB)
+    limit_cuda(config.MEMORY_MIB)
     if panel_name == "cpt":
         model = AutoModelForCausalLM.from_pretrained(
             str(cp), dtype=torch.bfloat16, device_map={"": "cuda:0"}, local_files_only=True, trust_remote_code=False)
@@ -176,6 +210,8 @@ def panel(recipe: dict, recipe_path: Path, step: int, name: str) -> dict | None:
             return None
         code = guarded_launch(MODULE, f"{name}-{step}", "_evaluate", "--recipe", str(recipe_path),
                               "--step", str(step), "--panel", name)
+        if code == EXIT_DEFERRED:
+            return None
         require(code == 0, f"{name} evaluator exited {code}")
     value = data.read(result)
     require(value["binding"] == binding(recipe, recipe_path, step), f"{name} result binding differs")
@@ -190,10 +226,9 @@ def exec_run(kind: str, out: Path, tasks: dict, models: list[dict], job_id: str)
         require(data.read(models_path) == model_record, "stale exec model inputs")
     else:
         exec_jobs.write_json(models_path, model_record)
-    return launch("sepalith.exec_eval.jobs", "run", "--kind", kind, "--job-id", job_id,
+    return guarded_launch(EVALUATOR, job_id, "--kind", kind, "--job-id", job_id,
                   "--work-dir", str(out), "--tasks", tasks["path"], "--tasks-sha256", tasks["sha256"],
-                  "--models", str(models_path), "--batch", str(BATCH_SIZE), "--cap", str(CAP),
-                  "--memory-limit-mib", str(config.MEMORY_MIB), "--model-budget-minutes", str(VERIFY_MINUTES))
+                  "--models", str(models_path), "--model-budget-minutes", str(VERIFY_MINUTES))
 
 
 def validation(recipe: dict, recipe_path: Path, step: int) -> tuple[Path, dict] | None:
@@ -255,6 +290,8 @@ def gate(recipe: dict, recipe_path: Path, step: int) -> dict | None:
         return None
     rows, metrics = val
     report = {"binding": expected, "inputs": {"validation": record(rows),
+              "validation_metrics": record(directory / "validation/metrics.json"),
+              "validation_receipt": record(directory / "validation/receipt.json"),
               "dev75": record(directory / "dev75.json"), "cpt": record(directory / "cpt.json")},
               "dev75": dev75, "cpt": cpt, "validation": metrics}
     if step and recipe["mode"] == "pilot":
@@ -275,22 +312,104 @@ def emit(value: dict, code: int = 0) -> int:
     return code
 
 
+def verify_saved_checkpoint(recipe: dict, step: int) -> None:
+    manifest = verify_checkpoint(checkpoint(recipe, step), sft.identity(recipe), require_full=True,
+                                 expected_checkpoint_kind="full_weights")
+    require(manifest["step"] == step, "durable checkpoint step differs")
+
+
 def train_segment(recipe: dict, recipe_path: Path, current: int, stop: int | None = None) -> int:
     config.require_disk(config.CHECKPOINT_BYTES)
-    args = ["run", "--recipe", str(recipe_path)]
+    stop_path = Path(recipe["outputs"]["graceful_stop"])
+    payload = stop_payload(sha256(recipe_path))
+    if stop_path.exists():
+        require(data.read(stop_path) == payload, "graceful stop request identity differs")
+        stop_path.rename(stop_path.with_name(f"{stop_path.name}.consumed-{time.time_ns()}"))
+
+    def request_save() -> None:
+        if stop_path.exists():
+            require(data.read(stop_path) == payload, "graceful stop request identity differs")
+        else:
+            sft.write_json(stop_path, payload)
+
+    args = ["--recipe", str(recipe_path)]
     if current:
         args += ["--resume", str(checkpoint(recipe, current))]
     if stop:
         args += ["--stop-after-step", str(stop)]
-    code = guarded_launch(TRAINER, f"train-from-{current}", *args)
+    code = guarded_launch(TRAINER, f"train-from-{current}", *args, save_and_stop=request_save)
     require(code == 0, f"SFT trainer exited {code}")
     report = data.read(Path(recipe["outputs"]["archive"]) / "run-result.json")
-    require(report["initial_cursor"] == current * 16 and report["global_step"] > current
-                 and report["peak_cuda_reserved_bytes"] <= config.MEMORY_MIB * 1024**2,
-            "trainer resume cursor or GPU peak differs")
     step = report["global_step"]
+    require(report["initial_cursor"] == current * 16 and step > current
+            and report["observed_draws"] == (step - current) * 16
+            and report["terminal_checkpoint"] == str(checkpoint(recipe, step))
+            and report["peak_cuda_reserved_bytes"] <= config.MEMORY_MIB * 1024**2,
+            "trainer resume cursor, checkpoint or GPU peak differs")
+    verify_saved_checkpoint(recipe, step)
+    report["binding"] = binding(recipe, recipe_path, step)
     exec_jobs.write_json(evidence(recipe, step) / "train-segment.json", report)
     return step
+
+
+def smoke_receipt(recipe: dict, recipe_path: Path) -> dict:
+    segments = {}
+    peak = 0
+    for step in (1, 2):
+        verify_saved_checkpoint(recipe, step)
+        path = evidence(recipe, step) / "train-segment.json"
+        segment = data.read(path)
+        require(segment["binding"] == binding(recipe, recipe_path, step)
+                and segment["initial_cursor"] == (step - 1) * 16 and segment["observed_draws"] == 16
+                and segment["terminal_checkpoint"] == str(checkpoint(recipe, step)),
+                "smoke did not resume for a full update")
+        peak = max(peak, segment["peak_cuda_reserved_bytes"])
+        segments[str(step)] = record(path)
+    require(0 < peak <= config.MEMORY_MIB * 1024**2, "smoke GPU peak differs")
+    directory = evidence(recipe, 2)
+    path = directory / "gate.json"
+    report = data.read(path)
+    expected = binding(recipe, recipe_path, 2)
+    require(report["binding"] == expected, "stale smoke gate")
+    expected_inputs = {
+        "validation": directory / f"validation/records-{config.SELECTED}.jsonl",
+        "validation_receipt": directory / "validation/receipt.json",
+        "validation_metrics": directory / "validation/metrics.json",
+        "dev75": directory / "dev75.json",
+        "cpt": directory / "cpt.json",
+    }
+    require(report["inputs"].keys() == expected_inputs.keys(), "smoke gate inputs differ")
+    for key, path_expected in expected_inputs.items():
+        require(data.checked(report["inputs"][key]) == path_expected, f"smoke {key} path differs")
+    for key in ("dev75", "cpt"):
+        result = data.read(expected_inputs[key])
+        require(result["binding"] == expected and result["metrics"] == report[key],
+                f"smoke {key} evidence differs")
+    validation_receipt = data.read(expected_inputs["validation_receipt"])
+    tasks = directory / "smoke-tasks.jsonl"
+    label = config.SELECTED
+    require(validation_receipt["status"] == "complete"
+            and validation_receipt["tasks"]["sha256"] == sha256(tasks)
+            and validation_receipt["models"][label]["path"] == str(checkpoint(recipe, 2))
+            and data.read(expected_inputs["validation_metrics"])[label] == report["validation"]
+            and report["validation"]["coverage"] == {"tasks_scored": VAL_LIMIT_SMOKE, "tasks_total": VAL_LIMIT_SMOKE},
+            "smoke validation evidence differs")
+    return {"status": "pass", "binding": expected, "segments": segments, "gate": record(path),
+            "peak_cuda_reserved_bytes": peak}
+
+
+def verify_smoke(pilot: dict) -> None:
+    expected = pilot["smoke_recipe"]
+    recipe_path = data.checked(expected)
+    path = config.STATE / config.JOB_IDS["smoke"] / "smoke-pass.json"
+    require(path.is_file(), "C20 smoke has not passed")
+    receipt = data.read(path)
+    require(receipt.get("status") == "pass"
+            and receipt.get("binding", {}).get("recipe_sha256") == expected["sha256"],
+            "C20 smoke receipt belongs to a different recipe")
+    smoke = data.read(recipe_path)
+    require(smoke["mode"] == "smoke" and smoke["source"] == pilot["source"], "C20 smoke recipe differs")
+    require(receipt == smoke_receipt(smoke, recipe_path), "C20 smoke receipt evidence differs")
 
 
 def close_pilot(recipe: dict, recipe_path: Path, reports: list[dict]) -> int:
@@ -320,32 +439,30 @@ def train_job(recipe_path: Path) -> int:
     steps = config.stages(mode)
     smoke = mode == "smoke"
     if not smoke:
-        smoke_path = config.STATE / config.JOB_IDS["smoke"] / "smoke-pass.json"
-        require(smoke_path.is_file() and data.read(smoke_path)["status"] == "pass", "C20 smoke has not passed")
+        verify_smoke(recipe)
         if gate(recipe, recipe_path, 0) is None:
             return EXIT_DEFERRED
     current = max((int(p.name.removeprefix("checkpoint-")) for p in (archive / "full").glob("checkpoint-*")), default=0)
     reports = []
     for stage in steps:
+        if queue_stop.requested():
+            if current:
+                verify_saved_checkpoint(recipe, current)
+            return EXIT_DEFERRED
         while current < stage:
             if not remaining(VERIFY_MINUTES):
                 return EXIT_DEFERRED
             current = train_segment(recipe, recipe_path, current, 1 if smoke and not current else None)
-            if not smoke and current < stage:
+            if queue_stop.requested() or (not smoke and current < stage):
                 return EXIT_DEFERRED
-        verify_checkpoint(checkpoint(recipe, stage), sft.identity(recipe), require_full=True,
-                          expected_checkpoint_kind="full_weights")
+        verify_saved_checkpoint(recipe, stage)
         report = gate(recipe, recipe_path, stage)
         if report is None:
             return EXIT_DEFERRED
         reports.append(report)
     if smoke:
         path = config.STATE / config.JOB_IDS["smoke"] / "smoke-pass.json"
-        segments = [data.read(evidence(recipe, step) / "train-segment.json") for step in (1, 2)]
-        require([r["initial_cursor"] for r in segments] == [0, 16]
-                and [r["observed_draws"] for r in segments] == [16, 16], "smoke did not resume for a full update")
-        exec_jobs.write_json(path, {"status": "pass", "gate": reports[-1],
-                                   "peak_cuda_reserved_bytes": max(r["peak_cuda_reserved_bytes"] for r in segments)})
+        exec_jobs.write_json(path, smoke_receipt(recipe, recipe_path))
         return emit({"status": "pass", "summary": str(path)})
     return close_pilot(recipe, recipe_path, reports)
 
@@ -426,6 +543,7 @@ def main() -> int:
     parser.add_argument("--step", type=int)
     parser.add_argument("--panel", choices=("dev75", "dev250", "cpt"))
     args = parser.parse_args()
+    signal.signal(signal.SIGTERM, queue_stop.on_signal)
     try:
         require(deadline_from_env() is not None, "night queue deadline required")
         guard()
@@ -436,6 +554,7 @@ def main() -> int:
         require(os.environ.get("SEPALITH_NIGHT_JOB_ID") == config.JOB_IDS[args.mode], "night queue job identity differs")
         require(args.sha256 == sha256(args.recipe), "job recipe hash differs")
         if args.mode == "final":
+            config.verify_source(data.read(args.recipe)["source"])
             return final_job(args.recipe)
         require(data.read(args.recipe)["mode"] == args.mode, "training recipe mode differs")
         code = train_job(args.recipe)

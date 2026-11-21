@@ -12,12 +12,12 @@
     "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
     "-B",
     "-m",
-    "sepalith.training.sft.c20_run",
+    "sepalith.training.sft.c20.run",
     "pilot",
     "--recipe",
     "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/pilot.json",
     "--sha256",
-    "baa5c2b01e0713fca94a6f6fbf852b13c35265057431a043441bc99c44f88592"
+    "43db213f81158d232c36e2f6a659a7d5ce077e8b1a8e03a469bff1471b671e37"
   ],
   "cwd": "/home/m0hawk/sandbox/Sepalith",
   "env": [],

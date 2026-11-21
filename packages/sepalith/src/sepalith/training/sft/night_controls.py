@@ -105,8 +105,6 @@ def verify_microbatch(batch: Mapping[str, object], rows: Sequence[Mapping[str, o
     """Check one collated micro-batch against the admitted rows it must contain."""
     import torch
 
-    from sepalith.training.sft.campaign_edit_data import target_end
-
     keys = set(batch)
     _require(keys in ({"input_ids", "attention_mask", "labels"}, {"input_ids", "attention_mask", "labels", "_draw_position"}),
              f"unexpected model inputs {sorted(keys)}")
@@ -130,10 +128,8 @@ def verify_microbatch(batch: Mapping[str, object], rows: Sequence[Mapping[str, o
                  "row target metadata missing")
         assert isinstance(row_ids, list) and isinstance(start, int) and isinstance(body, list) and isinstance(terminal, list)
         end = len(row_ids)
-        eos = target_end(row)
-        earliest = 1 if row.get("family") == "cpt_replay" else 2
-        _require(end <= ids.shape[1] and earliest <= start < end, "boundary or truncation")
-        _require(row_ids[start:] == body + terminal + eos, "target body, terminal and EOS metadata lost")
+        _require(end <= ids.shape[1] and 1 < start < end - 1, "boundary or truncation")
+        _require(row_ids[start:] == body + terminal + [1], "target body, terminal and EOS metadata lost")
         _require(ids[index, :end].tolist() == row_ids, "dataloader changed tokens or order")
         _require(bool(attention[index, :end].eq(1).all()) and bool(attention[index, end:].eq(0).all()), "attention or padding")
         _require(bool(ids[index, end:].eq(1).all()), "padding token changed")
@@ -146,9 +142,8 @@ def verify_microbatch(batch: Mapping[str, object], rows: Sequence[Mapping[str, o
         supervised = labels[index, start:end].tolist()
         _require(supervised[: len(body)] == body, "target body is not supervised")
         _require(supervised[len(body):len(body) + len(terminal)] == terminal, "protocol terminal is not supervised")
-        if eos:
-            _require(supervised[-1] == 1, "EOS is not supervised")
-            counts["eos_supervised_rows"] += 1
+        _require(supervised[-1] == 1, "EOS is not supervised")
+        counts["eos_supervised_rows"] += 1
         counts["supervised_tokens"] += end - start
     _require(int(labels[:, 1:].ne(-100).sum()) == counts["supervised_tokens"], "causal target denominator")
     return counts

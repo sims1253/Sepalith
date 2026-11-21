@@ -80,9 +80,6 @@ def verify_data_queue(record):
 
 def load_bound(path):
     recipe = json.loads(Path(path).read_text())
-    from sepalith.training.sft import c20_recipe
-    if recipe.get("schema") == c20_recipe.SCHEMA:
-        return c20_recipe.verify(recipe)
     if recipe.get("schema") == V2_BOUND_SCHEMA:
         # Card C04 recipe v2: pre-registered schedule, optimizer and gates (sft/recipe_v2.py).
         from sepalith.training.sft.recipe_v2 import load_bound_v2
@@ -131,13 +128,13 @@ def training_arguments_kwargs(recipe, output):
     # v2 recipes pre-register warmup in updates and a cosine floor; v1 recipes give a warmup ratio.
     warmup_steps = runtime["warmup_steps"] if "warmup_steps" in runtime else int(runtime["max_steps"] * runtime["warmup_ratio"])
     extra = {"lr_scheduler_kwargs": dict(runtime["lr_scheduler_kwargs"])} if "lr_scheduler_kwargs" in runtime else {}
-    return {**extra, "output_dir": str(output), "per_device_train_batch_size": runtime["micro_batch"], "gradient_accumulation_steps": runtime["gradient_accumulation"], "max_steps": runtime["max_steps"], "learning_rate": runtime["learning_rate"], "lr_scheduler_type": runtime["scheduler"], "warmup_steps": warmup_steps, "max_grad_norm": 0.0, "bf16": True, "use_cache": False, "gradient_checkpointing": True, "gradient_checkpointing_kwargs": {"use_reentrant": False}, "save_strategy": "steps", "save_steps": runtime["checkpoint_every"], "save_only_model": False, "save_total_limit": None if runtime.get("cuda_memory_limit_mib") else 2, "logging_strategy": "steps", "logging_steps": 1, "logging_first_step": True, "eval_strategy": "no", "report_to": "none", "disable_tqdm": True, "remove_unused_columns": False, "dataloader_num_workers": 0, "dataloader_pin_memory": False, "train_sampling_strategy": "sequential", "ignore_data_skip": False, "seed": recipe["seed"], "data_seed": recipe["seed"]}
+    return {**extra, "output_dir": str(output), "per_device_train_batch_size": runtime["micro_batch"], "gradient_accumulation_steps": runtime["gradient_accumulation"], "max_steps": runtime["max_steps"], "learning_rate": runtime["learning_rate"], "lr_scheduler_type": runtime["scheduler"], "warmup_steps": warmup_steps, "max_grad_norm": 0.0, "bf16": True, "use_cache": False, "gradient_checkpointing": True, "gradient_checkpointing_kwargs": {"use_reentrant": False}, "save_strategy": "steps", "save_steps": runtime["checkpoint_every"], "save_only_model": False, "save_total_limit": 2, "logging_strategy": "steps", "logging_steps": 1, "logging_first_step": True, "eval_strategy": "no", "report_to": "none", "disable_tqdm": True, "remove_unused_columns": False, "dataloader_num_workers": 0, "dataloader_pin_memory": False, "train_sampling_strategy": "sequential", "ignore_data_skip": False, "seed": recipe["seed"], "data_seed": recipe["seed"]}
 
 
 class FrozenTokenRowDataset:
     def __init__(self, recipe):
         from sepalith.training.sft.campaign_edit_data import inspect
-        rows, draws, schedule, totals = inspect(recipe["cohort"]["rows"], recipe["cohort"]["draw_schedule"], recipe["cohort"]["max_sequence_tokens"], 16, allow_cpt=recipe["cohort"].get("allow_cpt_replay", False))
+        rows, draws, schedule, totals = inspect(recipe["cohort"]["rows"], recipe["cohort"]["draw_schedule"], recipe["cohort"]["max_sequence_tokens"], 16)
         require(len(rows)==recipe["cohort"]["unique_rows"] and len(draws)==recipe["cohort"]["updates"]*16, "editing cohort denominator differs")
         require(totals=={k:recipe["cohort"][k] for k in ("input_tokens","loss_tokens","body_tokens")}, "editing token denominators differ")
         self.rows,self.draws,self.schedule=rows,draws,schedule
@@ -168,14 +165,6 @@ def preflight_template(template_path):
     return _validated_cohort(recipe)[1]
 
 def identity(recipe):
-    if recipe["cohort"].get("allow_cpt_replay"):
-        value = identity_v2(recipe)
-        value["policy"]["stage"] = "c20_sft_finish"
-        value["policy"]["validation_manifest_sha256"] = recipe["validation_manifest"]["sha256"]
-        value["policy"]["cpt_text_replay"] = True
-        value["policy"]["optimizer_state_offload"] = recipe["runtime"]["optimizer_state_offload"]
-        value["policy"]["cuda_memory_limit_mib"] = recipe["runtime"]["cuda_memory_limit_mib"]
-        return value
     if recipe.get("schema") == V2_BOUND_SCHEMA:
         return identity_v2(recipe)
     return {"parent":{"candidate_id":recipe["parent"]["candidate_id"],"weights_sha256":recipe["parent"]["files"]["model.safetensors"]},"tokenizer":{"sha256":recipe["parent"]["files"]["tokenizer.json"],"bos":0,"eos_pad":1,"native_eog":[1,130073]},"renderer":{"id":"zeta2-prm03-v1","objective":"exact_target_body_terminal_eos_only","max_sequence_tokens":recipe["cohort"]["max_sequence_tokens"]},"data":{"cohort_id":recipe["cohort"]["id"],"rows_sha256":recipe["cohort"]["rows"]["sha256"],"draw_schedule_sha256":recipe["cohort"]["draw_schedule"]["sha256"]},"source":{"manifest_sha256":recipe["source"]["manifest_sha256"]},"policy":{"stage":"full_weight_edit_sft_eval_gate_v1","optimizer":recipe["runtime"]["optimizer"],"full_text_labels":False,"mandatory_dev_gate_steps":recipe["dev_gate"]["mandatory_steps"],"development_panel_sha256":recipe["dev_gate"]["panel"]["sha256"]},"schedule":{k:recipe["runtime"][k] for k in ("max_steps","effective_batch","micro_batch","gradient_accumulation","learning_rate","scheduler","warmup_ratio","checkpoint_every")}}
@@ -275,20 +264,12 @@ def run(recipe_path, resume=None, stop_after_step=None):
     recipe = load_bound(recipe_path); recipe_hash = sha256(recipe_path)
     night = DeadlineStop(deadline_from_env(), stop_after_step)
     from sepalith.training.eval.milestone_gate import continuation_plan
-    if recipe["cohort"].get("allow_cpt_replay"):
-        from sepalith.training.sft.c20_run import continuation
-        gate_plan = continuation(recipe, recipe_path, resume)
-    else:
-        gate_plan = continuation_plan(recipe, recipe_path, resume)
+    gate_plan = continuation_plan(recipe, recipe_path, resume)
     dataset, run_preflight = _validated_cohort(recipe); runtime = recipe["runtime"]
     require(run_preflight["status"] == "pass", "in-process cohort/holdout preflight failed")
     train_context = recipe["cohort"]["max_sequence_tokens"]
     output = Path(recipe["outputs"]["trainer"]); archive = Path(recipe["outputs"]["archive"])
-    if resume is None:
-        if recipe["cohort"].get("allow_cpt_replay"):
-            require(not any((archive / "full").glob("checkpoint-*")), "fresh run must not replace a durable checkpoint")
-        else:
-            require(not output.exists() and not archive.exists(), "fresh run output/archive must not exist")
+    if resume is None: require(not output.exists() and not archive.exists(), "fresh run output/archive must not exist")
     else:
         resume = Path(resume); require(resume.is_dir(), "resume checkpoint missing")
         from sepalith.training.checkpoint.campaign_checkpoint import verify_checkpoint
@@ -315,9 +296,6 @@ def run(recipe_path, resume=None, stop_after_step=None):
     from sepalith.training.sft.campaign_edit_data import target_only_collator, verify_batch
 
     require(torch.cuda.is_available() and torch.cuda.device_count() == 1, "exactly one root-owned CUDA device required")
-    if memory_limit := runtime.get("cuda_memory_limit_mib"):
-        from sepalith.training.sft.c20_recipe import limit_cuda
-        limit_cuda(memory_limit)
     set_seed(recipe["seed"])
     model, tokenizer = FastLanguageModel.from_pretrained(model_name=recipe["parent"]["path"], max_seq_length=train_context, dtype=torch.bfloat16, load_in_4bit=False, full_finetuning=True, float32_mixed_precision=False, fast_inference=False, trust_remote_code=False, use_gradient_checkpointing=True)
     reference = load_pinned_reference_tokenizer(Path(recipe["parent"]["path"]))
@@ -389,9 +367,6 @@ def run(recipe_path, resume=None, stop_after_step=None):
             token_stage_audits.append(assert_runtime_tokenizer(model, tokenizer, reference, embeddings_before_trainer, f"before_checkpoint_{step}"))
             serialized = assert_serialized_tokenizer(source, reference, recipe["parent"]["files"]["tokenizer.json"], sha256)
             sampler = {"method": "sequential_frozen_draw_schedule", "draw_schedule_sha256": recipe["cohort"]["draw_schedule"]["sha256"], "cursor": step * 16, "global_step": step, "effective_batch": 16, "ignore_data_skip": False}
-            if memory_limit:
-                from sepalith.training.sft.c20_recipe import require_disk
-                require_disk()
             sealed = seal_checkpoint(source, identity(recipe), step, full=True, sampler=sampler, checkpoint_kind="full_weights")
             destination = publish_sealed_checkpoint(source, archive / "full" / source.name, sealed)
             token_stage_audits.append({"stage": f"serialized_checkpoint_{step}", **serialized})
@@ -413,9 +388,6 @@ def run(recipe_path, resume=None, stop_after_step=None):
             observed_positions.extend(positions)
             return super().compute_loss(model, inputs, *args, **kwargs)
         def create_optimizer(self):
-            if runtime.get("optimizer_state_offload") and self.optimizer is None:
-                from sepalith.training.sft.c20_optimizer import build_offloaded_optimizer
-                self.optimizer, self.full_weight_optimizer_manifest = build_offloaded_optimizer(self.model, optimizer_config)
             result = super().create_optimizer()
             for key in ("arm", "ordered_rows", "ordered_rows_sha256", "parameter_objects", "parameters", "counts"):
                 require(self.full_weight_optimizer_manifest.get(key) == expected_dispatch.get(key), f"optimizer dispatch differs:{key}")
@@ -436,10 +408,6 @@ def run(recipe_path, resume=None, stop_after_step=None):
     require(terminal.is_dir(), "terminal durable full checkpoint missing")
     verify_checkpoint(terminal, identity(recipe), require_full=True, expected_checkpoint_kind="full_weights")
     report = {"schema": "sepalith.sft11.full-weight-edit-sft-run.v1", "status": "awaiting_mandatory_dev_gate" if terminal_step == next_mandatory_stop else ("deadline_stopped" if stops else "gracefully_stopped"), "stop_reasons": stops, "global_step": terminal_step, "initial_cursor": initial_cursor, "observed_draws": len(observed_positions), "last_draw_position": observed_positions[-1] if observed_positions else None, "train_loss": float(result.training_loss), "terminal_checkpoint": str(terminal), "tokenizer_contract": terminal_tokenizer, "tokenizer_stage_audits": token_stage_audits, "in_process_preflight": run_preflight, "cohort_scope": "accepted_repaired15006_additional_roxy10017_pending", "gate_plan": gate_plan}
-    if memory_limit:
-        report["peak_cuda_reserved_bytes"] = torch.cuda.max_memory_reserved()
-        report["peak_cuda_allocated_bytes"] = torch.cuda.max_memory_allocated()
-        report["cohort_scope"] = recipe["cohort"]["id"]
     write_json(archive / "run-result.json", report); print(json.dumps(report, sort_keys=True)); return report
 
 

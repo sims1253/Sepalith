@@ -12,12 +12,12 @@
     "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
     "-B",
     "-m",
-    "sepalith.training.sft.c20_run",
+    "sepalith.training.sft.c20.run",
     "smoke",
     "--recipe",
     "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/smoke.json",
     "--sha256",
-    "95725cb89c1c6859508976f8b2cbd8262b30875849c9a622f86943aa7519a690"
+    "554fc4d406f4b2366f591fcb7e8f5303bb5dda70105aebdf3528bcc506fea7e7"
   ],
   "cwd": "/home/m0hawk/sandbox/Sepalith",
   "env": [],
