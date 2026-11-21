@@ -28,15 +28,15 @@ The clean-room implementation lives in
 
 | v2 file | SHA-256 |
 | --- | --- |
-| `protocol.py` | `4ea4572f5865c7d47ecc4282a09e8a6003de73c036925a9f39bc19f268fd789d` |
-| `runtime.py` | `587f65bbd48eb23089a0c7a3ebf614bd8ac0a6c24f6e6542df6a141a99a2892c` |
-| `test_protocol.py` | `7b9c757221f598feea3b6116a7069b387380d62a4a26f8ce50089cd3dd14b28f` |
+| `protocol.py` | `166659c2213487ab0acde36d0b81fc54491dfe3de0ced7bc5708056ece0d15ee` |
+| `runtime.py` | `5934433d9522c11d1ae9f986b989150b92d7dfcc5b7a23416963ae839ed234b2` |
+| `test_protocol.py` | `c3495f9f0acc177dee57c97bb86414e2231bf32049ef1c1bc69aae59e6c85c73` |
 
 The evaluator and PRM03 renderer come from
 `523efc07bcb86ebba7fe1030c0a2dc6356f9d111`. The launcher checks the package
 source tree against that commit. It uses the renderer and the evaluator's
 capacity, greedy generation, stop, and classification functions. The harness
-SHA-256 is `8675cdb517f8a4b28ca8a8b7713caf9d3c3adeb34a0fa195b8004195c610734a`.
+SHA-256 is `71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809`.
 It binds that commit, both v2 runtime files, and
 `final-admission-guards/admission_guard.py`. From the repository root, compute
 it with:
@@ -47,7 +47,7 @@ python -c 'import sys; sys.path.insert(0, "docs/campaign/work/final-protocol-v2"
 
 GitHub stores both code directories in this change. Keep a second copy of the
 code under `/mnt/nas/bulk/backups/sepalith/`. The preparation copy is
-`/mnt/nas/bulk/backups/sepalith/sealed-final-v2-8675cdb517f8/`. Backups contain
+`/mnt/nas/bulk/backups/sepalith/sealed-final-v2-71a7593737a5/`. Backups contain
 code and synthetic tests only.
 
 ## Panel and audit
@@ -191,7 +191,7 @@ authorization. Keep the approved digest separate from the receipt.
   "harness_frozen_at": "<UTC ISO 8601>",
   "plan_sha256": "<sha256 of exact plan file>",
   "weights_sha256": "<guard sha256_json of the plan models object>",
-  "harness_sha256": "8675cdb517f8a4b28ca8a8b7713caf9d3c3adeb34a0fa195b8004195c610734a"
+  "harness_sha256": "71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809"
 }
 ```
 
