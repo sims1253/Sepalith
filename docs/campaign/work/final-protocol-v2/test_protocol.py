@@ -112,6 +112,7 @@ class ProtocolTests(unittest.TestCase):
                 )}
                 for row in self.rows
             },
+            **getattr(self, "semantic_extra", {}),
         })
         save(self.root / "payloads.json", self.payloads)
         models = {label: {} for label in v2.MODELS}
@@ -138,13 +139,26 @@ class ProtocolTests(unittest.TestCase):
         self.payloads["row-0"]["context"]["prefix"] = ["changed"]
         self.payloads["row-0"]["target"]["region_new"] = ["changed"]
         report = v2.run(self.freeze())
-        self.assertEqual(report["audit"]["hash_mismatches"], {"cases": 1, "context": 1, "target": 1, "source": 1})
+        self.assertEqual(report["audit"]["hash_mismatches"], {"cases": 1, "issuance": 0, "context": 1, "target": 1, "source": 1})
         self.assertEqual(report["clean"]["cases"], 19)
         comparison = report["clean"]["comparisons"]["c19-100-bf16_minus_arm-a-803"]
         self.assertEqual(comparison, {"delta": 1.0, "ci95": [1.0, 1.0]})
         output = (self.state / "result.json").read_text()
         for value in ("row-0", "package-0", "x <-", "generated_ids"):
             self.assertNotIn(value, output)
+
+    def test_issuance_mismatch_stays_excluded_and_counts_once(self) -> None:
+        self.semantic_extra = {"issuance_mismatches": ["row-0"]}  # matches now, mismatched at issuance
+        report = v2.run(self.freeze())
+        self.assertEqual(report["audit"]["hash_mismatches"]["cases"], 1)
+        self.assertEqual(report["audit"]["hash_mismatches"]["issuance"], 1)
+        self.assertEqual(report["clean"]["cases"], 19)
+
+    def test_package_clusters_keep_frozen_ids(self) -> None:
+        self.rows[0]["package_id"] = "foo.bar"
+        self.rows[1]["package_id"] = "foobar"
+        report = v2.run(self.freeze())
+        self.assertEqual(report["clean"]["packages"], 20)
 
     def test_hash_mismatch_over_five_percent_has_no_scoring(self) -> None:
         self.payloads["row-0"]["target"]["region_new"] = ["changed"]

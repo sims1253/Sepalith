@@ -201,6 +201,7 @@ def construct(
     guard: AdmissionGuard,
     overlap: set[str],
     tokenizer: DevTokenizer,
+    issuance_mismatches: frozenset[str] = frozenset(),
 ) -> tuple[list[PreparedCase], Counter[str]]:
     roots = guard._validate_roots()
     plans = [guard._validate_source_path(case.spec, roots) for case in cases]
@@ -217,7 +218,8 @@ def construct(
         payload = payloads[spec.row_id]
         if set(payload) != {"context", "target"}:
             raise ProtocolError("unexpected_case_payload_fields")
-        fields = set()
+        # A case that mismatched at binding issuance stays excluded even if it matches now.
+        fields = {"issuance"} if spec.row_id in issuance_mismatches else set()
         try:
             # The source itself is independently pinned and checked by the guard.
             guard._read_source(plan, None)
@@ -264,7 +266,8 @@ def summarize(
     cases: list[PreparedCase], model_counts: dict[str, dict[str, Counter[str]]], subgroup: bool,
 ) -> Json:
     selected = [case for case in cases if case.overlapping == subgroup]
-    packages = Counter(package_identity(case.spec.package_id) for case in selected)
+    # Overlap matching uses the broad package_identity key; resampling keeps the frozen package ID.
+    packages = Counter(case.spec.package_id for case in selected)
     n = len(selected)
     if not n:
         return {"cases": 0, "packages": 0, "models": {}, "comparisons": {}}
@@ -321,9 +324,7 @@ def score(
         for category in categories.values():
             category[label] = {}
         for case, ids in completed:
-            counts = categories[case.overlapping][label].setdefault(
-                package_identity(case.spec.package_id), Counter(),
-            )
+            counts = categories[case.overlapping][label].setdefault(case.spec.package_id, Counter())
             counts.update(score_case(case, ids, tokenizer))
 
     for label in labels:
@@ -357,16 +358,6 @@ def run(args: argparse.Namespace) -> Json:
     plan = pinned_json(args.plan, plan_sha256)
     if plan.get("schema") != SCHEMA + ".plan":
         raise ProtocolError("plan_schema_mismatch")
-    labels = list(MODELS)
-    if OPTIONAL_MODEL in plan["models"]:
-        if not isinstance(plan.get("c20_adoption"), dict):
-            raise ProtocolError("c20_adoption_receipt_required")
-        adoption = read_pin(plan["c20_adoption"])
-        if adoption.get("status") != "adopted" or adoption.get("model") != plan["models"][OPTIONAL_MODEL]:
-            raise ProtocolError("c20_adoption_not_bound")
-        labels.append(OPTIONAL_MODEL)
-    if set(plan["models"]) != set(labels):
-        raise ProtocolError("unexpected_model_roster")
     guard = AdmissionGuard(
         allowed_source_roots=[Path(path) for path in plan["source_roots"]],
         train_identities=(), dev_identities=(),  # v2 uses the group policy in audit().
@@ -377,6 +368,16 @@ def run(args: argparse.Namespace) -> Json:
         observed_at=datetime.now(timezone.utc),
     )
     guard._validate_freeze_receipt()
+    labels = list(MODELS)
+    if OPTIONAL_MODEL in plan["models"]:
+        if not isinstance(plan.get("c20_adoption"), dict):
+            raise ProtocolError("c20_adoption_receipt_required")
+        adoption = read_pin(plan["c20_adoption"])
+        if adoption.get("status") != "adopted" or adoption.get("model") != plan["models"][OPTIONAL_MODEL]:
+            raise ProtocolError("c20_adoption_not_bound")
+        labels.append(OPTIONAL_MODEL)
+    if set(plan["models"]) != set(labels):
+        raise ProtocolError("unexpected_model_roster")
 
     state = Path(plan["state_dir"])
     if not state.is_absolute() or state.resolve(strict=True) != state:
@@ -429,8 +430,15 @@ def evaluate_locked(
     if len(overlap) * 100 > 20 * audit_counts["groups"]:
         report.update(status="aborted", reason="overlap_ceiling_exceeded")
     else:
-        prepared, mismatches = construct(cases, Path(plan["payloads_path"]), guard, overlap, runtime.tokenizer)
-        audit_counts["hash_mismatches"] = {name: mismatches[name] for name in ("cases", "source", "context", "target")}
+        known = identities(guard.semantic_receipt.get("issuance_mismatches", []))
+        if not known <= {case.spec.row_id for case in cases}:
+            raise ProtocolError("issuance_mismatch_ids_outside_panel")
+        prepared, mismatches = construct(
+            cases, Path(plan["payloads_path"]), guard, overlap, runtime.tokenizer, frozenset(known),
+        )
+        audit_counts["hash_mismatches"] = {
+            name: mismatches[name] for name in ("cases", "issuance", "source", "context", "target")
+        }
         if mismatches["cases"] * 100 > 5 * len(cases):
             report.update(status="aborted", reason="mismatch_ceiling_exceeded")
         elif not any(not case.overlapping for case in prepared):

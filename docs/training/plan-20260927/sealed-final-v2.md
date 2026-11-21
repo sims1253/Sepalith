@@ -141,8 +141,10 @@ and with the user's separate written authorization:
    allowlist and `O_NOFOLLOW` walk, and computes `source_sha256`,
    `context_sha256` and `target_sha256`.
 2. Where the locked registry already carries expected hashes, they are kept
-   unchanged and compared; a case whose computed hash differs is listed as a
-   mismatch, never re-derived. Mismatches count toward the 5% ceiling below.
+   unchanged and compared; a case whose computed hash differs is listed in the
+   semantic receipt's `issuance_mismatches` and is never re-derived. The
+   launcher excludes those cases even if they match at scoring time and counts
+   the union with scoring-time mismatches, once per case, toward the 5% ceiling.
 3. The custodian writes the semantic receipt write-once, with
    `content_access: post_freeze_source_bytes`, and records its sha256. No
    prompt, target or prediction is printed or copied.
