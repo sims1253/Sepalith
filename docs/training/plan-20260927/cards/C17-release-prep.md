@@ -97,16 +97,32 @@ user for release acceptance before publishing.
 
 ## 4. Recover and freeze the sealed final protocol
 
-The promised `docs/campaign/work/final-*` evaluator and admission guards were
-not found on 2026-11-21 in this checkout, the main checkout
-`/home/m0hawk/sandbox/Sepalith`, or the available worktrees' campaign directories.
-The documented original planning worktree
-`/home/m0hawk/.t3/worktrees/Sepalith/t3code-a8153bbb` is absent.
-`/mnt/e/sepalith/campaign-20260915/campaign-overlay/work` contains `lead`, with
-no `final-*` package. These searches inspected code locations only.
+The promised `docs/campaign/work/final-*` evaluator and admission guards are
+not in main. Recovery search on 2026-11-21 (code and file names only; no sealed
+row was opened):
+
+- **Admission guard: recovered.** `docs/campaign/work/final-admission-guards/`
+  (`admission_guard.py`, `test_admission_guard.py`, `README.md`, schema
+  `dat08.final-admission-guard.v1`) exists on remote branch
+  `origin/t3code/best-token-model-plan`, commit `d7f2aa94` (2026-09-13), with
+  receipt `docs/campaign/receipts/DAT-08-admission-guards-preparation.json`.
+- **Final constructor and evaluator: lost.** That receipt pins
+  `docs/campaign/work/final-constructor-preparation/` (`final_constructor.py`,
+  `raw_source_case_builder.py`, `raw_source_tokenization.py` and tests) by
+  sha256, but no branch, the NAS (`/mnt/nas/home/sepalith`,
+  `/mnt/nas/bulk/backups/sepalith`) or the Hugging Face repos under `scholzmx`
+  hold them. They lived in the planning worktree's untracked files, which the
+  2026-10-10 WSL reinstall destroyed.
+- **Sealed case files: present.** `DAT-07-final-evaluator-cases.jsonl`,
+  `DAT-07-final-dev-candidates.jsonl`, `DAT-07-final-registry-preflight.json`
+  and `DAT-07-final-source-checks.json` (dated 2026-09-12) are in
+  `/mnt/e/sepalith/campaign-20260915/data-work/`, with copies in the NAS backup
+  `e-campaign-20260915/data-work/`.
+
 Do not substitute the exec hold-out evaluator or open any sealed data to search.
 
-This step is blocked until the original evaluator and guards are recovered.
+This step is blocked until the evaluator is rebuilt against the pinned hashes or
+the user approves a replacement design; that choice is the user's.
 Before any sealed run, add a reviewed addendum that cites their paths and code
 hashes, names their admission commands and result schema, and copies their
 existing pass criteria. Reuse the campaign evaluator, PRM03 render and greedy
