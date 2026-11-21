@@ -1,0 +1,9 @@
+{
+  "files": {
+    "docs/training/plan-20260927/c20/dev250-exception.json": "385988fea30c82021b7421c7913ed3295dc70b6311a744ab1bcd6801d6a2094f",
+    "docs/training/plan-20260927/c20/final.json": "060e70b375a32f91e4dbd347baaaa00715e289520b7cc41fe92aa1533d410117",
+    "packages/sepalith/src/sepalith/training/c20_exception/__init__.py": "080a30716eacb8270f994f03e161d8240b6d1564d0de64a56abcbe95b59505db",
+    "packages/sepalith/src/sepalith/training/c20_exception/final.py": "a6ef42450cf1029ba84e6e7ef924f113ff800ec84bae8fb43e695dcf4eb252bf"
+  },
+  "schema": "sepalith.c20.exception-source.v1"
+}
