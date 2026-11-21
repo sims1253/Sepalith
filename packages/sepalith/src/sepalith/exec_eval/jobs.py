@@ -494,7 +494,7 @@ def markdown(receipt: dict) -> str:
     lines = [f"# {receipt['job']} ({receipt['status']})", "", f"Started {receipt['started']}; "
              f"tasks {receipt['tasks']['n_tasks']} from {receipt['tasks']['n_functions']} functions; gate {GATE_COMMIT[:7]}.", ""]
     metrics = receipt.get("metrics", {})
-    if receipt["kind"] == "holdout":
+    if receipt["kind"] != "census":
         lines += ["| Model | Tasks | Mean reward (95% CI) | All-pass | Exact | Protocol valid |", "| --- | --- | --- | --- | --- | --- |"]
         for label, m in metrics.items():
             o = m.get("overall") or {}
@@ -583,6 +583,9 @@ def inner(args: argparse.Namespace) -> int:
     if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
         return finish(EXIT_NEEDS_USER, "exactly one visible CUDA device is required")
     device = "cuda:0"
+    if getattr(args, "memory_limit_mib", 0):
+        total = torch.cuda.get_device_properties(0).total_memory
+        torch.cuda.set_per_process_memory_fraction(min(1.0, args.memory_limit_mib * 1024**2 / total), device=0)
     torch.cuda.init()
     torch.zeros(1, device=device)  # create the context before any memory query
     receipt["device"] = {"name": torch.cuda.get_device_name(0), "torch": torch.__version__,
@@ -631,6 +634,10 @@ def inner(args: argparse.Namespace) -> int:
         write_json(receipt_path, receipt)
         if deferred:
             break
+    if deferred and args.kind == "validation":
+        receipt["status"] = "partial"
+        write_json(receipt_path, receipt)
+        return finish(EXIT_DEFERRED, "deadline or stop request; validation resumes from saved completions")
     # CPU scoring of everything generated so far
     score(args, receipt, tasks)
     complete = all(receipt["models"].get(m["label"], {}).get("status") == "generated" for m in models)
@@ -661,7 +668,7 @@ def score(args: argparse.Namespace, receipt: dict, tasks: list[dict]) -> None:
             if (args.work_dir / f"completions-{label}.jsonl").is_file():
                 all_records[label] = score_model(label, args.tasks, args.work_dir, reward, by_id)
     metrics: dict = {}
-    if args.kind == "holdout":
+    if args.kind != "census":
         for label, records in all_records.items():
             metrics[label] = holdout_metrics(records, label, len(tasks))
         first = next(iter(all_records), None)
@@ -690,6 +697,8 @@ def outer(args: argparse.Namespace) -> int:
                "--tasks-sha256", args.tasks_sha256, "--models", str(args.models), "--k", str(args.k),
                "--batch", str(args.batch), "--cap", str(args.cap), "--score-workers", str(args.score_workers),
                "--model-budget-minutes", str(args.model_budget_minutes)]
+    if args.memory_limit_mib:
+        command.extend(("--memory-limit-mib", str(args.memory_limit_mib)))
     if args.no_guard:
         launch = command
     else:
@@ -715,7 +724,7 @@ def outer(args: argparse.Namespace) -> int:
         final = 1
     summary = {"exit": final, "inner": status, "status": receipt.get("status"), "receipt": str(work / "receipt.json"),
                "headline": {label: (m.get("overall") or {}).get("mean_reward", {}).get("mean")
-                            if args.kind == "holdout" else (m.get("overall") or {}).get("signal_share_pass")
+                            if args.kind != "census" else (m.get("overall") or {}).get("signal_share_pass")
                             for label, m in (receipt.get("metrics") or {}).items()}}
     result = os.environ.get("SEPALITH_JOB_RESULT")
     if result:
@@ -744,7 +753,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     pc.add_argument("--workers", type=int, default=8)
     pc.add_argument("--families", default="finish_block,rename_propagation")
     run = sub.add_parser("run")
-    run.add_argument("--kind", choices=("holdout", "census"), required=True)
+    run.add_argument("--kind", choices=("holdout", "census", "validation"), required=True)
     run.add_argument("--job-id", required=True)
     run.add_argument("--work-dir", type=Path, required=True)
     run.add_argument("--tasks", type=Path, required=True)
@@ -756,6 +765,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     run.add_argument("--score-workers", type=int, default=8)
     run.add_argument("--model-budget-minutes", type=int, default=20, help="start a model only with this much time left")
     run.add_argument("--guard-seconds", type=int, default=27000)
+    run.add_argument("--memory-limit-mib", type=int, default=0, help="optional CUDA allocator cap")
     run.add_argument("--no-guard", action="store_true")
     run.add_argument("--inner", action="store_true", help=argparse.SUPPRESS)
     run.add_argument("--attempt-dir", type=Path, help=argparse.SUPPRESS)

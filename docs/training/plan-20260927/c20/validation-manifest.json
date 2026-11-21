@@ -1,0 +1,49 @@
+{
+  "finish_block_3_to_16_functions": 130,
+  "finish_block_3_to_16_tasks": 994,
+  "source_manifest_sha256": "8cc19940f3d6b4d111c52f35c0d4331c72e953cb617f31b85b866a67cc295984",
+  "source_records": {
+    "built": "f29cc511fbdf808506b9009225b9ca6c00c007cb64f3d3ef72283c28d9ea5bbc",
+    "train": "cd7ba4f528b62b321a2f2a6f11980432347d5c4fe9a6334274635bbd2b21b5a4",
+    "validation": "ba1bbcfe23388b5fca745933601bac952b195c6a06f834b36ed25f1d9fb1ada7"
+  },
+  "stats": {
+    "functions": 142,
+    "functions_by_family": {
+      "finish_block": 137,
+      "rename_propagation": 107
+    },
+    "functions_by_stratum": {
+      "finish_block:long": 62,
+      "finish_block:medium": 105,
+      "finish_block:short": 133,
+      "rename_propagation:short": 107
+    },
+    "gold_completion_tokens": {
+      "max": 778,
+      "mean": 129.3,
+      "median": 100
+    },
+    "packages": 16,
+    "prompt_tokens": {
+      "max": 1729,
+      "mean": 556.0,
+      "median": 504
+    },
+    "tasks": 1967,
+    "tasks_by_family": {
+      "finish_block": 1787,
+      "rename_propagation": 180
+    },
+    "tasks_by_stratum": {
+      "finish_block:long": 528,
+      "finish_block:medium": 711,
+      "finish_block:short": 548,
+      "rename_propagation:short": 180
+    }
+  },
+  "tasks": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C20-sft-finish-v1/frozen/validation.jsonl",
+    "sha256": "c5a92c7bee85cd823671bbacfac33b06adc67e7c35b1e1a6ae298a7a41749378"
+  }
+}

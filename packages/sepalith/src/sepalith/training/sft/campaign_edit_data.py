@@ -7,7 +7,25 @@ def sha(path):
  with Path(path).open('rb') as f:
   for b in iter(lambda:f.read(8*1024*1024),b''):h.update(b)
  return h.hexdigest()
-def validate_row(row,max_sequence_tokens):
+def target_end(row):
+ return [] if row.get("family") == "cpt_replay" and row["input_ids"][-1] != 1 else [1]
+
+
+def validate_cpt_row(row,max_sequence_tokens):
+ ids=row["input_ids"]; start=row["target_start"]; body=row["target_body_tokens"]
+ if (row.get("split")!="train" or row.get("renderer_id")!="c18b-cpt-text"
+     or row.get("tokenizer_json_sha256")!="3e065a558a034185fe299917b398685c1facd0169a9eea1e629eb30c171fed81"
+     or not 1<=start<=2 or not start<len(ids)<=max_sequence_tokens
+     or any(type(x) is not int or not 0<=x<130560 for x in ids)
+     or ids[0]!=0 or 0 in ids[1:] or 1 in ids[:-1]
+     or not body or row["target_terminal_tokens"]!=[] or ids[start:]!=body+target_end(row)):
+  raise ValueError(f"{row['id']}: invalid CPT replay row")
+ return row
+
+
+def validate_row(row,max_sequence_tokens,*,allow_cpt=False):
+ if allow_cpt and row.get("family")=="cpt_replay":
+  return validate_cpt_row(row,max_sequence_tokens)
  rid=row.get('id'); ids=row.get('input_ids'); start=row.get('target_start'); body=row.get('target_body_tokens'); terminal=row.get('target_terminal_tokens')
  if not isinstance(rid,str) or not rid:raise ValueError('row ID missing')
  if row.get('split')!='train' or row.get('renderer_id')!='zeta2-prm03-v1':raise ValueError(f'{rid}: split/renderer differs')
@@ -20,13 +38,13 @@ def validate_row(row,max_sequence_tokens):
  if ids[start:]!=body+terminal+[1]:raise ValueError(f'{rid}: complete target body/terminal/EOS differs')
  if len(ids)-start>max_sequence_tokens:raise ValueError(f'{rid}: target exceeds sequence contract')
  return {'id':rid,'input_ids':ids,'target_start':start,'target_body_tokens':body,'target_terminal_tokens':terminal,'family':row['family'],'package_id':row['package_id']}
-def inspect(rows_record,schedule_record,max_sequence_tokens,effective_batch=16):
+def inspect(rows_record,schedule_record,max_sequence_tokens,effective_batch=16,*,allow_cpt=False):
  rows_path=Path(rows_record['path']);schedule_path=Path(schedule_record['path'])
  if sha(rows_path)!=rows_record['sha256'] or sha(schedule_path)!=schedule_record['sha256']:raise ValueError('data/schedule hash differs')
  rows=[];index={};tot={'input_tokens':0,'loss_tokens':0,'body_tokens':0}
  with rows_path.open() as f:
   for line in f:
-   x=validate_row(json.loads(line),max_sequence_tokens);rid=x['id']
+   x=validate_row(json.loads(line),max_sequence_tokens,allow_cpt=allow_cpt);rid=x['id']
    if rid in index:raise ValueError('duplicate row ID')
    index[rid]=len(rows);rows.append(x);tot['input_tokens']+=len(x['input_ids']);tot['loss_tokens']+=len(x['input_ids'])-x['target_start'];tot['body_tokens']+=len(x['target_body_tokens'])
  schedule=json.loads(schedule_path.read_text());records=schedule.get('draws')
@@ -45,7 +63,7 @@ def target_only_collator(batch,max_sequence_tokens):
  if not batch:raise ValueError('empty batch')
  checked=[]
  for x in batch:
-  if len(x['input_ids'])>max_sequence_tokens or x['input_ids'][x['target_start']:]!=x['target_body_tokens']+x['target_terminal_tokens']+[1]:raise ValueError('target row changed')
+  if len(x['input_ids'])>max_sequence_tokens or x['input_ids'][x['target_start']:]!=x['target_body_tokens']+x['target_terminal_tokens']+target_end(x):raise ValueError('target row changed')
   checked.append(x)
  width=max(len(x['input_ids']) for x in checked);ids=torch.full((len(checked),width),1,dtype=torch.long);mask=torch.zeros_like(ids);labels=torch.full_like(ids,-100)
  for i,x in enumerate(checked):

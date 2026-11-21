@@ -1,0 +1,40 @@
+{
+  "card": "C20",
+  "state": "in_progress",
+  "updated": "2026-11-21T03:12:45+01:00",
+  "branch": "plan/C20-sft-finish",
+  "pull_request": null,
+  "outputs": {
+    "validation_manifest": {
+      "path": "docs/training/plan-20260927/c20/validation-manifest.json",
+      "sha256": "f86cd78a1484bde6a2602a36ac0cce336962755b4e3c53200589fa467f2c6140"
+    },
+    "mix_manifest": {
+      "path": "docs/training/plan-20260927/c20/mix-manifest.json",
+      "sha256": "293aa70a7c8d745d5fe14ae3f41bb3f6c20220c4b957a70df3472f479012665b"
+    },
+    "jobs": [
+      {
+        "path": "docs/training/plan-20260927/c20/jobs/C20-final-holdout.json",
+        "sha256": "921f9469e3c78d16dccebfa6e512315e9bff831b04cc2b91c174888ee940f913"
+      },
+      {
+        "path": "docs/training/plan-20260927/c20/jobs/C20-sft-finish-pilot.json",
+        "sha256": "3969b483cdb2eb4cb9d267a2a83bc90a45c24947875ae0a3f66ff23cdc6d9e82"
+      },
+      {
+        "path": "docs/training/plan-20260927/c20/jobs/C20-sft-finish-smoke.json",
+        "sha256": "2e8c55e248d1c2365cf69115c3d7a9df2340fb2e683c01d5d1a5b0a6ccfc4d18"
+      }
+    ],
+    "validation_tasks": 1967,
+    "validation_target_tasks": 994,
+    "mix_distinct_rows": 4800,
+    "cpt_loss_tokens": 34055,
+    "total_loss_tokens": 248583,
+    "cpu_gold_all_pass": "4/4"
+  },
+  "rule_decisions": [],
+  "question_for_user": null,
+  "notes": "CPU data is frozen. GPU smoke, pilot and conditional final job await merge and queue submission. Use the original source revision for historical C04 bound recipes."
+}
