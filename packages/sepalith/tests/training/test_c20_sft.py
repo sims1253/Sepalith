@@ -156,7 +156,7 @@ class C20Tests(unittest.TestCase):
             def wait(self, timeout=None):
                 Guard.calls += 1
                 if Guard.calls == 1:
-                    raise subprocess.TimeoutExpired("guard", timeout)
+                    raise subprocess.TimeoutExpired("guard", timeout or 1)
                 return self.returncode
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -172,7 +172,7 @@ class C20Tests(unittest.TestCase):
                     patch.object(c20_run.exec_jobs, "CUDA_LOCK", root / "lock" / "cuda.lock"), \
                     patch.object(c20_run.queue_stop, "requested", return_value=True), \
                     patch.object(c20_run.subprocess, "Popen", lambda *a, **k: Guard()):
-                with self.assertRaises(Exception):
+                with self.assertRaises(FileNotFoundError):
                     c20_run.guarded_launch("x", "val")
 
     def test_nonfinite_raw_bf16_loss_is_rejected_even_with_finite_gradient(self):
