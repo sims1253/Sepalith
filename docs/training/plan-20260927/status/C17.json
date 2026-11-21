@@ -1,0 +1,38 @@
+{
+  "card": "C17",
+  "state": "needs_user",
+  "updated": "2026-11-21T02:31:25+01:00",
+  "branch": "plan/C17-release-prep",
+  "pull_request": null,
+  "outputs": {
+    "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
+    "quant_evidence": "docs/training/plan-20260927/receipts/C17-quant-evidence.json",
+    "serving_parity": "docs/training/plan-20260927/receipts/C17-serving-parity.json",
+    "runbook": "docs/training/plan-20260927/c17/README.md"
+  },
+  "rule_decisions": [
+    {
+      "rule": "User tier decision 2026-11-21",
+      "inputs": {
+        "default": "Q6_K",
+        "small": "Q4_K_M-mixB-e4",
+        "small_nofp_rise_pp": 2.0,
+        "small_nofp_reference": 10,
+        "small_nofp_candidate": 15
+      },
+      "outcome": "Accept small tier under explicit nofp exception; preserve failed gate verdict"
+    }
+  ],
+  "open_user_gates": [
+    "Notebook access and acceptance of four latency reports",
+    "Explicit weight and harness freeze for sealed final evaluation after recovering original evaluator and guards",
+    "Separate publishing go-ahead"
+  ],
+  "remaining_technical_gates": [
+    "PR #89 runtime token parity and VS Code/Positron editor acceptance for both tiers",
+    "Zed PRM03 adapter and parity",
+    "Recover final evaluator and admission guards; review protocol addendum"
+  ],
+  "question_for_user": "Can you provide notebook access for the four latency measurements? Recommended next step: measure both approved tiers on CPU and Vulkan before considering the sealed-evaluation freeze.",
+  "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Final protocol source was not found in the documented code locations."
+}
