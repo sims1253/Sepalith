@@ -9,7 +9,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages/sepalith/src"))
 
 from notebook_latency import measure, percentile, run
-from release_parity import compare_prompts, validate_request
+from release_parity import check_tiers, compare_prompts, validate_request
 from sepalith.campaign_protocol import PromptContext, render_prompt
 
 
@@ -41,15 +41,17 @@ class ReleasePrepTests(unittest.TestCase):
     def test_stream_ignores_empty_events_and_counts_final_timing(self):
         events = [b': keepalive\n', b'data: {"content":""}\n',
                   b'data: {"content":"a"}\n',
-                  b'data: {"stop":true,"timings":{"predicted_n":4,"predicted_ms":200,"prompt_n":32}}\n']
+                  b'data: {"stop":true,"timings":{"predicted_n":4,"predicted_ms":200,"predicted_per_second":15.0,"prompt_n":32}}\n']
         ticks = iter([10.1, 10.3])
         result = measure(events, 10, lambda: next(ticks))
         self.assertAlmostEqual(result['ttft_ms'], 100)
-        self.assertEqual(result['tokens_s'], 20)
+        self.assertEqual(result['tokens_s'], 15.0)
         self.assertEqual(result['prompt_n'], 32)
 
     def test_partial_or_error_stream_fails(self):
-        for events in ([b'data: {"content":"x"}\n'], [b'data: {"error":"failed"}\n'], []):
+        one_token = b'data: {"stop":true,"timings":{"predicted_n":1,"predicted_ms":5,"predicted_per_second":0,"prompt_n":3}}\n'
+        for events in ([b'data: {"content":"x"}\n'], [b'data: {"error":"failed"}\n'], [],
+                       [b'data: {"content":"x"}\n', one_token]):
             with self.assertRaises(ValueError):
                 measure(events, 0, lambda: 1)
 
@@ -61,7 +63,7 @@ class ReleasePrepTests(unittest.TestCase):
             if endpoint == '/tokenize':
                 return io.BytesIO(b'{"tokens":[42,43]}')
             return io.BytesIO(b'data: {"content":"x"}\n'
-                                b'data: {"stop":true,"timings":{"predicted_n":4,"predicted_ms":200,"prompt_n":3}}\n')
+                                b'data: {"stop":true,"timings":{"predicted_n":4,"predicted_ms":200,"predicted_per_second":15.0,"prompt_n":3}}\n')
         with patch('notebook_latency.request', side_effect=respond):
             result = run('http://unused', [context], 5)
         self.assertEqual(len(result['samples']), 5)
@@ -70,7 +72,18 @@ class ReleasePrepTests(unittest.TestCase):
             self.assertEqual(body['prompt'], [0, 42, 43])
             self.assertFalse(body['cache_prompt'])
             self.assertTrue(body['stream'])
-        self.assertEqual(result['summary']['tokens_s']['p50'], 20)
+        self.assertEqual(result['summary']['tokens_s']['p50'], 15.0)
+
+    def test_tier_set_must_match_evidence(self):
+        import tempfile, hashlib
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b = Path(tmp, 'a.gguf'), Path(tmp, 'b.gguf')
+            a.write_bytes(b'a'); b.write_bytes(b'b')
+            ev = {'tiers': [{'gguf': {'sha256': hashlib.sha256(x).hexdigest()}} for x in (b'a', b'b')]}
+            check_tiers([a, b], ev)
+            for paths in ([a], [a, a], [a, b, b]):
+                with self.assertRaises(ValueError):
+                    check_tiers(paths, ev)
 
     def test_invalid_protocol_inputs_fail_before_network(self):
         with self.assertRaises(ValueError):

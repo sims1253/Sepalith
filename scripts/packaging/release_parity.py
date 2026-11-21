@@ -65,7 +65,15 @@ def metadata(path: Path, prompts: list[str]) -> dict:
             'serving_requirement': 'native /completion token IDs; never apply chat_template'}
 
 
-def run(ref: str, paths: list[Path], prompt_file: Path) -> dict:
+def check_tiers(paths: list[Path], evidence: dict) -> None:
+    expected = {t['gguf']['sha256'] for t in evidence['tiers']}
+    actual = [digest(p.read_bytes()) for p in paths]
+    if len(actual) != len(set(actual)) or set(actual) != expected:
+        raise ValueError('GGUF inputs must be exactly the approved release tiers')
+
+
+def run(ref: str, paths: list[Path], prompt_file: Path, evidence: Path) -> dict:
+    check_tiers(paths, json.loads(evidence.read_text()))
     fixture = json.loads(git_file(ref, 'tests/fixtures/prm03-golden.json'))
     contexts = list(fixture['contexts'].values()) + json.loads(prompt_file.read_text())
     with tempfile.TemporaryDirectory() as tmp:
@@ -74,12 +82,12 @@ def run(ref: str, paths: list[Path], prompt_file: Path) -> dict:
             (root / name).write_bytes(git_file(ref, 'src/' + name))
         (root / 'check.mts').write_text('''import { readFileSync } from 'node:fs';
 import { promptContextFromJson, renderPrompt } from './prm03.ts';
-import { tokenizeBody, promptIds, completionBody } from './completion.ts';
+import { tokenizeBody, promptIds, completionBody, SUGGESTION_MAX_TOKENS } from './completion.ts';
 const cs = JSON.parse(readFileSync(0, 'utf8'));
 console.log(JSON.stringify(cs.map(c => {
  const prompt = renderPrompt(promptContextFromJson(c));
  return {prompt, tokenize: JSON.parse(tokenizeBody(prompt)),
- request: JSON.parse(completionBody(promptIds([42, 43]), 1024))};
+ request: JSON.parse(completionBody(promptIds([42, 43]), SUGGESTION_MAX_TOKENS))};
 })));
 ''')
         rendered = json.loads(subprocess.check_output(['node', str(root / 'check.mts')],
@@ -102,9 +110,11 @@ def main():
     p.add_argument('--extension-ref', default=EXTENSION_REF)
     p.add_argument('--prompts', type=Path, default=Path('docs/training/plan-20260927/c17/prompts.json'))
     p.add_argument('--gguf', action='append', type=Path, required=True)
+    p.add_argument('--quant-evidence', type=Path,
+                   default=Path('docs/training/plan-20260927/receipts/C17-quant-evidence.json'))
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
-    a.output.write_text(json.dumps(run(a.extension_ref, a.gguf, a.prompts), indent=2) + '\n')
+    a.output.write_text(json.dumps(run(a.extension_ref, a.gguf, a.prompts, a.quant_evidence), indent=2) + '\n')
 
 
 if __name__ == '__main__':

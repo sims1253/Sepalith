@@ -56,8 +56,9 @@ The script records the supplied identity and backend labels, so verify them
 against the files and logs. It does not inspect the remote server process.
 
 Expect 40 measured requests per configuration, after eight excluded warm-ups.
-TTFT ends at the first nonempty content event. Tokens/s uses llama-server's
-`predicted_n / predicted_ms`, including its native token accounting.
+TTFT ends at the first nonempty content event. Tokens/s is llama-server's own
+`predicted_per_second`, which excludes the first token sampled during prefill;
+samples with fewer than two predicted tokens are rejected.
 The benchmark uses uncached prompts to make the measurement reproducible;
 it does not claim to measure PR #89's warm-cache editor experience.
 No output quality score is inferred from these synthetic prompts.

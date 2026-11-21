@@ -39,10 +39,11 @@ def measure(lines, started: float, clock=time.perf_counter) -> dict:
     if first is None or final is None or final.get('truncated'):
         raise ValueError('missing first content, final event, or truncated prompt')
     timing = final['timings']
-    count, ms = timing['predicted_n'], timing['predicted_ms']
-    if count <= 0 or ms <= 0:
+    count, rate = timing['predicted_n'], timing.get('predicted_per_second')
+    # llama-server excludes the prefill-sampled first token from its decode rate.
+    if count < 2 or not rate or rate <= 0:
         raise ValueError('invalid decode timing')
-    return {'ttft_ms': (first - started) * 1000, 'tokens_s': count * 1000 / ms,
+    return {'ttft_ms': (first - started) * 1000, 'tokens_s': rate,
             'predicted_n': count, 'prompt_n': timing['prompt_n'],
             'stop_type': final.get('stop_type'), 'wall_ms': (clock() - started) * 1000}
 
