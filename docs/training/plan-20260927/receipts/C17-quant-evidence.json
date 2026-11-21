@@ -1,0 +1,161 @@
+{
+  "schema": "sepalith.c17.quant-evidence.v1",
+  "gate_receipt": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/gate-receipt.json",
+  "gate_receipt_sha256": "b864c3a754d2537e604c74b832a9cda0da0feeb06bacd9f0cfce32c4999ae972",
+  "decision": {
+    "schema": "sepalith.quant-release-tiers-decision.v1",
+    "at": "2026-11-21T17:30:00+01:00",
+    "model": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
+    "gate_receipt_sha256": "b864c3a754d2537e604c74b832a9cda0da0feeb06bacd9f0cfce32c4999ae972",
+    "tiers": {
+      "Q6_K": "default; gate pass",
+      "Q4_K_M-mixB-e4": "small tier; user exception"
+    },
+    "exception": "Q4_K_M-mixB-e4 (1.66 GB) fails only nofp_rise_pp (+2.0 pp, nofp 10 -> 15 on DEV250); user accepts it because nofp is their lowest-priority error class. Other checks pass (exact -0.8 pp, score250 110 vs 112, KLD 0.0236). The gate receipt is unchanged.",
+    "publishing": "not authorized by this decision; still needs the user's go-ahead",
+    "author": "Maximilian Scholz (via T3 Code orchestration session)"
+  },
+  "decision_sha256": "c43d3f8df9ddc10b999e5c2ddb79026c98fbecc872c5585129e45fcc1acfda8d",
+  "tiers": [
+    {
+      "label": "Q6_K",
+      "gguf": {
+        "path": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/c19-100-imat-Q6_K.gguf",
+        "bytes": 2199741568,
+        "sha256": "6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261"
+      },
+      "verdict": "pass",
+      "checks": {
+        "exact_delta_pp": {
+          "value": -0.4,
+          "threshold": -1.0,
+          "rule": ">=",
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 1.0,
+          "threshold": 0.05,
+          "rule": "fail if p <= 0.05 and lost > gained",
+          "lost": 1,
+          "gained": 0,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": 0.4,
+          "threshold": 1.0,
+          "rule": "<=",
+          "outcome": "pass"
+        },
+        "valid_drop_pp": {
+          "value": 1.2,
+          "threshold": null,
+          "rule": "<=",
+          "outcome": "recorded"
+        },
+        "valid_mcnemar": {
+          "value": 0.6072387695312498,
+          "threshold": 0.05,
+          "rule": "fail if p <= 0.05 and lost > gained",
+          "lost": 9,
+          "gained": 6,
+          "outcome": "pass"
+        },
+        "token_identity_pct": {
+          "value": 61.6,
+          "threshold": null,
+          "rule": ">=",
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.003679,
+          "threshold": 0.01,
+          "rule": "<=",
+          "outcome": "pass"
+        },
+        "top1_agreement_pct": {
+          "value": 98.275,
+          "threshold": null,
+          "rule": ">=",
+          "outcome": "recorded"
+        }
+      },
+      "ship_net_loss_bound": {
+        "value": 1.5266211071164382,
+        "threshold": 3.0,
+        "rule": "<=",
+        "outcome": "pass"
+      },
+      "shippable": true
+    },
+    {
+      "label": "Q4_K_M-mixB-e4",
+      "gguf": {
+        "path": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/c19-100-mixb-e4-Q4_K_M.gguf",
+        "bytes": 1658528896,
+        "sha256": "e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b"
+      },
+      "verdict": "fail",
+      "checks": {
+        "exact_delta_pp": {
+          "value": -0.8,
+          "threshold": -2.0,
+          "rule": ">=",
+          "outcome": "pass"
+        },
+        "mcnemar": {
+          "value": 0.6875000000000013,
+          "threshold": 0.05,
+          "rule": "fail if p <= 0.05 and lost > gained",
+          "lost": 4,
+          "gained": 2,
+          "outcome": "pass"
+        },
+        "nofp_rise_pp": {
+          "value": 2.0,
+          "threshold": 1.0,
+          "rule": "<=",
+          "outcome": "fail"
+        },
+        "valid_drop_pp": {
+          "value": 0.8,
+          "threshold": null,
+          "rule": "<=",
+          "outcome": "recorded"
+        },
+        "valid_mcnemar": {
+          "value": 0.7905273437500014,
+          "threshold": 0.05,
+          "rule": "fail if p <= 0.05 and lost > gained",
+          "lost": 8,
+          "gained": 6,
+          "outcome": "pass"
+        },
+        "token_identity_pct": {
+          "value": 53.6,
+          "threshold": null,
+          "rule": ">=",
+          "outcome": "recorded"
+        },
+        "mean_kld": {
+          "value": 0.023608,
+          "threshold": 0.03,
+          "rule": "<=",
+          "outcome": "pass"
+        },
+        "top1_agreement_pct": {
+          "value": 95.395,
+          "threshold": null,
+          "rule": ">=",
+          "outcome": "recorded"
+        }
+      },
+      "ship_net_loss_bound": {
+        "value": 2.6379884515167524,
+        "threshold": 3.0,
+        "rule": "<=",
+        "outcome": "pass"
+      },
+      "shippable": false
+    }
+  ]
+}

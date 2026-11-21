@@ -1,0 +1,36 @@
+{
+  "schema": "sepalith.c17.serving-parity.v1",
+  "extension_commit": "c205e41f8f3f5ad860b62ea491315dcedb15b6c9",
+  "contexts_checked": 232,
+  "prompt_hashes_sha256": "977a323d22008d2b52763a779c1bb6bba49e4c03f3f83fa157c5402550e07f94",
+  "render_and_request_parity": "pass",
+  "models": [
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/c19-100-imat-Q6_K.gguf",
+      "bytes": 2199741568,
+      "bos": 0,
+      "eos": 1,
+      "vocab_size": 130560,
+      "chat_template_sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c",
+      "tokenizer_sha256": "5886e3b077766996a7b5275b4bbd4866a18bdfb6c5b0a21073fc5e162b20fd56",
+      "chat_wrapping_matches_raw_prm03": false,
+      "serving_requirement": "native /completion token IDs; never apply chat_template"
+    },
+    {
+      "path": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/c19-100-mixb-e4-Q4_K_M.gguf",
+      "bytes": 1658528896,
+      "bos": 0,
+      "eos": 1,
+      "vocab_size": 130560,
+      "chat_template_sha256": "cc945752db555d60949b16989df4ccfeb52a313d6b4b5c5229dd786e2e9fcf1c",
+      "tokenizer_sha256": "5886e3b077766996a7b5275b4bbd4866a18bdfb6c5b0a21073fc5e162b20fd56",
+      "chat_wrapping_matches_raw_prm03": false,
+      "serving_requirement": "native /completion token IDs; never apply chat_template"
+    }
+  ],
+  "limits": [
+    "No server tokenization or inference run",
+    "VS Code and Positron share this renderer",
+    "Zed PRM03 renderer unavailable; release blocked for Zed"
+  ]
+}
