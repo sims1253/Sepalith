@@ -17,7 +17,7 @@
     "--recipe",
     "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/pilot.json",
     "--sha256",
-    "43db213f81158d232c36e2f6a659a7d5ce077e8b1a8e03a469bff1471b671e37"
+    "4f4638b6010c7d66d51e75ed9285bbbe92b794eaa07664f2e3af131dfcf8766f"
   ],
   "cwd": "/home/m0hawk/sandbox/Sepalith",
   "env": [],

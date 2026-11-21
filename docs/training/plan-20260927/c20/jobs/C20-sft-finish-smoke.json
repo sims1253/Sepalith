@@ -17,7 +17,7 @@
     "--recipe",
     "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/smoke.json",
     "--sha256",
-    "554fc4d406f4b2366f591fcb7e8f5303bb5dda70105aebdf3528bcc506fea7e7"
+    "0f7ca906d6ec7dffc772cb766580e7a70c81544dcc7b48ca4f6b416dffcbf069"
   ],
   "cwd": "/home/m0hawk/sandbox/Sepalith",
   "env": [],

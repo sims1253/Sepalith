@@ -185,11 +185,11 @@
   "smoke_recipe": {
     "bytes": 7881,
     "path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/smoke.json",
-    "sha256": "554fc4d406f4b2366f591fcb7e8f5303bb5dda70105aebdf3528bcc506fea7e7"
+    "sha256": "0f7ca906d6ec7dffc772cb766580e7a70c81544dcc7b48ca4f6b416dffcbf069"
   },
   "source": {
     "manifest_path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/source-manifest.json",
-    "manifest_sha256": "e3d5f729efe2409f0a3bb83b2168b7fa1194d61f56d82b870dd20d5f652f5fa9",
+    "manifest_sha256": "57695c2dc8a4dfa3843f8da75a7690cd90351bee03bbfd06fcb303827fb462d9",
     "repository_root": "/home/m0hawk/sandbox/Sepalith"
   },
   "validation": {
