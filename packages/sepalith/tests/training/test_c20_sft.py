@@ -146,6 +146,35 @@ class C20Tests(unittest.TestCase):
                 self.assertTrue((c20_run.evidence(recipe, 7) / "train-segment.json").is_file())
 
     @unittest.skipUnless(HAS_TORCH, "torch required")
+    def test_queue_stop_during_guard_preflight_defers_without_receipt(self):
+        class Guard:
+            returncode = -signal.SIGTERM
+            calls = 0
+            def __enter__(self): return self
+            def __exit__(self, *exc): return False
+            def terminate(self): self.terminated = True
+            def wait(self, timeout=None):
+                Guard.calls += 1
+                if Guard.calls == 1:
+                    raise subprocess.TimeoutExpired("guard", timeout)
+                return self.returncode
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            env = {"SEPALITH_NIGHT_ATTEMPT_DIR": str(root), "SEPALITH_HARD_STOP_EPOCH": str(time.time() + 3000)}
+            with patch.dict(c20_run.os.environ, env), \
+                    patch.object(c20_run.exec_jobs, "CUDA_LOCK", root / "lock" / "cuda.lock"), \
+                    patch.object(c20_run.queue_stop, "requested", return_value=True), \
+                    patch.object(c20_run.subprocess, "Popen", lambda *a, **k: Guard()):
+                self.assertEqual(c20_run.guarded_launch("x", "val"), c20_run.EXIT_DEFERRED)
+            Guard.calls, Guard.returncode = 0, 1
+            with patch.dict(c20_run.os.environ, env), \
+                    patch.object(c20_run.exec_jobs, "CUDA_LOCK", root / "lock" / "cuda.lock"), \
+                    patch.object(c20_run.queue_stop, "requested", return_value=True), \
+                    patch.object(c20_run.subprocess, "Popen", lambda *a, **k: Guard()):
+                with self.assertRaises(Exception):
+                    c20_run.guarded_launch("x", "val")
+
     def test_nonfinite_raw_bf16_loss_is_rejected_even_with_finite_gradient(self):
         import torch
 

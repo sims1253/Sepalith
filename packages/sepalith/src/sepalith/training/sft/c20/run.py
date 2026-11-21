@@ -135,6 +135,9 @@ def guarded_launch(module: str, key: str, *args: str, save_and_stop: Callable[[]
                         save_and_stop()
                     else:
                         process.terminate()
+    if (save_and_stop is None and stopping and process.returncode == -signal.SIGTERM
+            and not (out / "terminal.json").exists()):
+        return EXIT_DEFERRED  # stopped during guard preflight, before it could write a receipt
     terminal = data.read(out / "terminal.json")
     code = terminal.get("child_exit_code")
     if save_and_stop is None and (
