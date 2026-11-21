@@ -173,6 +173,17 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(report["clean"]["cases"], 16)
         self.assertEqual(report["overlapping"]["cases"], 5)
 
+    def test_package_forms_normalize_across_inventories(self) -> None:
+        self.memberships["cpt"]["package_ids"].append("pkg:Package_4")
+        report = v2.run(self.freeze())
+        self.assertEqual(report["audit"]["overlap_groups"], 1)
+
+    def test_unfrozen_receipt_rejected_before_plan_is_read(self) -> None:
+        args = self.freeze(status="draft")
+        args.plan = self.root / "missing-plan.json"
+        with self.assertRaisesRegex(v2.ProtocolError, "freeze_not_authorized"):
+            v2.run(args)
+
     def test_overlap_abort_does_not_open_payloads_or_sources(self) -> None:
         self.memberships["train"]["row_ids"].extend(f"row-{i}" for i in range(5))
         args = self.freeze()
@@ -198,7 +209,7 @@ class ProtocolTests(unittest.TestCase):
     def test_missing_or_invalid_freeze_blocks_access(self) -> None:
         args = self.freeze(final_access_unlocked=False)
         (self.root / "cases.json").unlink()
-        with self.assertRaisesRegex(AdmissionMetadataError, "freeze_authorization_missing"):
+        with self.assertRaisesRegex(v2.ProtocolError, "freeze_not_authorized"):
             v2.run(args)
         args.freeze_receipt.unlink()
         with self.assertRaises(FileNotFoundError):

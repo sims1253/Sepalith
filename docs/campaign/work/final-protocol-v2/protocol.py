@@ -14,8 +14,10 @@ import json
 import os
 from pathlib import Path
 import random
+import re
 import subprocess
 import sys
+import unicodedata
 from typing import Any, Protocol, cast
 
 HERE = Path(__file__).resolve().parent
@@ -150,7 +152,9 @@ def load_cases(document: Json, expected_case_count: int) -> list[Case]:
 
 
 def package_identity(package: str) -> str:
-    return package.removeprefix("exec:")
+    """Campaign package key: drop exec:/pkg: forms, NFKC-lowercase, keep [0-9a-z], as SplitGuard."""
+    name = package.removeprefix("exec:").removeprefix("pkg:")
+    return re.sub(r"[^0-9a-z]", "", unicodedata.normalize("NFKC", name).lower())
 
 
 def audit(cases: list[Case], memberships: Json) -> tuple[set[str], Json]:
@@ -345,6 +349,10 @@ def run(args: argparse.Namespace) -> Json:
     freeze = pinned_json(args.freeze_receipt, args.freeze_sha256)
     if freeze.get("schema") != SCHEMA + ".freeze":
         raise ProtocolError("freeze_schema_mismatch")
+    # Refuse before any other caller-supplied path is read.
+    if (freeze.get("status") != "frozen" or freeze.get("weights_frozen") is not True
+            or freeze.get("harness_frozen") is not True or freeze.get("final_access_unlocked") is not True):
+        raise ProtocolError("freeze_not_authorized")
     plan_sha256 = freeze["plan_sha256"]
     plan = pinned_json(args.plan, plan_sha256)
     if plan.get("schema") != SCHEMA + ".plan":

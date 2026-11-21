@@ -130,6 +130,26 @@ replicates as the interval endpoints. The lost v1 release cutoffs are
 unavailable. This protocol reports the pre-registered estimates and audit
 status for the user's C17 review.
 
+### Binding issuance (user-authorized, before the scoring run)
+
+The recovered v1 preparation receipt never issued per-case bindings, and the
+semantic receipt must attest `content_access: post_freeze_source_bytes`. So
+issuing the bindings is its own step, after the user's weight/harness freeze
+and with the user's separate written authorization:
+
+1. The custodian reads each locked case's source bytes once, under the guard's
+   allowlist and `O_NOFOLLOW` walk, and computes `source_sha256`,
+   `context_sha256` and `target_sha256`.
+2. Where the locked registry already carries expected hashes, they are kept
+   unchanged and compared; a case whose computed hash differs is listed as a
+   mismatch, never re-derived. Mismatches count toward the 5% ceiling below.
+3. The custodian writes the semantic receipt write-once, with
+   `content_access: post_freeze_source_bytes`, and records its sha256. No
+   prompt, target or prediction is printed or copied.
+4. Only then is the plan file (which pins that receipt) finalized; the user
+   reviews it and issues the freeze receipt below, which pins the plan. The
+   launcher refuses to run without both.
+
 ## Freeze and launch
 
 Keep the inputs and run-state directory local and access-controlled. Use a
@@ -145,6 +165,7 @@ with absolute `path` and the SHA-256 of the file's exact bytes.
 | `schema` | `sepalith.sealed-final.v2.plan` |
 | `models` | The model keys above. Use a file pin for the GGUF and `{"path": "/absolute/checkpoint", "files": {"relative/file": "<sha256>"}}` for each bf16 checkpoint. List every file. This binds weights, config, and any bundled tokenizer files. |
 | `c20_adoption` | Required if C20 is in `models`. Pin a JSON object with `status: "adopted"` and a `model` entry equal to its checkpoint record. |
+| `release_artifacts` | `{"Q4_K_M-mixB-e4": <file pin>}` for the shipped small tier (sha256 `e24fbfbc…1c71b` from `receipts/C17-quant-evidence.json`). The runtime verifies it but does not score it; this binds both C17 GGUFs to the freeze. |
 | `tokenizer` | A directory record in the same shape as a bf16 checkpoint. Use the campaign tokenizer, including its pinned `tokenizer.json` and `tokenizer_config.json`. |
 | `runtime` | `python_sha256` for the resolved interpreter, exact `distributions` versions for torch, transformers, tokenizers, safetensors, and accelerate, and a `llama_server` file pin with `commit: "3cb7ffb1a"`. Use the reviewed CPU builds. |
 | `cases`, `semantic_receipt`, `memberships` | File pins for the three metadata JSON objects. The case object contains `split` and `cases`. Membership keys are `train`, `dev`, `cpt`, `c14`, `synth`, `exec_train`, `exec_validation`, and `exec_holdout`. |

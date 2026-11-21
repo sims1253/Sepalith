@@ -34,6 +34,8 @@ from sepalith.training.eval.campaign_eval import (
 
 LLAMA_COMMIT = "3cb7ffb1a"
 Q6_K_SHA256 = "6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261"
+# The shipped small tier is bound by the freeze but not scored (C17 tier decision).
+MIXB_E4_SHA256 = "e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b"
 THREADS = 8
 DISTRIBUTIONS = ("torch", "transformers", "tokenizers", "safetensors", "accelerate")
 
@@ -118,6 +120,10 @@ class FrozenRuntime:
                 self.models[label] = verify_file(Path(record["path"]), record["sha256"])
             else:
                 self.models[label] = verify_tree(record)
+        small = plan["release_artifacts"]["Q4_K_M-mixB-e4"]
+        if small["sha256"] != MIXB_E4_SHA256 or set(plan["release_artifacts"]) != {"Q4_K_M-mixB-e4"}:
+            raise ProtocolError("release_artifact_differs_from_c17_pin")
+        verify_file(Path(small["path"]), small["sha256"])
         server = runtime["llama_server"]
         self.server = verify_file(Path(server["path"]), server["sha256"])
         if server["commit"] != LLAMA_COMMIT:
