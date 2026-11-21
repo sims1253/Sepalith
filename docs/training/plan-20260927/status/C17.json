@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-11-21T02:31:25+01:00",
   "branch": "plan/C17-release-prep",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/102",
   "outputs": {
     "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
     "quant_evidence": "docs/training/plan-20260927/receipts/C17-quant-evidence.json",
