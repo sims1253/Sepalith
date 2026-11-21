@@ -1,9 +1,9 @@
 {
   "card": "C20",
   "state": "in_progress",
-  "updated": "2026-11-21T03:12:45+01:00",
+  "updated": "2026-11-21T03:13:31+01:00",
   "branch": "plan/C20-sft-finish",
-  "pull_request": null,
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/104",
   "outputs": {
     "validation_manifest": {
       "path": "docs/training/plan-20260927/c20/validation-manifest.json",
@@ -32,7 +32,14 @@
     "mix_distinct_rows": 4800,
     "cpt_loss_tokens": 34055,
     "total_loss_tokens": 248583,
-    "cpu_gold_all_pass": "4/4"
+    "cpu_gold_all_pass": "4/4",
+    "cpu_checks": {
+      "c20_unittest": "7 passed",
+      "core_unittest": "255 run, 21 skipped, no failures",
+      "sft_v2_unittest": "38 passed, 2 historical source-pin errors (C04)",
+      "check_quality": "passed",
+      "main_bound_dry_run": "passed for smoke and pilot hashes and cohort, plus final job schema and input paths"
+    }
   },
   "rule_decisions": [],
   "question_for_user": null,
