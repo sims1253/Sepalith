@@ -60,3 +60,11 @@ Jobs bind cwd, PYTHONPATH, and the SFT interpreter to `/home/m0hawk/sandbox/Sepa
 | [Final hold-out](../c20/jobs/C20-final-holdout.json) | 4 hours | Yes |
 
 These are planning estimates pending smoke measurements. The C04 and C19 receipts come from a 32 GB GPU. C20 caps the PyTorch allocator at 14,500 MiB and checks the training peak in smoke. The cap leaves space on a 16 GB card for CUDA runtime and non-allocator use. The job still needs sufficient free VRAM and host memory. Keep at least 150 GB free after reserving 19 GB for the next full checkpoint. The smoke and three planned pilot saves use about 95 GB at that estimate, plus 19 GB for each additional deadline save. The CPU preflight checks space for seven saves.
+
+## November 21 pilot result and DEV250 exception
+
+Step 300 passed the pilot validation gates. All-pass on 3–16-line finish blocks rose 2.0 percentage points versus C19-100, with a 95% CI of [0.002, 0.0407] in absolute rate. Rename all-pass did not drop, DEV75 had zero additional nofp cases, and CPT NLL rose 0.0021. DEV250 scored 107 against the required 108, with 72 exact edits and 35 correct no-ops. The pilot recorded `keep_c19`.
+
+On November 21, 2026, the user approved a one-time DEV250 exception for step 300 because the one-point miss was in no-op cases, their lowest-priority error class. The receipt pins the pilot summary, DEV250 result, and checkpoint binding. [DEV250 exception receipt](../c20/dev250-exception.json)
+
+Queue the resumable exception job from the main checkout after the job lands. It writes its verdict under `C20-final-holdout-exception/final-step-300-exception` in the evaluation gates directory. Adopt step 300 only if the paired hold-out all-pass difference versus C19-100 has a 95% CI lower bound above zero and CPT NLL rise is at most 0.03. Otherwise keep C19-100. [Exception hold-out job](../c20/jobs/C20-final-holdout-exception.json)

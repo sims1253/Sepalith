@@ -1,7 +1,7 @@
 {
   "card": "C20",
   "state": "in_progress",
-  "updated": "2026-11-21T03:13:31+01:00",
+  "updated": "2026-11-21T14:53:05+01:00",
   "branch": "plan/C20-sft-finish",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/104",
   "outputs": {
@@ -25,6 +25,10 @@
       {
         "path": "docs/training/plan-20260927/c20/jobs/C20-sft-finish-smoke.json",
         "sha256": "aeee8e9b329118937a4f95a5442829a6c88efb2d0a2206afd73e348f3bf170e8"
+      },
+      {
+        "path": "docs/training/plan-20260927/c20/jobs/C20-final-holdout-exception.json",
+        "sha256": "f40039a7e536d6d24e35e32d19db44fbce66d02993a508f37e4fdbbd81ae97eb"
       }
     ],
     "validation_tasks": 1967,
@@ -40,9 +44,37 @@
       "main_bound_dry_run": "passed for smoke and pilot hashes and cohort, plus final job schema and input paths",
       "historical_source_verification": "15 bound recipes passed across C04, C13, C18, C18b, and C19",
       "c20_regressions": "S3-S5 each fail when the corresponding fix is reverted"
+    },
+    "pilot": {
+      "status": "keep_c19",
+      "step": 300,
+      "finish_block_all_pass_difference": 0.0201,
+      "finish_block_all_pass_difference_ci95": [
+        0.002,
+        0.0407
+      ],
+      "rename_drop": -0.005555555555555556,
+      "dev75_nofp_rise": 0,
+      "cpt_nll_rise": 0.0021352705558679297,
+      "dev250": {
+        "dev250_edit_exact": 72,
+        "dev250_noop_correct": 35,
+        "score250": 107
+      }
     }
   },
-  "rule_decisions": [],
+  "rule_decisions": [
+    {
+      "decided_at": "2026-11-21",
+      "decision": "Grant exception, run hold-out",
+      "waived_criterion": "dev250 score250 >= 108",
+      "receipt": {
+        "path": "docs/training/plan-20260927/c20/dev250-exception.json",
+        "sha256": "385988fea30c82021b7421c7913ed3295dc70b6311a744ab1bcd6801d6a2094f"
+      },
+      "step": 300
+    }
+  ],
   "question_for_user": null,
-  "notes": "CPU data is frozen. GPU smoke, pilot and conditional final job await merge and queue submission."
+  "notes": "Pilot recorded keep_c19 after DEV250 scored 107. The step-300 exception hold-out awaits queue submission from main."
 }

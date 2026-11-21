@@ -1,0 +1,24 @@
+{
+  "schema": "sepalith.c20.dev250-exception.v1",
+  "decision": "Grant exception, run hold-out",
+  "decided_at": "2026-11-21",
+  "decided_by": "user (via the orchestration session)",
+  "rationale": "The one-point miss is in no-op cases, the lowest-priority error class for this decision.",
+  "waived_criterion": "dev250 score250 >= 108",
+  "observed_dev250": {
+    "dev250_edit_exact": 72,
+    "dev250_noop_correct": 35,
+    "score250": 107
+  },
+  "pilot_summary_sha256": "647544a2cea7f5878b2e8011fbb74930ab5219e520f1ab5bce7b1f2dbd99bcaf",
+  "dev250_sha256": "c1e29945d72d35ffb7956237921ec3f9538153a35ad1be069fe8b343b3110668",
+  "binding": {
+    "checkpoint_manifest_sha256": "c6db23c71b4bf9766b89e5cd3ceab38d905992eab2b4f5bb05be1618741d91d6",
+    "recipe_sha256": "4f4638b6010c7d66d51e75ed9285bbbe92b794eaa07664f2e3af131dfcf8766f",
+    "step": 300
+  },
+  "adopt_criteria": [
+    "holdout all-pass difference vs C19-100 CI95 lower bound > 0",
+    "CPT NLL rise <= 0.03"
+  ]
+}

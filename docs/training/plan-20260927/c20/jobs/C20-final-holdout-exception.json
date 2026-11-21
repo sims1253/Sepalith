@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "OPENBLAS_NUM_THREADS=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "TOKENIZERS_PARALLELISM=false",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.c20_exception.final",
+    "--source-manifest",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/exception-source-manifest.json",
+    "--sha256",
+    "3cce985b1f58b3c1c45470c91a4773e64c3c2d98696782eb1a5e2e806a947d8c"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 240,
+  "id": "C20-final-holdout-exception",
+  "priority": 30,
+  "requires": [
+    "C20-sft-finish-pilot"
+  ],
+  "resumable": true
+}
