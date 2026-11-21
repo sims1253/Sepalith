@@ -1,0 +1,66 @@
+{
+  "artifacts": {
+    "probe-cases.jsonl": "cc3ae4d326a093af59326711837219eb182c425d591caba44c723773a4c5ea15",
+    "probe-token-rows.jsonl": "c52c08fa92d2949ee340978be26a9e79ed05fd183f575433d0adba601d046cd2"
+  },
+  "by_determinacy": {
+    "constrained_short": 50,
+    "sibling": 52
+  },
+  "by_length_bucket": {
+    "13-20": 6,
+    "2": 20,
+    "21-30": 1,
+    "3-4": 20,
+    "5-8": 10,
+    "9-12": 45
+  },
+  "by_length_class": {
+    "long": 1,
+    "medium": 51,
+    "short": 50
+  },
+  "by_seed_wave": {
+    "v2": 59,
+    "v3A": 11,
+    "v3B": 23,
+    "v3C": 9
+  },
+  "by_variant": {
+    "diag": 8,
+    "file": 49,
+    "outline": 9,
+    "plain": 25,
+    "strip": 11
+  },
+  "generator": {
+    "id": "sepalith.synth.v1",
+    "version": "3.1.0"
+  },
+  "purpose": "manipulation check for a SYNTH-trained arm: patterned finish_block cases the training rows never show; NOT training data (rows carry split=heldout_probe, which the SFT row loader refuses)",
+  "rows": 102,
+  "schema": "sepalith.synth.heldout-manipulation.v1",
+  "selection": {
+    "available_cuts_from_unused_units": {
+      "long": 1,
+      "medium": 151,
+      "short": 4256
+    },
+    "refused": {
+      "target_line_4gram_in_training_window": 37
+    },
+    "row_ids_shared_with_training": 0,
+    "selected": {
+      "long": 1,
+      "medium": 51,
+      "short": 50
+    },
+    "strata": {
+      "long": 40,
+      "medium": 60,
+      "short": 50
+    },
+    "units_shared_with_training": 0
+  },
+  "training_rows_sha256": "3fbe9fecc7319666bdb589f6ddf952b65c7882be4e1a3b20730ff70f98986a9c"
+}

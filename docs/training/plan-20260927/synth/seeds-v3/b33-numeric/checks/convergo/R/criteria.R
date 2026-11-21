@@ -1,0 +1,58 @@
+cr <- conv.criteria(max.iter = 50)
+stopifnot(inherits(cr, "conv_criteria"))
+stopifnot(identical(cr$max.iter, 50L))
+stopifnot(identical(cr$stall.iter, 25L))
+stopifnot(identical(names(cr), c("abs.tol", "rel.tol", "f.tol", "max.iter", "stall.iter")))
+stopifnot(inherits(try(conv.criteria(abs.tol = -1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(conv.criteria(rel.tol = "a"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(conv.criteria(f.tol = NA_real_), silent = TRUE), "try-error"))
+stopifnot(inherits(try(conv.criteria(max.iter = 0), silent = TRUE), "try-error"))
+stopifnot(inherits(try(conv.criteria(stall.iter = c(1, 2)), silent = TRUE), "try-error"))
+
+st <- list(iter = 3L, step = 1e-12, x.norm = 1, f.norm = 1e-12, stall = 0L)
+ct <- conv.test(st, cr)
+stopifnot(ct$converged)
+stopifnot(ct$stopped)
+stopifnot(ct$reason == "converged")
+stopifnot(ct$checks[["abs"]])
+stopifnot(ct$checks[["rel"]])
+st$f.norm <- 1
+ct <- conv.test(st, cr)
+stopifnot(!ct$converged, !ct$stopped, ct$reason == "running", !ct$checks[["f"]])
+st$iter <- 50L
+stopifnot(conv.test(st, cr)$reason == "max.iter")
+st$iter <- 3L
+st$stall <- 30L
+stopifnot(conv.test(st, cr)$reason == "stalled", conv.test(st, cr)$checks[["stall"]])
+st <- list(iter = 1L, step = 1e-5, x.norm = 1e4, f.norm = 0, stall = 0L)
+ct <- conv.test(st, cr)
+stopifnot(!ct$checks[["abs"]], ct$checks[["rel"]], ct$converged)
+st$f.norm <- NaN
+stopifnot(conv.test(st, cr)$reason == "diverged", conv.test(st, cr)$checks[["diverged"]])
+stopifnot(length(conv.test(st, cr)$checks) == 6L)
+
+tr <- trace.new(c("a", "b"))
+tr <- trace.add(tr, 1, c(b = 2, a = 1))
+tr <- trace.add(tr, 2, c(a = 3, b = 4, c = 9))
+stopifnot(inherits(tr, "conv_trace"), identical(tr$iter, 1:2), all(tr$values[, "a"] == c(1, 3)))
+stopifnot(identical(colnames(tr$values), c("a", "b")), nrow(trace.new("x")$values) == 0L)
+stopifnot(inherits(try(trace.add(tr, 3, c(a = 1)), silent = TRUE), "try-error"))
+stopifnot(inherits(try(trace.new(c("a", "a")), silent = TRUE), "try-error"))
+stopifnot(inherits(try(trace.new("iter"), silent = TRUE), "try-error"))
+
+s <- cumsum((-1)^(0:9) / (2 * (0:9) + 1)) * 4
+stopifnot(abs(tail(accelerate(s), 1) - pi) < 1e-3, length(accelerate(s)) == 8L)
+stopifnot(abs(tail(accelerate(s, "wynn"), 1) - pi) < 1e-3, length(accelerate(s, "wynn")) == 8L)
+stopifnot(all.equal(accelerate(c(2, 4, 6), "cesaro"), c(2, 3, 4)))
+r <- accelerate(1 + 1 / (1:5), "richardson")
+stopifnot(all(abs(r - 1) < 1e-12), length(r) == 4L)
+
+fp <- fixed.point(cos, 1)
+stopifnot(fp$reason == "converged", abs(fp$x - cos(fp$x)) < 1e-10)
+stopifnot(identical(names(fp$trace), c("iter", "step", "residual")), nrow(fp$trace) == fp$iter)
+fp2 <- fixed.point(cos, 1, damping = 0.6)
+stopifnot(fp2$reason == "converged", fp2$iter < fp$iter)
+fp3 <- fixed.point(function(x) 2 * x + 1, 1, criteria = conv.criteria(max.iter = 5))
+stopifnot(fp3$reason %in% c("max.iter", "stalled"), fp3$iter <= 5L)
+stopifnot(inherits(try(fixed.point(cos, "a"), silent = TRUE), "try-error"))
+stopifnot(inherits(try(fixed.point(cos, 1, damping = 0), silent = TRUE), "try-error"))
