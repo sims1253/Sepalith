@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "OPENBLAS_NUM_THREADS=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "TOKENIZERS_PARALLELISM=false",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "-m",
+    "sepalith.training.sft.c20.run",
+    "pilot",
+    "--recipe",
+    "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/pilot.json",
+    "--sha256",
+    "4f4638b6010c7d66d51e75ed9285bbbe92b794eaa07664f2e3af131dfcf8766f"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 720,
+  "id": "C20-sft-finish-pilot",
+  "priority": 45,
+  "requires": [
+    "C20-sft-finish-smoke"
+  ],
+  "resumable": true
+}

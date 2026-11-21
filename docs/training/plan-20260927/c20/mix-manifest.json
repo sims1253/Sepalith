@@ -1,0 +1,57 @@
+{
+  "body_tokens": 221283,
+  "cpt_loss_tokens": 34055,
+  "cpt_target_length_in_tokens": [
+    64,
+    160
+  ],
+  "distinct_rows": 4800,
+  "dose_per_update": {
+    "cpt": 1,
+    "no_op": 3,
+    "rename": 2,
+    "short": 2,
+    "target": 8
+  },
+  "eligible": {
+    "cpt": 313,
+    "no_op": 1071,
+    "rename": 1754,
+    "short": 827,
+    "target": 7380
+  },
+  "exposures": {
+    "1": 4800
+  },
+  "input_tokens": 2149529,
+  "length_profile": {
+    "bytes": 465,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C20-sft-finish-v1/frozen/length-profile.json",
+    "sha256": "7d596fa2add41e60dcd94c0e66a67cf78f610bde3eaf7e81593bcc57711c1151"
+  },
+  "loss_tokens": 248583,
+  "rows": {
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C20-sft-finish-v1/frozen/rows.jsonl",
+    "sha256": "8b39891a1d1949bae765fdafd9efdf64cd2df9c89b535172afcc4aef4a715a96"
+  },
+  "schedule": {
+    "bytes": 1165254,
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C20-sft-finish-v1/frozen/schedule.json",
+    "sha256": "7f84716153a1a14f1b23f706464334b74bab750084f794174bec1467dac41377"
+  },
+  "seed": 3407,
+  "sources": {
+    "cpt": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/C18-grpo-exec-v1/cpt-replay.jsonl",
+      "rows": 8000,
+      "sha256": "e355e9cf797e58be6ba5a1d0b10a21468dcc8d3751ff468c3980fcd504bd434b"
+    },
+    "no_op": {
+      "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent/train-token-rows.jsonl",
+      "sha256": "ed1c7b4ea9a7f7e0bfad744dc23f4d08866f9776818044d8584697d41ece3aef"
+    },
+    "validation_manifest_sha256": "f86cd78a1484bde6a2602a36ac0cce336962755b4e3c53200589fa467f2c6140"
+  },
+  "uncapped_exec_rows": 1064,
+  "updates": 300
+}

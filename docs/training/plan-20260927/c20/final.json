@@ -1,0 +1,16 @@
+{
+  "completions": {
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C19-grpo-exec-pilot-1/final-step-100/completions-c19-selected.jsonl",
+    "sha256": "3e73e1d130ce0320aa937ee22786eb0adbd7a6706c28f749c89baa56cf1055d0"
+  },
+  "n_tasks": 3803,
+  "source": {
+    "manifest_path": "/home/m0hawk/sandbox/Sepalith/docs/training/plan-20260927/c20/source-manifest.json",
+    "manifest_sha256": "57695c2dc8a4dfa3843f8da75a7690cd90351bee03bbfd06fcb303827fb462d9",
+    "repository_root": "/home/m0hawk/sandbox/Sepalith"
+  },
+  "tasks": {
+    "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/exec-eval/EXEC-holdout-baseline/inputs/tasks.jsonl",
+    "sha256": "4d9a1a36bc266e4c193257f5f22a1d4c5dc23b2305e63d4ff1ab7203d7d139be"
+  }
+}
