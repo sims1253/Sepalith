@@ -101,12 +101,18 @@ class ReleasePrepTests(unittest.TestCase):
         warn = 'warning: no usable GPU found, --gpu-layers option will be ignored\n'
         rise = probe_memory('before gpu_busy=0 vram_used=1 gtt_used=100\nloaded gpu_busy=9 vram_used=1 gtt_used=900\n')
         flat = probe_memory('before gpu_busy=0 vram_used=1 gtt_used=100\nloaded gpu_busy=0 vram_used=1 gtt_used=100\n')
-        self.assertTrue(backend_evidence('vulkan', '', vk, rise)['confirmed'])
+        busy, idle = {'busy_nonzero': 5}, {'busy_nonzero': 0}
+        self.assertTrue(backend_evidence('vulkan', '', vk, rise, busy)['confirmed'])
         self.assertTrue(backend_evidence('cpu', warn, cpu, flat)['confirmed'])
-        self.assertFalse(backend_evidence('vulkan', '', cpu, flat)['confirmed'])
-        self.assertFalse(backend_evidence('vulkan', '', vk.replace('43/43', '30/43'), rise)['confirmed'])
-        self.assertFalse(backend_evidence('vulkan', '', vk, flat)['confirmed'])
+        self.assertTrue(backend_evidence('cpu', warn, cpu, flat, idle)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', cpu, flat, busy)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', vk.replace('43/43', '30/43'), rise, busy)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', vk, flat, busy)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', warn, vk, rise, busy)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', vk, rise, idle)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', vk, rise)['confirmed'])
         self.assertFalse(backend_evidence('cpu', warn, vk, rise)['confirmed'])
+        self.assertFalse(backend_evidence('cpu', warn, cpu, flat, busy)['confirmed'])
 
     def test_receipt_gate_needs_full_clean_run(self):
         sample = {'ttft_ms': 5.0, 'tokens_s': 20.0, 'wall_ms': 9.0, 'predicted_n': 12, 'stop_type': 'eos'}
@@ -115,14 +121,18 @@ class ReleasePrepTests(unittest.TestCase):
                   'tier': 'Q6_K', 'runtime_commit': '3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70',
                   'model_sha256': '6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261',
                   'prompts_sha256': 'c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2'}
-        self.assertEqual(gate(result, {'confirmed': True}, '')['outcome'], 'pass')
-        self.assertIsNone(gate(result, {'confirmed': True}, '')['latency_cutoff'])
-        self.assertEqual(gate(result, {'confirmed': False}, '')['outcome'], 'fail')
-        self.assertEqual(gate(result, {'confirmed': True}, 'truncated = 1')['outcome'], 'fail')
+        log = 'stop processing: n_tokens = 142, truncated = 0\n' * 48
+        self.assertEqual(gate(result, {'confirmed': True}, log)['outcome'], 'pass')
+        self.assertIsNone(gate(result, {'confirmed': True}, log)['latency_cutoff'])
+        self.assertEqual(gate(result, {'confirmed': False}, log)['outcome'], 'fail')
+        self.assertEqual(gate(result, {'confirmed': True}, '')['outcome'], 'fail')
+        self.assertEqual(gate(result, {'confirmed': True}, 'stop processing: n_tokens = 142, truncated = 0\n' * 47)['outcome'], 'fail')
+        truncated = log.replace('truncated = 0', 'truncated = 1', 1)
+        self.assertEqual(gate(result, {'confirmed': True}, truncated)['outcome'], 'fail')
         short = {**result, 'samples': result['samples'][:39]}
-        self.assertEqual(gate(short, {'confirmed': True}, '')['outcome'], 'fail')
+        self.assertEqual(gate(short, {'confirmed': True}, log)['outcome'], 'fail')
         bad = {**result, 'samples': [*result['samples'][:39], {**result['samples'][39], 'tokens_s': float('nan')}]}
-        self.assertEqual(gate(bad, {'confirmed': True}, '')['outcome'], 'fail')
+        self.assertEqual(gate(bad, {'confirmed': True}, log)['outcome'], 'fail')
 
 
 if __name__ == '__main__':

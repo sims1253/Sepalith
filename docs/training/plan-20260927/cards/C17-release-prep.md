@@ -141,9 +141,10 @@ Read these numbers with the following caveats:
     `offloaded 43/43 layers to GPU` and a Vulkan0 model buffer, and GTT
     memory rose at load. During the measured runs, iGPU sysfs showed the GPU
     busy in 185 of 185 and 174 of 174 samples.
-  - CPU: the measured log shows `no usable GPU found`, with only CPU buffers,
-    no GTT rise and an idle iGPU. Q6_K CPU ran first, before the sysfs sampler
-    was added to the driver.
+  - CPU: the measured logs show `no usable GPU found`. The probes show only
+    CPU buffers and no GTT rise at load. The iGPU stayed idle during the
+    measured mixB-e4 CPU run. Q6_K CPU ran first, before the sysfs sampler was
+    added to the driver, so it has no measured-run iGPU samples.
 
 No latency cutoff applies. Release acceptance is the user's decision. After
 that, the remaining gates are the sealed-final freeze (section 4) and the

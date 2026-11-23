@@ -52,19 +52,22 @@ def gpu_samples(text: str | None) -> dict | None:
             'busy_max': max(busy, default=0), 'gtt_used_max': max((int(r[3]) for r in rows), default=0)}
 
 
-def backend_evidence(backend: str, measured: str, probe: str, memory: dict) -> dict:
+def backend_evidence(backend: str, measured: str, probe: str, memory: dict, gpu: dict | None = None) -> dict:
     """Check that the device lines and iGPU memory match the intended backend."""
     offload = [tuple(map(int, m)) for m in re.findall(r'offloaded (\d+)/(\d+) layers to GPU', probe)]
     devices = re.findall(r'^\S+ I cmn  common_param:   - (Vulkan\d+ : .+)$', probe, re.MULTILINE)
     vulkan_buffer = re.findall(r'Vulkan\d+ model buffer size = +([\d.]+) MiB', probe)
     cpu_buffer = re.findall(r'CPU(?:_Mapped|_REPACK)? model buffer size = +([\d.]+) MiB', probe)
     gtt_rise = memory['loaded']['gtt_used'] - memory['before']['gtt_used']
+    no_gpu = 'warning: no usable GPU found' in measured
     if backend == 'vulkan':
-        ok = (bool(devices) and bool(vulkan_buffer) and bool(offload)
-              and all(done == total for done, total in offload) and gtt_rise > 0)
+        # The probe shows the device; the measured run must not have fallen back and must load the iGPU.
+        ok = (not no_gpu and bool(devices) and bool(vulkan_buffer) and bool(offload)
+              and all(done == total for done, total in offload) and gtt_rise > 0
+              and gpu is not None and gpu['busy_nonzero'] > 0)
     else:
-        ok = ('warning: no usable GPU found' in measured and not devices and not vulkan_buffer
-              and bool(cpu_buffer) and not offload and gtt_rise == 0)
+        ok = (no_gpu and not devices and not vulkan_buffer and bool(cpu_buffer) and not offload
+              and gtt_rise == 0 and (gpu is None or gpu['busy_nonzero'] == 0))
     return {'confirmed': ok, 'vulkan_devices': devices, 'offloaded_layers': offload,
             'vulkan_model_buffer_mib': vulkan_buffer, 'cpu_model_buffer_mib': cpu_buffer,
             'gtt_rise_bytes_at_load': gtt_rise}
@@ -75,6 +78,7 @@ def gate(result: dict, evidence: dict, measured: str) -> dict:
     tokens: dict[int, set[int]] = {}
     for s in samples:
         tokens.setdefault(s['prompt'], set()).add(s['prompt_n'])
+    completions = re.findall(r'stop processing: n_tokens = \d+, truncated = (\d)', measured)
     checks = {
         'samples_40': len(samples) == EXPECTED_SAMPLES,
         'five_per_prompt': sorted(Counter(s['prompt'] for s in samples).values()) == [5] * 8,
@@ -84,6 +88,8 @@ def gate(result: dict, evidence: dict, measured: str) -> dict:
         'prompt_n_stable': all(len(v) == 1 for v in tokens.values()),
         # notebook_latency.py raises on a truncated final event; the server log agrees.
         'untruncated_prompts': 'truncated = 1' not in measured,
+        # 8 warm-ups + 40 measured requests completed in this server log, none truncated.
+        'server_log_48_completions': completions == ['0'] * (EXPECTED_SAMPLES + 8),
         'runtime_commit': result['runtime_commit'] == RUNTIME_COMMIT,
         'model_sha256': result['model_sha256'] == MODEL_SHA256[result['tier']],
         'prompts_sha256': result['prompts_sha256'] == PROMPTS_SHA256,
@@ -100,9 +106,10 @@ def build(result_path: Path, logs: Path) -> dict:
     measured = files['server.log'].read_text(errors='replace')
     probe = files['probe-server.log'].read_text(errors='replace')
     memory = probe_memory(files['probe.txt'].read_text())
-    evidence = backend_evidence(result['backend'], measured, probe, memory)
-    samples = result['samples']
     gpu = files['gpu.tsv']
+    gpu_summary = gpu_samples(gpu.read_text() if gpu.exists() else None)
+    evidence = backend_evidence(result['backend'], measured, probe, memory, gpu_summary)
+    samples = result['samples']
     return {
         'schema': 'sepalith.c17.notebook-latency-receipt.v1',
         'card': 'C17 section 3',
@@ -125,7 +132,7 @@ def build(result_path: Path, logs: Path) -> dict:
             'probe': 'unmeasured restart of the identical server command plus `-lv 4`; '
                      'verbosity 3 at 3cb7ffb1a prints no device or offload lines',
             'probe_igpu_memory': memory,
-            'measured_run_igpu': gpu_samples(gpu.read_text() if gpu.exists() else None),
+            'measured_run_igpu': gpu_summary,
         },
         'logs': {name: {'file': p.name, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()}
                  for name, p in files.items() if p.exists()},
