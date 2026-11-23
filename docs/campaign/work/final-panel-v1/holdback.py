@@ -18,7 +18,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import final_panel as F  # noqa: E402
+import final_panel as F
 
 
 def split_for(split: str, recipe: F.Json) -> F.Json:
