@@ -1,9 +1,9 @@
 {
   "card": "C20",
-  "state": "in_progress",
-  "updated": "2026-11-21T14:53:05+01:00",
-  "branch": "plan/C20-sft-finish",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/104",
+  "state": "done",
+  "updated": "2026-11-23T03:20:00+01:00",
+  "branch": "plan/C20-closeout",
+  "pull_request": null,
   "outputs": {
     "validation_manifest": {
       "path": "docs/training/plan-20260927/c20/validation-manifest.json",
@@ -61,6 +61,37 @@
         "dev250_noop_correct": 35,
         "score250": 107
       }
+    },
+    "final_exception": {
+      "status": "keep_c19",
+      "adopt": false,
+      "verdict": {
+        "path": "docs/training/plan-20260927/c20/final-exception-verdict.json",
+        "sha256": "a97eaa51d36ea3a5f98b468457c8338bb981b88a0e6283b03967ff2295e48c24"
+      },
+      "receipt": {
+        "path": "docs/training/plan-20260927/c20/final-exception-receipt.md",
+        "sha256": "d08de09267bae3a1d53fac17c89d96419ae7f139aae27f8205be0bfdbab41863"
+      },
+      "tasks": 3803,
+      "functions": 630,
+      "all_pass": {
+        "c19-100": 0.399,
+        "c20-selected": 0.403
+      },
+      "all_pass_difference": 0.0034,
+      "all_pass_difference_ci95": [
+        -0.0022,
+        0.0093
+      ],
+      "cpt_nll_rise": 0.0021352705558679297,
+      "evidence_sha256": {
+        "metrics.json": "51cb3b3d33a02ed603c39476c91007696d328fc073ead186528d064afe6204bf",
+        "records-c19-100.jsonl": "5cae210b0d5f4b92fcf5c1f31ae72a21090ee2a380869a184796cd0b33baecaa",
+        "records-c20-selected.jsonl": "eadc15a88ef9c943ef03729dcbda8c0538a75725d444f70ec0b43849bd81e329",
+        "completions-c20-selected.jsonl": "ec940c592c7b27b2cd29ba03dbb8892ed9bc4504b72230f1e9a82b408392d443"
+      },
+      "attempts": "4 (attempts 2 and 3 stopped by the host-memory guard while other workloads used host RAM; resumed from saved completions)"
     }
   },
   "rule_decisions": [
@@ -76,5 +107,5 @@
     }
   ],
   "question_for_user": null,
-  "notes": "Pilot recorded keep_c19 after DEV250 scored 107. The step-300 exception hold-out awaits queue submission from main."
+  "notes": "Exception hold-out finished 2026-11-23 and kept C19-100: the all-pass CI95 lower bound was -0.0022, and the rule requires a value above 0. C19-100 stays the release candidate."
 }
