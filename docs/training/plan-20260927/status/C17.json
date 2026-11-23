@@ -3,7 +3,7 @@
   "state": "needs_user",
   "updated": "2026-11-23T18:00:00+01:00",
   "branch": "feat/final-panel-constructor",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/107",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/108",
   "outputs": {
     "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
     "quant_evidence": "docs/training/plan-20260927/receipts/C17-quant-evidence.json",

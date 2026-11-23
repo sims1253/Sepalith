@@ -226,11 +226,17 @@ class Gate(unittest.TestCase):
             kwargs = {"split": F.FINAL_SPLIT, "registry": {"groups": []}, "recipe": recipe(Path(tmp)),
                       "tokenizer": TextTokenizer(), "workdir": Path(tmp), "cpt": frozenset(),
                       "dev_prompts": frozenset()}
-            with self.assertRaisesRegex(F.PanelError, "final_build_requires_authorization"):
+            with self.assertRaisesRegex(F.PanelError, "final_build_requires_build_final"):
                 F.build_panel(**kwargs)
-            auth = F.Authorization("0" * 64, {}, Path(tmp) / "none.json")
-            with self.assertRaisesRegex(F.PanelError, "final_build_uses_recipe_as_is"):
-                F.build_panel(**kwargs, authorization=auth, group_ids=["g"])
+            root = Path(tmp)
+            inside = issue_authorization(root, root / "out", root / "out.work" / "attempt.json")
+            with self.assertRaisesRegex(F.PanelError, "attempt_marker_inside_a_cleanup_tree"):
+                F.claim_attempt(inside, root / "out")
+
+    def test_stopped_panel_is_never_published(self) -> None:
+        panel = F.Panel(F.FINAL_SPLIT, [], {}, {}, {}, {"status": "stopped_below_floor"})
+        with TemporaryDirectory() as tmp, self.assertRaisesRegex(F.PanelError, "stopped_panel_is_not_published"):
+            F.write_panel(panel, Path(tmp) / "out", recipe_sha256="r" * 64, inputs={})
 
     def test_authorize_binds_constructor_and_recipe(self) -> None:
         with TemporaryDirectory() as tmp:
@@ -310,9 +316,11 @@ class EndToEnd(unittest.TestCase):
         return panel, receipt
 
     def _final_build(self, rec: F.Json, reg: F.Json, work: Path, auth: F.Authorization) -> F.Panel:
-        return F.build_panel(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(),
-                             workdir=work, cpt=frozenset({"f" * 64}), dev_prompts=frozenset(), authorization=auth,
-                             memberships=memberships())
+        """build_final() after its pin checks: claim the attempt, then run the core on the invented corpus."""
+        F.claim_attempt(auth, Path(auth.receipt["out_dir"]))
+        return F._construct(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(), workdir=work,
+                            cpt=frozenset({"f" * 64}), dev_prompts=frozenset(), group_ids=None, quotas=None,
+                            modules=F.Modules.load(), memberships=memberships(), authorization=auth)
 
     def test_rehearsal_build_is_deterministic(self) -> None:
         with TemporaryDirectory() as a, TemporaryDirectory() as b:

@@ -31,7 +31,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import stat
 import subprocess
 import sys
@@ -91,30 +90,17 @@ def jsonl(path: Path) -> Iterator[Json]:
 
 
 def fields(path: Path, names: Iterable[str]) -> Iterator[dict[str, str | None]]:
-    """Top-level string fields of JSONL rows.
-
-    A regex pass is used only when each field occurs exactly once in the line, so a nested key
-    (sort_keys rows put context and exec ahead of the identity keys) can never be picked up;
-    otherwise the line is parsed in full.
-    """
+    """Top-level string fields of each JSONL row, parsed structurally (never a nested key)."""
     names = tuple(names)
-    patterns = {name: re.compile(rb'"%s":\s*"([^"\\]*)"' % name.encode()) for name in names}
-    with path.open("rb") as stream:
-        for line in stream:
-            if not line.strip():
-                continue
-            found = {name: rx.findall(line) for name, rx in patterns.items()}
-            if all(len(m) == 1 and line.count(b'"%s":' % n.encode()) == 1 for n, m in found.items()):
-                yield {name: m[0].decode() for name, m in found.items()}
-            else:
-                row = json.loads(line)
-                yield {name: row.get(name) if isinstance(row.get(name), str) else None for name in names}
+    for row in jsonl(path):
+        yield {name: row.get(name) if isinstance(row.get(name), str) else None for name in names}
 
 
 def complete(rows: Iterable[dict[str, str | None]], path: Path) -> list[dict[str, str | None]]:
     """Reject a source with any row that lacks a required identity field."""
     rows = list(rows)
-    if not rows or any(value is None for row in rows for value in row.values()):
+    if not rows or any(not isinstance(value, str) or not value or value.strip() != value or "\x00" in value
+                       for row in rows for value in row.values()):
         raise ValueError(f"missing identity fields in {path}")
     return rows
 

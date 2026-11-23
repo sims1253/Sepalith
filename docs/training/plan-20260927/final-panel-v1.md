@@ -356,9 +356,11 @@ near copies.
    `sha256_json` of the plan's models object and the freeze statement's file
    hash against the authorization. Compare them by value. Rehearsals check
    the DAT-02 pin too, because its split labels decide what may be read.
-3. `build_panel` creates the attempt marker exclusively before it reads any
-   final metadata or source. This holds for Python callers as well as the
-   CLI, so there is no second attempt with the same authorization. The work
+3. `build_final()` is the only entry point that reads final content. It
+   re-verifies the receipt from disk and loads every input it consumes from
+   the recipe's pins. It then creates the attempt marker exclusively, before
+   any final metadata or source is read. The marker may not lie inside the
+   output or work tree. `build_panel()` refuses the final split. The work
    directory is removed in a `finally` block.
 4. Check the DAT-02 and DEV-panel pins.
 5. Build.
@@ -512,6 +514,10 @@ at high effort.
   covered by unit tests of `authorize`, `claim_attempt` and the final
   `build_panel` path.
 - **Restoring the adapter's `ALLOWED_SPLITS`.** One build runs per process.
+- **Sol S7, no-op sites inside multiline strings.** Declined. DEV250's own
+  no-op cases include such lines, for example the `retentionmort_figure.R`
+  lines inside a `cat("…")` R Markdown string. A syntax-aware exclusion would
+  break fidelity to DEV. The target is the unchanged line either way.
 - **A content-free `check_plan` at A4.** `plan-fragment.json` covers the
   A3-fixed keys.
 
