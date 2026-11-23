@@ -116,9 +116,13 @@ def authorize(root: Path, build_groups: int | None, dev_blind: bool) -> Json:
 def rehearsal_panel(root: Path) -> Path:
     """The rehearsal panel, after its aggregate build receipt shows a built dev rehearsal; nothing else is opened first."""
     panel = root / "panel"
+    if panel.resolve() != panel or not panel.is_dir():
+        raise SystemExit("rehearsal panel must be a real directory inside the rehearsal root")
     receipt = json.loads((panel / "build-receipt.json").read_bytes())
-    if receipt.get("split") != "dev_group" or receipt.get("status") != "built":
-        raise SystemExit("not a built dev rehearsal panel")
+    authorization = file_sha(root / "build-authorization.json")
+    if (receipt.get("split") != "dev_group" or receipt.get("status") != "built"
+            or receipt.get("authorization_sha256") != authorization):
+        raise SystemExit("not a built, authorized dev rehearsal panel")
     return panel
 
 
@@ -152,7 +156,14 @@ def assemble(root: Path, use_subset: bool) -> Json:
     import protocol as v2
 
     panel = rehearsal_panel(root)
-    fragment = json.loads(((root / "subset-panel") if use_subset else panel).joinpath("plan-fragment.json").read_bytes())
+    chosen = (root / "subset-panel") if use_subset else panel
+    if chosen.resolve() != chosen:
+        raise SystemExit("subset panel must be a real directory inside the rehearsal root")
+    fragment = json.loads((chosen / "plan-fragment.json").read_bytes())
+    pinned = [fragment["cases"]["path"], fragment["semantic_receipt"]["path"], fragment["payloads_path"]]
+    if (any(Path(path).resolve() != Path(path) or not Path(path).is_relative_to(chosen) for path in pinned)
+            or fragment["source_roots"] != [str(panel / "final-sources")]):
+        raise SystemExit("plan fragment pins files outside the verified rehearsal panel")
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
     state = root / "run-state"
