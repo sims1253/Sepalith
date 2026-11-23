@@ -332,6 +332,132 @@ must show the mix, the reference rate at the actual built mix
 the mix) and the note that the references come from GPU or llama.cpp runs
 while the final scoring runs on CPU.
 
+## Dress rehearsal (2026-11-23)
+
+The user asked for a full rehearsal of build, admission and scoring on dev
+groups before the build authorization. It ran the real code paths from this
+branch with
+[`dress_rehearsal.py`](../../campaign/work/final-panel-v1/dress_rehearsal.py),
+under `~/.local/state/sepalith/sealed-final-v2/rehearsals/` (mode 700). The
+rehearsal authorization says `split: dev_group, rehearsal: true`. It binds
+the real constructor, recipe, weights (`sha256_json` of the plan roster
+`3ed055fd…e4fb`), harness (`874e0f0a…68f5`), memberships and a rehearsal
+freeze statement, and it claims a one-shot attempt marker.
+
+**Run 1: the recipe as registered (105 dev groups, real memberships).**
+`build_final()` claimed its marker, read the holdback rule's 105 dev build
+groups, and stopped with the pre-registered outcome `stopped_below_floor`.
+It wrote only the aggregate build receipt and published no panel. 202 cases:
+no_op 25 (floor 40) and pipe_rewrite 12 (floor 14). The DEV panels had
+already used dev's no-op and pipe supply: 44 no-op and 14 pipe candidates
+were dropped as `same_prompt_as_dev_panel`. The overlap audit also flagged
+all 79 used groups, all of them through the `dev` inventory, as it must for
+dev cases. Build time 90 s.
+
+**Same-size supply check on train (105 train groups in the same seeded
+order, CPT filter off, plain rehearsal).** `stopped_below_floor` again:
+243 cases. Every family filled except pipe_rewrite, which reached 12 of 28
+against its floor of 14. Only 12 pipe candidates exist in those 105 groups.
+no_op filled 50 of 50.
+
+**Finding for the user before A2.** At 105 groups the pipe floor of 14 is
+likely to stop the final build: both same-size pools supply 12 pipe cases.
+With 193 groups the train rehearsal filled all 28. The stop is
+pre-registered, so a stop at A3 abandons the C17 sealed final. Any change
+must be made now, before A3, and only by the user. Options:
+
+- (a) Lower the pipe_rewrite floor to 6. A broken extractor gives 0, so the
+  floor still catches it. Unfilled pipe slots move to code-cut finish, as
+  already pre-registered.
+- (b) Keep the floor and accept the stop risk.
+- (c) Build from more groups. This would undo part of the 45% holdback.
+
+**Run 2: admission and scoring (all 169 dev groups, dev-blind
+memberships).** This run used the rehearsal-only field
+`rehearsal_build_groups: 169`, which `authorize()` refuses on a final
+receipt. Its memberships are the real eight inventories with the `dev` stage
+emptied, so the launcher's audit can pass on dev cases. The build gave
+`built`: 250 cases from 105 groups (finish 125, no_op 50, pipe 28,
+format 24, rename 23, na_rm 0; the 3 na_rm slots moved to finish). The
+overlap audit found 0 groups. The launcher dry run loaded and constructed
+250 of 250 cases with 0 hash mismatches. Build time 90 s.
+
+Scoring used the full launcher (`protocol.run()`): the freeze and plan pins,
+the guard, `FrozenRuntime` with the pinned interpreter (`.venv-sft`,
+CPython 3.12.15), distributions, tokenizer, weights, Q4_K_M-mixB-e4 file
+pin and llama-server `3cb7ffb1a` (CPU build), then the seal, audit,
+construct and scoring on CPU with 8 threads. The only in-memory change sets
+the launcher's panel-split constant and the guard's semantic-receipt split
+constant to `rehearsal_dev_group`.
+
+CPU bf16 on this machine (AMD Ryzen 9 5900X, Zen 3, no AVX-512 or bf16
+units, shared with other sessions at load 30 to 50) took 252 s for one
+1,399-token prompt in a probe. The full roster, 250 cases and 3 models,
+would not finish in a day, so scoring ran on a subset pre-registered in the
+script before any rehearsal scoring: the first 30 row IDs in
+`sha256_json([3407, "dress-rehearsal-subset", row_id])` order (finish 18,
+pipe 6, no_op 4, format 1, rename 1). That subset is written as a panel of
+its own, bound by its own cases hash and semantic receipt over the same
+staged sources.
+
+SCORING_RESULTS_PENDING
+
+## Build authorization draft
+
+A2 has two parts. The user writes and signs them; an agent must not issue
+them. Fill in the bracketed values from the main checkout after this change
+is fast-forwarded there.
+
+**(a) Freeze statement** (plain text, its file sha256 goes into the
+authorization):
+
+> I freeze, for the C17 sealed final v2, the weights in the plan roster
+> `pins/models.json` (arm-a-803, c19-100-bf16, c19-100-q6_k; `sha256_json`
+> `3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb`), the
+> release artifact Q4_K_M-mixB-e4
+> (`e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b`), and
+> the harness `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5`
+> (evaluator commit `815967bb`, package tree `a9510fb9`). No training,
+> checkpoint, quantization or tuning decision may depend on the final
+> results. Frozen at [UTC time].
+
+**(b) Build authorization** (`build-authorization.json`; the user also gives
+its sha256 in writing):
+
+```json
+{
+  "schema": "sepalith.final-panel.v1.build-authorization",
+  "status": "user-approved",
+  "split": "final_candidate_group",
+  "constructor_sha256": "[sha256 of final_panel.py on main]",
+  "recipe_sha256": "[sha256 of recipe.json on main]",
+  "weights_sha256": "3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb",
+  "harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
+  "memberships_sha256": "63b68fb718db9dfe20ed34bf1a520ed9b80c5b0b6799eaf9be81e4d119636736",
+  "freeze_statement_sha256": "[sha256 of the freeze statement file]",
+  "weights_and_harness_frozen": true,
+  "out_dir": "/home/m0hawk/.local/state/sepalith/sealed-final-v2/panel-v1",
+  "attempt_marker": "/home/m0hawk/.local/state/sepalith/sealed-final-v2/attempts/panel-v1-1.json"
+}
+```
+
+The recipe hash binds the holdback split
+(`2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c`) and the
+floors. If the user changes the pipe floor, the recipe hash changes and must
+be re-read from main.
+
+**What the freeze receipt (A4) will pin.** After A3 builds, the plan pins
+the models, `release_artifacts`, the tokenizer tree, the runtime
+(interpreter sha256, distributions, llama-server), and the A3 outputs
+copied unchanged from `plan-fragment.json`: `cases` (file pin of
+`cases.json`), `case_count`, `semantic_receipt`, `payloads_path`,
+`source_roots` and `memberships` (`63b68fb7…`), plus the empty `state_dir`.
+The freeze receipt (`sepalith.sealed-final.v2.freeze`) then pins
+`plan_sha256` (the exact plan bytes), `weights_sha256` (`3ed055fd…e4fb`),
+`harness_sha256` (`874e0f0a…68f5`), both freeze timestamps (taken from the
+A2 statement), and `status: frozen` with all three unlock flags. The user
+gives the receipt's own sha256 in writing, and the launcher checks it.
+
 ## Case fields and files
 
 `cases.json` is `{"split": "final_locked_v1", "cases": [...]}`. Each case
