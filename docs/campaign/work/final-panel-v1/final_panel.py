@@ -12,7 +12,12 @@ DEV250 builder, so the sealed-final v2 launcher scores the cases unchanged.
 * A ``final_candidate_group`` build reads final content. It runs only with
   an :class:`Authorization` from :func:`authorize`. That needs a user-issued
   receipt naming this file's sha256 and the recipe's sha256, plus the
-  receipt's exact sha256.
+  receipt's exact sha256. It reads only the pre-registered build groups of
+  the holdback split (:func:`holdback_split`); the other final groups stay
+  sealed for a later release.
+* An authorized ``dev_group`` build (``rehearsal: true`` in the receipt) is the
+  A3 dress rehearsal: the same :func:`build_final` path, the same holdback
+  rule applied to the dev groups.
 
 Errors from the CLI print a fixed message only, never exception text.
 """
@@ -61,6 +66,8 @@ RECIPE_PATH = HERE / "recipe.json"
 SCHEMA = "sepalith.final-panel.v1"
 FINAL_SPLIT = "final_candidate_group"
 REHEARSAL_SPLITS = ("dev_group", "train_group")
+# Splits build_final() accepts, and whether the receipt must say `rehearsal: true` for them.
+AUTHORIZED_SPLITS = {FINAL_SPLIT: False, "dev_group": True}
 FAMILIES = ("finish_block", "no_op", "pipe_rewrite", "format_propagation",
             "rename_propagation", "na_rm_propagation")
 SCENARIO_FAMILIES = ("rename_propagation", "pipe_rewrite", "na_rm_propagation")
@@ -87,6 +94,48 @@ def sha256_file(path: Path) -> str:
 
 def seed_for(*parts: object) -> int:
     return int(sha256_json([3407, *parts])[:16], 16)
+
+
+def seeded_group_order(group_ids: Iterable[str]) -> list[str]:
+    """The pre-registered group order: sha256_json([3407, group_id]). Rehearsal --groups uses it too."""
+    return sorted(group_ids, key=lambda group: sha256_json([3407, group]))
+
+
+def holdback_split(registry: Json, split: str, build_groups: int, dat02_sha256: str) -> Json:
+    """Split one DAT-02 split's eligible groups into build and sealed holdback groups, by group ID only.
+
+    It reads each group's `group_id`, `split` and `flags` and nothing else: no identity form, no parent,
+    no source. The first `build_groups` groups in :func:`seeded_group_order` build; the rest are held back.
+    """
+    eligible = [group["group_id"] for group in registry["groups"] if group["split"] == split and not group["flags"]]
+    if len(set(eligible)) != len(eligible) or len(eligible) < build_groups:
+        raise PanelError("holdback_split_needs_unique_groups_and_enough_of_them")
+    ordered = seeded_group_order(eligible)
+    return {"schema": SCHEMA + ".holdback-split", "dat02_sha256": dat02_sha256, "split": split, "seed": 3407,
+            "order": "sha256_json([3407, group_id]) ascending; the first build_groups groups build",
+            "eligible_groups": len(eligible), "build_groups": build_groups,
+            "build_group_ids": sorted(ordered[:build_groups]), "holdback_group_ids": sorted(ordered[build_groups:])}
+
+
+def holdback_bytes(split: Json) -> bytes:
+    return canonical_json(split).encode() + b"\n"
+
+
+def build_groups_for(registry: Json, recipe: Json, split: str,
+                     rehearsal_build_groups: int | None = None) -> tuple[frozenset[str], str]:
+    """The groups an authorized build may read. For the final split the result must equal the recipe's pin.
+
+    A dev rehearsal receipt may name its own group count; authorize() refuses that field for the final split.
+    """
+    holdback = recipe["holdback"]
+    if rehearsal_build_groups is not None and split == FINAL_SPLIT:
+        raise PanelError("final_build_takes_the_recipe_group_count")
+    count = holdback["build_groups"] if rehearsal_build_groups is None else rehearsal_build_groups
+    doc = holdback_split(registry, split, count, recipe["inputs"]["dat02"]["sha256"])
+    digest = sha256_bytes(holdback_bytes(doc))
+    if split == FINAL_SPLIT and digest != holdback["final_split_sha256"]:
+        raise PanelError("holdback_split_differs_from_pin")
+    return frozenset(doc["build_group_ids"]), digest
 
 
 def load_recipe(path: Path = RECIPE_PATH) -> Json:
@@ -201,8 +250,9 @@ def authorize(path: Path, expected_sha256: str, recipe_path: Path = RECIPE_PATH)
     if sha256_bytes(data) != expected_sha256:
         raise PanelError("authorization_hash_mismatch")
     receipt = json.loads(data)
+    split = receipt.get("split")
     if (receipt.get("schema") != SCHEMA + ".build-authorization" or receipt.get("status") != "user-approved"
-            or receipt.get("split") != FINAL_SPLIT
+            or split not in AUTHORIZED_SPLITS or receipt.get("rehearsal", False) is not AUTHORIZED_SPLITS[split]
             or receipt.get("constructor_sha256") != sha256_file(Path(__file__))
             or receipt.get("recipe_sha256") != sha256_file(recipe_path)
             or receipt.get("weights_and_harness_frozen") is not True):
@@ -213,6 +263,9 @@ def authorize(path: Path, expected_sha256: str, recipe_path: Path = RECIPE_PATH)
     for name in ("out_dir", "attempt_marker"):
         if not isinstance(receipt.get(name), str) or not Path(receipt[name]).is_absolute():
             raise PanelError("authorization_missing_" + name)
+    if "rehearsal_build_groups" in receipt and (split == FINAL_SPLIT or type(receipt["rehearsal_build_groups"])
+                                                is not int or receipt["rehearsal_build_groups"] < 1):
+        raise PanelError("authorization_not_for_this_build")
     return Authorization(expected_sha256, receipt, Path(path))
 
 
@@ -251,9 +304,10 @@ def normalize_package(name: str) -> str:
     return unicodedata.normalize("NFKC", name).lower()
 
 
-def groups_of(registry: Json, split: str) -> list[Json]:
-    """Only the requested split's entries leave this function."""
-    chosen = [group for group in registry["groups"] if group["split"] == split and not group["flags"]]
+def groups_of(registry: Json, split: str, only: frozenset[str] | None = None) -> list[Json]:
+    """Only the requested split's entries leave this function; with `only`, only those group IDs."""
+    chosen = [group for group in registry["groups"] if group["split"] == split and not group["flags"]
+              and (only is None or group["group_id"] in only)]
     return sorted(chosen, key=lambda group: group["group_id"])
 
 
@@ -893,13 +947,16 @@ def build_final(authorization: Authorization, *, tokenizer_path: Path, membershi
     for root in (recipe["inputs"]["corpus_root"], recipe["inputs"]["tarball_root"]):
         if not Path(root).is_dir():
             raise PanelError("source_root_unavailable")
+    registry = json.loads(registry_bytes)
+    # The holdback pin is checked before the claim.
+    build_groups_for(registry, recipe, receipt["split"], receipt.get("rehearsal_build_groups"))
     cpt, dev_prompts = cpt_hashes(recipe), dev_prompt_hashes(recipe)
     out = Path(receipt["out_dir"])
     work = out.parent / (out.name + ".work")
     work.mkdir(mode=0o700)  # exclusive: a concurrent or leftover attempt stops here, before the claim
     try:
         claim_attempt(authorization, out)
-        panel = _construct(split=FINAL_SPLIT, registry=json.loads(registry_bytes), recipe=recipe,
+        panel = _construct(split=receipt["split"], registry=registry, recipe=recipe,
                            tokenizer=tokenizer, workdir=work, cpt=cpt, dev_prompts=dev_prompts, group_ids=None,
                            quotas=None, modules=modules, memberships=memberships, authorization=authorization)
     finally:
@@ -912,13 +969,31 @@ def _construct(*, split: str, registry: Json, recipe: Json, tokenizer: Any, work
                cpt: frozenset[str], dev_prompts: frozenset[str], group_ids: Sequence[str] | None,
                quotas: Mapping[str, int] | None, modules: Modules, memberships: Json | None,
                authorization: Authorization | None) -> Panel:
-    """The construction core. Callers own every gate; only build_final() may pass the final split."""
+    """The construction core. Callers own every gate; only build_final() may pass the final split.
+
+    An authorized build (the final split, or the dev dress rehearsal) reads only the holdback split's
+    build groups. They are chosen from group IDs alone, before any identity form, parent or source of
+    any group is looked at, so a holdback group's package tree and tarball are never opened.
+    """
+    if split == FINAL_SPLIT and authorization is None:
+        raise PanelError("final_build_requires_build_final")
+    build: frozenset[str] | None = None
+    holdback_sha256 = None
+    if authorization is not None:
+        if authorization.receipt["split"] != split:
+            raise PanelError("split_differs_from_authorization")
+        if group_ids is not None or quotas is not None:
+            raise PanelError("authorized_build_takes_no_group_or_quota_override")
+        build, holdback_sha256 = build_groups_for(registry, recipe, split,
+                                                  authorization.receipt.get("rehearsal_build_groups"))
     if split == FINAL_SPLIT:
         # The DAT-04B adapter admits train/dev only; widen it in memory for the authorized final build.
         modules.completion.ALLOWED_SPLITS = frozenset({*modules.completion.ALLOWED_SPLITS, FINAL_SPLIT})
     quotas = dict(quotas or recipe["quotas"])
     corpus = Path(recipe["inputs"]["corpus_root"])
-    groups = groups_of(registry, split)
+    groups = groups_of(registry, split, build)
+    if build is not None and {g["group_id"] for g in groups} != build:
+        raise PanelError("build_group_not_eligible")
     if group_ids is not None:
         wanted = set(group_ids)
         groups = [g for g in groups if g["group_id"] in wanted]
@@ -972,6 +1047,7 @@ def _construct(*, split: str, registry: Json, recipe: Json, tokenizer: Any, work
         "allocation": allocation,
         "exclusions": dict(sorted((builder.reasons + filtered).items())),
         "authorization_sha256": authorization.receipt_sha256 if authorization else None,
+        "holdback_split_sha256": holdback_sha256,
         "cpt_filter": bool(cpt),
     }
     if memberships is not None and chosen:
@@ -1179,13 +1255,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--no-cpt-filter", action="store_true",
                         help="rehearsal only: train sources are CPT documents; measure supply without the filter")
     args = parser.parse_args(argv)
-    final = args.split == FINAL_SPLIT
-    if final and (args.groups or args.scale or args.no_cpt_filter or not args.memberships or not args.models
-                  or not args.freeze_statement or not args.authorization or not args.authorization_sha256):
-        parser.error("a final build needs --authorization, --authorization-sha256, --memberships, --models and "
-                     "--freeze-statement, and takes no rehearsal options")
+    # A final build, or the dev dress rehearsal of one (--split dev_group with an authorization).
+    authorized = args.split == FINAL_SPLIT or args.authorization is not None
+    if authorized and (args.split not in AUTHORIZED_SPLITS or args.groups or args.scale or args.no_cpt_filter
+                       or not args.memberships or not args.models or not args.freeze_statement
+                       or not args.authorization or not args.authorization_sha256):
+        parser.error("a final build or its dev dress rehearsal needs --authorization, --authorization-sha256, "
+                     "--memberships, --models and --freeze-statement, and takes no rehearsal options")
     try:
-        report = _run(args, final)
+        report = _run(args, authorized)
     except Exception:  # noqa: BLE001 - exception text may hold source text in a final build
         print("Final panel build stopped. No details are printed; inspect the inputs with the custodian.",
               file=sys.stderr)
@@ -1196,7 +1274,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     return 0 if report["status"] == "built" else 2
 
 
-def _run(args: argparse.Namespace, final: bool) -> Json:
+def _run(args: argparse.Namespace, authorized: bool) -> Json:
     from importlib.metadata import version
 
     recipe = load_recipe()
@@ -1208,8 +1286,10 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
                     "distributions": {n: version(n) for n in ("tree-sitter", "tree-sitter-r", "tokenizers",
                                                                "transformers")},
                     "tokenizer": str(args.tokenizer)}
-    if final:
+    if authorized:
         authorization = authorize(args.authorization, args.authorization_sha256)
+        if authorization.receipt["split"] != args.split:
+            raise PanelError("split_differs_from_authorization")
         if out != Path(authorization.receipt["out_dir"]):
             raise PanelError("out_dir_differs_from_authorization")
         panel, tokenizer, inputs["memberships_sha256"] = build_final(
@@ -1231,7 +1311,7 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
             report = write_panel(panel, out, recipe_sha256=sha256_file(RECIPE_PATH), inputs=inputs)
             report["launcher_dry_run"] = launcher_dry_run(
                 out, tokenizer, weights_sha256=pins["weights_sha256"], harness_sha256=pins["harness_sha256"],
-                rehearsal=not final)
+                rehearsal=panel.split != FINAL_SPLIT)
             if authorization is not None:
                 report["authorization"] = {k: authorization.receipt[k] for k in (
                     "weights_sha256", "harness_sha256", "memberships_sha256", "freeze_statement_sha256")}
@@ -1251,7 +1331,7 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
         for path in out.glob("*.json"):
             path.chmod(0o400)
     except BaseException:
-        if final:
+        if authorized:
             remove_tree(out)  # this invocation created `out`; unpublished final outputs are deleted unread
         raise
     return report

@@ -223,6 +223,28 @@ design, and the harness pin. `protocol.harness_hash()` fails on main since
 the C20 package files were added. The panel build is a separate, later
 authorization.
 
+### Addendum (2026-11-23, later): design approved, holdback, rehearsal
+
+The user answered the four open questions:
+
+1. "Approve; re-pin harness". The design is approved. The harness check
+   moved from `523efc07` (harness `71a75937…`) to main `815967bb` (harness
+   `874e0f0a…`). See
+   [sealed-final-v2.md](../sealed-final-v2.md#harness-re-pin-2026-11-23).
+2. "Accept, report the mix". 122 code-cut finish cases and no roxygen. The
+   final report compares with DEV250 reference rates at the same mix.
+3. "Hold back ~45%". 105 of the 193 final groups build and 88 stay sealed.
+   The split was chosen by group ID only, committed before any final read,
+   and pinned in `recipe.json` (`2b284ba2…`).
+4. "Yes, rehearse first". The dress rehearsal ran on dev groups. See
+   [final-panel-v1.md](../final-panel-v1.md#dress-rehearsal-2026-11-23).
+
+The rehearsal found that the pre-registered pipe_rewrite floor (14) is likely
+to stop a 105-group build: both same-size pools supply 12 pipe cases. The
+user decides before A2 whether to lower that floor. A2 (freeze statement and
+build authorization) is still the user's; the draft wording is in
+[final-panel-v1.md](../final-panel-v1.md#build-authorization-draft).
+
 ## Handoff
 
 Update [status/C17.json](../status/C17.json) with each receipt and open gate.

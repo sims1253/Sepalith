@@ -47,7 +47,12 @@ from sepalith.quant.gguf_dev import DevTokenizer  # noqa: E402
 from sepalith.training.eval.campaign_eval import validate_development_capacity  # noqa: E402
 
 SCHEMA = "sepalith.sealed-final.v2"
-EVALUATOR_COMMIT = "523efc07bcb86ebba7fe1030c0a2dc6356f9d111"
+# Re-pinned 2026-11-23 (user decision "Approve; re-pin harness"): main at the PR #108 merge. Relative to
+# the first pin 523efc07bcb86ebba7fe1030c0a2dc6356f9d111 this commit's package tree only adds the 11 C20
+# files (training/sft/c20/*, training/c20_exception/*); no evaluator file changed.
+EVALUATOR_COMMIT = "815967bb10aa0fb0750dc16ea2342e600dd38b0c"
+EVALUATOR_TREE = "a9510fb9f52a7321ceba646fca6bf656330f95a8"  # git tree of packages/sepalith/src at that commit
+PANEL_SPLIT = "final_locked_v1"
 STAGES = ("train", "dev", "cpt", "c14", "synth", "exec_train", "exec_validation", "exec_holdout")
 CAP = 1024
 STOP_IDS = (1, 130073)
@@ -107,11 +112,15 @@ def harness_hash() -> str:
     untracked = subprocess.check_output(
         ["git", "ls-files", "--others", "--exclude-standard", "--", str(package)], cwd=ROOT,
     )
-    if diff.returncode or untracked:
+    tree = subprocess.run(
+        ["git", "rev-parse", f"{EVALUATOR_COMMIT}:{package}"], cwd=ROOT, check=False, capture_output=True,
+    )
+    if diff.returncode or untracked or tree.returncode or tree.stdout.decode().strip() != EVALUATOR_TREE:
         raise ProtocolError("evaluator_tree_differs_from_pin")
     files = [HERE / "protocol.py", HERE / "runtime.py", GUARD_DIR / "admission_guard.py"]
     return sha256_json({
         "evaluator_commit": EVALUATOR_COMMIT,
+        "evaluator_tree": EVALUATOR_TREE,
         "files": {str(path.relative_to(ROOT)): sha256_bytes(path.read_bytes()) for path in files},
     })
 
@@ -141,7 +150,7 @@ def identities(values: object) -> frozenset[str]:
 
 def load_cases(document: Json, expected_case_count: int) -> list[Case]:
     rows = document["cases"]
-    if (document.get("split") != "final_locked_v1" or not isinstance(rows, list)
+    if (document.get("split") != PANEL_SPLIT or not isinstance(rows, list)
             or len(rows) != expected_case_count or not rows):
         raise ProtocolError("unexpected_final_split_or_case_count")
     cases = [Case(SourceCaseSpec.from_mapping(row), identities(row["function_ids"])) for row in rows]

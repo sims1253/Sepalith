@@ -1,10 +1,20 @@
 # Final panel v1: a replacement constructor for the sealed final
 
-**Status: design and code, awaiting user approval.** Neither reads final
-content. Building the panel is a later step. It needs the user's written
-weight and harness freeze and a separate written build authorization (see
-[Access sequence](#access-sequence)). Code:
+**Status: design approved by the user on 2026-11-23 (A1). No final content
+has been read.** Building the panel is a later step. It needs the user's
+written weight and harness freeze and a separate written build authorization
+(see [Access sequence](#access-sequence) and
+[Build authorization draft](#build-authorization-draft)). Code:
 [`docs/campaign/work/final-panel-v1/`](../../campaign/work/final-panel-v1/).
+
+## User decisions (2026-11-23)
+
+| Question | Answer | Effect |
+| --- | --- | --- |
+| Design and harness pin | "Approve; re-pin harness" | Design approved. The launcher's harness check moved to main `815967bb` ([sealed-final-v2.md](sealed-final-v2.md#harness-re-pin-2026-11-23)). A3 and A5 run from the main checkout. |
+| Roxygen gap and code-cut-only finish | "Accept, report the mix" | The 250-case mix below stays. The final report states it and compares with [DEV250 reference rates at the same mix](#family-mix-and-dev250-reference). |
+| Unread final reserve | "Hold back ~45%" | [Holdback split](#holdback-split-pre-registered): 105 build groups, 88 sealed |
+| Rehearsal | "Yes, rehearse first" | [Dress rehearsal](#dress-rehearsal-2026-11-23) on dev groups before A2 |
 
 ## Why
 
@@ -242,6 +252,235 @@ Rehearsals of this recipe:
 
 In both, the launcher dry run constructed 250 of 250 cases with 0
 mismatches.
+
+## Holdback split (pre-registered)
+
+On 2026-11-23 the user decided to hold back about 45% of the 193 final
+groups for a later release. The split uses group IDs only. It reads each
+DAT-02 group's `group_id`, `split` and `flags`, and no identity form, parent
+or source.
+
+- **Rule.** Take the eligible groups of the split (label
+  `final_candidate_group`, no flags: 193). Order them by
+  `sha256_json([3407, group_id])`, the order the rehearsal `--groups`
+  option already uses. The first 105 groups build; the other 88 are sealed.
+- **File.** [`holdback-split.json`](../../campaign/work/final-panel-v1/holdback-split.json),
+  sha256 `2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c`.
+  It holds the DAT-02 pin, the rule, the counts and both sorted ID lists.
+  The group IDs are opaque `g-` hashes. Commit `b06b7d52` pushed it before any
+  final content was read; none has been read since.
+- **Pin.** `recipe.json` carries `holdback.final_split_sha256`, so the
+  authorization's `recipe_sha256` binds the split.
+  `holdback.py check` recomputes the split from the pinned DAT-02 bytes and
+  compares it with the file and the pin.
+- **Enforcement.** For an authorized build, `_construct()` computes the
+  split itself and refuses a final split that differs from the pin. It then
+  keeps only the build groups, before any identity form, parent, package
+  tree or tarball is looked at. An authorized build takes no group or quota
+  override. `build_final()` checks the pin before it claims the attempt
+  marker. The test `test_holdback_groups_are_never_opened` records every
+  `open`, `listdir`, `scandir` and `stat` audit event of a synthetic
+  authorized build and finds none under a holdback package's tree or
+  tarball. With the filter removed, the same test fails.
+- **Stop rule on the smaller pool.** The floors are unchanged. A3 stops for
+  the user, with aggregate counts only, if the panel has fewer than 200 cases
+  or any family is below its floor. That rule now applies to a 105-group
+  pool. At 3 cases per group, 105 groups can supply at most 315 cases, so
+  the group cap binds harder than with 193 groups. The dev rehearsal of the
+  same size shows whether the quotas still fill.
+- **Later use.** The 88 holdback groups are a second sealed pool. Using them
+  needs a new user decision, and they must not be read by any C17 step.
+
+## Family mix and DEV250 reference
+
+The final mix (user: "Accept, report the mix"):
+
+| Family | Final | DEV250 |
+| --- | ---: | ---: |
+| finish_block | 122, all code-cut | 111 (55 authored, 56 code-cut) |
+| no_op | 50 | 50 |
+| pipe_rewrite | 28 | 28 |
+| format_propagation | 24 | 24 |
+| rename_propagation | 23 | 23 |
+| na_rm_propagation | 3 | 3 |
+| roxygen_drafting | 0 | 11 |
+
+The final rate is therefore not comparable with score250/250. The reference
+is each model's DEV250 per-family rate weighted by the final mix, with
+finish_block taken from the 56 code-cut DEV250 cases only.
+[`dev250_reference.py`](../../campaign/work/final-panel-v1/dev250_reference.py)
+reads only the DEV250 panel and the existing per-case DEV250 results. It
+wrote [`receipts/C17-final-panel-dev250-reference.json`](receipts/C17-final-panel-dev250-reference.json).
+Intervals use a stratified case bootstrap (10,000 replicates, seed 3407),
+paired across models.
+
+| Model | DEV250 source | score250 | Code-cut finish | Rate at final mix | 95% CI |
+| --- | --- | ---: | ---: | ---: | --- |
+| arm-a-803 | SFT-v2-r4 gate, Transformers bf16, CUDA | 109 | 1 / 56 | 43.7% | 40.4 to 47.1 |
+| c19-100-bf16 | C19 selection, Transformers bf16, CUDA | 112 | 2 / 56 | 45.7% | 42.0 to 49.6 |
+| c19-100-q6_k | C17 quant gate, llama.cpp | 111 | 2 / 56 | 45.3% | 41.6 to 49.2 |
+
+Paired differences at the final mix: C19 bf16 minus Arm A +2.1 pp (−0.8 to
++5.3); Q6_K minus C19 bf16 −0.4 pp (−1.2 to 0.0).
+
+Every roster model scores near zero on code-cut finish (1 or 2 of 56), and
+code-cut finish is 49% of the final panel. Expect the final rates near 45%
+rather than near score250/250 (44 to 45%) for that reason, and expect the
+finish family to give little separation between models. The final report
+must show the mix, the reference rate at the actual built mix
+(`dev250_reference.py --mix <build-receipt.json>`; a shortfall move changes
+the mix) and the note that the references come from GPU or llama.cpp runs
+while the final scoring runs on CPU.
+
+## Dress rehearsal (2026-11-23)
+
+The user asked for a full rehearsal of build, admission and scoring on dev
+groups before the build authorization. It ran the real code paths from this
+branch with
+[`dress_rehearsal.py`](../../campaign/work/final-panel-v1/dress_rehearsal.py),
+under `~/.local/state/sepalith/sealed-final-v2/rehearsals/` (mode 700). The
+rehearsal authorization says `split: dev_group, rehearsal: true`. It binds
+the real constructor, recipe, weights (`sha256_json` of the plan roster
+`3ed055fd…e4fb`), harness (`874e0f0a…68f5`), memberships and a rehearsal
+freeze statement, and it claims a one-shot attempt marker.
+
+**Run 1: the recipe as registered (105 dev groups, real memberships).**
+`build_final()` claimed its marker, read the holdback rule's 105 dev build
+groups, and stopped with the pre-registered outcome `stopped_below_floor`.
+It wrote only the aggregate build receipt and published no panel. 202 cases:
+no_op 25 (floor 40) and pipe_rewrite 12 (floor 14). The DEV panels had
+already used dev's no-op and pipe supply: 44 no-op and 14 pipe candidates
+were dropped as `same_prompt_as_dev_panel`. The overlap audit also flagged
+all 79 used groups, all of them through the `dev` inventory, as it must for
+dev cases. Build time 90 s.
+
+**Same-size supply check on train (105 train groups in the same seeded
+order, CPT filter off, plain rehearsal).** `stopped_below_floor` again:
+243 cases. Every family filled except pipe_rewrite, which reached 12 of 28
+against its floor of 14. Only 12 pipe candidates exist in those 105 groups.
+no_op filled 50 of 50.
+
+**Finding for the user before A2.** At 105 groups the pipe floor of 14 is
+likely to stop the final build: both same-size pools supply 12 pipe cases.
+With 193 groups the train rehearsal filled all 28. The stop is
+pre-registered, so a stop at A3 abandons the C17 sealed final. Any change
+must be made now, before A3, and only by the user. Options:
+
+- (a) Lower the pipe_rewrite floor to 6. A broken extractor gives 0, so the
+  floor still catches it. Unfilled pipe slots move to code-cut finish, as
+  already pre-registered.
+- (b) Keep the floor and accept the stop risk.
+- (c) Build from more groups. This would undo part of the 45% holdback.
+
+**Run 2: admission and scoring (all 169 dev groups, dev-blind
+memberships).** This run used the rehearsal-only field
+`rehearsal_build_groups: 169`, which `authorize()` refuses on a final
+receipt. Its memberships are the real eight inventories with the `dev` stage
+emptied, so the launcher's audit can pass on dev cases. The build gave
+`built`: 250 cases from 105 groups (finish 125, no_op 50, pipe 28,
+format 24, rename 23, na_rm 0; the 3 na_rm slots moved to finish). The
+overlap audit found 0 groups. The launcher dry run loaded and constructed
+250 of 250 cases with 0 hash mismatches. Build time 90 s.
+
+Scoring used the full launcher (`protocol.run()`): the freeze and plan pins,
+the guard, `FrozenRuntime` with the pinned interpreter (`.venv-sft`,
+CPython 3.12.15), distributions, tokenizer, weights, Q4_K_M-mixB-e4 file
+pin and llama-server `3cb7ffb1a` (CPU build), then the seal, audit,
+construct and scoring on CPU with 8 threads. The only in-memory change sets
+the launcher's panel-split constant and the guard's semantic-receipt split
+constant to `rehearsal_dev_group`.
+
+CPU bf16 on this machine (AMD Ryzen 9 5900X, Zen 3, no AVX-512 or bf16
+units, shared with other sessions at load 30 to 50) took 252 s for one
+1,399-token prompt in a probe. The full roster, 250 cases and 3 models,
+would not finish in a day, so scoring ran on a subset pre-registered in the
+script before any rehearsal scoring: the first 30 row IDs in
+`sha256_json([3407, "dress-rehearsal-subset", row_id])` order (finish 18,
+pipe 6, no_op 4, format 1, rename 1). That subset is written as a panel of
+its own, bound by its own cases hash and semantic receipt over the same
+staged sources.
+
+**Scoring result (2026-11-23 18:01 to 2026-11-24 00:03).** The launcher
+verified the runtime pins (about 6 minutes, mostly hashing the checkpoints),
+took its seal, passed the audit (0 overlap groups) and construct (0 hash
+mismatches), scored all three models and wrote `result.json` with
+`status: complete`. No step failed.
+
+| Model | Generation time | Per case | Generated tokens | Cap hits | Correct (of 30) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| arm-a-803 (bf16, Transformers CPU) | 4,773 s | 159 s | 2,707 | 1 | 11 |
+| c19-100-bf16 (bf16, Transformers CPU) | 10,360 s | 345 s | 2,845 | 1 | 11 |
+| c19-100-q6_k (llama.cpp CPU) | 6,538 s | 218 s | 2,517 | 1 | 11 |
+
+Wall time was 22,111 s (6.1 h) at load averages of 26 to 54 on 24 threads.
+All three models had the same counts: 8 of 26 edits exact, 3 of 4 no-ops
+correct, 1 false suggestion, 29 of 30 protocol-valid, 1 cap hit. Their
+generated tokens differ. Thirty cases cannot separate these models, and the
+rehearsal was not meant to.
+
+**Projected final runtime.** At these per-case times, 250 cases would take
+about 11 h (Arm A), 24 h (C19 bf16) and 15 h (Q6_K), so about 50 h on this
+shared machine. Run A5 when the machine is otherwise idle; the GPU night
+queue does not conflict, since A5 uses no GPU. Expect at least a day even
+then. The launcher has no time limit and keeps all progress in memory, so a
+crash during A5 needs the resume procedure in
+[sealed-final-v2.md](sealed-final-v2.md#run-state-and-publication).
+
+## Build authorization draft
+
+A2 has two parts. The user writes and signs them; an agent must not issue
+them. Fill in the bracketed values from the main checkout after this change
+is fast-forwarded there.
+
+**(a) Freeze statement** (plain text, its file sha256 goes into the
+authorization):
+
+> I freeze, for the C17 sealed final v2, the weights in the plan roster
+> `pins/models.json` (arm-a-803, c19-100-bf16, c19-100-q6_k; `sha256_json`
+> `3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb`), the
+> release artifact Q4_K_M-mixB-e4
+> (`e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b`), and
+> the harness `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5`
+> (evaluator commit `815967bb`, package tree `a9510fb9`). No training,
+> checkpoint, quantization or tuning decision may depend on the final
+> results. Frozen at [UTC time].
+
+**(b) Build authorization** (`build-authorization.json`; the user also gives
+its sha256 in writing):
+
+```json
+{
+  "schema": "sepalith.final-panel.v1.build-authorization",
+  "status": "user-approved",
+  "split": "final_candidate_group",
+  "constructor_sha256": "[sha256 of final_panel.py on main]",
+  "recipe_sha256": "[sha256 of recipe.json on main]",
+  "weights_sha256": "3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb",
+  "harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
+  "memberships_sha256": "63b68fb718db9dfe20ed34bf1a520ed9b80c5b0b6799eaf9be81e4d119636736",
+  "freeze_statement_sha256": "[sha256 of the freeze statement file]",
+  "weights_and_harness_frozen": true,
+  "out_dir": "/home/m0hawk/.local/state/sepalith/sealed-final-v2/panel-v1",
+  "attempt_marker": "/home/m0hawk/.local/state/sepalith/sealed-final-v2/attempts/panel-v1-1.json"
+}
+```
+
+The recipe hash binds the holdback split
+(`2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c`) and the
+floors. If the user changes the pipe floor, the recipe hash changes and must
+be re-read from main.
+
+**What the freeze receipt (A4) will pin.** After A3 builds, the plan pins
+the models, `release_artifacts`, the tokenizer tree, the runtime
+(interpreter sha256, distributions, llama-server), and the A3 outputs
+copied unchanged from `plan-fragment.json`: `cases` (file pin of
+`cases.json`), `case_count`, `semantic_receipt`, `payloads_path`,
+`source_roots` and `memberships` (`63b68fb7…`), plus the empty `state_dir`.
+The freeze receipt (`sepalith.sealed-final.v2.freeze`) then pins
+`plan_sha256` (the exact plan bytes), `weights_sha256` (`3ed055fd…e4fb`),
+`harness_sha256` (`874e0f0a…68f5`), both freeze timestamps (taken from the
+A2 statement), and `status: frozen` with all three unlock flags. The user
+gives the receipt's own sha256 in writing, and the launcher checks it.
 
 ## Case fields and files
 
@@ -505,14 +744,13 @@ at high effort.
 
 **Declined or deferred, as follow-ups:**
 
-- **Reserving unread final groups.** The user decides this (open question 5).
-- **DEV250 reference rates at the final family mix.** These can be computed
-  from existing DEV250 results before A3. No per-family final rate will be
-  reported.
-- **A full A3 dress rehearsal through a dev-split authorization.** It is
-  recommended before A2. The final-only CLI branches are thin and are
-  covered by unit tests of `authorize`, `claim_attempt` and the final
-  `build_panel` path.
+- **Reserving unread final groups.** Decided by the user on 2026-11-23:
+  [hold back 88 of 193](#holdback-split-pre-registered).
+- **DEV250 reference rates at the final family mix.** Done:
+  [Family mix and DEV250 reference](#family-mix-and-dev250-reference). No
+  per-family final rate will be reported.
+- **A full A3 dress rehearsal through a dev-split authorization.** Done
+  before A2: [Dress rehearsal](#dress-rehearsal-2026-11-23).
 - **Restoring the adapter's `ALLOWED_SPLITS`.** One build runs per process.
 - **Sol S7, no-op sites inside multiline strings.** Declined. DEV250's own
   no-op cases include such lines, for example the `retentionmort_figure.R`
@@ -523,26 +761,12 @@ at high effort.
 
 ## Open questions
 
-1. **Harness pin (blocker before A2).** `protocol.harness_hash()` requires
-   `packages/sepalith/src` to equal `523efc07`. Main has since added 11 C20
-   files (`training/sft/c20/*`, `training/c20_exception/*`), so it raises
-   `evaluator_tree_differs_from_pin` on main and on this branch. The fix
-   is either:
-   - (a) run A3 and A5 from a checkout whose package tree equals the pin and
-     which carries this constructor; or
-   - (b) re-pin `EVALUATOR_COMMIT` under review. That gives a new harness
-     hash. Alternatively, limit the check to the evaluator files the harness
-     uses.
+All five were answered by the user on 2026-11-23 (see
+[User decisions](#user-decisions-2026-11-23)):
 
-   This choice is the user's.
-2. **Roxygen gap.** Accept a panel without `roxygen_drafting`, with its 11
-   slots in `finish_block`?
-3. **Code-cut-only finish.** Accept 122 code-cut finish cases in place of
-   DEV250's authored and code-cut halves?
-4. **Order of freeze and build.** This design keeps A2 as a separate written
-   freeze statement before A3. A4 reuses its timestamps in the freeze
-   receipt.
-5. **Unselected final groups.** A3 reads all 193 groups' sources to find
-   supply, and about 105 groups are expected to supply cases. Should a
-   hash-ordered share of groups stay unread for a later release? That would
-   need a smaller recipe, decided before A3.
+1. Harness pin: re-pinned to main `815967bb` (option b).
+2. Roxygen gap: accepted; the 11 slots go to `finish_block`.
+3. Code-cut-only finish: accepted; the report states the mix.
+4. Order of freeze and build: unchanged. A2 is a written freeze statement
+   followed by a separate build authorization.
+5. Unselected final groups: 88 of 193 are held back.

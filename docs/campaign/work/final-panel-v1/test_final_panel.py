@@ -15,6 +15,7 @@ from collections import Counter
 from collections.abc import Sequence
 import io
 import json
+import os
 from pathlib import Path
 import random
 import sys
@@ -98,9 +99,19 @@ def make_package(tmp: Path, name: str, files: dict[str, str], *, raw: dict[str, 
             archive.addfile(info, io.BytesIO(data))
 
 
-def issue_authorization(tmp: Path, out: Path, marker: Path, name: str = "auth.json") -> F.Authorization:
+def pin_holdback(rec: F.Json, reg: F.Json, build_groups: int) -> F.Json:
+    """Point the recipe's holdback pin at the split of an invented registry."""
+    doc = F.holdback_split(reg, F.FINAL_SPLIT, build_groups, rec["inputs"]["dat02"]["sha256"])
+    rec["holdback"] = {**rec["holdback"], "build_groups": build_groups,
+                       "final_split_sha256": F.sha256_bytes(F.holdback_bytes(doc))}
+    return rec
+
+
+def issue_authorization(tmp: Path, out: Path, marker: Path, name: str = "auth.json",
+                        split: str = F.FINAL_SPLIT) -> F.Authorization:
     """A synthetic user build authorization for this exact constructor and recipe."""
-    receipt = {"schema": F.SCHEMA + ".build-authorization", "status": "user-approved", "split": F.FINAL_SPLIT,
+    receipt = {"schema": F.SCHEMA + ".build-authorization", "status": "user-approved", "split": split,
+               **({"rehearsal": True} if split != F.FINAL_SPLIT else {}),
                "weights_and_harness_frozen": True, "weights_sha256": "a" * 64, "harness_sha256": "b" * 64,
                "memberships_sha256": "c" * 64, "freeze_statement_sha256": "d" * 64, "out_dir": str(out),
                "attempt_marker": str(marker), "constructor_sha256": F.sha256_file(Path(F.__file__)),
@@ -328,7 +339,7 @@ class EndToEnd(unittest.TestCase):
         reg = registry([("g-a", split, "pkgA"), ("g-b", split, "pkgB"), ("g-other", "train_group", "pkgB")])
         quotas = {"finish_block": 2, "no_op": 2, "pipe_rewrite": 1, "format_propagation": 1,
                   "rename_propagation": 1, "na_rm_propagation": 1}
-        rec = recipe(tmp, quotas)
+        rec = pin_holdback(recipe(tmp, quotas), reg, 2) if split == F.FINAL_SPLIT else recipe(tmp, quotas)
         rec["floor"] = {"cases": 1, "families": dict.fromkeys(F.FAMILIES, 0)}
         work = tmp / "work"
         work.mkdir()
@@ -371,10 +382,111 @@ class EndToEnd(unittest.TestCase):
             F.parents_for = lambda *a, **k: calls.append(1) or original(*a, **k)  # type: ignore[assignment]
             try:
                 with self.assertRaises(AdmissionOutputError):
-                    self._final_build(recipe(root), registry([("g-a", F.FINAL_SPLIT, "pkgA")]), root, auth)
+                    reg = registry([("g-a", F.FINAL_SPLIT, "pkgA")])
+                    self._final_build(pin_holdback(recipe(root), reg, 1), reg, root, auth)
             finally:
                 F.parents_for = original
             self.assertEqual(calls, [])  # refused before any parent or source was touched
+
+    def test_holdback_groups_are_never_opened(self) -> None:
+        """An authorized build reads only the build groups; no path of a holdback package is ever opened."""
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            names = ["pkgA", "pkgB", "pkgC", "pkgD", "pkgE", "pkgF"]
+            for name in names:
+                make_package(root, name, {"f.R": RENAME_SOURCE, "h.R": PIPE_SOURCE,
+                                          "fin.R": FINISH_SOURCE.replace("add_values", "fn_" + name.lower())})
+            reg = registry([(f"g-{name.lower()}", F.FINAL_SPLIT, name) for name in names])
+            rec = pin_holdback(recipe(root), reg, 3)
+            rec["floor"] = {"cases": 1, "families": dict.fromkeys(F.FAMILIES, 0)}
+            split = F.holdback_split(reg, F.FINAL_SPLIT, 3, rec["inputs"]["dat02"]["sha256"])
+            self.assertEqual((len(split["build_group_ids"]), len(split["holdback_group_ids"])), (3, 3))
+            held = {name for name in names if f"g-{name.lower()}" in split["holdback_group_ids"]}
+            forbidden = [str(root / "normalized" / name) for name in held]
+            forbidden += [str(root / "tarballs" / f"{name}_") for name in held]
+            touched: list[str] = []
+            active = [True]
+
+            def hook(event: str, args: tuple[object, ...]) -> None:
+                if active[0] and event in {"open", "os.listdir", "os.scandir", "os.lstat", "os.stat"} and args:
+                    path = args[0]
+                    if isinstance(path, (str, bytes, Path)):
+                        text = os.fsdecode(path)
+                        if any(text.startswith(prefix) for prefix in forbidden):
+                            touched.append(text)
+
+            sys.addaudithook(hook)
+            work = root / "work"
+            work.mkdir()
+            auth = issue_authorization(root, root / "out", root / "attempt.json")
+            try:
+                panel = self._final_build(rec, reg, work, auth)
+            finally:
+                active[0] = False
+            self.assertEqual(touched, [])
+            self.assertTrue(panel.cases)
+            self.assertLessEqual({c["group_id"] for c in panel.cases}, set(split["build_group_ids"]))
+            self.assertEqual(panel.receipt["counts"]["groups_in_split"], 3)
+            self.assertEqual(panel.receipt["holdback_split_sha256"], rec["holdback"]["final_split_sha256"])
+
+    def test_holdback_pin_is_enforced(self) -> None:
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reg = registry([("g-a", F.FINAL_SPLIT, "pkgA"), ("g-b", F.FINAL_SPLIT, "pkgB")])
+            rec = pin_holdback(recipe(root), reg, 1)
+            rec["holdback"]["final_split_sha256"] = "0" * 64
+            auth = issue_authorization(root, root / "out", root / "attempt.json")
+            with self.assertRaisesRegex(F.PanelError, "holdback_split_differs_from_pin"):
+                F._construct(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(),
+                             workdir=root, cpt=frozenset(), dev_prompts=frozenset(), group_ids=None, quotas=None,
+                             modules=F.Modules.load(), memberships=None, authorization=auth)
+            with self.assertRaisesRegex(F.PanelError, "final_build_requires_build_final"):
+                F._construct(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(),
+                             workdir=root, cpt=frozenset(), dev_prompts=frozenset(), group_ids=None, quotas=None,
+                             modules=F.Modules.load(), memberships=None, authorization=None)
+            dev = issue_authorization(root, root / "out", root / "attempt.json", name="dev.json", split="dev_group")
+            with self.assertRaisesRegex(F.PanelError, "split_differs_from_authorization"):
+                F._construct(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(),
+                             workdir=root, cpt=frozenset(), dev_prompts=frozenset(), group_ids=None, quotas=None,
+                             modules=F.Modules.load(), memberships=None, authorization=dev)
+
+    def test_committed_holdback_split_matches_the_recipe_pin(self) -> None:
+        rec = F.load_recipe()
+        data = (F.ROOT / rec["holdback"]["split_file"]).read_bytes()
+        self.assertEqual(F.sha256_bytes(data), rec["holdback"]["final_split_sha256"])
+        doc = json.loads(data)
+        self.assertEqual(data, F.holdback_bytes(doc))
+        self.assertEqual((doc["split"], doc["eligible_groups"], len(doc["build_group_ids"]),
+                          len(doc["holdback_group_ids"])), (F.FINAL_SPLIT, 193, 105, 88))
+        self.assertEqual(doc["dat02_sha256"], rec["inputs"]["dat02"]["sha256"])
+        self.assertFalse(set(doc["build_group_ids"]) & set(doc["holdback_group_ids"]))
+        ordered = F.seeded_group_order(doc["build_group_ids"] + doc["holdback_group_ids"])
+        self.assertEqual(sorted(ordered[:105]), doc["build_group_ids"])
+
+    def test_dev_rehearsal_authorization_is_accepted_and_final_flag_is_strict(self) -> None:
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            auth = issue_authorization(root, root / "out", root / "attempt.json", split="dev_group")
+            self.assertEqual(auth.receipt["split"], "dev_group")
+            receipt = json.loads((root / "auth.json").read_bytes())
+            for bad in ({"rehearsal": False}, {"split": "train_group"}):
+                path = root / "bad.json"
+                path.unlink(missing_ok=True)
+                path.write_bytes(json.dumps({**receipt, **bad}).encode())
+                with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):
+                    F.authorize(path, F.sha256_file(path))
+            path = root / "count.json"
+            path.write_bytes(json.dumps({**receipt, "rehearsal_build_groups": 169}).encode())
+            self.assertEqual(F.authorize(path, F.sha256_file(path)).receipt["rehearsal_build_groups"], 169)
+            final = {k: v for k, v in receipt.items() if k != "rehearsal"}
+            path = root / "final-count.json"
+            path.write_bytes(json.dumps({**final, "split": F.FINAL_SPLIT, "rehearsal_build_groups": 105}).encode())
+            with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):
+                F.authorize(path, F.sha256_file(path))
+            path = root / "final-with-rehearsal.json"
+            path.write_bytes(json.dumps({**final, "split": F.FINAL_SPLIT, "rehearsal": True}).encode())
+            with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):
+                F.authorize(path, F.sha256_file(path))
 
     def test_finish_function_ids_come_from_the_full_source(self) -> None:
         with TemporaryDirectory() as tmp:

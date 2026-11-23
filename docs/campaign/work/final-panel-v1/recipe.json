@@ -25,6 +25,13 @@
    "na_rm_propagation": 0
   }
  },
+ "holdback": {
+  "decision": "user 2026-11-23, \"Hold back ~45%\"",
+  "rule": "group IDs only: the eligible groups of the split (DAT-02 label, no flags) in sha256_json([3407, group_id]) order; the first build_groups build and the rest stay sealed for a later release",
+  "build_groups": 105,
+  "split_file": "docs/campaign/work/final-panel-v1/holdback-split.json",
+  "final_split_sha256": "2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c"
+ },
  "filters": {
   "generation_cap": 1024,
   "max_sequence": 4096,

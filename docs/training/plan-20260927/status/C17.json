@@ -1,9 +1,9 @@
 {
   "card": "C17",
   "state": "needs_user",
-  "updated": "2026-11-23T18:00:00+01:00",
-  "branch": "feat/final-panel-constructor",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/108",
+  "updated": "2026-11-24T00:30:00+01:00",
+  "branch": "feat/sealed-final-v2-holdback-rehearsal",
+  "pull_request": "https://github.com/sims1253/Sepalith/pull/109",
   "outputs": {
     "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
     "quant_evidence": "docs/training/plan-20260927/receipts/C17-quant-evidence.json",
@@ -26,7 +26,13 @@
       },
       "coverage": "~/.local/state/sepalith/sealed-final-v2/inventories/coverage.json",
       "pins": "~/.local/state/sepalith/sealed-final-v2/pins/ (models, release_artifacts, tokenizer, runtime)"
-    }
+    },
+    "dev250_reference": "docs/training/plan-20260927/receipts/C17-final-panel-dev250-reference.json",
+    "holdback_split": {
+      "path": "docs/campaign/work/final-panel-v1/holdback-split.json",
+      "sha256": "2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c"
+    },
+    "rehearsals": "~/.local/state/sepalith/sealed-final-v2/rehearsals/ (dev-1 stopped_below_floor, train-105 stopped_below_floor, dev-2 built + scored)"
   },
   "rule_decisions": [
     {
@@ -128,12 +134,85 @@
         }
       },
       "outcome": "Design adopted the council's valid points; awaiting user design approval. Blocker found by council: protocol.harness_hash() fails on main (11 C20 files added under packages/sepalith/src after pin 523efc07); user decision needed before the A2 freeze."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): final panel design and harness pin",
+      "date": "2026-11-23",
+      "quote": "Approve; re-pin harness",
+      "inputs": {
+        "design": "docs/training/plan-20260927/final-panel-v1.md (PR #108, merged at 815967bb)",
+        "old_evaluator_commit": "523efc07bcb86ebba7fe1030c0a2dc6356f9d111",
+        "old_harness_sha256": "71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809",
+        "new_evaluator_commit": "815967bb10aa0fb0750dc16ea2342e600dd38b0c",
+        "new_evaluator_tree": "a9510fb9f52a7321ceba646fca6bf656330f95a8",
+        "new_harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
+        "package_tree_change": "11 added C20 files only (training/sft/c20/*, training/c20_exception/*); no existing file changed"
+      },
+      "outcome": "Design approved. Harness re-pinned to main at the PR #108 merge; the check also binds the package tree object. A3 and A5 run from the main checkout /home/m0hawk/sandbox/Sepalith. Re-pinned harness backed up to /mnt/nas/bulk/backups/sepalith/sealed-final-v2-874e0f0a725a/."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): family mix",
+      "date": "2026-11-23",
+      "quote": "Accept, report the mix",
+      "inputs": {
+        "quotas": {
+          "finish_block": 122,
+          "no_op": 50,
+          "pipe_rewrite": 28,
+          "format_propagation": 24,
+          "rename_propagation": 23,
+          "na_rm_propagation": 3,
+          "roxygen_drafting": 0
+        },
+        "finish_block": "all code-cut"
+      },
+      "outcome": "Keep the 250-case mix with no roxygen_drafting. The final report states the mix and compares against DEV250 reference rates at the same mix (receipts/C17-final-panel-dev250-reference.json)."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): unread final reserve",
+      "date": "2026-11-23",
+      "quote": "Hold back ~45%",
+      "inputs": {
+        "eligible_final_groups": 193,
+        "build_groups": 105,
+        "holdback_groups": 88,
+        "rule": "group IDs only; sha256_json([3407, group_id]) ascending; first 105 build",
+        "split_file": "docs/campaign/work/final-panel-v1/holdback-split.json",
+        "split_sha256": "2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c",
+        "committed": "b06b7d52 (pushed before any final content was read; none has been read)"
+      },
+      "outcome": "Split pre-registered and pinned in recipe.json. build_final() reads only the 105 build groups; a test proves no holdback package path is opened. The stop rule (below 200 cases or a family under its floor stops for the user with counts only) now applies to the 105-group pool."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): rehearse before the build authorization",
+      "date": "2026-11-23",
+      "quote": "Yes, rehearse first",
+      "inputs": {
+        "rehearsal": "authorized dev_group build of the holdback rule's 105 dev build groups, then plan, freeze and the v2 launcher on CPU with the plan roster",
+        "reference": "DEV250 rates reweighted to the final mix"
+      },
+      "outcome": "See the dress-rehearsal entry below and final-panel-v1.md#dress-rehearsal-2026-11-23."
+    },
+    {
+      "rule": "Dress rehearsal 2026-11-23/24",
+      "date": "2026-11-24",
+      "inputs": {
+        "dev_1": "105 dev groups, real memberships: stopped_below_floor (no_op 25<40, pipe 12<14; 44 no_op and 14 pipe candidates equal DEV-panel prompts); only the aggregate receipt written",
+        "train_105": "105 train groups, CPT filter off: stopped_below_floor, 243 cases, pipe_rewrite 12<14, all other quotas filled",
+        "dev_2": "169 dev groups (rehearsal_build_groups), dev-blind memberships: built 250 cases from 105 groups, overlap 0, launcher dry run 250/250, 0 mismatches; build 90 s",
+        "scoring": "pre-registered 30-case subset, protocol.run() on CPU with the plan roster: complete, 0 mismatches; arm-a 159 s/case, c19 bf16 345 s/case, q6_k 218 s/case; wall 22,111 s at load 26-54; each model 11/30 correct",
+        "dev250_reference_final_mix": {
+          "arm-a-803": 0.437,
+          "c19-100-bf16": 0.457,
+          "c19-100-q6_k": 0.453
+        }
+      },
+      "outcome": "Every path ran end to end. Finding: the pipe_rewrite floor of 14 is likely to stop a 105-group final build (both same-size pools supply 12). Projected A5 runtime about 50 h on this shared machine."
     }
   ],
   "open_user_gates": [
-    "Approve the final panel v1 design (docs/training/plan-20260927/final-panel-v1.md) and its open questions: roxygen gap, code-cut-only finish, unread reserve",
-    "Decide the harness pin: protocol.harness_hash() fails on main because C20 files were added after evaluator pin 523efc07",
-    "Written weight and harness freeze statement, then a separate final-panel build authorization (A2)",
+    "Pipe floor before A2: lower the pipe_rewrite floor to 6 (recommended), keep it at 14 and accept the stop risk, or build from more groups",
+    "Written weight and harness freeze statement, then a separate final-panel build authorization (A2); draft in final-panel-v1.md#build-authorization-draft",
     "Explicit freeze receipt for sealed final evaluation after the panel build (A4)",
     "Separate publishing go-ahead"
   ],
@@ -142,12 +221,12 @@
     "Zed PRM03 adapter and parity",
     "Admission guard recovered from origin/t3code/best-token-model-plan (d7f2aa94); final constructor/evaluator lost in the 2026-10-10 reinstall; sealed DAT-07-final-* case files present on E: and NAS"
   ],
-  "question_for_user": "Approve the final panel v1 design? Recommended: approve with the roxygen gap and code-cut-only finish, choose option (b) for the harness pin (re-pin the evaluator check under review), and do not reserve groups.",
+  "question_for_user": "The 105-group pool likely stops on the pipe_rewrite floor (14; both same-size pools supply 12). Lower it to 6 before A2? Recommended: yes. Then issue the A2 freeze statement and build authorization.",
   "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Admission guard recovered from a remote branch; the final constructor/evaluator code is lost; sealed case files are intact. Notebook latency (2026-11-23, m0pad, Ryzen 5 PRO 5650U, RADV RENOIR, AC, performance profile): all four configs pass the measurement gate; every request ended in EOS after 12 generated tokens, so decode tok/s covers 11 tokens; the user's own docker workloads kept running on the notebook (load average 1-9). Vulkan offload confirmed by an unmeasured -lv 4 probe of the same command (43/43 layers) and iGPU sysfs during the measured run. Notebook directory removed after the run.",
   "steps": {
     "1_quant_tiers": "done",
     "2_serving_parity": "cpu_stage_done; runtime/editor parity open",
     "3_notebook_latency": "done; accepted by the user 2026-11-23",
-    "4_sealed_final": "replacement constructor designed and implemented (final-panel-v1); awaiting user design approval; no final content read"
+    "4_sealed_final": "design approved; harness re-pinned (874e0f0a); 105/88 holdback pre-registered; dress rehearsal complete; awaiting the pipe-floor decision and A2; no final content read"
   }
 }

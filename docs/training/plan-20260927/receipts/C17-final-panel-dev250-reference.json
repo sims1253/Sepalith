@@ -1,0 +1,196 @@
+{
+ "comparisons": {
+  "c19-100-bf16_minus_arm-a-803": {
+   "final_quota_mix": {
+    "ci95": [
+     -0.008000000000000007,
+     0.052714285714285714
+    ],
+    "delta": 0.02071428571428574
+   }
+  },
+  "c19-100-q6_k_minus_c19-100-bf16": {
+   "final_quota_mix": {
+    "ci95": [
+     -0.01200000000000001,
+     0.0
+    ],
+    "delta": -0.0040000000000000036
+   }
+  }
+ },
+ "final_content_opened": false,
+ "method": "per-family DEV250 rate weighted by the mix; finish_block uses the 56 code-cut DEV250 cases; stratified case bootstrap, 10,000 replicates, seed 3407, paired across models",
+ "mixes": {
+  "final_quota_mix": {
+   "finish_block": 122,
+   "format_propagation": 24,
+   "na_rm_propagation": 3,
+   "no_op": 50,
+   "pipe_rewrite": 28,
+   "rename_propagation": 23
+  }
+ },
+ "models": {
+  "arm-a-803": {
+   "ci95": {
+    "final_quota_mix": [
+     0.404,
+     0.4708571428571428
+    ]
+   },
+   "rates": {
+    "final_quota_mix": 0.4367142857142857
+   },
+   "score250": 109,
+   "strata": {
+    "finish_authored": [
+     0,
+     55
+    ],
+    "finish_codecut": [
+     1,
+     56
+    ],
+    "format_propagation": [
+     21,
+     24
+    ],
+    "na_rm_propagation": [
+     3,
+     3
+    ],
+    "no_op": [
+     33,
+     50
+    ],
+    "pipe_rewrite": [
+     28,
+     28
+    ],
+    "rename_propagation": [
+     22,
+     23
+    ],
+    "roxygen_drafting": [
+     1,
+     11
+    ]
+   }
+  },
+  "c19-100-bf16": {
+   "ci95": {
+    "final_quota_mix": [
+     0.42,
+     0.49557142857142855
+    ]
+   },
+   "rates": {
+    "final_quota_mix": 0.45742857142857146
+   },
+   "score250": 112,
+   "strata": {
+    "finish_authored": [
+     0,
+     55
+    ],
+    "finish_codecut": [
+     2,
+     56
+    ],
+    "format_propagation": [
+     21,
+     24
+    ],
+    "na_rm_propagation": [
+     3,
+     3
+    ],
+    "no_op": [
+     39,
+     50
+    ],
+    "pipe_rewrite": [
+     28,
+     28
+    ],
+    "rename_propagation": [
+     19,
+     23
+    ],
+    "roxygen_drafting": [
+     0,
+     11
+    ]
+   }
+  },
+  "c19-100-q6_k": {
+   "ci95": {
+    "final_quota_mix": [
+     0.416,
+     0.49228571428571427
+    ]
+   },
+   "rates": {
+    "final_quota_mix": 0.45342857142857146
+   },
+   "score250": 111,
+   "strata": {
+    "finish_authored": [
+     0,
+     55
+    ],
+    "finish_codecut": [
+     2,
+     56
+    ],
+    "format_propagation": [
+     21,
+     24
+    ],
+    "na_rm_propagation": [
+     3,
+     3
+    ],
+    "no_op": [
+     38,
+     50
+    ],
+    "pipe_rewrite": [
+     28,
+     28
+    ],
+    "rename_propagation": [
+     19,
+     23
+    ],
+    "roxygen_drafting": [
+     0,
+     11
+    ]
+   }
+  }
+ },
+ "panel": {
+  "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+  "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+ },
+ "results": {
+  "arm-a-803": {
+   "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/SFT-v2-r4-lr1e-5/results/dev-dev250-step-803.20261014T031828-959466265.cases/cases.json",
+   "runtime": "campaign_eval, Transformers bf16, CUDA, batch 32 (SFT-v2-r4 gate, 2026-10-14)",
+   "sha256": "392e3e418993dc4d9bc48902d3bc2d41063a4aee42527773ae0110fe65d31e93"
+  },
+  "c19-100-bf16": {
+   "path": "/home/m0hawk/.local/state/sepalith/campaign-20260915/evaluation-gates/C19-grpo-exec-pilot-1/selection/dev250-step-100.20261110T041705-881845839.cases/cases.json",
+   "runtime": "campaign_eval, Transformers bf16, CUDA, batch 32 (C19 selection, 2026-11-10)",
+   "sha256": "2c7ffa45686fb87cb82251eef1d523279e9b8a55266490336f442a9e25364d98"
+  },
+  "c19-100-q6_k": {
+   "path": "/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/eval/Q6_K-dev250.cases/cases.json",
+   "runtime": "C09 GGUF dev generation, llama.cpp (C17 quant gate, 2026-11-11)",
+   "sha256": "77d3484ea2d381eb70e86a5749cf231afb7b0dfbeaaf58af6e6345bd2659a813"
+  }
+ },
+ "schema": "sepalith.final-panel.v1.dev250-reference"
+}

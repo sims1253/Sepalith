@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import protocol as v2
 import runtime
-from admission_guard import AdmissionMetadataError, AdmissionOutputError
+from admission_guard import AdmissionOutputError
 from sepalith.campaign_protocol import Cursor, Position, PromptContext, ReplacementRange, serialize_target
 
 SOURCE = b"x <- 1\n"
@@ -277,6 +277,24 @@ class ProtocolTests(unittest.TestCase):
         with self.assertRaisesRegex(v2.ProtocolError, "input_hash_mismatch"):
             v2.run(args)
         self.assertFalse((self.state / "result.json").exists())
+
+
+class HarnessPin(unittest.TestCase):
+    """The 2026-11-23 re-pin: the package tree at EVALUATOR_COMMIT is EVALUATOR_TREE, and drift is refused."""
+
+    def test_pinned_commit_has_the_pinned_package_tree(self) -> None:
+        import subprocess
+
+        tree = subprocess.run(["git", "rev-parse", f"{v2.EVALUATOR_COMMIT}:packages/sepalith/src"], cwd=v2.ROOT,
+                              capture_output=True, check=False)
+        if tree.returncode:
+            self.skipTest("pinned commit not in this clone")
+        self.assertEqual(tree.stdout.decode().strip(), v2.EVALUATOR_TREE)
+
+    def test_a_different_tree_pin_is_refused(self) -> None:
+        with patch.object(v2, "EVALUATOR_TREE", "0" * 40), self.assertRaisesRegex(
+                v2.ProtocolError, "evaluator_tree_differs_from_pin"):
+            v2.harness_hash()
 
 
 if __name__ == "__main__":
