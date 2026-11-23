@@ -1,0 +1,427 @@
+{
+  "samples": [
+    {
+      "prompt": 0,
+      "repeat": 0,
+      "ttft_ms": 2248.9576959924307,
+      "tokens_s": 17.119823198916784,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2891.7064199922606
+    },
+    {
+      "prompt": 0,
+      "repeat": 1,
+      "ttft_ms": 2250.1839789911173,
+      "tokens_s": 16.987341342092623,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2897.770996001782
+    },
+    {
+      "prompt": 0,
+      "repeat": 2,
+      "ttft_ms": 2310.1926500094123,
+      "tokens_s": 17.527394520936472,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2938.730045018019
+    },
+    {
+      "prompt": 0,
+      "repeat": 3,
+      "ttft_ms": 2320.460645976709,
+      "tokens_s": 16.76750031629603,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2976.6203219769523
+    },
+    {
+      "prompt": 0,
+      "repeat": 4,
+      "ttft_ms": 2308.531860995572,
+      "tokens_s": 16.80412953845167,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2963.524351012893
+    },
+    {
+      "prompt": 1,
+      "repeat": 0,
+      "ttft_ms": 2933.2034520048182,
+      "tokens_s": 16.510566762728146,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3600.2173790184315
+    },
+    {
+      "prompt": 1,
+      "repeat": 1,
+      "ttft_ms": 2898.1841639906634,
+      "tokens_s": 16.99629171817058,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3545.8526969887316
+    },
+    {
+      "prompt": 1,
+      "repeat": 2,
+      "ttft_ms": 2965.024933015229,
+      "tokens_s": 17.02828553029177,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3610.7946800184436
+    },
+    {
+      "prompt": 1,
+      "repeat": 3,
+      "ttft_ms": 2878.204073989764,
+      "tokens_s": 17.33812496059517,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3512.8103379975073
+    },
+    {
+      "prompt": 1,
+      "repeat": 4,
+      "ttft_ms": 2878.1775049865246,
+      "tokens_s": 17.421740748659715,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3510.465177008882
+    },
+    {
+      "prompt": 2,
+      "repeat": 0,
+      "ttft_ms": 4718.316598009551,
+      "tokens_s": 16.82114080976972,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5372.414168989053
+    },
+    {
+      "prompt": 2,
+      "repeat": 1,
+      "ttft_ms": 4642.22159399651,
+      "tokens_s": 15.759944524995273,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5340.593414002797
+    },
+    {
+      "prompt": 2,
+      "repeat": 2,
+      "ttft_ms": 4527.156758005731,
+      "tokens_s": 16.484908066664968,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5194.50321799377
+    },
+    {
+      "prompt": 2,
+      "repeat": 3,
+      "ttft_ms": 5298.044515016954,
+      "tokens_s": 8.436760345385629,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 6602.125172008527
+    },
+    {
+      "prompt": 2,
+      "repeat": 4,
+      "ttft_ms": 4999.203048995696,
+      "tokens_s": 15.797447994083136,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5696.390394994523
+    },
+    {
+      "prompt": 3,
+      "repeat": 0,
+      "ttft_ms": 7015.083915001014,
+      "tokens_s": 16.363300983583144,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7686.423692997778
+    },
+    {
+      "prompt": 3,
+      "repeat": 1,
+      "ttft_ms": 6921.924952999689,
+      "tokens_s": 16.61809650279713,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7584.668157011038
+    },
+    {
+      "prompt": 3,
+      "repeat": 2,
+      "ttft_ms": 6942.353069985984,
+      "tokens_s": 16.861752028008905,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7594.956971995998
+    },
+    {
+      "prompt": 3,
+      "repeat": 3,
+      "ttft_ms": 7076.001641020412,
+      "tokens_s": 16.214550938011772,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7754.562592017464
+    },
+    {
+      "prompt": 3,
+      "repeat": 4,
+      "ttft_ms": 6749.645653006155,
+      "tokens_s": 16.840506623677445,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7403.911027999129
+    },
+    {
+      "prompt": 4,
+      "repeat": 0,
+      "ttft_ms": 10996.55597601668,
+      "tokens_s": 16.664671955932548,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 11656.910293997498
+    },
+    {
+      "prompt": 4,
+      "repeat": 1,
+      "ttft_ms": 11098.936738999328,
+      "tokens_s": 16.396008317247855,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 11770.08804801153
+    },
+    {
+      "prompt": 4,
+      "repeat": 2,
+      "ttft_ms": 10972.677541984012,
+      "tokens_s": 16.50759349300678,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 11639.28645098349
+    },
+    {
+      "prompt": 4,
+      "repeat": 3,
+      "ttft_ms": 11602.57229101262,
+      "tokens_s": 16.3325181921981,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 12275.863565009786
+    },
+    {
+      "prompt": 4,
+      "repeat": 4,
+      "ttft_ms": 11853.48594901734,
+      "tokens_s": 16.479524191192443,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 12521.392352995463
+    },
+    {
+      "prompt": 5,
+      "repeat": 0,
+      "ttft_ms": 21243.69888100773,
+      "tokens_s": 15.925872303460256,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 21934.617290011374
+    },
+    {
+      "prompt": 5,
+      "repeat": 1,
+      "ttft_ms": 20337.96157100005,
+      "tokens_s": 16.094130178103494,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 21021.746980026364
+    },
+    {
+      "prompt": 5,
+      "repeat": 2,
+      "ttft_ms": 20498.721348005347,
+      "tokens_s": 15.927163632783316,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 21189.575152006
+    },
+    {
+      "prompt": 5,
+      "repeat": 3,
+      "ttft_ms": 18748.866966023343,
+      "tokens_s": 16.11256531081871,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 19431.747871014522
+    },
+    {
+      "prompt": 5,
+      "repeat": 4,
+      "ttft_ms": 18881.80582501809,
+      "tokens_s": 15.311889264416841,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 19600.58412500075
+    },
+    {
+      "prompt": 6,
+      "repeat": 0,
+      "ttft_ms": 37119.97729798895,
+      "tokens_s": 14.340898809314282,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 37887.253141991096
+    },
+    {
+      "prompt": 6,
+      "repeat": 1,
+      "ttft_ms": 37862.786710989894,
+      "tokens_s": 14.296111457683509,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 38632.452346995706
+    },
+    {
+      "prompt": 6,
+      "repeat": 2,
+      "ttft_ms": 38591.197817993816,
+      "tokens_s": 14.335796483820099,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 39358.70893398533
+    },
+    {
+      "prompt": 6,
+      "repeat": 3,
+      "ttft_ms": 37569.23408299917,
+      "tokens_s": 14.28252390375137,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 38339.60469000158
+    },
+    {
+      "prompt": 6,
+      "repeat": 4,
+      "ttft_ms": 37845.884473004844,
+      "tokens_s": 14.100286363997611,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 38626.279315009015
+    },
+    {
+      "prompt": 7,
+      "repeat": 0,
+      "ttft_ms": 80001.23302699649,
+      "tokens_s": 12.00163222198219,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 80918.27498798375
+    },
+    {
+      "prompt": 7,
+      "repeat": 1,
+      "ttft_ms": 81788.09919100604,
+      "tokens_s": 12.044314317185922,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 82701.61266400828
+    },
+    {
+      "prompt": 7,
+      "repeat": 2,
+      "ttft_ms": 80153.14640701399,
+      "tokens_s": 11.877459173933511,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 81079.66302899877
+    },
+    {
+      "prompt": 7,
+      "repeat": 3,
+      "ttft_ms": 79583.25358800357,
+      "tokens_s": 11.708131190674365,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 80523.13262800453
+    },
+    {
+      "prompt": 7,
+      "repeat": 4,
+      "ttft_ms": 81641.82231100858,
+      "tokens_s": 11.96738344040515,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 82561.38956799987
+    }
+  ],
+  "summary": {
+    "ttft_ms": {
+      "p50": 7076.001641020412,
+      "p95": 80153.14640701399
+    },
+    "tokens_s": {
+      "p50": 16.3325181921981,
+      "p95": 17.33812496059517
+    },
+    "wall_ms": {
+      "p50": 7754.562592017464,
+      "p95": 81079.66302899877
+    }
+  },
+  "schema": "sepalith.c17.notebook-latency.v1",
+  "backend": "cpu",
+  "tier": "Q6_K",
+  "runtime_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+  "model_sha256": "6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261",
+  "server_command": "/home/m0hawk/sepalith-c17-latency/llama.cpp/build-cpu/bin/llama-server -m /home/m0hawk/sepalith-c17-latency/models/c19-100-imat-Q6_K.gguf --host 127.0.0.1 --port 18099 -c 8192 -t 8 -np 1 -ngl 0",
+  "host": "Linux-7.3.4-1-cachyos-x86_64-with-glibc2.44",
+  "processor": "",
+  "prompts_sha256": "c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2"
+}

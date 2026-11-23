@@ -8,6 +8,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages/sepalith/src"))
 
+from latency_receipt import backend_evidence, gate, probe_memory
 from notebook_latency import measure, percentile, run
 from release_parity import check_tiers, compare_prompts, validate_request
 from sepalith.campaign_protocol import PromptContext, render_prompt
@@ -90,6 +91,38 @@ class ReleasePrepTests(unittest.TestCase):
             run('http://invalid', [], 5)
         with self.assertRaises(ValueError):
             run('http://invalid', [{}], 0)
+
+
+    def test_backend_evidence_rejects_silent_fallback(self):
+        vk = ('0.0 I cmn  common_param:   - Vulkan0 : AMD Radeon Graphics (RADV RENOIR) (8156 MiB, 7284 MiB free)\n'
+              '0.4 I load_tensors: offloaded 43/43 layers to GPU\n'
+              '0.4 I load_tensors:      Vulkan0 model buffer size =  1821.99 MiB\n')
+        cpu = '0.4 I load_tensors:   CPU_Mapped model buffer size =  2092.93 MiB\n'
+        warn = 'warning: no usable GPU found, --gpu-layers option will be ignored\n'
+        rise = probe_memory('before gpu_busy=0 vram_used=1 gtt_used=100\nloaded gpu_busy=9 vram_used=1 gtt_used=900\n')
+        flat = probe_memory('before gpu_busy=0 vram_used=1 gtt_used=100\nloaded gpu_busy=0 vram_used=1 gtt_used=100\n')
+        self.assertTrue(backend_evidence('vulkan', '', vk, rise)['confirmed'])
+        self.assertTrue(backend_evidence('cpu', warn, cpu, flat)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', cpu, flat)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', vk.replace('43/43', '30/43'), rise)['confirmed'])
+        self.assertFalse(backend_evidence('vulkan', '', vk, flat)['confirmed'])
+        self.assertFalse(backend_evidence('cpu', warn, vk, rise)['confirmed'])
+
+    def test_receipt_gate_needs_full_clean_run(self):
+        sample = {'ttft_ms': 5.0, 'tokens_s': 20.0, 'wall_ms': 9.0, 'predicted_n': 12, 'stop_type': 'eos'}
+        result = {'samples': [{'prompt': p, 'repeat': r, 'prompt_n': 100 + p, **sample}
+                              for p in range(8) for r in range(5)],
+                  'tier': 'Q6_K', 'runtime_commit': '3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70',
+                  'model_sha256': '6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261',
+                  'prompts_sha256': 'c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2'}
+        self.assertEqual(gate(result, {'confirmed': True}, '')['outcome'], 'pass')
+        self.assertIsNone(gate(result, {'confirmed': True}, '')['latency_cutoff'])
+        self.assertEqual(gate(result, {'confirmed': False}, '')['outcome'], 'fail')
+        self.assertEqual(gate(result, {'confirmed': True}, 'truncated = 1')['outcome'], 'fail')
+        short = {**result, 'samples': result['samples'][:39]}
+        self.assertEqual(gate(short, {'confirmed': True}, '')['outcome'], 'fail')
+        bad = {**result, 'samples': [*result['samples'][:39], {**result['samples'][39], 'tokens_s': float('nan')}]}
+        self.assertEqual(gate(bad, {'confirmed': True}, '')['outcome'], 'fail')
 
 
 if __name__ == '__main__':

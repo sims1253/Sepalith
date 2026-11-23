@@ -62,5 +62,13 @@ samples with fewer than two predicted tokens are rejected.
 The benchmark uses uncached prompts to make the measurement reproducible;
 it does not claim to measure PR #89's warm-cache editor experience.
 No output quality score is inferred from these synthetic prompts.
+At `3cb7ffb1a` the default log verbosity hides the device and offload lines.
+`c17/notebook/run_config.sh <tier> <backend>` runs one measured configuration
+with the exact command above, and also samples iGPU sysfs. Then
+`c17/notebook/probe_config.sh <tier> <backend>` restarts the same command with
+`-lv 4`, without measuring, to capture those lines. `env_capture.py` writes
+`env.json`. On the PC, run
+`python scripts/packaging/latency_receipt.py --result R.json --logs c17/latency-logs --output receipts/C17-latency-<tier>-<backend>.json`.
+It turns each result into a receipt and checks the device evidence.
 Keep the four JSON receipts and server logs. Present p50 and p95 TTFT, decode
 rate and wall time to the user before release acceptance.

@@ -1,14 +1,21 @@
 {
   "card": "C17",
   "state": "needs_user",
-  "updated": "2026-11-21T02:31:25+01:00",
-  "branch": "plan/C17-release-prep",
+  "updated": "2026-11-23T10:15:00+01:00",
+  "branch": "plan/C17-notebook-latency",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/102",
   "outputs": {
     "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
     "quant_evidence": "docs/training/plan-20260927/receipts/C17-quant-evidence.json",
     "serving_parity": "docs/training/plan-20260927/receipts/C17-serving-parity.json",
-    "runbook": "docs/training/plan-20260927/c17/README.md"
+    "runbook": "docs/training/plan-20260927/c17/README.md",
+    "notebook_latency": {
+      "Q6_K-cpu": "docs/training/plan-20260927/receipts/C17-latency-Q6_K-cpu.json",
+      "Q6_K-vulkan": "docs/training/plan-20260927/receipts/C17-latency-Q6_K-vulkan.json",
+      "Q4_K_M-mixB-e4-cpu": "docs/training/plan-20260927/receipts/C17-latency-Q4_K_M-mixB-e4-cpu.json",
+      "Q4_K_M-mixB-e4-vulkan": "docs/training/plan-20260927/receipts/C17-latency-Q4_K_M-mixB-e4-vulkan.json"
+    },
+    "notebook_latency_logs": "docs/training/plan-20260927/c17/latency-logs/"
   },
   "rule_decisions": [
     {
@@ -21,10 +28,26 @@
         "small_nofp_candidate": 15
       },
       "outcome": "Accept small tier under explicit nofp exception; preserve failed gate verdict"
+    },
+    {
+      "rule": "C17 section 3 measurement gate (no latency cutoff)",
+      "inputs": {
+        "configs": 4,
+        "measured_requests_per_config": 40,
+        "errors": 0,
+        "truncated": 0,
+        "stop_types": {
+          "eos": 160
+        },
+        "prompts_sha256": "c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2",
+        "runtime_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+        "backend_confirmed": "4/4"
+      },
+      "outcome": "pass; all four receipts complete, awaiting user latency acceptance"
     }
   ],
   "open_user_gates": [
-    "Notebook access and acceptance of four latency reports",
+    "Acceptance of the four notebook latency receipts (C17 section 3)",
     "Explicit weight and harness freeze for sealed final evaluation, after the lost final constructor/evaluator is rebuilt or replaced (user decision)",
     "Separate publishing go-ahead"
   ],
@@ -33,6 +56,12 @@
     "Zed PRM03 adapter and parity",
     "Admission guard recovered from origin/t3code/best-token-model-plan (d7f2aa94); final constructor/evaluator lost in the 2026-10-10 reinstall; sealed DAT-07-final-* case files present on E: and NAS"
   ],
-  "question_for_user": "Can you provide notebook access for the four latency measurements? Recommended next step: measure both approved tiers on CPU and Vulkan before considering the sealed-evaluation freeze.",
-  "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Admission guard recovered from a remote branch; the final constructor/evaluator code is lost; sealed case files are intact."
+  "question_for_user": "Do you accept the notebook latency for release? p50 TTFT / decode tok/s: Q6_K CPU 7.1 s / 16.3, Q6_K Vulkan 2.2 s / 20.6, mixB-e4 CPU 5.3 s / 20.4, mixB-e4 Vulkan 2.1 s / 25.2; p95 TTFT 27.5-80.2 s at the 4227-token prompt. Recommended next step: accept, with Vulkan as the recommended notebook backend, then decide how to rebuild the sealed final evaluator before the freeze.",
+  "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Admission guard recovered from a remote branch; the final constructor/evaluator code is lost; sealed case files are intact. Notebook latency (2026-11-23, m0pad, Ryzen 5 PRO 5650U, RADV RENOIR, AC, performance profile): all four configs pass the measurement gate; every request ended in EOS after 12 generated tokens, so decode tok/s covers 11 tokens; the user's own docker workloads kept running on the notebook (load average 1-9). Vulkan offload confirmed by an unmeasured -lv 4 probe of the same command (43/43 layers) and iGPU sysfs during the measured run. Notebook directory removed after the run.",
+  "steps": {
+    "1_quant_tiers": "done",
+    "2_serving_parity": "cpu_stage_done; runtime/editor parity open",
+    "3_notebook_latency": "done",
+    "4_sealed_final": "blocked"
+  }
 }

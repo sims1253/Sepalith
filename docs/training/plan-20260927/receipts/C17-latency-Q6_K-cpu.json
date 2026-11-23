@@ -1,0 +1,639 @@
+{
+  "schema": "sepalith.c17.notebook-latency-receipt.v1",
+  "card": "C17 section 3",
+  "tier": "Q6_K",
+  "backend": "cpu",
+  "gate": {
+    "checks": {
+      "samples_40": true,
+      "five_per_prompt": true,
+      "finite_positive_timings": true,
+      "predicted_n_at_least_2": true,
+      "prompt_n_stable": true,
+      "untruncated_prompts": true,
+      "runtime_commit": true,
+      "model_sha256": true,
+      "prompts_sha256": true,
+      "backend_confirmed": true
+    },
+    "outcome": "pass",
+    "latency_cutoff": null
+  },
+  "summary": {
+    "ttft_ms": {
+      "p50": 7076.001641020412,
+      "p95": 80153.14640701399
+    },
+    "tokens_s": {
+      "p50": 16.3325181921981,
+      "p95": 17.33812496059517
+    },
+    "wall_ms": {
+      "p50": 7754.562592017464,
+      "p95": 81079.66302899877
+    }
+  },
+  "percentile_method": "nearest-rank over all 40 measured requests",
+  "prompt_tokens": {
+    "0": 131,
+    "1": 163,
+    "2": 259,
+    "3": 387,
+    "4": 643,
+    "5": 1155,
+    "6": 2179,
+    "7": 4227
+  },
+  "stop_types": {
+    "eos": 40
+  },
+  "predicted_n": [
+    12
+  ],
+  "request": {
+    "n_predict": 1024,
+    "temperature": 0,
+    "top_k": 1,
+    "seed": 3407,
+    "cache_prompt": false,
+    "stream": true,
+    "warmups_per_prompt": 1,
+    "measured_per_prompt": 5,
+    "manual_bos": 0
+  },
+  "identity": {
+    "runtime_commit": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+    "model_sha256": "6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261",
+    "prompts_sha256": "c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2",
+    "server_command": "/home/m0hawk/sepalith-c17-latency/llama.cpp/build-cpu/bin/llama-server -m /home/m0hawk/sepalith-c17-latency/models/c19-100-imat-Q6_K.gguf --host 127.0.0.1 --port 18099 -c 8192 -t 8 -np 1 -ngl 0",
+    "host": "Linux-7.3.4-1-cachyos-x86_64-with-glibc2.44",
+    "processor": ""
+  },
+  "environment": {
+    "hostname": "m0pad",
+    "kernel": "7.3.4-1-cachyos",
+    "os": "CachyOS rolling",
+    "cpu": "AMD Ryzen 5 PRO 5650U with Radeon Graphics",
+    "cpus": "12",
+    "ram": "16030928896",
+    "compiler": "gcc (GCC) 16.2.1 20260810",
+    "cmake": "cmake version 4.5.1",
+    "mesa_vulkan_driver": "apiVersion         = 1.4.354\n\tdeviceType         = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU\n\tdeviceName         = AMD Radeon Graphics (RADV RENOIR)\n\tdriverName         = radv\n\tdriverInfo         = Mesa 26.2.6-arch3.1",
+    "mesa_package": "vulkan-radeon 3:26.2.6-1\nmesa 3:26.2.6-1",
+    "power_profile": "performance",
+    "ac_online": "1",
+    "cpu_governor": "performance",
+    "llama_cpp_head": "3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70",
+    "llama_cpp_tag": "b10453",
+    "llama_server_version_cpu": "version: 0.1.0-dev (build 10453, commit 3cb7ffb1a)\nbuilt with GNU 16.2.1 for Linux x86_64",
+    "llama_server_version_vulkan": "version: 0.1.0-dev (build 10453, commit 3cb7ffb1a)\nbuilt with GNU 16.2.1 for Linux x86_64",
+    "cmake_cache_cpu": "GGML_BLAS:BOOL=OFF\nGGML_CUDA:BOOL=OFF\nGGML_HIP:BOOL=OFF\nGGML_NATIVE:BOOL=ON\nGGML_VULKAN:BOOL=OFF",
+    "cmake_cache_vulkan": "GGML_BLAS:BOOL=OFF\nGGML_CUDA:BOOL=OFF\nGGML_HIP:BOOL=OFF\nGGML_NATIVE:BOOL=ON\nGGML_VULKAN:BOOL=ON",
+    "binary_sha256_cpu": {
+      "libggml-base.so": "fc2f82b987ade91eb9bbb97363dc0360f1d16795a13dee18185da85acf317e8b",
+      "libggml-base.so.0": "fc2f82b987ade91eb9bbb97363dc0360f1d16795a13dee18185da85acf317e8b",
+      "libggml-base.so.0.20.0": "fc2f82b987ade91eb9bbb97363dc0360f1d16795a13dee18185da85acf317e8b",
+      "libggml-cpu.so": "706c0fda09b748b605b7af2d418945df63b1b0b7913eba085438d67436c1666e",
+      "libggml-cpu.so.0": "706c0fda09b748b605b7af2d418945df63b1b0b7913eba085438d67436c1666e",
+      "libggml-cpu.so.0.20.0": "706c0fda09b748b605b7af2d418945df63b1b0b7913eba085438d67436c1666e",
+      "libggml.so": "d9ed4d080844eb142ebb443579bcad610785baf14fac8b80bd721439140b4e9c",
+      "libggml.so.0": "d9ed4d080844eb142ebb443579bcad610785baf14fac8b80bd721439140b4e9c",
+      "libggml.so.0.20.0": "d9ed4d080844eb142ebb443579bcad610785baf14fac8b80bd721439140b4e9c",
+      "libllama-batched-bench-impl.so": "b8498afe3f083a23e525c6fd20e25995e1887baeef8eb826498c07f2f1074b42",
+      "libllama-bench-impl.so": "8e7e755d84d434336aef962eb0682b1b5591e5f9aa143c648a536887d9372680",
+      "libllama-cli-impl.so": "6e6fdd4b290bd24f28deadb7212cea13887f5360bf8ca767ca8cd013c63a466c",
+      "libllama-common.so": "8070d5493f82ebbd31909b40a14cb59270d64dad4cd4ed6a06964d649e9355b1",
+      "libllama-common.so.0": "8070d5493f82ebbd31909b40a14cb59270d64dad4cd4ed6a06964d649e9355b1",
+      "libllama-common.so.0.1.0": "8070d5493f82ebbd31909b40a14cb59270d64dad4cd4ed6a06964d649e9355b1",
+      "libllama-completion-impl.so": "c5747529ebeef244be5d72b0988a72fdb31356ac6ad749066493a1ac98723bee",
+      "libllama-fit-params-impl.so": "abbe05dc85ed9eef49b237b34875e90ad778a7155930b0f73144591cb7108364",
+      "libllama-perplexity-impl.so": "c5c8d1c5df6c21847beb7601f1264c02f3ea4f20174445502ed7fdf7838971e6",
+      "libllama-quantize-impl.so": "0fe715360770b8b36ac979200757b6b0bd4772b2c12bb78acbd03087d93db902",
+      "libllama-server-impl.so": "74b0affbf7e394edd227ed824854263d8405986c7618430c7dfa6f781ca0bc33",
+      "libllama.so": "c074cbfb1206c628349cb653053dc17bf59c59576ffb142a5eab850a4a2de7ea",
+      "libllama.so.0": "c074cbfb1206c628349cb653053dc17bf59c59576ffb142a5eab850a4a2de7ea",
+      "libllama.so.0.1.0": "c074cbfb1206c628349cb653053dc17bf59c59576ffb142a5eab850a4a2de7ea",
+      "libmtmd.so": "735680a66485549091f87e3a4c77e05fd08e2974b9e94fc76de23414af2986c2",
+      "libmtmd.so.0": "735680a66485549091f87e3a4c77e05fd08e2974b9e94fc76de23414af2986c2",
+      "libmtmd.so.0.1.0": "735680a66485549091f87e3a4c77e05fd08e2974b9e94fc76de23414af2986c2",
+      "llama-server": "9b1a0dbfa2bf376bff4aca7baa008ead2566bf6ba5b850b1c8b2c35ec156affd"
+    },
+    "binary_sha256_vulkan": {
+      "libggml-base.so": "fc2f82b987ade91eb9bbb97363dc0360f1d16795a13dee18185da85acf317e8b",
+      "libggml-base.so.0": "fc2f82b987ade91eb9bbb97363dc0360f1d16795a13dee18185da85acf317e8b",
+      "libggml-base.so.0.20.0": "fc2f82b987ade91eb9bbb97363dc0360f1d16795a13dee18185da85acf317e8b",
+      "libggml-cpu.so": "ddf1c468a651f49335dec274b772c5eb219fa918cf7952faa878162bd62e40a8",
+      "libggml-cpu.so.0": "ddf1c468a651f49335dec274b772c5eb219fa918cf7952faa878162bd62e40a8",
+      "libggml-cpu.so.0.20.0": "ddf1c468a651f49335dec274b772c5eb219fa918cf7952faa878162bd62e40a8",
+      "libggml-vulkan.so": "a9bd0261684f4b4f5bce348eb98c15af2b81d41975f95a1ca6e58d5d3a775d9e",
+      "libggml-vulkan.so.0": "a9bd0261684f4b4f5bce348eb98c15af2b81d41975f95a1ca6e58d5d3a775d9e",
+      "libggml-vulkan.so.0.20.0": "a9bd0261684f4b4f5bce348eb98c15af2b81d41975f95a1ca6e58d5d3a775d9e",
+      "libggml.so": "c5edf3b079a50d16c41a656a57faab475450c6adfc6fcd107265d7fe10c65a90",
+      "libggml.so.0": "c5edf3b079a50d16c41a656a57faab475450c6adfc6fcd107265d7fe10c65a90",
+      "libggml.so.0.20.0": "c5edf3b079a50d16c41a656a57faab475450c6adfc6fcd107265d7fe10c65a90",
+      "libllama-batched-bench-impl.so": "050ab68f7959c2fc5f3af22626043f0c3c40d024d06994d91378bdd88405835e",
+      "libllama-bench-impl.so": "418be0c9b8ceb57f93fe8c563882bbdd18681c58ed74b94d793bb39d5c7d84ef",
+      "libllama-cli-impl.so": "c9200c14fedf30eb78f940a7d0ab891d92daef9cf9d148f77118f4e62fbca891",
+      "libllama-common.so": "0d94e2e69a5df9d1972a4ef6bef17c874ffc50c011813bc2313f96191d459a48",
+      "libllama-common.so.0": "0d94e2e69a5df9d1972a4ef6bef17c874ffc50c011813bc2313f96191d459a48",
+      "libllama-common.so.0.1.0": "0d94e2e69a5df9d1972a4ef6bef17c874ffc50c011813bc2313f96191d459a48",
+      "libllama-completion-impl.so": "dd61504a146657a19b81f7c66cb5a9e143f79d13efe2884e78bcf5c6a76483a2",
+      "libllama-fit-params-impl.so": "49ecef18c9f676acdda6a1003aacb502366b8bb66bc1c7784d5baa9e3f7fd9ff",
+      "libllama-perplexity-impl.so": "813f21e92e5a9a18e713d04ac8b2329aada4ad6f349f6459f52da3113c23c847",
+      "libllama-quantize-impl.so": "f0f3f8df49f0e9ab1159f0e71439b03aab2daed3023b01a7e9df88002c854516",
+      "libllama-server-impl.so": "ddc351ba7036e7ae4d523c1a0da7f73e2e751264d99d5a94012a09a7409b0441",
+      "libllama.so": "30675343b56b44f980733077b30f2a9ed461419ae17f2ad43c5deaafb7468349",
+      "libllama.so.0": "30675343b56b44f980733077b30f2a9ed461419ae17f2ad43c5deaafb7468349",
+      "libllama.so.0.1.0": "30675343b56b44f980733077b30f2a9ed461419ae17f2ad43c5deaafb7468349",
+      "libmtmd.so": "acd066c21a73430c94c11772aaae32e23aba0d351a3f02c922e2096a291619a8",
+      "libmtmd.so.0": "acd066c21a73430c94c11772aaae32e23aba0d351a3f02c922e2096a291619a8",
+      "libmtmd.so.0.1.0": "acd066c21a73430c94c11772aaae32e23aba0d351a3f02c922e2096a291619a8",
+      "llama-server": "1f3db6274a90c69f8ab57c5d19d4fd19661889990c164ffa4f3d86e72573222c"
+    },
+    "model_sha256_verified_on_notebook": "6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261  c19-100-imat-Q6_K.gguf\ne24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b  c19-100-mixb-e4-Q4_K_M.gguf",
+    "python": "3.14.10",
+    "other_workloads_note": "Notebook not exclusive: the user's own root/docker workloads were left running as instructed; see load_before/load_after."
+  },
+  "load_before": [
+    "2026-11-23T09:13:52+01:00",
+    " 09:13:52 up 2 days, 16:59,  6 users,  load average: 5,00, 9,61, 6,57",
+    "performance",
+    "1"
+  ],
+  "load_after": [
+    "2026-11-23T09:31:11+01:00",
+    " 09:31:11 up 2 days, 17:16,  6 users,  load average: 8,64, 8,71, 8,14"
+  ],
+  "backend_evidence": {
+    "confirmed": true,
+    "vulkan_devices": [],
+    "offloaded_layers": [],
+    "vulkan_model_buffer_mib": [],
+    "cpu_model_buffer_mib": [
+      "2092.93"
+    ],
+    "gtt_rise_bytes_at_load": 0,
+    "probe": "unmeasured restart of the identical server command plus `-lv 4`; verbosity 3 at 3cb7ffb1a prints no device or offload lines",
+    "probe_igpu_memory": {
+      "before": {
+        "gpu_busy": 0,
+        "vram_used": 498851840,
+        "gtt_used": 414818304
+      },
+      "loaded": {
+        "gpu_busy": 0,
+        "vram_used": 498851840,
+        "gtt_used": 414818304
+      },
+      "after": {
+        "gpu_busy": 0,
+        "vram_used": 498851840,
+        "gtt_used": 414818304
+      }
+    },
+    "measured_run_igpu": null
+  },
+  "logs": {
+    "server.log": {
+      "file": "Q6_K-cpu.server.log",
+      "sha256": "90bd3d97ac1f08fcd0648c7f515a6f30de2b77c78ab95e445d32ece2dfadd06d"
+    },
+    "probe-server.log": {
+      "file": "Q6_K-cpu.probe-server.log",
+      "sha256": "23c907e64d69481f35c652cf3a45d9be1bf217ba77624cf7fe93614a6e4b8b55"
+    },
+    "probe.txt": {
+      "file": "Q6_K-cpu.probe.txt",
+      "sha256": "b37259979b29966ce5bfc0d9d88fa3b744f15273f85e0b168a50dd3469357e1a"
+    },
+    "env-before.txt": {
+      "file": "Q6_K-cpu.env-before.txt",
+      "sha256": "44577b4855ce59c58073990043514bd6d836342a84ee55fad8da73ba3986d4e0"
+    },
+    "env-after.txt": {
+      "file": "Q6_K-cpu.env-after.txt",
+      "sha256": "8efb0d7e31def8bdc0967aa2f8f3c44d0dd4f0bf2838be8513b128f10cc053b1"
+    }
+  },
+  "log_excerpt": {
+    "measured": [
+      "warning: no usable GPU found, --gpu-layers option will be ignored",
+      "0.00.446.362 I cmn          init: llama threadpool init, n_threads = 8",
+      "0.00.597.728 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 8192, kv_unified = 'false'"
+    ],
+    "probe": [
+      "warning: no usable GPU found, --gpu-layers option will be ignored",
+      "0.00.001.767 I cmn  common_param: device_info:",
+      "0.00.001.806 I cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 12 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | ",
+      "0.00.172.106 I common_params_fit_impl: will leave 12799 >= 1024 MiB of system memory, no changes needed",
+      "0.00.447.742 I load_tensors:   CPU_Mapped model buffer size =  2092.93 MiB",
+      "0.00.450.432 I llama_kv_cache:        CPU KV buffer size =   336.00 MiB",
+      "0.00.473.893 I sched_reserve:        CPU compute buffer size =    60.01 MiB",
+      "0.00.473.934 I cmn          init: llama threadpool init, n_threads = 8",
+      "0.00.613.724 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 8192, kv_unified = 'false'"
+    ]
+  },
+  "result_sha256": "e5051e4c145d2e2ec9f05e5e60070ca1226afb941f3035a7e7bbd35766228007",
+  "samples": [
+    {
+      "prompt": 0,
+      "repeat": 0,
+      "ttft_ms": 2248.9576959924307,
+      "tokens_s": 17.119823198916784,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2891.7064199922606
+    },
+    {
+      "prompt": 0,
+      "repeat": 1,
+      "ttft_ms": 2250.1839789911173,
+      "tokens_s": 16.987341342092623,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2897.770996001782
+    },
+    {
+      "prompt": 0,
+      "repeat": 2,
+      "ttft_ms": 2310.1926500094123,
+      "tokens_s": 17.527394520936472,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2938.730045018019
+    },
+    {
+      "prompt": 0,
+      "repeat": 3,
+      "ttft_ms": 2320.460645976709,
+      "tokens_s": 16.76750031629603,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2976.6203219769523
+    },
+    {
+      "prompt": 0,
+      "repeat": 4,
+      "ttft_ms": 2308.531860995572,
+      "tokens_s": 16.80412953845167,
+      "predicted_n": 12,
+      "prompt_n": 131,
+      "stop_type": "eos",
+      "wall_ms": 2963.524351012893
+    },
+    {
+      "prompt": 1,
+      "repeat": 0,
+      "ttft_ms": 2933.2034520048182,
+      "tokens_s": 16.510566762728146,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3600.2173790184315
+    },
+    {
+      "prompt": 1,
+      "repeat": 1,
+      "ttft_ms": 2898.1841639906634,
+      "tokens_s": 16.99629171817058,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3545.8526969887316
+    },
+    {
+      "prompt": 1,
+      "repeat": 2,
+      "ttft_ms": 2965.024933015229,
+      "tokens_s": 17.02828553029177,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3610.7946800184436
+    },
+    {
+      "prompt": 1,
+      "repeat": 3,
+      "ttft_ms": 2878.204073989764,
+      "tokens_s": 17.33812496059517,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3512.8103379975073
+    },
+    {
+      "prompt": 1,
+      "repeat": 4,
+      "ttft_ms": 2878.1775049865246,
+      "tokens_s": 17.421740748659715,
+      "predicted_n": 12,
+      "prompt_n": 163,
+      "stop_type": "eos",
+      "wall_ms": 3510.465177008882
+    },
+    {
+      "prompt": 2,
+      "repeat": 0,
+      "ttft_ms": 4718.316598009551,
+      "tokens_s": 16.82114080976972,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5372.414168989053
+    },
+    {
+      "prompt": 2,
+      "repeat": 1,
+      "ttft_ms": 4642.22159399651,
+      "tokens_s": 15.759944524995273,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5340.593414002797
+    },
+    {
+      "prompt": 2,
+      "repeat": 2,
+      "ttft_ms": 4527.156758005731,
+      "tokens_s": 16.484908066664968,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5194.50321799377
+    },
+    {
+      "prompt": 2,
+      "repeat": 3,
+      "ttft_ms": 5298.044515016954,
+      "tokens_s": 8.436760345385629,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 6602.125172008527
+    },
+    {
+      "prompt": 2,
+      "repeat": 4,
+      "ttft_ms": 4999.203048995696,
+      "tokens_s": 15.797447994083136,
+      "predicted_n": 12,
+      "prompt_n": 259,
+      "stop_type": "eos",
+      "wall_ms": 5696.390394994523
+    },
+    {
+      "prompt": 3,
+      "repeat": 0,
+      "ttft_ms": 7015.083915001014,
+      "tokens_s": 16.363300983583144,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7686.423692997778
+    },
+    {
+      "prompt": 3,
+      "repeat": 1,
+      "ttft_ms": 6921.924952999689,
+      "tokens_s": 16.61809650279713,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7584.668157011038
+    },
+    {
+      "prompt": 3,
+      "repeat": 2,
+      "ttft_ms": 6942.353069985984,
+      "tokens_s": 16.861752028008905,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7594.956971995998
+    },
+    {
+      "prompt": 3,
+      "repeat": 3,
+      "ttft_ms": 7076.001641020412,
+      "tokens_s": 16.214550938011772,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7754.562592017464
+    },
+    {
+      "prompt": 3,
+      "repeat": 4,
+      "ttft_ms": 6749.645653006155,
+      "tokens_s": 16.840506623677445,
+      "predicted_n": 12,
+      "prompt_n": 387,
+      "stop_type": "eos",
+      "wall_ms": 7403.911027999129
+    },
+    {
+      "prompt": 4,
+      "repeat": 0,
+      "ttft_ms": 10996.55597601668,
+      "tokens_s": 16.664671955932548,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 11656.910293997498
+    },
+    {
+      "prompt": 4,
+      "repeat": 1,
+      "ttft_ms": 11098.936738999328,
+      "tokens_s": 16.396008317247855,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 11770.08804801153
+    },
+    {
+      "prompt": 4,
+      "repeat": 2,
+      "ttft_ms": 10972.677541984012,
+      "tokens_s": 16.50759349300678,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 11639.28645098349
+    },
+    {
+      "prompt": 4,
+      "repeat": 3,
+      "ttft_ms": 11602.57229101262,
+      "tokens_s": 16.3325181921981,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 12275.863565009786
+    },
+    {
+      "prompt": 4,
+      "repeat": 4,
+      "ttft_ms": 11853.48594901734,
+      "tokens_s": 16.479524191192443,
+      "predicted_n": 12,
+      "prompt_n": 643,
+      "stop_type": "eos",
+      "wall_ms": 12521.392352995463
+    },
+    {
+      "prompt": 5,
+      "repeat": 0,
+      "ttft_ms": 21243.69888100773,
+      "tokens_s": 15.925872303460256,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 21934.617290011374
+    },
+    {
+      "prompt": 5,
+      "repeat": 1,
+      "ttft_ms": 20337.96157100005,
+      "tokens_s": 16.094130178103494,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 21021.746980026364
+    },
+    {
+      "prompt": 5,
+      "repeat": 2,
+      "ttft_ms": 20498.721348005347,
+      "tokens_s": 15.927163632783316,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 21189.575152006
+    },
+    {
+      "prompt": 5,
+      "repeat": 3,
+      "ttft_ms": 18748.866966023343,
+      "tokens_s": 16.11256531081871,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 19431.747871014522
+    },
+    {
+      "prompt": 5,
+      "repeat": 4,
+      "ttft_ms": 18881.80582501809,
+      "tokens_s": 15.311889264416841,
+      "predicted_n": 12,
+      "prompt_n": 1155,
+      "stop_type": "eos",
+      "wall_ms": 19600.58412500075
+    },
+    {
+      "prompt": 6,
+      "repeat": 0,
+      "ttft_ms": 37119.97729798895,
+      "tokens_s": 14.340898809314282,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 37887.253141991096
+    },
+    {
+      "prompt": 6,
+      "repeat": 1,
+      "ttft_ms": 37862.786710989894,
+      "tokens_s": 14.296111457683509,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 38632.452346995706
+    },
+    {
+      "prompt": 6,
+      "repeat": 2,
+      "ttft_ms": 38591.197817993816,
+      "tokens_s": 14.335796483820099,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 39358.70893398533
+    },
+    {
+      "prompt": 6,
+      "repeat": 3,
+      "ttft_ms": 37569.23408299917,
+      "tokens_s": 14.28252390375137,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 38339.60469000158
+    },
+    {
+      "prompt": 6,
+      "repeat": 4,
+      "ttft_ms": 37845.884473004844,
+      "tokens_s": 14.100286363997611,
+      "predicted_n": 12,
+      "prompt_n": 2179,
+      "stop_type": "eos",
+      "wall_ms": 38626.279315009015
+    },
+    {
+      "prompt": 7,
+      "repeat": 0,
+      "ttft_ms": 80001.23302699649,
+      "tokens_s": 12.00163222198219,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 80918.27498798375
+    },
+    {
+      "prompt": 7,
+      "repeat": 1,
+      "ttft_ms": 81788.09919100604,
+      "tokens_s": 12.044314317185922,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 82701.61266400828
+    },
+    {
+      "prompt": 7,
+      "repeat": 2,
+      "ttft_ms": 80153.14640701399,
+      "tokens_s": 11.877459173933511,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 81079.66302899877
+    },
+    {
+      "prompt": 7,
+      "repeat": 3,
+      "ttft_ms": 79583.25358800357,
+      "tokens_s": 11.708131190674365,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 80523.13262800453
+    },
+    {
+      "prompt": 7,
+      "repeat": 4,
+      "ttft_ms": 81641.82231100858,
+      "tokens_s": 11.96738344040515,
+      "predicted_n": 12,
+      "prompt_n": 4227,
+      "stop_type": "eos",
+      "wall_ms": 82561.38956799987
+    }
+  ]
+}
