@@ -1,8 +1,8 @@
 {
   "card": "C17",
   "state": "needs_user",
-  "updated": "2026-11-23T10:15:00+01:00",
-  "branch": "plan/C17-notebook-latency",
+  "updated": "2026-11-23T18:00:00+01:00",
+  "branch": "feat/final-panel-constructor",
   "pull_request": "https://github.com/sims1253/Sepalith/pull/107",
   "outputs": {
     "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
@@ -15,7 +15,10 @@
       "Q4_K_M-mixB-e4-cpu": "docs/training/plan-20260927/receipts/C17-latency-Q4_K_M-mixB-e4-cpu.json",
       "Q4_K_M-mixB-e4-vulkan": "docs/training/plan-20260927/receipts/C17-latency-Q4_K_M-mixB-e4-vulkan.json"
     },
-    "notebook_latency_logs": "docs/training/plan-20260927/c17/latency-logs/"
+    "notebook_latency_logs": "docs/training/plan-20260927/c17/latency-logs/",
+    "final_panel_design": "docs/training/plan-20260927/final-panel-v1.md",
+    "final_panel_constructor": "docs/campaign/work/final-panel-v1/",
+    "final_panel_dev_equivalence": "docs/training/plan-20260927/receipts/C17-final-panel-dev-equivalence.json"
   },
   "rule_decisions": [
     {
@@ -44,11 +47,73 @@
         "backend_confirmed": "4/4"
       },
       "outcome": "pass; all four receipts complete, awaiting user latency acceptance"
+    },
+    {
+      "rule": "Sealed-final prep finding 2026-11-23",
+      "date": "2026-11-23",
+      "inputs": {
+        "file": "DAT-07-final-evaluator-cases.jsonl",
+        "rows": 75,
+        "split": "dev",
+        "source_ref_split": "dev_group",
+        "groups": 60,
+        "same_ids_as": "DAT-07-final-dev-candidates.jsonl (sha256 bf278755c795b51ba58bc14c674edf76dcb7799475e5982adc7bd50f9c0d05df, from the registry preflight)",
+        "registry_preflight": "preflight_missing_approval, 0 admitted"
+      },
+      "outcome": "DAT-07 'final' is the DEV75 panel; no final panel exists. The real final split is the 193 DAT-02 v2 final_candidate_group groups. The v1 constructor (final_constructor.py, raw_source_case_builder.py, raw_source_tokenization.py, pinned in DAT-08-admission-guards-preparation.json) and its selection file (sha256 f8037b71...) were lost in the 2026-10-10 WSL reinstall."
+    },
+    {
+      "rule": "User decision 2026-11-23: build a new final panel",
+      "date": "2026-11-23",
+      "quote": "Build a new final panel",
+      "inputs": {
+        "source": "193 never-used DAT-02 v2 final_candidate_group groups"
+      },
+      "outcome": "Draft a replacement constructor; council and Sol review; the user approves the design before any final-group content is opened. The panel build is a later, separately authorized step."
+    },
+    {
+      "rule": "User decisions 2026-11-23 (reply 'Sure')",
+      "date": "2026-11-23",
+      "quote": "Sure",
+      "inputs": {
+        "accepted": "C17 notebook latency report (receipts/C17-latency-*.json, PR #107)",
+        "authorized": "reading DAT-07 registry metadata for sealed-final prep"
+      },
+      "outcome": "Section 3 latency accepted for release; DAT-07 registry metadata may be read for prep."
+    },
+    {
+      "rule": "Prior prep-agent access, ruled harmless 2026-11-23",
+      "date": "2026-11-23",
+      "inputs": {
+        "actions": [
+          "hashed the DEV75 file DAT-07-final-dev-candidates.jsonl whole",
+          "printed key names (no values) of EXEC-ENV-v1/holdout-freeze-v1.json"
+        ],
+        "helper": "/home/m0hawk/.t3/worktrees/Sepalith/t3-9f90fae7-9be3dfd5e6a65369/docs/training/plan-20260927/c17/sealed_v2_prep.py (untracked, untested)",
+        "state": "~/.local/state/sepalith/sealed-final-v2/"
+      },
+      "outcome": "User told; orchestrator ruled both harmless because the file is DEV75 and not sealed. Ideas reused in final-panel-v1/inventories.py."
+    },
+    {
+      "rule": "Final panel v1 design and council 2026-11-23",
+      "date": "2026-11-23",
+      "inputs": {
+        "council": {
+          "claude-fable-5.2": "6.5/10",
+          "gemini-4-neon": "6.5/10",
+          "gpt-astra-6.2": "6/10"
+        },
+        "dev_equivalence": "DEV250 propagation 78/78, no_op 50/50 (25/25 group site sets), finish 111/111, code-cut harvest 1,329 rows identical; DEV75 propagation 29/29 prompt+target hashes",
+        "final_content_opened": false
+      },
+      "outcome": "Design adopted the council's valid points; awaiting user design approval. Blocker found by council: protocol.harness_hash() fails on main (11 C20 files added under packages/sepalith/src after pin 523efc07); user decision needed before the A2 freeze."
     }
   ],
   "open_user_gates": [
-    "Acceptance of the four notebook latency receipts (C17 section 3)",
-    "Explicit weight and harness freeze for sealed final evaluation, after the lost final constructor/evaluator is rebuilt or replaced (user decision)",
+    "Approve the final panel v1 design (docs/training/plan-20260927/final-panel-v1.md) and its open questions: roxygen gap, code-cut-only finish, unread reserve",
+    "Decide the harness pin: protocol.harness_hash() fails on main because C20 files were added after evaluator pin 523efc07",
+    "Written weight and harness freeze statement, then a separate final-panel build authorization (A2)",
+    "Explicit freeze receipt for sealed final evaluation after the panel build (A4)",
     "Separate publishing go-ahead"
   ],
   "remaining_technical_gates": [
@@ -56,12 +121,12 @@
     "Zed PRM03 adapter and parity",
     "Admission guard recovered from origin/t3code/best-token-model-plan (d7f2aa94); final constructor/evaluator lost in the 2026-10-10 reinstall; sealed DAT-07-final-* case files present on E: and NAS"
   ],
-  "question_for_user": "Do you accept the notebook latency for release? p50 TTFT / decode tok/s: Q6_K CPU 7.1 s / 16.3, Q6_K Vulkan 2.2 s / 20.6, mixB-e4 CPU 5.3 s / 20.4, mixB-e4 Vulkan 2.1 s / 25.2; p95 TTFT 27.5-80.2 s at the 4227-token prompt. Recommended next step: accept, with Vulkan as the recommended notebook backend, then decide how to rebuild the sealed final evaluator before the freeze.",
+  "question_for_user": "Approve the final panel v1 design? Recommended: approve with the roxygen gap and code-cut-only finish, choose option (b) for the harness pin (re-pin the evaluator check under review), and do not reserve groups.",
   "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Admission guard recovered from a remote branch; the final constructor/evaluator code is lost; sealed case files are intact. Notebook latency (2026-11-23, m0pad, Ryzen 5 PRO 5650U, RADV RENOIR, AC, performance profile): all four configs pass the measurement gate; every request ended in EOS after 12 generated tokens, so decode tok/s covers 11 tokens; the user's own docker workloads kept running on the notebook (load average 1-9). Vulkan offload confirmed by an unmeasured -lv 4 probe of the same command (43/43 layers) and iGPU sysfs during the measured run. Notebook directory removed after the run.",
   "steps": {
     "1_quant_tiers": "done",
     "2_serving_parity": "cpu_stage_done; runtime/editor parity open",
-    "3_notebook_latency": "done",
-    "4_sealed_final": "blocked"
+    "3_notebook_latency": "done; accepted by the user 2026-11-23",
+    "4_sealed_final": "replacement constructor designed and implemented (final-panel-v1); awaiting user design approval; no final content read"
   }
 }

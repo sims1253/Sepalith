@@ -1,0 +1,90 @@
+{
+ "schema": "sepalith.final-panel.v1.recipe",
+ "design": "docs/training/plan-20260927/final-panel-v1.md",
+ "seed": 3407,
+ "case_count_target": 250,
+ "quotas": {
+  "finish_block": 122,
+  "no_op": 50,
+  "pipe_rewrite": 28,
+  "format_propagation": 24,
+  "rename_propagation": 23,
+  "na_rm_propagation": 3
+ },
+ "group_cap": 3,
+ "per_family_group_cap": 3,
+ "shortfall": "unfilled edit-family slots (pipe, format, rename, na_rm) move to finish_block once, by augmenting the pass-1 flow (no other slot can lose cases); a no_op or finish_block shortfall shrinks the panel",
+ "floor": {
+  "cases": 200,
+  "families": {
+   "no_op": 40,
+   "finish_block": 61,
+   "pipe_rewrite": 14,
+   "format_propagation": 12,
+   "rename_propagation": 12,
+   "na_rm_propagation": 0
+  }
+ },
+ "filters": {
+  "generation_cap": 1024,
+  "max_sequence": 4096,
+  "one_case_per_rendered_prompt": true,
+  "no_dev_panel_prompt": true,
+  "no_cpt_source_document": true
+ },
+ "inputs": {
+  "dat02": {
+   "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-02-global-split-v2.json",
+   "sha256": "c4e1219a494372a32f5d657a8454801128a2aede96440359679905f7051a8f09"
+  },
+  "corpus_root": "/mnt/nas/home/sepalith/normalized",
+  "tarball_root": "/mnt/nas/home/sepalith/tarballs",
+  "cpt_index": "/mnt/e/sepalith/campaign-20260915/data-work/CPT-prefix-extension-v1/combined-cache/index.sqlite3",
+  "dev_panels": [
+   {
+    "name": "DEV75",
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-final-dev-candidates.jsonl",
+    "sha256": "bf278755c795b51ba58bc14c674edf76dcb7799475e5982adc7bd50f9c0d05df",
+    "sha256_source": "DAT-07-final-registry-preflight.json"
+   },
+   {
+    "name": "DEV250",
+    "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+    "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22",
+    "sha256_source": "status/C05.json"
+   }
+  ],
+  "tokenizer_files": {
+   "tokenizer.json": "pinned by sepalith.campaign_protocol.TOKENIZER_JSON_SHA256",
+   "tokenizer_config.json": "pinned by TOKENIZER_CONFIG_SHA256"
+  }
+ },
+ "modules": {
+  "experiments/synthetic-data/scenarios.py": "cccf8ddfff0ae1f64a0113c9612386227df66f9fff4701608c2320bd8eb0250c",
+  "experiments/synthetic-data/build_astfim.py": "cc5802a9b4b656c588e0652ff1971a09c971f93840b317b9eeab7f9dd6f6691e",
+  "experiments/synthetic-data/finish_block_compound.py": "f071f70ba94826da03eb35566bc6f0207b23953fd91667833eb4eaa559cba61a",
+  "experiments/synthetic-data/cases/__init__.py": "0246dd0e399663fbeeee33dc5cc306ed7bbedbcce4519db8d1f9b8fe2dabf74f",
+  "experiments/synthetic-data/cases/backends.py": "64488da3fdedc5b54a8741c4ebf2f11b27d707406a05c83507ff6d0269b3d7d7",
+  "experiments/synthetic-data/cases/compound.py": "8e59050f868488368aff0bd5b78e058e4bf78f2705c7c72caf1b84d5f48cecb3",
+  "experiments/synthetic-data/cases/corpus.py": "8b914e4fe7b26437f61704f673988427fcaa5e4754941d28031b46a1ccf71d72",
+  "experiments/synthetic-data/cases/generate.py": "d630e00a4762791bba2812350ffd5e009d5e16da83685ecb61b084bd6cbe9782",
+  "experiments/synthetic-data/cases/rows.py": "67055044deab8acc37128253ccac02298c77c2796dbf4a90eb7da8e00c145ac2",
+  "experiments/synthetic-data/cases/samplers.py": "cb0ab1958d03e08d1c13b7d50ccb2348cc575fd50223297727ecb19483ba25e6",
+  "experiments/synthetic-data/cases/spec.py": "c4260bb5775c1075deb8591c7b6f7f66e1721d7d44c4bcddf51eb8ddff62933f",
+  "experiments/synthetic-data/cases/validators.py": "be35d7798be81236a8e5a5a2d1032c4fd3d58cc1586f9ab420e7b406b636f953",
+  "experiments/synthetic-data/cases/rules/__init__.py": "eb41c17e64d167596639551bfe4f3b81a557283ba917130785d5c3d862b9822b",
+  "experiments/synthetic-data/cases/rules/probe_prevalence.py": "20eca70945541f0b106f7daded942da20d22302c18ca3e576b88a26b71d9f73a",
+  "experiments/synthetic-data/cases/rules/rules_finish_block.py": "6f4fbcb4091d29644e831d1a83cf11caaa25ca95b10b5a6c4ad6f5b4de28142f",
+  "experiments/synthetic-data/cases/rules/rules_lint.py": "f1602dc5e24c49ba77370c229738e2dce99de502c4b17a27efcab88f6f2bf706",
+  "experiments/synthetic-data/cases/rules/rules_metadata.py": "f80be10c8680cdfd86686240d339040d9a58d2dae8cd571ee10340dd532ac60a",
+  "experiments/synthetic-data/cases/rules/rules_tidyeval.py": "3254e8366bfcd8348f46024eb10a31ed715cfd1e7325292b25b7332d19860bc3",
+  "experiments/synthetic-data/cases/rules/run_rules.py": "9c8fa9ed6fc27f4247ba30d25c17b9f687ac0556458c9ab31204f12ccc799665",
+  "docs/training/plan-20260927/c05/cut_dev_finish.py": "5f39368a3ebee2f1912c19db213a96fc3fb401b2c72a4ae749db1cf5d823a61d",
+  "docs/campaign/work/finish-boundary-repair-v2/finish_boundary_repair_v2.py": "7fabe102485241a33e2af1178a6e2f05d8c06e1ef832f852c44e4d58faa08b5b",
+  "docs/campaign/work/lead/r2-task-materialization-a/reviewed-source/home/m0hawk/.t3/worktrees/Sepalith/tuesday-execution-20260912/experiments/training/campaign_admission_completion.py": "fafb852f31e5e59f003c3ccc0fb34919752020fb6c231a09d77b3ea158f173cc",
+  "packages/sepalith/src/sepalith/campaign_protocol.py": "2731068effc608cb46e261030f533e7c07e1c13c6ff64aaf103e4fc94d5e10cd",
+  "packages/sepalith/src/sepalith/campaign_selection.py": "411d04d8200b80e37c4151e06866fa049f159273092b917446c6f49cd699c270",
+  "packages/sepalith/src/sepalith/training/rl/campaign_token_audit.py": "9915f867894a0fc7b21679cebc6c0f0c87317f31acdab3a647a0fbb5033a23a3",
+  "docs/campaign/work/final-admission-guards/admission_guard.py": "b630dd65e90aa129c2d136cf165f096157fa08826a5652d768fa5494518ab2be"
+ }
+}

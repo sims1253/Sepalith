@@ -198,6 +198,31 @@ unapproved rerun follows final results. Qualification passes only when the
 recovered protocol's pre-registered criteria pass and the user accepts the
 latency report. Publishing remains a separate gate.
 
+### Addendum (2026-11-23): a new final panel
+
+DAT-07's "final" files hold the DEV75 panel. All 75 rows are dev, 0 were
+admitted, and no final panel exists. The real final split is the 193 unused
+DAT-02 v2 `final_candidate_group` groups. The v1 route from those groups to
+cases was lost in the 2026-10-10 reinstall: the constructor and the selection
+file `f8037b71…`.
+
+The user decided: "Build a new final panel." On the same day, the user
+accepted the section 3 latency report and authorized reading DAT-07 registry
+metadata for this prep.
+
+[final-panel-v1.md](../final-panel-v1.md) is the replacement constructor
+design. Its code is in `docs/campaign/work/final-panel-v1/`. It rebuilds
+DEV-format PRM03 cases from the final groups' raw CRAN parents with C05's
+constructors. It reproduces DEV250 exactly on dev data, and its access
+sequence keeps final content closed until the user's freeze and build
+authorization. The v2 pass criteria do not change.
+
+A council of three reviewers scored the design 6 to 6.5/10, and the design
+adopted their valid points. Two blockers remain for the user: approving the
+design, and the harness pin. `protocol.harness_hash()` fails on main since
+the C20 package files were added. The panel build is a separate, later
+authorization.
+
 ## Handoff
 
 Update [status/C17.json](../status/C17.json) with each receipt and open gate.
