@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import protocol as v2
 import runtime
-from admission_guard import AdmissionMetadataError, AdmissionOutputError
+from admission_guard import AdmissionOutputError
 from sepalith.campaign_protocol import Cursor, Position, PromptContext, ReplacementRange, serialize_target
 
 SOURCE = b"x <- 1\n"

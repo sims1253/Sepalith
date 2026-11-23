@@ -113,9 +113,18 @@ def authorize(root: Path, build_groups: int | None, dev_blind: bool) -> Json:
     return {"authorization_sha256": digest, "build_command": command}
 
 
+def rehearsal_panel(root: Path) -> Path:
+    """The rehearsal panel, after its aggregate build receipt shows a built dev rehearsal; nothing else is opened first."""
+    panel = root / "panel"
+    receipt = json.loads((panel / "build-receipt.json").read_bytes())
+    if receipt.get("split") != "dev_group" or receipt.get("status") != "built":
+        raise SystemExit("not a built dev rehearsal panel")
+    return panel
+
+
 def subset(root: Path) -> Json:
     """Write the pre-registered scoring subset as a panel of its own, bound like the full panel."""
-    panel, out = root / "panel", root / "subset-panel"
+    panel, out = rehearsal_panel(root), root / "subset-panel"
     cases = json.loads((panel / "cases.json").read_bytes())
     if cases["split"] != REHEARSAL_SPLIT:
         raise SystemExit("subset is for the dev rehearsal panel only")
@@ -142,7 +151,8 @@ def subset(root: Path) -> Json:
 def assemble(root: Path, use_subset: bool) -> Json:
     import protocol as v2
 
-    fragment = json.loads((root / ("subset-panel" if use_subset else "panel") / "plan-fragment.json").read_bytes())
+    panel = rehearsal_panel(root)
+    fragment = json.loads(((root / "subset-panel") if use_subset else panel).joinpath("plan-fragment.json").read_bytes())
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
     state = root / "run-state"
@@ -226,7 +236,7 @@ def main(argv: list[str] | None = None) -> int:
             parser.error("score needs --freeze-sha256")
         out = score(root, args.freeze_sha256)
     print(json.dumps(out, indent=1, sort_keys=True))
-    return 0
+    return 2 if args.step == "score" and out["status"] != "complete" else 0
 
 
 if __name__ == "__main__":

@@ -980,6 +980,8 @@ def _construct(*, split: str, registry: Json, recipe: Json, tokenizer: Any, work
     build: frozenset[str] | None = None
     holdback_sha256 = None
     if authorization is not None:
+        if authorization.receipt["split"] != split:
+            raise PanelError("split_differs_from_authorization")
         if group_ids is not None or quotas is not None:
             raise PanelError("authorized_build_takes_no_group_or_quota_override")
         build, holdback_sha256 = build_groups_for(registry, recipe, split,

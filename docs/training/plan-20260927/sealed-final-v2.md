@@ -30,7 +30,7 @@ The clean-room implementation lives in
 | --- | --- |
 | `protocol.py` | `40382873febd6c9fb78b0db3c65ac1a183271cc2d5ba7dd6d02e401f046f8570` |
 | `runtime.py` | `5934433d9522c11d1ae9f986b989150b92d7dfcc5b7a23416963ae839ed234b2` |
-| `test_protocol.py` | `77c6909a88d0e6070d4e64310aa2a656d9b98b7ee35c753663b6afd723d16e6c` |
+| `test_protocol.py` | `821c2079c99a2fc3c766a62318c84b68dbacb1faf45cde8edbf343de2f6b1542` |
 
 The evaluator and PRM03 renderer come from the package tree
 `packages/sepalith/src` at commit `815967bb10aa0fb0750dc16ea2342e600dd38b0c`

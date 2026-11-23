@@ -444,6 +444,11 @@ class EndToEnd(unittest.TestCase):
                 F._construct(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(),
                              workdir=root, cpt=frozenset(), dev_prompts=frozenset(), group_ids=None, quotas=None,
                              modules=F.Modules.load(), memberships=None, authorization=None)
+            dev = issue_authorization(root, root / "out", root / "attempt.json", name="dev.json", split="dev_group")
+            with self.assertRaisesRegex(F.PanelError, "split_differs_from_authorization"):
+                F._construct(split=F.FINAL_SPLIT, registry=reg, recipe=rec, tokenizer=TextTokenizer(),
+                             workdir=root, cpt=frozenset(), dev_prompts=frozenset(), group_ids=None, quotas=None,
+                             modules=F.Modules.load(), memberships=None, authorization=dev)
 
     def test_committed_holdback_split_matches_the_recipe_pin(self) -> None:
         rec = F.load_recipe()
@@ -475,7 +480,7 @@ class EndToEnd(unittest.TestCase):
             self.assertEqual(F.authorize(path, F.sha256_file(path)).receipt["rehearsal_build_groups"], 169)
             final = {k: v for k, v in receipt.items() if k != "rehearsal"}
             path = root / "final-count.json"
-            path.write_bytes(json.dumps({**final, "rehearsal_build_groups": 105}).encode())
+            path.write_bytes(json.dumps({**final, "split": F.FINAL_SPLIT, "rehearsal_build_groups": 105}).encode())
             with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):
                 F.authorize(path, F.sha256_file(path))
             path = root / "final-with-rehearsal.json"
