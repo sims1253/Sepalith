@@ -232,6 +232,22 @@ class Gate(unittest.TestCase):
             inside = issue_authorization(root, root / "out", root / "out.work" / "attempt.json")
             with self.assertRaisesRegex(F.PanelError, "attempt_marker_inside_a_cleanup_tree"):
                 F.claim_attempt(inside, root / "out")
+            (root / "x").mkdir()
+            dotted = issue_authorization(root, root / "out", root / "x" / ".." / "out.work" / "attempt.json",
+                                         name="dotted.json")
+            with self.assertRaisesRegex(F.PanelError, "attempt_marker_inside_a_cleanup_tree"):
+                F.claim_attempt(dotted, root / "out")
+
+    def test_build_final_checks_models_before_anything_else(self) -> None:
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            auth = issue_authorization(root, root / "out", root / "attempt.json")
+            (root / "models.json").write_text('{"other": 1}')
+            with self.assertRaisesRegex(F.PanelError, "models_differ_from_authorization"):
+                F.build_final(auth, tokenizer_path=root, memberships_path=root / "m.json",
+                              models_path=root / "models.json", freeze_statement_path=root / "f.txt")
+            self.assertFalse((root / "attempt.json").exists())
+            self.assertFalse((root / "out.work").exists())
 
     def test_stopped_panel_is_never_published(self) -> None:
         panel = F.Panel(F.FINAL_SPLIT, [], {}, {}, {}, {"status": "stopped_below_floor"})

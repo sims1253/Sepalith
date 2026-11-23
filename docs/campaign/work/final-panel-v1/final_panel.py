@@ -202,7 +202,9 @@ def claim_attempt(authorization: Authorization, out: Path) -> None:
     if out != Path(authorization.receipt["out_dir"]):
         raise PanelError("out_dir_differs_from_authorization")
     marker = Path(authorization.receipt["attempt_marker"])
-    if any(marker.is_relative_to(tree) for tree in (out, out.parent / (out.name + ".work"))):
+    real = Path(os.path.realpath(marker))
+    trees = (Path(os.path.realpath(out)), Path(os.path.realpath(out.parent / (out.name + ".work"))))
+    if any(real.is_relative_to(tree) for tree in trees):
         raise PanelError("attempt_marker_inside_a_cleanup_tree")
     import datetime
 
@@ -833,27 +835,36 @@ def build_panel(*, split: str, registry: Json, recipe: Json, tokenizer: Any, wor
                       modules=modules or Modules.load(), memberships=memberships, authorization=None)
 
 
-def build_final(authorization: Authorization, *, tokenizer: Any, workdir: Path,  # noqa: ANN401
-                memberships_bytes: bytes, modules: Modules | None = None) -> Panel:
-    """The one entry point that reads final content.
+def build_final(authorization: Authorization, *, tokenizer_path: Path, memberships_path: Path, models_path: Path,
+                freeze_statement_path: Path) -> tuple[Panel, Any, str]:
+    """The one entry point that reads final content. It takes paths only and owns every input it consumes.
 
-    It re-verifies the receipt from disk and loads every input it consumes from the recipe's pins:
-    the recipe itself, the module closure, DAT-02, the DEV panels, the CPT index and the source roots.
-    It checks the memberships bytes and the harness against the receipt. Only then does it claim the
-    one-shot attempt marker, before any final metadata or source is read.
+    It re-verifies the receipt from disk and checks, by value, the models object, the freeze statement,
+    the memberships bytes and the harness against it. It loads the recipe, the module pins and closure,
+    the campaign tokenizer, DAT-02, the DEV panels, the CPT index and the source roots itself. Only then
+    does it claim the one-shot attempt marker, before any final metadata or source is read. It creates
+    its scratch directory exclusively and removes it on every exit. Returns the panel, the verified
+    tokenizer and the memberships digest.
     """
     import protocol as v2
 
     authorization = authorize(authorization.path, authorization.receipt_sha256)
-    recipe = load_recipe()
-    verify_modules(recipe)
-    modules = modules or Modules.load()
-    verify_closure(recipe)
-    if sha256_bytes(memberships_bytes) != authorization.receipt["memberships_sha256"]:
+    receipt = authorization.receipt
+    if sha256_json(json.loads(Path(models_path).read_bytes())) != receipt["weights_sha256"]:
+        raise PanelError("models_differ_from_authorization")
+    if sha256_file(Path(freeze_statement_path)) != receipt["freeze_statement_sha256"]:
+        raise PanelError("freeze_statement_differs_from_authorization")
+    memberships_bytes = Path(memberships_path).read_bytes()
+    if sha256_bytes(memberships_bytes) != receipt["memberships_sha256"]:
         raise PanelError("memberships_differ_from_authorization")
     memberships = json.loads(memberships_bytes)
-    if v2.harness_hash() != authorization.receipt["harness_sha256"]:
+    recipe = load_recipe()
+    verify_modules(recipe)
+    modules = Modules.load()
+    verify_closure(recipe)
+    if v2.harness_hash() != receipt["harness_sha256"]:
         raise PanelError("harness_differs_from_authorization")
+    tokenizer = load_tokenizer(Path(tokenizer_path))
     registry_bytes = Path(recipe["inputs"]["dat02"]["path"]).read_bytes()
     if sha256_bytes(registry_bytes) != recipe["inputs"]["dat02"]["sha256"]:
         raise PanelError("dat02_pin_mismatch")
@@ -864,10 +875,18 @@ def build_final(authorization: Authorization, *, tokenizer: Any, workdir: Path, 
         if not Path(root).is_dir():
             raise PanelError("source_root_unavailable")
     cpt, dev_prompts = cpt_hashes(recipe), dev_prompt_hashes(recipe)
-    claim_attempt(authorization, Path(authorization.receipt["out_dir"]))
-    return _construct(split=FINAL_SPLIT, registry=json.loads(registry_bytes), recipe=recipe, tokenizer=tokenizer,
-                      workdir=workdir, cpt=cpt, dev_prompts=dev_prompts, group_ids=None, quotas=None,
-                      modules=modules, memberships=memberships, authorization=authorization)
+    out = Path(receipt["out_dir"])
+    work = out.parent / (out.name + ".work")
+    work.mkdir(mode=0o700)  # exclusive: a concurrent or leftover attempt stops here, before the claim
+    try:
+        claim_attempt(authorization, out)
+        panel = _construct(split=FINAL_SPLIT, registry=json.loads(registry_bytes), recipe=recipe,
+                           tokenizer=tokenizer, workdir=work, cpt=cpt, dev_prompts=dev_prompts, group_ids=None,
+                           quotas=None, modules=modules, memberships=memberships, authorization=authorization)
+    finally:
+        # The intermediate finish rows hold final text; nothing outside the panel directory keeps them.
+        remove_tree(work)
+    return panel, tokenizer, sha256_bytes(memberships_bytes)
 
 
 def _construct(*, split: str, registry: Json, recipe: Json, tokenizer: Any, workdir: Path,  # noqa: ANN401
@@ -1043,9 +1062,13 @@ def write_panel(panel: Panel, out: Path, *, recipe_sha256: str, inputs: Json) ->
     """
     if panel.receipt["status"] != "built":
         raise PanelError("stopped_panel_is_not_published")
-    if not out.is_absolute() or os.path.lexists(out):
-        raise PanelError("output_must_be_fresh_absolute_directory")
-    out.mkdir(mode=0o700)
+    if not out.is_absolute():
+        raise PanelError("output_must_be_absolute")
+    if os.path.lexists(out):
+        if out.is_symlink() or not out.is_dir() or any(out.iterdir()):
+            raise PanelError("output_must_be_a_fresh_or_empty_directory")
+    else:
+        out.mkdir(mode=0o700)
     sources = out / "final-sources"
     sources.mkdir(mode=0o700)
     written: dict[Path, bytes] = {}
@@ -1159,64 +1182,34 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
 
     recipe = load_recipe()
     module_pins = verify_modules(recipe)
-    memberships_bytes = args.memberships.read_bytes() if args.memberships else None
     out = args.out.resolve()
     if os.path.lexists(out) or out.parent.resolve() != out.parent:
         raise PanelError("output_must_be_fresh_with_real_parent")
-    authorization = None
+    inputs: Json = {"modules": module_pins, "dat02_sha256": recipe["inputs"]["dat02"]["sha256"],
+                    "distributions": {n: version(n) for n in ("tree-sitter", "tree-sitter-r", "tokenizers",
+                                                               "transformers")},
+                    "tokenizer": str(args.tokenizer)}
     if final:
         authorization = authorize(args.authorization, args.authorization_sha256)
         if out != Path(authorization.receipt["out_dir"]):
             raise PanelError("out_dir_differs_from_authorization")
-        # The weights and the freeze statement are compared by value, not only by shape.
-        if sha256_json(json.loads(args.models.read_bytes())) != authorization.receipt["weights_sha256"]:
-            raise PanelError("models_differ_from_authorization")
-        if sha256_file(args.freeze_statement) != authorization.receipt["freeze_statement_sha256"]:
-            raise PanelError("freeze_statement_differs_from_authorization")
-    tokenizer = load_tokenizer(args.tokenizer)
-    modules = Modules.load()
-    verify_closure(recipe)
-    if not final:
-        # Rehearsals parse exactly the pinned DAT-02 bytes too: split labels decide what may be read.
-        registry_bytes = Path(recipe["inputs"]["dat02"]["path"]).read_bytes()
-        if sha256_bytes(registry_bytes) != recipe["inputs"]["dat02"]["sha256"]:
-            raise PanelError("dat02_pin_mismatch")
-        registry = json.loads(registry_bytes)
-        ordered = sorted((g["group_id"] for g in groups_of(registry, args.split)),
-                         key=lambda g: sha256_json([3407, g]))
-        group_ids = ordered[:args.groups] if args.groups else None
-        quotas = ({f: max(1, round(q * args.scale)) for f, q in recipe["quotas"].items()}
-                  if args.scale else None)
-        cpt = frozenset() if args.no_cpt_filter else cpt_hashes(recipe)
-        dev_prompts = dev_prompt_hashes(recipe)
-    memberships_sha256 = sha256_bytes(memberships_bytes) if memberships_bytes is not None else None
-    work = out.parent / (out.name + ".work")
-    work.mkdir(mode=0o700)
-    inputs = {"modules": module_pins, "dat02_sha256": recipe["inputs"]["dat02"]["sha256"],
-              "distributions": {n: version(n) for n in ("tree-sitter", "tree-sitter-r", "tokenizers",
-                                                         "transformers")},
-              "tokenizer": str(args.tokenizer), "memberships_sha256": memberships_sha256}
+        panel, tokenizer, inputs["memberships_sha256"] = build_final(
+            authorization, tokenizer_path=args.tokenizer, memberships_path=args.memberships,
+            models_path=args.models, freeze_statement_path=args.freeze_statement)
+        pins = authorization.receipt
+    else:
+        authorization = None
+        panel, tokenizer, inputs["memberships_sha256"] = _rehearse(args, recipe)
+        pins = {"weights_sha256": "0" * 64, "harness_sha256": "0" * 64}
+    out.mkdir(mode=0o700)  # exclusive; from here on this invocation owns `out` and may delete it on failure
     try:
-        if authorization is not None:
-            if memberships_bytes is None:
-                raise PanelError("final_build_requires_memberships")
-            panel = build_final(authorization, tokenizer=tokenizer, workdir=work,
-                                memberships_bytes=memberships_bytes, modules=modules)
-        else:
-            panel = build_panel(split=args.split, registry=registry, recipe=recipe, tokenizer=tokenizer,
-                                workdir=work, cpt=cpt, dev_prompts=dev_prompts, group_ids=group_ids,
-                                quotas=quotas, modules=modules,
-                                memberships=json.loads(memberships_bytes) if memberships_bytes else None)
         if panel.receipt["status"] != "built":
             # A stopped build publishes nothing but its aggregate receipt.
             report = {k: v for k, v in panel.receipt.items() if k != "_provenance"}
             report.update(constructor_sha256=sha256_file(Path(__file__)),
                           recipe_sha256=sha256_file(RECIPE_PATH), inputs=inputs)
-            out.mkdir(mode=0o700)
         else:
             report = write_panel(panel, out, recipe_sha256=sha256_file(RECIPE_PATH), inputs=inputs)
-            pins = authorization.receipt if authorization else {"weights_sha256": "0" * 64,
-                                                                "harness_sha256": "0" * 64}
             report["launcher_dry_run"] = launcher_dry_run(
                 out, tokenizer, weights_sha256=pins["weights_sha256"], harness_sha256=pins["harness_sha256"],
                 rehearsal=not final)
@@ -1231,7 +1224,7 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
                                      "sha256": report["outputs"]["semantic_receipt_sha256"]},
                 "payloads_path": str(out / "payloads.json"),
                 "source_roots": [report["outputs"]["source_root"]],
-                "memberships": {"path": str(args.memberships.resolve()), "sha256": memberships_sha256}
+                "memberships": {"path": str(args.memberships.resolve()), "sha256": inputs["memberships_sha256"]}
                 if args.memberships else None,
             }
             _write_immutable_json(out / "plan-fragment.json", canonical_json(fragment).encode() + b"\n")
@@ -1240,13 +1233,32 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
             path.chmod(0o400)
     except BaseException:
         if final:
-            remove_tree(out)  # unpublished final outputs are deleted unread; the attempt marker stays
+            remove_tree(out)  # this invocation created `out`; unpublished final outputs are deleted unread
         raise
-    finally:
-        if final:
-            # The intermediate finish rows hold final text; nothing outside the panel directory keeps it.
-            remove_tree(work)
     return report
+
+
+def _rehearse(args: argparse.Namespace, recipe: Json) -> tuple[Panel, Any, str | None]:
+    """A dev or train rehearsal. It parses exactly the pinned DAT-02 bytes: split labels decide what may be read."""
+    tokenizer = load_tokenizer(args.tokenizer)
+    modules = Modules.load()
+    verify_closure(recipe)
+    registry_bytes = Path(recipe["inputs"]["dat02"]["path"]).read_bytes()
+    if sha256_bytes(registry_bytes) != recipe["inputs"]["dat02"]["sha256"]:
+        raise PanelError("dat02_pin_mismatch")
+    registry = json.loads(registry_bytes)
+    ordered = sorted((g["group_id"] for g in groups_of(registry, args.split)), key=lambda g: sha256_json([3407, g]))
+    memberships_bytes = args.memberships.read_bytes() if args.memberships else None
+    out = args.out.resolve()
+    work = out.parent / (out.name + ".work")
+    work.mkdir(mode=0o700)
+    panel = build_panel(
+        split=args.split, registry=registry, recipe=recipe, tokenizer=tokenizer, workdir=work,
+        cpt=frozenset() if args.no_cpt_filter else cpt_hashes(recipe), dev_prompts=dev_prompt_hashes(recipe),
+        group_ids=ordered[:args.groups] if args.groups else None,
+        quotas={f: max(1, round(q * args.scale)) for f, q in recipe["quotas"].items()} if args.scale else None,
+        modules=modules, memberships=json.loads(memberships_bytes) if memberships_bytes else None)
+    return panel, tokenizer, sha256_bytes(memberships_bytes) if memberships_bytes else None
 
 
 def load_tokenizer(path: Path) -> Any:  # noqa: ANN401
