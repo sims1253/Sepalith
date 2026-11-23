@@ -400,7 +400,31 @@ pipe 6, no_op 4, format 1, rename 1). That subset is written as a panel of
 its own, bound by its own cases hash and semantic receipt over the same
 staged sources.
 
-SCORING_RESULTS_PENDING
+**Scoring result (2026-11-23 18:01 to 2026-11-24 00:03).** The launcher
+verified the runtime pins (about 6 minutes, mostly hashing the checkpoints),
+took its seal, passed the audit (0 overlap groups) and construct (0 hash
+mismatches), scored all three models and wrote `result.json` with
+`status: complete`. No step failed.
+
+| Model | Generation time | Per case | Generated tokens | Cap hits | Correct (of 30) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| arm-a-803 (bf16, Transformers CPU) | 4,773 s | 159 s | 2,707 | 1 | 11 |
+| c19-100-bf16 (bf16, Transformers CPU) | 10,360 s | 345 s | 2,845 | 1 | 11 |
+| c19-100-q6_k (llama.cpp CPU) | 6,538 s | 218 s | 2,517 | 1 | 11 |
+
+Wall time was 22,111 s (6.1 h) at load averages of 26 to 54 on 24 threads.
+All three models had the same counts: 8 of 26 edits exact, 3 of 4 no-ops
+correct, 1 false suggestion, 29 of 30 protocol-valid, 1 cap hit. Their
+generated tokens differ. Thirty cases cannot separate these models, and the
+rehearsal was not meant to.
+
+**Projected final runtime.** At these per-case times, 250 cases would take
+about 11 h (Arm A), 24 h (C19 bf16) and 15 h (Q6_K), so about 50 h on this
+shared machine. Run A5 when the machine is otherwise idle; the GPU night
+queue does not conflict, since A5 uses no GPU. Expect at least a day even
+then. The launcher has no time limit and keeps all progress in memory, so a
+crash during A5 needs the resume procedure in
+[sealed-final-v2.md](sealed-final-v2.md#run-state-and-publication).
 
 ## Build authorization draft
 
