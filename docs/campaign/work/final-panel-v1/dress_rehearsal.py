@@ -123,6 +123,11 @@ def rehearsal_panel(root: Path) -> Path:
     if (receipt.get("split") != "dev_group" or receipt.get("status") != "built"
             or receipt.get("authorization_sha256") != authorization):
         raise SystemExit("not a built, authorized dev rehearsal panel")
+    outputs = receipt["outputs"]
+    if (file_sha(panel / "cases.json") != outputs["cases_sha256"]
+            or file_sha(panel / "semantic-receipt.json") != outputs["semantic_receipt_sha256"]
+            or file_sha(panel / "payloads.json") != outputs["payloads_sha256"]):
+        raise SystemExit("rehearsal panel files differ from its build receipt")
     return panel
 
 
@@ -164,6 +169,16 @@ def assemble(root: Path, use_subset: bool) -> Json:
     if (any(Path(path).resolve() != Path(path) or not Path(path).is_relative_to(chosen) for path in pinned)
             or fragment["source_roots"] != [str(panel / "final-sources")]):
         raise SystemExit("plan fragment pins files outside the verified rehearsal panel")
+    if use_subset:
+        # Every subset case must carry exactly the verified panel's binding, under the rehearsal label.
+        bindings = json.loads((panel / "semantic-receipt.json").read_bytes())["case_bindings"]
+        cases = json.loads(Path(fragment["cases"]["path"]).read_bytes())
+        if (file_sha(Path(fragment["cases"]["path"])) != fragment["cases"]["sha256"]
+                or cases["split"] != REHEARSAL_SPLIT or any(
+                    bindings.get(c["row_id"]) != {k: c[k] for k in ("split_identity", "source_sha256",
+                                                                     "context_sha256", "target_sha256")}
+                    for c in cases["cases"])):
+            raise SystemExit("subset cases are not cases of the verified rehearsal panel")
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
     state = root / "run-state"
