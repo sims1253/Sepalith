@@ -79,6 +79,11 @@ def gate(result: dict, evidence: dict, measured: str) -> dict:
     for s in samples:
         tokens.setdefault(s['prompt'], set()).add(s['prompt_n'])
     completions = re.findall(r'stop processing: n_tokens = \d+, truncated = (\d)', measured)
+    # Per-request decode lines in server order: one warm-up then five measured per prompt.
+    decode = re.findall(r'\|\s+eval time = +[\d.]+ ms / +(\d+) tokens \( *[\d.]+ ms per token, +([\d.]+) tokens per second\)',
+                        measured)
+    logged = [(int(n), float(r)) for i, (n, r) in enumerate(decode) if i % 6]
+    ordered = sorted(samples, key=lambda s: (s['prompt'], s['repeat']))
     checks = {
         'samples_40': len(samples) == EXPECTED_SAMPLES,
         'five_per_prompt': sorted(Counter(s['prompt'] for s in samples).values()) == [5] * 8,
@@ -90,6 +95,9 @@ def gate(result: dict, evidence: dict, measured: str) -> dict:
         'untruncated_prompts': 'truncated = 1' not in measured,
         # 8 warm-ups + 40 measured requests completed in this server log, none truncated.
         'server_log_48_completions': completions == ['0'] * (EXPECTED_SAMPLES + 8),
+        # The log belongs to this result: measured decode counts and rates match in order.
+        'server_log_matches_samples': len(decode) == EXPECTED_SAMPLES + 8 and len(logged) == len(ordered) and all(
+            n == s['predicted_n'] and abs(r - s['tokens_s']) <= 0.006 for (n, r), s in zip(logged, ordered)),
         'runtime_commit': result['runtime_commit'] == RUNTIME_COMMIT,
         'model_sha256': result['model_sha256'] == MODEL_SHA256[result['tier']],
         'prompts_sha256': result['prompts_sha256'] == PROMPTS_SHA256,

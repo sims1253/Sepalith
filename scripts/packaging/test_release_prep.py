@@ -121,12 +121,18 @@ class ReleasePrepTests(unittest.TestCase):
                   'tier': 'Q6_K', 'runtime_commit': '3cb7ffb1a1f612d5e4a46244ae5a3c77ad934a70',
                   'model_sha256': '6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261',
                   'prompts_sha256': 'c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2'}
-        log = 'stop processing: n_tokens = 142, truncated = 0\n' * 48
+        line = ('slot print_timing: id  0 | task 0 |        eval time =  600.00 ms /    12 tokens '
+                '(   50.00 ms per token,    20.00 tokens per second)\n'
+                'slot print_timing: id  0 | task 0 | prompt eval time =  1.00 ms /   1 tokens '
+                '(    1.00 ms per token,    99.00 tokens per second)\n')
+        log = (line + 'stop processing: n_tokens = 142, truncated = 0\n') * 48
+        wrong_run = log.replace('20.00 tokens per second', '21.37 tokens per second')
         self.assertEqual(gate(result, {'confirmed': True}, log)['outcome'], 'pass')
         self.assertIsNone(gate(result, {'confirmed': True}, log)['latency_cutoff'])
         self.assertEqual(gate(result, {'confirmed': False}, log)['outcome'], 'fail')
         self.assertEqual(gate(result, {'confirmed': True}, '')['outcome'], 'fail')
-        self.assertEqual(gate(result, {'confirmed': True}, 'stop processing: n_tokens = 142, truncated = 0\n' * 47)['outcome'], 'fail')
+        self.assertEqual(gate(result, {'confirmed': True}, log.split('stop processing', 1)[1])['outcome'], 'fail')
+        self.assertEqual(gate(result, {'confirmed': True}, wrong_run)['outcome'], 'fail')
         truncated = log.replace('truncated = 0', 'truncated = 1', 1)
         self.assertEqual(gate(result, {'confirmed': True}, truncated)['outcome'], 'fail')
         short = {**result, 'samples': result['samples'][:39]}

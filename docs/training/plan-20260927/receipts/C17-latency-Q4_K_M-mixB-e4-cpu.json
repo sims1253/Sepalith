@@ -12,6 +12,7 @@
       "prompt_n_stable": true,
       "untruncated_prompts": true,
       "server_log_48_completions": true,
+      "server_log_matches_samples": true,
       "runtime_commit": true,
       "model_sha256": true,
       "prompts_sha256": true,
