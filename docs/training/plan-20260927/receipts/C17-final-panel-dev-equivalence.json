@@ -1,0 +1,82 @@
+{
+ "constructor_sha256": "1ba6b181c8388d776360ebbb5ff230a72ac4bd7bb90c9e0af90ba5145fac5cc1",
+ "dev250_finish_block": {
+  "authored:cases": 55,
+  "authored:context_and_target_equal": 55,
+  "authored:prompt_and_target_hash_equal": 55,
+  "code_cut:cases": 56,
+  "code_cut:context_and_target_equal": 56,
+  "code_cut:prompt_and_target_hash_equal": 56,
+  "code_cut_harvest_identical": 1,
+  "code_cut_harvest_rows": 1329,
+  "code_cut_harvest_rows_stored": 1329
+ },
+ "dev250_no_op": {
+  "cases": 50,
+  "context_equal": 50,
+  "group_site_sets_equal": 25,
+  "groups": 25,
+  "prompt_and_target_hash_equal": 50
+ },
+ "dev250_propagation": {
+  "format_propagation:cases": 24,
+  "format_propagation:context_equal": 24,
+  "format_propagation:prompt_and_target_hash_equal": 24,
+  "format_propagation:regenerated_from_raw": 24,
+  "format_propagation:region_new_equal": 24,
+  "na_rm_propagation:cases": 3,
+  "na_rm_propagation:context_equal": 3,
+  "na_rm_propagation:prompt_and_target_hash_equal": 3,
+  "na_rm_propagation:regenerated_from_raw": 3,
+  "na_rm_propagation:region_new_equal": 3,
+  "pipe_rewrite:cases": 28,
+  "pipe_rewrite:context_equal": 28,
+  "pipe_rewrite:prompt_and_target_hash_equal": 28,
+  "pipe_rewrite:regenerated_from_raw": 28,
+  "pipe_rewrite:region_new_equal": 28,
+  "rename_propagation:cases": 23,
+  "rename_propagation:context_equal": 23,
+  "rename_propagation:prompt_and_target_hash_equal": 23,
+  "rename_propagation:regenerated_from_raw": 23,
+  "rename_propagation:region_new_equal": 23
+ },
+ "dev75_propagation": {
+  "format_propagation:cases": 7,
+  "format_propagation:metadata_equal": 7,
+  "format_propagation:prompt_and_target_hash_equal": 7,
+  "na_rm_propagation:cases": 6,
+  "na_rm_propagation:metadata_equal": 6,
+  "na_rm_propagation:prompt_and_target_hash_equal": 6,
+  "pipe_rewrite:cases": 8,
+  "pipe_rewrite:metadata_equal": 8,
+  "pipe_rewrite:prompt_and_target_hash_equal": 8,
+  "rename_propagation:cases": 8,
+  "rename_propagation:metadata_equal": 8,
+  "rename_propagation:prompt_and_target_hash_equal": 8
+ },
+ "final_content_opened": false,
+ "inputs": {
+  "dat07_propagation_rows": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-propagation-v2-derived-rows.jsonl",
+  "dev250": {
+   "path": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3/dev250-v1.jsonl",
+   "sha256": "75f3a5ee216400fdfe1e2fb1fb63224374f418d1c248a1c278ae0d09be487f22"
+  },
+  "dev75": {
+   "fields_read": [
+    "prompt_sha256",
+    "target_sha256",
+    "row.family",
+    "row.package_id",
+    "row.target_operation",
+    "source_ref",
+    "source_provenance"
+   ],
+   "path": "/mnt/e/sepalith/campaign-20260915/data-work/DAT-07-final-dev-candidates.jsonl",
+   "sha256_from_preflight": "bf278755c795b51ba58bc14c674edf76dcb7799475e5982adc7bd50f9c0d05df"
+  },
+  "finish_cut_rows": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev-finish-cut-v1/rows.jsonl",
+  "phase1": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3-phase1"
+ },
+ "recipe_sha256": "5a55bd14b5a9576c0452dc80110f90217efb3b1a3fba3d826d35482cf7afdb3a",
+ "schema": "sepalith.final-panel.v1.dev-equivalence"
+}
