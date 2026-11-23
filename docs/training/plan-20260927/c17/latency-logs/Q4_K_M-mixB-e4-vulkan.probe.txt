@@ -1,0 +1,3 @@
+before gpu_busy=2 vram_used=498851840 gtt_used=414818304
+loaded gpu_busy=17 vram_used=499494912 gtt_used=2493726720
+after gpu_busy=2 vram_used=498851840 gtt_used=414818304

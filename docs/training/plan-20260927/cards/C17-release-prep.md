@@ -95,6 +95,61 @@ This is a measurement gate; no performance target has been approved. Do not
 invent a latency cutoff after seeing results. Present the four receipts to the
 user for release acceptance before publishing.
 
+### Result (2026-11-23): measurement gate passed, awaiting user acceptance
+
+The run used m0pad (Ryzen 5 PRO 5650U, 12 threads, 15 GB RAM, Radeon RENOIR
+iGPU, Mesa 26.2.6 RADV, CachyOS kernel 7.3.4). It was on AC power with the
+`performance` profile and governor. llama.cpp `3cb7ffb1a` (b10453) was built
+twice on the notebook with GCC 16.2.1: CPU-only (`GGML_VULKAN=OFF`) and
+Vulkan-only (`GGML_VULKAN=ON`, no CUDA/HIP/BLAS). Both GGUF SHA256 hashes
+matched the quant evidence on the notebook. `prompts.json` SHA256 is
+`c61cabc8cdb8a5d4eaf83cd90dc1633a1e20c858d3fbe85cbfd511ab2d2e36d2`.
+
+| Config | TTFT s p50 / p95 | decode tok/s p50 / p95 | wall s p50 / p95 |
+| --- | --- | --- | --- |
+| Q6_K CPU | 7.08 / 80.15 | 16.3 / 17.3 | 7.75 / 81.08 |
+| Q6_K Vulkan | 2.15 / 29.13 | 20.6 / 22.6 | 2.68 / 29.71 |
+| Q4_K_M-mixB-e4 CPU | 5.30 / 66.36 | 20.4 / 22.2 | 5.83 / 67.21 |
+| Q4_K_M-mixB-e4 Vulkan | 2.07 / 27.50 | 25.2 / 26.1 | 2.50 / 27.99 |
+
+All four configurations finished with 40 of 40 samples. There were no errors
+or truncations, and every timing was finite and positive. Prompt token counts
+were 131, 163, 259, 387, 643, 1155, 2179 and 4227 in every configuration.
+Every request stopped on `eos` after 12 generated tokens. Receipts:
+`receipts/C17-latency-{Q6_K,Q4_K_M-mixB-e4}-{cpu,vulkan}.json`. They hold the
+raw samples, gate checks, environment, binary hashes and log hashes. Logs and
+raw results are in `c17/latency-logs/` and `c17/latency-results/`. The
+notebook driver is in `c17/notebook/`.
+
+Read these numbers with the following caveats:
+
+- **TTFT measures prefill.** Uncached prefill dominates TTFT. Nearest-rank
+  p95 over 40 samples is rank 38, so it falls on the 4227-token prompt (512
+  prefix lines).
+- **Decode rate covers only 11 tokens.** The model answered each synthetic
+  context with 12 tokens. The decode rate therefore excludes the first token
+  and covers 11. It is a short-sequence rate.
+- **The notebook was not idle.** The user's own docker workloads kept running,
+  as instructed; they were not touched. The load average before and after
+  each run, recorded in each receipt, ranged from 1.2 to 9.6. CPU numbers are
+  the most exposed to this load.
+- **How the device was confirmed.** At default verbosity, llama-server
+  `3cb7ffb1a` prints no device or offload lines. The measured runs used the
+  runbook's exact command. Afterwards, each configuration ran once more as an
+  unmeasured server with the identical command plus `-lv 4`:
+  - Vulkan: the log shows `Vulkan0 : AMD Radeon Graphics (RADV RENOIR)`,
+    `offloaded 43/43 layers to GPU` and a Vulkan0 model buffer, and GTT
+    memory rose at load. During the measured runs, iGPU sysfs showed the GPU
+    busy in 185 of 185 and 174 of 174 samples.
+  - CPU: the measured logs show `no usable GPU found`. The probes show only
+    CPU buffers and no GTT rise at load. The iGPU stayed idle during the
+    measured mixB-e4 CPU run. Q6_K CPU ran first, before the sysfs sampler was
+    added to the driver, so it has no measured-run iGPU samples.
+
+No latency cutoff applies. Release acceptance is the user's decision. After
+that, the remaining gates are the sealed-final freeze (section 4) and the
+separate publishing go-ahead.
+
 ## 4. Recover and freeze the sealed final protocol
 
 The promised `docs/campaign/work/final-*` evaluator and admission guards are
