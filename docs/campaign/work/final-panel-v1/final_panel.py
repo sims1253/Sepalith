@@ -121,10 +121,17 @@ def holdback_bytes(split: Json) -> bytes:
     return canonical_json(split).encode() + b"\n"
 
 
-def build_groups_for(registry: Json, recipe: Json, split: str) -> tuple[frozenset[str], str]:
-    """The groups an authorized build may read. For the final split the result must equal the recipe's pin."""
+def build_groups_for(registry: Json, recipe: Json, split: str,
+                     rehearsal_build_groups: int | None = None) -> tuple[frozenset[str], str]:
+    """The groups an authorized build may read. For the final split the result must equal the recipe's pin.
+
+    A dev rehearsal receipt may name its own group count; authorize() refuses that field for the final split.
+    """
     holdback = recipe["holdback"]
-    doc = holdback_split(registry, split, holdback["build_groups"], recipe["inputs"]["dat02"]["sha256"])
+    if rehearsal_build_groups is not None and split == FINAL_SPLIT:
+        raise PanelError("final_build_takes_the_recipe_group_count")
+    count = holdback["build_groups"] if rehearsal_build_groups is None else rehearsal_build_groups
+    doc = holdback_split(registry, split, count, recipe["inputs"]["dat02"]["sha256"])
     digest = sha256_bytes(holdback_bytes(doc))
     if split == FINAL_SPLIT and digest != holdback["final_split_sha256"]:
         raise PanelError("holdback_split_differs_from_pin")
@@ -256,6 +263,9 @@ def authorize(path: Path, expected_sha256: str, recipe_path: Path = RECIPE_PATH)
     for name in ("out_dir", "attempt_marker"):
         if not isinstance(receipt.get(name), str) or not Path(receipt[name]).is_absolute():
             raise PanelError("authorization_missing_" + name)
+    if "rehearsal_build_groups" in receipt and (split == FINAL_SPLIT or type(receipt["rehearsal_build_groups"])
+                                                is not int or receipt["rehearsal_build_groups"] < 1):
+        raise PanelError("authorization_not_for_this_build")
     return Authorization(expected_sha256, receipt, Path(path))
 
 
@@ -938,7 +948,8 @@ def build_final(authorization: Authorization, *, tokenizer_path: Path, membershi
         if not Path(root).is_dir():
             raise PanelError("source_root_unavailable")
     registry = json.loads(registry_bytes)
-    build_groups_for(registry, recipe, receipt["split"])  # the holdback pin is checked before the claim
+    # The holdback pin is checked before the claim.
+    build_groups_for(registry, recipe, receipt["split"], receipt.get("rehearsal_build_groups"))
     cpt, dev_prompts = cpt_hashes(recipe), dev_prompt_hashes(recipe)
     out = Path(receipt["out_dir"])
     work = out.parent / (out.name + ".work")
@@ -971,7 +982,8 @@ def _construct(*, split: str, registry: Json, recipe: Json, tokenizer: Any, work
     if authorization is not None:
         if group_ids is not None or quotas is not None:
             raise PanelError("authorized_build_takes_no_group_or_quota_override")
-        build, holdback_sha256 = build_groups_for(registry, recipe, split)
+        build, holdback_sha256 = build_groups_for(registry, recipe, split,
+                                                  authorization.receipt.get("rehearsal_build_groups"))
     if split == FINAL_SPLIT:
         # The DAT-04B adapter admits train/dev only; widen it in memory for the authorized final build.
         modules.completion.ALLOWED_SPLITS = frozenset({*modules.completion.ALLOWED_SPLITS, FINAL_SPLIT})

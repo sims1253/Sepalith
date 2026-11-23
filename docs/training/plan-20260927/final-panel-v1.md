@@ -1,10 +1,20 @@
 # Final panel v1: a replacement constructor for the sealed final
 
-**Status: design and code, awaiting user approval.** Neither reads final
-content. Building the panel is a later step. It needs the user's written
-weight and harness freeze and a separate written build authorization (see
-[Access sequence](#access-sequence)). Code:
+**Status: design approved by the user on 2026-11-23 (A1). No final content
+has been read.** Building the panel is a later step. It needs the user's
+written weight and harness freeze and a separate written build authorization
+(see [Access sequence](#access-sequence) and
+[Build authorization draft](#build-authorization-draft)). Code:
 [`docs/campaign/work/final-panel-v1/`](../../campaign/work/final-panel-v1/).
+
+## User decisions (2026-11-23)
+
+| Question | Answer | Effect |
+| --- | --- | --- |
+| Design and harness pin | "Approve; re-pin harness" | Design approved. The launcher's harness check moved to main `815967bb` ([sealed-final-v2.md](sealed-final-v2.md#harness-re-pin-2026-11-23)). A3 and A5 run from the main checkout. |
+| Roxygen gap and code-cut-only finish | "Accept, report the mix" | The 250-case mix below stays. The final report states it and compares with [DEV250 reference rates at the same mix](#family-mix-and-dev250-reference). |
+| Unread final reserve | "Hold back ~45%" | [Holdback split](#holdback-split-pre-registered): 105 build groups, 88 sealed |
+| Rehearsal | "Yes, rehearse first" | [Dress rehearsal](#dress-rehearsal-2026-11-23) on dev groups before A2 |
 
 ## Why
 
@@ -242,6 +252,85 @@ Rehearsals of this recipe:
 
 In both, the launcher dry run constructed 250 of 250 cases with 0
 mismatches.
+
+## Holdback split (pre-registered)
+
+On 2026-11-23 the user decided to hold back about 45% of the 193 final
+groups for a later release. The split uses group IDs only. It reads each
+DAT-02 group's `group_id`, `split` and `flags`, and no identity form, parent
+or source.
+
+- **Rule.** Take the eligible groups of the split (label
+  `final_candidate_group`, no flags: 193). Order them by
+  `sha256_json([3407, group_id])`, the order the rehearsal `--groups`
+  option already uses. The first 105 groups build; the other 88 are sealed.
+- **File.** [`holdback-split.json`](../../campaign/work/final-panel-v1/holdback-split.json),
+  sha256 `2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c`.
+  It holds the DAT-02 pin, the rule, the counts and both sorted ID lists.
+  The group IDs are opaque `g-` hashes. Commit `b06b7d52` pushed it before any
+  final content was read; none has been read since.
+- **Pin.** `recipe.json` carries `holdback.final_split_sha256`, so the
+  authorization's `recipe_sha256` binds the split.
+  `holdback.py check` recomputes the split from the pinned DAT-02 bytes and
+  compares it with the file and the pin.
+- **Enforcement.** For an authorized build, `_construct()` computes the
+  split itself and refuses a final split that differs from the pin. It then
+  keeps only the build groups, before any identity form, parent, package
+  tree or tarball is looked at. An authorized build takes no group or quota
+  override. `build_final()` checks the pin before it claims the attempt
+  marker. The test `test_holdback_groups_are_never_opened` records every
+  `open`, `listdir`, `scandir` and `stat` audit event of a synthetic
+  authorized build and finds none under a holdback package's tree or
+  tarball. With the filter removed, the same test fails.
+- **Stop rule on the smaller pool.** The floors are unchanged. A3 stops for
+  the user, with aggregate counts only, if the panel has fewer than 200 cases
+  or any family is below its floor. That rule now applies to a 105-group
+  pool. At 3 cases per group, 105 groups can supply at most 315 cases, so
+  the group cap binds harder than with 193 groups. The dev rehearsal of the
+  same size shows whether the quotas still fill.
+- **Later use.** The 88 holdback groups are a second sealed pool. Using them
+  needs a new user decision, and they must not be read by any C17 step.
+
+## Family mix and DEV250 reference
+
+The final mix (user: "Accept, report the mix"):
+
+| Family | Final | DEV250 |
+| --- | ---: | ---: |
+| finish_block | 122, all code-cut | 111 (55 authored, 56 code-cut) |
+| no_op | 50 | 50 |
+| pipe_rewrite | 28 | 28 |
+| format_propagation | 24 | 24 |
+| rename_propagation | 23 | 23 |
+| na_rm_propagation | 3 | 3 |
+| roxygen_drafting | 0 | 11 |
+
+The final rate is therefore not comparable with score250/250. The reference
+is each model's DEV250 per-family rate weighted by the final mix, with
+finish_block taken from the 56 code-cut DEV250 cases only.
+[`dev250_reference.py`](../../campaign/work/final-panel-v1/dev250_reference.py)
+reads only the DEV250 panel and the existing per-case DEV250 results. It
+wrote [`receipts/C17-final-panel-dev250-reference.json`](receipts/C17-final-panel-dev250-reference.json).
+Intervals use a stratified case bootstrap (10,000 replicates, seed 3407),
+paired across models.
+
+| Model | DEV250 source | score250 | Code-cut finish | Rate at final mix | 95% CI |
+| --- | --- | ---: | ---: | ---: | --- |
+| arm-a-803 | SFT-v2-r4 gate, Transformers bf16, CUDA | 109 | 1 / 56 | 43.7% | 40.4 to 47.1 |
+| c19-100-bf16 | C19 selection, Transformers bf16, CUDA | 112 | 2 / 56 | 45.7% | 42.0 to 49.6 |
+| c19-100-q6_k | C17 quant gate, llama.cpp | 111 | 2 / 56 | 45.3% | 41.6 to 49.2 |
+
+Paired differences at the final mix: C19 bf16 minus Arm A +2.1 pp (−0.8 to
++5.3); Q6_K minus C19 bf16 −0.4 pp (−1.2 to 0.0).
+
+Every roster model scores near zero on code-cut finish (1 or 2 of 56), and
+code-cut finish is 49% of the final panel. Expect the final rates near 45%
+rather than near score250/250 (44 to 45%) for that reason, and expect the
+finish family to give little separation between models. The final report
+must show the mix, the reference rate at the actual built mix
+(`dev250_reference.py --mix <build-receipt.json>`; a shortfall move changes
+the mix) and the note that the references come from GPU or llama.cpp runs
+while the final scoring runs on CPU.
 
 ## Case fields and files
 
@@ -505,14 +594,13 @@ at high effort.
 
 **Declined or deferred, as follow-ups:**
 
-- **Reserving unread final groups.** The user decides this (open question 5).
-- **DEV250 reference rates at the final family mix.** These can be computed
-  from existing DEV250 results before A3. No per-family final rate will be
-  reported.
-- **A full A3 dress rehearsal through a dev-split authorization.** It is
-  recommended before A2. The final-only CLI branches are thin and are
-  covered by unit tests of `authorize`, `claim_attempt` and the final
-  `build_panel` path.
+- **Reserving unread final groups.** Decided by the user on 2026-11-23:
+  [hold back 88 of 193](#holdback-split-pre-registered).
+- **DEV250 reference rates at the final family mix.** Done:
+  [Family mix and DEV250 reference](#family-mix-and-dev250-reference). No
+  per-family final rate will be reported.
+- **A full A3 dress rehearsal through a dev-split authorization.** Done
+  before A2: [Dress rehearsal](#dress-rehearsal-2026-11-23).
 - **Restoring the adapter's `ALLOWED_SPLITS`.** One build runs per process.
 - **Sol S7, no-op sites inside multiline strings.** Declined. DEV250's own
   no-op cases include such lines, for example the `retentionmort_figure.R`
@@ -523,26 +611,12 @@ at high effort.
 
 ## Open questions
 
-1. **Harness pin (blocker before A2).** `protocol.harness_hash()` requires
-   `packages/sepalith/src` to equal `523efc07`. Main has since added 11 C20
-   files (`training/sft/c20/*`, `training/c20_exception/*`), so it raises
-   `evaluator_tree_differs_from_pin` on main and on this branch. The fix
-   is either:
-   - (a) run A3 and A5 from a checkout whose package tree equals the pin and
-     which carries this constructor; or
-   - (b) re-pin `EVALUATOR_COMMIT` under review. That gives a new harness
-     hash. Alternatively, limit the check to the evaluator files the harness
-     uses.
+All five were answered by the user on 2026-11-23 (see
+[User decisions](#user-decisions-2026-11-23)):
 
-   This choice is the user's.
-2. **Roxygen gap.** Accept a panel without `roxygen_drafting`, with its 11
-   slots in `finish_block`?
-3. **Code-cut-only finish.** Accept 122 code-cut finish cases in place of
-   DEV250's authored and code-cut halves?
-4. **Order of freeze and build.** This design keeps A2 as a separate written
-   freeze statement before A3. A4 reuses its timestamps in the freeze
-   receipt.
-5. **Unselected final groups.** A3 reads all 193 groups' sources to find
-   supply, and about 105 groups are expected to supply cases. Should a
-   hash-ordered share of groups stay unread for a later release? That would
-   need a smaller recipe, decided before A3.
+1. Harness pin: re-pinned to main `815967bb` (option b).
+2. Roxygen gap: accepted; the 11 slots go to `finish_block`.
+3. Code-cut-only finish: accepted; the report states the mix.
+4. Order of freeze and build: unchanged. A2 is a written freeze statement
+   followed by a separate build authorization.
+5. Unselected final groups: 88 of 193 are held back.

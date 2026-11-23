@@ -28,16 +28,19 @@ The clean-room implementation lives in
 
 | v2 file | SHA-256 |
 | --- | --- |
-| `protocol.py` | `166659c2213487ab0acde36d0b81fc54491dfe3de0ced7bc5708056ece0d15ee` |
+| `protocol.py` | `40382873febd6c9fb78b0db3c65ac1a183271cc2d5ba7dd6d02e401f046f8570` |
 | `runtime.py` | `5934433d9522c11d1ae9f986b989150b92d7dfcc5b7a23416963ae839ed234b2` |
-| `test_protocol.py` | `c3495f9f0acc177dee57c97bb86414e2231bf32049ef1c1bc69aae59e6c85c73` |
+| `test_protocol.py` | `77c6909a88d0e6070d4e64310aa2a656d9b98b7ee35c753663b6afd723d16e6c` |
 
-The evaluator and PRM03 renderer come from
-`523efc07bcb86ebba7fe1030c0a2dc6356f9d111`. The launcher checks the package
-source tree against that commit. It uses the renderer and the evaluator's
-capacity, greedy generation, stop, and classification functions. The harness
-SHA-256 is `71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809`.
-It binds that commit, both v2 runtime files, and
+The evaluator and PRM03 renderer come from the package tree
+`packages/sepalith/src` at commit `815967bb10aa0fb0750dc16ea2342e600dd38b0c`
+(git tree `a9510fb9f52a7321ceba646fca6bf656330f95a8`). The launcher checks
+that the checkout's package tree has no diff and no untracked file against
+that commit, and that the commit's tree is that tree. It uses the renderer and
+the evaluator's capacity, greedy generation, stop, and classification
+functions. The harness SHA-256 is
+`874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5`. It binds
+the commit, the tree, both v2 runtime files, and
 `final-admission-guards/admission_guard.py`. From the repository root, compute
 it with:
 
@@ -47,8 +50,35 @@ python -c 'import sys; sys.path.insert(0, "docs/campaign/work/final-protocol-v2"
 
 GitHub stores both code directories in this change. Keep a second copy of the
 code under `/mnt/nas/bulk/backups/sepalith/`. The preparation copy is
-`/mnt/nas/bulk/backups/sepalith/sealed-final-v2-71a7593737a5/`. Backups contain
-code and synthetic tests only.
+`/mnt/nas/bulk/backups/sepalith/sealed-final-v2-71a7593737a5/`. The re-pinned
+copy is `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-874e0f0a725a/`, with a
+`git archive` of the pinned package tree and a `SHA256SUMS` manifest. Backups
+contain code and synthetic tests only.
+
+### Harness re-pin (2026-11-23)
+
+| | Evaluator commit | Harness SHA-256 |
+| --- | --- | --- |
+| First pin (PR #103) | `523efc07bcb86ebba7fe1030c0a2dc6356f9d111` | `71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809` |
+| Re-pin (this change) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5` |
+
+The first pin's check failed on main after PR #104 and #105. Those PRs added
+11 C20 files under `packages/sepalith/src`
+(`training/sft/c20/*` and `training/c20_exception/*`), so
+`harness_hash()` raised `evaluator_tree_differs_from_pin`. Between the two
+commits the package tree only adds those 11 files; no existing file changed
+(`git diff --name-status 523efc07 815967bb -- packages/sepalith/src` lists
+11 `A` lines). No evaluator, renderer, tokenizer contract or classifier code
+moved.
+
+On 2026-11-23 the user chose "Approve; re-pin harness". The pin moved to
+main at the merge of PR #108. The check now also binds the package tree's git
+object ID, so a rewritten commit with the same ID cannot pass. The build (A3)
+and the scoring run (A5) run from the main checkout
+`/home/m0hawk/sandbox/Sepalith`, after this change is fast-forwarded there.
+Any later change under `packages/sepalith/src` on main fails the check again.
+Until the sealed run is done, such a change needs either a checkout at this
+pin or another reviewed re-pin before A2.
 
 ## Panel and audit
 
@@ -191,7 +221,7 @@ authorization. Keep the approved digest separate from the receipt.
   "harness_frozen_at": "<UTC ISO 8601>",
   "plan_sha256": "<sha256 of exact plan file>",
   "weights_sha256": "<guard sha256_json of the plan models object>",
-  "harness_sha256": "71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809"
+  "harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5"
 }
 ```
 

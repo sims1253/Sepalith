@@ -470,7 +470,14 @@ class EndToEnd(unittest.TestCase):
                 path.write_bytes(json.dumps({**receipt, **bad}).encode())
                 with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):
                     F.authorize(path, F.sha256_file(path))
+            path = root / "count.json"
+            path.write_bytes(json.dumps({**receipt, "rehearsal_build_groups": 169}).encode())
+            self.assertEqual(F.authorize(path, F.sha256_file(path)).receipt["rehearsal_build_groups"], 169)
             final = {k: v for k, v in receipt.items() if k != "rehearsal"}
+            path = root / "final-count.json"
+            path.write_bytes(json.dumps({**final, "rehearsal_build_groups": 105}).encode())
+            with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):
+                F.authorize(path, F.sha256_file(path))
             path = root / "final-with-rehearsal.json"
             path.write_bytes(json.dumps({**final, "split": F.FINAL_SPLIT, "rehearsal": True}).encode())
             with self.assertRaisesRegex(F.PanelError, "authorization_not_for_this_build"):

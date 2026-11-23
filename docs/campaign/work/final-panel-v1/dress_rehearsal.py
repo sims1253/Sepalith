@@ -6,6 +6,9 @@ Every step uses the code and settings of the real final run. The differences are
 * The build authorization names `split: dev_group` with `rehearsal: true`. `build_final()` then takes
   the holdback split's 105 dev build groups by the same rule as the final split.
 * The freeze statement is a rehearsal text written by this script, not the user's.
+* `--build-groups` names a rehearsal group count (`rehearsal_build_groups`, refused for the final split).
+  `--dev-blind` replaces the dev inventory with an empty one: every dev case intersects it, so the real
+  memberships stop a dev rehearsal at the 20% overlap ceiling.
 * The panel is labelled `rehearsal_dev_group`. For scoring, the launcher's panel-split constant and the
   guard's semantic-receipt split constant are set to that label in memory. Nothing else in the launcher
   is changed. It runs `protocol.run()`: freeze and plan pins, the guard, the frozen runtime with the
@@ -68,13 +71,25 @@ def file_sha(path: Path) -> str:
     return sha256_bytes(Path(path).read_bytes())
 
 
-def authorize(root: Path) -> Json:
+def dev_blind_memberships(path: Path) -> Json:
+    """The real eight inventories with the dev stage emptied: every dev rehearsal case is in the dev inventory."""
+    memberships = json.loads(path.read_bytes())
+    memberships["dev"] = {"row_ids": [], "package_ids": ["rehearsal:no-dev-inventory"], "group_ids": [],
+                          "split_identities": [], "function_ids": []}
+    return memberships
+
+
+def authorize(root: Path, build_groups: int | None, dev_blind: bool) -> Json:
     import final_panel as F
     import protocol as v2
 
     root.mkdir(mode=0o700)
     models = STATE / "pins/models.json"
     memberships = STATE / "inventories/memberships.json"
+    if dev_blind:
+        blind = root / "memberships-dev-blind.json"
+        write_once(blind, dev_blind_memberships(memberships))
+        memberships = blind
     statement = root / "freeze-statement.txt"
     statement_sha = write_once(statement, (
         "Dress rehearsal freeze statement (not the user's). Weights: the plan roster in pins/models.json, "
@@ -87,6 +102,7 @@ def authorize(root: Path) -> Json:
         "memberships_sha256": file_sha(memberships), "freeze_statement_sha256": statement_sha,
         "weights_and_harness_frozen": True, "out_dir": str(root / "panel"),
         "attempt_marker": str(root / "attempt.json"),
+        **({"rehearsal_build_groups": build_groups} if build_groups else {}),
     }
     digest = write_once(root / "build-authorization.json", receipt)
     command = [
@@ -192,12 +208,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--subset", action="store_true", help="assemble: plan the pre-registered subset panel")
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--freeze-sha256")
+    parser.add_argument("--build-groups", type=int, help="authorize: rehearsal group count (default: the recipe's)")
+    parser.add_argument("--dev-blind", action="store_true",
+                        help="authorize: empty the dev inventory so the launcher's audit can pass on dev cases")
     args = parser.parse_args(argv)
     root = args.root.resolve()
     if not root.is_relative_to(STATE):
         parser.error("--root must lie under the sealed-final state directory")
     if args.step == "authorize":
-        out = authorize(root)
+        out = authorize(root, args.build_groups, args.dev_blind)
     elif args.step == "subset":
         out = subset(root)
     elif args.step == "assemble":

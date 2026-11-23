@@ -128,6 +128,64 @@
         }
       },
       "outcome": "Design adopted the council's valid points; awaiting user design approval. Blocker found by council: protocol.harness_hash() fails on main (11 C20 files added under packages/sepalith/src after pin 523efc07); user decision needed before the A2 freeze."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): final panel design and harness pin",
+      "date": "2026-11-23",
+      "quote": "Approve; re-pin harness",
+      "inputs": {
+        "design": "docs/training/plan-20260927/final-panel-v1.md (PR #108, merged at 815967bb)",
+        "old_evaluator_commit": "523efc07bcb86ebba7fe1030c0a2dc6356f9d111",
+        "old_harness_sha256": "71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809",
+        "new_evaluator_commit": "815967bb10aa0fb0750dc16ea2342e600dd38b0c",
+        "new_evaluator_tree": "a9510fb9f52a7321ceba646fca6bf656330f95a8",
+        "new_harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
+        "package_tree_change": "11 added C20 files only (training/sft/c20/*, training/c20_exception/*); no existing file changed"
+      },
+      "outcome": "Design approved. Harness re-pinned to main at the PR #108 merge; the check also binds the package tree object. A3 and A5 run from the main checkout /home/m0hawk/sandbox/Sepalith. Re-pinned harness backed up to /mnt/nas/bulk/backups/sepalith/sealed-final-v2-874e0f0a725a/."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): family mix",
+      "date": "2026-11-23",
+      "quote": "Accept, report the mix",
+      "inputs": {
+        "quotas": {
+          "finish_block": 122,
+          "no_op": 50,
+          "pipe_rewrite": 28,
+          "format_propagation": 24,
+          "rename_propagation": 23,
+          "na_rm_propagation": 3,
+          "roxygen_drafting": 0
+        },
+        "finish_block": "all code-cut"
+      },
+      "outcome": "Keep the 250-case mix with no roxygen_drafting. The final report states the mix and compares against DEV250 reference rates at the same mix (receipts/C17-final-panel-dev250-reference.json)."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): unread final reserve",
+      "date": "2026-11-23",
+      "quote": "Hold back ~45%",
+      "inputs": {
+        "eligible_final_groups": 193,
+        "build_groups": 105,
+        "holdback_groups": 88,
+        "rule": "group IDs only; sha256_json([3407, group_id]) ascending; first 105 build",
+        "split_file": "docs/campaign/work/final-panel-v1/holdback-split.json",
+        "split_sha256": "2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c",
+        "committed": "b06b7d52 (pushed before any final content was read; none has been read)"
+      },
+      "outcome": "Split pre-registered and pinned in recipe.json. build_final() reads only the 105 build groups; a test proves no holdback package path is opened. The stop rule (below 200 cases or a family under its floor stops for the user with counts only) now applies to the 105-group pool."
+    },
+    {
+      "rule": "User decision 2026-11-23 (AskUserQuestion): rehearse before the build authorization",
+      "date": "2026-11-23",
+      "quote": "Yes, rehearse first",
+      "inputs": {
+        "rehearsal": "authorized dev_group build of the holdback rule's 105 dev build groups, then plan, freeze and the v2 launcher on CPU with the plan roster",
+        "reference": "DEV250 rates reweighted to the final mix"
+      },
+      "outcome": "See the dress-rehearsal entry below and final-panel-v1.md#dress-rehearsal-2026-11-23."
     }
   ],
   "open_user_gates": [
