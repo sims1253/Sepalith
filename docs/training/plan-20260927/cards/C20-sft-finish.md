@@ -68,3 +68,11 @@ Step 300 passed the pilot validation gates. All-pass on 3–16-line finish block
 On November 21, 2026, the user approved a one-time DEV250 exception for step 300 because the one-point miss was in no-op cases, their lowest-priority error class. The receipt pins the pilot summary, DEV250 result, and checkpoint binding. [DEV250 exception receipt](../c20/dev250-exception.json)
 
 Queue the resumable exception job from the main checkout after the job lands. It writes its verdict under `C20-final-holdout-exception/final-step-300-exception` in the evaluation gates directory. Adopt step 300 only if the paired hold-out all-pass difference versus C19-100 has a 95% CI lower bound above zero and CPT NLL rise is at most 0.03. Otherwise keep C19-100. [Exception hold-out job](../c20/jobs/C20-final-holdout-exception.json)
+
+## November 23 exception hold-out result
+
+The exception hold-out finished on November 23 with 3,803 tasks from 630 functions. Step 300 is not adopted, and C19-100 stays the release candidate. The all-pass rate was 0.399 for C19-100 and 0.403 for step 300. The paired difference was +0.0034, and its function-clustered 95% CI was [-0.0022, 0.0093]. The adoption rule needs the lower bound to be above zero. CPT NLL rose 0.0021, within the 0.03 limit. Mean reward fell from 0.476 to 0.471, and protocol validity fell from 0.981 to 0.969.
+
+The finish-block results are descriptive only. On medium blocks, all-pass rose from 0.050 to 0.062. On long blocks, all-pass stayed at 0.003, and the cap-hit rate rose from 0.079 to 0.105.
+
+The host-memory guard stopped two of the four attempts while other work on the machine used host RAM. Each later attempt resumed from the saved completions. [Verdict](../c20/final-exception-verdict.json) · [Receipt](../c20/final-exception-receipt.md)
