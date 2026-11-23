@@ -1,5 +1,5 @@
 {
- "constructor_sha256": "e7ce8ea6df6d4bdab1ce64c28ec531ed82aef141e38f87bfa5bc3dff243e7c19",
+ "constructor_sha256": "1ba6b181c8388d776360ebbb5ff230a72ac4bd7bb90c9e0af90ba5145fac5cc1",
  "dev250_finish_block": {
   "authored:cases": 55,
   "authored:context_and_target_equal": 55,

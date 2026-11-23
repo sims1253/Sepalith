@@ -187,6 +187,17 @@ class Rules(unittest.TestCase):
                 (Path(tmp) / name).mkdir()
             self.assertEqual(F.pick_version(Path(tmp), m.astfim).name, "1.10.0")
 
+    def test_closure_refuses_a_module_from_another_checkout(self) -> None:
+        F.Modules.load()
+        F.verify_closure(F.load_recipe())
+        original = sys.modules["scenarios"].__file__
+        try:
+            sys.modules["scenarios"].__file__ = "/elsewhere/experiments/synthetic-data/scenarios.py"
+            with self.assertRaisesRegex(F.PanelError, "constructor_module_from_another_checkout"):
+                F.verify_closure(F.load_recipe())
+        finally:
+            sys.modules["scenarios"].__file__ = original
+
     def test_mixed_eol_is_detected(self) -> None:
         self.assertTrue(F.mixed_or_lone_cr("a\r\nb\n"))
         self.assertTrue(F.mixed_or_lone_cr("a\rb"))

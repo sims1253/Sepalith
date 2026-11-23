@@ -161,9 +161,28 @@ def loaded_repo_modules() -> set[str]:
 
 
 def verify_closure(recipe: Json) -> None:
-    """Every imported repository module must be one the recipe pins."""
+    """Every imported repository module must be one the recipe pins, loaded from exactly its pinned path."""
     if not loaded_repo_modules() <= set(recipe["modules"]):
         raise PanelError("unpinned_module_loaded")
+    expected: dict[str, Path] = {"cut_dev_finish": ROOT / CUT, "campaign_admission_completion": ROOT / ADAPTER,
+                                 "finish_boundary_repair_v2": ROOT / REPAIR,
+                                 "admission_guard": GUARD_DIR / "admission_guard.py"}
+    for relative in recipe["modules"]:
+        path = Path(relative)
+        if path.is_relative_to("experiments/synthetic-data"):
+            parts = list(path.relative_to("experiments/synthetic-data").with_suffix("").parts)
+            expected[".".join(parts[:-1] if parts[-1] == "__init__" else parts)] = ROOT / path
+    for name, module in list(sys.modules.items()):
+        origin = getattr(module, "__file__", None)
+        if name in expected or name == "sepalith" or name.startswith("sepalith."):
+            if not isinstance(origin, str):
+                raise PanelError("constructor_module_without_origin")
+            real = Path(os.path.realpath(origin))
+            if name in expected and real != Path(os.path.realpath(expected[name])):
+                raise PanelError("constructor_module_from_another_checkout")
+            if name.startswith("sepalith") and not real.is_relative_to(
+                    Path(os.path.realpath(ROOT / "packages/sepalith/src"))):
+                raise PanelError("package_module_from_another_checkout")
 
 
 # ------------------------------------------------------------- authorization
