@@ -67,7 +67,7 @@ SCENARIO_FAMILIES = ("rename_propagation", "pipe_rewrite", "na_rm_propagation")
 URI_TAG = {"dev_group": "dev", "train_group": "train", FINAL_SPLIT: "final"}
 HUNK = re.compile(r"@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
 QUOTED = re.compile(r'''"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*\'''')
-NA_RM_TRUE = re.compile(r"na\.rm\s*=\s*TRUE")
+NA_RM_TRUE = re.compile(r"(?<![\w.])na\.rm\s*=\s*TRUE(?![\w.])")
 NATIVE_PIPE_END = re.compile(r"\|>\s*$")
 
 
@@ -143,6 +143,26 @@ class Modules:
                    _load("finish_boundary_repair_v2", ROOT / REPAIR))
 
 
+def loaded_repo_modules() -> set[str]:
+    """Repository files imported into this process outside the package tree and this constructor's own dirs."""
+    own = (ROOT / "packages/sepalith/src", HERE, GUARD_DIR, PROTOCOL_DIR)
+    found = set()
+    for module in list(sys.modules.values()):
+        name = getattr(module, "__file__", None)
+        if not isinstance(name, str) or not os.path.isabs(name):
+            continue  # e.g. torch's virtual '_classes.py' / '_ops.py' modules
+        path = Path(name).resolve()
+        if path.is_relative_to(ROOT) and not any(path.is_relative_to(d) for d in own):
+            found.add(str(path.relative_to(ROOT)))
+    return found
+
+
+def verify_closure(recipe: Json) -> None:
+    """Every imported repository module must be one the recipe pins."""
+    if not loaded_repo_modules() <= set(recipe["modules"]):
+        raise PanelError("unpinned_module_loaded")
+
+
 # ------------------------------------------------------------- authorization
 
 @dataclass(frozen=True)
@@ -151,6 +171,7 @@ class Authorization:
 
     receipt_sha256: str
     receipt: Json
+    path: Path
 
 
 def authorize(path: Path, expected_sha256: str, recipe_path: Path = RECIPE_PATH) -> Authorization:
@@ -170,7 +191,7 @@ def authorize(path: Path, expected_sha256: str, recipe_path: Path = RECIPE_PATH)
     for name in ("out_dir", "attempt_marker"):
         if not isinstance(receipt.get(name), str) or not Path(receipt[name]).is_absolute():
             raise PanelError("authorization_missing_" + name)
-    return Authorization(expected_sha256, receipt)
+    return Authorization(expected_sha256, receipt, Path(path))
 
 
 def claim_attempt(authorization: Authorization, out: Path) -> None:
@@ -178,8 +199,11 @@ def claim_attempt(authorization: Authorization, out: Path) -> None:
     if out != Path(authorization.receipt["out_dir"]):
         raise PanelError("out_dir_differs_from_authorization")
     marker = Path(authorization.receipt["attempt_marker"])
+    import datetime
+
     payload = canonical_json({"schema": SCHEMA + ".attempt", "authorization_sha256": authorization.receipt_sha256,
-                              "out_dir": str(out)}).encode() + b"\n"
+                              "out_dir": str(out),
+                              "claimed_at": datetime.datetime.now(datetime.timezone.utc).isoformat()}).encode() + b"\n"
     _write_immutable_json(marker, payload)  # raises if the marker exists: no second attempt
 
 
@@ -216,13 +240,18 @@ def parents_for(groups: Iterable[Json], corpus_root: Path, astfim: ModuleType) -
     for group in groups:
         found = 0
         for form in sorted(f for f in group["identity_forms"] if f.startswith("pkg:")):
-            names = index.get(form[4:], [])
+            names = index.get(normalize_package(form[4:]), [])
             if len(names) != 1:
                 reasons["identity_not_unique_in_corpus" if names else "identity_not_in_corpus"] += 1
                 continue
             version = pick_version(corpus_root / names[0], astfim)
             if version is None or not (version / names[0] / "R").is_dir():
                 reasons["no_version_or_r_dir"] += 1
+                continue
+            try:
+                checked_tree(version, corpus_root)
+            except (PanelError, OSError):
+                reasons["parent_tree_refused"] += 1
                 continue
             if not _has_license(version / names[0] / "DESCRIPTION"):
                 reasons["license_missing"] += 1
@@ -270,8 +299,9 @@ class Candidate:
     member: str | None             # tarball member for format
     source_bytes: bytes
     result: Json                   # adapter-shaped: context, selection_source, target_body, operation
-    extras: dict[str, Path] = field(default_factory=dict)
+    extras: dict[str, tuple[Path, bytes]] = field(default_factory=dict)   # name -> (origin, exact bytes used)
     row_id: str = ""
+    function_name: str | None = None   # finish: the harvested function, looked up in the full source
 
 
 def mixed_or_lone_cr(text: str) -> bool:
@@ -363,7 +393,7 @@ def noop_sites(lines: Sequence[str]) -> list[tuple[int, str]]:
     for index, line in enumerate(lines):
         if line.lstrip().startswith("#"):
             continue
-        code = QUOTED.sub('""', line)
+        code = QUOTED.sub('""', line).split("#", 1)[0]
         if NA_RM_TRUE.search(code):
             sites.append((index, "already_applied_na_rm_true"))
         elif NATIVE_PIPE_END.search(code):
@@ -387,6 +417,8 @@ class Builder:
         self.tag = URI_TAG[split]
         self.tarballs = Path(recipe["inputs"]["tarball_root"])
         self.reasons: Counter[str] = Counter()
+        # C05's harvest re-picks a version from the package directory; pin it to the checked one.
+        modules.cut.version_dir = lambda parent: Path(parent["normalized_versions"][0])
         self.finish_rows = workdir / "finish-rows.jsonl"
         self.finish_rows.touch(exist_ok=False)
         self._finish_line = 0
@@ -471,20 +503,30 @@ class Builder:
             return
         normalized = {p.name: p for p in parent.r_dir.iterdir() if p.is_file() and p.suffix.lower() == ".r"}
         members: dict[str, bytes] = {}
-        with tarfile.open(tar_path, "r:gz") as archive:
-            for info in archive.getmembers():
-                parts = info.name.split("/")
-                if (len(parts) == 3 and parts[0] == parent.package and parts[1] == "R" and info.isfile()
-                        and parts[2] in normalized
-                        and info.size <= self.m.scenarios.MAX_FILE_BYTES and parts[2] not in members):
-                    handle = archive.extractfile(info)
-                    if handle is not None:
-                        members[parts[2]] = handle.read()
+        try:
+            with tarfile.open(tar_path, "r:gz") as archive:
+                for info in archive.getmembers():
+                    parts = info.name.split("/")
+                    if (len(parts) == 3 and parts[0] == parent.package and parts[1] == "R" and info.isfile()
+                            and parts[2] in normalized
+                            and info.size <= self.m.scenarios.MAX_FILE_BYTES and parts[2] not in members):
+                        handle = archive.extractfile(info)
+                        if handle is not None:
+                            members[parts[2]] = handle.read()
+        except (tarfile.TarError, OSError, EOFError):
+            self.reasons["format:tarball_unreadable"] += 1
+            return
         for name in sorted(members):
             raw, norm_path = members[name], normalized[name]
             norm = norm_path.read_bytes()
             if sha256_bytes(raw) in self.cpt or sha256_bytes(norm) in self.cpt:
                 self.reasons["format:file_in_cpt"] += 1
+                continue
+            try:
+                if len(norm) > self.m.scenarios.MAX_FILE_BYTES or mixed_or_lone_cr(norm.decode("utf-8")):
+                    raise UnicodeError
+            except UnicodeError:
+                self.reasons["format:normalized_not_clean_utf8"] += 1
                 continue
             try:
                 text = raw.decode("utf-8")
@@ -500,14 +542,15 @@ class Builder:
                 norm.decode("utf-8", "replace").splitlines())
             for example in examples:
                 cand = yield from self._convert(parent, family, rel, tar_path, f"{parent.package}/R/{name}",
-                                                raw, text, example, extras={"normalized_after": norm_path})
+                                                raw, text, example, extras={"normalized_after": (norm_path, norm)})
                 if cand:
                     room -= 1
                     if room == 0:
                         return
 
     def _convert(self, parent: Parent, family: str, rel: str, source: Path, member: str | None, raw: bytes,
-                 text: str, example: Json, extras: dict[str, Path] | None = None) -> Iterator[Candidate]:
+                 text: str, example: Json, extras: dict[str, tuple[Path, bytes]] | None = None,
+                 ) -> Iterator[Candidate]:
         match = HUNK.search(example["event_diff"])
         site = [example.get("note", ""), int(match[1]) if match else -1, example["cursor_idx"],
                 len(example["prefix"]), sha256_json(example["prefix"])]
@@ -559,12 +602,14 @@ class Builder:
                 stream.write(line)
             self._finish_line += 1
             source = Path(base["source_file"])
+            if not source.resolve().is_relative_to(parent.r_dir.resolve()):
+                raise PanelError("finish_source_outside_checked_parent")
             raw = source.read_bytes()
             if sha256_bytes(raw) != base["source_sha256"]:
                 raise PanelError("finish_source_changed_after_harvest")
             cand = self._identify(Candidate(family, parent, base["path"],
                                             [base["base_id"], row["transform"], row["cut"]],
-                                            source, None, raw, {}))
+                                            source, None, raw, {}, function_name=base["fn"]))
             result, why = self._finish_result(row, line, cand)
             if result is None:
                 self.reasons[f"finish:{why}"] += 1
@@ -617,14 +662,18 @@ def function_ids(package: str, rel: str, text: str, spans: Iterable[tuple[int, i
     for node in tree.root_node.children:
         if node.type != "binary_operator" or node.child_count < 3:
             continue
-        lhs, rhs = node.children[0], node.children[-1]
-        if lhs.type != "identifier" or rhs.type != "function_definition":
+        lhs, op, rhs = node.children[0], node.children[1], node.children[-1]
+        if lhs.type != "identifier" or op.type not in ("<-", "=") or rhs.type != "function_definition":
             continue
         first, last = node.start_point[0], node.end_point[0]
         if any(first <= end and start <= last for start, end in spans):
-            name = text.encode()[lhs.start_byte:lhs.end_byte].decode()
-            ids.add(hashlib.sha256(f"{package}\0{rel}\0{name}".encode()).hexdigest()[:16])
+            ids.add(function_id(package, rel, text.encode()[lhs.start_byte:lhs.end_byte].decode()))
     return sorted(ids)
+
+
+def function_id(package: str, rel: str, name: str) -> str:
+    """exec_env/pool.py's function_id: sha256(package NUL R/path NUL name)[:16]."""
+    return hashlib.sha256(f"{package}\0{rel}\0{name}".encode()).hexdigest()[:16]
 
 
 # ------------------------------------------------------------------ selection
@@ -770,6 +819,10 @@ def build_panel(*, split: str, registry: Json, recipe: Json, tokenizer: Any, wor
             raise PanelError("final_build_requires_authorization")
         if group_ids is not None or quotas is not None or not cpt or memberships is None:
             raise PanelError("final_build_uses_recipe_as_is")
+        # The one guarded entry point: re-verify the receipt from disk, then claim the one-shot marker
+        # before any final metadata or source is read.
+        authorization = authorize(authorization.path, authorization.receipt_sha256)
+        claim_attempt(authorization, Path(authorization.receipt["out_dir"]))
     elif split not in REHEARSAL_SPLITS:
         raise PanelError("unknown_split")
     modules = modules or Modules.load()
@@ -785,7 +838,6 @@ def build_panel(*, split: str, registry: Json, recipe: Json, tokenizer: Any, wor
     builder = Builder(modules, recipe, split, cpt, workdir)
     by_group: dict[str, list[Parent]] = defaultdict(list)
     for parent in parents:
-        checked_tree(parent.version_dir, corpus)
         by_group[parent.group_id].append(parent)
 
     usable, seen_prompts, seen_rows, filtered = [], set(), set(), Counter()
@@ -820,7 +872,7 @@ def build_panel(*, split: str, registry: Json, recipe: Json, tokenizer: Any, wor
     receipt = {
         "schema": SCHEMA + ".build",
         "split": split,
-        "status": "built" if not floor_failures else "stopped_below_floor",
+        "status": "stopped_below_floor" if floor_failures else "built",
         "floor_failures": floor_failures,
         "counts": {
             "groups_in_split": len(groups), "parents": len(parents), "groups_with_parent": len(by_group),
@@ -834,8 +886,11 @@ def build_panel(*, split: str, registry: Json, recipe: Json, tokenizer: Any, wor
         "authorization_sha256": authorization.receipt_sha256 if authorization else None,
         "cpt_filter": bool(cpt),
     }
-    if memberships is not None:
+    if memberships is not None and chosen:
         receipt["overlap_audit"] = overlap_audit(chosen, memberships)
+        if receipt["overlap_audit"]["exceeds_ceiling"] and receipt["status"] == "built":
+            # The unchanged launcher would take its seal and then abort; stop here instead.
+            receipt["status"] = "stopped_over_overlap_ceiling"
     staged = {c["row_id"]: c.pop("_staged") for c in chosen}
     extras = {k: v for c in chosen for k, v in c.pop("_extras").items()}
     payloads = {c["row_id"]: c.pop("_payload") for c in chosen}
@@ -868,8 +923,16 @@ def _finish_candidate(cand: Candidate, tokenizer: Any, split: str, recipe: Json,
     context_map = context.to_dict()
     target = {"operation": operation, "region_new": region_new}
     selection = cand.result["selection_source"]
-    spans = [(selection["region_start_line"], selection["region_end_line"])]
-    ids = function_ids(cand.parent.package, cand.rel, selection["document_text"], spans, modules.scenarios.parser)
+    parser = modules.scenarios.parser
+    if cand.function_name is not None:
+        # A finish document is a cut prefix; take the ID from the complete original source instead.
+        full = cand.source_bytes.decode("utf-8", "replace")
+        everything = [(0, full.count("\n") + 1)]
+        ids = [i for i in function_ids(cand.parent.package, cand.rel, full, everything, parser)
+               if i == function_id(cand.parent.package, cand.rel, cand.function_name)]
+    else:
+        spans = [(selection["region_start_line"], selection["region_end_line"])]
+        ids = function_ids(cand.parent.package, cand.rel, selection["document_text"], spans, parser)
     for event in context_map["history"]:
         r = event["range_utf16"]
         before = cand.source_bytes.decode("utf-8", "replace")
@@ -884,8 +947,7 @@ def _finish_candidate(cand: Candidate, tokenizer: Any, split: str, recipe: Json,
     provenance = {"package": cand.parent.package, "version": cand.parent.version_dir.name, "rel": cand.rel,
                   "source": str(cand.source) + (f"::{cand.member}" if cand.member else ""),
                   "source_sha256": source_sha}
-    for name, path in cand.extras.items():
-        data = path.read_bytes()
+    for name, (path, data) in cand.extras.items():
         extras[f"{cand.row_id}:{name}"] = (Path(sha256_bytes(data) + ".R"), data)
         provenance[name] = {"source": str(path), "sha256": sha256_bytes(data)}
     return {
@@ -915,7 +977,9 @@ def _write_readonly(path: Path, data: bytes) -> None:
     path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o400)
     try:
-        os.write(fd, data)
+        view = memoryview(data)
+        while view:
+            view = view[os.write(fd, view):]
         os.fsync(fd)
     finally:
         os.close(fd)
@@ -972,7 +1036,8 @@ def write_panel(panel: Panel, out: Path, *, recipe_sha256: str, inputs: Json) ->
     return receipt
 
 
-def launcher_dry_run(out: Path, tokenizer: Any, *, weights_sha256: str, harness_sha256: str) -> Json:  # noqa: ANN401
+def launcher_dry_run(out: Path, tokenizer: Any, *, weights_sha256: str, harness_sha256: str,  # noqa: ANN401
+                     rehearsal: bool) -> Json:
     """Run the v2 launcher's own load, semantic-receipt, root, source-read and construct steps on the outputs.
 
     The real run takes its seal (`started.json`) before these steps, so any defect found later would
@@ -983,7 +1048,8 @@ def launcher_dry_run(out: Path, tokenizer: Any, *, weights_sha256: str, harness_
 
     document = json.loads((out / "cases.json").read_bytes())
     semantic = json.loads((out / "semantic-receipt.json").read_bytes())
-    document["split"] = semantic["split"] = "final_locked_v1"
+    if rehearsal:
+        document["split"] = semantic["split"] = "final_locked_v1"
     cases = v2.load_cases(document, len(document["cases"]))
     stamp = "2026-09-14T10:00:00Z"
     guard = AdmissionGuard(
@@ -1011,6 +1077,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--tokenizer", type=Path, required=True, help="campaign tokenizer directory")
     parser.add_argument("--memberships", type=Path, help="the eight inventories (required for a final build)")
     parser.add_argument("--authorization", type=Path)
+    parser.add_argument("--models", type=Path, help="final: the plan's models object, checked against the authorization")
+    parser.add_argument("--freeze-statement", type=Path, help="final: the user's written freeze statement")
     parser.add_argument("--authorization-sha256")
     parser.add_argument("--groups", type=int, help="rehearsal only: first N groups in seeded order")
     parser.add_argument("--scale", type=float, help="rehearsal only: scale the quotas")
@@ -1018,10 +1086,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                         help="rehearsal only: train sources are CPT documents; measure supply without the filter")
     args = parser.parse_args(argv)
     final = args.split == FINAL_SPLIT
-    if final and (args.groups or args.scale or args.no_cpt_filter or not args.memberships
-                  or not args.authorization or not args.authorization_sha256):
-        parser.error("a final build needs --authorization, --authorization-sha256 and --memberships, "
-                     "and takes no rehearsal options")
+    if final and (args.groups or args.scale or args.no_cpt_filter or not args.memberships or not args.models
+                  or not args.freeze_statement or not args.authorization or not args.authorization_sha256):
+        parser.error("a final build needs --authorization, --authorization-sha256, --memberships, --models and "
+                     "--freeze-statement, and takes no rehearsal options")
     try:
         report = _run(args, final)
     except Exception:  # noqa: BLE001 - exception text may hold source text in a final build
@@ -1035,8 +1103,6 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def _run(args: argparse.Namespace, final: bool) -> Json:
-    from sepalith.training.contracts.campaign_tokenizer_contract import load_pinned_reference_tokenizer
-
     recipe = load_recipe()
     authorization = authorize(args.authorization, args.authorization_sha256) if final else None
     module_pins = verify_modules(recipe)
@@ -1051,15 +1117,22 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
 
         if v2.harness_hash() != authorization.receipt["harness_sha256"]:
             raise PanelError("harness_differs_from_authorization")
-        claim_attempt(authorization, args.out.resolve())
-    registry_path = Path(recipe["inputs"]["dat02"]["path"])
-    if final and sha256_file(registry_path) != recipe["inputs"]["dat02"]["sha256"]:
+        if args.out.resolve() != Path(authorization.receipt["out_dir"]):
+            raise PanelError("out_dir_differs_from_authorization")
+        # The weights and the freeze statement are compared by value, not only by shape.
+        if sha256_json(json.loads(args.models.read_bytes())) != authorization.receipt["weights_sha256"]:
+            raise PanelError("models_differ_from_authorization")
+        if sha256_file(args.freeze_statement) != authorization.receipt["freeze_statement_sha256"]:
+            raise PanelError("freeze_statement_differs_from_authorization")
+    # Every build parses exactly the pinned DAT-02 bytes: split labels decide what may be read.
+    registry_bytes = Path(recipe["inputs"]["dat02"]["path"]).read_bytes()
+    if sha256_bytes(registry_bytes) != recipe["inputs"]["dat02"]["sha256"]:
         raise PanelError("dat02_pin_mismatch")
     if final:
         for item in recipe["inputs"]["dev_panels"]:
             if sha256_file(Path(item["path"])) != item["sha256"]:
                 raise PanelError("dev_panel_pin_mismatch")
-    registry = json.loads(registry_path.read_bytes())
+    registry = json.loads(registry_bytes)
     group_ids = quotas = None
     if not final:
         ordered = sorted((g["group_id"] for g in groups_of(registry, args.split)),
@@ -1068,25 +1141,89 @@ def _run(args: argparse.Namespace, final: bool) -> Json:
         if args.scale:
             quotas = {f: max(1, round(q * args.scale)) for f, q in recipe["quotas"].items()}
     out = args.out.resolve()
+    if os.path.lexists(out) or out.parent.resolve() != out.parent:
+        raise PanelError("output_must_be_fresh_with_real_parent")
+    tokenizer = load_tokenizer(args.tokenizer)
+    # Everything that needs no final content is checked before build_panel claims the attempt.
+    for root in (recipe["inputs"]["corpus_root"], recipe["inputs"]["tarball_root"]):
+        if not Path(root).is_dir():
+            raise PanelError("source_root_unavailable")
+    modules = Modules.load()
+    verify_closure(recipe)
+    cpt = frozenset() if args.no_cpt_filter else cpt_hashes(recipe)
+    dev_prompts = dev_prompt_hashes(recipe)
     work = out.parent / (out.name + ".work")
     work.mkdir(mode=0o700)
-    tokenizer = load_pinned_reference_tokenizer(args.tokenizer)
-    panel = build_panel(split=args.split, registry=registry, recipe=recipe, tokenizer=tokenizer, workdir=work,
-                        cpt=frozenset() if args.no_cpt_filter else cpt_hashes(recipe),
-                        dev_prompts=dev_prompt_hashes(recipe), authorization=authorization,
-                        group_ids=group_ids, quotas=quotas, memberships=memberships)
+    from importlib.metadata import version
+
     inputs = {"modules": module_pins, "dat02_sha256": recipe["inputs"]["dat02"]["sha256"],
+              "distributions": {n: version(n) for n in ("tree-sitter", "tree-sitter-r", "tokenizers",
+                                                         "transformers")},
               "tokenizer": str(args.tokenizer), "memberships_sha256":
               sha256_file(args.memberships) if args.memberships else None}
-    report = write_panel(panel, out, recipe_sha256=sha256_file(RECIPE_PATH), inputs=inputs)
-    if final:
-        # The intermediate finish rows hold final text; nothing outside the panel directory may keep it.
-        shutil.rmtree(work)
-    pins = authorization.receipt if authorization else {"weights_sha256": "0" * 64, "harness_sha256": "0" * 64}
-    report["launcher_dry_run"] = launcher_dry_run(out, tokenizer, weights_sha256=pins["weights_sha256"],
-                                                  harness_sha256=pins["harness_sha256"])
-    _write_immutable_json(out / "build-receipt.json", canonical_json(report).encode() + b"\n")
+    try:
+        panel = build_panel(split=args.split, registry=registry, recipe=recipe, tokenizer=tokenizer,
+                            workdir=work, cpt=cpt, dev_prompts=dev_prompts, authorization=authorization,
+                            group_ids=group_ids, quotas=quotas, memberships=memberships, modules=modules)
+        if panel.receipt["status"] != "built":
+            # A stopped build publishes nothing but its aggregate receipt.
+            report = {k: v for k, v in panel.receipt.items() if k != "_provenance"}
+            report.update(constructor_sha256=sha256_file(Path(__file__)),
+                          recipe_sha256=sha256_file(RECIPE_PATH), inputs=inputs)
+            out.mkdir(mode=0o700)
+        else:
+            report = write_panel(panel, out, recipe_sha256=sha256_file(RECIPE_PATH), inputs=inputs)
+            pins = authorization.receipt if authorization else {"weights_sha256": "0" * 64,
+                                                                "harness_sha256": "0" * 64}
+            report["launcher_dry_run"] = launcher_dry_run(
+                out, tokenizer, weights_sha256=pins["weights_sha256"], harness_sha256=pins["harness_sha256"],
+                rehearsal=not final)
+            if authorization is not None:
+                report["authorization"] = {k: authorization.receipt[k] for k in (
+                    "weights_sha256", "harness_sha256", "memberships_sha256", "freeze_statement_sha256")}
+            # The plan keys A3 fixes; A4 copies them unchanged into the launcher plan.
+            fragment = {
+                "cases": {"path": str(out / "cases.json"), "sha256": report["outputs"]["cases_sha256"]},
+                "case_count": report["outputs"]["case_count"],
+                "semantic_receipt": {"path": str(out / "semantic-receipt.json"),
+                                     "sha256": report["outputs"]["semantic_receipt_sha256"]},
+                "payloads_path": str(out / "payloads.json"),
+                "source_roots": [report["outputs"]["source_root"]],
+                "memberships": {"path": str(args.memberships.resolve()), "sha256": inputs["memberships_sha256"]}
+                if args.memberships else None,
+            }
+            _write_immutable_json(out / "plan-fragment.json", canonical_json(fragment).encode() + b"\n")
+        _write_immutable_json(out / "build-receipt.json", canonical_json(report).encode() + b"\n")
+        for path in out.glob("*.json"):
+            path.chmod(0o400)
+    except BaseException:
+        if final:
+            remove_tree(out)  # unpublished final outputs are deleted unread; the attempt marker stays
+        raise
+    finally:
+        if final:
+            # The intermediate finish rows hold final text; nothing outside the panel directory keeps it.
+            remove_tree(work)
     return report
+
+
+def load_tokenizer(path: Path) -> Any:  # noqa: ANN401
+    """The campaign tokenizer, after checking its two files against the pinned hashes."""
+    from sepalith.campaign_protocol import TOKENIZER_CONFIG_SHA256, TOKENIZER_JSON_SHA256
+    from sepalith.training.contracts.campaign_tokenizer_contract import load_pinned_reference_tokenizer
+
+    for name, digest in (("tokenizer.json", TOKENIZER_JSON_SHA256), ("tokenizer_config.json", TOKENIZER_CONFIG_SHA256)):
+        if sha256_file(Path(path) / name) != digest:
+            raise PanelError("tokenizer_differs_from_campaign_pin")
+    return load_pinned_reference_tokenizer(path)
+
+
+def remove_tree(path: Path) -> None:
+    if not os.path.lexists(path):
+        return
+    for directory, _dirs, _names in os.walk(path):
+        os.chmod(directory, 0o700)
+    shutil.rmtree(path, ignore_errors=True)
 
 
 if __name__ == "__main__":

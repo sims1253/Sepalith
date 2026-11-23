@@ -91,13 +91,32 @@ def jsonl(path: Path) -> Iterator[Json]:
 
 
 def fields(path: Path, names: Iterable[str]) -> Iterator[dict[str, str | None]]:
-    """Top-level string fields from very large JSONL rows, without parsing token arrays."""
-    patterns = {name: re.compile(rb'"%s":\s*"([^"]*)"' % name.encode()) for name in names}
+    """Top-level string fields of JSONL rows.
+
+    A regex pass is used only when each field occurs exactly once in the line, so a nested key
+    (sort_keys rows put context and exec ahead of the identity keys) can never be picked up;
+    otherwise the line is parsed in full.
+    """
+    names = tuple(names)
+    patterns = {name: re.compile(rb'"%s":\s*"([^"\\]*)"' % name.encode()) for name in names}
     with path.open("rb") as stream:
         for line in stream:
-            if line.strip():
-                found = {name: rx.search(line) for name, rx in patterns.items()}
-                yield {name: m.group(1).decode() if m else None for name, m in found.items()}
+            if not line.strip():
+                continue
+            found = {name: rx.findall(line) for name, rx in patterns.items()}
+            if all(len(m) == 1 and line.count(b'"%s":' % n.encode()) == 1 for n, m in found.items()):
+                yield {name: m[0].decode() for name, m in found.items()}
+            else:
+                row = json.loads(line)
+                yield {name: row.get(name) if isinstance(row.get(name), str) else None for name in names}
+
+
+def complete(rows: Iterable[dict[str, str | None]], path: Path) -> list[dict[str, str | None]]:
+    """Reject a source with any row that lacks a required identity field."""
+    rows = list(rows)
+    if not rows or any(value is None for row in rows for value in row.values()):
+        raise ValueError(f"missing identity fields in {path}")
+    return rows
 
 
 def membership(rows: Iterable[object] = (), packages: Iterable[object] = (), groups: Iterable[object] = (),
@@ -127,7 +146,9 @@ def build_inventories() -> tuple[Json, Json]:
                pinned: dict[str, str] | None = None) -> None:
         inventories[stage] = value
         coverage[stage] = {
-            "sources": [{"path": str(p), "sha256": (pinned or {}).get(str(p)) or sha256_file(p)} for p in sources],
+            "sources": [{"path": str(p), **({"sha256_pinned_not_rehashed": (pinned or {})[str(p)]}
+                                            if str(p) in (pinned or {}) else {"sha256": sha256_file(p)})}
+                        for p in sources],
             "rule": rule,
             "counts": {**counts, **{key: len(value[key]) for key in KEYS}},
         }
@@ -135,8 +156,9 @@ def build_inventories() -> tuple[Json, Json]:
     # TRAIN: every DAT-02 label except dev and final, plus every SFT row and the C18/C19 SFT replay.
     groups, packages, forms = split_groups(split, lambda label: label not in NOT_TRAIN)
     labels = sorted({g["split"] for g in split["groups"]} - set(NOT_TRAIN))
-    train_rows = {row["id"]: row["package_id"] for row in fields(TRAIN_ROWS, ("id", "package_id"))}
-    replay = {row["id"] for row in fields(SFT_REPLAY, ("id",))}
+    train_rows = {row["id"]: row["package_id"] for row in complete(fields(TRAIN_ROWS, ("id", "package_id")),
+                                                                    TRAIN_ROWS)}
+    replay = {row["id"] for row in complete(fields(SFT_REPLAY, ("id",)), SFT_REPLAY)}
     record("train", membership([*train_rows, *replay], packages | set(train_rows.values()), groups, forms),
            [SPLIT, TRAIN_ROWS, SFT_REPLAY],
            f"DAT-02 v2 groups labelled {labels} (group IDs; pkg: names as packages; all identity forms as "
@@ -157,7 +179,9 @@ def build_inventories() -> tuple[Json, Json]:
            {"dat02_groups": len(groups), "dev_rows": len(dev)}, pinned={str(DEV75): DEV75_SHA256})
 
     rows, packages, groups, documents = set(), set(), set(), set()
+    cpt_rows_without_package = 0
     for row in fields(CPT_ROWS, ("row_id", "package", "group_id", "document_id")):
+        cpt_rows_without_package += row["package"] is None
         rows.add(row["row_id"])
         packages.add(row["package"])
         groups.add(row["group_id"])
@@ -168,17 +192,18 @@ def build_inventories() -> tuple[Json, Json]:
     record("cpt", membership(rows, packages, groups, documents), [CPT_ROWS, CPT_REPLAY],
            "every CPT-prefix-extension-v1 combined ctx16384 row (row_id, package, group_id; document_id as "
            "split identity) and the C18 CPT replay rows",
-           {"documents": len(documents - {None}), "rows_without_package": sum(1 for p in packages if p is None),
+           {"documents": len(documents - {None}), "rows_without_package": cpt_rows_without_package,
             "cpt_replay_rows": len(replay_rows)})
 
-    pool = [row["id"] for row in jsonl(C14_POOL)]
+    pool = [row["id"] for row in complete(({"id": r.get("id")} for r in jsonl(C14_POOL)), C14_POOL)]
     record("c14", membership(pool, {train_rows[i] for i in pool if i in train_rows}), [C14_POOL, TRAIN_ROWS],
            "every C14 GRPO pool row; packages joined from the Arm A SFT rows",
            {"pool_rows": len(pool), "rows_without_package": len([i for i in pool if i not in train_rows])})
 
     synth: dict[str, str] = {}
     for path in SYNTH_CASES:
-        synth.update((row["row_id"], row["package_id"]) for row in fields(path, ("row_id", "package_id")))
+        synth.update((row["row_id"], row["package_id"])
+                     for row in complete(fields(path, ("row_id", "package_id")), path))
     record("synth", membership(synth, set(synth.values())), list(SYNTH_CASES),
            "every SYNTH v1, v2, v3 and v3.1 case row ID and seed package ID", {"cases": len(synth)})
 
@@ -191,8 +216,11 @@ def build_inventories() -> tuple[Json, Json]:
         names.add(item["slice"])
     tasks: dict[str, tuple[str, str]] = {}
     for path in EXEC_TRAIN_TASKS:
-        tasks.update((r["id"], (r["package"], r["function_id"])) for r in fields(path, ("id", "package",
-                                                                                      "function_id")))
+        rows = complete(fields(path, ("id", "package", "function_id")), path)
+        tasks.update((r["id"], (r["package"], r["function_id"])) for r in rows)
+    hard_mix = json.loads((EXEC_TRAIN_TASKS[1].parent / "train.receipt.json").read_bytes())
+    if sum(1 for _ in fields(EXEC_TRAIN_TASKS[1], ("id",))) != sum(hard_mix["family"].values()):
+        raise ValueError("C19 hard mix row count differs from its receipt")
     functions, packages, names = by_role["train"]
     record("exec_train", membership(tasks, packages | {p for p, _ in tasks.values()}, (), names,
                                     functions | {f for _, f in tasks.values()}),
@@ -201,8 +229,8 @@ def build_inventories() -> tuple[Json, Json]:
            {"slices": len(names), "tasks": len(tasks), "slice_functions": len(functions),
             "task_functions_outside_train_slices": len({f for _, f in tasks.values()} - functions)})
 
-    val = {r["id"]: (r["package"], r["function_id"]) for r in fields(EXEC_VAL_TASKS, ("id", "package",
-                                                                                      "function_id"))}
+    val = {r["id"]: (r["package"], r["function_id"])
+           for r in complete(fields(EXEC_VAL_TASKS, ("id", "package", "function_id")), EXEC_VAL_TASKS)}
     record("exec_validation", membership(val, {p for p, _ in val.values()}, (), (),
                                          {f for _, f in val.values()}),
            [EXEC_VAL_TASKS], "every C18 validation task (C19 reuses it unchanged)",
@@ -290,7 +318,9 @@ def write_once(path: Path, value: object) -> Json:
     data = (json.dumps(value, indent=1, sort_keys=True, ensure_ascii=False) + "\n").encode()
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o400)
     try:
-        os.write(fd, data)
+        view = memoryview(data)
+        while view:
+            view = view[os.write(fd, view):]
         os.fsync(fd)
     finally:
         os.close(fd)

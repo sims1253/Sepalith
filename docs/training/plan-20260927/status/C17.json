@@ -18,7 +18,15 @@
     "notebook_latency_logs": "docs/training/plan-20260927/c17/latency-logs/",
     "final_panel_design": "docs/training/plan-20260927/final-panel-v1.md",
     "final_panel_constructor": "docs/campaign/work/final-panel-v1/",
-    "final_panel_dev_equivalence": "docs/training/plan-20260927/receipts/C17-final-panel-dev-equivalence.json"
+    "final_panel_dev_equivalence": "docs/training/plan-20260927/receipts/C17-final-panel-dev-equivalence.json",
+    "sealed_final_state": {
+      "memberships": {
+        "path": "~/.local/state/sepalith/sealed-final-v2/inventories/memberships.json",
+        "sha256": "63b68fb718db9dfe20ed34bf1a520ed9b80c5b0b6799eaf9be81e4d119636736"
+      },
+      "coverage": "~/.local/state/sepalith/sealed-final-v2/inventories/coverage.json",
+      "pins": "~/.local/state/sepalith/sealed-final-v2/pins/ (models, release_artifacts, tokenizer, runtime)"
+    }
   },
   "rule_decisions": [
     {
@@ -99,12 +107,25 @@
       "date": "2026-11-23",
       "inputs": {
         "council": {
-          "claude-fable-5.2": "6.5/10",
-          "gemini-4-neon": "6.5/10",
-          "gpt-astra-6.2": "6/10"
+          "claude-fable-5.2": {
+            "round1": "6.5/10",
+            "round2": "8/10"
+          },
+          "gemini-4-neon": {
+            "round1": "6.5/10",
+            "round2": "8/10"
+          },
+          "gpt-astra-6.2": {
+            "round1": "6/10",
+            "round2": "7/10"
+          }
         },
         "dev_equivalence": "DEV250 propagation 78/78, no_op 50/50 (25/25 group site sets), finish 111/111, code-cut harvest 1,329 rows identical; DEV75 propagation 29/29 prompt+target hashes",
-        "final_content_opened": false
+        "final_content_opened": false,
+        "rehearsals": {
+          "dev_group": "250 cases, 105 groups, launcher dry run 250/250, 0 mismatches; byte-identical across PYTHONHASHSEED",
+          "train_group_193_no_cpt_filter": "250 cases, 91 groups, all quotas filled, dry run 250/250"
+        }
       },
       "outcome": "Design adopted the council's valid points; awaiting user design approval. Blocker found by council: protocol.harness_hash() fails on main (11 C20 files added under packages/sepalith/src after pin 523efc07); user decision needed before the A2 freeze."
     }

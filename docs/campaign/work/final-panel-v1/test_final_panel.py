@@ -27,6 +27,7 @@ sys.path[:0] = [str(HERE), str(HERE.parent / "final-protocol-v2")]
 
 import final_panel as F  # noqa: E402
 import protocol as v2  # noqa: E402
+from admission_guard import AdmissionOutputError  # noqa: E402
 
 RENAME_SOURCE = """f <- function(x) {
   old_name <- x + 1
@@ -97,6 +98,18 @@ def make_package(tmp: Path, name: str, files: dict[str, str], *, raw: dict[str, 
             archive.addfile(info, io.BytesIO(data))
 
 
+def issue_authorization(tmp: Path, out: Path, marker: Path, name: str = "auth.json") -> F.Authorization:
+    """A synthetic user build authorization for this exact constructor and recipe."""
+    receipt = {"schema": F.SCHEMA + ".build-authorization", "status": "user-approved", "split": F.FINAL_SPLIT,
+               "weights_and_harness_frozen": True, "weights_sha256": "a" * 64, "harness_sha256": "b" * 64,
+               "memberships_sha256": "c" * 64, "freeze_statement_sha256": "d" * 64, "out_dir": str(out),
+               "attempt_marker": str(marker), "constructor_sha256": F.sha256_file(Path(F.__file__)),
+               "recipe_sha256": F.sha256_file(F.RECIPE_PATH)}
+    path = tmp / name
+    path.write_bytes(json.dumps(receipt).encode())
+    return F.authorize(path, F.sha256_file(path))
+
+
 def memberships() -> F.Json:
     empty = {key: [] for key in ("row_ids", "group_ids", "split_identities", "function_ids")}
     return {stage: {**empty, "package_ids": ["unrelated"],
@@ -118,6 +131,9 @@ class NoopRule(unittest.TestCase):
             "  df |>",                           # 3 trailing native pipe
             "  df |> head()",                    # pipe not at end
             "z <- max(v, na.rm=TRUE) |>",        # 5 na.rm wins
+            "x <- 1 # mention na.rm = TRUE",     # inline comment only
+            "x <- 2 # example |>",               # inline comment only
+            "y <- mean(v, xna.rm = TRUE)",       # not the na.rm token
         ]
         self.assertEqual(F.noop_sites(lines), [(0, "already_applied_na_rm_true"),
                                                (3, "already_applied_native_pipe_operator"),
@@ -212,7 +228,7 @@ class Gate(unittest.TestCase):
                       "dev_prompts": frozenset()}
             with self.assertRaisesRegex(F.PanelError, "final_build_requires_authorization"):
                 F.build_panel(**kwargs)
-            auth = F.Authorization("0" * 64, {})
+            auth = F.Authorization("0" * 64, {}, Path(tmp) / "none.json")
             with self.assertRaisesRegex(F.PanelError, "final_build_uses_recipe_as_is"):
                 F.build_panel(**kwargs, authorization=auth, group_ids=["g"])
 
@@ -239,6 +255,25 @@ class Gate(unittest.TestCase):
         with self.assertRaises(SystemExit):
             F.main(["--split", F.FINAL_SPLIT, "--out", "/nonexistent/x", "--tokenizer", "/nonexistent"])
 
+    def test_symlinked_description_is_refused_before_it_is_read(self) -> None:
+        m = F.Modules.load()
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            make_package(root, "pkgA", {"f.R": RENAME_SOURCE})
+            (root / "elsewhere").write_text("License: MIT\n")
+            desc = root / "normalized/pkgA/1.0.0/pkgA/DESCRIPTION"
+            desc.unlink()
+            desc.symlink_to(root / "elsewhere")
+            opened = []
+            original = F._has_license
+            F._has_license = lambda path: opened.append(path) or original(path)  # type: ignore[assignment]
+            try:
+                parents, reasons = F.parents_for(registry([("g-a", "dev_group", "pkgA")])["groups"],
+                                                 root / "normalized", m.astfim)
+            finally:
+                F._has_license = original
+            self.assertEqual((parents, reasons["parent_tree_refused"], opened), ([], 1, []))
+
     def test_symlinked_tree_is_refused(self) -> None:
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -264,7 +299,7 @@ class EndToEnd(unittest.TestCase):
         rec["floor"] = {"cases": 1, "families": dict.fromkeys(F.FAMILIES, 0)}
         work = tmp / "work"
         work.mkdir()
-        auth = F.Authorization("0" * 64, {}) if split == F.FINAL_SPLIT else None
+        auth = issue_authorization(tmp, tmp / "out", tmp / "attempt.json") if split == F.FINAL_SPLIT else None
         if split == F.FINAL_SPLIT:
             # The fixed-recipe rule is for real final builds; the synthetic corpus needs tiny quotas.
             panel = self._final_build(rec, reg, work, auth)
@@ -288,6 +323,34 @@ class EndToEnd(unittest.TestCase):
             self.assertEqual([c["row_id"] for c in first.cases], [c["row_id"] for c in second.cases])
             self.assertEqual(r1["counts"], r2["counts"])
             self.assertEqual({c["group_id"] for c in first.cases} - {"g-a", "g-b"}, set())
+
+    def test_final_build_claims_its_attempt_once(self) -> None:
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.build(root, F.FINAL_SPLIT)
+            marker = json.loads((root / "attempt.json").read_bytes())
+            self.assertEqual(marker["out_dir"], str(root / "out"))
+            auth = issue_authorization(root, root / "out2", root / "attempt.json", name="auth2.json")
+            calls = []
+            original = F.parents_for
+            F.parents_for = lambda *a, **k: calls.append(1) or original(*a, **k)  # type: ignore[assignment]
+            try:
+                with self.assertRaises(AdmissionOutputError):
+                    self._final_build(recipe(root), registry([("g-a", F.FINAL_SPLIT, "pkgA")]), root, auth)
+            finally:
+                F.parents_for = original
+            self.assertEqual(calls, [])  # refused before any parent or source was touched
+
+    def test_finish_function_ids_come_from_the_full_source(self) -> None:
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            panel, _ = self.build(root, "dev_group")
+            finish = [c for c in panel.cases if c["family"] == "finish_block"]
+            self.assertTrue(finish)
+            for case in finish:
+                self.assertEqual(len(case["function_ids"]), 1)
+                self.assertIn(case["function_ids"][0], {F.function_id("pkgA", "R/fin.R", "add_values"),
+                                                        F.function_id("pkgB", "R/fin.R", "plus")})
 
     def test_final_artifacts_pass_the_v2_launcher_checks(self) -> None:
         from admission_guard import AdmissionGuard
@@ -320,7 +383,8 @@ class EndToEnd(unittest.TestCase):
             guard._validate_semantic_receipt([c.spec for c in cases])
             overlap, counts = v2.audit(cases, memberships())
             self.assertEqual(panel.receipt["overlap_audit"]["overlap_groups"], 0)
-            dry = F.launcher_dry_run(out, TextTokenizer(), weights_sha256="a" * 64, harness_sha256="b" * 64)
+            dry = F.launcher_dry_run(out, TextTokenizer(), weights_sha256="a" * 64, harness_sha256="b" * 64,
+                                     rehearsal=False)
             self.assertEqual(dry["constructed"], len(cases))
             self.assertTrue((out / "provenance.json").is_file())
             self.assertEqual(overlap, set())

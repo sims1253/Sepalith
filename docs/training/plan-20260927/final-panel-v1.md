@@ -110,15 +110,17 @@ exactly one corpus directory, comparing `NFKC(name).lower()`. Zero matches or
 several matches skip that form and are counted. The version directory is the
 highest by `build_astfim.version_key`, with the directory name as tie-break.
 A parent needs a `DESCRIPTION` with a nonempty `License:` field. A group
-needs at least one parent.
+needs at least one parent. The C05 finish harvest normally re-picks the
+version. Here it is pinned in memory to the checked version directory.
 
 On the dev split, this rule reproduces all 165 parents of
 `DAT-07-dev-parent-allowlist.json`. It leaves out the 4 dev groups that have
 no CRAN parent. A final group is eligible when its split is
 `final_candidate_group` and it has no `flags`, as in the v1 assembly.
 
-Before a package is read, `checked_tree` refuses a version directory that
-holds any symlink or resolves outside the corpus root.
+Before any file of a package is read, `DESCRIPTION` included, `checked_tree`
+refuses a version directory that holds any symlink or resolves outside the
+corpus root.
 
 ## Case construction
 
@@ -130,7 +132,9 @@ Per parent, R files are visited in sorted order. A file is skipped when it:
 - has a sha256 that is a CPT document.
 
 C05 dropped mixed-EOL files later, in the window and the adapter. Here they
-are skipped up front.
+are skipped up front. The one exception is `finish_block`, which keeps C05's
+own harvest filter (empty, size and CPT). Its EOL and encoding checks stay in
+the DAT-04B adapter, so the finish route stays byte-identical to C05.
 
 | Family | Constructor | Operation |
 | --- | --- | --- |
@@ -138,7 +142,7 @@ are skipped up front.
 | `pipe_rewrite` | `scenarios.extract_pipe(cap=4)`, then the converter | `replace` |
 | `na_rm_propagation` | `scenarios.extract_na_rm(cap=4)`, then the converter | `replace` |
 | `format_propagation` | The tarball member `<Package>/R/<file>` is checked for an exact first path part, a regular file and the size caps. `scenarios.format_pairs_from_lines` compares it with the normalized file, then the converter runs. | `replace` |
-| `no_op` | A non-comment line whose string-stripped text matches `na\.rm\s*=\s*TRUE` (`already_applied_na_rm_true`, checked first) or ends in `\|>` (`already_applied_native_pipe_operator`). Strings are single- or double-quoted literals on the line. The cursor sits at the end of the line, there is no history, and `region_new = region_old`. | `no_op` |
+| `no_op` | A non-comment line whose code (with quoted literals blanked and any inline `#` comment cut) matches `na.rm = TRUE` as a whole token (`already_applied_na_rm_true`, checked first) or ends in `\|>` (`already_applied_native_pipe_operator`). The cursor sits at the end of the line, there is no history, and `region_new = region_old`. | `no_op` |
 | `finish_block` | C05's code-cut harvest: at most 6 bases per package, one per file, C05's body window and plain transforms. One transform per base by `Random(seed_for(group, base_id))`. Then the DAT-04B adapter, then DEV75's outer-brace correction with both of C05's parse gates. | `replace` |
 
 `seed_for(*parts) = int(sha256_json([3407, *parts])[:16], 16)`.
@@ -229,9 +233,15 @@ a broken family, such as a missing tarball root, before anything is pinned.
 The build stops if the panel has fewer than 200 cases or any family is below
 its floor. The receipt then holds aggregate counts only.
 
-A dev_group rehearsal of this recipe built 250 cases from 105 groups. Its
-na_rm slots moved to finish_block. The train-group rehearsal is reported in
-the PR.
+Rehearsals of this recipe:
+
+- **dev_group:** 250 cases from 105 groups. The 3 na_rm slots moved to
+  finish_block, because DEV75 and DEV250 already use dev's na_rm supply.
+- **193 train groups, CPT filter off** (train sources are CPT documents):
+  250 cases from 91 groups, every quota filled.
+
+In both, the launcher dry run constructed 250 of 250 cases with 0
+mismatches.
 
 ## Case fields and files
 
@@ -264,11 +274,13 @@ carries exactly the `SourceCaseSpec` fields plus `function_ids`:
 **Function IDs.** Each top-level `name <- function` or `name = function`
 whose span meets the region (in the post-event document) or the event (in
 the before image) gets the ID `sha256("<Package>\0R/<file>\0<name>")[:16]`.
+A finish case's document is a cut prefix, so its ID comes from the harvested
+function's name, checked against the complete original source.
 That is the exec pool's `function_id` scheme, with the corpus directory's
 case.
 
-**Other files**, all write-once and mode 0400 in a fresh mode-700 panel
-directory:
+**Other files**, all write-once and set to mode 0400 in a fresh mode-700
+panel directory:
 
 - `payloads.json` maps each `row_id` to `{"context", "target"}`.
 - `semantic-receipt.json` has:
@@ -284,8 +296,11 @@ directory:
     these cases.
 - `provenance.json` holds the original paths and hashes. It stays private.
 - `build-receipt.json` holds aggregate counts, exclusion reason counts, the
-  overlap audit aggregate, the dry-run result and file digests. It names no
-  case, path or package.
+  overlap audit aggregate, the dry-run result, the four authorization hashes
+  and file digests. It names no case, path or package.
+- `plan-fragment.json` holds the plan keys that A3 fixes: `cases`,
+  `case_count`, `semantic_receipt`, `payloads_path`, `source_roots` and
+  `memberships`. A4 copies them unchanged.
 
 **Staging.** `/mnt/nas/home` is CIFS without `serverino`, and the guard
 compares inode identity. The protocol also asks for local inputs on a
@@ -335,14 +350,21 @@ near copies.
 
 1. Verify the authorization file's exact sha256 and its constructor and
    recipe hashes.
-2. Verify every module pin, the memberships hash, and
-   `protocol.harness_hash()` against the authorization.
-3. Create the attempt marker exclusively. There is no second attempt with
-   the same authorization.
+2. Verify every module pin and the module closure: every imported repository
+   module outside the package tree must be pinned. Also verify the
+   memberships hash, the tokenizer file hashes, `protocol.harness_hash()`,
+   `sha256_json` of the plan's models object and the freeze statement's file
+   hash against the authorization. Compare them by value. Rehearsals check
+   the DAT-02 pin too, because its split labels decide what may be read.
+3. `build_panel` creates the attempt marker exclusively before it reads any
+   final metadata or source. This holds for Python callers as well as the
+   CLI, so there is no second attempt with the same authorization. The work
+   directory is removed in a `finally` block.
 4. Check the DAT-02 and DEV-panel pins.
 5. Build.
 6. Write the outputs.
-7. Delete the work directory.
+7. Delete the work directory. If any step fails, the unpublished panel
+   directory is deleted unread as well, and the attempt marker stays.
 8. Run the **launcher dry run**: the v2 launcher's own `load_cases`, freeze
    and semantic-receipt validation, root and source-path checks,
    `O_NOFOLLOW` source reads and `construct()`, with the campaign tokenizer.
@@ -354,12 +376,24 @@ near copies.
 or a rerun that depends on what A3 showed.
 
 - **Built:** go to A4.
-- **Stopped below a floor, or the overlap aggregate is above 20%:** the user
-  chooses between running the panel as built (if it is above the floor) and
-  abandoning the sealed final for C17. A new recipe is not an option.
-- **Crash:** partial outputs are deleted unread. The defect is reproduced and
-  fixed on dev data only. A rerun needs a new constructor hash, a review and
-  a new authorization. The previous attempt marker stays as the record.
+- **Stopped below a floor** (`stopped_below_floor`): nothing is staged or
+  written except the aggregate build receipt. The sealed final for C17 is
+  abandoned unless the user decides otherwise. A new recipe is not an
+  option.
+- **Overlap above the 20% ceiling** (`stopped_over_overlap_ceiling`): the
+  unchanged launcher would abort after taking its seal, so the sealed final
+  for C17 is abandoned. A new recipe is not an option.
+- **Crash from a code defect:** partial outputs are deleted unread. The
+  defect is reproduced and fixed on dev data only. A rerun needs a new
+  constructor hash, a review and a new authorization. The previous attempt
+  marker stays as the record.
+- **Environment failure** (mount, disk or permission) that is reproducible
+  without any code change: partial outputs are deleted unread. The same
+  constructor may run again under a new authorization and a new marker.
+  Every content-free check (pins, tokenizer, CPT index, source roots, module
+  closure) runs before the marker is claimed, so these failures normally
+  stop the build before then. A refused package tree or an unreadable
+  tarball is a counted skip, not a crash.
 
 A3 replaces the lost selection file. The selection is a pure function of:
 
@@ -416,12 +450,19 @@ This design adds no criterion.
 
 ## Council review (2026-11-23)
 
-Claude Fable 5.2, Gemini 4 Neon and GPT Astra 6.2 reviewed the design at
-`98a777d0`, all at high effort. Scores: Fable 6.5/10, Gemini 6.5/10,
-Astra 6/10. This version adopts:
+Claude Fable 5.2, Gemini 4 Neon and GPT Astra 6.2 reviewed the design, all
+at high effort.
 
-- **A2 bindings:** the authorization now binds the weights, harness,
-  memberships and freeze statement, and claims a one-shot attempt marker.
+| Delegate | Round 1 (design `98a777d0`) | Round 2 (design and code `4bcf7159`) |
+| --- | --- | --- |
+| Claude Fable 5.2 | 6.5/10 | 8/10, "approvable for the user's decision" |
+| Gemini 4 Neon | 6.5/10 | 8/10, "approvable for the user's decision" |
+| GPT Astra 6.2 | 6/10 | 7/10 |
+
+**Adopted after round 1:**
+
+- **A2 bindings:** the authorization binds the weights, harness, memberships
+  and freeze statement, and claims a one-shot attempt marker.
 - **A3 outcomes:** every outcome is pre-registered.
 - **Dry run:** a pre-seal launcher dry run checks the outputs.
 - **Explicit adapter widening:** the DAT-04B split gate is widened in memory
@@ -434,17 +475,45 @@ Astra 6/10. This version adopts:
 - **Determinism and order:** version picks are deterministic, mixed EOL is
   skipped up front, tarball members are checked, row IDs are deduplicated,
   and the order of steps is written down.
-- **Function IDs:** they include `=` assignment and use the corpus case.
 - **Coverage:** the train inventory covers every non-dev, non-final label,
   coverage is recorded per stage, and no-op equivalence is shown field for
   field.
 
-Declined or deferred:
+**Adopted after round 2:**
 
-- **Reserving unread final groups for a later release.** The user decides
-  this (open question 5).
-- **Reference rates on DEV250 without roxygen.** This is a follow-up and can
-  be computed from existing DEV250 results.
+- **One-shot claim:** `build_panel` itself re-verifies the authorization from
+  disk and claims the marker. Every content-free check runs before the claim.
+- **Values, not shapes:** the models and the freeze statement are compared by
+  value.
+- **Module closure:** the transitively imported `rewrite_*` modules are
+  pinned, and the closure is checked.
+- **Read order:** `checked_tree` runs before `DESCRIPTION` is read, and the
+  finish harvest is pinned to the checked version.
+- **Counted skips:** a refused package tree or an unreadable tarball is
+  counted, not fatal.
+- **Stops write nothing else:** below-floor and over-ceiling stops write only
+  the aggregate receipt, and a failed build deletes its partial outputs
+  unread.
+- **Finish function IDs** come from the full source, and only `<-` and `=`
+  count as assignments.
+- **`plan-fragment.json`** is written at A3.
+- **Normalized format files** get strict UTF-8 and EOL checks.
+- **Inventory parsing:** the field parser cannot pick up nested keys, and
+  missing identities are rejected.
+
+**Declined or deferred, as follow-ups:**
+
+- **Reserving unread final groups.** The user decides this (open question 5).
+- **DEV250 reference rates at the final family mix.** These can be computed
+  from existing DEV250 results before A3. No per-family final rate will be
+  reported.
+- **A full A3 dress rehearsal through a dev-split authorization.** It is
+  recommended before A2. The final-only CLI branches are thin and are
+  covered by unit tests of `authorize`, `claim_attempt` and the final
+  `build_panel` path.
+- **Restoring the adapter's `ALLOWED_SPLITS`.** One build runs per process.
+- **A content-free `check_plan` at A4.** `plan-fragment.json` covers the
+  A3-fixed keys.
 
 ## Open questions
 

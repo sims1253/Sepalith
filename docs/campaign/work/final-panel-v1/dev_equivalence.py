@@ -62,14 +62,6 @@ def hashes(context: dict, operation: str, region_new: list[str]) -> tuple[str, s
     return sha(render_prompt(PromptContext.from_mapping(context))), sha(serialize_target(operation, region_new))
 
 
-def strip_ids(context: dict) -> dict:
-    """event_id is derived from the row ID; it is never rendered."""
-    context = json.loads(json.dumps(context))
-    for event in context["history"]:
-        event["event_id"] = ""
-    return context
-
-
 def key(example: dict) -> tuple:
     return (example["path"], tuple(example["prefix"]), tuple(example["region_old"]),
             tuple(example["region_new"]), example["event_diff"], example["cursor_idx"])

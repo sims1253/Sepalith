@@ -1,5 +1,5 @@
 {
- "constructor_sha256": "fb483c24aba7d16d2ade02d38ad76a40c6de3493caabf2e9d4d8b6e1652e4393",
+ "constructor_sha256": "803c9269518595bb91cd23a213d01cd715ddd0c8d949f0d9628b97839e6de141",
  "dev250_finish_block": {
   "authored:cases": 55,
   "authored:context_and_target_equal": 55,
@@ -77,6 +77,6 @@
   "finish_cut_rows": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev-finish-cut-v1/rows.jsonl",
   "phase1": "/mnt/e/sepalith/campaign-20260915/data-work/C05-dev250-v1r3-phase1"
  },
- "recipe_sha256": "5a1e078e0b9e23bc40ec20327fc604c9e7276cf31d23c0c0bc587d25c8ec0283",
+ "recipe_sha256": "5a55bd14b5a9576c0452dc80110f90217efb3b1a3fba3d826d35482cf7afdb3a",
  "schema": "sepalith.final-panel.v1.dev-equivalence"
 }
