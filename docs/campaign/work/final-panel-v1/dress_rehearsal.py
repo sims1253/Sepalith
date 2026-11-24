@@ -20,7 +20,11 @@ Every step uses the code and settings of the real final run. The differences are
   sources. The full panel still goes through the build's launcher dry run (load, semantic receipt,
   roots, O_NOFOLLOW reads and construct for every case). Reason: CPU bf16 on this Zen 3 machine
   (no AVX-512 or bf16 units) took about 250 s per case under load, so the full roster would not
-  finish in a day.
+  finish in a day. (The CPU run of 2026-11-23 used it; the GPU rehearsal scores the full panel.)
+* GPU rehearsal (2026-11-24, user: "Switch to GPU"): `assemble --panel-root` plans a fresh root over the
+  built panel of an earlier rehearsal root, pins the night-job file (`--night-job`) and writes the rehearsal
+  freeze digest to `freeze-approved.sha256`. The night job (`final-protocol-v2/night_job.py rehearsal`) then
+  runs `score` under the CUDA host guard, as the final job runs the launcher.
 
 Commands (run from the repository root):
 
@@ -29,6 +33,7 @@ Commands (run from the repository root):
     python dress_rehearsal.py subset --root DIR             # optional, pre-registered subset
     python dress_rehearsal.py assemble --root DIR [--subset]
     .venv-sft/bin/python dress_rehearsal.py score --root DIR            # the pinned interpreter
+    python dress_rehearsal.py assemble --root NEW --panel-root DIR --night-job JOB.json   # GPU rehearsal
 
 DIR must be a fresh directory under the mode-700 sealed-final state directory.
 """
@@ -157,11 +162,17 @@ def subset(root: Path) -> Json:
     return {"cases": len(ids), "families": dict(sorted(Counter(c["family"] for c in chosen).items()))}
 
 
-def assemble(root: Path, use_subset: bool) -> Json:
+def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night_job: Path | None = None) -> Json:
     import protocol as v2
 
-    panel = rehearsal_panel(root)
-    chosen = (root / "subset-panel") if use_subset else panel
+    if panel_root is not None:
+        # A fresh rehearsal root over the built panel of an earlier one.
+        if use_subset or panel_root == root or not panel_root.is_relative_to(STATE):
+            raise SystemExit("--panel-root names another rehearsal root and takes no --subset")
+        root.mkdir(mode=0o700)
+    source = panel_root or root
+    panel = rehearsal_panel(source)
+    chosen = (source / "subset-panel") if use_subset else panel
     if chosen.resolve() != chosen:
         raise SystemExit("subset panel must be a real directory inside the rehearsal root")
     fragment = json.loads((chosen / "plan-fragment.json").read_bytes())
@@ -183,9 +194,13 @@ def assemble(root: Path, use_subset: bool) -> Json:
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
     state = root / "run-state"
     state.mkdir(mode=0o700)
-    runtime = {k: v for k, v in pins["runtime"].items() if k in ("python_sha256", "distributions", "llama_server")}
+    runtime = {k: v for k, v in pins["runtime"].items()
+               if k in ("python_sha256", "distributions", "torch_cuda", "device", "llama_server")}
     plan = {"schema": v2.SCHEMA + ".plan", "models": pins["models"], "release_artifacts": pins["release_artifacts"],
             "tokenizer": pins["tokenizer"], "runtime": runtime, **fragment, "state_dir": str(state)}
+    if night_job is not None:
+        job = night_job.resolve(strict=True)
+        plan["night_job"] = {"path": str(job), "sha256": file_sha(job)}
     plan_sha = write_once(root / "plan.json", plan)
     now = datetime.now(timezone.utc).isoformat()
     freeze = {"schema": v2.SCHEMA + ".freeze", "status": "frozen", "weights_frozen": True, "harness_frozen": True,
@@ -193,6 +208,9 @@ def assemble(root: Path, use_subset: bool) -> Json:
               "plan_sha256": plan_sha, "weights_sha256": sha256_json(pins["models"]),
               "harness_sha256": v2.harness_hash()}
     freeze_sha = write_once(root / "freeze.json", freeze)
+    if night_job is not None:
+        # The night job reads the digest apart from the receipt, as it reads the user's for the final run.
+        write_once(root / "freeze-approved.sha256", freeze_sha + "\n")
     return {"plan_sha256": plan_sha, "freeze_sha256": freeze_sha, "case_count": plan["case_count"]}
 
 
@@ -244,6 +262,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--subset", action="store_true", help="assemble: plan the pre-registered subset panel")
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--freeze-sha256")
+    parser.add_argument("--panel-root", type=Path, help="assemble: plan a fresh root over this root's built panel")
+    parser.add_argument("--night-job", type=Path, help="assemble: pin this night-job file in the plan")
     parser.add_argument("--build-groups", type=int, help="authorize: rehearsal group count (default: the recipe's)")
     parser.add_argument("--dev-blind", action="store_true",
                         help="authorize: empty the dev inventory so the launcher's audit can pass on dev cases")
@@ -256,7 +276,8 @@ def main(argv: list[str] | None = None) -> int:
     elif args.step == "subset":
         out = subset(root)
     elif args.step == "assemble":
-        out = assemble(root, args.subset)
+        panel_root = args.panel_root.resolve() if args.panel_root else None
+        out = assemble(root, args.subset, panel_root, args.night_job)
     else:
         if not args.freeze_sha256:
             parser.error("score needs --freeze-sha256")

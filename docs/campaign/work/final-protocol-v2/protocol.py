@@ -104,7 +104,7 @@ def write_once(path: Path, value: Json) -> None:
 
 
 def harness_hash() -> str:
-    """Bind the v2 entry points and guard to the unchanged pinned evaluator tree."""
+    """Bind the v2 entry points, the night-job wrapper and the guard to the unchanged pinned evaluator tree."""
     package = PACKAGE_DIR.relative_to(ROOT)
     diff = subprocess.run(
         ["git", "diff", "--quiet", EVALUATOR_COMMIT, "--", str(package)], cwd=ROOT, check=False,
@@ -117,7 +117,7 @@ def harness_hash() -> str:
     )
     if diff.returncode or untracked or tree.returncode or tree.stdout.decode().strip() != EVALUATOR_TREE:
         raise ProtocolError("evaluator_tree_differs_from_pin")
-    files = [HERE / "protocol.py", HERE / "runtime.py", GUARD_DIR / "admission_guard.py"]
+    files = [HERE / "protocol.py", HERE / "runtime.py", HERE / "night_job.py", GUARD_DIR / "admission_guard.py"]
     return sha256_json({
         "evaluator_commit": EVALUATOR_COMMIT,
         "evaluator_tree": EVALUATOR_TREE,

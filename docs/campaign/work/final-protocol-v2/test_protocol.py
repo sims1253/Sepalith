@@ -297,5 +297,109 @@ class HarnessPin(unittest.TestCase):
             v2.harness_hash()
 
 
+class GpuRuntime(unittest.TestCase):
+    """2026-11-24 GPU switch: llama-server's resolved libraries must be exactly the pinned set."""
+
+    LDD = (
+        "\tlinux-vdso.so.1 (0x0)\n"
+        "\tlibggml.so.0 => {lib} (0x1)\n"
+        "\tlibcuda.so.1 => /usr/lib/wsl/lib/libcuda.so.1 (0x2)\n"
+        "\tlibc.so.6 => /usr/lib/libc.so.6 (0x3)\n"
+        "\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x4)\n"
+    )
+
+    def test_system_libraries_are_ignored_and_others_resolved(self) -> None:
+        with TemporaryDirectory() as folder:
+            real = Path(folder) / "libggml.so.0.20.0"
+            real.write_bytes(b"x")
+            link = Path(folder) / "libggml.so.0"
+            link.symlink_to(real.name)
+            self.assertEqual(runtime.resolved_libraries(self.LDD.format(lib=link)), {real.resolve()})
+
+    def test_unresolved_library_is_refused(self) -> None:
+        with self.assertRaisesRegex(v2.ProtocolError, "library_not_found"):
+            runtime.resolved_libraries("\tlibcudart.so.13 => not found\n")
+
+    def test_unpinned_or_extra_library_is_refused(self) -> None:
+        with TemporaryDirectory() as folder:
+            lib = (Path(folder) / "libggml.so.0").resolve()
+            lib.write_bytes(b"x")
+            digest = v2.sha256_bytes(b"x")
+            ldd = self.LDD.format(lib=lib)
+            with patch.object(runtime.subprocess, "check_output", return_value=ldd):
+                runtime.verify_server_libraries(lib, {str(lib): digest}, replay=False)
+                with self.assertRaisesRegex(v2.ProtocolError, "library_set_mismatch"):
+                    other = Path(folder) / "libother.so"
+                    other.write_bytes(b"x")
+                    runtime.verify_server_libraries(lib, {str(other.resolve()): digest}, replay=False)
+            with self.assertRaisesRegex(v2.ProtocolError, "libraries_unpinned"):
+                runtime.verify_server_libraries(lib, {}, replay=True)
+
+
+class NightJob(unittest.TestCase):
+    """The pre-launch checks of the night-queue wrapper; nothing here starts a launcher or touches a GPU."""
+
+    def setUp(self) -> None:
+        import night_job
+
+        self.nj = night_job
+        temporary = TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.dir = Path(temporary.name)
+        self.environ = {**night_job.REQUIRED_ENV, "SEPALITH_DEADLINE_EPOCH": str(10_000 + 7 * 3600),
+                        "SEPALITH_HARD_STOP_EPOCH": str(10_000 + 8 * 3600), "SEPALITH_NIGHT_ATTEMPT_DIR": "/x"}
+
+    def check_env(self, environ: dict[str, str], now: float = 10_000) -> float:
+        with patch.object(self.nj, "MAIN_CHECKOUT", self.nj.ROOT):
+            return self.nj.check_environment(environ, self.nj.ROOT, now)
+
+    def test_environment_checks(self) -> None:
+        self.assertEqual(self.check_env(self.environ), 10_000 + 8 * 3600)
+        for broken in ({"PYTORCH_CUDA_ALLOC_CONF": ""}, {"PYTHONPATH": "/elsewhere"},
+                       {"SEPALITH_NIGHT_ATTEMPT_DIR": ""}):
+            with self.assertRaises(self.nj.JobRefused):
+                self.check_env({**self.environ, **broken})
+        with self.assertRaisesRegex(self.nj.JobRefused, "too little"):
+            self.check_env(self.environ, now=10_000 + 2 * 3600)
+        with self.assertRaisesRegex(self.nj.JobRefused, "main checkout"):
+            self.nj.check_environment(self.environ, Path("/elsewhere"), 10_000)
+
+    def test_queued_job_must_equal_the_reviewed_file_pinned_by_the_plan(self) -> None:
+        for mode, name in self.nj.JOBS.items():
+            job_file = self.nj.JOB_DIR / f"{name}.json"
+            reviewed = json.loads(job_file.read_bytes())
+            self.assertEqual(reviewed["id"], name)
+            self.assertFalse(reviewed["resumable"])
+            command = reviewed["command"]
+            self.assertIn("PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True", command)
+            self.assertEqual(command[command.index(mode) - 1][-12:], "night_job.py")
+            running = self.dir / mode
+            running.mkdir()
+            (running / job_file.name).write_text(json.dumps({**reviewed, "attempts": [{}]}))
+            plan = {"night_job": {"path": str(job_file), "sha256": self.nj.sha256_file(job_file)}}
+            self.nj.check_job(mode, plan, running)
+            with self.assertRaisesRegex(self.nj.JobRefused, "does not pin"):
+                self.nj.check_job(mode, {"night_job": {**plan["night_job"], "sha256": "0" * 64}}, running)
+            (running / job_file.name).write_text(json.dumps({**reviewed, "command": ["/bin/true"]}))
+            with self.assertRaisesRegex(self.nj.JobRefused, "differs from the reviewed"):
+                self.nj.check_job(mode, plan, running)
+
+    def test_training_processes_are_found(self) -> None:
+        proc = self.dir / "proc"
+        for pid, argv in ((101, [b"python", b"-m", b"sepalith.training.sft.c20.run"]), (102, [b"bash"]),
+                          (103, [b"bash", b"-c", b"pgrep -af sepalith.training"])):
+            (proc / str(pid)).mkdir(parents=True)
+            (proc / str(pid) / "cmdline").write_bytes(b"\0".join(argv) + b"\0")
+        self.assertEqual(self.nj.training_processes(proc), [101])
+
+    def test_refusal_writes_the_job_result_and_starts_nothing(self) -> None:
+        result = self.dir / "result.json"
+        with patch.dict(self.nj.os.environ, {"SEPALITH_JOB_RESULT": str(result)}), \
+                patch.object(self.nj, "guarded_run", side_effect=AssertionError("launched")):
+            code = self.nj.main(["rehearsal", "--root", str(self.nj.STATE / "rehearsals/none")])
+        self.assertEqual(code, 2)
+        self.assertIn("not started", json.loads(result.read_text())["summary"])
+
+
 if __name__ == "__main__":
     unittest.main()

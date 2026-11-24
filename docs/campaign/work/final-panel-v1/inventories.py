@@ -36,6 +36,8 @@ import subprocess
 import sys
 from typing import Any
 
+HERE = Path(__file__).resolve().parent
+
 Json = dict[str, Any]
 REPO = Path(__file__).resolve().parents[4]
 DATA = Path("/mnt/e/sepalith/campaign-20260915/data-work")
@@ -69,7 +71,11 @@ Q6_K = (QUANT / "c19-100-imat-Q6_K.gguf", "6593785330b99076b80ae3ac679bda76c5fcf
 MIXB_E4 = (QUANT / "c19-100-mixb-e4-Q4_K_M.gguf", "e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b")
 CAMPAIGN_TOKENIZER = Path("/mnt/e/sepalith/campaign-20260915/models/minicpm5-2b-midtrain")
 TOKENIZER_FILES = ("tokenizer.json", "tokenizer_config.json", "special_tokens_map.json")
-LLAMA_SERVER = Path.home() / ".local/opt/llama.cpp-b10453/build-cpu/bin/llama-server"
+# 2026-11-24 (user: "Switch to GPU"): the CUDA build of the same commit, the build the C17 quant gate used.
+LLAMA_SERVER = Path.home() / ".local/opt/llama.cpp-b10453/build-cuda/bin/llama-server"
+# The PC's card, read from Windows (Win32_VideoController) without a CUDA context; the launcher checks it
+# against torch before its seal.
+CUDA_DEVICE = {"name": "NVIDIA GeForce RTX 5090", "capability": [12, 0]}
 LLAMA_COMMIT = "3cb7ffb1a"
 DISTRIBUTIONS = ("torch", "transformers", "tokenizers", "safetensors", "accelerate")
 
@@ -269,14 +275,25 @@ def tree_record(root: Path) -> Json:
 def runtime_pins() -> Json:
     from importlib.metadata import version
 
+    import torch
+
+    sys.path.insert(0, str(HERE.parent / "final-protocol-v2"))
+    import protocol  # noqa: F401 - puts the admission guard and package on sys.path for runtime
+    from runtime import resolved_libraries
+
+    ldd = subprocess.run(["ldd", str(LLAMA_SERVER)], capture_output=True, text=True, timeout=60, check=True)
+    libraries = {str(path): sha256_file(path) for path in sorted(resolved_libraries(ldd.stdout))}
     interpreter = Path(sys.executable).resolve(strict=True)
+    # CUDA stays hidden: the version banner needs no device, and the GPU is for the night window only.
     banner = subprocess.run([str(LLAMA_SERVER), "--version"], capture_output=True, text=True, timeout=60,
-                            check=False)
+                            check=False, env={**os.environ, "CUDA_VISIBLE_DEVICES": ""})
     if LLAMA_COMMIT not in banner.stdout + banner.stderr:
         raise ValueError("llama-server is not the pinned commit")
     return {"python_sha256": sha256_file(interpreter), "python_path": str(interpreter),
             "distributions": {name: version(name) for name in DISTRIBUTIONS},
-            "llama_server": {**file_pin(LLAMA_SERVER), "commit": LLAMA_COMMIT}}
+            "torch_cuda": torch.version.cuda, "device": CUDA_DEVICE,
+            "llama_server": {**file_pin(LLAMA_SERVER), "commit": LLAMA_COMMIT, "build": "cuda",
+                             "libraries": libraries}}
 
 
 def build_pins(state: Path) -> Json:

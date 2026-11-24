@@ -19,7 +19,7 @@
   "families": {
    "no_op": 40,
    "finish_block": 61,
-   "pipe_rewrite": 14,
+   "pipe_rewrite": 6,
    "format_propagation": 12,
    "rename_propagation": 12,
    "na_rm_propagation": 0
