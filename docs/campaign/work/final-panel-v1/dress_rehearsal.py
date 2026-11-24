@@ -48,6 +48,7 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
+import stat
 import sys
 import time
 from typing import Any
@@ -75,6 +76,13 @@ def write_once(path: Path, value: Json | str) -> str:
 
 def file_sha(path: Path) -> str:
     return sha256_bytes(Path(path).read_bytes())
+
+
+def regular_files(*paths: Path) -> None:
+    """Refuse symlinks, FIFOs and other non-regular files before anything reads them."""
+    for path in paths:
+        if not path.is_absolute() or not stat.S_ISREG(path.lstat().st_mode):
+            raise SystemExit("rehearsal panel inputs must be absolute regular files")
 
 
 def dev_blind_memberships(path: Path) -> Json:
@@ -124,6 +132,8 @@ def rehearsal_panel(root: Path) -> Path:
     panel = root / "panel"
     if panel.resolve() != panel or not panel.is_dir():
         raise SystemExit("rehearsal panel must be a real directory inside the rehearsal root")
+    regular_files(panel / "build-receipt.json", root / "build-authorization.json", panel / "cases.json",
+                  panel / "semantic-receipt.json", panel / "payloads.json")
     receipt = json.loads((panel / "build-receipt.json").read_bytes())
     authorization = file_sha(root / "build-authorization.json")
     if (receipt.get("split") != "dev_group" or receipt.get("status") != "built"
@@ -182,9 +192,8 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     chosen = (source / "subset-panel") if use_subset else panel
     if chosen.resolve() != chosen:
         raise SystemExit("subset panel must be a real directory inside the rehearsal root")
-    for name in ("plan-fragment.json", "cases.json", "semantic-receipt.json", "payloads.json"):
-        if (chosen / name).is_symlink() or not (chosen / name).is_file():
-            raise SystemExit("rehearsal panel files must be real regular files")
+    regular_files(*(chosen / name for name in ("plan-fragment.json", "cases.json", "semantic-receipt.json",
+                                               "payloads.json")))
     fragment = json.loads((chosen / "plan-fragment.json").read_bytes())
     # The plan takes exactly the chosen panel's canonical files at their current digests. rehearsal_panel()
     # checked the full panel's files against its build receipt.
@@ -197,8 +206,10 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     # The audit's memberships are the ones the build authorization bound.
     authorization = json.loads((source / "build-authorization.json").read_bytes())
     memberships = Path(fragment["memberships"]["path"])
-    if (fragment["memberships"]["sha256"] != authorization["memberships_sha256"] or memberships.is_symlink()
-            or file_sha(memberships) != authorization["memberships_sha256"]):
+    if fragment["memberships"]["sha256"] != authorization["memberships_sha256"]:
+        raise SystemExit("plan fragment memberships differ from the build authorization")
+    regular_files(memberships)
+    if file_sha(memberships) != authorization["memberships_sha256"]:
         raise SystemExit("plan fragment memberships differ from the build authorization")
     cases_count = len(json.loads((chosen / "cases.json").read_bytes())["cases"])
     if fragment["case_count"] != cases_count:
