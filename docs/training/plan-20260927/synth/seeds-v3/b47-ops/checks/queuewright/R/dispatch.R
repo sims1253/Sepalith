@@ -1,0 +1,43 @@
+jobs <- data.frame(id = 1:4, release = c(0, 0, 1, 2), proc_time = c(4, 2, 3, 1),
+  due = c(5, 3, 10, 6), weight = c(1, 3, 2, 1))
+
+stopifnot(identical(dispatch_order(jobs, "fifo")$id, 1:4))
+stopifnot(identical(dispatch_order(jobs, "spt")$id, c(4L, 2L, 3L, 1L)))
+stopifnot(identical(dispatch_order(jobs, "lpt")$id, c(1L, 3L, 2L, 4L)))
+stopifnot(identical(dispatch_order(jobs, "edd")$id, c(2L, 1L, 4L, 3L)))
+stopifnot(identical(dispatch_order(jobs, "slack")$id, c(2L, 1L, 4L, 3L)))
+stopifnot(identical(dispatch_order(jobs, "cr")$id, 1:4))
+stopifnot(attr(dispatch_order(jobs, "edd"), "rule") == "edd")
+stopifnot(inherits(try(dispatch_order(jobs[, 1:2]), silent = TRUE), "try-error"))
+
+s_spt <- simulate_single_machine(jobs, "spt")
+stopifnot(identical(s_spt$finish, c(10, 2, 6, 3)), identical(s_spt$tardiness, c(5, 0, 0, 0)))
+s_fifo <- simulate_single_machine(jobs, "fifo")
+stopifnot(identical(s_fifo$finish, c(4, 6, 9, 10)), identical(s_fifo$tardiness, c(0, 3, 0, 4)))
+stopifnot(simulate_single_machine(jobs, "lpt")$finish[1] == 4)
+stopifnot(simulate_single_machine(jobs, "edd")$finish[2] == 2)
+stopifnot(max(simulate_single_machine(jobs, "slack")$finish) == 10)
+stopifnot(simulate_single_machine(jobs, "cr")$start[1] == 0)
+gap <- simulate_single_machine(data.frame(id = 1:2, release = c(0, 10), proc_time = 2,
+  due = 20), "fifo")
+stopifnot(identical(gap$start, c(0, 10)))
+
+m <- schedule_metrics(s_fifo)
+stopifnot(m[["makespan"]] == 10, m[["mean_flow"]] == mean(c(4, 6, 8, 8)))
+stopifnot(m[["max_flow"]] == 8, m[["mean_tardiness"]] == 7 / 4)
+stopifnot(m[["max_lateness"]] == 4, m[["n_tardy"]] == 2, m[["idle"]] == 0)
+stopifnot(schedule_metrics(gap, "idle") == 8)
+
+cmp <- compare_rules(jobs, c("fifo", "spt"))
+stopifnot(nrow(cmp) == 2, identical(cmp$rule, c("fifo", "spt")))
+stopifnot(cmp$mean_flow[2] < cmp$mean_flow[1], grepl("mean_flow", cmp$best[2]))
+stopifnot(grepl("makespan", cmp$best[1]), grepl("makespan", cmp$best[2]))
+
+w1 <- weighted_dispatch(jobs, c(proc_time = 1, due = 0, slack = 0, release = 0, weight = 0))
+stopifnot(identical(w1$id, c(4L, 2L, 3L, 1L)))
+w2 <- weighted_dispatch(jobs, c(proc_time = 0, due = 1, slack = 0, release = 0, weight = 0))
+stopifnot(identical(w2$id, c(2L, 1L, 4L, 3L)))
+w3 <- weighted_dispatch(jobs, c(proc_time = 0, due = 0, slack = 1, release = 1, weight = 0))
+stopifnot(w3$id[1] %in% c(1L, 2L), "score" %in% names(w3))
+w4 <- weighted_dispatch(jobs, c(proc_time = 0, due = 0, slack = 0, release = 0, weight = 1))
+stopifnot(w4$id[1] == 2L, w4$id[2] == 3L)

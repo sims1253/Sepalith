@@ -1,0 +1,50 @@
+up = migration0001Up()
+stopifnot(length(up) == 4L, startsWith(up[1], "CREATE TABLE \"accounts\" (\n"))
+stopifnot(grepl("\"id\" BIGSERIAL PRIMARY KEY", up[1]), grepl("\"active\" BOOLEAN", up[1]))
+stopifnot(startsWith(up[2], "CREATE TABLE \"sessions\""))
+stopifnot(grepl("\"account_id\" BIGINT NOT NULL", up[2]))
+stopifnot(startsWith(up[3], "CREATE TABLE \"api_keys\""), grepl("\"revoked\" BOOLEAN", up[3]))
+stopifnot(startsWith(up[4], "CREATE TABLE \"audit_log\""), endsWith(up[4], "TIMESTAMPTZ\n);"))
+my = migration0001Up("mysql")
+stopifnot(grepl("`email` VARCHAR(255)", my[1], fixed = TRUE), grepl("AUTO_INCREMENT", my[2]))
+stopifnot(grepl("AUTOINCREMENT", migration0001Up("sqlite")[3]))
+
+down = migration0001Down()
+stopifnot(identical(down, sprintf("DROP TABLE IF EXISTS \"%s\";",
+                                  c("audit_log", "api_keys", "sessions", "accounts"))))
+stopifnot(migration0001Down("mysql")[4] == "DROP TABLE IF EXISTS `accounts`;")
+
+up2 = migration0002Up()
+stopifnot(length(up2) == 10L)
+stopifnot(up2[1] == "ALTER TABLE \"accounts\" ADD COLUMN \"display_name\" TEXT;")
+stopifnot(up2[2] ==
+            "UPDATE \"accounts\" SET \"display_name\" = '' WHERE \"display_name\" IS NULL;")
+stopifnot(up2[4] == "UPDATE \"accounts\" SET \"verified\" = FALSE WHERE \"verified\" IS NULL;")
+stopifnot(up2[5] == "ALTER TABLE \"accounts\" ADD COLUMN \"last_login_at\" TIMESTAMPTZ;")
+stopifnot(grepl("CURRENT_TIMESTAMP", up2[6]), grepl("\"sessions\".*\"user_agent\"", up2[7]))
+stopifnot(up2[9] == "ALTER TABLE \"api_keys\" ADD COLUMN \"label\" TEXT;", grepl("label", up2[10]))
+stopifnot(grepl("= 0 WHERE", migration0002Up("sqlite")[4]))
+stopifnot(grepl("TINYINT", migration0002Up("mysql")[3]))
+
+down2 = migration0002Down("mysql")
+stopifnot(length(down2) == 5L, down2[1] == "ALTER TABLE `api_keys` DROP COLUMN `label`;")
+stopifnot(down2[2] == "ALTER TABLE `sessions` DROP COLUMN `user_agent`;")
+stopifnot(grepl("last_login_at", down2[3]), grepl("verified", down2[4]))
+stopifnot(grepl("display_name", down2[5]))
+
+up3 = migration0003Up()
+stopifnot(up3[1] == "CREATE UNIQUE INDEX \"accounts_email_key\" ON \"accounts\" (\"email\");")
+stopifnot(up3[2] == "CREATE UNIQUE INDEX \"sessions_token_key\" ON \"sessions\" (\"token\");")
+stopifnot(up3[3] == "CREATE INDEX \"api_keys_account_id_idx\" ON \"api_keys\" (\"account_id\");")
+stopifnot(up3[4] == paste0("CREATE INDEX \"audit_log_account_id_logged_at_idx\" ON \"audit_log\" ",
+                           "(\"account_id\", \"logged_at\");"))
+
+down3 = migration0003Down()
+stopifnot(down3[1] == "DROP INDEX IF EXISTS \"audit_log_account_id_logged_at_idx\";")
+stopifnot(down3[4] == "DROP INDEX IF EXISTS \"accounts_email_key\";")
+down3m = migration0003Down("mysql")
+stopifnot(down3m[2] == "DROP INDEX `api_keys_account_id_idx` ON `api_keys`;")
+stopifnot(down3m[3] == "DROP INDEX `sessions_token_key` ON `sessions`;")
+# Every index created by 0003 up is dropped by 0003 down
+names3 = sub("^CREATE (UNIQUE )?INDEX \"([^\"]+)\".*$", "\\2", up3)
+stopifnot(setequal(names3, sub("^DROP INDEX IF EXISTS \"([^\"]+)\";$", "\\1", down3)))

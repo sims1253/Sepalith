@@ -1,0 +1,31 @@
+stopifnot(qcLimits("temp")$maxStep == 5, qcLimits("rh")$upper == 100)
+stopifnot(qcLimits("pressure")$lower == 850, qcLimits("wind_speed")$maxRun == 6)
+stopifnot(is.infinite(qcLimits("precip")$maxRun))
+
+r = qcRange(c(-1, 5, 11, NA), 0, 10)
+stopifnot(identical(c(r), c(1L, 0L, 1L, NA)), attr(r, "check") == "range", attr(r, "nFail") == 2L)
+stopifnot(inherits(try(qcRange("a", 0, 1), silent = TRUE), "try-error"))
+stopifnot(inherits(try(qcRange(1, 2, 1), silent = TRUE), "try-error"))
+
+st = qcStep(c(1, 2, 10, NA, 11), 3)
+stopifnot(identical(c(st), c(0L, 0L, 1L, NA, 0L)), attr(st, "check") == "step")
+stopifnot(identical(c(qcStep(c(NA, 5), 1)), c(NA, 0L)))
+stopifnot(identical(qcStep(c(NA_real_, NA_real_), 1), c(NA_integer_, NA_integer_)))
+stopifnot(inherits(try(qcStep(1:3 + 0, 0), silent = TRUE), "try-error"))
+
+pe = qcPersistence(c(1, 1, 1, 2, 2, NA, NA, NA), 2)
+stopifnot(identical(c(pe), c(1L, 1L, 1L, 0L, 0L, NA, NA, NA)), attr(pe, "nFail") == 3L)
+stopifnot(inherits(try(qcPersistence(1, 0), silent = TRUE), "try-error"))
+
+sp = qcSpike(c(1, 9, 1, 1, -8, 1), 5)
+stopifnot(identical(c(sp), c(0L, 1L, 0L, 0L, 1L, 0L)), attr(sp, "check") == "spike")
+stopifnot(identical(c(qcSpike(c(1, 9), 5)), c(0L, 0L)))
+stopifnot(inherits(try(qcSpike(1, -1), silent = TRUE), "try-error"))
+
+m = qcMeasure(c(10, 11, 30, 30, 30, 30, 30, 30, 30, 80), "temp")
+stopifnot(identical(names(m), c("value", "range", "step", "persistence", "flag")))
+stopifnot(m$step[3] == 1L, m$persistence[3] == 1L, m$range[10] == 1L)
+stopifnot(m$flag[1] == 0L, m$flag[10] == 1L)
+p = qcMeasure(c(0, 0, 0, 0), "precip")
+stopifnot(all(p$flag == 0L))
+stopifnot(qcMeasure(c(1, 4), "temp", list(maxStep = 2))$step[2] == 1L)

@@ -1,0 +1,36 @@
+sl = straightLineSchedule(1000, 100, 3)
+stopifnot(identical(sl$charge, c(300, 300, 300)), sl$closing[3] == 100)
+stopifnot(identical(sl$opening, c(1000, 700, 400)))
+sl2 = straightLineSchedule(100, 0, 3)
+stopifnot(identical(sl2$charge, c(33.33, 33.33, 33.34)), isTRUE(all.equal(sl2$closing[3], 0)))
+
+d = decliningSchedule(1000, 100, 5, 2)
+stopifnot(d$charge[1] == 400, d$charge[2] == 240, isTRUE(all.equal(d$closing[5], 100)))
+stopifnot(all(decliningSchedule(1000, 0, 4, 1)$charge == 250))
+
+s = sumOfYearsSchedule(1600, 100, 5)
+stopifnot(identical(s$charge, c(500, 400, 300, 200, 100)), s$accumulated[5] == 1500)
+
+u = unitsSchedule(1000, 0, c(100, 300, 600), 1000)
+stopifnot(identical(u$charge, c(100, 300, 600)), u$closing[3] == 0)
+u2 = unitsSchedule(1000, 0, c(100, 300), 1000)
+stopifnot(u2$closing[2] == 600)
+
+stopifnot(identical(depreciationSchedule(1000, 100, 3)$charge, c(300, 300, 300)))
+stopifnot(depreciationSchedule(1000, 0, 4, "decliningOneHalf")$charge[1] == 375)
+stopifnot(depreciationSchedule(1000, 0, 4, "doubleDeclining")$charge[1] == 500)
+stopifnot(depreciationSchedule(900, 0, 6, "tripleDeclining")$charge[1] == 450)
+stopifnot(identical(depreciationSchedule(1600, 100, 5, "sumOfYears")$charge, s$charge))
+un = depreciationSchedule(1000, 0, 1000, "units", units = c(500, 500))
+stopifnot(identical(un$charge, c(500, 500)), attr(un, "method") == "units")
+stopifnot(inherits(try(depreciationSchedule(1000, 0, 10, "units"), silent = TRUE),
+  "try-error"))
+stopifnot(inherits(try(depreciationSchedule(100, 200, 3), silent = TRUE), "try-error"))
+
+sch = depreciationSchedule(1000, 100, 3)
+r = disposalResult(sch, 2, 500)
+stopifnot(r$bookValue == 400, r$gain == 100, r$loss == 0)
+stopifnot(r$entry$account == "4900", r$entry$credit == 100)
+r2 = disposalResult(sch, 1, 600, lossAccount = "6950")
+stopifnot(r2$gain == 0, r2$loss == 100, r2$entry$account == "6950", r2$entry$debit == 100)
+stopifnot(inherits(try(disposalResult(sch, 4, 1), silent = TRUE), "try-error"))

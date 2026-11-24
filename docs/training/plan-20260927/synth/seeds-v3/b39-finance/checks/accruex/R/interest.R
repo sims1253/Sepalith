@@ -1,0 +1,38 @@
+near = function(a, b) isTRUE(all.equal(a, b, tolerance = 1e-10))
+
+stopifnot(near(compoundFactor(0.1, 2, "simple"), 1.2))
+stopifnot(near(compoundFactor(0.1, 2, "annual"), 1.21))
+stopifnot(near(compoundFactor(0.1, 1, "semiannual"), 1.05^2))
+stopifnot(near(compoundFactor(0.08, 1, "quarterly"), 1.02^4))
+stopifnot(near(compoundFactor(0.12, 1, "monthly"), 1.01^12))
+stopifnot(near(compoundFactor(0.05, 2, "continuous"), exp(0.1)))
+
+stopifnot(near(discountFactor(0.1, 2, "simple"), 1 / 1.2))
+stopifnot(near(discountFactor(0.1, 2, "annual"), 1 / 1.21))
+stopifnot(near(discountFactor(0.1, 1, "semiannual"), 1.05^-2))
+stopifnot(near(discountFactor(0.08, 1, "quarterly"), 1.02^-4))
+stopifnot(near(discountFactor(0.12, 3, "monthly") * compoundFactor(0.12, 3, "monthly"), 1))
+stopifnot(near(discountFactor(0.05, 2, "continuous"), exp(-0.1)))
+
+stopifnot(near(convertRate(0.1, "semiannual", "annual"), 0.1025))
+stopifnot(near(convertRate(0.1025, "annual", "semiannual"), 0.1))
+stopifnot(near(convertRate(log(1.1), "continuous", "annual"), 0.1))
+stopifnot(near(convertRate(0.1, "annual", "continuous"), log(1.1)))
+stopifnot(near(convertRate(0.06, "monthly", "quarterly"), 4 * (1.005^3 - 1)))
+
+stopifnot(near(convertRate(0.1, "annual", "annual"), 0.1))
+stopifnot(inherits(try(convertRate(NA_real_, "annual", "monthly"), silent = TRUE), "try-error"))
+
+stopifnot(near(annuityValue(100, 0, 12), 1200), near(annuityValue(100, 0, 12, "future"), 1200))
+stopifnot(near(annuityValue(100, 0.05, 3), 100 / 1.05 + 100 / 1.05^2 + 100 / 1.05^3))
+stopifnot(near(annuityValue(100, 0.05, 3, "future"), 100 * 1.05^2 + 100 * 1.05 + 100))
+stopifnot(near(annuityValue(100, 0.05, 3, "present", "begin"), 100 + 100 / 1.05 + 100 / 1.05^2))
+stopifnot(inherits(try(annuityValue(100, 0.05, 2.5), silent = TRUE), "try-error"))
+
+m = cashFlowMeasures(c(-100, 60, 60), 0.1)
+stopifnot(near(m$npv, -100 + 60 / 1.1 + 60 / 1.21), m$outflows == 100)
+stopifnot(near(m$ratio, m$inflows / 100), m$payback == 2, m$discountedPayback == 2)
+m2 = cashFlowMeasures(c(-100, 50, 50, 50), 0.2)
+stopifnot(m2$payback == 2, m2$discountedPayback == 3)
+stopifnot(is.na(cashFlowMeasures(c(-100, 10), 0.1)$payback))
+stopifnot(is.na(cashFlowMeasures(c(10, 10), 0.1)$ratio))

@@ -1,0 +1,57 @@
+fails = function(expr) inherits(try(expr, silent = TRUE), "try-error")
+near = function(a, b) isTRUE(all.equal(a, b))
+
+sr = scoreRubric(c(4, 1), c(2, 4), c(3, 4), c(1, 4), c(4, 4))
+stopifnot(identical(names(sr), c("clarity", "evidence", "structure", "mechanics",
+                                  "originality", "total")))
+stopifnot(near(sr$clarity, c(20, 5)), near(sr$evidence, c(15, 30)), near(sr$structure, c(15, 20)))
+stopifnot(near(sr$mechanics, c(2.5, 10)), near(sr$originality, c(20, 20)))
+stopifnot(near(sr$total, c(72.5, 85)))
+stopifnot(fails(scoreRubric(5, 1, 1, 1, 1)), fails(scoreRubric(1, 0, 1, 1, 1)))
+stopifnot(fails(scoreRubric(1, 1, 1.5, 1, 1)), fails(scoreRubric(1, 1, 1, NA, 1)))
+stopifnot(fails(scoreRubric(1, 1, 1, 1, 9)))
+stopifnot(near(scoreRubric(5, 5, 5, 5, 5, levels = 5)$total, 100))
+
+sc = data.frame(
+  student = c("a", "b", "c"), clarity = c(4, 4, 2), evidence = c(2, 4, 2),
+  structure = c(3, 4, 3), mechanics = c(1, 4, 3), originality = c(4, 4, 1)
+)
+fb = rubricFeedback(sc)
+stopifnot(identical(fb$clarity, c("Exemplary (4/4)", "Exemplary (4/4)", "Developing (2/4)")))
+stopifnot(identical(fb$evidence[1], "Developing (2/4)"))
+stopifnot(identical(fb$structure[3], "Proficient (3/4)"))
+stopifnot(identical(fb$mechanics[1], "Beginning (1/4)"))
+stopifnot(identical(fb$originality[3], "Beginning (1/4)"))
+stopifnot(identical(fb$focus, c("mechanics", "None", "originality")))
+sc2 = sc; sc2$originality[3] = 3
+stopifnot(identical(rubricFeedback(sc2)$focus[3], "clarity"))
+
+a = c(1, 2, 4)
+b = c(2, 2, 1)
+stopifnot(near(combineRaters(a, b)$combined, c(1.5, 2, 2.5)), all(combineRaters(a, b)$resolved))
+stopifnot(near(combineRaters(a, b, "min")$combined, c(1, 2, 1)))
+stopifnot(near(combineRaters(a, b, "max")$combined, c(2, 2, 4)))
+th = combineRaters(a, b, "third", raterC = c(9, 9, 3))
+stopifnot(near(th$combined, c(1.5, 2, 3)), near(th$gap, c(1, 0, 3)))
+stopifnot(fails(combineRaters(a, b, "third")), fails(combineRaters(a, b[1:2])))
+cn = combineRaters(a, b, "consensus")
+stopifnot(identical(cn$resolved, c(TRUE, TRUE, FALSE)), is.na(cn$combined[3]))
+
+rb = sc
+rb$clarity = c(4, 3, 2)
+rb$mechanics = c(3, 4, 3)
+ag = rubricAgreement(sc, rb)
+crit = c("clarity", "evidence", "structure", "mechanics", "originality")
+stopifnot(identical(ag$criterion, crit))
+stopifnot(near(ag$exact[1], 2 / 3), near(ag$adjacent[1], 1), near(ag$meanDiff[1], 1 / 3))
+stopifnot(near(ag$exact[2], 1), near(ag$exact[3], 1), near(ag$exact[5], 1))
+stopifnot(near(ag$exact[4], 2 / 3), near(ag$adjacent[4], 2 / 3), near(ag$meanDiff[4], -2 / 3))
+stopifnot(fails(rubricAgreement(sc, rb[1:2, ])))
+
+stopifnot(identical(rescaleRubric(c(72.5, 100))$value, c(72.5, 100)))
+stopifnot(identical(rescaleRubric(72.5, to = "points")$value, 14.5))
+stopifnot(identical(rescaleRubric(c(50, 100), to = "gpa")$value, c(2, 4)))
+bd = rescaleRubric(c(10, 60, 72.5, 90), to = "band")
+stopifnot(identical(bd$value, c("Below", "Approaching", "Meeting", "Exceeding")))
+stopifnot(bd$unit[1] == "band")
+stopifnot(fails(rescaleRubric(120)))
