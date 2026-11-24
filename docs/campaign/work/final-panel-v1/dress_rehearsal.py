@@ -222,12 +222,13 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
             raise SystemExit("subset cases are not cases of the verified rehearsal panel")
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
+    runtime = {k: v for k, v in pins["runtime"].items()
+               if k in ("python_sha256", "distributions", "torch_cuda", "device", "llama_server")}
+    harness = v2.harness_hash()
     if panel_root is not None:
         root.mkdir(mode=0o700)  # only after every input check passed, so a refused attempt leaves nothing
     state = root / "run-state"
     state.mkdir(mode=0o700)
-    runtime = {k: v for k, v in pins["runtime"].items()
-               if k in ("python_sha256", "distributions", "torch_cuda", "device", "llama_server")}
     plan = {"schema": v2.SCHEMA + ".plan", "models": pins["models"], "release_artifacts": pins["release_artifacts"],
             "tokenizer": pins["tokenizer"], "runtime": runtime, **fragment, "state_dir": str(state)}
     if night_job is not None:
@@ -237,7 +238,7 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     freeze = {"schema": v2.SCHEMA + ".freeze", "status": "frozen", "weights_frozen": True, "harness_frozen": True,
               "final_access_unlocked": True, "weights_frozen_at": now, "harness_frozen_at": now,
               "plan_sha256": plan_sha, "weights_sha256": sha256_json(pins["models"]),
-              "harness_sha256": v2.harness_hash()}
+              "harness_sha256": harness}
     freeze_sha = write_once(root / "freeze.json", freeze)
     if night_job is not None:
         # The night job reads the digest apart from the receipt, as it reads the user's for the final run.
