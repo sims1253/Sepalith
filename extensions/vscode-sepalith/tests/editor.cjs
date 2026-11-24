@@ -9,19 +9,26 @@ async function until(check) {
 }
 exports.run = async function () {
   let mode = 'ok', count = 0, pending = [], lastReal = null;
+  let answer = 'answer <- sum(values)';
   const warmups = [];
   const server = http.createServer((req, res) => {
     if (req.url === '/health') { res.end('{}'); return; }
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
-      const parsed = JSON.parse(body), prompt = parsed.prompt;
+      const parsed = JSON.parse(body);
+      res.setHeader('Content-Type', 'application/json');
+      if (req.url === '/tokenize') {
+        // fake tokenizer: one ID per character, never a control or BOS/EOS ID
+        res.end(JSON.stringify({ tokens: [...parsed.content].map(ch => 300 + ch.codePointAt(0)) }));
+        return;
+      }
       const respond = () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ choices: [{ text: 'answer <- sum(values)' }], usage: { completion_tokens: 5 } }));
+        const content = answer === '[NO_EDIT]' ? '[NO_EDIT]\n>>>>>>> UPDATED' : `${answer}\n>>>>>>> UPDATED`;
+        res.end(JSON.stringify({ content, tokens: [answer === '[NO_EDIT]' ? 80 : 400, 401, 1], stop_type: 'eos', tokens_evaluated: parsed.prompt.length, truncated: false }));
       };
-      if (prompt === 'x') { respond(); return; }
-      if (parsed.max_tokens === 0) { warmups.push(parsed); respond(); return; }
+      if (parsed.prompt.length === 1) { respond(); return; } // readiness probe
+      if (parsed.n_predict === 0) { warmups.push(parsed); respond(); return; }
       count++; lastReal = parsed;
       if (mode === 'hold') pending.push(respond);
       else if (mode === 'error') { res.writeHead(503); res.end('unavailable'); }
@@ -31,7 +38,7 @@ exports.run = async function () {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   try {
     const config = vscode.workspace.getConfiguration('sepalith');
-    for (const [key, value] of Object.entries({ autoStart: false, debounceMs: 0, warmup: false, scopeContext: false, port: server.address().port }))
+    for (const [key, value] of Object.entries({ autoStart: false, debounceMs: 0, warmup: false, port: server.address().port }))
       await config.update(key, value, vscode.ConfigurationTarget.Global);
     await vscode.extensions.getExtension('sepalith-dev.vscode-sepalith').activate();
     await vscode.commands.executeCommand('sepalith.startServer');
@@ -45,11 +52,18 @@ exports.run = async function () {
 
     const items = await request();
     assert.equal(items.length, 1);
-    assert.equal(items[0].range.start.character, 0);
+    assert.equal(items[0].insertText, 'sum(values)', 'the region replacement is shown as an insertion at the cursor');
+    assert.ok(items[0].range.start.isEqual(position) && items[0].range.end.isEqual(position));
+    assert.ok(lastReal.prompt[0] === 0 && lastReal.n_predict === 1024 && lastReal.cache_prompt === true, 'token-ID request with manual BOS and the gate cap');
     const before = count;
     assert.deepEqual(await request(), items);
     assert.equal(count, before, 'unchanged request should use cache');
-    console.log('PASS provider replacement and cache');
+    console.log('PASS provider insertion and cache');
+
+    provider.invalidate(); answer = '[NO_EDIT]';
+    assert.deepEqual(await request(), [], '[NO_EDIT] is no suggestion, never ghost text');
+    answer = 'answer <- sum(values)';
+    console.log('PASS [NO_EDIT] shows nothing');
 
     provider.invalidate(); mode = 'hold';
     const cancel = new vscode.CancellationTokenSource();
@@ -104,14 +118,27 @@ exports.run = async function () {
     await vscode.commands.executeCommand('editor.action.inlineSuggest.commit');
     assert.equal(other.getText(), '# Another file must not receive an old suggestion\nother <- 1\n');
     console.log('PASS file switch discards pending suggestion');
+    // a substitution is not ghost text: it is previewed and applied with sepalith.acceptEdit
+    const subDoc = await vscode.workspace.openTextDocument({ language: 'r', content: '# Substitution preview fixture for edits\nvalues <- c(1, 2, 3)\nanswer <- sum(values)\n' });
+    const subEditor = await vscode.window.showTextDocument(subDoc);
+    const mid = new vscode.Position(2, 4);
+    subEditor.selection = new vscode.Selection(mid, mid);
+    mode = 'ok'; answer = 'answer <- mean(values)';
+    const previewProvider = new SepalithProvider();
+    assert.deepEqual(await previewProvider.provideInlineCompletionItems(subDoc, mid, context, new vscode.CancellationTokenSource().token), []);
+    await vscode.commands.executeCommand('sepalith.acceptEdit');
+    await until(() => subDoc.lineAt(2).text === 'answer <- mean(values)');
+    answer = 'answer <- sum(values)';
+    console.log('PASS substitution preview and accept');
     await vscode.commands.executeCommand('sepalith.stopServer');
     assert.equal((await fetch(`http://127.0.0.1:${server.address().port}/health`)).status, 200);
     console.log('PASS stop preserves external server');
-    mode = 'ok';
+    mode = 'ok'; answer = 'other <- 1 + 1';
     await vscode.commands.executeCommand('sepalith.startServer');
     const restarted = new SepalithProvider();
     const result = await restarted.provideInlineCompletionItems(other, other.lineAt(1).range.end, context, new vscode.CancellationTokenSource().token);
     assert.equal(result.length, 1);
+    assert.equal(result[0].insertText, ' + 1');
     console.log('PASS extension reconnects after stop');
 
     // Prefill warm-up: a burst of edits sends one warm-up whose body is the next real request with zero generation.
@@ -128,11 +155,12 @@ exports.run = async function () {
     await until(() => warmups.length > afterOpen); await delay(400);
     assert.equal(warmups.length, afterOpen + 1, 'edit burst is debounced into one warm-up');
     const cursor = warmEditor.selection.active;
+    answer = 'total <- sum(values)';
     assert.equal((await restarted.provideInlineCompletionItems(warmDoc, cursor, context, new vscode.CancellationTokenSource().token)).length, 1);
     const warm = warmups[warmups.length - 1];
-    assert.equal(warm.prompt, lastReal.prompt, 'warm-up prompt equals the real request prompt');
-    assert.equal(warm.max_tokens, 0); assert.ok(lastReal.max_tokens > 0);
-    assert.deepEqual({ ...warm, max_tokens: lastReal.max_tokens }, lastReal, 'same body apart from generation');
+    assert.deepEqual(warm.prompt, lastReal.prompt, 'warm-up prompt IDs equal the real request prompt IDs');
+    assert.equal(warm.n_predict, 0); assert.ok(lastReal.n_predict > 0);
+    assert.deepEqual({ ...warm, n_predict: lastReal.n_predict }, lastReal, 'same body apart from generation');
     console.log('PASS warm-up debounced and matches the real request');
     await config.update('warmup', false, vscode.ConfigurationTarget.Global);
     const beforeDisabled = warmups.length;

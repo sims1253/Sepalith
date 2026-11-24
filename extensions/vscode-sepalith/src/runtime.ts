@@ -21,7 +21,7 @@ interface Asset { name: string; url: string; sha256: string; bytes: number; exec
 interface Bundle { platform: string; arch: string; backend: Backend; server: string; files: Asset[] }
 export interface Manifest {
   schema: 1; build: string; model: Asset; bundles: Bundle[];
-  modelProfile: { renderer: 'zeta2-v1'; task: 'r-next-edit'; tokenizerRevision: string; modelRevision: string };
+  modelProfile: { renderer: 'zeta2-prm03-v1'; task: 'r-next-edit'; tokenizerRevision: string; modelRevision: string };
 }
 
 function keysOnly(value: unknown, keys: string[]): boolean {
@@ -59,10 +59,10 @@ export function validateManifest(value: unknown): Manifest {
     throw new Error('Invalid runtime manifest');
   validAsset(m.model);
   const profile = m.modelProfile;
-  if (!keysOnly(profile, ['renderer', 'task', 'tokenizerRevision', 'modelRevision']) || profile.renderer !== 'zeta2-v1' || profile.task !== 'r-next-edit' ||
+  if (!keysOnly(profile, ['renderer', 'task', 'tokenizerRevision', 'modelRevision']) || profile.renderer !== 'zeta2-prm03-v1' || profile.task !== 'r-next-edit' ||
       typeof profile.tokenizerRevision !== 'string' || !profile.tokenizerRevision.trim() ||
       typeof profile.modelRevision !== 'string' || !profile.modelRevision.trim())
-    throw new Error('Unsupported model profile: require zeta2-v1/r-next-edit and pinned model/tokenizer revisions');
+    throw new Error('Unsupported model profile: require zeta2-prm03-v1/r-next-edit and pinned model/tokenizer revisions');
   const keys = new Set<string>();
   for (const b of m.bundles) {
     if (!keysOnly(b, ['platform', 'arch', 'backend', 'server', 'files'])) throw new Error('Invalid runtime bundle');
@@ -156,6 +156,26 @@ export async function install(a: Asset, directory: string, signal: AbortSignal, 
     await fs.rename(temporary, target);
     return target;
   }); } finally { await fs.rm(temporary, { force: true }); }
+}
+
+/**
+ * Default model: the released Sepalith 2B NES (C19 checkpoint 100), Q6_K tier,
+ * as published in scholzmx/sepalith-2b-nes at commit a602cd9. Same tokenizer
+ * and zeta2-prm03-v1 prompt contract as arm A. The small tier
+ * (sepalith-2b-nes-Q4_K_M-mixB.gguf, 1.66 GB, sha256 e24fbfbc…1c71b) is used
+ * through `modelPath`.
+ */
+export const DEFAULT_MODEL_ASSET: Asset = {
+  name: 'sepalith-2b-nes-Q6_K.gguf',
+  url: 'https://huggingface.co/scholzmx/sepalith-2b-nes/resolve/a602cd924d91e83f95508ea38f9452de98ec8f86/sepalith-2b-nes-Q6_K.gguf',
+  sha256: '6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261',
+  bytes: 2199741568,
+};
+
+/** Install (or reuse a verified cached copy of) the default model; 2.2 GB on first use. */
+export async function ensureDefaultModel(storage: string, signal: AbortSignal, log: (message: string) => void): Promise<string> {
+  log(`Checking default model ${DEFAULT_MODEL_ASSET.name} (${(DEFAULT_MODEL_ASSET.bytes / 1e9).toFixed(1)} GB, sha256 ${DEFAULT_MODEL_ASSET.sha256.slice(0, 12)})`);
+  return install(DEFAULT_MODEL_ASSET, path.join(storage, 'models', DEFAULT_MODEL_ASSET.sha256), signal, 3 * 3600_000);
 }
 
 export interface ProvisionOptions { refreshManifest?: boolean; manifestTimeoutMs?: number; assetTimeoutMs?: number }

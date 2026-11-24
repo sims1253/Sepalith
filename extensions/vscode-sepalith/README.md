@@ -1,20 +1,49 @@
 # Sepalith (VS Code extension)
 
-Minimal next-edit-suggestion extension for R files, backed by a local
-`llama-server` sidecar running a Sepalith GGUF. v0 proves the end-to-end
-plumbing (sidecar → zeta2 prompt → ghost text).
-
-> **Expect bad suggestions.** The current models are weak. Garbage
-> suggestions are acceptable at this stage; crashes are not.
+Next-edit suggestions for R files, served by a local `llama-server` sidecar
+running [Sepalith 2B NES](https://huggingface.co/scholzmx/sepalith-2b-nes),
+the released model (GRPO checkpoint 100 on top of the arm A editing SFT). The
+extension renders the PRM03 prompt contract `zeta2-prm03-v1` that the model was
+trained on, byte-identical to `sepalith.campaign_protocol.render_prompt`, and
+parses the answer with the same rules as `parse_output`.
 
 ## Install (by copy)
 
     npm ci
     npm run build
-    npx @vscode/vsce package --allow-missing-repository
-    code --install-extension vscode-sepalith-0.0.7.vsix
+    npx @vscode/vsce package --allow-missing-repository \
+      --baseContentUrl https://github.com/sims1253/Sepalith/blob/main/extensions/vscode-sepalith
+    code --install-extension vscode-sepalith-0.1.0.vsix
 
-Everything is path-absolute, so this works unchanged on WSL / Remote.
+Set `sepalith.serverPath` to a llama.cpp `llama-server` (validated: b10453).
+That is the only required setting. With `modelPath` empty, the first start
+downloads `sepalith-2b-nes-Q6_K.gguf` (2.2 GB, sha256-pinned to the published
+file) into the shared Sepalith cache; progress is in the `Sepalith` output
+channel.
+
+### Model tiers
+
+Both tiers are in `scholzmx/sepalith-2b-nes` and use the same tokenizer and
+prompt contract:
+
+| File | Size | Notes |
+| --- | ---: | --- |
+| `sepalith-2b-nes-Q6_K.gguf` | 2.20 GB | Default. Passed the quant gate against bf16. |
+| `sepalith-2b-nes-Q4_K_M-mixB.gguf` | 1.66 GB | Smaller and a little faster on CPU. Says "no edit" slightly more often when an edit was wanted. |
+
+To use the small tier, download it and set `modelPath`:
+
+    hf download scholzmx/sepalith-2b-nes sepalith-2b-nes-Q4_K_M-mixB.gguf \
+      --revision a602cd924d91e83f95508ea38f9452de98ec8f86 --local-dir ~/models/sepalith
+
+```json
+"sepalith.modelPath": "/home/you/models/sepalith/sepalith-2b-nes-Q4_K_M-mixB.gguf"
+```
+
+Its sha256 is `e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b`.
+
+Only VS Code and Positron are supported. Zed's built-in `zeta2` prompt is a
+different format, so this model does not work there.
 
 ## Commands
 
@@ -22,7 +51,9 @@ Everything is path-absolute, so this works unchanged on WSL / Remote.
 | --- | --- | --- |
 | `sepalith.startServer` | Sepalith: Start server | — |
 | `sepalith.stopServer` | Sepalith: Stop server | — |
-| `sepalith.suggest` | Sepalith: Suggest now | `Alt+\` (in R files) |
+| `sepalith.suggest` | Sepalith: Suggest now | `Alt+\` / `Alt+.` (in R files) |
+| `sepalith.acceptEdit` | Sepalith: Apply previewed edit | `Alt+Enter` (while a preview is shown) |
+| `sepalith.dismissEdit` | Sepalith: Dismiss previewed edit | `Escape` (while a preview is shown) |
 
 `Alt+\` requests a suggestion at the cursor immediately, bypassing the
 debounce. Automatic suggestions fire after `debounceMs` of idle editing in R
@@ -32,15 +63,61 @@ files.
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
-| `modelPath` | empty | Absolute path to the GGUF. |
+| `modelPath` | empty | Absolute path to a GGUF. Empty: `sepalith-2b-nes-Q6_K.gguf` from `scholzmx/sepalith-2b-nes`, downloaded once and verified. Set a path for the small tier (see [Model tiers](#model-tiers)) or another zeta2-prm03-v1 model. |
 | `serverPath` | empty | Absolute path to the llama-server binary. |
 | `port` | `18099` | Sidecar port. |
-| `threads` | `8` (max 8) | CPU threads for the sidecar; more is slower on this machine. |
-| `contextSize` | `8192` | Context window; some prompts need ~5.6k tokens. |
+| `threads` | `8` (max 8) | CPU threads for the sidecar (`-t` and `-tb`). |
+| `contextSize` | `16384` | Server context. A request needs its prompt plus the 1,024-token cap. |
 | `autoStart` | `true` | Start the sidecar on activation. |
 | `debounceMs` | `1500` | Idle time before an automatic suggestion attempt; `0` disables auto-trigger (manual only). |
-| `warmup` | `true` | Prefill-as-you-settle: ~200 ms after an edit, cursor move, file switch or accepted suggestion, send the next request's exact prompt with `max_tokens: 0` so the suggestion request hits a warm prompt cache (measured pooled edit TTFT 690.9 → 74.3 ms on the target laptop). Off = every request pays its own prefill. |
-| `scopeContext` | `true` | Scope-aware prompt context: pin the enclosing function and add a top-level file outline (LSP document symbols, brace-scan fallback when no R language server is running). Off = plain prompt. |
+| `warmup` | `true` | Prefill-as-you-settle: ~200 ms after an edit, cursor move, file switch or accepted suggestion, send the next request's exact prompt token IDs with `n_predict: 0` so the suggestion request hits a warm prompt cache (measured pooled edit TTFT 690.9 → 74.3 ms on the target laptop). Off = every request pays its own prefill. |
+| `allowNoEdit` | `true` | The model may answer `[NO_EDIT]`, which shows nothing. Off: a no-op answer is replaced by the model's best edit (the no-op's first token, id 80, is banned for the first step only). A probability threshold on the no-op was measured to change nothing for this model, so there is only this switch. |
+| `speculative` | `false` | N-gram speculative decoding (`--spec-type ngram-simple`, n 2, m 4): about 1.4x faster warm suggestions, but not token-identical to plain greedy decoding (it failed the lossless gate). |
+| `postAcceptCooldown` | `true` | After accepting, suppress the next auto-trigger until your next keystroke. |
+| `debugMode` | `false` | Log the full rendered prompt and raw completion for every request. |
+
+## How a suggestion is made
+
+1. **Context** (`src/prm03_context.ts`). The editable region is the cursor
+   line. A non-blank line is a one-line region with `<|user_cursor|>` at the
+   cursor. A blank line is an insertion point: an empty region with no cursor
+   marker (an auto-indented blank line renders the same way, and its whitespace
+   is replaced by the edit). Prefix and suffix lines come from the
+   `prm05-source-balanced-v1` window (6,000 UTF-16 units, alternating nearest
+   lines). The edit history is the most recent committed line-level edit in the
+   same file, spelled like the TRAIN `event_diff` (`User edited "R/f.R":` and a
+   diff hunk); an edit is committed when the cursor leaves its lines, so the
+   line being typed never appears as history. No outline, diagnostics or
+   retrieval records are sent: the editing-SFT TRAIN rows have none. These rules match
+   the TRAIN distribution: all 15,006 rows have the cursor on the region's first
+   line, 7,940 have an empty region and 6,167 a one-line region.
+2. **Tokens.** The prompt is tokenized by the server with `parse_special:
+   false` and no BOS, and sent as token IDs with one manual BOS 0, which is
+   exactly the training tokenization (`hf_split_special_tokens_true_native_no_bos_no_parse_special_manual_bos0`).
+3. **Request** (`src/completion.ts`). `/completion` with the quant gate's
+   sampling: temperature 0, `top_k` 1 as the only sampler, no penalties, no
+   string stops, seed 3407, cap 1,024, `cache_prompt: true`.
+4. **Answer.** Valid only when generation ends with EOS 1 (130073 or a cap hit
+   means no suggestion), carries no control tokens, and the text has exactly one
+   `>>>>>>> UPDATED` line with nothing after it. `[NO_EDIT]`, a body equal to
+   the region, or an empty body at an insertion point is a no-op: nothing is
+   shown. Any malformed answer shows nothing. The body replaces the region
+   exactly; whitespace is not trimmed (a leading blank line is part of about
+   15% of TRAIN `finish_block` targets), only CR before LF is dropped.
+5. **Display.** If the new text only adds characters at the cursor, it is ghost
+   text (Tab accepts). Other changes (renames, rewrites, deletions) are shown as
+   a preview after the line, with the full diff on hover; `Alt+Enter` applies it
+   after checking that the document is unchanged.
+
+## Sidecar flags
+
+`src/server_args.ts`: `--alias sepalith --host 127.0.0.1 -c 16384 --parallel 1
+-t N -tb N -ngl G --cache-ram 2048 --temp 0 --seed 3407 --no-context-shift
+--no-webui`. These are the quant gate's flags (`gguf_dev_eval.py`) plus the
+prefill confirmation's `--cache-ram 2048`, context and alias. The gate's
+`--no-cache-prompt` is not used because the warm-up relies on the prompt cache.
+Flash attention, batch sizes and KV types stay at llama.cpp defaults, as in both
+measurements.
 
 ## Managed runtimes
 
@@ -67,7 +144,7 @@ From the repository root, with npm dependencies installed:
 python3 scripts/check_product.py
 ```
 
-This checks TypeScript, context handling, manifests, cached provisioning and
+This checks TypeScript, PRM03 parity, manifests, cached provisioning and
 owned-process termination using fake assets and tiny Node processes. It launches
 no model server. Actual editor acceptance and native-platform release testing
 remain separate. See [serving and packaging](../../docs/SERVING-PACKAGING.md).
@@ -86,13 +163,19 @@ remain separate. See [serving and packaging](../../docs/SERVING-PACKAGING.md).
 - Per-request logs (latency, prompt char count, prefix truncation, sidecar
   stdout/stderr tails on error) go to the `Sepalith` output channel.
 
-## Smoke test
+## PRM03 parity checks
 
-    npx tsx scripts/smoke.ts
+    npm run check-prm03          # golden fixtures: render, parse, selection, history, editor rebuild
+    npm run check-completion     # output classification: edit, no-op, malformed, cap hit, EOS 130073
+    npm run check-prm03-train    # local: all 15,006 TRAIN rows (+ --census FILE: 120,048 census outputs)
+    npm run e2e-cpu -- --cases 8 --out /tmp/e2e.json   # local: real llama-server on CPU, TRAIN cases
 
-Starts the sidecar against the configured model, waits for readiness, sends
-one rendered prompt for a tiny synthetic R buffer, and prints the parsed
-suggestion and latency.
+`tests/fixtures/prm03-golden.json` is built from TRAIN data only (DAT10 v4
+sidecar and rows, and C12 census outputs on TRAIN prompts) by
+`tests/fixtures/build_prm03_fixtures.py`. Rebuild it after changing
+`campaign_protocol.py` or `campaign_selection.py`; the fixture records both
+source hashes. `tests/e2e_crosscheck.py` re-decodes the e2e token IDs with the
+HF tokenizer and re-classifies them in Python.
 
 ## Warm-up unit tests
 
@@ -100,17 +183,8 @@ suggestion and latency.
 
 Exercises the warm-up scheduler in `src/warmup.ts` (debounce, at most one
 warm-up in flight, newest-state supersede, the disable setting, and that a
-warm-up body equals the real request body except `max_tokens: 0`) under
+warm-up body equals the real request body except `n_predict: 0`) under
 plain node.
-
-## Context unit tests
-
-    npm run check-context
-
-Exercises the pure scope-context helpers in `src/context_build.ts` (outline
-formatting and caps, the brace-scan enclosing-function fallback, pin/suffix
-truncation, v0.0.6 prompt parity, and the stable-prefix property) under
-plain node — no vscode import.
 
 ## Editor integration checks
 
