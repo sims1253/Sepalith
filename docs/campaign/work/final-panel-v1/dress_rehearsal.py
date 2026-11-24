@@ -186,7 +186,6 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
                 or night_job.resolve(strict=True) != REHEARSAL_JOB
                 or command[command.index("--root") + 1] != str(root)):
             raise SystemExit("--panel-root and --night-job plan a fresh rehearsals/ root with the rehearsal job")
-        root.mkdir(mode=0o700)
     source = panel_root or root
     panel = rehearsal_panel(source)
     chosen = (source / "subset-panel") if use_subset else panel
@@ -223,6 +222,8 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
             raise SystemExit("subset cases are not cases of the verified rehearsal panel")
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
+    if panel_root is not None:
+        root.mkdir(mode=0o700)  # only after every input check passed, so a refused attempt leaves nothing
     state = root / "run-state"
     state.mkdir(mode=0o700)
     runtime = {k: v for k, v in pins["runtime"].items()
