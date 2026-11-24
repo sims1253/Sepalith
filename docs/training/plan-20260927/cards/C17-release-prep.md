@@ -270,3 +270,7 @@ The sealed scoring run (A5) and its dev rehearsal are reviewed night-queue
 jobs in [`c17/jobs/`](../c17/jobs/). The queue runs from
 `/home/m0hawk/sandbox/Sepalith`; do not enqueue from a worktree.
 Notebook Vulkan work runs on the notebook after access is granted.
+
+## November 24 sealed-final result
+
+The frozen panel has 240 cases from 87 of the 105 build groups. The other 88 groups stay sealed. Scoring ran on the GPU on November 24 and finished complete, with zero hash mismatches and zero overlap. Arm A 803 scored 100/240 (41.7%), C19-100 bf16 98/240 (40.8%) and C19-100 Q6_K 97/240 (40.4%). The C19 bf16 minus arm A difference was −0.8 pp, with a 95% CI of [−2.9, +1.2]. The Q6_K minus bf16 difference was −0.4 pp, with a 95% CI of [−2.0, +0.9]. All three models got 39 of the 50 no-op cases right. These results are descriptive only, so the release stays C19-100 with Q6_K and Q4_K_M-mixB-e4. Publishing is the remaining user gate.
