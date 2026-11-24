@@ -19,7 +19,7 @@
   ],
   "cwd": "/home/m0hawk/sandbox/Sepalith",
   "env": [],
-  "estimated_minutes": 360,
+  "estimated_minutes": 375,
   "id": "C17-sealed-final-v2-score",
   "note": "A5 sealed-final v2 scoring. Do not enqueue before the user's build authorization, binding issuance and freeze receipt.",
   "priority": 20,

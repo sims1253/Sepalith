@@ -117,16 +117,22 @@ def verify_cuda_lease(environ: Mapping[str, str] = os.environ, lock: Path = CUDA
         raise ProtocolError("cuda_lease_required") from None
     if (held.st_dev, held.st_ino) != (current.st_dev, current.st_ino):
         raise ProtocolError("cuda_lease_required")
+    # A fresh descriptor must be refused (the lock is held), and the inherited one must be granted it: flock
+    # is per open file description, so only the guard's own description passes both.
     probe = os.open(lock, os.O_RDWR | os.O_NOFOLLOW | os.O_CLOEXEC)
     try:
         fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError as error:
         if error.errno not in (errno.EAGAIN, errno.EWOULDBLOCK):
             raise
-        return  # held elsewhere, by the guard
+    else:
+        raise ProtocolError("cuda_lease_required")
     finally:
         os.close(probe)
-    raise ProtocolError("cuda_lease_required")
+    try:
+        fcntl.flock(int(environ["SEPALITH_CUDA_LOCK_FD"]), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        raise ProtocolError("cuda_lease_required") from None
 
 
 def verify_server_device(server: Path, device: Json) -> None:

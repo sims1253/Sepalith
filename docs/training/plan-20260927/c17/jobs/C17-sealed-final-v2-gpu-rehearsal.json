@@ -19,7 +19,7 @@
   ],
   "cwd": "/home/m0hawk/sandbox/Sepalith",
   "env": [],
-  "estimated_minutes": 360,
+  "estimated_minutes": 375,
   "id": "C17-sealed-final-v2-gpu-rehearsal",
   "note": "Dev dress rehearsal of A5 on the GPU: the full launcher on the 250-case dev-2 rehearsal panel. Dev content only.",
   "priority": 20,

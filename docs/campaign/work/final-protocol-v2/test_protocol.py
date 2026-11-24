@@ -349,6 +349,11 @@ class GpuRuntime(unittest.TestCase):
             try:
                 with self.assertRaisesRegex(v2.ProtocolError, "cuda_lease_required"):  # not locked
                     runtime.verify_cuda_lease({"SEPALITH_CUDA_LOCK_FD": str(fd)}, lock)
+                holder = os.open(lock, os.O_RDWR)  # someone else holds it; this descriptor does not
+                fcntl.flock(holder, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                with self.assertRaisesRegex(v2.ProtocolError, "cuda_lease_required"):
+                    runtime.verify_cuda_lease({"SEPALITH_CUDA_LOCK_FD": str(fd)}, lock)
+                os.close(holder)
                 fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 runtime.verify_cuda_lease({"SEPALITH_CUDA_LOCK_FD": str(fd)}, lock)
                 other = Path(folder) / "other.lock"

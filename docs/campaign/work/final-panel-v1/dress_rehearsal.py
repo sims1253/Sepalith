@@ -170,9 +170,11 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     if panel_root is not None or night_job is not None:
         # GPU rehearsal: a fresh root over the built panel of an earlier one, both under rehearsals/, pinning
         # only the reviewed rehearsal job. The final run root is never written here.
+        command = json.loads(REHEARSAL_JOB.read_bytes())["command"]
         if (panel_root is None or night_job is None or use_subset or panel_root == root
                 or root.parent != rehearsals or panel_root.parent != rehearsals
-                or night_job.resolve(strict=True) != REHEARSAL_JOB):
+                or night_job.resolve(strict=True) != REHEARSAL_JOB
+                or command[command.index("--root") + 1] != str(root)):
             raise SystemExit("--panel-root and --night-job plan a fresh rehearsals/ root with the rehearsal job")
         root.mkdir(mode=0o700)
     source = panel_root or root
@@ -180,6 +182,9 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     chosen = (source / "subset-panel") if use_subset else panel
     if chosen.resolve() != chosen:
         raise SystemExit("subset panel must be a real directory inside the rehearsal root")
+    for name in ("plan-fragment.json", "cases.json", "semantic-receipt.json", "payloads.json"):
+        if (chosen / name).is_symlink() or not (chosen / name).is_file():
+            raise SystemExit("rehearsal panel files must be real regular files")
     fragment = json.loads((chosen / "plan-fragment.json").read_bytes())
     # The plan takes exactly the chosen panel's canonical files at their current digests. rehearsal_panel()
     # checked the full panel's files against its build receipt.
@@ -189,6 +194,16 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
                 "payloads_path": str(chosen / "payloads.json"), "source_roots": [str(panel / "final-sources")]}
     if any(fragment.get(key) != value for key, value in expected.items()):
         raise SystemExit("plan fragment differs from the verified rehearsal panel files")
+    # The audit's memberships are the ones the build authorization bound.
+    authorization = json.loads((source / "build-authorization.json").read_bytes())
+    memberships = Path(fragment["memberships"]["path"])
+    if (fragment["memberships"]["sha256"] != authorization["memberships_sha256"] or memberships.is_symlink()
+            or file_sha(memberships) != authorization["memberships_sha256"]):
+        raise SystemExit("plan fragment memberships differ from the build authorization")
+    cases_count = len(json.loads((chosen / "cases.json").read_bytes())["cases"])
+    if fragment["case_count"] != cases_count:
+        raise SystemExit("plan fragment case count differs from its cases")
+    fragment = {**expected, "memberships": fragment["memberships"], "case_count": cases_count}
     if use_subset:
         # Every subset row must be a row of the verified full panel, unchanged, under the rehearsal label.
         full = {c["row_id"]: c for c in json.loads((panel / "cases.json").read_bytes())["cases"]}

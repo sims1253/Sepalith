@@ -314,9 +314,9 @@ python -B docs/campaign/work/final-protocol-v2/protocol.py \
 inside `cuda_host_guard`. The guard holds the CUDA lock and stops the run if
 host memory runs low. The runner's GPU and host-memory preflight has already
 passed. The job is one-shot (`resumable: false`). The launcher cannot resume
-without retained completions. The job is estimated at 360 minutes, with about
-1.5 h expected, against the 16 h 40 min window. The estimate equals the
-wrapper's 6 h margin, so the runner never starts a job that the wrapper would
+without retained completions. The job is estimated at 375 minutes, with about
+1.5 h expected, against the 16 h 40 min window. The estimate exceeds the
+wrapper's 6 h margin by 15 minutes of dispatch headroom, so the runner never starts a job that the wrapper would
 refuse. The runner starts a one-shot
 job only if its estimate fits before 16:40. A stop request or a hard kill ends
 the run, and it stays stopped for the user (see below). The night report gets

@@ -484,7 +484,7 @@ three models.
   on llama-server, and about 9 min per Transformers checkpoint in the C18
   final jobs. The launcher generates one case at a time, so expect up to
   20 min per bf16 model. Add about 6 min to verify the runtime pins. Expect
-  about 45 to 90 min in all, against the job's 360-minute estimate and a
+  about 45 to 90 min in all, against the job's 375-minute estimate and a
   16 h 40 min window. The final job has the same size: at most 250 cases and
   the same three models.
 
