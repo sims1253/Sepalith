@@ -336,6 +336,39 @@ class GpuRuntime(unittest.TestCase):
                 runtime.verify_server_libraries(lib, {}, replay=True)
 
 
+    def test_cuda_lease_must_be_the_held_inherited_lock(self) -> None:
+        import fcntl
+        import os
+
+        with TemporaryDirectory() as folder:
+            lock = Path(folder) / "cuda0.lock"
+            lock.touch()
+            with self.assertRaisesRegex(v2.ProtocolError, "cuda_lease_required"):
+                runtime.verify_cuda_lease({}, lock)
+            fd = os.open(lock, os.O_RDWR)
+            try:
+                with self.assertRaisesRegex(v2.ProtocolError, "cuda_lease_required"):  # not locked
+                    runtime.verify_cuda_lease({"SEPALITH_CUDA_LOCK_FD": str(fd)}, lock)
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                runtime.verify_cuda_lease({"SEPALITH_CUDA_LOCK_FD": str(fd)}, lock)
+                other = Path(folder) / "other.lock"
+                other.touch()
+                with self.assertRaisesRegex(v2.ProtocolError, "cuda_lease_required"):
+                    runtime.verify_cuda_lease({"SEPALITH_CUDA_LOCK_FD": str(fd)}, other)
+            finally:
+                os.close(fd)
+
+    def test_llama_server_must_list_exactly_the_pinned_cuda_device(self) -> None:
+        device = {"name": "NVIDIA GeForce RTX 5090", "capability": [12, 0]}
+        good = "Available devices:\n  CUDA0: NVIDIA GeForce RTX 5090 (32606 MiB, 30000 MiB free)\n"
+        with patch.object(runtime.subprocess, "check_output", return_value=good):
+            runtime.verify_server_device(Path("/x"), device)
+        for listing in ("Available devices:\n  (none)\n", good.replace("RTX 5090", "RTX 3090")):
+            with patch.object(runtime.subprocess, "check_output", return_value=listing), \
+                    self.assertRaisesRegex(v2.ProtocolError, "cuda_device_mismatch"):
+                runtime.verify_server_device(Path("/x"), device)
+
+
 class NightJob(unittest.TestCase):
     """The pre-launch checks of the night-queue wrapper; nothing here starts a launcher or touches a GPU."""
 

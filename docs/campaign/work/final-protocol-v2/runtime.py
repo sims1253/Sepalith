@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from contextlib import contextmanager
 from importlib.metadata import version
+import errno
+import fcntl
 import gc
 import hashlib
 import os
@@ -44,6 +46,8 @@ DEVICE = "cuda"
 GPU_LAYERS = "999"
 # Dependencies under these roots are the host's C library, compiler runtime and WSL driver shim. Everything
 # else that the dynamic loader resolves for llama-server must be a pinned library.
+# cuda_host_guard holds this lock for the job and hands its descriptor to the launcher.
+CUDA_LOCK = Path.home() / ".local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock"
 SYSTEM_LIBRARY_ROOTS = (Path("/usr/lib"), Path("/usr/lib64"), Path("/lib"), Path("/lib64"))
 DISTRIBUTIONS = ("torch", "transformers", "tokenizers", "safetensors", "accelerate")
 
@@ -102,6 +106,36 @@ def verify_server_libraries(server: Path, libraries: Json, *, replay: bool) -> N
         ldd = subprocess.check_output(["ldd", str(server)], stderr=subprocess.STDOUT, timeout=30, text=True)
         if resolved_libraries(ldd) != pinned:
             raise ProtocolError("llama_server_library_set_mismatch")
+
+
+def verify_cuda_lease(environ: Mapping[str, str] = os.environ, lock: Path = CUDA_LOCK) -> None:
+    """A generating run holds the night job's CUDA lease: the guard's inherited, locked descriptor."""
+    try:
+        held = os.fstat(int(environ["SEPALITH_CUDA_LOCK_FD"]))
+        current = os.stat(lock)
+    except (KeyError, ValueError, OSError):
+        raise ProtocolError("cuda_lease_required") from None
+    if (held.st_dev, held.st_ino) != (current.st_dev, current.st_ino):
+        raise ProtocolError("cuda_lease_required")
+    probe = os.open(lock, os.O_RDWR | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as error:
+        if error.errno not in (errno.EAGAIN, errno.EWOULDBLOCK):
+            raise
+        return  # held elsewhere, by the guard
+    finally:
+        os.close(probe)
+    raise ProtocolError("cuda_lease_required")
+
+
+def verify_server_device(server: Path, device: Json) -> None:
+    """The pinned llama-server itself sees exactly the pinned CUDA device."""
+    listing = subprocess.check_output([str(server), "--list-devices"], stderr=subprocess.DEVNULL, timeout=60,
+                                      text=True)
+    devices = re.findall(r"^\s+(\S+): (.+) \(\d+ MiB, \d+ MiB free\)$", listing, re.MULTILINE)
+    if devices != [("CUDA0", device["name"])]:
+        raise ProtocolError("llama_server_cuda_device_mismatch")
 
 
 def verify_cuda_device(runtime: Json) -> None:
@@ -182,7 +216,9 @@ class FrozenRuntime:
             )
             if re.search(rb"\b" + LLAMA_COMMIT.encode() + rb"[a-f0-9]*\b", version_output) is None:
                 raise ProtocolError("llama_server_version_mismatch")
+            verify_cuda_lease()
             verify_cuda_device(runtime)
+            verify_server_device(self.server, runtime["device"])
         self.tokenizer = load_pinned_reference_tokenizer(tokenizer_path)
 
     @contextmanager

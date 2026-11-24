@@ -198,7 +198,12 @@ What changes:
   `libcudart`, `libcublas` and `libcublasLt` from `/opt/cuda`). The launcher
   hashes each library and compares the `ldd` resolution with that set. The
   host C library, compiler runtime and WSL driver shim (`/usr/lib`, `/lib`)
-  are not pinned.
+  are not pinned. Before the seal, the pinned llama-server must also list
+  exactly one device, `CUDA0`, with the pinned name (`--list-devices`).
+- A generating run must hold the night job's CUDA lease: the launcher refuses
+  to start unless it inherited `cuda_host_guard`'s locked descriptor of
+  `cuda0.lock`. A completion replay (resume) does not generate and needs no
+  lease.
 - The run is one reviewed night-queue job; see
   [Freeze and launch](#freeze-and-launch).
 
@@ -309,8 +314,10 @@ python -B docs/campaign/work/final-protocol-v2/protocol.py \
 inside `cuda_host_guard`. The guard holds the CUDA lock and stops the run if
 host memory runs low. The runner's GPU and host-memory preflight has already
 passed. The job is one-shot (`resumable: false`). The launcher cannot resume
-without retained completions. The job is estimated at 240 minutes, with about
-1.5 h expected, against the 16 h 40 min window. The runner starts a one-shot
+without retained completions. The job is estimated at 360 minutes, with about
+1.5 h expected, against the 16 h 40 min window. The estimate equals the
+wrapper's 6 h margin, so the runner never starts a job that the wrapper would
+refuse. The runner starts a one-shot
 job only if its estimate fits before 16:40. A stop request or a hard kill ends
 the run, and it stays stopped for the user (see below). The night report gets
 only the status and the reason.

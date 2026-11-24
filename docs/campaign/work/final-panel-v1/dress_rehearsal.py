@@ -62,6 +62,7 @@ from admission_guard import _write_immutable_json, canonical_json, sha256_bytes,
 Json = dict[str, Any]
 STATE = Path.home() / ".local/state/sepalith/sealed-final-v2"
 REHEARSAL_SPLIT = "rehearsal_dev_group"
+REHEARSAL_JOB = ROOT / "docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json"
 SUBSET_CASES = 30  # pre-registered 2026-11-23 before any rehearsal scoring
 
 
@@ -165,10 +166,14 @@ def subset(root: Path) -> Json:
 def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night_job: Path | None = None) -> Json:
     import protocol as v2
 
-    if panel_root is not None:
-        # A fresh rehearsal root over the built panel of an earlier one.
-        if use_subset or panel_root == root or not panel_root.is_relative_to(STATE):
-            raise SystemExit("--panel-root names another rehearsal root and takes no --subset")
+    rehearsals = STATE / "rehearsals"
+    if panel_root is not None or night_job is not None:
+        # GPU rehearsal: a fresh root over the built panel of an earlier one, both under rehearsals/, pinning
+        # only the reviewed rehearsal job. The final run root is never written here.
+        if (panel_root is None or night_job is None or use_subset or panel_root == root
+                or root.parent != rehearsals or panel_root.parent != rehearsals
+                or night_job.resolve(strict=True) != REHEARSAL_JOB):
+            raise SystemExit("--panel-root and --night-job plan a fresh rehearsals/ root with the rehearsal job")
         root.mkdir(mode=0o700)
     source = panel_root or root
     panel = rehearsal_panel(source)
@@ -176,19 +181,19 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     if chosen.resolve() != chosen:
         raise SystemExit("subset panel must be a real directory inside the rehearsal root")
     fragment = json.loads((chosen / "plan-fragment.json").read_bytes())
-    pinned = [fragment["cases"]["path"], fragment["semantic_receipt"]["path"], fragment["payloads_path"]]
-    if (any(Path(path).resolve() != Path(path) or not Path(path).is_relative_to(chosen) for path in pinned)
-            or fragment["source_roots"] != [str(panel / "final-sources")]):
-        raise SystemExit("plan fragment pins files outside the verified rehearsal panel")
+    # The plan takes exactly the chosen panel's canonical files at their current digests. rehearsal_panel()
+    # checked the full panel's files against its build receipt.
+    expected = {"cases": {"path": str(chosen / "cases.json"), "sha256": file_sha(chosen / "cases.json")},
+                "semantic_receipt": {"path": str(chosen / "semantic-receipt.json"),
+                                     "sha256": file_sha(chosen / "semantic-receipt.json")},
+                "payloads_path": str(chosen / "payloads.json"), "source_roots": [str(panel / "final-sources")]}
+    if any(fragment.get(key) != value for key, value in expected.items()):
+        raise SystemExit("plan fragment differs from the verified rehearsal panel files")
     if use_subset:
-        # Every subset case must carry exactly the verified panel's binding, under the rehearsal label.
-        bindings = json.loads((panel / "semantic-receipt.json").read_bytes())["case_bindings"]
-        cases = json.loads(Path(fragment["cases"]["path"]).read_bytes())
-        if (file_sha(Path(fragment["cases"]["path"])) != fragment["cases"]["sha256"]
-                or cases["split"] != REHEARSAL_SPLIT or any(
-                    bindings.get(c["row_id"]) != {k: c[k] for k in ("split_identity", "source_sha256",
-                                                                     "context_sha256", "target_sha256")}
-                    for c in cases["cases"])):
+        # Every subset row must be a row of the verified full panel, unchanged, under the rehearsal label.
+        full = {c["row_id"]: c for c in json.loads((panel / "cases.json").read_bytes())["cases"]}
+        cases = json.loads((chosen / "cases.json").read_bytes())
+        if cases["split"] != REHEARSAL_SPLIT or any(full.get(c["row_id"]) != c for c in cases["cases"]):
             raise SystemExit("subset cases are not cases of the verified rehearsal panel")
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
@@ -199,8 +204,7 @@ def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night
     plan = {"schema": v2.SCHEMA + ".plan", "models": pins["models"], "release_artifacts": pins["release_artifacts"],
             "tokenizer": pins["tokenizer"], "runtime": runtime, **fragment, "state_dir": str(state)}
     if night_job is not None:
-        job = night_job.resolve(strict=True)
-        plan["night_job"] = {"path": str(job), "sha256": file_sha(job)}
+        plan["night_job"] = {"path": str(REHEARSAL_JOB), "sha256": file_sha(REHEARSAL_JOB)}
     plan_sha = write_once(root / "plan.json", plan)
     now = datetime.now(timezone.utc).isoformat()
     freeze = {"schema": v2.SCHEMA + ".freeze", "status": "frozen", "weights_frozen": True, "harness_frozen": True,
