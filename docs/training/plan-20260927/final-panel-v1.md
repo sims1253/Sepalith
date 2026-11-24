@@ -21,7 +21,7 @@ written weight and harness freeze and a separate written build authorization
 | Question | Answer | Effect |
 | --- | --- | --- |
 | Pipe floor before A2 | "Lower pipe floor to 6" | `recipe.json` floor for `pipe_rewrite` is 6. Every other floor and quota is unchanged. New recipe sha256 `6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007`. [Floor 6 on the same-size pools](#floor-6-on-the-same-size-pools-2026-11-24) |
-| Scoring device | "Switch to GPU" | A5 runs on the PC's CUDA GPU as one reviewed night-queue job. See [sealed-final-v2.md](sealed-final-v2.md#gpu-scoring-2026-11-24). New harness `c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7` |
+| Scoring device | "Switch to GPU" | A5 runs on the PC's CUDA GPU as one reviewed night-queue job. See [sealed-final-v2.md](sealed-final-v2.md#gpu-scoring-2026-11-24). New harness `75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6` |
 
 ## Why
 
@@ -510,7 +510,7 @@ authorization):
 > `3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb`), the
 > release artifact Q4_K_M-mixB-e4
 > (`e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b`), and
-> the harness `c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7`
+> the harness `75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6`
 > (evaluator commit `815967bb`, package tree `a9510fb9`; GPU scoring). No training,
 > checkpoint, quantization or tuning decision may depend on the final
 > results. Frozen at [UTC time].
@@ -526,7 +526,7 @@ its sha256 in writing):
   "constructor_sha256": "[sha256 of final_panel.py on main]",
   "recipe_sha256": "6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007",
   "weights_sha256": "3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb",
-  "harness_sha256": "c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7",
+  "harness_sha256": "75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6",
   "memberships_sha256": "63b68fb718db9dfe20ed34bf1a520ed9b80c5b0b6799eaf9be81e4d119636736",
   "freeze_statement_sha256": "[sha256 of the freeze statement file]",
   "weights_and_harness_frozen": true,
@@ -550,7 +550,7 @@ copied unchanged from `plan-fragment.json`: `cases` (file pin of
 `source_roots` and `memberships` (`63b68fb7…`), plus the empty `state_dir`.
 The freeze receipt (`sepalith.sealed-final.v2.freeze`) then pins
 `plan_sha256` (the exact plan bytes), `weights_sha256` (`3ed055fd…e4fb`),
-`harness_sha256` (`c29ea0f3…`), both freeze timestamps (taken from the
+`harness_sha256` (`75bb40ea…`), both freeze timestamps (taken from the
 A2 statement), and `status: frozen` with all three unlock flags. The user
 gives the receipt's own sha256 in writing, and the launcher checks it.
 

@@ -29,9 +29,9 @@ The clean-room implementation lives in
 | v2 file | SHA-256 |
 | --- | --- |
 | `protocol.py` | `5491e132c6e0aa356de0ab0172cf4920ccfb154a48628454142397549f93aa66` |
-| `runtime.py` | `93e35d426039a8b86bd9d74fed5d8be8b5e15fc65a837e6508cd8b307958d73c` |
+| `runtime.py` | `4d1c1267dd9aed0bb97d658b0c0960c555c83f00ab554da4128867d68a313061` |
 | `night_job.py` | `25c1c1ee07e41577e9d87b0a64a49ba23f5ed6de30911d2cd278c2b7ff9f5384` |
-| `test_protocol.py` | `922889beaa6e68b33b7feecf4e18c390928b9093f20770d36f4528864e2f27d5` |
+| `test_protocol.py` | `8faccbd8daeb06b1fa2b9a8db8fcbe0b3203ed1cc1be61246ecfcb662ac5f241` |
 
 The evaluator and PRM03 renderer come from the package tree
 `packages/sepalith/src` at commit `815967bb10aa0fb0750dc16ea2342e600dd38b0c`
@@ -40,7 +40,7 @@ that the checkout's package tree has no diff and no untracked file against
 that commit, and that the commit's tree is that tree. It uses the renderer and
 the evaluator's capacity, greedy generation, stop, and classification
 functions. The harness SHA-256 is
-`c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7`. It binds
+`75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6`. It binds
 the commit, the tree, the v2 runtime files `protocol.py` and `runtime.py`,
 the night-job wrapper `night_job.py`, and
 `final-admission-guards/admission_guard.py`. From the repository root, compute
@@ -55,7 +55,7 @@ code under `/mnt/nas/bulk/backups/sepalith/`. The preparation copy is
 `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-71a7593737a5/`. The re-pinned
 copy is `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-874e0f0a725a/`, with a
 `git archive` of the pinned package tree and a `SHA256SUMS` manifest. The GPU
-copy is `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-c29ea0f30739/` in the
+copy is `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-75bb40ea9685/` in the
 same layout. Backups contain code and synthetic tests only.
 
 ### Harness re-pin (2026-11-23)
@@ -64,7 +64,7 @@ same layout. Backups contain code and synthetic tests only.
 | --- | --- | --- |
 | First pin (PR #103) | `523efc07bcb86ebba7fe1030c0a2dc6356f9d111` | `71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809` |
 | Re-pin (PR #108, #109) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5` |
-| GPU scoring (2026-11-24) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7` |
+| GPU scoring (2026-11-24) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6` |
 
 The first pin's check failed on main after PR #104 and #105. Those PRs added
 11 C20 files under `packages/sepalith/src`
@@ -274,7 +274,7 @@ authorization. Keep the approved digest separate from the receipt.
   "harness_frozen_at": "<UTC ISO 8601>",
   "plan_sha256": "<sha256 of exact plan file>",
   "weights_sha256": "<guard sha256_json of the plan models object>",
-  "harness_sha256": "c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7"
+  "harness_sha256": "75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6"
 }
 ```
 

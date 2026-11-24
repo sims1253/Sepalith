@@ -239,7 +239,7 @@
         "harness_sha256_history": {
           "523efc07 (PR #103)": "71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809",
           "815967bb (PR #108/#109, CPU)": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
-          "815967bb (GPU, this change)": "c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7"
+          "815967bb (GPU, this change)": "75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6"
         },
         "jobs": {
           "dev_rehearsal": "docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json",
@@ -259,12 +259,12 @@
     "Zed PRM03 adapter and parity",
     "Admission guard recovered from origin/t3code/best-token-model-plan (d7f2aa94); final constructor/evaluator lost in the 2026-10-10 reinstall; sealed DAT-07-final-* case files present on E: and NAS"
   ],
-  "question_for_user": "After the GPU dev rehearsal reports, issue the A2 freeze statement and build authorization with harness c29ea0f307398f19a0887f6fd36fbe26e20d111cb09a8d7f8e1d97fdc3be98b7 and recipe 6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007.",
+  "question_for_user": "After the GPU dev rehearsal reports, issue the A2 freeze statement and build authorization with harness 75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6 and recipe 6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007.",
   "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Admission guard recovered from a remote branch; the final constructor/evaluator code is lost; sealed case files are intact. Notebook latency (2026-11-23, m0pad, Ryzen 5 PRO 5650U, RADV RENOIR, AC, performance profile): all four configs pass the measurement gate; every request ended in EOS after 12 generated tokens, so decode tok/s covers 11 tokens; the user's own docker workloads kept running on the notebook (load average 1-9). Vulkan offload confirmed by an unmeasured -lv 4 probe of the same command (43/43 layers) and iGPU sysfs during the measured run. Notebook directory removed after the run.",
   "steps": {
     "1_quant_tiers": "done",
     "2_serving_parity": "cpu_stage_done; runtime/editor parity open",
     "3_notebook_latency": "done; accepted by the user 2026-11-23",
-    "4_sealed_final": "design approved; pipe floor 6 (2026-11-24); GPU scoring (harness c29ea0f3); GPU dev rehearsal queued; awaiting A2; no final content read"
+    "4_sealed_final": "design approved; pipe floor 6 (2026-11-24); GPU scoring (harness 75bb40ea); GPU dev rehearsal queued; awaiting A2; no final content read"
   }
 }
