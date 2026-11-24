@@ -159,19 +159,20 @@ export async function install(a: Asset, directory: string, signal: AbortSignal, 
 }
 
 /**
- * Default model: arm A (SFT-v2-r4-lr1e-5, checkpoint 536) Q8_0, as published
- * in scholzmx/sepalith-2b-edit-sft at commit 5f1eace (folder arm-a). Q8_0 and
- * Q6_K passed the C09 quant gate; Q6_K and the Q4_K_M-mixA-e4 tier (quant
- * autoresearch, PR #67) are not published and are used through `modelPath`.
+ * Default model: the released Sepalith 2B NES (C19 checkpoint 100), Q6_K tier,
+ * as published in scholzmx/sepalith-2b-nes at commit a602cd9. Same tokenizer
+ * and zeta2-prm03-v1 prompt contract as arm A. The small tier
+ * (sepalith-2b-nes-Q4_K_M-mixB.gguf, 1.66 GB, sha256 e24fbfbc…1c71b) is used
+ * through `modelPath`.
  */
 export const DEFAULT_MODEL_ASSET: Asset = {
-  name: 'arm-a-Q8_0.gguf',
-  url: 'https://huggingface.co/scholzmx/sepalith-2b-edit-sft/resolve/5f1eacee21d02df6992387b7c4260d1804d2a934/arm-a/arm-a-Q8_0.gguf',
-  sha256: '44b01828b21cd6156eeda2fef67a4cf4ab4a9706f4ded543d9a844070de290fe',
-  bytes: 2679710528,
+  name: 'sepalith-2b-nes-Q6_K.gguf',
+  url: 'https://huggingface.co/scholzmx/sepalith-2b-nes/resolve/a602cd924d91e83f95508ea38f9452de98ec8f86/sepalith-2b-nes-Q6_K.gguf',
+  sha256: '6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261',
+  bytes: 2199741568,
 };
 
-/** Install (or reuse a verified cached copy of) the default model; 2.7 GB on first use. */
+/** Install (or reuse a verified cached copy of) the default model; 2.2 GB on first use. */
 export async function ensureDefaultModel(storage: string, signal: AbortSignal, log: (message: string) => void): Promise<string> {
   log(`Checking default model ${DEFAULT_MODEL_ASSET.name} (${(DEFAULT_MODEL_ASSET.bytes / 1e9).toFixed(1)} GB, sha256 ${DEFAULT_MODEL_ASSET.sha256.slice(0, 12)})`);
   return install(DEFAULT_MODEL_ASSET, path.join(storage, 'models', DEFAULT_MODEL_ASSET.sha256), signal, 3 * 3600_000);

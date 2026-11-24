@@ -13,7 +13,7 @@ import { DEFAULT_CONTEXT_SIZE, llamaServerArgs } from "./server_args";
 import { WarmupScheduler } from "./warmup";
 
 // Sepalith: PRM03 (`zeta2-prm03-v1`) next-edit suggestions for R from a local
-// llama-server sidecar running the arm A GGUF. The prompt and output contract
+// llama-server sidecar running the Sepalith 2B NES GGUF. The prompt and output contract
 // live in ./prm03 (a port of sepalith.campaign_protocol), the editor-to-context
 // rules in ./prm03_context, the request bodies in ./completion.
 

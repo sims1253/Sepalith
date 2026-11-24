@@ -1,7 +1,7 @@
 // End-to-end test against a real llama-server on CPU with the extension's own
 // spawn flags, request bodies, renderer, parser and generation flow. Cases are
 // TRAIN rows (DAT10 v4); DEV and the sealed final set are never read. Local
-// only: needs the llama.cpp CPU build, the arm A GGUF and the TRAIN data.
+// only: needs the llama.cpp CPU build, the released Q6_K GGUF and the TRAIN data.
 //
 //   npm run e2e-cpu -- [--cases 6] [--out /tmp/e2e.json]
 //   env: SEPALITH_SERVER, SEPALITH_MODEL, SEPALITH_TRAIN_DIR, SEPALITH_THREADS (max 8)
@@ -22,7 +22,7 @@ import { terminateChild } from '../src/process_lifecycle.ts';
 import { DEFAULT_CONTEXT_SIZE, llamaServerArgs } from '../src/server_args.ts';
 
 const SERVER = process.env.SEPALITH_SERVER ?? `${homedir()}/.local/opt/llama.cpp-b10453/build-cpu/bin/llama-server`;
-const MODEL = process.env.SEPALITH_MODEL ?? '/mnt/e/sepalith/campaign-20260915/quant-work/arm-a/arm-a-Q8_0.gguf';
+const MODEL = process.env.SEPALITH_MODEL ?? '/mnt/e/sepalith/campaign-20260915/quant-work/c19-100/c19-100-imat-Q6_K.gguf';
 const DATA = process.env.SEPALITH_TRAIN_DIR ?? '/mnt/e/sepalith/campaign-20260915/data-work/DAT10-finish-source-repair-v4-braceindent';
 const THREADS = Math.min(8, Number(process.env.SEPALITH_THREADS ?? 8));
 const argValue = (name: string) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : undefined; };

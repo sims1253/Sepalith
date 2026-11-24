@@ -3,7 +3,7 @@
   "displayName": "Sepalith",
   "publisher": "sepalith-dev",
   "version": "0.1.0",
-  "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running the Sepalith arm A GGUF (PRM03 prompt contract zeta2-prm03-v1).",
+  "description": "Inline next-edit suggestions for R files from a local llama.cpp sidecar running the Sepalith 2B NES GGUF (PRM03 prompt contract zeta2-prm03-v1).",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -102,7 +102,7 @@
         "sepalith.modelPath": {
           "type": "string",
           "default": "",
-          "description": "Absolute path to a GGUF. Empty: download and use the arm A Q8_0 GGUF (scholzmx/sepalith-2b-edit-sft, folder arm-a, sha256-pinned, 2.7 GB) into the shared Sepalith cache. Other qualified tiers of the same model: Q6_K (arm-a-imat-Q6_K.gguf, smallest tier that passed the C09 quant gate) and Q4_K_M-mixA-e4 (quant autoresearch); set their path here. The model must be trained on the zeta2-prm03-v1 prompt.",
+          "description": "Absolute path to a GGUF. Empty: download and use the released Sepalith 2B NES Q6_K GGUF (scholzmx/sepalith-2b-nes, sepalith-2b-nes-Q6_K.gguf, sha256-pinned, 2.2 GB) into the shared Sepalith cache. For the smaller tier, download sepalith-2b-nes-Q4_K_M-mixB.gguf (1.66 GB; says no-edit slightly more often) from the same repo and set its path here. The model must be trained on the zeta2-prm03-v1 prompt.",
           "scope": "application"
         },
         "sepalith.serverPath": {

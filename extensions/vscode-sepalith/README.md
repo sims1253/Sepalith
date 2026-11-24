@@ -1,7 +1,8 @@
 # Sepalith (VS Code extension)
 
 Next-edit suggestions for R files, served by a local `llama-server` sidecar
-running the Sepalith arm A GGUF (SFT-v2-r4-lr1e-5, checkpoint 536). The
+running [Sepalith 2B NES](https://huggingface.co/scholzmx/sepalith-2b-nes),
+the released model (GRPO checkpoint 100 on top of the arm A editing SFT). The
 extension renders the PRM03 prompt contract `zeta2-prm03-v1` that the model was
 trained on, byte-identical to `sepalith.campaign_protocol.render_prompt`, and
 parses the answer with the same rules as `parse_output`.
@@ -15,8 +16,34 @@ parses the answer with the same rules as `parse_output`.
     code --install-extension vscode-sepalith-0.1.0.vsix
 
 Set `sepalith.serverPath` to a llama.cpp `llama-server` (validated: b10453).
-With `modelPath` empty, the first start downloads the arm A Q8_0 GGUF
-(2.7 GB, sha256-pinned) into the shared Sepalith cache.
+That is the only required setting. With `modelPath` empty, the first start
+downloads `sepalith-2b-nes-Q6_K.gguf` (2.2 GB, sha256-pinned to the published
+file) into the shared Sepalith cache; progress is in the `Sepalith` output
+channel.
+
+### Model tiers
+
+Both tiers are in `scholzmx/sepalith-2b-nes` and use the same tokenizer and
+prompt contract:
+
+| File | Size | Notes |
+| --- | ---: | --- |
+| `sepalith-2b-nes-Q6_K.gguf` | 2.20 GB | Default. Passed the quant gate against bf16. |
+| `sepalith-2b-nes-Q4_K_M-mixB.gguf` | 1.66 GB | Smaller and a little faster on CPU. Says "no edit" slightly more often when an edit was wanted. |
+
+To use the small tier, download it and set `modelPath`:
+
+    hf download scholzmx/sepalith-2b-nes sepalith-2b-nes-Q4_K_M-mixB.gguf \
+      --revision a602cd924d91e83f95508ea38f9452de98ec8f86 --local-dir ~/models/sepalith
+
+```json
+"sepalith.modelPath": "/home/you/models/sepalith/sepalith-2b-nes-Q4_K_M-mixB.gguf"
+```
+
+Its sha256 is `e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b`.
+
+Only VS Code and Positron are supported. Zed's built-in `zeta2` prompt is a
+different format, so this model does not work there.
 
 ## Commands
 
@@ -36,7 +63,7 @@ files.
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
-| `modelPath` | empty | Absolute path to a GGUF. Empty: the arm A Q8_0 GGUF from `scholzmx/sepalith-2b-edit-sft` (folder `arm-a`), downloaded once and verified. Other qualified tiers of the same model: `arm-a-imat-Q6_K.gguf` (smallest tier that passed the C09 quant gate) and the Q4_K_M-mixA-e4 tier (quant autoresearch); neither is published yet, so set the local path. |
+| `modelPath` | empty | Absolute path to a GGUF. Empty: `sepalith-2b-nes-Q6_K.gguf` from `scholzmx/sepalith-2b-nes`, downloaded once and verified. Set a path for the small tier (see [Model tiers](#model-tiers)) or another zeta2-prm03-v1 model. |
 | `serverPath` | empty | Absolute path to the llama-server binary. |
 | `port` | `18099` | Sidecar port. |
 | `threads` | `8` (max 8) | CPU threads for the sidecar (`-t` and `-tb`). |
@@ -61,7 +88,7 @@ files.
    same file, spelled like the TRAIN `event_diff` (`User edited "R/f.R":` and a
    diff hunk); an edit is committed when the cursor leaves its lines, so the
    line being typed never appears as history. No outline, diagnostics or
-   retrieval records are sent: arm A's TRAIN rows have none. These rules match
+   retrieval records are sent: the editing-SFT TRAIN rows have none. These rules match
    the TRAIN distribution: all 15,006 rows have the cursor on the region's first
    line, 7,940 have an empty region and 6,167 a one-line region.
 2. **Tokens.** The prompt is tokenized by the server with `parse_special:
