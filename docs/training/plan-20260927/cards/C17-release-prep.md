@@ -245,12 +245,28 @@ user decides before A2 whether to lower that floor. A2 (freeze statement and
 build authorization) is still the user's; the draft wording is in
 [final-panel-v1.md](../final-panel-v1.md#build-authorization-draft).
 
+### Addendum (2026-11-24): pipe floor 6, GPU scoring
+
+The user answered two more questions:
+
+1. "Lower pipe floor to 6". The `pipe_rewrite` floor in `recipe.json` is now
+   6, and every other floor and quota is unchanged. At 105 groups, the train
+   pool now builds 243 cases with every floor filled. The dev pool still
+   stops, now only on no_op (25 against 40), because the DEV panels already
+   used its no-op prompts. See
+   [final-panel-v1.md](../final-panel-v1.md#floor-6-on-the-same-size-pools-2026-11-24).
+2. "Switch to GPU". A5 scores on the PC's CUDA GPU as one reviewed one-shot
+   night-queue job, and all other settings are unchanged. The harness hash
+   changed. See
+   [sealed-final-v2.md](../sealed-final-v2.md#gpu-scoring-2026-11-24).
+   The dev GPU rehearsal job runs first. The final job
+   `c17/jobs/C17-sealed-final-v2-score.json` is enqueued only after A2,
+   binding issuance and the freeze receipt.
+
 ## Handoff
 
 Update [status/C17.json](../status/C17.json) with each receipt and open gate.
-CPU preparation needs no PC GPU job. A future sealed bf16 run, if required by
-the recovered protocol, must be defined as a reviewed night-queue job after
-its code is merged to main. The queue runs from
-`/home/m0hawk/sandbox/Sepalith`; do not enqueue from this worktree.
-Its exact command cannot be registered until the original evaluator is found.
+The sealed scoring run (A5) and its dev rehearsal are reviewed night-queue
+jobs in [`c17/jobs/`](../c17/jobs/). The queue runs from
+`/home/m0hawk/sandbox/Sepalith`; do not enqueue from a worktree.
 Notebook Vulkan work runs on the notebook after access is granted.

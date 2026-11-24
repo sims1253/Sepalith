@@ -20,7 +20,11 @@ Every step uses the code and settings of the real final run. The differences are
   sources. The full panel still goes through the build's launcher dry run (load, semantic receipt,
   roots, O_NOFOLLOW reads and construct for every case). Reason: CPU bf16 on this Zen 3 machine
   (no AVX-512 or bf16 units) took about 250 s per case under load, so the full roster would not
-  finish in a day.
+  finish in a day. (The CPU run of 2026-11-23 used it; the GPU rehearsal scores the full panel.)
+* GPU rehearsal (2026-11-24, user: "Switch to GPU"): `assemble --panel-root` plans a fresh root over the
+  built panel of an earlier rehearsal root, pins the night-job file (`--night-job`) and writes the rehearsal
+  freeze digest to `freeze-approved.sha256`. The night job (`final-protocol-v2/night_job.py rehearsal`) then
+  runs `score` under the CUDA host guard, as the final job runs the launcher.
 
 Commands (run from the repository root):
 
@@ -29,6 +33,7 @@ Commands (run from the repository root):
     python dress_rehearsal.py subset --root DIR             # optional, pre-registered subset
     python dress_rehearsal.py assemble --root DIR [--subset]
     .venv-sft/bin/python dress_rehearsal.py score --root DIR            # the pinned interpreter
+    python dress_rehearsal.py assemble --root NEW --panel-root DIR --night-job JOB.json   # GPU rehearsal
 
 DIR must be a fresh directory under the mode-700 sealed-final state directory.
 """
@@ -43,6 +48,7 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
+import stat
 import sys
 import time
 from typing import Any
@@ -57,6 +63,7 @@ from admission_guard import _write_immutable_json, canonical_json, sha256_bytes,
 Json = dict[str, Any]
 STATE = Path.home() / ".local/state/sepalith/sealed-final-v2"
 REHEARSAL_SPLIT = "rehearsal_dev_group"
+REHEARSAL_JOB = ROOT / "docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json"
 SUBSET_CASES = 30  # pre-registered 2026-11-23 before any rehearsal scoring
 
 
@@ -69,6 +76,13 @@ def write_once(path: Path, value: Json | str) -> str:
 
 def file_sha(path: Path) -> str:
     return sha256_bytes(Path(path).read_bytes())
+
+
+def regular_files(*paths: Path) -> None:
+    """Refuse symlinks, FIFOs and other non-regular files before anything reads them."""
+    for path in paths:
+        if not path.is_absolute() or not stat.S_ISREG(path.lstat().st_mode):
+            raise SystemExit("rehearsal panel inputs must be absolute regular files")
 
 
 def dev_blind_memberships(path: Path) -> Json:
@@ -118,6 +132,8 @@ def rehearsal_panel(root: Path) -> Path:
     panel = root / "panel"
     if panel.resolve() != panel or not panel.is_dir():
         raise SystemExit("rehearsal panel must be a real directory inside the rehearsal root")
+    regular_files(panel / "build-receipt.json", root / "build-authorization.json", panel / "cases.json",
+                  panel / "semantic-receipt.json", panel / "payloads.json")
     receipt = json.loads((panel / "build-receipt.json").read_bytes())
     authorization = file_sha(root / "build-authorization.json")
     if (receipt.get("split") != "dev_group" or receipt.get("status") != "built"
@@ -157,42 +173,76 @@ def subset(root: Path) -> Json:
     return {"cases": len(ids), "families": dict(sorted(Counter(c["family"] for c in chosen).items()))}
 
 
-def assemble(root: Path, use_subset: bool) -> Json:
+def assemble(root: Path, use_subset: bool, panel_root: Path | None = None, night_job: Path | None = None) -> Json:
     import protocol as v2
 
-    panel = rehearsal_panel(root)
-    chosen = (root / "subset-panel") if use_subset else panel
+    rehearsals = STATE / "rehearsals"
+    if panel_root is not None or night_job is not None:
+        # GPU rehearsal: a fresh root over the built panel of an earlier one, both under rehearsals/, pinning
+        # only the reviewed rehearsal job. The final run root is never written here.
+        command = json.loads(REHEARSAL_JOB.read_bytes())["command"]
+        if (panel_root is None or night_job is None or use_subset or panel_root == root
+                or root.parent != rehearsals or panel_root.parent != rehearsals
+                or night_job.resolve(strict=True) != REHEARSAL_JOB
+                or command[command.index("--root") + 1] != str(root)):
+            raise SystemExit("--panel-root and --night-job plan a fresh rehearsals/ root with the rehearsal job")
+    source = panel_root or root
+    panel = rehearsal_panel(source)
+    chosen = (source / "subset-panel") if use_subset else panel
     if chosen.resolve() != chosen:
         raise SystemExit("subset panel must be a real directory inside the rehearsal root")
+    regular_files(*(chosen / name for name in ("plan-fragment.json", "cases.json", "semantic-receipt.json",
+                                               "payloads.json")))
     fragment = json.loads((chosen / "plan-fragment.json").read_bytes())
-    pinned = [fragment["cases"]["path"], fragment["semantic_receipt"]["path"], fragment["payloads_path"]]
-    if (any(Path(path).resolve() != Path(path) or not Path(path).is_relative_to(chosen) for path in pinned)
-            or fragment["source_roots"] != [str(panel / "final-sources")]):
-        raise SystemExit("plan fragment pins files outside the verified rehearsal panel")
+    # The plan takes exactly the chosen panel's canonical files at their current digests. rehearsal_panel()
+    # checked the full panel's files against its build receipt.
+    expected = {"cases": {"path": str(chosen / "cases.json"), "sha256": file_sha(chosen / "cases.json")},
+                "semantic_receipt": {"path": str(chosen / "semantic-receipt.json"),
+                                     "sha256": file_sha(chosen / "semantic-receipt.json")},
+                "payloads_path": str(chosen / "payloads.json"), "source_roots": [str(panel / "final-sources")]}
+    if any(fragment.get(key) != value for key, value in expected.items()):
+        raise SystemExit("plan fragment differs from the verified rehearsal panel files")
+    # The audit's memberships are the ones the build authorization bound.
+    authorization = json.loads((source / "build-authorization.json").read_bytes())
+    memberships = Path(fragment["memberships"]["path"])
+    if fragment["memberships"]["sha256"] != authorization["memberships_sha256"]:
+        raise SystemExit("plan fragment memberships differ from the build authorization")
+    regular_files(memberships)
+    if file_sha(memberships) != authorization["memberships_sha256"]:
+        raise SystemExit("plan fragment memberships differ from the build authorization")
+    cases_count = len(json.loads((chosen / "cases.json").read_bytes())["cases"])
+    if fragment["case_count"] != cases_count:
+        raise SystemExit("plan fragment case count differs from its cases")
+    fragment = {**expected, "memberships": fragment["memberships"], "case_count": cases_count}
     if use_subset:
-        # Every subset case must carry exactly the verified panel's binding, under the rehearsal label.
-        bindings = json.loads((panel / "semantic-receipt.json").read_bytes())["case_bindings"]
-        cases = json.loads(Path(fragment["cases"]["path"]).read_bytes())
-        if (file_sha(Path(fragment["cases"]["path"])) != fragment["cases"]["sha256"]
-                or cases["split"] != REHEARSAL_SPLIT or any(
-                    bindings.get(c["row_id"]) != {k: c[k] for k in ("split_identity", "source_sha256",
-                                                                     "context_sha256", "target_sha256")}
-                    for c in cases["cases"])):
+        # Every subset row must be a row of the verified full panel, unchanged, under the rehearsal label.
+        full = {c["row_id"]: c for c in json.loads((panel / "cases.json").read_bytes())["cases"]}
+        cases = json.loads((chosen / "cases.json").read_bytes())
+        if cases["split"] != REHEARSAL_SPLIT or any(full.get(c["row_id"]) != c for c in cases["cases"]):
             raise SystemExit("subset cases are not cases of the verified rehearsal panel")
     pins = {name: json.loads((STATE / "pins" / f"{name}.json").read_bytes())
             for name in ("models", "release_artifacts", "tokenizer", "runtime")}
+    runtime = {k: v for k, v in pins["runtime"].items()
+               if k in ("python_sha256", "distributions", "torch_cuda", "device", "llama_server")}
+    harness = v2.harness_hash()
+    if panel_root is not None:
+        root.mkdir(mode=0o700)  # only after every input check passed, so a refused attempt leaves nothing
     state = root / "run-state"
     state.mkdir(mode=0o700)
-    runtime = {k: v for k, v in pins["runtime"].items() if k in ("python_sha256", "distributions", "llama_server")}
     plan = {"schema": v2.SCHEMA + ".plan", "models": pins["models"], "release_artifacts": pins["release_artifacts"],
             "tokenizer": pins["tokenizer"], "runtime": runtime, **fragment, "state_dir": str(state)}
+    if night_job is not None:
+        plan["night_job"] = {"path": str(REHEARSAL_JOB), "sha256": file_sha(REHEARSAL_JOB)}
     plan_sha = write_once(root / "plan.json", plan)
     now = datetime.now(timezone.utc).isoformat()
     freeze = {"schema": v2.SCHEMA + ".freeze", "status": "frozen", "weights_frozen": True, "harness_frozen": True,
               "final_access_unlocked": True, "weights_frozen_at": now, "harness_frozen_at": now,
               "plan_sha256": plan_sha, "weights_sha256": sha256_json(pins["models"]),
-              "harness_sha256": v2.harness_hash()}
+              "harness_sha256": harness}
     freeze_sha = write_once(root / "freeze.json", freeze)
+    if night_job is not None:
+        # The night job reads the digest apart from the receipt, as it reads the user's for the final run.
+        write_once(root / "freeze-approved.sha256", freeze_sha + "\n")
     return {"plan_sha256": plan_sha, "freeze_sha256": freeze_sha, "case_count": plan["case_count"]}
 
 
@@ -244,6 +294,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--subset", action="store_true", help="assemble: plan the pre-registered subset panel")
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--freeze-sha256")
+    parser.add_argument("--panel-root", type=Path, help="assemble: plan a fresh root over this root's built panel")
+    parser.add_argument("--night-job", type=Path, help="assemble: pin this night-job file in the plan")
     parser.add_argument("--build-groups", type=int, help="authorize: rehearsal group count (default: the recipe's)")
     parser.add_argument("--dev-blind", action="store_true",
                         help="authorize: empty the dev inventory so the launcher's audit can pass on dev cases")
@@ -256,7 +308,8 @@ def main(argv: list[str] | None = None) -> int:
     elif args.step == "subset":
         out = subset(root)
     elif args.step == "assemble":
-        out = assemble(root, args.subset)
+        panel_root = args.panel_root.resolve() if args.panel_root else None
+        out = assemble(root, args.subset, panel_root, args.night_job)
     else:
         if not args.freeze_sha256:
             parser.error("score needs --freeze-sha256")

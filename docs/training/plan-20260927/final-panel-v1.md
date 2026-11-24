@@ -16,6 +16,13 @@ written weight and harness freeze and a separate written build authorization
 | Unread final reserve | "Hold back ~45%" | [Holdback split](#holdback-split-pre-registered): 105 build groups, 88 sealed |
 | Rehearsal | "Yes, rehearse first" | [Dress rehearsal](#dress-rehearsal-2026-11-23) on dev groups before A2 |
 
+## User decisions (2026-11-24)
+
+| Question | Answer | Effect |
+| --- | --- | --- |
+| Pipe floor before A2 | "Lower pipe floor to 6" | `recipe.json` floor for `pipe_rewrite` is 6. Every other floor and quota is unchanged. New recipe sha256 `6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007`. [Floor 6 on the same-size pools](#floor-6-on-the-same-size-pools-2026-11-24) |
+| Scoring device | "Switch to GPU" | A5 runs on the PC's CUDA GPU as one reviewed night-queue job. See [sealed-final-v2.md](sealed-final-v2.md#gpu-scoring-2026-11-24). New harness `75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6` |
+
 ## Why
 
 On 2026-11-23 the sealed-final prep for
@@ -211,7 +218,7 @@ sizing.
 | --- | ---: | ---: | ---: |
 | `finish_block` | 122 | 61 | 111 (55 authored, 56 code-cut) |
 | `no_op` | 50 | 40 | 50 |
-| `pipe_rewrite` | 28 | 14 | 28 |
+| `pipe_rewrite` | 28 | 6 (14 until 2026-11-24) | 28 |
 | `format_propagation` | 24 | 12 | 24 |
 | `rename_propagation` | 23 | 12 | 23 |
 | `na_rm_propagation` | 3 | 0 | 3 |
@@ -240,6 +247,9 @@ result, 122 of the 250 final cases are code-cut finish cases, against 56 of
 
 **Floors.** The floors are construction stops, not pass criteria. They catch
 a broken family, such as a missing tarball root, before anything is pinned.
+The user lowered the pipe_rewrite floor from 14 to 6 on 2026-11-24, before
+A2 and before any final content was read. A broken pipe extractor gives 0
+cases, so a floor of 6 still catches one.
 The build stops if the panel has fewer than 200 cases or any family is below
 its floor. The receipt then holds aggregate counts only.
 
@@ -282,7 +292,8 @@ or source.
   `open`, `listdir`, `scandir` and `stat` audit event of a synthetic
   authorized build and finds none under a holdback package's tree or
   tarball. With the filter removed, the same test fails.
-- **Stop rule on the smaller pool.** The floors are unchanged. A3 stops for
+- **Stop rule on the smaller pool.** The floors are unchanged except
+  pipe_rewrite (6, user decision 2026-11-24). A3 stops for
   the user, with aggregate counts only, if the panel has fewer than 200 cases
   or any family is below its floor. That rule now applies to a 105-group
   pool. At 3 cases per group, 105 groups can supply at most 315 cases, so
@@ -327,10 +338,11 @@ Every roster model scores near zero on code-cut finish (1 or 2 of 56), and
 code-cut finish is 49% of the final panel. Expect the final rates near 45%
 rather than near score250/250 (44 to 45%) for that reason, and expect the
 finish family to give little separation between models. The final report
-must show the mix, the reference rate at the actual built mix
+must show the mix and the reference rate at the actual built mix
 (`dev250_reference.py --mix <build-receipt.json>`; a shortfall move changes
-the mix) and the note that the references come from GPU or llama.cpp runs
-while the final scoring runs on CPU.
+the mix). Since 2026-11-24 the final scoring runs on the same device as the
+references: Transformers bf16 on CUDA, and the CUDA build of llama.cpp
+`3cb7ffb1a` for Q6_K.
 
 ## Dress rehearsal (2026-11-23)
 
@@ -371,6 +383,32 @@ must be made now, before A3, and only by the user. Options:
   already pre-registered.
 - (b) Keep the floor and accept the stop risk.
 - (c) Build from more groups. This would undo part of the 45% holdback.
+
+The user chose (a) on 2026-11-24.
+
+### Floor 6 on the same-size pools (2026-11-24)
+
+Both 105-group simulations were re-run with the new recipe (`6d2d3aa0…`),
+in the same seeded group order, as plain rehearsals (no authorization, dev and
+train content only).
+
+| Pool | Status | Cases | Groups used | finish | no_op | pipe | format | rename | na_rm | Floor failures |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| train, 105 groups, CPT filter off | `built` | 243 | 92 | 131 | 50 | 12 | 24 | 23 | 3 | none |
+| dev, 105 groups | `stopped_below_floor` | 202 | 79 | 118 | 25 | 12 | 24 | 23 | 0 | no_op (25 < 40) |
+
+- **Train:** every floor now fills. The 16 unfilled pipe slots moved to
+  finish_block. finish_block then fell 7 short of its raised target, so the
+  panel is 243 cases, above the 200-case floor.
+- **Dev:** pipe_rewrite passes now (12 against 6). The pool still stops,
+  because no_op reaches only 25 of its floor of 40. This is the dev-only
+  depletion already seen in run 1: 44 dev no-op candidates repeat a DEV75 or
+  DEV250 prompt and are dropped as `same_prompt_as_dev_panel`. The 105 train
+  groups give 77 no-op candidates and fill all 50 slots. Final groups have no
+  DEV-panel prompts to collide with, so the train pool is the better guide
+  for the final build.
+- The no_op floor is unchanged, as the user decided. A final build with fewer
+  than 40 no-op cases still stops at A3, as pre-registered.
 
 **Run 2: admission and scoring (all 169 dev groups, dev-blind
 memberships).** This run used the rehearsal-only field
@@ -418,13 +456,45 @@ correct, 1 false suggestion, 29 of 30 protocol-valid, 1 cap hit. Their
 generated tokens differ. Thirty cases cannot separate these models, and the
 rehearsal was not meant to.
 
-**Projected final runtime.** At these per-case times, 250 cases would take
-about 11 h (Arm A), 24 h (C19 bf16) and 15 h (Q6_K), so about 50 h on this
-shared machine. Run A5 when the machine is otherwise idle; the GPU night
-queue does not conflict, since A5 uses no GPU. Expect at least a day even
-then. The launcher has no time limit and keeps all progress in memory, so a
-crash during A5 needs the resume procedure in
+**Projected final runtime.** At these CPU per-case times, 250 cases would
+take about 11 h (Arm A), 24 h (C19 bf16) and 15 h (Q6_K), so about 50 h on
+this shared machine. That projection led to the user's GPU decision of
+2026-11-24 (see below). The launcher keeps all progress in memory, so a crash
+during A5 needs the resume procedure in
 [sealed-final-v2.md](sealed-final-v2.md#run-state-and-publication).
+
+## GPU dress rehearsal (2026-11-24)
+
+The full launcher now runs on CUDA (`runtime.py`), wrapped in the night-job
+entry `final-protocol-v2/night_job.py`. The same path is rehearsed on the GPU
+before A2. The job is
+[`c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json`](c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json).
+It scores the full 250-case dev-2 rehearsal panel, not a subset, with all
+three models.
+
+- `dress_rehearsal.py assemble --root rehearsals/gpu-1 --panel-root rehearsals/dev-2 --night-job <job>`
+  plans a fresh rehearsal root over dev-2's built panel. It checks the panel
+  files against dev-2's build receipt and authorization. It pins the GPU
+  runtime pins and the job file, and writes the rehearsal freeze digest to
+  `freeze-approved.sha256`.
+- The job runs `night_job.py rehearsal`. That runs `dress_rehearsal.py score`,
+  which is `protocol.run()` with only the split label changed, under
+  `cuda_host_guard`. It checks the same items as the final job.
+- **Estimates.** DEV250 on this GPU took 223 s (bf16 GGUF) and 180 s (Q6_K)
+  on llama-server, and about 9 min per Transformers checkpoint in the C18
+  final jobs. The launcher generates one case at a time, so expect up to
+  20 min per bf16 model. Add about 6 min to verify the runtime pins. Expect
+  about 45 to 90 min in all, against the job's 375-minute estimate and a
+  16 h 40 min window. The final job has the same size: at most 250 cases and
+  the same three models.
+
+A CPU dry run of the wiring ran before the PR. It used the real
+`night_job.main()`, the real plan, freeze and queue-record checks, and the
+real `cuda_host_guard` (CUDA lock and host-memory monitor). A mock launcher
+child drove the new bf16 generator code on a tiny random Llama on CPU, with
+CUDA hidden. Result: `complete`, guard `completed`, exit 0.
+
+Results are added here after the night run.
 
 ## Build authorization draft
 
@@ -440,8 +510,8 @@ authorization):
 > `3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb`), the
 > release artifact Q4_K_M-mixB-e4
 > (`e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b`), and
-> the harness `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5`
-> (evaluator commit `815967bb`, package tree `a9510fb9`). No training,
+> the harness `75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6`
+> (evaluator commit `815967bb`, package tree `a9510fb9`; GPU scoring). No training,
 > checkpoint, quantization or tuning decision may depend on the final
 > results. Frozen at [UTC time].
 
@@ -454,9 +524,9 @@ its sha256 in writing):
   "status": "user-approved",
   "split": "final_candidate_group",
   "constructor_sha256": "[sha256 of final_panel.py on main]",
-  "recipe_sha256": "[sha256 of recipe.json on main]",
+  "recipe_sha256": "6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007",
   "weights_sha256": "3ed055fdfe80f45c3b002ba98d004d9bfb60875ec8d8b370aaba4f06c1c6e4fb",
-  "harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
+  "harness_sha256": "75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6",
   "memberships_sha256": "63b68fb718db9dfe20ed34bf1a520ed9b80c5b0b6799eaf9be81e4d119636736",
   "freeze_statement_sha256": "[sha256 of the freeze statement file]",
   "weights_and_harness_frozen": true,
@@ -467,18 +537,20 @@ its sha256 in writing):
 
 The recipe hash binds the holdback split
 (`2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c`) and the
-floors. If the user changes the pipe floor, the recipe hash changes and must
-be re-read from main.
+floors, including the pipe floor of 6 (2026-11-24). Re-check both hashes on
+main before signing: `sha256sum docs/campaign/work/final-panel-v1/recipe.json`
+and `protocol.harness_hash()`.
 
 **What the freeze receipt (A4) will pin.** After A3 builds, the plan pins
 the models, `release_artifacts`, the tokenizer tree, the runtime
-(interpreter sha256, distributions, llama-server), and the A3 outputs
+(interpreter sha256, distributions, torch CUDA version, CUDA device, CUDA
+llama-server and its libraries), the `night_job` file, and the A3 outputs
 copied unchanged from `plan-fragment.json`: `cases` (file pin of
 `cases.json`), `case_count`, `semantic_receipt`, `payloads_path`,
 `source_roots` and `memberships` (`63b68fb7…`), plus the empty `state_dir`.
 The freeze receipt (`sepalith.sealed-final.v2.freeze`) then pins
 `plan_sha256` (the exact plan bytes), `weights_sha256` (`3ed055fd…e4fb`),
-`harness_sha256` (`874e0f0a…68f5`), both freeze timestamps (taken from the
+`harness_sha256` (`75bb40ea…`), both freeze timestamps (taken from the
 A2 statement), and `status: frozen` with all three unlock flags. The user
 gives the receipt's own sha256 in writing, and the launcher checks it.
 
@@ -671,7 +743,10 @@ lists. `coverage.json` records each stage's sources, rule and counts.
 - the Q6_K and mixB-e4 GGUFs;
 - the campaign tokenizer tree;
 - the interpreter's sha256 and the distribution versions;
-- llama-server `3cb7ffb1a` (the CPU build).
+- llama-server `3cb7ffb1a`. This was the CPU build until 2026-11-24, and is
+  now the CUDA build `build-cuda/bin/llama-server` with every non-system
+  shared library it loads;
+- torch's CUDA version and the CUDA device (name and compute capability).
 
 ## Pre-registered criteria
 

@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/usr/bin/env",
+    "PYTHONPATH=/home/m0hawk/sandbox/Sepalith/packages/sepalith/src",
+    "OMP_NUM_THREADS=8",
+    "MKL_NUM_THREADS=8",
+    "OPENBLAS_NUM_THREADS=1",
+    "CUDA_VISIBLE_DEVICES=0",
+    "TOKENIZERS_PARALLELISM=false",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+    "/home/m0hawk/sandbox/Sepalith/.venv-sft/bin/python",
+    "-B",
+    "/home/m0hawk/sandbox/Sepalith/docs/campaign/work/final-protocol-v2/night_job.py",
+    "final",
+    "--root",
+    "/home/m0hawk/.local/state/sepalith/sealed-final-v2/final"
+  ],
+  "cwd": "/home/m0hawk/sandbox/Sepalith",
+  "env": [],
+  "estimated_minutes": 375,
+  "id": "C17-sealed-final-v2-score",
+  "note": "A5 sealed-final v2 scoring. Do not enqueue before the user's build authorization, binding issuance and freeze receipt.",
+  "priority": 20,
+  "requires": [],
+  "resumable": false
+}

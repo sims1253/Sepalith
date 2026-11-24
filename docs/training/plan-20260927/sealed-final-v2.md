@@ -28,9 +28,10 @@ The clean-room implementation lives in
 
 | v2 file | SHA-256 |
 | --- | --- |
-| `protocol.py` | `40382873febd6c9fb78b0db3c65ac1a183271cc2d5ba7dd6d02e401f046f8570` |
-| `runtime.py` | `5934433d9522c11d1ae9f986b989150b92d7dfcc5b7a23416963ae839ed234b2` |
-| `test_protocol.py` | `821c2079c99a2fc3c766a62318c84b68dbacb1faf45cde8edbf343de2f6b1542` |
+| `protocol.py` | `5491e132c6e0aa356de0ab0172cf4920ccfb154a48628454142397549f93aa66` |
+| `runtime.py` | `4d1c1267dd9aed0bb97d658b0c0960c555c83f00ab554da4128867d68a313061` |
+| `night_job.py` | `25c1c1ee07e41577e9d87b0a64a49ba23f5ed6de30911d2cd278c2b7ff9f5384` |
+| `test_protocol.py` | `8faccbd8daeb06b1fa2b9a8db8fcbe0b3203ed1cc1be61246ecfcb662ac5f241` |
 
 The evaluator and PRM03 renderer come from the package tree
 `packages/sepalith/src` at commit `815967bb10aa0fb0750dc16ea2342e600dd38b0c`
@@ -39,8 +40,9 @@ that the checkout's package tree has no diff and no untracked file against
 that commit, and that the commit's tree is that tree. It uses the renderer and
 the evaluator's capacity, greedy generation, stop, and classification
 functions. The harness SHA-256 is
-`874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5`. It binds
-the commit, the tree, both v2 runtime files, and
+`75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6`. It binds
+the commit, the tree, the v2 runtime files `protocol.py` and `runtime.py`,
+the night-job wrapper `night_job.py`, and
 `final-admission-guards/admission_guard.py`. From the repository root, compute
 it with:
 
@@ -52,15 +54,17 @@ GitHub stores both code directories in this change. Keep a second copy of the
 code under `/mnt/nas/bulk/backups/sepalith/`. The preparation copy is
 `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-71a7593737a5/`. The re-pinned
 copy is `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-874e0f0a725a/`, with a
-`git archive` of the pinned package tree and a `SHA256SUMS` manifest. Backups
-contain code and synthetic tests only.
+`git archive` of the pinned package tree and a `SHA256SUMS` manifest. The GPU
+copy is `/mnt/nas/bulk/backups/sepalith/sealed-final-v2-75bb40ea9685/` in the
+same layout. Backups contain code and synthetic tests only.
 
 ### Harness re-pin (2026-11-23)
 
 | | Evaluator commit | Harness SHA-256 |
 | --- | --- | --- |
 | First pin (PR #103) | `523efc07bcb86ebba7fe1030c0a2dc6356f9d111` | `71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809` |
-| Re-pin (this change) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5` |
+| Re-pin (PR #108, #109) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5` |
+| GPU scoring (2026-11-24) | `815967bb10aa0fb0750dc16ea2342e600dd38b0c` | `75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6` |
 
 The first pin's check failed on main after PR #104 and #105. Those PRs added
 11 C20 files under `packages/sepalith/src`
@@ -72,7 +76,8 @@ commits the package tree only adds those 11 files; no existing file changed
 moved.
 
 On 2026-11-23 the user chose "Approve; re-pin harness". The pin moved to
-main at the merge of PR #108. The check now also binds the package tree's git
+main at the merge of PR #108. The GPU change below keeps that evaluator pin;
+only the v2 files and the new `night_job.py` change the harness hash. The check now also binds the package tree's git
 object ID, so a rewritten commit with the same ID cannot pass. The build (A3)
 and the scoring run (A5) run from the main checkout
 `/home/m0hawk/sandbox/Sepalith`, after this change is fast-forwarded there.
@@ -131,12 +136,14 @@ errors stop the run. An empty clean subset also stops the run.
 
 | Model key | Frozen artifact | Runtime |
 | --- | --- | --- |
-| `arm-a-803` | Arm A SFT checkpoint 803 | Local Transformers, bf16 |
-| `c19-100-bf16` | C19 full checkpoint 100 | Local Transformers, bf16 |
-| `c19-100-q6_k` | C17 default Q6_K GGUF, SHA-256 `6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261` | llama.cpp `3cb7ffb1a` |
-| `c20-adopted` | C20 checkpoint named in a pinned adoption receipt, if adopted before freeze | Local Transformers, bf16 |
+| `arm-a-803` | Arm A SFT checkpoint 803 | Local Transformers, bf16, CUDA |
+| `c19-100-bf16` | C19 full checkpoint 100 | Local Transformers, bf16, CUDA |
+| `c19-100-q6_k` | C17 default Q6_K GGUF, SHA-256 `6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261` | llama.cpp `3cb7ffb1a`, CUDA build, all layers offloaded |
+| `c20-adopted` | C20 checkpoint named in a pinned adoption receipt, if adopted before freeze | Local Transformers, bf16, CUDA |
 
-Run serially on CPU with eight threads, context capacity 8,192, and seed 3407.
+Run serially on the PC's single CUDA device (RTX 5090, 32 GB), one model at a
+time, with eight host threads, context capacity 8,192, and seed 3407. Each
+bf16 model is freed from the device before the next one loads.
 Use `zeta2-prm03-v1`, the pinned campaign tokenizer, and one manual BOS token.
 Use greedy decoding, a cap of 1,024 new tokens, and stop IDs `1` and `130073`,
 as required by [RULES.md](RULES.md). The campaign classifier requires canonical
@@ -159,6 +166,51 @@ bf16, and adopted C20 minus C19 bf16. Use the 250th and 9,750th ordered
 replicates as the interval endpoints. The lost v1 release cutoffs are
 unavailable. This protocol reports the pre-registered estimates and audit
 status for the user's C17 review.
+
+### GPU scoring (2026-11-24)
+
+On 2026-11-24 the user chose "Switch to GPU". Until then this protocol said
+"run serially on CPU". That choice was never pre-registered for a
+measurement reason. It was made when the protocol was restored on 2026-11-21,
+for scheduling only: the scoring run would stay out of the night queue, and the
+only reviewed llama-server pin was the CPU build. Neither reason concerns what
+is measured. The CPU choice also made the run impractical. The dress rehearsal
+took 159 to 345 s per case on CPU, about 50 h for the full roster.
+
+The GPU is also the device of the references. The DEV250 rates in
+[final-panel-v1.md](final-panel-v1.md#family-mix-and-dev250-reference) were
+measured with Transformers bf16 on CUDA (Arm A and C19 bf16) and with the CUDA
+build of llama.cpp `3cb7ffb1a` (Q6_K, the C17 quant gate). CUDA is also the
+evaluator's default device (`load_development_model(..., device="cuda")`).
+Greedy decoding can still differ between devices where two logits nearly tie.
+Scoring on the reference device removes that source of difference from the
+comparison with the references.
+
+What changes:
+
+- bf16 models load with `device="cuda"`. Q6_K runs on llama-server's CUDA
+  build with `-ngl 999`.
+- The plan's `runtime` pins `torch_cuda` (`13.0`) and the CUDA `device`
+  (name and compute capability). The launcher checks both against torch
+  before it takes its seal.
+- The `llama_server` pin names `build: "cuda"` and every non-system shared
+  library the loader resolves (the llama.cpp and ggml libraries, and
+  `libcudart`, `libcublas` and `libcublasLt` from `/opt/cuda`). The launcher
+  hashes each library and compares the `ldd` resolution with that set. The
+  host C library, compiler runtime and WSL driver shim (`/usr/lib`, `/lib`)
+  are not pinned. Before the seal, the pinned llama-server must also list
+  exactly one device, `CUDA0`, with the pinned name (`--list-devices`).
+- A generating run must hold the night job's CUDA lease: the launcher refuses
+  to start unless it inherited `cuda_host_guard`'s locked descriptor of
+  `cuda0.lock`. A completion replay (resume) does not generate and needs no
+  lease.
+- The run is one reviewed night-queue job; see
+  [Freeze and launch](#freeze-and-launch).
+
+What does not change: the models and weights, greedy decoding, the 1,024-token
+cap, stop IDs `1` and `130073`, context 8,192, seed 3407, `zeta2-prm03-v1`,
+the pinned tokenizer and one manual BOS, the classifier, the metric, the
+bootstrap, the comparisons and both ceilings.
 
 ### Binding issuance (user-authorized, before the scoring run)
 
@@ -199,7 +251,8 @@ with absolute `path` and the SHA-256 of the file's exact bytes.
 | `c20_adoption` | Required if C20 is in `models`. Pin a JSON object with `status: "adopted"` and a `model` entry equal to its checkpoint record. |
 | `release_artifacts` | `{"Q4_K_M-mixB-e4": <file pin>}` for the shipped small tier (sha256 `e24fbfbc…1c71b` from `receipts/C17-quant-evidence.json`). The runtime verifies it but does not score it; this binds both C17 GGUFs to the freeze. |
 | `tokenizer` | A directory record in the same shape as a bf16 checkpoint. Use the campaign tokenizer, including its pinned `tokenizer.json` and `tokenizer_config.json`. |
-| `runtime` | `python_sha256` for the resolved interpreter, exact `distributions` versions for torch, transformers, tokenizers, safetensors, and accelerate, and a `llama_server` file pin with `commit: "3cb7ffb1a"`. Use the reviewed CPU builds. |
+| `runtime` | `python_sha256` for the resolved interpreter, exact `distributions` versions for torch, transformers, tokenizers, safetensors, and accelerate, `torch_cuda` (torch's CUDA version), `device` (`{"name": ..., "capability": [major, minor]}`), and a `llama_server` file pin with `commit: "3cb7ffb1a"`, `build: "cuda"` and `libraries` (absolute real path to sha256 for every non-system library `ldd` resolves). `inventories.py pins` writes it. |
+| `night_job` | File pin of the reviewed job file `docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-score.json` in the main checkout. The launcher ignores this key; `night_job.py` refuses to start unless the queued job equals that file. |
 | `cases`, `semantic_receipt`, `memberships` | File pins for the three metadata JSON objects. The case object contains `split` and `cases`. Membership keys are `train`, `dev`, `cpt`, `c14`, `synth`, `exec_train`, `exec_validation`, and `exec_holdout`. |
 | `case_count` | The total number of locked cases. |
 | `source_roots` | Absolute real directories from which the guard may read the pinned sources. |
@@ -221,19 +274,57 @@ authorization. Keep the approved digest separate from the receipt.
   "harness_frozen_at": "<UTC ISO 8601>",
   "plan_sha256": "<sha256 of exact plan file>",
   "weights_sha256": "<guard sha256_json of the plan models object>",
-  "harness_sha256": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5"
+  "harness_sha256": "75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6"
 }
 ```
 
-After the user approves the receipt and C17 release criteria, use the frozen
-interpreter and plan from the repository root:
+After the user approves the receipt and C17 release criteria, the run is one
+night-queue job. Its definition is
+[`c17/jobs/C17-sealed-final-v2-score.json`](c17/jobs/C17-sealed-final-v2-score.json).
+Do not enqueue it before the build authorization, binding issuance and the
+freeze receipt. The run root is `~/.local/state/sepalith/sealed-final-v2/final/`
+and holds `plan.json`, `freeze.json` and `freeze-approved.sha256`. The user
+writes the last of these, the approved freeze digest, apart from the receipt.
+Then, from the main checkout:
 
 ```bash
-python docs/campaign/work/final-protocol-v2/protocol.py \
-  --plan /absolute/local/plan.json \
-  --freeze-receipt /absolute/local/freeze.json \
-  --freeze-sha256 "$approved_freeze_sha256"
+PYTHONPATH=packages/sepalith/src python3 -m sepalith.ops.night_queue enqueue \
+  --file docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-score.json
 ```
+
+The job runs `night_job.py final`, which checks the following before it starts
+the launcher:
+
+- the main checkout `/home/m0hawk/sandbox/Sepalith` as cwd and `PYTHONPATH`;
+- `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`, `CUDA_VISIBLE_DEVICES=0`
+  and offline Hugging Face;
+- the night runner's deadline variables;
+- that the queued record equals the reviewed job file, and that the frozen
+  plan pins that file;
+- that no `sepalith.training` process is running;
+- that at least 6 h of the window remain.
+
+It then runs, under the frozen interpreter,
+
+```bash
+python -B docs/campaign/work/final-protocol-v2/protocol.py \
+  --plan <root>/plan.json --freeze-receipt <root>/freeze.json --freeze-sha256 <approved digest>
+```
+
+inside `cuda_host_guard`. The guard holds the CUDA lock and stops the run if
+host memory runs low. The runner's GPU and host-memory preflight has already
+passed. The job is one-shot (`resumable: false`). The launcher cannot resume
+without retained completions. The job is estimated at 375 minutes, with about
+1.5 h expected, against the 16 h 40 min window. The estimate exceeds the
+wrapper's 6 h margin by 15 minutes of dispatch headroom, so the runner never starts a job that the wrapper would
+refuse. The runner starts a one-shot
+job only if its estimate fits before 16:40. A stop request or a hard kill ends
+the run, and it stays stopped for the user (see below). The night report gets
+only the status and the reason.
+
+`dress_rehearsal.py` and the job
+[`c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json`](c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json)
+run the same path on the dev rehearsal panel.
 
 ## Run state and publication
 

@@ -1,10 +1,11 @@
-"""Use frozen CPU generation backends and the campaign's exact-match scorer."""
+"""Use the frozen CUDA generation backends and the campaign's exact-match scorer."""
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from contextlib import contextmanager
 from importlib.metadata import version
+import gc
 import hashlib
 import os
 from pathlib import Path
@@ -36,7 +37,16 @@ LLAMA_COMMIT = "3cb7ffb1a"
 Q6_K_SHA256 = "6593785330b99076b80ae3ac679bda76c5fcff1ebd1873f46f944c1ec43a3261"
 # The shipped small tier is bound by the freeze but not scored (C17 tier decision).
 MIXB_E4_SHA256 = "e24fbfbc5ea47c88647445ec682196fc67af9134d4fa36e826beeda045f1c71b"
-THREADS = 8
+THREADS = 8  # host threads for torch and llama-server
+# 2026-11-24 (user: "Switch to GPU"): one CUDA device, the evaluator's default device and the device of the
+# DEV250 references. Every llama.cpp layer is offloaded, as in the C17 quant gate.
+DEVICE = "cuda"
+GPU_LAYERS = "999"
+# Dependencies under these roots are the host's C library, compiler runtime and WSL driver shim. Everything
+# else that the dynamic loader resolves for llama-server must be a pinned library.
+# cuda_host_guard holds this lock for the job and hands its descriptor to the launcher.
+CUDA_LOCK = Path.home() / ".local/state/sepalith/campaign-20260915/resource-locks/cuda0.lock"
+SYSTEM_LIBRARY_ROOTS = (Path("/usr/lib"), Path("/usr/lib64"), Path("/lib"), Path("/lib64"))
 DISTRIBUTIONS = ("torch", "transformers", "tokenizers", "safetensors", "accelerate")
 
 
@@ -68,6 +78,70 @@ def verify_tree(record: Json) -> Path:
     for relative, digest in record["files"].items():
         verify_file(root / relative, digest)
     return root
+
+
+def resolved_libraries(ldd_output: str) -> set[Path]:
+    """Real paths of the non-system shared libraries in `ldd` output; an unresolved one is an error."""
+    found = set()
+    for line in ldd_output.splitlines():
+        if "=>" not in line:
+            continue
+        target = line.split("=>", 1)[1].strip()
+        if target.startswith("not found"):
+            raise ProtocolError("llama_server_library_not_found")
+        path = Path(target.split(" (", 1)[0]).resolve(strict=True)
+        if not any(path.is_relative_to(root) for root in SYSTEM_LIBRARY_ROOTS):
+            found.add(path)
+    return found
+
+
+def verify_server_libraries(server: Path, libraries: Json, *, replay: bool) -> None:
+    """Hash every pinned library; outside a replay, the loader must resolve exactly that set."""
+    if not libraries:
+        raise ProtocolError("llama_server_libraries_unpinned")
+    pinned = {verify_file(Path(path), digest) for path, digest in libraries.items()}
+    if not replay:
+        ldd = subprocess.check_output(["ldd", str(server)], stderr=subprocess.STDOUT, timeout=30, text=True)
+        if resolved_libraries(ldd) != pinned:
+            raise ProtocolError("llama_server_library_set_mismatch")
+
+
+def verify_cuda_lease(environ: Mapping[str, str] = os.environ, lock: Path = CUDA_LOCK) -> None:
+    """A generating run holds the night job's CUDA lease: the guard's inherited, locked descriptor."""
+    try:
+        held = os.fstat(int(environ["SEPALITH_CUDA_LOCK_FD"]))
+        current = os.stat(lock)
+    except (KeyError, ValueError, OSError):
+        raise ProtocolError("cuda_lease_required") from None
+    if (held.st_dev, held.st_ino) != (current.st_dev, current.st_ino):
+        raise ProtocolError("cuda_lease_required")
+    # flock belongs to an open file description; the kernel lists it only on the descriptors that share it.
+    # Reading it acquires nothing, so a lock taken or dropped elsewhere cannot pass for the guard's.
+    fdinfo = Path(f"/proc/self/fdinfo/{int(environ['SEPALITH_CUDA_LOCK_FD'])}").read_text()
+    if re.search(r"^lock:\s+\d+: FLOCK\s+ADVISORY\s+WRITE ", fdinfo, re.MULTILINE) is None:
+        raise ProtocolError("cuda_lease_required")
+
+
+def verify_server_device(server: Path, device: Json) -> None:
+    """The pinned llama-server itself sees exactly the pinned CUDA device."""
+    listing = subprocess.check_output([str(server), "--list-devices"], stderr=subprocess.DEVNULL, timeout=60,
+                                      text=True)
+    devices = re.findall(r"^\s+(\S+): (.+) \(\d+ MiB, \d+ MiB free\)$", listing, re.MULTILINE)
+    if devices != [("CUDA0", device["name"])]:
+        raise ProtocolError("llama_server_cuda_device_mismatch")
+
+
+def verify_cuda_device(runtime: Json) -> None:
+    """The plan's CUDA build and device: exactly one visible device of the pinned name and capability."""
+    import torch
+
+    if torch.version.cuda != runtime["torch_cuda"]:
+        raise ProtocolError("torch_cuda_version_mismatch")
+    if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
+        raise ProtocolError("exactly_one_cuda_device_required")
+    properties = torch.cuda.get_device_properties(0)
+    if {"name": properties.name, "capability": [properties.major, properties.minor]} != runtime["device"]:
+        raise ProtocolError("cuda_device_mismatch")
 
 
 def score_case(case: PreparedCase, ids: list[int], tokenizer: DevTokenizer) -> dict[str, int]:
@@ -126,14 +200,18 @@ class FrozenRuntime:
         verify_file(Path(small["path"]), small["sha256"])
         server = runtime["llama_server"]
         self.server = verify_file(Path(server["path"]), server["sha256"])
-        if server["commit"] != LLAMA_COMMIT:
+        if server["commit"] != LLAMA_COMMIT or server["build"] != DEVICE:
             raise ProtocolError("llama_server_commit_mismatch")
+        verify_server_libraries(self.server, server["libraries"], replay=replay)
         if not replay:
             version_output = subprocess.check_output(
                 [str(self.server), "--version"], stderr=subprocess.STDOUT, timeout=30,
             )
             if re.search(rb"\b" + LLAMA_COMMIT.encode() + rb"[a-f0-9]*\b", version_output) is None:
                 raise ProtocolError("llama_server_version_mismatch")
+            verify_cuda_lease()
+            verify_cuda_device(runtime)
+            verify_server_device(self.server, runtime["device"])
         self.tokenizer = load_pinned_reference_tokenizer(tokenizer_path)
 
     @contextmanager
@@ -146,7 +224,7 @@ class FrozenRuntime:
             port = free_port()
             options = [
                 str(self.server), "-m", str(path), "--host", "127.0.0.1", "--port", str(port),
-                "-c", str(CAPACITY), "-t", str(THREADS), "-ngl", "0", "-np", "1",
+                "-c", str(CAPACITY), "-t", str(THREADS), "-ngl", GPU_LAYERS, "-np", "1",
                 "--no-context-shift", "--log-disable",
             ]
             # Prompts and completions stay in memory. Discard backend diagnostics.
@@ -162,12 +240,18 @@ class FrozenRuntime:
 
         torch.set_num_threads(THREADS)
         torch.manual_seed(SEED)
-        model = load_development_model(path, dtype="bf16", device="cpu").eval()
-        if model.config.max_position_embeddings < CAPACITY:
-            raise ProtocolError("model_context_capacity_below_frozen_capacity")
+        model = load_development_model(path, dtype="bf16", device=DEVICE).eval()
+        try:
+            if model.config.max_position_embeddings < CAPACITY:
+                raise ProtocolError("model_context_capacity_below_frozen_capacity")
 
-        def generate_bf16(prompt: list[int]) -> list[int]:
-            with torch.inference_mode():
-                return batched_greedy_generate(model, [prompt], cap=CAP, stop_ids=STOP_IDS, device="cpu")[0]
+            def generate_bf16(prompt: list[int]) -> list[int]:
+                with torch.inference_mode():
+                    return batched_greedy_generate(model, [prompt], cap=CAP, stop_ids=STOP_IDS, device=DEVICE)[0]
 
-        yield generate_bf16
+            yield generate_bf16
+        finally:
+            # Free the device before the next model, and before llama-server takes its share.
+            model = None
+            gc.collect()
+            torch.cuda.empty_cache()

@@ -1,9 +1,9 @@
 {
   "card": "C17",
   "state": "needs_user",
-  "updated": "2026-11-24T00:30:00+01:00",
-  "branch": "feat/sealed-final-v2-holdback-rehearsal",
-  "pull_request": "https://github.com/sims1253/Sepalith/pull/109",
+  "updated": "2026-11-24T02:00:00+01:00",
+  "branch": "feat/sealed-final-gpu-scoring",
+  "pull_request": "TBD",
   "outputs": {
     "candidate": "/mnt/e/sepalith/campaign-20260915/checkpoints/C19-grpo-exec-pilot-1/full/checkpoint-100",
     "quant_evidence": "docs/training/plan-20260927/receipts/C17-quant-evidence.json",
@@ -32,7 +32,12 @@
       "path": "docs/campaign/work/final-panel-v1/holdback-split.json",
       "sha256": "2b284ba2f39260a2843634674faefd47191ed6a77160c47944cb0cb54ff6c30c"
     },
-    "rehearsals": "~/.local/state/sepalith/sealed-final-v2/rehearsals/ (dev-1 stopped_below_floor, train-105 stopped_below_floor, dev-2 built + scored)"
+    "rehearsals": "~/.local/state/sepalith/sealed-final-v2/rehearsals/ (dev-1 stopped_below_floor, train-105 stopped_below_floor, dev-2 built + scored; floor6-dev-105 stopped_below_floor no_op, floor6-train-105 built 243; gpu-1 GPU rehearsal of dev-2's panel)",
+    "night_jobs": {
+      "rehearsal": "c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json",
+      "final": "c17/jobs/C17-sealed-final-v2-score.json (not enqueued)"
+    },
+    "pins": "~/.local/state/sepalith/sealed-final-v2/pins/ (models, release_artifacts, tokenizer, CUDA runtime; the CPU runtime pins moved to pins.superseded-cpu-20261124/)"
   },
   "rule_decisions": [
     {
@@ -208,12 +213,45 @@
         }
       },
       "outcome": "Every path ran end to end. Finding: the pipe_rewrite floor of 14 is likely to stop a 105-group final build (both same-size pools supply 12). Projected A5 runtime about 50 h on this shared machine."
+    },
+    {
+      "rule": "User decision 2026-11-24 (AskUserQuestion): pipe_rewrite floor before A2",
+      "date": "2026-11-24",
+      "quote": "Lower pipe floor to 6",
+      "inputs": {
+        "old_floor": 14,
+        "new_floor": 6,
+        "other_floors_and_quotas": "unchanged",
+        "recipe_sha256_before": "40b30804fe1a9e0d060da194e8c59228335402a5d96c2a25863f00f36dc507dd",
+        "recipe_sha256_after": "6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007"
+      },
+      "outcome": "recipe.json pipe_rewrite floor 6. Re-run at 105 groups: train pool built (243 cases, every floor filled; 16 pipe slots moved to finish, finish 7 short); dev pool still stopped_below_floor on no_op only (25 < 40; dev-only depletion by DEV-panel prompt dedup), pipe 12 >= 6."
+    },
+    {
+      "rule": "User decision 2026-11-24 (AskUserQuestion): scoring device",
+      "date": "2026-11-24",
+      "quote": "Switch to GPU",
+      "inputs": {
+        "before": "CPU, 8 threads, llama-server build-cpu (not pre-registered for a measurement reason; chosen 2026-11-21 for queue scheduling and the then-only reviewed CPU llama-server pin)",
+        "after": "PC RTX 5090 (CUDA), Transformers bf16 device cuda, llama-server 3cb7ffb1a build-cuda -ngl 999 with pinned shared libraries; one reviewed one-shot night-queue job",
+        "references": "DEV250 references were measured on GPU (Transformers bf16 CUDA; llama.cpp CUDA build for Q6_K)",
+        "unchanged": "greedy, cap 1024, stop IDs 1 and 130073, ctx 8192, seed 3407, zeta2-prm03-v1, pinned tokenizer, one manual BOS, classifier, criteria, comparisons, ceilings",
+        "harness_sha256_history": {
+          "523efc07 (PR #103)": "71a7593737a5fc77c416e2a7cc73649447d67318629e4e472426b6dc83fc9809",
+          "815967bb (PR #108/#109, CPU)": "874e0f0a725a1db5d3245014c6cfda59d17f073092e3616f5fddf4b6a64968f5",
+          "815967bb (GPU, this change)": "75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6"
+        },
+        "jobs": {
+          "dev_rehearsal": "docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-gpu-rehearsal.json",
+          "final_scoring_not_enqueued": "docs/training/plan-20260927/c17/jobs/C17-sealed-final-v2-score.json"
+        }
+      },
+      "outcome": "runtime.py scores on CUDA; night_job.py wraps the launcher for the night queue and is bound into the harness hash. sealed-final-v2.md#gpu-scoring-2026-11-24. Dev GPU rehearsal enqueued after merge; the final job waits for A2, binding issuance and the freeze receipt."
     }
   ],
   "open_user_gates": [
-    "Pipe floor before A2: lower the pipe_rewrite floor to 6 (recommended), keep it at 14 and accept the stop risk, or build from more groups",
-    "Written weight and harness freeze statement, then a separate final-panel build authorization (A2); draft in final-panel-v1.md#build-authorization-draft",
-    "Explicit freeze receipt for sealed final evaluation after the panel build (A4)",
+    "Written weight and harness freeze statement, then a separate final-panel build authorization (A2) with the new recipe and harness hashes; draft in final-panel-v1.md#build-authorization-draft",
+    "Binding issuance and the freeze receipt (A4), with the approved freeze digest written to ~/.local/state/sepalith/sealed-final-v2/final/freeze-approved.sha256; only then may C17-sealed-final-v2-score be enqueued",
     "Separate publishing go-ahead"
   ],
   "remaining_technical_gates": [
@@ -221,12 +259,12 @@
     "Zed PRM03 adapter and parity",
     "Admission guard recovered from origin/t3code/best-token-model-plan (d7f2aa94); final constructor/evaluator lost in the 2026-10-10 reinstall; sealed DAT-07-final-* case files present on E: and NAS"
   ],
-  "question_for_user": "The 105-group pool likely stops on the pipe_rewrite floor (14; both same-size pools supply 12). Lower it to 6 before A2? Recommended: yes. Then issue the A2 freeze statement and build authorization.",
+  "question_for_user": "After the GPU dev rehearsal reports, issue the A2 freeze statement and build authorization with harness 75bb40ea9685696b38456304676f99f1241e5bbaba0aabacd890b8537e7bc4c6 and recipe 6d2d3aa08585968395a8a8d1dfce761efb7469120f9f3e98fb2451908a9c6007.",
   "notes": "CPU render/request checks passed on 232 contexts; both GGUF metadata tokenizers match. Generic GGUF chat templates differ from raw PRM03. No inference, uploads, sealed evaluation or exec hold-out access. Admission guard recovered from a remote branch; the final constructor/evaluator code is lost; sealed case files are intact. Notebook latency (2026-11-23, m0pad, Ryzen 5 PRO 5650U, RADV RENOIR, AC, performance profile): all four configs pass the measurement gate; every request ended in EOS after 12 generated tokens, so decode tok/s covers 11 tokens; the user's own docker workloads kept running on the notebook (load average 1-9). Vulkan offload confirmed by an unmeasured -lv 4 probe of the same command (43/43 layers) and iGPU sysfs during the measured run. Notebook directory removed after the run.",
   "steps": {
     "1_quant_tiers": "done",
     "2_serving_parity": "cpu_stage_done; runtime/editor parity open",
     "3_notebook_latency": "done; accepted by the user 2026-11-23",
-    "4_sealed_final": "design approved; harness re-pinned (874e0f0a); 105/88 holdback pre-registered; dress rehearsal complete; awaiting the pipe-floor decision and A2; no final content read"
+    "4_sealed_final": "design approved; pipe floor 6 (2026-11-24); GPU scoring (harness 75bb40ea); GPU dev rehearsal queued; awaiting A2; no final content read"
   }
 }
